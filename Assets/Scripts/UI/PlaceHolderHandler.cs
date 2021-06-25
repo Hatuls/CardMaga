@@ -54,7 +54,7 @@ namespace Battles.UI
 
             Cards.Card cardCache = DeckManager.Instance.GetCardFromDeck(interactedSlot.GetSlotID, DeckEnum.Placement);
 
-            if (cardCache == null && interactedSlot.IsHoldingCard)
+            if (cardCache == null&& !interactedSlot.IsHoldingCard && CardUIManager.Instance.GetClickedCardUI == null) 
                 return;
 
             if (interactedSlot.IsHoldingCard == false && CardUIManager.Instance.GetClickedCardUI != null) // place a card on top of placement
