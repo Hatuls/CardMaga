@@ -165,7 +165,7 @@ namespace Battles.Turns
         public override IEnumerator PlayTurn()
         {
             yield return KeywordManager.Instance.OnStartTurnKeywords(false);
-            yield return null;
+            yield return new WaitForSeconds(0.1f);
             MoveToNextState();
         }
 
@@ -197,6 +197,7 @@ namespace Battles.Turns
          * Remove The Player Defense
          */
             yield return KeywordManager.Instance.OnEndTurnKeywords(false);
+            yield return new WaitForSeconds(0.5f);
             StatsHandler.GetInstance.ResetShield(true);
             MoveToNextState();
         }
@@ -251,7 +252,7 @@ namespace Battles.Turns
             Deck.DeckManager.Instance.OnEndTurn();
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
-
+            yield return new WaitForSeconds(0.5f);
             StatsHandler.GetInstance.ResetShield(false);
             MoveToNextState();
         }

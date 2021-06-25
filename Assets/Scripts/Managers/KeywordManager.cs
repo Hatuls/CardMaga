@@ -71,10 +71,10 @@ namespace Keywords
         {
             Debug.Log("Activating Keywords Effect on " + (isPlayer? "Player":"Enemy") + " that are activated on the start of the turn");
 
-
+           StatsHandler.GetInstance.ApplyBleed(isPlayer);
             yield return new WaitForSeconds(1f);
 
-            StatsHandler.GetInstance.ApplyBleed(isPlayer);
+            
         }
         public IEnumerator OnEndTurnKeywords(bool isPlayer)
         {
