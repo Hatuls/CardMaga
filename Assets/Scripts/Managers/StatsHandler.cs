@@ -8,6 +8,7 @@ namespace Characters.Stats
         public static RemoveUIIcon _removeUIIcon;
         public static Battles.UI.UpdateUiStats _updateUIStats;
         public Action<SoundsNameEnum> _playSound;
+        public Action<bool, Keywords.KeywordTypeEnum> _playEffect;
         private StatsHandler()
         {
        
@@ -16,12 +17,14 @@ namespace Characters.Stats
             _updateUIStats = new Battles.UI.UpdateUiStats();
             _updateUIStats.AddListener(Battles.UI.BattleUiManager.Instance.UpdateUiStats);
             _playSound += AudioManager.Instance.PlayerAudioSource;
+            _playEffect += VFXManager.Instance.PlayParticleEffect;
         }
          ~StatsHandler()
         {
             _updateUIStats.RemoveAllListeners();
             _removeUIIcon.RemoveAllListeners();
             _playSound -= AudioManager.Instance.PlayerAudioSource;
+            _playEffect -= VFXManager.Instance.PlayParticleEffect;
         }
         private static StatsHandler _instance;
         public static StatsHandler GetInstance
@@ -63,7 +66,7 @@ namespace Characters.Stats
                   ref CharacterStats characterStats =ref GetCharacterStats(isPlayer);
                 characterStats.Shield += amount;
                 Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, characterStats.Shield);
-                _playSound.Invoke(SoundsNameEnum.GainArmor);
+              //  _playSound.Invoke(SoundsNameEnum.GainArmor);
             }
         }
         public void AddGold(bool isPlayer,int amount)
@@ -91,7 +94,7 @@ namespace Characters.Stats
                 stat.Health += amount;
             }
             _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Heal);
-            _playSound?.Invoke(SoundsNameEnum.Healing);      
+         //   _playSound?.Invoke(SoundsNameEnum.Healing);      
         }
         public void SetNewMaxHealth(bool isPlayer, int amount)
         {
@@ -147,7 +150,7 @@ namespace Characters.Stats
             _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Strength);
             GetCharacterStats(isPlayer).Strength += amount;
 
-            _playSound?.Invoke(SoundsNameEnum.GainStrength);
+           // _playSound?.Invoke(SoundsNameEnum.GainStrength);
         }
         public void ApplyBleed(bool isPlayer)
         {
@@ -156,8 +159,9 @@ namespace Characters.Stats
             {
                 RecieveDamage(isPlayer,stats.Bleed);
                 stats.Bleed--;
-                _playSound?.Invoke(SoundsNameEnum.Bleeding);
-                if(stats.Bleed==0)
+                //                _playSound?.Invoke(SoundsNameEnum.Bleeding);
+                _playEffect?.Invoke(isPlayer, Keywords.KeywordTypeEnum.Bleed);
+                if (stats.Bleed==0)
                 {
                     _removeUIIcon?.Invoke(isPlayer, BuffIcons.Bleed);
 
