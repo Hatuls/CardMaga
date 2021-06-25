@@ -1,10 +1,18 @@
 ﻿using UnityEngine;
 
-public class AudioSourceHandler : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public abstract class AudioSourceAbstract : MonoBehaviour
 {
     [SerializeField] AudioSource _audioSource;
     byte _finishCount;
+    AudioConfigurationSO _audioSO;
     public AudioSource GetAudioSource => _audioSource;
+    public bool GetIsCurrentlyPlaying => _audioSource.isPlaying;
+    private void Start()
+    {
+        if (_audioSource == null)
+            _audioSource = GetComponent<AudioSource>();
+    }
     private void Update()
     {
         if (gameObject.activeSelf)
@@ -14,6 +22,7 @@ public class AudioSourceHandler : MonoBehaviour
     }
     public void Init(AudioConfigurationSO audioSO)
     {
+        _audioSO = audioSO;
         gameObject.SetActive(true);
         _finishCount = 0;
         _audioSource.clip = audioSO.Clip;
@@ -24,12 +33,12 @@ public class AudioSourceHandler : MonoBehaviour
     }
     void CheckAudioSource()
     {
-        if (!_audioSource.isPlaying)
+        if (!GetIsCurrentlyPlaying)
         {
             _finishCount++;
             if (_finishCount > 1)
             {
-                ResetAudioHandler();
+                OnEndPlayingSound();
             }
         }
         else
@@ -37,8 +46,9 @@ public class AudioSourceHandler : MonoBehaviour
             _finishCount = 0;
         }
     }
-    public void ResetAudioHandler()
+    public virtual void OnEndPlayingSound()
     {
+        _audioSO = null;
         _audioSource.clip = null;
         gameObject.SetActive(false);
     }

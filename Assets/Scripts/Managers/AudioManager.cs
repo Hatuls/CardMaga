@@ -7,15 +7,18 @@ public class AudioManager : MonoSingleton<AudioManager>
 {
     [SerializeField] GameObject _audioSourcePrefab;
     Dictionary<SoundsNameEnum, AudioConfigurationSO> AudioDictionary;
-
+    [SerializeField] AudioSourceQueuePlayer _audioQueuePlayer;
 
     [SerializeField]
-    List<AudioSourceHandler> _audioSourceContainer;
-
+    List<AudioSourceAbstract> _audioSourceStackable;
+    Queue<AudioConfigurationSO> _notStackableAudioQueue;
     public override void Init()
     {
         if (AudioDictionary == null || (AudioDictionary!= null && AudioDictionary.Count == 0))
          StartCoroutine(LoadSound());
+
+
+        _notStackableAudioQueue = new Queue<AudioConfigurationSO>();
     }
     IEnumerator LoadSound()
     {
@@ -37,28 +40,28 @@ public class AudioManager : MonoSingleton<AudioManager>
     }
    
 
-    AudioSourceHandler EnableAudioSource()
+    AudioSourceAbstract EnableAudioSource()
     {
-        if (_audioSourceContainer.Count > 0)
+        if (_audioSourceStackable.Count > 0)
         {
-            for (int i = 0; i < _audioSourceContainer.Count; i++)
+            for (int i = 0; i < _audioSourceStackable.Count; i++)
             {
-                if (!_audioSourceContainer[i].gameObject.activeSelf)
+                if (!_audioSourceStackable[i].gameObject.activeSelf)
                 {
-                    return _audioSourceContainer[i];
+                    return _audioSourceStackable[i];
                 }
             }
         }
         GameObject go = Instantiate(_audioSourcePrefab,transform);
-        AudioSourceHandler ash = go.GetComponent<AudioSourceHandler>();
-        _audioSourceContainer.Add(ash);
+        AudioSourceAbstract ash = go.GetComponent<AudioSourceAbstract>();
+        _audioSourceStackable.Add(ash);
         return ash;
     }
     bool CheckIfPlaying(AudioClip clip)
     {
-        for (int i = 0; i < _audioSourceContainer.Count; i++)
+        for (int i = 0; i < _audioSourceStackable.Count; i++)
         {
-            if (_audioSourceContainer[i].gameObject.activeSelf && _audioSourceContainer[i].GetAudioSource.clip == clip)
+            if (_audioSourceStackable[i].gameObject.activeSelf && _audioSourceStackable[i].GetAudioSource.clip == clip)
             {
                 return true;
             }
@@ -76,27 +79,44 @@ public class AudioManager : MonoSingleton<AudioManager>
                 throw new Exception("Song Was Not Found In Resource Folder!");
         }
     }
-
-   
+    // queue to add sounds 
+   // play them if they are stackable
 
     private void PlayAudioSource(AudioConfigurationSO audio)
     {
-        if (audio.IsStackable || !CheckIfPlaying(audio.Clip))
-        {
-            EnableAudioSource().Init(audio);
-        }
+        if (audio.IsStackable)
+        EnableAudioSource().Init(audio);
+        else
+        AddToPlayQueue(audio);
     }
     public void ResetAudioCollection()
     {
-        if (_audioSourceContainer != null && _audioSourceContainer.Count > 0)
+        if (_audioSourceStackable != null && _audioSourceStackable.Count > 0)
         {
-            for (int i = 0; i < _audioSourceContainer.Count; i++)
+            for (int i = 0; i < _audioSourceStackable.Count; i++)
             {
-                if(_audioSourceContainer[i] != null)
+                if(_audioSourceStackable[i] != null)
                 {
-                    _audioSourceContainer[i].ResetAudioHandler();
+                    _audioSourceStackable[i].OnEndPlayingSound();
                 }
             }
+        }
+    }
+
+    private void AddToPlayQueue (AudioConfigurationSO audio)
+    {
+        _notStackableAudioQueue.Enqueue(audio);
+
+        if (_notStackableAudioQueue.Count == 1 && !_audioQueuePlayer.GetIsCurrentlyPlaying)
+            PlayNext();
+
+    }
+
+    public void PlayNext()
+    {
+        if (_notStackableAudioQueue.Count > 0 && !_audioQueuePlayer.GetIsCurrentlyPlaying)
+        {
+            _audioQueuePlayer.Init(_notStackableAudioQueue.Dequeue());
         }
     }
 }

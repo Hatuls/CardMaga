@@ -195,7 +195,6 @@ namespace Battles.Turns
         /*
          * Activate the enemy keywords 
          * Remove The Player Defense
-         * 
          */
             yield return KeywordManager.Instance.OnEndTurnKeywords(false);
             StatsHandler.GetInstance.ResetShield(true);

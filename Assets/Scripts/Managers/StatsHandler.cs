@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System;
 namespace Characters.Stats
 { 
     public class StatsHandler
@@ -7,18 +7,21 @@ namespace Characters.Stats
 
         public static RemoveUIIcon _removeUIIcon;
         public static Battles.UI.UpdateUiStats _updateUIStats;
+        public Action<SoundsNameEnum> _playSound;
         private StatsHandler()
         {
+       
             _removeUIIcon = new RemoveUIIcon();
             _removeUIIcon.AddListener(Battles.UI.BattleUiManager.Instance.RemoveBuffUI);
             _updateUIStats = new Battles.UI.UpdateUiStats();
             _updateUIStats.AddListener(Battles.UI.BattleUiManager.Instance.UpdateUiStats);
-
+            _playSound += AudioManager.Instance.PlayerAudioSource;
         }
          ~StatsHandler()
         {
             _updateUIStats.RemoveAllListeners();
             _removeUIIcon.RemoveAllListeners();
+            _playSound -= AudioManager.Instance.PlayerAudioSource;
         }
         private static StatsHandler _instance;
         public static StatsHandler GetInstance
@@ -57,10 +60,10 @@ namespace Characters.Stats
             if (amount > 0)
             {
 
-           ref CharacterStats characterStats =ref GetCharacterStats(isPlayer);
+                  ref CharacterStats characterStats =ref GetCharacterStats(isPlayer);
                 characterStats.Shield += amount;
                 Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, characterStats.Shield);
-
+                _playSound.Invoke(SoundsNameEnum.GainArmor);
             }
         }
         public void AddGold(bool isPlayer,int amount)
