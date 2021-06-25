@@ -30,7 +30,7 @@ namespace Battles.UI
         [SerializeField] CardUISO _cardUISettings;
 
         private HandUI _handUI;
-
+        private CardUI _zoomedCard;
         bool _isTryingToPlace;
 
         [SerializeField]
@@ -227,25 +227,35 @@ namespace Battles.UI
             //  Debug.Log("Card Was Set");
             InputManager.Instance.AssignObjectFromTouch(this);
             SetClickedCardUI = cardUI;
-
+            _soundEvent?.Raise(SoundsNameEnum.SelectCard);
         }
        
         public void TryRemoveFromHandUI(CardUI cache)
        => _handUI.TryRemove(ref cache);
         public void OnClickedCardUI(CardUI card)
         {
+
             if (card.GetRectTransform.localScale == _cardUISettings.GetCardUIZoomedScale)
             {
+                _zoomedCard = null;
                 _handUI.Add(ref card);
                 card.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
             }
             else
             {
+                if (_zoomedCard != null)
+                {
+                    _handUI.Add(ref _zoomedCard);
+                    _zoomedCard.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
+                }
+
                 _handUI.TryRemove(ref card);
                 card.MoveCard(true, Vector2.zero, _cardUISettings.GetCardMoveToDeckDelay);
                 card.SetScale(_cardUISettings.GetCardUIZoomedScale, _cardUISettings.GetCardScaleDelay);
-
+                _zoomedCard = card;
             }
+
+            _soundEvent?.Raise(SoundsNameEnum.TapCard);
         }
 
 

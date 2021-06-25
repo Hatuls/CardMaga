@@ -12,6 +12,10 @@ namespace Battles
 
         [SerializeField] Unity.Events.SoundsEvent _playSound;
 
+
+
+
+
         public static CharactersDictionary GetDictionary(Type _script)
         {
             if (_script == typeof(EnemyManager) || _script == typeof(PlayerManager))
@@ -79,6 +83,7 @@ namespace Battles
         {
             yield return new WaitForSeconds(0.5f);
             _playSound?.Raise(SoundsNameEnum.CombatBackground);
+            yield return new WaitForSeconds(0.5f);
             _playSound?.Raise(SoundsNameEnum.VS);
         }
         public static void BattleEnded(bool isPlayerDied)

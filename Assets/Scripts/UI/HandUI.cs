@@ -56,6 +56,11 @@ namespace Battles.UI
         }
         public void Add(ref CardUI card)
         {
+            for (int i = 0; i < _handCards.Length; i++)
+            {
+                if (_handCards[i] == card)
+                    return;
+            }
             GetEmptySpot() = card;
             _amountOfCardsInHand++;
             SetCardsPosition();

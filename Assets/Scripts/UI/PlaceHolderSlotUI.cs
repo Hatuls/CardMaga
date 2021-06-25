@@ -8,6 +8,7 @@ public class PlaceHolderSlotUI : MonoBehaviour ,IDropHandler
     [SerializeField] Unity.Events.PlaceHolderSlotUIEvent _onClickEvent;
     [SerializeField] Unity.Events.PlaceHolderSlotUIEvent _setCardUI;
     [SerializeField] Unity.Events.PlaceHolderSlotUIEvent _onSlotInteract;
+    [SerializeField] Unity.Events.SoundsEvent _playSound;
     #endregion
     #region Fields
 
@@ -39,6 +40,8 @@ public class PlaceHolderSlotUI : MonoBehaviour ,IDropHandler
         SetBackgroundImage(background);
         SetIconImage(icon);
         SetColors(ref uiColorPalette,cardType);
+        _playSound?.Raise(SoundsNameEnum.PlaceCard);
+      
     }
 
     void SetDecorImage(Sprite img)

@@ -156,6 +156,7 @@ namespace Characters.Stats
             {
                 RecieveDamage(isPlayer,stats.Bleed);
                 stats.Bleed--;
+                _playSound?.Invoke(SoundsNameEnum.Bleeding);
                 if(stats.Bleed==0)
                 {
                     _removeUIIcon?.Invoke(isPlayer, BuffIcons.Bleed);
