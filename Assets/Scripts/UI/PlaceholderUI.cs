@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class PlaceholderUI : MonoBehaviour
+public class PlaceholderUI : MonoBehaviour 
 {
     #region Fields
 
@@ -55,6 +55,17 @@ public class PlaceholderUI : MonoBehaviour
     internal void Init()
     {
         _resetColorEvent?.Raise(_artso.UIColorPalette);
+    }
+
+    public PlaceHolderSlotUI TryGetEmptyPlaceHolderSlotUI()
+    {
+        for (int i = 0; i < _placeHolderSlots.Length; i++)
+        {
+            if (_placeHolderSlots[i].IsHoldingCard == false)
+                return _placeHolderSlots[i];
+        }
+
+        return null;
     }
     #endregion
 }

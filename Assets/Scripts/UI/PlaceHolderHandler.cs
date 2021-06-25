@@ -1,6 +1,7 @@
 ﻿using Battles.Deck;
 using System;
 using UnityEngine;
+
 namespace Battles.UI
 {
     public class PlaceHolderHandler : MonoSingleton<PlaceHolderHandler>
@@ -43,7 +44,10 @@ namespace Battles.UI
             CardUIManager.Instance.SetCardUI(CardUIManager.Instance.ActivateCard(cache, placeHolderSlotUI.RectTransform.anchoredPosition));
             CardUIManager.Instance.GetClickedCardUI.GetCanvasGroup.blocksRaycasts = false;
         }
+        public void DroppedOnBox()
+        {
 
+        }
         public void OnSlotInteract(PlaceHolderSlotUI interactedSlot)
         {
             if (interactedSlot == null ||
@@ -63,15 +67,7 @@ namespace Battles.UI
 
                 if (cardCache == null)
                     cardCache = DeckManager.Instance.GetCardFromDeck(interactedSlot.GetSlotID, DeckEnum.Placement);
-
-                interactedSlot.InitCard(_artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
-                    _artSO.DefaultSlotSO.GetBackground, _artSO.DefaultSlotSO.GetDecor, _artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
-
-                CardUIManager.Instance.GetClickedCardUI.SetActive(false);
-
-                CardUIManager.Instance.GetClickedCardUI = null;
-
-                InputManager.Instance.RemoveObjectFromTouch();
+                PlaceOnPlaceHolder(interactedSlot, cardCache);
 
             }
             else if (interactedSlot.IsHoldingCard && CardUIManager.Instance.GetClickedCardUI != null)
@@ -85,12 +81,26 @@ namespace Battles.UI
             }
 
         }
+
+        public void PlaceOnPlaceHolder(PlaceHolderSlotUI interactedSlot, Cards.Card cardCache)
+        {
+            interactedSlot.InitCard(_artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
+                _artSO.DefaultSlotSO.GetBackground, _artSO.DefaultSlotSO.GetDecor, _artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
+
+            CardUIManager.Instance.GetClickedCardUI.SetActive(false);
+
+            CardUIManager.Instance.GetClickedCardUI = null;
+
+            InputManager.Instance.RemoveObjectFromTouch();
+        }
+
         public override void Init()
         {
             _playerPlaceHolder.Init();
             _opponentPlaceHolder.Init();
         }
     }
-    #endregion 
+
+#endregion 
 }
 
