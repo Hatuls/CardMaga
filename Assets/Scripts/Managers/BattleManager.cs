@@ -1,0 +1,101 @@
+﻿using Battles.Turns;
+using UnityEngine;
+using System;
+using Managers;
+
+namespace Battles
+{
+    public class BattleManager : MonoSingleton<BattleManager>
+    {
+        [SerializeField] CharactersDictionary _charactersDictionary;
+      public  static bool isGameEnded;
+
+
+
+        public static CharactersDictionary GetDictionary(Type _script)
+        {
+            if (_script == typeof(EnemyManager) || _script == typeof(PlayerManager))
+                return Instance._charactersDictionary;
+
+            return null;
+        }
+        private void Start()
+        {
+
+          
+        }
+        public override void Init()
+        {
+            if (_charactersDictionary == null)
+                Debug.LogError("BattleManager: Character Dictionary was not assigned");
+
+            AssignParams();
+            ResetParams();
+        StartBattle();
+        }  
+
+        private void AssignParams()
+        {
+
+        }
+        private void ResetParams()
+        {
+
+        }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                StartBattle();
+
+            }
+        }
+        public static void StartBattle() 
+        {
+            // Get enemy oponnent
+            // get Player stats and cards
+            // assign stats handler
+            // set keywords
+            // set relics
+            // reset decks
+            // reset turns
+
+            // turn handler start
+
+            //      SetBattleStats
+
+
+
+            EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharactersEnum.Enemy));
+
+            Deck.DeckManager.Instance.ResetDeckManager();
+
+            TurnHandler.Instance.ResetTurns();
+
+        }
+        public static void BattleEnded(bool isPlayerDied)
+        {
+
+            if (isPlayerDied)
+                PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
+            else
+            {
+             
+                PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
+                EnemyManager.Instance.GetEnemy.GetEnemyAnimatorController.CharacterIsDead();
+                UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, false, "K.O.");
+            }
+
+            CardExecutionManager.Instance.StopCoroutine();
+            isGameEnded = true;
+            TurnHandler.Instance.BattleEnded();
+        }
+    }
+
+
+    public interface IBattleHandler
+    {
+        void OnStartBattle();
+        void OnEndBattle();
+    }
+}
