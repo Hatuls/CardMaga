@@ -118,14 +118,14 @@ namespace Battles.Deck
                        && _deckCards[i].GetCardID == card.GetCardID)
                     {
                         _deckCards[i] = null;
-                        OrderDeck();
-                        CountCards();
-                        return;
+       
+                        break;
                     }
 
                 }
             }
-
+            OrderDeck();
+            CountCards();
         }
         public void EmptySlots()
         {
@@ -147,7 +147,7 @@ namespace Battles.Deck
                         GetDeck[i] = null;
                 }
             }
-
+            CountCards();
         }
         public virtual void ResetDeck()
         {

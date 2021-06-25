@@ -225,27 +225,30 @@ namespace Battles.Deck
             var fromDeck = GetDeckAbst(from);
             var toDeck = GetDeckAbst(to);
 
-            if (to == DeckEnum.Placement && toDeck.GetAmountOfFilledSlots == _placementSize)
+            if (fromDeck != toDeck)
             {
-                Debug.LogError("DeckManager : All Slots In Placement Is Already Filled Tranfer Cancel");
-                return;
+                if (to == DeckEnum.Placement && toDeck.GetAmountOfFilledSlots == _placementSize)
+                {
+                    Debug.LogError("DeckManager : All Slots In Placement Is Already Filled Transfer Cancel");
+                    return;
+                }
+                else if (to == DeckEnum.Hand && toDeck.GetAmountOfFilledSlots == _playerMaxHandSize)
+                {
+                    Debug.LogError("DeckManager : Max Card Number Limit Cancel Drawing Cards");
+
+                }
             }
-            else if (to == DeckEnum.Hand && toDeck.GetAmountOfFilledSlots == _playerMaxHandSize)
-            {
-                Debug.LogError("DeckManager : Max Card Number Limit Cancel Drawing Cards");
 
-            }
-
-
-            if (to == DeckEnum.Placement)
-                (toDeck as Placements).AddCard(card, Index);
-            else
-                toDeck.AddCard(card);
 
             if (from == DeckEnum.Placement)
                 (fromDeck as Placements).DiscardCard(card, Index);
             else
                 fromDeck.DiscardCard(card);
+
+            if (to == DeckEnum.Placement)
+                (toDeck as Placements).AddCard(card, Index);
+            else
+                toDeck.AddCard(card);
 
             //fromDeck.PrintDecks(from);
             //  toDeck.PrintDecks(to);

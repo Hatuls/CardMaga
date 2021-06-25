@@ -54,7 +54,7 @@ namespace Battles.UI
 
             Cards.Card cardCache = DeckManager.Instance.GetCardFromDeck(interactedSlot.GetSlotID, DeckEnum.Placement);
 
-            if (cardCache == null && interactedSlot.IsHoldingCard)
+            if (cardCache == null&& !interactedSlot.IsHoldingCard && CardUIManager.Instance.GetClickedCardUI == null) 
                 return;
 
             if (interactedSlot.IsHoldingCard == false && CardUIManager.Instance.GetClickedCardUI != null) // place a card on top of placement
@@ -76,9 +76,12 @@ namespace Battles.UI
             }
             else if (interactedSlot.IsHoldingCard && CardUIManager.Instance.GetClickedCardUI != null)
             {
-                DeckManager.Instance.TransferCard(DeckEnum.Placement, DeckEnum.Hand, cardCache);
+                interactedSlot.InitCard(_artSO.UIColorPalette, CardUIManager.Instance.GetClickedCardUI.GetCardReference.GetSetCard.GetCardTypeEnum,
+                    _artSO.DefaultSlotSO.GetBackground, _artSO.DefaultSlotSO.GetDecor, _artSO.IconCollection.GetSprite(CardUIManager.Instance.GetClickedCardUI.GetCardReference.GetSetCard.GetBodyPartEnum));
+
                 DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Placement, CardUIManager.Instance.GetClickedCardUI.GetCardReference, interactedSlot.GetSlotID);
                 CardUIManager.Instance.AssignDataToCardUI(ref CardUIManager.Instance.GetClickedCardUI, ref cardCache);
+
             }
 
         }
