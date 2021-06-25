@@ -10,7 +10,7 @@ namespace Battles
         [SerializeField] CharactersDictionary _charactersDictionary;
       public  static bool isGameEnded;
 
-
+        [SerializeField] Unity.Events.SoundsEvent _playSound;
 
         public static CharactersDictionary GetDictionary(Type _script)
         {
@@ -31,7 +31,7 @@ namespace Battles
 
             AssignParams();
             ResetParams();
-        StartBattle();
+            StartBattle();
         }  
 
         private void AssignParams()
@@ -72,18 +72,31 @@ namespace Battles
 
             TurnHandler.Instance.ResetTurns();
 
+
+            Instance.StartCoroutine(Instance.BackGroundSoundDelay());
+        }
+        System.Collections.IEnumerator BackGroundSoundDelay()
+        {
+            yield return new WaitForSeconds(0.5f);
+            _playSound?.Raise(SoundsNameEnum.CombatBackground);
+            _playSound?.Raise(SoundsNameEnum.VS);
         }
         public static void BattleEnded(bool isPlayerDied)
         {
 
             if (isPlayerDied)
+            {
                 PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
+                if (isGameEnded == false)
+                   Instance._playSound?.Raise(SoundsNameEnum.Defeat);
+            }
             else
             {
              
                 PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
                 EnemyManager.Instance.GetEnemy.GetEnemyAnimatorController.CharacterIsDead();
                 UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, false, "K.O.");
+                Instance._playSound?.Raise(SoundsNameEnum.Victory );
             }
 
             CardExecutionManager.Instance.StopCoroutine();

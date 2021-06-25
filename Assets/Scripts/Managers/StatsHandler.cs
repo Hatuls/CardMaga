@@ -83,7 +83,7 @@ namespace Characters.Stats
                 //Text of Heal
                 _updateUIStats?.Invoke(isPlayer,   stat.MaxHealth - (stat.Health), Keywords.KeywordTypeEnum.Heal);
                 ResetHealth(isPlayer);
-                return;
+//                return;
             }
             else
             {
@@ -91,7 +91,7 @@ namespace Characters.Stats
                 stat.Health += amount;
             }
             _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Heal);
-        
+            _playSound?.Invoke(SoundsNameEnum.Healing);      
         }
         public void SetNewMaxHealth(bool isPlayer, int amount)
         {
@@ -146,6 +146,8 @@ namespace Characters.Stats
         {
             _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Strength);
             GetCharacterStats(isPlayer).Strength += amount;
+
+            _playSound?.Invoke(SoundsNameEnum.GainStrength);
         }
         public void ApplyBleed(bool isPlayer)
         {
