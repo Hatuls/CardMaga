@@ -33,14 +33,16 @@ namespace Battles.Deck
                     DiscardCard(deck[i]);
                 }
             }
+            CountCards();
         }
         public void DiscardCard(in Card card, int index)
         {
-            if ( index <0 || index >= GetDeck.Length || card == null)
+            if (index < 0 || index >= GetDeck.Length || card == null)
                 return;
 
             GetDeck[index] = null;
 
+            CountCards();
             Relics.RelicManager.Instance.DetectRelics();
         }
         public void AddCard(Card card, int index)
@@ -59,10 +61,10 @@ namespace Battles.Deck
 
                 GetDeck[index] = card;
 
-                CountCards();
+
             }
 
-
+            CountCards();
             Relics.RelicManager.Instance.DetectRelics();
         }
     }
