@@ -20,8 +20,11 @@ public class AudioManager : MonoSingleton<AudioManager>
     IEnumerator LoadSound()
     {
         AudioConfigurationSO[] audio = Resources.LoadAll<AudioConfigurationSO>("Audio");
+
         if (audio == null || audio.Length == 0)
             yield break;
+
+        yield return null;
 
         AudioDictionary = new Dictionary<SoundsNameEnum, AudioConfigurationSO>();
         for (int i = 0; i < audio.Length; i++)
@@ -29,6 +32,8 @@ public class AudioManager : MonoSingleton<AudioManager>
             AudioDictionary.Add(audio[i].SoundsNameEnum, audio[i]);
             yield return null;
         }
+
+        Debug.Log("Audio Loaded Complete");
     }
    
 
