@@ -16,6 +16,7 @@ public class AudioConfigurationSO : ScriptableObject
     public AudioClip Clip => _clip;
     public float Volume => _volume;
     public bool IsStackable => _isStackable;
+    public SoundsNameEnum SoundsNameEnum => _soundNameEnum;
 }
 public enum SoundsNameEnum
 {

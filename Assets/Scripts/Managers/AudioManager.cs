@@ -1,14 +1,37 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using System;
 
 public class AudioManager : MonoSingleton<AudioManager>
 {
     [SerializeField] GameObject _audioSourcePrefab;
-    public override void Init()
-    {
-    }
+    Dictionary<SoundsNameEnum, AudioConfigurationSO> AudioDictionary;
+
+
     [SerializeField]
     List<AudioSourceHandler> _audioSourceContainer;
+
+    public override void Init()
+    {
+        if (AudioDictionary == null || (AudioDictionary!= null && AudioDictionary.Count == 0))
+         StartCoroutine(LoadSound());
+    }
+    IEnumerator LoadSound()
+    {
+        AudioConfigurationSO[] audio = Resources.LoadAll<AudioConfigurationSO>("Audio");
+        if (audio == null || audio.Length == 0)
+            yield break;
+
+        AudioDictionary = new Dictionary<SoundsNameEnum, AudioConfigurationSO>();
+        for (int i = 0; i < audio.Length; i++)
+        {
+            AudioDictionary.Add(audio[i].SoundsNameEnum, audio[i]);
+            yield return null;
+        }
+    }
+   
+
     AudioSourceHandler EnableAudioSource()
     {
         if (_audioSourceContainer.Count > 0)
@@ -37,7 +60,21 @@ public class AudioManager : MonoSingleton<AudioManager>
         }
         return false;
     }
-    public void PlayAudioSource(AudioConfigurationSO audio)
+
+    public void PlayerAudioSource(SoundsNameEnum nameOfSound)
+    {
+        if (AudioDictionary != null && AudioDictionary.Count > 0)
+        {
+            if (AudioDictionary.ContainsKey(nameOfSound))
+                PlayAudioSource(AudioDictionary[nameOfSound]);
+            else
+                throw new Exception("Song Was Not Found In Resource Folder!");
+        }
+    }
+
+   
+
+    private void PlayAudioSource(AudioConfigurationSO audio)
     {
         if (audio.IsStackable || !CheckIfPlaying(audio.Clip))
         {

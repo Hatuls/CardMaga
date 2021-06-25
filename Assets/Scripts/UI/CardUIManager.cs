@@ -34,16 +34,12 @@ namespace Battles.UI
         bool _isTryingToPlace;
 
         [SerializeField]
-        AudioConfigurationSO _drawCardSound;
-
-
-        [SerializeField]
         ArtSO _artSO;
         #endregion
 
         #region Events
         [SerializeField]
-        Unity.Events.AudioConfigurationSOEvent _onDrawCard;
+        Unity.Events.SoundsEvent _soundEvent;
         #endregion
 
         #region Properties
@@ -88,12 +84,7 @@ namespace Battles.UI
             {
                 for (int i = _handUI.GetAmountOfCardsInHand - 1; i >= 0; i--)
                 {
-
-                    if (cards[i] != null)
-                        cards[i].MoveCard(true, GetDeckPosition(DeckEnum.Disposal), _cardUISettings.GetTimerForCardGoingToDiscardPile, false);
-
-
-                    _handUI.TryRemove(ref cards[i]);
+                    MoveCardToDisposal(ref cards[i]);
 
                     yield return new WaitForSeconds(_cardUISettings.GetDelayBetweenRemovalOfEachCard);
                 }
@@ -102,6 +93,17 @@ namespace Battles.UI
             yield return null;
      
         }
+
+        private void MoveCardToDisposal(ref CardUI cards)
+        {
+            if (cards != null)
+                cards.MoveCard(true, GetDeckPosition(DeckEnum.Disposal), _cardUISettings.GetTimerForCardGoingToDiscardPile, false);
+
+            _soundEvent?.Raise( SoundsNameEnum.DisacrdCard );
+            _handUI.TryRemove(ref cards);
+
+        }
+
         internal CardUI ActivateCard(Cards.Card cardData, Vector2 pos)
         {
             //get one cardUI
@@ -195,7 +197,7 @@ namespace Battles.UI
                     if (CardUIArr[i].gameObject.activeInHierarchy == false || !CardUIArr[i].gameObject.activeSelf)
                     {
                         ActivateCard(cardData, GetDeckPosition(fromDeck));
-                        _onDrawCard?.Raise(_drawCardSound);
+                        _soundEvent?.Raise(SoundsNameEnum.DrawCard);
                         _handUI.Add(ref CardUIArr[i]);
                         break;
                     }

@@ -15,8 +15,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     public override void Init()
     {
-        _singletons = new ISingleton[13]
+        _singletons = new ISingleton[14]
         {
+            AudioManager.Instance,
             CardExecutionManager.Instance,
            BattleUiManager.Instance,
             CardManager.Instance,
