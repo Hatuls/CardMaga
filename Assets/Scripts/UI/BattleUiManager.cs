@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Unity.Events;
 namespace Battles.UI
 
 {
@@ -11,6 +12,25 @@ namespace Battles.UI
         [SerializeField]
         BuffIconsHandler _enemyBuffHandler;
         #endregion
+
+
+        #region Events
+        [SerializeField] VoidEvent _endTurn;
+        [SerializeField] SoundsEvent _soundEvent;
+        #endregion
+
+
+        public void EndTurn() {
+
+            _endTurn?.Raise();
+            _soundEvent?.Raise(SoundsNameEnum.EndTurn);
+
+        }
+
+
+
+
+
         public void SetBuffUI(bool isPlayer, BuffIcons icon)
         {
             if(_playerBuffHandler == null || _enemyBuffHandler == null)
