@@ -4,7 +4,7 @@ using Keywords;
 using System.Threading;
 using Battles.UI;
 using Collections.RelicsSO;
-
+using ThreadsHandler;
 namespace Relics
 {
     public class RelicManager : MonoSingleton<RelicManager>
@@ -19,7 +19,7 @@ namespace Relics
         Dictionary<RelicNameEnum, RelicSO> _relicDict;
         List<RelicFound> _relicFoundList;
 
-        Thread _thread;
+        ThreadList _thread;
         bool _threadFinished;
         #endregion
 
@@ -83,12 +83,16 @@ namespace Relics
                 _relicFoundList = new List<RelicFound>();
 
             _relicFoundList.Clear();
+
+            _thread = new ThreadList(ThreadHandler.GetNewID, CheckForRelics);
+
         }
 
 
         private void Update()
         {
-            OnFinishedThread();
+            ThreadHandler.TickThread();
+           // OnFinishedThread();
         }
 
 
@@ -102,16 +106,25 @@ namespace Relics
 
         public  void DetectRelics()
         {
-            if (_thread != null && _thread.IsAlive)
-                _thread.Abort();
+            if (_thread == null)
+            {
+                _thread = new ThreadList(ThreadHandler.GetNewID, CheckForRelics);
+            }
+
+            ThreadHandler.StartThread(_thread);
 
 
-            _resetDetectingCards?.Raise();
-            _threadFinished = false;
-            _thread = new Thread(new ThreadStart(CheckForRelics));
-            
-            _thread.Start();
-            
+
+            //if (_thread != null && _thread.IsAlive)
+            //    _thread.Abort();
+
+
+            //_resetDetectingCards?.Raise();
+            //_threadFinished = false;
+            //_thread = new Thread(new ThreadStart(CheckForRelics));
+
+            //_thread.Start();
+
         }
 
         private void CheckForRelics( ) 
@@ -139,6 +152,7 @@ namespace Relics
                             counter++;
                             if (counter >= relic.GetCombo.Length)
                             {
+
                                 _relicFoundList.Add(new RelicFound( relic,i));
                                 Debug.Log(relic.GetRelicName.ToString());
                     
@@ -172,3 +186,5 @@ namespace Relics
         }
     }
 }
+
+

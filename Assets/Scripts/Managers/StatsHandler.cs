@@ -161,6 +161,7 @@ namespace Characters.Stats
                 stats.Bleed--;
                 //                _playSound?.Invoke(SoundsNameEnum.Bleeding);
                 _playEffect?.Invoke(isPlayer, Keywords.KeywordTypeEnum.Bleed);
+                _updateUIStats?.Invoke(isPlayer, stats.Bleed, Keywords.KeywordTypeEnum.Bleed);
                 if (stats.Bleed==0)
                 {
                     _removeUIIcon?.Invoke(isPlayer, BuffIcons.Bleed);

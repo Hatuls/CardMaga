@@ -42,18 +42,18 @@ public class BuffIconsHandler : MonoBehaviour
         Debug.LogError("Error in GetBuffIcon");
         return null;
     }
-    public void SetBuffIcon(BuffIcons icon)
+    public void SetBuffIcon(BuffIcons icon, int amount)
     {
         if(CheckForDuplicates(icon))
         {
-            GetDuplicate(icon);
+            GetDuplicate(icon).AddAmount(amount);
             //set text
             return;
         }
         var buffSlot = GetFreeSlot();
         buffSlot.gameObject.SetActive(true);
         buffSlot.GetSetName = icon;
-        buffSlot.InitIconData(_buffCollection.GetIconData(icon));
+        buffSlot.InitIconData(_buffCollection.GetIconData(icon),amount);
     }
     public void RemoveBuffIcon(BuffIcons icon)
     {
@@ -94,8 +94,12 @@ public class BuffIconsHandler : MonoBehaviour
                 {
                     if(_buffSlots[j].gameObject.activeSelf)
                     {
-                        _buffSlots[i].InitIconData(_buffCollection.GetIconData(_buffSlots[j].GetSetName.GetValueOrDefault()));
-                        _buffSlots[j].ResetEnumType();
+
+                       // _buffSlots[j].transform.SetParent(null);
+
+                        _buffSlots[j].transform.SetAsFirstSibling();
+                      //  _buffSlots[i].InitIconData(_buffCollection.GetIconData(_buffSlots[j].GetSetName.GetValueOrDefault()));
+                      //  _buffSlots[j].ResetEnumType();
                         break;
                     }
                     if(j == _buffSlots.Length-1)

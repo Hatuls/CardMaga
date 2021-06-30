@@ -31,20 +31,24 @@ namespace Battles.UI
 
 
 
-        public void SetBuffUI(bool isPlayer, BuffIcons icon)
+        public void SetBuffUI(bool isPlayer, BuffIcons icon,int amount)
         {
             if(_playerBuffHandler == null || _enemyBuffHandler == null)
             {
                 Debug.LogError("Error in SetBuffUI");
                 return;
             }
+
+           
+
+
             if(isPlayer)
             {
-                _playerBuffHandler.SetBuffIcon(icon);
+                _playerBuffHandler.SetBuffIcon(icon , amount);
             }
             else
             {
-                _enemyBuffHandler.SetBuffIcon(icon);
+                _enemyBuffHandler.SetBuffIcon(icon , amount);
             }
         }
         public void RemoveBuffUI(bool isPlayer, BuffIcons icon)
@@ -83,6 +87,7 @@ namespace Battles.UI
                 case Keywords.KeywordTypeEnum.Defense:
                     TextPopUpHandler.GetInstance.CreatePopUpText(TextType.Shield, isPlayer, Amount.ToString());
                     StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, characterStats.Shield);
+
                     break;
 
                 case Keywords.KeywordTypeEnum.Heal:
@@ -91,11 +96,11 @@ namespace Battles.UI
                     break;
 
                 case Keywords.KeywordTypeEnum.Strength:
-                    SetBuffUI(isPlayer, BuffIcons.Strength);
+                    SetBuffUI(isPlayer, BuffIcons.Strength, Amount);
                     break;
 
                 case Keywords.KeywordTypeEnum.Bleed:
-                    SetBuffUI(isPlayer, BuffIcons.Bleed);
+                    SetBuffUI(isPlayer, BuffIcons.Bleed , Amount);
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, characterStats.Health);
                     break;
 
@@ -109,3 +114,6 @@ namespace Battles.UI
         }
     }
 }
+
+
+
