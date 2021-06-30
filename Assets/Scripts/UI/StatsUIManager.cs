@@ -32,9 +32,9 @@ namespace Battles.UI
             => (isPlayer ? _playerHealthBar : _enemyHealthBar).SetMaxValue(maxHealth);
 
         public void UpdateShieldBar(bool isPlayer, int shield)
-        => (isPlayer ? _playerArmorBar : _enemyArmorBar).SetValueBar(shield);
+        => (isPlayer ? _playerArmorBar : _enemyArmorBar)?.SetValueBar(shield);
 
         public void UpdateMaxShieldBar(bool isplayer, int maxShield)
-            => (isplayer ? _playerArmorBar : _enemyArmorBar).SetMaxValue(maxShield);
+            => (isplayer ? _playerArmorBar : _enemyArmorBar)?.SetMaxValue(maxShield);
     }
 }
