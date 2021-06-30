@@ -66,12 +66,10 @@ namespace ThreadsHandler
 
             for (int i = 0; i < _threads.Count; i++)
             {
-                if (_threads[i].IsThreadAlive)
-                    continue;
-                else
-                {
-                    _threads[i].AbortThread();
+                if (!_threads[i].IsThreadAlive)
+                { 
                     _threads[i].actionOnFinishThread?.Invoke();
+                    _threads[i].AbortThread();
                     RemoveFromList(_threads[i].ID);
                 }
             }
@@ -122,7 +120,6 @@ namespace ThreadsHandler
     public class ThreadList
     {
         public byte ID;
-        public bool _threadFinished;
         public Thread thread;
         public System.Action actionOnStartThread;
         public System.Action actionOnFinishThread;

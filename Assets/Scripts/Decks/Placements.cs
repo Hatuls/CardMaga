@@ -44,6 +44,8 @@ namespace Battles.Deck
 
             CountCards();
             Relics.RelicManager.Instance.DetectRelics();
+
+
         }
         public void AddCard(Card card, int index)
         {
@@ -53,19 +55,17 @@ namespace Battles.Deck
                 InitDeck(4);
 
 
-
             if (index >= 0 && index < GetDeck.Length)
             {
                 if (GetDeck[index] != null)
                     _playerHandDeck.AddCard(GetDeck[index]);
 
                 GetDeck[index] = card;
-
-
             }
 
             CountCards();
             Relics.RelicManager.Instance.DetectRelics();
+
         }
     }
 }

@@ -13,6 +13,10 @@ public class GameManager : MonoSingleton<GameManager>
         Init();
     }
 
+    private void Update()
+    {
+        ThreadsHandler.ThreadHandler.TickThread();
+    }
     public override void Init()
     {
         _singletons = new ISingleton[15]

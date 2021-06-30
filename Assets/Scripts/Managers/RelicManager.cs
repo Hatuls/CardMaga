@@ -87,23 +87,6 @@ namespace Relics
             _thread = new ThreadList(ThreadHandler.GetNewID, CheckForRelics);
 
         }
-
-
-        private void Update()
-        {
-            ThreadHandler.TickThread();
-           // OnFinishedThread();
-        }
-
-
-        private void OnFinishedThread()
-        {
-            if (_threadFinished == false || _relicFoundList == null || _relicFoundList.Count == 0)
-                return;
-
-            _threadFinished = true;
-        }
-
         public  void DetectRelics()
         {
             if (_thread == null)
@@ -112,18 +95,6 @@ namespace Relics
             }
 
             ThreadHandler.StartThread(_thread);
-
-
-
-            //if (_thread != null && _thread.IsAlive)
-            //    _thread.Abort();
-
-
-            //_resetDetectingCards?.Raise();
-            //_threadFinished = false;
-            //_thread = new Thread(new ThreadStart(CheckForRelics));
-
-            //_thread.Start();
 
         }
 
@@ -169,7 +140,7 @@ namespace Relics
             }
 
             Debug.Log("Thread finished and Found the amount of " + _relicFoundList.Count);
-            _threadFinished = true;
+    
         }
     }
 
