@@ -79,9 +79,10 @@ namespace Relics
         }
         public override void Init()
         {
-            _relicFoundList = new List<RelicFound>();
-            _relicFoundList.Clear();
+            if (_relicFoundList==null)
+                _relicFoundList = new List<RelicFound>();
 
+            _relicFoundList.Clear();
         }
 
 
@@ -130,6 +131,7 @@ namespace Relics
                 foreach (var relic in _playerRelicsArr)
                 {
                      counter = 0;
+
                     for (int i = 0; i < placementCards.Length; i++)
                     {
                         if (placementCards[i] != null && placementCards[i].GetSetCard.GetBodyPartEnum == relic.GetCombo[counter])

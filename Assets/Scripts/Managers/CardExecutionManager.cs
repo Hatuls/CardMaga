@@ -91,7 +91,7 @@ namespace Battles
                     continue;
 
 
-
+                //detect combos on placementSlots
                 if (relicList.Count == 0 || (relicList[0]._lastIndex <= i && relicList[0]._lastIndex - relicList[0]._slotLength >= i))
                 {
                     animationRelic = false;
@@ -99,19 +99,24 @@ namespace Battles
                 }
                 else
                 {
+
+
                     if (!animationRelic)
                     {
                         animationRelic = true;
-                        _animatorController.PlayRelicAnimation(relicList[0]._relic.GetRelicName);
-                        for (int j = 0; j < relicList[0]._relic.GetKeywordEffect.Length; j++)
+                        for (int k = 0; k < relicList.Count; k++)
                         {
-                            Keywords.KeywordManager.Instance.ActivateKeyword(relicList[0]._relic.GetKeywordEffect[j]);
-                            yield return null;
-                        }
+                            _animatorController.PlayRelicAnimation(relicList[k]._relic.GetRelicName);
 
+                            for (int j = 0; j < relicList[k]._relic.GetKeywordEffect.Length; j++)
+                            {
+                                Keywords.KeywordManager.Instance.ActivateKeyword(relicList[k]._relic.GetKeywordEffect[j]);
+                                yield return null;
+                            }
+                        }
                     }
-                   
-                    
+
+
                 }
                 
                 for (int j = 0; j < _comboArr[i].GetCardKeywords.Length; j++)
