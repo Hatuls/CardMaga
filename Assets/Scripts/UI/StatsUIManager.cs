@@ -8,6 +8,8 @@ namespace Battles.UI
         [SerializeField] UIBar _playerHealthBar, _enemyHealthBar;
         [SerializeField] UIBar _playerArmorBar, _enemyArmorBar;
 
+        [SerializeField] BuffIconsHandler _playerBuffIconHandler;
+        [SerializeField] BuffIconsHandler _opponentBuffIconHandler;
         private static StatsUIManager _instance;
         public static StatsUIManager GetInstance
         {
@@ -31,10 +33,17 @@ namespace Battles.UI
         public void UpdateMaxHealthBar(bool isPlayer , int maxHealth)
             => (isPlayer ? _playerHealthBar : _enemyHealthBar).SetMaxValue(maxHealth);
 
-        public void UpdateShieldBar(bool isPlayer, int shield)
-        => (isPlayer ? _playerArmorBar : _enemyArmorBar)?.SetValueBar(shield);
 
         public void UpdateMaxShieldBar(bool isplayer, int maxShield)
             => (isplayer ? _playerArmorBar : _enemyArmorBar)?.SetMaxValue(maxShield);
+
+
+        public void UpdateShieldBar(bool isPlayer, int shield)
+        {
+
+            (isPlayer ? _playerBuffIconHandler : _opponentBuffIconHandler)?.UpdateArmour(shield);
+            
+        }
+
     }
 }

@@ -8,6 +8,7 @@ namespace Keywords
         public KeywordAbst() { }
         public abstract KeywordTypeEnum GetKeyword { get; }
         public abstract void ProcessOnTarget(bool isFromPlayer, bool isToPlayer,ref  KeywordData keywordData);
+
         public static bool CheckCondition(ref Condition con) {
 
             bool isValidCondition = true; ;

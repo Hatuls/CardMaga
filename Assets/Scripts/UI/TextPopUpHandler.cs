@@ -34,7 +34,7 @@ namespace Battles.UI
             }
         }
 
-        public void CreatePopUpText(TextType type, bool isPlayer, string txt)
+        public void CreatePopUpText(TextType type, Vector2 location, string txt)
         {
             if (_textsPopups != null && _textsPopups.Length > 0)
             {
@@ -44,7 +44,7 @@ namespace Battles.UI
                     if (_textsPopups[i].gameObject.activeSelf == false)
                     {
                         _textsPopups[i].gameObject.SetActive(true);
-                        _textsPopups[i].Create(ref GetTextColor(type), TextPosition(isPlayer), txt);
+                        _textsPopups[i].Create(ref GetTextColor(type), location, txt);
                         return;
                     }
                 }
@@ -55,9 +55,10 @@ namespace Battles.UI
         }
 
 
-        private Vector2 TextPosition(bool isPlayer)
+        public static Vector2 TextPosition(bool isPlayer)
         {
-            return (isPlayer ? PosOnCanvas[0] : PosOnCanvas[1]).anchoredPosition3D;
+            return (isPlayer ?
+                _Instance.PosOnCanvas[0] : _Instance.PosOnCanvas[1]).anchoredPosition3D;
         }
 
 

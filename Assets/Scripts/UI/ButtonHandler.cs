@@ -13,7 +13,7 @@ public class ButtonHandler : MonoBehaviour
     }
     private void OnDisable()
     {
-     GetComponent<Button>().onClick.RemoveListener(ButtonPressed);
+       GetComponent<Button>().onClick.RemoveListener(ButtonPressed);
     }
     public void ButtonPressed()
     {

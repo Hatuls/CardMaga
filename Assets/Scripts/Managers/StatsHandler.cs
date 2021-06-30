@@ -2,6 +2,7 @@
 using System;
 namespace Characters.Stats
 { 
+    
     public class StatsHandler
     {
 
@@ -120,7 +121,7 @@ namespace Characters.Stats
                     // playerBlocked the comingDamange
                     stat.Shield -= damageAmount;
                     _updateUIStats?.Invoke(isPlayer, damageAmount, Keywords.KeywordTypeEnum.Defense);
-                    Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, stat.Shield);
+                      Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, stat.Shield);
                 }
                 else
                 {
@@ -130,8 +131,8 @@ namespace Characters.Stats
                     SetHealth(isPlayer,remain);
                 }
 
-
-               return;
+              
+                return;
             }
 
             SetHealth(isPlayer,damageAmount);
@@ -180,6 +181,7 @@ namespace Characters.Stats
             {
                 Debug.Log(string.Concat("The" + (isPlayer ? "Player" : "Enemy") + " Died!"));
                 _updateUIStats.Invoke(isPlayer, 0, Keywords.KeywordTypeEnum.Attack);
+
                 Battles.BattleManager.BattleEnded(isPlayer);
                 return;
             }
@@ -190,4 +192,22 @@ namespace Characters.Stats
             _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Attack);
         }
     }
+
+public static class PredictionStats
+{
+
+    public static void PredictPlacement(Cards.Card[] placements)
+    {
+        if (placements == null || placements.Length == 0)
+            return;
+            /* run on cards
+            get keywords
+            get characterStats
+            update the ui?
+             */
+
+
+
+    }
+}
 }

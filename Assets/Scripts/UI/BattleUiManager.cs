@@ -3,7 +3,7 @@ using Unity.Events;
 namespace Battles.UI
 
 {
-    public class UpdateUiStats : UnityEngine.Events.UnityEvent<bool, int, Keywords.KeywordTypeEnum> { }
+    public class UpdateUiStats : UnityEngine.Events.UnityEvent<bool,int, Keywords.KeywordTypeEnum> { }
     public class BattleUiManager : MonoSingleton<BattleUiManager>
     {
         #region Fields
@@ -15,6 +15,7 @@ namespace Battles.UI
 
 
         #region Events
+        [SerializeField] TextPopUpEvent _textEvent;
         [SerializeField] VoidEvent _endTurn;
         [SerializeField] SoundsEvent _soundEvent;
         #endregion
@@ -73,34 +74,37 @@ namespace Battles.UI
         }
 
 
-        public void UpdateUiStats(bool isPlayer, int Amount, Keywords.KeywordTypeEnum actionTypeEnum)
+        public void UpdateUiStats(bool isPlayer,int Amount, Keywords.KeywordTypeEnum actionTypeEnum)
         {
              var characterStats = Characters.Stats.StatsHandler.GetInstance.GetCharacterStats(isPlayer);
             switch (actionTypeEnum)
             {
                 case Keywords.KeywordTypeEnum.Attack:
-                    TextPopUpHandler.GetInstance.CreatePopUpText(TextType.NormalDMG, isPlayer, Amount.ToString());
+
+                    _textEvent?.Raise(TextType.NormalDMG, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, characterStats.Health);
                     StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, characterStats.Shield);
                     break;
 
                 case Keywords.KeywordTypeEnum.Defense:
-                    TextPopUpHandler.GetInstance.CreatePopUpText(TextType.Shield, isPlayer, Amount.ToString());
+        
+                    _textEvent?.Raise(TextType.Shield, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
                     StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, characterStats.Shield);
 
                     break;
 
                 case Keywords.KeywordTypeEnum.Heal:
-                    TextPopUpHandler.GetInstance.CreatePopUpText(TextType.Healing, isPlayer, Amount.ToString());
+               
+                    _textEvent?.Raise(TextType.Healing, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, characterStats.Health);
                     break;
 
                 case Keywords.KeywordTypeEnum.Strength:
-                    SetBuffUI(isPlayer, BuffIcons.Strength, Amount);
+                    SetBuffUI(isPlayer, BuffIcons.Strength, characterStats.Strength);
                     break;
 
                 case Keywords.KeywordTypeEnum.Bleed:
-                    SetBuffUI(isPlayer, BuffIcons.Bleed , Amount);
+                    SetBuffUI(isPlayer, BuffIcons.Bleed , characterStats.Bleed);
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, characterStats.Health);
                     break;
 
@@ -110,7 +114,6 @@ namespace Battles.UI
                 default:
                     break;
             }
-
         }
     }
 }

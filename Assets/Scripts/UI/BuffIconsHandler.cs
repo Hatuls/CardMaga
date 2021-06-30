@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 public class RemoveUIIcon: UnityEvent<bool ,BuffIcons>{}
 public class BuffIconsHandler : MonoBehaviour
@@ -7,8 +8,10 @@ public class BuffIconsHandler : MonoBehaviour
     [SerializeField]
     BuffIconCollectionSO _buffCollection;
 
+    [SerializeField] BuffIcon armourIcon;
     [SerializeField]
     BuffIcon[] _buffSlots;
+
     #endregion
     private void Start()
     {
@@ -44,17 +47,23 @@ public class BuffIconsHandler : MonoBehaviour
     }
     public void SetBuffIcon(BuffIcons icon, int amount)
     {
+  
         if(CheckForDuplicates(icon))
         {
-            GetDuplicate(icon).AddAmount(amount);
+            GetDuplicate(icon).SetAmount(amount);
             //set text
             return;
         }
         var buffSlot = GetFreeSlot();
-        buffSlot.gameObject.SetActive(true);
         buffSlot.GetSetName = icon;
         buffSlot.InitIconData(_buffCollection.GetIconData(icon),amount);
     }
+
+    internal void UpdateArmour(int amount)
+    {
+        armourIcon.SetAmount(amount);
+    }
+
     public void RemoveBuffIcon(BuffIcons icon)
     {
         if (_buffSlots != null && _buffSlots.Length > 0)

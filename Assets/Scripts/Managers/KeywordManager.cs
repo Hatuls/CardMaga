@@ -29,7 +29,7 @@ namespace Keywords
             InitParams();
         }
 
-        #endregion
+  
         public void ActivateKeyword(KeywordData keyword)
         {
             if (keyword == null)
@@ -42,9 +42,6 @@ namespace Keywords
                 Debug.Log("KeywordManager: The target Enum is None");
                 return;
             }
-
-
-
 
             if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.GetKeywordSO.GetKeywordType, out KeywordAbst keywordEffect))
             {
@@ -67,6 +64,8 @@ namespace Keywords
             else
                 Debug.LogError("KeywordManager: Type Of keyword was not found in dictionary!");
         }
+
+
         public IEnumerator OnStartTurnKeywords(bool isPlayer)
         {
             Debug.Log("Activating Keywords Effect on " + (isPlayer? "Player":"Enemy") + " that are activated on the start of the turn");
@@ -76,6 +75,8 @@ namespace Keywords
 
             
         }
+
+
         public IEnumerator OnEndTurnKeywords(bool isPlayer)
         {
           
@@ -86,10 +87,11 @@ namespace Keywords
             yield return new WaitForSeconds(1f);
 
         }
+        #endregion
 
         #region Private Functions
 
- 
+
         private void InitParams()
         {
             if (_keywordDict == null)
