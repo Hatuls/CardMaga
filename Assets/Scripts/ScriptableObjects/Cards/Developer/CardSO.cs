@@ -9,7 +9,7 @@ namespace Cards
         #region Fields
         [Header("Card Details:")]
 
-        [Tooltip("Name of the card")]
+        [Tooltip("Name of the card\n Note: the enum is also used to detect the currect animation")]
         [SerializeField] CardNamesEnum _cardName;
 
         [Tooltip("Card rarity")]
@@ -24,8 +24,6 @@ namespace Cards
         [Tooltip("What Body Part It Uses")]
         [SerializeField] BodyPartEnum _bodyPart;
 
-        [Tooltip("Animation Of The Card")]
-        [SerializeField] AnimationClip _animation;
 
         [Tooltip("The Image of the card:")]
         [SerializeField] Sprite _cardImage;
@@ -60,7 +58,7 @@ namespace Cards
         public CardTypeEnum GetCardTypeEnum => _cardType;
         public TargetedPartEnum GetTargetBodyPart => _targetBodyPart;
         public BodyPartEnum GetBodyPartEnum => _bodyPart;
-        public ref AnimationClip GetCardsAnimation => ref _animation;
+
         public KeywordData[] GetCardsKeywords =>  _keywords;
         public KeywordData[] GetAdditionalKeywords => _upgrateKeywords;
         public ref int GetKeyWordMaxLevel => ref _maxUpgradeLevel;
