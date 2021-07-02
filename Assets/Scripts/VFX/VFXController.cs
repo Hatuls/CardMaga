@@ -21,6 +21,8 @@ public class VFXController : MonoBehaviour
     Dictionary<KeywordTypeEnum, ParticleSystem> _particleSystemDict;
     private void Start()
     {
+
+      
         _particleSystemDict = new Dictionary<KeywordTypeEnum, ParticleSystem>()
         {
             { KeywordTypeEnum.Attack, _attackPS },
@@ -33,7 +35,8 @@ public class VFXController : MonoBehaviour
 
         foreach (var item in _particleSystemDict)
         {
-            item.Value.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+     
+            item.Value?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
            
         }
     }

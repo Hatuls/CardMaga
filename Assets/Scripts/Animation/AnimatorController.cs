@@ -16,6 +16,10 @@ public class AnimatorController : MonoBehaviour
     {
         ResetAnimator();
     }
+
+    
+
+
     public void ResetAnimator()
     {
         startPos = transform.position;
@@ -46,7 +50,7 @@ public class AnimatorController : MonoBehaviour
         }
 
         transform.position = startPos;
-        transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt,transform);
+       // transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt,transform);
         _playerAnimator.SetInteger("RelicAnim", -1);
         _playerAnimator.SetInteger("AnimNum", -1);
     }
@@ -54,7 +58,7 @@ public class AnimatorController : MonoBehaviour
 
     public void OnStartAnimation(AnimatorStateInfo info)
     {
-        Debug.Log("<a>Animation Playing</a> " + _playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
+     //   Debug.Log("<a>Animation Playing</a> " + _playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
         _isAnimationPlaying = true;
 
         _playerAnimator.SetInteger("AnimNum", -1);
@@ -62,7 +66,7 @@ public class AnimatorController : MonoBehaviour
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
     {
         _isAnimationPlaying = false;
-        transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
+       // transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
     }
     public void CharacterWon()
     {
@@ -77,13 +81,39 @@ public class AnimatorController : MonoBehaviour
         _playerAnimator.SetInteger("AnimNum", -2);
         _playerAnimator.SetBool("IsDead", true);
     }
+
+
+
+    [SerializeField] float TransitionSpeed= 0.1f;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-
-        _playerAnimator.SetBool("IsWon", true);
+       //     _playerAnimator.SetInteger("AnimNum", 13);
+       //     _playerAnimator.CrossFade("HeadButt", TransitionSpeed);
+           _playerAnimator.CrossFade("HeadButt", TransitionSpeed);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            //_playerAnimator.SetInteger("AnimNum", 9);
+            _playerAnimator.CrossFade("Jab", TransitionSpeed);
+
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            _playerAnimator.CrossFade("UpperCut", TransitionSpeed);
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+            _playerAnimator.CrossFade("HighKick", TransitionSpeed);
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+            _playerAnimator.CrossFade("HeelKick", TransitionSpeed);
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+            _playerAnimator.CrossFade("RightBlock", TransitionSpeed);
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+            _playerAnimator.CrossFade("LeftBlock", TransitionSpeed);
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+            _playerAnimator.CrossFade("UpperBlock", TransitionSpeed);
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+            _playerAnimator.CrossFade("Combo", TransitionSpeed);
+        
     }
 
     internal void PlayRelicAnimation(RelicNameEnum getRelicName)

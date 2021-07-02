@@ -1,5 +1,4 @@
-﻿using Battles;
-using Managers;
+﻿
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
