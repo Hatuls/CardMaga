@@ -8,15 +8,18 @@ using Cards;
 public class AnimatorController : MonoBehaviour
 {
     #region Events
+    [HideInInspector]
     [SerializeField] VoidEvent _movedToNextAnimation; 
+    [HideInInspector]
     [SerializeField] VoidEvent _onFinishedAnimation; 
+    [HideInInspector]
     [SerializeField] VoidEvent _onAnimationDoKeyword; 
     #endregion
 
     #region Fields
     [SerializeField] Animator _playerAnimator;
     [SerializeField] Transform targetToLookAt;
-    [SerializeField] Transform _centerBody;
+
 
     Queue<CardNamesEnum>  _animationQueue = new Queue<CardNamesEnum>();
 

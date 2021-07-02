@@ -143,24 +143,32 @@ public class VFXController : MonoBehaviour
         {
             case HittingPart.RightArm:
         _hittingAttackPS.transform.SetParent(_rightHandPart);
+               // _hittingAttackPS.transform.position = _rightHandPart.position;
                 break;
             case HittingPart.LeftArm:
         _hittingAttackPS.transform.SetParent(_leftHandPart);
+           
+             //   _hittingAttackPS.transform.position = _leftHandPart.position;
                 break;
             case HittingPart.Head:
         _hittingAttackPS.transform.SetParent(_headPart);
+            //    _hittingAttackPS.transform.position = _headPart.position;
                 break;
             case HittingPart.LeftLeg:
         _hittingAttackPS.transform.SetParent(_leftLegPart);
+           //     _hittingAttackPS.transform.position = _leftLegPart.position;
                 break;
             case HittingPart.RightLeg:
         _hittingAttackPS.transform.SetParent(_rightLegPart);
+             //   _hittingAttackPS.transform.position = _rightLegPart.position;
                 break;
             default:
                 break;
         }
+        _hittingAttackPS.transform.position = Vector3.zero;
         _hittingAttackPS.Play(true);
         _hittingAttackPS.transform.SetParent(null);
+        RecieveHit();
     }
 }
 
