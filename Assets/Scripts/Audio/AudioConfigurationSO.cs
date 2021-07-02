@@ -45,6 +45,7 @@ public enum SoundsNameEnum
     TapCard = 22,
     ButtonTapped = 23,
     EndTurn = 24,
-    VS = 25
+    VS = 25,
+    WomanBleeding = 26
 
 }

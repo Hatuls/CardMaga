@@ -113,7 +113,14 @@ public class VFXController : MonoBehaviour
                 soundsNameEnum = SoundsNameEnum.GainStrength;
                 break;
             case KeywordTypeEnum.Bleed:
-                soundsNameEnum = SoundsNameEnum.Bleeding;
+                if(_isPlayer == true)
+                {
+                    soundsNameEnum = SoundsNameEnum.WomanBleeding;
+                }
+                else
+                {
+                    soundsNameEnum = SoundsNameEnum.Bleeding;
+                }
                 break;
             case KeywordTypeEnum.MaxHealth:
                 soundsNameEnum = SoundsNameEnum.Healing;
