@@ -21,7 +21,7 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] Transform targetToLookAt;
 
 
-    Queue<CardNamesEnum>  _animationQueue = new Queue<CardNamesEnum>();
+    Queue<string>  _animationQueue = new Queue<string>();
 
 
     [SerializeField] float _transitionSpeedBetweenAnimations = 0.1f;
@@ -115,17 +115,7 @@ public class AnimatorController : MonoBehaviour
 
 
 
-    internal void PlayRelicAnimation(RelicNameEnum getRelicName)
-    {
-        if (_playerAnimator == null)
-        {
-            Debug.LogError("Error in PlayAnimation");
-            return;
-        }
-
-        Debug.Log($"Play Animation {getRelicName}");
-        _playerAnimator.SetInteger("RelicAnim", (int)getRelicName);
-    }
+ 
 
 
     [SerializeField] float _rotationSpeed;
@@ -144,23 +134,17 @@ public class AnimatorController : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
     }
 
-    public void SetAnimationQueue(Card[] cards)
+    public void SetAnimationQueue(string animation)
     {
         // When we finish the planning turn we get the cards and start the animation 
-        if (cards == null || cards.Length == 0)
+        if (animation == null || animation.Length == 0)
             return;
 
-       
-
-        for (int i = 0; i < cards.Length; i++)
-        {
-            if (cards[i] != null)
-                _animationQueue.Enqueue(cards[i].GetSetCard.GetCardName);
+         _animationQueue.Enqueue(animation);
             
-        }
         IsMyTurn = true;
         isFirst = true;
-            TranstionToNextAnimation();
+      
     }
     private void ReturnToIdle() => _playerAnimator.CrossFade("Idle", transitionToIdle);
 
@@ -214,5 +198,9 @@ public class AnimatorController : MonoBehaviour
         ResetModelRotaion();
 
     }
-
+    public void ExecuteKeywordInCombo()
+    {
+        _onAnimationDoKeyword?.Raise();
+        Battles.CardExecutionManager.Instance.MoveToNextIndex();
+    }
 }

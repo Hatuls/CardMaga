@@ -37,4 +37,16 @@ namespace Managers
         }
     }
 
+
+
+
+
+
+
+
+
+    public class AnimationState
+    {
+
+    }
 }

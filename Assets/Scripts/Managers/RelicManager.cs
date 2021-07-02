@@ -148,12 +148,12 @@ namespace Relics
     {
         public RelicSO _relic;
         public int _lastIndex;
-        public int _slotLength;
+        public int _firstIndex;
         public  RelicFound(RelicSO relic, int index)
         {
             _relic = relic;
             _lastIndex = index;
-            _slotLength = _lastIndex - (_relic.GetCombo.Length-1);
+            _firstIndex = _lastIndex - (_relic.GetCombo.Length-1);
         }
     }
 }

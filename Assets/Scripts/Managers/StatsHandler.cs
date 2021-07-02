@@ -12,11 +12,12 @@ namespace Characters.Stats
         public Action<bool, Keywords.KeywordTypeEnum> _playEffect;
         private StatsHandler()
         {
-       
             _removeUIIcon = new RemoveUIIcon();
             _removeUIIcon.AddListener(Battles.UI.BattleUiManager.Instance.RemoveBuffUI);
+
             _updateUIStats = new Battles.UI.UpdateUiStats();
             _updateUIStats.AddListener(Battles.UI.BattleUiManager.Instance.UpdateUiStats);
+
             _playSound += AudioManager.Instance.PlayerAudioSource;
             _playEffect += VFXManager.Instance.PlayParticleEffect;
         }
@@ -143,13 +144,13 @@ namespace Characters.Stats
             => GetCharacterStats(isPlayer).Gold >= amount;
         public void AddBleedPoints(bool isPlayer,int amount)
         {
-            _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Bleed);
              GetCharacterStats(isPlayer).Bleed += amount;
+            _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Bleed);
         }
         public void AddStrength(bool isPlayer, int amount)
         {
-            _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Strength);
             GetCharacterStats(isPlayer).Strength += amount;
+            _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Strength);
 
         }
         public void ApplyBleed(bool isPlayer)

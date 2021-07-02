@@ -46,6 +46,7 @@ namespace ThreadsHandler
             {
                 ThreadList threadCache = GetThreadFromList(thread);
                 threadCache.AbortThread();
+                _threads.Remove(threadCache);
             }
 
             if (thread.IsThreadAlive)
