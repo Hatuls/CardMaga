@@ -247,8 +247,8 @@ namespace Battles.Turns
         public override IEnumerator PlayTurn()
         {
             CardUIManager.Instance.RemoveHands();
-            PlaceHolderHandler.Instance.PlayerPlaceHolder.ResetPlaceHolders();
             yield return CardExecutionManager.Instance.StartExecution();
+            PlaceHolderHandler.Instance.PlayerPlaceHolder.ResetPlaceHolders();
             Deck.DeckManager.Instance.OnEndTurn();
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);

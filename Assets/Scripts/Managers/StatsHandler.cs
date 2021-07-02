@@ -151,7 +151,6 @@ namespace Characters.Stats
             _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Strength);
             GetCharacterStats(isPlayer).Strength += amount;
 
-           // _playSound?.Invoke(SoundsNameEnum.GainStrength);
         }
         public void ApplyBleed(bool isPlayer)
         {
@@ -160,13 +159,13 @@ namespace Characters.Stats
             {
                 RecieveDamage(isPlayer,stats.Bleed);
                 stats.Bleed--;
-                //                _playSound?.Invoke(SoundsNameEnum.Bleeding);
+
                 _playEffect?.Invoke(isPlayer, Keywords.KeywordTypeEnum.Bleed);
                 _updateUIStats?.Invoke(isPlayer, stats.Bleed, Keywords.KeywordTypeEnum.Bleed);
+
                 if (stats.Bleed==0)
                 {
                     _removeUIIcon?.Invoke(isPlayer, BuffIcons.Bleed);
-
                 }
             }
         }
@@ -200,11 +199,13 @@ public static class PredictionStats
     {
         if (placements == null || placements.Length == 0)
             return;
-            /* run on cards
+
+            /*
+            run on cards
             get keywords
             get characterStats
             update the ui?
-             */
+            */
 
 
 
