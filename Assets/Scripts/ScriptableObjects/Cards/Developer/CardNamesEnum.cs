@@ -3,7 +3,7 @@
     public enum CardNamesEnum { 
     Knockout=0,
     HighKick =1,
-    Smoothie =2,
+    HealCard =2,
     Jab =3,
     Cross =4,
     EnemyAttack1 = 5,

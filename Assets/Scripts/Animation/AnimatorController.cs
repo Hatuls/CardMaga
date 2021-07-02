@@ -1,15 +1,36 @@
 ﻿
 using Relics;
-using System;
+using System.Collections.Generic;
+using Unity.Events;
 using UnityEngine;
+using Cards;
+
 public class AnimatorController : MonoBehaviour
 {
-   
-    [SerializeField]
-    Animator _playerAnimator;
-    Vector3 startPos;
+    #region Events
+    [SerializeField] VoidEvent _movedToNextAnimation; 
+    [SerializeField] VoidEvent _onFinishedAnimation; 
+    [SerializeField] VoidEvent _onAnimationDoKeyword; 
+    #endregion
+
+    #region Fields
+    [SerializeField] Animator _playerAnimator;
     [SerializeField] Transform targetToLookAt;
+    [SerializeField] Transform _centerBody;
+
+    Queue<CardNamesEnum>  _animationQueue = new Queue<CardNamesEnum>();
+
+
+    [SerializeField] float _transitionSpeedBetweenAnimations = 0.1f;
+    [SerializeField] float transitionToIdle = 0.1f;
+
+
+
+    [SerializeField] bool isPlayer;
     bool _isAnimationPlaying;
+
+  [SerializeField]  Vector3 startPos;
+    #endregion
     public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
 
     private void Start()
@@ -22,7 +43,9 @@ public class AnimatorController : MonoBehaviour
 
     public void ResetAnimator()
     {
-        startPos = transform.position;
+ 
+
+            startPos = new Vector3( transform.position.x, transform.position.y, transform.position.z);
         _isAnimationPlaying = false;
         _playerAnimator.SetBool("IsDead", false);
         _playerAnimator.SetBool("IsWon", false);
@@ -41,7 +64,7 @@ public class AnimatorController : MonoBehaviour
        
     }
 
-    public void ResetToIdle()
+    public void ResetToStartingPosition()
     {
         if (_playerAnimator == null)
         {
@@ -50,28 +73,33 @@ public class AnimatorController : MonoBehaviour
         }
 
         transform.position = startPos;
-       // transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt,transform);
-        _playerAnimator.SetInteger("RelicAnim", -1);
-        _playerAnimator.SetInteger("AnimNum", -1);
+        transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
+
+        if (isPlayer == false)
+        {
+            _playerAnimator.SetInteger("RelicAnim", -1);
+            _playerAnimator.SetInteger("AnimNum", -1);
+        }
     }
 
 
     public void OnStartAnimation(AnimatorStateInfo info)
     {
-     //   Debug.Log("<a>Animation Playing</a> " + _playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
+  //     Debug.Log("<a>Animation Playing</a> " + _playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
         _isAnimationPlaying = true;
-
+        ResetBothRotaionAndPosition();
         _playerAnimator.SetInteger("AnimNum", -1);
     }   
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
     {
         _isAnimationPlaying = false;
-       // transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
+        //    transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
+        ResetBothRotaionAndPosition();
     }
     public void CharacterWon()
     {
         _isAnimationPlaying = false;
-        ResetToIdle();
+        ReturnToIdle();
         _playerAnimator.SetBool("IsWon", true);
        _playerAnimator.SetInteger("AnimNum", -2);
         transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left , transform.position));
@@ -84,38 +112,6 @@ public class AnimatorController : MonoBehaviour
 
 
 
-    [SerializeField] float TransitionSpeed= 0.1f;
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-       //     _playerAnimator.SetInteger("AnimNum", 13);
-       //     _playerAnimator.CrossFade("HeadButt", TransitionSpeed);
-           _playerAnimator.CrossFade("HeadButt", TransitionSpeed);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            //_playerAnimator.SetInteger("AnimNum", 9);
-            _playerAnimator.CrossFade("Jab", TransitionSpeed);
-
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            _playerAnimator.CrossFade("UpperCut", TransitionSpeed);
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-            _playerAnimator.CrossFade("HighKick", TransitionSpeed);
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-            _playerAnimator.CrossFade("HeelKick", TransitionSpeed);
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-            _playerAnimator.CrossFade("RightBlock", TransitionSpeed);
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-            _playerAnimator.CrossFade("LeftBlock", TransitionSpeed);
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-            _playerAnimator.CrossFade("UpperBlock", TransitionSpeed);
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-            _playerAnimator.CrossFade("Combo", TransitionSpeed);
-        
-    }
-
     internal void PlayRelicAnimation(RelicNameEnum getRelicName)
     {
         if (_playerAnimator == null)
@@ -127,4 +123,93 @@ public class AnimatorController : MonoBehaviour
         Debug.Log($"Play Animation {getRelicName}");
         _playerAnimator.SetInteger("RelicAnim", (int)getRelicName);
     }
+
+
+    [SerializeField] float _rotationSpeed;
+    [SerializeField] float _positionSpeed;
+    public bool IsMyTurn;
+    private void Update()
+    {
+        if (isPlayer )
+        {
+            if (IsMyTurn)
+                transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
+            else
+                transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
+    }
+
+    public void SetAnimationQueue(Card[] cards)
+    {
+        // When we finish the planning turn we get the cards and start the animation 
+        if (cards == null || cards.Length == 0)
+            return;
+
+       
+
+        for (int i = 0; i < cards.Length; i++)
+        {
+            if (cards[i] != null)
+                _animationQueue.Enqueue(cards[i].GetSetCard.GetCardName);
+            
+        }
+        IsMyTurn = true;
+        isFirst = true;
+            TranstionToNextAnimation();
+    }
+    private void ReturnToIdle() => _playerAnimator.CrossFade("Idle", transitionToIdle);
+
+    bool isFirst;
+    public void TranstionToNextAnimation()
+    {
+
+        if (!isPlayer)
+            return;
+        // we want to go back to idle if we dont have more animation to do
+        // and if we have animation in the queue we want to transtion to them and tell all relevants that a transtion happend
+        //     LeanTween.move(this.gameObject, startPos, 0.1f);
+
+        transform.position = startPos;
+        transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
+
+        if (_animationQueue.Count == 0)
+        {
+            ReturnToIdle();
+            ResetBothRotaionAndPosition();
+            _onFinishedAnimation?.Raise();
+            IsMyTurn = false;
+            return;
+        }
+        if (isFirst == true)
+        {
+
+        //  _playerAnimator.CrossFade(_animationQueue.Dequeue().ToString(),_transitionSpeedBetweenAnimations);
+            _playerAnimator.Play(_animationQueue.Dequeue().ToString());
+            isFirst = false;
+        }
+        else
+            _playerAnimator.CrossFade(_animationQueue.Dequeue().ToString(), _transitionSpeedBetweenAnimations);
+
+
+
+        //          ResetToStartingPosition();
+        _movedToNextAnimation?.Raise();
+
+
+    }
+    public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();
+
+    public void ResetModelPosition() =>
+        transform.position = startPos;
+     
+    public void ResetModelRotaion() => transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
+
+    public void ResetBothRotaionAndPosition() {
+        ResetModelPosition();
+        ResetModelRotaion();
+
+    }
+
 }

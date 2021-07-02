@@ -84,7 +84,7 @@ namespace Battles
             }
 
             yield return new WaitUntil(() => _enemyAnimatorController.GetIsAnimationCurrentlyActive == false);
-            _enemyAnimatorController.ResetToIdle();
+            _enemyAnimatorController.ResetToStartingPosition();
         }
         public void AssignData(CharacterAbstSO characterAbstSO)// enemySO. get struct stats from scriptable object
         {

@@ -69,21 +69,7 @@ namespace Battles.Deck
             _deck = Managers.CardManager.GetPlayerDeck();
             InitDecks();
         }
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                 TransferCard(DeckEnum.PlayerDeck, DeckEnum.Hand, GetDeckAbst(DeckEnum.PlayerDeck).GetFirstCard());
-
-            else if(Input.GetKeyDown(KeyCode.Alpha2))
-                TransferCard(DeckEnum.Hand, DeckEnum.Placement, GetDeckAbst(DeckEnum.Hand).GetFirstCard());
-
-          else  if (Input.GetKeyDown(KeyCode.Alpha3))
-                TransferCard(DeckEnum.Disposal, DeckEnum.PlayerDeck, GetDeckAbst(DeckEnum.Disposal).GetFirstCard());
-
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-                TransferCard(DeckEnum.Placement, DeckEnum.Disposal, GetDeckAbst(DeckEnum.Placement).GetFirstCard());   
-
-        }
+     
         public Card[] GetCardsFromDeck(DeckEnum from)
         {
             var cache = GetDeckAbst(from);

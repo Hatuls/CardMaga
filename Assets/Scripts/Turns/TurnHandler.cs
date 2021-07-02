@@ -32,7 +32,17 @@ namespace Battles.Turns
         public delegate void TurnEvent(TurnState state);
         public static TurnEvent SetStateEvent;
 
-
+        private  bool _isTurnFinished;
+        public  bool IsTurnFinished
+        {
+            get => _isTurnFinished; set
+            {
+                if (_isTurnFinished != value)
+                {
+                    _isTurnFinished = value;
+                }
+            } 
+        }
         #endregion
 
         #region Private Methods
@@ -85,6 +95,12 @@ namespace Battles.Turns
                CurrentState = TurnState.EndPlayerTurn;  
             }
         }
+
+        public void FinishedExecution()
+        {
+            // need 
+            IsTurnFinished = true;
+        }
         public void EnemyEndTurn()
             => CurrentState = TurnState.EndEnemyTurn;
         public void BattleEnded()
@@ -107,14 +123,14 @@ namespace Battles.Turns
             {
                 _turnDict = new Dictionary<TurnState, Turn>()
                 {
-                 {TurnState.Startbattle, new StartBattle() },
-                 {TurnState.StartEnemyTurn, new StartEnemyTurn() },
-                 {TurnState.EnemyTurn, new EnemyTurn() },
-                 {TurnState.EndEnemyTurn, new EndEnemyTurn() },
-                 {TurnState.StartPlayerTurn, new StartPlayerTurn() },
-                 {TurnState.PlayerTurn, new PlayerTurn() },
-                 {TurnState.EndPlayerTurn, new EndPlayerTurn() },
-                 {TurnState.EndBattle, new EndBattle() },
+                 {TurnState.Startbattle, new StartBattle(this) },
+                 {TurnState.StartEnemyTurn, new StartEnemyTurn(this) },
+                 {TurnState.EnemyTurn, new EnemyTurn(this) },
+                 {TurnState.EndEnemyTurn, new EndEnemyTurn(this) },
+                 {TurnState.StartPlayerTurn, new StartPlayerTurn(this) },
+                 {TurnState.PlayerTurn, new PlayerTurn(this) },
+                 {TurnState.EndPlayerTurn, new EndPlayerTurn(this) },
+                 {TurnState.EndBattle, new EndBattle(this) },
                  {TurnState.NotInBattle, null },
                 };
 
@@ -141,7 +157,12 @@ namespace Battles.Turns
 
     }
     public abstract class Turn : ITurnHandler {
-   
+        protected TurnHandler _turnHandler;
+        public Turn(TurnHandler _th)
+        {
+            _turnHandler = _th;
+        }
+
         public abstract TurnState GetNextTurn { get; }
         public abstract IEnumerator PlayTurn();
         protected void MoveToNextState()
@@ -149,6 +170,10 @@ namespace Battles.Turns
     }
     public class StartBattle : Turn
     {
+        public StartBattle(TurnHandler _th) : base(_th)
+        {
+        }
+
         public override TurnState GetNextTurn => TurnState.StartEnemyTurn;
 
         public override IEnumerator PlayTurn()
@@ -160,6 +185,10 @@ namespace Battles.Turns
     }
     public class StartEnemyTurn : Turn
     {
+        public StartEnemyTurn(TurnHandler _th) : base(_th)
+        {
+        }
+
         public override TurnState GetNextTurn => TurnState.EnemyTurn;
 
         public override IEnumerator PlayTurn()
@@ -172,6 +201,10 @@ namespace Battles.Turns
     }
     public class EnemyTurn : Turn
     {
+        public EnemyTurn(TurnHandler _th) : base(_th)
+        {
+        }
+
         public override TurnState GetNextTurn => TurnState.EndEnemyTurn;
 
         public override IEnumerator PlayTurn()
@@ -188,6 +221,10 @@ namespace Battles.Turns
     }
     public class EndEnemyTurn : Turn
     {
+        public EndEnemyTurn(TurnHandler _th) : base(_th)
+        {
+        }
+
         public override TurnState GetNextTurn => TurnState.StartPlayerTurn;
 
         public override IEnumerator PlayTurn()
@@ -206,6 +243,10 @@ namespace Battles.Turns
 
     public class StartPlayerTurn : Turn
     {
+        public StartPlayerTurn(TurnHandler _th) : base(_th)
+        {
+        }
+
         public override TurnState GetNextTurn => TurnState.PlayerTurn;
 
         public override IEnumerator PlayTurn()
@@ -220,11 +261,16 @@ namespace Battles.Turns
     }
     public class PlayerTurn : Turn
     {
+        public PlayerTurn(TurnHandler _th) : base(_th)
+        {
+        }
+
         public override TurnState GetNextTurn => TurnState.EndEnemyTurn;
 
         public override IEnumerator PlayTurn()
         {
             // unlock Player Inputs 
+            _turnHandler.IsTurnFinished = false;
             yield return null;
      
         }
@@ -232,6 +278,10 @@ namespace Battles.Turns
     }
     public class EndBattle : Turn
     {
+        public EndBattle(TurnHandler _th) : base(_th)
+        {
+        }
+
         public override TurnState GetNextTurn => TurnState.NotInBattle;
 
         public override IEnumerator PlayTurn()
@@ -242,14 +292,28 @@ namespace Battles.Turns
     } 
     public class EndPlayerTurn : Turn
     {
+        public EndPlayerTurn(TurnHandler _th) : base(_th)
+        {
+        }
+
         public override TurnState GetNextTurn => TurnState.StartEnemyTurn;
 
         public override IEnumerator PlayTurn()
         {
+            /*
+             * we first remove the hands cards
+             * then we pass the CardExecutionManager all the cards we currently have in the placementdeck
+             * we give the animator the current cards so he can play the animations
+             * each animation that finished tell the CardExecutionManager to execute the keyword effects of the current card
+             * and remove the current card from the placementslot
+            */
             CardUIManager.Instance.RemoveHands();
-            yield return CardExecutionManager.Instance.StartExecution();
-            PlaceHolderHandler.Instance.PlayerPlaceHolder.ResetPlaceHolders();
+            CardExecutionManager.Instance.RegisterExecutions();
+
+
+            yield return new WaitUntil (() => _turnHandler.IsTurnFinished == true);
             Deck.DeckManager.Instance.OnEndTurn();
+            PlaceHolderHandler.Instance.PlayerPlaceHolder.ResetPlaceHolders();
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
             yield return new WaitForSeconds(0.5f);

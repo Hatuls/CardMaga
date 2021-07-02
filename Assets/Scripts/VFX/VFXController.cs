@@ -10,13 +10,22 @@ public class VFXController : MonoBehaviour
     [SerializeField] ParticleSystem _healPS;
     [SerializeField] ParticleSystem _shieldPS;
     [SerializeField] ParticleSystem _StrengthPS;
-    [SerializeField] ParticleSystem _attackPS;
+    [SerializeField] ParticleSystem _recieveAttackPS;
+    [SerializeField] ParticleSystem _hittingAttackPS;
 
 
     [SerializeField] bool _isPlayer;
     [SerializeField] BoolEvent _hitCharacterEvent;
     [SerializeField] BoolKeywordEnumEvent _activateKewordEvent;
     [SerializeField] SoundsEvent _soundsEvent;
+
+    [SerializeField] Transform _headPart;
+    [SerializeField] Transform _leftHandPart;
+    [SerializeField] Transform _rightHandPart;
+    [SerializeField] Transform _leftLegPart;
+    [SerializeField] Transform _rightLegPart;
+
+
 
     Dictionary<KeywordTypeEnum, ParticleSystem> _particleSystemDict;
     private void Start()
@@ -25,7 +34,7 @@ public class VFXController : MonoBehaviour
       
         _particleSystemDict = new Dictionary<KeywordTypeEnum, ParticleSystem>()
         {
-            { KeywordTypeEnum.Attack, _attackPS },
+            { KeywordTypeEnum.Attack, _recieveAttackPS },
             {KeywordTypeEnum.Bleed, _bleedPS },
             {KeywordTypeEnum.Defense, _shieldPS },
             {KeywordTypeEnum.Strength, _StrengthPS },
@@ -41,7 +50,7 @@ public class VFXController : MonoBehaviour
         }
     }
 
-    public void ApplyHit()
+    public void RecieveHit()
     {
 
 
@@ -115,4 +124,38 @@ public class VFXController : MonoBehaviour
         }
         return soundsNameEnum;
     }
+
+
+    public void ApplyHit(HittingPart bodyPart)
+    {
+
+        if (_hittingAttackPS.isPlaying)
+            _hittingAttackPS.Stop(true);
+
+        switch (bodyPart)
+        {
+            case HittingPart.RightArm:
+        _hittingAttackPS.transform.SetParent(_rightHandPart);
+                break;
+            case HittingPart.LeftArm:
+        _hittingAttackPS.transform.SetParent(_leftHandPart);
+                break;
+            case HittingPart.Head:
+        _hittingAttackPS.transform.SetParent(_headPart);
+                break;
+            case HittingPart.LeftLeg:
+        _hittingAttackPS.transform.SetParent(_leftLegPart);
+                break;
+            case HittingPart.RightLeg:
+        _hittingAttackPS.transform.SetParent(_rightLegPart);
+                break;
+            default:
+                break;
+        }
+        _hittingAttackPS.Play(true);
+        _hittingAttackPS.transform.SetParent(null);
+    }
 }
+
+
+public enum HittingPart { RightArm,LeftArm,Head,LeftLeg,RightLeg};

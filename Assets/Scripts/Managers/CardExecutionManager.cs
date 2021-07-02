@@ -9,7 +9,7 @@ namespace Battles
         Cards.Card[] _comboArr;
         [SerializeField]
         AnimatorController _animatorController;
-
+        int _currentCardIndex;
         public void StopCoroutine()
         {
             StopAllCoroutines();
@@ -24,24 +24,66 @@ namespace Battles
             _comboArr = cards;
         }
 
-        public IEnumerator StartExecution() {
+        public void RegisterExecutions()
+        {
 
             _comboArr = Deck.DeckManager.Instance.GetCardsFromDeck(Deck.DeckEnum.Placement);
 
-            if (_comboArr == null || _comboArr.Length == 0)
-              yield break;
+            _animatorController.SetAnimationQueue(_comboArr);
+
+            _currentCardIndex =0;
+         
+
+            // create function
 
             // cancel inputs 
             // detect LCE
             // detect Relics
             // run on the placement deck
 
-            yield return ExecuteCombo();
+            // ExecuteCombo();
 
-            ResetExecution();
+            //    ResetExecution();
         }
 
-        private void ResetExecution()
+        public void MoveToNextIndex() {
+            if (_comboArr == null || _comboArr.Length == 0)
+                return;
+            if (_comboArr.Length - 1 <= _currentCardIndex)
+                _currentCardIndex = 0;
+            else
+            {
+                for (int i = _currentCardIndex; i < _comboArr.Length-1; i++)
+                {
+                    if (_comboArr[i+1] != null)
+                    {
+                        _currentCardIndex = i + 1;
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        public void ExecuteCard()
+        {
+
+            if (_comboArr[_currentCardIndex] == null)
+            {
+                for (int i = _currentCardIndex; i < _comboArr.Length; i++)
+                {
+                    if (_comboArr[i] != null)
+                        _currentCardIndex = i;
+                }
+            }
+            var currentCard = _comboArr[_currentCardIndex];
+            if (currentCard == null | currentCard.GetCardKeywords == null || currentCard.GetCardKeywords.Length == 0)
+                return ;
+            for (int j = 0; j < currentCard.GetCardKeywords.Length; j++)
+                Keywords.KeywordManager.Instance.ActivateKeyword(currentCard.GetCardKeywords[j]);
+
+            }
+        public void ResetExecution()
         {
             _comboArr = null;
         }
@@ -133,7 +175,7 @@ namespace Battles
                 yield return new WaitUntil(() => false == _animatorController.GetIsAnimationCurrentlyActive );
 
     
-                    _animatorController.ResetToIdle();
+                    _animatorController.ResetToStartingPosition();
             }
 
            
