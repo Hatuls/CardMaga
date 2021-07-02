@@ -49,4 +49,6 @@ namespace Managers
     {
 
     }
+
+   // public class Normal
 }
