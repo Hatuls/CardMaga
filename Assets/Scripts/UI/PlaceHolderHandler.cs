@@ -72,7 +72,7 @@ namespace Battles.UI
             }
             else if (interactedSlot.IsHoldingCard && CardUIManager.Instance.GetClickedCardUI != null)
             {
-                interactedSlot.InitCard(_artSO.UIColorPalette, CardUIManager.Instance.GetClickedCardUI.GetCardReference.GetSetCard.GetCardTypeEnum,
+                interactedSlot.InitCraftSlot(_artSO.UIColorPalette, CardUIManager.Instance.GetClickedCardUI.GetCardReference.GetSetCard.GetCardTypeEnum,
                     _artSO.DefaultSlotSO.GetBackground, _artSO.DefaultSlotSO.GetDecor, _artSO.IconCollection.GetSprite(CardUIManager.Instance.GetClickedCardUI.GetCardReference.GetSetCard.GetBodyPartEnum));
 
                 DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, CardUIManager.Instance.GetClickedCardUI.GetCardReference, interactedSlot.GetSlotID);
@@ -84,7 +84,7 @@ namespace Battles.UI
 
         public void PlaceOnPlaceHolder(PlaceHolderSlotUI interactedSlot, Cards.Card cardCache)
         {
-            interactedSlot.InitCard(_artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
+            interactedSlot.InitCraftSlot(_artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
                 _artSO.DefaultSlotSO.GetBackground, _artSO.DefaultSlotSO.GetDecor, _artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
 
             CardUIManager.Instance.GetClickedCardUI.SetActive(false);
