@@ -1,29 +1,39 @@
-﻿using Battles.Deck;
+﻿
 using UnityEngine;
-using UnityEngine.EventSystems;
+using Characters.Stats;
+using Battles.Deck;
 
 namespace Battles.UI
 {
 
     public class MiddleBoxDrop : MonoBehaviour { 
         [SerializeField] BoxCollider2D boxCollider2D;
-        [SerializeField] PlaceholderUI _playerPlaceHolder;
+        [SerializeField] CardUIManager CardUIManager;
+
         public void OnDrop()
         {
-            Debug.Log("<a>*******************</a>");
             if (CardUIManager.Instance.GetClickedCardUI != null)
             {
+                Cards.Card card = CardUIManager.Instance.GetClickedCardUI.GetCardReference;
 
-                var placeHolder = _playerPlaceHolder.TryGetEmptyPlaceHolderSlotUI();
-
-                if (placeHolder != null)
+                if (StaminaHandler.IsEnoughStamina(card) == false)
                 {
-                    DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, CardUIManager.Instance.GetClickedCardUI.GetCardReference, placeHolder.GetSlotID);
-
-                    PlaceHolderHandler.Instance.PlaceOnPlaceHolder(placeHolder, CardUIManager.Instance.GetClickedCardUI.GetCardReference);
+                    // not enough stamina 
+                    DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, card);
+                 }
+                else
+                {
+                    // execute card
+                    DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Disposal, card);
+                    CardExecutionManager.Instance.RegisterCard(card);
+                    StaminaHandler.ReduceStamina(card);
                 }
+
+
+                // reset the holding card
+                    CardUIManager.Instance.GetClickedCardUI= null;
             }
-         
+            
         }
 
 

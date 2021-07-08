@@ -104,7 +104,7 @@ namespace Battles
                 Instance._playSound?.Raise(SoundsNameEnum.Victory );
             }
 
-            CardExecutionManager.Instance.StopCoroutine();
+            CardExecutionManager.Instance.ResetExecution();
             isGameEnded = true;
             TurnHandler.Instance.BattleEnded();
         }
