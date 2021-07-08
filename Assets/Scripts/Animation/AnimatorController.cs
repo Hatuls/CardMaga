@@ -201,6 +201,5 @@ public class AnimatorController : MonoBehaviour
     public void ExecuteKeywordInCombo()
     {
         _onAnimationDoKeyword?.Raise();
-        Battles.CardExecutionManager.Instance.MoveToNextIndex();
     }
 }

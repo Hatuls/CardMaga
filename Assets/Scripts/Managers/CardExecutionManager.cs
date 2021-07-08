@@ -4,129 +4,144 @@ namespace Battles
 {
     public class CardExecutionManager : MonoSingleton<CardExecutionManager>
     {
-        Cards.Card[] _comboArr;
         [SerializeField]
         AnimatorController _animatorController;
-        int _currentCardIndex;
-        public void StopCoroutine()
+        Cards.Card _currentCard;
+        public void ResetExecution()
         {
             StopAllCoroutines();
         }
         public override void Init()
         {
-            ResetExecution();
+            _currentCard = null;
         }
 
 
-        public void RegisterExecutions()
+        //public void RegisterExecutions()
+        //{
+        //    /*
+        //     * here we start to execute the player turn
+        //     * first we take the cards from the placement
+        //     * if its valid then we want to register each cards string (the enum of the cards name equal his animation!)
+        //     * if we found animation then we want put his string instead of the cards based on the combo length
+        //     */
+
+        //    _comboArr = Deck.DeckManager.Instance.GetCardsFromDeck(Deck.DeckEnum.Selected);
+
+        //    _currentCardIndex = 0;
+        //    bool foundCombo;
+
+        //    if (_comboArr != null && _comboArr.Length > 0)
+        //    {
+
+        //        var comboFound = Relics.RelicManager.Instance.GetRelicFounds;
+
+        //        for (int i = 0; i < _comboArr.Length; i++)
+        //        {
+        //            if (_comboArr[i] != null) 
+        //            {
+        //                foundCombo = false;
+
+        //                if (comboFound != null && comboFound.Count > 0)
+        //                {
+        //                    for (int j = 0; j < comboFound.Count; j++)
+        //                    {
+        //                        if (comboFound[j]._firstIndex == i)
+        //                        {
+        //                            _animatorController.SetAnimationQueue(comboFound[j]._relic.GetRelicName.ToString());
+        //                            if (i< comboFound[j]._lastIndex)
+        //                            {
+        //                                if (_comboArr.Length == comboFound[j]._lastIndex)
+        //                                    return;
+        //                                foundCombo = true;
+        //                                i = comboFound[j]._lastIndex;
+        //                                continue;
+        //                            }
+        //                        }
+        //                    }
+
+        //                }
+
+
+        //                if (foundCombo == false)
+        //                 _animatorController.SetAnimationQueue(_comboArr[i].GetSetCard.GetCardName.ToString());
+        //            }
+        //        }
+        //    }
+
+
+        //    _animatorController.TranstionToNextAnimation();
+
+        //    // create function
+
+        //    // cancel inputs 
+        //    // detect LCE
+        //    // detect Relics
+        //    // run on the placement deck
+
+        //    // ExecuteCombo();
+
+        //    //    ResetExecution();
+        //}
+
+        //public void MoveToNextIndex()
+        //{
+        //    if (_comboArr == null || _comboArr.Length == 0)
+        //        return;
+        //    if (_comboArr.Length - 1 <= _currentCardIndex)
+        //        _currentCardIndex = 0;
+        //    else
+        //    {
+        //        for (int i = _currentCardIndex; i < _comboArr.Length - 1; i++)
+        //        {
+        //            if (_comboArr[i + 1] != null)
+        //            {
+        //                _currentCardIndex = i + 1;
+        //                return;
+        //            }
+        //        }
+        //    }
+
+        //}
+
+
+        public void RemoveCard() => _currentCard = null;
+        public void RegisterCard(Cards.Card card)
         {
-            /*
-             * here we start to execute the player turn
-             * first we take the cards from the placement
-             * if its valid then we want to register each cards string (the enum of the cards name equal his animation!)
-             * if we found animation then we want put his string instead of the cards based on the combo length
-             */
+            _currentCard = card;
 
-            _comboArr = Deck.DeckManager.Instance.GetCardsFromDeck(Deck.DeckEnum.Selected);
-
-            _currentCardIndex = 0;
-            bool foundCombo;
-
-            if (_comboArr != null && _comboArr.Length > 0)
+            if (_currentCard != null)
             {
-
-                var comboFound = Relics.RelicManager.Instance.GetRelicFounds;
-               
-                for (int i = 0; i < _comboArr.Length; i++)
-                {
-                    if (_comboArr[i] != null) 
-                    {
-                        foundCombo = false;
-                        
-                        if (comboFound != null && comboFound.Count > 0)
-                        {
-                            for (int j = 0; j < comboFound.Count; j++)
-                            {
-                                if (comboFound[j]._firstIndex == i)
-                                {
-                                    _animatorController.SetAnimationQueue(comboFound[j]._relic.GetRelicName.ToString());
-                                    if (i< comboFound[j]._lastIndex)
-                                    {
-                                        if (_comboArr.Length == comboFound[j]._lastIndex)
-                                            return;
-                                        foundCombo = true;
-                                        i = comboFound[j]._lastIndex;
-                                        continue;
-                                    }
-                                }
-                            }
-                            
-                        }
-                        
-                        
-                        if (foundCombo == false)
-                         _animatorController.SetAnimationQueue(_comboArr[i].GetSetCard.GetCardName.ToString());
-                    }
-                }
+                _animatorController.PlayAnimation(_currentCard.GetSetCard.GetCardName);
             }
 
-
-            _animatorController.TranstionToNextAnimation();
-
-            // create function
-
-            // cancel inputs 
-            // detect LCE
-            // detect Relics
-            // run on the placement deck
-
-            // ExecuteCombo();
-
-            //    ResetExecution();
         }
-
-        public void MoveToNextIndex()
-        {
-            if (_comboArr == null || _comboArr.Length == 0)
-                return;
-            if (_comboArr.Length - 1 <= _currentCardIndex)
-                _currentCardIndex = 0;
-            else
-            {
-                for (int i = _currentCardIndex; i < _comboArr.Length - 1; i++)
-                {
-                    if (_comboArr[i + 1] != null)
-                    {
-                        _currentCardIndex = i + 1;
-                        return;
-                    }
-                }
-            }
-
-        }
-
         public void ExecuteCard()
         {
 
-            if (_comboArr[_currentCardIndex] == null)
-            {
-                for (int i = _currentCardIndex; i < _comboArr.Length; i++)
-                {
-                    if (_comboArr[i] != null)
-                        _currentCardIndex = i;
-                }
-            }
-            var currentCard = _comboArr[_currentCardIndex];
-            if (currentCard == null | currentCard.GetCardKeywords == null || currentCard.GetCardKeywords.Length == 0)
+
+            if (_currentCard == null || _currentCard.GetCardKeywords == null || _currentCard.GetCardKeywords.Length == 0)
                 return;
 
-            for (int j = 0; j < currentCard.GetCardKeywords.Length; j++)
-                Keywords.KeywordManager.Instance.ActivateKeyword(currentCard.GetCardKeywords[j]);
+            for (int j = 0; j < _currentCard.GetCardKeywords.Length; j++)
+                Keywords.KeywordManager.Instance.ActivateKeyword(_currentCard.GetCardKeywords[j]);
 
-        }
-        public void ResetExecution()
-        {
-            _comboArr = null;
+
+            //if (_comboArr[_currentCardIndex] == null)
+            //{
+            //    for (int i = _currentCardIndex; i < _comboArr.Length; i++)
+            //    {
+            //        if (_comboArr[i] != null)
+            //            _currentCardIndex = i;
+            //    }
+            //}
+            //var currentCard = _comboArr[_currentCardIndex];
+            //if (currentCard == null | currentCard.GetCardKeywords == null || currentCard.GetCardKeywords.Length == 0)
+            //    return;
+
+            //for (int j = 0; j < currentCard.GetCardKeywords.Length; j++)
+            //    Keywords.KeywordManager.Instance.ActivateKeyword(currentCard.GetCardKeywords[j]);
+
         }
 
 
@@ -223,5 +238,5 @@ namespace Battles
         //    }
 
         //}
-    }
+    } 
 }

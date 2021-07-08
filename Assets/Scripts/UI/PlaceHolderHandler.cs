@@ -7,8 +7,8 @@ namespace Battles.UI
     public class PlaceHolderHandler : MonoSingleton<PlaceHolderHandler>
     {
         #region Fields
-        [SerializeField] PlaceholderUI _playerPlaceHolder;
-        [SerializeField] PlaceholderUI _opponentPlaceHolder;
+  //      [SerializeField] PlaceholderUI _playerPlaceHolder;
+    //    [SerializeField] PlaceholderUI _opponentPlaceHolder;
         [SerializeField] ArtSO _artSO;
         #endregion
         #region Events
@@ -16,8 +16,8 @@ namespace Battles.UI
         #endregion
        
         #region Properties 
-        public ref PlaceholderUI PlayerPlaceHolder => ref _playerPlaceHolder;
-        public ref PlaceholderUI OpponentPlaceHolder => ref _opponentPlaceHolder;
+       // public ref PlaceholderUI PlayerPlaceHolder => ref _playerPlaceHolder;
+     //   public ref PlaceholderUI OpponentPlaceHolder => ref _opponentPlaceHolder;
         #endregion
         private void Start()
         {
@@ -32,20 +32,20 @@ namespace Battles.UI
         #region Player PlaceHolder
         public void SetCardUI(PlaceHolderSlotUI placeHolderSlotUI)
         {
-            if (placeHolderSlotUI == null)
-            {
-                Debug.LogError("CardUIManager : Placeholder is null");
-                return;
-            }
+            //if (placeHolderSlotUI == null)
+            //{
+            //    Debug.LogError("CardUIManager : Placeholder is null");
+            //    return;
+            //}
 
-            var cache = DeckManager.Instance.GetCardFromDeck(placeHolderSlotUI.GetSlotID, DeckEnum.Selected);
-            if (cache == null)
-                return;
+            //var cache = DeckManager.Instance.GetCardFromDeck(placeHolderSlotUI.GetSlotID, DeckEnum.Selected);
+            //if (cache == null)
+            //    return;
 
-            DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, cache, placeHolderSlotUI.GetSlotID);
-            placeHolderSlotUI.ResetSlot(_artSO.UIColorPalette);
-            CardUIManager.Instance.SetCardUI(CardUIManager.Instance.ActivateCard(cache, placeHolderSlotUI.RectTransform.anchoredPosition));
-            CardUIManager.Instance.GetClickedCardUI.GetCanvasGroup.blocksRaycasts = false;
+            //DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, cache, placeHolderSlotUI.GetSlotID);
+            //placeHolderSlotUI.ResetSlot(_artSO.UIColorPalette);
+            //CardUIManager.Instance.SetCardUI(CardUIManager.Instance.ActivateCard(cache, placeHolderSlotUI.RectTransform.anchoredPosition));
+            //CardUIManager.Instance.GetClickedCardUI.GetCanvasGroup.blocksRaycasts = false;
         }
         public void DroppedOnBox()
         {
@@ -99,8 +99,8 @@ namespace Battles.UI
 
         public override void Init()
         {
-            _playerPlaceHolder.Init();
-            _opponentPlaceHolder.Init();
+            //_playerPlaceHolder.Init();
+           // _opponentPlaceHolder.Init();
         }
     }
 

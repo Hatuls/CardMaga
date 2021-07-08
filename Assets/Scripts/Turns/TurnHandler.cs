@@ -254,6 +254,7 @@ namespace Battles.Turns
 
             yield return KeywordManager.Instance.OnStartTurnKeywords(true);
             Deck.DeckManager.Instance.DrawHand(StatsHandler.GetInstance.GetCharacterStats(true).DrawCardsAmount);
+            StaminaHandler.ResetStamina();
             Debug.Log("Drawing Cards!");
             MoveToNextState();
         }
@@ -308,12 +309,12 @@ namespace Battles.Turns
              * and remove the current card from the placementslot
             */
             CardUIManager.Instance.RemoveHands();
-            CardExecutionManager.Instance.RegisterExecutions();
+            CardExecutionManager.Instance.ResetExecution();
 
 
             yield return new WaitUntil (() => _turnHandler.IsTurnFinished == true);
             Deck.DeckManager.Instance.OnEndTurn();
-            PlaceHolderHandler.Instance.PlayerPlaceHolder.ResetPlaceHolders();
+
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
             yield return new WaitForSeconds(0.5f);

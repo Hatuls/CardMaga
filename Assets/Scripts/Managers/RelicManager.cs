@@ -47,14 +47,15 @@ namespace Relics
         {
             if (GetRelicDict != null
                 && GetRelicDict.TryGetValue(relicNameEnum, out RelicSO myRelic))
-                    return myRelic;
+                return myRelic;
 
             Debug.LogError("Error in GetRelicScript Func");
             return null;
         }
         public void ResetPlayerRelic()
         {
-            if (_playerRelicsArr == null && _playerRelicsArr.Length == 0){
+            if (_playerRelicsArr == null && _playerRelicsArr.Length == 0)
+            {
                 Debug.LogError("Error in ResetPlayerRelic Func");
                 return;
             }
@@ -66,7 +67,7 @@ namespace Relics
         }
         public KeywordData[] GetRelicsEffect(RelicSO relicAbst)
         {
-            if(relicAbst != null && relicAbst.GetKeywordEffect != null)
+            if (relicAbst != null && relicAbst.GetKeywordEffect != null)
                 return relicAbst.GetKeywordEffect;
 
             Debug.LogError("Error in GetRelicEffect Func");
@@ -79,7 +80,7 @@ namespace Relics
         }
         public override void Init()
         {
-            if (_relicFoundList==null)
+            if (_relicFoundList == null)
                 _relicFoundList = new List<RelicFound>();
 
             _relicFoundList.Clear();
@@ -87,7 +88,7 @@ namespace Relics
             _thread = new ThreadList(ThreadHandler.GetNewID, CheckForRelics);
 
         }
-        public  void DetectRelics()
+        public void DetectRelics()
         {
             if (_thread == null)
             {
@@ -98,62 +99,63 @@ namespace Relics
 
         }
 
-        private void CheckForRelics( ) 
+        private void CheckForRelics()
         {
-           var placementCards = Battles.Deck.DeckManager.Instance.GetCardsFromDeck(Battles.Deck.DeckEnum.Selected);
+            //   var placementCards = Battles.Deck.DeckManager.Instance.GetCardsFromDeck(Battles.Deck.DeckEnum.Selected);
 
-            if (placementCards == null)
-                return;
+            //    if (placementCards == null)
+            //        return;
 
-            _relicFoundList.Clear();
-          
-            if (_playerRelicsArr != null && _playerRelicsArr.Length >0)
-            { 
-                int counter;
-             
-                var placeHolderUI = PlaceHolderHandler.Instance.PlayerPlaceHolder.GetPlaceHolderSlots;
-                foreach (var relic in _playerRelicsArr)
-                {
-                     counter = 0;
+            //    _relicFoundList.Clear();
 
-                    for (int i = 0; i < placementCards.Length; i++)
-                    {
-                        if (placementCards[i] != null && placementCards[i].GetSetCard.GetBodyPartEnum == relic.GetCombo[counter])
-                        {
-                            counter++;
-                            if (counter >= relic.GetCombo.Length)
-                            {
+            //    if (_playerRelicsArr != null && _playerRelicsArr.Length >0)
+            //    { 
+            //        int counter;
 
-                                _relicFoundList.Add(new RelicFound( relic,i));
-                                Debug.Log(relic.GetRelicName.ToString());
-                    
-                                 counter = 0;
-                            }
-                        }
-                        else
-                        {
-                            counter = 0;
-                            continue;
-                        }
-                    }
-                }
-            }
+            //        var placeHolderUI = PlaceHolderHandler.Instance.PlayerPlaceHolder.GetPlaceHolderSlots;
+            //        foreach (var relic in _playerRelicsArr)
+            //        {
+            //             counter = 0;
 
-            Debug.Log("Thread finished and Found the amount of " + _relicFoundList.Count);
-    
+            //            for (int i = 0; i < placementCards.Length; i++)
+            //            {
+            //                if (placementCards[i] != null && placementCards[i].GetSetCard.GetBodyPartEnum == relic.GetCombo[counter])
+            //                {
+            //                    counter++;
+            //                    if (counter >= relic.GetCombo.Length)
+            //                    {
+
+            //                        _relicFoundList.Add(new RelicFound( relic,i));
+            //                        Debug.Log(relic.GetRelicName.ToString());
+
+            //                         counter = 0;
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    counter = 0;
+            //                    continue;
+            //                }
+            //            }
+            //        }
+            //    }
+
+            //    Debug.Log("Thread finished and Found the amount of " + _relicFoundList.Count);
+
+            //}
         }
-    }
 
-    public class RelicFound
-    {
-        public RelicSO _relic;
-        public int _lastIndex;
-        public int _firstIndex;
-        public  RelicFound(RelicSO relic, int index)
+        public class RelicFound
         {
-            _relic = relic;
-            _lastIndex = index;
-            _firstIndex = _lastIndex - (_relic.GetCombo.Length-1);
+            public RelicSO _relic;
+            public int _lastIndex;
+            public int _firstIndex;
+            public RelicFound(RelicSO relic, int index)
+            {
+                _relic = relic;
+                _lastIndex = index;
+                _firstIndex = _lastIndex - (_relic.GetCombo.Length - 1);
+            }
         }
     }
 }
