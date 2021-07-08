@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 namespace Battles.UI
 {
-    public class PlaceHolderHandler: MonoBehaviour
+    public class PlaceHolderHandler : MonoBehaviour
     {
         //reset Slots UI
         //give refrence to crafring slot Data
@@ -35,6 +35,6 @@ namespace Battles.UI
 
         //    InputManager.Instance.RemoveObjectFromTouch();
         //}
-
     }
+}
 
