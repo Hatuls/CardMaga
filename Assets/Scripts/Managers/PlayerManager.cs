@@ -45,10 +45,23 @@ namespace Managers
 
 
 
-    public class AnimationState
-    {
+    //public abstract class AnimationState
+    //{
+    //    public string _animationName;
+    //    public AnimationState(string animName)
+    //    {
+    //        _animationName = animName;
+    //    }
+    //}
 
-    }
+    //public class NormalAttack : AnimationState
+    //{
+    //    public Keywords.KeywordData keyword;
+    //}
 
-   // public class Normal
+    //public class ComboAttack : AnimationState
+    //{
+    //    public Keywords.KeywordData[] keyword;
+    //    Relics.RelicSO combo;
+    //}
 }
