@@ -1,18 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Battles.UI;
+using Cards;
 
-public class CraftingSlotsData : MonoBehaviour
+public class CraftingSlotsData: Battles.Deck.DeckAbst
 {
-    // Start is called before the first frame update
-    void Start()
+    #region Fields
+    static PlaceHolderHandler _placeHolderHandler;
+    #endregion
+    #region Properties
+    public static PlaceHolderHandler SetPlaceHolderHandler { set => _placeHolderHandler = value; }
+    #endregion
+    public CraftingSlotsData(Card[] cards):base(cards)
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    }
+    public override void AddCard(Card card)
     {
-        
+        for (int i = GetDeck.Length - 1; i >= 0; i--)
+        {
+            if (i == GetDeck.Length - 1)
+            {
+                DiscardCard(GetDeck[i]);
+            }
+            else if (i > 0)
+            {
+                MoveToNextSlot(i);
+            }
+            else
+            {
+                MoveToNextSlot(i);
+                GetDeck[0] = card;
+            }
+        }
+    }
+    void MoveToNextSlot(int i)
+    {
+        GetDeck[i + 1] = GetDeck[i];
+        //_placeHolderHandler
     }
 }
