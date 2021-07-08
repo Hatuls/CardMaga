@@ -101,7 +101,12 @@ namespace ThreadsHandler
             for (int i = 0; i < _threads.Count; i++)
             {
                 if (_threads[i].ID == id)
+                {
+                    if (_threads[i].IsThreadAlive)
+                        _threads[i].AbortThread();
+
                     _threads.Remove(_threads[i]);
+                }
             }
         }
         public static void ResetList()

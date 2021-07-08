@@ -35,6 +35,12 @@ namespace Cards
         [Tooltip("The Description of the card's LCE:")]
         [SerializeField] string _cardLCEDescription;
 
+        [Space]
+        [Header("Mana:")]
+        [Tooltip("How much stamina the card cost")]
+        [SerializeField] int _staminaCost= 1;
+        
+
         [Tooltip("How Many Times This Card Can Be Upgraded")]
         [SerializeField] int _maxUpgradeLevel = 1;
         [Tooltip("On What Level To Unlock the additional keywords")]
@@ -58,7 +64,7 @@ namespace Cards
         public CardTypeEnum GetCardTypeEnum => _cardType;
         public TargetedPartEnum GetTargetBodyPart => _targetBodyPart;
         public BodyPartEnum GetBodyPartEnum => _bodyPart;
-
+        public  int GetStaminaCost =>  _staminaCost;
         public KeywordData[] GetCardsKeywords =>  _keywords;
         public KeywordData[] GetAdditionalKeywords => _upgrateKeywords;
         public ref int GetKeyWordMaxLevel => ref _maxUpgradeLevel;
