@@ -18,7 +18,7 @@ namespace Battles.UI
 
                 if (placeHolder != null)
                 {
-                    DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Placement, CardUIManager.Instance.GetClickedCardUI.GetCardReference, placeHolder.GetSlotID);
+                    DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, CardUIManager.Instance.GetClickedCardUI.GetCardReference, placeHolder.GetSlotID);
 
                     PlaceHolderHandler.Instance.PlaceOnPlaceHolder(placeHolder, CardUIManager.Instance.GetClickedCardUI.GetCardReference);
                 }

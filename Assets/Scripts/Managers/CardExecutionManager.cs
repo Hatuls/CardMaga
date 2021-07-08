@@ -27,7 +27,7 @@ namespace Battles
              * if we found animation then we want put his string instead of the cards based on the combo length
              */
 
-            _comboArr = Deck.DeckManager.Instance.GetCardsFromDeck(Deck.DeckEnum.Placement);
+            _comboArr = Deck.DeckManager.Instance.GetCardsFromDeck(Deck.DeckEnum.Selected);
 
             _currentCardIndex = 0;
             bool foundCombo;

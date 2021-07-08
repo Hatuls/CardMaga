@@ -20,7 +20,7 @@ namespace Battles.Deck
 
         [SerializeField] int _playerMaxHandSize;
         [SerializeField] int _playerStartingHandSize;
-        [SerializeField] int _placementSize;
+       public const int _placementSize = 1;
         #endregion
         #endregion
         #region Properties
@@ -159,7 +159,7 @@ namespace Battles.Deck
                 case 3:
                     return DeckEnum.Exhaust;
                 case 4:
-                    return DeckEnum.Placement;
+                    return DeckEnum.Selected;
             }
 
             return 0;
@@ -167,7 +167,7 @@ namespace Battles.Deck
         public void OnEndTurn()
         {
             Debug.Log("Discarding the remain cards from hand and placement!");
-            GetDeckAbst(DeckEnum.Placement).ResetDeck();
+            GetDeckAbst(DeckEnum.Selected).ResetDeck();
             GetDeckAbst(DeckEnum.Hand).ResetDeck();
         }
   
@@ -180,20 +180,8 @@ namespace Battles.Deck
             if (card == null && !GetDeckAbst(from).IsTheCardInDeck(card))
                 return;
 
-            var fromDeck = GetDeckAbst(from);
-            var toDeck = GetDeckAbst(to);
-
-            if (to == DeckEnum.Placement && toDeck.GetAmountOfFilledSlots == _placementSize)
-            {
-                Debug.LogError("DeckManager : All Slots In Placement Is Already Filled Tranfer Cancel");
-                return;
-            }
-            else if (to == DeckEnum.Hand && toDeck.GetAmountOfFilledSlots == _playerMaxHandSize)
-            {
-                Debug.LogError("DeckManager : Max Card Number Limit Cancel Drawing Cards");
-
-            }
-
+            DeckAbst fromDeck = GetDeckAbst(from);
+            DeckAbst toDeck = GetDeckAbst(to);
 
 
 
@@ -202,43 +190,7 @@ namespace Battles.Deck
             //fromDeck.PrintDecks(from);
           //  toDeck.PrintDecks(to);
         }
-        public void TransferCard(DeckEnum from, DeckEnum to, Card card, int Index)
-        {
-
-            if (card == null && !GetDeckAbst(from).IsTheCardInDeck(card))
-                return;
-
-            var fromDeck = GetDeckAbst(from);
-            var toDeck = GetDeckAbst(to);
-
-            if (fromDeck != toDeck)
-            {
-                if (to == DeckEnum.Placement && toDeck.GetAmountOfFilledSlots == _placementSize)
-                {
-                    Debug.LogError("DeckManager : All Slots In Placement Is Already Filled Transfer Cancel");
-                    return;
-                }
-                else if (to == DeckEnum.Hand && toDeck.GetAmountOfFilledSlots == _playerMaxHandSize)
-                {
-                    Debug.LogError("DeckManager : Max Card Number Limit Cancel Drawing Cards");
-
-                }
-            }
-
-
-            if (from == DeckEnum.Placement)
-                (fromDeck as Placements).DiscardCard(card, Index);
-            else
-                fromDeck.DiscardCard(card);
-
-            if (to == DeckEnum.Placement)
-                (toDeck as Placements).AddCard(card, Index);
-            else
-                toDeck.AddCard(card);
-
-            //fromDeck.PrintDecks(from);
-            //  toDeck.PrintDecks(to);
-        }
+   
         private void TransferCard(DeckEnum from, DeckEnum to, int amount)
         {
             if (amount <= 0 || from == to)
@@ -256,6 +208,7 @@ namespace Battles.Deck
                     fromDeckCache.DiscardCard(fromDeckCache.GetFirstCard());
                     // ui Transfer
                 }
+
             }
             else
             {
@@ -271,21 +224,16 @@ namespace Battles.Deck
 
                  // ui Transfer
                 }
+
+
                 if (from == DeckEnum.PlayerDeck)
                     RefillDeck(from);
 
-
-
                 TransferCard(from, to, remainTransfer);
+
             }
-           
-
-
-
-
         }
-        private void DiscardCard(DeckEnum discardFrom, DeckEnum discardTo, CardSO card) { }
-        private void DiscardCard(DeckEnum discardFrom, DeckEnum discardTo, int amount) { }
+
         private void RefillDeck(DeckEnum deck)
         {
             switch (deck)
@@ -303,7 +251,8 @@ namespace Battles.Deck
                     GetDeckAbst(DeckEnum.Exhaust).ResetDeck();
                     break;
 
-                case DeckEnum.Placement:
+                case DeckEnum.Selected:
+                    GetDeckAbst(DeckEnum.Exhaust).ResetDeck();
                     break;
                 case DeckEnum.Hand:
                 default:
@@ -331,7 +280,7 @@ namespace Battles.Deck
             _decksDict.Add(DeckEnum.Exhaust, new Exhaust(_playerMaxHandSize));
             _decksDict.Add(DeckEnum.Disposal,new Disposal(GetSetDeck.Length , _decksDict[DeckEnum.PlayerDeck] as PlayerDeck));
             _decksDict.Add(DeckEnum.Hand, new PlayerHand(_playerStartingHandSize, _decksDict[DeckEnum.Disposal] as Disposal));
-            _decksDict.Add(DeckEnum.Placement, new Placements (_placementSize, _decksDict[DeckEnum.Disposal] as Disposal,_decksDict[DeckEnum.Hand] as PlayerHand ));
+            _decksDict.Add(DeckEnum.Selected, new Selected (_placementSize, _decksDict[DeckEnum.Disposal] as Disposal,_decksDict[DeckEnum.Hand] as PlayerHand ));
             }
 
             ResetDecks();

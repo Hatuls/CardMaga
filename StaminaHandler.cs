@@ -16,10 +16,6 @@ namespace Characters.Stats
         public static int MaxStamina => _maxStamina;
         #endregion
 
-        #region Private Methods
-
-        #endregion
-
 
         #region Public Methods
 
