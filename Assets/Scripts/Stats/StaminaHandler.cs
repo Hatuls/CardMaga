@@ -32,9 +32,9 @@ namespace Characters.Stats
          => _extraStamina = 0;
         public static void ReduceStamina(Card card)
         => _stamina -= card.GetSetCard.GetStaminaCost;
-        
+
         public static void AddStamina(int amount)
-            => _stamina += amount;   
+            => _stamina += amount;
         #endregion
     }
 }
