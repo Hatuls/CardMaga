@@ -100,7 +100,7 @@ namespace Relics
 
         private void CheckForRelics( ) 
         {
-           var placementCards = Battles.Deck.DeckManager.Instance.GetCardsFromDeck(Battles.Deck.DeckEnum.Placement);
+           var placementCards = Battles.Deck.DeckManager.Instance.GetCardsFromDeck(Battles.Deck.DeckEnum.Selected);
 
             if (placementCards == null)
                 return;

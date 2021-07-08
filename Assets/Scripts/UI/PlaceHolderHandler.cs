@@ -35,11 +35,11 @@ namespace Battles.UI
                 return;
             }
 
-            var cache = DeckManager.Instance.GetCardFromDeck(placeHolderSlotUI.GetSlotID, DeckEnum.Placement);
+            var cache = DeckManager.Instance.GetCardFromDeck(placeHolderSlotUI.GetSlotID, DeckEnum.Selected);
             if (cache == null)
                 return;
 
-            DeckManager.Instance.TransferCard(DeckEnum.Placement, DeckEnum.Hand, cache, placeHolderSlotUI.GetSlotID);
+            DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, cache, placeHolderSlotUI.GetSlotID);
             placeHolderSlotUI.ResetSlot(_artSO.UIColorPalette);
             CardUIManager.Instance.SetCardUI(CardUIManager.Instance.ActivateCard(cache, placeHolderSlotUI.RectTransform.anchoredPosition));
             CardUIManager.Instance.GetClickedCardUI.GetCanvasGroup.blocksRaycasts = false;
@@ -56,17 +56,17 @@ namespace Battles.UI
 
 
 
-            Cards.Card cardCache = DeckManager.Instance.GetCardFromDeck(interactedSlot.GetSlotID, DeckEnum.Placement);
+            Cards.Card cardCache = DeckManager.Instance.GetCardFromDeck(interactedSlot.GetSlotID, DeckEnum.Selected);
 
             if (cardCache == null&& !interactedSlot.IsHoldingCard && CardUIManager.Instance.GetClickedCardUI == null) 
                 return;
 
             if (interactedSlot.IsHoldingCard == false && CardUIManager.Instance.GetClickedCardUI != null) // place a card on top of placement
             {
-                DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Placement, CardUIManager.Instance.GetClickedCardUI.GetCardReference, interactedSlot.GetSlotID);
+                DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, CardUIManager.Instance.GetClickedCardUI.GetCardReference, interactedSlot.GetSlotID);
 
                 if (cardCache == null)
-                    cardCache = DeckManager.Instance.GetCardFromDeck(interactedSlot.GetSlotID, DeckEnum.Placement);
+                    cardCache = DeckManager.Instance.GetCardFromDeck(interactedSlot.GetSlotID, DeckEnum.Selected);
                 PlaceOnPlaceHolder(interactedSlot, cardCache);
 
             }
@@ -75,7 +75,7 @@ namespace Battles.UI
                 interactedSlot.InitCard(_artSO.UIColorPalette, CardUIManager.Instance.GetClickedCardUI.GetCardReference.GetSetCard.GetCardTypeEnum,
                     _artSO.DefaultSlotSO.GetBackground, _artSO.DefaultSlotSO.GetDecor, _artSO.IconCollection.GetSprite(CardUIManager.Instance.GetClickedCardUI.GetCardReference.GetSetCard.GetBodyPartEnum));
 
-                DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Placement, CardUIManager.Instance.GetClickedCardUI.GetCardReference, interactedSlot.GetSlotID);
+                DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, CardUIManager.Instance.GetClickedCardUI.GetCardReference, interactedSlot.GetSlotID);
                 CardUIManager.Instance.AssignDataToCardUI(ref CardUIManager.Instance.GetClickedCardUI, ref cardCache);
 
             }

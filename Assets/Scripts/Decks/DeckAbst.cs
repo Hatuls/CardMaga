@@ -282,7 +282,7 @@ namespace Battles.Deck
         Hand,
         Disposal,
         Exhaust,
-        Placement,
+        Selected,
     };
     public interface IDeckHandler {
       
