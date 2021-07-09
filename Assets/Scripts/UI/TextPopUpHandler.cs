@@ -50,7 +50,7 @@ namespace Battles.UI
                 }
 
 
-                Debug.LogError("TextPopUpHandler: couldnt active text pop up because all is used!");
+         //       Debug.LogError("TextPopUpHandler: couldnt active text pop up because all is used!");
             }
         }
 

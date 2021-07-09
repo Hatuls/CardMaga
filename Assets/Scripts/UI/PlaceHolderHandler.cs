@@ -34,6 +34,7 @@ namespace Battles.UI
         {
 
             ResetAllSlots();
+         
         }
         void ResetAllSlots()
         {
@@ -44,8 +45,11 @@ namespace Battles.UI
             }
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
+                _CraftingSlotsUIArr[i].SlotID = i + 1;
                 ResetPlaceHolderUI(i);
             }
+
+            LeanTween.alpha(_CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
         }
         public static void ResetPlaceHolderUI(int index)
         {
@@ -58,10 +62,16 @@ namespace Battles.UI
         }
         public static void ChangeSlotsPos()
         {
+            _instance._CraftingSlotsUIArr[0].Appear(_instance._leanTweenTime , _instance._artSO.UIColorPalette);
+
             for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
-            {
                 _instance._CraftingSlotsUIArr[i].MovePlaceHolderSlot(_instance.GetRectTransform(i), _instance._leanTweenTime);
-            }
+            
+            for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
+                _instance._CraftingSlotsUIArr[i].MoveDown(_instance._leanTweenTime);
+            
+            _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime, _instance._artSO.UIColorPalette);
+
         }
         public RectTransform GetRectTransform(int index)
         {

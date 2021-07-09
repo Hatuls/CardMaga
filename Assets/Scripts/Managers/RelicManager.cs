@@ -22,15 +22,6 @@ namespace Relics
         }
 
 
-
-
-
-
-
-
-
-
-
         public bool TryForge()
         {
             // get the crafting deck

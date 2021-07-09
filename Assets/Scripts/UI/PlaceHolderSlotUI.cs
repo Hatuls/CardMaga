@@ -13,21 +13,32 @@ public class PlaceHolderSlotUI : MonoBehaviour
     [SerializeField] Image _decorImage;
     [SerializeField] int _SlotID;
     [SerializeField] RectTransform _iconHolder;
-
-    [HideInInspector]
+    Vector3 slotPos;
+       [HideInInspector]
     [SerializeField] RectTransform _rectTransform;
     #endregion
     #region Properties
-    public int GetSlotID => _SlotID;
-    public RectTransform RectTransform => _rectTransform;
+    public int SlotID { get => _SlotID; set => _SlotID = value; }
+
+    public RectTransform RectTransform
+    {
+        get
+        {
+            if (_rectTransform == null)
+                _rectTransform = GetComponent<RectTransform>();
+            return _rectTransform;
+        }
+    }
     public RectTransform GetIconHolderRectTransform => _iconHolder;
 
     #endregion
     private void Start()
     {
-        Debug.Log($"{_decorImage}, {_iconImage}, {_backgroundImage},{GetSlotID }");
-        _rectTransform = GetComponent<RectTransform>();
+        Debug.Log($"{_decorImage}, {_iconImage}, {_backgroundImage},{SlotID }");
+        slotPos = GetIconHolderRectTransform.anchoredPosition3D;
     }
+
+   
     public void InitPlaceHolder( UIColorPaletteSO uiColorPalette,Cards.CardTypeEnum cardType,Sprite background,
         Sprite decor, Sprite icon)
     {
@@ -72,6 +83,10 @@ public class PlaceHolderSlotUI : MonoBehaviour
         color = palette.GetDefaultSlotColor;
         color.a = palette.GetFullOpacity;
         _decorImage.color = color;
+
+        color= palette.GetBackgroundColor;
+        color.a = palette.GetSlotsOpacity / 100;
+        _backgroundImage.color = color;
     }
     void SetColors(ref UIColorPaletteSO palette,Cards.CardTypeEnum cardType)
     {
@@ -81,7 +96,7 @@ public class PlaceHolderSlotUI : MonoBehaviour
             return;
         }
         var color = palette.GetBackgroundColor;
-        color.a = palette.GetSlotsOpacity/100;
+        color.a = palette.GetSlotsOpacity /100;
         _backgroundImage.color = color;
 
         var colorPalette = palette.GetCardColorType(cardType);
@@ -93,11 +108,45 @@ public class PlaceHolderSlotUI : MonoBehaviour
     }
     public void MovePlaceHolderSlot(RectTransform moveTo, float time)
     {
-        Vector3 slotPos = GetIconHolderRectTransform.anchoredPosition3D;
         GetIconHolderRectTransform.anchoredPosition3D = moveTo.anchoredPosition3D;
-        LeanTween.move(GetIconHolderRectTransform, slotPos, time);
-
     }
+    public void MoveDown(float time) =>  LeanTween.move(GetIconHolderRectTransform, slotPos, time);
+    public void Appear(float time ,  UIColorPaletteSO palette)
+    {
+        LeanTween.alpha(_iconImage.rectTransform, 0, 0.001f);
+        LeanTween.alpha(_decorImage.rectTransform, 0, 0.001f);
+        LeanTween.alpha(_backgroundImage.rectTransform, 0, 0.001f);
+
+
+        LeanTween.alpha(_iconImage.rectTransform, palette.GetFullOpacity / 100, time);
+        LeanTween.alpha(_decorImage.rectTransform, palette.GetFullOpacity / 100, time);
+        LeanTween.alpha(_backgroundImage.rectTransform, palette.GetSlotsOpacity / 100, time);
+
+       
+    }
+    public void Disapear(float time, UIColorPaletteSO palette)
+    {
+
+        LeanTween.alpha(_iconImage.rectTransform, palette.GetFullOpacity / 100, 0.001f);
+        LeanTween.alpha(_decorImage.rectTransform, palette.GetFullOpacity / 100, 0.001f);
+        LeanTween.alpha(_backgroundImage.rectTransform, palette.GetSlotsOpacity / 100, 0.001f);
+
+
+        LeanTween.alpha(_iconImage.rectTransform, 0, _iconImage.sprite != null ? time : 0.001f);
+
+        LeanTween.alpha(_decorImage.rectTransform, 0, time);
+        LeanTween.alpha(_backgroundImage.rectTransform, 0, time);
+    }
+
+
+    /*
+     *     [SerializeField] Image _iconImage;
+             [SerializeField] Image _backgroundImage;
+            [SerializeField] Image _decorImage;
+     * 
+     * 
+     * 
+     */
     //public void OnPointClick()
     //{
     //    _onClickEvent?.Raise(this);
