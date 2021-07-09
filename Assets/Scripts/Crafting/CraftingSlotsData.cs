@@ -22,6 +22,11 @@ public class CraftingSlotsData: Battles.Deck.DeckAbst
         }
         PlaceHolderHandler.ChangeSlotsPos();
     }
+    public override void ResetDeck()
+    {
+        base.ResetDeck();
+        PlaceHolderHandler.ResetAllSlots();
+    }
     void ResetPlaceHolderUI(int i)
     {
         PlaceHolderHandler.ResetPlaceHolderUI(i);

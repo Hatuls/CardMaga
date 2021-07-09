@@ -36,14 +36,14 @@ namespace Battles.UI
             ResetAllSlots();
          
         }
-        void ResetAllSlots()
+        public static void ResetAllSlots()
         {
-            if(_CraftingSlotsUIArr == null)
+            if(_instance._CraftingSlotsUIArr == null)
             {
                 Debug.LogError("Error in ResetAllSlots");
                 return;
             }
-            for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
+            for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
             {
                 _CraftingSlotsUIArr[i].SlotID = i + 1;
                 ResetPlaceHolderUI(i);

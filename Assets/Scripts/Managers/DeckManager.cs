@@ -55,6 +55,7 @@ namespace Battles.Deck
                 return copyArray;
             }
         }
+        public static CraftingSlotsData GetCraftingSlots => (CraftingSlotsData)Instance.GetDeckAbst(DeckEnum.CraftingSlots);
         #endregion
 
         #region Functions
@@ -175,7 +176,7 @@ namespace Battles.Deck
         }
 
 
-        public static Card[] GetCraftingSlots => Instance.GetDeckAbst(DeckEnum.CraftingSlots).GetDeck;
+        
         public static void AddToCraftingSlot(Card card) 
             => Instance.GetDeckAbst(DeckEnum.CraftingSlots).AddCard(card);
         #endregion
