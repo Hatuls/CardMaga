@@ -174,6 +174,8 @@ namespace Battles.Deck
             GetDeckAbst(DeckEnum.Hand).ResetDeck();
         }
 
+
+        public static Card[] GetCraftingSlots => Instance.GetDeckAbst(DeckEnum.CraftingSlots).GetDeck;
         public static void AddToCraftingSlot(Card card) 
             => Instance.GetDeckAbst(DeckEnum.CraftingSlots).AddCard(card);
         #endregion
