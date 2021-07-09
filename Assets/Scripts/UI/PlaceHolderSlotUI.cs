@@ -108,7 +108,7 @@ public class PlaceHolderSlotUI : MonoBehaviour
     }
     public void MovePlaceHolderSlot(RectTransform moveTo, float offset)
     {
-        GetIconHolderRectTransform.anchoredPosition3D = moveTo.anchoredPosition3D-Vector3.one * offset;
+        GetIconHolderRectTransform.anchoredPosition3D = moveTo.anchoredPosition3D-Vector3.down * offset;
     }
     public void MoveDown(float time) =>  LeanTween.move(GetIconHolderRectTransform, slotPos, time);
     public void Appear(float time ,  UIColorPaletteSO palette)
@@ -132,10 +132,10 @@ public class PlaceHolderSlotUI : MonoBehaviour
         LeanTween.alpha(_backgroundImage.rectTransform, palette.GetSlotsOpacity / 100, 0.001f);
 
 
-        LeanTween.alpha(_iconImage.rectTransform, 0, _iconImage.sprite != null ? time : 0.001f);
 
         LeanTween.alpha(_decorImage.rectTransform, 0, time);
         LeanTween.alpha(_backgroundImage.rectTransform, 0, time);
+        LeanTween.alpha(_iconImage.rectTransform, 0, _iconImage.sprite != null ? time : 0.001f);
     }
 
 

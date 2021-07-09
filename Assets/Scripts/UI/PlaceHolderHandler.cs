@@ -17,6 +17,7 @@ namespace Battles.UI
         [SerializeField] PlaceHolderSlotUI[] _CraftingSlotsUIArr;
         [SerializeField] RectTransform _firstSlotTransform;
         [SerializeField] float _leanTweenTime;
+
         [SerializeField] float _offsetPos =1 ;
       static  PlaceHolderHandler _instance;
         #endregion
