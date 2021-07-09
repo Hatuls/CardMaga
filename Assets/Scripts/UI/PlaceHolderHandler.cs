@@ -17,7 +17,7 @@ namespace Battles.UI
         [SerializeField] PlaceHolderSlotUI[] _CraftingSlotsUIArr;
         [SerializeField] RectTransform _firstSlotTransform;
         [SerializeField] float _leanTweenTime;
-
+        [SerializeField] float _offsetPos =1 ;
       static  PlaceHolderHandler _instance;
         #endregion
         #region Events
@@ -65,11 +65,10 @@ namespace Battles.UI
             _instance._CraftingSlotsUIArr[0].Appear(_instance._leanTweenTime , _instance._artSO.UIColorPalette);
 
             for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
-                _instance._CraftingSlotsUIArr[i].MovePlaceHolderSlot(_instance.GetRectTransform(i), _instance._leanTweenTime);
-            
-            for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
+            {
+                _instance._CraftingSlotsUIArr[i].MovePlaceHolderSlot(_instance.GetRectTransform(i), _instance._CraftingSlotsUIArr.Length - 1 == i? 0: _instance._offsetPos);
                 _instance._CraftingSlotsUIArr[i].MoveDown(_instance._leanTweenTime);
-            
+            }
             _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime, _instance._artSO.UIColorPalette);
 
         }

@@ -106,9 +106,9 @@ public class PlaceHolderSlotUI : MonoBehaviour
 
         _decorImage.color = color;
     }
-    public void MovePlaceHolderSlot(RectTransform moveTo, float time)
+    public void MovePlaceHolderSlot(RectTransform moveTo, float offset)
     {
-        GetIconHolderRectTransform.anchoredPosition3D = moveTo.anchoredPosition3D;
+        GetIconHolderRectTransform.anchoredPosition3D = moveTo.anchoredPosition3D-Vector3.one * offset;
     }
     public void MoveDown(float time) =>  LeanTween.move(GetIconHolderRectTransform, slotPos, time);
     public void Appear(float time ,  UIColorPaletteSO palette)
