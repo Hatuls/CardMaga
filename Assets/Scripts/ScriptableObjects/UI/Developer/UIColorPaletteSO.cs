@@ -70,22 +70,3 @@ public class ColorUI
     public Color GetTopColor => _topColor;
     #endregion
 }
-[CreateAssetMenu(fileName = "Crafting_Icon_Paletta", menuName = "ScriptableObjects/Art/UI/Crafting Icon")]
-public class CraftingIconPaletteSO : ScriptableObject
-{
-
-    #region Fields
-    [SerializeField]
-    Color _backgroundColor;
-    [SerializeField]
-    Color _defaultSlotColor;
-    #endregion
-
-    #region Properties
-
-    #endregion
-
-    #region Functions
-    #endregion
-
-}
