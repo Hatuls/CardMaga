@@ -11,14 +11,14 @@ namespace Relics
     public class RelicManager : MonoSingleton<RelicManager>
     {
         #region Fields
-        RelicCollectionSO _playerRelics;
+        RelicCollectionSO playerKnownRecipe;
         #endregion
 
 
 
         public override void Init()
         {
-          
+            playerKnownRecipe = Resources.Load<RelicCollectionSO>("ComboRecipe/PlayerRecipe");
         }
 
 
