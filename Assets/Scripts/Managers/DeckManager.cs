@@ -21,6 +21,7 @@ namespace Battles.Deck
         [SerializeField] int _playerMaxHandSize;
         [SerializeField] int _playerStartingHandSize;
        public const int _placementSize = 1;
+        public const int _craftingSlotsSize = 6;
         #endregion
         #endregion
         #region Properties
@@ -160,6 +161,8 @@ namespace Battles.Deck
                     return DeckEnum.Exhaust;
                 case 4:
                     return DeckEnum.Selected;
+                case 5:
+                    return DeckEnum.CraftingSlots;
             }
 
             return 0;
@@ -254,6 +257,9 @@ namespace Battles.Deck
                 case DeckEnum.Selected:
                     GetDeckAbst(DeckEnum.Exhaust).ResetDeck();
                     break;
+                case DeckEnum.CraftingSlots:
+                    GetDeckAbst(DeckEnum.CraftingSlots).ResetDeck();
+                    break;
                 case DeckEnum.Hand:
                 default:
                     break;
@@ -281,6 +287,7 @@ namespace Battles.Deck
             _decksDict.Add(DeckEnum.Disposal,new Disposal(GetSetDeck.Length , _decksDict[DeckEnum.PlayerDeck] as PlayerDeck));
             _decksDict.Add(DeckEnum.Hand, new PlayerHand(_playerStartingHandSize, _decksDict[DeckEnum.Disposal] as Disposal));
             _decksDict.Add(DeckEnum.Selected, new Selected (_placementSize, _decksDict[DeckEnum.Disposal] as Disposal,_decksDict[DeckEnum.Hand] as PlayerHand ));
+            _decksDict.Add(DeckEnum.CraftingSlots, new CraftingSlotsData(new Card[_craftingSlotsSize]));
 
             }
 

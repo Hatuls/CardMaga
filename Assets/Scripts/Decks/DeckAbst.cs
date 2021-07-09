@@ -26,7 +26,7 @@ namespace Battles.Deck
         }
         #endregion
 
-        #region Punlic Functions
+        #region Public Functions
         public DeckAbst(Card[] deckCards)
         {
             if (_deckCards != null)
@@ -283,6 +283,7 @@ namespace Battles.Deck
         Disposal,
         Exhaust,
         Selected,
+        CraftingSlots,
     };
     public interface IDeckHandler {
       

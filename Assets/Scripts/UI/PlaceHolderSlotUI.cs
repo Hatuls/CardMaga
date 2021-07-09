@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 public class PlaceHolderSlotUI : MonoBehaviour
 {
+    //icon moves to new icon position
     #region Events
     [SerializeField] Unity.Events.PlaceHolderSlotUIEvent _setCardUI;
     #endregion
