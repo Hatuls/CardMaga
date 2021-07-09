@@ -21,7 +21,7 @@ namespace Battles.Deck
         [SerializeField] int _playerMaxHandSize;
         [SerializeField] int _playerStartingHandSize;
        public const int _placementSize = 1;
-        public const int _craftingSlotsSize = 6;
+        public const int _craftingSlotsSize = 5;
         #endregion
         #endregion
         #region Properties

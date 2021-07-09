@@ -26,7 +26,7 @@ public class PlaceHolderSlotUI : MonoBehaviour
         Debug.Log($"{_decorImage}, {_iconImage}, {_backgroundImage},{GetSlotID }");
         _rectTransform = GetComponent<RectTransform>();
     }
-    public void InitCraftSlot( UIColorPaletteSO uiColorPalette,Cards.CardTypeEnum cardType,Sprite background,
+    public void InitPlaceHolder( UIColorPaletteSO uiColorPalette,Cards.CardTypeEnum cardType,Sprite background,
         Sprite decor, Sprite icon)
     {
         SetDecorImage(decor);
@@ -55,7 +55,7 @@ public class PlaceHolderSlotUI : MonoBehaviour
             _iconImage.sprite = img;
         }
     }
-    public void ResetSlot( UIColorPaletteSO palette)
+    public void ResetSlotUI( UIColorPaletteSO palette)
     {
         if(palette == null)
         {
@@ -88,6 +88,12 @@ public class PlaceHolderSlotUI : MonoBehaviour
         _iconImage.color = color;
 
         _decorImage.color = color;
+    }
+    public void MovePlaceHolderSlot(RectTransform moveTo, float time)
+    {
+        Vector3 slotPos = RectTransform.anchoredPosition3D;
+        RectTransform.position = moveTo.anchoredPosition3D;
+        LeanTween.move(RectTransform, slotPos, time);
     }
     //public void OnPointClick()
     //{
