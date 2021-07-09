@@ -34,16 +34,16 @@ namespace Relics
         public bool TryForge()
         {
             // get the crafting deck
-     //       DeckManager.GetCraftingSlots;
+            //       DeckManager.GetCraftingSlots;
 
-           /*
-            * run on the possiblities from low to high
-            * 
-            * return true if found option
-            * 
-           * return false if nothign found 
-            */
-
+            /*
+             * run on the possiblities from low to high
+             * 
+             * return true if found option
+             * 
+            * return false if nothign found 
+             */
+            return true;
         }
 
     }
