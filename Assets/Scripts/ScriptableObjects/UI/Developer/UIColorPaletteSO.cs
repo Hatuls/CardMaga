@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-[CreateAssetMenu(fileName = "UIColorPalette",menuName = "ScriptableObjects/UI/UIColorPalette")]
+[CreateAssetMenu(fileName = "UIColorPalette", menuName = "ScriptableObjects/Art/UI/UIColorPalette")]
 public class UIColorPaletteSO : ScriptableObject
 {
     #region Fields
