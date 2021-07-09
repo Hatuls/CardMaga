@@ -20,13 +20,13 @@ public class PlaceHolderSlotUI : MonoBehaviour
     #region Properties
     public int SlotID { get => _SlotID; set => _SlotID = value; }
 
-    public RectTransform RectTransform
+    public ref RectTransform RectTransform
     {
         get
         {
             if (_rectTransform == null)
                 _rectTransform = GetComponent<RectTransform>();
-            return _rectTransform;
+            return ref _rectTransform;
         }
     }
     public RectTransform GetIconHolderRectTransform => _iconHolder;
@@ -106,9 +106,14 @@ public class PlaceHolderSlotUI : MonoBehaviour
 
         _decorImage.color = color;
     }
-    public void MovePlaceHolderSlot(RectTransform moveTo, float offset)
+    public void MovePlaceHolderSlot(ref RectTransform moveTo, float offset)
     {
-        GetIconHolderRectTransform.anchoredPosition3D = moveTo.anchoredPosition3D-Vector3.down * offset;
+        Vector3 v3 = moveTo.rect.center;
+        v3.y += moveTo.rect.height;
+        //v3.y = moveTo.anchoredPosition3D.y;
+        //v3.x = 0;
+        //v3.z = 0;
+        GetIconHolderRectTransform.anchoredPosition3D = v3;
     }
     public void MoveDown(float time) =>  LeanTween.move(GetIconHolderRectTransform, slotPos, time);
     public void Appear(float time ,  UIColorPaletteSO palette)
