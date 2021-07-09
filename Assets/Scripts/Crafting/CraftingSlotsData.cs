@@ -11,30 +11,34 @@ public class CraftingSlotsData: Battles.Deck.DeckAbst
     #endregion
     public CraftingSlotsData(Card[] cards):base(cards)
     {
-
     }
     public override void AddCard(Card card)
     {
         for (int i = GetDeck.Length - 1; i >= 0; i--)
         {
-            if (i == GetDeck.Length - 1)
+            if (i != 0)
             {
-                DiscardCard(GetDeck[i]);
-            }
-            else if (i > 0)
-            {
-                MoveToNextSlot(i);
+                GetDeck[i] = GetDeck[i - 1];
             }
             else
             {
-                MoveToNextSlot(i);
-                GetDeck[0] = card;
+                GetDeck[i] = card;
             }
+            _placeHolderHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
         }
+        _placeHolderHandler.ChangeSlotsPos();
     }
-    void MoveToNextSlot(int i)
+    void ResetPlaceHolderUI(int i)
     {
-        GetDeck[i + 1] = GetDeck[i];
-        //_placeHolderHandler
+        _placeHolderHandler.ResetPlaceHolderUI(i);
     }
+
+    //when getting a card I move all other cards first
+    //if card is on the 5th index I turn his UI off and reset the slot
+    //if a card in on the second to the 4th slot I move him by 1 with leen tween and his data
+
+    //assign his data to the first slot
+    //turn on his UI on the first slot
+    //than move him to the next slot and data
+    //clear the first slot
 }
