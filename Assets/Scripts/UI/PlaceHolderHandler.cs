@@ -45,11 +45,11 @@ namespace Battles.UI
             }
             for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
             {
-                _CraftingSlotsUIArr[i].SlotID = i + 1;
+                _instance._CraftingSlotsUIArr[i].SlotID = i + 1;
                 ResetPlaceHolderUI(i);
             }
 
-            LeanTween.alpha(_CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
+            LeanTween.alpha(_instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
         }
         public static void ResetPlaceHolderUI(int index)
         {

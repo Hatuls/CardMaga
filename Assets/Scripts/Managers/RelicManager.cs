@@ -34,7 +34,7 @@ namespace Relics
             {
                 if (DeckManager.GetCraftingSlots.GetAmountOfFilledSlots <= 1)
                 {
-                    playSound?.Raise();
+                    //playSound?.Raise();
                     //reject request for forging
                     return;
                 }
