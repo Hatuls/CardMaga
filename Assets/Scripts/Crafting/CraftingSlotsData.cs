@@ -3,13 +3,8 @@ using Cards;
 
 public class CraftingSlotsData: Battles.Deck.DeckAbst
 {
-    #region Fields
-    static PlaceHolderHandler _placeHolderHandler;
-    #endregion
-    #region Properties
-    public static PlaceHolderHandler SetPlaceHolderHandler { set => _placeHolderHandler = value; }
-    #endregion
-    public CraftingSlotsData(Card[] cards):base(cards)
+
+    public CraftingSlotsData(int cardsLength):base(cardsLength)
     {
     }
     public override void AddCard(Card card)
@@ -24,13 +19,13 @@ public class CraftingSlotsData: Battles.Deck.DeckAbst
             {
                 GetDeck[i] = card;
             }
-            _placeHolderHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
+            PlaceHolderHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
         }
-        _placeHolderHandler.ChangeSlotsPos();
+        PlaceHolderHandler.ChangeSlotsPos();
     }
     void ResetPlaceHolderUI(int i)
     {
-        _placeHolderHandler.ResetPlaceHolderUI(i);
+        PlaceHolderHandler.ResetPlaceHolderUI(i);
     }
 
     //when getting a card I move all other cards first

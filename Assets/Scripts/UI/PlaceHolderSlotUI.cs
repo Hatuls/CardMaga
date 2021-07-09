@@ -92,8 +92,9 @@ public class PlaceHolderSlotUI : MonoBehaviour
     public void MovePlaceHolderSlot(RectTransform moveTo, float time)
     {
         Vector3 slotPos = RectTransform.anchoredPosition3D;
-        RectTransform.position = moveTo.anchoredPosition3D;
+        RectTransform.anchoredPosition3D = moveTo.anchoredPosition3D;
         LeanTween.move(RectTransform, slotPos, time);
+
     }
     //public void OnPointClick()
     //{

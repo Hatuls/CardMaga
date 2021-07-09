@@ -17,6 +17,8 @@ namespace Battles.UI
         [SerializeField] PlaceHolderSlotUI[] _CraftingSlotsUIArr;
         [SerializeField] RectTransform _firstSlotTransform;
         [SerializeField] float _leanTweenTime;
+
+      static  PlaceHolderHandler _instance;
         #endregion
         #region Events
         #endregion
@@ -24,9 +26,13 @@ namespace Battles.UI
         #region Properties
         public PlaceHolderSlotUI[] GetCraftingSlotsUIArr => _CraftingSlotsUIArr;
         #endregion
+        private void Awake()
+        {
+            _instance = this;
+        }
         private void Start()
         {
-            CraftingSlotsData.SetPlaceHolderHandler = this;
+
             ResetAllSlots();
         }
         void ResetAllSlots()
@@ -41,20 +47,20 @@ namespace Battles.UI
                 ResetPlaceHolderUI(i);
             }
         }
-        public void ResetPlaceHolderUI(int index)
+        public static void ResetPlaceHolderUI(int index)
         {
-            if (_artSO.UIColorPalette == null)
+            if (_instance._artSO.UIColorPalette == null)
             {
                 Debug.LogError("Error in ResetCraftingSlot");
                 return;
             }
-            _CraftingSlotsUIArr[index].ResetSlotUI(_artSO.UIColorPalette);
+            _instance._CraftingSlotsUIArr[index].ResetSlotUI(_instance._artSO.UIColorPalette);
         }
-        public void ChangeSlotsPos()
+        public static void ChangeSlotsPos()
         {
-            for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
+            for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
             {
-                _CraftingSlotsUIArr[i].MovePlaceHolderSlot(GetRectTransform(i),_leanTweenTime);
+                _instance._CraftingSlotsUIArr[i].MovePlaceHolderSlot(_instance.GetRectTransform(i), _instance._leanTweenTime);
             }
         }
         public RectTransform GetRectTransform(int index)
@@ -68,10 +74,15 @@ namespace Battles.UI
                 return _CraftingSlotsUIArr[index -1].RectTransform;
             }
         }
-        public void PlaceOnPlaceHolder(int index, Cards.Card cardCache)
+        public  static void PlaceOnPlaceHolder(int index, Cards.Card cardCache)
         {
-            _CraftingSlotsUIArr[index].InitPlaceHolder(_artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
-                 _artSO.DefaultSlotSO.GetBackground, _artSO.DefaultSlotSO.GetDecor,_artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
+            if (cardCache == null )
+            {
+                ResetPlaceHolderUI(index);
+                return;
+            }
+            _instance._CraftingSlotsUIArr[index].InitPlaceHolder(_instance._artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
+               _instance._artSO.DefaultSlotSO.GetBackground, _instance._artSO.DefaultSlotSO.GetDecor, _instance._artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
         }
         //public void PlaceOnPlaceHolder(PlaceHolderSlotUI interactedSlot, Cards.Card cardCache)
         //{

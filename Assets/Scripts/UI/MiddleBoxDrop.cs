@@ -27,7 +27,7 @@ namespace Battles.UI
                 {
                     // execute card
                     DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Disposal, card);
-                   
+                    DeckManager.AddToCraftingSlot(card);
                     CardExecutionManager.Instance.RegisterCard(card);
                     StaminaHandler.ReduceStamina(card);
                 }

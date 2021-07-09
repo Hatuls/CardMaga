@@ -173,8 +173,9 @@ namespace Battles.Deck
             GetDeckAbst(DeckEnum.Selected).ResetDeck();
             GetDeckAbst(DeckEnum.Hand).ResetDeck();
         }
-  
 
+        public static void AddToCraftingSlot(Card card) 
+            => Instance.GetDeckAbst(DeckEnum.CraftingSlots).AddCard(card);
         #endregion
 
         #region Private Functions   
@@ -287,7 +288,7 @@ namespace Battles.Deck
             _decksDict.Add(DeckEnum.Disposal,new Disposal(GetSetDeck.Length , _decksDict[DeckEnum.PlayerDeck] as PlayerDeck));
             _decksDict.Add(DeckEnum.Hand, new PlayerHand(_playerStartingHandSize, _decksDict[DeckEnum.Disposal] as Disposal));
             _decksDict.Add(DeckEnum.Selected, new Selected (_placementSize, _decksDict[DeckEnum.Disposal] as Disposal,_decksDict[DeckEnum.Hand] as PlayerHand ));
-            _decksDict.Add(DeckEnum.CraftingSlots, new CraftingSlotsData(new Card[_craftingSlotsSize]));
+            _decksDict.Add(DeckEnum.CraftingSlots, new CraftingSlotsData(_craftingSlotsSize));
 
             }
 
