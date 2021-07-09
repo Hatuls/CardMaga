@@ -18,8 +18,8 @@ namespace Relics
         #region Fields
         //[HorizontalGroup("Basic Info", 100)]
         //[Space(60)]
-
-        [TitleGroup("Recipe")]
+       
+        [TitleGroup("Recipe","", TitleAlignments.Centered,boldTitle: true)]
         [TabGroup("Recipe/General Info","Picture")]
 
         [PreviewField(100,ObjectFieldAlignment.Center)]
@@ -74,8 +74,8 @@ namespace Relics
         public int Cost => _cost;
         public RelicNameEnum GetRelicName => _relicName;
         public string GetDescription => _description;
+        public Cards.CardSO GetCraftedCard => _craftedCard;
 
-  
         #endregion
 
     }

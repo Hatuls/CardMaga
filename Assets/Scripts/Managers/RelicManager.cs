@@ -25,9 +25,15 @@ namespace Relics
         }
         void CreateCard()
         {
+
+            Debug.Log(_cardRecipeDetected);
+            Debug.Log(_cardRecipeDetected?.GetCombo.Length);
+            Debug.Log(_cardRecipeDetected?.GetRelicName);
+
             if(_cardRecipeDetected != null)
             {
-                //Managers.CardManager.CreateCard(true,_cardRecipeDetected)
+                Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.GetCraftedCard.GetCardName);
+                DeckManager.Instance.AddCardToDeck(crafted, DeckEnum.Hand);
                 //create card
             }
             else
@@ -58,8 +64,10 @@ namespace Relics
         void DetectRecipe()
         {
             var craftingSlots = DeckManager.GetCraftingSlots.GetDeck;
+            System.Array.Reverse(craftingSlots);
+
             List<BodyPartEnum> craftingItems = new List<BodyPartEnum>();
-            for (int i = 0; i < craftingItems.Count; i++)
+            for (int i = 0; i < craftingSlots.Length; i++)
             {
                 if(craftingSlots[i] != null)
                 {

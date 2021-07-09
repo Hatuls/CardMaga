@@ -80,6 +80,7 @@ namespace Battles.Deck
 
                 return cache.GetDeck;
         }
+
         public Card GetCardFromDeck(int index, DeckEnum from) {
 
             var cache = GetDeckAbst(from);
@@ -91,7 +92,14 @@ namespace Battles.Deck
 
             return null;
         }
-        
+        public void AddCardToDeck(Card addedCard, DeckEnum toDeck)
+        {
+            if (addedCard == null || toDeck == DeckEnum.Selected)
+                return;
+
+            GetDeckAbst(toDeck).AddCard(addedCard);
+            CardUIManager.Instance.DrawCards(addedCard, DeckEnum.PlayerDeck, 1);
+        }
         public void DrawHand(int drawAmount)
         {
             /*
