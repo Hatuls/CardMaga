@@ -67,22 +67,22 @@ namespace Battles.UI
 
             for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
             {
-                _instance._CraftingSlotsUIArr[i].MovePlaceHolderSlot(_instance.GetRectTransform(i), _instance._CraftingSlotsUIArr.Length - 1 == i? 0: _instance._offsetPos);
+                _instance._CraftingSlotsUIArr[i].MovePlaceHolderSlot(ref _instance.GetRectTransform(i), _instance._CraftingSlotsUIArr.Length - 1 == i? 0: _instance._offsetPos);
                 _instance._CraftingSlotsUIArr[i].MoveDown(_instance._leanTweenTime);
             }
             _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime, _instance._artSO.UIColorPalette);
 
         }
-        public RectTransform GetRectTransform(int index)
+        public ref RectTransform GetRectTransform(int index)
         {
             if(index == 0)
             {
-                return _firstSlotTransform;
+                return ref _firstSlotTransform;
             }
             else
             {
 
-                return _CraftingSlotsUIArr[index -1].GetIconHolderRectTransform;
+                return ref _CraftingSlotsUIArr[index -1].RectTransform;
             }
         }
         public  static void PlaceOnPlaceHolder(int index, Cards.Card cardCache)
