@@ -35,12 +35,14 @@ namespace Relics
                 Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.GetCraftedCard.GetCardName);
                 DeckManager.Instance.AddCardToDeck(crafted, DeckEnum.Hand);
                 //create card
+                  playSound?.Raise( SoundsNameEnum.SuccessfullForge);
             }
             else
             {
                 if (DeckManager.GetCraftingSlots.GetAmountOfFilledSlots <= 1)
                 {
-                    //playSound?.Raise();
+             
+                   playSound?.Raise( SoundsNameEnum.Reject);
                     //reject request for forging
                     return;
                 }
