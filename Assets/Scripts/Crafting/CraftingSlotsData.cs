@@ -3,7 +3,6 @@ using Cards;
 
 public class CraftingSlotsData: Battles.Deck.DeckAbst
 {
-
     public CraftingSlotsData(int cardsLength):base(cardsLength)
     {
     }

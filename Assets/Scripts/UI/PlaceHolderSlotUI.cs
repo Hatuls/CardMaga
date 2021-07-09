@@ -12,6 +12,7 @@ public class PlaceHolderSlotUI : MonoBehaviour
     [SerializeField] Image _backgroundImage;
     [SerializeField] Image _decorImage;
     [SerializeField] int _SlotID;
+    [SerializeField] RectTransform _iconHolder;
 
     [HideInInspector]
     [SerializeField] RectTransform _rectTransform;
@@ -19,6 +20,7 @@ public class PlaceHolderSlotUI : MonoBehaviour
     #region Properties
     public int GetSlotID => _SlotID;
     public RectTransform RectTransform => _rectTransform;
+    public RectTransform GetIconHolderRectTransform => _iconHolder;
 
     #endregion
     private void Start()
@@ -91,9 +93,9 @@ public class PlaceHolderSlotUI : MonoBehaviour
     }
     public void MovePlaceHolderSlot(RectTransform moveTo, float time)
     {
-        Vector3 slotPos = RectTransform.anchoredPosition3D;
-        RectTransform.anchoredPosition3D = moveTo.anchoredPosition3D;
-        LeanTween.move(RectTransform, slotPos, time);
+        Vector3 slotPos = GetIconHolderRectTransform.anchoredPosition3D;
+        GetIconHolderRectTransform.anchoredPosition3D = moveTo.anchoredPosition3D;
+        LeanTween.move(GetIconHolderRectTransform, slotPos, time);
 
     }
     //public void OnPointClick()

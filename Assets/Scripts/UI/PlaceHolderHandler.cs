@@ -71,7 +71,8 @@ namespace Battles.UI
             }
             else
             {
-                return _CraftingSlotsUIArr[index -1].RectTransform;
+
+                return _CraftingSlotsUIArr[index -1].GetIconHolderRectTransform;
             }
         }
         public  static void PlaceOnPlaceHolder(int index, Cards.Card cardCache)
