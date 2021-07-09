@@ -46,6 +46,8 @@ public enum SoundsNameEnum
     ButtonTapped = 23,
     EndTurn = 24,
     VS = 25,
-    WomanBleeding = 26
+    WomanBleeding = 26,
+    Reject = 27,
+    SuccessfullForge = 28,
 
 }
