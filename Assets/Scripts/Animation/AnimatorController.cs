@@ -46,9 +46,9 @@ public class AnimatorController : MonoBehaviour
 
     public void ResetAnimator()
     {
- 
+        isFirst = true;
 
-            startPos = new Vector3( transform.position.x, transform.position.y, transform.position.z);
+                   startPos = new Vector3( transform.position.x, transform.position.y, transform.position.z);
         _isAnimationPlaying = false;
         _playerAnimator.SetBool("IsDead", false);
         _playerAnimator.SetBool("IsWon", false);
@@ -143,8 +143,12 @@ public class AnimatorController : MonoBehaviour
          _animationQueue.Enqueue(animation);
             
         IsMyTurn = true;
-        isFirst = true;
-      
+  
+        if (_animationQueue.Count ==1 && isFirst)
+        {
+        TranstionToNextAnimation();
+       
+        }
     }
     private void ReturnToIdle() => _playerAnimator.CrossFade("Idle", transitionToIdle);
 
@@ -165,8 +169,9 @@ public class AnimatorController : MonoBehaviour
         {
             ReturnToIdle();
             ResetBothRotaionAndPosition();
+            isFirst = true;
             _onFinishedAnimation?.Raise();
-            IsMyTurn = false;
+            
             return;
         }
         if (isFirst == true)

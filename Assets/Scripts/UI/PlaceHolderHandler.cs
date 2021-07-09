@@ -81,7 +81,7 @@ namespace Battles.UI
             //}
 
         }
-
+   
         public void PlaceOnPlaceHolder(PlaceHolderSlotUI interactedSlot, Cards.Card cardCache)
         {
             interactedSlot.InitCraftSlot(_artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,

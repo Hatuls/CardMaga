@@ -16,10 +16,12 @@ namespace Battles.UI
             {
                 Cards.Card card = CardUIManager.Instance.GetClickedCardUI.GetCardReference;
 
+
                 if (StaminaHandler.IsEnoughStamina(card) == false)
                 {
                     // not enough stamina 
                     DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, card);
+                    CardUIManager.Instance.TryRemoveFromHandUI(CardUIManager.Instance.GetClickedCardUI);
                  }
                 else
                 {
@@ -31,7 +33,7 @@ namespace Battles.UI
 
 
                 // reset the holding card
-                    CardUIManager.Instance.GetClickedCardUI= null;
+                CardUIManager.Instance.RemoveSelectedCardUI();
             }
             
         }

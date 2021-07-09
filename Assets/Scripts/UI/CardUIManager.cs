@@ -226,6 +226,7 @@ namespace Battles.UI
             }
             //  Debug.Log("Card Was Set");
             InputManager.Instance.AssignObjectFromTouch(this);
+            DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.GetCardReference);
             SetClickedCardUI = cardUI;
             _soundEvent?.Raise(SoundsNameEnum.SelectCard);
         }
@@ -258,7 +259,16 @@ namespace Battles.UI
             _soundEvent?.Raise(SoundsNameEnum.TapCard);
         }
 
+        public void RemoveSelectedCardUI()
+        {
+            if (GetClickedCardUI != null)
+            { 
+                GetClickedCardUI.SetActive(false);
+                GetClickedCardUI = null;
+                InputManager.Instance.RemoveObjectFromTouch();
 
+            }
+        }
         #endregion
 
         #region Touching Cards

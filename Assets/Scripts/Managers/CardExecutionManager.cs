@@ -112,7 +112,7 @@ namespace Battles
 
             if (_currentCard != null)
             {
-                _animatorController.PlayAnimation(_currentCard.GetSetCard.GetCardName);
+                _animatorController.SetAnimationQueue(_currentCard.GetSetCard.GetCardName.ToString()) ;
             }
 
         }
