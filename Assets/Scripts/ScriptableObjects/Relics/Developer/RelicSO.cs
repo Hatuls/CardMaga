@@ -16,9 +16,7 @@ namespace Relics
     {
 
         #region Fields
-        //[HorizontalGroup("Basic Info", 100)]
-        //[Space(60)]
-       
+  
         [TitleGroup("Recipe","", TitleAlignments.Centered,boldTitle: true)]
         [TabGroup("Recipe/General Info","Picture")]
 
@@ -43,8 +41,6 @@ namespace Relics
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(100)]
         [SerializeField] int _cost;
-
-
 
 
         [TabGroup("Recipe/General Info", "Data")]

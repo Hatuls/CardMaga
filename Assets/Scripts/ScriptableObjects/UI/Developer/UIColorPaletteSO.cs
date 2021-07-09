@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-[CreateAssetMenu(fileName = "UIColorPalette",menuName = "ScriptableObjects/UI/UIColorPalette")]
+[CreateAssetMenu(fileName = "UIColorPalette", menuName = "ScriptableObjects/Art/UI/UIColorPalette")]
 public class UIColorPaletteSO : ScriptableObject
 {
     #region Fields
@@ -69,4 +69,23 @@ public class ColorUI
     public Color GetMiddleColor => _middleColor;
     public Color GetTopColor => _topColor;
     #endregion
+}
+[CreateAssetMenu(fileName = "Crafting_Icon_Paletta", menuName = "ScriptableObjects/Art/UI/Crafting Icon")]
+public class CraftingIconPaletteSO : ScriptableObject
+{
+
+    #region Fields
+    [SerializeField]
+    Color _backgroundColor;
+    [SerializeField]
+    Color _defaultSlotColor;
+    #endregion
+
+    #region Properties
+
+    #endregion
+
+    #region Functions
+    #endregion
+
 }
