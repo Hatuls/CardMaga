@@ -165,7 +165,8 @@ public class VFXController : MonoBehaviour
             default:
                 break;
         }
-        _hittingAttackPS.transform.position = Vector3.zero;
+        _hittingAttackPS.transform.localPosition = Vector3.zero;
+      //  _hittingAttackPS.transform.position = Vector3.zero;
         _hittingAttackPS.Play(true);
         _hittingAttackPS.transform.SetParent(null);
         RecieveHit();

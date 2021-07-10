@@ -53,7 +53,7 @@ namespace Relics
         [Header("Combo:")]
         [Tooltip("The Order will define the accomplishment of the combo")]
         [LabelWidth(20)]
-        [SerializeField] Cards.BodyPartEnum[] _bodyPart;
+        [SerializeField] Cards.CardType[] data;
 
       
         [Space(100)]
@@ -64,7 +64,7 @@ namespace Relics
         #endregion
 
         #region Properties
-        public Cards.BodyPartEnum[] GetCombo => _bodyPart;
+        public Cards.CardType[] GetCombo => data;
         public Cards.RarityEnum GetRarityEnum => _rarityLevel;
         public Sprite GetIcon => _icon;
         public int Cost => _cost;
