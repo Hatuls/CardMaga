@@ -93,7 +93,8 @@ namespace Battles.Deck
 
             if (ExpandingDeckPolicy())
             {
-                _deckCards[GetIndexOfFirstNull()] = card;
+                int index = GetIndexOfFirstNull();
+                _deckCards[index] = card;
 
                 OrderDeck();
                 CountCards();
@@ -270,7 +271,7 @@ namespace Battles.Deck
         }
         private void ExpandDeck()
         {
-            Array.Resize(ref _deckCards, _deckCards.Length + 5);
+            Array.Resize(ref GetDeck, GetDeck.Length + 5);
             CountCards();
         }
         #endregion
