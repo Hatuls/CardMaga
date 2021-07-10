@@ -322,7 +322,7 @@ namespace Battles.Turns
 
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.1f);
             StatsHandler.GetInstance.ResetShield(false);
             MoveToNextState();
         }

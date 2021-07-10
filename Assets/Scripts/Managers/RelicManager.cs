@@ -16,6 +16,7 @@ namespace Relics
         #endregion
         #region Events
         [SerializeField] SoundsEvent _playSound;
+        [SerializeField] VoidEvent _successCrafting;
         #endregion
 
 
@@ -32,9 +33,10 @@ namespace Relics
 
             if(_cardRecipeDetected != null)
             {
+                //create card
+                _successCrafting?.Raise();
                 Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.GetCraftedCard.GetCardName);
                 DeckManager.Instance.AddCardToDeck(crafted, DeckEnum.Hand);
-                //create card
                   _playSound?.Raise( SoundsNameEnum.SuccessfullForge);
             }
             else
