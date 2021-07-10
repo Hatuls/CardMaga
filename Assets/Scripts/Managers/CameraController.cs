@@ -1,5 +1,6 @@
 ﻿using Unity.Events;
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
 [RequireComponent(typeof(IntListener))]
 public class CameraController : MonoSingleton<CameraController>
@@ -20,6 +21,10 @@ public class CameraController : MonoSingleton<CameraController>
     [SerializeField] GameObject ShakeAtMiddle;
     [SerializeField] GameObject ShakeAtEnemy;
 
+
+    [SerializeField] float _cameraReturnOffset;
+    [SerializeField] float _returnSpeed;
+    [SerializeField] float _goToSpeed;
     private CameraAngleLookAt _cameraAngleLookAt;
     [SerializeField] CinemachineVirtualCamera _cinemachineVirtualCamera;
     private CinemachineTrackedDolly _cineMachineTrackedDolly;
@@ -53,12 +58,44 @@ public class CameraController : MonoSingleton<CameraController>
     {
         if (GetAngleTrackedDolly.m_PathPosition != index)
         {
-               _cameraAngleLookAt = (CameraAngleLookAt)index;
-                GetAngleTrackedDolly.m_PathPosition = index;
+            StopCoroutine(CameraTransition(index));
+            StartCoroutine(CameraTransition(index));
         }
         //0 is player
         //1 is middle
         //2 is Enemy
+    }
+    IEnumerator CameraTransition(int point)
+    {
+
+        //GetAngleTrackedDolly.m_PathPosition = LeanTween.clerp(
+        //        (float)GetAngleTrackedDolly.m_PathPosition,
+        //          (float)point,
+        //         _returnSpeed
+        //          );
+        float lerpTime = 0;
+
+        while (GetAngleTrackedDolly.m_PathPosition != point)
+        {
+
+            lerpTime += Time.deltaTime;
+            GetAngleTrackedDolly.m_PathPosition = Mathf.Lerp(
+              (float)_cameraAngleLookAt,
+                (float)point,
+           _returnSpeed *  lerpTime
+                );
+
+            yield return null;
+
+            //if (Mathf.Abs(point - GetAngleTrackedDolly.m_PathPosition) < _cameraReturnOffset)
+            //{
+            //    GetAngleTrackedDolly.m_PathPosition = point;
+            //    break;
+            //}
+        }
+
+        _cameraAngleLookAt = (CameraAngleLookAt)point;
+       
     }
     public void Shake(int moveCameraAngleIndex)
     {
