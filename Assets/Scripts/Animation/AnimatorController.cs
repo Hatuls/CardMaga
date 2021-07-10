@@ -178,7 +178,7 @@ public class AnimatorController : MonoBehaviour
             ResetBothRotaionAndPosition();
             isFirst = true;
             _onFinishedAnimation?.Raise();
-            _moveCameraAngle?.Raise((int)CameraController.CameraAngleLookAt.Both);
+
             return;
         }
         if (isFirst == true)
@@ -209,6 +209,19 @@ public class AnimatorController : MonoBehaviour
         ResetModelPosition();
         ResetModelRotaion();
 
+    }
+    public bool IsCurrentlyIdle
+    {
+        get
+        {       bool isEmptyList = _animationQueue.Count == 0;
+            bool isIdle = _playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "MC Mma idle";
+
+            if (false==isIdle)
+            {
+                Debug.LogError("The Player is Not in  idle");
+            }
+            return isEmptyList && isIdle;
+        }
     }
     public void ExecuteKeywordInCombo()
     {

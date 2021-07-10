@@ -22,7 +22,6 @@ public class CameraController : MonoSingleton<CameraController>
     [SerializeField] GameObject ShakeAtEnemy;
 
 
-    [SerializeField] float _cameraReturnOffset;
     [SerializeField] float _returnSpeed;
     [SerializeField] float _goToSpeed;
     private CameraAngleLookAt _cameraAngleLookAt;
@@ -58,7 +57,7 @@ public class CameraController : MonoSingleton<CameraController>
     {
         if (GetAngleTrackedDolly.m_PathPosition != index)
         {
-            StopCoroutine(CameraTransition(index));
+
             StartCoroutine(CameraTransition(index));
         }
         //0 is player
@@ -69,27 +68,17 @@ public class CameraController : MonoSingleton<CameraController>
     {
 
     
-        float lerpTime = 0;
-
-        while (GetAngleTrackedDolly.m_PathPosition != point)
+        float lerpTime = point == 1 ?  _returnSpeed : _goToSpeed;
+      
+        for (float i = 0; i <= lerpTime;i += Time.deltaTime)
         {
-
-            lerpTime += Time.deltaTime;
             GetAngleTrackedDolly.m_PathPosition = Mathf.Lerp(
-              (float)_cameraAngleLookAt,
+                (float)_cameraAngleLookAt,
                 (float)point,
-           _returnSpeed *  lerpTime
-                );
-
+                i / lerpTime);
             yield return null;
 
-            //if (Mathf.Abs(point - GetAngleTrackedDolly.m_PathPosition) < _cameraReturnOffset)
-            //{
-            //    GetAngleTrackedDolly.m_PathPosition = point;
-            //    break;
-            //}
         }
-
         _cameraAngleLookAt = (CameraAngleLookAt)point;
        
     }

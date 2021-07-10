@@ -29,6 +29,8 @@ namespace Battles.Turns
         private Dictionary<TurnState, Turn> _turnDict;
         private static TurnState _currectState;
 
+        [SerializeField] AnimatorController _playerControler;
+
         public delegate void TurnEvent(TurnState state);
         public static TurnEvent SetStateEvent;
 
@@ -92,7 +94,8 @@ namespace Battles.Turns
         {
             if (CurrentState == TurnState.PlayerTurn)
             {
-               CurrentState = TurnState.EndPlayerTurn;  
+                
+              CurrentState = TurnState.EndPlayerTurn;
             }
         }
 
@@ -129,7 +132,7 @@ namespace Battles.Turns
                  {TurnState.EndEnemyTurn, new EndEnemyTurn(this) },
                  {TurnState.StartPlayerTurn, new StartPlayerTurn(this) },
                  {TurnState.PlayerTurn, new PlayerTurn(this) },
-                 {TurnState.EndPlayerTurn, new EndPlayerTurn(this) },
+                 {TurnState.EndPlayerTurn, new EndPlayerTurn(this ,_playerControler) },
                  {TurnState.EndBattle, new EndBattle(this) },
                  {TurnState.NotInBattle, null },
                 };
@@ -293,8 +296,10 @@ namespace Battles.Turns
     } 
     public class EndPlayerTurn : Turn
     {
-        public EndPlayerTurn(TurnHandler _th) : base(_th)
+        AnimatorController _playerControler;
+        public EndPlayerTurn(TurnHandler _th, AnimatorController _playerControler) : base(_th)
         {
+            this._playerControler = _playerControler;
         }
 
         public override TurnState GetNextTurn => TurnState.StartEnemyTurn;
@@ -312,7 +317,7 @@ namespace Battles.Turns
             CardExecutionManager.Instance.ResetExecution();
 
 
-            yield return new WaitUntil (() => _turnHandler.IsTurnFinished == true);
+            yield return new WaitUntil (() => _playerControler.IsCurrentlyIdle || _turnHandler.IsTurnFinished == true);
             Deck.DeckManager.Instance.OnEndTurn();
 
 
