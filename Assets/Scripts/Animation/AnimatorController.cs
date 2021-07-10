@@ -216,7 +216,7 @@ public class AnimatorController : MonoBehaviour
         {       bool isEmptyList = _animationQueue.Count == 0;
             bool isIdle = _playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "MC Mma idle";
 
-            if (false==isIdle)
+            if (false==isIdle && isEmptyList== false)
             {
                 Debug.LogError("The Player is Not in  idle");
             }
