@@ -11,6 +11,7 @@ namespace Battles.UI
         BuffIconsHandler _playerBuffHandler;
         [SerializeField]
         BuffIconsHandler _enemyBuffHandler;
+
         #endregion
 
 
@@ -25,8 +26,6 @@ namespace Battles.UI
 
             _endTurn?.Raise();
         }
-
-
 
 
 
