@@ -242,7 +242,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerMaxHandSize: 10
   _playerStartingHandSize: 5
-  _placementSize: 4
 --- !u!1 &4136077259455129387
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,6 +470,7 @@ GameObject:
   - component: {fileID: 2800501193505214759}
   - component: {fileID: 5572394969957932758}
   - component: {fileID: 604163678}
+  - component: {fileID: 6545029775730641343}
   m_Layer: 0
   m_Name: VFXManager
   m_TagString: Untagged
@@ -562,6 +562,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6545029775730641343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5352281100247627293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17df0373baf47b14a9e732686a43ddf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameEvent: {fileID: 11400000, guid: 60b28f6bb43791e41ab35c25f5605e59, type: 2}
+  _unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5572394969957932758}
+        m_MethodName: PlayParticleEffect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5710167893975186943
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,12 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d4f06ddf8dcfd049af82a33878db572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resetDetectingCards: {fileID: 11400000, guid: e8fbc3beb4917c44c94789f8256fc14c,
-    type: 2}
-  _playerRelicsArr:
-  - {fileID: 11400000, guid: c8f0f6afe4bfb664da84bfb287f3ef7c, type: 2}
-  _totalRelics: {fileID: 11400000, guid: 4b8ef66323c955e4884b54ba23e3d6d5, type: 2}
-  _maxAmountOfRelics: 0
+  _playSound: {fileID: 0}
 --- !u!1 &5847196689953200342
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,6 +777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd9f695c982d484cac322c955b4794d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerControler: {fileID: 0}
 --- !u!114 &9036038290982313901
 MonoBehaviour:
   m_ObjectHideFlags: 0
