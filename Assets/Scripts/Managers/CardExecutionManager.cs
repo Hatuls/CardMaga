@@ -6,6 +6,8 @@ namespace Battles
     {
         [SerializeField]
         AnimatorController _animatorController;
+
+        [SerializeField] VFXController __playerVFXHandler;
         Cards.Card _currentCard;
         public void ResetExecution()
         {
@@ -112,7 +114,19 @@ namespace Battles
 
             if (_currentCard != null)
             {
-                _animatorController.SetAnimationQueue(_currentCard.GetSetCard.GetCardName.ToString()) ;
+                switch (_currentCard.GetSetCard.GetCardType._cardType)
+                {
+                    case Cards.CardTypeEnum.Utility:
+                    case Cards.CardTypeEnum.Defend:
+                        __playerVFXHandler.PlayParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType);
+                        ExecuteCard();
+                        break;
+                    case Cards.CardTypeEnum.Attack:
+                        _animatorController.SetAnimationQueue(_currentCard.GetSetCard.GetCardName.ToString()) ;
+                        break;
+                    default:
+                        break;
+                }
             }
 
         }
