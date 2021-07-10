@@ -13,7 +13,8 @@ public class AnimatorController : MonoBehaviour
     [HideInInspector]
     [SerializeField] VoidEvent _onFinishedAnimation; 
     [HideInInspector]
-    [SerializeField] VoidEvent _onAnimationDoKeyword; 
+    [SerializeField] VoidEvent _onAnimationDoKeyword;
+    [SerializeField] IntEvent _moveCameraAngle;
     #endregion
 
     #region Fields
@@ -23,27 +24,47 @@ public class AnimatorController : MonoBehaviour
 
     Queue<string>  _animationQueue = new Queue<string>();
 
+    [SerializeField] float _rotationSpeed;
+    [SerializeField] float _positionSpeed;
+    public bool IsMyTurn;
 
     [SerializeField] float _transitionSpeedBetweenAnimations = 0.1f;
     [SerializeField] float transitionToIdle = 0.1f;
 
-
-
     [SerializeField] bool isPlayer;
     bool _isAnimationPlaying;
-
-  [SerializeField]  Vector3 startPos;
+    bool isFirst;
+    [SerializeField]  Vector3 startPos;
     #endregion
-    public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
 
+    #region Properties
+    public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
+    #endregion
+
+    #region Methods
+
+    #region MonoBehaviour Callbacks   
     private void Start()
     {
         ResetAnimator();
     }
 
-    
+    private void Update()
+    {
+        if (isPlayer)
+        {
+            if (IsMyTurn)
+                transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
+            else
+                transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
+    }
+    #endregion
 
 
+    #region Public
     public void ResetAnimator()
     {
         isFirst = true;
@@ -114,25 +135,13 @@ public class AnimatorController : MonoBehaviour
     }
 
 
-
+    public void SetCamera(CameraController.CameraAngleLookAt cameraAngleLookAt)
+    {
+        _moveCameraAngle?.Raise((int)cameraAngleLookAt);
+    } 
  
 
 
-    [SerializeField] float _rotationSpeed;
-    [SerializeField] float _positionSpeed;
-    public bool IsMyTurn;
-    private void Update()
-    {
-        if (isPlayer )
-        {
-            if (IsMyTurn)
-                transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
-            else
-                transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
-        }
-
-        transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
-    }
 
     public void SetAnimationQueue(string animation)
     {
@@ -150,9 +159,7 @@ public class AnimatorController : MonoBehaviour
        
         }
     }
-    private void ReturnToIdle() => _playerAnimator.CrossFade("Idle", transitionToIdle);
 
-    bool isFirst;
     public void TranstionToNextAnimation()
     {
 
@@ -171,7 +178,7 @@ public class AnimatorController : MonoBehaviour
             ResetBothRotaionAndPosition();
             isFirst = true;
             _onFinishedAnimation?.Raise();
-            
+            _moveCameraAngle?.Raise((int)CameraController.CameraAngleLookAt.Both);
             return;
         }
         if (isFirst == true)
@@ -207,4 +214,11 @@ public class AnimatorController : MonoBehaviour
     {
         _onAnimationDoKeyword?.Raise();
     }
+    #endregion
+
+    #region Private
+    private void ReturnToIdle() => _playerAnimator.CrossFade("Idle", transitionToIdle);
+    #endregion
+
+    #endregion
 }
