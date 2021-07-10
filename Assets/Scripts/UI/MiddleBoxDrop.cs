@@ -10,6 +10,7 @@ namespace Battles.UI
         [SerializeField] BoxCollider2D boxCollider2D;
         [SerializeField] CardUIManager CardUIManager;
 
+        public void OnPointerExit() => CardUIManager.Instance.IsTryingToPlace = false;
         public void OnDrop()
         {
             if (CardUIManager.Instance.GetClickedCardUI != null)
