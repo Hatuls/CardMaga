@@ -17,8 +17,8 @@
     Headbutt = 13,
     HeelKick = 14,
     SideBlock = 15,
-    Duck =16
-
+    Duck =16,
+    ComboPunch = 17
 
 
     

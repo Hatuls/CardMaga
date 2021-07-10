@@ -1,20 +1,43 @@
-﻿using System;
+﻿using Unity.Events;
+using Cinemachine;
 using UnityEngine;
-
+[RequireComponent(typeof(IntListener))]
 public class CameraController : MonoSingleton<CameraController>
 {
-   //[SerializeField] Camera _camera;
-   //[SerializeField] Canvas _canvas;
-   // [SerializeField] RectTransform _parentCanvas;
-   // [SerializeField] LeanTweenType[] _cameraShakes;
-    [SerializeField] GameObject IntroCinematic;
+    public enum CameraAngleLookAt { Enemy=0  ,Both =1, Player=2}
+
+
+
+
+
+    //[SerializeField] Camera _camera;
+    //[SerializeField] Canvas _canvas;
+    // [SerializeField] RectTransform _parentCanvas;
+    // [SerializeField] LeanTweenType[] _cameraShakes;
+    [SerializeField] GameObject IntroCinematic; // 
     [SerializeField] GameObject MoveCameraAngle;
     [SerializeField] GameObject ShakeAtPlayer;
     [SerializeField] GameObject ShakeAtMiddle;
     [SerializeField] GameObject ShakeAtEnemy;
 
+    private CameraAngleLookAt _cameraAngleLookAt;
+    [SerializeField] CinemachineVirtualCamera _cinemachineVirtualCamera;
+    private CinemachineTrackedDolly _cineMachineTrackedDolly;
+    public CinemachineTrackedDolly GetAngleTrackedDolly
+    {
+        get
+        {
+            if (_cineMachineTrackedDolly== null)
+                _cineMachineTrackedDolly = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
+
+            return _cineMachineTrackedDolly;
+        }
+    }
+
     private void Start()
     {
+        _cameraAngleLookAt = CameraAngleLookAt.Both;
+        return;
         MoveCameraAngle.SetActive(false);
         ShakeAtEnemy.SetActive(false);
         ShakeAtMiddle.SetActive(false);
@@ -28,6 +51,11 @@ public class CameraController : MonoSingleton<CameraController>
     }
     public void MoveCameraAnglePos(int index)
     {
+        if (GetAngleTrackedDolly.m_PathPosition != index)
+        {
+               _cameraAngleLookAt = (CameraAngleLookAt)index;
+                GetAngleTrackedDolly.m_PathPosition = index;
+        }
         //0 is player
         //1 is middle
         //2 is Enemy
