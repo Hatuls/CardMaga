@@ -11,24 +11,21 @@ namespace Battles.UI
         BuffIconsHandler _playerBuffHandler;
         [SerializeField]
         BuffIconsHandler _enemyBuffHandler;
+
         #endregion
 
 
         #region Events
         [SerializeField] TextPopUpEvent _textEvent;
         [SerializeField] VoidEvent _endTurn;
-        [SerializeField] SoundsEvent _soundEvent;
+ 
         #endregion
 
 
         public void EndTurn() {
 
             _endTurn?.Raise();
-            _soundEvent?.Raise(SoundsNameEnum.EndTurn);
-
         }
-
-
 
 
 

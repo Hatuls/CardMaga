@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Keywords;
 using Characters.Stats;
 using Battles.UI;
+using Unity.Events;
+
 namespace Battles.Turns
 {
     public interface IEventHandler {
@@ -33,6 +35,9 @@ namespace Battles.Turns
 
         public delegate void TurnEvent(TurnState state);
         public static TurnEvent SetStateEvent;
+        [SerializeField] SoundsEvent _soundEvent;
+
+
 
         private  bool _isTurnFinished;
         public  bool IsTurnFinished
@@ -94,7 +99,7 @@ namespace Battles.Turns
         {
             if (CurrentState == TurnState.PlayerTurn)
             {
-                
+                _soundEvent?.Raise(SoundsNameEnum.EndTurn);
               CurrentState = TurnState.EndPlayerTurn;
             }
         }

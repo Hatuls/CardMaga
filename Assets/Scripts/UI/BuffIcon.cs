@@ -28,6 +28,29 @@ public class BuffIcon : MonoBehaviour
     #region Properties
     public BuffIcons? GetSetName { get => _name; set => _name = value; }
     #endregion
+
+    public void InitIconData(Cards.Card card , ArtSO artSO)
+    {
+        _decor.sprite = artSO.DefaultSlotSO.GetDecor;
+
+        _background.sprite = artSO.DefaultSlotSO.GetBackground;
+
+        _icon.sprite = artSO.IconCollection.GetSprite(card.GetSetCard.GetBodyPartEnum);
+
+        var uiColorPalette = artSO.UIColorPalette;
+        var color = uiColorPalette.GetBackgroundColor;
+        color.a = uiColorPalette.GetSlotsOpacity / 100;
+        _background.color = color;
+
+        var colorPalette = uiColorPalette.GetCardColorType(card.GetSetCard.GetCardTypeEnum);
+        color = colorPalette.GetTopColor;
+        color.a = uiColorPalette.GetFullOpacity / 100;
+        _icon.color = color;
+
+        _decor.color = color;
+        SetText(card.GetSetCard.GetCardsKeywords[0].GetAmountToApply.ToString());
+        _iconText.color = color;
+    }
     public void InitIconData(UIIconSO iconData, int amount)
     {
         if (iconData == null)
