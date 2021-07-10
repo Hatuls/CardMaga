@@ -68,11 +68,7 @@ public class CameraController : MonoSingleton<CameraController>
     IEnumerator CameraTransition(int point)
     {
 
-        //GetAngleTrackedDolly.m_PathPosition = LeanTween.clerp(
-        //        (float)GetAngleTrackedDolly.m_PathPosition,
-        //          (float)point,
-        //         _returnSpeed
-        //          );
+    
         float lerpTime = 0;
 
         while (GetAngleTrackedDolly.m_PathPosition != point)
