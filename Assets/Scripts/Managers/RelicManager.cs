@@ -15,7 +15,7 @@ namespace Relics
         RelicSO _cardRecipeDetected;
         #endregion
         #region Events
-        [SerializeField] SoundsEvent playSound;
+        [SerializeField] SoundsEvent _playSound;
         #endregion
 
 
@@ -35,16 +35,20 @@ namespace Relics
                 Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.GetCraftedCard.GetCardName);
                 DeckManager.Instance.AddCardToDeck(crafted, DeckEnum.Hand);
                 //create card
-                  playSound?.Raise( SoundsNameEnum.SuccessfullForge);
+                  _playSound?.Raise( SoundsNameEnum.SuccessfullForge);
             }
             else
             {
                 if (DeckManager.GetCraftingSlots.GetAmountOfFilledSlots <= 1)
                 {
              
-                   playSound?.Raise( SoundsNameEnum.Reject);
+                   _playSound?.Raise( SoundsNameEnum.Reject);
                     //reject request for forging
                     return;
+                }
+                else
+                {
+                    _playSound?.Raise(SoundsNameEnum.Reject);
                 }
             }
             DeckManager.GetCraftingSlots.ResetDeck();

@@ -259,15 +259,39 @@ namespace Battles.UI
             _soundEvent?.Raise(SoundsNameEnum.TapCard);
         }
 
-        public void RemoveSelectedCardUI()
+        public void StartRemoveProcess()
         {
-            if (GetClickedCardUI != null)
-            { 
-                GetClickedCardUI.SetActive(false);
+            if (GetClickedCardUI == null)
+                return;
+
+            TryRemoveFromHandUI( GetClickedCardUI);
+            StartCoroutine(RemoveTransition());
+
+
+        }
+
+       private void RemoveSelectedCardUI()
+        {
+            if (GetClickedCardUI == null)
+                return;
+
+                 GetClickedCardUI.SetActive(false);
                 GetClickedCardUI = null;
                 InputManager.Instance.RemoveObjectFromTouch();
+        }
+        IEnumerator RemoveTransition()
+        {
+            CardUI card = GetClickedCardUI;
+            GetClickedCardUI = null;
+            InputManager.Instance.RemoveObjectFromTouch();
 
-            }
+            LeanTween.alpha(card.GetRectTransform, _cardUISettings.GetAlphaRemovalAmount, _cardUISettings.GetAlphaRemovalTime).setEase(_cardUISettings.GetAlphaLeanTween);
+            LeanTween.scale(card.GetRectTransform, Vector3.one * _cardUISettings.GetScaleSizeForRemoval, _cardUISettings.GetRemovalTimeForRemoval).setEase(_cardUISettings.GetScaleRemovalLeanTweenType);
+            yield return new WaitForSeconds(_cardUISettings.GetDelayTillStartMovement) ;
+            LeanTween.moveX(card.GetRectTransform, GetDiscardDeckPosition.anchoredPosition3D.x, _cardUISettings.GetRemovalTransitionXTime).setEase(_cardUISettings.GetMoveOnXLeanTween);
+            LeanTween.moveY(card.GetRectTransform, GetDiscardDeckPosition.anchoredPosition3D.y, _cardUISettings.GetRemovalTransitionYTime).setEase(_cardUISettings.GetMoveOnYLeanTween)
+                .setOnComplete(()=> card.SetActive(false));
+     
         }
         #endregion
 
@@ -298,13 +322,15 @@ namespace Battles.UI
             }
             else
             {
+
                 _handUI.Add(ref GetClickedCardUI);
                 GetClickedCardUI.GetCanvasGroup.blocksRaycasts = true;
-                GetClickedCardUI.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime);
+                GetClickedCardUI.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime); 
+                SetClickedCardUI = null;
             }
 
 
-            SetClickedCardUI = null;
+           
         }
 
         public void OnHoldTouch(in Vector2 touchPos)

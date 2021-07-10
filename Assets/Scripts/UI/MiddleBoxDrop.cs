@@ -2,10 +2,10 @@
 using UnityEngine;
 using Characters.Stats;
 using Battles.Deck;
-
+using UnityEngine.EventSystems;
 namespace Battles.UI
 {
-
+    [RequireComponent(typeof(EventTrigger))]
     public class MiddleBoxDrop : MonoBehaviour { 
         [SerializeField] BoxCollider2D boxCollider2D;
         [SerializeField] CardUIManager CardUIManager;
@@ -21,10 +21,11 @@ namespace Battles.UI
                 {
                     // not enough stamina 
                     DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, card);
-                    CardUIManager.Instance.TryRemoveFromHandUI(CardUIManager.Instance.GetClickedCardUI);
+            
                  }
                 else
                 {
+                    CardUIManager.Instance.IsTryingToPlace = true;
                     // execute card
                     DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Disposal, card);
                     DeckManager.AddToCraftingSlot(card);
@@ -34,12 +35,13 @@ namespace Battles.UI
 
 
                 // reset the holding card
-                CardUIManager.Instance.RemoveSelectedCardUI();
+                CardUIManager.Instance.StartRemoveProcess();
             }
             
         }
 
 
     }
+
 }
 
