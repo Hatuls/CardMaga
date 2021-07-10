@@ -27,7 +27,7 @@ namespace Relics
         {
 
             Debug.Log(_cardRecipeDetected);
-            Debug.Log(_cardRecipeDetected?.GetCombo.Length);
+
             Debug.Log(_cardRecipeDetected?.GetRelicName);
 
             if(_cardRecipeDetected != null)
@@ -72,12 +72,12 @@ namespace Relics
             var craftingSlots = DeckManager.GetCraftingSlots.GetDeck;
             System.Array.Reverse(craftingSlots);
 
-            List<BodyPartEnum> craftingItems = new List<BodyPartEnum>();
+            List<CardType> craftingItems = new List<CardType>();
             for (int i = 0; i < craftingSlots.Length; i++)
             {
                 if(craftingSlots[i] != null)
                 {
-                    craftingItems.Add(craftingSlots[i].GetSetCard.GetBodyPartEnum);
+                    craftingItems.Add(craftingSlots[i].GetSetCard.GetCardType);
                 }
             }
             if(craftingItems.Count > 1)
@@ -85,16 +85,16 @@ namespace Relics
                 CheckRecipe(ref craftingItems);
             }
         }
-        void CheckRecipe(ref List<BodyPartEnum> craftingItems)
+        void CheckRecipe(ref List<CardType> craftingItems)
         {
-            List<BodyPartEnum> nextRecipe = new List<BodyPartEnum>();
+            List<CardType> nextRecipe = new List<CardType>();
             for (int i = 0; i < _playerKnownRecipe.GetRelicSO.Length; i++)
             {
                 for (int j = 0; j < _playerKnownRecipe.GetRelicSO[i].GetCombo.Length; j++)
                 {
                     nextRecipe.Add(_playerKnownRecipe.GetRelicSO[i].GetCombo[j]);
                 }
-                if (craftingItems.SequenceEqual(nextRecipe))
+                if (craftingItems.SequenceEqual(nextRecipe , new CardTypeComparaer()))
                 {
                     _cardRecipeDetected = _playerKnownRecipe.GetRelicSO[i];
                     return;
