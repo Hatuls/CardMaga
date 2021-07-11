@@ -39,6 +39,7 @@ public class AnimatorController : MonoBehaviour
 
     #region Properties
     public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
+    public AnimationBundle SetCurrentAnimationBundle { set => _currentAnimation = value; }
     #endregion
 
     #region Methods
@@ -168,8 +169,7 @@ public class AnimatorController : MonoBehaviour
     public void TranstionToNextAnimation()
     {
 
-        if (!isPlayer)
-            return;
+    
         // we want to go back to idle if we dont have more animation to do
         // and if we have animation in the queue we want to transtion to them and tell all relevants that a transtion happend
         //     LeanTween.move(this.gameObject, startPos, 0.1f);
@@ -209,12 +209,15 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] AnimatorController _opponentController;
     public void PlayHitOrDefenseAnimation()
     {
+        _opponentController.SetCurrentAnimationBundle = _currentAnimation;
+
         if (Characters.Stats.StatsHandler.GetInstance.GetCharacterStats(!isPlayer).Shield > 0)
             _opponentController?.PlayAnimation(_currentAnimation._shieldAnimation.ToString() );
         
         else
             _opponentController?.PlayAnimation(_currentAnimation._getHitAnimation.ToString());
         
+       
     }
     private void OnFinishAnimation()
     {

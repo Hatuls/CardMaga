@@ -52,7 +52,7 @@ namespace Battles
         [SerializeField] Characters.Stats.CharacterStats _enemyStats;
         [SerializeField] Cards.Card enemyAction;
         int _cardAction;
-    [SerializeField]    BuffIconsHandler _buffIconsHandler;
+          BuffIconsHandler _buffIconsHandler;
         #endregion
 
         public Opponents(BuffIconsHandler buffIconsHandler)
@@ -70,7 +70,7 @@ namespace Battles
             "And Do " + enemyAction.GetSetCard.GetCardTypeEnum.ToString() + " with the amount of " + enemyAction.GetSetCard.GetCardsKeywords[0].GetAmountToApply);
 
             _buffIconsHandler?.SetOpponentActionUI(enemyAction);
-            //Battles.UI.CardUIManager.Instance.AssignEnemyActionOnSlot(enemyAction);
+          
 
             yield return new WaitForSeconds(.1f);
         }
@@ -81,7 +81,7 @@ namespace Battles
                 yield break;
 
             Debug.Log("Enemy Attack!");
-            EnemyManager.EnemyAnimatorController.PlayAnimation(enemyAction.GetSetCard.GetAnimationBundle._attackAnimation);
+            EnemyManager.EnemyAnimatorController.SetAnimationQueue(enemyAction.GetSetCard.GetAnimationBundle);
             for (int i = 0; i < enemyAction.GetCardKeywords.Length; i++)
             {
                 Keywords.KeywordManager.Instance.ActivateKeyword(enemyAction.GetCardKeywords[i]);
