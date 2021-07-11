@@ -3587,8 +3587,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8685888695806328257}
   - component: {fileID: 3344579592489805755}
+  - component: {fileID: 1076523301}
+  - component: {fileID: 1076523302}
+  - component: {fileID: 1076523303}
   m_Layer: 0
-  m_Name: Chara_Rig_T_pose
+  m_Name: NewMainCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3629,6 +3632,75 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1076523301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341133885457672059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37daef6c4b4e484ca2a519e12988fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movedToNextAnimation: {fileID: 0}
+  _onFinishedAnimation: {fileID: 0}
+  _onAnimationDoKeyword: {fileID: 0}
+  _moveCameraAngle: {fileID: 11400000, guid: 45b8cd7551d62d44d8eb685b3b08176f, type: 2}
+  _playerAnimator: {fileID: 3344579592489805755}
+  targetToLookAt: {fileID: 0}
+  _rotationSpeed: 2
+  _positionSpeed: 1
+  IsMyTurn: 0
+  _transitionSpeedBetweenAnimations: 0.1
+  transitionToIdle: 0.1
+  isPlayer: 1
+  isFirst: 0
+  startPos: {x: 0, y: 0, z: 0}
+--- !u!114 &1076523302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341133885457672059}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 818985b4b5833e942bfc33a0d114a20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedPS: {fileID: 0}
+  _healPS: {fileID: 0}
+  _shieldPS: {fileID: 0}
+  _StrengthPS: {fileID: 0}
+  _recieveAttackPS: {fileID: 0}
+  _hittingAttackPS: {fileID: 0}
+  _isPlayer: 1
+  _hitCharacterEvent: {fileID: 0}
+  _activateKewordEvent: {fileID: 0}
+  _soundsEvent: {fileID: 0}
+  _headPart: {fileID: 0}
+  _leftHandPart: {fileID: 0}
+  _rightHandPart: {fileID: 0}
+  _leftLegPart: {fileID: 0}
+  _rightLegPart: {fileID: 0}
+--- !u!114 &1076523303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341133885457672059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef93361f11457446a2825810f078e7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameEvent: {fileID: 11400000, guid: 72b28e33a2bbc614d8f4d668784fe959, type: 2}
+  _unityEventResponse:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8406932878860720408
 GameObject:
   m_ObjectHideFlags: 0
