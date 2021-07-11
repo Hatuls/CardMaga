@@ -10,21 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
-  m_Name: CardData
+  m_Name: EnemyPunches
   m_EditorClassIdentifier: 
   _cardImage: {fileID: 0}
-  _cardName: 
+  _cardName: Basic Punch
   _animationBundle:
-    _attackAnimation: 0
-    _shieldAnimation: 0
-    _getHitAnimation: 0
+    _attackAnimation: 3
+    _shieldAnimation: 3
+    _getHitAnimation: 2
   _cardData:
-    _cardType: 0
-    _bodyPart: 0
+    _cardType: 2
+    _bodyPart: 3
     _rarityLevel: 0
-  _cardDescription: 
+  _cardDescription: 5 Attack
   _staminaCost: 1
   _maxUpgradeLevel: 1
   _whenUnlockNewKeywords: 1
-  _keywords: []
+  _keywords:
+  - _keywordBase: {fileID: 11400000, guid: ffd2db3d9a9e74a4a954994701f2723c, type: 2}
+    _isLCE: 0
+    _target: 0
+    _amountToApply: 5
+    _upgradeBonusAmount: 0
+    _maxUpgradeLevel: 0
+    _conditions:
+      _comboCondition: []
+      _paramaterCondition: []
   _upgrateKeywords: []

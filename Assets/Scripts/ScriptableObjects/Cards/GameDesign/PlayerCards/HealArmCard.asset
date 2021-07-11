@@ -10,36 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
-  m_Name: EnemyAttack 1
+  m_Name: HealArmCard
   m_EditorClassIdentifier: 
-  _cardName: 5
-  _targetBodyPart: 1
-  _cardData:
-    _cardType: 2
-    _bodyPart: 5
-    _rarityLevel: 0
   _cardImage: {fileID: 0}
-  _cardDescription: 
-  _cardLCEDescription: 
-  _staminaCost: 1
+  _cardName: Arm Patch
+  _animationBundle:
+    _attackAnimation: 0
+    _shieldAnimation: 0
+    _getHitAnimation: 0
+  _cardData:
+    _cardType: 0
+    _bodyPart: 3
+    _rarityLevel: 0
+  _cardDescription: 2 Heal
+  _staminaCost: 2
   _maxUpgradeLevel: 1
   _whenUnlockNewKeywords: 1
   _keywords:
-  - _keywordBase: {fileID: 11400000, guid: ffd2db3d9a9e74a4a954994701f2723c, type: 2}
+  - _keywordBase: {fileID: 11400000, guid: 77625566b1720344d9c867378c0af29a, type: 2}
     _isLCE: 0
     _target: 0
-    _amountToApply: 10
+    _amountToApply: 3
     _upgradeBonusAmount: 0
-    _maxUpgradeLevel: 0
-    _conditions:
-      _comboCondition: []
-      _paramaterCondition: []
-  - _keywordBase: {fileID: 11400000, guid: 58e6cb8fa73da1c4dab6761ef4e2f8b4, type: 2}
-    _isLCE: 0
-    _target: 0
-    _amountToApply: 2
-    _upgradeBonusAmount: 0
-    _maxUpgradeLevel: 0
+    _maxUpgradeLevel: 1
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
