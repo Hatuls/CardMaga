@@ -6,9 +6,10 @@ namespace Battles
         #region Fields
         [UnityEngine.SerializeField] Opponents _opponent;
         [SerializeField] BuffIconsHandler _uiBuffIconHandler;
+         [SerializeField]  AnimatorController _enemyAnimatorController;
         #endregion
 
-
+        public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
         #region Public Methods
         public override void Init()
         {
@@ -44,7 +45,7 @@ namespace Battles
     public class Opponents
     {
         #region Fields
-        [SerializeField]   AnimatorController _enemyAnimatorController;
+     
         [SerializeField] CharacterDifficulty _difficultyLevel;
         [SerializeField] CharactersEnum _name;
         [SerializeField] Cards.Card[] _cards;
@@ -80,15 +81,15 @@ namespace Battles
                 yield break;
 
             Debug.Log("Enemy Attack!");
-            _enemyAnimatorController.PlayAnimation(enemyAction.GetSetCard.GetAnimationBundle._attackAnimation);
+            EnemyManager.EnemyAnimatorController.PlayAnimation(enemyAction.GetSetCard.GetAnimationBundle._attackAnimation);
             for (int i = 0; i < enemyAction.GetCardKeywords.Length; i++)
             {
                 Keywords.KeywordManager.Instance.ActivateKeyword(enemyAction.GetCardKeywords[i]);
                 yield return null;
             }
 
-            yield return new WaitUntil(() => _enemyAnimatorController.GetIsAnimationCurrentlyActive == false);
-            _enemyAnimatorController.ResetToStartingPosition();
+            yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
+            EnemyManager.EnemyAnimatorController.ResetToStartingPosition();
         }
         public void AssignData(CharacterAbstSO characterAbstSO)// enemySO. get struct stats from scriptable object
         {
@@ -113,7 +114,7 @@ namespace Battles
         #endregion
 
         #region Properties
-        public AnimatorController GetEnemyAnimatorController => _enemyAnimatorController;
+        
         public ref Cards.Card[] GetCards => ref _cards;
         public CharacterDifficulty GetDifficulty => _difficultyLevel;
         public CharactersEnum GetOpponentName => _name;

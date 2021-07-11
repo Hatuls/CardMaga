@@ -122,7 +122,8 @@ namespace Battles
                         ExecuteCard();
                         break;
                     case Cards.CardTypeEnum.Attack:
-                        _animatorController.SetAnimationQueue(_currentCard.GetSetCard.GetAnimationBundle._attackAnimation.ToString()) ;
+                        _animatorController.SetAnimationQueue(card) ;
+
                         break;
                     default:
                         break;

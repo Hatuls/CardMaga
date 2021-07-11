@@ -38,14 +38,17 @@ namespace Managers
 
         }
 
-        private void AssignPlayerCardDict()
+        public void AssignPlayerCardDict(Card[] _playerCards)
         {
-            _playerCardDict = new Dictionary<int, Card>();
+            if (_playerCardDict==null)
+                        _playerCardDict = new Dictionary<int, Card>();
 
 
-            for (int i = 0; i < _amountOfCardsToStartCache; i++)
-                CreateCard(true,_cardSOCollections.GetAllCards[i].GetCardName);
-
+            for (int i = 0; i < _playerCards.Length; i++)
+            {
+                if (_playerCardDict.ContainsKey(_playerCards[i].GetCardID) == false)
+                                _playerCardDict.Add(_playerCards[i].GetCardID, _playerCards[i]);
+            }
             //check if to load from json file or start new one
         }
 
@@ -57,7 +60,7 @@ namespace Managers
         {
             _cardCreated = 0;
             AssignCardSOCollectionDict();
-            AssignPlayerCardDict();
+           
         }
 
 
@@ -71,6 +74,8 @@ namespace Managers
                 if (_cardSOCollectionDict.TryGetValue(card, out CardSO val))
                 {
                     Card cardCache = new Card(_cardCreated, val);
+                    if (_playerCardDict == null)
+                        _playerCardDict = new Dictionary<int, Card>();
 
                     _playerCardDict.Add(_cardCreated, cardCache);
 

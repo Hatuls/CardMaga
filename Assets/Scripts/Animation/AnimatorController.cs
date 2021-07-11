@@ -21,8 +21,8 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] Animator _playerAnimator;
     [SerializeField] Transform targetToLookAt;
 
-
-    Queue<string>  _animationQueue = new Queue<string>();
+    AnimationBundle _currentAnimation;
+    Queue<AnimationBundle>  _animationQueue = new Queue<AnimationBundle>();
 
     [SerializeField] float _rotationSpeed;
     [SerializeField] float _positionSpeed;
@@ -142,23 +142,29 @@ public class AnimatorController : MonoBehaviour
 
 
 
-    public void SetAnimationQueue(string animation)
+    public void SetAnimationQueue(Card card)
     {
         // When we finish the planning turn we get the cards and start the animation 
-        if (animation == null || animation.Length == 0)
+        if (card == null )
             return;
-        Debug.Log(animation + "!!!!!!!!!!!!!!");
-         _animationQueue.Enqueue(animation);
-            
-        IsMyTurn = true;
-  
-        if (_animationQueue.Count ==1 && isFirst)
-        {
-        TranstionToNextAnimation();
+
+         SetAnimationQueue(card.GetSetCard.GetAnimationBundle);
        
+    }
+    public void SetAnimationQueue(AnimationBundle animationBundle )
+    {
+        if (animationBundle == null)
+            return;
+
+        _animationQueue.Enqueue(animationBundle);
+
+        IsMyTurn = true;
+
+        if (_animationQueue.Count == 1 && isFirst)
+        {
+            TranstionToNextAnimation();
         }
     }
-
     public void TranstionToNextAnimation()
     {
 
@@ -173,30 +179,56 @@ public class AnimatorController : MonoBehaviour
 
         if (_animationQueue.Count == 0)
         {
-            ReturnToIdle();
-            ResetBothRotaionAndPosition();
-            isFirst = true;
-            _onFinishedAnimation?.Raise();
+            OnFinishAnimation();
 
             return;
         }
+
+        _currentAnimation = _animationQueue.Dequeue();
+        PlayAnimation(_currentAnimation._attackAnimation.ToString());
+
+        if (_currentAnimation.IsCinemtaic)
+            SetCamera(isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
+
+        _movedToNextAnimation?.Raise();
+    }
+
+    private void PlayAnimation(string Name)
+    {
         if (isFirst == true)
         {
 
-        //  _playerAnimator.CrossFade(_animationQueue.Dequeue().ToString(),_transitionSpeedBetweenAnimations);
-            _playerAnimator.Play(_animationQueue.Dequeue().ToString());
+            //  _playerAnimator.CrossFade(_animationQueue.Dequeue().ToString(),_transitionSpeedBetweenAnimations);
+            _playerAnimator.Play(Name);
             isFirst = false;
         }
         else
-            _playerAnimator.CrossFade(_animationQueue.Dequeue().ToString(), _transitionSpeedBetweenAnimations);
-
-
-
-        //          ResetToStartingPosition();
-        _movedToNextAnimation?.Raise();
-
-
+            _playerAnimator.CrossFade(Name, _transitionSpeedBetweenAnimations);
     }
+
+    [SerializeField] AnimatorController _opponentController;
+    public void PlayHitOrDefenseAnimation()
+    {
+        if (Characters.Stats.StatsHandler.GetInstance.GetCharacterStats(!isPlayer).Shield > 0)
+            _opponentController?.PlayAnimation(_currentAnimation._shieldAnimation.ToString() );
+        
+        else
+            _opponentController?.PlayAnimation(_currentAnimation._getHitAnimation.ToString());
+        
+    }
+    private void OnFinishAnimation()
+    {
+        ReturnToIdle();
+        ResetBothRotaionAndPosition();
+        isFirst = true;
+        _onFinishedAnimation?.Raise();
+
+        if (_currentAnimation.IsCinemtaic)
+            SetCamera(CameraController.CameraAngleLookAt.Both);
+
+        _currentAnimation = null;
+    }
+
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();
 
     public void ResetModelPosition() =>
@@ -236,4 +268,5 @@ public class AnimatorController : MonoBehaviour
     #endregion
 
     #endregion
+   
 }
