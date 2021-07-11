@@ -12,7 +12,7 @@
 
     public enum AttackAnimation 
     { 
-    Hook_R=0,
+    None=0,
     Jab_L =1,
     Uppercut_L =2,
     OneTwo =3,
@@ -20,7 +20,8 @@
     HighKick_R = 5,
     RoundhouseKickRight = 6,
     FootShotgun=7,
-    EyeLasers = 8
+    EyeLasers = 8,
+        Hook_R=9
     };
 
     public enum ShieldAnimation

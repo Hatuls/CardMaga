@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Keywords;
 using System.Collections.Generic;
-
+using Sirenix.OdinInspector;
 namespace Cards
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
@@ -9,43 +9,57 @@ namespace Cards
     {
 
         #region Fields
+        [TitleGroup("CardData", BoldTitle =true, Alignment = TitleAlignments.Centered)]  
+     
+        [HorizontalGroup("CardData/Info/Display")]
+
+
+        [Tooltip("The Image of the card:")]
+        [VerticalGroup("CardData/Info/Display/Coulmn 1")]
+        [PreviewField(100, Alignment = ObjectFieldAlignment.Right )]
+         [SerializeField] Sprite _cardImage;
+     
         [Header("Card Details:")]
-
+        [VerticalGroup("CardData/Info/Display/Coulmn 2")]
+ [LabelWidth(90f)]
         [SerializeField] string _cardName;
-
+        [TabGroup("CardData/Info", "Animation")]
         [SerializeField]
         AnimationBundle _animationBundle;
-
+        [TabGroup("CardData/Info", "Data")]
         [Tooltip("What Type Of Card Is It?")]
         [SerializeField]
         CardType _cardData;
 
 
-        [Tooltip("The Image of the card:")]
-        [SerializeField] Sprite _cardImage;
 
 
+        [VerticalGroup("CardData/Info/Display/Coulmn 2")]
+        [TabGroup("CardData/Info", "Display")]
         [Tooltip("The Description of the card:")]
         [TextArea()]
         [SerializeField] string _cardDescription;
-        [Tooltip("The Description of the card's LCE:")]
-        [SerializeField] string _cardLCEDescription;
+
 
         [Space]
+        [TabGroup("CardData/Info", "Data")]
         [Header("Mana:")]
         [Tooltip("How much stamina the card cost")]
         [SerializeField] int _staminaCost = 1;
 
-
+        [TabGroup("CardData/Info", "Data")]
         [Tooltip("How Many Times This Card Can Be Upgraded")]
         [SerializeField] int _maxUpgradeLevel = 1;
+        [TabGroup("CardData/Info", "Data")]
         [Tooltip("On What Level To Unlock the additional keywords")]
         [SerializeField] int _whenUnlockNewKeywords = 1;
 
         [Header("Card's Keywords: ")]
         [Header("Card's Regular Keywords: ")]
         [Tooltip("Card's Keywords:")]
+        [TabGroup("CardData/Info", "Keywords")]
         [SerializeField] KeywordData[] _keywords;
+        [TabGroup("CardData/Info", "Keywords")]
         [Header("Card's Additional Keywords: ")]
         [Tooltip("When Card Is Upgraded this keyword is added")]
         [SerializeField] KeywordData[] _upgrateKeywords;
@@ -57,7 +71,7 @@ namespace Cards
         public string GetCardName => _cardName;
         public ref Sprite GetCardImage => ref _cardImage;
         public ref string GetCardDescription => ref _cardDescription;
-        public ref string GetCardLCEDescription => ref _cardLCEDescription;
+
         public CardTypeEnum GetCardTypeEnum => _cardData._cardType;
         public AnimationBundle GetAnimationBundle => _animationBundle;
         public BodyPartEnum GetBodyPartEnum => _cardData._bodyPart;
