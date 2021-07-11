@@ -13,7 +13,7 @@ namespace Managers
         [Tooltip("Player Stats: ")]
         [SerializeField] Characters.Stats.CharacterStats _playerStat;
         [SerializeField] AnimatorController _playerAnimatorController;
-     
+        [SerializeField] Battles.CharacterSO _playerCards;
         #endregion
         public ref Characters.Stats.CharacterStats GetCharacterStats =>ref  _playerStat;
         public AnimatorController PlayerAnimatorController => _playerAnimatorController;
@@ -24,6 +24,7 @@ namespace Managers
             Battles.UI.StatsUIManager.GetInstance.UpdateHealthBar(true, _playerStat.Health);
             Battles.UI.StatsUIManager.GetInstance.UpdateMaxShieldBar(true, _playerStat.MaxHealth/4);
             Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, _playerStat.Shield);
+            CardManager.Instance.AssignPlayerCardDict(_playerCards.GetCharacterCards);
         }
 
         public void OnEndBattle()

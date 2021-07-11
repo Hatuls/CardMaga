@@ -99,7 +99,7 @@ namespace Battles
             {
              
                 PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
-                EnemyManager.Instance.GetEnemy.GetEnemyAnimatorController.CharacterIsDead();
+                EnemyManager.EnemyAnimatorController.CharacterIsDead();
                 UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
                 Instance._playSound?.Raise(SoundsNameEnum.Victory );
             }
