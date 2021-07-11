@@ -108,7 +108,7 @@ namespace Battles.UI
         {
             if (GetRectTransform == null)
             {
-                Debug.LogError("RectTranscorm is Null");
+         //       Debug.LogError("RectTranscorm is Null");
                 return;
             }
             LeanTween.scale(GetRectTransform, toScale, delay);
@@ -117,7 +117,7 @@ namespace Battles.UI
         {
             if (GetRectTransform == null)
             {
-                Debug.LogError("RectTranscorm is Null");
+                //Debug.LogError("RectTranscorm is Null");
                 return;
             }
             GetRectTransform.anchoredPosition3D = setTo;
@@ -126,7 +126,7 @@ namespace Battles.UI
         {
             if (GetRectTransform == null)
             {
-                Debug.LogError("RectTranscorm is Null");
+             //   Debug.LogError("RectTranscorm is Null");
                 return;
             }
             GetRectTransform.localRotation = Quaternion.Euler(rotateTo);
@@ -135,7 +135,7 @@ namespace Battles.UI
         {
             if (cardName == null)
             {
-                Debug.LogError("No Name For Card");
+             //   Debug.LogError("No Name For Card");
                 return;
             }
             GetNameTxt.text = cardName;
@@ -144,7 +144,7 @@ namespace Battles.UI
         {
             if (cardDescription == null)
             {
-                Debug.LogError("No Description For Card");
+              //  Debug.LogError("No Description For Card");
                 return;
             }
             GetDescriptionTxt.text = cardDescription;
@@ -175,7 +175,7 @@ namespace Battles.UI
         {
             if (lastCardEffectDescription == null)
             {
-                Debug.LogError("No Description for LCE");
+               // Debug.LogError("No Description for LCE");
                 return;
             }
             GetLastCardEffectTxt.text = lastCardEffectDescription;
@@ -184,7 +184,7 @@ namespace Battles.UI
         {
             if (bodyPartSprite == null)
             {
-                Debug.LogError("Body Part Sprite Missing");
+               // Debug.LogError("Body Part Sprite Missing");
                 return;
             }
             GetBodyPartImg.sprite = bodyPartSprite;
@@ -193,7 +193,7 @@ namespace Battles.UI
         {
             if (targetedBodyPartSprite == null)
             {
-                Debug.LogError("Targeted Body Part Sprite is Missing");
+             //   Debug.LogError("Targeted Body Part Sprite is Missing");
                 return;
             }
             GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
@@ -204,7 +204,7 @@ namespace Battles.UI
 
             if (uiColorPalette == null)
             {
-                Debug.LogError("Error in SetCardColors");
+             //   Debug.LogError("Error in SetCardColors");
                 return;
             }
 

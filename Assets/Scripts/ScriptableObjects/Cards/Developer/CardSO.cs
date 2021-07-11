@@ -17,15 +17,17 @@ namespace Cards
         [Tooltip("The Image of the card:")]
         [VerticalGroup("CardData/Info/Display/Coulmn 1")]
         [PreviewField(100, Alignment = ObjectFieldAlignment.Right )]
-         [SerializeField] Sprite _cardImage;
+        [SerializeField] Sprite _cardImage;
      
         [Header("Card Details:")]
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
- [LabelWidth(90f)]
+        [LabelWidth(90f)]
         [SerializeField] string _cardName;
+
         [TabGroup("CardData/Info", "Animation")]
         [SerializeField]
         AnimationBundle _animationBundle;
+
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("What Type Of Card Is It?")]
         [SerializeField]
@@ -35,7 +37,7 @@ namespace Cards
 
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
-        [TabGroup("CardData/Info", "Display")]
+      
         [Tooltip("The Description of the card:")]
         [TextArea()]
         [SerializeField] string _cardDescription;
@@ -55,10 +57,12 @@ namespace Cards
         [SerializeField] int _whenUnlockNewKeywords = 1;
 
         [Header("Card's Keywords: ")]
+
         [Header("Card's Regular Keywords: ")]
         [Tooltip("Card's Keywords:")]
         [TabGroup("CardData/Info", "Keywords")]
         [SerializeField] KeywordData[] _keywords;
+
         [TabGroup("CardData/Info", "Keywords")]
         [Header("Card's Additional Keywords: ")]
         [Tooltip("When Card Is Upgraded this keyword is added")]
