@@ -6,6 +6,8 @@
         public AttackAnimation _attackAnimation;
         public ShieldAnimation _shieldAnimation;
         public GetHitAnimation _getHitAnimation;
+
+        public bool IsCinemtaic; 
     }
 
 
@@ -21,7 +23,7 @@
     RoundhouseKickRight = 6,
     FootShotgun=7,
     EyeLasers = 8,
-        Hook_R=9
+    Hook_R=9
     };
 
     public enum ShieldAnimation
@@ -36,5 +38,9 @@
         None = 0,
         MidFront_Med =1,
         HighFront_Stagger =2,
+        HighRight_Med = 3,
+        HighLeft_Med = 4,
+        HighUpper_Weak =5,
+        HighBack_Weak = 6,
     };
 }
