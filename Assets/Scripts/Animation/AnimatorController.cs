@@ -228,10 +228,7 @@ public class AnimatorController : MonoBehaviour
             return isEmptyList && isIdle;
         }
     }
-    public void ExecuteKeywordInCombo()
-    {
-        _onAnimationDoKeyword?.Raise();
-    }
+ 
     #endregion
 
     #region Private
