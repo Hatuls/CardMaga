@@ -33,7 +33,7 @@ public class AnimatorController : MonoBehaviour
 
     [SerializeField] bool isPlayer;
     bool _isAnimationPlaying;
-    bool isFirst;
+    [SerializeField]   bool isFirst;
     [SerializeField]  Vector3 startPos;
     #endregion
 
@@ -75,7 +75,7 @@ public class AnimatorController : MonoBehaviour
         _playerAnimator.SetBool("IsWon", false);
         _playerAnimator.SetInteger("AnimNum",-1); // idle animation
     }
-    public void PlayAnimation (Cards.CardNamesEnum cardName)
+    public void PlayAnimation (Cards.AttackAnimation cardName)
     {
         if(_playerAnimator == null)
         {
@@ -112,7 +112,7 @@ public class AnimatorController : MonoBehaviour
   //     Debug.Log("<a>Animation Playing</a> " + _playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
         _isAnimationPlaying = true;
         ResetBothRotaionAndPosition();
-        _playerAnimator.SetInteger("AnimNum", -1);
+        
     }   
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
     {
@@ -124,14 +124,13 @@ public class AnimatorController : MonoBehaviour
     {
         _isAnimationPlaying = false;
         ReturnToIdle();
-        _playerAnimator.SetBool("IsWon", true);
-       _playerAnimator.SetInteger("AnimNum", -2);
+       // _playerAnimator.SetBool("IsWon", true);
+       //_playerAnimator.SetInteger("AnimNum", -2);
         transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left , transform.position));
     }
     public void CharacterIsDead()
     {
-        _playerAnimator.SetInteger("AnimNum", -2);
-        _playerAnimator.SetBool("IsDead", true);
+        _playerAnimator.CrossFade("KB_KO_Head", _transitionSpeedBetweenAnimations);
     }
 
 
@@ -148,7 +147,7 @@ public class AnimatorController : MonoBehaviour
         // When we finish the planning turn we get the cards and start the animation 
         if (animation == null || animation.Length == 0)
             return;
-
+        Debug.Log(animation + "!!!!!!!!!!!!!!");
          _animationQueue.Enqueue(animation);
             
         IsMyTurn = true;
@@ -218,7 +217,7 @@ public class AnimatorController : MonoBehaviour
             bool isIdle = true ;
             if (_playerAnimator.GetCurrentAnimatorClipInfo(0).Length > 0)
             {
-                isIdle=_playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "MC Mma idle";
+                isIdle=_playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "KB_Idle_1";
             }
             
 
@@ -236,7 +235,7 @@ public class AnimatorController : MonoBehaviour
     #endregion
 
     #region Private
-    private void ReturnToIdle() => _playerAnimator.CrossFade("Idle", transitionToIdle);
+    private void ReturnToIdle() => _playerAnimator.CrossFade("KB_Idle", transitionToIdle);
     #endregion
 
     #endregion

@@ -157,7 +157,7 @@ namespace Battles.UI
             SetCardDescriptionText(cardData.GetSetCard.GetCardDescription);
             SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
             SetBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetSetCard.GetBodyPartEnum));
-            SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetSetCard.GetTargetBodyPart));
+            SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetSetCard.GetBodyPartEnum));
             SetCardColors( cardData.GetSetCard.GetCardTypeEnum , artSO);
 
             _cardReferenceInHandDeck = cardData;

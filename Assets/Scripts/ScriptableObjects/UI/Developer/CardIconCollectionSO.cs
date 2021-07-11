@@ -34,19 +34,20 @@ public class CardIconCollectionSO : ScriptableObject
                 return _bodyPartIcons[6];
         }
     }
-    public Sprite GetSprite(Cards.TargetedPartEnum targetedBodyPart)
+    public Sprite GetSprite(Cards.GetHitAnimation targetedBodyPart)
     {
-        switch (targetedBodyPart)
-        {
-            default:
-            case Cards.TargetedPartEnum.None:
-                return null;
-            case Cards.TargetedPartEnum.UpperPart:
-                return _targetedBodyPartIcons[0];
-            case Cards.TargetedPartEnum.MidPart:
-                return _targetedBodyPartIcons[1];
-            case Cards.TargetedPartEnum.LowerPart:
-                return _targetedBodyPartIcons[2];
-        }
+        return null;
+        //switch (targetedBodyPart)
+        //{
+        //    default:
+        //    case Cards.GetHitAnimation.None:
+        //        return null;
+        //    case Cards.GetHitAnimation.UpperPart:
+        //        return _targetedBodyPartIcons[0];
+        //    case Cards.GetHitAnimation.MidPart:
+        //        return _targetedBodyPartIcons[1];
+        //    case Cards.GetHitAnimation.LowerPart:
+        //        return _targetedBodyPartIcons[2];
+        //}
     }
 }

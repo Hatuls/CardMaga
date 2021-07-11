@@ -4,7 +4,7 @@ using System;
 namespace Cards
 {
     public enum CardTypeEnum { Utility, Defend, Attack };
-    public enum TargetedPartEnum { None, UpperPart, MidPart, LowerPart };
+   
     public enum BodyPartEnum { None, Head, Elbow, Fist, Knee, Feet, Duck, Jump };
     public class Card
     {
@@ -81,4 +81,8 @@ namespace Cards
         }
         #endregion
     }
+
+
+ 
+
 }

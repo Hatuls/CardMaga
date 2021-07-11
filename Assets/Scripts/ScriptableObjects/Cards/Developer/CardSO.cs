@@ -11,11 +11,10 @@ namespace Cards
         #region Fields
         [Header("Card Details:")]
 
-        [Tooltip("Name of the card\n Note: the enum is also used to detect the currect animation")]
-        [SerializeField] CardNamesEnum _cardName;
+        [SerializeField] string _cardName;
 
-        [Tooltip("What Body Part Is Targeting")]
-        [SerializeField] TargetedPartEnum _targetBodyPart;
+        [SerializeField]
+        AnimationBundle _animationBundle;
 
         [Tooltip("What Type Of Card Is It?")]
         [SerializeField]
@@ -55,12 +54,12 @@ namespace Cards
         #region Properties
         public CardType GetCardType => _cardData;
         public RarityEnum GetCardsRarityLevel => _cardData._rarityLevel;
-        public CardNamesEnum GetCardName => _cardName;
+        public string GetCardName => _cardName;
         public ref Sprite GetCardImage => ref _cardImage;
         public ref string GetCardDescription => ref _cardDescription;
         public ref string GetCardLCEDescription => ref _cardLCEDescription;
         public CardTypeEnum GetCardTypeEnum => _cardData._cardType;
-        public TargetedPartEnum GetTargetBodyPart => _targetBodyPart;
+        public AnimationBundle GetAnimationBundle => _animationBundle;
         public BodyPartEnum GetBodyPartEnum => _cardData._bodyPart;
         public int GetStaminaCost => _staminaCost;
         public KeywordData[] GetCardsKeywords => _keywords;

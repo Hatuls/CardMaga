@@ -13,7 +13,7 @@ namespace Managers
 
 
         [SerializeField] int _amountOfCardsToStartCache=5;
-        static Dictionary<CardNamesEnum, CardSO> _cardSOCollectionDict;
+        static Dictionary<string, CardSO> _cardSOCollectionDict;
         static Dictionary<int, Card> _playerCardDict;
         static int _cardCreated;
 
@@ -28,7 +28,7 @@ namespace Managers
                 return;
             }
 
-            _cardSOCollectionDict = new Dictionary<CardNamesEnum, CardSO>();
+            _cardSOCollectionDict = new Dictionary<string, CardSO>();
 
             for (int i = 0; i < _cardSOCollections.GetAllCards.Length; i++)
             {
@@ -64,7 +64,7 @@ namespace Managers
 
 
 
-        public static Card CreateCard(bool toPlayer, CardNamesEnum card)
+        public static Card CreateCard(bool toPlayer, string card)
         {
             if (toPlayer)
             {
@@ -101,7 +101,7 @@ namespace Managers
             }
             return _playerCardDict.ContainsKey(id); 
         }
-        public static bool CheckIfCardExistInDict(CardNamesEnum card)
+        public static bool CheckIfCardExistInDict(string card)
         {
             if (_playerCardDict == null)
             {
@@ -117,7 +117,7 @@ namespace Managers
 
             return false;
         }
-        public static void RemoveCard(CardNamesEnum card)
+        public static void RemoveCard(string card)
         {
             if (_playerCardDict != null)
             {

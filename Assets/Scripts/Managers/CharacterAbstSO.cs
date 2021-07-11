@@ -7,7 +7,7 @@ namespace Battles
         [SerializeField] CharactersEnum _opponent;
         [SerializeField] CharacterDifficulty _characterDifficulty;
         [SerializeField] Characters.Stats.CharacterStats _stats;
-        [SerializeField] Cards.CardNamesEnum[] _characterCards;
+        [SerializeField] Cards.CardSO[] _characterCards;
 
 
        Cards.Card[] _cards;
@@ -20,7 +20,7 @@ namespace Battles
                     _cards = new Cards.Card[_characterCards.Length];
 
                     for (int i = 0; i < _characterCards.Length; i++)
-                        _cards[i] = Managers.CardManager.CreateCard(_opponent == CharactersEnum.Player,_characterCards[i]);
+                        _cards[i] = Managers.CardManager.CreateCard(_opponent == CharactersEnum.Player,_characterCards[i].GetCardName);
                 }
 
                 return   _cards; 

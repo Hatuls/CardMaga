@@ -80,7 +80,7 @@ namespace Battles
                 yield break;
 
             Debug.Log("Enemy Attack!");
-            _enemyAnimatorController.PlayAnimation(enemyAction.GetSetCard.GetCardName);
+            _enemyAnimatorController.PlayAnimation(enemyAction.GetSetCard.GetAnimationBundle._attackAnimation);
             for (int i = 0; i < enemyAction.GetCardKeywords.Length; i++)
             {
                 Keywords.KeywordManager.Instance.ActivateKeyword(enemyAction.GetCardKeywords[i]);
