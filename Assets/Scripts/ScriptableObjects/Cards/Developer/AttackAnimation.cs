@@ -6,6 +6,8 @@
         public AttackAnimation _attackAnimation;
         public ShieldAnimation _shieldAnimation;
         public GetHitAnimation _getHitAnimation;
+
+        public bool IsCinemtaic; 
     }
 
 
