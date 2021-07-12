@@ -47,7 +47,6 @@ namespace Battles.Turns
                 if (_isTurnFinished != value)
                 {
                     _isTurnFinished = value;
-                    CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
                 }
             } 
         }

@@ -180,7 +180,7 @@ namespace Characters.Stats
             if (stats.Health - amount <= 0)
             {
                 Debug.Log(string.Concat("The" + (isPlayer ? "Player" : "Enemy") + " Died!"));
-                _updateUIStats.Invoke(isPlayer, 0, Keywords.KeywordTypeEnum.Attack);
+                _updateUIStats?.Invoke(isPlayer, 0, Keywords.KeywordTypeEnum.Attack);
 
                 Battles.BattleManager.BattleEnded(isPlayer);
                 return;

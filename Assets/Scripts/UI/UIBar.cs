@@ -17,7 +17,7 @@ namespace Battles.UI
 
             _slider.value = value;
             if (_currentValueText != null)
-                        _currentValueText.text = value.ToString();
+                _currentValueText.text = value.ToString();
             SetGradientColor();
         }
 

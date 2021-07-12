@@ -23,11 +23,7 @@ namespace Battles
 
             return null;
         }
-        private void Start()
-        {
 
-          
-        }
         public override void Init()
         {
             if (_charactersDictionary == null)
@@ -103,7 +99,7 @@ namespace Battles
                 UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
                 Instance._playSound?.Raise(SoundsNameEnum.Victory );
             }
-
+            UI.StatsUIManager.GetInstance.UpdateHealthBar(!isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
             isGameEnded = true;
             TurnHandler.Instance.BattleEnded();
