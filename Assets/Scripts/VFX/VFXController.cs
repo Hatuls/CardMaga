@@ -25,6 +25,18 @@ public class VFXController : MonoBehaviour
         soundsNameEnum = SoundsNameEnum.None;
         switch (keywordTypeEnum)
         {
+            case ParticleEffectsEnum.Attack:
+                switch ((int)Random.Range(0, 2))
+                {
+                    default:
+                    case 0:
+                        soundsNameEnum = (_isPlayer) ? SoundsNameEnum.Attacking1 : SoundsNameEnum.EnemyAttack1;
+                        break;
+                    case 1:
+                        soundsNameEnum = (_isPlayer) ? SoundsNameEnum.Attacking1 : SoundsNameEnum.EnemyAttack2;
+                        break;
+                }
+                break;
 
             case ParticleEffectsEnum.RecieveDamage: // this is recieving dmg 
 
