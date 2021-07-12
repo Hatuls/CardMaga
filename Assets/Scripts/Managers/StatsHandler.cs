@@ -184,9 +184,9 @@ namespace Characters.Stats
 
             if (stats.Health - amount <= 0)
             {
+                stats.Health = 0;
                 Debug.Log(string.Concat("The" + (isPlayer ? "Player" : "Enemy") + " Died!"));
                 _updateUIStats?.Invoke(isPlayer, 0, Keywords.KeywordTypeEnum.Attack);
-
                 Battles.BattleManager.BattleEnded(isPlayer);
                 return;
             }
@@ -198,23 +198,4 @@ namespace Characters.Stats
         }
     }
 
-public static class PredictionStats
-{
-
-    public static void PredictPlacement(Cards.Card[] placements)
-    {
-        if (placements == null || placements.Length == 0)
-            return;
-
-            /*
-            run on cards
-            get keywords
-            get characterStats
-            update the ui?
-            */
-
-
-
-    }
-}
 }
