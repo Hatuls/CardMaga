@@ -156,9 +156,11 @@ namespace Characters.Stats
         public void ApplyBleed(bool isPlayer)
         {
             ref CharacterStats stats =ref GetCharacterStats(isPlayer);
-            if (stats.Bleed > 0)
+        
+            if (stats.Bleed > 0 && stats.Health > 0)
             {
                 SetHealth(isPlayer,stats.Bleed);
+                _playSound?.Invoke(isPlayer ? SoundsNameEnum.WomanBleeding : SoundsNameEnum.Bleeding);
                 stats.Bleed--;
                 if (stats.Health < 0)
                     return;

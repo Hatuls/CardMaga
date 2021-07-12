@@ -104,6 +104,8 @@ namespace Battles.Deck
         }
         public void DrawHand(int drawAmount)
         {
+            if (BattleManager.isGameEnded)
+                return;
             /*
              * check if everything is valid
              * cache the relevante decks (hand and player deck)
