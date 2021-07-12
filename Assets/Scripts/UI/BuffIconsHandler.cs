@@ -12,9 +12,9 @@ public class BuffIconsHandler : MonoBehaviour
     [SerializeField]
     BuffIcon[] _buffSlots;
 
-    [HideInInspector]
+ 
     [SerializeField] ArtSO _artSO;
-    [HideInInspector]
+
     [SerializeField] BuffIcon _enemyOpponentActionUI;
     #endregion
     private void Start()

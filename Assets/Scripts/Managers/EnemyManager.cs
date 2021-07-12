@@ -14,7 +14,7 @@ namespace Battles
         public override void Init()
         {
             if (_opponent == null)
-            _opponent = new Opponents(_uiBuffIconHandler);
+            _opponent = new Opponents();
         }
         public void SetEnemy(CharacterAbstSO _character)
         {
@@ -22,14 +22,14 @@ namespace Battles
                 _opponent.AssignData(_character);
         }
 
-  
+        public static void SetEnemyAction(Cards.Card card) => Instance._uiBuffIconHandler?.SetOpponentActionUI(card);
 
         public Opponents GetEnemy {
             get
             {
                 if (_opponent == null)
                 {
-                    _opponent = new Opponents(_uiBuffIconHandler);
+                    _opponent = new Opponents();
                     _opponent.AssignData(BattleManager.GetDictionary(typeof(EnemyManager))
                             .GetRandomOpponent());
                 }
@@ -52,12 +52,12 @@ namespace Battles
         [SerializeField] Characters.Stats.CharacterStats _enemyStats;
         [SerializeField] Cards.Card enemyAction;
         int _cardAction;
-          BuffIconsHandler _buffIconsHandler;
+
         #endregion
 
-        public Opponents(BuffIconsHandler buffIconsHandler)
+        public Opponents()
         {
-            this._buffIconsHandler = buffIconsHandler;
+
         }
         public Cards.Card GetEnemyAction => enemyAction;
 
@@ -69,7 +69,7 @@ namespace Battles
             "\n This attack is going to use " + enemyAction.GetSetCard.GetBodyPartEnum.ToString() + "\n" +
             "And Do " + enemyAction.GetSetCard.GetCardTypeEnum.ToString() + " with the amount of " + enemyAction.GetSetCard.GetCardsKeywords[0].GetAmountToApply);
 
-            _buffIconsHandler?.SetOpponentActionUI(enemyAction);
+            EnemyManager.SetEnemyAction(enemyAction);
           
 
             yield return new WaitForSeconds(.1f);
