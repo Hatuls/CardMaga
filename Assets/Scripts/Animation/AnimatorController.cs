@@ -210,10 +210,10 @@ public class AnimatorController : MonoBehaviour
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
         if (Characters.Stats.StatsHandler.GetInstance.GetCharacterStats(!isPlayer).Shield > 0)
-            _opponentController?.PlayAnimation(_currentAnimation._shieldAnimation.ToString() );
+            _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString() );
         
         else
-            _opponentController?.PlayAnimation(_currentAnimation._getHitAnimation.ToString());
+            _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString());
         
        
     }

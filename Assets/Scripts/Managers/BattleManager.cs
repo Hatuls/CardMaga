@@ -69,11 +69,10 @@ namespace Battles
             EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharactersEnum.Enemy));
 
             Deck.DeckManager.Instance.ResetDeckManager();
-
             TurnHandler.Instance.ResetTurns();
-
-
             Instance.StartCoroutine(Instance.BackGroundSoundDelay());
+
+
         }
         System.Collections.IEnumerator BackGroundSoundDelay()
         {

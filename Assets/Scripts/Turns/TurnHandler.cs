@@ -59,8 +59,9 @@ namespace Battles.Turns
           get => _currectState;
           private  set
             {
-                if (_currectState != value)
+                if (_currectState != value|| BattleManager.isGameEnded)
                 {
+
                     _currectState = value;
                     Instance.StartTurn();
                 }
@@ -174,7 +175,11 @@ namespace Battles.Turns
         }
      
         public abstract TurnState GetNextTurn { get; }
-        public abstract IEnumerator PlayTurn();
+        public virtual IEnumerator PlayTurn()
+        {
+            if (BattleManager.isGameEnded)
+                yield break;
+        }
         protected void MoveToNextState()
             => TurnHandler.SetStateEvent?.Invoke(GetNextTurn);
     }
@@ -188,7 +193,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
-
+            base.PlayTurn();
             yield return null;
             MoveToNextState();
         }
@@ -204,6 +209,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+            base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(false);
             yield return new WaitForSeconds(0.1f);
             MoveToNextState();
@@ -220,6 +226,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+            base.PlayTurn();
             // Activate Previous Action if not null
             yield return EnemyManager.Instance.GetEnemy.PlayEnemyTurn();
             // set a new action
@@ -240,10 +247,11 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
-        /*
-         * Activate the enemy keywords 
-         * Remove The Player Defense
-         */
+            /*
+             * Activate the enemy keywords 
+             * Remove The Player Defense
+             */
+            base.PlayTurn();
             yield return KeywordManager.Instance.OnEndTurnKeywords(false);
             yield return new WaitForSeconds(0.5f);
             StatsHandler.GetInstance.ResetShield(true);
@@ -262,7 +270,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
-
+            base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(true);
             Deck.DeckManager.Instance.DrawHand(StatsHandler.GetInstance.GetCharacterStats(true).DrawCardsAmount);
             StaminaHandler.ResetStamina();
@@ -281,6 +289,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+            base.PlayTurn();
             // unlock Player Inputs 
             _turnHandler.IsTurnFinished = false;
             yield return null;
@@ -298,6 +307,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+            base.PlayTurn();
             yield return null;
         }
 
@@ -323,6 +333,7 @@ namespace Battles.Turns
             */
             CardUIManager.Instance.RemoveHands();
             CardExecutionManager.Instance.ResetExecution();
+            base.PlayTurn();
 
 
             yield return new WaitUntil (() => _playerControler.IsCurrentlyIdle || _turnHandler.IsTurnFinished == true);

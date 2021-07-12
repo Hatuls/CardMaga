@@ -1,11 +1,15 @@
-﻿namespace Battles.Deck
+﻿using Cards;
+
+namespace Battles.Deck
 {
     public class Disposal : DeckAbst
     {
         PlayerDeck _playerDeck;
-        public Disposal(int length, PlayerDeck deck) : base(length)
+        BuffIcon _disposalIcon;
+        public Disposal(int length, PlayerDeck deck, BuffIcon icon) : base(length)
         {
             _playerDeck = deck;
+            _disposalIcon = icon;
         }
 
         public override void ResetDeck()
@@ -19,6 +23,16 @@
                     DiscardCard(disposalDeck[i]);
                 }
             }
+        }
+        public override void AddCard(Card card)
+        {
+            base.AddCard(card);
+            _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
+        }
+        public override void DiscardCard(in Card card)
+        {
+            base.DiscardCard(card);
+            _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
         }
     }
 }
