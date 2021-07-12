@@ -1,4 +1,4 @@
-﻿using Unity.Events;
+﻿
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -28,14 +28,16 @@ public class VFXManager : MonoSingleton<VFXManager>
     {
         if (_VFXDictionary == null)
             _VFXDictionary = new Dictionary<ParticleEffectsEnum, ParticalEffectBase>();
-        else
-            _VFXDictionary.Clear();
+
 
     }
 
     public static void RegisterParticle(ParticalEffectBase particle)
     {
-        if (_VFXDictionary != null && _VFXDictionary.ContainsKey(particle.GetParticalEffect) == false)
+        if (_VFXDictionary== null)
+            _VFXDictionary = new Dictionary<ParticleEffectsEnum, ParticalEffectBase>();
+
+        if (!_VFXDictionary.ContainsKey(particle.GetParticalEffect))
             _VFXDictionary.Add(particle.GetParticalEffect, particle);
     }
 

@@ -8,11 +8,11 @@ using Cards;
 public class AnimatorController : MonoBehaviour
 {
     #region Events
-    [HideInInspector]
+   
     [SerializeField] VoidEvent _movedToNextAnimation; 
-    [HideInInspector]
+ 
     [SerializeField] VoidEvent _onFinishedAnimation; 
-    [HideInInspector]
+
     [SerializeField] VoidEvent _onAnimationDoKeyword;
     [SerializeField] IntEvent _moveCameraAngle;
     #endregion

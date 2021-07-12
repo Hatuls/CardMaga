@@ -117,7 +117,7 @@ public class VFXController : MonoBehaviour
                 transformOfBodyPart = _leftLegPart;
                 break;
             case BodyPartEnum.RightLeg:
-                transformOfBodyPart = _headPart;
+                transformOfBodyPart = _rightLegPart;
                 break;
             case BodyPartEnum.BottomBody:
                 transformOfBodyPart = _bottomBody;
