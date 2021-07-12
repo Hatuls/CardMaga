@@ -6,7 +6,7 @@ namespace Battles.UI
     public class StatsUIManager : MonoBehaviour
     {
         [SerializeField] UIBar _playerHealthBar, _enemyHealthBar;
-        [SerializeField] UIBar _playerArmorBar, _enemyArmorBar;
+
 
         [SerializeField] BuffIconsHandler _playerBuffIconHandler;
         [SerializeField] BuffIconsHandler _opponentBuffIconHandler;
@@ -32,10 +32,6 @@ namespace Battles.UI
         
         public void UpdateMaxHealthBar(bool isPlayer , int maxHealth)
             => (isPlayer ? _playerHealthBar : _enemyHealthBar).SetMaxValue(maxHealth);
-
-
-        public void UpdateMaxShieldBar(bool isplayer, int maxShield)
-            => (isplayer ? _playerArmorBar : _enemyArmorBar)?.SetMaxValue(maxShield);
 
 
         public void UpdateShieldBar(bool isPlayer, int shield)

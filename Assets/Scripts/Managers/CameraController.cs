@@ -55,7 +55,7 @@ public class CameraController : MonoSingleton<CameraController>
     }
     public void MoveCameraAnglePos(int index)
     {
-        if (GetAngleTrackedDolly.m_PathPosition != index)
+        if ((int)_cameraAngleLookAt != index)
         {
             StopCoroutine(CameraTransition(index));
             StartCoroutine(CameraTransition(index));

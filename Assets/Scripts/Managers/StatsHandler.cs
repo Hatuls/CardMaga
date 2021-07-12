@@ -158,7 +158,7 @@ namespace Characters.Stats
             ref CharacterStats stats =ref GetCharacterStats(isPlayer);
             if (stats.Bleed > 0)
             {
-                RecieveDamage(isPlayer,stats.Bleed);
+                SetHealth(isPlayer,stats.Bleed);
                 stats.Bleed--;
 
                 _playEffect?.Invoke(isPlayer, BodyPartEnum.Head, ParticleEffectsEnum.Bleeding);
