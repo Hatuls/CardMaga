@@ -2,11 +2,11 @@
 using Battles;
 using Battles.Turns;
 using Managers;
-
+using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     ISingleton[] _singletons;
-
+    [SerializeField] int _maxFPS =30; 
 
     private void Start()
     {
@@ -15,6 +15,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Update()
     {
+       Application.targetFrameRate = _maxFPS;
         ThreadsHandler.ThreadHandler.TickThread();
     }
     public override void Init()
