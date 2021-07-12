@@ -110,6 +110,8 @@ namespace Characters.Stats
                 damageAmount = 0;
 
             ref CharacterStats stat = ref GetCharacterStats(isPlayer);
+            if (stat.Health <= 0)
+                return;
 
             if (stat.Shield > 0)
             {
