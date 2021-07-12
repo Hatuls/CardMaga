@@ -69,11 +69,10 @@ namespace Battles
             EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharactersEnum.Enemy));
 
             Deck.DeckManager.Instance.ResetDeckManager();
-
             TurnHandler.Instance.ResetTurns();
-
-
             Instance.StartCoroutine(Instance.BackGroundSoundDelay());
+
+
         }
         System.Collections.IEnumerator BackGroundSoundDelay()
         {
@@ -88,6 +87,7 @@ namespace Battles
             if (isPlayerDied)
             {
                 PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
+                EnemyManager.EnemyAnimatorController.CharacterWon();
                 if (isGameEnded == false)
                    Instance._playSound?.Raise(SoundsNameEnum.Defeat);
             }

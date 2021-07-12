@@ -82,21 +82,21 @@ namespace Characters.Stats
             }
             ref CharacterStats stat = ref GetCharacterStats(isPlayer);
 
-           // if (GetCharacterStats(isPlayer).Health + amount > GetCharacterStats(isPlayer).MaxHealth)
+       
             if (stat.Health + amount > stat.MaxHealth)
             {
-                //Text of Heal
+          
                 _updateUIStats?.Invoke(isPlayer,   stat.MaxHealth - (stat.Health), Keywords.KeywordTypeEnum.Heal);
                 ResetHealth(isPlayer);
-//                return;
+
             }
             else
             {
-                //Text of Heal
+         
                 stat.Health += amount;
             }
             _updateUIStats?.Invoke(isPlayer, amount, Keywords.KeywordTypeEnum.Heal);
-         //   _playSound?.Invoke(SoundsNameEnum.Healing);      
+
         }
         public void SetNewMaxHealth(bool isPlayer, int amount)
         {
@@ -156,11 +156,14 @@ namespace Characters.Stats
         public void ApplyBleed(bool isPlayer)
         {
             ref CharacterStats stats =ref GetCharacterStats(isPlayer);
-            if (stats.Bleed > 0)
+        
+            if (stats.Bleed > 0 && stats.Health > 0)
             {
                 SetHealth(isPlayer,stats.Bleed);
+                _playSound?.Invoke(isPlayer ? SoundsNameEnum.WomanBleeding : SoundsNameEnum.Bleeding);
                 stats.Bleed--;
-
+                if (stats.Health < 0)
+                    return;
                 _playEffect?.Invoke(isPlayer, BodyPartEnum.Head, ParticleEffectsEnum.Bleeding);
                 _updateUIStats?.Invoke(isPlayer, stats.Bleed, Keywords.KeywordTypeEnum.Bleed);
 

@@ -124,8 +124,8 @@ public class AnimatorController : MonoBehaviour
     public void CharacterWon()
     {
         _isAnimationPlaying = false;
-        ReturnToIdle();
-       // _playerAnimator.SetBool("IsWon", true);
+      
+        _playerAnimator.SetBool("IsWon", true);
        //_playerAnimator.SetInteger("AnimNum", -2);
         transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left , transform.position));
     }
@@ -210,10 +210,10 @@ public class AnimatorController : MonoBehaviour
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
         if (Characters.Stats.StatsHandler.GetInstance.GetCharacterStats(!isPlayer).Shield > 0)
-            _opponentController?.PlayAnimation(_currentAnimation._shieldAnimation.ToString() );
+            _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString() );
         
         else
-            _opponentController?.PlayAnimation(_currentAnimation._getHitAnimation.ToString());
+            _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString());
         
        
     }
