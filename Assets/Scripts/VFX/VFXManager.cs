@@ -1,34 +1,82 @@
-﻿using Keywords;
-using Unity.Events;
+﻿using Unity.Events;
 using UnityEngine;
-[RequireComponent(typeof(BoolListener))]
+using System.Collections.Generic;
+
+
+public enum ParticleEffectsEnum
+{
+    None = 0,
+    Crafting = 1,
+    Shield = 2,
+    Bleeding = 3,
+    Heal = 4,
+    Strength = 5,
+    RecieveDamage = 6,
+    Blocking = 7,
+    Attack = 8
+}
+
 public class VFXManager : MonoSingleton<VFXManager>
 {
-    [SerializeField] KeywordEnumEvent _playerVFXEvent;
-    [SerializeField]KeywordEnumEvent _enemyVFXEvent;
 
     [SerializeField]VFXController _playerVFX, _enemyVFX;
-    [SerializeField] ParticleSystem _craftin;
-    public void PlayParticleEffect(bool isPlayer, KeywordTypeEnum keywordTypeEnum) 
-    {
-        (isPlayer ? _playerVFXEvent : _enemyVFXEvent)?.Raise(keywordTypeEnum);    
-    }
 
+    static  Dictionary<ParticleEffectsEnum, ParticalEffectBase> _VFXDictionary;
+    
 
-
-
-    public void HitOtherCharacter(bool isPlayer)
-    {
-        (isPlayer ? _enemyVFXEvent: _playerVFXEvent)?.Raise(KeywordTypeEnum.Attack);
-    }
-    public void PlayCraftingParticle() 
-    {
-        if (_craftin.isPlaying)
-            _craftin.Stop();
-            _craftin?.Play(true); 
-        }
     public override void Init()
     {
-       
+        if (_VFXDictionary == null)
+            _VFXDictionary = new Dictionary<ParticleEffectsEnum, ParticalEffectBase>();
+        else
+            _VFXDictionary.Clear();
+
+    }
+
+    public static void RegisterParticle(ParticalEffectBase particle)
+    {
+        if (_VFXDictionary != null && _VFXDictionary.ContainsKey(particle.GetParticalEffect) == false)
+            _VFXDictionary.Add(particle.GetParticalEffect, particle);
+    }
+
+
+    public void PlayParticle(bool isOnPlayer, BodyPartEnum part, ParticleEffectsEnum effect)
+    {
+        if (effect == ParticleEffectsEnum.None)
+            return;
+
+
+        if (isOnPlayer)
+        {
+            _playerVFX.ActivateParticle(part, _VFXDictionary[effect]);
+        }
+        else
+        {
+            _enemyVFX.ActivateParticle(part, _VFXDictionary[effect]);
+        }
+
+
+    }
+
+    public static ParticleEffectsEnum KeywordToParticle(Keywords.KeywordTypeEnum keywordTypeEnum)
+    {
+        switch (keywordTypeEnum)
+        {
+            case Keywords.KeywordTypeEnum.Attack:
+                return ParticleEffectsEnum.Attack;
+            case Keywords.KeywordTypeEnum.Defense:
+                return ParticleEffectsEnum.Shield;
+            case Keywords.KeywordTypeEnum.Heal:
+                return ParticleEffectsEnum.Heal;
+            case Keywords.KeywordTypeEnum.Strength:
+                return ParticleEffectsEnum.Strength;
+            case Keywords.KeywordTypeEnum.Bleed:
+                return ParticleEffectsEnum.Bleeding;
+            case Keywords.KeywordTypeEnum.MaxHealth:
+                return ParticleEffectsEnum.Heal;
+            default:
+                break;
+        }
+        return ParticleEffectsEnum.None;
     }
 }

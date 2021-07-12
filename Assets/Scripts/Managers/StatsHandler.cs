@@ -9,7 +9,7 @@ namespace Characters.Stats
         public static RemoveUIIcon _removeUIIcon;
         public static Battles.UI.UpdateUiStats _updateUIStats;
         public Action<SoundsNameEnum> _playSound;
-        public Action<bool, Keywords.KeywordTypeEnum> _playEffect;
+        public Action<bool, BodyPartEnum, ParticleEffectsEnum> _playEffect;
         private StatsHandler()
         {
             _removeUIIcon = new RemoveUIIcon();
@@ -19,14 +19,14 @@ namespace Characters.Stats
             _updateUIStats.AddListener(Battles.UI.BattleUiManager.Instance.UpdateUiStats);
 
             _playSound += AudioManager.Instance.PlayerAudioSource;
-            _playEffect += VFXManager.Instance.PlayParticleEffect;
+            _playEffect += VFXManager.Instance.PlayParticle;
         }
          ~StatsHandler()
         {
             _updateUIStats.RemoveAllListeners();
             _removeUIIcon.RemoveAllListeners();
             _playSound -= AudioManager.Instance.PlayerAudioSource;
-            _playEffect -= VFXManager.Instance.PlayParticleEffect;
+            _playEffect -= VFXManager.Instance.PlayParticle;
         }
         private static StatsHandler _instance;
         public static StatsHandler GetInstance
@@ -161,7 +161,7 @@ namespace Characters.Stats
                 RecieveDamage(isPlayer,stats.Bleed);
                 stats.Bleed--;
 
-                _playEffect?.Invoke(isPlayer, Keywords.KeywordTypeEnum.Bleed);
+                _playEffect?.Invoke(isPlayer, BodyPartEnum.Chest, ParticleEffectsEnum.Bleeding);
                 _updateUIStats?.Invoke(isPlayer, stats.Bleed, Keywords.KeywordTypeEnum.Bleed);
 
                 if (stats.Bleed==0)

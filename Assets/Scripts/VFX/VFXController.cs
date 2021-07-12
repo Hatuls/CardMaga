@@ -1,22 +1,12 @@
-﻿using Keywords;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using Unity.Events;
 
-[RequireComponent(typeof(KeywordEnumListener))]
 public class VFXController : MonoBehaviour
 {
-    [SerializeField] ParticleSystem _bleedPS;
-    [SerializeField] ParticleSystem _healPS;
-    [SerializeField] ParticleSystem _shieldPS;
-    [SerializeField] ParticleSystem _StrengthPS;
-    [SerializeField] ParticleSystem _recieveAttackPS;
-    [SerializeField] ParticleSystem _hittingAttackPS;
-
 
     [SerializeField] bool _isPlayer;
-    [SerializeField] BoolEvent _hitCharacterEvent;
-    [SerializeField] BoolKeywordEnumEvent _activateKewordEvent;
+
     [SerializeField] SoundsEvent _soundsEvent;
 
     [SerializeField] Transform _headPart;
@@ -24,72 +14,19 @@ public class VFXController : MonoBehaviour
     [SerializeField] Transform _rightHandPart;
     [SerializeField] Transform _leftLegPart;
     [SerializeField] Transform _rightLegPart;
+    [SerializeField] Transform _bottomBody;
+    [SerializeField] Transform _chestPart;
 
-
-
-    Dictionary<KeywordTypeEnum, ParticleSystem> _particleSystemDict;
-    private void Start()
-    {
-
-      
-        _particleSystemDict = new Dictionary<KeywordTypeEnum, ParticleSystem>()
-        {
-            { KeywordTypeEnum.Attack, _recieveAttackPS },
-            {KeywordTypeEnum.Bleed, _bleedPS },
-            {KeywordTypeEnum.Defense, _shieldPS },
-            {KeywordTypeEnum.Strength, _StrengthPS },
-            {KeywordTypeEnum.Heal, _healPS },
-        };
-
-
-        foreach (var item in _particleSystemDict)
-        {
-     
-            item.Value?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-           
-        }
-    }
-
-    public void RecieveHit()
-    {
-
-
-
-        _hitCharacterEvent?.Raise(_isPlayer);
-        switch (Random.Range(0, 2))
-        {
-            case 0:
-                _soundsEvent?.Raise(_isPlayer ? SoundsNameEnum.Attacking1 : SoundsNameEnum.EnemyAttack1);
-                break;
-            case 1:
-                _soundsEvent?.Raise(_isPlayer ? SoundsNameEnum.Attacking2 : SoundsNameEnum.EnemyAttack2);
-                break;
-        }
-    }
- 
-    public void PlayParticleEffect(KeywordTypeEnum keyword)
-    {
-        _activateKewordEvent?.Raise(_isPlayer, keyword);
-    }
-   public void PlayParticle(KeywordTypeEnum keywordType)
-    {
-        if (_particleSystemDict.TryGetValue(keywordType, out ParticleSystem ps))
-        {
-            if (ps.isPlaying)
-               ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            
-            ps.Play(true);
-            _soundsEvent?.Raise(KeywordToSound(keywordType));
-        }
-    }
-    private SoundsNameEnum KeywordToSound(KeywordTypeEnum keywordTypeEnum)
+    public void PlaySound(ParticleEffectsEnum keywordType) => _soundsEvent?.Raise(KeywordToSound(keywordType));
+  
+    private SoundsNameEnum KeywordToSound(ParticleEffectsEnum keywordTypeEnum)
     {
         SoundsNameEnum soundsNameEnum;
-        soundsNameEnum = SoundsNameEnum.Attacking1;
+        soundsNameEnum = SoundsNameEnum.None;
         switch (keywordTypeEnum)
         {
 
-            case KeywordTypeEnum.Attack: // this is recieving dmg 
+            case ParticleEffectsEnum.RecieveDamage: // this is recieving dmg 
 
                 switch ((int)Random.Range(0, 2))
                 {
@@ -101,19 +38,20 @@ public class VFXController : MonoBehaviour
                         soundsNameEnum = (_isPlayer) ? SoundsNameEnum.CharacterGettingHit2 : SoundsNameEnum.EnemyGettingHit2;
                         break;
                 }
-        
+
                 break;
-            case KeywordTypeEnum.Defense:
+            case ParticleEffectsEnum.Shield:
                 soundsNameEnum = SoundsNameEnum.GainArmor;
                 break;
-            case KeywordTypeEnum.Heal:
+            case ParticleEffectsEnum.Heal:
                 soundsNameEnum = SoundsNameEnum.Healing;
                 break;
-            case KeywordTypeEnum.Strength:
+            case ParticleEffectsEnum.Strength:
                 soundsNameEnum = SoundsNameEnum.GainStrength;
                 break;
-            case KeywordTypeEnum.Bleed:
-                if(_isPlayer == true)
+            case ParticleEffectsEnum.Bleeding:
+
+                if (_isPlayer == true)
                 {
                     soundsNameEnum = SoundsNameEnum.WomanBleeding;
                 }
@@ -122,56 +60,88 @@ public class VFXController : MonoBehaviour
                     soundsNameEnum = SoundsNameEnum.Bleeding;
                 }
                 break;
-            case KeywordTypeEnum.MaxHealth:
-                soundsNameEnum = SoundsNameEnum.Healing;
-                break;
-            default:
-                soundsNameEnum =  SoundsNameEnum.Attacking1;
-                break;
+
+            case ParticleEffectsEnum.Blocking:
+            case ParticleEffectsEnum.Crafting:
+                soundsNameEnum = SoundsNameEnum.None;
+                         break;
         }
         return soundsNameEnum;
     }
 
+    #region Animation Event Callbacks
+    private void SendParticle(BodyPartEnum bodyPartEnum, ParticleEffectsEnum particleEffectsEnum)
+        => VFXManager.Instance.PlayParticle(_isPlayer, bodyPartEnum, particleEffectsEnum);
+    public void ApplyRightArmParticle(ParticleEffectsEnum particleEffectsEnum)
+        => SendParticle(BodyPartEnum.RightArm, particleEffectsEnum);
 
-    public void ApplyHit(HittingPart bodyPart)
+    public void ApplyLeftArmParticle(ParticleEffectsEnum particleEffectsEnum)
+        => SendParticle(BodyPartEnum.LeftArm, particleEffectsEnum);
+    public void ApplyHeadParticle(ParticleEffectsEnum particleEffectsEnum)
+        => SendParticle(BodyPartEnum.Head, particleEffectsEnum);
+
+    public void ApplyLeftLegParticle(ParticleEffectsEnum particleEffectsEnum)
+       => SendParticle(BodyPartEnum.LeftLeg, particleEffectsEnum);
+    public void ApplyRightLegParticle(ParticleEffectsEnum particleEffectsEnum)
+          => SendParticle(BodyPartEnum.RightLeg, particleEffectsEnum);
+    public void ApplyBottomBodyParticle(ParticleEffectsEnum particleEffectsEnum)
+              => SendParticle(BodyPartEnum.BottomBody, particleEffectsEnum);
+    public void ApplyChestBodyParticle(ParticleEffectsEnum particleEffectsEnum)
+        => SendParticle(BodyPartEnum.Chest, particleEffectsEnum);
+    #endregion
+
+    #region Particle Effect function
+    internal void ActivateParticle(BodyPartEnum part, ParticalEffectBase particalEffectBase)
     {
+        if (particalEffectBase == null)
+            Debug.LogError("Particle is null");
 
-        if (_hittingAttackPS.isPlaying)
-            _hittingAttackPS.Stop(true);
-
+        particalEffectBase.SetParticalPosition(GetLocationFromBodyPart(part));
+        particalEffectBase.PlayParticle();
+    }
+    private Transform GetLocationFromBodyPart(BodyPartEnum bodyPart)
+    {
+        Transform transformOfBodyPart = null;
         switch (bodyPart)
         {
-            case HittingPart.RightArm:
-        _hittingAttackPS.transform.SetParent(_rightHandPart);
-               // _hittingAttackPS.transform.position = _rightHandPart.position;
+            case BodyPartEnum.RightArm:
+                transformOfBodyPart = _rightHandPart;
                 break;
-            case HittingPart.LeftArm:
-        _hittingAttackPS.transform.SetParent(_leftHandPart);
-           
-             //   _hittingAttackPS.transform.position = _leftHandPart.position;
+            case BodyPartEnum.LeftArm:
+                transformOfBodyPart = _leftHandPart;
                 break;
-            case HittingPart.Head:
-        _hittingAttackPS.transform.SetParent(_headPart);
-            //    _hittingAttackPS.transform.position = _headPart.position;
+            case BodyPartEnum.Head:
+                transformOfBodyPart = _headPart;
                 break;
-            case HittingPart.LeftLeg:
-        _hittingAttackPS.transform.SetParent(_leftLegPart);
-           //     _hittingAttackPS.transform.position = _leftLegPart.position;
+            case BodyPartEnum.LeftLeg:
+                transformOfBodyPart = _leftLegPart;
                 break;
-            case HittingPart.RightLeg:
-        _hittingAttackPS.transform.SetParent(_rightLegPart);
-             //   _hittingAttackPS.transform.position = _rightLegPart.position;
+            case BodyPartEnum.RightLeg:
+                transformOfBodyPart = _headPart;
                 break;
-            default:
+            case BodyPartEnum.BottomBody:
+                transformOfBodyPart = _bottomBody;
+                break;
+            case BodyPartEnum.Chest:
+                transformOfBodyPart = _chestPart;
                 break;
         }
-        _hittingAttackPS.transform.localPosition = Vector3.zero;
-      //  _hittingAttackPS.transform.position = Vector3.zero;
-        _hittingAttackPS.Play(true);
-        _hittingAttackPS.transform.SetParent(null);
-        RecieveHit();
+
+
+        return transformOfBodyPart;
     }
+
+    #endregion
+
 }
 
+public enum BodyPartEnum {
+    RightArm,
+    LeftArm,
+    Head,
+    LeftLeg,
+    RightLeg,
+    BottomBody,
+    Chest,
+};
 
-public enum HittingPart { RightArm,LeftArm,Head,LeftLeg,RightLeg};

@@ -6,10 +6,10 @@ public class ComboCondition : ConditionAbst
 {
     #region Fields
     [Tooltip("What Are the Combo Body Parts Order?")]
-    [SerializeField] BodyPartEnum[] _bodyPartEnum;
+    [SerializeField] Cards.BodyPartEnum[] _bodyPartEnum;
     #endregion
     #region Properties
-    public BodyPartEnum[] GetBodyPartEnum => _bodyPartEnum;
+    public Cards.BodyPartEnum[] GetBodyPartEnum => _bodyPartEnum;
     #endregion
     public override bool IsConditionMet()
     {

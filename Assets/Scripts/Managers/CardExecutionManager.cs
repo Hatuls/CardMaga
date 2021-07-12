@@ -118,7 +118,12 @@ namespace Battles
                 {
                     case Cards.CardTypeEnum.Utility:
                     case Cards.CardTypeEnum.Defend:
-                        __playerVFXHandler.PlayParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType);
+
+                        VFXManager.Instance.PlayParticle(
+                            true,
+                            BodyPartEnum.Chest,
+                            VFXManager.KeywordToParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
+
                         ExecuteCard();
                         break;
                     case Cards.CardTypeEnum.Attack:
@@ -131,6 +136,8 @@ namespace Battles
             }
 
         }
+
+     
         public void ExecuteCard()
         {
 

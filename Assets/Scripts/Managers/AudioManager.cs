@@ -71,7 +71,9 @@ public class AudioManager : MonoSingleton<AudioManager>
 
     public void PlayerAudioSource(SoundsNameEnum nameOfSound)
     {
-        if (AudioDictionary != null && AudioDictionary.Count > 0)
+
+
+        if (nameOfSound != SoundsNameEnum.None && AudioDictionary != null && AudioDictionary.Count > 0)
         {
             if (AudioDictionary.ContainsKey(nameOfSound))
                 PlayAudioSource(AudioDictionary[nameOfSound]);
