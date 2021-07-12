@@ -54,11 +54,11 @@ namespace Battles.Turns
         #endregion
 
         #region Private Methods
-        private static TurnState CurrentState
+        public static TurnState CurrentState
         {
 
-            get => _currectState;
-            set
+          get => _currectState;
+          private  set
             {
                 if (_currectState != value)
                 {
