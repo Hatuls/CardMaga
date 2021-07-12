@@ -108,7 +108,6 @@ namespace Battles
             UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(false,_enemyStats.MaxHealth);
             UI.StatsUIManager.GetInstance.UpdateHealthBar(false,_enemyStats.Health);
 
-            UI.StatsUIManager.GetInstance.UpdateMaxShieldBar(false,_enemyStats.MaxHealth/4);     
             UI.StatsUIManager.GetInstance.UpdateShieldBar(false,_enemyStats.Shield);
             
         }
