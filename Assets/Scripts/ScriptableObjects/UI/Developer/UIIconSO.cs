@@ -8,6 +8,8 @@ public class UIIconSO : ScriptableObject
     [SerializeField]
     Sprite _icon;
     [SerializeField]
+    Color _detectedBackGround;
+    [SerializeField]
     Sprite _background;
     [SerializeField]
     Sprite _decor;
@@ -25,5 +27,6 @@ public class UIIconSO : ScriptableObject
     public Color GetIconColor => _iconColor;
     public Color GetDecorColor => _decorColor;
     public Color GetBackgroundColor => _backgroundColor;
+    public Color GetDetectedBackgroundColor => _detectedBackGround;
     #endregion
 }

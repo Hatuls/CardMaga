@@ -68,6 +68,12 @@ public class PlaceHolderSlotUI : MonoBehaviour
             _iconImage.sprite = img;
         }
     }
+    public void SetBackGroundColor(UIColorPaletteSO palette,Color colors)
+    {
+        var color = colors;
+        color.a = palette.GetSlotsOpacity / 100;
+        _backgroundImage.color = color;
+    }
     public void ResetSlotUI( UIColorPaletteSO palette)
     {
         if(palette == null)

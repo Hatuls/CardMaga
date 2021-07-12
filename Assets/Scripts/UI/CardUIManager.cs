@@ -74,7 +74,16 @@ namespace Battles.UI
         #region Private Methods
         private IEnumerator RemoveCards()
         {
-
+            if (_zoomedCard != null)
+            {
+                _zoomedCard.MoveCard(true, GetDeckPosition(DeckEnum.Disposal), _cardUISettings.GetTimerForCardGoingToDiscardPile, false);
+                _soundEvent?.Raise(SoundsNameEnum.DisacrdCard);
+            }
+            if (GetClickedCardUI != null)
+            {
+                GetClickedCardUI.MoveCard(true, GetDeckPosition(DeckEnum.Disposal), _cardUISettings.GetTimerForCardGoingToDiscardPile, false);
+                _soundEvent?.Raise(SoundsNameEnum.DisacrdCard);
+            }
             if (_handUI.GetAmountOfCardsInHand == 0)
                 yield break;
 
@@ -91,7 +100,7 @@ namespace Battles.UI
             }
 
             yield return null;
-     
+
         }
 
         private void MoveCardToDisposal(ref CardUI cards)

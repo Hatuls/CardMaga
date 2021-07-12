@@ -22,12 +22,13 @@ public class CraftingSlotsData: Battles.Deck.DeckAbst
         }
         PlaceHolderHandler.ChangeSlotsPos();
         CountCards();
+        Relics.RelicManager.StartDetection();
     }
     public override void ResetDeck()
     {
         base.ResetDeck();
         PlaceHolderHandler.ResetAllSlots();
-
+        Relics.RelicManager.StartDetection();
     }
     void ResetPlaceHolderUI(int i)
     {
