@@ -10,22 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b28711401c414b845b4c6f5f299d9dc6, type: 3}
-  m_Name: POC_Combo
+  m_Name: StrengthCombo
   m_EditorClassIdentifier: 
-  _relicName: 0
-  _relicType: 1
-  _whenToActivate: 2
-  _rarityLevel: 0
   _icon: {fileID: 0}
+  _relicName: 2
+  _rarityLevel: 0
+  _cost: 0
   _description: 
-  _bodyPart: 050000000500000001000000
-  _keywordEffect:
-  - _keywordBase: {fileID: 11400000, guid: 44aa67da192cd104e9175a6d5a541308, type: 2}
-    _isLCE: 0
-    _target: 0
-    _amountToApply: 1
-    _upgradeBonusAmount: 0
-    _maxUpgradeLevel: 0
-    _conditions:
-      _comboCondition: []
-      _paramaterCondition: []
+  data:
+  - _cardType: 0
+    _bodyPart: 1
+    _rarityLevel: 0
+  - _cardType: 0
+    _bodyPart: 3
+    _rarityLevel: 0
+  - _cardType: 2
+    _bodyPart: 5
+    _rarityLevel: 0
+  _craftedCard: {fileID: 11400000, guid: 160d3a50cbc11de458b17d2be673cc20, type: 2}
