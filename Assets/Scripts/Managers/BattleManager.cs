@@ -87,6 +87,7 @@ namespace Battles
             if (isPlayerDied)
             {
                 PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
+                EnemyManager.EnemyAnimatorController.CharacterWon();
                 if (isGameEnded == false)
                    Instance._playSound?.Raise(SoundsNameEnum.Defeat);
             }
