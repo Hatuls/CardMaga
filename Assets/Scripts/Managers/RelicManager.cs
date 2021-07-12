@@ -37,6 +37,7 @@ namespace Relics
                 _successCrafting?.Raise();
                 Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.GetCraftedCard.GetCardName);
                 DeckManager.Instance.AddCardToDeck(crafted, DeckEnum.Hand);
+                VFXManager.Instance.PlayParticle(true, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
                   _playSound?.Raise( SoundsNameEnum.SuccessfullForge);
             }
             else

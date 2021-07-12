@@ -124,8 +124,8 @@ public class AnimatorController : MonoBehaviour
     public void CharacterWon()
     {
         _isAnimationPlaying = false;
-        ReturnToIdle();
-       // _playerAnimator.SetBool("IsWon", true);
+      
+        _playerAnimator.SetBool("IsWon", true);
        //_playerAnimator.SetInteger("AnimNum", -2);
         transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left , transform.position));
     }
