@@ -125,7 +125,7 @@ namespace Battles
 
                             VFXManager.Instance.PlayParticle(
                                 true,
-                                BodyPartEnum.Chest,
+                                BodyPartEnum.BottomBody,
                                 VFXManager.KeywordToParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
 
                             ExecuteCard();
