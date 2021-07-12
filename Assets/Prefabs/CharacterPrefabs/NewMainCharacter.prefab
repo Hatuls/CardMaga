@@ -728,6 +728,36 @@ Transform:
   m_Father: {fileID: 2696729792533251640}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1752320183147850059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3938529701370094193}
+  m_Layer: 0
+  m_Name: ChestParticalPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3938529701370094193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752320183147850059}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.008, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8685888695806328257}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1815115135254953866
 GameObject:
   m_ObjectHideFlags: 0
@@ -3610,6 +3640,7 @@ Transform:
   - {fileID: 3581094302761129006}
   - {fileID: 3808404209893875029}
   - {fileID: 1280887397616477935}
+  - {fileID: 3938529701370094193}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3658,7 +3689,7 @@ MonoBehaviour:
   IsMyTurn: 1
   _transitionSpeedBetweenAnimations: 0.1
   transitionToIdle: 0.1
-  isPlayer: 0
+  isPlayer: 1
   isFirst: 0
   startPos: {x: 0, y: 0, z: 0}
   _opponentController: {fileID: 0}
@@ -3674,7 +3705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 818985b4b5833e942bfc33a0d114a20e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPlayer: 0
+  _isPlayer: 1
   _soundsEvent: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa, type: 2}
   _headPart: {fileID: 3379647268399935298}
   _leftHandPart: {fileID: 2683199888283537385}
@@ -3682,7 +3713,7 @@ MonoBehaviour:
   _leftLegPart: {fileID: 5123221136347197266}
   _rightLegPart: {fileID: 1199269030762114080}
   _bottomBody: {fileID: 1280887397616477935}
-  _chestPart: {fileID: 4062275734484057507}
+  _chestPart: {fileID: 3938529701370094193}
 --- !u!1 &8406932878860720408
 GameObject:
   m_ObjectHideFlags: 0

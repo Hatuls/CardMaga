@@ -131,10 +131,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1076523301, guid: 10156f0a47c65024692f81dd333669b3, type: 3}
-      propertyPath: isPlayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1076523301, guid: 10156f0a47c65024692f81dd333669b3, type: 3}
       propertyPath: targetToLookAt
       value: 
       objectReference: {fileID: 1090973904}
@@ -142,14 +138,6 @@ PrefabInstance:
       propertyPath: _opponentController
       value: 
       objectReference: {fileID: 1090973902}
-    - target: {fileID: 1076523302, guid: 10156f0a47c65024692f81dd333669b3, type: 3}
-      propertyPath: _isPlayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1076523302, guid: 10156f0a47c65024692f81dd333669b3, type: 3}
-      propertyPath: _StrengthPS
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8341133885457672059, guid: 10156f0a47c65024692f81dd333669b3,
         type: 3}
       propertyPath: m_Name
@@ -403,78 +391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &604163674 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5352281100247627293, guid: 353491b6d4691024a960a6196cac83bf,
-    type: 3}
-  m_PrefabInstance: {fileID: 560829603735717846}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &604163676 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5572394969957932758, guid: 353491b6d4691024a960a6196cac83bf,
-    type: 3}
-  m_PrefabInstance: {fileID: 560829603735717846}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 604163674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f574cfa9370ab90478c850eb9c690606, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &604163677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 604163674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec2db113313ec01458da1a18f23e83b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 01936ff9a3ed66e47b1d9e213f25f55e, type: 2}
-  _unityEventResponse:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 604163676}
-        m_MethodName: PlayCraftingParticle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &604163678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 604163674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17df0373baf47b14a9e732686a43ddf1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 60b28f6bb43791e41ab35c25f5605e59, type: 2}
-  _unityEventResponse:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 604163676}
-        m_MethodName: PlayParticleEffect
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &652373112 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1269784915163569140, guid: 367cc47e0d588a744aa582dd68b63ac1,
@@ -1014,16 +930,6 @@ PrefabInstance:
       propertyPath: _enemyAnimatorController
       value: 
       objectReference: {fileID: 1090973902}
-    - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _opponent._buffIconsHandler
-      value: 
-      objectReference: {fileID: 780602537}
-    - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _opponent._enemyAnimatorController
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 560829604320045288, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: m_RootOrder
@@ -1084,87 +990,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Singleton
       objectReference: {fileID: 0}
-    - target: {fileID: 560829604320045290, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 1106500846166016497, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 1511457884063859248, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: playSound
-      value: 
-      objectReference: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa,
-        type: 2}
-    - target: {fileID: 1511457884063859248, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _playSound
-      value: 
-      objectReference: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa,
-        type: 2}
-    - target: {fileID: 1511457884063859248, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _successCrafting
-      value: 
-      objectReference: {fileID: 11400000, guid: 01936ff9a3ed66e47b1d9e213f25f55e,
-        type: 2}
-    - target: {fileID: 1511457884063859248, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _playerRelicsArr.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1511457884063859248, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _playerRelicsArr.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: c8f0f6afe4bfb664da84bfb287f3ef7c,
-        type: 2}
-    - target: {fileID: 1511457884063859248, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _playerRelicsArr.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: c8f0f6afe4bfb664da84bfb287f3ef7c,
-        type: 2}
-    - target: {fileID: 2806236739573109155, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 4136077259455129387, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 4147605569478178821, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227423001771539167, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 4865128171655590735, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _playerCards
-      value: 
-      objectReference: {fileID: 11400000, guid: 111a0707846489347b78a4502b16f493,
-        type: 2}
     - target: {fileID: 4865128171655590735, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: _playerAnimatorController
       value: 
       objectReference: {fileID: 1076523305}
-    - target: {fileID: 5572394969957932758, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _craftin
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5572394969957932758, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: _enemyVFX
@@ -1175,42 +1005,11 @@ PrefabInstance:
       propertyPath: _playerVFX
       value: 
       objectReference: {fileID: 1076523304}
-    - target: {fileID: 5710167893975186943, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 5847196689953200342, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 6096008466143656032, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775640543357163724, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _soundEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa,
-        type: 2}
     - target: {fileID: 7775640543357163724, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: _playerControler
       value: 
       objectReference: {fileID: 1859742838}
-    - target: {fileID: 7792906410577016298, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357264424072378610, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: 8513023217717614139, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: _enemyAnimator
@@ -1226,13 +1025,12 @@ PrefabInstance:
       propertyPath: __playerVFXHandler
       value: 
       objectReference: {fileID: 1076523304}
-    - target: {fileID: 8513023217717614139, guid: 353491b6d4691024a960a6196cac83bf,
+    - target: {fileID: 8748681083674239528, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
-      propertyPath: _animatorController
-      value: 
-      objectReference: {fileID: 1076523305}
-    m_RemovedComponents:
-    - {fileID: 427482983, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
 --- !u!1001 &854307423635628562
 PrefabInstance:
