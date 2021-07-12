@@ -16,7 +16,9 @@ namespace Battles.Deck
 
         [SerializeField] private Card[] _deck;
 
-      
+
+        [SerializeField] BuffIcon _deckIcon;
+        [SerializeField] BuffIcon _disposalIcon;
 
         [SerializeField] int _playerMaxHandSize;
         [SerializeField] int _playerStartingHandSize;
@@ -294,9 +296,9 @@ namespace Battles.Deck
             {
               _decksDict = new Dictionary<DeckEnum, DeckAbst>();
 
-            _decksDict.Add(DeckEnum.PlayerDeck, new PlayerDeck(GetSetDeck));
+            _decksDict.Add(DeckEnum.PlayerDeck, new PlayerDeck(GetSetDeck, _deckIcon));
             _decksDict.Add(DeckEnum.Exhaust, new Exhaust(_playerMaxHandSize));
-            _decksDict.Add(DeckEnum.Disposal,new Disposal(GetSetDeck.Length , _decksDict[DeckEnum.PlayerDeck] as PlayerDeck));
+            _decksDict.Add(DeckEnum.Disposal,new Disposal(GetSetDeck.Length , _decksDict[DeckEnum.PlayerDeck] as PlayerDeck , _disposalIcon));
             _decksDict.Add(DeckEnum.Hand, new PlayerHand(_playerStartingHandSize, _decksDict[DeckEnum.Disposal] as Disposal));
             _decksDict.Add(DeckEnum.Selected, new Selected (_placementSize, _decksDict[DeckEnum.Disposal] as Disposal,_decksDict[DeckEnum.Hand] as PlayerHand ));
             _decksDict.Add(DeckEnum.CraftingSlots, new CraftingSlotsData(_craftingSlotsSize));
