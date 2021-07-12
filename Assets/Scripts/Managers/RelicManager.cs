@@ -58,6 +58,11 @@ namespace Relics
         }
         public void TryForge()
         {
+
+            if (Battles.Turns.TurnHandler.CurrentState != Battles.Turns.TurnState.PlayerTurn)
+                return;
+
+
             // get the crafting deck
             byte id = ThreadHandler.GetNewID;
             ThreadHandler.StartThread(new ThreadList(id, () => DetectRecipe(),() => CreateCard()));
