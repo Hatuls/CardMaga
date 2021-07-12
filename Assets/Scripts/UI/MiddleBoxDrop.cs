@@ -8,7 +8,7 @@ namespace Battles.UI
     [RequireComponent(typeof(EventTrigger))]
     public class MiddleBoxDrop : MonoBehaviour { 
         [SerializeField] BoxCollider2D boxCollider2D;
-        [SerializeField] CardUIManager CardUIManager;
+        [SerializeField] Unity.Events.SoundsEvent _playSound;
 
         public void OnPointerExit() => CardUIManager.Instance.IsTryingToPlace = false;
         public void OnDrop()
@@ -22,8 +22,11 @@ namespace Battles.UI
                 {
                     // not enough stamina 
                     DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, card);
-            
-                 }
+                    CardUIManager.Instance.AddToHandUI(CardUIManager.Instance.GetClickedCardUI);
+                    _playSound?.Raise(SoundsNameEnum.Reject);
+                    CardUIManager.Instance.GetClickedCardUI = null;
+                    return;
+                }
                 else
                 {
                     CardUIManager.Instance.IsTryingToPlace = true;

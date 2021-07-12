@@ -14,6 +14,7 @@ namespace Managers
         [SerializeField] Characters.Stats.CharacterStats _playerStat;
         [SerializeField] AnimatorController _playerAnimatorController;
         [SerializeField] Battles.CharacterSO _playerCards;
+
         #endregion
         public ref Characters.Stats.CharacterStats GetCharacterStats =>ref  _playerStat;
         public AnimatorController PlayerAnimatorController => _playerAnimatorController;
@@ -25,6 +26,7 @@ namespace Managers
             Battles.UI.StatsUIManager.GetInstance.UpdateMaxShieldBar(true, _playerStat.MaxHealth/4);
             Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, _playerStat.Shield);
             CardManager.Instance.AssignPlayerCardDict(_playerCards.GetCharacterCards);
+            Characters.Stats.StaminaHandler.SetMaxStamina = _playerCards.GetMaxStamina;
         }
 
         public void OnEndBattle()
