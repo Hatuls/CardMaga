@@ -15,7 +15,7 @@ namespace Battles.UI
 
 
         [SerializeField] TextPopUp[] _textsPopups;
-
+        [SerializeField] GameObject _textPopUpPrefab;
 
         public TextPopUpSettingsSO GetTextSettings => _textPopUpSettingsSO;
         private void Awake()
@@ -41,7 +41,10 @@ namespace Battles.UI
 
                 for (int i = 0; i < _textsPopups.Length; i++)
                 {
-                    if (_textsPopups[i].gameObject.activeSelf == false)
+                    if (_textsPopups[i] == null)
+                        break;
+
+                    if ( _textsPopups[i].gameObject.activeSelf == false)
                     {
                         _textsPopups[i].gameObject.SetActive(true);
                         _textsPopups[i].Create(ref GetTextColor(type), location, txt);
@@ -49,7 +52,11 @@ namespace Battles.UI
                     }
                 }
 
-
+                var go =Instantiate(_textPopUpPrefab, this.transform);
+                int index = _textsPopups.Length;
+                System.Array.Resize(ref _textsPopups, _textsPopups.Length + 5);
+                _textsPopups[index]= go.GetComponent<TextPopUp>();
+                _textsPopups[index].Create(ref GetTextColor(type), location, txt);
          //       Debug.LogError("TextPopUpHandler: couldnt active text pop up because all is used!");
             }
         }

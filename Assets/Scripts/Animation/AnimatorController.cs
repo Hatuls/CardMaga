@@ -226,10 +226,13 @@ public class AnimatorController : MonoBehaviour
         isFirst = true;
         _onFinishedAnimation?.Raise();
 
-        if (_currentAnimation.IsCinemtaic)
+        if (_currentAnimation != null && _currentAnimation.IsCinemtaic)
+        {
+
             SetCamera(CameraController.CameraAngleLookAt.Both);
 
         _currentAnimation = null;
+        }
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();

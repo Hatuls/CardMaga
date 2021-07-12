@@ -47,6 +47,7 @@ namespace Battles.Turns
                 if (_isTurnFinished != value)
                 {
                     _isTurnFinished = value;
+                    CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
                 }
             } 
         }
@@ -100,7 +101,7 @@ namespace Battles.Turns
             if (CurrentState == TurnState.PlayerTurn)
             {
                 _soundEvent?.Raise(SoundsNameEnum.EndTurn);
-              CurrentState = TurnState.EndPlayerTurn;
+                CurrentState = TurnState.EndPlayerTurn;
             }
         }
 
@@ -323,6 +324,7 @@ namespace Battles.Turns
 
 
             yield return new WaitUntil (() => _playerControler.IsCurrentlyIdle || _turnHandler.IsTurnFinished == true);
+            CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
             Deck.DeckManager.Instance.OnEndTurn();
 
 
