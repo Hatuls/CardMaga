@@ -6,7 +6,7 @@ namespace Characters.Stats
     {
         #region Fields
         private static int _stamina;
-        private static int _maxStamina=10;
+        private static int _maxStamina=3;
 
         private static int _extraStamina = 0;
         #endregion
@@ -14,6 +14,7 @@ namespace Characters.Stats
         #region Properties
         public static int Stamina => _stamina;
         public static int MaxStamina => _maxStamina;
+        public static int SetMaxStamina { set => _maxStamina = value; }
 
         private static StaminaUI _staminaUI;
         public static StaminaUI StaminaUI { set => _staminaUI = value; }

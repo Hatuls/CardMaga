@@ -198,7 +198,7 @@ namespace Battles.UI
                     {
                         ActivateCard(cardData, GetDeckPosition(fromDeck));
                         _soundEvent?.Raise(SoundsNameEnum.DrawCard);
-                        _handUI.Add(ref CardUIArr[i]);
+                        AddToHandUI(CardUIArr[i]);
                         break;
                     }
                 }
@@ -230,7 +230,8 @@ namespace Battles.UI
             SetClickedCardUI = cardUI;
             _soundEvent?.Raise(SoundsNameEnum.SelectCard);
         }
-       
+        public void AddToHandUI(CardUI cache) =>
+             _handUI.Add(ref cache);
         public void TryRemoveFromHandUI(CardUI cache)
        => _handUI.TryRemove(ref cache);
         public void OnClickedCardUI(CardUI card)
@@ -239,7 +240,7 @@ namespace Battles.UI
             if (card.GetRectTransform.localScale == _cardUISettings.GetCardUIZoomedScale)
             {
                 _zoomedCard = null;
-                _handUI.Add(ref card);
+                AddToHandUI(card);
                 card.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
             }
             else
@@ -250,7 +251,7 @@ namespace Battles.UI
                     _zoomedCard.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
                 }
 
-                _handUI.TryRemove(ref card);
+                TryRemoveFromHandUI(card);
                 card.MoveCard(true, Vector2.zero, _cardUISettings.GetCardMoveToDeckDelay);
                 card.SetScale(_cardUISettings.GetCardUIZoomedScale, _cardUISettings.GetCardScaleDelay);
                 _zoomedCard = card;
@@ -322,8 +323,8 @@ namespace Battles.UI
             }
             else
             {
-
-                _handUI.Add(ref GetClickedCardUI);
+                AddToHandUI(GetClickedCardUI);
+           
                 GetClickedCardUI.GetCanvasGroup.blocksRaycasts = true;
                 GetClickedCardUI.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime); 
                 SetClickedCardUI = null;
