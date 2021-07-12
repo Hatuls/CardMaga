@@ -166,11 +166,13 @@ namespace Battles.Turns
     }
     public abstract class Turn : ITurnHandler {
         protected TurnHandler _turnHandler;
+    
         public Turn(TurnHandler _th)
         {
             _turnHandler = _th;
+          
         }
-
+     
         public abstract TurnState GetNextTurn { get; }
         public abstract IEnumerator PlayTurn();
         protected void MoveToNextState()
@@ -186,6 +188,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+
             yield return null;
             MoveToNextState();
         }

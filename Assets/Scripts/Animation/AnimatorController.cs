@@ -110,13 +110,14 @@ public class AnimatorController : MonoBehaviour
 
     public void OnStartAnimation(AnimatorStateInfo info)
     {
-        if (_currentAnimation.IsCinemtaic)
+        
+        if (_currentAnimation != null && _currentAnimation.IsCinemtaic)
             SetCamera(isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
 
     }
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
     {
-        if (_animationQueue.Count == 0)
+        if (_animationQueue.Count == 0 && _currentAnimation == null)
             SetCamera(CameraController.CameraAngleLookAt.Both);
     }
 
@@ -130,7 +131,7 @@ public class AnimatorController : MonoBehaviour
     }
     public void CharacterIsDead()
     {
-        _playerAnimator.CrossFade("KB_KO_Head", _transitionSpeedBetweenAnimations);
+        _playerAnimator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
     }
 
 

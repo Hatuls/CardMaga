@@ -57,7 +57,7 @@ public class CameraController : MonoSingleton<CameraController>
     {
         if (GetAngleTrackedDolly.m_PathPosition != index)
         {
-
+            StopCoroutine(CameraTransition(index));
             StartCoroutine(CameraTransition(index));
         }
         //0 is player
