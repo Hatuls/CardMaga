@@ -110,17 +110,16 @@ public class AnimatorController : MonoBehaviour
 
     public void OnStartAnimation(AnimatorStateInfo info)
     {
-  //     Debug.Log("<a>Animation Playing</a> " + _playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
-        _isAnimationPlaying = true;
-        ResetBothRotaionAndPosition();
-        
-    }   
+        if (_currentAnimation.IsCinemtaic)
+            SetCamera(isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
+
+    }
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
     {
-        _isAnimationPlaying = false;
-        //    transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
-        ResetBothRotaionAndPosition();
+        if (_animationQueue.Count == 0)
+            SetCamera(CameraController.CameraAngleLookAt.Both);
     }
+
     public void CharacterWon()
     {
         _isAnimationPlaying = false;
@@ -161,7 +160,7 @@ public class AnimatorController : MonoBehaviour
 
         IsMyTurn = true;
 
-        if (_animationQueue.Count == 1 && isFirst)
+        if (_animationQueue.Count == 1) //&& isFirst
         {
             TranstionToNextAnimation();
         }
@@ -187,9 +186,7 @@ public class AnimatorController : MonoBehaviour
         _currentAnimation = _animationQueue.Dequeue();
         PlayAnimation(_currentAnimation._attackAnimation.ToString());
 
-        if (_currentAnimation.IsCinemtaic)
-            SetCamera(isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
-
+    
         _movedToNextAnimation?.Raise();
     }
 
@@ -198,8 +195,8 @@ public class AnimatorController : MonoBehaviour
         if (isFirst == true)
         {
 
-            //  _playerAnimator.CrossFade(_animationQueue.Dequeue().ToString(),_transitionSpeedBetweenAnimations);
-            _playerAnimator.Play(Name);
+             _playerAnimator.CrossFade(Name, _transitionSpeedBetweenAnimations);
+          //  _playerAnimator.Play(Name);
             isFirst = false;
         }
         else
@@ -225,14 +222,8 @@ public class AnimatorController : MonoBehaviour
         ResetBothRotaionAndPosition();
         isFirst = true;
         _onFinishedAnimation?.Raise();
-
-        if (_currentAnimation != null && _currentAnimation.IsCinemtaic)
-        {
-
-            SetCamera(CameraController.CameraAngleLookAt.Both);
-
         _currentAnimation = null;
-        }
+       
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();

@@ -5,8 +5,9 @@ namespace Battles
     public class CardExecutionManager : MonoSingleton<CardExecutionManager>
     {
         [SerializeField]
-        AnimatorController _animatorController;
-
+        AnimatorController _playerAnimator;
+        [SerializeField]
+        AnimatorController _enemyAnimator;
         [SerializeField] VFXController __playerVFXHandler;
         Cards.Card _currentCard;
         public void ResetExecution()
@@ -108,35 +109,46 @@ namespace Battles
 
 
         public void RemoveCard() => _currentCard = null;
-        public void RegisterCard(Cards.Card card)
+        public void RegisterCard(Cards.Card card, bool isPlayer = true)
         {
             _currentCard = card;
-
-            if (_currentCard != null)
+            if (isPlayer)
             {
-                switch (_currentCard.GetSetCard.GetCardType._cardType)
+
+
+                if (_currentCard != null)
                 {
-                    case Cards.CardTypeEnum.Utility:
-                    case Cards.CardTypeEnum.Defend:
+                    switch (_currentCard.GetSetCard.GetCardType._cardType)
+                    {
+                        case Cards.CardTypeEnum.Utility:
+                        case Cards.CardTypeEnum.Defend:
 
-                        VFXManager.Instance.PlayParticle(
-                            true,
-                            BodyPartEnum.Chest,
-                            VFXManager.KeywordToParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
+                            VFXManager.Instance.PlayParticle(
+                                true,
+                                BodyPartEnum.Chest,
+                                VFXManager.KeywordToParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
 
-                        ExecuteCard();
-                        break;
-                    case Cards.CardTypeEnum.Attack:
-                        _animatorController.SetAnimationQueue(card) ;
+                            ExecuteCard();
+                            break;
+                        case Cards.CardTypeEnum.Attack:
+                            _playerAnimator.SetAnimationQueue(card);
 
-                        break;
-                    default:
-                        break;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
+            else
+            {
+                _enemyAnimator.SetAnimationQueue(card);
+
+            }
+
+
+
 
         }
-
      
         public void ExecuteCard()
         {

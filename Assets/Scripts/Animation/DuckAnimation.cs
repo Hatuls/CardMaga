@@ -7,7 +7,7 @@ public class DuckAnimation : CharacterBaseStateMachine
     {
         GetAnimatorController(animator).OnStartAnimation(stateInfo);
     }
-
+   
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         GetAnimatorController(animator).OnFinishAnimation(stateInfo);

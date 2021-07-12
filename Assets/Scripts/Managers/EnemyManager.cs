@@ -81,12 +81,13 @@ namespace Battles
                 yield break;
 
             Debug.Log("Enemy Attack!");
-            EnemyManager.EnemyAnimatorController.SetAnimationQueue(enemyAction.GetSetCard.GetAnimationBundle);
-            for (int i = 0; i < enemyAction.GetCardKeywords.Length; i++)
-            {
-                Keywords.KeywordManager.Instance.ActivateKeyword(enemyAction.GetCardKeywords[i]);
-                yield return null;
-            }
+            CardExecutionManager.Instance.RegisterCard(enemyAction, false);
+            //EnemyManager.EnemyAnimatorController.SetAnimationQueue(enemyAction.GetSetCard.GetAnimationBundle);
+            //for (int i = 0; i < enemyAction.GetCardKeywords.Length; i++)
+            //{
+            //    Keywords.KeywordManager.Instance.ActivateKeyword(enemyAction.GetCardKeywords[i]);
+            //    yield return null;
+            //}
 
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
             EnemyManager.EnemyAnimatorController.ResetToStartingPosition();

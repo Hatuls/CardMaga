@@ -10,7 +10,7 @@ public abstract class ParticalEffectBase : MonoBehaviour
         if (ParentLocation == null)
             return;
       transform.SetParent(ParentLocation);
-        transform.rotation = ParentLocation.rotation;
+        transform.localRotation = ParentLocation.rotation;
       transform.localPosition = Vector3.zero;
       transform.SetParent(null);
     }

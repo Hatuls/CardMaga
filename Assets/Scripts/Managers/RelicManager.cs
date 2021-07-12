@@ -76,7 +76,9 @@ namespace Relics
         }
         void DetectRecipe()
         {
-            var craftingSlots = DeckManager.GetCraftingSlots.GetDeck;
+            Card[] craftingSlots = new  Card[DeckManager.GetCraftingSlots.GetDeck.Length];
+            System.Array.Copy( DeckManager.GetCraftingSlots.GetDeck, craftingSlots, DeckManager.GetCraftingSlots.GetDeck.Length);
+
             System.Array.Reverse(craftingSlots);
 
             List<CardType> craftingItems = new List<CardType>();
