@@ -122,12 +122,34 @@ namespace Battles
                     {
                         case Cards.CardTypeEnum.Utility:
                         case Cards.CardTypeEnum.Defend:
+                            switch (_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
+                            {
+                                case Keywords.KeywordTypeEnum.Defense:
+                                 VFXManager.Instance.PlayParticle(
+                                 true,
+                                 BodyPartEnum.Chest,
+                                 VFXManager.KeywordToParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
+                                 break;
 
-                            VFXManager.Instance.PlayParticle(
+                                case Keywords.KeywordTypeEnum.Strength:
+                                case Keywords.KeywordTypeEnum.Heal:
+
+                                VFXManager.Instance.PlayParticle(
                                 true,
                                 BodyPartEnum.BottomBody,
                                 VFXManager.KeywordToParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
 
+                                    break;
+
+
+                               case Keywords.KeywordTypeEnum.Attack:
+                                case Keywords.KeywordTypeEnum.Bleed:
+                                case Keywords.KeywordTypeEnum.MaxHealth:
+                                
+                                default:
+                                    break;
+                            }
+                           
                             ExecuteCard();
                             break;
                         case Cards.CardTypeEnum.Attack:
