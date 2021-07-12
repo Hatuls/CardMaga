@@ -131,6 +131,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1076523301, guid: 10156f0a47c65024692f81dd333669b3, type: 3}
+      propertyPath: isPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076523301, guid: 10156f0a47c65024692f81dd333669b3, type: 3}
       propertyPath: targetToLookAt
       value: 
       objectReference: {fileID: 1090973904}
@@ -139,9 +143,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1090973902}
     - target: {fileID: 1076523302, guid: 10156f0a47c65024692f81dd333669b3, type: 3}
+      propertyPath: _isPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076523302, guid: 10156f0a47c65024692f81dd333669b3, type: 3}
       propertyPath: _StrengthPS
       value: 
-      objectReference: {fileID: 660178628}
+      objectReference: {fileID: 0}
     - target: {fileID: 8341133885457672059, guid: 10156f0a47c65024692f81dd333669b3,
         type: 3}
       propertyPath: m_Name
@@ -521,12 +529,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &660178628 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3378160215581260646, guid: 10156f0a47c65024692f81dd333669b3,
-    type: 3}
-  m_PrefabInstance: {fileID: 184482870}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &687494816
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,12 +891,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1277676749}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &2016110342 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5769455331657292826, guid: 10156f0a47c65024692f81dd333669b3,
-    type: 3}
-  m_PrefabInstance: {fileID: 184482870}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2138677391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,7 +1164,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _craftin
       value: 
-      objectReference: {fileID: 2016110342}
+      objectReference: {fileID: 0}
     - target: {fileID: 5572394969957932758, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: _enemyVFX
@@ -1215,6 +1211,16 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 8513023217717614139, guid: 353491b6d4691024a960a6196cac83bf,
+        type: 3}
+      propertyPath: _enemyAnimator
+      value: 
+      objectReference: {fileID: 1090973902}
+    - target: {fileID: 8513023217717614139, guid: 353491b6d4691024a960a6196cac83bf,
+        type: 3}
+      propertyPath: _playerAnimator
+      value: 
+      objectReference: {fileID: 1076523305}
     - target: {fileID: 8513023217717614139, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: __playerVFXHandler
