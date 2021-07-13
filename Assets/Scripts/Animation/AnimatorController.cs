@@ -245,7 +245,8 @@ public class AnimatorController : MonoBehaviour
             bool isIdle = true ;
             if (_playerAnimator.GetCurrentAnimatorClipInfo(0).Length > 0)
             {
-                isIdle=_playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "KB_Idle_1";
+             
+                isIdle=_playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
             }
             
 
