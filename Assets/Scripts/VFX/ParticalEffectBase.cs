@@ -9,13 +9,13 @@ public abstract class ParticalEffectBase : MonoBehaviour
     {
         if (ParentLocation == null)
             return;
-       
+
       transform.SetParent(ParentLocation);
-      transform.localRotation = ParentLocation.localRotation;
+      RotatePartical(ParentLocation);
       transform.localPosition = Vector3.zero;
       transform.SetParent(null);
     }
-
+    protected virtual void RotatePartical(Transform ParentLocation) => transform.localRotation = ParentLocation.localRotation;
     public void PlayParticle()
     {
         if (_particleSystem==null)
