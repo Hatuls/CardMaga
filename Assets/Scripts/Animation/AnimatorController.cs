@@ -1,6 +1,4 @@
-﻿
-using Relics;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
 using Cards;
@@ -70,7 +68,7 @@ public class AnimatorController : MonoBehaviour
     {
         isFirst = true;
 
-                   startPos = new Vector3( transform.position.x, transform.position.y, transform.position.z);
+         startPos = new Vector3( transform.position.x, transform.position.y, transform.position.z);
         _isAnimationPlaying = false;
         _playerAnimator.SetBool("IsDead", false);
         _playerAnimator.SetBool("IsWon", false);
@@ -224,7 +222,7 @@ public class AnimatorController : MonoBehaviour
         isFirst = true;
         _onFinishedAnimation?.Raise();
         _currentAnimation = null;
-        SetCamera(CameraController.CameraAngleLookAt.Both);
+   
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();
