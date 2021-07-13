@@ -26,6 +26,10 @@ namespace Battles.Deck
         }
         public override void AddCard(Card card)
         {
+            if (CheckDuplicate(card))
+                return;
+
+
             base.AddCard(card);
             _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
         }
@@ -33,6 +37,21 @@ namespace Battles.Deck
         {
             base.DiscardCard(card);
             _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
+        }
+
+        private bool CheckDuplicate(Card card)
+        {
+            if (card == null)
+                return false;
+            for (int i = 0; i < GetDeck.Length; i++)
+            {
+                if (GetDeck[i] == null)
+                    continue;
+
+                if (card.GetCardID == GetDeck[i].GetCardID)
+                    return true;
+            }
+            return false;
         }
     }
 }

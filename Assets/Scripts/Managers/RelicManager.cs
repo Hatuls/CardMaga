@@ -6,6 +6,8 @@ using Collections.RelicsSO;
 using ThreadsHandler;
 using System.Linq;
 using Unity.Events;
+using Battles.UI;
+
 namespace Relics
 {
     public class RelicManager : MonoSingleton<RelicManager>
@@ -13,16 +15,23 @@ namespace Relics
         #region Fields
         RelicCollectionSO _playerKnownRecipe;
         RelicSO _cardRecipeDetected;
+        [SerializeField] PlaceHolderHandler _placeHolderHandler;
         #endregion
         #region Events
         [SerializeField] SoundsEvent _playSound;
         [SerializeField] VoidEvent _successCrafting;
+        public RelicSO CardRecipeDetected { get => _cardRecipeDetected; set
+            {
+                _cardRecipeDetected = value;
+            }
+        }
         #endregion
 
 
         public override void Init()
         {
             _playerKnownRecipe = Resources.Load<RelicCollectionSO>("ComboRecipe/PlayerRecipe");
+            threadId = ThreadHandler.GetNewID;
         }
         void CreateCard()
         {
@@ -63,10 +72,11 @@ namespace Relics
             if (Battles.Turns.TurnHandler.CurrentState != Battles.Turns.TurnState.PlayerTurn)
                 return;
 
+            CreateCard();
 
             // get the crafting deck
-            byte id = ThreadHandler.GetNewID;
-            ThreadHandler.StartThread(new ThreadList(id, () => DetectRecipe(),() => CreateCard()));
+       
+         
             /*
              * run on the possiblities from low to high
              * 
@@ -75,7 +85,22 @@ namespace Relics
             * return false if nothign found 
              */
         }
-        void DetectRecipe()
+      static  byte threadId;
+        public static void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId, () => DetectRecipe(), () => EndDetection()));
+     private static void EndDetection()
+        {
+
+            if (Instance._cardRecipeDetected == null)
+            {
+                Instance._placeHolderHandler.ResetSlotsDetection();
+            }
+            else
+            {
+                Instance._placeHolderHandler.MarkSlotsDetected();
+            }
+        }
+        
+        static void DetectRecipe()
         {
             Card[] craftingSlots = new  Card[DeckManager.GetCraftingSlots.GetDeck.Length];
             System.Array.Copy( DeckManager.GetCraftingSlots.GetDeck, craftingSlots, DeckManager.GetCraftingSlots.GetDeck.Length);
@@ -95,18 +120,18 @@ namespace Relics
                 CheckRecipe(ref craftingItems);
             }
         }
-        void CheckRecipe(ref List<CardType> craftingItems)
+    static   void CheckRecipe(ref List<CardType> craftingItems)
         {
             List<CardType> nextRecipe = new List<CardType>();
-            for (int i = 0; i < _playerKnownRecipe.GetRelicSO.Length; i++)
+            for (int i = 0; i < Instance._playerKnownRecipe.GetRelicSO.Length; i++)
             {
-                for (int j = 0; j < _playerKnownRecipe.GetRelicSO[i].GetCombo.Length; j++)
+                for (int j = 0; j < Instance._playerKnownRecipe.GetRelicSO[i].GetCombo.Length; j++)
                 {
-                    nextRecipe.Add(_playerKnownRecipe.GetRelicSO[i].GetCombo[j]);
+                    nextRecipe.Add(Instance._playerKnownRecipe.GetRelicSO[i].GetCombo[j]);
                 }
                 if (craftingItems.SequenceEqual(nextRecipe , new CardTypeComparaer()))
                 {
-                    _cardRecipeDetected = _playerKnownRecipe.GetRelicSO[i];
+                    Instance.CardRecipeDetected = Instance._playerKnownRecipe.GetRelicSO[i];
                     return;
                 }
                 else
@@ -114,6 +139,7 @@ namespace Relics
                     nextRecipe.Clear();
                 }
             }
+            Instance.CardRecipeDetected = null;
         }
     }
 }

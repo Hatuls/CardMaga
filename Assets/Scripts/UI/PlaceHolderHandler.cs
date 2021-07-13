@@ -26,6 +26,26 @@ namespace Battles.UI
 
         #region Properties
         public PlaceHolderSlotUI[] GetCraftingSlotsUIArr => _CraftingSlotsUIArr;
+
+        internal void ResetSlotsDetection()
+        {
+            for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
+            {
+                if (_CraftingSlotsUIArr[i] != null)
+            _CraftingSlotsUIArr[i].SetBackGroundColor(_artSO.UIColorPalette, _artSO.UIColorPalette.GetBackgroundColor);
+            }
+        }
+
+        internal void MarkSlotsDetected()
+        {
+            for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
+            {
+                if (_CraftingSlotsUIArr[i] != null && DeckManager.GetCraftingSlots.GetDeck[i]!= null)
+                {
+                    _CraftingSlotsUIArr[i].SetBackGroundColor(_artSO.UIColorPalette,_artSO.DefaultSlotSO.GetDetectedBackgroundColor);
+                }
+            }
+        }
         #endregion
         private void Awake()
         {

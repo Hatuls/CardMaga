@@ -224,7 +224,7 @@ public class AnimatorController : MonoBehaviour
         isFirst = true;
         _onFinishedAnimation?.Raise();
         _currentAnimation = null;
-       
+        SetCamera(CameraController.CameraAngleLookAt.Both);
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();
