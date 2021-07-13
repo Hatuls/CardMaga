@@ -10,6 +10,7 @@ namespace Battles
         AnimatorController _enemyAnimator;
         [SerializeField] VFXController __playerVFXHandler;
         Cards.Card _currentCard;
+        [SerializeField] Unity.Events.SoundsEvent _playSound;
         public void ResetExecution()
         {
             StopAllCoroutines();
@@ -47,10 +48,12 @@ namespace Battles
                                  true,
                                  BodyPartEnum.Chest,
                                  VFXManager.KeywordToParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
+                                    _playSound?.Raise(SoundsNameEnum.GainArmor);
                                  break;
 
                                 case Keywords.KeywordTypeEnum.Strength:
                                 case Keywords.KeywordTypeEnum.Heal:
+                                    _playSound?.Raise(SoundsNameEnum.Healing);
 
                                 VFXManager.Instance.PlayParticle(
                                 true,
