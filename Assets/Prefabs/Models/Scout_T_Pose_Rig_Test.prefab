@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &78702879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 78702880}
+  m_Layer: 0
+  m_Name: ChestPlaceHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &78702880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78702879}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.065, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 451763040884359806}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &139277868800977772
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +240,7 @@ Transform:
   m_Children:
   - {fileID: 5338083714723111658}
   - {fileID: 6180719088590169919}
+  - {fileID: 78702880}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 270.611, z: 0}
@@ -246,13 +277,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isPlayer: 0
   _soundsEvent: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa, type: 2}
-  _headPart: {fileID: 0}
-  _leftHandPart: {fileID: 0}
-  _rightHandPart: {fileID: 0}
-  _leftLegPart: {fileID: 0}
-  _rightLegPart: {fileID: 0}
-  _bottomBody: {fileID: 0}
-  _chestPart: {fileID: 0}
+  _headPart: {fileID: 8750812686105580563}
+  _leftHandPart: {fileID: 8313168509129609853}
+  _rightHandPart: {fileID: 3686599989032285822}
+  _leftLegPart: {fileID: 4168032881587949805}
+  _rightLegPart: {fileID: 7956221702541546399}
+  _bottomBody: {fileID: 5817306475161048332}
+  _chestPart: {fileID: 78702880}
 --- !u!114 &130117763628098809
 MonoBehaviour:
   m_ObjectHideFlags: 0
