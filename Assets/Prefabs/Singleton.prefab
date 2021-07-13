@@ -381,6 +381,7 @@ MonoBehaviour:
   _playerAnimator: {fileID: 0}
   _enemyAnimator: {fileID: 0}
   __playerVFXHandler: {fileID: 0}
+  _playSound: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa, type: 2}
 --- !u!114 &427482982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1312,6 +1313,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1893495305900568647}
     m_Modifications:
+    - target: {fileID: 1647548456837503013, guid: f71e94a393b80a543ad22566685d560b,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1647548457633416252, guid: f71e94a393b80a543ad22566685d560b,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1647548457633416254, guid: f71e94a393b80a543ad22566685d560b,
         type: 3}
       propertyPath: m_RootOrder
@@ -1370,7 +1381,17 @@ PrefabInstance:
     - target: {fileID: 1647548457633416255, guid: f71e94a393b80a543ad22566685d560b,
         type: 3}
       propertyPath: m_Name
-      value: GetHitTry
+      value: GetHitPartical
+      objectReference: {fileID: 0}
+    - target: {fileID: 1647548458231637713, guid: f71e94a393b80a543ad22566685d560b,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481458184215384296, guid: f71e94a393b80a543ad22566685d560b,
+        type: 3}
+      propertyPath: _rotation
+      value: 53.59
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f71e94a393b80a543ad22566685d560b, type: 3}
