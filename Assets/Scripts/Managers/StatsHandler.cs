@@ -166,7 +166,7 @@ namespace Characters.Stats
                 stats.Bleed--;
                 if (stats.Health < 0)
                     return;
-                _playEffect?.Invoke(isPlayer, BodyPartEnum.Head, ParticleEffectsEnum.Bleeding);
+                _playEffect?.Invoke(isPlayer, BodyPartEnum.Chest, ParticleEffectsEnum.Bleeding);
                 _updateUIStats?.Invoke(isPlayer, stats.Bleed, Keywords.KeywordTypeEnum.Bleed);
 
                 if (stats.Bleed==0)
