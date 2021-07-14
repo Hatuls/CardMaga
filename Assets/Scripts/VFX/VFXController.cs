@@ -72,7 +72,9 @@ public class VFXController : MonoBehaviour
                     soundsNameEnum = SoundsNameEnum.Bleeding;
                 }
                 break;
-
+            case ParticleEffectsEnum.PushKick:
+                soundsNameEnum = SoundsNameEnum.None;
+                break;
             case ParticleEffectsEnum.Blocking:
             case ParticleEffectsEnum.Crafting:
                 soundsNameEnum = SoundsNameEnum.None;

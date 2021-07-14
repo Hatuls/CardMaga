@@ -18,6 +18,10 @@ public class CraftingSlotsData: Battles.Deck.DeckAbst
             {
                 GetDeck[i] = card;
             }
+            if(i == GetDeck.Length - 1)
+            {
+                GetDeck[i] = null;
+            }
             PlaceHolderHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
         }
         PlaceHolderHandler.ChangeSlotsPos();

@@ -87,7 +87,7 @@ namespace Relics
         }
       static  byte threadId;
         public static void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId, () => DetectRecipe(), () => EndDetection()));
-     private static void EndDetection()
+        private static void EndDetection()
         {
 
             if (Instance._cardRecipeDetected == null)
@@ -99,10 +99,10 @@ namespace Relics
                 Instance._placeHolderHandler.MarkSlotsDetected();
             }
         }
-        
         static void DetectRecipe()
         {
             Card[] craftingSlots = new  Card[DeckManager.GetCraftingSlots.GetDeck.Length];
+
             System.Array.Copy( DeckManager.GetCraftingSlots.GetDeck, craftingSlots, DeckManager.GetCraftingSlots.GetDeck.Length);
 
             System.Array.Reverse(craftingSlots);

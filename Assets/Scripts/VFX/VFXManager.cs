@@ -13,7 +13,10 @@ public enum ParticleEffectsEnum
     Strength = 5,
     RecieveDamage = 6,
     Blocking = 7,
-    Attack = 8
+    Attack = 8,
+    PushKick = 9
+
+
 }
 
 public class VFXManager : MonoSingleton<VFXManager>
