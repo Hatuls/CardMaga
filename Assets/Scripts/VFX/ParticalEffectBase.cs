@@ -5,7 +5,7 @@ public abstract class ParticalEffectBase : MonoBehaviour
 {
     private ParticleSystem _particleSystem;   
     public abstract ParticleEffectsEnum GetParticalEffect { get; }
-    public void SetParticalPosition(Transform ParentLocation)
+    public virtual void SetParticalPosition(Transform ParentLocation)
     {
         if (ParentLocation == null)
             return;
@@ -16,6 +16,7 @@ public abstract class ParticalEffectBase : MonoBehaviour
       transform.SetParent(null);
     }
     protected virtual void RotatePartical(Transform ParentLocation) => transform.localRotation = ParentLocation.localRotation;
+   
     public void PlayParticle()
     {
         if (_particleSystem==null)

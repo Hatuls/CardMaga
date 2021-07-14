@@ -34,6 +34,8 @@ namespace Battles.UI
                 if (_CraftingSlotsUIArr[i] != null)
             _CraftingSlotsUIArr[i].SetBackGroundColor(_artSO.UIColorPalette, _artSO.UIColorPalette.GetBackgroundColor);
             }
+            LeanTween.alpha(_instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
+
         }
 
         internal void MarkSlotsDetected()
@@ -45,6 +47,7 @@ namespace Battles.UI
                     _CraftingSlotsUIArr[i].SetBackGroundColor(_artSO.UIColorPalette,_artSO.DefaultSlotSO.GetDetectedBackgroundColor);
                 }
             }
+
         }
         #endregion
         private void Awake()

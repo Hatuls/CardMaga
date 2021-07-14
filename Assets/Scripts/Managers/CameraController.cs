@@ -41,6 +41,8 @@ public class CameraController : MonoSingleton<CameraController>
     private void Start()
     {
         _cameraAngleLookAt = CameraAngleLookAt.Both;
+
+        GetAngleTrackedDolly.m_PathPosition = (int)_cameraAngleLookAt;
         return;
         MoveCameraAngle.SetActive(false);
         ShakeAtEnemy.SetActive(false);
