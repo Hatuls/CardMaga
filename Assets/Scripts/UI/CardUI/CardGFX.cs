@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Cards;
 
-namespace Battles.UI
+namespace Battles.UI.CardUIAttributes
 {
 
-    public class CardUI : MonoBehaviour, IPointerClickHandler
+    [System.Serializable]
+
+    public class CardGFX
     {
+
         #region Fields
         [Tooltip("Name of Card Text")]
-        [SerializeField] TextMeshProUGUI _nameTxt;
+        [SerializeField] TextMeshProUGUI _titleText;
 
         [Tooltip("Description of card Actions Text")]
         [SerializeField] TextMeshProUGUI _descriptionTxt;
 
         [Tooltip("Description of LCE Action Text")]
-        [SerializeField] TextMeshProUGUI _lastCardEffectTxt;
+        [SerializeField] TextMeshProUGUI _staminaText;
 
         [Tooltip("The Body Part used for Action")]
         [SerializeField] Image _bodyPartImg;
@@ -39,27 +41,18 @@ namespace Battles.UI
 
         [Tooltip("Card Areas Img")]
         [SerializeField] Image _cardAreasImg;
-        //
+
         [SerializeField] RectTransform _rectTransform;
 
-        [HideInInspector]
-        [SerializeField] CanvasGroup _canvasGroup;
+        Card _cardReferenceInHandDeck;
 
-        Cards.Card _cardReferenceInHandDeck;
         #endregion
 
-        #region Events
-        [Space]
-        [Header("Events")]
-        [SerializeField] Unity.Events.CardUIEvent _selectCardEvent;
-        [SerializeField] Unity.Events.CardUIEvent _removeCardEvent;
-        [SerializeField] Unity.Events.CardUIEvent _onClickedCardEvent;
-        #endregion
         #region Properties
-        public CanvasGroup GetCanvasGroup => _canvasGroup;
-        public TextMeshProUGUI GetNameTxt => _nameTxt;
+        public ref Card GetCardReference { get => ref _cardReferenceInHandDeck; }
+        public TextMeshProUGUI GetNameTxt => _titleText;
         public TextMeshProUGUI GetDescriptionTxt => _descriptionTxt;
-        public TextMeshProUGUI GetLastCardEffectTxt => _lastCardEffectTxt;
+        public TextMeshProUGUI GetLastCardEffectTxt => _staminaText;
         public Image GetBodyPartImg => _bodyPartImg;
         public Image GetTargetBodyPartImg => _targetBodyPartImg;
         public Image GetCardEarsImg => _cardEarsImg;
@@ -67,90 +60,57 @@ namespace Battles.UI
         public Image GetCardStripesImg => _cardStripesImg;
         public Image GetCardKisutimImg => _cardKisutimIg;
         public Image GetCardAreasImg => _cardAreasImg;
-        public RectTransform GetRectTransform => _rectTransform;
-        public ref Cards.Card GetCardReference { get => ref _cardReferenceInHandDeck; }
 
-
+        public ref RectTransform GetRectTransform => ref _rectTransform;
         #endregion
 
-        public void MoveCard(Vector3 moveTo)
-        {
-            if (GetRectTransform == null)
-            {
-                Debug.LogError("RectTranscorm is Null");
-                return;
-            }
-            LeanTween.move(GetRectTransform, moveTo, Time.deltaTime);
-        }
-        public void MoveCard(bool withTween, Vector3 moveTo, float seconds, bool? setActiveLater = null)
-        {
-            if (GetRectTransform == null)
-            {
-                Debug.LogError("RectTranscorm is Null");
-                return;
-            }
 
-            if (withTween)
-            {
-                if (setActiveLater == null)
-                    LeanTween.move(GetRectTransform, moveTo, seconds);
-                else
-                    LeanTween.move(GetRectTransform, moveTo, seconds).setOnComplete(() => gameObject.SetActive(setActiveLater.GetValueOrDefault()));
+        #region Contructor
+        public CardGFX(
+            ref TextMeshProUGUI title, ref TextMeshProUGUI description, ref TextMeshProUGUI stamina,
+            ref Image bodyPart, ref Image targetBodyPart,
+            ref Image cardEars, ref Image cardBackground, ref Image cardStripes,
+            ref Image cardkisutim, ref Image cardArea,
+            ref RectTransform rectTransform, Card card = null
+            )
+        {
+            _titleText = title;
+            _descriptionTxt = description;
+            _staminaText = stamina;
+            _bodyPartImg = bodyPart;
+            _targetBodyPartImg = targetBodyPart;
+            _cardEarsImg = cardEars;
+            _cardBackGroundImg = cardBackground;
+            _cardStripesImg = cardStripes;
+            _cardKisutimIg = cardkisutim;
+            _cardAreasImg = cardArea;
+            _rectTransform = rectTransform;
+            _cardReferenceInHandDeck = card;
+        }
+        public CardGFX() { }
+        #endregion
 
-            }
-            else
-                GetRectTransform.position = Vector2.Lerp(GetRectTransform.position, moveTo, seconds);
-        }
-
-        public void SetActive(bool setActive)
-            => this.gameObject.SetActive(setActive);
-        public void SetScale(Vector3 toScale, float delay)
-        {
-            if (GetRectTransform == null)
-            {
-         //       Debug.LogError("RectTranscorm is Null");
-                return;
-            }
-            LeanTween.scale(GetRectTransform, toScale, delay);
-        }
-        public void SetPosition(in Vector3 setTo)
-        {
-            if (GetRectTransform == null)
-            {
-                //Debug.LogError("RectTranscorm is Null");
-                return;
-            }
-            GetRectTransform.anchoredPosition3D = setTo;
-        }
-        public void SetRotation(Vector3 rotateTo)
-        {
-            if (GetRectTransform == null)
-            {
-             //   Debug.LogError("RectTranscorm is Null");
-                return;
-            }
-            GetRectTransform.localRotation = Quaternion.Euler(rotateTo);
-        }
+        #region Methods
         private void SetNameText(in string cardName)
         {
             if (cardName == null)
             {
-             //   Debug.LogError("No Name For Card");
+                //   Debug.LogError("No Name For Card");
                 return;
             }
             GetNameTxt.text = cardName;
         }
-       private void SetCardDescriptionText(in string cardDescription)
+        private void SetCardDescriptionText(in string cardDescription)
         {
             if (cardDescription == null)
             {
-              //  Debug.LogError("No Description For Card");
+                //  Debug.LogError("No Description For Card");
                 return;
             }
             GetDescriptionTxt.text = cardDescription;
         }
 
-        internal void SetCardReference(ref Card cardData , ArtSO artSO )
+        internal void SetCardReference(ref Card cardData, ArtSO artSO)
         {
             // set visual
             SetNameText(cardData.GetSetCard.GetCardName.ToString());
@@ -158,7 +118,7 @@ namespace Battles.UI
             SetLastCardEffectText("");
             SetBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetSetCard.GetBodyPartEnum));
             SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetSetCard.GetBodyPartEnum));
-            SetCardColors( cardData.GetSetCard.GetCardTypeEnum , artSO);
+            SetCardColors(cardData.GetSetCard.GetCardTypeEnum, artSO);
 
             _cardReferenceInHandDeck = cardData;
             //   card.SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
@@ -170,12 +130,13 @@ namespace Battles.UI
 
             //rotation?
         }
-
+        public void SetActive(bool setActive)
+        => this._rectTransform?.gameObject.SetActive(setActive);
         private void SetLastCardEffectText(in string lastCardEffectDescription)
         {
             if (lastCardEffectDescription == null)
             {
-               // Debug.LogError("No Description for LCE");
+                // Debug.LogError("No Description for LCE");
                 return;
             }
             GetLastCardEffectTxt.text = lastCardEffectDescription;
@@ -184,7 +145,7 @@ namespace Battles.UI
         {
             if (bodyPartSprite == null)
             {
-               // Debug.LogError("Body Part Sprite Missing");
+                // Debug.LogError("Body Part Sprite Missing");
                 return;
             }
             GetBodyPartImg.sprite = bodyPartSprite;
@@ -193,18 +154,18 @@ namespace Battles.UI
         {
             if (targetedBodyPartSprite == null)
             {
-             //   Debug.LogError("Targeted Body Part Sprite is Missing");
+                //   Debug.LogError("Targeted Body Part Sprite is Missing");
                 return;
             }
             GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
         }
-        private void SetCardColors( Cards.CardTypeEnum cardType, ArtSO artSO)
+        private void SetCardColors(Cards.CardTypeEnum cardType, ArtSO artSO)
         {
             var uiColorPalette = artSO.UIColorPalette;
 
             if (uiColorPalette == null)
             {
-             //   Debug.LogError("Error in SetCardColors");
+                //   Debug.LogError("Error in SetCardColors");
                 return;
             }
 
@@ -241,27 +202,6 @@ namespace Battles.UI
 
             GetTargetBodyPartImg.color = palette.GetTopColor;
         }
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            _onClickedCardEvent?.Raise(this);
-        }
-
-        public void BeginDrag()
-        {
-            _removeCardEvent?.Raise(this);
-
-            _canvasGroup.blocksRaycasts = false;
-
-            _selectCardEvent?.Raise(this);
-        }
-
-        public void EndDrag()
-        {
-            _canvasGroup.blocksRaycasts = true;
-
-            Debug.Log("End Touch");
-        }
+        #endregion
     }
-
 }

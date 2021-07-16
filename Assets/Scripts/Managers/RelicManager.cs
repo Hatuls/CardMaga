@@ -120,7 +120,7 @@ namespace Relics
                 CheckRecipe(ref craftingItems);
             }
         }
-    static   void CheckRecipe(ref List<CardType> craftingItems)
+    static void CheckRecipe(ref List<CardType> craftingItems)
         {
             List<CardType> nextRecipe = new List<CardType>();
             for (int i = 0; i < Instance._playerKnownRecipe.GetRelicSO.Length; i++)

@@ -15,7 +15,7 @@ namespace Battles.UI
         {
             if (CardUIManager.Instance.GetClickedCardUI != null)
             {
-                Cards.Card card = CardUIManager.Instance.GetClickedCardUI.GetCardReference;
+                Cards.Card card = CardUIManager.Instance.GetClickedCardUI.GFX.GetCardReference;
 
 
                 if (StaminaHandler.IsEnoughStamina(card) == false)

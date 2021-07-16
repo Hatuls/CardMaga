@@ -855,18 +855,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae0e234010e98e4abd0a162839bfbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nameTxt: {fileID: 6643414197363353348}
-  _descriptionTxt: {fileID: 6643414197132191721}
-  _lastCardEffectTxt: {fileID: 2153072973737797952}
-  _bodyPartImg: {fileID: 6643414197325265403}
-  _targetBodyPartImg: {fileID: 6643414198631580326}
-  _cardEarsImg: {fileID: 574020096791493044}
-  _cardBackGroundImg: {fileID: 4559137240571979747}
-  _cardStripesImg: {fileID: 5014842160604611686}
-  _cardKisutimIg: {fileID: 5228089039287792220}
-  _cardAreasImg: {fileID: 5612670962284708390}
-  _rectTransform: {fileID: 6643414198357883796}
+  _cardGFX:
+    _titleText: {fileID: 6643414197363353348}
+    _descriptionTxt: {fileID: 6643414197132191721}
+    _staminaText: {fileID: 2153072973737797952}
+    _bodyPartImg: {fileID: 6643414197325265403}
+    _targetBodyPartImg: {fileID: 6643414198631580326}
+    _cardEarsImg: {fileID: 574020096791493044}
+    _cardBackGroundImg: {fileID: 4559137240571979747}
+    _cardStripesImg: {fileID: 5014842160604611686}
+    _cardKisutimIg: {fileID: 5228089039287792220}
+    _cardAreasImg: {fileID: 5612670962284708390}
+    _rectTransform: {fileID: 6643414198357883796}
   _canvasGroup: {fileID: 3816590915777760927}
+  Card: 1
   _selectCardEvent: {fileID: 11400000, guid: 5a5784c11b887204d8953718a892f433, type: 2}
   _removeCardEvent: {fileID: 11400000, guid: ee53c415560718943970edeb80198761, type: 2}
   _onClickedCardEvent: {fileID: 11400000, guid: b001bc32e27cdf04d9edd46238baf45b,
@@ -921,37 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 13
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4185218193788805487}
-          m_MethodName: BeginDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 14
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4185218193788805487}
-          m_MethodName: EndDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  m_Delegates: []
 --- !u!1 &6643414198631580320
 GameObject:
   m_ObjectHideFlags: 0

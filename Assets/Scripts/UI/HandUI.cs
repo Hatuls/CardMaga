@@ -46,7 +46,7 @@ namespace Battles.UI
                 for (int i = 0; i < GetAmountOfCardsInHand; i++)
                 {
                     cardLocation = _middlePos + (i * -Vector2.left * _cardUISO.GetSpaceBetweenCards);
-                    _handCards[i].MoveCard(
+                    _handCards[i].CardTranslations?.MoveCard(
                         true,
                         cardLocation + Vector2.left * distance / 2,
                         _cardUISO.GetCardFollowDelay);
