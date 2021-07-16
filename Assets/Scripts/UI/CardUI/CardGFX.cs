@@ -109,18 +109,17 @@ namespace Battles.UI.CardUIAttributes
             }
             GetDescriptionTxt.text = cardDescription;
         }
-
-        internal void SetCardReference(ref Card cardData, ArtSO artSO)
+        internal void SetCardReference(CardSO cardData, ArtSO artSO)
         {
-            // set visual
-            SetNameText(cardData.GetSetCard.GetCardName.ToString());
-            SetCardDescriptionText(cardData.GetSetCard.GetCardDescription);
+     // set visual
+            SetNameText(cardData.GetCardName.ToString());
+            SetCardDescriptionText(cardData.GetCardDescription);
             SetLastCardEffectText("");
-            SetBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetSetCard.GetBodyPartEnum));
-            SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetSetCard.GetBodyPartEnum));
-            SetCardColors(cardData.GetSetCard.GetCardTypeEnum, artSO);
+            SetBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
+            SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
+            SetCardColors(cardData.GetCardTypeEnum, artSO);
 
-            _cardReferenceInHandDeck = cardData;
+         
             //   card.SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
             //    card.SetRotation(Vector3.zero);
             //image of card
@@ -129,6 +128,11 @@ namespace Battles.UI.CardUIAttributes
             //icon of targeted part
 
             //rotation?
+        }
+        internal void SetCardReference(ref Card cardData, ArtSO artSO)
+        {
+           _cardReferenceInHandDeck = cardData;
+            SetCardReference( cardData.GetSetCard, artSO);
         }
         public void SetActive(bool setActive)
         => this._rectTransform?.gameObject.SetActive(setActive);

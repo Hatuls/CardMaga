@@ -70,7 +70,7 @@ namespace Relics
         public int Cost => _cost;
         public RelicNameEnum GetRelicName => _relicName;
         public string GetDescription => _description;
-        public Cards.CardSO GetCraftedCard => _craftedCard;
+        public ref Cards.CardSO GetCraftedCard =>ref _craftedCard;
 
         #endregion
 

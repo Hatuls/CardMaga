@@ -38,7 +38,15 @@ public class PlaceHolderSlotUI : MonoBehaviour
         slotPos = GetIconHolderRectTransform.anchoredPosition3D;
     }
 
-   
+   public void InitPlaceHolder(ArtSO art, Cards.CardType cardType)
+    {
+        InitPlaceHolder(
+                 art.UIColorPalette,
+                cardType._cardType,
+                       art.DefaultSlotSO.GetBackground, art.DefaultSlotSO.GetDecor,
+                       art.IconCollection.GetSprite(cardType._bodyPart)
+                 );
+    }
     public void InitPlaceHolder( UIColorPaletteSO uiColorPalette,Cards.CardTypeEnum cardType,Sprite background,
         Sprite decor, Sprite icon)
     {

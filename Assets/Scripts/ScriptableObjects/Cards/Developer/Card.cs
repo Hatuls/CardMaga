@@ -24,7 +24,7 @@ namespace Cards
 
         public int GetCardLevel => _currentLevel;
 
-        public CardSO GetSetCard
+        public  CardSO GetSetCard
         {    private set => _cardSO = value;
              get => _cardSO;
         }

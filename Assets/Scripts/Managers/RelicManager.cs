@@ -16,6 +16,9 @@ namespace Relics
         RelicCollectionSO _playerKnownRecipe;
         RelicSO _cardRecipeDetected;
         [SerializeField] PlaceHolderHandler _placeHolderHandler;
+
+
+        public RelicCollectionSO PlayerRelics => _playerKnownRecipe;
         #endregion
         #region Events
         [SerializeField] SoundsEvent _playSound;

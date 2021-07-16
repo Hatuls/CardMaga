@@ -20,7 +20,7 @@ public class GameManager : MonoSingleton<GameManager>
     }
     public override void Init()
     {
-        _singletons = new ISingleton[15]
+        _singletons = new ISingleton[16]
         {
             VFXManager.Instance,
             AudioManager.Instance,
@@ -36,7 +36,8 @@ public class GameManager : MonoSingleton<GameManager>
             Battles.Deck.DeckManager.Instance,
             TurnHandler.Instance,
             CardUIManager.Instance,
-            BattleManager.Instance
+            BattleManager.Instance,
+            ComboRecipeHandler.Instance
         };
         for (int i = 0; i < _singletons.Length; i++)
             _singletons[i]?.Init();
