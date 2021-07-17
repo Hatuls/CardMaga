@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>
@@ -10,6 +9,7 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>
     [SerializeField]
     int _currentPage;
     [SerializeField] GameObject _panel;
+
     public override void Init()
     {
         _currentPage = 1;
@@ -29,7 +29,7 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>
                 comboRecipeUIs[i].gameObject.SetActive(false);
             }
         }
-
+    
         InitPage();
     }
     private void InitPage(int page=1)
@@ -53,7 +53,7 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>
     public void ActivateRelicPanel()
     {
         
-            this.gameObject.SetActive(!this.gameObject.activeSelf);
+        this.gameObject.SetActive(!this.gameObject.activeSelf);
 
         if (this.gameObject.activeSelf)
         {

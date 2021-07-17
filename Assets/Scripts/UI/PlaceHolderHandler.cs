@@ -20,6 +20,8 @@ namespace Battles.UI
 
         [SerializeField] float _offsetPos =1 ;
       static  PlaceHolderHandler _instance;
+
+        [SerializeField] GameObject _buttonGlow;
         #endregion
         #region Events
         #endregion
@@ -36,6 +38,10 @@ namespace Battles.UI
             }
             LeanTween.alpha(_instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
 
+            if (_buttonGlow!= null && _buttonGlow.activeSelf != false)
+                _buttonGlow?.SetActive(false);
+            
+            
         }
 
         internal void MarkSlotsDetected()
@@ -46,6 +52,8 @@ namespace Battles.UI
                     _CraftingSlotsUIArr[i].ActivateGlow(true);
             }
 
+            if (_buttonGlow != null && _buttonGlow.activeSelf != true)
+                _buttonGlow?.SetActive(true);
         }
         #endregion
         private void Awake()

@@ -1,35 +1,36 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cards;
 
 public class BuffIcon : MonoBehaviour
 {
     #region Fields
     BuffIcons? _name;
 
-    [SerializeField] 
-    TextMeshProUGUI _iconText;
+    [SerializeField]
+    protected TextMeshProUGUI _iconText;
 
     [SerializeField]
-    Image _background;
+   protected Image _background;
 
     [SerializeField]
-    Image _decor;
+    protected Image _decor;
 
     [SerializeField]
-    BuffIconSettingsSO _buffIconSettingsSO;
+    protected BuffIconSettingsSO _buffIconSettingsSO;
 
     [SerializeField]
-    Image _icon;
+    protected Image _icon;
 
-[SerializeField]    RectTransform _rectTransform;
+[SerializeField] protected RectTransform _rectTransform;
 
     #endregion
     #region Properties
     public BuffIcons? GetSetName { get => _name; set => _name = value; }
     #endregion
 
-    public void InitIconData(Cards.Card card , ArtSO artSO)
+    public virtual void InitIconData(Cards.Card card , ArtSO artSO)
     {
         _decor.sprite = artSO.DefaultSlotSO.GetDecor;
 
@@ -78,7 +79,7 @@ public class BuffIcon : MonoBehaviour
         TweenExitEntrance(false);
     }
 
-    private void SetText(string Text)
+    protected void SetText(string Text)
         => _iconText.text = Text;
 
     public void SetAmount(int amount)
@@ -87,13 +88,13 @@ public class BuffIcon : MonoBehaviour
         if (amount != 0)
           TweenOnUpdateText();
     }
-    private void ShowIcon()
+    protected void ShowIcon()
     {
         gameObject.SetActive(true);
         TweenExitEntrance(true);
     }
 
-    private void TweenOnUpdateText()
+    protected void TweenOnUpdateText()
     {
         if (gameObject.activeSelf)
         {
@@ -103,7 +104,7 @@ public class BuffIcon : MonoBehaviour
         }
     }
 
-    private void TweenExitEntrance(bool isEntering)
+    protected void TweenExitEntrance(bool isEntering)
     {
         if (isEntering)
         {
@@ -115,5 +116,30 @@ public class BuffIcon : MonoBehaviour
            LeanTween.alpha(_rectTransform, 0, _buffIconSettingsSO.AlphaExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType);
            LeanTween.scale(_rectTransform, Vector3.zero, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType).setOnComplete(() => gameObject.SetActive(false));
         }
+    }
+}
+public class EnemyIcon : BuffIcon
+{
+    public override void InitIconData(Card card, ArtSO artSO)
+    {
+        _decor.sprite = artSO.DefaultSlotSO.GetDecor;
+
+        _background.sprite = artSO.DefaultSlotSO.GetBackground;
+
+        _icon.sprite = artSO.IconCollection.GetSprite(card.GetSetCard.GetBodyPartEnum);
+
+        var uiColorPalette = artSO.UIColorPalette;
+        var color = uiColorPalette.GetBackgroundColor;
+        color.a = uiColorPalette.GetSlotsOpacity / 100;
+        _background.color = color;
+
+        var colorPalette = uiColorPalette.GetCardColorType(card.GetSetCard.GetCardTypeEnum);
+        color = colorPalette.GetTopColor;
+        color.a = uiColorPalette.GetFullOpacity / 100;
+        _icon.color = color;
+
+        _decor.color = color;
+        SetText(card.GetSetCard.GetCardsKeywords[0].GetAmountToApply.ToString());
+        _iconText.color = color;
     }
 }
