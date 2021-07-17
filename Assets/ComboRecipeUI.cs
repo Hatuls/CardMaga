@@ -43,13 +43,18 @@ public class ComboRecipeUI : MonoBehaviour
     private void Start()
     {
         activePlaceHolders = 0;
+  
     }
     public void InitRecipe(RelicSO relicSO)
     {
+        if (_comboRecipe != relicSO)
+        {
+
         _comboRecipe = relicSO;
         _cardUI.GFX.SetCardReference(relicSO.GetCraftedCard, _art);
         ActivatedPlaceHolders(relicSO);
         SetVisual(relicSO);
+        }
     }
     private void ActivatedPlaceHolders(RelicSO relicSO)
     {
