@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Cards;
 
 public class BuffIcon : MonoBehaviour
 {
@@ -116,30 +115,5 @@ public class BuffIcon : MonoBehaviour
            LeanTween.alpha(_rectTransform, 0, _buffIconSettingsSO.AlphaExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType);
            LeanTween.scale(_rectTransform, Vector3.zero, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType).setOnComplete(() => gameObject.SetActive(false));
         }
-    }
-}
-public class EnemyIcon : BuffIcon
-{
-    public override void InitIconData(Card card, ArtSO artSO)
-    {
-        _decor.sprite = artSO.DefaultSlotSO.GetDecor;
-
-        _background.sprite = artSO.DefaultSlotSO.GetBackground;
-
-        _icon.sprite = artSO.IconCollection.GetSprite(card.GetSetCard.GetBodyPartEnum);
-
-        var uiColorPalette = artSO.UIColorPalette;
-        var color = uiColorPalette.GetBackgroundColor;
-        color.a = uiColorPalette.GetSlotsOpacity / 100;
-        _background.color = color;
-
-        var colorPalette = uiColorPalette.GetCardColorType(card.GetSetCard.GetCardTypeEnum);
-        color = colorPalette.GetTopColor;
-        color.a = uiColorPalette.GetFullOpacity / 100;
-        _icon.color = color;
-
-        _decor.color = color;
-        SetText(card.GetSetCard.GetCardsKeywords[0].GetAmountToApply.ToString());
-        _iconText.color = color;
     }
 }
