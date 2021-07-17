@@ -19,8 +19,4 @@ namespace Art
 
         public Color[] Colors => _colors;
     }
-
-
-
-
 }
