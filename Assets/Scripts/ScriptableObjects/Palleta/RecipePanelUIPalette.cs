@@ -30,7 +30,7 @@ namespace Art
         #region BackGround & Panel
 
         [InfoBox("0 - Background\n1 - Recipe Panel\n 2 - Title Text")]
-        [TabGroup("RecipePanelUI/Colors", "Slots Button")]
+        [TabGroup("RecipePanelUI/Colors", "Recipe UI General")]
         [SerializeField]
         ColorSettings _panelsColors;
 
