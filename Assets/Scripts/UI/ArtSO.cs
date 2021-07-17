@@ -23,3 +23,16 @@ public class ArtSO : ScriptableObject
 
 
 }
+
+public class EnemyIcons : ScriptableObject
+{
+    [SerializeField]
+    private Sprite _backgroundImage;
+
+    [SerializeField]
+    private Sprite _decorateImage;
+
+
+    public Sprite DecorateImage => _decorateImage;
+    public Sprite BackGroundImage => _backgroundImage;
+}

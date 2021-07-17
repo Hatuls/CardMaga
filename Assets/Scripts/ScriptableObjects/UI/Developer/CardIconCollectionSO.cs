@@ -17,6 +17,7 @@ public class CardIconCollectionSO : ScriptableObject
         {
             default:
             case Cards.BodyPartEnum.None:
+                Debug.LogError("Body Part Is Not Set To return Sprite");
                 return null;
             case Cards.BodyPartEnum.Head:
                 return _bodyPartIcons[0];
@@ -34,20 +35,5 @@ public class CardIconCollectionSO : ScriptableObject
                 return _bodyPartIcons[6];
         }
     }
-    public Sprite GetSprite(Cards.GetHitAnimation targetedBodyPart)
-    {
-        return null;
-        //switch (targetedBodyPart)
-        //{
-        //    default:
-        //    case Cards.GetHitAnimation.None:
-        //        return null;
-        //    case Cards.GetHitAnimation.UpperPart:
-        //        return _targetedBodyPartIcons[0];
-        //    case Cards.GetHitAnimation.MidPart:
-        //        return _targetedBodyPartIcons[1];
-        //    case Cards.GetHitAnimation.LowerPart:
-        //        return _targetedBodyPartIcons[2];
-        //}
-    }
+  
 }
