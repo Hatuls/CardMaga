@@ -10,7 +10,7 @@ namespace Battles.UI
     {
         #region Fields
         [SerializeField]
-        [HideInInspector]
+   //     [HideInInspector]
         private CardGFX _cardGFX;
 
         [HideInInspector]
@@ -92,7 +92,5 @@ namespace Battles.UI
             }
         }
         #endregion
-
-
     }
 }

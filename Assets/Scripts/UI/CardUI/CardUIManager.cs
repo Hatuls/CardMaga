@@ -242,10 +242,20 @@ namespace Battles.UI
             SetClickedCardUI = cardUI;
             _soundEvent?.Raise(SoundsNameEnum.SelectCard);
         }
-        public void AddToHandUI(CardUI cache) =>
-             _handUI.Add(ref cache);
+        public void AddToHandUI(CardUI cache)
+        {
+            _handUI.Add(ref cache);
+        }
         public void TryRemoveFromHandUI(CardUI cache)
-       => _handUI.TryRemove(ref cache);
+        {
+          
+            if (_zoomedCard != null)
+            {
+                _handUI.Add(ref _zoomedCard);
+                _zoomedCard.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
+            }
+            _handUI.TryRemove(ref cache);
+        }
         public void OnClickedCardUI(CardUI card)
         {
 
@@ -257,11 +267,7 @@ namespace Battles.UI
             }
             else
             {
-                if (_zoomedCard != null)
-                {
-                    _handUI.Add(ref _zoomedCard);
-                    _zoomedCard.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
-                }
+            
 
                 TryRemoveFromHandUI(card);
                 card.CardTranslations?.MoveCard(true, Vector2.zero, _cardUISettings.GetCardMoveToDeckDelay);
