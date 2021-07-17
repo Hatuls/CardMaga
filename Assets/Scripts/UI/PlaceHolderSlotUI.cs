@@ -123,7 +123,7 @@ public class PlaceHolderSlotUI : MonoBehaviour
     public void MovePlaceHolderSlot(ref RectTransform moveTo, float offset)
     {
         Vector3 v3 = moveTo.rect.center;
-        v3.y += moveTo.rect.height;
+        v3.x += moveTo.rect.width;
         //v3.y = moveTo.anchoredPosition3D.y;
         //v3.x = 0;
         //v3.z = 0;
