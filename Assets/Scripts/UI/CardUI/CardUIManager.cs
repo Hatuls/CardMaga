@@ -50,7 +50,16 @@ namespace Battles.UI
         public RectTransform GetExhaustDeckPosition => _exhaustDeckPosition;
         public RectTransform GetHandMiddlePosition => _handMiddlePosition;
         public ref CardUI GetClickedCardUI { get => ref _clickedCardUI; }
-        public CardUI SetClickedCardUI { set => _clickedCardUI = value; }
+        public CardUI SetClickedCardUI {
+            set 
+            {
+
+                (value == null ? _clickedCardUI : value)?.GFX.GlowCard(value!=null);
+
+                  _clickedCardUI = value;
+
+            } 
+        }
         public bool IsTryingToPlace { get => _isTryingToPlace; set { _isTryingToPlace = value; } }
 
         #endregion
@@ -109,8 +118,8 @@ namespace Battles.UI
                 cards.CardTranslations?.MoveCard(true, GetDeckPosition(DeckEnum.Disposal), _cardUISettings.GetTimerForCardGoingToDiscardPile, false);
 
             _soundEvent?.Raise( SoundsNameEnum.DisacrdCard );
-            _handUI.TryRemove(ref cards);
-
+           
+            TryRemoveFromHandUI(cards);
         }
 
         internal CardUI ActivateCard(Cards.Card cardData, Vector2 pos)
@@ -244,6 +253,7 @@ namespace Battles.UI
         }
         public void AddToHandUI(CardUI cache)
         {
+            cache?.GFX.GlowCard(false);
             _handUI.Add(ref cache);
         }
         public void TryRemoveFromHandUI(CardUI cache)
@@ -251,8 +261,9 @@ namespace Battles.UI
           
             if (_zoomedCard != null)
             {
-                _handUI.Add(ref _zoomedCard);
+                AddToHandUI(_zoomedCard);
                 _zoomedCard.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
+                _zoomedCard = null;
             }
             _handUI.TryRemove(ref cache);
         }
@@ -295,13 +306,13 @@ namespace Battles.UI
                 return;
 
                  GetClickedCardUI.GFX.SetActive(false);
-                GetClickedCardUI = null;
+                SetClickedCardUI=null;
                 InputManager.Instance.RemoveObjectFromTouch();
         }
         IEnumerator RemoveTransition()
         {
             CardUI card = GetClickedCardUI;
-            GetClickedCardUI = null;
+            SetClickedCardUI = null;
             InputManager.Instance.RemoveObjectFromTouch();
 
             LeanTween.alpha(card.GFX.GetRectTransform, _cardUISettings.GetAlphaRemovalAmount, _cardUISettings.GetAlphaRemovalTime).setEase(_cardUISettings.GetAlphaLeanTween);
