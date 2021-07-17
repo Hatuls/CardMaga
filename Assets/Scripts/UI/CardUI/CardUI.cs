@@ -10,7 +10,7 @@ namespace Battles.UI
     {
         #region Fields
         [SerializeField]
-        [HideInInspector]
+   //     [HideInInspector]
         private CardGFX _cardGFX;
 
         [HideInInspector]
@@ -93,6 +93,14 @@ namespace Battles.UI
         }
         #endregion
 
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                _inputs.RegisterInputs();
+            }
+        }
 
     }
 }

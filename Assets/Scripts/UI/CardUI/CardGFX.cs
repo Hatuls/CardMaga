@@ -21,26 +21,46 @@ namespace Battles.UI.CardUIAttributes
         [Tooltip("Description of LCE Action Text")]
         [SerializeField] TextMeshProUGUI _staminaText;
 
+
+
         [Tooltip("The Body Part used for Action")]
-        [SerializeField] Image _bodyPartImg;
+        [SerializeField] Image _bodyPartIcon;
 
-        [Tooltip("The Body Part that is Targeted by Action")]
-        [SerializeField] Image _targetBodyPartImg;
+        [Tooltip("The Decoration Of The BodyPart Decoration")]
+        [SerializeField] Image _bodyPartDecor;
 
-        [Tooltip("Card Ear Img")]
-        [SerializeField] Image _cardEarsImg;
+        [Tooltip("The Decoration Of The BodyPart Decoration")]
+        [SerializeField] Image _bodyPartBackground;
+
+
+
+        [Tooltip("The background Image of the Stamina")]
+        [SerializeField] Image _staminaBackground;
+
+        [Tooltip("The Decoration of the stamina icon")]
+        [SerializeField] Image _staminaDecor;
+
+
+
 
         [Tooltip("Card Background Img")]
         [SerializeField] Image _cardBackGroundImg;
 
-        [Tooltip("Card Sripes Img")]
-        [SerializeField] Image _cardStripesImg;
 
-        [Tooltip("Card Kisutim Img")]
-        [SerializeField] Image _cardKisutimIg;
+
+        [Tooltip("Card's Background Decoration")]
+        [SerializeField] Image _backGroundDecor;
 
         [Tooltip("Card Areas Img")]
-        [SerializeField] Image _cardAreasImg;
+        [SerializeField] Image _cardImage;
+
+
+
+        [Tooltip("Card Glow Effect")]
+        [SerializeField] Image _glowBackground;
+
+
+
 
         [SerializeField] RectTransform _rectTransform;
 
@@ -52,41 +72,22 @@ namespace Battles.UI.CardUIAttributes
         public ref Card GetCardReference { get => ref _cardReferenceInHandDeck; }
         public TextMeshProUGUI GetNameTxt => _titleText;
         public TextMeshProUGUI GetDescriptionTxt => _descriptionTxt;
-        public TextMeshProUGUI GetLastCardEffectTxt => _staminaText;
-        public Image GetBodyPartImg => _bodyPartImg;
-        public Image GetTargetBodyPartImg => _targetBodyPartImg;
-        public Image GetCardEarsImg => _cardEarsImg;
-        public Image GetCardBackgroundImg => _cardBackGroundImg;
-        public Image GetCardStripesImg => _cardStripesImg;
-        public Image GetCardKisutimImg => _cardKisutimIg;
-        public Image GetCardAreasImg => _cardAreasImg;
+        public TextMeshProUGUI GetStaminaText => _staminaText;
 
+        //public Image GetBodyPartImg => _bodyPartIcon;
+        //public Image GetTargetBodyPartImg => _targetBodyPartImg;
+        //public Image GetCardEarsImg => _cardEarsImg;
+        //public Image GetCardBackgroundImg => _cardBackGroundImg;
+        //public Image GetCardStripesImg => _bodyPartDecor;
+        //public Image GetCardKisutimImg => _cardKisutimIg;
+        //public Image GetCardAreasImg => _cardAreasImg;
+        //public Image GetCardGlowImg => _glowBackground;
         public ref RectTransform GetRectTransform => ref _rectTransform;
         #endregion
 
 
         #region Contructor
-        public CardGFX(
-            ref TextMeshProUGUI title, ref TextMeshProUGUI description, ref TextMeshProUGUI stamina,
-            ref Image bodyPart, ref Image targetBodyPart,
-            ref Image cardEars, ref Image cardBackground, ref Image cardStripes,
-            ref Image cardkisutim, ref Image cardArea,
-            ref RectTransform rectTransform, Card card = null
-            )
-        {
-            _titleText = title;
-            _descriptionTxt = description;
-            _staminaText = stamina;
-            _bodyPartImg = bodyPart;
-            _targetBodyPartImg = targetBodyPart;
-            _cardEarsImg = cardEars;
-            _cardBackGroundImg = cardBackground;
-            _cardStripesImg = cardStripes;
-            _cardKisutimIg = cardkisutim;
-            _cardAreasImg = cardArea;
-            _rectTransform = rectTransform;
-            _cardReferenceInHandDeck = card;
-        }
+
         public CardGFX() { }
         #endregion
 
@@ -99,6 +100,14 @@ namespace Battles.UI.CardUIAttributes
                 return;
             }
             GetNameTxt.text = cardName;
+        }
+
+        public void GlowCard(bool toGlow)
+        {
+            if (_rectTransform != null && _glowBackground?.gameObject.activeSelf != toGlow)
+            {
+                _glowBackground?.gameObject.SetActive(toGlow);
+            }
         }
         private void SetCardDescriptionText(in string cardDescription)
         {
@@ -116,7 +125,7 @@ namespace Battles.UI.CardUIAttributes
             SetCardDescriptionText(cardData.GetCardDescription);
             SetLastCardEffectText("");
             SetBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
-            SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
+          //  SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
             SetCardColors(cardData.GetCardTypeEnum, artSO);
 
          
@@ -143,7 +152,7 @@ namespace Battles.UI.CardUIAttributes
                 // Debug.LogError("No Description for LCE");
                 return;
             }
-            GetLastCardEffectTxt.text = lastCardEffectDescription;
+            GetStaminaText.text = lastCardEffectDescription;
         }
         private void SetBodyPartImage(Sprite bodyPartSprite)
         {
@@ -152,17 +161,17 @@ namespace Battles.UI.CardUIAttributes
                 // Debug.LogError("Body Part Sprite Missing");
                 return;
             }
-            GetBodyPartImg.sprite = bodyPartSprite;
+            _bodyPartIcon.sprite = bodyPartSprite;
         }
-        private void SetTargetedBodyPartImage(Sprite targetedBodyPartSprite)
-        {
-            if (targetedBodyPartSprite == null)
-            {
-                //   Debug.LogError("Targeted Body Part Sprite is Missing");
-                return;
-            }
-            GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
-        }
+        //private void SetTargetedBodyPartImage(Sprite targetedBodyPartSprite)
+        //{
+        //    if (targetedBodyPartSprite == null)
+        //    {
+        //        //   Debug.LogError("Targeted Body Part Sprite is Missing");
+        //        return;
+        //    }
+        //    GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
+        //}
         private void SetCardColors(Cards.CardTypeEnum cardType, ArtSO artSO)
         {
             var uiColorPalette = artSO.UIColorPalette;
@@ -176,35 +185,27 @@ namespace Battles.UI.CardUIAttributes
             var palette = uiColorPalette.GetCardColorType(cardType);
             var color = uiColorPalette.GetBackgroundColor;
             color.a = uiColorPalette.GetFullOpacity;
-            GetCardBackgroundImg.color = color;
+            _cardBackGroundImg.color = color;
 
             color = palette.GetTopColor;
             color.a = uiColorPalette.GetFullOpacity;
-            GetCardKisutimImg.color = color;
+            _backGroundDecor.color = color;
 
 
             color = palette.GetMiddleColor;
 
-            color.a = uiColorPalette.GetCardEarsOpacity / 100;
-            GetCardEarsImg.color = color; //70
-
-
-            color.a = uiColorPalette.GetCardStripesOpacity / 100;
-            GetCardStripesImg.color = color;//50
-
-
             color.a = uiColorPalette.GetCardAreaOpacity / 100;
-            GetCardAreasImg.color = color;//30
+            _cardBackGroundImg.color = color;//30
 
             GetNameTxt.color = palette.GetTopColor;
 
             GetDescriptionTxt.color = palette.GetTopColor;
 
-            GetLastCardEffectTxt.color = palette.GetTopColor;
+            GetStaminaText.color = palette.GetTopColor;
 
-            GetBodyPartImg.color = palette.GetTopColor;
+            _bodyPartIcon.color = palette.GetTopColor;
 
-            GetTargetBodyPartImg.color = palette.GetTopColor;
+          //  GetTargetBodyPartImg.color = palette.GetTopColor;
         }
         #endregion
     }
