@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine.UI;
 using Cards;
-
+using Art;
 namespace Battles.UI.CardUIAttributes
 {
 
@@ -118,7 +118,7 @@ namespace Battles.UI.CardUIAttributes
             }
             GetDescriptionTxt.text = cardDescription;
         }
-        internal void SetCardReference(CardSO cardData, ArtSO artSO)
+        internal void SetCardReference(CardSO cardData, Art.ArtSO artSO)
         {
      // set visual
             SetNameText(cardData.GetCardName.ToString());

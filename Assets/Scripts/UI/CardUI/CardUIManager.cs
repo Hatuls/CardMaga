@@ -34,7 +34,7 @@ namespace Battles.UI
         bool _isTryingToPlace;
 
         [SerializeField]
-        ArtSO _artSO;
+        Art.ArtSO _artSO;
         #endregion
 
         #region Events

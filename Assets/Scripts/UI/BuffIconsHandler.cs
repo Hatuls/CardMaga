@@ -13,7 +13,7 @@ public class BuffIconsHandler : MonoBehaviour
     BuffIcon[] _buffSlots;
 
  
-    [SerializeField] ArtSO _artSO;
+    [SerializeField] Art.ArtSO _artSO;
 
     [SerializeField] BuffIcon _enemyOpponentActionUI;
     #endregion

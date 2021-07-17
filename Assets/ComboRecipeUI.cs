@@ -23,7 +23,7 @@ public class ComboRecipeUI : MonoBehaviour
 
     [BoxGroup("References")]
     [SerializeField]
-    ArtSO _art;
+    Art.ArtSO _art;
 
 
     [BoxGroup("References")]

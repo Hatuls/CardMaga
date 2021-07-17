@@ -29,7 +29,7 @@ public class BuffIcon : MonoBehaviour
     public BuffIcons? GetSetName { get => _name; set => _name = value; }
     #endregion
 
-    public virtual void InitIconData(Cards.Card card , ArtSO artSO)
+    public virtual void InitIconData(Cards.Card card, Art.ArtSO artSO)
     {
         //_decor.sprite = artSO.DefaultSlotSO.GetDecor;
 

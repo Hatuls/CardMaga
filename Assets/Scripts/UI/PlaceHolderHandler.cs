@@ -12,7 +12,7 @@ namespace Battles.UI
         //set slots UI by Data and index
         //arr of crafting slot UI
         #region Fields
-        [SerializeField] ArtSO _artSO;
+        [SerializeField] Art.ArtSO _artSO;
 
         [SerializeField] PlaceHolderSlotUI[] _CraftingSlotsUIArr;
         [SerializeField] RectTransform _firstSlotTransform;
