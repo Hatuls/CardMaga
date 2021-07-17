@@ -122,7 +122,7 @@ namespace Battles.UI
                 return;
             }
             _instance._CraftingSlotsUIArr[index].InitPlaceHolder(_instance._artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
-               _instance._artSO.DefaultSlotSO.GetBackground, _instance._artSO.DefaultSlotSO.GetDecor, _instance._artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
+               _instance._artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
         }
         //public void PlaceOnPlaceHolder(PlaceHolderSlotUI interactedSlot, Cards.Card cardCache)
         //{

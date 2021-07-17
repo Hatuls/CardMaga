@@ -17,30 +17,11 @@ public class ArtSO : ScriptableObject
     [Tooltip("Deafult Slot SO")]
     UIIconSO _defaultSlotSO;
 
-    [SerializeField]
-    [Tooltip("Enemy Action Icon")]
-    EnemyIcons _enemyIcons;
-
+ 
 
     public   UIColorPaletteSO UIColorPalette =>  _uiColorPalette;
     public   CardIconCollectionSO IconCollection =>  _iconCollection;
     public   UIIconSO DefaultSlotSO =>  _defaultSlotSO;
 
-    public EnemyIcons EnemyIcon => _enemyIcons;
-}
-
-
-[CreateAssetMenu(fileName = "Enemy Icons", menuName = "ScriptableObjects/ART/Enemy Action Icons")]
-
-public class EnemyIcons : ScriptableObject
-{
-    [SerializeField]
-    private Sprite _backgroundImage;
-
-    [SerializeField]
-    private Sprite _decorateImage;
-
-
-    public Sprite DecorateImage => _decorateImage;
-    public Sprite BackGroundImage => _backgroundImage;
+  
 }

@@ -31,9 +31,9 @@ public class BuffIcon : MonoBehaviour
 
     public virtual void InitIconData(Cards.Card card , ArtSO artSO)
     {
-        _decor.sprite = artSO.DefaultSlotSO.GetDecor;
+        //_decor.sprite = artSO.DefaultSlotSO.GetDecor;
 
-        _background.sprite = artSO.DefaultSlotSO.GetBackground;
+        //_background.sprite = artSO.DefaultSlotSO.GetBackground;
 
         _icon.sprite = artSO.IconCollection.GetSprite(card.GetSetCard.GetBodyPartEnum);
 

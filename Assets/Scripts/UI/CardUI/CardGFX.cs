@@ -127,8 +127,8 @@ namespace Battles.UI.CardUIAttributes
             SetBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
           //  SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
             SetCardColors(cardData.GetCardTypeEnum, artSO);
+            SetStaminaText(cardData.GetStaminaCost);
 
-         
             //   card.SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
             //    card.SetRotation(Vector3.zero);
             //image of card
@@ -142,6 +142,14 @@ namespace Battles.UI.CardUIAttributes
         {
            _cardReferenceInHandDeck = cardData;
             SetCardReference( cardData.GetSetCard, artSO);
+        }
+
+        private void SetStaminaText(int stamina)
+        {
+            if (_staminaText!= null)
+            {
+                _staminaText.text = stamina.ToString();
+            }
         }
         public void SetActive(bool setActive)
         => this._rectTransform?.gameObject.SetActive(setActive);

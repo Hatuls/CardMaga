@@ -43,15 +43,12 @@ public class PlaceHolderSlotUI : MonoBehaviour
         InitPlaceHolder(
                  art.UIColorPalette,
                 cardType._cardType,
-                       art.DefaultSlotSO.GetBackground, art.DefaultSlotSO.GetDecor,
                        art.IconCollection.GetSprite(cardType._bodyPart)
                  );
     }
-    public void InitPlaceHolder( UIColorPaletteSO uiColorPalette,Cards.CardTypeEnum cardType,Sprite background,
-        Sprite decor, Sprite icon)
+    public void InitPlaceHolder( UIColorPaletteSO uiColorPalette,Cards.CardTypeEnum cardType,Sprite icon)
     {
-     //   SetDecorImage(decor);
-    //    SetBackgroundImage(background);
+
         SetIconImage(icon);
         SetColors(ref uiColorPalette,cardType);
     }
