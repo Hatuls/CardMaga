@@ -29,6 +29,9 @@ public class ArtSO : ScriptableObject
     public EnemyIcons EnemyIcon => _enemyIcons;
 }
 
+
+[CreateAssetMenu(fileName = "Enemy Icons", menuName = "ScriptableObjects/ART/Enemy Action Icons")]
+
 public class EnemyIcons : ScriptableObject
 {
     [SerializeField]
