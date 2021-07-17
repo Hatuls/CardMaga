@@ -29,7 +29,7 @@ namespace Art
 
         #region BackGround & Panel
 
-        [InfoBox("0 - Background\n1 - Recipe Panel\n")]
+        [InfoBox("0 - Background\n1 - Recipe Panel\n 2 - Title Text")]
         [TabGroup("RecipePanelUI/Colors", "Slots Button")]
         [SerializeField]
         ColorSettings _panelsColors;
@@ -37,11 +37,12 @@ namespace Art
         /*
          * 0 - BackGround
          * 1 - Recipe Panel
-      
+      * 2 - Tilte Text
          */
 
         public Color RelicBackgroundColor => _panelsColors.Colors[0];
         public Color RelicPanelColor => _panelsColors.Colors[1];
+        public Color RelicTitleTextColor => _panelsColors.Colors[2];
 
         #endregion
     }
