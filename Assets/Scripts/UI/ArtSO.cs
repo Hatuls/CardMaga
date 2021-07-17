@@ -1,27 +1,38 @@
-﻿
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ART BLACKBOARD" , menuName = "ScriptableObjects/ART/UI Card Blackboard")]
-public class ArtSO : ScriptableObject
-{ 
+namespace Art
+{
 
-    [SerializeField]
-    [Tooltip("Color pallete for UI")]
-    UIColorPaletteSO _uiColorPalette;
+    [CreateAssetMenu(fileName = "ART BLACKBOARD", menuName = "ScriptableObjects/ART/UI Card Blackboard")]
+    public class ArtSO : ScriptableObject
+    {
+        [TitleGroup("Arts", "ArtSO", BoldTitle = true, Alignment = TitleAlignments.Centered)]
 
-    [SerializeField]
-    [Tooltip("Icon Collection for UI")]
-    CardIconCollectionSO _iconCollection;
+        [TabGroup("ArtSO/Arts", "Palette")]
+        [SerializeField]
+        Palette[] _allPalette;
 
-    [SerializeField]
-    [Tooltip("Deafult Slot SO")]
-    UIIconSO _defaultSlotSO;
 
-    [SerializeField]
- 
+        [SerializeField]
+        [Tooltip("Color pallete for UI")]
+        UIColorPaletteSO _uiColorPalette;
 
-    public   UIColorPaletteSO UIColorPalette =>  _uiColorPalette;
-    public   CardIconCollectionSO IconCollection =>  _iconCollection;
-    public   UIIconSO DefaultSlotSO =>  _defaultSlotSO;
+        [SerializeField]
+        [Tooltip("Icon Collection for UI")]
+        CardIconCollectionSO _iconCollection;
+
+        [SerializeField]
+        [Tooltip("Deafult Slot SO")]
+        UIIconSO _defaultSlotSO;
+
+        [SerializeField]
+
+
+        public UIColorPaletteSO UIColorPalette => _uiColorPalette;
+        public CardIconCollectionSO IconCollection => _iconCollection;
+        public UIIconSO DefaultSlotSO => _defaultSlotSO;
+
+    }
 
 }
