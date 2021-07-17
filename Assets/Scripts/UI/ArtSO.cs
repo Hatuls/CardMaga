@@ -17,11 +17,16 @@ public class ArtSO : ScriptableObject
     [Tooltip("Deafult Slot SO")]
     UIIconSO _defaultSlotSO;
 
+    [SerializeField]
+    [Tooltip("Enemy Action Icon")]
+    EnemyIcons _enemyIcons;
+
+
     public   UIColorPaletteSO UIColorPalette =>  _uiColorPalette;
     public   CardIconCollectionSO IconCollection =>  _iconCollection;
     public   UIIconSO DefaultSlotSO =>  _defaultSlotSO;
 
-
+    public EnemyIcons EnemyIcon => _enemyIcons;
 }
 
 public class EnemyIcons : ScriptableObject
