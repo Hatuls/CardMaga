@@ -7,7 +7,7 @@ public class PlaceHolderSlotUI : MonoBehaviour
     [SerializeField] Unity.Events.PlaceHolderSlotUIEvent _setCardUI;
     #endregion
     #region Fields
-
+    [SerializeField] Image _glowImage;
     [SerializeField] Image _iconImage;
     [SerializeField] Image _backgroundImage;
     [SerializeField] Image _decorImage;
@@ -55,6 +55,14 @@ public class PlaceHolderSlotUI : MonoBehaviour
         SetIconImage(icon);
         SetColors(ref uiColorPalette,cardType);
     }
+
+    public void ActivateGlow (bool toActivate)
+    {
+        if (_glowImage != null && _glowImage.gameObject.activeSelf != toActivate)
+        {
+            _glowImage.gameObject.SetActive(toActivate);
+        }
+    }
     void SetDecorImage(Sprite img)
     {
         if (img != null)
@@ -76,11 +84,11 @@ public class PlaceHolderSlotUI : MonoBehaviour
             _iconImage.sprite = img;
         }
     }
-    public void SetBackGroundColor(UIColorPaletteSO palette,Color colors)
+    public void SetGlowImageColor(UIColorPaletteSO palette,Color colors)
     {
         var color = colors;
         color.a = palette.GetSlotsOpacity / 100;
-        _backgroundImage.color = color;
+        _glowImage.color = color;
     }
     public void ResetSlotUI( UIColorPaletteSO palette)
     {
@@ -157,46 +165,4 @@ public class PlaceHolderSlotUI : MonoBehaviour
         LeanTween.alpha(_iconImage.rectTransform, 0, _iconImage.sprite != null ? time : 0.001f);
     }
 
-
-    /*
-     *     [SerializeField] Image _iconImage;
-             [SerializeField] Image _backgroundImage;
-            [SerializeField] Image _decorImage;
-     * 
-     * 
-     * 
-     */
-    //public void OnPointClick()
-    //{
-    //    _onClickEvent?.Raise(this);
-    //}
-
-    //public void BeginDrag()
-    //{
-    //    if (IsHoldingCard == false)
-    //        return;
-
-    // //   CardUIManager.Instance.SetCardUI(this);
-    //    _setCardUI?.Raise(this);
-    //}
-    //public void EndDrag()
-    //{
-
-    //}
-
-    //public void OnDrop(PointerEventData eventData)
-    //{
-    //    if (CardUIManager.Instance == null)
-    //    {
-    //        Debug.LogError("CardUIManager is Null");
-    //        return;
-    //    }
-    //    Debug.Log("SlotUI was Touched");
-
-    //  //  CardUIManager.Instance.OnSlotInteract(this);
-    //    _onSlotInteract?.Raise(this);
-    //    //CardUIManager.Instance.IsTryingToPlace = true;
-    //    //_holderManager.CurrentSlot = this; 
-
-    //}
 }

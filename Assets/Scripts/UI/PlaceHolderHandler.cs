@@ -32,7 +32,7 @@ namespace Battles.UI
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
                 if (_CraftingSlotsUIArr[i] != null)
-            _CraftingSlotsUIArr[i].SetBackGroundColor(_artSO.UIColorPalette, _artSO.UIColorPalette.GetBackgroundColor);
+                    _CraftingSlotsUIArr[i].ActivateGlow(false);
             }
             LeanTween.alpha(_instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
 
@@ -43,9 +43,7 @@ namespace Battles.UI
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
                 if (_CraftingSlotsUIArr[i] != null && DeckManager.GetCraftingSlots.GetDeck[i]!= null)
-                {
-                    _CraftingSlotsUIArr[i].SetBackGroundColor(_artSO.UIColorPalette,_artSO.DefaultSlotSO.GetDetectedBackgroundColor);
-                }
+                    _CraftingSlotsUIArr[i].ActivateGlow(true);
             }
 
         }
