@@ -35,17 +35,17 @@ namespace Art
 
         #region Stamina On Card
         [TabGroup("Card UI/Colors", "Stamina")]
-        [InfoBox("0 - Background\n1 - Text\n2 - Decoration (Out Line)")]
+        [InfoBox("0 - Background\n1 - Text\n2 - Glow")]
         [SerializeField]
         ColorSettings _staminaColors;
         /*
          *  0 - Background
          *  1 - Text 
-         *  2 - Decoration
+         *  2 - Glow
          */
         public Color StaminaBackground => _staminaColors.Colors[0];
         public Color StaminaText => _staminaColors.Colors[1];
-        public Color StaminaDecoration => _staminaColors.Colors[2];
+        public Color StaminaGlow => _staminaColors.Colors[2];
 
 
         #endregion
@@ -58,12 +58,10 @@ namespace Art
         ColorSettings _bodyPartIconColors;
         /*
          *  0 - Background
-         *  1 - Image 
-         *  2 - Decoration
+         *  1 - Decoration
          */
         public Color BodyPartIconBackground => _bodyPartIconColors.Colors[0];
-        public Color BodyPartIconImage => _bodyPartIconColors.Colors[1];
-        public Color BodyPartIconDecoration => _bodyPartIconColors.Colors[2];
+        public Color BodyPartIconDecoration => _bodyPartIconColors.Colors[1];
         #endregion
 
         #region Card Information

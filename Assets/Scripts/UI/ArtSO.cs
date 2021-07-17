@@ -17,11 +17,11 @@ public class ArtSO : ScriptableObject
     [Tooltip("Deafult Slot SO")]
     UIIconSO _defaultSlotSO;
 
+    [SerializeField]
  
 
     public   UIColorPaletteSO UIColorPalette =>  _uiColorPalette;
     public   CardIconCollectionSO IconCollection =>  _iconCollection;
     public   UIIconSO DefaultSlotSO =>  _defaultSlotSO;
 
-  
 }

@@ -12,7 +12,7 @@ namespace Art
 
         #region Hp Bar
         [TabGroup("Bars UI Palette/Colors", "HP Bar")]
-        [InfoBox("0 - Background\n1 - Text\n2 - Decorate\n3 - Glow")]
+        [InfoBox("0 - Background\n1 - Fill\n2 - Text\n3 - Glow")]
         [SerializeField]
         ColorSettings _hpBar;
 

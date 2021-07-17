@@ -87,17 +87,17 @@ namespace Art
 
         #region Armor
         [TabGroup("Buff UI/Colors", "Armor Icon")]
-        [InfoBox("0 - Strength\n1 - Bleed")]
+        [InfoBox("0 - BackGround\n1 - Glow\n2- Text")]
         [SerializeField]
         ColorSettings _armorColors;
         /*
          * 0 - background
-         * 1 - Decorate
+         * 1 - Glow
          * 2 - Text
          */
 
         public Color ArmorIconBackGroundColor => _armorColors.Colors[0];
-        public Color ArmorIconDecorationColor => _armorColors.Colors[1];
+        public Color ArmorIconGlowColor => _armorColors.Colors[1];
         public Color ArmorIconTextColor => _armorColors.Colors[2];
 
 

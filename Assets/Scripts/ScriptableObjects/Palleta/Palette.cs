@@ -8,9 +8,6 @@ namespace Art
     }
 
 
-
-
-
     [System.Serializable]
     internal class ColorSettings
     {
@@ -19,4 +16,6 @@ namespace Art
 
         public Color[] Colors => _colors;
     }
+
+
 }
