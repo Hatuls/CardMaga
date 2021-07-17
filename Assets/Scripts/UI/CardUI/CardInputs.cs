@@ -35,6 +35,7 @@ namespace Battles.UI.CardUIAttributes
             beginDrag.callback.RemoveAllListeners();
             endDrag.callback.RemoveAllListeners();
             onClick.callback.RemoveAllListeners();
+            
         }
         public void RegisterInputs ()
         {
@@ -48,15 +49,15 @@ namespace Battles.UI.CardUIAttributes
             endDrag.callback.AddListener((data) => { EndDrag((PointerEventData)data); });
             _eventTrigger.triggers.Add(endDrag);
 
-            //onClick = new EventTrigger.Entry();
-            //onClick.eventID = EventTriggerType.PointerClick;
-            //onClick.callback.AddListener((data) => { OnPointerClick((PointerEventData)data); });
-            //_eventTrigger.triggers.Add(onClick);
+            onClick = new EventTrigger.Entry();
+            onClick.eventID = EventTriggerType.PointerClick;
+            onClick.callback.AddListener((data) => { OnPointerClick((PointerEventData)data); });
+            _eventTrigger.triggers.Add(onClick);
         }
         public void OnPointerClick(PointerEventData eventData)
         {
             _onClickedCardEvent?.Raise(_thisCard);
-            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+         
         }
      
         public  void BeginDrag(PointerEventData eventData)

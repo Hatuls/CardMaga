@@ -92,15 +92,5 @@ namespace Battles.UI
             }
         }
         #endregion
-
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                _inputs.RegisterInputs();
-            }
-        }
-
     }
 }
