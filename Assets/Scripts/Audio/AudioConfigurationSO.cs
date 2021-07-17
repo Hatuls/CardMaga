@@ -51,5 +51,8 @@ public enum SoundsNameEnum
     SuccessfullForge = 28,
     DamnIt = 29,
     None =30,
+    BlockSound = 31,
+    BurningSound = 32,
+
     
 }
