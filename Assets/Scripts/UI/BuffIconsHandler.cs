@@ -60,7 +60,7 @@ public class BuffIconsHandler : MonoBehaviour
         }
         var buffSlot = GetFreeSlot();
         buffSlot.GetSetName = icon;
-        buffSlot.InitIconData(_buffCollection.GetIconData(icon),amount);
+        buffSlot.InitIconData(_buffCollection.GetIconData(icon),amount , icon);
     }
 
     internal void UpdateArmour(int amount)

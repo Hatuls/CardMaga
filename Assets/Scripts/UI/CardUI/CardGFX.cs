@@ -68,29 +68,6 @@ namespace Battles.UI.CardUIAttributes
 
 
 
-        #region Art
-        static CardTypePalette _cardTypePalette; 
-        static CardUIPalette _cardUIPalette ;
-        private static CardUIPalette CardUIPalette
-        {
-            get
-            {
-                if (_cardUIPalette== null)
-                    _cardUIPalette = ArtSettings.ArtSO.GetPallette<CardUIPalette>();
-                return _cardUIPalette;
-            }
-        }
-        private static CardTypePalette CardTypePalette
-        {
-            get
-            {
-                if (_cardTypePalette == null)
-                    _cardTypePalette = ArtSettings.ArtSO.GetPallette<CardTypePalette>();
-
-                return _cardTypePalette;
-            }
-        }
-        #endregion
 
         #endregion
 
@@ -201,35 +178,29 @@ namespace Battles.UI.CardUIAttributes
         {
 
 
-            if (CardTypePalette == null)
-            {
-                //   Debug.LogError("Error in SetCardColors");
-                return;
-            }
-
 
 
 
 
 
             // Body Part:
-            Color clr = CardTypePalette.GetDecorationColorFromEnum(cardType);
+            Color clr = ArtSettings.CardTypePalette.GetDecorationColorFromEnum(cardType);
             _bodyPartDecor.color = clr;
-            _bodyPartBackground.color = CardTypePalette.GetBackgroundColorFromEnum(cardType);
-            _bodyPartIcon.color = _cardTypePalette.GetIconBodyPartColorFromEnum(cardType);
+            _bodyPartBackground.color = ArtSettings.CardTypePalette.GetBackgroundColorFromEnum(cardType);
+            _bodyPartIcon.color = ArtSettings.CardTypePalette.GetIconBodyPartColorFromEnum(cardType);
 
 
             // Stamina Part:
-            _staminaBackground.color = CardUIPalette.StaminaBackgroundColor;
-            _staminaDecor.color = CardUIPalette.StaminaDecorateColor;
-            _staminaText.color = CardUIPalette.StaminaTextColor;
+            _staminaBackground.color = ArtSettings.CardUIPalette.StaminaBackgroundColor;
+            _staminaDecor.color = ArtSettings.CardUIPalette.StaminaDecorateColor;
+            _staminaText.color = ArtSettings.CardUIPalette.StaminaTextColor;
 
             //Background Image
             _cardDecor.color = clr;
 
             // Description
-            _descriptionTxt.color = CardUIPalette.CardInformationDescriptionTextColor;
-            _titleText.color = CardUIPalette.CardInformationTitleTextColor;
+            _descriptionTxt.color = ArtSettings.CardUIPalette.CardInformationDescriptionTextColor;
+            _titleText.color = ArtSettings.CardUIPalette.CardInformationTitleTextColor;
 
 
 
