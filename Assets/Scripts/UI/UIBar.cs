@@ -17,11 +17,21 @@ namespace Battles.UI
         public void SetValueBar(int value)
         {
           //  _slider.value = value;
-            LeanTween.value(this.gameObject,SliderValue, _slider.value, value, _barUISettings.DelayTime).setEase(_barUISettings.LeanTweenEase);
+            LeanTween.value(this.gameObject,SliderValue, _slider.value, value, _barUISettings.DelayTime).setEase(_barUISettings.DelayTimeLeanTweenEase);
+            SetTextsAndColor(value);
+        }
+
+        private void SetTextsAndColor(int value)
+        {
             if (_currentValueText != null)
                 _currentValueText.text = value.ToString();
 
             SetGradientColor();
+        }
+        public void InitValueBar(int value)
+        {
+            LeanTween.value(this.gameObject, SliderValue, _slider.value, value, _barUISettings.InitTime).setEase(_barUISettings.InitTimeLeanTweenEase);
+            SetTextsAndColor(value);
         }
         private void SliderValue(float x) => _slider.value = x;
         public void SetMaxValue(int maxValue)
