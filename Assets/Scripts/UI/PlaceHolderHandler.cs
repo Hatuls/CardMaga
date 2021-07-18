@@ -114,7 +114,12 @@ namespace Battles.UI
 
                 _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime, type);
             }
-           
+            else
+            {
+                _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime);
+
+            }
+
 
         }
         public ref RectTransform GetRectTransform(int index)

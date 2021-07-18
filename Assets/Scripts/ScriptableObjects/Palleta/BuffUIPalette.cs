@@ -37,7 +37,24 @@ namespace Art
          *  0 - Strength
          *  1 - Bleed
          */
-    
+
+        public Color GetBuffIconFromColor(BuffIcons buff)
+        {
+            Color clr =Color.white;
+            switch (buff)
+            {
+                case BuffIcons.Bleed:
+                    clr = _buffImageColors.Colors[1];
+                    break;
+                case BuffIcons.Strength:
+                    clr = _buffImageColors.Colors[0];
+                    break;
+                default:
+                    break;
+            }
+            return clr;
+        }
+
         public Color GetBuffIconFromColor(Keywords.KeywordTypeEnum keywordTypeEnum)
         {
             Color clr = Color.black;

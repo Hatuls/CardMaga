@@ -140,6 +140,7 @@ namespace Battles.UI
                     if (CardUIArr[i].Inputs != null)
                     CardUIArr[i].Inputs.GetCanvasGroup.blocksRaycasts = true;
 
+
                     return CardUIArr[i];
 
                 }

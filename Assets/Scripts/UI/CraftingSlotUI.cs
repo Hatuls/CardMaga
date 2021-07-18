@@ -178,9 +178,20 @@ public class CraftingSlotUI : MonoBehaviour
         LeanTween.alpha(_backgroundImage.rectTransform, 0, time);
         LeanTween.alpha(_iconImage.rectTransform, 0, _iconImage.sprite != null ? time : 0.001f);
     }
+    public void Disapear(float time)
+    {   
+        _iconImage.color = Color.clear;
+        _decorImage.color = _craftingUIPalette.SlotDecorationColor;
+        _backgroundImage.color = _craftingUIPalette.SlotBackgroundColor;
+        LeanTween.alpha(_iconImage.rectTransform, _iconImage.color.a, 0.001f);
+        LeanTween.alpha(_decorImage.rectTransform, _decorImage.color.a, 0.001f);
+        LeanTween.alpha(_backgroundImage.rectTransform, _backgroundImage.color.a, 0.001f);
 
-   
 
+        LeanTween.alpha(_decorImage.rectTransform, 0, time);
+        LeanTween.alpha(_backgroundImage.rectTransform, 0, time);
+        LeanTween.alpha(_iconImage.rectTransform, 0, _iconImage.sprite != null ? time : 0.001f);
+    }
 
 
 
