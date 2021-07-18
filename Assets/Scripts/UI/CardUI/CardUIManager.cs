@@ -65,18 +65,7 @@ namespace Battles.UI
         #endregion
 
         #region MonoBehaiviour callbacks
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                DrawCards(null, DeckEnum.PlayerDeck);
-            }
-            if (Input.GetKeyDown(KeyCode.LeftAlt))
-            {
-                RemoveHands();
-            }
-
-        }
+     
 
         #endregion
 

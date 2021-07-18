@@ -29,7 +29,8 @@ namespace Battles.UI
 
         public void UpdateHealthBar(bool isPlayer, int health)
         =>(isPlayer ? _playerHealthBar : _enemyHealthBar).SetValueBar(health);
-        
+        public void InitHealthBar(bool isPlayer,int health)
+            => (isPlayer? _playerHealthBar : _enemyHealthBar).InitValueBar(health);
         public void UpdateMaxHealthBar(bool isPlayer , int maxHealth)
             => (isPlayer ? _playerHealthBar : _enemyHealthBar).SetMaxValue(maxHealth);
 

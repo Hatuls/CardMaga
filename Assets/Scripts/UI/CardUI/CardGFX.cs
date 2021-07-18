@@ -119,9 +119,9 @@ namespace Battles.UI.CardUIAttributes
             SetCardDescriptionText(cardData.GetCardDescription);
             SetLastCardEffectText("");
             SetBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
-          //  SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
             SetCardColors(cardData.GetCardTypeEnum);
             SetStaminaText(cardData.GetStaminaCost);
+            SetCardUIImage(cardData.GetCardImage);
 
             //   card.SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
             //    card.SetRotation(Vector3.zero);
@@ -132,6 +132,7 @@ namespace Battles.UI.CardUIAttributes
 
             //rotation?
         }
+    
         internal void SetCardReference(ref Card cardData, ArtSO artSO)
         {
            _cardReferenceInHandDeck = cardData;
@@ -174,15 +175,11 @@ namespace Battles.UI.CardUIAttributes
         //    }
         //    GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
         //}
+
+        private void SetCardUIImage(Sprite img)
+        => _cardBackGroundImg.sprite = img;
         private void SetCardColors(CardTypeEnum cardType)
         {
-
-
-
-
-
-
-
             // Body Part:
             Color clr = ArtSettings.CardTypePalette.GetDecorationColorFromEnum(cardType);
             _bodyPartDecor.color = clr;
