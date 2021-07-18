@@ -37,7 +37,7 @@ public class ComboRecipeUI : MonoBehaviour
 
     [BoxGroup("References")]
     [SerializeField]
-    PlaceHolderSlotUI[] _placeHolderSlotUIs;
+    CraftingSlotUI[] _placeHolderSlotUIs;
 
     byte activePlaceHolders = 0;
     private void Start()
@@ -90,7 +90,7 @@ public class ComboRecipeUI : MonoBehaviour
         {
             if (_placeHolderSlotUIs[i].gameObject.activeSelf && i - ComboCheck >= 0 && i - ComboCheck < relic.GetCombo.Length)
             {
-               _placeHolderSlotUIs[i].InitPlaceHolder(_art, relic.GetCombo[i - ComboCheck]);
+               _placeHolderSlotUIs[i].InitPlaceHolder(relic.GetCombo[i - ComboCheck]);
                 ComboCheck = 0;
             }
             else

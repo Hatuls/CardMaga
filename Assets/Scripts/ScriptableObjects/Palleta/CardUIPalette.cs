@@ -16,7 +16,7 @@ namespace Art
         /*
          *  0 -Default Background
          */
-        public Color CardDefaultBackground => _backGroundColors.Colors[0];
+        public Color CardDefaultBackgroundColor => _backGroundColors.Colors[0];
         #endregion
 
         #region Card UI Glow
@@ -30,22 +30,22 @@ namespace Art
          *  1 - Combo Detected
          */
 
-        public Color CardClickedGlow => _cardUIGlow.Colors[0];
+        public Color CardClickedGlowColor => _cardUIGlow.Colors[0];
         #endregion
 
         #region Stamina On Card
         [TabGroup("Card UI/Colors", "Stamina")]
-        [InfoBox("0 - Background\n1 - Text\n2 - Glow")]
+        [InfoBox("0 - Background\n1 - Text\n2 - Decorate")]
         [SerializeField]
         ColorSettings _staminaColors;
         /*
          *  0 - Background
          *  1 - Text 
-         *  2 - Glow
+         *  2 - Decorate
          */
-        public Color StaminaBackground => _staminaColors.Colors[0];
-        public Color StaminaText => _staminaColors.Colors[1];
-        public Color StaminaGlow => _staminaColors.Colors[2];
+        public Color StaminaBackgroundColor => _staminaColors.Colors[0];
+        public Color StaminaTextColor => _staminaColors.Colors[1];
+        public Color StaminaDecorateColor => _staminaColors.Colors[2];
 
 
         #endregion
@@ -60,8 +60,8 @@ namespace Art
          *  0 - Background
          *  1 - Decoration
          */
-        public Color BodyPartIconBackground => _bodyPartIconColors.Colors[0];
-        public Color BodyPartIconDecoration => _bodyPartIconColors.Colors[1];
+        public Color BodyPartIconBackgroundColor => _bodyPartIconColors.Colors[0];
+        public Color BodyPartIconDecorationColor => _bodyPartIconColors.Colors[1];
         #endregion
 
         #region Card Information
@@ -75,9 +75,9 @@ namespace Art
          *  1 - Title Text 
          *  2 - Description Text
          */
-        public Color CardInformationIconBackground => _cardInformation.Colors[0];
-        public Color CardInformationIconImage => _cardInformation.Colors[1];
-        public Color CardInformationIconDecoration => _cardInformation.Colors[2];
+        public Color CardInformationIconBackgroundColor => _cardInformation.Colors[0];
+        public Color CardInformationTitleTextColor => _cardInformation.Colors[1];
+        public Color CardInformationDescriptionTextColor => _cardInformation.Colors[2];
         #endregion
     }
 

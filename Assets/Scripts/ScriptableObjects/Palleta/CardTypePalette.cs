@@ -63,6 +63,47 @@ namespace Art
         public Color UtilityIconBodyPartColor => _utilityColors.Colors[2];
         #endregion
 
+
+
+        public Color GetIconBodyPartColorFromEnum(Cards.CardTypeEnum cardTypeEnum)
+        {
+            switch (cardTypeEnum)
+            {
+                case Cards.CardTypeEnum.Utility:
+                    return UtilityIconBodyPartColor;
+                case Cards.CardTypeEnum.Defend:
+                    return DefenseIconBodyPartColor;
+                case Cards.CardTypeEnum.Attack:
+                    return AttackIconBodyPartColor;
+            }
+            return Color.black;
+        }
+        public Color GetDecorationColorFromEnum(Cards.CardTypeEnum cardTypeEnum)
+        {
+            switch (cardTypeEnum)
+            {
+                case Cards.CardTypeEnum.Utility:
+                    return UtilityIconDecorationColor;
+                case Cards.CardTypeEnum.Defend:
+                    return DefenseIconDecorationColor;
+                case Cards.CardTypeEnum.Attack:
+                    return AttackIconDecorationColor;
+            }
+            return Color.black;
+        }
+        public Color GetBackgroundColorFromEnum(Cards.CardTypeEnum cardTypeEnum)
+        {
+            switch (cardTypeEnum)
+            {
+                case Cards.CardTypeEnum.Utility:
+                    return UtilityIconBackgroundColor;
+                case Cards.CardTypeEnum.Defend:
+                    return DefenseIconBackgroundColor;
+                case Cards.CardTypeEnum.Attack:
+                    return AttackIconBackgroundColor;
+            }
+            return Color.black;
+        }
     }
 
 

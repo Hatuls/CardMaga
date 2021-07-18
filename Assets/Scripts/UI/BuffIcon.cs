@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using Art;
 public class BuffIcon : MonoBehaviour
 {
     #region Fields
@@ -24,32 +24,40 @@ public class BuffIcon : MonoBehaviour
 
 [SerializeField] protected RectTransform _rectTransform;
 
+    #region Art
+    static BuffUIPalette _buffUIPalette;
+    static CardIconCollectionSO _cardIconCollection;
+    static CardTypePalette _cardTypePalette;
+    #endregion
+
+
     #endregion
     #region Properties
     public BuffIcons? GetSetName { get => _name; set => _name = value; }
     #endregion
-
-    public virtual void InitIconData(Cards.Card card, Art.ArtSO artSO)
+    private void Start()
     {
-        //_decor.sprite = artSO.DefaultSlotSO.GetDecor;
+     _cardIconCollection = ArtSettings.ArtSO.GetSpriteCollections<CardIconCollectionSO>();
+       _cardTypePalette = ArtSettings.ArtSO.GetPallette<CardTypePalette>();
+        _buffUIPalette = ArtSettings.ArtSO.GetPallette<BuffUIPalette>();
+    }
 
-        //_background.sprite = artSO.DefaultSlotSO.GetBackground;
 
-        _icon.sprite = artSO.IconCollection.GetSprite(card.GetSetCard.GetBodyPartEnum);
+    public virtual void InitIconData(Cards.Card card)
+    {
 
-        var uiColorPalette = artSO.UIColorPalette;
-        var color = uiColorPalette.GetBackgroundColor;
-        color.a = uiColorPalette.GetSlotsOpacity / 100;
-        _background.color = color;
+        _icon.sprite = _cardIconCollection.GetSprite(card.GetSetCard.GetBodyPartEnum);
 
-        var colorPalette = uiColorPalette.GetCardColorType(card.GetSetCard.GetCardTypeEnum);
-        color = colorPalette.GetTopColor;
-        color.a = uiColorPalette.GetFullOpacity / 100;
-        _icon.color = color;
+        _background.color = _buffUIPalette.CardDefaultBackground;
 
-        _decor.color = color;
+        Color clr = _cardTypePalette.GetIconBodyPartColorFromEnum(card.GetSetCard.GetCardTypeEnum);
+        _icon.color = clr;
+
+
+        _decor.color = _cardTypePalette.GetDecorationColorFromEnum(card.GetSetCard.GetCardTypeEnum);
         SetText(card.GetSetCard.GetCardsKeywords[0].GetAmountToApply.ToString());
-        _iconText.color = color;
+
+        _iconText.color = clr;
     }
     public void InitIconData(UIIconSO iconData, int amount)
     {

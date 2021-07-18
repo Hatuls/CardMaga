@@ -24,7 +24,7 @@ public class CraftingSlotsData: Battles.Deck.DeckAbst
             }
             PlaceHolderHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
         }
-        PlaceHolderHandler.ChangeSlotsPos();
+        PlaceHolderHandler.ChangeSlotsPos(GetDeck);
         CountCards();
         Relics.RelicManager.StartDetection();
     }

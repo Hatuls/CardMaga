@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-public class PlaceHolderSlotUI : MonoBehaviour
+using Art;
+public class CraftingSlotUI : MonoBehaviour
 {
     //icon moves to new icon position
     #region Events
@@ -16,6 +17,18 @@ public class PlaceHolderSlotUI : MonoBehaviour
     Vector3 slotPos;
        [HideInInspector]
     [SerializeField] RectTransform _rectTransform;
+
+
+
+    #region Art
+    [SerializeField]
+    ArtSO art;
+
+    static CraftingUIPalette _craftingUIPalette;
+    static CardTypePalette _cardTypePalette;
+    static CardIconCollectionSO _cardIconCollection;
+    #endregion
+
     #endregion
     #region Properties
     public int SlotID { get => _SlotID; set => _SlotID = value; }
@@ -30,27 +43,32 @@ public class PlaceHolderSlotUI : MonoBehaviour
         }
     }
     public RectTransform GetIconHolderRectTransform => _iconHolder;
-
+    public float GetIconImageOpacity => _iconImage.color.a;
+    public float GetBackGroundOpacity => _backgroundImage.color.a;
+    public float GetDecorationOpacity => _decorImage.color.a;
     #endregion
     private void Start()
     {
         Debug.Log($"{_decorImage}, {_iconImage}, {_backgroundImage},{SlotID }");
         slotPos = GetIconHolderRectTransform.anchoredPosition3D;
+      
+       _craftingUIPalette = ArtSettings.ArtSO.GetPallette<CraftingUIPalette>();
+       _cardTypePalette = ArtSettings.ArtSO.GetPallette<CardTypePalette>();
+       _cardIconCollection = ArtSettings.ArtSO._iconCollection;
     }
 
-   public void InitPlaceHolder(Art.ArtSO art, Cards.CardType cardType)
+   public void InitPlaceHolder( Cards.CardType cardType)
     {
-        InitPlaceHolder(
-                 art.UIColorPalette,
-                cardType._cardType,
-                       art.IconCollection.GetSprite(cardType._bodyPart)
-                 );
+        //InitPlaceHolder(
+        //        cardType._cardType,
+        //              _cardIconCollection.GetSprite(cardType._bodyPart)
+        //         );
     }
-    public void InitPlaceHolder( UIColorPaletteSO uiColorPalette,Cards.CardTypeEnum cardType,Sprite icon)
+    public void InitPlaceHolder(Cards.CardTypeEnum cardType,Sprite icon)
     {
 
         SetIconImage(icon);
-        SetColors(ref uiColorPalette,cardType);
+        SetColors(cardType);
     }
 
     public void ActivateGlow (bool toActivate)
@@ -81,49 +99,46 @@ public class PlaceHolderSlotUI : MonoBehaviour
             _iconImage.sprite = img;
         }
     }
-    public void SetGlowImageColor(UIColorPaletteSO palette,Color colors)
+    public void SetGlowImageColor()
     {
-        var color = colors;
-        color.a = palette.GetSlotsOpacity / 100;
-        _glowImage.color = color;
+     //   _glowImage.color = _craftingUIPalette.SlotGlowColor;
     }
-    public void ResetSlotUI( UIColorPaletteSO palette)
+    public void ResetSlotUI()
     {
-        if(palette == null)
+
+        if (_craftingUIPalette == null)
         {
             Debug.LogError("Error in ResetSlot");
             return;
         }
-        var color = palette.GetBackgroundColor;
-        color.a = 0;
+
+        if (_glowImage.gameObject.activeSelf)
+            _glowImage.gameObject.SetActive(false);
+
+
+        _iconImage.color = Color.clear;
+        _decorImage.color = _craftingUIPalette.SlotDecorationColor;
+        _backgroundImage.color = _craftingUIPalette.SlotBackgroundColor;
+
         _iconImage.sprite = null;
-        _iconImage.color = color;
 
-        color = palette.GetDefaultSlotColor;
-        color.a = palette.GetFullOpacity;
-        _decorImage.color = color;
-
-        color= palette.GetBackgroundColor;
-        color.a = palette.GetSlotsOpacity / 100;
-        _backgroundImage.color = color;
     }
-    void SetColors(ref UIColorPaletteSO palette,Cards.CardTypeEnum cardType)
+    void SetColors(Cards.CardTypeEnum cardType)
     {
-        if (palette == null)
+        if (_craftingUIPalette == null || _cardTypePalette == null)
         {
             Debug.LogError("Error in SetSlotData");
             return;
         }
-        var color = palette.GetBackgroundColor;
-        color.a = palette.GetSlotsOpacity /100;
-        _backgroundImage.color = color;
 
-        var colorPalette = palette.GetCardColorType(cardType);
-        color = colorPalette.GetTopColor;
-        color.a = palette.GetFullOpacity/100;
-        _iconImage.color = color;
+        _backgroundImage.color = _craftingUIPalette.SlotBackgroundColor;
 
-        _decorImage.color = color;
+        //var colorPalette = cardTypePalette.GetCardColorType(cardType);
+        //color = colorPalette.GetTopColor;
+        //color.a = palette.GetFullOpacity/100;
+
+        _iconImage.color = _cardTypePalette.GetIconBodyPartColorFromEnum(cardType);
+        _decorImage.color = _cardTypePalette.GetDecorationColorFromEnum(cardType);
     }
     public void MovePlaceHolderSlot(ref RectTransform moveTo, float offset)
     {
@@ -135,26 +150,28 @@ public class PlaceHolderSlotUI : MonoBehaviour
         GetIconHolderRectTransform.anchoredPosition3D = v3;
     }
     public void MoveDown(float time) =>  LeanTween.move(GetIconHolderRectTransform, slotPos, time);
-    public void Appear(float time ,  UIColorPaletteSO palette)
+    public void Appear(float time ,Cards.CardTypeEnum type )
     {
+
+
+
+
         LeanTween.alpha(_iconImage.rectTransform, 0, 0.001f);
         LeanTween.alpha(_decorImage.rectTransform, 0, 0.001f);
         LeanTween.alpha(_backgroundImage.rectTransform, 0, 0.001f);
 
 
-        LeanTween.alpha(_iconImage.rectTransform, palette.GetFullOpacity / 100, time);
-        LeanTween.alpha(_decorImage.rectTransform, palette.GetFullOpacity / 100, time);
-        LeanTween.alpha(_backgroundImage.rectTransform, palette.GetSlotsOpacity / 100, time);
+        LeanTween.alpha(_iconImage.rectTransform, _cardTypePalette.GetIconBodyPartColorFromEnum(type).a, time);
+        LeanTween.alpha(_decorImage.rectTransform, _cardTypePalette.GetDecorationColorFromEnum(type).a, time);
+        LeanTween.alpha(_backgroundImage.rectTransform, _cardTypePalette.GetBackgroundColorFromEnum(type).a, time);
 
-       
+
     }
-    public void Disapear(float time, UIColorPaletteSO palette)
+    public void Disapear(float time, Cards.CardTypeEnum type)
     {
-
-        LeanTween.alpha(_iconImage.rectTransform, palette.GetFullOpacity / 100, 0.001f);
-        LeanTween.alpha(_decorImage.rectTransform, palette.GetFullOpacity / 100, 0.001f);
-        LeanTween.alpha(_backgroundImage.rectTransform, palette.GetSlotsOpacity / 100, 0.001f);
-
+        LeanTween.alpha(_iconImage.rectTransform, _cardTypePalette.GetIconBodyPartColorFromEnum(type).a, 0.001f);
+        LeanTween.alpha(_decorImage.rectTransform, _cardTypePalette.GetDecorationColorFromEnum(type).a, 0.001f);
+        LeanTween.alpha(_backgroundImage.rectTransform, _cardTypePalette.GetBackgroundColorFromEnum(type).a, 0.001f);
 
 
         LeanTween.alpha(_decorImage.rectTransform, 0, time);
@@ -162,4 +179,11 @@ public class PlaceHolderSlotUI : MonoBehaviour
         LeanTween.alpha(_iconImage.rectTransform, 0, _iconImage.sprite != null ? time : 0.001f);
     }
 
+
+
+
+
+
 }
+
+

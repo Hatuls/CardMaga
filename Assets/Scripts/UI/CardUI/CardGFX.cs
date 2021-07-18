@@ -49,7 +49,7 @@ namespace Battles.UI.CardUIAttributes
 
 
         [Tooltip("Card's Background Decoration")]
-        [SerializeField] Image _backGroundDecor;
+        [SerializeField] Image _cardDecor;
 
         [Tooltip("Card Areas Img")]
         [SerializeField] Image _cardImage;
@@ -66,6 +66,13 @@ namespace Battles.UI.CardUIAttributes
 
         Card _cardReferenceInHandDeck;
 
+
+
+        #region Art
+        //static CardTypePalette _cardTypePalette = ArtSO.GetPallette<CardTypePalette>();
+        //static CardUIPalette _cardUIPalette = ArtSO.GetPallette<CardUIPalette>();
+        #endregion
+
         #endregion
 
         #region Properties
@@ -73,15 +80,6 @@ namespace Battles.UI.CardUIAttributes
         public TextMeshProUGUI GetNameTxt => _titleText;
         public TextMeshProUGUI GetDescriptionTxt => _descriptionTxt;
         public TextMeshProUGUI GetStaminaText => _staminaText;
-
-        //public Image GetBodyPartImg => _bodyPartIcon;
-        //public Image GetTargetBodyPartImg => _targetBodyPartImg;
-        //public Image GetCardEarsImg => _cardEarsImg;
-        //public Image GetCardBackgroundImg => _cardBackGroundImg;
-        //public Image GetCardStripesImg => _bodyPartDecor;
-        //public Image GetCardKisutimImg => _cardKisutimIg;
-        //public Image GetCardAreasImg => _cardAreasImg;
-        //public Image GetCardGlowImg => _glowBackground;
         public ref RectTransform GetRectTransform => ref _rectTransform;
         #endregion
 
@@ -126,7 +124,7 @@ namespace Battles.UI.CardUIAttributes
             SetLastCardEffectText("");
             SetBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
           //  SetTargetedBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
-            SetCardColors(cardData.GetCardTypeEnum, artSO);
+            SetCardColors(cardData.GetCardTypeEnum);
             SetStaminaText(cardData.GetStaminaCost);
 
             //   card.SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
@@ -180,40 +178,43 @@ namespace Battles.UI.CardUIAttributes
         //    }
         //    GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
         //}
-        private void SetCardColors(Cards.CardTypeEnum cardType, ArtSO artSO)
+        private void SetCardColors(CardTypeEnum cardType)
         {
-            var uiColorPalette = artSO.UIColorPalette;
 
-            if (uiColorPalette == null)
-            {
-                //   Debug.LogError("Error in SetCardColors");
-                return;
-            }
+         
+            //if (_cardTypePalette == null)
+            //{
+            //    //   Debug.LogError("Error in SetCardColors");
+            //    return;
+            //}
 
-            var palette = uiColorPalette.GetCardColorType(cardType);
-            var color = uiColorPalette.GetBackgroundColor;
-            color.a = uiColorPalette.GetFullOpacity;
-            _cardBackGroundImg.color = color;
-
-            color = palette.GetTopColor;
-            color.a = uiColorPalette.GetFullOpacity;
-            _backGroundDecor.color = color;
+     
 
 
-            color = palette.GetMiddleColor;
 
-            color.a = uiColorPalette.GetCardAreaOpacity / 100;
-            _cardBackGroundImg.color = color;//30
 
-            GetNameTxt.color = palette.GetTopColor;
+            //// Body Part:
+            //Color clr = _cardTypePalette.GetDecorationColorFromEnum(cardType);
+            //_bodyPartDecor.color = clr;
+            //_bodyPartBackground.color = _cardTypePalette.GetBackgroundColorFromEnum(cardType);
+            //_bodyPartIcon.color = _cardTypePalette.GetIconBodyPartColorFromEnum(cardType); 
 
-            GetDescriptionTxt.color = palette.GetTopColor;
 
-            GetStaminaText.color = palette.GetTopColor;
+            //// Stamina Part:
+            //_staminaBackground.color = _cardUIPalette.StaminaBackgroundColor;
+            //_staminaDecor.color = _cardUIPalette.StaminaDecorateColor; 
+            //_staminaText.color = _cardUIPalette.StaminaTextColor;
 
-            _bodyPartIcon.color = palette.GetTopColor;
+            ////Background Image
+            //_cardDecor.color = clr;
+       
+            //// Description
+            //_descriptionTxt.color = _cardUIPalette.CardInformationDescriptionTextColor;
+            //_titleText.color = _cardUIPalette.CardInformationTitleTextColor;
+            
 
-          //  GetTargetBodyPartImg.color = palette.GetTopColor;
+
+
         }
         #endregion
     }
