@@ -76,6 +76,8 @@ public class VFXController : MonoBehaviour
                 soundsNameEnum = SoundsNameEnum.None;
                 break;
             case ParticleEffectsEnum.Blocking:
+                soundsNameEnum = SoundsNameEnum.BlockSound;
+                break;
             case ParticleEffectsEnum.Crafting:
                 soundsNameEnum = SoundsNameEnum.None;
                          break;
