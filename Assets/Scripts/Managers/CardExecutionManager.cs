@@ -52,6 +52,12 @@ namespace Battles
                                  break;
 
                                 case Keywords.KeywordTypeEnum.Strength:
+                                    _playSound?.Raise(SoundsNameEnum.GainStrength);
+                                    VFXManager.Instance.PlayParticle(
+                                true,
+                                BodyPartEnum.BottomBody,
+                                VFXManager.KeywordToParticle(_currentCard.GetSetCard.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
+                                    break;
                                 case Keywords.KeywordTypeEnum.Heal:
                                     _playSound?.Raise(SoundsNameEnum.Healing);
 
