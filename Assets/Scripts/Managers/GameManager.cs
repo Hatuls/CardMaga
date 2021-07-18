@@ -61,7 +61,7 @@ public class GameManager : MonoSingleton<GameManager>
 public  class ArtSettings
 {
     [Sirenix.OdinInspector.ShowInInspector]
-    public static ArtSO ArtSO;
+    public readonly ArtSO ArtSO;
  
     public static CardTypePalette CardTypePalette;
     public static BarsUIPalette BarsUIPalette;
