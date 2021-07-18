@@ -3,7 +3,7 @@ using System;
 
 namespace Cards
 {
-    public enum CardTypeEnum { Utility, Defend, Attack };
+    public enum CardTypeEnum { Utility = 2, Defend = 1, Attack = 0 };
    
     public enum BodyPartEnum { None, Head, Elbow, Fist, Knee, Feet, Duck, Jump };
     public class Card

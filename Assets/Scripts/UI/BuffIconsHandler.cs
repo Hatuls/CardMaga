@@ -127,7 +127,7 @@ public class BuffIconsHandler : MonoBehaviour
 
     public void SetOpponentActionUI(Cards.Card enemyAction)
     {
-        _enemyOpponentActionUI?.InitIconData(enemyAction,  _artSO);
+        _enemyOpponentActionUI?.InitIconData(enemyAction);
     }
 
     BuffIcon GetDuplicate(BuffIcons icon)

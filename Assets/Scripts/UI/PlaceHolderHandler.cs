@@ -1,7 +1,7 @@
 ﻿using Battles.Deck;
-using System;
+using Art;
 using UnityEngine;
-using System.Collections.Generic;
+
 namespace Battles.UI
 {
     public class PlaceHolderHandler : MonoBehaviour
@@ -12,23 +12,25 @@ namespace Battles.UI
         //set slots UI by Data and index
         //arr of crafting slot UI
         #region Fields
-        [SerializeField] Art.ArtSO _artSO;
 
-        [SerializeField] PlaceHolderSlotUI[] _CraftingSlotsUIArr;
+
+        [SerializeField] CraftingSlotUI[] _CraftingSlotsUIArr;
         [SerializeField] RectTransform _firstSlotTransform;
         [SerializeField] float _leanTweenTime;
 
         [SerializeField] float _offsetPos =1 ;
-      static  PlaceHolderHandler _instance;
+          static  PlaceHolderHandler _instance;
 
         [SerializeField] GameObject _buttonGlow;
-        #endregion
+
+
+
         #region Events
         #endregion
 
         #region Properties
-        public PlaceHolderSlotUI[] GetCraftingSlotsUIArr => _CraftingSlotsUIArr;
-
+        public CraftingSlotUI[] GetCraftingSlotsUIArr => _CraftingSlotsUIArr;
+        #endregion
         internal void ResetSlotsDetection()
         {
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
@@ -83,24 +85,35 @@ namespace Battles.UI
         }
         public static void ResetPlaceHolderUI(int index)
         {
-            if (_instance._artSO.UIColorPalette == null)
+     
+
+            if (index < 0  || index >= _instance._CraftingSlotsUIArr.Length)
             {
                 Debug.LogError("Error in ResetCraftingSlot");
                 return;
             }
-            _instance._CraftingSlotsUIArr[index].ResetSlotUI(_instance._artSO.UIColorPalette);
+            _instance._CraftingSlotsUIArr[index].ResetSlotUI();
         }
-        public static void ChangeSlotsPos()
+        public static void ChangeSlotsPos(Cards.Card[] cards )
         {
-            _instance._CraftingSlotsUIArr[0].Appear(_instance._leanTweenTime , _instance._artSO.UIColorPalette);
+            // check thread possability for color check
 
+
+            var type = cards[0].GetSetCard.GetCardType._cardType;
+
+            _instance._CraftingSlotsUIArr[0].Appear(_instance._leanTweenTime, type);
             for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
             {
                 _instance._CraftingSlotsUIArr[i].MovePlaceHolderSlot(ref _instance.GetRectTransform(i), _instance._CraftingSlotsUIArr.Length - 1 == i? 0: _instance._offsetPos);
                 _instance._CraftingSlotsUIArr[i].MoveDown(_instance._leanTweenTime);
             }
-            _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime, _instance._artSO.UIColorPalette);
+            if (cards[_instance._CraftingSlotsUIArr.Length - 1] != null)
+            {
 
+            type = cards[_instance._CraftingSlotsUIArr.Length - 1].GetSetCard.GetCardType._cardType;
+
+            _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime,type);
+            }
         }
         public ref RectTransform GetRectTransform(int index)
         {
@@ -121,8 +134,10 @@ namespace Battles.UI
                 ResetPlaceHolderUI(index);
                 return;
             }
-            _instance._CraftingSlotsUIArr[index].InitPlaceHolder(_instance._artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
-               _instance._artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
+            //_instance._CraftingSlotsUIArr[index].InitPlaceHolder(_instance._artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
+            //   _instance._artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
+            
+            _instance._CraftingSlotsUIArr[index].InitPlaceHolder(cardCache.GetSetCard.GetCardType);
         }
         //public void PlaceOnPlaceHolder(PlaceHolderSlotUI interactedSlot, Cards.Card cardCache)
         //{

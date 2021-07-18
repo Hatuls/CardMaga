@@ -6,8 +6,17 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     ISingleton[] _singletons;
-    [SerializeField] int _maxFPS =30; 
+    [SerializeField] int _maxFPS =30;
+    [SerializeField]
+    Art.ArtSO _panel;
+    [SerializeField]
+    ArtSettings _art;
 
+    public override void Awake()
+    {
+        base.Awake();
+        _art = new ArtSettings(_panel);
+    }
     private void Start()
     {
         Init();
@@ -20,6 +29,8 @@ public class GameManager : MonoSingleton<GameManager>
     }
     public override void Init()
     {
+   
+
         _singletons = new ISingleton[16]
         {
             VFXManager.Instance,
@@ -42,5 +53,15 @@ public class GameManager : MonoSingleton<GameManager>
         for (int i = 0; i < _singletons.Length; i++)
             _singletons[i]?.Init();
         
+    }
+}
+[System.Serializable]
+public  class ArtSettings
+{
+    [Sirenix.OdinInspector.ShowInInspector]
+    public static Art.ArtSO ArtSO;
+    public ArtSettings(Art.ArtSO artSO)
+    {
+        ArtSO = artSO;
     }
 }

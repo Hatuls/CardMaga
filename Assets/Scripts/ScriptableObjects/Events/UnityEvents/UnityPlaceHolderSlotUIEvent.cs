@@ -2,6 +2,6 @@
 namespace Unity.Events
 {
     [System.Serializable]
-    public class UnityPlaceHolderSlotUIEvent : UnityEngine.Events.UnityEvent<PlaceHolderSlotUI> { }   
+    public class UnityPlaceHolderSlotUIEvent : UnityEngine.Events.UnityEvent<CraftingSlotUI> { }   
   
 }

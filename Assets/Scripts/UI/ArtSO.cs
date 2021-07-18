@@ -11,33 +11,31 @@ namespace Art
 
         #region Palette
         [TabGroup("Arts/Palette", "Palette")]
-        [ShowInInspector]
-        public static  Palette[] _allPalette;
-        [TabGroup("Arts/Palette", "Palette")]
-        [Button("Load Resources"), GUIColor(0, 1f, 0)]
-        private void LoadResources()
-        {
-            _allPalette = null;
 
-            _allPalette = Resources.LoadAll<Palette>("Art/Palette"); 
-        }
-
+        [SerializeField] Palette[] _allPalette; 
+ 
+        
         #endregion
 
-        [SerializeField]
-        [Tooltip("Color pallete for UI")]
-        UIColorPaletteSO _uiColorPalette;
+        //[SerializeField]
+        //[Tooltip("Color pallete for UI")]
+        //UIColorPaletteSO _uiColorPalette;
+        #region Sprites
 
-        [SerializeField]
+        [TabGroup("Arts/Palette", "Sprites")]
         [Tooltip("Icon Collection for UI")]
-        CardIconCollectionSO _iconCollection;
 
+        public  CardIconCollectionSO _iconCollection;
+
+
+
+        #endregion
         [SerializeField]
         [Tooltip("Deafult Slot SO")]
         UIIconSO _defaultSlotSO;
 
 
-        public UIColorPaletteSO UIColorPalette => _uiColorPalette;
+        //public UIColorPaletteSO UIColorPalette => _uiColorPalette;
         public CardIconCollectionSO IconCollection => _iconCollection;
         public UIIconSO DefaultSlotSO => _defaultSlotSO;
 
@@ -45,7 +43,7 @@ namespace Art
 
 
 
-        public static T GetPallette<T>() where T : Palette
+        public  T GetPallette<T>() where T : Palette
         {
             if (typeof(T) == null)
                 return null;
@@ -58,7 +56,10 @@ namespace Art
 
             return null;
         }
-
+        public T GetSpriteCollections<T>() where T : CardIconCollectionSO
+        {
+            return _iconCollection as T;
+        }
     }
 
 }

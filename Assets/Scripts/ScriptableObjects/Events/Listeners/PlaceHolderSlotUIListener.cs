@@ -1,5 +1,5 @@
 ﻿
 namespace Unity.Events
 {
-    public class PlaceHolderSlotUIListener : BaseGameEventListener<PlaceHolderSlotUI, PlaceHolderSlotUIEvent, UnityPlaceHolderSlotUIEvent> { }
+    public class PlaceHolderSlotUIListener : BaseGameEventListener<CraftingSlotUI, PlaceHolderSlotUIEvent, UnityPlaceHolderSlotUIEvent> { }
 }
