@@ -59,10 +59,10 @@ public class CraftingSlotUI : MonoBehaviour
 
    public void InitPlaceHolder( Cards.CardType cardType)
     {
-        //InitPlaceHolder(
-        //        cardType._cardType,
-        //              _cardIconCollection.GetSprite(cardType._bodyPart)
-        //         );
+        InitPlaceHolder(
+                cardType._cardType,
+                      _cardIconCollection.GetSprite(cardType._bodyPart)
+                 );
     }
     public void InitPlaceHolder(Cards.CardTypeEnum cardType,Sprite icon)
     {

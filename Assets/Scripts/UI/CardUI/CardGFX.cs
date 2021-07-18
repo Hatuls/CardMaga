@@ -69,8 +69,27 @@ namespace Battles.UI.CardUIAttributes
 
 
         #region Art
-        //static CardTypePalette _cardTypePalette = ArtSO.GetPallette<CardTypePalette>();
-        //static CardUIPalette _cardUIPalette = ArtSO.GetPallette<CardUIPalette>();
+        static CardTypePalette _cardTypePalette; 
+        static CardUIPalette _cardUIPalette ;
+        private static CardUIPalette CardUIPalette
+        {
+            get
+            {
+                if (_cardUIPalette== null)
+                    _cardUIPalette = ArtSettings.ArtSO.GetPallette<CardUIPalette>();
+                return _cardUIPalette;
+            }
+        }
+        private static CardTypePalette CardTypePalette
+        {
+            get
+            {
+                if (_cardTypePalette == null)
+                    _cardTypePalette = ArtSettings.ArtSO.GetPallette<CardTypePalette>();
+
+                return _cardTypePalette;
+            }
+        }
         #endregion
 
         #endregion
@@ -181,37 +200,37 @@ namespace Battles.UI.CardUIAttributes
         private void SetCardColors(CardTypeEnum cardType)
         {
 
-         
-            //if (_cardTypePalette == null)
-            //{
-            //    //   Debug.LogError("Error in SetCardColors");
-            //    return;
-            //}
 
-     
+            if (_cardTypePalette == null)
+            {
+                //   Debug.LogError("Error in SetCardColors");
+                return;
+            }
 
 
 
 
-            //// Body Part:
-            //Color clr = _cardTypePalette.GetDecorationColorFromEnum(cardType);
-            //_bodyPartDecor.color = clr;
-            //_bodyPartBackground.color = _cardTypePalette.GetBackgroundColorFromEnum(cardType);
-            //_bodyPartIcon.color = _cardTypePalette.GetIconBodyPartColorFromEnum(cardType); 
 
 
-            //// Stamina Part:
-            //_staminaBackground.color = _cardUIPalette.StaminaBackgroundColor;
-            //_staminaDecor.color = _cardUIPalette.StaminaDecorateColor; 
-            //_staminaText.color = _cardUIPalette.StaminaTextColor;
+            // Body Part:
+            Color clr = CardTypePalette.GetDecorationColorFromEnum(cardType);
+            _bodyPartDecor.color = clr;
+            _bodyPartBackground.color = CardTypePalette.GetBackgroundColorFromEnum(cardType);
+            _bodyPartIcon.color = _cardTypePalette.GetIconBodyPartColorFromEnum(cardType);
 
-            ////Background Image
-            //_cardDecor.color = clr;
-       
-            //// Description
-            //_descriptionTxt.color = _cardUIPalette.CardInformationDescriptionTextColor;
-            //_titleText.color = _cardUIPalette.CardInformationTitleTextColor;
-            
+
+            // Stamina Part:
+            _staminaBackground.color = CardUIPalette.StaminaBackgroundColor;
+            _staminaDecor.color = CardUIPalette.StaminaDecorateColor;
+            _staminaText.color = CardUIPalette.StaminaTextColor;
+
+            //Background Image
+            _cardDecor.color = clr;
+
+            // Description
+            _descriptionTxt.color = CardUIPalette.CardInformationDescriptionTextColor;
+            _titleText.color = CardUIPalette.CardInformationTitleTextColor;
+
 
 
 
