@@ -179,7 +179,7 @@ public class CraftingSlotUI : MonoBehaviour
         LeanTween.alpha(_iconImage.rectTransform, 0, _iconImage.sprite != null ? time : 0.001f);
     }
 
-
+   
 
 
 

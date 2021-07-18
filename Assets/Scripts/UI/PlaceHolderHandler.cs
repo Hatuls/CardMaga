@@ -110,10 +110,12 @@ namespace Battles.UI
             if (cards[_instance._CraftingSlotsUIArr.Length - 1] != null)
             {
 
-            type = cards[_instance._CraftingSlotsUIArr.Length - 1].GetSetCard.GetCardType._cardType;
+                type = cards[_instance._CraftingSlotsUIArr.Length - 1].GetSetCard.GetCardType._cardType;
 
-            _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime,type);
+                _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime, type);
             }
+           
+
         }
         public ref RectTransform GetRectTransform(int index)
         {

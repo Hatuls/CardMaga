@@ -201,7 +201,7 @@ namespace Battles.UI.CardUIAttributes
         {
 
 
-            if (_cardTypePalette == null)
+            if (CardTypePalette == null)
             {
                 //   Debug.LogError("Error in SetCardColors");
                 return;
