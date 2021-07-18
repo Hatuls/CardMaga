@@ -1,5 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using Sirenix.OdinInspector;
 using TMPro;
 namespace Battles.UI
 {
@@ -7,6 +8,8 @@ namespace Battles.UI
 
     public class UIBar : MonoBehaviour
     {
+       
+        [SerializeField] BarUISettings _barUISettings;
         [SerializeField] TextMeshProUGUI _maxValueText;
         [SerializeField] TextMeshProUGUI _currentValueText;
         [SerializeField] Slider _slider;
@@ -14,13 +17,14 @@ namespace Battles.UI
         [SerializeField] Image _fill;
         public void SetValueBar(int value)
         {
-
-            _slider.value = value;
+          //  _slider.value = value;
+            LeanTween.value(this.gameObject,SliderValue, _slider.value, value, _barUISettings.DelayTime).setEase(_barUISettings.LeanTweenEase);
             if (_currentValueText != null)
                 _currentValueText.text = value.ToString();
+
             SetGradientColor();
         }
-
+        private void SliderValue(float x) => _slider.value = x;
         public void SetMaxValue(int maxValue)
         {
             _slider.maxValue = maxValue;
@@ -32,4 +36,14 @@ namespace Battles.UI
         public void SetGradientColor()  => _fill.color = _gradient.Evaluate(_slider.normalizedValue);
     }
 
+}
+[CreateAssetMenu(fileName ="Bars Settings", menuName = "ScriptableObjects/Settings/Bars")]
+public class BarUISettings : ScriptableObject
+{
+    [TitleGroup("Bars Settings")]
+
+    [TabGroup("Bars Settings/Settings", "Hp Bar")]
+    public LeanTweenType LeanTweenEase;
+    [TabGroup("Bars Settings/Settings", "Hp Bar")]
+    public float DelayTime;
 }
