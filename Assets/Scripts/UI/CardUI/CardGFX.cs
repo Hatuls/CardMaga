@@ -197,6 +197,8 @@ namespace Battles.UI.CardUIAttributes
 
             //Background Image
             _cardDecor.color = clr;
+            _cardBackGroundImg.color = ArtSettings.CardUIPalette.CardDefaultBackgroundColor;
+
 
             // Description
             _descriptionTxt.color = ArtSettings.CardUIPalette.CardInformationDescriptionTextColor;
