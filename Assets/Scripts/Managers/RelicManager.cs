@@ -63,7 +63,7 @@ namespace Relics
                 }
                 else
                 {
-                    _playSound?.Raise(SoundsNameEnum.Reject);
+                    _playSound?.Raise(SoundsNameEnum.BurningSound);
                 }
             }
             DeckManager.GetCraftingSlots.ResetDeck();
