@@ -1,10 +1,10 @@
 ﻿using Battles.Deck;
-using Art;
+using TMPro;
 using UnityEngine;
 
 namespace Battles.UI
 {
-    public class PlaceHolderHandler : MonoBehaviour
+    public class CraftingUIHandler : MonoBehaviour
     {
         //reset Slots UI
         //give refrence to crafring slot Data
@@ -19,11 +19,11 @@ namespace Battles.UI
         [SerializeField] float _leanTweenTime;
 
         [SerializeField] float _offsetPos =1 ;
-          static  PlaceHolderHandler _instance;
+          static  CraftingUIHandler _instance;
 
         [SerializeField] GameObject _buttonGlow;
 
-
+        [SerializeField] TextMeshProUGUI _buttonText;
 
         #region Events
         #endregion
@@ -41,7 +41,10 @@ namespace Battles.UI
             LeanTween.alpha(_instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
 
             if (_buttonGlow!= null && _buttonGlow.activeSelf != false)
+            {
                 _buttonGlow?.SetActive(false);
+                _buttonText.text = "Clear";
+            }
             
             
         }
@@ -55,7 +58,10 @@ namespace Battles.UI
             }
 
             if (_buttonGlow != null && _buttonGlow.activeSelf != true)
+            {
                 _buttonGlow?.SetActive(true);
+                _buttonText.text = "Craft";
+            }
         }
         #endregion
         private void Awake()

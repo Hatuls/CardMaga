@@ -20,14 +20,6 @@ public class CraftingSlotUI : MonoBehaviour
 
 
 
-    #region Art
-    [SerializeField]
-    ArtSO art;
-
-    static CraftingUIPalette _craftingUIPalette;
-    static CardTypePalette _cardTypePalette;
-    static CardIconCollectionSO _cardIconCollection;
-    #endregion
 
     #endregion
     #region Properties
@@ -52,16 +44,14 @@ public class CraftingSlotUI : MonoBehaviour
         Debug.Log($"{_decorImage}, {_iconImage}, {_backgroundImage},{SlotID }");
         slotPos = GetIconHolderRectTransform.anchoredPosition3D;
       
-       _craftingUIPalette = ArtSettings.ArtSO.GetPallette<CraftingUIPalette>();
-       _cardTypePalette = ArtSettings.ArtSO.GetPallette<CardTypePalette>();
-       _cardIconCollection = ArtSettings.ArtSO._iconCollection;
+
     }
 
    public void InitPlaceHolder( Cards.CardType cardType)
     {
         InitPlaceHolder(
                 cardType._cardType,
-                      _cardIconCollection.GetSprite(cardType._bodyPart)
+                      ArtSettings.CardIconCollectionSO.GetSprite(cardType._bodyPart)
                  );
     }
     public void InitPlaceHolder(Cards.CardTypeEnum cardType,Sprite icon)
@@ -106,7 +96,7 @@ public class CraftingSlotUI : MonoBehaviour
     public void ResetSlotUI()
     {
 
-        if (_craftingUIPalette == null)
+        if (ArtSettings.CraftingUIPalette == null)
         {
             Debug.LogError("Error in ResetSlot");
             return;
@@ -117,28 +107,28 @@ public class CraftingSlotUI : MonoBehaviour
 
 
         _iconImage.color = Color.clear;
-        _decorImage.color = _craftingUIPalette.SlotDecorationColor;
-        _backgroundImage.color = _craftingUIPalette.SlotBackgroundColor;
+        _decorImage.color = ArtSettings.CraftingUIPalette.SlotDecorationColor;
+        _backgroundImage.color = ArtSettings.CraftingUIPalette.SlotBackgroundColor;
 
         _iconImage.sprite = null;
 
     }
     void SetColors(Cards.CardTypeEnum cardType)
     {
-        if (_craftingUIPalette == null || _cardTypePalette == null)
+        if (ArtSettings.CraftingUIPalette == null || ArtSettings.CardTypePalette == null)
         {
             Debug.LogError("Error in SetSlotData");
             return;
         }
 
-        _backgroundImage.color = _craftingUIPalette.SlotBackgroundColor;
+        _backgroundImage.color = ArtSettings.CraftingUIPalette.SlotBackgroundColor;
 
         //var colorPalette = cardTypePalette.GetCardColorType(cardType);
         //color = colorPalette.GetTopColor;
         //color.a = palette.GetFullOpacity/100;
 
-        _iconImage.color = _cardTypePalette.GetIconBodyPartColorFromEnum(cardType);
-        _decorImage.color = _cardTypePalette.GetDecorationColorFromEnum(cardType);
+        _iconImage.color = ArtSettings.CardTypePalette.GetIconBodyPartColorFromEnum(cardType);
+        _decorImage.color = ArtSettings.CardTypePalette.GetDecorationColorFromEnum(cardType);
     }
     public void MovePlaceHolderSlot(ref RectTransform moveTo, float offset)
     {
@@ -161,17 +151,17 @@ public class CraftingSlotUI : MonoBehaviour
         LeanTween.alpha(_backgroundImage.rectTransform, 0, 0.001f);
 
 
-        LeanTween.alpha(_iconImage.rectTransform, _cardTypePalette.GetIconBodyPartColorFromEnum(type).a, time);
-        LeanTween.alpha(_decorImage.rectTransform, _cardTypePalette.GetDecorationColorFromEnum(type).a, time);
-        LeanTween.alpha(_backgroundImage.rectTransform, _cardTypePalette.GetBackgroundColorFromEnum(type).a, time);
+        LeanTween.alpha(_iconImage.rectTransform, ArtSettings.CardTypePalette.GetIconBodyPartColorFromEnum(type).a, time);
+        LeanTween.alpha(_decorImage.rectTransform, ArtSettings.CardTypePalette.GetDecorationColorFromEnum(type).a, time);
+        LeanTween.alpha(_backgroundImage.rectTransform, ArtSettings.CardTypePalette.GetBackgroundColorFromEnum(type).a, time);
 
 
     }
     public void Disapear(float time, Cards.CardTypeEnum type)
     {
-        LeanTween.alpha(_iconImage.rectTransform, _cardTypePalette.GetIconBodyPartColorFromEnum(type).a, 0.001f);
-        LeanTween.alpha(_decorImage.rectTransform, _cardTypePalette.GetDecorationColorFromEnum(type).a, 0.001f);
-        LeanTween.alpha(_backgroundImage.rectTransform, _cardTypePalette.GetBackgroundColorFromEnum(type).a, 0.001f);
+        LeanTween.alpha(_iconImage.rectTransform, ArtSettings.CardTypePalette.GetIconBodyPartColorFromEnum(type).a, 0.001f);
+        LeanTween.alpha(_decorImage.rectTransform, ArtSettings.CardTypePalette.GetDecorationColorFromEnum(type).a, 0.001f);
+        LeanTween.alpha(_backgroundImage.rectTransform, ArtSettings.CardTypePalette.GetBackgroundColorFromEnum(type).a, 0.001f);
 
 
         LeanTween.alpha(_decorImage.rectTransform, 0, time);
@@ -181,8 +171,8 @@ public class CraftingSlotUI : MonoBehaviour
     public void Disapear(float time)
     {   
         _iconImage.color = Color.clear;
-        _decorImage.color = _craftingUIPalette.SlotDecorationColor;
-        _backgroundImage.color = _craftingUIPalette.SlotBackgroundColor;
+        _decorImage.color = ArtSettings.CraftingUIPalette.SlotDecorationColor;
+        _backgroundImage.color = ArtSettings.CraftingUIPalette.SlotBackgroundColor;
         LeanTween.alpha(_iconImage.rectTransform, _iconImage.color.a, 0.001f);
         LeanTween.alpha(_decorImage.rectTransform, _decorImage.color.a, 0.001f);
         LeanTween.alpha(_backgroundImage.rectTransform, _backgroundImage.color.a, 0.001f);

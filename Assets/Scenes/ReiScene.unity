@@ -153,18 +153,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1854712381}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &165962517 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5883156850233460412, guid: b5b870fa2d967e846875aceb32a3be20,
-    type: 3}
-  m_PrefabInstance: {fileID: 854307423635628562}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1176e6566a09854784e09b95d2ce4f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &184482870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -545,6 +533,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &940588686 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2087504651324961246, guid: b5b870fa2d967e846875aceb32a3be20,
+    type: 3}
+  m_PrefabInstance: {fileID: 854307423635628562}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e86d56f623a9e264d9e5fc76ab90a3e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1076523304 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1076523302, guid: 10156f0a47c65024692f81dd333669b3,
@@ -1030,22 +1030,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Singleton
       objectReference: {fileID: 0}
-    - target: {fileID: 560829604320045291, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _panel
-      value: 
-      objectReference: {fileID: 11400000, guid: 484541ddba1d383449cde73e74955828,
-        type: 2}
-    - target: {fileID: 1366709445037106047, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: _rotation
-      value: -360.1
-      objectReference: {fileID: 0}
     - target: {fileID: 1511457884063859248, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
-      propertyPath: _placeHolderHandler
+      propertyPath: _craftingUIHandler
       value: 
-      objectReference: {fileID: 165962517}
+      objectReference: {fileID: 940588686}
     - target: {fileID: 4865128171655590735, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: _playerAnimatorController
@@ -1071,11 +1060,6 @@ PrefabInstance:
       propertyPath: _disposalIcon
       value: 
       objectReference: {fileID: 661474268}
-    - target: {fileID: 6762156527179901874, guid: 353491b6d4691024a960a6196cac83bf,
-        type: 3}
-      propertyPath: ShapeModule.m_Rotation.y
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 7775640543357163724, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: _playerControler
@@ -1105,6 +1089,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 309246331304983534, guid: b5b870fa2d967e846875aceb32a3be20,
+        type: 3}
+      propertyPath: m_text
+      value: Clear
+      objectReference: {fileID: 0}
     - target: {fileID: 582505768596928194, guid: b5b870fa2d967e846875aceb32a3be20,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1627,7 +1616,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 348605147, guid: 367cc47e0d588a744aa582dd68b63ac1, type: 3}
       propertyPath: m_PathPosition
-      value: 0.9489039
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 420159987, guid: 367cc47e0d588a744aa582dd68b63ac1, type: 3}
       propertyPath: m_LocalRotation.x

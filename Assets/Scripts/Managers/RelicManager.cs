@@ -15,7 +15,7 @@ namespace Relics
         #region Fields
         RelicCollectionSO _playerKnownRecipe;
         RelicSO _cardRecipeDetected;
-        [SerializeField] PlaceHolderHandler _placeHolderHandler;
+        [SerializeField] CraftingUIHandler _craftingUIHandler;
 
 
         public RelicCollectionSO PlayerRelics => _playerKnownRecipe;
@@ -95,11 +95,12 @@ namespace Relics
 
             if (Instance._cardRecipeDetected == null)
             {
-                Instance._placeHolderHandler.ResetSlotsDetection();
+                Instance._craftingUIHandler.ResetSlotsDetection();
+                
             }
             else
             {
-                Instance._placeHolderHandler.MarkSlotsDetected();
+                Instance._craftingUIHandler.MarkSlotsDetected();
             }
         }
         static void DetectRecipe()

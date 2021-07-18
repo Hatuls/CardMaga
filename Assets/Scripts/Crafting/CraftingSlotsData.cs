@@ -22,21 +22,21 @@ public class CraftingSlotsData: Battles.Deck.DeckAbst
             {
                 GetDeck[i] = null;
             }
-            PlaceHolderHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
+            CraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
         }
-        PlaceHolderHandler.ChangeSlotsPos(GetDeck);
+        CraftingUIHandler.ChangeSlotsPos(GetDeck);
         CountCards();
         Relics.RelicManager.StartDetection();
     }
     public override void ResetDeck()
     {
         base.ResetDeck();
-        PlaceHolderHandler.ResetAllSlots();
+        CraftingUIHandler.ResetAllSlots();
         Relics.RelicManager.StartDetection();
     }
     void ResetPlaceHolderUI(int i)
     {
-        PlaceHolderHandler.ResetPlaceHolderUI(i);
+        CraftingUIHandler.ResetPlaceHolderUI(i);
     }
 
     //when getting a card I move all other cards first
