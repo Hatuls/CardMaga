@@ -12,9 +12,15 @@ namespace Art
         #region Palette
         [TabGroup("Arts/Palette", "Palette")]
 
-        [SerializeField] Palette[] _allPalette; 
- 
-        
+        [SerializeField]
+        Palette[] _allPalette;
+        [TabGroup("Arts/Palette", "Palette")]
+        [Button("Add Palette"), GUIColor( 0,1,1)]
+        private void AddPalette()
+        {
+            _allPalette = null;
+            _allPalette = Resources.LoadAll < Palette > ("Art/Palette");
+        }
         #endregion
 
         //[SerializeField]

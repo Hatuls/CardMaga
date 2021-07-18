@@ -3,6 +3,8 @@ using Battles;
 using Battles.Turns;
 using Managers;
 using UnityEngine;
+using Art;
+
 public class GameManager : MonoSingleton<GameManager>
 {
     ISingleton[] _singletons;
@@ -59,9 +61,35 @@ public class GameManager : MonoSingleton<GameManager>
 public  class ArtSettings
 {
     [Sirenix.OdinInspector.ShowInInspector]
-    public static Art.ArtSO ArtSO;
-    public ArtSettings(Art.ArtSO artSO)
+    public static ArtSO ArtSO;
+ 
+    public static CardTypePalette CardTypePalette;
+    public static BarsUIPalette BarsUIPalette;
+    public static IconsPalette IconsPalette;
+    public static CardUIPalette CardUIPalette;
+    public static CraftingUIPalette CraftingUIPalette;
+    public static BuffUIPalette BuffUIPalette;
+    public static RecipePanelUIPalette RecipePanelUIPalette;
+
+    public static CardIconCollectionSO CardIconCollectionSO;
+    public ArtSettings(ArtSO artSO)
     {
         ArtSO = artSO;
+
+
+        CardTypePalette = ArtSO.GetPallette<CardTypePalette>();
+        BarsUIPalette = ArtSO.GetPallette<BarsUIPalette>();
+        IconsPalette = ArtSO.GetPallette<IconsPalette>();
+        CardUIPalette = ArtSO.GetPallette<CardUIPalette>();
+        CraftingUIPalette = ArtSO.GetPallette<CraftingUIPalette>();
+        BuffUIPalette = ArtSO.GetPallette<BuffUIPalette>();
+        RecipePanelUIPalette = ArtSO.GetPallette<RecipePanelUIPalette>();
+
+
+
+        CardIconCollectionSO = artSO.GetSpriteCollections<CardIconCollectionSO>();
     }
+
+
+
 }

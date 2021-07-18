@@ -24,31 +24,20 @@ public class BuffIcon : MonoBehaviour
 
 [SerializeField] protected RectTransform _rectTransform;
 
-    #region Art
-    static BuffUIPalette _buffUIPalette;
-    static CardIconCollectionSO _cardIconCollection;
-    static CardTypePalette _cardTypePalette;
-    #endregion
+
 
 
     #endregion
     #region Properties
     public BuffIcons? GetSetName { get => _name; set => _name = value; }
     #endregion
-    private void Start()
-    {
-     _cardIconCollection = ArtSettings.ArtSO.GetSpriteCollections<CardIconCollectionSO>();
-       _cardTypePalette = ArtSettings.ArtSO.GetPallette<CardTypePalette>();
-        _buffUIPalette = ArtSettings.ArtSO.GetPallette<BuffUIPalette>();
-    }
-
 
     public virtual void InitIconData(Cards.Card card)
     {
+        var _cardTypePalette = ArtSettings.CardTypePalette;
+        _icon.sprite = ArtSettings.CardIconCollectionSO.GetSprite(card.GetSetCard.GetBodyPartEnum);
 
-        _icon.sprite = _cardIconCollection.GetSprite(card.GetSetCard.GetBodyPartEnum);
-
-        _background.color = _buffUIPalette.CardDefaultBackground;
+        _background.color = ArtSettings.BuffUIPalette.CardDefaultBackground;
 
         Color clr = _cardTypePalette.GetIconBodyPartColorFromEnum(card.GetSetCard.GetCardTypeEnum);
         _icon.color = clr;
@@ -59,7 +48,7 @@ public class BuffIcon : MonoBehaviour
 
         _iconText.color = clr;
     }
-    public void InitIconData(UIIconSO iconData, int amount)
+    public void InitIconData(UIIconSO iconData, int amount , BuffIcons buffIcons)
     {
         if (iconData == null)
         {
@@ -68,17 +57,21 @@ public class BuffIcon : MonoBehaviour
         }
 
         ShowIcon();
-
+        var buffUIPalette = ArtSettings.BuffUIPalette;
         _background.sprite = iconData.GetBackground;
-        _background.color = iconData.GetBackgroundColor;
+        // _background.color = iconData.GetBackgroundColor;
+        _background.color = buffUIPalette.CardDefaultBackground;
 
         _decor.sprite = iconData.GetDecor;
-        _decor.color = iconData.GetDecorColor;
+        //_decor.color = iconData.GetDecorColor;
+        _decor.color = buffUIPalette.CardDefaultDecorateColor;
 
         _icon.sprite = iconData.GetIcon;
-        _icon.color = iconData.GetIconColor;
+        //_icon.color = iconData.GetIconColor;
+        _icon.color = buffUIPalette.GetBuffIconFromColor(buffIcons);
+   
 
-        SetText(amount.ToString());
+        SetText(amount.ToString(), buffUIPalette.CardDefaultTextColor);
     }
     public void ResetEnumType()
     {
@@ -86,8 +79,19 @@ public class BuffIcon : MonoBehaviour
         TweenExitEntrance(false);
     }
 
-    protected void SetText(string Text)
-        => _iconText.text = Text;
+    protected void SetText(string Text, Color? clr = null)
+    {
+         _iconText.text = Text;
+
+        //_iconText.color = (clr.HasValue)
+        //    ? clr.GetValueOrDefault() :  _buffUIPalette.CardDefaultTextColor ;
+
+
+
+        _iconText.color = ArtSettings.BuffUIPalette.CardDefaultTextColor;
+
+
+    }
 
     public void SetAmount(int amount)
     {
