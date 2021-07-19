@@ -51,9 +51,6 @@ namespace Battles.UI.CardUIAttributes
         [Tooltip("Card's Background Decoration")]
         [SerializeField] Image _cardDecor;
 
-        [Tooltip("Card Areas Img")]
-        [SerializeField] Image _cardImage;
-
 
 
         [Tooltip("Card Glow Effect")]
