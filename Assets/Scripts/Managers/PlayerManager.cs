@@ -23,13 +23,16 @@ namespace Managers
             _playerStat = Battles.BattleManager.GetDictionary(typeof(PlayerManager)).GetCharacter(Battles.CharactersEnum.Player).GetCharacterStats;
             Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, _playerStat.MaxHealth);
          //   Battles.UI.StatsUIManager.GetInstance.UpdateHealthBar(true, _playerStat.Health);
-            Battles.UI.StatsUIManager.GetInstance.InitHealthBar(true, _playerStat.Health);
 
-            Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, _playerStat.Shield);
             CardManager.Instance.AssignPlayerCardDict(_playerCards.GetCharacterCards);
             Characters.Stats.StaminaHandler.SetMaxStamina = _playerCards.GetMaxStamina;
         }
+        private void Start()
+        {
+                        Battles.UI.StatsUIManager.GetInstance.InitHealthBar(true, _playerStat.Health);
 
+            Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, _playerStat.Shield);
+        }
         public void OnEndBattle()
         {
          

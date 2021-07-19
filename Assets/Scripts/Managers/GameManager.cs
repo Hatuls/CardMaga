@@ -15,9 +15,10 @@ public class GameManager : MonoSingleton<GameManager>
     ArtSettings _art;
 
     public override void Awake()
-    {
-        base.Awake();
+    {       
         _art = new ArtSettings(_panel);
+        base.Awake();
+
     }
     private void Start()
     {
@@ -60,8 +61,8 @@ public class GameManager : MonoSingleton<GameManager>
 [System.Serializable]
 public  class ArtSettings
 {
-    [Sirenix.OdinInspector.ShowInInspector]
-    public readonly ArtSO ArtSO;
+
+    public ArtSO ArtSO;
  
     public static CardTypePalette CardTypePalette;
     public static BarsUIPalette BarsUIPalette;
@@ -74,6 +75,7 @@ public  class ArtSettings
     public static CardIconCollectionSO CardIconCollectionSO;
     public ArtSettings(ArtSO artSO)
     {
+        if (ArtSO!= artSO)
         ArtSO = artSO;
 
 
@@ -89,7 +91,5 @@ public  class ArtSettings
 
         CardIconCollectionSO = artSO.GetSpriteCollections<CardIconCollectionSO>();
     }
-
-
 
 }
