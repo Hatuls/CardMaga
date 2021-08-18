@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
 
-namespace Relics
+namespace Combo
 {
-    public enum RelicNameEnum
+    public enum ComboNameEnum
     {
         NutShell = 0,
         KnockOut = 1,
@@ -11,8 +11,8 @@ namespace Relics
         Breath =3
     };
 
-    [CreateAssetMenu (fileName = "Relic", menuName = "ScriptableObjects/Relic")]
-    public class RelicSO : ScriptableObject
+    [CreateAssetMenu (fileName = "Combo", menuName = "ScriptableObjects/Combo")]
+    public class ComboSO : ScriptableObject
     {
 
         #region Fields
@@ -29,7 +29,7 @@ namespace Relics
         [TabGroup("Recipe/General Info","Data")]
         [LabelWidth(130)]
         [Tooltip("Relic Name")]
-        [SerializeField] RelicNameEnum _relicName;
+        [SerializeField] ComboNameEnum _comboName;
 
 
         [TabGroup("Recipe/General Info", "Data")]
@@ -53,7 +53,7 @@ namespace Relics
         [Header("Combo:")]
         [Tooltip("The Order will define the accomplishment of the combo")]
         [LabelWidth(20)]
-        [SerializeField] Cards.CardType[] data;
+        [SerializeField] Cards.CardType[] _data;
 
       
         [Space(100)]
@@ -64,11 +64,11 @@ namespace Relics
         #endregion
 
         #region Properties
-        public Cards.CardType[] GetCombo => data;
+        public Cards.CardType[] GetCombo => _data;
         public Cards.RarityEnum GetRarityEnum => _rarityLevel;
         public Sprite GetIcon => _icon;
         public int Cost => _cost;
-        public RelicNameEnum GetRelicName => _relicName;
+        public ComboNameEnum GetRelicName => _comboName;
         public string GetDescription => _description;
         public ref Cards.CardSO GetCraftedCard =>ref _craftedCard;
 

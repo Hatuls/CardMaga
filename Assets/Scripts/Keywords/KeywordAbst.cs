@@ -5,7 +5,7 @@ namespace Keywords
 {
     public abstract class KeywordAbst : IKeyword
     {
-        public KeywordAbst() { }
+ 
         public abstract KeywordTypeEnum GetKeyword { get; }
         public abstract void ProcessOnTarget(bool isFromPlayer, bool isToPlayer,ref  KeywordData keywordData);
 

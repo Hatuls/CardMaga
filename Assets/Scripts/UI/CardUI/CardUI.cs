@@ -33,6 +33,15 @@ namespace Battles.UI
             Touchable = 1 << 1,
 
             Moveable = 1 << 2
+
+                /*
+                 *  0000 0
+                 *  0001 2^0
+                 *  0010 2^1
+                 *  0100 2^2
+                 *  1000 2^3
+                 */
+               
         };
         [SerializeField]
         [Sirenix.OdinInspector.OnValueChanged("CardUISettingsEnum")]

@@ -21,7 +21,7 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>
 
     private void SetActivePanels()
     {
-        var playerRecipe = Relics.RelicManager.Instance.PlayerRelics.GetRelicSO;
+        var playerRecipe = Combo.ComboManager.Instance.PlayerRelics.GetComboSO;
         if (playerRecipe.Length < comboRecipeUIs.Length)
         {
             for (int i = comboRecipeUIs.Length - 1; i >= playerRecipe.Length; i--)
@@ -38,7 +38,7 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>
         if (page <= 0)
             page = 1;
 
-        var playerRecipe = Relics.RelicManager.Instance.PlayerRelics.GetRelicSO;
+        var playerRecipe = Combo.ComboManager.Instance.PlayerRelics.GetComboSO;
      
         for (int i = 0; i < comboRecipeUIs.Length-1; i++)
         {

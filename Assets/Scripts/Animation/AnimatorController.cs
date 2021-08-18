@@ -2,7 +2,7 @@
 using Unity.Events;
 using UnityEngine;
 using Cards;
-
+using Rei.Utilities;
 public class AnimatorController : MonoBehaviour
 {
     #region Events
@@ -16,6 +16,7 @@ public class AnimatorController : MonoBehaviour
     #endregion
 
     #region Fields
+    [SerializeField] AnimatorController _opponentController;
     [SerializeField] Animator _playerAnimator;
     [SerializeField] Transform targetToLookAt;
 
@@ -202,7 +203,7 @@ public class AnimatorController : MonoBehaviour
             _playerAnimator.CrossFade(Name, _transitionSpeedBetweenAnimations);
     }
 
-    [SerializeField] AnimatorController _opponentController;
+
     public void PlayHitOrDefenseAnimation()
     {
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;

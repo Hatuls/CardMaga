@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Relics;
+using Combo;
 public class ComboRecipeUI : MonoBehaviour
 {
 
@@ -11,7 +11,7 @@ public class ComboRecipeUI : MonoBehaviour
     [SerializeField]
     CardUI _cardUI;
 
-    RelicSO _comboRecipe;
+    ComboSO _comboRecipe;
 
     [BoxGroup("References")]
  
@@ -45,7 +45,7 @@ public class ComboRecipeUI : MonoBehaviour
         activePlaceHolders = 0;
   
     }
-    public void InitRecipe(RelicSO relicSO)
+    public void InitRecipe(ComboSO relicSO)
     {
         if (_comboRecipe != relicSO)
         {
@@ -56,7 +56,7 @@ public class ComboRecipeUI : MonoBehaviour
         SetVisual(relicSO);
         }
     }
-    private void ActivatedPlaceHolders(RelicSO relicSO)
+    private void ActivatedPlaceHolders(ComboSO relicSO)
     {
     
         if (relicSO.GetCombo.Length != activePlaceHolders)
@@ -80,7 +80,7 @@ public class ComboRecipeUI : MonoBehaviour
             }
         }
     }
-    private void SetVisual(RelicSO relic)
+    private void SetVisual(ComboSO relic)
     {
         _cardUI.GFX.SetCardReference(relic.GetCraftedCard, _art);
 

@@ -57,7 +57,7 @@ namespace Battles.Deck
                 return copyArray;
             }
         }
-        public static CraftingSlotsData GetCraftingSlots => (CraftingSlotsData)Instance.GetDeckAbst(DeckEnum.CraftingSlots);
+        public static CraftingDeck GetCraftingSlots => (CraftingDeck)Instance.GetDeckAbst(DeckEnum.CraftingSlots);
         #endregion
 
         #region Functions
@@ -303,7 +303,7 @@ namespace Battles.Deck
             _decksDict.Add(DeckEnum.Disposal,new Disposal(GetSetDeck.Length , _decksDict[DeckEnum.PlayerDeck] as PlayerDeck , _disposalIcon));
             _decksDict.Add(DeckEnum.Hand, new PlayerHand(_playerStartingHandSize, _decksDict[DeckEnum.Disposal] as Disposal));
             _decksDict.Add(DeckEnum.Selected, new Selected (_placementSize, _decksDict[DeckEnum.Disposal] as Disposal,_decksDict[DeckEnum.Hand] as PlayerHand ));
-            _decksDict.Add(DeckEnum.CraftingSlots, new CraftingSlotsData(_craftingSlotsSize));
+            _decksDict.Add(DeckEnum.CraftingSlots, new CraftingDeck(_craftingSlotsSize));
 
             }
 

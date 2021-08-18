@@ -30,10 +30,10 @@ namespace Keywords
         [Tooltip("How Many Times This Card Can Be Upgraded")]
         [SerializeField] int _maxUpgradeLevel = 1 ;
 
+
         [Header("Conditions:")]
         [Tooltip("Is There Conditions that first need to be met?")]
         [SerializeField] Condition _conditions;
-
 
 
         #endregion

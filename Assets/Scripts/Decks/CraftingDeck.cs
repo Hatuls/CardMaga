@@ -1,9 +1,9 @@
 ﻿using Battles.UI;
 using Cards;
 
-public class CraftingSlotsData: Battles.Deck.DeckAbst
+public class CraftingDeck: Battles.Deck.DeckAbst
 {
-    public CraftingSlotsData(int cardsLength):base(cardsLength)
+    public CraftingDeck(int cardsLength):base(cardsLength)
     {
     }
     public override void AddCard(Card card)
@@ -26,13 +26,13 @@ public class CraftingSlotsData: Battles.Deck.DeckAbst
         }
         CraftingUIHandler.ChangeSlotsPos(GetDeck);
         CountCards();
-        Relics.RelicManager.StartDetection();
+        Combo.ComboManager.StartDetection();
     }
     public override void ResetDeck()
     {
         base.ResetDeck();
         CraftingUIHandler.ResetAllSlots();
-        Relics.RelicManager.StartDetection();
+        Combo.ComboManager.StartDetection();
     }
     void ResetPlaceHolderUI(int i)
     {

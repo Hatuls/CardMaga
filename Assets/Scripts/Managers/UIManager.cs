@@ -9,6 +9,6 @@ public class UIManager : MonoSingleton<UIManager>
     public override void Init()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        throw new System.NotImplementedException();
+
     }
 }

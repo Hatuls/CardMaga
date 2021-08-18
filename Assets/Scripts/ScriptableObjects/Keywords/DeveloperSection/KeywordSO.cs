@@ -3,12 +3,10 @@ using UnityEngine;
 namespace Keywords
 {
     [CreateAssetMenu( fileName = "KeywordSO", menuName ="ScriptableObjects/Keywords" )]
-    public  class KeywordSO : ScriptableObject
+    public class KeywordSO : ScriptableObject
     {
         #region Fields
         [Header("Keyward Information:")]
-        [Tooltip("When is it activated?")]
-        [SerializeField] WhenActivatedEnum _whenToActivate;
 
         [Tooltip("what duration is it ?")]
         [SerializeField] DurationEnum _durationEnum;
@@ -26,7 +24,7 @@ namespace Keywords
         #region Properties
         public bool GetIsStackable => _isStackable;
         public bool GetIsPrecentage => _isPrecentage;
-        public WhenActivatedEnum GetWhenToActivate => _whenToActivate;
+
         public DurationEnum GetDurationEnum => _durationEnum;
         public KeywordTypeEnum GetKeywordType => _keyword;
         #endregion
@@ -44,12 +42,6 @@ namespace Keywords
         OverTurns,
         OverBattles
     };
-    public enum WhenActivatedEnum { 
-        StartOfTurn,
-        EndOfTurn,
-        AtCard,
-        EndOfCombat,
-        StartOfCombat
-    };
+
 
 }

@@ -10,17 +10,22 @@ namespace Battles.Deck
         private int amountOfFilledSlots;
 
         #region Properties
-        public ref int GetAmountOfEmptySlots => ref amountOfEmptySlots;
-        public ref int GetAmountOfFilledSlots => ref amountOfFilledSlots;
+        public int GetAmountOfEmptySlots { get { return amountOfEmptySlots; } }
+        public  int GetAmountOfFilledSlots =>  amountOfFilledSlots;
         public ref Card[] GetDeck
             => ref _deckCards; 
         
         public Card[] SetDeck
         {
+            
             set
             {
-                _deckCards = value;
-                CountCards();
+
+                if (value != null)
+                    _deckCards = value;
+
+                    CountCards();
+                
                 OrderDeck();
             }
         }

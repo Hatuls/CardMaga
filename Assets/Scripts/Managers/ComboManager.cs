@@ -8,32 +8,36 @@ using System.Linq;
 using Unity.Events;
 using Battles.UI;
 
-namespace Relics
+namespace Combo
 {
-    public class RelicManager : MonoSingleton<RelicManager>
+    public class ComboManager : MonoSingleton<ComboManager>
     {
         #region Fields
-        RelicCollectionSO _playerKnownRecipe;
-        RelicSO _cardRecipeDetected;
+        [SerializeField] ComboCollectionSO _playerKnownRecipe;
+        [SerializeField] ComboSO _cardRecipeDetected;
         [SerializeField] CraftingUIHandler _craftingUIHandler;
+        static byte threadId;
 
-
-        public RelicCollectionSO PlayerRelics => _playerKnownRecipe;
         #endregion
         #region Events
         [SerializeField] SoundsEvent _playSound;
         [SerializeField] VoidEvent _successCrafting;
-        public RelicSO CardRecipeDetected { get => _cardRecipeDetected; set
+        #endregion
+
+        #region Properties
+    
+        public ComboSO CardRecipeDetected { get => _cardRecipeDetected; set
             {
                 _cardRecipeDetected = value;
             }
         }
-        #endregion
+        public ComboCollectionSO PlayerRelics => _playerKnownRecipe;
 
+        #endregion
 
         public override void Init()
         {
-            _playerKnownRecipe = Resources.Load<RelicCollectionSO>("ComboRecipe/PlayerRecipe");
+            _playerKnownRecipe = Resources.Load<ComboCollectionSO>("ComboRecipe/PlayerRecipe");
             threadId = ThreadHandler.GetNewID;
         }
         void CreateCard()
@@ -54,7 +58,7 @@ namespace Relics
             }
             else
             {
-                if (DeckManager.GetCraftingSlots.GetAmountOfFilledSlots <= 1)
+                if (DeckManager.GetCraftingSlots.GetAmountOfFilledSlots <= 0)
                 {
              
                    _playSound?.Raise( SoundsNameEnum.Reject);
@@ -66,6 +70,8 @@ namespace Relics
                     _playSound?.Raise(SoundsNameEnum.BurningSound);
                 }
             }
+
+
             DeckManager.GetCraftingSlots.ResetDeck();
             _cardRecipeDetected = null;
         }
@@ -88,7 +94,7 @@ namespace Relics
             * return false if nothign found 
              */
         }
-      static  byte threadId;
+   
         public static void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId, () => DetectRecipe(), () => EndDetection()));
         private static void EndDetection()
         {
@@ -105,7 +111,7 @@ namespace Relics
         }
         static void DetectRecipe()
         {
-            Card[] craftingSlots = new  Card[DeckManager.GetCraftingSlots.GetDeck.Length];
+            Card[] craftingSlots =new Card[DeckManager.GetCraftingSlots.GetDeck.Length];
 
             System.Array.Copy( DeckManager.GetCraftingSlots.GetDeck, craftingSlots, DeckManager.GetCraftingSlots.GetDeck.Length);
 
@@ -127,15 +133,15 @@ namespace Relics
     static void CheckRecipe(ref List<CardType> craftingItems)
         {
             List<CardType> nextRecipe = new List<CardType>();
-            for (int i = 0; i < Instance._playerKnownRecipe.GetRelicSO.Length; i++)
+            for (int i = 0; i < Instance._playerKnownRecipe.GetComboSO.Length; i++)
             {
-                for (int j = 0; j < Instance._playerKnownRecipe.GetRelicSO[i].GetCombo.Length; j++)
+                for (int j = 0; j < Instance._playerKnownRecipe.GetComboSO[i].GetCombo.Length; j++)
                 {
-                    nextRecipe.Add(Instance._playerKnownRecipe.GetRelicSO[i].GetCombo[j]);
+                    nextRecipe.Add(Instance._playerKnownRecipe.GetComboSO[i].GetCombo[j]);
                 }
                 if (craftingItems.SequenceEqual(nextRecipe , new CardTypeComparaer()))
                 {
-                    Instance.CardRecipeDetected = Instance._playerKnownRecipe.GetRelicSO[i];
+                    Instance.CardRecipeDetected = Instance._playerKnownRecipe.GetComboSO[i];
                     return;
                 }
                 else
