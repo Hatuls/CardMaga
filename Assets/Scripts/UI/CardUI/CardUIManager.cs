@@ -3,6 +3,10 @@ using UnityEngine;
 
 using System.Collections;
 using Battles.Deck;
+using Cards;
+using Unity.Events;
+using System;
+
 namespace Battles.UI
 {
     public class CardUIManager : MonoSingleton<CardUIManager>, ITouchable
@@ -31,6 +35,9 @@ namespace Battles.UI
 
         private HandUI _handUI;
         private CardUI _zoomedCard;
+
+        private CardUITransition[] _transitions;
+
         bool _isTryingToPlace;
 
         [SerializeField]
@@ -49,92 +56,55 @@ namespace Battles.UI
         public RectTransform GetDiscardDeckPosition => _discardDeckPosition;
         public RectTransform GetExhaustDeckPosition => _exhaustDeckPosition;
         public RectTransform GetHandMiddlePosition => _handMiddlePosition;
-        public ref CardUI GetClickedCardUI { get => ref _clickedCardUI; }
-        public CardUI SetClickedCardUI {
-            set 
+        public CardUI ClickedCardUI
+        {
+            get => _clickedCardUI;
+
+            set
             {
 
-                (value == null ? _clickedCardUI : value)?.GFX.GlowCard(value!=null);
+                (value == null ? _clickedCardUI : value)?.GFX.GlowCard(value != null);
 
-                  _clickedCardUI = value;
+                _clickedCardUI = value;
 
-            } 
+            }
         }
+
         public bool IsTryingToPlace { get => _isTryingToPlace; set { _isTryingToPlace = value; } }
 
         #endregion
 
         #region MonoBehaiviour callbacks
-     
+
 
         #endregion
 
         #region Private Methods
-        private IEnumerator RemoveCards()
+
+        internal CardUI ActivateCard(Card cardData, Vector2 pos)
         {
-            if (_zoomedCard != null)
+            if (cardData != null)
             {
-                _zoomedCard.CardTranslations?.MoveCard(true, GetDeckPosition(DeckEnum.Disposal), _cardUISettings.GetTimerForCardGoingToDiscardPile, false);
-                _soundEvent?.Raise(SoundsNameEnum.DisacrdCard);
-            }
-            if (GetClickedCardUI != null)
-            {
-                GetClickedCardUI.CardTranslations?.MoveCard(true, GetDeckPosition(DeckEnum.Disposal), _cardUISettings.GetTimerForCardGoingToDiscardPile, false);
-                _soundEvent?.Raise(SoundsNameEnum.DisacrdCard);
-            }
-            if (_handUI.GetAmountOfCardsInHand == 0)
-                yield break;
-
-            CardUI[] cards = _handUI.GetHandCards;
-
-            if (_handUI.GetAmountOfCardsInHand > 0)
-            {
-                for (int i = _handUI.GetAmountOfCardsInHand - 1; i >= 0; i--)
+                //get one cardUI
+                for (int i = 0; i < CardUIArr.Length; i++)
                 {
-                    MoveCardToDisposal(ref cards[i]);
+                    if (CardUIArr[i] == null)
+                        break;
+                    if (CardUIArr[i].gameObject.activeInHierarchy == false || CardUIArr[i].gameObject.activeSelf == false)
+                    {
 
-                    yield return new WaitForSeconds(_cardUISettings.GetDelayBetweenRemovalOfEachCard);
+                        CardUIArr[i].gameObject.SetActive(true);
+                        CardUIArr[i].CardTranslations?.SetPosition(pos);
+                        CardUIArr[i].CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime);
+                        AssignDataToCardUI(CardUIArr[i], cardData);
+
+                        if (CardUIArr[i].Inputs != null)
+                            CardUIArr[i].Inputs.GetCanvasGroup.blocksRaycasts = true;
+
+                        return CardUIArr[i];
+                    }
                 }
             }
-
-            yield return null;
-
-        }
-
-        private void MoveCardToDisposal(ref CardUI cards)
-        {
-            if (cards != null)
-                cards.CardTranslations?.MoveCard(true, GetDeckPosition(DeckEnum.Disposal), _cardUISettings.GetTimerForCardGoingToDiscardPile, false);
-
-            _soundEvent?.Raise( SoundsNameEnum.DisacrdCard );
-           
-            TryRemoveFromHandUI(cards);
-        }
-
-        internal CardUI ActivateCard(Cards.Card cardData, Vector2 pos)
-        {
-            //get one cardUI
-            for (int i = 0; i < CardUIArr.Length; i++)
-            {
-                if (CardUIArr[i] == null)
-                    break;
-                if (CardUIArr[i].gameObject.activeInHierarchy == false || CardUIArr[i].gameObject.activeSelf == false)
-                {
-                    
-                    CardUIArr[i].gameObject.SetActive(true);
-                    CardUIArr[i].CardTranslations?.SetPosition(pos);
-                    CardUIArr[i].CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime);
-                    AssignDataToCardUI(ref CardUIArr[i], ref cardData);
-
-                    if (CardUIArr[i].Inputs != null)
-                    CardUIArr[i].Inputs.GetCanvasGroup.blocksRaycasts = true;
-
-
-                    return CardUIArr[i];
-
-                }
-            }
-
             Debug.LogError("CardUI is NUll");
             return null;
 
@@ -142,9 +112,9 @@ namespace Battles.UI
             //position of turning on
             //add data
         }
-        public void AssignDataToCardUI(ref CardUI card, ref Cards.Card cardData)
+        public void AssignDataToCardUI(CardUI card, Cards.Card cardData)
         {
-            card.GFX.SetCardReference(ref cardData, _artSO) ;
+            card.GFX.SetCardReference(cardData, _artSO);
 
         }
         private Vector3 GetDeckPosition(DeckEnum fromDeck)
@@ -188,45 +158,68 @@ namespace Battles.UI
                 }
             }
         }
-        public void DrawCards(Cards.Card cardData, Battles.Deck.DeckEnum fromDeck, int amount = 1)
-        {
-            for (int j = 0; j < amount; j++)
+        // remove
+        public void DrawCards(Card[] cardData, DeckEnum fromDeck)
+        {       
+            Vector2 deckPos = GetDeckPosition(fromDeck);
+              CardUI[] cards = new CardUI[cardData.Length];
+            for (int j = 0; j < cardData.Length; j++)
             {
                 if (_handUI.GetAmountOfCardsInHand >= _cardUISettings.GetAmountOfCardsUIInHand)
                 {
                     Debug.Log("Tried to draw card but couldnt because hand is full");
                     break;
                 }
-
-                for (int i = 0; i < CardUIArr.Length; i++)
+                if (cardData[j] != null)
                 {
-                    if (CardUIArr[i] == null)
-                    {
-                        Debug.Log("CardUI is NULL");
-                        return;
-                    }
-                    if (CardUIArr[i].gameObject.activeInHierarchy == false || !CardUIArr[i].gameObject.activeSelf)
-                    {
-                        ActivateCard(cardData, GetDeckPosition(fromDeck));
-                        _soundEvent?.Raise(SoundsNameEnum.DrawCard);
-                        AddToHandUI(CardUIArr[i]);
-                        break;
-                    }
+                cards[j] = ActivateCard(cardData[j], deckPos);     
                 }
             }
-
+            StartCoroutine(GetCardUIHandler<DrawCardUIHandler>().MoveCardsUI(cards, GetDeckPosition(DeckEnum.Hand), deckPos));
         }
+       
+
         public void RemoveHands()
         {
-            StopCoroutine(RemoveCards());
-            StartCoroutine(RemoveCards());
+            if (_zoomedCard != null)
+            {
+                AddToHandUI(_zoomedCard);
+                _zoomedCard = null;
+            }
+            if (ClickedCardUI != null)
+            {
+                AddToHandUI(ClickedCardUI);
+                ClickedCardUI = null;
+            }
+            CardUI[] array = _handUI.GetHandCards;
+            var removal = GetCardUIHandler<DiscardHandHandler>();
+         //   StopCoroutine(removal.MoveCardsUI(_handUI.GetHandCards, GetDeckPosition(DeckEnum.Disposal), GetDeckPosition(DeckEnum.Hand)));
+            StartCoroutine(removal.MoveCardsUI(array, GetDeckPosition(DeckEnum.Disposal), GetDeckPosition(DeckEnum.Hand)));
+     
         }
         public override void Init()
         {
             InitCardUI();
-            _handUI = new HandUI(ref _cardUISettings.GetAmountOfCardsUIInHand, GetHandMiddlePosition.anchoredPosition, ref _cardUISettings);
-          
-            //     DrawCards(null, Battles.Deck.DeckEnum.PlayerDeck);
+            _handUI = new HandUI(ref _cardUISettings.GetAmountOfCardsUIInHand, GetHandMiddlePosition.anchoredPosition, _cardUISettings);
+
+            _transitions = new CardUITransition[3]
+            {
+                new DrawCardUIHandler(this,_handUI,_soundEvent,_cardUISettings),
+                new RemoveCardAfterACtivated(this, _cardUISettings, _soundEvent),
+                new DiscardHandHandler(this,_cardUISettings,_soundEvent)
+            };
+        }
+
+        private T GetCardUIHandler<T>() where T : CardUITransition
+        {
+            for (int i = 0; i < _transitions.Length; i++)
+            {
+                if (_transitions[i].GetType() == typeof(T) )
+                {
+                    return _transitions[i] as T;
+                }
+            }
+            return null;
         }
         public void SetCardUI(CardUI cardUI)
         {
@@ -238,24 +231,24 @@ namespace Battles.UI
             //  Debug.Log("Card Was Set");
             InputManager.Instance.AssignObjectFromTouch(this);
             DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.GFX.GetCardReference);
-            SetClickedCardUI = cardUI;
+            ClickedCardUI = cardUI;
             _soundEvent?.Raise(SoundsNameEnum.SelectCard);
         }
         public void AddToHandUI(CardUI cache)
         {
             cache?.GFX.GlowCard(false);
-            _handUI.Add(ref cache);
+            _handUI.Add(cache);
         }
         public void TryRemoveFromHandUI(CardUI cache)
         {
-          
+
             if (_zoomedCard != null)
             {
                 AddToHandUI(_zoomedCard);
                 _zoomedCard.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
                 _zoomedCard = null;
             }
-            _handUI.TryRemove(ref cache);
+            _handUI.TryRemove(cache);
         }
         public void OnClickedCardUI(CardUI card)
         {
@@ -268,7 +261,7 @@ namespace Battles.UI
             }
             else
             {
-            
+
 
                 TryRemoveFromHandUI(card);
                 card.CardTranslations?.MoveCard(true, Vector2.zero, _cardUISettings.GetCardMoveToDeckDelay);
@@ -281,53 +274,33 @@ namespace Battles.UI
 
         public void StartRemoveProcess()
         {
-            if (GetClickedCardUI == null)
+            if (ClickedCardUI == null)
                 return;
 
-            TryRemoveFromHandUI( GetClickedCardUI);
-            StartCoroutine(RemoveTransition());
+            TryRemoveFromHandUI(ClickedCardUI);
+            CardUI card = ClickedCardUI;
+            ClickedCardUI = null;
+
+            var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
+            StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal),GetDeckPosition(DeckEnum.Hand)));
 
 
-        }
-
-       private void RemoveSelectedCardUI()
-        {
-            if (GetClickedCardUI == null)
-                return;
-
-                 GetClickedCardUI.GFX.SetActive(false);
-                SetClickedCardUI=null;
-                InputManager.Instance.RemoveObjectFromTouch();
-        }
-        IEnumerator RemoveTransition()
-        {
-            CardUI card = GetClickedCardUI;
-            SetClickedCardUI = null;
-            InputManager.Instance.RemoveObjectFromTouch();
-
-            LeanTween.alpha(card.GFX.GetRectTransform, _cardUISettings.GetAlphaRemovalAmount, _cardUISettings.GetAlphaRemovalTime).setEase(_cardUISettings.GetAlphaLeanTween);
-            LeanTween.scale(card.GFX.GetRectTransform, Vector3.one * _cardUISettings.GetScaleSizeForRemoval, _cardUISettings.GetRemovalTimeForRemoval).setEase(_cardUISettings.GetScaleRemovalLeanTweenType);
-            yield return new WaitForSeconds(_cardUISettings.GetDelayTillStartMovement) ;
-            LeanTween.moveX(card.GFX.GetRectTransform, GetDiscardDeckPosition.anchoredPosition3D.x, _cardUISettings.GetRemovalTransitionXTime).setEase(_cardUISettings.GetMoveOnXLeanTween);
-            LeanTween.moveY(card.GFX.GetRectTransform, GetDiscardDeckPosition.anchoredPosition3D.y, _cardUISettings.GetRemovalTransitionYTime).setEase(_cardUISettings.GetMoveOnYLeanTween)
-                .setOnComplete(()=> card.GFX.SetActive(false));
-     
         }
         #endregion
 
         #region Touching Cards
         public void OnFirstTouch(in Vector2 touchPos)
         {
-            if (GetClickedCardUI == null)
+            if (ClickedCardUI == null)
                 return;
             Debug.Log("Card UI: OnFirstTouch, scaling card");
 
-            TryRemoveFromHandUI(GetClickedCardUI);
+            TryRemoveFromHandUI(ClickedCardUI);
         }
 
         public void OnReleaseTouch(in Vector2 touchPos)
         {
-            if (GetClickedCardUI == null)
+            if (ClickedCardUI == null)
                 return;
 
             if (_isTryingToPlace) // placed on placement Destination
@@ -342,29 +315,180 @@ namespace Battles.UI
             }
             else
             {
-                AddToHandUI(GetClickedCardUI);
+                AddToHandUI(ClickedCardUI);
 
-                if (GetClickedCardUI.Inputs != null)
-                GetClickedCardUI.Inputs.GetCanvasGroup.blocksRaycasts = true;
-                
-                GetClickedCardUI.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime); 
-                SetClickedCardUI = null;
+                if (ClickedCardUI.Inputs != null)
+                    ClickedCardUI.Inputs.GetCanvasGroup.blocksRaycasts = true;
+
+                ClickedCardUI.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime);
+                ClickedCardUI = null;
             }
 
 
-           
+
         }
 
         public void OnHoldTouch(in Vector2 touchPos)
         {
-            if (GetClickedCardUI != null)
+            if (ClickedCardUI != null)
             {
-                GetClickedCardUI.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
-                GetClickedCardUI.CardTranslations?.MoveCard(false, touchPos, _cardUISettings.GetCardFollowDelay);
+                ClickedCardUI.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
+                ClickedCardUI.CardTranslations?.MoveCard(false, touchPos, _cardUISettings.GetCardFollowDelay);
             }
         }
 
         #endregion
+
     }
 
+
+
+    public abstract class CardUITransition
+    {
+        protected CardUIManager _cardUIManager;
+        protected SoundsEvent _soundEvent;
+        protected CardUISO _cardSettings;
+      
+        public CardUITransition(CardUIManager cuim,CardUISO so, SoundsEvent soundEvent)
+        {
+            _cardUIManager = cuim;
+            _soundEvent = soundEvent;
+            _cardSettings = so;
+        }
+        public abstract IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination,Vector2 startPos);
+
+    }
+
+    public class DiscardHandHandler : CardUITransition
+    {
+        public DiscardHandHandler(CardUIManager cuim, CardUISO so, SoundsEvent soundEvent) : base(cuim, so, soundEvent)
+        {
+        }
+
+        public override IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination, Vector2 startPos)
+        {
+            if (cards == null || cards.Length == 0)
+                yield break;
+
+
+            for (int i = cards.Length - 1; i >= 0; i--)
+            { 
+                if (cards[i] == null)
+                    continue;
+       _cardUIManager.StartCoroutine(DiscardCard(cards[i], destination));
+
+                yield return new WaitForSeconds(_cardSettings.DelayBetweenCardsIsDiscarded);
+
+                _cardUIManager.TryRemoveFromHandUI(cards[i]);
+            }
+
+        }
+
+        IEnumerator DiscardCard(CardUI card, Vector2 destination)
+        {
+
+            _soundEvent?.Raise(SoundsNameEnum.DisacrdCard);
+            card.GFX?.SetAlpha(_cardSettings.EndDiscardAlphaAmount, _cardSettings.AlphaDiscardTime, _cardSettings.AlphaDiscardTweenType);
+            var translation = card.CardTranslations;
+            if (translation!= null)
+            {
+                translation.SetScale(Vector3.one * _cardSettings.DiscardEndScaleSize, _cardSettings.ScaleDiscardTime, _cardSettings.ScaleDiscardTweenType);
+
+            yield return new WaitForSeconds(_cardSettings.DelayBetweenVisualAndMoving);
+                translation.MoveCardX(destination.x, _cardSettings.DiscardTransitionXTime, null,_cardSettings.DiscardMoveOnYLeanTweenType);
+                translation.MoveCardY(destination.y, _cardSettings.DiscardTransitionYTime,false,_cardSettings.DiscardMoveOnYLeanTweenType);
+
+            }
+       
+        }
+    }
+
+    public class RemoveCardAfterACtivated : CardUITransition
+    {
+        public RemoveCardAfterACtivated(CardUIManager _manager, CardUISO so, SoundsEvent soundEvent) : base(_manager, so, soundEvent)
+        {
+        }
+
+        public override IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination, Vector2 startPos)
+        {
+            if (cards == null || cards.Length == 0)
+                yield break;
+
+    //CardUI card = ClickedCardUI;
+    //            ClickedCardUI = null;
+                InputManager.Instance.RemoveObjectFromTouch();
+            for (int i = 0; i < cards.Length; i++)
+            { 
+                if (cards[i] == null)
+                    continue;
+                var translation = cards[i].CardTranslations;
+
+                cards[i].GFX.SetAlpha(_cardSettings.GetAlphaRemovalAmount, _cardSettings.GetAlphaRemovalTime,_cardSettings.GetAlphaLeanTween);
+                translation.SetScale(Vector3.one * _cardSettings.GetScaleSizeForRemoval, _cardSettings.GetRemovalTimeForRemoval, _cardSettings.GetScaleRemovalLeanTweenType);
+                 yield return new WaitForSeconds(_cardSettings.GetDelayTillStartMovement);
+                translation.MoveCardX(destination.x, _cardSettings.GetRemovalTransitionXTime, null, _cardSettings.GetMoveOnXLeanTween);
+                translation.MoveCardY(destination.y, _cardSettings.GetRemovalTransitionYTime, false, _cardSettings.GetMoveOnYLeanTween);
+            }
+        }
+
+    }
+
+
+
+
+
+
+    public class DrawCardUIHandler : CardUITransition
+    {
+        HandUI _hand;
+        public DrawCardUIHandler(CardUIManager _manager,HandUI hand,SoundsEvent _soundEvent, CardUISO so) : base(_manager,so, _soundEvent)
+        {
+            _hand = hand;
+        }
+
+        public override IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination,Vector2 startPos)
+        {
+            // check if its valid array
+            if (cards == null || cards.Length == 0)
+                yield break;
+
+            
+            for (int i = 0; i < cards.Length; i++)
+            {
+                if (cards[i] == null)
+                    continue;
+
+                MoveCardUI(cards[i], destination);
+
+                yield return new WaitForSeconds(_cardSettings.DelayTillDrawNextCard);
+
+            }
+        }
+
+        private void MoveCardUI(CardUI card, Vector2 destination)
+        {
+            // cache rectTransform
+            RectTransform cardUIRect = card.GFX.GetRectTransform;
+            // disable glow
+            card.GFX.GlowCard(false);
+            // set their starting scale
+            cardUIRect.localScale = Vector3.one * _cardSettings.StartScaleSize;
+
+            //play sound
+            _soundEvent?.Raise(SoundsNameEnum.DrawCard);
+
+            //set their alpha
+
+            LeanTween.alpha(cardUIRect, _cardSettings.StartAlphaAmount, 0.01f).setOnComplete(() =>
+            LeanTween.alpha(cardUIRect, 1, _cardSettings.AlphaDrawTime).setEase(_cardSettings.AlphaDrawTweenType));
+
+            // set 
+            card.CardTranslations?.SetScale(Vector3.one, _cardSettings.ScaleDrawTime);
+            // Move cards and then add it to hand
+            card.CardTranslations?.MoveCardY(destination.y, _cardSettings.DrawTransitionYTime, null, _cardSettings.DrawMoveOnYLeanTweenType);
+          //  card.CardTranslations?.MoveCardX(destination.x, _cardSettings.DrawTransitionXTime, null, _cardSettings.DrawMoveOnXLeanTweenType);
+            LeanTween.moveX(cardUIRect, destination.x, _cardSettings.DrawTransitionXTime).setEase(_cardSettings.DrawMoveOnXLeanTweenType)
+                .setOnComplete(() => _hand.Add(card));
+        }
+    }
 }

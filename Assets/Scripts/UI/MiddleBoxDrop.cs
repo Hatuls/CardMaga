@@ -13,18 +13,18 @@ namespace Battles.UI
         public void OnPointerExit() => CardUIManager.Instance.IsTryingToPlace = false;
         public void OnDrop()
         {
-            if (CardUIManager.Instance.GetClickedCardUI != null)
+            if (CardUIManager.Instance.ClickedCardUI != null)
             {
-                Cards.Card card = CardUIManager.Instance.GetClickedCardUI.GFX.GetCardReference;
+                Cards.Card card = CardUIManager.Instance.ClickedCardUI.GFX.GetCardReference;
 
 
                 if (StaminaHandler.IsEnoughStamina(card) == false)
                 {
                     // not enough stamina 
                     DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, card);
-                    CardUIManager.Instance.AddToHandUI(CardUIManager.Instance.GetClickedCardUI);
+                    CardUIManager.Instance.AddToHandUI(CardUIManager.Instance.ClickedCardUI);
                     _playSound?.Raise(SoundsNameEnum.Reject);
-                    CardUIManager.Instance.GetClickedCardUI = null;
+                    CardUIManager.Instance.ClickedCardUI = null;
                     return;
                 }
                 else

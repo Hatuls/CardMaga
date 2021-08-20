@@ -100,7 +100,7 @@ namespace Battles.Deck
                 return;
 
             GetDeckAbst(toDeck).AddCard(addedCard);
-            CardUIManager.Instance.DrawCards(addedCard, DeckEnum.PlayerDeck, 1);
+            CardUIManager.Instance.DrawCards(new Card[1] { addedCard }, DeckEnum.PlayerDeck);
         }
         public void DrawHand(int drawAmount)
         {
@@ -149,14 +149,17 @@ namespace Battles.Deck
                     {
                         toDeck.AddCard(cardCache);
                         fromDeck.DiscardCard(cardCache);
-                        CardUIManager.Instance.DrawCards(cardCache, DeckEnum.PlayerDeck, 1);
+
                     }
                     else
                         Debug.LogError("DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card");
 
 
                 }
+                CardUIManager.Instance.DrawCards(toDeck.GetDeck, DeckEnum.PlayerDeck);
             }
+
+
         }
 
         public DeckEnum IntToDeck(int deckID)

@@ -8,18 +8,17 @@ namespace Battles.UI.CardUIAttributes
     [RequireComponent(typeof(EventTrigger))]
     public class CardInputs
     {
-
-        CardUIEvent _selectCardEvent;
-        CardUIEvent _removeCardEvent;
-        CardUIEvent _onClickedCardEvent;
-        CanvasGroup _canvasGroup;
-        CardUI _thisCard;
-        EventTrigger _eventTrigger;
+        private CardUIEvent _selectCardEvent;
+        private CardUIEvent _removeCardEvent;
+        private CardUIEvent _onClickedCardEvent;
+        private CanvasGroup _canvasGroup;
+        private CardUI _thisCard;
+        private EventTrigger _eventTrigger;
         public CanvasGroup GetCanvasGroup => _canvasGroup;
-        EventTrigger.Entry endDrag;
-        EventTrigger.Entry beginDrag;
-        EventTrigger.Entry onClick;
-        public CardInputs(ref CanvasGroup canvasGroup, ref CardUIEvent SelectCardEvent, ref CardUIEvent RemoveCardEvent, ref CardUIEvent OnClickedCardEvent, CardUI card)
+        private EventTrigger.Entry endDrag;
+        private EventTrigger.Entry beginDrag;
+        private EventTrigger.Entry onClick;
+        public CardInputs(CanvasGroup canvasGroup, CardUIEvent SelectCardEvent, CardUIEvent RemoveCardEvent, CardUIEvent OnClickedCardEvent, CardUI card)
         {
             _selectCardEvent = SelectCardEvent;
             _removeCardEvent = RemoveCardEvent;
@@ -35,9 +34,9 @@ namespace Battles.UI.CardUIAttributes
             beginDrag.callback.RemoveAllListeners();
             endDrag.callback.RemoveAllListeners();
             onClick.callback.RemoveAllListeners();
-            
+  
         }
-        public void RegisterInputs ()
+        public void RegisterInputs()
         {
             beginDrag = new EventTrigger.Entry();
             beginDrag.eventID = EventTriggerType.BeginDrag;
@@ -57,10 +56,10 @@ namespace Battles.UI.CardUIAttributes
         public void OnPointerClick(PointerEventData eventData)
         {
             _onClickedCardEvent?.Raise(_thisCard);
-         
+
         }
-     
-        public  void BeginDrag(PointerEventData eventData)
+
+        public void BeginDrag(PointerEventData eventData)
         {
             _removeCardEvent?.Raise(_thisCard);
 
@@ -69,7 +68,7 @@ namespace Battles.UI.CardUIAttributes
             _selectCardEvent?.Raise(_thisCard);
         }
 
-        public  void EndDrag(PointerEventData eventData)
+        public void EndDrag(PointerEventData eventData)
         {
             _canvasGroup.blocksRaycasts = true;
 

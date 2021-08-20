@@ -6,19 +6,9 @@ namespace Battles.UI.CardUIAttributes
     public class CardTranslations
     {
         RectTransform _rectTransform;
-        public CardTranslations(ref RectTransform rectTransform)
+        public CardTranslations( RectTransform rectTransform)
         {
             _rectTransform = rectTransform;
-        }
-
-        public void MoveCard(Vector3 moveTo)
-        {
-            if (_rectTransform == null)
-            {
-                Debug.LogError("RectTranscorm is Null");
-                return;
-            }
-            LeanTween.move(_rectTransform, moveTo, Time.deltaTime);
         }
         public void MoveCard(bool withTween, Vector3 moveTo, float seconds, bool? setActiveLater = null)
         {
@@ -31,24 +21,44 @@ namespace Battles.UI.CardUIAttributes
             if (withTween)
             {
                 if (setActiveLater == null)
-                    LeanTween.move(_rectTransform, moveTo, seconds);
-                else               
-                    LeanTween.move(_rectTransform, moveTo, seconds).setOnComplete(() => _rectTransform.gameObject.SetActive(setActiveLater.GetValueOrDefault()));
-
+                {
+                    MoveCardX(moveTo.x, seconds);
+                    MoveCardY(moveTo.y, seconds);
+     
+                }
+                else
+                {
+                    MoveCardX(moveTo.x, seconds);
+                    MoveCardY(moveTo.y, seconds,true);
+                }       
+               
             }
             else
                 _rectTransform.position = Vector2.Lerp(_rectTransform.position, moveTo, seconds);
         }
 
-
-        public void SetScale(Vector3 toScale, float delay)
+        public void MoveCardX(float destination, float time, bool? SetActiveLater= null ,LeanTweenType type = LeanTweenType.notUsed)
+        {
+            if (SetActiveLater == null)
+                LeanTween.moveX(_rectTransform, destination, time).setEase(type);
+            else
+                LeanTween.moveX(_rectTransform, destination, time).setEase(type).setOnComplete(() => _rectTransform.gameObject.SetActive(SetActiveLater.GetValueOrDefault()));
+        }
+        public void MoveCardY(float destination, float time, bool? SetActiveLater = null, LeanTweenType type = LeanTweenType.notUsed)
+        {
+            if (SetActiveLater == null)
+                LeanTween.moveY(_rectTransform, destination, time).setEase(type);
+            else
+                LeanTween.moveY(_rectTransform, destination, time).setEase(type).setOnComplete(() => _rectTransform.gameObject.SetActive(SetActiveLater.GetValueOrDefault()));
+        }
+        public void SetScale(Vector3 toScale, float delay, LeanTweenType type = LeanTweenType.notUsed)
         {
             if (_rectTransform == null)
             {
                 //       Debug.LogError("RectTranscorm is Null");
                 return;
             }
-            LeanTween.scale(_rectTransform, toScale, delay);
+            LeanTween.scale(_rectTransform, toScale, delay).setEase(type);
         }
         public void SetPosition(in Vector3 setTo)
         {

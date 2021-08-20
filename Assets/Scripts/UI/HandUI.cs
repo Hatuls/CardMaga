@@ -13,7 +13,7 @@ namespace Battles.UI
 
 
         public int GetAmountOfCardsInHand => _amountOfCardsInHand;
-        public ref CardUI[] GetHandCards
+        public  CardUI[] GetHandCards
         {
             get
             {
@@ -23,10 +23,10 @@ namespace Battles.UI
                     _handCards = new CardUI[10];
                 }
 
-                return ref _handCards;
+                return  _handCards;
             }
         }
-        public HandUI(ref int maxHand, Vector2 middlePos, ref CardUISO cardUISO)
+        public HandUI(ref int maxHand, Vector2 middlePos,  CardUISO cardUISO)
         {
             _handCards = new CardUI[maxHand];
             ResetHand();
@@ -37,40 +37,65 @@ namespace Battles.UI
         private void SetCardsPosition()
         {
             OrderArray();
-
+            Debug.Log("************************* " + GetAmountOfCardsInHand);
             if (GetAmountOfCardsInHand != 0)
             {
                 Vector2 furthestPos = _middlePos + ((GetAmountOfCardsInHand - 1) * -Vector2.left * _cardUISO.GetSpaceBetweenCards);
                 Vector2 cardLocation;
                 float distance = Vector2.Distance(furthestPos, _middlePos);
+
+
+                float degree = 20;
+
+
+                float degreePerCard = degree / GetAmountOfCardsInHand;
+
                 for (int i = 0; i < GetAmountOfCardsInHand; i++)
                 {
                     cardLocation = _middlePos + (i * -Vector2.left * _cardUISO.GetSpaceBetweenCards);
+
                     _handCards[i].CardTranslations?.MoveCard(
                         true,
                         cardLocation + Vector2.left * distance / 2,
                         _cardUISO.GetCardFollowDelay);
+
+                    float rotation = degree/2 - (i * degreePerCard);
+                    if (GetAmountOfCardsInHand %2 !=0)
+                    {
+                        int middleCard = (GetAmountOfCardsInHand + 1) / 2;
+                        if (i == middleCard-1)
+                            rotation = 0;
+                    }
+                    else
+                    {
+
+                    }
+                    _handCards[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+
+
                 }
                 OrderZLayers();
             }
         }
-        public void Add(ref CardUI card)
+
+        public void Add( CardUI card)
         {
             for (int i = 0; i < _handCards.Length; i++)
             {
                 if (_handCards[i] == card)
                     return;
             }
-            GetEmptySpot() = card;
+            _handCards[GetEmptyIndex()] = card;
             _amountOfCardsInHand++;
             SetCardsPosition();
         }
-        public void TryRemove(ref CardUI card)
+        public void TryRemove( CardUI card)
         {
             for (int i = 0; i < _handCards.Length; i++)
             {
-                if (ReferenceEquals(_handCards[i], card))
+                if (ReferenceEquals(_handCards[i], card)) 
                 {
+
                     _handCards[i] = null;
                     _amountOfCardsInHand--;
                     SetCardsPosition();
@@ -100,16 +125,16 @@ namespace Battles.UI
                 }
             }
         }
-        private ref CardUI GetEmptySpot()
+        private int GetEmptyIndex()
         {
             for (int i = 0; i < _handCards.Length; i++)
             {
                 if (_handCards[i] == null)
-                    return ref _handCards[i];
+                    return  i;
             }
 
             Debug.LogError("ERROR : Didnt find empty Spots returning FIRST PLACE !");
-            return ref _handCards[0];
+            return  0;
         }
 
         public void ResetHand()

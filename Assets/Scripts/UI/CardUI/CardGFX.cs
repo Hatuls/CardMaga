@@ -69,11 +69,11 @@ namespace Battles.UI.CardUIAttributes
         #endregion
 
         #region Properties
-        public ref Card GetCardReference { get => ref _cardReferenceInHandDeck; }
+        public  Card GetCardReference { get => _cardReferenceInHandDeck; }
         public TextMeshProUGUI GetNameTxt => _titleText;
         public TextMeshProUGUI GetDescriptionTxt => _descriptionTxt;
         public TextMeshProUGUI GetStaminaText => _staminaText;
-        public ref RectTransform GetRectTransform => ref _rectTransform;
+        public RectTransform GetRectTransform =>  _rectTransform;
         #endregion
 
 
@@ -130,7 +130,7 @@ namespace Battles.UI.CardUIAttributes
             //rotation?
         }
     
-        internal void SetCardReference(ref Card cardData, ArtSO artSO)
+        internal void SetCardReference(Card cardData, ArtSO artSO)
         {
            _cardReferenceInHandDeck = cardData;
             SetCardReference( cardData.GetSetCard, artSO);
@@ -172,7 +172,10 @@ namespace Battles.UI.CardUIAttributes
         //    }
         //    GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
         //}
-
+        public void SetAlpha(float amount,float time,LeanTweenType type = LeanTweenType.notUsed)
+        {
+            LeanTween.alpha(this.GetRectTransform, amount, time).setEase(type);
+        }
         private void SetCardUIImage(Sprite img)
         => _cardBackGroundImg.sprite = img;
         private void SetCardColors(CardTypeEnum cardType)

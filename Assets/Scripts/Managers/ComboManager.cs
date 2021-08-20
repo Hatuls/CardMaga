@@ -139,7 +139,7 @@ namespace Combo
                 {
                     nextRecipe.Add(Instance._playerKnownRecipe.GetComboSO[i].GetCombo[j]);
                 }
-                if (craftingItems.SequenceEqual(nextRecipe , new CardTypeComparaer()))
+                if (craftingItems.SequenceEqual(nextRecipe , new CardTypeComparer()))
                 {
                     Instance.CardRecipeDetected = Instance._playerKnownRecipe.GetComboSO[i];
                     return;

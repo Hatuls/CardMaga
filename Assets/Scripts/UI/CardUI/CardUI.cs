@@ -57,7 +57,7 @@ namespace Battles.UI
             //Debug.Log(Card.HasFlag(CardUISettings.Image));
 
             if ((Card & CardUISettings.Visable) != CardUISettings.Visable)
-                Card = Card | CardUISettings.Visable;
+                Card |= CardUISettings.Visable;
 
 
         }
@@ -77,27 +77,26 @@ namespace Battles.UI
 
 
         #region Properties
-        public ref CardGFX GFX => ref _cardGFX;
+        public  CardGFX GFX =>  _cardGFX;
 
-        public ref CardInputs Inputs
+        public  CardInputs Inputs
         {
             get
             {
                 if (_inputs == null && (Card & CardUISettings.Touchable) == CardUISettings.Touchable)
-                    _inputs = new CardInputs(ref _canvasGroup, ref _selectCardEvent, ref _removeCardEvent, ref _onClickedCardEvent, this);
-
-                return ref _inputs;
+                    _inputs = new CardInputs( _canvasGroup,  _selectCardEvent,  _removeCardEvent,  _onClickedCardEvent, this);
+                return  _inputs;
             }
         }
 
-        public ref CardTranslations CardTranslations {
+        public  CardTranslations CardTranslations {
             get
             {
                 if (_cardTranslations == null &&
                     ((Card & CardUISettings.Moveable) == CardUISettings.Moveable))
-                    _cardTranslations = new CardTranslations(ref _cardGFX.GetRectTransform);
+                    _cardTranslations = new CardTranslations( _cardGFX.GetRectTransform);
 
-                return ref _cardTranslations;
+                return  _cardTranslations;
             }
         }
         #endregion

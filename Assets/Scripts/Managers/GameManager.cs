@@ -24,7 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         Init();
     }
-
+  
     private void Update()
     {
        Application.targetFrameRate = _maxFPS;
