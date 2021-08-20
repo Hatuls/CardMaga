@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 426de1e27b5370e4fbccc59c3430f259, type: 3}
   m_Name: CardUI_Settings
   m_EditorClassIdentifier: 
-  _cardFollowTheTouchDelay: 0.3
+  _cardFollowTheTouchDelay: 0
   _cardGoToDeckDelay: 0.5
   _cardScalingDelay: 0.3
   _zoomedScale: 2
@@ -20,14 +20,41 @@ MonoBehaviour:
   _returnSpeedDelay: 0.25
   _amountOfCardsUIInHand: 10
   _amountOfSpaceBetweenCards: 300
-  _delayBetweenCardsIsDiscarded: 0.2
-  _timerForCardGoingToDiscardPile: 0.2
+  _discardDefaultTime: 0
+  _cardAmountOffset: 5
+  _scaleFactorInSpaceInHand: 37
+  _cardAlignmentInHandHeight: 0.0574
+  _degreePerCard: 10
+  _yFactorPerOffsetCardInHand: 0.021
+  _discardEndScaleSize: 0.45
+  _scaleDiscardTime: 0.129
+  _scaleDiscardTweenType: 0
+  _endDiscardAlphaAmount: 0.067
+  _alphaDiscardTime: 0.85
+  _alphaDiscardTweenType: 0
+  _discardTransitionXTime: 0.234
+  _discardMoveOnXLeanTweenType: 0
+  _discardTransitionYTime: 0.074
+  _discardMoveOnYLeanTweenType: 0
+  _delayBetweenCardsIsDiscarded: 0.015
+  _delayDiscardBetweenVisualAndTranslation: 0.021
+  _startScaleSize: 0.29
+  _scaleDrawTime: 0.292
+  _scaleDrawTweenType: 0
+  _startAlphaAmount: 0.027
+  _alphaDrawTime: 0.28
+  _alphaDrawTweenType: 0
+  _drawTransitionXTime: 0.38
+  _drawMoveOnXLeanTweenType: 0
+  _drawTransitionYTime: 0.239
+  _drawMoveOnYLeanTweenType: 0
+  _delayTillDrawNextCard: 0
   _scaleSizeForRemoval: 0.35
   _removalTime: 0.37
   _scaleRemovalTweenType: 0
   _alphaAmountForRemoval: 0.342
   _alphaRemovalTime: 0.37
-  _alphaTweenType: 11
+  _alphaRemovalTweenType: 0
   _removalTransitionXTime: 0.44
   _removalMoveOnXLeanTweenType: 0
   _removalTransitionYTime: 0.44

@@ -31,8 +31,14 @@ public class CardUISO : ScriptableObject
 
     [SerializeField] float _discardDefaultTime;
 
+    [SerializeField] int _cardAmountOffset;
+    [SerializeField] float _scaleFactorInSpaceInHand;
 
-
+    [Range(0,0.1f)]
+    [SerializeField] float _cardAlignmentInHandHeight;
+    [Range(0,90f)]
+    [SerializeField] float _degreePerCard;
+    [SerializeField] float _yFactorPerOffsetCardInHand;
     #endregion
 
 
@@ -240,8 +246,8 @@ public class CardUISO : ScriptableObject
 
     #endregion
     #region Properties
-
-
+    public ref float YFactorPerOffsetCardInHand => ref _yFactorPerOffsetCardInHand;
+        public ref int CardAmountOffset => ref _cardAmountOffset;
         public ref float GetDelayBetweenRemovalOfEachCard => ref _delayBetweenCardsIsDiscarded;
         public ref float GetCardReturnSpeedDelay => ref _returnSpeedDelay;
         public ref float GetSpaceBetweenCards => ref _amountOfSpaceBetweenCards;
@@ -251,7 +257,11 @@ public class CardUISO : ScriptableObject
         public ref float GetCardScaleDelay => ref _cardScalingDelay;
         public Vector3 GetCardUIZoomedScale => Vector3.one * _zoomedScale;
         public Vector3 GetCardDefaultScale => Vector3.one * _cardScale;
-        #endregion
+    public ref float CardAlignmentInHandHeight => ref _cardAlignmentInHandHeight;
+    public ref float DegreePerCard => ref _degreePerCard;
+
+    public ref float ScaleFactorInSpaceInHand => ref _scaleFactorInSpaceInHand;
+    #endregion
 
 }
 

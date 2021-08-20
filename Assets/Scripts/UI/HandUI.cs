@@ -37,41 +37,58 @@ namespace Battles.UI
         private void SetCardsPosition()
         {
             OrderArray();
-            Debug.Log("************************* " + GetAmountOfCardsInHand);
+
             if (GetAmountOfCardsInHand != 0)
             {
-                Vector2 furthestPos = _middlePos + ((GetAmountOfCardsInHand - 1) * -Vector2.left * _cardUISO.GetSpaceBetweenCards);
+                // position
+                int cardAmountOffset = _cardUISO.CardAmountOffset;
+                float spaceBetweenCards = _cardUISO.GetSpaceBetweenCards;
+                float width = _cardUISO.CardAlignmentInHandHeight;
+                if (GetAmountOfCardsInHand > cardAmountOffset)
+                {
+                     float remain = GetAmountOfCardsInHand - cardAmountOffset;
+                   spaceBetweenCards -=  remain * _cardUISO.ScaleFactorInSpaceInHand ;
+                    width += remain * _cardUISO.YFactorPerOffsetCardInHand;
+
+                }
+
+                Vector2 furthestPos = _middlePos + ((GetAmountOfCardsInHand - 1) * -Vector2.left * spaceBetweenCards);
                 Vector2 cardLocation;
                 float distance = Vector2.Distance(furthestPos, _middlePos);
+ 
+                float yPos = 0;
 
+                //rotation
+                float degree = _cardUISO.DegreePerCard;
+                float rotation = 0;
+                int amountOfIndexInOneSide = (GetAmountOfCardsInHand - 1) / 2;
+                bool isEvenNumber = GetAmountOfCardsInHand % 2 == 0;
+                int amountOfCards = GetAmountOfCardsInHand;
 
-                float degree = 20;
-
-
-                float degreePerCard = degree / GetAmountOfCardsInHand;
 
                 for (int i = 0; i < GetAmountOfCardsInHand; i++)
                 {
-                    cardLocation = _middlePos + (i * -Vector2.left * _cardUISO.GetSpaceBetweenCards);
+
+                   
+                    // position
+                    yPos = (((-(i * i) + (GetAmountOfCardsInHand - 1) * i)) / width);
+                
+                    cardLocation = _middlePos + (i * -Vector2.left * spaceBetweenCards);
+
 
                     _handCards[i].CardTranslations?.MoveCard(
-                        true,
-                        cardLocation + Vector2.left * distance / 2,
-                        _cardUISO.GetCardFollowDelay);
+                    true,
+                 (cardLocation + Vector2.left * distance / 2) + Vector2.up * yPos,
+                    _cardUISO.GetCardFollowDelay);
 
-                    float rotation = degree/2 - (i * degreePerCard);
-                    if (GetAmountOfCardsInHand %2 !=0)
-                    {
-                        int middleCard = (GetAmountOfCardsInHand + 1) / 2;
-                        if (i == middleCard-1)
-                            rotation = 0;
-                    }
-                    else
-                    {
 
-                    }
+                    //rotation
+                    rotation = (amountOfIndexInOneSide - i) * degree;
+
+                    if (isEvenNumber)
+                        rotation += degree / 2;
+
                     _handCards[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
-
 
                 }
                 OrderZLayers();
