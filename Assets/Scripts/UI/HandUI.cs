@@ -6,7 +6,7 @@ namespace Battles.UI
     {
         CardUISO _cardUISO;
         CardUI[] _handCards;
-        Vector2 _middlePos;
+        Vector2 _middlePositionOnScreen;
         int _amountOfCardsInHand;
 
 
@@ -30,11 +30,11 @@ namespace Battles.UI
         {
             _handCards = new CardUI[maxHand];
             ResetHand();
-            _middlePos = middlePos;
+            _middlePositionOnScreen = middlePos;
             _cardUISO = cardUISO;
         }
 
-        private void SetCardsPosition()
+        private void AlignCards()
         {
             OrderArray();
 
@@ -53,18 +53,22 @@ namespace Battles.UI
 
                 }
 
-                Vector2 furthestPos = _middlePos + ((GetAmountOfCardsInHand - 1) * -Vector2.left * spaceBetweenCards);
                 Vector2 cardLocation;
-                float distance = Vector2.Distance(furthestPos, _middlePos);
- 
-                float yPos = 0;
 
+
+                Vector2 furthestPos = _middlePositionOnScreen + ((GetAmountOfCardsInHand - 1) * Vector2.right * spaceBetweenCards);
+                float totalDistanceFromStartToEnd = Vector2.Distance(furthestPos, _middlePositionOnScreen);
+
+
+                float xPos;
+                float yPos;
+                float moveLeftOffset;
                 //rotation
                 float degree = _cardUISO.DegreePerCard;
-                float rotation = 0;
+         
                 int amountOfIndexInOneSide = (GetAmountOfCardsInHand - 1) / 2;
                 bool isEvenNumber = GetAmountOfCardsInHand % 2 == 0;
-                int amountOfCards = GetAmountOfCardsInHand;
+
 
 
                 for (int i = 0; i < GetAmountOfCardsInHand; i++)
@@ -72,30 +76,41 @@ namespace Battles.UI
 
                    
                     // position
+
+                    // x= i
+                    // (-X^2 + totalAmountOfCardsInHand-1 * X) /width
                     yPos = (((-(i * i) + (GetAmountOfCardsInHand - 1) * i)) / width);
-                
-                    cardLocation = _middlePos + (i * -Vector2.left * spaceBetweenCards);
+
+                    moveLeftOffset = -(totalDistanceFromStartToEnd / 2);
+                     xPos = i * spaceBetweenCards;
+
+                    cardLocation = _middlePositionOnScreen + Vector2.right * xPos;
+
+                    Vector2 finalPos = cardLocation + new Vector2( moveLeftOffset,yPos);
 
 
                     _handCards[i].CardTranslations?.MoveCard(
-                    true,
-                 (cardLocation + Vector2.left * distance / 2) + Vector2.up * yPos,
+                        true,
+                         finalPos,
                     _cardUISO.MovementToPositionTimer);
 
 
-                    //rotation
-                    rotation = (amountOfIndexInOneSide - i) * degree;
-
-                    if (isEvenNumber)
-                        rotation += degree / 2;
-
-                   LeanTween.rotateZ(_handCards[i].gameObject,rotation, _cardUISO.RotationTimer);
+                    SetCardUIRotation(ref i, ref amountOfIndexInOneSide, ref degree, ref isEvenNumber);
 
                 }
                 OrderZLayers();
             }
         }
+        private void SetCardUIRotation(ref int index,ref int amountOfIndexInOneside,ref float degree,ref bool isEvenNumber)
+        {
+             //rotation
+             float rotation = (amountOfIndexInOneside - index) * degree;
 
+                    if (isEvenNumber)
+                        rotation += degree / 2;
+
+              LeanTween.rotateZ(_handCards[index].gameObject ,rotation, _cardUISO.RotationTimer);
+        }
         public void Add( CardUI card)
         {
             for (int i = 0; i < _handCards.Length; i++)
@@ -105,7 +120,7 @@ namespace Battles.UI
             }
             _handCards[GetEmptyIndex()] = card;
             _amountOfCardsInHand++;
-            SetCardsPosition();
+            AlignCards();
         }
         public void TryRemove( CardUI card)
         {
@@ -116,7 +131,7 @@ namespace Battles.UI
 
                     _handCards[i] = null;
                     _amountOfCardsInHand--;
-                    SetCardsPosition();
+                    AlignCards();
                     return;
                 }
             }
