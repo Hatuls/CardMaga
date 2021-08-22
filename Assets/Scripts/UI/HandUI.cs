@@ -44,21 +44,16 @@ namespace Battles.UI
                 int cardAmountOffset = _cardUISO.CardAmountOffset;
                 float spaceBetweenCards = _cardUISO.GetSpaceBetweenCards;
                 float width = _cardUISO.CardAlignmentInHandHeight;
+                float maxWidth = _cardUISO.MaxWidth;
 
                 if (GetAmountOfCardsInHand > cardAmountOffset)
                 {
-                     float remain = GetAmountOfCardsInHand - cardAmountOffset;
-                   spaceBetweenCards -=  remain * _cardUISO.ScaleFactorInSpaceInHand ;
+                    float remain = GetAmountOfCardsInHand - cardAmountOffset;
+                    spaceBetweenCards = maxWidth/(GetAmountOfCardsInHand - 1);
                     width += remain * _cardUISO.YFactorPerOffsetCardInHand;
-
                 }
 
                 Vector2 cardLocation;
-
-
-                Vector2 furthestPos = _middlePositionOnScreen + ((GetAmountOfCardsInHand - 1) * Vector2.right * spaceBetweenCards);
-                float totalDistanceFromStartToEnd = Vector2.Distance(furthestPos, _middlePositionOnScreen);
-
 
                 float xPos;
                 float yPos;
@@ -76,14 +71,17 @@ namespace Battles.UI
 
                    
                     // position
-
-                    // x= i
-                    // (-X^2 + totalAmountOfCardsInHand-1 * X) /width
                     yPos = (((-(i * i) + (GetAmountOfCardsInHand - 1) * i)) / width);
 
-                    moveLeftOffset = -(totalDistanceFromStartToEnd / 2);
-                     xPos = i * spaceBetweenCards;
-
+                    if(GetAmountOfCardsInHand > cardAmountOffset)
+                    {
+                        moveLeftOffset = -(maxWidth / 2);
+                    }
+                    else
+                    {
+                        moveLeftOffset = -((GetAmountOfCardsInHand-1)*_cardUISO.GetSpaceBetweenCards)/2;
+                    }
+                    xPos = i * spaceBetweenCards;
                     cardLocation = _middlePositionOnScreen + Vector2.right * xPos;
 
                     Vector2 finalPos = cardLocation + new Vector2( moveLeftOffset,yPos);
