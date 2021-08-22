@@ -41,7 +41,7 @@ public class CraftingSlotUI : MonoBehaviour
     #endregion
     private void Start()
     {
-        Debug.Log($"{_decorImage}, {_iconImage}, {_backgroundImage},{SlotID }");
+
         slotPos = GetIconHolderRectTransform.anchoredPosition3D;
       
 

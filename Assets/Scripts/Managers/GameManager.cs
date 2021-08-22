@@ -34,7 +34,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
    
 
-        _singletons = new ISingleton[16]
+        _singletons = new ISingleton[15]
         {
             VFXManager.Instance,
             AudioManager.Instance,
@@ -48,10 +48,9 @@ public class GameManager : MonoSingleton<GameManager>
             Combo.ComboManager.Instance,
             Keywords.KeywordManager.Instance,
             Battles.Deck.DeckManager.Instance,
-            TurnHandler.Instance,
             CardUIManager.Instance,
-            BattleManager.Instance,
-            ComboRecipeHandler.Instance
+            ComboRecipeHandler.Instance,
+            BattleManager.Instance
         };
         for (int i = 0; i < _singletons.Length; i++)
             _singletons[i]?.Init();

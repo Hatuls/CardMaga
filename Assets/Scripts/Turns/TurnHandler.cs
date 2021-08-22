@@ -4,14 +4,71 @@ using System.Collections.Generic;
 using Keywords;
 using Characters.Stats;
 using Battles.UI;
-using Unity.Events;
+
 
 namespace Battles.Turns
 {
-    public interface IEventHandler {
-        void SubscribeEvents();
-        void UnSubscribeEvents();
-     }
+
+    public static class TurnHandler
+    {
+
+
+        private static Dictionary<TurnState, Turn> _turnDict = new Dictionary<TurnState, Turn>()
+                {
+                 { TurnState.Startbattle, new StartBattle() },
+                 { TurnState.StartEnemyTurn, new StartEnemyTurn() },
+                 { TurnState.EnemyTurn, new EnemyTurn() },
+                 { TurnState.EndEnemyTurn, new EndEnemyTurn() },
+                 { TurnState.StartPlayerTurn, new StartPlayerTurn() },
+                 { TurnState.PlayerTurn, new PlayerTurn() },
+                 { TurnState.EndPlayerTurn, new EndPlayerTurn() },
+                 { TurnState.EndBattle, new EndBattle() },
+                 { TurnState.NotInBattle, null },
+                };
+
+
+        private static TurnState _currectState;
+        public static TurnState CurrentState
+        {
+
+            get => _currectState;
+            private set
+            {
+                if (_currectState != value || BattleManager.isGameEnded)
+                {
+                    _currectState = value;
+                }
+
+            }
+        }
+        public static bool FinishTurn { get; set; }
+
+
+        public static void MoveToNextTurn(TurnState turnState)
+        {
+            Debug.Log("Current Turn State is " + CurrentState);
+            CurrentState = turnState;
+            Debug.Log("After update Turn State is " + CurrentState);
+        }
+        public static IEnumerator TurnCycle()
+        {
+            TurnState turn = TurnState.NotInBattle;
+            CurrentState = TurnState.Startbattle;
+            do
+            {
+                if (turn != CurrentState)
+                {
+                    turn = CurrentState;
+                    yield return _turnDict[turn].PlayTurn();
+                }
+            }
+            while (!BattleManager.isGameEnded);
+
+            CurrentState = TurnState.EndBattle;
+            yield return _turnDict[CurrentState].PlayTurn();
+        }
+    }
+
     public enum TurnState
     {
         NotInBattle,
@@ -25,167 +82,36 @@ namespace Battles.Turns
         EndBattle
     };
 
-    public class TurnHandler :MonoSingleton<TurnHandler>, IEventHandler
-    {
-        #region Fields
-        private Dictionary<TurnState, Turn> _turnDict;
-        private static TurnState _currectState;
-
-        [SerializeField] AnimatorController _playerControler;
-
-        public delegate void TurnEvent(TurnState state);
-        public static TurnEvent SetStateEvent;
-        [SerializeField] SoundsEvent _soundEvent;
-
-
-
-        private  bool _isTurnFinished;
-        public  bool IsTurnFinished
-        {
-            get => _isTurnFinished; set
-            {
-                if (_isTurnFinished != value)
-                {
-                    _isTurnFinished = value;
-                }
-            } 
-        }
-        #endregion
-
-        #region Private Methods
-        public static TurnState CurrentState
-        {
-
-          get => _currectState;
-          private  set
-            {
-                if (_currectState != value|| BattleManager.isGameEnded)
-                {
-
-                    _currectState = value;
-                    Instance.StartTurn();
-                }
-
-            }
-        }
-        private static void SetState(TurnState moveTo)
-        {
-            Debug.Log("Previous turn was: " + CurrentState);
-            CurrentState = moveTo;
-            Debug.Log("Current Turn Is: " + CurrentState );
-        }
-        private Turn GetCurrentTurn()
-        {
-            return _turnDict[CurrentState];
-        }
-        private void OnDisable()
-        {
-            UnSubscribeEvents();
-        }
-
-        #endregion
-
-        #region Public Methods
-        public void StartTurn()
-        {
-            if (GetCurrentTurn() == null)
-                return;
-          
-            StartCoroutine(GetCurrentTurn().PlayTurn());
-        }
-        public void ResetTurnHandler() { 
-         CurrentState = TurnState.NotInBattle;
-        }
-        public void PlayerEndTurn()
-        {
-            if (CurrentState == TurnState.PlayerTurn)
-            {
-                _soundEvent?.Raise(SoundsNameEnum.EndTurn);
-                CurrentState = TurnState.EndPlayerTurn;
-            }
-        }
-
-        public void FinishedExecution()
-        {
-            // need 
-            IsTurnFinished = true;
-        }
-        public void EnemyEndTurn()
-            => CurrentState = TurnState.EndEnemyTurn;
-        public void BattleEnded()
-        {
-            CurrentState = TurnState.EndBattle;
-            StopAllCoroutines();
-        }
-        public void SubscribeEvents()
-        {
-            SetStateEvent += SetState;
-        }
-        public void UnSubscribeEvents()
-        {
-            SetStateEvent -= SetState;
-        }
-
-        public override void Init()
-        {
-            if (_turnDict == null || _turnDict.Count == 0)
-            {
-                _turnDict = new Dictionary<TurnState, Turn>()
-                {
-                 {TurnState.Startbattle, new StartBattle(this) },
-                 {TurnState.StartEnemyTurn, new StartEnemyTurn(this) },
-                 {TurnState.EnemyTurn, new EnemyTurn(this) },
-                 {TurnState.EndEnemyTurn, new EndEnemyTurn(this) },
-                 {TurnState.StartPlayerTurn, new StartPlayerTurn(this) },
-                 {TurnState.PlayerTurn, new PlayerTurn(this) },
-                 {TurnState.EndPlayerTurn, new EndPlayerTurn(this ,_playerControler) },
-                 {TurnState.EndBattle, new EndBattle(this) },
-                 {TurnState.NotInBattle, null },
-                };
-
-            }
-            ResetTurnHandler();
-            SubscribeEvents();
-        }
-
-        public void ResetTurns()
-        {
-            Init();
-            CurrentState = TurnState.Startbattle;
-        }
-        #endregion
-
-    }
-
-
     public interface ITurnHandler
     {
-         TurnState GetNextTurn { get; }
-         IEnumerator PlayTurn();
-    
+        TurnState GetNextTurn { get; }
+        IEnumerator PlayTurn();
+
 
     }
-    public abstract class Turn : ITurnHandler {
-        protected TurnHandler _turnHandler;
-    
-        public Turn(TurnHandler _th)
+    public abstract class Turn : ITurnHandler
+    {
+
+
+        public Turn()
         {
-            _turnHandler = _th;
-          
+
+
         }
-     
+
         public abstract TurnState GetNextTurn { get; }
         public virtual IEnumerator PlayTurn()
         {
             if (BattleManager.isGameEnded)
                 yield break;
         }
-        protected void MoveToNextState()
-            => TurnHandler.SetStateEvent?.Invoke(GetNextTurn);
+        protected void MoveToNextTurnState()
+            => TurnHandler.MoveToNextTurn(GetNextTurn);
+
     }
     public class StartBattle : Turn
     {
-        public StartBattle(TurnHandler _th) : base(_th)
+        public StartBattle() : base()
         {
         }
 
@@ -195,13 +121,13 @@ namespace Battles.Turns
         {
             base.PlayTurn();
             yield return null;
-            MoveToNextState();
+            MoveToNextTurnState();
         }
 
     }
     public class StartEnemyTurn : Turn
     {
-        public StartEnemyTurn(TurnHandler _th) : base(_th)
+        public StartEnemyTurn() : base()
         {
         }
 
@@ -212,13 +138,13 @@ namespace Battles.Turns
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(false);
             yield return new WaitForSeconds(0.1f);
-            MoveToNextState();
+            MoveToNextTurnState();
         }
 
     }
     public class EnemyTurn : Turn
     {
-        public EnemyTurn(TurnHandler _th) : base(_th)
+        public EnemyTurn() : base()
         {
         }
 
@@ -233,13 +159,13 @@ namespace Battles.Turns
             yield return EnemyManager.Instance.GetEnemy.AssignNextCard();
 
             yield return null;
-            MoveToNextState();
+            MoveToNextTurnState();
         }
 
     }
     public class EndEnemyTurn : Turn
     {
-        public EndEnemyTurn(TurnHandler _th) : base(_th)
+        public EndEnemyTurn() : base()
         {
         }
 
@@ -255,14 +181,16 @@ namespace Battles.Turns
             yield return KeywordManager.Instance.OnEndTurnKeywords(false);
             yield return new WaitForSeconds(0.5f);
             StatsHandler.GetInstance.ResetShield(true);
-            MoveToNextState();
+            MoveToNextTurnState();
+
+
         }
 
     }
 
     public class StartPlayerTurn : Turn
     {
-        public StartPlayerTurn(TurnHandler _th) : base(_th)
+        public StartPlayerTurn() : base()
         {
         }
 
@@ -275,31 +203,36 @@ namespace Battles.Turns
             Deck.DeckManager.Instance.DrawHand(StatsHandler.GetInstance.GetCharacterStats(true).DrawCardsAmount);
             StaminaHandler.ResetStamina();
             Debug.Log("Drawing Cards!");
-            MoveToNextState();
+            MoveToNextTurnState();
         }
 
     }
     public class PlayerTurn : Turn
     {
-        public PlayerTurn(TurnHandler _th) : base(_th)
+        public PlayerTurn() : base()
         {
         }
 
-        public override TurnState GetNextTurn => TurnState.EndEnemyTurn;
+        public override TurnState GetNextTurn => TurnState.EndPlayerTurn;
 
         public override IEnumerator PlayTurn()
         {
             base.PlayTurn();
             // unlock Player Inputs 
-            _turnHandler.IsTurnFinished = false;
+            TurnHandler.FinishTurn = false;
+
+            do
+            {
             yield return null;
-     
+            } while (!TurnHandler.FinishTurn);
+
+            MoveToNextTurnState();
         }
-        
+
     }
     public class EndBattle : Turn
     {
-        public EndBattle(TurnHandler _th) : base(_th)
+        public EndBattle() : base()
         {
         }
 
@@ -311,13 +244,11 @@ namespace Battles.Turns
             yield return null;
         }
 
-    } 
+    }
     public class EndPlayerTurn : Turn
     {
-        AnimatorController _playerControler;
-        public EndPlayerTurn(TurnHandler _th, AnimatorController _playerControler) : base(_th)
-        {
-            this._playerControler = _playerControler;
+        public EndPlayerTurn() : base()
+        { 
         }
 
         public override TurnState GetNextTurn => TurnState.StartEnemyTurn;
@@ -331,12 +262,20 @@ namespace Battles.Turns
              * each animation that finished tell the CardExecutionManager to execute the keyword effects of the current card
              * and remove the current card from the placementslot
             */
+
+
             CardUIManager.Instance.RemoveHands();
             CardExecutionManager.Instance.ResetExecution();
             base.PlayTurn();
 
+            //TurnHandler.FinishTurn = false;
+            //do
+            //{
+            //    yield return null;
+            //} while (!TurnHandler.FinishTurn);
+            
 
-            yield return new WaitUntil (() => _playerControler.IsCurrentlyIdle || _turnHandler.IsTurnFinished == true);
+           // yield return new WaitUntil(() => _playerControler.IsCurrentlyIdle || TurnHandler.IsTurnFinished == true);
             CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
             Deck.DeckManager.Instance.OnEndTurn();
 
@@ -344,7 +283,7 @@ namespace Battles.Turns
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
             yield return new WaitForSeconds(0.1f);
             StatsHandler.GetInstance.ResetShield(false);
-            MoveToNextState();
+            MoveToNextTurnState();
         }
 
     }

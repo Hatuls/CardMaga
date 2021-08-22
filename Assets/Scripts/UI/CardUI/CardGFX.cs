@@ -172,9 +172,10 @@ namespace Battles.UI.CardUIAttributes
         //    }
         //    GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
         //}
-        public void SetAlpha(float amount,float time,LeanTweenType type = LeanTweenType.notUsed)
+        public void SetAlpha(float amount,float time,LeanTweenType type = LeanTweenType.notUsed, System.Action act= null)
         {
-            LeanTween.alpha(this.GetRectTransform, amount, time).setEase(type);
+            LeanTween.alpha(this.GetRectTransform, amount, time).setEase(type).setOnComplete(act);
+       
         }
         private void SetCardUIImage(Sprite img)
         => _cardBackGroundImg.sprite = img;

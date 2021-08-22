@@ -1,13 +1,17 @@
 ﻿using Unity.Events;
 using UnityEngine.UI;
 using UnityEngine;
-[RequireComponent(typeof(Button))]
-public class ButtonHandler : MonoBehaviour
-{
-    [SerializeField] VoidEvent _onButtonPressed;
-    [SerializeField] SoundsEvent _playSound;
 
-    private void OnEnable()
+using UnityEngine.Events;
+
+
+[RequireComponent(typeof(Button))]
+public  class ButtonUI : MonoBehaviour
+{
+    [SerializeField] UnityEvent _onBtnPressed;
+    [SerializeField]protected SoundsEvent _playSound;
+
+     private void OnEnable()
     {
         GetComponent<Button>().onClick.AddListener(ButtonPressed);
     }
@@ -15,9 +19,10 @@ public class ButtonHandler : MonoBehaviour
     {
        GetComponent<Button>().onClick.RemoveListener(ButtonPressed);
     }
-    public void ButtonPressed()
+
+    public virtual void ButtonPressed()
     {
-        _onButtonPressed?.Raise();
+        _onBtnPressed?.Invoke();
         _playSound?.Raise(SoundsNameEnum.ButtonTapped);
     }
 }

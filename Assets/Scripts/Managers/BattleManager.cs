@@ -2,18 +2,18 @@
 using UnityEngine;
 using System;
 using Managers;
-
+using System.Collections;
 namespace Battles
 {
     public class BattleManager : MonoSingleton<BattleManager>
     {
         [SerializeField] CharactersDictionary _charactersDictionary;
-      public  static bool isGameEnded;
+      public static bool isGameEnded;
 
         [SerializeField] Unity.Events.SoundsEvent _playSound;
 
 
-
+        IEnumerator _turnCycles;
 
 
         public static CharactersDictionary GetDictionary(Type _script)
@@ -67,14 +67,21 @@ namespace Battles
 
 
             EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharactersEnum.Enemy));
+            Instance._turnCycles = TurnHandler.TurnCycle();
 
             Deck.DeckManager.Instance.ResetDeckManager();
-            TurnHandler.Instance.ResetTurns();
+            StartGameTurns();
             Instance.StartCoroutine(Instance.BackGroundSoundDelay());
 
 
         }
-        System.Collections.IEnumerator BackGroundSoundDelay()
+
+
+        private static void StartGameTurns()
+            => Instance.StartCoroutine(Instance._turnCycles);
+
+
+        IEnumerator BackGroundSoundDelay()
         {
             yield return new WaitForSeconds(0.5f);
             _playSound?.Raise(SoundsNameEnum.CombatBackground);
@@ -83,26 +90,37 @@ namespace Battles
         }
         public static void BattleEnded(bool isPlayerDied)
         {
-
+            UI.StatsUIManager.GetInstance.UpdateHealthBar(isPlayerDied, 0);      
+            CardExecutionManager.Instance.ResetExecution();
             if (isPlayerDied)
             {
-                PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
-                EnemyManager.EnemyAnimatorController.CharacterWon();
-                if (isGameEnded == false)
-                   Instance._playSound?.Raise(SoundsNameEnum.Defeat);
+                PlayerDied();
             }
             else
             {
-             
-                PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
-                EnemyManager.EnemyAnimatorController.CharacterIsDead();
-                UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
-                Instance._playSound?.Raise(SoundsNameEnum.Victory );
+                EnemyDied();
             }
-            UI.StatsUIManager.GetInstance.UpdateHealthBar(isPlayerDied, 0);
-            CardExecutionManager.Instance.ResetExecution();
+
+
+
             isGameEnded = true;
-            TurnHandler.Instance.BattleEnded();
+            Instance.StopCoroutine(Instance._turnCycles);
+        }
+
+        private static void EnemyDied()
+        {
+            PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
+            EnemyManager.EnemyAnimatorController.CharacterIsDead();
+            UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
+            Instance._playSound?.Raise(SoundsNameEnum.Victory);
+        }
+
+        private static void PlayerDied()
+        {
+            PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
+            EnemyManager.EnemyAnimatorController.CharacterWon();
+            if (isGameEnded == false)
+                Instance._playSound?.Raise(SoundsNameEnum.Defeat);
         }
     }
 

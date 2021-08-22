@@ -223,7 +223,7 @@ public class AnimatorController : MonoBehaviour
         isFirst = true;
         _onFinishedAnimation?.Raise();
         _currentAnimation = null;
-   
+
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();
