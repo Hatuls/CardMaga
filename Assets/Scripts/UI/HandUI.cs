@@ -44,6 +44,7 @@ namespace Battles.UI
                 int cardAmountOffset = _cardUISO.CardAmountOffset;
                 float spaceBetweenCards = _cardUISO.GetSpaceBetweenCards;
                 float width = _cardUISO.CardAlignmentInHandHeight;
+
                 if (GetAmountOfCardsInHand > cardAmountOffset)
                 {
                      float remain = GetAmountOfCardsInHand - cardAmountOffset;
