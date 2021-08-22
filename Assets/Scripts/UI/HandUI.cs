@@ -80,7 +80,7 @@ namespace Battles.UI
                     _handCards[i].CardTranslations?.MoveCard(
                     true,
                  (cardLocation + Vector2.left * distance / 2) + Vector2.up * yPos,
-                    _cardUISO.GetCardFollowDelay);
+                    _cardUISO.MovementToPositionTimer);
 
 
                     //rotation
@@ -89,7 +89,7 @@ namespace Battles.UI
                     if (isEvenNumber)
                         rotation += degree / 2;
 
-                    _handCards[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+                   LeanTween.rotateZ(_handCards[i].gameObject,rotation, _cardUISO.RotationTimer);
 
                 }
                 OrderZLayers();

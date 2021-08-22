@@ -26,24 +26,16 @@ public class CardUISO : ScriptableObject
     [Tooltip("The maximum amount of cards in hand")]
     [SerializeField] int _amountOfCardsUIInHand;
 
-    [Tooltip("The amount of space between cards in hand")]
-    [SerializeField] float _amountOfSpaceBetweenCards;
+
 
     [SerializeField] float _discardDefaultTime;
 
-    [SerializeField] int _cardAmountOffset;
-    [SerializeField] float _scaleFactorInSpaceInHand;
 
-    [Range(0,0.1f)]
-    [SerializeField] float _cardAlignmentInHandHeight;
-    [Range(0,90f)]
-    [SerializeField] float _degreePerCard;
-    [SerializeField] float _yFactorPerOffsetCardInHand;
     #endregion
 
 
-    #region  Translitions
     [TitleGroup("Card UI", "CardUI", TitleAlignments.Centered, BoldTitle = true)]
+    #region  Translitions
 
     #region Discard
 
@@ -245,22 +237,71 @@ public class CardUISO : ScriptableObject
     #endregion
 
     #endregion
-    #region Properties
+
+    #region Hand UI
+    [TabGroup("Card UI/CardUI", "In Hand Settings")]
+    #region Rotation
+    [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Rotation")]
+    [Range(0, 90f)]
+    [SerializeField] float _degreePerCard;
+    [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Rotation")]
+    [Range(0, 1f)]
+    [SerializeField] float _rotationTimer;
+
+    public ref float DegreePerCard => ref _degreePerCard;
+    public ref float RotationTimer => ref _rotationTimer;
+    #endregion
+
+
+    #region Position
+
+    [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Position")]
+    [Tooltip("The amount of space between cards in hand")]
+    [SerializeField] float _amountOfSpaceBetweenCards;
+    [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Position")]
+    [SerializeField] float _movementToPositionTimer;
+    [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Position")]
+    [SerializeField] float _yFactorPerOffsetCardInHand;
     public ref float YFactorPerOffsetCardInHand => ref _yFactorPerOffsetCardInHand;
-        public ref int CardAmountOffset => ref _cardAmountOffset;
+    public ref float  MovementToPositionTimer => ref _movementToPositionTimer;
+      public ref float GetSpaceBetweenCards => ref _amountOfSpaceBetweenCards;
+    #endregion
+
+    #region Parabola (Card Alignment)
+
+    [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Card Alignment")]
+    [SerializeField] float _scaleFactorInSpaceInHand;
+    [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Card Alignment")]
+    [Range(0, 0.1f)]
+    [SerializeField] float _cardAlignmentInHandHeight;
+
+
+
+
+    [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Card Alignment")]
+    [SerializeField] int _cardAmountOffset; // need to find better solution
+
+    public ref float ScaleFactorInSpaceInHand => ref _scaleFactorInSpaceInHand;
+    public ref float CardAlignmentInHandHeight => ref _cardAlignmentInHandHeight;
+    public ref int CardAmountOffset => ref _cardAmountOffset;
+    #endregion
+    #endregion
+
+
+    #region Properties
+
         public ref float GetDelayBetweenRemovalOfEachCard => ref _delayBetweenCardsIsDiscarded;
         public ref float GetCardReturnSpeedDelay => ref _returnSpeedDelay;
-        public ref float GetSpaceBetweenCards => ref _amountOfSpaceBetweenCards;
+
         public ref int GetAmountOfCardsUIInHand => ref _amountOfCardsUIInHand;
         public ref float GetCardFollowDelay => ref _cardFollowTheTouchDelay;
         public ref float GetCardMoveToDeckDelay => ref _cardGoToDeckDelay;
         public ref float GetCardScaleDelay => ref _cardScalingDelay;
         public Vector3 GetCardUIZoomedScale => Vector3.one * _zoomedScale;
         public Vector3 GetCardDefaultScale => Vector3.one * _cardScale;
-    public ref float CardAlignmentInHandHeight => ref _cardAlignmentInHandHeight;
-    public ref float DegreePerCard => ref _degreePerCard;
 
-    public ref float ScaleFactorInSpaceInHand => ref _scaleFactorInSpaceInHand;
+
+
     #endregion
 
 }
