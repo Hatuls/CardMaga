@@ -63,6 +63,8 @@ namespace Battles.UI.CardUIAttributes
 
         Card _cardReferenceInHandDeck;
 
+        [SerializeField] CanvasGroup _canvasGroup;
+
 
 
 
@@ -79,7 +81,7 @@ namespace Battles.UI.CardUIAttributes
 
         #region Contructor
 
-        public CardGFX() { }
+        public CardGFX(){}
         #endregion
 
         #region Methods
@@ -172,9 +174,9 @@ namespace Battles.UI.CardUIAttributes
         //    }
         //    GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
         //}
-        public void SetAlpha(float amount,float time,LeanTweenType type = LeanTweenType.notUsed)
+        public void SetAlpha(float amount,float time,LeanTweenType type = LeanTweenType.notUsed, System.Action actionAfterAlpha = null)
         {
-            LeanTween.alpha(this.GetRectTransform, amount, time).setEase(type);
+            LeanTween.alphaCanvas(_canvasGroup, amount, time).setEase(type).setOnComplete(actionAfterAlpha);
         }
         private void SetCardUIImage(Sprite img)
         => _cardBackGroundImg.sprite = img;

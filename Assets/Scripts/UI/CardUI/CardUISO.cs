@@ -270,8 +270,6 @@ public class CardUISO : ScriptableObject
     #region Parabola (Card Alignment)
 
     [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Card Alignment")]
-    [SerializeField] float _scaleFactorInSpaceInHand;
-    [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Card Alignment")]
     [Range(0, 0.1f)]
     [SerializeField] float _cardAlignmentInHandHeight;
     [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Card Alignment")]
@@ -282,7 +280,7 @@ public class CardUISO : ScriptableObject
     [TabGroup("Card UI/CardUI/In Hand Settings/Params", "Card Alignment")]
     [SerializeField] int _cardAmountOffset; // need to find better solution
 
-    public ref float ScaleFactorInSpaceInHand => ref _scaleFactorInSpaceInHand;
+
     public ref float CardAlignmentInHandHeight => ref _cardAlignmentInHandHeight;
     public ref int CardAmountOffset => ref _cardAmountOffset;
     #endregion

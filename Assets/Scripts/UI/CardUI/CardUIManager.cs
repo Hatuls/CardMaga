@@ -93,9 +93,10 @@ namespace Battles.UI
                     if (CardUIArr[i].gameObject.activeInHierarchy == false || CardUIArr[i].gameObject.activeSelf == false)
                     {
 
+                        CardUIArr[i].CardTranslations?.SetScale(_cardUISettings.StartScaleSize*Vector3.one, Time.deltaTime);
                         CardUIArr[i].gameObject.SetActive(true);
                         CardUIArr[i].CardTranslations?.SetPosition(pos);
-                        CardUIArr[i].CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime);
+                        CardUIArr[i].CardTranslations.SetRotation(Vector3.zero);
                         AssignDataToCardUI(CardUIArr[i], cardData);
 
                         if (CardUIArr[i].Inputs != null)
@@ -261,12 +262,11 @@ namespace Battles.UI
             }
             else
             {
-
-
                 TryRemoveFromHandUI(card);
                 card.CardTranslations?.MoveCard(true, Vector2.zero, _cardUISettings.GetCardMoveToDeckDelay);
                 card.CardTranslations?.SetScale(_cardUISettings.GetCardUIZoomedScale, _cardUISettings.GetCardScaleDelay);
                 _zoomedCard = card;
+                _zoomedCard.CardTranslations?.SetRotation(Vector3.zero);
             }
 
             _soundEvent?.Raise(SoundsNameEnum.TapCard);
@@ -457,7 +457,6 @@ namespace Battles.UI
             {
                 if (cards[i] == null)
                     continue;
-
                 MoveCardUI(cards[i], destination);
 
                 yield return new WaitForSeconds(_cardSettings.DelayTillDrawNextCard);
@@ -478,9 +477,9 @@ namespace Battles.UI
             _soundEvent?.Raise(SoundsNameEnum.DrawCard);
 
             //set their alpha
-
-            LeanTween.alpha(cardUIRect, _cardSettings.StartAlphaAmount, 0.01f).setOnComplete(() =>
-            LeanTween.alpha(cardUIRect, 1, _cardSettings.AlphaDrawTime).setEase(_cardSettings.AlphaDrawTweenType));
+            card.GFX.SetAlpha(_cardSettings.StartAlphaAmount, 0.001f, LeanTweenType.notUsed, () => { card.GFX.SetAlpha(1, _cardSettings.AlphaDrawTime, _cardSettings.AlphaDrawTweenType); }); 
+            //LeanTween.alpha(cardUIRect, _cardSettings.StartAlphaAmount, 0.001f).setOnComplete(() =>
+            //LeanTween.alpha(cardUIRect, 1, _cardSettings.AlphaDrawTime).setEase(_cardSettings.AlphaDrawTweenType));
 
             // set 
             card.CardTranslations?.SetScale(Vector3.one, _cardSettings.ScaleDrawTime);
@@ -490,5 +489,6 @@ namespace Battles.UI
             LeanTween.moveX(cardUIRect, destination.x, _cardSettings.DrawTransitionXTime).setEase(_cardSettings.DrawMoveOnXLeanTweenType)
                 .setOnComplete(() => _hand.Add(card));
         }
+        
     }
 }
