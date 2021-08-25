@@ -6,7 +6,7 @@ namespace Cards
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
     public class CardSO : ScriptableObject
     {
-
+    
         #region Fields
         [TitleGroup("CardData", BoldTitle =true, Alignment = TitleAlignments.Centered)]  
      
@@ -33,7 +33,9 @@ namespace Cards
         CardType _cardData;
 
 
-
+        [TabGroup("CardData/Info", "Data")]
+        [Tooltip("What Type Of Card Is It?")]
+        CraftingSettings _comboCraftingSettings;
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
       
@@ -79,11 +81,21 @@ namespace Cards
         public AnimationBundle GetAnimationBundle => _animationBundle;
         public BodyPartEnum GetBodyPartEnum => _cardData._bodyPart;
         public int GetStaminaCost => _staminaCost;
+        public CraftingSettings ComboCraftingSettings => _comboCraftingSettings;
         public KeywordData[] GetCardsKeywords => _keywords;
         public KeywordData[] GetAdditionalKeywords => _upgrateKeywords;
         public ref int GetKeyWordMaxLevel => ref _maxUpgradeLevel;
         public ref int GetCardLevelToUnlockKeywords => ref _whenUnlockNewKeywords;
         #endregion
+
+
+
+        [System.Serializable]
+        public class CraftingSettings
+        {
+            public Location _startPosition = Location.Drawpile;
+            public Battles.Deck.DeckEnum _destination;
+        }
 
 
     }

@@ -28,7 +28,10 @@ namespace Battles.UI
         [SerializeField] RectTransform _discardDeckPosition;
 
         [Tooltip("Exhaust Card position")]
-        [SerializeField] RectTransform _exhaustDeckPosition;
+        [SerializeField] RectTransform _exhaustDeckPosition;    
+        
+        [Tooltip("Exhaust Card position")]
+        [SerializeField] RectTransform _craftingBtnPosition;
 
         [Tooltip("Card UI Settings")]
         [SerializeField] CardUISO _cardUISettings;
@@ -80,8 +83,18 @@ namespace Battles.UI
         #endregion
 
         #region Private Methods
+        public CardUI ActivateCard(Card card, Location loc)
+            => ActivateCard(card, GetLocation(loc));
+        
+       
+        internal void CreateCardUI(Card addedCard, DeckEnum toDeck)
+        {
+            var cardui  = ActivateCard(addedCard, addedCard.GetSetCard.ComboCraftingSettings._startPosition);
+            var handler = GetCardUIHandler<CraftCardUIHandler>();
+            StartCoroutine(handler.MoveCardsUI(new CardUI [1] { cardui }, GetLocation(addedCard.GetSetCard.ComboCraftingSettings._startPosition) , GetDeckPosition(toDeck)));
+        }
 
-        internal CardUI ActivateCard(Card cardData, Vector2 pos)
+        public CardUI ActivateCard(Card cardData, Vector2 pos)
         {
             if (cardData != null)
             {
@@ -133,6 +146,34 @@ namespace Battles.UI
                 default:
                     return Vector3.zero;
             }
+        }
+        public Vector2 GetLocation(Location loc)
+        {
+            Vector2 location = Vector2.zero;
+            switch (loc)
+            {
+                case Location.Hand:
+                    location = _handMiddlePosition.anchoredPosition3D;
+                    break;
+                case Location.Discard:
+                    location = _discardDeckPosition.anchoredPosition3D;
+                    break;
+                case Location.Exhaust:
+                    location = _exhaustDeckPosition.anchoredPosition3D;
+                    break;
+                case Location.Drawpile:
+                    location = _drawDeckPosition.anchoredPosition3D;
+                    break;
+                case Location.Crafting:
+                    location = _craftingBtnPosition.anchoredPosition3D;
+                    break;
+                case Location.MiddleScreenPosition:
+                    location = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight) / 2;
+                    break;
+                default:
+                    break;
+            }
+            return location;
         }
         #endregion
 
@@ -222,6 +263,10 @@ namespace Battles.UI
             }
             return null;
         }
+
+
+
+
         public void SetCardUI(CardUI cardUI)
         {
             if (cardUI == null)
@@ -434,7 +479,19 @@ namespace Battles.UI
     }
 
 
+    public class CraftCardUIHandler : CardUITransition
+    {
+        HandUI _hand;
+        public CraftCardUIHandler(HandUI hand,CardUIManager cuim, CardUISO so, SoundsEvent soundEvent) : base(cuim, so, soundEvent)
+        {
+            _hand = hand;
+        }
 
+        public override IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination, Vector2 startPos)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
 
 

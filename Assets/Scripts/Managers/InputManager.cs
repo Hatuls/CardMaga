@@ -66,12 +66,9 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
             case TouchPhase.Ended:
             case TouchPhase.Canceled:
                 OnReleaseTouch(in _touchPosOnScreen);
-
                 break;
 
             case TouchPhase.Stationary:
-                return;
-
             case TouchPhase.Moved:
                 if (Vector3.Distance(_firstTouchLocation, _touchPosOnScreen) > 0.5f)
                 OnHoldTouch(in _touchPosOnScreen);
