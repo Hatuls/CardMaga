@@ -15,8 +15,6 @@ namespace Keywords
         [Tooltip("KeywordData")]
         [SerializeField] KeywordSO _keywordBase;
         
-        [Tooltip("is activated only if its the last card")]
-        [SerializeField] bool _isLCE;
 
         [Tooltip("Who is affected by it")]
         [SerializeField] TargetEnum _target;
@@ -42,7 +40,7 @@ namespace Keywords
         public  TargetEnum GetTarget => _target;
         public int GetAmountToApply => _amountToApply;
         public int GetUpgradedAmount =>  _upgradeBonusAmount;
-        public bool GetIsLCE => _isLCE;
+      
         public KeywordSO GetKeywordSO => _keywordBase;
         #endregion
 

@@ -46,9 +46,13 @@ namespace Cards
 
         [Space]
         [TabGroup("CardData/Info", "Data")]
-        [Header("Mana:")]
         [Tooltip("How much stamina the card cost")]
         [SerializeField] int _staminaCost = 1;
+
+        [TabGroup("CardData/Info", "Data")]
+        [Tooltip("How much coins the card cost")]
+        [SerializeField] int _moneyCost = 1;
+
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How Many Times This Card Can Be Upgraded")]
@@ -76,7 +80,7 @@ namespace Cards
         public string GetCardName => _cardName;
         public ref Sprite GetCardImage => ref _cardImage;
         public ref string GetCardDescription => ref _cardDescription;
-
+        public ref int MoneyCost => ref _moneyCost;
         public CardTypeEnum GetCardTypeEnum => _cardData._cardType;
         public AnimationBundle GetAnimationBundle => _animationBundle;
         public BodyPartEnum GetBodyPartEnum => _cardData._bodyPart;

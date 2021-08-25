@@ -23,16 +23,13 @@ public class CardIconCollectionSO : ScriptableObject
                 return _bodyPartIcons[0];
             case Cards.BodyPartEnum.Elbow:
                 return _bodyPartIcons[1];
-            case Cards.BodyPartEnum.Fist:
+            case Cards.BodyPartEnum.Hand:
                 return _bodyPartIcons[2];
             case Cards.BodyPartEnum.Knee:
                 return _bodyPartIcons[3];
-            case Cards.BodyPartEnum.Feet:
+            case Cards.BodyPartEnum.Leg:
                 return _bodyPartIcons[4];
-            case Cards.BodyPartEnum.Duck:
-                return _bodyPartIcons[5];
-            case Cards.BodyPartEnum.Jump:
-                return _bodyPartIcons[6];
+
         }
     }
   

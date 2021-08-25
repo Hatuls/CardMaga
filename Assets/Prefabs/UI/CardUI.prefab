@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7207974118205899442}
   - component: {fileID: 2052857716122849978}
   - component: {fileID: 415205226435449388}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 1637398848127257329}
   - component: {fileID: 4888775856654741076}
   - component: {fileID: 4441633518910315168}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 6052968588817637418}
   - component: {fileID: 6523385025133847138}
   - component: {fileID: 7193801864731585294}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardBodyPartDecor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 3123189866085153729}
   - component: {fileID: 2945321236317077081}
   - component: {fileID: 3256127979291747761}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Picture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 7976741988062946986}
   - component: {fileID: 2961471210862427455}
   - component: {fileID: 5071510716475229296}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardBodyPartContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 8850385214363956496}
   - component: {fileID: 6008082575066586593}
   - component: {fileID: 5792312349560019021}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -528,7 +528,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 774836082844172173}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardPieces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -574,7 +574,7 @@ GameObject:
   - component: {fileID: 2979375098066409005}
   - component: {fileID: 6284364027230386083}
   - component: {fileID: 366754208367723123}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: StaminaText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -707,7 +707,7 @@ GameObject:
   - component: {fileID: 4837311293490256433}
   - component: {fileID: 1615647628051729904}
   - component: {fileID: 7453504031560551904}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -840,7 +840,7 @@ GameObject:
   - component: {fileID: 8712365270575468899}
   - component: {fileID: 8538090340189768670}
   - component: {fileID: 5129844443970444571}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardStaminaDecor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -913,7 +913,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6643414198188345171}
   - component: {fileID: 6643414198188345169}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: CardBGPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -938,7 +938,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 170, y: 235}
+  m_SizeDelta: {x: 280, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6643414198188345169
 CanvasRenderer:
@@ -961,7 +961,8 @@ GameObject:
   - component: {fileID: 5896733370288645620}
   - component: {fileID: 3816590915777760927}
   - component: {fileID: 5064769893490256158}
-  m_Layer: 8
+  - component: {fileID: 396468894783928062}
+  m_Layer: 5
   m_Name: CardUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -986,7 +987,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 170, y: 235}
+  m_SizeDelta: {x: 280, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4185218193788805487
 MonoBehaviour:
@@ -1016,10 +1017,8 @@ MonoBehaviour:
     _canvasGroup: {fileID: 3816590915777760927}
   _canvasGroup: {fileID: 3816590915777760927}
   Card: 1
+  _zoomCardEvent: {fileID: 11400000, guid: b001bc32e27cdf04d9edd46238baf45b, type: 2}
   _selectCardEvent: {fileID: 11400000, guid: 5a5784c11b887204d8953718a892f433, type: 2}
-  _removeCardEvent: {fileID: 11400000, guid: ee53c415560718943970edeb80198761, type: 2}
-  _onClickedCardEvent: {fileID: 11400000, guid: b001bc32e27cdf04d9edd46238baf45b,
-    type: 2}
 --- !u!61 &5896733370288645620
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1071,6 +1070,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!95 &396468894783928062
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6643414198357883797}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f802a34b227b56f4f94d9167f163be06, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7188777341924937267
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,7 +1100,7 @@ GameObject:
   - component: {fileID: 1682894646449585935}
   - component: {fileID: 4819606947929620738}
   - component: {fileID: 1872566181738943986}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardBackgroundDecor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1156,7 +1174,7 @@ GameObject:
   - component: {fileID: 3688214084395128741}
   - component: {fileID: 2583961783773711900}
   - component: {fileID: 123921712213845577}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardStamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1231,7 +1249,7 @@ GameObject:
   - component: {fileID: 4455634327584057670}
   - component: {fileID: 5752167404976098683}
   - component: {fileID: 6869177425174515660}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardBodyPartIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

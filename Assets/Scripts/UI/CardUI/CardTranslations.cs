@@ -5,6 +5,7 @@ namespace Battles.UI.CardUIAttributes
 {
     public class CardTranslations
     {
+       // public Vector2 cardReturnPosition;
         RectTransform _rectTransform;
         public CardTranslations( RectTransform rectTransform)
         {
@@ -36,7 +37,10 @@ namespace Battles.UI.CardUIAttributes
             else
                 _rectTransform.position = Vector2.Lerp(_rectTransform.position, moveTo, seconds);
         }
-
+        public void CancelAllTweens()
+        {
+            LeanTween.cancelAll(true);
+        }
         public void MoveCardX(float destination, float time, bool? SetActiveLater= null ,LeanTweenType type = LeanTweenType.notUsed)
         {
             if (SetActiveLater == null)
@@ -80,6 +84,9 @@ namespace Battles.UI.CardUIAttributes
         }
 
 
-       
+       public void SetRotation(float zRotation, float time , LeanTweenType type = LeanTweenType.notUsed, System.Action action = null)
+        {
+            LeanTween.rotate(_rectTransform.gameObject,Vector3.forward* zRotation, time).setEase(type).setOnComplete(action);
+        }
     }
 }

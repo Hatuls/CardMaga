@@ -47,13 +47,13 @@ public class TouchAbleBase : IPointerClickHandler , IPointerDownHandler , IPoint
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        _SetInput?.Raise(this);
+       // _SetInput?.Raise(this);
        
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        _SetInput?.Raise(this);
+     //   _SetInput?.Raise(this);
     
     }
 

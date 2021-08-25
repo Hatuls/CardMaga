@@ -9,7 +9,7 @@ using System;
 
 namespace Battles.UI
 {
-    public class CardUIManager : MonoSingleton<CardUIManager>, ITouchable
+    public class CardUIManager : MonoSingleton<CardUIManager>
     {
         #region Field
         [Tooltip("List of cards that UI Know About")]
@@ -31,7 +31,12 @@ namespace Battles.UI
         [SerializeField] RectTransform _exhaustDeckPosition;    
         
         [Tooltip("Exhaust Card position")]
-        [SerializeField] RectTransform _craftingBtnPosition;
+        [SerializeField] RectTransform _craftingBtnPosition;     
+        
+
+
+        [Tooltip("Exhaust Card position")]
+        [SerializeField] RectTransform _draggableLocation;
 
         [Tooltip("Card UI Settings")]
         [SerializeField] CardUISO _cardUISettings;
@@ -269,52 +274,50 @@ namespace Battles.UI
 
         public void SetCardUI(CardUI cardUI)
         {
-            if (cardUI == null)
-            {
-                Debug.LogError("Error in Set Card UI");
-                return;
-            }
-            //  Debug.Log("Card Was Set");
-            InputManager.Instance.AssignObjectFromTouch(this);
-            DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.GFX.GetCardReference);
-            ClickedCardUI = cardUI;
-            _soundEvent?.Raise(SoundsNameEnum.SelectCard);
+            //if (cardUI == null)
+            //{
+            //    Debug.LogError("Error in Set Card UI");
+            //    return;
+            //}
+            //DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.GFX.GetCardReference);
+            //ClickedCardUI = cardUI;
+            //_soundEvent?.Raise(SoundsNameEnum.SelectCard);
         }
         public void AddToHandUI(CardUI cache)
         {
-            cache?.GFX.GlowCard(false);
-            _handUI.Add(cache);
+            //cache?.GFX.GlowCard(false);
+            //_handUI.Add(cache);
         }
         public void TryRemoveFromHandUI(CardUI cache)
         {
 
-            if (_zoomedCard != null)
-            {
-                AddToHandUI(_zoomedCard);
-                _zoomedCard.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
-                _zoomedCard = null;
-            }
-            _handUI.TryRemove(cache);
+            //if (_zoomedCard != null)
+            //{
+            //    AddToHandUI(_zoomedCard);
+            //    _zoomedCard.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
+            //    _zoomedCard = null;
+            //}
+            //_handUI.TryRemove(cache);
         }
         public void OnClickedCardUI(CardUI card)
         {
 
-            if (card.GFX.GetRectTransform.localScale == _cardUISettings.GetCardUIZoomedScale)
-            {
-                _zoomedCard = null;
-                AddToHandUI(card);
-                card.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
-            }
-            else
-            {
-                TryRemoveFromHandUI(card);
-                card.CardTranslations?.MoveCard(true, Vector2.zero, _cardUISettings.GetCardMoveToDeckDelay);
-                card.CardTranslations?.SetScale(_cardUISettings.GetCardUIZoomedScale, _cardUISettings.GetCardScaleDelay);
-                _zoomedCard = card;
-                _zoomedCard.CardTranslations?.SetRotation(Vector3.zero);
-            }
+            //if (card.GFX.GetRectTransform.localScale == _cardUISettings.GetCardUIZoomedScale)
+            //{
+            //    _zoomedCard = null;
+            //    AddToHandUI(card);
+            //    card.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
+            //}
+            //else
+            //{
+            //    TryRemoveFromHandUI(card);
+            //    card.CardTranslations?.MoveCard(true, Vector2.zero, _cardUISettings.GetCardMoveToDeckDelay);
+            //    card.CardTranslations?.SetScale(_cardUISettings.GetCardUIZoomedScale, _cardUISettings.GetCardScaleDelay);
+            //    _zoomedCard = card;
+            //    _zoomedCard.CardTranslations?.SetRotation(Vector3.zero);
+            //}
 
-            _soundEvent?.Raise(SoundsNameEnum.TapCard);
+            //_soundEvent?.Raise(SoundsNameEnum.TapCard);
         }
 
         public void StartRemoveProcess()
@@ -327,60 +330,138 @@ namespace Battles.UI
             ClickedCardUI = null;
 
             var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
-            StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal),GetDeckPosition(DeckEnum.Hand)));
+            StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal), GetDeckPosition(DeckEnum.Hand)));
 
 
+        }
+        private CardUI _holdingCardUI;
+        public void SelectCardUI(CardUI card)
+        {
+            if (card == _holdingCardUI)
+               return;
+
+            if (_holdingCardUI!= null)
+            {
+                RemoveCardUI();
+            }
+            _zoomedCard = null;
+            _holdingCardUI = card;
+
+            if (_holdingCardUI != null)
+             AssignCardUI();
+        }
+        private void AssignCardUI()
+        {     
+            _handUI.TryRemove(_holdingCardUI);
+
+            DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, _holdingCardUI.GFX.GetCardReference);
+           _holdingCardUI.CardTranslations.CancelAllTweens();
+            _holdingCardUI.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
+           _holdingCardUI.CardTranslations.MoveCard(true, _draggableLocation.anchoredPosition3D, 0.3f);
+           _holdingCardUI.GFX.GlowCard(false);
+            _holdingCardUI.CardAnimator.ScaleAnimation(0);
+            _soundEvent?.Raise(SoundsNameEnum.TapCard);
+        }
+        private void RemoveCardUI()
+        {
+            _holdingCardUI.GFX.GlowCard(false);
+            DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, _holdingCardUI.GFX.GetCardReference);
+            _handUI.LockCardsInput(false);
+            _handUI.Add(_holdingCardUI);
+        }
+        public void ZoomCard(CardUI card)
+        {
+            if (card == _zoomedCard)
+                return;
+
+            if (_zoomedCard != null)
+            {
+                ResetZoom();
+
+            }
+            Debug.Log("Zoomed Event");
+
+            _holdingCardUI = null;
+            _zoomedCard = card;
+
+            if (_zoomedCard != null)
+                ZoomInCard();
+
+        }
+        private void ZoomInCard()
+        {
+                 _handUI.LockCardsInput(true);
+                 _zoomedCard.transform.SetSiblingIndex(_handUI.GetAmountOfCardsInHand);
+                 _zoomedCard.Inputs.GetCanvasGroup.blocksRaycasts = false;
+                 _zoomedCard.CardTranslations?.MoveCard(true, Vector2.zero, _cardUISettings.GetCardMoveToDeckDelay);
+                 _zoomedCard.CardAnimator.ScaleAnimation(1);
+                 _zoomedCard.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
+                 _zoomedCard.GFX.GlowCard(true);
+                 _soundEvent?.Raise(SoundsNameEnum.TapCard);
+
+        }
+        private void ResetZoom()
+        {
+            //return to start position
+            _handUI.LockCardsInput(false);
+            _zoomedCard.GFX.GlowCard(false);
+            _zoomedCard.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Hand;
+            _zoomedCard.CardAnimator.ScaleAnimation(0);
+
+            _handUI.AlignCards();
+     
+       //     _zoomedCard; 
         }
         #endregion
 
         #region Touching Cards
-        public void OnFirstTouch(in Vector2 touchPos)
-        {
-            if (ClickedCardUI == null)
-                return;
-            Debug.Log("Card UI: OnFirstTouch, scaling card");
+        //public void OnFirstTouch(in Vector2 touchPos)
+        //{
+        //    if (ClickedCardUI == null)
+        //        return;
+        //    Debug.Log("Card UI: OnFirstTouch, scaling card");
 
-            TryRemoveFromHandUI(ClickedCardUI);
-        }
+        //    TryRemoveFromHandUI(ClickedCardUI);
+        //}
 
-        public void OnReleaseTouch(in Vector2 touchPos)
-        {
-            if (ClickedCardUI == null)
-                return;
+        //public void OnReleaseTouch(in Vector2 touchPos)
+        //{
+        //    if (ClickedCardUI == null)
+        //        return;
 
-            if (_isTryingToPlace) // placed on placement Destination
-            {
-                Debug.Log("Placed On");
-                /*
-                _handUI.Remove(ref GetClickedCardUI);
-                _placementUI.GetCurrentSlot.SetImage(
-                    Battles.Deck.DeckManager.Instance.GetCardFromDeck(Battles.Deck.DeckEnum.Placement)[_placementUI.GetCurrentSlot.GetSlotID].GetSetCard.GetCardImage);
-            */
-                _isTryingToPlace = false;
-            }
-            else
-            {
-                AddToHandUI(ClickedCardUI);
+        //    if (_isTryingToPlace) // placed on placement Destination
+        //    {
+        //        Debug.Log("Placed On");
+        //        /*
+        //        _handUI.Remove(ref GetClickedCardUI);
+        //        _placementUI.GetCurrentSlot.SetImage(
+        //            Battles.Deck.DeckManager.Instance.GetCardFromDeck(Battles.Deck.DeckEnum.Placement)[_placementUI.GetCurrentSlot.GetSlotID].GetSetCard.GetCardImage);
+        //    */
+        //        _isTryingToPlace = false;
+        //    }
+        //    else
+        //    {
+        //        AddToHandUI(ClickedCardUI);
 
-                if (ClickedCardUI.Inputs != null)
-                    ClickedCardUI.Inputs.GetCanvasGroup.blocksRaycasts = true;
+        //        if (ClickedCardUI.Inputs != null)
+        //            ClickedCardUI.Inputs.GetCanvasGroup.blocksRaycasts = true;
 
-                ClickedCardUI.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime);
-                ClickedCardUI = null;
-            }
+        //        ClickedCardUI.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, Time.deltaTime);
+        //        ClickedCardUI = null;
+        //    }
 
 
 
-        }
+        //}
 
-        public void OnHoldTouch(in Vector2 touchPos)
-        {
-            if (ClickedCardUI != null)
-            {
-                ClickedCardUI.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
-                ClickedCardUI.CardTranslations?.MoveCard(false, touchPos, _cardUISettings.GetCardFollowDelay);
-            }
-        }
+        //public void OnHoldTouch(in Vector2 touchPos)
+        //{
+        //    if (ClickedCardUI != null)
+        //    {
+        //        ClickedCardUI.CardTranslations?.SetScale(_cardUISettings.GetCardDefaultScale, _cardUISettings.GetCardScaleDelay);
+        //        ClickedCardUI.CardTranslations?.MoveCard(false, touchPos, _cardUISettings.GetCardFollowDelay);
+        //    }
+        //}
 
         #endregion
 
@@ -420,7 +501,7 @@ namespace Battles.UI
             { 
                 if (cards[i] == null)
                     continue;
-       _cardUIManager.StartCoroutine(DiscardCard(cards[i], destination));
+                _cardUIManager.StartCoroutine(DiscardCard(cards[i], destination));
 
                 yield return new WaitForSeconds(_cardSettings.DelayBetweenCardsIsDiscarded);
 
@@ -461,7 +542,7 @@ namespace Battles.UI
 
     //CardUI card = ClickedCardUI;
     //            ClickedCardUI = null;
-                InputManager.Instance.RemoveObjectFromTouch();
+                InputManager.Instance.ResetTouch();
             for (int i = 0; i < cards.Length; i++)
             { 
                 if (cards[i] == null)

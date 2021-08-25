@@ -34,7 +34,7 @@ namespace Battles.UI
             _cardUISO = cardUISO;
         }
 
-        private void AlignCards()
+        public void AlignCards()
         {
             OrderArray();
 
@@ -95,10 +95,21 @@ namespace Battles.UI
 
                     SetCardUIRotation(ref i, ref amountOfIndexInOneSide, ref degree, ref isEvenNumber);
 
+
                 }
                 OrderZLayers();
             }
         }
+        public void LockCardsInput(bool toLock)
+        {
+            for (int i = 0; i < _amountOfCardsInHand; i++)
+            {
+                if (_handCards[i]?.Inputs?.CurrentState != CardUIAttributes.CardInputs.CardUIInput.Zoomed &&_handCards[i]?.Inputs?.CurrentState !=  CardUIAttributes.CardInputs.CardUIInput.Hold)
+                _handCards[i].Inputs.CurrentState = toLock ? CardUIAttributes.CardInputs.CardUIInput.Locked : CardUIAttributes.CardInputs.CardUIInput.Hand;
+            }
+        }
+
+
         private void SetCardUIRotation(ref int index,ref int amountOfIndexInOneside,ref float degree,ref bool isEvenNumber)
         {
              //rotation
@@ -107,8 +118,13 @@ namespace Battles.UI
                     if (isEvenNumber)
                         rotation += degree / 2;
 
-              LeanTween.rotateZ(_handCards[index].gameObject ,rotation, _cardUISO.RotationTimer);
+            _handCards[index].CardTranslations.SetRotation(rotation, _cardUISO.RotationTimer);
+          //    LeanTween.rotateZ(_handCards[index].gameObject ,rotation, _cardUISO.RotationTimer);
         }
+
+
+
+
         public void Add( CardUI card)
         {
             for (int i = 0; i < _handCards.Length; i++)
@@ -116,6 +132,7 @@ namespace Battles.UI
                 if (_handCards[i] == card)
                     return;
             }
+            card.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Hand;
             _handCards[GetEmptyIndex()] = card;
             _amountOfCardsInHand++;
             AlignCards();

@@ -6,7 +6,7 @@ using Battles.UI.CardUIAttributes;
 namespace Battles.UI
 {
 
-    public class CardUI : MonoBehaviour
+    public class CardUI : MonoBehaviour , IInputAbleObject
     {
         #region Fields
         [SerializeField]
@@ -16,7 +16,7 @@ namespace Battles.UI
         [HideInInspector]
         [SerializeField]
         private CanvasGroup _canvasGroup;
-
+        private CardAnimator _cardAnimator;
         private CardInputs _inputs;
 
         private CardTranslations _cardTranslations;
@@ -32,8 +32,9 @@ namespace Battles.UI
 
             Touchable = 1 << 1,
 
-            Moveable = 1 << 2
+            Moveable = 1 << 2,
 
+            With_Animations = 1<<3
                 /*
                  *  0000 0
                  *  0001 2^0
@@ -69,9 +70,8 @@ namespace Battles.UI
         #region Events
         [Space]
         [Header("Events")]
+        [SerializeField] CardUIEvent _zoomCardEvent;
         [SerializeField] CardUIEvent _selectCardEvent;
-        [SerializeField] CardUIEvent _removeCardEvent;
-        [SerializeField] CardUIEvent _onClickedCardEvent;
         #endregion
 
 
@@ -84,7 +84,7 @@ namespace Battles.UI
             get
             {
                 if (_inputs == null && (Card & CardUISettings.Touchable) == CardUISettings.Touchable)
-                    _inputs = new CardInputs( _canvasGroup,  _selectCardEvent,  _removeCardEvent,  _onClickedCardEvent, this);
+                    _inputs = new CardInputs( _canvasGroup,GFX.GetRectTransform, _zoomCardEvent , _selectCardEvent, this);
                 return  _inputs;
             }
         }
@@ -99,6 +99,40 @@ namespace Battles.UI
                 return  _cardTranslations;
             }
         }
+        public CardAnimator CardAnimator
+        {
+            get
+            {
+                if (_cardAnimator == null &&
+                                 ((Card & CardUISettings.With_Animations) == CardUISettings.With_Animations))
+                    _cardAnimator = new CardAnimator(_cardGFX.GetRectTransform);
+
+                return _cardAnimator;
+            }
+        }
+        public ITouchable GetTouchAbleInput => ((Card & CardUISettings.Touchable) == CardUISettings.Touchable) ? Inputs : null;
         #endregion
     }
+}
+
+
+
+public class CardAnimator
+{
+    Animator _animator;
+    RectTransform _rect;
+
+    float _scaleAmount = 1;
+    public CardAnimator(RectTransform rect)
+    {
+        _rect = rect;
+        _animator = _rect.GetComponent<Animator>();
+    }
+
+    public void ScaleAnimation(float amount)
+    {
+        _animator.SetFloat("Scale",amount);
+    }
+
+
 }

@@ -33,7 +33,8 @@ public class AudioManager : MonoSingleton<AudioManager>
         for (int i = 0; i < audio.Length; i++)
         {
             AudioDictionary.Add(audio[i].SoundsNameEnum, audio[i]);
-            yield return null;
+            if (i % 3 == 0)
+                yield return null;
         }
 
         Debug.Log("Audio Loaded Complete");
@@ -78,7 +79,7 @@ public class AudioManager : MonoSingleton<AudioManager>
             if (AudioDictionary.ContainsKey(nameOfSound))
                 PlayAudioSource(AudioDictionary[nameOfSound]);
             else
-                throw new Exception("Song Was Not Found In Resource Folder!");
+                throw new Exception("Song Was Not Found In Resource Folder! - " + nameOfSound.ToString());
         }
     }
     // queue to add sounds 
