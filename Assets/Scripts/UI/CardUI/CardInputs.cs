@@ -123,7 +123,9 @@ namespace Battles.UI.CardUIAttributes
 
                 case CardUIInput.Hold:
                 case CardUIInput.Hand:
-                    _canvasGroup.blocksRaycasts = false;
+                    if (InputManager.inputState ==  InputManager.InputState.Touch)
+                     _canvasGroup.blocksRaycasts = false;
+
                     InputManager.Instance.AssignObjectFromTouch(this, eventData.position);
 
                     //_removeCardEvent?.Raise(_thisCard);

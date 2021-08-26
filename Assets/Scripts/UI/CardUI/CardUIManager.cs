@@ -274,7 +274,7 @@ namespace Battles.UI
 
   
 
-  public void LockHandCards(bool value)
+          public void LockHandCards(bool value)
         => _handUI.LockCardsInput(value);
         #endregion
 
