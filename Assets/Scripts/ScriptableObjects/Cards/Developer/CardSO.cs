@@ -47,7 +47,10 @@ namespace Cards
         [Space]
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much stamina the card cost")]
-        [SerializeField] int _staminaCost = 1;
+        [SerializeField] int _staminaCost = 1;    
+        [TabGroup("CardData/Info", "Data")]
+        [Tooltip("When Activated is Exhausted")]
+        [SerializeField] bool _toExhaust = false;
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much coins the card cost")]
@@ -75,6 +78,7 @@ namespace Cards
         #endregion
 
         #region Properties
+        public ref bool ToExhaust => ref _toExhaust;
         public CardType GetCardType => _cardData;
         public RarityEnum GetCardsRarityLevel => _cardData._rarityLevel;
         public string GetCardName => _cardName;

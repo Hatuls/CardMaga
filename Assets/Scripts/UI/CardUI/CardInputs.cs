@@ -10,15 +10,12 @@ namespace Battles.UI.CardUIAttributes
     {
         public enum CardUIInput {None =0 , Locked= 1, Hold = 2,Hand =3,Zoomed =4};
 
-
-        private CardUIInput _currentState = CardUIInput.Locked;
         public CardUIInput CurrentState
         {
-            get => _currentState;
-            set => _currentState = value;
+            get => _thisCard._currentState;
+            set => _thisCard._currentState = value;
         }
         ITouchable[] _touchables;
-
 
 
         private CanvasGroup _canvasGroup;
@@ -38,7 +35,7 @@ namespace Battles.UI.CardUIAttributes
         public RectTransform Rect =>_rect;
         private RectTransform _rect;
 
-        public CardInputs(CanvasGroup canvasGroup,RectTransform rect, CardUIEvent zoomCardEvent, CardUIEvent selectCardEvent, CardUI card)
+        public CardInputs(CanvasGroup canvasGroup,RectTransform rect, CardUIEvent zoomCardEvent, CardUIEvent selectCardEvent, CardUI card )
         {
             _rect = rect;
             _canvasGroup = canvasGroup;
@@ -203,10 +200,10 @@ namespace Battles.UI.CardUIAttributes
    
         CardUIEvent _selectCardEvent;
         CardUIEvent _zoomCardEvent;
-        RectTransform _middlePos;
+        float _middlePos;
         public OnZoomInputState(CardInputs cardInputHandler, CardUIEvent ZoomedEvent, CardUIEvent selectCardEvent) : base(cardInputHandler)
         {
-            _middlePos = CardUIManager.Instance.GetHandMiddlePosition;
+            _middlePos = CardUIManager.Instance.GetInputHandLine;
             _zoomCardEvent = ZoomedEvent;
             _selectCardEvent = selectCardEvent;
         }
@@ -215,15 +212,13 @@ namespace Battles.UI.CardUIAttributes
         public override void OnHoldTouch(in Vector2 touchPos, in Vector2 startPos)
         {
 
-            if (Mathf.Abs(_middlePos.position.y - touchPos.y) >= 70f)
+            if (touchPos.y >= _middlePos/2)
             {
                 Debug.Log("Zoomed");
                 _selectCardEvent?.Raise(_cardInputHandler.ThisCardUI);
             }
             else
             {
-                Debug.Log("RE   Zoomed");
-
                 _cardInputHandler.CurrentState = CardInputs.CardUIInput.Hand;
                 _selectCardEvent?.Raise(null);
 
@@ -232,8 +227,15 @@ namespace Battles.UI.CardUIAttributes
 
         public override void OnReleaseTouch(in Vector2 touchPos)
         {
-              _selectCardEvent?.Raise(null);
-            _zoomCardEvent?.Raise(null);
+
+
+            if (touchPos.y >= _middlePos / 2)
+                CardExecutionManager.Instance.TryExecuteCard(_cardInputHandler.ThisCardUI);
+
+
+                _selectCardEvent?.Raise(null);
+                _zoomCardEvent?.Raise(null);
+            
         }
         public override void ResetTouch()
         {
@@ -248,21 +250,13 @@ namespace Battles.UI.CardUIAttributes
 
     public class OnHoldInputstate : InputStateAbst
     {
-        float _offset= 0.1f;
-
         public OnHoldInputstate(CardInputs cardInputHandler) : base (cardInputHandler)
         {    
         }
 
 
         public override void OnHoldTouch(in Vector2 touchPos, in Vector2 startPos)
-        {
-
-            Debug.Log(new {RectPosition = _cardInputHandler.Rect.position, TransfromPosition = _cardInputHandler.ThisCardUI.transform.position, Anchored = Rect.anchoredPosition, Anchored3D = 
-                Rect.anchoredPosition3D}) ;
-            Debug.Log("Moving Card");
-            Debug.Log("touchPos " + touchPos);
-          //  _cardInputHandler.ThisCardUI.CardTranslations.MoveCard(false, touchPos, _offset);
+        { 
         }
         public override void OnReleaseTouch(in Vector2 touchPos)
         {
@@ -295,13 +289,13 @@ namespace Battles.UI.CardUIAttributes
     {
         CardUIEvent _zoomCardUIEvent;
         CardUIEvent _selectCardUIEvent;
-        float _offsetDistance = 200f;
-        RectTransform _middlePos;
+
+        float _middlePos;
         public InHandInputState(CardInputs cardInputHandler, CardUIEvent selectCardUI, CardUIEvent zoomCard) : base(cardInputHandler)
         {
             _zoomCardUIEvent = zoomCard;
             _selectCardUIEvent = selectCardUI;
-            _middlePos = CardUIManager.Instance.GetHandMiddlePosition;
+            _middlePos = CardUIManager.Instance.GetInputHandLine;
         }
 
         public override void OnHoldTouch(in Vector2 touchPos, in Vector2 startPos)
@@ -310,14 +304,10 @@ namespace Battles.UI.CardUIAttributes
              * check if he holding the card and if his dragging it
              * if he hold it and move it up it means hes taking the card from the hand
              */
-            Debug.Log("Boolean " + (Vector2.Distance(_middlePos.position, touchPos) <= _offsetDistance));
-            Debug.Log("Distance " + (Vector2.Distance(_middlePos.position, touchPos)));
 
-            Debug.Log("_middlePos.rect.position "+_middlePos.position);
                      Debug.Log("touchPos " + touchPos);
             //if card is pulled up
-            if (Mathf.Abs(_middlePos.position.y - touchPos.y) <= _offsetDistance)
-
+            if (touchPos.y <= _middlePos)
             {
                 _cardInputHandler.CurrentState = CardInputs.CardUIInput.Zoomed;
                 _zoomCardUIEvent?.Raise(_cardInputHandler.ThisCardUI);

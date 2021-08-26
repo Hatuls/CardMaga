@@ -286,10 +286,22 @@ public class CardUISO : ScriptableObject
     #endregion
     #endregion
 
+    #region Cards Input 
+    [TabGroup("Card UI/CardUI", "Inputs")]
+    [SerializeField] bool _toDrawGizmos;
+    public ref bool ToDrawGizmos => ref _toDrawGizmos;
+    [TabGroup("Card UI/CardUI", "Inputs")]
+    [Tooltip("start at the rect transform position of the Middle hand postiion and add value to it")]
+    [Range(0,500f)]
+    [SerializeField] float _lineOfHandTeritory;
+    public ref float LineOfHandTeritory => ref _lineOfHandTeritory;
+    //[TabGroup("Card UI/CardUI/Inputs/Params", "")]
 
+
+    #endregion
     #region Properties
 
-        public ref float GetDelayBetweenRemovalOfEachCard => ref _delayBetweenCardsIsDiscarded;
+    public ref float GetDelayBetweenRemovalOfEachCard => ref _delayBetweenCardsIsDiscarded;
         public ref float GetCardReturnSpeedDelay => ref _returnSpeedDelay;
 
         public ref int GetAmountOfCardsUIInHand => ref _amountOfCardsUIInHand;

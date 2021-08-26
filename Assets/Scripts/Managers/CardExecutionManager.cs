@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿using Battles.Deck;
+using Battles.UI;
+using Characters.Stats;
+using Unity.Events;
+using UnityEngine;
 
 namespace Battles
 {
     public class CardExecutionManager : MonoSingleton<CardExecutionManager>
     {
+  
+        
         [SerializeField]
         AnimatorController _playerAnimator;
         [SerializeField]
@@ -15,13 +21,45 @@ namespace Battles
         {
             StopAllCoroutines();
         }
+    
         public override void Init()
         {
             _currentCard = null;
         }
 
 
-   
+        public bool TryExecuteCard(CardUI cardUI)
+        {
+            Cards.Card card = cardUI.GFX.GetCardReference;
+
+
+            if (StaminaHandler.IsEnoughStamina(card) == false)
+            {
+                // not enough stamina 
+                //      DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, card);
+                //    CardUIManager.Instance.AddToHandUI(CardUIManager.Instance.ClickedCardUI);
+                _playSound?.Raise(SoundsNameEnum.Reject);
+                CardUIManager.Instance.SelectCardUI(null);
+                return false;
+            }
+
+            // execute card
+            //  CardUIManager.Instance.IsTryingToPlace = true;
+            CardUIManager.Instance.LockHandCards(false);
+
+
+            DeckManager.Instance.TransferCard(DeckEnum.Selected, card.GetSetCard.ToExhaust ?DeckEnum.Exhaust : DeckEnum.Disposal, card);
+
+            DeckManager.AddToCraftingSlot(card);
+            RegisterCard(card);
+            StaminaHandler.ReduceStamina(card);
+
+
+            // reset the holding card
+            CardUIManager.Instance.RemoveTheHoldingCard();
+            return true;
+        }
+
 
         public void RemoveCard() => _currentCard = null;
         public void RegisterCard(Cards.Card card, bool isPlayer = true)

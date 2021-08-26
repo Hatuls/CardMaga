@@ -10,10 +10,14 @@ namespace Battles.UI
     {
         #region Fields
         [SerializeField]
+
+        internal CardInputs.CardUIInput _currentState = CardInputs.CardUIInput.Locked;
+        [SerializeField]
    //     [HideInInspector]
         private CardGFX _cardGFX;
 
-        [HideInInspector]
+
+       [HideInInspector]
         [SerializeField]
         private CanvasGroup _canvasGroup;
         private CardAnimator _cardAnimator;
@@ -112,7 +116,12 @@ namespace Battles.UI
         }
         public ITouchable GetTouchAbleInput => ((Card & CardUISettings.Touchable) == CardUISettings.Touchable) ? Inputs : null;
         #endregion
+
+
     }
+
+
+   
 }
 
 
@@ -129,9 +138,9 @@ public class CardAnimator
         _animator = _rect.GetComponent<Animator>();
     }
 
-    public void ScaleAnimation(float amount)
+    public void ScaleAnimation(bool value)
     {
-        _animator.SetFloat("Scale",amount);
+        _animator.SetBool("ToZoom", value);
     }
 
 
