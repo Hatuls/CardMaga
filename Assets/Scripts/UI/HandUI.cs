@@ -104,8 +104,12 @@ namespace Battles.UI
         {
             for (int i = 0; i < _amountOfCardsInHand; i++)
             {
-                if (_handCards[i]?.Inputs?.CurrentState != CardUIAttributes.CardInputs.CardUIInput.Zoomed &&_handCards[i]?.Inputs?.CurrentState !=  CardUIAttributes.CardInputs.CardUIInput.Hold)
+                if (_handCards[i]?.Inputs?.CurrentState != CardUIAttributes.CardInputs.CardUIInput.Zoomed 
+                    &&_handCards[i]?.Inputs?.CurrentState != CardUIAttributes.CardInputs.CardUIInput.Hold)
+                {
                 _handCards[i].Inputs.CurrentState = toLock ? CardUIAttributes.CardInputs.CardUIInput.Locked : CardUIAttributes.CardInputs.CardUIInput.Hand;
+                    _handCards[i].Inputs.GetCanvasGroup.blocksRaycasts = !toLock;
+                }
             }
         }
 

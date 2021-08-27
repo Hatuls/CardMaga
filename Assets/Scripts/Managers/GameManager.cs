@@ -52,11 +52,21 @@ public class GameManager : MonoSingleton<GameManager>
             ComboRecipeHandler.Instance,
             BattleManager.Instance
         };
+
         for (int i = 0; i < _singletons.Length; i++)
             _singletons[i]?.Init();
         
     }
 }
+
+
+
+
+
+
+
+
+
 [System.Serializable]
 public  class ArtSettings
 {

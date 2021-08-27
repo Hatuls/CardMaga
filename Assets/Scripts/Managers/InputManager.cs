@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Battles.UI;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 public class InputManager : MonoSingleton<InputManager> , ITouchable
@@ -43,6 +44,8 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
     }
 
     public RectTransform Rect => throw new System.NotImplementedException();
+
+    public bool IsInteractable => throw new NotImplementedException();
     #endregion
 
 
@@ -187,7 +190,7 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
     }
     public void OnFirstTouch(in Vector2 touchPos)
     {
-        _object.OnFirstTouch(touchPos);
+        _object?.OnFirstTouch(touchPos);
     }
     public void OnReleaseTouch(in Vector2 touchPos)
     {
@@ -198,7 +201,7 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
 
     public void OnHoldTouch(in Vector2 touchPos, in Vector2 startPos)
     {
-        _object.OnHoldTouch(touchPos, startPos);
+        _object?.OnHoldTouch(touchPos, startPos);
     }
     public void AssignObjectFromTouch(ITouchable objectTouched, Vector2 screenPos)
     {

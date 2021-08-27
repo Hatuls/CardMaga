@@ -269,7 +269,6 @@ namespace Battles.UI
             var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
             StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal), GetDeckPosition(DeckEnum.Hand)));
 
-
         }
 
   
@@ -331,7 +330,7 @@ namespace Battles.UI
                 ResetZoom();
 
             }
-            Debug.Log("Zoomed Event");
+            Debug.Log("Zoomed Event " + card);
 
             _holdingCardUI = null;
             _zoomedCard = card;
@@ -341,6 +340,7 @@ namespace Battles.UI
         }
         private void ZoomInCard()
         {
+            _zoomedCard._currentState = CardUIAttributes.CardInputs.CardUIInput.Zoomed;
             LockHandCards(true);
             _zoomedCard.transform.SetSiblingIndex(_handUI.GetAmountOfCardsInHand);
             _zoomedCard.Inputs.GetCanvasGroup.blocksRaycasts = false;
