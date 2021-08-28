@@ -289,11 +289,14 @@ namespace Battles.UI
             {
                 RemoveCardUI();
             }
-            _zoomedCard = null;
+    
             _holdingCardUI = card;
 
             if (_holdingCardUI != null)
+            {
+                _zoomedCard = null;
                 AssignCardUI();
+            }
         }
         private void AssignCardUI()
         {
@@ -332,13 +335,14 @@ namespace Battles.UI
             }
             Debug.Log("Zoomed Event " + card);
 
-            if (_holdingCardUI != null)
-                RemoveCardUI();
 
             _zoomedCard = card;
 
             if (_zoomedCard != null)
+            {
+                _holdingCardUI = null;
                 ZoomInCard();
+            }
         }
         private void ZoomInCard()
         {

@@ -108,7 +108,7 @@ namespace Battles.UI
             get
             {
                 if (_cardAnimator == null &&
-                                 ((Card & CardUISettings.With_Animations) == CardUISettings.With_Animations))
+               ((Card & CardUISettings.With_Animations) == CardUISettings.With_Animations))
                     _cardAnimator = new CardAnimator(_cardGFX.GetRectTransform);
 
                 return _cardAnimator;
@@ -144,4 +144,12 @@ public class CardAnimator
     }
 
 
+
+
+    public static class AnimatorParameters
+    {
+        public static int ZoomAnimation = Animator.StringToHash("ToZoom");
+    }
 }
+
+

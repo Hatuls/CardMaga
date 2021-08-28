@@ -298,6 +298,10 @@ namespace Battles.UI.CardUIAttributes
             {
                _cardInputHandler.CurrentState = CardInputs.CardUIInput.Hold;
             }
+            else
+            {
+                _zoomCardEvent.Raise(_cardInputHandler.ThisCardUI);
+            }
         }
         private bool IsAboveTheTouchLine(in Vector2 touchPos) => (touchPos.y >= _middlePos);
         public override void OnReleaseTouch(in Vector2 touchPos)
@@ -328,6 +332,7 @@ namespace Battles.UI.CardUIAttributes
             _middlePos = middlePos;
             _selectCardUiEvent = selectCardUiEvent;
             _zoomCardUIEvent = zoomCardUIEvent;
+            isRegreting = false;
         }
 
 
@@ -343,6 +348,7 @@ namespace Battles.UI.CardUIAttributes
                 if (isRegreting)
                 {
                     _cardInputHandler.CurrentState = CardInputs.CardUIInput.Zoomed;
+                    _selectCardUiEvent.Raise(null);
                     _zoomCardUIEvent.Raise(_cardInputHandler.ThisCardUI);
                     isRegreting = false;
                 }
@@ -350,17 +356,19 @@ namespace Battles.UI.CardUIAttributes
         }
         public override void OnReleaseTouch(in Vector2 touchPos)
         {
-
+            isRegreting = false;
             if (IsAboveTheTouchLine(touchPos))
             {
                 if (CardExecutionManager.Instance.TryExecuteCard(_cardInputHandler.ThisCardUI))
                 {
                     CardUIManager.Instance.ExecuteCardUI();
-                    return;
                 }
+                  _selectCardUiEvent.Raise(null);
+                    return;
             }
+            _cardInputHandler.CurrentState = CardInputs.CardUIInput.Zoomed;
             _selectCardUiEvent.Raise(null);
-
+            _zoomCardUIEvent.Raise(null);
         }
          
 
