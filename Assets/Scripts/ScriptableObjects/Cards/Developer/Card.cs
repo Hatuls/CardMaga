@@ -4,7 +4,7 @@ using System;
 namespace Cards
 {
     public enum CardTypeEnum { Utility = 2, Defend = 1, Attack = 0 };
-   public enum Location {Hand=0,Discard =1,Exhaust = 2, Drawpile =3 , Crafting =4,MiddleScreenPosition =5 }
+
     public enum BodyPartEnum { None =0 , Head =1, Elbow=2, Hand=3, Knee=4, Leg=5 };
     public class Card
     {

@@ -177,6 +177,90 @@ public class CardUISO : ScriptableObject
 
     #endregion
 
+    #region Crafting
+    [TabGroup("Card UI/CardUI", "Crafting")]
+    #region To Discard
+    [TabGroup("Card UI/CardUI/Crafting/Section", "To Discard")]
+    #region Removal On X Axis
+    [TabGroup("Card UI/CardUI/Crafting/Section/To Discard/Params", "Move On X")]
+    [Range(0, 2)]
+    [SerializeField] float _craftingToDiscardTransitionXTime;
+
+    [TabGroup("Card UI/CardUI/Crafting/Section/To Discard/Params", "Move On X")]
+    [SerializeField] LeanTweenType _craftingToDiscardMoveOnXLeanTweenType;
+    #endregion
+
+    #region Removal On Y Axis
+    [TabGroup("Card UI/CardUI/Crafting/Section/To Discard/Params", "Move On Y")]
+    [Range(0, 2)]
+    [SerializeField] float _craftingToDiscardTransitionYTime;
+    [TabGroup("Card UI/CardUI/Crafting/Section/To Discard/Params", "Move On Y")]
+    [SerializeField] LeanTweenType _craftingToDiscardMoveOnYLeanTweenType;
+    #endregion
+
+    public ref LeanTweenType CraftingToDiscardMoveOnYLeanTweenType => ref _craftingToDiscardMoveOnYLeanTweenType;
+    public ref LeanTweenType CraftingToDiscardMoveOnXLeanTweenType => ref _craftingToDiscardMoveOnXLeanTweenType;
+    public ref float CraftingToDiscardTransitionYTime => ref _craftingToDiscardTransitionYTime;
+    public ref float CraftingToDiscardTransitionXTime => ref _craftingToDiscardTransitionXTime;
+
+    #endregion
+
+    #region To DrawPile
+    [TabGroup("Card UI/CardUI/Crafting/Section", "To DrawPile")]
+    #region Removal On X Axis
+    [TabGroup("Card UI/CardUI/Crafting/Section/To DrawPile/Params", "Move On X")]
+    [Range(0, 2)]
+    [SerializeField] float _craftingToDrawPileTransitionXTime;
+
+    [TabGroup("Card UI/CardUI/Crafting/Section/To DrawPile/Params", "Move On X")]
+    [SerializeField] LeanTweenType _craftingToDrawPileMoveOnXLeanTweenType;
+    #endregion
+
+    #region Removal On Y Axis
+    [TabGroup("Card UI/CardUI/Crafting/Section/To DrawPile/Params", "Move On Y")]
+    [Range(0, 2)]
+    [SerializeField] float _craftingToDrawPileTransitionYTime;
+    [TabGroup("Card UI/CardUI/Crafting/Section/To DrawPile/Params", "Move On Y")]
+    [SerializeField] LeanTweenType _craftingToDrawPileMoveOnYLeanTweenType;
+    #endregion
+
+
+    public ref LeanTweenType CraftingToDrawPileMoveOnYLeanTweenType => ref _craftingToDrawPileMoveOnYLeanTweenType;
+    public ref LeanTweenType CraftingToDrawPileMoveOnXLeanTweenType => ref _craftingToDrawPileMoveOnXLeanTweenType;
+    public ref float CraftingToDrawPileTransitionYTime => ref _craftingToDrawPileTransitionYTime;
+    public ref float CraftingToDrawPileTransitionXTime => ref _craftingToDrawPileTransitionXTime;
+    #endregion
+
+    #region To Hand
+    [TabGroup("Card UI/CardUI/Crafting/Section", "To Hand")]
+    #region Removal On X Axis
+    [TabGroup("Card UI/CardUI/Crafting/Section/To Hand/Params", "Move On X")]
+    [Range(0, 2)]
+    [SerializeField] float _craftingToHandTransitionXTime;
+
+    [TabGroup("Card UI/CardUI/Crafting/Section/To Hand/Params", "Move On X")]
+    [SerializeField] LeanTweenType _craftingToHandoveOnXLeanTweenType;
+    #endregion
+
+    #region Removal On Y Axis
+    [TabGroup("Card UI/CardUI/Crafting/Section/To Hand/Params", "Move On Y")]
+    [Range(0, 2)]
+    [SerializeField] float _craftingToHandTransitionYTime;
+    [TabGroup("Card UI/CardUI/Crafting/Section/To Hand/Params", "Move On Y")]
+    [SerializeField] LeanTweenType _craftingToHandMoveOnYLeanTweenType;
+    #endregion
+
+
+    public ref LeanTweenType CraftingToHandMoveOnYLeanTweenType => ref _craftingToHandMoveOnYLeanTweenType;
+    public ref LeanTweenType CraftingToHandMoveOnXLeanTweenType => ref _craftingToHandoveOnXLeanTweenType;
+    public ref float CraftingToHandTransitionYTime => ref _craftingToHandTransitionYTime;
+    public ref float CraftingToHandTransitionXTime => ref _craftingToHandTransitionXTime;
+    #endregion
+    #endregion
+
+
+
+
     #region Removal After Activation
     [TabGroup("Card UI/CardUI", "Remove After Use Card")]
 

@@ -309,8 +309,9 @@ namespace Battles.UI.CardUIAttributes
 
             if (!IsAboveTheTouchLine(touchPos))
             {
-                _cardInputHandler.CurrentState = CardInputs.CardUIInput.Hand;
-                 _zoomCardEvent.Raise(null);
+                _cardInputHandler.ThisCardUI.CardTranslations.CancelAllTweens();
+                _zoomCardEvent.Raise(null);
+
             }
         }
         public override void ResetTouch()

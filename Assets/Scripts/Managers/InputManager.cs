@@ -59,6 +59,12 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
             TouchDetector();
             MouseDetector();
         }
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     private void MouseDetector()

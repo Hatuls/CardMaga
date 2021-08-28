@@ -34,8 +34,8 @@ namespace Cards
 
 
         [TabGroup("CardData/Info", "Data")]
-        [Tooltip("What Type Of Card Is It?")]
-        CraftingSettings _comboCraftingSettings;
+        [Tooltip("When Crafted what deck does it go to?")]
+        Battles.Deck.DeckEnum _goToDeckAfterCraft = Battles.Deck.DeckEnum.Hand;
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
       
@@ -89,7 +89,7 @@ namespace Cards
         public AnimationBundle GetAnimationBundle => _animationBundle;
         public BodyPartEnum GetBodyPartEnum => _cardData._bodyPart;
         public int GetStaminaCost => _staminaCost;
-        public CraftingSettings ComboCraftingSettings => _comboCraftingSettings;
+        public ref Battles.Deck.DeckEnum GoToDeckAfterCrafting =>ref _goToDeckAfterCraft;
         public KeywordData[] GetCardsKeywords => _keywords;
         public KeywordData[] GetAdditionalKeywords => _upgrateKeywords;
         public ref int GetKeyWordMaxLevel => ref _maxUpgradeLevel;
@@ -98,12 +98,9 @@ namespace Cards
 
 
 
-        [System.Serializable]
-        public class CraftingSettings
-        {
-            public Location _startPosition = Location.Drawpile;
+
             public Battles.Deck.DeckEnum _destination;
-        }
+        
 
 
     }

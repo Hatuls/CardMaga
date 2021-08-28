@@ -54,9 +54,10 @@ namespace Combo
 
                 Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.GetCraftedCard.GetCardName);
              //   BattleUiManager.Instance.SetCardPosition(crafted);
-                DeckManager.Instance.AddCardToDeck(crafted, crafted.GetSetCard.ComboCraftingSettings._destination);
+
+                DeckManager.Instance.AddCardToDeck(crafted, crafted.GetSetCard.GoToDeckAfterCrafting);
                 VFXManager.Instance.PlayParticle(true, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
-                  _playSound?.Raise( SoundsNameEnum.SuccessfullForge);
+                _playSound?.Raise( SoundsNameEnum.SuccessfullForge);
             }
             else
             {

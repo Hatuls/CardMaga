@@ -100,7 +100,7 @@ namespace Battles.Deck
                 return;
 
             GetDeckAbst(toDeck).AddCard(addedCard);
-            CardUIManager.Instance.CreateCardUI(addedCard, toDeck);
+            CardUIManager.Instance.CraftCardUI(addedCard, toDeck);
         }
         public void DrawHand(int drawAmount)
         {
