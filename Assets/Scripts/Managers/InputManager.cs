@@ -65,7 +65,7 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("StartClick");
+         
             inputState = InputState.Mouse;
 
        
@@ -82,17 +82,22 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
         else if (Input.GetMouseButtonUp(0))
         {
 
-                OnReleaseTouch(_touchPosOnScreen);
+            OnReleaseTouch(_touchPosOnScreen);
             Debug.Log("Release Click");
         }
         else if (Input.GetMouseButton(0))
         {
          //   RectTransformUtility.ScreenPointToLocalPointInRectangle(_object != null ? _object.Rect: _main.GetComponent<RectTransform>(), Input.mousePosition, _main.renderMode == RenderMode.ScreenSpaceOverlay ? null : Camera.main, out _touchPosOnScreen);
-            _touchPosOnScreen = Input.mousePosition;
+           // _touchPosOnScreen = Physics2D.Raycast(_touchPosOnScreen, Vector3.forward, 10f); Input.mousePosition;
 
-            Debug.Log("Holding Click");
-            if (ShootRaycast2D(ref _touchPosOnScreen))
-                OnHoldTouch(_touchPosOnScreen, _firstTouchLocation);
+
+            //  if (ShootRaycast2D(ref _touchPosOnScreen))
+            if (_object != null)
+            {
+              Debug.Log("Holding Click");
+                _touchPosOnScreen = Input.mousePosition;
+                    OnHoldTouch(_touchPosOnScreen, _firstTouchLocation);
+            }
                 
 
         }
@@ -106,7 +111,7 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
         if (_raycastHit.collider)
         {
             AssignObjectFromTouch(_raycastHit.collider.GetComponent<IInputAbleObject>()?.GetTouchAbleInput);
-            Debug.Log("DetectInput");
+           // Debug.Log("DetectInput");
             //    RectTransformUtility.ScreenPointToLocalPointInRectangle(_object.Rect.parent.GetComponent<RectTransform>(), position, _main.renderMode == RenderMode.ScreenSpaceOverlay ? null : Camera.main, out position);
             return true;
         }
@@ -196,13 +201,15 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
     {
 
         _object?.OnReleaseTouch(touchPos);
-        ResetTouch();
+        RemoveObjectrFromTouch();
     }
 
     public void OnHoldTouch(in Vector2 touchPos, in Vector2 startPos)
     {
         _object?.OnHoldTouch(touchPos, startPos);
     }
+
+    #region Assign and Remove
     public void AssignObjectFromTouch(ITouchable objectTouched, Vector2 screenPos)
     {
         _firstTouchLocation = screenPos;
@@ -211,16 +218,23 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
     public void AssignObjectFromTouch( ITouchable objectTouched)
     {
 
-        if (TouchableObject == objectTouched)
+        if ( objectTouched == null || TouchableObject == objectTouched || !objectTouched.IsInteractable)
             return;
+
         Debug.Log("Object Recieved Input "+ objectTouched?.ToString());
             TouchableObject = objectTouched;
     }
+    public void RemoveObjectrFromTouch()
+        => ResetTouch();
     public void ResetTouch()
-        => TouchableObject = null;
+    {
+        TouchableObject?.ResetTouch();
+        TouchableObject = null;
+    }
     #endregion
 
 
+    #endregion
     #endregion
 }
 

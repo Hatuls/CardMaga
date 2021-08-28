@@ -56,7 +56,7 @@ namespace Battles
 
 
             // reset the holding card
-            CardUIManager.Instance.RemoveTheHoldingCard();
+            CardUIManager.Instance.ExecuteCardUI();
             return true;
         }
 

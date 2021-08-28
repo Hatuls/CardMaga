@@ -256,7 +256,7 @@ namespace Battles.UI
             return null;
         }
 
-        public void RemoveTheHoldingCard()
+        public void ExecuteCardUI()
         {
             if (_holdingCardUI == null)
                 return;
@@ -332,7 +332,9 @@ namespace Battles.UI
             }
             Debug.Log("Zoomed Event " + card);
 
-            _holdingCardUI = null;
+            if (_holdingCardUI != null)
+                RemoveCardUI();
+
             _zoomedCard = card;
 
             if (_zoomedCard != null)
@@ -349,14 +351,13 @@ namespace Battles.UI
             _zoomedCard.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
             _zoomedCard.GFX.GlowCard(true);
             _soundEvent?.Raise(SoundsNameEnum.TapCard);
-
         }
         private void ResetZoom()
         {
             //return to start position
+            _zoomedCard.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Hand;
             LockHandCards(false);
             _zoomedCard.GFX.GlowCard(false);
-            _zoomedCard.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Hand;
             _zoomedCard.CardAnimator.ScaleAnimation(false);
 
             _handUI.AlignCards();

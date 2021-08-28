@@ -25,12 +25,13 @@ namespace Battles.UI.CardUIAttributes
                 {
                     MoveCardX(moveTo.x, seconds);
                     MoveCardY(moveTo.y, seconds);
-     
+                    MoveCardZ(moveTo.z, seconds);
                 }
                 else
                 {
                     MoveCardX(moveTo.x, seconds);
                     MoveCardY(moveTo.y, seconds,true);
+                    MoveCardZ(moveTo.z, seconds);
                 }       
                
             }
@@ -40,6 +41,10 @@ namespace Battles.UI.CardUIAttributes
         public void CancelAllTweens()
         {
             LeanTween.cancelAll(true);
+        }
+        public void MoveCardZ(float destination, float time)
+        {
+            LeanTween.moveZ(_rectTransform, destination, time);
         }
         public void MoveCardX(float destination, float time, bool? SetActiveLater= null ,LeanTweenType type = LeanTweenType.notUsed)
         {

@@ -84,7 +84,7 @@ namespace Battles.UI
                     xPos = i * spaceBetweenCards;
                     cardLocation = _middlePositionOnScreen + Vector2.right * xPos;
 
-                    Vector2 finalPos = cardLocation + new Vector2( moveLeftOffset,yPos);
+                    Vector3 finalPos = new Vector3(cardLocation.x +moveLeftOffset, cardLocation.y + yPos, GetAmountOfCardsInHand- i);
 
 
                     _handCards[i].CardTranslations?.MoveCard(
@@ -100,6 +100,11 @@ namespace Battles.UI
                 OrderZLayers();
             }
         }
+
+        /// <summary>
+        /// Run over the cards in hand and lock or unlock the cards that are not in inputstate of zoomed or hold.
+        /// </summary>
+        /// <param name="toLock"></param>
         public void LockCardsInput(bool toLock)
         {
             for (int i = 0; i < _amountOfCardsInHand; i++)
@@ -108,7 +113,7 @@ namespace Battles.UI
                     &&_handCards[i]?.Inputs?.CurrentState != CardUIAttributes.CardInputs.CardUIInput.Hold)
                 {
                 _handCards[i].Inputs.CurrentState = toLock ? CardUIAttributes.CardInputs.CardUIInput.Locked : CardUIAttributes.CardInputs.CardUIInput.Hand;
-                    _handCards[i].Inputs.GetCanvasGroup.blocksRaycasts = !toLock;
+                _handCards[i].Inputs.GetCanvasGroup.blocksRaycasts = !toLock;
                 }
             }
         }
