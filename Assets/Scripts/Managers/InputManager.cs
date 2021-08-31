@@ -1,9 +1,43 @@
-﻿using Battles.UI;
-using System;
+﻿
 using UnityEngine;
-using UnityEngine.EventSystems;
-public class InputManager : MonoSingleton<InputManager> , ITouchable
+
+public class InputManager :MonoBehaviour , ITouchable
 {
+    private static InputManager _instance;
+    public static InputManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                Debug.LogError("InputManager Was Not Initialized!");
+            }
+            return _instance;
+        }
+    }
+    #region  Init
+    private void Awake()
+    {  
+        if (_instance == null)
+        {
+            _instance = this;
+            Init();
+            DontDestroyOnLoad(this);
+        }
+        else if (_instance != this)
+            Destroy(this);
+    }
+
+
+
+    void Init()
+    {
+        inputState = InputState.Touch;
+        _isScreenLocked = false;
+        _object = null;
+    }
+    #endregion
+
     #region Fields
     Touch? _playerTouch;
     [SerializeField] bool toUseRayCastHit = false;
@@ -15,13 +49,10 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
         get => _object;
         set
         {
-           
             if (_object != value)
             {
-                   _object?.ResetTouch();
-
+                _object?.ResetTouch();
                 _object = value;
-                
             }
         }
     }
@@ -35,17 +66,20 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
 
 
     #region Properties
-    public bool SetLockedScreen
+    public bool LockScreen
     {
-        set {
+        set 
+        {
             if (value != _isScreenLocked)
                 _isScreenLocked = value;
         }
     }
 
-    public RectTransform Rect => throw new System.NotImplementedException();
+    public RectTransform Rect 
+        => _object == null ? null : _object.Rect;
+    public bool IsInteractable 
+        => _object == null ? false : _object.IsInteractable;
 
-    public bool IsInteractable => throw new NotImplementedException();
     #endregion
 
 
@@ -158,14 +192,6 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
                  OnTouch();
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(_touchPosOnScreen, 100*Vector3.forward);
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(_firstTouchLocation, 100*Vector3.forward);
-    }
     private void OnTouch()
     {
         switch (_playerTouch.GetValueOrDefault().phase)
@@ -191,14 +217,18 @@ public class InputManager : MonoSingleton<InputManager> , ITouchable
         }
     }
     #endregion
-
+    #region Gizmos
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(_touchPosOnScreen, 100*Vector3.forward);
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(_firstTouchLocation, 100*Vector3.forward);
+    }
+    #endregion
 
     #region Public Functions
-    public override void Init()
-    {
-        inputState = InputState.Touch;
-        _isScreenLocked = false;
-    }
+  
     public void OnFirstTouch(in Vector2 touchPos)
     {
         _object?.OnFirstTouch(touchPos);

@@ -262,10 +262,7 @@ namespace Battles.UI.CardUIAttributes
 
             }
         }
-        public override void OnHoldTouch(in Vector2 touchPos, in Vector2 startPos)
-        {
 
-        }
         public override void OnReleaseTouch(in Vector2 touchPos)
         {
             _zoomCardUIEvent.Raise(null);

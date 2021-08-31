@@ -1,36 +1,42 @@
 ﻿using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 public class NetworkHandler : MonoBehaviour
 {
-
+    public static System.Action CheckVersionEvent;
     const string Version = "Version";
     [SerializeField] TextMeshProUGUI _status;
     [SerializeField] TextMeshProUGUI _myVersion;
     [SerializeField] TextMeshProUGUI _webVersion;
+    [SerializeField] Button _continueBtn;
     string path = "https://drive.google.com/uc?export=download&id=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
 
     GameVersion _gv;
-    [System.Serializable]
-    class GameVersion
-    {
-        public string Version;
-    }
+
     private void Awake()
     {
         _myVersion.enabled = false;
         _webVersion.enabled = false;
         _status.enabled = false;
+        _continueBtn.enabled = false;
+        
     }
-    private void Start()
+    private void OnEnable()
     {
-
+        CheckVersionEvent += Init;
+    }
+    private void OnDisable()
+    {
+        CheckVersionEvent -= Init;
+    }
+    public void Init()
+    {
         _myVersion.enabled = true;
-        _myVersion.text ="My Version is : " + PlayerPrefs.GetString(Version); 
+        _myVersion.text = "My Version is : " + PlayerPrefs.GetString(Version);
 
 
-        //    _gv = new GameVersion(" ");
         WebRequests.Get(
             path,
             null,
@@ -38,10 +44,9 @@ public class NetworkHandler : MonoBehaviour
             {
                 //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
                 _gv = JsonUtility.FromJson<GameVersion>(text);
-                   CheckVersion(_gv);
+                CheckVersion(_gv);
             }
             );
-
 
 
     }
@@ -54,7 +59,7 @@ public class NetworkHandler : MonoBehaviour
         {
     
            _status.text ="Status: Up to date!";
-
+            _continueBtn.enabled=true;
         }
         else
         {
@@ -62,6 +67,14 @@ public class NetworkHandler : MonoBehaviour
             PlayerPrefs.SetString(Version, currentVersion.Version);
         }
 
+    }
+
+
+
+    [System.Serializable]
+    class GameVersion
+    {
+        public string Version;
     }
 }
 

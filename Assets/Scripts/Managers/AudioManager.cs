@@ -3,8 +3,21 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class AudioManager : MonoSingleton<AudioManager>
+public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
 {
+    private static AudioManager _instance;
+    public static AudioManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                Debug.LogError("AudioManager Is Null!");
+            }
+
+            return _instance;
+        }
+    }
     [SerializeField] GameObject _audioSourcePrefab;
     Dictionary<SoundsNameEnum, AudioConfigurationSO> AudioDictionary;
     [SerializeField] AudioSourceQueuePlayer _audioQueuePlayer;
@@ -12,22 +25,12 @@ public class AudioManager : MonoSingleton<AudioManager>
     [SerializeField]
     List<AudioSourceAbstract> _audioSourceStackable;
     Queue<AudioConfigurationSO> _notStackableAudioQueue;
-    public override void Init()
-    {
-        if (AudioDictionary == null || (AudioDictionary!= null && AudioDictionary.Count == 0))
-         StartCoroutine(LoadSound());
-
-
-        _notStackableAudioQueue = new Queue<AudioConfigurationSO>();
-    }
     IEnumerator LoadSound()
     {
         AudioConfigurationSO[] audio = Resources.LoadAll<AudioConfigurationSO>("Audio");
 
         if (audio == null || audio.Length == 0)
             yield break;
-
-        yield return null;
 
         AudioDictionary = new Dictionary<SoundsNameEnum, AudioConfigurationSO>();
         for (int i = 0; i < audio.Length; i++)
@@ -39,8 +42,27 @@ public class AudioManager : MonoSingleton<AudioManager>
 
         Debug.Log("Audio Loaded Complete");
     }
-   
 
+    public void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+            LoadAudio();
+        }
+        else if (_instance != this)
+            Destroy(this.gameObject);
+    }
+
+    void LoadAudio()
+    {
+        if (AudioDictionary == null || (AudioDictionary != null && AudioDictionary.Count == 0))
+            StartCoroutine(LoadSound());
+
+
+        _notStackableAudioQueue = new Queue<AudioConfigurationSO>();
+    }
     AudioSourceAbstract EnableAudioSource()
     {
         if (_audioSourceStackable.Count > 0)

@@ -8,18 +8,13 @@ using Art;
 public class GameManager : MonoSingleton<GameManager>
 {
     ISingleton[] _singletons;
-    [SerializeField] int _maxFPS =30;
+    [SerializeField]
+    int _maxFPS =30;
     [SerializeField]
     Art.ArtSO _panel;
     [SerializeField]
     ArtSettings _art;
 
-    public override void Awake()
-    {       
-        _art = new ArtSettings(_panel);
-        base.Awake();
-
-    }
     private void Start()
     {
         Init();
@@ -32,16 +27,14 @@ public class GameManager : MonoSingleton<GameManager>
     }
     public override void Init()
     {
-   
+        _art = new ArtSettings(_panel);
 
-        _singletons = new ISingleton[15]
+        _singletons = new ISingleton[13]
         {
             VFXManager.Instance,
-            AudioManager.Instance,
             CardExecutionManager.Instance,
             BattleUiManager.Instance,
             CardManager.Instance,
-            InputManager.Instance,
             CameraController.Instance,
             PlayerManager.Instance,
             EnemyManager.Instance,

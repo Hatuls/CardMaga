@@ -238,12 +238,19 @@ namespace Battles.UI
 
         public void ExecuteCardUI()
         {
-            if (_holdingCardUI == null)
-                return;
+
+            CardUI card = null ;
+            if (_holdingCardUI != null)
+            {
+                card = _holdingCardUI;
+                _holdingCardUI = null;
+            }
+            else
+                return;  
+            
+              
 
 
-            CardUI card = _holdingCardUI;
-            _holdingCardUI = null;
             _handUI.AlignCards();
             card.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Locked;
             var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
