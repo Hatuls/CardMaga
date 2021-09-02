@@ -44,12 +44,12 @@ public class CameraController : MonoSingleton<CameraController>
 
         GetAngleTrackedDolly.m_PathPosition = (int)_cameraAngleLookAt;
         return;
-        MoveCameraAngle.SetActive(false);
-        ShakeAtEnemy.SetActive(false);
-        ShakeAtMiddle.SetActive(false);
-        ShakeAtPlayer.SetActive(false);
+        //MoveCameraAngle.SetActive(false);
+        //ShakeAtEnemy.SetActive(false);
+        //ShakeAtMiddle.SetActive(false);
+        //ShakeAtPlayer.SetActive(false);
 
-        IntroCinematic.SetActive(true);
+        //IntroCinematic.SetActive(true);
 
         //wait till animation ends
         //IntroCinematic.SetActive(false);

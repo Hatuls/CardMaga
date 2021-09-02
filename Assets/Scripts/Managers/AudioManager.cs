@@ -28,7 +28,7 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
     IEnumerator LoadSound()
     {
         AudioConfigurationSO[] audio = Resources.LoadAll<AudioConfigurationSO>("Audio");
-
+        
         if (audio == null || audio.Length == 0)
             yield break;
 
@@ -36,7 +36,7 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
         for (int i = 0; i < audio.Length; i++)
         {
             AudioDictionary.Add(audio[i].SoundsNameEnum, audio[i]);
-            if (i % 3 == 0)
+            if (i % 10 == 0)
                 yield return null;
         }
 

@@ -502,7 +502,7 @@ namespace Battles.UI
 
                     default:
                         throw new Exception("Crafted Card Destination Was Not Valid Check Destination Deck!");
-                        yield break;
+                    
                 }
 
                 yield return null;

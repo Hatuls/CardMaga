@@ -67,6 +67,8 @@ namespace Battles
 
 
             EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharactersEnum.Enemy));
+            UI.StatsUIManager.GetInstance.InitHealthBar(true, PlayerManager.Instance.GetCharacterStats.Health);
+
             Instance._turnCycles = TurnHandler.TurnCycle();
 
             Deck.DeckManager.Instance.ResetDeckManager();

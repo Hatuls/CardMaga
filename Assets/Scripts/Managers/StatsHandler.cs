@@ -49,7 +49,9 @@ namespace Characters.Stats
         }
         public void ResetHealth(bool isPlayer)
         {
-            GetCharacterStats(isPlayer).Health = GetCharacterStats(isPlayer).MaxHealth;
+            int maxHealth = GetCharacterStats(isPlayer).MaxHealth;
+            GetCharacterStats(isPlayer).Health = maxHealth;
+           // _updateUIStats?.Invoke(isPlayer, maxHealth, Keywords.KeywordTypeEnum.Heal) ;
         }
         public void ResetShield(bool isPlayer)
         {

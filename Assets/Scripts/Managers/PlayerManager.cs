@@ -29,7 +29,7 @@ namespace Managers
         }
         private void Start()
         {
-                        Battles.UI.StatsUIManager.GetInstance.InitHealthBar(true, _playerStat.Health);
+        //     Battles.UI.StatsUIManager.GetInstance.InitHealthBar(true, _playerStat.Health);
 
             Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, _playerStat.Shield);
         }
