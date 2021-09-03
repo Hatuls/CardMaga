@@ -121,7 +121,7 @@ namespace Battles.Deck
                 for (int i = 0; i < _deckCards.Length; i++)
                 {
                     if (_deckCards[i] != null
-                       && _deckCards[i].GetCardID == card.GetCardID)
+                       && _deckCards[i].CardID == card.CardID)
                     {
                         _deckCards[i] = null;
        
@@ -196,7 +196,7 @@ namespace Battles.Deck
 
             for (int i = 0; i < _deckCards.Length; i++)
             {
-                if (_deckCards[i].GetCardID == card.GetCardID)
+                if (_deckCards[i].CardID == card.CardID)
                 {
                     cardFound = true;
                     break;
@@ -284,6 +284,7 @@ namespace Battles.Deck
 
     public enum DeckEnum
     {
+        None,
         PlayerDeck,
         Hand,
         Disposal,
