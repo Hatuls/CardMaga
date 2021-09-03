@@ -126,9 +126,12 @@ public class CraftingSlotUI : MonoBehaviour
         _iconImage.color = ArtSettings.CardTypePalette.GetIconBodyPartColorFromEnum(cardType);
         _decorImage.color = ArtSettings.CardTypePalette.GetDecorationColorFromEnum(cardType);
     }
-    public void MovePlaceHolderSlot( RectTransform moveTo, float offset)
+    public void MovePlaceHolderSlot(ref bool toMoveLeft, RectTransform moveTo, float offset)
     {
         Vector3 v3 = moveTo.rect.center;
+        if (toMoveLeft)
+            v3.x += moveTo.rect.width;
+        else
             v3.x -= moveTo.rect.width;
         //v3.y = moveTo.anchoredPosition3D.y;
         //v3.x = 0;

@@ -26,20 +26,21 @@ namespace Battles.UI
          TextMeshProUGUI _buttonText;
 
 
+        bool isPlayersCrafting;
         #region Properties
         public CraftingSlotUI[] GetCraftingSlotsUIArr => _CraftingSlotsUIArr;
         #endregion
 
 
 
-        public CraftingUIHandler(CraftingSlotUI[] _CraftingSlotsUIArr, RectTransform _firstSlotTransform, float _leanTweenTime, GameObject _buttonGlow = null, TextMeshProUGUI _buttonText = null)
+        public CraftingUIHandler(CraftingSlotUI[] _CraftingSlotsUIArr, RectTransform _firstSlotTransform, float _leanTweenTime,bool isPlayersCrafting, GameObject _buttonGlow = null, TextMeshProUGUI _buttonText = null)
         {
             this._CraftingSlotsUIArr = _CraftingSlotsUIArr;
             this._firstSlotTransform = _firstSlotTransform;
             this._leanTweenTime = _leanTweenTime;
             this._buttonGlow = _buttonGlow;
             this._buttonText = _buttonText;
-
+            this.isPlayersCrafting = isPlayersCrafting;
             ResetAllSlots();
         }
 
@@ -116,7 +117,7 @@ namespace Battles.UI
             _CraftingSlotsUIArr[0].Appear(_leanTweenTime, type);
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
-                _CraftingSlotsUIArr[i].MovePlaceHolderSlot(GetRectTransform(i), _CraftingSlotsUIArr.Length - 1 == i? 0: _offsetPos);
+                _CraftingSlotsUIArr[i].MovePlaceHolderSlot(ref isPlayersCrafting, GetRectTransform(i), _CraftingSlotsUIArr.Length - 1 == i? 0: _offsetPos);
                 _CraftingSlotsUIArr[i].MoveDown(_leanTweenTime);
             }
             if (cards[_CraftingSlotsUIArr.Length - 1] != null)

@@ -80,7 +80,7 @@ namespace Battles.UI
 
         internal void CraftCardUI(Card addedCard, DeckEnum toDeck)
         {
-            var cardui = ActivateCard(addedCard, _craftingBtnPosition.localPosition);
+            var cardui = ActivateCard(addedCard, _craftingBtnPosition.position);
             var handler = GetCardUIHandler<CraftCardUIHandler>();
 
             StartCoroutine(
@@ -133,13 +133,13 @@ namespace Battles.UI
             switch (fromDeck)
             {
                 case DeckEnum.PlayerDeck:
-                    return GetDrawDeckPosition.localPosition;
+                    return GetDrawDeckPosition.anchoredPosition3D;
                 case DeckEnum.Hand:
-                    return GetHandMiddlePosition.localPosition;
+                    return GetHandMiddlePosition.anchoredPosition3D;
                 case DeckEnum.Disposal:
-                    return GetDiscardDeckPosition.localPosition;
+                    return GetDiscardDeckPosition.anchoredPosition3D;
                 case DeckEnum.Exhaust:
-                    return GetExhaustDeckPosition.localPosition;
+                    return GetExhaustDeckPosition.anchoredPosition3D;
                 default:
                     return Vector3.zero;
             }
@@ -295,7 +295,7 @@ namespace Battles.UI
             DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, _holdingCardUI.GFX.GetCardReference);
             _holdingCardUI.CardTranslations.CancelAllTweens();
             _holdingCardUI.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
-            _holdingCardUI.CardTranslations.MoveCard(true, _draggableLocation.localPosition, 0.3f);
+            _holdingCardUI.CardTranslations.MoveCard(true, _draggableLocation.anchoredPosition3D, 0.3f);
             _holdingCardUI.GFX.GlowCard(false);
             _holdingCardUI.CardAnimator.ScaleAnimation(false);
             _soundEvent?.Raise(SoundsNameEnum.TapCard);
