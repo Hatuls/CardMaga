@@ -148,7 +148,7 @@ public class AnimatorController : MonoBehaviour
         if (card == null )
             return;
 
-         SetAnimationQueue(card.GetSetCard.GetAnimationBundle);
+         SetAnimationQueue(card.CardSO.GetAnimationBundle);
        
     }
     public void SetAnimationQueue(AnimationBundle animationBundle )

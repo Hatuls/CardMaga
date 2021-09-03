@@ -490,7 +490,7 @@ namespace Battles.UI
                     continue;
 
                 RectTransform cardUIRect = cards[i].GFX.GetRectTransform;
-                DeckEnum goToDeck = cards[i].GFX.GetCardReference.GetSetCard.GoToDeckAfterCrafting;
+                DeckEnum goToDeck = cards[i].GFX.GetCardReference.CardSO.GoToDeckAfterCrafting;
                 switch (goToDeck)
                 {
                     case DeckEnum.PlayerDeck:

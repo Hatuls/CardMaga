@@ -117,9 +117,9 @@ namespace Battles.UI.CardUIAttributes
             SetNameText(cardData.GetCardName.ToString());
             SetCardDescriptionText(cardData.GetCardDescription);
             SetLastCardEffectText("");
-            SetBodyPartImage(artSO.IconCollection.GetSprite(cardData.GetBodyPartEnum));
+            SetBodyPartImage(artSO.IconCollection.GetSprite(_cardReferenceInHandDeck.BodyPartEnum));
             SetCardColors(cardData.GetCardTypeEnum);
-            SetStaminaText(cardData.GetStaminaCost);
+            SetStaminaText(_cardReferenceInHandDeck.StaminaCost);
             SetCardUIImage(cardData.GetCardImage);
 
             //   card.SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
@@ -135,7 +135,7 @@ namespace Battles.UI.CardUIAttributes
         internal void SetCardReference(Card cardData, ArtSO artSO)
         {
            _cardReferenceInHandDeck = cardData;
-            SetCardReference( cardData.GetSetCard, artSO);
+            SetCardReference( cardData.CardSO, artSO);
         }
 
         private void SetStaminaText(int stamina)

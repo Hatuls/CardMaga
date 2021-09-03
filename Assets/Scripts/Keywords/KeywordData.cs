@@ -21,12 +21,7 @@ namespace Keywords
 
         [Tooltip("The amount to apply:")]
         [SerializeField] int _amountToApply;
-
-        [Tooltip("When Upgraded, Add This Amount:")]
-        [SerializeField]int _upgradeBonusAmount;
-
-        [Tooltip("How Many Times This Card Can Be Upgraded")]
-        [SerializeField] int _maxUpgradeLevel = 1 ;
+         
 
 
         [Header("Conditions:")]
@@ -38,8 +33,7 @@ namespace Keywords
         #region Properties
         public Condition GetConditions=> _conditions;
         public  TargetEnum GetTarget => _target;
-        public int GetAmountToApply => _amountToApply;
-        public int GetUpgradedAmount =>  _upgradeBonusAmount;
+        public int GetAmountToApply { get => _amountToApply; set => _amountToApply = value; }
         public KeywordSO GetKeywordSO => _keywordBase;
         #endregion
 

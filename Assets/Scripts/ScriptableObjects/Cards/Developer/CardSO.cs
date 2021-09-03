@@ -35,30 +35,37 @@ namespace Cards
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("When Crafted what deck does it go to?")]
+        [SerializeField]
         Battles.Deck.DeckEnum _goToDeckAfterCraft = Battles.Deck.DeckEnum.Hand;
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
       
         [Tooltip("The Description of the card:")]
         [TextArea()]
-        [SerializeField] string _cardDescription;
+        [SerializeField] 
+        string _cardDescription;
 
 
         [Space]
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much stamina the card cost")]
-        [SerializeField] int _staminaCost = 1;    
-        [TabGroup("CardData/Info", "Data")]
-        [Tooltip("How much coins the card cost")]
-        [SerializeField] int _purchaseCost = 1;
+        [SerializeField] 
+        int _staminaCost = 1;    
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much coins the card cost")]
-        [SerializeField] int _salvageCost = 1;
+        [SerializeField]
+        int _purchaseCost = 1;
+
+        [TabGroup("CardData/Info", "Data")]
+        [Tooltip("How much coins the card cost")]
+        [SerializeField]
+        int _salvageCost = 1;
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("When Activated is Exhausted")]
-        [SerializeField] bool _toExhaust = false;
+        [SerializeField]
+        bool _toExhaust = false;
 
 
 
@@ -67,18 +74,24 @@ namespace Cards
         [Header("Card's Regular Keywords: ")]
         [Tooltip("Card's Keywords:")]
         [TabGroup("CardData/Info", "Keywords")]
-        [SerializeField] KeywordData[] _keywords;
+        [SerializeField] 
+        KeywordData[] _keywords;
 
         [TabGroup("CardData/Info", "Keywords")]
         [Header("Card's Additional Keywords: ")]
         [Tooltip("When Card Is Upgraded this keyword is added")]
-        [SerializeField] KeywordData[] _upgrateKeywords;
+        [SerializeField]
+        KeywordData[] _upgrateKeywords;
 
 
 
         [TabGroup("CardData/Info", "Levels")]
-        [SerializeField] PerLevelUpgrade[] _perLevelUpgrade;
+        [SerializeField] 
+        PerLevelUpgrade[] _perLevelUpgrade;
 
+        [TabGroup("CardData/Info", "Crafting")]
+        [SerializeField]
+        int[] _cardsIDToCraftMe;
 
         #endregion
 
@@ -97,8 +110,8 @@ namespace Cards
         public int GetStaminaCost => _staminaCost;
         public ref Battles.Deck.DeckEnum GoToDeckAfterCrafting =>ref _goToDeckAfterCraft;
         public KeywordData[] GetCardsKeywords => _keywords;
-     
-
+        public int CardsMaxLevel => PerLevelUpgrade == null ? 1 : PerLevelUpgrade.Length+1;
+      
         #endregion
 
 
@@ -108,35 +121,6 @@ namespace Cards
         
 
 
-    }
-
-
-    [System.Serializable]
-    public class PerLevelUpgrade
-    {
-        [SerializeField]
-        private int _costForLevelUp;
-        public int CostForLevelUp => _costForLevelUp;
-
-        [SerializeField]
-        private int _salvageChipsAddition;
-        public int SalvageChipsAddition => _salvageChipsAddition;
-
-
-        [SerializeField]
-        private Upgrade[] _upgradesPerLevel;
-        public Upgrade[] UpgradesPerLevel => _upgradesPerLevel;
-
-        [System.Serializable]
-        public class Upgrade
-        {
-            [SerializeField] private LevelUpgradeEnum _upgradeType;
-            [SerializeField] private KeywordTypeEnum _keywordReference;
-            [SerializeField] private int _amount;
-            public LevelUpgradeEnum UpgradeType => _upgradeType;
-            public KeywordTypeEnum KeywordRefernce => _keywordReference;
-            public int Amount => _amount;
-        }
     }
 
     public enum LevelUpgradeEnum

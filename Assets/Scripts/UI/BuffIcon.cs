@@ -35,16 +35,16 @@ public class BuffIcon : MonoBehaviour
     public virtual void InitIconData(Cards.Card card)
     {
         var _cardTypePalette = ArtSettings.CardTypePalette;
-        _icon.sprite = ArtSettings.CardIconCollectionSO.GetSprite(card.GetSetCard.GetBodyPartEnum);
+        _icon.sprite = ArtSettings.CardIconCollectionSO.GetSprite(card.CardSO.GetBodyPartEnum);
 
         _background.color = ArtSettings.BuffUIPalette.CardDefaultBackground;
 
-        Color clr = _cardTypePalette.GetIconBodyPartColorFromEnum(card.GetSetCard.GetCardTypeEnum);
+        Color clr = _cardTypePalette.GetIconBodyPartColorFromEnum(card.CardSO.GetCardTypeEnum);
         _icon.color = clr;
 
 
-        _decor.color = _cardTypePalette.GetDecorationColorFromEnum(card.GetSetCard.GetCardTypeEnum);
-        SetText(card.GetSetCard.GetCardsKeywords[0].GetAmountToApply.ToString());
+        _decor.color = _cardTypePalette.GetDecorationColorFromEnum(card.CardSO.GetCardTypeEnum);
+        SetText(card.CardSO.GetCardsKeywords[0].GetAmountToApply.ToString());
 
         _iconText.color = clr;
     }

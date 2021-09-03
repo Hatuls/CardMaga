@@ -30,16 +30,15 @@ namespace Characters.Stats
         }
 
         public static bool IsEnoughStamina(Card card)
-        => Stamina >= card.GetSetCard.GetStaminaCost;
+        => Stamina >= card.StaminaCost;
 
         public static void ResetExtraStamina()
         {
          _extraStamina = 0;
-
         }
         public static void ReduceStamina(Card card)
         {
-         _stamina -= card.GetSetCard.GetStaminaCost;
+         _stamina -= card.StaminaCost;
             _staminaUI?.SetText(_stamina);
         }
 

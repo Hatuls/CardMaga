@@ -116,7 +116,7 @@ namespace Managers
 
             foreach (var item in _playerCardDict)
             {
-                if (item.Value.GetSetCard.GetCardName == card)
+                if (item.Value.CardSO.GetCardName == card)
                   return  CheckIfCardExistInDict(item.Value.CardID);
             }
 
@@ -128,7 +128,7 @@ namespace Managers
             {
                 foreach (var _card in _playerCardDict)
                 {
-                    if (_card.Value.GetSetCard.GetCardName == card)
+                    if (_card.Value.CardSO.GetCardName == card)
                         _playerCardDict.Remove(_card.Value.CardID);
                 }
             }
