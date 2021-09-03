@@ -593,7 +593,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerKnownRecipe: {fileID: 11400000, guid: 3624130992cc76241930274ac5acc6f6, type: 2}
   _cardRecipeDetected: {fileID: 0}
-  _craftingUIHandler: {fileID: 0}
   _playSound: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa, type: 2}
   _successCrafting: {fileID: 11400000, guid: 01936ff9a3ed66e47b1d9e213f25f55e, type: 2}
 --- !u!1 &5847196689953200342
@@ -650,7 +649,7 @@ MonoBehaviour:
       _strengthPoint: 0
       _bleedPoints: 0
       _cardDraw: 0
-  _uiBuffIconHandler: {fileID: 0}
+      _maxStamina: 0
   _enemyAnimatorController: {fileID: 0}
 --- !u!1 &6096008466143656032
 GameObject:
@@ -695,6 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba95dcd5eb801d04887d4176c69d5ade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toUseRayCastHit: 0
   _isScreenLocked: 0
   _main: {fileID: 0}
 --- !u!114 &31140436
@@ -760,6 +760,7 @@ MonoBehaviour:
     _strengthPoint: 0
     _bleedPoints: 0
     _cardDraw: 0
+    _maxStamina: 0
   _playerAnimatorController: {fileID: 0}
   _playerCards: {fileID: 11400000, guid: 111a0707846489347b78a4502b16f493, type: 2}
 --- !u!1001 &560829603274829597

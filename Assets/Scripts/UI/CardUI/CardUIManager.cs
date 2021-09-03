@@ -75,12 +75,12 @@ namespace Battles.UI
 
         #region Private Methods
         public CardUI ActivateCard(Card card)
-            => ActivateCard(card, _craftingBtnPosition.anchoredPosition3D);
+            => ActivateCard(card, _craftingBtnPosition.localPosition);
 
 
         internal void CraftCardUI(Card addedCard, DeckEnum toDeck)
         {
-            var cardui = ActivateCard(addedCard, _craftingBtnPosition.anchoredPosition3D);
+            var cardui = ActivateCard(addedCard, _craftingBtnPosition.localPosition);
 
             var handler = GetCardUIHandler<CraftCardUIHandler>();
 
