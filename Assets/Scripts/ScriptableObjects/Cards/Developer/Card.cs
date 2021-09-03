@@ -20,9 +20,9 @@ namespace Cards
 
         #region Properties
 
-        public int GetCardID => _cardID;
+        public int CardID => _cardID;
 
-        public int GetCardLevel => _currentLevel;
+        public int CardLevel => _currentLevel;
 
         public  CardSO GetSetCard
         {    private set => _cardSO = value;
@@ -35,12 +35,14 @@ namespace Cards
                 if (_cardKeyword == null || _cardKeyword.Length == 0)
                     _cardKeyword = _cardSO.GetCardsKeywords;
 
-                if (_cardSO.GetCardsKeywords.Length == _cardKeyword.Length && _currentLevel >= _cardSO.GetCardLevelToUnlockKeywords)
-                {
-                    _cardKeyword = new KeywordData[_cardSO.GetCardsKeywords.Length + _cardSO.GetAdditionalKeywords.Length];
-                    Array.Copy(_cardSO.GetCardsKeywords, _cardKeyword, _cardSO.GetCardsKeywords.Length);
-                    Array.Copy(_cardSO.GetAdditionalKeywords, 0, _cardKeyword, _cardSO.GetCardsKeywords.Length, _cardSO.GetAdditionalKeywords.Length);
-                }
+
+                // needs to re-implement
+                //if (_cardSO.GetCardsKeywords.Length == _cardKeyword.Length && _currentLevel >= _cardSO.GetCardLevelToUnlockKeywords)
+                //{
+                //    _cardKeyword = new KeywordData[_cardSO.GetCardsKeywords.Length + _cardSO.GetAdditionalKeywords.Length];
+                //    Array.Copy(_cardSO.GetCardsKeywords, _cardKeyword, _cardSO.GetCardsKeywords.Length);
+                //    Array.Copy(_cardSO.GetAdditionalKeywords, 0, _cardKeyword, _cardSO.GetCardsKeywords.Length, _cardSO.GetAdditionalKeywords.Length);
+                //}
 
                 return _cardKeyword;
             }

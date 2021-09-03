@@ -46,8 +46,8 @@ namespace Managers
 
             for (int i = 0; i < _playerCards.Length; i++)
             {
-                if (_playerCardDict.ContainsKey(_playerCards[i].GetCardID) == false)
-                                _playerCardDict.Add(_playerCards[i].GetCardID, _playerCards[i]);
+                if (_playerCardDict.ContainsKey(_playerCards[i].CardID) == false)
+                                _playerCardDict.Add(_playerCards[i].CardID, _playerCards[i]);
             }
             //check if to load from json file or start new one
         }
@@ -117,7 +117,7 @@ namespace Managers
             foreach (var item in _playerCardDict)
             {
                 if (item.Value.GetSetCard.GetCardName == card)
-                  return  CheckIfCardExistInDict(item.Value.GetCardID);
+                  return  CheckIfCardExistInDict(item.Value.CardID);
             }
 
             return false;
@@ -129,7 +129,7 @@ namespace Managers
                 foreach (var _card in _playerCardDict)
                 {
                     if (_card.Value.GetSetCard.GetCardName == card)
-                        _playerCardDict.Remove(_card.Value.GetCardID);
+                        _playerCardDict.Remove(_card.Value.CardID);
                 }
             }
 
