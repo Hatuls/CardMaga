@@ -166,7 +166,7 @@ namespace Battles.UI
                         Debug.LogError("CardUI is NUll");
                         return;
                     }
-                    CardUIArr[i].GFX.SetActive(false);
+                    CardUIArr[i].gameObject.SetActive(false);
                 }
             }
         }
@@ -212,7 +212,7 @@ namespace Battles.UI
         }
         public override void Init()
         {
-            
+            InitCardUI();
             _handUI = new HandUI(ref _cardUISettings.GetAmountOfCardsUIInHand, GetHandMiddlePosition.anchoredPosition, _cardUISettings);
 
             _transitions = new CardUITransition[4]
@@ -222,9 +222,6 @@ namespace Battles.UI
                 new DiscardHandHandler(this,_cardUISettings,_handUI,_soundEvent),
                 new CraftCardUIHandler(_handUI ,this, _cardUISettings,_soundEvent)
             };
-            
-            
-            InitCardUI();
         }
 
         private T GetCardUIHandler<T>() where T : CardUITransition

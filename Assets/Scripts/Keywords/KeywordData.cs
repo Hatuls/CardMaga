@@ -40,6 +40,7 @@ namespace Keywords
         public  TargetEnum GetTarget => _target;
         public int GetAmountToApply => _amountToApply;
         public int GetUpgradedAmount =>  _upgradeBonusAmount;
+      
         public KeywordSO GetKeywordSO => _keywordBase;
         #endregion
 

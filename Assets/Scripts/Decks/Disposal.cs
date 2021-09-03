@@ -48,7 +48,7 @@ namespace Battles.Deck
                 if (GetDeck[i] == null)
                     continue;
 
-                if (card.CardID == GetDeck[i].CardID)
+                if (card.GetCardID == GetDeck[i].GetCardID)
                     return true;
             }
             return false;

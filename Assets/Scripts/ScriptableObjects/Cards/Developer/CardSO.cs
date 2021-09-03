@@ -49,18 +49,20 @@ namespace Cards
         [Tooltip("How much stamina the card cost")]
         [SerializeField] int _staminaCost = 1;    
         [TabGroup("CardData/Info", "Data")]
-        [Tooltip("How much coins the card cost")]
-        [SerializeField] int _purchaseCost = 1;
-
-        [TabGroup("CardData/Info", "Data")]
-        [Tooltip("How much coins the card cost")]
-        [SerializeField] int _salvageCost = 1;
-
-        [TabGroup("CardData/Info", "Data")]
         [Tooltip("When Activated is Exhausted")]
         [SerializeField] bool _toExhaust = false;
 
+        [TabGroup("CardData/Info", "Data")]
+        [Tooltip("How much coins the card cost")]
+        [SerializeField] int _moneyCost = 1;
 
+
+        [TabGroup("CardData/Info", "Data")]
+        [Tooltip("How Many Times This Card Can Be Upgraded")]
+        [SerializeField] int _maxUpgradeLevel = 1;
+        [TabGroup("CardData/Info", "Data")]
+        [Tooltip("On What Level To Unlock the additional keywords")]
+        [SerializeField] int _whenUnlockNewKeywords = 1;
 
         [Header("Card's Keywords: ")]
 
@@ -73,79 +75,34 @@ namespace Cards
         [Header("Card's Additional Keywords: ")]
         [Tooltip("When Card Is Upgraded this keyword is added")]
         [SerializeField] KeywordData[] _upgrateKeywords;
-
-
-
-        [TabGroup("CardData/Info", "Levels")]
-        [SerializeField] PerLevelUpgrade[] _perLevelUpgrade;
-
-
         #endregion
 
         #region Properties
-        public PerLevelUpgrade[] PerLevelUpgrade => _perLevelUpgrade;
         public ref bool ToExhaust => ref _toExhaust;
         public CardType GetCardType => _cardData;
         public RarityEnum GetCardsRarityLevel => _cardData._rarityLevel;
         public string GetCardName => _cardName;
         public ref Sprite GetCardImage => ref _cardImage;
         public ref string GetCardDescription => ref _cardDescription;
-        public ref int MoneyCost => ref _purchaseCost;
+        public ref int MoneyCost => ref _moneyCost;
         public CardTypeEnum GetCardTypeEnum => _cardData._cardType;
         public AnimationBundle GetAnimationBundle => _animationBundle;
         public BodyPartEnum GetBodyPartEnum => _cardData._bodyPart;
         public int GetStaminaCost => _staminaCost;
         public ref Battles.Deck.DeckEnum GoToDeckAfterCrafting =>ref _goToDeckAfterCraft;
         public KeywordData[] GetCardsKeywords => _keywords;
-     
-
+        public KeywordData[] GetAdditionalKeywords => _upgrateKeywords;
+        public ref int GetKeyWordMaxLevel => ref _maxUpgradeLevel;
+        public ref int GetCardLevelToUnlockKeywords => ref _whenUnlockNewKeywords;
         #endregion
 
 
 
 
-       
+            public Battles.Deck.DeckEnum _destination;
         
 
 
-    }
-
-
-    [System.Serializable]
-    public class PerLevelUpgrade
-    {
-        [SerializeField]
-        private int _costForLevelUp;
-        public int CostForLevelUp => _costForLevelUp;
-
-        [SerializeField]
-        private int _salvageChipsAddition;
-        public int SalvageChipsAddition => _salvageChipsAddition;
-
-
-        [SerializeField]
-        private Upgrade[] _upgradesPerLevel;
-        public Upgrade[] UpgradesPerLevel => _upgradesPerLevel;
-
-        [System.Serializable]
-        public class Upgrade
-        {
-            [SerializeField] private LevelUpgradeEnum _upgradeType;
-            [SerializeField] private KeywordTypeEnum _keywordReference;
-            [SerializeField] private int _amount;
-            public LevelUpgradeEnum UpgradeType => _upgradeType;
-            public KeywordTypeEnum KeywordRefernce => _keywordReference;
-            public int Amount => _amount;
-        }
-    }
-
-    public enum LevelUpgradeEnum
-    {
-        None,
-        Stamina,
-        BodyPart,
-        UpgradeKeywords,
-        ConditionReduction
     }
 
     public enum RarityEnum

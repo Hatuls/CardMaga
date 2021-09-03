@@ -112,14 +112,12 @@ namespace Keywords
 
     public enum KeywordTypeEnum
     {
-        None =0,
-        Attack = 1,
-        Defense= 2,
-        Heal = 3 ,
-        Strength =4,
-        Bleed = 5,
-        MaxHealth =6,
-        
+        Attack =0,
+        Defense= 1,
+        Heal = 2 ,
+        Strength =3,
+        Bleed = 4,
+        MaxHealth =5
     };
 
 }
