@@ -129,7 +129,7 @@ public class CraftingSlotUI : MonoBehaviour
     public void MovePlaceHolderSlot(ref bool toMoveLeft, RectTransform moveTo, float offset)
     {
         Vector3 v3 = moveTo.rect.center;
-        if (toMoveLeft)
+        if (!toMoveLeft)
             v3.x += moveTo.rect.width;
         else
             v3.x -= moveTo.rect.width;

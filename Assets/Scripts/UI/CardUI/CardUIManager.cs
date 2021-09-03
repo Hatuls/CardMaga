@@ -75,19 +75,20 @@ namespace Battles.UI
 
         #region Private Methods
         public CardUI ActivateCard(Card card)
-            => ActivateCard(card, _craftingBtnPosition.position);
+            => ActivateCard(card, _craftingBtnPosition.anchoredPosition3D);
 
 
         internal void CraftCardUI(Card addedCard, DeckEnum toDeck)
         {
-            var cardui = ActivateCard(addedCard, _craftingBtnPosition.position);
+            var cardui = ActivateCard(addedCard, _craftingBtnPosition.anchoredPosition3D);
+
             var handler = GetCardUIHandler<CraftCardUIHandler>();
 
             StartCoroutine(
                 handler.MoveCardsUI(
                 new CardUI[1] { cardui },
                 GetDeckPosition(toDeck),
-                _craftingBtnPosition.anchoredPosition)
+                _craftingBtnPosition.localPosition)
                 );
 
         }
@@ -133,13 +134,13 @@ namespace Battles.UI
             switch (fromDeck)
             {
                 case DeckEnum.PlayerDeck:
-                    return GetDrawDeckPosition.anchoredPosition3D;
+                    return GetDrawDeckPosition.localPosition;
                 case DeckEnum.Hand:
-                    return GetHandMiddlePosition.anchoredPosition3D;
+                    return GetHandMiddlePosition.localPosition;
                 case DeckEnum.Disposal:
-                    return GetDiscardDeckPosition.anchoredPosition3D;
+                    return GetDiscardDeckPosition.localPosition;
                 case DeckEnum.Exhaust:
-                    return GetExhaustDeckPosition.anchoredPosition3D;
+                    return GetExhaustDeckPosition.localPosition;
                 default:
                     return Vector3.zero;
             }
@@ -295,7 +296,7 @@ namespace Battles.UI
             DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, _holdingCardUI.GFX.GetCardReference);
             _holdingCardUI.CardTranslations.CancelAllTweens();
             _holdingCardUI.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
-            _holdingCardUI.CardTranslations.MoveCard(true, _draggableLocation.anchoredPosition3D, 0.3f);
+            _holdingCardUI.CardTranslations.MoveCard(true, _draggableLocation.localPosition, 0.3f);
             _holdingCardUI.GFX.GlowCard(false);
             _holdingCardUI.CardAnimator.ScaleAnimation(false);
             _soundEvent?.Raise(SoundsNameEnum.TapCard);

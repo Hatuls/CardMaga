@@ -12,7 +12,10 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
         {
             if (_instance == null)
             {
-                Debug.LogError("AudioManager Is Null!");
+                Debug.Log("AudioManager Is Null! Instantiating New AudioManager!");
+                GameObject go = new GameObject("AudioManager");
+                 go.AddComponent<AudioManager>().Init();
+               
             }
 
             return _instance;
@@ -45,6 +48,10 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
 
     public void Awake()
     {
+        Init();
+    }
+    private void  Init()
+    {
         if (_instance == null)
         {
             _instance = this;
@@ -54,7 +61,6 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
         else if (_instance != this)
             Destroy(this.gameObject);
     }
-
     void LoadAudio()
     {
         if (AudioDictionary == null || (AudioDictionary != null && AudioDictionary.Count == 0))
@@ -65,6 +71,9 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
     }
     AudioSourceAbstract EnableAudioSource()
     {
+        if (_audioSourceStackable == null)
+            _audioSourceStackable = new List<AudioSourceAbstract>();
+
         if (_audioSourceStackable.Count > 0)
         {
             for (int i = 0; i < _audioSourceStackable.Count; i++)

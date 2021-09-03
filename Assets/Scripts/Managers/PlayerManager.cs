@@ -25,7 +25,7 @@ namespace Managers
          //   Battles.UI.StatsUIManager.GetInstance.UpdateHealthBar(true, _playerStat.Health);
 
             CardManager.Instance.AssignPlayerCardDict(_playerCards.GetCharacterCards);
-            Characters.Stats.StaminaHandler.SetMaxStamina = _playerCards.GetMaxStamina;
+
         }
         private void Start()
         {

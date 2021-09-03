@@ -6,15 +6,13 @@ namespace Characters.Stats
     {
         #region Fields
         private static int _stamina;
-        private static int _maxStamina=3;
 
         private static int _extraStamina = 0;
         #endregion
 
         #region Properties
         public static int Stamina => _stamina;
-        public static int MaxStamina => _maxStamina;
-        public static int SetMaxStamina { set => _maxStamina = value; }
+
 
         private static StaminaUI _staminaUI;
         public static StaminaUI StaminaUI { set => _staminaUI = value; }
@@ -25,9 +23,9 @@ namespace Characters.Stats
 
         public static void ResetStamina()
         {
-            _stamina = _maxStamina + _extraStamina;
+            _stamina = StatsHandler.GetInstance.GetCharacterStats(true).MaxStamina + _extraStamina;
 
-            _staminaUI?.SetText(_stamina, _maxStamina);
+            _staminaUI?.SetText(_stamina);
             ResetExtraStamina();
         }
 
@@ -42,13 +40,13 @@ namespace Characters.Stats
         public static void ReduceStamina(Card card)
         {
          _stamina -= card.GetSetCard.GetStaminaCost;
-            _staminaUI?.SetText(_stamina, _maxStamina);
+            _staminaUI?.SetText(_stamina);
         }
 
         public static void AddStamina(int amount)
         {
             _stamina += amount;
-            _staminaUI?.SetText(_stamina, _maxStamina);
+            _staminaUI?.SetText(_stamina);
         }
         #endregion
     }

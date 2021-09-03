@@ -15,5 +15,5 @@ public class StaminaUI : MonoBehaviour
         StaminaHandler.StaminaUI = this;
     
     }
-    public void SetText(int stamina , int maxStamina) => _text.text =string.Concat(stamina, " / ", maxStamina);
+    public void SetText(int stamina) => _text.text =(stamina).ToString();
 }

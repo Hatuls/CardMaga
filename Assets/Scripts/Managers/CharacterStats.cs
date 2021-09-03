@@ -27,9 +27,12 @@ namespace Characters.Stats
 
         [Tooltip("Character Cards Draw")]
         [SerializeField] int _cardDraw;
+
+        [SerializeField] int _maxStamina;
         #endregion
 
         #region Properties
+        public int MaxStamina { get => _maxStamina; set => _maxStamina = value; }
         public int DrawCardsAmount { get => _cardDraw; set => _cardDraw = value; }
         public int Health {  get => _health; set => _health = value; }
         public int MaxHealth { get => _maxHealth; set =>_maxHealth =value; }

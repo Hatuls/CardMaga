@@ -5,7 +5,7 @@ namespace Battles
     {
         #region Fields
         [UnityEngine.SerializeField] Opponents _opponent;
-        [SerializeField] BuffIconsHandler _uiBuffIconHandler;
+     
          [SerializeField]  AnimatorController _enemyAnimatorController;
         #endregion
 
@@ -22,7 +22,7 @@ namespace Battles
                 _opponent.AssignData(_character);
         }
 
-        public static void SetEnemyAction(Cards.Card card) => Instance._uiBuffIconHandler?.SetOpponentActionUI(card);
+    
 
         public Opponents GetEnemy {
             get
@@ -69,7 +69,7 @@ namespace Battles
             "\n This attack is going to use " + enemyAction.GetSetCard.GetBodyPartEnum.ToString() + "\n" +
             "And Do " + enemyAction.GetSetCard.GetCardTypeEnum.ToString() + " with the amount of " + enemyAction.GetSetCard.GetCardsKeywords[0].GetAmountToApply);
 
-            EnemyManager.SetEnemyAction(enemyAction);
+
           
 
             yield return new WaitForSeconds(.1f);

@@ -22,29 +22,24 @@ namespace Battles.UI
 
         public CraftingUIHandler GetCharacterUIHandler(bool players)
         {
-            InitCraftingUIHandler();
+            Init();
             return players ? _playerCraftingUIHandler : _opponentCraftingUIHandler;
         }
 
 
-        private void InitCraftingUIHandler()
+
+
+        public override void Init()
         {
-            if(_playerCraftingUIHandler == null)
+            if (_playerCraftingUIHandler == null)
             {
-                _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _playersfirstSlotTransform, leanTweenTime,true, _buttonGlow, _buttonText);
+                _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _playersfirstSlotTransform, leanTweenTime, true, _buttonGlow, _buttonText);
             }
 
             if (_opponentCraftingUIHandler == null)
             {
-                _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI, _opponentfirstSlotTransform, leanTweenTime,false);
+                _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI, _opponentfirstSlotTransform, leanTweenTime, false);
             }
         }
-
-
-
-    public override void Init()
-    {
-        throw new System.NotImplementedException();
-    }
 }
 }
