@@ -57,7 +57,7 @@ namespace Battles.Deck
                 return copyArray;
             }
         }
-        public static CraftingDeck GetCraftingSlots => (CraftingDeck)Instance.GetDeckAbst(DeckEnum.CraftingSlots);
+        public static PlayerCraftingSlots GetCraftingSlots => (PlayerCraftingSlots)Instance.GetDeckAbst(DeckEnum.PlayerCraftingSlots);
         #endregion
 
         #region Functions
@@ -176,7 +176,7 @@ namespace Battles.Deck
                 case 4:
                     return DeckEnum.Selected;
                 case 5:
-                    return DeckEnum.CraftingSlots;
+                    return DeckEnum.PlayerCraftingSlots;
             }
 
             return 0;
@@ -190,8 +190,8 @@ namespace Battles.Deck
 
 
         
-        public static void AddToCraftingSlot(Card card) 
-            => Instance.GetDeckAbst(DeckEnum.CraftingSlots).AddCard(card);
+        public static void AddToCraftingSlot(bool toPlayerCraftingSlots,Card card) 
+            => Instance.GetDeckAbst(toPlayerCraftingSlots ? DeckEnum.PlayerCraftingSlots: DeckEnum.OpponentCraftingSlots).AddCard(card);
         #endregion
 
         #region Private Functions   
@@ -274,8 +274,8 @@ namespace Battles.Deck
                 case DeckEnum.Selected:
                     GetDeckAbst(DeckEnum.Exhaust).ResetDeck();
                     break;
-                case DeckEnum.CraftingSlots:
-                    GetDeckAbst(DeckEnum.CraftingSlots).ResetDeck();
+                case DeckEnum.PlayerCraftingSlots:
+                    GetDeckAbst(DeckEnum.PlayerCraftingSlots).ResetDeck();
                     break;
                 case DeckEnum.Hand:
                 default:
@@ -304,7 +304,8 @@ namespace Battles.Deck
             _decksDict.Add(DeckEnum.Disposal,new Disposal(GetSetDeck.Length , _decksDict[DeckEnum.PlayerDeck] as PlayerDeck , _disposalIcon));
             _decksDict.Add(DeckEnum.Hand, new PlayerHand(_playerStartingHandSize, _decksDict[DeckEnum.Disposal] as Disposal));
             _decksDict.Add(DeckEnum.Selected, new Selected (_placementSize, _decksDict[DeckEnum.Disposal] as Disposal,_decksDict[DeckEnum.Hand] as PlayerHand ));
-            _decksDict.Add(DeckEnum.CraftingSlots, new CraftingDeck(_craftingSlotsSize));
+            _decksDict.Add(DeckEnum.PlayerCraftingSlots, new PlayerCraftingSlots(_craftingSlotsSize));
+            _decksDict.Add(DeckEnum.OpponentCraftingSlots, new OpponentCraftingSlot(_craftingSlotsSize));
 
             }
 

@@ -20,7 +20,6 @@ public class CraftingSlotUI : MonoBehaviour
 
 
 
-
     #endregion
     #region Properties
     public int SlotID { get => _SlotID; set => _SlotID = value; }
@@ -41,10 +40,7 @@ public class CraftingSlotUI : MonoBehaviour
     #endregion
     private void Start()
     {
-
         slotPos = GetIconHolderRectTransform.anchoredPosition3D;
-      
-
     }
 
    public void InitPlaceHolder( Cards.CardType cardType)
@@ -130,10 +126,13 @@ public class CraftingSlotUI : MonoBehaviour
         _iconImage.color = ArtSettings.CardTypePalette.GetIconBodyPartColorFromEnum(cardType);
         _decorImage.color = ArtSettings.CardTypePalette.GetDecorationColorFromEnum(cardType);
     }
-    public void MovePlaceHolderSlot(ref RectTransform moveTo, float offset)
+    public void MovePlaceHolderSlot(ref bool toMoveLeft, RectTransform moveTo, float offset)
     {
         Vector3 v3 = moveTo.rect.center;
-        v3.x += moveTo.rect.width;
+        if (toMoveLeft)
+            v3.x += moveTo.rect.width;
+        else
+            v3.x -= moveTo.rect.width;
         //v3.y = moveTo.anchoredPosition3D.y;
         //v3.x = 0;
         //v3.z = 0;

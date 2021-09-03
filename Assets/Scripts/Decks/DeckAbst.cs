@@ -289,7 +289,8 @@ namespace Battles.Deck
         Disposal,
         Exhaust,
         Selected,
-        CraftingSlots,
+        PlayerCraftingSlots,
+        OpponentCraftingSlots,
     };
     public interface IDeckHandler {
       

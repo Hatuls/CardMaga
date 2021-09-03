@@ -15,7 +15,7 @@ namespace Combo
         #region Fields
         [SerializeField] ComboCollectionSO _playerKnownRecipe;
         [SerializeField] ComboSO _cardRecipeDetected;
-        [SerializeField] CraftingUIHandler _craftingUIHandler;
+
         static byte threadId;
 
         #endregion
@@ -101,16 +101,14 @@ namespace Combo
         public static void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId, () => DetectRecipe(), () => EndDetection()));
         private static void EndDetection()
         {
+              var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(true);
 
             if (Instance._cardRecipeDetected == null)
-            {
-                Instance._craftingUIHandler.ResetSlotsDetection();
+             _craftingUIHandler.ResetSlotsDetection();
                 
-            }
             else
-            {
-                Instance._craftingUIHandler.MarkSlotsDetected();
-            }
+              _craftingUIHandler.MarkSlotsDetected();
+            
         }
         static void DetectRecipe()
         {

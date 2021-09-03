@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Battles.UI
 {
-    public class CraftingUIHandler : MonoBehaviour
+    public class CraftingUIHandler
     {
         //reset Slots UI
         //give refrence to crafring slot Data
@@ -14,23 +14,39 @@ namespace Battles.UI
         #region Fields
 
 
-        [SerializeField] CraftingSlotUI[] _CraftingSlotsUIArr;
-        [SerializeField] RectTransform _firstSlotTransform;
-        [SerializeField] float _leanTweenTime;
+         CraftingSlotUI[] _CraftingSlotsUIArr;
+         RectTransform _firstSlotTransform;
+         float _leanTweenTime;
 
-        [SerializeField] float _offsetPos =1 ;
-          static  CraftingUIHandler _instance;
+         float _offsetPos =1 ;
 
-        [SerializeField] GameObject _buttonGlow;
 
-        [SerializeField] TextMeshProUGUI _buttonText;
+         GameObject _buttonGlow;
 
-        #region Events
-        #endregion
+         TextMeshProUGUI _buttonText;
 
+
+        bool isPlayersCrafting;
         #region Properties
         public CraftingSlotUI[] GetCraftingSlotsUIArr => _CraftingSlotsUIArr;
         #endregion
+
+
+
+        public CraftingUIHandler(CraftingSlotUI[] _CraftingSlotsUIArr, RectTransform _firstSlotTransform, float _leanTweenTime,bool isPlayersCrafting, GameObject _buttonGlow = null, TextMeshProUGUI _buttonText = null)
+        {
+            this._CraftingSlotsUIArr = _CraftingSlotsUIArr;
+            this._firstSlotTransform = _firstSlotTransform;
+            this._leanTweenTime = _leanTweenTime;
+            this._buttonGlow = _buttonGlow;
+            this._buttonText = _buttonText;
+            this.isPlayersCrafting = isPlayersCrafting;
+            ResetAllSlots();
+        }
+
+
+
+
         internal void ResetSlotsDetection()
         {
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
@@ -38,7 +54,7 @@ namespace Battles.UI
                 if (_CraftingSlotsUIArr[i] != null)
                     _CraftingSlotsUIArr[i].ActivateGlow(false);
             }
-            LeanTween.alpha(_instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
+            LeanTween.alpha(_CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
 
             if (_buttonGlow!= null && _buttonGlow.activeSelf != false)
             {
@@ -64,105 +80,73 @@ namespace Battles.UI
             }
         }
         #endregion
-        private void Awake()
+ 
+        public void ResetAllSlots()
         {
-            _instance = this;
-        }
-        private void Start()
-        {
-
-            ResetAllSlots();
-         
-        }
-        public static void ResetAllSlots()
-        {
-            if(_instance._CraftingSlotsUIArr == null)
+            if(_CraftingSlotsUIArr == null)
             {
                 Debug.LogError("Error in ResetAllSlots");
                 return;
             }
-            for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
+            for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
-                _instance._CraftingSlotsUIArr[i].SlotID = i + 1;
+               _CraftingSlotsUIArr[i].SlotID = i + 1;
                 ResetPlaceHolderUI(i);
             }
 
-            LeanTween.alpha(_instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
+            LeanTween.alpha(_CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
         }
-        public static void ResetPlaceHolderUI(int index)
+        public void ResetPlaceHolderUI(int index)
         {
      
 
-            if (index < 0  || index >= _instance._CraftingSlotsUIArr.Length)
+            if (index < 0  || index >= _CraftingSlotsUIArr.Length)
             {
                 Debug.LogError("Error in ResetCraftingSlot");
                 return;
             }
-            _instance._CraftingSlotsUIArr[index].ResetSlotUI();
+            _CraftingSlotsUIArr[index].ResetSlotUI();
         }
-        public static void ChangeSlotsPos(Cards.Card[] cards )
+        public void ChangeSlotsPos(Cards.Card[] cards )
         {
             // check thread possability for color check
 
 
             var type = cards[0].GetSetCard.GetCardType._cardType;
 
-            _instance._CraftingSlotsUIArr[0].Appear(_instance._leanTweenTime, type);
-            for (int i = 0; i < _instance._CraftingSlotsUIArr.Length; i++)
+            _CraftingSlotsUIArr[0].Appear(_leanTweenTime, type);
+            for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
-                _instance._CraftingSlotsUIArr[i].MovePlaceHolderSlot(ref _instance.GetRectTransform(i), _instance._CraftingSlotsUIArr.Length - 1 == i? 0: _instance._offsetPos);
-                _instance._CraftingSlotsUIArr[i].MoveDown(_instance._leanTweenTime);
+                _CraftingSlotsUIArr[i].MovePlaceHolderSlot(ref isPlayersCrafting, GetRectTransform(i), _CraftingSlotsUIArr.Length - 1 == i? 0: _offsetPos);
+                _CraftingSlotsUIArr[i].MoveDown(_leanTweenTime);
             }
-            if (cards[_instance._CraftingSlotsUIArr.Length - 1] != null)
+            if (cards[_CraftingSlotsUIArr.Length - 1] != null)
             {
 
-                type = cards[_instance._CraftingSlotsUIArr.Length - 1].GetSetCard.GetCardType._cardType;
+                type = cards[_CraftingSlotsUIArr.Length - 1].GetSetCard.GetCardType._cardType;
 
-                _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime, type);
-            }
-            else
-            {
-                _instance._CraftingSlotsUIArr[_instance._CraftingSlotsUIArr.Length - 1].Disapear(_instance._leanTweenTime);
-
-            }
-
-
-        }
-        public ref RectTransform GetRectTransform(int index)
-        {
-            if(index == 0)
-            {
-                return ref _firstSlotTransform;
+                _CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].Disapear(_leanTweenTime, type);
             }
             else
             {
+                _CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].Disapear(_leanTweenTime);
 
-                return ref _CraftingSlotsUIArr[index -1].RectTransform;
             }
         }
-        public  static void PlaceOnPlaceHolder(int index, Cards.Card cardCache)
+        public RectTransform GetRectTransform(int index)
+        => index == 0 ? _firstSlotTransform : _CraftingSlotsUIArr[index -1].RectTransform;
+  
+        public void PlaceOnPlaceHolder(int index, Cards.Card cardCache)
         {
             if (cardCache == null )
             {
                 ResetPlaceHolderUI(index);
                 return;
             }
-            //_instance._CraftingSlotsUIArr[index].InitPlaceHolder(_instance._artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
-            //   _instance._artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
+
             
-            _instance._CraftingSlotsUIArr[index].InitPlaceHolder(cardCache.GetSetCard.GetCardType);
+            _CraftingSlotsUIArr[index].InitPlaceHolder(cardCache.GetSetCard.GetCardType);
         }
-        //public void PlaceOnPlaceHolder(PlaceHolderSlotUI interactedSlot, Cards.Card cardCache)
-        //{
-        //    interactedSlot.InitCraftSlot(_artSO.UIColorPalette, cardCache.GetSetCard.GetCardTypeEnum,
-        //        _artSO.DefaultSlotSO.GetBackground, _artSO.DefaultSlotSO.GetDecor, _artSO.IconCollection.GetSprite(cardCache.GetSetCard.GetBodyPartEnum));
 
-        //    CardUIManager.Instance.GetClickedCardUI.SetActive(false);
-
-        //    CardUIManager.Instance.GetClickedCardUI = null;
-
-        //    InputManager.Instance.RemoveObjectFromTouch();
-        //}
     }
 }
-

@@ -50,7 +50,7 @@ namespace Battles
 
             DeckManager.Instance.TransferCard(DeckEnum.Selected, card.GetSetCard.ToExhaust ?DeckEnum.Exhaust : DeckEnum.Disposal, card);
 
-            DeckManager.AddToCraftingSlot(card);
+            DeckManager.AddToCraftingSlot(true,card);
             RegisterCard(card);
             StaminaHandler.ReduceStamina(card);
 
