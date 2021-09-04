@@ -40,7 +40,7 @@ namespace Cards
                     _cardKeyword = _cardSO.GetCardsKeywords;
 
 
-                // needs to re-implement
+                //needs to re - implement
                 //if (_cardSO.GetCardsKeywords.Length == _cardKeyword.Length && _currentLevel >= _cardSO.GetCardLevelToUnlockKeywords)
                 //{
                 //    _cardKeyword = new KeywordData[_cardSO.GetCardsKeywords.Length + _cardSO.GetAdditionalKeywords.Length];
@@ -63,11 +63,7 @@ namespace Cards
             this._cardSO = _card;
             InitCard(specificCardID, _card);
         }
-        public Card()
-        {
-            UnityEngine.Debug.Log("A Card was created with no ID or ScriptableObject in it");
 
-        }
         public void InitCard(int specificCardID, CardSO _card) {
             _cardID = specificCardID;
             CardSO = _card;
@@ -77,15 +73,16 @@ namespace Cards
 
         public int GetKeywordAmount(KeywordTypeEnum keyword)
         {
+            int amount = 0;
             if (_cardSO != null && _cardSO.GetCardsKeywords.Length > 0)
             {
-                for (int i = 0; i < _cardSO.GetCardsKeywords.Length; i++)
+                for (int i = 0; i < CardKeywords.Length; i++)
                 {
-                    if (_cardSO.GetCardsKeywords[i].GetKeywordSO.GetKeywordType == keyword)
-                        return _cardSO.GetCardsKeywords[i].GetAmountToApply;
+                    if (CardKeywords[i].GetKeywordSO.GetKeywordType == keyword)
+                        amount += CardKeywords[i].GetAmountToApply;
                 }
             }
-            return 0;
+            return amount;
         }
 
 
@@ -124,7 +121,8 @@ namespace Cards
 
                         for (int j = 0; j < CardKeywords.Length; j++)
                         {
-                            if (CardKeywords[j].GetKeywordSO.GetKeywordType == levelUpgrade.UpgradesPerLevel[i].KeywordRefernce)
+                            if (CardKeywords[j].GetKeywordSO.GetKeywordType == levelUpgrade.UpgradesPerLevel[i].KeywordRefernce
+                                && levelUpgrade.UpgradesPerLevel[i].AnimationIndex == CardKeywords[j].AnimationIndex)
                                 CardKeywords[j].GetAmountToApply = levelUpgrade.UpgradesPerLevel[i].Amount;
                         }
 

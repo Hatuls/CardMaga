@@ -24,7 +24,6 @@ namespace Keywords
         #region Properties
         public bool GetIsStackable => _isStackable;
         public bool GetIsPrecentage => _isPrecentage;
-
         public DurationEnum GetDurationEnum => _durationEnum;
         public KeywordTypeEnum GetKeywordType => _keyword;
         #endregion

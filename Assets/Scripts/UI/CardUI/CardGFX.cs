@@ -111,15 +111,25 @@ namespace Battles.UI.CardUIAttributes
             }
             GetDescriptionTxt.text = cardDescription;
         }
-        internal void SetCardReference(CardSO cardData, Art.ArtSO artSO)
+        internal void SetCardReference(CardSO cardData, ArtSO artSO)
         {
      // set visual
             SetNameText(cardData.GetCardName.ToString());
+
             SetCardDescriptionText(cardData.GetCardDescription);
+
             SetLastCardEffectText("");
-            SetBodyPartImage(artSO.IconCollection.GetSprite(_cardReferenceInHandDeck.BodyPartEnum));
+
+            SetBodyPartImage(
+                artSO.IconCollection.GetSprite(
+                    (_cardReferenceInHandDeck == null ? cardData.GetBodyPartEnum :_cardReferenceInHandDeck.BodyPartEnum)
+                    )
+                );
+
             SetCardColors(cardData.GetCardTypeEnum);
-            SetStaminaText(_cardReferenceInHandDeck.StaminaCost);
+
+            SetStaminaText(_cardReferenceInHandDeck == null ? cardData.GetStaminaCost : _cardReferenceInHandDeck.StaminaCost);
+
             SetCardUIImage(cardData.GetCardImage);
 
             //   card.SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
@@ -129,7 +139,6 @@ namespace Battles.UI.CardUIAttributes
             //icon of body part
             //icon of targeted part
 
-            //rotation?
         }
     
         internal void SetCardReference(Card cardData, ArtSO artSO)
