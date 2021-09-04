@@ -22,7 +22,7 @@ public class GameManager : MonoSingleton<GameManager>
   
     private void Update()
     {
-       Application.targetFrameRate = _maxFPS;
+     //  Application.targetFrameRate = _maxFPS;
         ThreadsHandler.ThreadHandler.TickThread();
     }
     public override void Init()

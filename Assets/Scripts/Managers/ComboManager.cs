@@ -7,11 +7,12 @@ using ThreadsHandler;
 using System.Linq;
 using Unity.Events;
 using Battles.UI;
-
+using Unity.Collections;
 namespace Combo
 {
     public class ComboManager : MonoSingleton<ComboManager>
     {
+      
         #region Fields
         [SerializeField] ComboCollectionSO _playerKnownRecipe;
         [SerializeField] ComboSO _cardRecipeDetected;
@@ -37,6 +38,7 @@ namespace Combo
 
         public override void Init()
         {
+
             _playerKnownRecipe = Resources.Load<ComboCollectionSO>("ComboRecipe/PlayerRecipe");
             threadId = ThreadHandler.GetNewID;
         }
@@ -112,13 +114,22 @@ namespace Combo
         }
         static void DetectRecipe()
         {
+            
             Card[] craftingSlots =new Card[DeckManager.GetCraftingSlots.GetDeck.Length];
 
             System.Array.Copy( DeckManager.GetCraftingSlots.GetDeck, craftingSlots, DeckManager.GetCraftingSlots.GetDeck.Length);
 
             System.Array.Reverse(craftingSlots);
 
-            List<CardType> craftingItems = new List<CardType>();
+            int amountCache=0;
+            for (int i = 0; i < craftingSlots.Length; i++)
+            {
+                if (craftingSlots[i] != null)
+                    amountCache++;
+            }
+
+            List<CardType> craftingItems = new List<CardType>(amountCache);
+
             for (int i = 0; i < craftingSlots.Length; i++)
             {
                 if(craftingSlots[i] != null)
@@ -128,12 +139,13 @@ namespace Combo
             }
             if(craftingItems.Count > 1)
             {
-                CheckRecipe(ref craftingItems);
+                CheckRecipe( craftingItems);
             }
+         
         }
-    static void CheckRecipe(ref List<CardType> craftingItems)
+    static void CheckRecipe(List<CardType> craftingItems)
         {
-            List<CardType> nextRecipe = new List<CardType>();
+            List<CardType> nextRecipe = new List<CardType>(Instance._playerKnownRecipe.GetComboSO[0].GetCombo.Length);
             for (int i = 0; i < Instance._playerKnownRecipe.GetComboSO.Length; i++)
             {
                 for (int j = 0; j < Instance._playerKnownRecipe.GetComboSO[i].GetCombo.Length; j++)

@@ -240,26 +240,26 @@ namespace Battles.UI
             return null;
         }
 
-        public void ExecuteCardUI()
+        public void ExecuteCardUI(CardUI card)
         {
+            if (card == null)
+                return;
 
-            CardUI card = null ;
-            if (_holdingCardUI != null)
+          
+
+            if (!_handUI.TryRemove(card))
             {
-                card = _holdingCardUI;
-                _holdingCardUI = null;
+                SelectCardUI(null); 
+                ZoomCard(null);
+
             }
-            else
-                return;  
-            
-              
-
-
-            _handUI.AlignCards();
+             _zoomedCard = null;
+            _holdingCardUI = null;
+          
             card.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Locked;
             var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
             StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal), GetDeckPosition(DeckEnum.Hand)));
-
+            Debug.Log($"<a>Hand Amount {_handUI.GetAmountOfCardsInHand}</a>");
         }
 
   

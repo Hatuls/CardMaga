@@ -146,20 +146,23 @@ namespace Battles.UI
             _amountOfCardsInHand++;
             AlignCards();
         }
-        public void TryRemove( CardUI card)
+        public bool TryRemove( CardUI card)
         {
-            for (int i = 0; i < _handCards.Length; i++)
+            if (card != null)
             {
-                if (ReferenceEquals(_handCards[i], card)) 
+                for (int i = 0; i < _handCards.Length; i++)
                 {
+                    if (ReferenceEquals(_handCards[i], card))
+                    {
 
-                    _handCards[i] = null;
-                    _amountOfCardsInHand--;
-                    AlignCards();
-                    return;
+                        _handCards[i] = null;
+                        _amountOfCardsInHand--;
+                        AlignCards();
+                        return true;
+                    }
                 }
             }
-
+            return false;
         }
         private void OrderArray()
         {

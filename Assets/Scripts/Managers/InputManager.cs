@@ -123,7 +123,7 @@ public class InputManager :MonoBehaviour , ITouchable
         {
 
             OnReleaseTouch(_touchPosOnScreen);
-            Debug.Log("Release Click");
+          //  Debug.Log("Release Click");
         }
         else if (Input.GetMouseButton(0))
         {
@@ -134,7 +134,7 @@ public class InputManager :MonoBehaviour , ITouchable
             //  if (ShootRaycast2D(ref _touchPosOnScreen))
             if (_object != null)
             {
-              Debug.Log("Holding Click");
+       //       Debug.Log("Holding Click");
                 _touchPosOnScreen = Input.mousePosition;
                     OnHoldTouch(_touchPosOnScreen, _firstTouchLocation);
             }
@@ -257,7 +257,7 @@ public class InputManager :MonoBehaviour , ITouchable
         if ( objectTouched == null || TouchableObject == objectTouched || !objectTouched.IsInteractable)
             return;
 
-        Debug.Log("Object Recieved Input "+ objectTouched?.ToString());
+       // Debug.Log("Object Recieved Input "+ objectTouched?.ToString());
             TouchableObject = objectTouched;
     }
     public void RemoveObjectrFromTouch()

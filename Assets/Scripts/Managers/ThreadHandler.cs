@@ -18,7 +18,7 @@ namespace ThreadsHandler
 
                 do
                 {
-                    idCache = (byte)Random.Range(0, sizeof(byte));
+                    idCache = (byte)Random.Range(0, (byte.MaxValue));
                     containID = false;
 
                     for (int i = 0; i < _threads.Count; i++)

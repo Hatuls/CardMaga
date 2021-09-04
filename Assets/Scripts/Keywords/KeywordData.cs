@@ -6,7 +6,7 @@ namespace Keywords
 {
 
     [Serializable]
-    public class KeywordData 
+    public class KeywordData : IComparable<KeywordData>
     {
 
         
@@ -35,6 +35,17 @@ namespace Keywords
         public  TargetEnum GetTarget => _target;
         public int GetAmountToApply { get => _amountToApply; set => _amountToApply = value; }
         public KeywordSO GetKeywordSO => _keywordBase;
+
+        public int CompareTo(KeywordData other)
+        {
+            if (_animationIndex > other.AnimationIndex)
+                return 1;
+            else if (_animationIndex < other.AnimationIndex)
+                return -1;
+            else return 0;
+        }
+
+
         #endregion
 
     }

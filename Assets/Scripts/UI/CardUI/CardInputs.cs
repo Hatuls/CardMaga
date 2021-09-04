@@ -174,21 +174,25 @@ namespace Battles.UI.CardUIAttributes
 
         public void OnFirstTouch(in Vector2 touchPos)
         {
+            Debug.Log($"First Touch With Current state {CurrentState}");
             GetTouchable(CurrentState)?.OnFirstTouch(in touchPos);
         }
 
         public void OnReleaseTouch(in Vector2 touchPos)
         {
+            Debug.Log($"Release With Current state {CurrentState}");
             GetTouchable(CurrentState)?.OnReleaseTouch(in touchPos);
         }
 
         public void OnHoldTouch(in Vector2 touchPos, in Vector2 startPos)
         {
+            Debug.Log($"Holding With Current state {CurrentState}");
             GetTouchable(CurrentState)?.OnHoldTouch(in touchPos,in startPos);
         }
 
         public void ResetTouch()
         {
+            Debug.Log($"Reseting With Current state {CurrentState}");
             GetTouchable(CurrentState)?.ResetTouch();
         }
 
@@ -293,12 +297,13 @@ namespace Battles.UI.CardUIAttributes
             // change this behaviour
             if (IsAboveTheTouchLine(touchPos))
             {
-               _cardInputHandler.CurrentState = CardInputs.CardUIInput.Hold;
+                _cardInputHandler.CurrentState = CardInputs.CardUIInput.Hold;
             }
             else
             {
                 _zoomCardEvent.Raise(_cardInputHandler.ThisCardUI);
             }
+  
         }
         private bool IsAboveTheTouchLine(in Vector2 touchPos) => (touchPos.y >= _middlePos);
         public override void OnReleaseTouch(in Vector2 touchPos)
@@ -307,9 +312,8 @@ namespace Battles.UI.CardUIAttributes
             if (!IsAboveTheTouchLine(touchPos))
             {
                 _cardInputHandler.ThisCardUI.CardTranslations.CancelAllTweens();
-                _zoomCardEvent.Raise(null);
-
             }
+                _zoomCardEvent.Raise(null);
         }
         public override void ResetTouch()
         {
@@ -359,9 +363,9 @@ namespace Battles.UI.CardUIAttributes
             {
                 if (CardExecutionManager.Instance.TryExecuteCard(_cardInputHandler.ThisCardUI))
                 {
-                    CardUIManager.Instance.ExecuteCardUI();
+                    CardUIManager.Instance.ExecuteCardUI(_cardInputHandler.ThisCardUI);
                 }
-                  _selectCardUiEvent.Raise(null);
+              //    _selectCardUiEvent.Raise(null);
                     return;
             }
             _cardInputHandler.CurrentState = CardInputs.CardUIInput.Zoomed;

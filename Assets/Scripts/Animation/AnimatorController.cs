@@ -179,7 +179,7 @@ public class AnimatorController : MonoBehaviour
         if (_animationQueue.Count == 0)
         {
             OnFinishAnimation();
-
+           // Battles.CardExecutionManager.Instance.ResetExecution();
             return;
         }
 
@@ -223,7 +223,7 @@ public class AnimatorController : MonoBehaviour
         isFirst = true;
         _onFinishedAnimation?.Raise();
         _currentAnimation = null;
-
+        Battles.CardExecutionManager.Instance.CardFinishExecuting();
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();

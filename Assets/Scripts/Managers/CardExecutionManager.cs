@@ -14,19 +14,22 @@ namespace Battles
         [SerializeField]
         AnimatorController _enemyAnimator;
         [SerializeField] VFXController __playerVFXHandler;
-        Cards.Card _currentCard;
+     
         [SerializeField] Unity.Events.SoundsEvent _playSound;
 
 
         public void ResetExecution()
         {
+            //_keywordData.Clear();
+            //_cardsQueue.Clear();
+            //currentKeywordIndex = 0;
             StopAllCoroutines();
         }
     
         public override void Init()
         {
-            _currentCard = null;
-            _keywordsQueue = new Queue<KeywordData>();
+            _cardsQueue= new Queue<Cards.Card>();
+            _keywordData = new List<KeywordData>();
         }
 
 
@@ -52,17 +55,18 @@ namespace Battles
             DeckManager.Instance.TransferCard(DeckEnum.Selected, card.CardSO.ToExhaust ?DeckEnum.Exhaust : DeckEnum.Disposal, card);
 
             DeckManager.AddToCraftingSlot(true,card);
+
             RegisterCard(card);
+
             StaminaHandler.ReduceStamina(card);
 
 
             // reset the holding card
-            CardUIManager.Instance.ExecuteCardUI();
+            CardUIManager.Instance.ExecuteCardUI(cardUI);
             return true;
         }
 
 
-        public void RemoveCard() => _currentCard = null;
         public void RegisterCard(Cards.Card card, bool isPlayer = true)
         {
 
@@ -71,24 +75,25 @@ namespace Battles
 
 
 
-            _currentCard = card;
+          var  currentCard = card;
             if (isPlayer)
             {
-
-                if (_currentCard != null)
+                if (currentCard != null)
                 {
-                    switch (_currentCard.CardSO.GetCardType._cardType)
+                    switch (currentCard.CardSO.GetCardType._cardType)
                     {
                         case Cards.CardTypeEnum.Utility:
                         case Cards.CardTypeEnum.Defend:
-                            switch (_currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
+                            switch (currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
                             {
                                 case KeywordTypeEnum.Defense:
 
-                                 VFXManager.Instance.PlayParticle(
-                                 isPlayer,
-                                 BodyPartEnum.Chest,
-                                 VFXManager.KeywordToParticle(_currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
+                                    VFXManager.Instance.PlayParticle(
+                                    isPlayer,
+                                    BodyPartEnum.Chest,
+                                    VFXManager.KeywordToParticle(currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
+                                    );
+
                                     _playSound?.Raise(SoundsNameEnum.GainArmor);
 
                                  break;
@@ -96,10 +101,12 @@ namespace Battles
                                 case KeywordTypeEnum.Strength:
 
                                     _playSound?.Raise(SoundsNameEnum.GainStrength);
-                                    VFXManager.Instance.PlayParticle(
+
+                                VFXManager.Instance.PlayParticle(
                                 isPlayer,
                                 BodyPartEnum.BottomBody,
-                                VFXManager.KeywordToParticle(_currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
+                                VFXManager.KeywordToParticle(currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
+                                );
 
                                     break;
 
@@ -111,7 +118,8 @@ namespace Battles
                                 VFXManager.Instance.PlayParticle(
                                 isPlayer,
                                 BodyPartEnum.BottomBody,
-                                VFXManager.KeywordToParticle(_currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType));
+                                VFXManager.KeywordToParticle(currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
+                                );
 
                                     break;
 
@@ -123,54 +131,141 @@ namespace Battles
                                     break;
                             }
                            
-                            ExecuteCard();
+                            ExecuteCard(currentCard);
                             break;
-                        case Cards.CardTypeEnum.Attack:
-                            _playerAnimator.SetAnimationQueue(card);
 
+                        case Cards.CardTypeEnum.Attack:
+                            //    _playerAnimator.SetAnimationQueue(card);
+                            AddToQueue(card);
                             break;
+
+
                         default:
+                            Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.GetCardType._cardType}");
                             break;
                     }
                 }
             }
             else
             {
-                _enemyAnimator.SetAnimationQueue(card);
+                // _enemyAnimator.SetAnimationQueue(card);
+                AddToQueue(card);
             }
         }
 
 
-
-        static Queue<KeywordData> _keywordsQueue;
-    
-
-
-        public void ExecuteCard()
+        public void ExecuteCard(Cards.Card current)
         {
-            if (_currentCard == null || _currentCard.CardKeywords == null || _currentCard.CardKeywords.Length == 0 || BattleManager.isGameEnded)
+            if (current == null || current.CardKeywords == null || current.CardKeywords.Length == 0 || BattleManager.isGameEnded)
                 return;
 
-            for (int j = 0; j < _currentCard.CardKeywords.Length; j++)
-                KeywordManager.Instance.ActivateKeyword(_currentCard.CardKeywords[j]);
+            for (int j = 0; j < current.CardKeywords.Length; j++)
+                KeywordManager.Instance.ActivateKeyword(current.CardKeywords[j]);
         }
 
+        // need to register the players cards into a queue and tell the animation to play the animation
+        // when this card is activate need to sort the cards keywords in a list by their indexes
+        // when animation is finished to tell the queue to pop up the next card and play it
+        // each animation has animation keys to notify which index is currently playing
+        // when the animation event fire his index -> the list execute the keyword and move to the next index
+        static Queue<Cards.Card> _cardsQueue;
+        static List<KeywordData> _keywordData;
 
+        static int currentKeywordIndex;
+    
+        public void AddToQueue(Cards.Card card)
+        {   
+            bool firstCard = _cardsQueue.Count == 0;
+            _cardsQueue.Enqueue(card);
+            Debug.Log($"<a>Register card queue has {_cardsQueue.Count} cards in it</a>");
+            if (firstCard)
+            {
+                ActivateCard();
+            }
 
-
-
-
-        public void ExecuteCard(bool isPlayer)
+        }
+        void ActivateCard()
         {
+            // play the card animation
 
-
-
-
-
-
-        }
-
+            Debug.Log("<a>Activating Card</a>");
+            // sort his keyowrds
         
 
+            ThreadsHandler.ThreadHandler.StartThread(
+                new ThreadsHandler.ThreadList(
+                    ThreadsHandler.ThreadHandler.GetNewID,
+                    () => SortKeywords(),
+                   () =>
+                   {  
+                       if (_cardsQueue.Count == 0)
+                        return;
+                       if (Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn)
+                           _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
+                       else if (Turns.TurnHandler.CurrentState == Turns.TurnState.EnemyTurn)
+                           _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
+                       else
+                           Debug.LogError("Current turn is not a turn that a card could be played!");
+
+                       // reset Index
+                       currentKeywordIndex = 0;
+                   }
+                 )
+                );
+            //  SortKeywords();
+
+        }
+        public void SortKeywords()
+        {
+            //clearing the list
+            // registering the keywords
+            // sorting it by the animation index
+            Debug.Log("<a>Keywords Cleared</a>");
+           _keywordData.Clear();
+
+            var currentCard = _cardsQueue.Peek().CardKeywords;
+            Debug.Log($"<a>sorting keywords {_cardsQueue.Count} cards left to be executed </a>");
+
+            for (int i = 0; i < currentCard.Length; i++)
+                _keywordData.Add(currentCard[i]);
+            
+            _keywordData.Sort();
+            Debug.Log($"<a>{_keywordData.Count} keys were added</a>");
+        }
+
+  
+        public void CardFinishExecuting()
+        {
+                Debug.Log($"<a>Animation Finished {_cardsQueue.Count} left to be executed </a>");
+            if (_cardsQueue.Count ==0)
+                    return;
+            
+                Debug.Log("<a>Dequeueing to next card</a>");
+            _cardsQueue.Dequeue();
+
+            if (_cardsQueue.Count > 0)
+            {
+                Debug.Log("<a>Activating Next card</a>");
+                ActivateCard();
+            }
+        }
+
+        public void OnKeywordEvent()
+        {
+                Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
+            for (int i = 0; i < _keywordData.Count; i++)
+            {
+                if (currentKeywordIndex == _keywordData[i].AnimationIndex)
+                {
+                    // activate the keyword
+                    KeywordManager.Instance.ActivateKeyword(_keywordData[i]);
+
+                    //remove from the list
+                    _keywordData.Remove(_keywordData[i]);
+                    i--;
+                }
+            }
+            currentKeywordIndex++;
+        }
     } 
 }
