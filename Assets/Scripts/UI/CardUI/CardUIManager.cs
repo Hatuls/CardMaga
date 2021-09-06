@@ -213,7 +213,6 @@ namespace Battles.UI
         }
         public override void Init()
         {
-            
             _handUI = new HandUI(ref _cardUISettings.GetAmountOfCardsUIInHand, GetHandMiddlePosition.anchoredPosition, _cardUISettings);
 
             _transitions = new CardUITransition[4]
@@ -228,6 +227,12 @@ namespace Battles.UI
             InitCardUI();
         }
 
+
+        /// <summary>
+        /// Return a Transition Class For The Card UI
+        /// </summary>
+        /// <typeparam name="T"> </typeparam>
+        /// <returns>DrawCardUIHandler, RemoveCardAfterActivated, DiscardHandHandler, CraftCardUIHandler</returns>
         private T GetCardUIHandler<T>() where T : CardUITransition
         {
             for (int i = 0; i < _transitions.Length; i++)
@@ -245,20 +250,13 @@ namespace Battles.UI
             if (card == null)
                 return;
 
-          
-
-            if (!_handUI.TryRemove(card))
-            {
-                SelectCardUI(null); 
-                ZoomCard(null);
-
-            }
-             _zoomedCard = null;
             _holdingCardUI = null;
-          
+            _zoomedCard = null;
+            _handUI.AlignCards();
+
             card.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Locked;
             var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
-            StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal), GetDeckPosition(DeckEnum.Hand)));
+            StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal), card.transform.localPosition)) ;
             Debug.Log($"<a>Hand Amount {_handUI.GetAmountOfCardsInHand}</a>");
         }
 
@@ -355,7 +353,6 @@ namespace Battles.UI
         #endregion
         #endregion
 
-
         #region Gizmos
         
         private void OnDrawGizmos()
@@ -449,9 +446,7 @@ namespace Battles.UI
             if (cards == null || cards.Length == 0)
                 yield break;
 
-    //CardUI card = ClickedCardUI;
-    //            ClickedCardUI = null;
-                InputManager.Instance.ResetTouch();
+            InputManager.Instance.TouchableObject = null;
             for (int i = 0; i < cards.Length; i++)
             { 
                 if (cards[i] == null)

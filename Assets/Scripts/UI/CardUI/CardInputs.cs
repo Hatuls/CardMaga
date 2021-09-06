@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 namespace Battles.UI.CardUIAttributes
 {
     [RequireComponent(typeof(EventTrigger))]
-    public class CardInputs : ITouchable , IPointerClickHandler, IBeginDragHandler, IPointerDownHandler,IPointerUpHandler,IPointerExitHandler
+    public class CardInputs : ITouchable , IPointerClickHandler, IBeginDragHandler,IPointerUpHandler
     {
         public enum CardUIInput {
             Locked= 0,
@@ -51,7 +51,8 @@ namespace Battles.UI.CardUIAttributes
           
             float middlePos = CardUIManager.Instance.GetInputHandLine;
 
-            _touchables = new ITouchable[4]
+            const byte states = 4;
+            _touchables = new ITouchable[states]
               {
                 null, // <- locked state
                 new InHandInputState(this,selectCardEvent ,zoomCardEvent, middlePos),
@@ -201,20 +202,13 @@ namespace Battles.UI.CardUIAttributes
             BeginDrag(eventData);
         }
 
-        public void OnPointerDown(PointerEventData eventData)
-        {
-         
-        }
 
         public void OnPointerUp(PointerEventData eventData)
         {
             BeginDrag(eventData);
         }
 
-        public void OnPointerExit(PointerEventData eventData)
-        {
-        //    throw new System.NotImplementedException();
-        }
+
 
         public bool IsInteractable 
             => (CurrentState == CardUIInput.Locked) ? false : GetTouchable(CurrentState).IsInteractable;
@@ -361,12 +355,9 @@ namespace Battles.UI.CardUIAttributes
             isRegreting = false;
             if (IsAboveTheTouchLine(touchPos))
             {
-                if (CardExecutionManager.Instance.TryExecuteCard(_cardInputHandler.ThisCardUI))
-                {
-                    CardUIManager.Instance.ExecuteCardUI(_cardInputHandler.ThisCardUI);
-                }
-              //    _selectCardUiEvent.Raise(null);
-                    return;
+                CardExecutionManager.Instance.TryExecuteCard(_cardInputHandler.ThisCardUI); ;
+
+                return;
             }
             _cardInputHandler.CurrentState = CardInputs.CardUIInput.Zoomed;
             _selectCardUiEvent.Raise(null);

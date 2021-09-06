@@ -7,7 +7,11 @@
         {
             _playSound?.Raise(SoundsNameEnum.EndTurn);
             Battles.Turns.TurnHandler.FinishTurn = true;
-        }else
-        base.ButtonPressed();
+
+        }
+        else
+        {
+            _playSound?.Raise(SoundsNameEnum.TapCard);
+        }
     }
 }

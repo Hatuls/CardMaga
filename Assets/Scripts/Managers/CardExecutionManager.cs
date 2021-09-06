@@ -43,6 +43,7 @@ namespace Battles
                 // not enough stamina 
 
                 _playSound?.Raise(SoundsNameEnum.Reject);
+                CardUIManager.Instance.ZoomCard(null);
                 CardUIManager.Instance.SelectCardUI(null);
                 return false;
             }
@@ -52,7 +53,7 @@ namespace Battles
             CardUIManager.Instance.LockHandCards(false);
 
 
-            DeckManager.Instance.TransferCard(DeckEnum.Selected, card.CardSO.ToExhaust ?DeckEnum.Exhaust : DeckEnum.Disposal, card);
+            DeckManager.Instance.TransferCard(DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
 
             DeckManager.AddToCraftingSlot(true,card);
 

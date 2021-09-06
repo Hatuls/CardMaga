@@ -268,14 +268,7 @@ namespace Battles.Turns
             CardExecutionManager.Instance.ResetExecution();
             base.PlayTurn();
 
-            //TurnHandler.FinishTurn = false;
-            //do
-            //{
-            //    yield return null;
-            //} while (!TurnHandler.FinishTurn);
-            
 
-           // yield return new WaitUntil(() => _playerControler.IsCurrentlyIdle || TurnHandler.IsTurnFinished == true);
             CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
             Deck.DeckManager.Instance.OnEndTurn();
 

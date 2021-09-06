@@ -48,7 +48,7 @@ public class NetworkHandler : MonoBehaviour
             }
             );
 
-
+        _continueBtn.enabled = true;
     }
     private void CheckVersion(GameVersion currentVersion)
     {
@@ -59,7 +59,7 @@ public class NetworkHandler : MonoBehaviour
         {
     
            _status.text ="Status: Up to date!";
-            _continueBtn.enabled=true;
+            _continueBtn.enabled = true;
         }
         else
         {

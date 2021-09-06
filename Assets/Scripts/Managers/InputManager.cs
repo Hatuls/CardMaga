@@ -51,7 +51,7 @@ public class InputManager :MonoBehaviour , ITouchable
         {
             if (_object != value)
             {
-                _object?.ResetTouch();
+               // _object?.ResetTouch();
                 _object = value;
             }
         }
@@ -257,7 +257,8 @@ public class InputManager :MonoBehaviour , ITouchable
         if ( objectTouched == null || TouchableObject == objectTouched || !objectTouched.IsInteractable)
             return;
 
-       // Debug.Log("Object Recieved Input "+ objectTouched?.ToString());
+        // Debug.Log("Object Recieved Input "+ objectTouched?.ToString());
+            ResetTouch();
             TouchableObject = objectTouched;
     }
     public void RemoveObjectrFromTouch()
