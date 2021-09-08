@@ -303,17 +303,12 @@ namespace Battles.UI.CardUIAttributes
         public override void OnReleaseTouch(in Vector2 touchPos)
         {
 
-            if (!IsAboveTheTouchLine(touchPos))
-            {
+        
                 _cardInputHandler.ThisCardUI.CardTranslations.CancelAllTweens();
-            }
                 _zoomCardEvent.Raise(null);
         }
         public override void ResetTouch()
         {
-            //_selectCardEvent?.Raise(null);
-            //_zoomCardEvent?.Raise(null);
-
             _cardInputHandler.CurrentState = CardInputs.CardUIInput.Hand;
         }
     }

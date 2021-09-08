@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using Keywords;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 namespace Cards
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
     public class CardSO : ScriptableObject
     {
-    
+ 
+
         #region Fields
         [TitleGroup("CardData", BoldTitle =true, Alignment = TitleAlignments.Centered)]  
      
@@ -77,14 +79,6 @@ namespace Cards
         [SerializeField] 
         KeywordData[] _keywords;
 
-        //[TabGroup("CardData/Info", "Keywords")]
-        //[Header("Card's Additional Keywords: ")]
-        //[Tooltip("When Card Is Upgraded this keyword is added")]
-        //[SerializeField]
-        //KeywordData[] _upgrateKeywords;
-
-
-
         [TabGroup("CardData/Info", "Levels")]
         [SerializeField] 
         PerLevelUpgrade[] _perLevelUpgrade;
@@ -123,11 +117,11 @@ namespace Cards
 
     public enum LevelUpgradeEnum
     {
-        None,
-        Stamina,
-        BodyPart,
-        UpgradeKeywords,
-        ConditionReduction
+        None=0,
+        Stamina=1,
+        BodyPart=2,
+        KeywordAddition=3,
+        ConditionReduction=4,
     }
 
     public enum RarityEnum

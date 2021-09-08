@@ -22,11 +22,11 @@ namespace Cards
         public class Upgrade
         {
             [SerializeField] private LevelUpgradeEnum _upgradeType;
-            [SerializeField] private KeywordTypeEnum _keywordReference;
+            [SerializeField] private KeywordData _keywordUpgrade;
             [SerializeField] private int _animationIndex;
             [SerializeField] private int _amount;
             public LevelUpgradeEnum UpgradeType => _upgradeType;
-            public KeywordTypeEnum KeywordRefernce => _keywordReference;
+            public KeywordData KeywordUpgrade => _keywordUpgrade;
             public int AnimationIndex => _animationIndex;
             public int Amount => _amount;
         }

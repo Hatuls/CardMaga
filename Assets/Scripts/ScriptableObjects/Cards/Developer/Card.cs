@@ -93,60 +93,63 @@ namespace Cards
 
             _currentLevel++;
 
-            UpgradeCard();
+            SpreadUpgrades();
             return true;
         }
 
-        private void UpgradeCard()
+        private void SpreadUpgrades()
         {
           var levelUpgrade = _cardSO.PerLevelUpgrade[_currentLevel - 1];
+           
+            if (levelUpgrade.UpgradesPerLevel.Length == 0)
+                    return;
           
             for (int i = 0; i < levelUpgrade.UpgradesPerLevel.Length; i++)
             {
-                switch (levelUpgrade.UpgradesPerLevel[i].UpgradeType)
-                {
-                 
-                    case LevelUpgradeEnum.Stamina:
-                        StaminaCost = levelUpgrade.UpgradesPerLevel[i].Amount;
-                        break;
-
-
-
-                    case LevelUpgradeEnum.BodyPart:
-                        BodyPartEnum = (BodyPartEnum)levelUpgrade.UpgradesPerLevel[i].Amount;
-                        break;
-
-
-                    case LevelUpgradeEnum.UpgradeKeywords:
-
-                        for (int j = 0; j < CardKeywords.Length; j++)
-                        {
-                            if (CardKeywords[j].GetKeywordSO.GetKeywordType == levelUpgrade.UpgradesPerLevel[i].KeywordRefernce
-                                && levelUpgrade.UpgradesPerLevel[i].AnimationIndex == CardKeywords[j].AnimationIndex)
-                                CardKeywords[j].GetAmountToApply = levelUpgrade.UpgradesPerLevel[i].Amount;
-                        }
-
-
-                        break;
-                    case LevelUpgradeEnum.ConditionReduction:
-                        break;
-
-
-                    case LevelUpgradeEnum.None:
-                    default:
-                        return;
-                        
-                }
-
-
+                if (levelUpgrade.UpgradesPerLevel[i] == null)
+                    continue;
+                UpgradeHandler(levelUpgrade.UpgradesPerLevel[i]);
             }
 
         }
+        private void UpgradeHandler(PerLevelUpgrade.Upgrade levelUpgrade)
+        {
 
+            switch (levelUpgrade.UpgradeType)
+            {
+                case LevelUpgradeEnum.Stamina:
+                    StaminaCost = levelUpgrade.Amount;
+                    break;
+
+
+
+                case LevelUpgradeEnum.BodyPart:
+                    BodyPartEnum = (BodyPartEnum)levelUpgrade.Amount;
+                    break;
+
+
+                     case LevelUpgradeEnum.KeywordAddition:
+
+                    Array.Resize<KeywordData>(ref _cardKeyword, _cardKeyword.Length + 1);
+
+                    _cardKeyword[_cardKeyword.Length - 1] = levelUpgrade.KeywordUpgrade;
+
+                    break;
+                case LevelUpgradeEnum.ConditionReduction:
+                    break;
+
+                case LevelUpgradeEnum.None:
+                default:
+                    return;
+
+            }
+
+
+        }
         #endregion
 
 
- 
+
 
     }
 

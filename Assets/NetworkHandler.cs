@@ -102,6 +102,7 @@ public static class WebRequests
         {
             GameObject gameObject = new GameObject("WebRequestMonoBehaviour");
             _webRequestMonoBehaviour = gameObject.AddComponent<WebRequestMonoBehaviour>();
+            gameObject.tag = "Web";
         }
     }
     public static void Get(string url, System.Action<string> onError, System.Action<string> onSuccess)
