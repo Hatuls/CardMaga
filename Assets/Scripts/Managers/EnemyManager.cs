@@ -65,9 +65,9 @@ namespace Battles
         public System.Collections.IEnumerator AssignNextCard()
         {
             enemyAction = GetOpponentCard;
-            Debug.Log("<a>Enemy Next Move</a>: Is going to be: " + enemyAction.CardSO.GetCardName.ToString() +
-            "\n This attack is going to use " + enemyAction.CardSO.GetBodyPartEnum.ToString() + "\n" +
-            "And Do " + enemyAction.CardSO.GetCardTypeEnum.ToString() + " with the amount of " + enemyAction.CardSO.GetCardsKeywords[0].GetAmountToApply);
+            Debug.Log("<a>Enemy Next Move</a>: Is going to be: " + enemyAction.CardSO.CardName.ToString() +
+            "\n This attack is going to use " + enemyAction.CardSO.BodyPartEnum.ToString() + "\n" +
+            "And Do " + enemyAction.CardSO.CardTypeEnum.ToString() + " with the amount of " + enemyAction.CardSO.CardSOKeywords[0].GetAmountToApply);
 
 
           

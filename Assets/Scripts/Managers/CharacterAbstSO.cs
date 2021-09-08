@@ -20,7 +20,7 @@ namespace Battles
                     _cards = new Cards.Card[_characterCards.Length];
 
                     for (int i = 0; i < _characterCards.Length; i++)
-                        _cards[i] = Managers.CardManager.CreateCard(_opponent == CharactersEnum.Player,_characterCards[i].GetCardName);
+                        _cards[i] = Managers.CardManager.CreateCard(_opponent == CharactersEnum.Player,_characterCards[i].CardName);
                 }
 
                 return   _cards; 

@@ -152,12 +152,14 @@ public class VFXController : MonoBehaviour
 }
 
 public enum BodyPartEnum {
-    RightArm,
-    LeftArm,
-    Head,
-    LeftLeg,
-    RightLeg,
-    BottomBody,
-    Chest,
+    None =0,
+    RightArm = 1,
+    LeftArm = 2,
+    Head =3 ,
+    LeftLeg=4,
+    RightLeg=5,
+    BottomBody=6,
+    Chest=7,
+    Joker =8,
 };
 

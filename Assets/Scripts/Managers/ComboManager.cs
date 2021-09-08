@@ -54,7 +54,7 @@ namespace Combo
                 //create card
                 _successCrafting?.Raise();
 
-                Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.GetCraftedCard.GetCardName);
+                Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.GetCraftedCard.CardName);
              //   BattleUiManager.Instance.SetCardPosition(crafted);
 
                 DeckManager.Instance.AddCardToDeck(crafted, crafted.CardSO.GoToDeckAfterCrafting);
@@ -134,7 +134,7 @@ namespace Combo
             {
                 if(craftingSlots[i] != null)
                 {
-                    craftingItems.Add(craftingSlots[i].CardSO.GetCardType);
+                    craftingItems.Add(craftingSlots[i].CardSO.CardType);
                 }
             }
             if(craftingItems.Count > 1)

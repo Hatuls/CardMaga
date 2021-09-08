@@ -32,8 +32,8 @@ namespace Managers
 
             for (int i = 0; i < _cardSOCollections.GetAllCards.Length; i++)
             {
-                if (!_cardSOCollectionDict.ContainsKey(_cardSOCollections.GetAllCards[i].GetCardName))
-                _cardSOCollectionDict.Add(_cardSOCollections.GetAllCards[i].GetCardName, _cardSOCollections.GetAllCards[i]);
+                if (!_cardSOCollectionDict.ContainsKey(_cardSOCollections.GetAllCards[i].CardName))
+                _cardSOCollectionDict.Add(_cardSOCollections.GetAllCards[i].CardName, _cardSOCollections.GetAllCards[i]);
             }
 
         }
@@ -116,7 +116,7 @@ namespace Managers
 
             foreach (var item in _playerCardDict)
             {
-                if (item.Value.CardSO.GetCardName == card)
+                if (item.Value.CardSO.CardName == card)
                   return  CheckIfCardExistInDict(item.Value.CardID);
             }
 
@@ -128,7 +128,7 @@ namespace Managers
             {
                 foreach (var _card in _playerCardDict)
                 {
-                    if (_card.Value.CardSO.GetCardName == card)
+                    if (_card.Value.CardSO.CardName == card)
                         _playerCardDict.Remove(_card.Value.CardID);
                 }
             }

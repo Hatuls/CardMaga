@@ -7,7 +7,9 @@ namespace Cards
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
     public class CardSO : ScriptableObject
     {
- 
+      [OdinSerialize]
+        [ShowInInspector]
+ public int ID { get; set; }
 
         #region Fields
         [TitleGroup("CardData", BoldTitle =true, Alignment = TitleAlignments.Centered)]  
@@ -18,93 +20,91 @@ namespace Cards
         [Tooltip("The Image of the card:")]
         [VerticalGroup("CardData/Info/Display/Coulmn 1")]
         [PreviewField(100, Alignment = ObjectFieldAlignment.Right )]
-        [SerializeField] Sprite _cardImage;
+        [SerializeField] Sprite CardSprite;
      
-        [Header("Card Details:")]
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
         [LabelWidth(90f)]
-        [SerializeField] string _cardName;
+        [OdinSerialize]
+        [ShowInInspector]
+        public string CardName { get; set; }
 
         [TabGroup("CardData/Info", "Animation")]
-        [SerializeField]
-        AnimationBundle _animationBundle;
+        [OdinSerialize]
+        [ShowInInspector]
+        public AnimationBundle AnimationBundle { get; set; }
 
-        [TabGroup("CardData/Info", "Data")]
-        [Tooltip("What Type Of Card Is It?")]
-        [SerializeField]
-        CardType _cardData;
 
 
         [TabGroup("CardData/Info", "Data")]
-        [Tooltip("When Crafted what deck does it go to?")]
-        [SerializeField]
-        Battles.Deck.DeckEnum _goToDeckAfterCraft = Battles.Deck.DeckEnum.Hand;
+        [OdinSerialize]
+        [ShowInInspector]
+        public CardType CardType { get; set; }
+        public RarityEnum CardsRarityLevel => CardType._rarityLevel;
+        public BodyPartEnum BodyPartEnum => CardType._bodyPart;
+        public CardTypeEnum CardTypeEnum => CardType._cardType;
+
+
+
+
+        [TabGroup("CardData/Info", "Data")]
+
+        [OdinSerialize]
+        [ShowInInspector]
+        public Battles.Deck.DeckEnum GoToDeckAfterCrafting { get; set; }
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
-      
-        [Tooltip("The Description of the card:")]
-        [TextArea()]
-        [SerializeField] 
-        string _cardDescription;
+        [OdinSerialize]
+        [ShowInInspector] 
+        [LabelWidth(80f)]
+        public string CardDescription { get; set; }
+   
 
-
-        [Space]
-        [TabGroup("CardData/Info", "Data")]
-        [Tooltip("How much stamina the card cost")]
-        [SerializeField] 
-        int _staminaCost = 1;    
 
         [TabGroup("CardData/Info", "Data")]
-        [Tooltip("How much coins the card cost")]
-        [SerializeField]
-        int _purchaseCost = 1;
+        [OdinSerialize]
+        [ShowInInspector]
+        public int StaminaCost { get; set; }
+
+        [TabGroup("CardData/Info", "Data")]
+        [OdinSerialize]
+        [ShowInInspector]
+        public int PurchaseCost { get; set; }
+
+   
+
+        [TabGroup("CardData/Info", "Data")]
+        [OdinSerialize]
+        [ShowInInspector]
+        public bool ToExhaust { get; set; }
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much coins the card cost")]
         [SerializeField]
         int _salvageCost = 1;
 
-        [TabGroup("CardData/Info", "Data")]
-        [Tooltip("When Activated is Exhausted")]
-        [SerializeField]
-        bool _toExhaust = false;
-
-
-
-        [Header("Card's Keywords: ")]
-
-        [Header("Card's Regular Keywords: ")]
-        [Tooltip("Card's Keywords:")]
         [TabGroup("CardData/Info", "Keywords")]
-        [SerializeField] 
-        KeywordData[] _keywords;
+        [OdinSerialize]
+        [ShowInInspector]
+        public KeywordData[] CardSOKeywords { get; set; }
 
         [TabGroup("CardData/Info", "Levels")]
-        [SerializeField] 
-        PerLevelUpgrade[] _perLevelUpgrade;
+        [OdinSerialize]
+        [ShowInInspector]
+        public PerLevelUpgrade[] PerLevelUpgrade { get; set; }
 
         [TabGroup("CardData/Info", "Crafting")]
-        [SerializeField]
-        int[] _cardsIDToCraftMe;
+        [OdinSerialize]
+        [ShowInInspector] 
+     public int[] CardsFusesFrom { get; set; }
 
         #endregion
 
         #region Properties
-        public PerLevelUpgrade[] PerLevelUpgrade => _perLevelUpgrade;
-        public ref bool ToExhaust => ref _toExhaust;
-        public CardType GetCardType => _cardData;
-        public RarityEnum GetCardsRarityLevel => _cardData._rarityLevel;
-        public string GetCardName => _cardName;
-        public ref Sprite GetCardImage => ref _cardImage;
-        public ref string GetCardDescription => ref _cardDescription;
-        public ref int MoneyCost => ref _purchaseCost;
-        public CardTypeEnum GetCardTypeEnum => _cardData._cardType;
-        public AnimationBundle GetAnimationBundle => _animationBundle;
-        public BodyPartEnum GetBodyPartEnum => _cardData._bodyPart;
-        public int GetStaminaCost => _staminaCost;
-        public ref Battles.Deck.DeckEnum GoToDeckAfterCrafting =>ref _goToDeckAfterCraft;
-        public KeywordData[] GetCardsKeywords => _keywords;
-        public int CardsMaxLevel => PerLevelUpgrade == null ? 1 : PerLevelUpgrade.Length+1;
+
+        public ref Sprite GetCardImage => ref CardSprite;
+        
+ 
+         public int CardsMaxLevel => PerLevelUpgrade == null ? 1 : PerLevelUpgrade.Length+1;
       
         #endregion
 

@@ -37,7 +37,7 @@ namespace Cards
         {
             get {
                 if (_cardKeyword == null || _cardKeyword.Length == 0)
-                    _cardKeyword = _cardSO.GetCardsKeywords;
+                    _cardKeyword = _cardSO.CardSOKeywords;
 
 
                 //needs to re - implement
@@ -67,14 +67,14 @@ namespace Cards
         public void InitCard(int specificCardID, CardSO _card) {
             _cardID = specificCardID;
             CardSO = _card;
-            StaminaCost = _card.GetStaminaCost;
-            BodyPartEnum = _card.GetBodyPartEnum;
+            StaminaCost = _card.StaminaCost;
+            BodyPartEnum = _card.BodyPartEnum;
         }
 
         public int GetKeywordAmount(KeywordTypeEnum keyword)
         {
             int amount = 0;
-            if (_cardSO != null && _cardSO.GetCardsKeywords.Length > 0)
+            if (_cardSO != null && _cardSO.CardSOKeywords.Length > 0)
             {
                 for (int i = 0; i < CardKeywords.Length; i++)
                 {

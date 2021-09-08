@@ -9,7 +9,11 @@ namespace Keywords
     public class KeywordData : IComparable<KeywordData>
     {
 
-        
+        public KeywordData() { }
+        public KeywordData(string[] ar)
+        {
+
+        }
         #region Fields
         [Header("Keyword :")]
         [Tooltip("KeywordData")]

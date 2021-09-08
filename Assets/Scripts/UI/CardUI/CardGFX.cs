@@ -114,21 +114,21 @@ namespace Battles.UI.CardUIAttributes
         internal void SetCardReference(CardSO cardData, ArtSO artSO)
         {
      // set visual
-            SetNameText(cardData.GetCardName.ToString());
+            SetNameText(cardData.CardName.ToString());
 
-            SetCardDescriptionText(cardData.GetCardDescription);
+            SetCardDescriptionText(cardData.CardDescription);
 
             SetLastCardEffectText("");
 
             SetBodyPartImage(
                 artSO.IconCollection.GetSprite(
-                    (_cardReferenceInHandDeck == null ? cardData.GetBodyPartEnum :_cardReferenceInHandDeck.BodyPartEnum)
+                    (_cardReferenceInHandDeck == null ? cardData.BodyPartEnum :_cardReferenceInHandDeck.BodyPartEnum)
                     )
                 );
 
-            SetCardColors(cardData.GetCardTypeEnum);
+            SetCardColors(cardData.CardTypeEnum);
 
-            SetStaminaText(_cardReferenceInHandDeck == null ? cardData.GetStaminaCost : _cardReferenceInHandDeck.StaminaCost);
+            SetStaminaText(_cardReferenceInHandDeck == null ? cardData.StaminaCost : _cardReferenceInHandDeck.StaminaCost);
 
             SetCardUIImage(cardData.GetCardImage);
 
