@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
-  m_Name: Heal Arm
+  m_Name: Jab
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 5ecdbaf3f62e30d48977bdf359cbdd59, type: 3}
-    - {fileID: 11400000, guid: 77625566b1720344d9c867378c0af29a, type: 2}
+    - {fileID: 21300000, guid: 0c252e6add6561247a7b6732ec137c81, type: 3}
+    - {fileID: 11400000, guid: ffd2db3d9a9e74a4a954994701f2723c, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -28,19 +28,19 @@ MonoBehaviour:
       Data: 0
     - Name: CardName
       Entry: 1
-      Data: Heal Arm
+      Data: Jab
     - Name: AnimationBundle
       Entry: 7
       Data: 0|Cards.AnimationBundle, Assembly-CSharp
     - Name: _attackAnimation
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: _shieldAnimation
       Entry: 3
-      Data: 0
+      Data: 3
     - Name: _getHitAnimation
       Entry: 3
-      Data: 0
+      Data: 5
     - Name: IsSlowMotion
       Entry: 5
       Data: false
@@ -64,7 +64,7 @@ MonoBehaviour:
       Data: 0
     - Name: CardDescription
       Entry: 1
-      Data: '3 Heal '
+      Data: '2 Attack '
     - Name: StaminaCost
       Entry: 3
       Data: 0
@@ -73,10 +73,10 @@ MonoBehaviour:
       Data: 30
     - Name: ToExhaust
       Entry: 5
-      Data: true
+      Data: false
     - Name: ID
       Entry: 3
-      Data: 4
+      Data: 16
     - Name: CardSOKeywords
       Entry: 7
       Data: 2|Keywords.KeywordData[], Assembly-CSharp
@@ -91,10 +91,10 @@ MonoBehaviour:
       Data: 1
     - Name: _target
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: _amountToApply
       Entry: 3
-      Data: 3
+      Data: 2
     - Name: _animationIndex
       Entry: 3
       Data: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
       Data: 1
     - Name: _target
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: _amountToApply
       Entry: 3
       Data: 3
@@ -190,10 +190,10 @@ MonoBehaviour:
       Data: 1
     - Name: _target
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: _amountToApply
       Entry: 3
-      Data: 5
+      Data: 4
     - Name: _animationIndex
       Entry: 3
       Data: 0

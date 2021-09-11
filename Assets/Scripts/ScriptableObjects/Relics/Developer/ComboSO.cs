@@ -33,20 +33,18 @@ namespace Combo
 
 
         [TabGroup("Recipe/General Info", "Data")]
-        [Tooltip("Relic Rarity")]
+        [ShowInInspector]
         [LabelWidth(130)]
-        [SerializeField] Cards.RarityEnum _rarityLevel;
+        public Cards.RarityEnum GetRarityEnum => _craftedCard.Rarity;
 
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(100)]
-        [SerializeField] int _cost;
+        [ShowInInspector]
+        public int Cost { get; set; }
 
 
-        [TabGroup("Recipe/General Info", "Data")]
-        [Tooltip("Combo Description")]
-        [TextArea]
-        [SerializeField] string _description;
+
 
 
         [TabGroup("Recipe/General Info", "Combo")]
@@ -65,10 +63,10 @@ namespace Combo
 
         #region Properties
         public Cards.CardTypeData[] GetCombo => _data;
-        public Cards.RarityEnum GetRarityEnum => _rarityLevel;
+
         public Sprite GetIcon => _icon;
-        public int Cost => _cost;
-        public ComboNameEnum GetRelicName => _comboName;
+     
+        public ComboNameEnum GetComboName => _comboName;
         public string GetDescription => _description;
         public ref Cards.CardSO GetCraftedCard =>ref _craftedCard;
 

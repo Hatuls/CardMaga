@@ -39,7 +39,7 @@ namespace Combo
         public override void Init()
         {
 
-            _playerKnownRecipe = Resources.Load<ComboCollectionSO>("ComboRecipe/PlayerRecipe");
+            _playerKnownRecipe = Resources.Load<ComboCollectionSO>("CollectionSO/PlayerRecipe");
             threadId = ThreadHandler.GetNewID;
         }
         void CreateCard()
@@ -47,7 +47,7 @@ namespace Combo
 
             Debug.Log(_cardRecipeDetected);
 
-            Debug.Log(_cardRecipeDetected?.GetRelicName);
+            Debug.Log(_cardRecipeDetected?.GetComboName);
 
             if(_cardRecipeDetected != null)
             {

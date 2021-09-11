@@ -5,23 +5,21 @@ using Sirenix.Serialization;
 namespace Cards
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
-    public class CardSO : ScriptableObject
+    public class CardSO : SerializedScriptableObject
     {
-      [OdinSerialize]
-        [ShowInInspector]
- public int ID { get; set; }
+
 
         #region Fields
         [TitleGroup("CardData", BoldTitle =true, Alignment = TitleAlignments.Centered)]  
      
         [HorizontalGroup("CardData/Info/Display")]
 
-
-        [Tooltip("The Image of the card:")]
+        [OdinSerialize]
+        [ShowInInspector]
         [VerticalGroup("CardData/Info/Display/Coulmn 1")]
         [PreviewField(100, Alignment = ObjectFieldAlignment.Right )]
-        [SerializeField] Sprite CardSprite;
-     
+        public Sprite CardSprite { get; set; }
+
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
         [LabelWidth(90f)]
         [OdinSerialize]
@@ -33,6 +31,10 @@ namespace Cards
         [ShowInInspector]
         public AnimationBundle AnimationBundle { get; set; }
 
+
+        [TabGroup("CardData/Info", "Data")]
+        [OdinSerialize]
+        [ShowInInspector]
         public RarityEnum Rarity { get; set; }
 
         [TabGroup("CardData/Info", "Data")]
@@ -82,6 +84,11 @@ namespace Cards
         [SerializeField]
         int _salvageCost = 1;
 
+        [TabGroup("CardData/Info", "Data")]
+        [OdinSerialize]
+        [ShowInInspector]
+        public int ID { get; set; }
+
         [TabGroup("CardData/Info", "Keywords")]
         [OdinSerialize]
         [ShowInInspector]
@@ -95,16 +102,17 @@ namespace Cards
         [TabGroup("CardData/Info", "Crafting")]
         [OdinSerialize]
         [ShowInInspector] 
-     public int[] CardsFusesFrom { get; set; }
+         public int[] CardsFusesFrom { get; set; }
 
         #endregion
 
         #region Properties
 
-        public ref Sprite GetCardImage => ref CardSprite;
-        
- 
-         public int CardsMaxLevel => PerLevelUpgrade == null ? 1 : PerLevelUpgrade.Length+1;
+
+
+
+        [ShowInInspector]
+        public int CardsMaxLevel => PerLevelUpgrade == null ? 0 : PerLevelUpgrade.Length;
       
         #endregion
 
@@ -122,10 +130,11 @@ namespace Cards
 
     public enum RarityEnum
     {
-        Common,
-        Uncommon,
-        Rare,
-        Epic,
-        LegendREI
+        None = 0,
+        Common = 1,
+        Uncommon = 2,
+        Rare= 3,
+        Epic=4,
+        LegendREI=5
     };
 }

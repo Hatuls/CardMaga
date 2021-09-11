@@ -130,7 +130,7 @@ namespace Battles.UI.CardUIAttributes
 
             SetStaminaText(_cardReferenceInHandDeck == null ? cardData.StaminaCost : _cardReferenceInHandDeck.StaminaCost);
 
-            SetCardUIImage(cardData.GetCardImage);
+            SetCardUIImage(cardData.CardSprite);
 
             //   card.SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
             //    card.SetRotation(Vector3.zero);

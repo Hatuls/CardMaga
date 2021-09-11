@@ -5,9 +5,8 @@ namespace Cards
     [System.Serializable]
     public class PerLevelUpgrade
     {
-        [SerializeField]
-        private int _costForLevelUp;
-        public int CostForLevelUp => _costForLevelUp;
+        public PerLevelUpgrade(Upgrade[] upgrades)
+            => _upgradesPerLevel = upgrades;
 
         [SerializeField]
         private Upgrade[] _upgradesPerLevel;
@@ -16,6 +15,18 @@ namespace Cards
         [System.Serializable]
         public class Upgrade
         {
+            public Upgrade (KeywordData keyword)
+            {
+                _upgradeType = LevelUpgradeEnum.KeywordAddition;
+                _keywordUpgrade = keyword;
+            }
+            public Upgrade(LevelUpgradeEnum levelUpgradeEnum,int amount)
+            {
+                _upgradeType = levelUpgradeEnum;
+                _amount = amount;
+            }
+
+
             [SerializeField] private LevelUpgradeEnum _upgradeType;
             [SerializeField] private KeywordData _keywordUpgrade;
             [SerializeField] private int _amount;

@@ -4,41 +4,74 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class CSVtoSO 
+public class CSVToCardSO 
 {
     static Keywords.KeywordSO[] _keywordsSO;
-    const string _driveLink = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=1611461659";
-    [MenuItem("Google Drive/Update Cards SO")]
+    static Sprite[] cardsPictures;
+    const string _driveURLOfCardSO = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=1611461659";
+     static string[] csv;
+   [MenuItem("Google Drive/Update Cards SO")]
     public static void GenerateCards()
     {
-        WebRequests.Get(_driveLink, (x) => Debug.Log("Error " + x), OnCompleteDownload);
+        WebRequests.Get(_driveURLOfCardSO, (x) => Debug.Log("Error " + x), OnCompleteDownloadingCardCSV);
     }
 
-    private static void OnCompleteDownload(string txt)
+
+
+
+    private static void OnCompleteDownloadingCardCSV(string txt)
     {
-      var gos = GameObject.FindGameObjectsWithTag("Web");
+        DestroyWebGameObjects();
+
+        _keywordsSO = Resources.LoadAll<Keywords.KeywordSO>("KeywordsSO");
+        cardsPictures = Resources.LoadAll<Sprite>("Art/CardsPictures");
+
+
+        SeperateFiles(txt);
+
+        csv = null;
+    }
+    public static void DestroyWebGameObjects()
+    {
+        var gos = GameObject.FindGameObjectsWithTag("Web");
 
         for (int i = gos.Length - 1; i >= 0; i--)
             GameObject.DestroyImmediate(gos[i]);
-
-        _keywordsSO = Resources.LoadAll<Keywords.KeywordSO>("KeywordsSO");
-
-        SeperateFiles(txt);
     }
+
     private static void SeperateFiles(string data)
     {
         
-        string[] csv = data.Replace("/r", "").Split('\n');
+         csv = data.Replace("\r", "").Split('\n');
+
+        var Collection = ScriptableObject.CreateInstance<CardsCollectionSO>();
+
+        AssetDatabase.CreateAsset(Collection, $"Assets/Resources/Collection SO/CardCollection.asset");
+        List<Cards.CardSO> cardList = new List<Cards.CardSO>();
+
 
         //0 is the headers
         // 1 is example card
         const int firstCardsIndex = 2;
-        for (int i = firstCardsIndex; i < csv.GetLength(0); i++)
-            if (!CreateCard(csv[i].Replace('"', ' ').Replace('/', ' ').Split(','))) break;
 
+        for (int i = firstCardsIndex; i < csv.GetLength(0); i++)
+        {
+            string[] row = csv[i].Replace('"', ' ').Replace('/', ' ').Split(',');
+
+            if (row[0] == "-")
+                break;
+
+            var cardCache = CreateCard(row);
+            if (cardCache == null)
+                continue;
+            else
+                cardList.Add(cardCache);
+        }
+
+        Collection.Init(cardList.ToArray());
         AssetDatabase.SaveAssets();
     }
-    private static bool CreateCard(string[] cardSO)
+    private static Cards.CardSO CreateCard(string[] cardSO)
     {
         string input ="";
 
@@ -52,13 +85,13 @@ public class CSVtoSO
         // check if there is id to the card if we found '-' it means there is no need to check the rest of the lines
         const int ID = 0;
         if (CheckIfEmpty(cardSO[ID]))
-            return false;
+            return null;
 
         // check if its the base card or if its a upgrade version of a previous card
         const int isCardUpgrade = 1;
 
         if (cardSO[isCardUpgrade] == "1")
-            return true;
+            return null;
         else if(cardSO[isCardUpgrade] != "0")
             Debug.LogError($"CardID {cardSO[ID]} : Coulmne B {isCardUpgrade} value: {cardSO[isCardUpgrade]} is not valid boolean");
 
@@ -78,36 +111,31 @@ public class CSVtoSO
 
 
 
-        const int CardDescription = 14;
         const int StaminaCost = 15;
+        const int CardDescription = 16;
 
 
         const int RarityLevel = 18;
         const int Cinematic = 19;
        // const int GoToDeckAfterCrafting = 20;
         const int PurchaseCost = 20;
-        const int IDThatCraftMe = 23;
+        const int IDThatCraftMe = 22;
+        const int UpgradeToCardID= 23;
         const int IsExhausted = 24;
         
 
         card.ID = int.Parse(cardSO[ID]);
 
         card.CardName = cardSO[CardName];
-
+        card.CardSprite = GetCardImageByName(card.CardName);
         //Keywords
-        card.CardSOKeywords = FillKeywords(cardSO);
-
-
+        card.CardSOKeywords = GetKeywordsData(cardSO);
 
         // Card Types
         card.CardType = new Cards.CardTypeData()
         {
             BodyPart = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
             CardType = int.TryParse(cardSO[CardType], out int cardTypeIndex) ? (Cards.CardTypeEnum)cardTypeIndex : Cards.CardTypeEnum.None,
-
-            //BodyPart = (Cards.BodyPartEnum)Enum.Parse(typeof(Cards.BodyPartEnum),cardSO[BodyPart]),
-            //CardType = (Cards.CardTypeEnum)Enum.Parse(typeof(Cards.CardTypeEnum), cardSO[CardType]),
-
         };
 
         if (card.CardType.CardType == Cards.CardTypeEnum.None)
@@ -137,6 +165,8 @@ public class CSVtoSO
 
         };
 
+
+        // Description
         card.CardDescription = cardSO[CardDescription];
 
         //Stamina Cost
@@ -169,20 +199,40 @@ public class CSVtoSO
             card.CardsFusesFrom = arr;
         }
 
-        // keywords
 
 
 
-       var keywordArr = new Keywords.KeywordData[0];
+        //Upgrades
+        List<Cards.PerLevelUpgrade> _PerLevelUpgrade = new List<Cards.PerLevelUpgrade>();
+        string firstCardId = cardSO[UpgradeToCardID];
+        do
+        {
+            if (int.TryParse(firstCardId, out int myUpgradeVersionID))
+            {
+                string[] getRow = GetRowFromCSVByID(myUpgradeVersionID);
+
+                if (getRow.Length == 0)
+                      Debug.LogError($"ID {myUpgradeVersionID} has no data in it!");
+               
+                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart)));
+                firstCardId = getRow[UpgradeToCardID];
+            }
+            else
+                break;
+
+
+        } while (true);
+        card.PerLevelUpgrade = _PerLevelUpgrade.ToArray();
+
+
+
+
 
         AssetDatabase.CreateAsset(card, $"Assets/Resources/Cards SO/{card.CardName}.asset");
-        return true;
+        return card;
     }
-
     private static bool CheckIfEmpty(string toCheck) => toCheck == "-";
-
-
-    private static Keywords.KeywordData[] FillKeywords(string[] cardSO)
+    private static Keywords.KeywordData[] GetKeywordsData(string[] cardSO)
     {
         /*
          * on each keywords type we check how much we need to create keyworddata from this type
@@ -200,8 +250,8 @@ public class CSVtoSO
 
         List<Keywords.KeywordData> keywordsDataList = new List<Keywords.KeywordData>();
 
-        string[] SKeywordsType = cardSO[KeywordType].Replace('0', '-').Trim().Split('&');
-        string[] SSeperationAmountKeywords = cardSO[AmountOfTheSameKeywords].Replace('0', ' ').Trim().Split('&');
+        string[] SKeywordsType = cardSO[KeywordType].Split('&');
+        string[] SSeperationAmountKeywords = cardSO[AmountOfTheSameKeywords].Split('&');
         string[] SAmount = cardSO[Amount].Trim().Split('&');
         string[] SAnimationIndex = cardSO[AnimationIndex].Split('&');
         string[] STarget = cardSO[Target].Split('&');
@@ -223,6 +273,9 @@ public class CSVtoSO
 
             if (int.TryParse(SKeywordsType[i], out IKeywordsType))
             {
+                if (IKeywordsType == 0)
+                    continue;
+
                 keywordSO = KeywordSOFromIndex(IKeywordsType);
 
                 if (int.TryParse(SSeperationAmountKeywords[i], out ISeperationAmountKeywords))
@@ -242,6 +295,7 @@ public class CSVtoSO
                         {
                             if (SAnimationIndexPerKeyword[j] == "-")
                                 continue;
+                      
 
                             if (int.TryParse(SAnimationIndexPerKeyword[j], out int animationIndex))
                             {
@@ -266,10 +320,10 @@ public class CSVtoSO
 
                     }
                     else
-                        Debug.LogError($"CardID {cardSO[0]} : Coulmne M - Target Is not an integer!");
+                        Debug.LogError($"CardID {cardSO[0]} : Coulmne M {STarget[i]}- Target Is not an integer!");
                 }
                 else
-                    Debug.LogError($"CardID {cardSO[0]} : Coulmne J - Seperation Amount Keywords Is not an integer!");
+                    Debug.LogError($"CardID {cardSO[0]} : Coulmne J {SSeperationAmountKeywords[i]} - Seperation Amount Keywords Is not an integer!");
             }
             else
                 Debug.LogError($"CardID {cardSO[0]} : Coulmne I {SKeywordsType[i]} - KeywordType Is not an integer");
@@ -278,9 +332,6 @@ public class CSVtoSO
 
        return keywordsDataList.ToArray();
     }
-
-
-
     private static Keywords.KeywordSO KeywordSOFromIndex(int KeywordSoIndex)
     {
         // checking if its valid enum and then check if the keyword so that were loadded has this enum in it
@@ -302,5 +353,46 @@ public class CSVtoSO
 
         return null;
     }
-    
+    private static string[] GetRowFromCSVByID(int id)
+    {
+        for (int i = 0; i < csv.GetLength(0); i++)
+        {
+            string[] row = csv[i].Replace('"', ' ').Replace('/', ' ').Split(',');
+            if (int.TryParse(row[0], out int ID))
+            {
+                if (id == ID)
+                    return row;
+            }
+        }
+        return null;
+    }
+    private static Cards.PerLevelUpgrade.Upgrade[] GetCardsUpgrade(Cards.CardSO card, string[] getRow,int StaminaCost,int BodyPart)
+    {
+        List<Cards.PerLevelUpgrade.Upgrade> upgrades = new List<Cards.PerLevelUpgrade.Upgrade>();
+
+        var keywords = GetKeywordsData(getRow);
+        var bodyPart = int.TryParse(getRow[BodyPart], out int bodyIndex) ? (Cards.BodyPartEnum)bodyIndex : Cards.BodyPartEnum.None;
+        var stamina = int.TryParse(getRow[StaminaCost], out int sCost) ? sCost : -1;
+
+        for (int j = 0; j < keywords.Length; j++)
+            upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(keywords[j]));
+
+        if (bodyPart != card.BodyPartEnum)
+            upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(Cards.LevelUpgradeEnum.BodyPart, (int)bodyPart));
+
+        if (stamina != card.StaminaCost)
+            upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(Cards.LevelUpgradeEnum.Stamina, stamina));
+
+        return upgrades.ToArray();
+    }
+    private static Sprite GetCardImageByName(string name)
+    {
+        foreach (var picture in cardsPictures)
+        {
+            if (picture.name == name)
+                return picture;
+        }
+        return null;
+    }
+
 }
