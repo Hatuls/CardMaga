@@ -53,7 +53,7 @@ namespace Combo
         [Header("Combo:")]
         [Tooltip("The Order will define the accomplishment of the combo")]
         [LabelWidth(20)]
-        [SerializeField] Cards.CardType[] _data;
+        [SerializeField] Cards.CardTypeData[] _data;
 
       
         [Space(100)]
@@ -64,7 +64,7 @@ namespace Combo
         #endregion
 
         #region Properties
-        public Cards.CardType[] GetCombo => _data;
+        public Cards.CardTypeData[] GetCombo => _data;
         public Cards.RarityEnum GetRarityEnum => _rarityLevel;
         public Sprite GetIcon => _icon;
         public int Cost => _cost;

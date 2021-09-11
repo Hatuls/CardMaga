@@ -10,7 +10,7 @@ namespace Keywords
         {
             if (keywordData != null)
             {
-                UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + keywordData.GetTarget.ToString() + " recieved " + keywordData.GetKeywordSO.GetKeywordType.ToString() + " with Amount " + keywordData.GetAmountToApply);
+                UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + keywordData.GetTarget.ToString() + " recieved " + keywordData.KeywordSO.GetKeywordType.ToString() + " with Amount " + keywordData.GetAmountToApply);
                 StatsHandler.GetInstance.AddShield(isToPlayer,keywordData.GetAmountToApply);
             }
         }

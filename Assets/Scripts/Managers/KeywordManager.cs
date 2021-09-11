@@ -41,13 +41,13 @@ namespace Keywords
                 Debug.Log("KeywordManager: The target Enum is None");
                 return;
             }
-            else if (keyword.GetKeywordSO.GetKeywordType == KeywordTypeEnum.None)
+            else if (keyword.KeywordSO.GetKeywordType == KeywordTypeEnum.None)
             {
                 Debug.Log("KeywordManager: The Keyword Type Enum is None");
                 return;
             }
 
-            if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.GetKeywordSO.GetKeywordType, out KeywordAbst keywordEffect))
+            if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.KeywordSO.GetKeywordType, out KeywordAbst keywordEffect))
             {
                 switch (keyword.GetTarget)
                 {

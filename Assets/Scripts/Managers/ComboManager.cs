@@ -128,7 +128,7 @@ namespace Combo
                     amountCache++;
             }
 
-            List<CardType> craftingItems = new List<CardType>(amountCache);
+            List<CardTypeData> craftingItems = new List<CardTypeData>(amountCache);
 
             for (int i = 0; i < craftingSlots.Length; i++)
             {
@@ -143,9 +143,9 @@ namespace Combo
             }
          
         }
-    static void CheckRecipe(List<CardType> craftingItems)
+    static void CheckRecipe(List<CardTypeData> craftingItems)
         {
-            List<CardType> nextRecipe = new List<CardType>(Instance._playerKnownRecipe.GetComboSO[0].GetCombo.Length);
+            List<CardTypeData> nextRecipe = new List<CardTypeData>(Instance._playerKnownRecipe.GetComboSO[0].GetCombo.Length);
             for (int i = 0; i < Instance._playerKnownRecipe.GetComboSO.Length; i++)
             {
                 for (int j = 0; j < Instance._playerKnownRecipe.GetComboSO[i].GetCombo.Length; j++)

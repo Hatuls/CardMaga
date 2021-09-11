@@ -33,15 +33,15 @@ namespace Cards
         [ShowInInspector]
         public AnimationBundle AnimationBundle { get; set; }
 
-
+        public RarityEnum Rarity { get; set; }
 
         [TabGroup("CardData/Info", "Data")]
         [OdinSerialize]
         [ShowInInspector]
-        public CardType CardType { get; set; }
-        public RarityEnum CardsRarityLevel => CardType._rarityLevel;
-        public BodyPartEnum BodyPartEnum => CardType._bodyPart;
-        public CardTypeEnum CardTypeEnum => CardType._cardType;
+        public CardTypeData CardType { get; set; }
+ 
+        public BodyPartEnum BodyPartEnum => CardType.BodyPart;
+        public CardTypeEnum CardTypeEnum => CardType.CardType;
 
 
 
@@ -108,20 +108,16 @@ namespace Cards
       
         #endregion
 
-
-
-
-       
-
     }
 
     public enum LevelUpgradeEnum
     {
         None=0,
         Stamina=1,
-        BodyPart=2,
-        KeywordAddition=3,
-        ConditionReduction=4,
+        KeywordAddition=2,
+        ConditionReduction=3,
+        ToRemoveExhaust = 4,
+        BodyPart = 5,
     }
 
     public enum RarityEnum

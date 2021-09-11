@@ -81,18 +81,18 @@ namespace Battles
             {
                 if (currentCard != null)
                 {
-                    switch (currentCard.CardSO.CardType._cardType)
+                    switch (currentCard.CardSO.CardType.CardType)
                     {
                         case Cards.CardTypeEnum.Utility:
                         case Cards.CardTypeEnum.Defend:
-                            switch (currentCard.CardSO.CardSOKeywords[0].GetKeywordSO.GetKeywordType)
+                            switch (currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                             {
                                 case KeywordTypeEnum.Defense:
 
                                     VFXManager.Instance.PlayParticle(
                                     isPlayer,
                                     BodyPartEnum.Chest,
-                                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].GetKeywordSO.GetKeywordType)
+                                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                                     );
 
                                     _playSound?.Raise(SoundsNameEnum.GainArmor);
@@ -106,7 +106,7 @@ namespace Battles
                                 VFXManager.Instance.PlayParticle(
                                 isPlayer,
                                 BodyPartEnum.BottomBody,
-                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].GetKeywordSO.GetKeywordType)
+                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                                 );
 
                                     break;
@@ -119,7 +119,7 @@ namespace Battles
                                 VFXManager.Instance.PlayParticle(
                                 isPlayer,
                                 BodyPartEnum.BottomBody,
-                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].GetKeywordSO.GetKeywordType)
+                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                                 );
 
                                     break;
@@ -142,7 +142,7 @@ namespace Battles
 
 
                         default:
-                            Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType._cardType}");
+                            Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
                             break;
                     }
                 }

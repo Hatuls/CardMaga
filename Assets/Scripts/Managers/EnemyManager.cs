@@ -69,9 +69,6 @@ namespace Battles
             "\n This attack is going to use " + enemyAction.CardSO.BodyPartEnum.ToString() + "\n" +
             "And Do " + enemyAction.CardSO.CardTypeEnum.ToString() + " with the amount of " + enemyAction.CardSO.CardSOKeywords[0].GetAmountToApply);
 
-
-          
-
             yield return new WaitForSeconds(.1f);
         }
 

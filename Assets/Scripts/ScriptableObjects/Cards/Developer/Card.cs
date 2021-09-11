@@ -78,7 +78,7 @@ namespace Cards
             {
                 for (int i = 0; i < CardKeywords.Length; i++)
                 {
-                    if (CardKeywords[i].GetKeywordSO.GetKeywordType == keyword)
+                    if (CardKeywords[i].KeywordSO.GetKeywordType == keyword)
                         amount += CardKeywords[i].GetAmountToApply;
                 }
             }

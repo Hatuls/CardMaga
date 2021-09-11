@@ -43,11 +43,11 @@ public class CraftingSlotUI : MonoBehaviour
         slotPos = GetIconHolderRectTransform.anchoredPosition3D;
     }
 
-   public void InitPlaceHolder( Cards.CardType cardType)
+   public void InitPlaceHolder( Cards.CardTypeData cardType)
     {
         InitPlaceHolder(
-                cardType._cardType,
-                      ArtSettings.CardIconCollectionSO.GetSprite(cardType._bodyPart)
+                cardType.CardType,
+                      ArtSettings.CardIconCollectionSO.GetSprite(cardType.BodyPart)
                  );
     }
     public void InitPlaceHolder(Cards.CardTypeEnum cardType,Sprite icon)
