@@ -47,17 +47,17 @@ namespace Combo
 
             Debug.Log(_cardRecipeDetected);
 
-            Debug.Log(_cardRecipeDetected?.GetComboName);
+            Debug.Log(_cardRecipeDetected?.ComboName);
 
             if(_cardRecipeDetected != null)
             {
                 //create card
                 _successCrafting?.Raise();
 
-                Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.GetCraftedCard.CardName);
+                Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.CraftedCard.CardName);
              //   BattleUiManager.Instance.SetCardPosition(crafted);
 
-                DeckManager.Instance.AddCardToDeck(crafted, crafted.CardSO.GoToDeckAfterCrafting);
+                DeckManager.Instance.AddCardToDeck(crafted, _cardRecipeDetected.GoToDeckAfterCrafting);
                 VFXManager.Instance.PlayParticle(true, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
                 _playSound?.Raise( SoundsNameEnum.SuccessfullForge);
             }
@@ -145,12 +145,12 @@ namespace Combo
         }
     static void CheckRecipe(List<CardTypeData> craftingItems)
         {
-            List<CardTypeData> nextRecipe = new List<CardTypeData>(Instance._playerKnownRecipe.GetComboSO[0].GetCombo.Length);
+            List<CardTypeData> nextRecipe = new List<CardTypeData>(Instance._playerKnownRecipe.GetComboSO[0].ComboSequance.Length);
             for (int i = 0; i < Instance._playerKnownRecipe.GetComboSO.Length; i++)
             {
-                for (int j = 0; j < Instance._playerKnownRecipe.GetComboSO[i].GetCombo.Length; j++)
+                for (int j = 0; j < Instance._playerKnownRecipe.GetComboSO[i].ComboSequance.Length; j++)
                 {
-                    nextRecipe.Add(Instance._playerKnownRecipe.GetComboSO[i].GetCombo[j]);
+                    nextRecipe.Add(Instance._playerKnownRecipe.GetComboSO[i].ComboSequance[j]);
                 }
                 if (craftingItems.SequenceEqual(nextRecipe , new CardTypeComparer()))
                 {

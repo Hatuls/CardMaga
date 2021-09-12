@@ -26,13 +26,14 @@ public class CSVTORecipeSO
         Collections.RelicsSO.ComboCollectionSO comboCollection = ScriptableObject.CreateInstance<Collections.RelicsSO.ComboCollectionSO>();
         AssetDatabase.CreateAsset(comboCollection, $"Assets/Resources/Collection SO/RecipeCollection.asset");
         List<Combo.ComboSO> combosRecipe = new List<Combo.ComboSO>();
-        for (int i = 0; i < rows.Length; i++)
+
+        for (int i = 1; i < rows.Length; i++)
         {
             string[] line  =rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
 
             var recipe = CreateComboRecipe(line, cardCollections);
 
-            if (recipe == null)
+            if (recipe == null )
                 break;
             else
                 combosRecipe.Add(recipe);
@@ -48,19 +49,91 @@ public class CSVTORecipeSO
     private static Combo.ComboSO CreateComboRecipe(string[] row, CardsCollectionSO cardCollection)
     {
         const int ID = 0;
-        const int RecipeCardName = 1;
+        const int RecipeCardName = 1; // <- return ID
         const int GoesToWhenCrafted = 2;
         const int GoldCost = 3;
-        const int BodyPartsAndType = 4;
+        const int AmountBodyPartsAndType = 4;
+        const int BodyPartsAndType = 5;
 
         if (row[ID] == "-")
             return null;
 
         Combo.ComboSO recipe = ScriptableObject.CreateInstance<Combo.ComboSO>();
+        recipe.ID = int.Parse(row[ID]);
 
-        recipe.
 
-        AssetDatabase.CreateAsset(recipe, $"Assets/Resources/Cards SO/{recipe.GetComboName}Reciie.asset");
-        return card;
+        // crafted card + recipe name + recipe Image
+        if (int.TryParse(row[RecipeCardName], out int craftedCardsID))
+        {
+            foreach (var card in cardCollection.GetAllCards)
+            {
+                if (card.ID == craftedCardsID)
+                {
+                    recipe.CraftedCard = card;
+                    recipe.ComboName = card.CardName + " Recipe";
+                    recipe.Image = card.CardSprite;
+                    break;
+                }
+            }
+            if (recipe.CraftedCard == null)
+                Debug.LogError($"Could Not find the ID {row[RecipeCardName]} in the card collection please check if its matching correctly");
+
+        }
+        else
+            Debug.LogError($"RecipeCardName is not an valid int! -> {row[RecipeCardName]}");
+
+        //desination
+        if (int.TryParse(row[GoesToWhenCrafted], out int locationInt))
+            recipe.GoToDeckAfterCrafting = (Battles.Deck.DeckEnum)locationInt;
+        else
+            Debug.LogError($"Coulmne C Row {row[ID]} - Goes to when crafted is not a valid int!");
+
+
+        //gold
+        if (int.TryParse(row[GoldCost], out int cost))
+        {
+            if (cost < 0)
+            {
+                cost = 0;
+                Debug.LogWarning($"<a>Warning</a> Recipe Cost is below 0! ");
+            }
+            recipe.Cost = cost;
+        }
+        else
+            Debug.LogError($"Cost Was not an int : {row[GoldCost]}");
+
+
+
+
+        //body parts
+        if (int.TryParse(row[AmountBodyPartsAndType], out int bodyPartAmount))
+        {
+            const int bodyPartIndex = 0;
+            const int cardTypeIndex = 1;
+
+            string[] bodyPartsAndType = row[BodyPartsAndType].Split('&');
+            recipe.ComboSequance = new Cards.CardTypeData[bodyPartAmount];
+            for (int i = 0; i < bodyPartAmount; i++)
+            {
+                string[] bodyPartAndTypeSeperation = bodyPartsAndType[i].Split('^');
+
+                recipe.ComboSequance[i] = new Cards.CardTypeData()
+                {
+                    BodyPart = int.TryParse(bodyPartAndTypeSeperation[bodyPartIndex], out int b) ? (Cards.BodyPartEnum)b : Cards.BodyPartEnum.None,
+                    CardType = int.TryParse(bodyPartAndTypeSeperation[cardTypeIndex], out int t) ? (Cards.CardTypeEnum)t : Cards.CardTypeEnum.None,
+                };
+            }
+        }
+        else
+            Debug.LogError($"Coulmne E Row {recipe.ID} is not an intiger!");
+
+
+
+
+
+
+
+        AssetDatabase.CreateAsset(recipe, $"Assets/Resources/Recipe SO/{recipe.ComboName}.asset");
+        return recipe;
     }
 }

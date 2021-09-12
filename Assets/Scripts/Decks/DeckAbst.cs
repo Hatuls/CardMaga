@@ -285,13 +285,14 @@ namespace Battles.Deck
     public enum DeckEnum
     {
         None = 0,
-        PlayerDeck = 1,
-        Hand = 2,
+        Hand = 1,
+        PlayerDeck = 2,
         Disposal=3,
-        Exhaust=4,
-        Selected=5,
-        PlayerCraftingSlots=6,
-        OpponentCraftingSlots=7,
+        AutoActivate =4,
+        Exhaust=5,
+        Selected=6,
+        PlayerCraftingSlots=7,
+        OpponentCraftingSlots=8,
     };
     public interface IDeckHandler {
       

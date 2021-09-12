@@ -48,11 +48,6 @@ namespace Cards
 
 
 
-        [TabGroup("CardData/Info", "Data")]
-
-        [OdinSerialize]
-        [ShowInInspector]
-        public Battles.Deck.DeckEnum GoToDeckAfterCrafting { get; set; }
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
         [OdinSerialize]

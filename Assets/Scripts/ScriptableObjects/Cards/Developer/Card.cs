@@ -5,7 +5,7 @@ namespace Cards
 {
     public enum CardTypeEnum { Utility = 3, Defend = 2, Attack = 1 ,None = 0,};
 
-    public enum BodyPartEnum { None =0 , Head =1, Elbow=2, Hand=3, Knee=4, Leg=5 ,Joker = 6};
+    public enum BodyPartEnum { None =0 ,Empty = 1, Head =2, Elbow=3, Hand=4, Knee=5, Leg=6 ,Joker = 7};
     public class Card
     {
         #region Fields
