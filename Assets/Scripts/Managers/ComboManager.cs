@@ -2,19 +2,21 @@
 using UnityEngine;
 using Cards;
 using System.Collections.Generic;
-using Collections.RelicsSO;
+
 using ThreadsHandler;
 using System.Linq;
 using Unity.Events;
 using Battles.UI;
 using Unity.Collections;
+using Collections;
+
 namespace Combo
 {
     public class ComboManager : MonoSingleton<ComboManager>
     {
       
         #region Fields
-        [SerializeField] ComboCollectionSO _playerKnownRecipe;
+        [SerializeField] ComboRecipeCollectionSO _playerKnownRecipe;
         [SerializeField] ComboSO _cardRecipeDetected;
 
         static byte threadId;
@@ -32,14 +34,14 @@ namespace Combo
                 _cardRecipeDetected = value;
             }
         }
-        public ComboCollectionSO PlayerRelics => _playerKnownRecipe;
+        public ComboRecipeCollectionSO PlayerRelics => _playerKnownRecipe;
 
         #endregion
 
         public override void Init()
         {
 
-            _playerKnownRecipe = Resources.Load<ComboCollectionSO>("CollectionSO/PlayerRecipe");
+            _playerKnownRecipe = Resources.Load<ComboRecipeCollectionSO>("CollectionSO/PlayerRecipe");
             threadId = ThreadHandler.GetNewID;
         }
         void CreateCard()

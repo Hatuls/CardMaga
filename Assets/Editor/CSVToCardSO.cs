@@ -73,12 +73,14 @@ public class CSVToCardSO
     }
     private static Cards.CardSO CreateCard(string[] cardSO)
     {
-        string input ="";
 
-        foreach (var item in cardSO)
-            input += " " + item;
+        // print row
+        //string input ="";
 
-        Debug.Log(input);
+        //foreach (var item in cardSO)
+        //    input += " " + item;
+
+        //Debug.Log(input);
 
 
 

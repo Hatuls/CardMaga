@@ -20,7 +20,9 @@ namespace Managers
         public AnimatorController PlayerAnimatorController => _playerAnimatorController;
         public override void Init()
         {
-            _playerStat = Battles.BattleManager.GetDictionary(typeof(PlayerManager)).GetCharacter(Battles.CharactersEnum.Player).GetCharacterStats;
+            Debug.LogError("PlayerManager: Did not recieved the The Player stats correctly need to fix it and recieve it from before the battle!") ;
+
+            //   _playerStat = Battles.BattleManager.GetDictionary(typeof(PlayerManager)).GetCharacter(Battles.CharacterTypeEnum.Player).GetCharacterStats;
             Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, _playerStat.MaxHealth);
          //   Battles.UI.StatsUIManager.GetInstance.UpdateHealthBar(true, _playerStat.Health);
 
