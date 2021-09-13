@@ -17,6 +17,17 @@ namespace Collections.RelicsSO
 
         #region properties
         public Combo.ComboSO[] GetComboSO => _allComboSO;
+
+
+        public Combo.ComboSO GetCombo(int ID)
+        {
+            for (int i = 0; i < _allComboSO.Length; i++)
+            {
+                if (_allComboSO[i].ID == ID)
+                    return _allComboSO[i];
+            }
+            return null;
+        }
         #endregion
     }
 }

@@ -23,7 +23,7 @@ namespace Characters.Stats
 
         public static void ResetStamina()
         {
-            _stamina = StatsHandler.GetInstance.GetCharacterStats(true).MaxStamina + _extraStamina;
+            _stamina = StatsHandler.GetInstance.GetCharacterStats(true).StartStamina + _extraStamina;
 
             _staminaUI?.SetText(_stamina);
             ResetExtraStamina();

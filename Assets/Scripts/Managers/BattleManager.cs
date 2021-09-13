@@ -64,11 +64,11 @@ namespace Battles
 
             //      SetBattleStats
 
+            Debug.LogError("Enemy Manager Need To recieve stats, cards and recipe from outside the battle!");
 
-
-            EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharactersEnum.Enemy));
-            UI.StatsUIManager.GetInstance.InitHealthBar(true, PlayerManager.Instance.GetCharacterStats.Health);
-
+       //     EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharacterTypeEnum.Enemy));
+       //     UI.StatsUIManager.GetInstance.InitHealthBar(true, PlayerManager.Instance.GetCharacterStats.Health);
+       //
             Instance._turnCycles = TurnHandler.TurnCycle();
 
             Deck.DeckManager.Instance.ResetDeckManager();

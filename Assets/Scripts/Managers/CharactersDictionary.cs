@@ -4,10 +4,10 @@ namespace Battles
     [CreateAssetMenu (fileName = "CharactersDictionary",menuName ="ScriptableObjects/Character_Dictionary") ]
     public class CharactersDictionary : ScriptableObject
     {
-        [SerializeField] CharacterAbstSO[] _allGameCharacter;
+        [SerializeField] CharacterSO[] _allGameCharacter;
 
       //  static  System.Collections.Generic.Dictionary<CharactersEnum, CharacterAbstSO> _characterDict = new System.Collections.Generic.Dictionary<CharactersEnum, CharacterAbstSO>();
-        public CharacterAbstSO GetCharacter(CharactersEnum charactersEnum)
+        public CharacterSO GetCharacter(CharacterTypeEnum charactersEnum)
         {
             if (_allGameCharacter.Length > 0)
             {
@@ -16,7 +16,7 @@ namespace Battles
 
                 for (int i = 0; i < _allGameCharacter.Length; i++)
                 {
-                    if (_allGameCharacter[i].GetOpponent == charactersEnum)
+                    if (_allGameCharacter[i].CharacterType == charactersEnum)
                     {
                      //   _characterDict.Add(charactersEnum, _allGameCharacter[i]);
                         return _allGameCharacter[i];
@@ -31,17 +31,19 @@ namespace Battles
 
 
 
-        public CharacterAbstSO GetRandomOpponent()
+        public CharacterSO GetRandomOpponent()
         {
             if (_allGameCharacter.Length > 0)
             {
-                int x;
 
-                do
-                {
-                    x = Random.Range(0, _allGameCharacter.Length);
+                Debug.LogError("Getting Opponent Need To be  redone!");
+                int x = 0;
 
-                } while (_allGameCharacter[x].GetOpponent == CharactersEnum.Player);
+                //do
+                //{
+                //    x = Random.Range(0, _allGameCharacter.Length);
+
+                //} while (_allGameCharacter[x].CharacterType == CharacterTypeEnum.Player);
 
 
                 return _allGameCharacter[x];

@@ -69,16 +69,17 @@ public class CSVToCardSO
         }
 
         Collection.Init(cardList.ToArray());
+        Debug.Log("Cards Updated Completed!");
         AssetDatabase.SaveAssets();
     }
     private static Cards.CardSO CreateCard(string[] cardSO)
     {
-        string input ="";
+        //string input ="";
 
-        foreach (var item in cardSO)
-            input += " " + item;
+        //foreach (var item in cardSO)
+        //    input += " " + item;
 
-        Debug.Log(input);
+        //Debug.Log(input);
 
 
 

@@ -13,19 +13,19 @@ namespace Managers
         [Tooltip("Player Stats: ")]
         [SerializeField] Characters.Stats.CharacterStats _playerStat;
         [SerializeField] AnimatorController _playerAnimatorController;
-        [SerializeField] Battles.CharacterSO _playerCards;
+        [SerializeField] Battles.CharacterCollection _playerCards;
 
         #endregion
         public ref Characters.Stats.CharacterStats GetCharacterStats =>ref  _playerStat;
         public AnimatorController PlayerAnimatorController => _playerAnimatorController;
         public override void Init()
         {
-            _playerStat = Battles.BattleManager.GetDictionary(typeof(PlayerManager)).GetCharacter(Battles.CharactersEnum.Player).GetCharacterStats;
+            Debug.LogError("PlayerManager Need To Implement Recieving stats ,cards and combos From Out side the battle ");
+          //  CardManager.Instance.AssignPlayerCardDict(_playerCards.GetCharacterCards);
+           // _playerStat = Battles.BattleManager.GetDictionary(typeof(PlayerManager)).GetCharacter(Battles.CharacterTypeEnum.Player).CharacterStats;
+
             Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, _playerStat.MaxHealth);
-         //   Battles.UI.StatsUIManager.GetInstance.UpdateHealthBar(true, _playerStat.Health);
-
-            CardManager.Instance.AssignPlayerCardDict(_playerCards.GetCharacterCards);
-
+            //   Battles.UI.StatsUIManager.GetInstance.UpdateHealthBar(true, _playerStat.Health);
         }
         private void Start()
         {

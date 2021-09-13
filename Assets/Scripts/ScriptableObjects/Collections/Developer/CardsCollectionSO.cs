@@ -23,4 +23,15 @@ public class CardsCollectionSO : SerializedScriptableObject
             }
         }
     }
+
+
+    public Cards.CardSO GetCard(int ID)
+    {
+        for (int i = 0; i < _cardCollection.Length; i++)
+        {
+            if (_cardCollection[i].ID == ID)
+                return _cardCollection[i];
+        }
+        return null;
+    }
 }

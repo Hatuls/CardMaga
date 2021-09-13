@@ -2,6 +2,8 @@
 using UnityEditor;
 using UnityEngine;
 
+
+
 public class CSVTORecipeSO
 {
     const string _driveURLOfRecipeSO = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=371699274";
@@ -14,17 +16,16 @@ public class CSVTORecipeSO
     {
         CSVToCardSO.DestroyWebGameObjects();
 
-        var cardsPictures = Resources.LoadAll<Sprite>("Art/CardsPictures");
-
         var cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
-        if (cardCollections == null || cardCollections.GetAllCards.Length == 0)
-            Debug.LogError("Card Collection Is empty make sure you have cards in the Card Collection SO at \"Resources\\Collection SO\\CardCollection\"");
-
 
         string[] rows = txt.Replace("\r", "").Split('\n');
 
+        if (cardCollections == null || cardCollections.GetAllCards.Length == 0)
+            Debug.LogError("Card Collection Is empty make sure you have cards in the Card Collection SO at \"Resources\\Collection SO\\CardCollection\"");
+
         Collections.RelicsSO.ComboCollectionSO comboCollection = ScriptableObject.CreateInstance<Collections.RelicsSO.ComboCollectionSO>();
         AssetDatabase.CreateAsset(comboCollection, $"Assets/Resources/Collection SO/RecipeCollection.asset");
+      
         List<Combo.ComboSO> combosRecipe = new List<Combo.ComboSO>();
 
         for (int i = 1; i < rows.Length; i++)
@@ -41,7 +42,7 @@ public class CSVTORecipeSO
         }
 
         comboCollection.Init(combosRecipe.ToArray());
-
+        Debug.Log("Recipe Update Complete!");
         AssetDatabase.SaveAssets();
     }
 
@@ -136,4 +137,10 @@ public class CSVTORecipeSO
         AssetDatabase.CreateAsset(recipe, $"Assets/Resources/Recipe SO/{recipe.ComboName}.asset");
         return recipe;
     }
+
+
+
+
+
+
 }

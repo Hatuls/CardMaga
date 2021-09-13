@@ -16,7 +16,7 @@ namespace Battles
             if (_opponent == null)
             _opponent = new Opponents();
         }
-        public void SetEnemy(CharacterAbstSO _character)
+        public void SetEnemy(CharacterSO _character)
         {
             if (_opponent != null && _character != null)
                 _opponent.AssignData(_character);
@@ -46,8 +46,8 @@ namespace Battles
     {
         #region Fields
      
-        [SerializeField] CharacterDifficulty _difficultyLevel;
-        [SerializeField] CharactersEnum _name;
+        [SerializeField] CharacterDifficultyEnum _difficultyLevel;
+        [SerializeField] CharacterTypeEnum _name;
         [SerializeField] Cards.Card[] _cards;
         [SerializeField] Characters.Stats.CharacterStats _enemyStats;
         [SerializeField] Cards.Card enemyAction;
@@ -85,12 +85,12 @@ namespace Battles
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
             EnemyManager.EnemyAnimatorController.ResetToStartingPosition();
         }
-        public void AssignData(CharacterAbstSO characterAbstSO)// enemySO. get struct stats from scriptable object
+        public void AssignData(CharacterSO characterAbstSO)// enemySO. get struct stats from scriptable object
         {
             _cards = characterAbstSO.GetCharacterCards;
-            _enemyStats = characterAbstSO.GetCharacterStats;
-            _name = characterAbstSO.GetOpponent;
-            _difficultyLevel = characterAbstSO.GetDifficulty;
+            _enemyStats = characterAbstSO.CharacterStats;
+            _name = characterAbstSO.CharacterType;
+            _difficultyLevel = characterAbstSO.CharacterDiffciulty;
             _cardAction = -1;
             enemyAction = null;
 
@@ -109,8 +109,8 @@ namespace Battles
         #region Properties
         
         public ref Cards.Card[] GetCards => ref _cards;
-        public CharacterDifficulty GetDifficulty => _difficultyLevel;
-        public CharactersEnum GetOpponentName => _name;
+        public CharacterDifficultyEnum GetDifficulty => _difficultyLevel;
+        public CharacterTypeEnum GetOpponentName => _name;
         public ref  Characters.Stats.CharacterStats GetCharacterStats
         {
             get { 
