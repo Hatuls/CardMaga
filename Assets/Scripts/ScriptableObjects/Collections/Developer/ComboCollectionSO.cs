@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-namespace Collections
+namespace Collections.RelicsSO
 {
-    [CreateAssetMenu(fileName = "ComboRecipeCollectionSO", menuName = "ScriptableObjects/Collections/ComboRecipeCollectionSO")]
-    public class ComboRecipeCollectionSO : ScriptableObject
+    [CreateAssetMenu(fileName = "ComboCollectionSO", menuName = "ScriptableObjects/Collections/ComboCollectionSO")]
+    public class ComboCollectionSO : ScriptableObject
     {
         #region Fields
         [Tooltip("List of all relics in game")]

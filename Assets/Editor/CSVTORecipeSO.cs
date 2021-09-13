@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+
 public class CSVTORecipeSO
 {
     const string _driveURLOfRecipeSO = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=371699274";
@@ -22,7 +23,7 @@ public class CSVTORecipeSO
 
         string[] rows = txt.Replace("\r", "").Split('\n');
 
-        Collections.ComboRecipeCollectionSO comboCollection = ScriptableObject.CreateInstance<Collections.ComboRecipeCollectionSO>();
+        Collections.RelicsSO.ComboCollectionSO comboCollection = ScriptableObject.CreateInstance<Collections.RelicsSO.ComboCollectionSO>();
         AssetDatabase.CreateAsset(comboCollection, $"Assets/Resources/Collection SO/RecipeCollection.asset");
         List<Combo.ComboSO> combosRecipe = new List<Combo.ComboSO>();
 
