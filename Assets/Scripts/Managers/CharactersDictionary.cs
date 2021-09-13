@@ -4,10 +4,10 @@ namespace Battles
     [CreateAssetMenu (fileName = "CharactersDictionary",menuName ="ScriptableObjects/Character_Dictionary") ]
     public class CharactersDictionary : ScriptableObject
     {
-        [SerializeField] CharacterSO[] _allGameCharacter;
+        [SerializeField] CharacterAbstSO[] _allGameCharacter;
 
       //  static  System.Collections.Generic.Dictionary<CharactersEnum, CharacterAbstSO> _characterDict = new System.Collections.Generic.Dictionary<CharactersEnum, CharacterAbstSO>();
-        public CharacterSO GetCharacter(CharacterTypeEnum charactersEnum)
+        public CharacterAbstSO GetCharacter(CharactersEnum charactersEnum)
         {
             if (_allGameCharacter.Length > 0)
             {
@@ -31,19 +31,17 @@ namespace Battles
 
 
 
-        public CharacterSO GetRandomOpponent()
+        public CharacterAbstSO GetRandomOpponent()
         {
-
-            Debug.LogError("Need To Change The Get RandomOpponent!");
             if (_allGameCharacter.Length > 0)
             {
-                int x = 0;
+                int x;
 
-                //do
-                //{
-                //    x = Random.Range(0, _allGameCharacter.Length);
+                do
+                {
+                    x = Random.Range(0, _allGameCharacter.Length);
 
-                //} while (_allGameCharacter[x].GetOpponent == CharacterTypeEnum.Player);
+                } while (_allGameCharacter[x].GetOpponent == CharactersEnum.Player);
 
 
                 return _allGameCharacter[x];
