@@ -16,7 +16,7 @@ namespace Battles
             if (_opponent == null)
             _opponent = new Opponents();
         }
-        public void SetEnemy(CharacterAbstSO _character)
+        public void SetEnemy(CharacterSO _character)
         {
             if (_opponent != null && _character != null)
                 _opponent.AssignData(_character);
@@ -47,7 +47,7 @@ namespace Battles
         #region Fields
      
         [SerializeField] CharacterDifficulty _difficultyLevel;
-        [SerializeField] CharactersEnum _name;
+        [SerializeField] CharacterTypeEnum _name;
         [SerializeField] Cards.Card[] _cards;
         [SerializeField] Characters.Stats.CharacterStats _enemyStats;
         [SerializeField] Cards.Card enemyAction;
@@ -85,7 +85,7 @@ namespace Battles
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
             EnemyManager.EnemyAnimatorController.ResetToStartingPosition();
         }
-        public void AssignData(CharacterAbstSO characterAbstSO)// enemySO. get struct stats from scriptable object
+        public void AssignData(CharacterSO characterAbstSO)// enemySO. get struct stats from scriptable object
         {
             _cards = characterAbstSO.GetCharacterCards;
             _enemyStats = characterAbstSO.GetCharacterStats;
@@ -110,7 +110,7 @@ namespace Battles
         
         public ref Cards.Card[] GetCards => ref _cards;
         public CharacterDifficulty GetDifficulty => _difficultyLevel;
-        public CharactersEnum GetOpponentName => _name;
+        public CharacterTypeEnum GetOpponentName => _name;
         public ref  Characters.Stats.CharacterStats GetCharacterStats
         {
             get { 

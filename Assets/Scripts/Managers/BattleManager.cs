@@ -65,8 +65,8 @@ namespace Battles
             //      SetBattleStats
 
 
-
-            EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharactersEnum.Enemy));
+            Debug.LogError("EnemyManager: Enemy was not loaded correctly need to implement it and recieve stats and others stuff before the battle starts");
+           // EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharacterTypeEnum.Enemy));
             UI.StatsUIManager.GetInstance.InitHealthBar(true, PlayerManager.Instance.GetCharacterStats.Health);
 
             Instance._turnCycles = TurnHandler.TurnCycle();
