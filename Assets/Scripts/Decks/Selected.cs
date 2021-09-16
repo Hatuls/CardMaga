@@ -9,7 +9,7 @@ namespace Battles.Deck
 
 
         public static DeckEnum _discardTo;
-        public Selected(int length, Disposal deck, PlayerHand hand) : base(length)
+        public Selected(bool isPlayer, int length, Disposal deck, PlayerHand hand) : base(isPlayer,length)
         {
             _disposalDeck = deck;
             _playerHandDeck = hand;
@@ -43,6 +43,7 @@ namespace Battles.Deck
                 return;
 
             DeckManager.Instance.TransferCard(
+                isPlayer,
                 DeckEnum.Selected,
                 discardTo == null ? _discardTo : discardTo.Value,
                 card);

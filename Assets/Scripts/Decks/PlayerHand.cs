@@ -4,7 +4,7 @@
     {
         Disposal _disposalDeck;
 
-        public PlayerHand(int length , Disposal deck) : base(length)
+        public PlayerHand(bool isPlayer,int length , Disposal deck) : base(isPlayer,length)
         {
             _disposalDeck = deck;
         }

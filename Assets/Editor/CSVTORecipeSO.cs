@@ -14,9 +14,17 @@ public class CSVTORecipeSO
     }
     private static void OnCompleteDownloadingRecipeCSV(string txt)
     {
+        var cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+
+        float timer = 0;
+        do
+        {
+            timer += Time.deltaTime;
+        } while (cardCollections == null && timer < float.MaxValue - 1f);
+
+
         CSVToCardSO.DestroyWebGameObjects();
 
-        var cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
 
         string[] rows = txt.Replace("\r", "").Split('\n');
 
@@ -24,7 +32,6 @@ public class CSVTORecipeSO
             Debug.LogError("Card Collection Is empty make sure you have cards in the Card Collection SO at \"Resources\\Collection SO\\CardCollection\"");
 
         Collections.RelicsSO.ComboCollectionSO comboCollection = ScriptableObject.CreateInstance<Collections.RelicsSO.ComboCollectionSO>();
-        AssetDatabase.CreateAsset(comboCollection, $"Assets/Resources/Collection SO/RecipeCollection.asset");
       
         List<Combo.ComboSO> combosRecipe = new List<Combo.ComboSO>();
 
@@ -42,8 +49,10 @@ public class CSVTORecipeSO
         }
 
         comboCollection.Init(combosRecipe.ToArray());
-        Debug.Log("Recipe Update Complete!");
+        AssetDatabase.CreateAsset(comboCollection, $"Assets/Resources/Collection SO/RecipeCollection.asset");
         AssetDatabase.SaveAssets();
+     
+        Debug.Log("Recipe Update Complete!");
     }
 
 
@@ -77,17 +86,25 @@ public class CSVTORecipeSO
                 }
             }
             if (recipe.CraftedCard == null)
+            {
                 Debug.LogError($"Could Not find the ID {row[RecipeCardName]} in the card collection please check if its matching correctly");
+                return null;
+            }
 
         }
         else
+        {
             Debug.LogError($"RecipeCardName is not an valid int! -> {row[RecipeCardName]}");
-
+            return null;
+        }
         //desination
         if (int.TryParse(row[GoesToWhenCrafted], out int locationInt))
             recipe.GoToDeckAfterCrafting = (Battles.Deck.DeckEnum)locationInt;
         else
+        {
             Debug.LogError($"Coulmne C Row {row[ID]} - Goes to when crafted is not a valid int!");
+            return null;
+        }
 
 
         //gold
@@ -101,7 +118,10 @@ public class CSVTORecipeSO
             recipe.Cost = cost;
         }
         else
+        {
             Debug.LogError($"Cost Was not an int : {row[GoldCost]}");
+            return null;
+        }
 
 
 
@@ -126,7 +146,10 @@ public class CSVTORecipeSO
             }
         }
         else
+        {
             Debug.LogError($"Coulmne E Row {recipe.ID} is not an intiger!");
+            return null;
+        }
 
 
 

@@ -4,7 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName =("CardsCollections"), menuName =("ScriptableObjects/Collections/CardsCollections"))]
 public class CardsCollectionSO : SerializedScriptableObject
 {
-    [SerializeField] Cards.CardSO[] _cardCollection;
+    [SerializeField]
+    Cards.CardSO[] _cardCollection;
 
     public void Init(Cards.CardSO[] collection)
         => _cardCollection = collection;

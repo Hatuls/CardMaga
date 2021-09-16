@@ -11,7 +11,8 @@ namespace Collections.RelicsSO
 
         public void Init(Combo.ComboSO[] combos)
         {
-            _allComboSO = combos;
+            _allComboSO = new Combo.ComboSO[combos.Length];
+          System.Array.Copy(combos,_allComboSO,combos.Length);
         }
 
 

@@ -10,14 +10,14 @@ namespace Cards
 
 
         #region Fields
-        [TitleGroup("CardData", BoldTitle =true, Alignment = TitleAlignments.Centered)]  
-     
+        [TitleGroup("CardData", BoldTitle = true, Alignment = TitleAlignments.Centered)]
+
         [HorizontalGroup("CardData/Info/Display")]
 
         [OdinSerialize]
         [ShowInInspector]
         [VerticalGroup("CardData/Info/Display/Coulmn 1")]
-        [PreviewField(100, Alignment = ObjectFieldAlignment.Right )]
+        [PreviewField(100, Alignment = ObjectFieldAlignment.Right)]
         public Sprite CardSprite { get; set; }
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
@@ -38,10 +38,10 @@ namespace Cards
         public RarityEnum Rarity { get; set; }
 
         [TabGroup("CardData/Info", "Data")]
-        [OdinSerialize]
+
         [ShowInInspector]
-        public CardTypeData CardType { get; set; }
- 
+        public CardTypeData CardType => PerLevelUpgrade[0]?.UpgradesPerLevel[0]?.CardTypeData;
+
         public BodyPartEnum BodyPartEnum => CardType.BodyPart;
         public CardTypeEnum CardTypeEnum => CardType.CardType;
 
@@ -51,10 +51,10 @@ namespace Cards
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
         [OdinSerialize]
-        [ShowInInspector] 
+        [ShowInInspector]
         [LabelWidth(80f)]
         public string CardDescription { get; set; }
-   
+
 
 
         [TabGroup("CardData/Info", "Data")]
@@ -67,7 +67,7 @@ namespace Cards
         [ShowInInspector]
         public int PurchaseCost { get; set; }
 
-   
+
 
         [TabGroup("CardData/Info", "Data")]
         [OdinSerialize]
@@ -96,8 +96,8 @@ namespace Cards
 
         [TabGroup("CardData/Info", "Crafting")]
         [OdinSerialize]
-        [ShowInInspector] 
-         public int[] CardsFusesFrom { get; set; }
+        [ShowInInspector]
+        public int[] CardsFusesFrom { get; set; }
 
         #endregion
 
@@ -107,8 +107,20 @@ namespace Cards
 
 
         [ShowInInspector]
-        public int CardsMaxLevel => PerLevelUpgrade == null ? 0 : PerLevelUpgrade.Length;
-      
+        public int CardsMaxLevel => PerLevelUpgrade == null ? 0 : PerLevelUpgrade.Length-1;
+
+        #endregion
+
+
+        #region Methods
+        public PerLevelUpgrade GetLevelUpgrade(int level)
+        {
+
+            if (level >=0 && level< PerLevelUpgrade.Length)
+              return PerLevelUpgrade[level];
+            
+            return null;
+        }
         #endregion
 
     }

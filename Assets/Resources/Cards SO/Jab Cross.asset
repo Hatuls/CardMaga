@@ -54,18 +54,6 @@ MonoBehaviour:
     - Name: Rarity
       Entry: 3
       Data: 2
-    - Name: CardType
-      Entry: 7
-      Data: 1|Cards.CardTypeData, Assembly-CSharp
-    - Name: BodyPart
-      Entry: 3
-      Data: 4
-    - Name: CardType
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: CardDescription
       Entry: 1
       Data: '1^2 Attack 1^1 Bleed '
@@ -83,10 +71,31 @@ MonoBehaviour:
       Data: 34
     - Name: CardSOKeywords
       Entry: 7
-      Data: 2|Keywords.KeywordData[], Assembly-CSharp
+      Data: 1|Keywords.KeywordData[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 4
+    - Name: 
+      Entry: 7
+      Data: 2|Keywords.KeywordData, Assembly-CSharp
+    - Name: _keywordBase
+      Entry: 10
+      Data: 1
+    - Name: _target
+      Entry: 3
+      Data: 2
+    - Name: _amountToApply
+      Entry: 3
+      Data: 1
+    - Name: _animationIndex
+      Entry: 3
+      Data: 0
+    - Name: _conditions
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 7
       Data: 3|Keywords.KeywordData, Assembly-CSharp
@@ -98,10 +107,10 @@ MonoBehaviour:
       Data: 2
     - Name: _amountToApply
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: _animationIndex
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: _conditions
       Entry: 6
       Data: 
@@ -113,27 +122,6 @@ MonoBehaviour:
       Data: 4|Keywords.KeywordData, Assembly-CSharp
     - Name: _keywordBase
       Entry: 10
-      Data: 1
-    - Name: _target
-      Entry: 3
-      Data: 2
-    - Name: _amountToApply
-      Entry: 3
-      Data: 2
-    - Name: _animationIndex
-      Entry: 3
-      Data: 1
-    - Name: _conditions
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|Keywords.KeywordData, Assembly-CSharp
-    - Name: _keywordBase
-      Entry: 10
       Data: 2
     - Name: _target
       Entry: 3
@@ -152,7 +140,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 6|Keywords.KeywordData, Assembly-CSharp
+      Data: 5|Keywords.KeywordData, Assembly-CSharp
     - Name: _keywordBase
       Entry: 10
       Data: 2
@@ -179,45 +167,57 @@ MonoBehaviour:
       Data: 
     - Name: PerLevelUpgrade
       Entry: 7
-      Data: 7|Cards.PerLevelUpgrade[], Assembly-CSharp
+      Data: 6|Cards.PerLevelUpgrade[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 8|Cards.PerLevelUpgrade, Assembly-CSharp
+      Data: 7|Cards.PerLevelUpgrade, Assembly-CSharp
     - Name: _upgradesPerLevel
       Entry: 7
-      Data: 9|Cards.PerLevelUpgrade+Upgrade[], Assembly-CSharp
+      Data: 8|Cards.PerLevelUpgrade+Upgrade[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 6
     - Name: 
       Entry: 7
-      Data: 10|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+      Data: 9|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
     - Name: _upgradeType
       Entry: 3
-      Data: 2
+      Data: 5
     - Name: _keywordUpgrade
-      Entry: 7
-      Data: 11|Keywords.KeywordData, Assembly-CSharp
-    - Name: _keywordBase
-      Entry: 10
-      Data: 1
-    - Name: _target
-      Entry: 3
-      Data: 2
-    - Name: _amountToApply
-      Entry: 3
-      Data: 1
-    - Name: _animationIndex
-      Entry: 3
-      Data: 0
-    - Name: _conditions
       Entry: 6
       Data: 
+    - Name: _cardTypeData
+      Entry: 7
+      Data: 10|Cards.CardTypeData, Assembly-CSharp
+    - Name: BodyPart
+      Entry: 3
+      Data: 4
+    - Name: CardType
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
+      Data: 1
+    - Name: _keywordUpgrade
+      Entry: 6
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
       Data: 
     - Name: _amount
       Entry: 3
@@ -242,15 +242,18 @@ MonoBehaviour:
       Data: 2
     - Name: _amountToApply
       Entry: 3
-      Data: 3
+      Data: 1
     - Name: _animationIndex
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: _conditions
       Entry: 6
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
       Data: 
     - Name: _amount
       Entry: 3
@@ -269,21 +272,24 @@ MonoBehaviour:
       Data: 15|Keywords.KeywordData, Assembly-CSharp
     - Name: _keywordBase
       Entry: 10
-      Data: 2
+      Data: 1
     - Name: _target
       Entry: 3
       Data: 2
     - Name: _amountToApply
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: _animationIndex
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: _conditions
       Entry: 6
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
       Data: 
     - Name: _amount
       Entry: 3
@@ -308,7 +314,43 @@ MonoBehaviour:
       Data: 2
     - Name: _amountToApply
       Entry: 3
+      Data: 1
+    - Name: _animationIndex
+      Entry: 3
+      Data: 0
+    - Name: _conditions
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 18|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
       Data: 2
+    - Name: _keywordUpgrade
+      Entry: 7
+      Data: 19|Keywords.KeywordData, Assembly-CSharp
+    - Name: _keywordBase
+      Entry: 10
+      Data: 2
+    - Name: _target
+      Entry: 3
+      Data: 2
+    - Name: _amountToApply
+      Entry: 3
+      Data: 1
     - Name: _animationIndex
       Entry: 3
       Data: 1
@@ -317,6 +359,9 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
       Data: 
     - Name: _amount
       Entry: 3
@@ -335,37 +380,31 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 18|Cards.PerLevelUpgrade, Assembly-CSharp
+      Data: 20|Cards.PerLevelUpgrade, Assembly-CSharp
     - Name: _upgradesPerLevel
       Entry: 7
-      Data: 19|Cards.PerLevelUpgrade+Upgrade[], Assembly-CSharp
+      Data: 21|Cards.PerLevelUpgrade+Upgrade[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 6
     - Name: 
       Entry: 7
-      Data: 20|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+      Data: 22|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
     - Name: _upgradeType
       Entry: 3
-      Data: 2
+      Data: 5
     - Name: _keywordUpgrade
-      Entry: 7
-      Data: 21|Keywords.KeywordData, Assembly-CSharp
-    - Name: _keywordBase
-      Entry: 10
-      Data: 1
-    - Name: _target
-      Entry: 3
-      Data: 2
-    - Name: _amountToApply
-      Entry: 3
-      Data: 2
-    - Name: _animationIndex
-      Entry: 3
-      Data: 0
-    - Name: _conditions
       Entry: 6
       Data: 
+    - Name: _cardTypeData
+      Entry: 7
+      Data: 23|Cards.CardTypeData, Assembly-CSharp
+    - Name: BodyPart
+      Entry: 3
+      Data: 4
+    - Name: CardType
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -377,13 +416,67 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 22|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+      Data: 24|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
+      Data: 1
+    - Name: _keywordUpgrade
+      Entry: 6
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 25|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
     - Name: _upgradeType
       Entry: 3
       Data: 2
     - Name: _keywordUpgrade
       Entry: 7
-      Data: 23|Keywords.KeywordData, Assembly-CSharp
+      Data: 26|Keywords.KeywordData, Assembly-CSharp
+    - Name: _keywordBase
+      Entry: 10
+      Data: 1
+    - Name: _target
+      Entry: 3
+      Data: 2
+    - Name: _amountToApply
+      Entry: 3
+      Data: 1
+    - Name: _animationIndex
+      Entry: 3
+      Data: 0
+    - Name: _conditions
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 27|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
+      Data: 2
+    - Name: _keywordUpgrade
+      Entry: 7
+      Data: 28|Keywords.KeywordData, Assembly-CSharp
     - Name: _keywordBase
       Entry: 10
       Data: 1
@@ -402,6 +495,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
     - Name: _amount
       Entry: 3
       Data: 0
@@ -410,13 +506,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 24|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+      Data: 29|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
     - Name: _upgradeType
       Entry: 3
       Data: 2
     - Name: _keywordUpgrade
       Entry: 7
-      Data: 25|Keywords.KeywordData, Assembly-CSharp
+      Data: 30|Keywords.KeywordData, Assembly-CSharp
     - Name: _keywordBase
       Entry: 10
       Data: 2
@@ -425,7 +521,7 @@ MonoBehaviour:
       Data: 2
     - Name: _amountToApply
       Entry: 3
-      Data: 2
+      Data: 1
     - Name: _animationIndex
       Entry: 3
       Data: 0
@@ -435,6 +531,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
     - Name: _amount
       Entry: 3
       Data: 0
@@ -443,13 +542,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 26|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+      Data: 31|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
     - Name: _upgradeType
       Entry: 3
       Data: 2
     - Name: _keywordUpgrade
       Entry: 7
-      Data: 27|Keywords.KeywordData, Assembly-CSharp
+      Data: 32|Keywords.KeywordData, Assembly-CSharp
     - Name: _keywordBase
       Entry: 10
       Data: 2
@@ -467,6 +566,216 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 33|Cards.PerLevelUpgrade, Assembly-CSharp
+    - Name: _upgradesPerLevel
+      Entry: 7
+      Data: 34|Cards.PerLevelUpgrade+Upgrade[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 35|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
+      Data: 5
+    - Name: _keywordUpgrade
+      Entry: 6
+      Data: 
+    - Name: _cardTypeData
+      Entry: 7
+      Data: 36|Cards.CardTypeData, Assembly-CSharp
+    - Name: BodyPart
+      Entry: 3
+      Data: 4
+    - Name: CardType
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 37|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
+      Data: 1
+    - Name: _keywordUpgrade
+      Entry: 6
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 38|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
+      Data: 2
+    - Name: _keywordUpgrade
+      Entry: 7
+      Data: 39|Keywords.KeywordData, Assembly-CSharp
+    - Name: _keywordBase
+      Entry: 10
+      Data: 1
+    - Name: _target
+      Entry: 3
+      Data: 2
+    - Name: _amountToApply
+      Entry: 3
+      Data: 2
+    - Name: _animationIndex
+      Entry: 3
+      Data: 0
+    - Name: _conditions
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 40|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
+      Data: 2
+    - Name: _keywordUpgrade
+      Entry: 7
+      Data: 41|Keywords.KeywordData, Assembly-CSharp
+    - Name: _keywordBase
+      Entry: 10
+      Data: 1
+    - Name: _target
+      Entry: 3
+      Data: 2
+    - Name: _amountToApply
+      Entry: 3
+      Data: 3
+    - Name: _animationIndex
+      Entry: 3
+      Data: 1
+    - Name: _conditions
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 42|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
+      Data: 2
+    - Name: _keywordUpgrade
+      Entry: 7
+      Data: 43|Keywords.KeywordData, Assembly-CSharp
+    - Name: _keywordBase
+      Entry: 10
+      Data: 2
+    - Name: _target
+      Entry: 3
+      Data: 2
+    - Name: _amountToApply
+      Entry: 3
+      Data: 2
+    - Name: _animationIndex
+      Entry: 3
+      Data: 0
+    - Name: _conditions
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
+      Data: 
+    - Name: _amount
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 44|Cards.PerLevelUpgrade+Upgrade, Assembly-CSharp
+    - Name: _upgradeType
+      Entry: 3
+      Data: 2
+    - Name: _keywordUpgrade
+      Entry: 7
+      Data: 45|Keywords.KeywordData, Assembly-CSharp
+    - Name: _keywordBase
+      Entry: 10
+      Data: 2
+    - Name: _target
+      Entry: 3
+      Data: 2
+    - Name: _amountToApply
+      Entry: 3
+      Data: 2
+    - Name: _animationIndex
+      Entry: 3
+      Data: 1
+    - Name: _conditions
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _cardTypeData
+      Entry: 6
       Data: 
     - Name: _amount
       Entry: 3
@@ -491,7 +800,7 @@ MonoBehaviour:
       Data: 
     - Name: CardsFusesFrom
       Entry: 7
-      Data: 28|System.Int32[], mscorlib
+      Data: 46|System.Int32[], mscorlib
     - Name: 
       Entry: 14
       Data: 0

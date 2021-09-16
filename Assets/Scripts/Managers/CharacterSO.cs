@@ -14,8 +14,8 @@ namespace Battles
             [OdinSerialize]
             [ShowInInspector]
             public Cards.CardSO Card { get; set; }
-            [ShowInInspector]
             [OdinSerialize]
+            [ShowInInspector]
             public int Level { get; set; }
         }
 
@@ -25,10 +25,13 @@ namespace Battles
             [OdinSerialize]
             [ShowInInspector]
             public Combo.ComboSO ComboRecipe { get; set; }
-            [ShowInInspector]
             [OdinSerialize]
+            [ShowInInspector]
             public int Level { get; set; }
         }
+
+        [SerializeField]
+        private Characters.Stats.CharacterStats _characterStats;
 
         [ShowInInspector]
         [OdinSerialize]
@@ -39,6 +42,7 @@ namespace Battles
 
         [ShowInInspector]
         [OdinSerialize]
+        [PreviewField(75f)]
         public GameObject CharacterAvatar { get; private set; }
         [ShowInInspector]
         [OdinSerialize]
@@ -48,7 +52,8 @@ namespace Battles
         public CharacterDifficultyEnum CharacterDiffciulty { get; private set; }
         [ShowInInspector]
         [OdinSerialize]
-        public RecipeInfo[] Combos { get; private set; }
+        private RecipeInfo[] _combos;
+        public RecipeInfo[] Combos => _combos;
         [ShowInInspector]
         [OdinSerialize]
         public CardInfo[] Deck { get; private set; }
@@ -56,27 +61,13 @@ namespace Battles
         [OdinSerialize]
         public RewardTypeEnum RewardType { get; private set; }
 
-        [SerializeField] Cards.CardSO[] _characterCards;
 
 
        Cards.Card[] _cards;
 
-        public Cards.Card[] GetCharacterCards {
-            get
-            {
-                if (_cards == null || _cards.Length == 0)
-                {
-                    _cards = new Cards.Card[_characterCards.Length];
 
-                    for (int i = 0; i < _characterCards.Length; i++)
-                        _cards[i] = Managers.CardManager.CreateCard(CharacterType == CharacterTypeEnum.Class_1,_characterCards[i].CardName);
-                }
 
-                return   _cards; 
-            }
-        }
-
-        public Characters.Stats.CharacterStats CharacterStats {get;private set;}
+        public ref Characters.Stats.CharacterStats CharacterStats { get =>ref _characterStats; }
 
 
 
@@ -153,7 +144,7 @@ namespace Battles
 
                             //Recipes / Combos
                             string[] Recipe = row[CharacterRecipeIndex].Split('&');
-                            Combos = new RecipeInfo[Recipe.Length];
+                            _combos = new RecipeInfo[Recipe.Length];
                             for (int i = 0; i < Recipe.Length; i++)
                             {
                                 string[] data = Recipe[i].Split('^');
@@ -162,6 +153,9 @@ namespace Battles
                                     ComboRecipe = recipeCollections.GetCombo(int.Parse(data[iD])),
                                     Level = int.Parse(data[Level])
                                 };
+
+                                if (Combos[i].ComboRecipe == null)
+                                    Debug.LogError("!");
                             }
 
 

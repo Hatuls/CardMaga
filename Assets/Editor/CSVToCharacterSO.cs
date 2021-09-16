@@ -12,11 +12,22 @@ public class CSVToCharacterSO
     }
     private static void OnCompleteDownloadingCharacterCSV(string txt)
     {
-        CSVToCardSO.DestroyWebGameObjects();
-
         var recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
+        float timer = 0;
+        do
+        {
+            timer += Time.deltaTime;
+        } while (recipeCollection == null && timer < float.MaxValue - 1f);
 
         var cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+
+         timer = 0;
+        do
+        {
+            timer += Time.deltaTime;
+        } while (cardCollections == null && timer < float.MaxValue-1f);
+
+        CSVToCardSO.DestroyWebGameObjects();
 
         string[] rows = txt.Replace("\r", "").Split('\n');
 
@@ -26,8 +37,7 @@ public class CSVToCharacterSO
             Debug.LogError("Card Collection Is empty make sure you have combos in the recipe Collection SO at \"Resources\\Collection SO\\RecipeCollection\"");
 
         Battles.CharacterCollection characterCollection = ScriptableObject.CreateInstance<Battles.CharacterCollection>();
-        AssetDatabase.CreateAsset(characterCollection, $"Assets/Resources/Collection SO/CharacterCollection.asset");
-        List<Battles.CharacterSO> charactersList = new List<Battles.CharacterSO>();
+List<Battles.CharacterSO> charactersList = new List<Battles.CharacterSO>();
 
         for (int i = 2; i < rows.Length; i++)
         {
@@ -42,9 +52,13 @@ public class CSVToCharacterSO
 
         }
 
+
         characterCollection.Init(charactersList.ToArray());
-        Debug.Log("Character  Update Complete!");
+
+        AssetDatabase.CreateAsset(characterCollection, $"Assets/Resources/Collection SO/CharacterCollection.asset");
+
         AssetDatabase.SaveAssets();
+        Debug.Log("Character  Update Complete!");
     }
 
     private static Battles.CharacterSO CreateCharacter(string[] line, CardsCollectionSO cardCollections, Collections.RelicsSO.ComboCollectionSO recipeCollection)

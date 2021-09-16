@@ -1,7 +1,7 @@
 ﻿namespace Battles.Deck
 {
     public class Exhaust : DeckAbst {
-        public Exhaust(int length) : base(length)
+        public Exhaust(bool isPlayer, int length) : base(isPlayer,length)
         {
         }
     }

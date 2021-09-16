@@ -12,9 +12,9 @@ namespace Battles.Deck
         #region Public Fields
         #endregion
         #region Private Fields
-        private Dictionary<DeckEnum, DeckAbst> _decksDict;
-
-        [SerializeField] private Card[] _deck;
+        [Sirenix.OdinInspector.ShowInInspector]
+        private Dictionary<DeckEnum, DeckAbst> _playerDecks;
+        private Dictionary<DeckEnum, DeckAbst> _OpponentDecks;
 
 
         [SerializeField] BuffIcon _deckIcon;
@@ -27,37 +27,8 @@ namespace Battles.Deck
         #endregion
         #endregion
         #region Properties
-        public Card[] GetSetDeck
-        {
-            set
-            {
-                if (value == null)
-                {
-                    Debug.LogError("Error tried to set null as the player deck!!");
-                    return;
-                }
-
-                if (_deck != value)
-                   _deck = value;
-            }
-            get
-            {
-                if (_deck == null || _deck.Length == 0)
-                {
-                    _deck = Managers.CardManager.GetPlayerDeck();
-                    if (_deck == null)
-                     Debug.LogError("Error returning null deck or length 0");
-                    
-                }
-
-                Card[] copyArray = new Card[_deck.Length];
-                _deck.CopyTo(copyArray, 0);
-                System.Array.Copy(copyArray,_deck , _deck.Length);
-
-                return copyArray;
-            }
-        }
-        public static PlayerCraftingSlots GetCraftingSlots => (PlayerCraftingSlots)Instance.GetDeckAbst(DeckEnum.PlayerCraftingSlots);
+     
+        public static PlayerCraftingSlots GetCraftingSlots(bool isPlayersDeck) => (PlayerCraftingSlots)Instance.GetDeckAbst(isPlayersDeck,DeckEnum.CraftingSlots);
         #endregion
 
         #region Functions
@@ -65,27 +36,31 @@ namespace Battles.Deck
         #region Public Functions
         public override void Init()
         {
-            //ResetDeckManager();
+        
 
         }
-        public void ResetDeckManager()
+        public void ResetDecks()
         {
-            _deck = Managers.CardManager.GetPlayerDeck();
-            InitDecks();
+            
+            _OpponentDecks?.Clear();
+            _OpponentDecks = null;
+            _playerDecks?.Clear();
+            _playerDecks = null;
+
         }
      
-        public Card[] GetCardsFromDeck(DeckEnum from)
+        public Card[] GetCardsFromDeck(bool isPlayersDeck, DeckEnum from)
         {
-            var cache = GetDeckAbst(from);
+            var cache = GetDeckAbst(isPlayersDeck, from);
             if (cache == null)
                 return null;
 
                 return cache.GetDeck;
         }
 
-        public Card GetCardFromDeck(int index, DeckEnum from) {
+        public Card GetCardFromDeck(bool isPlayersDeck,int index, DeckEnum from) {
 
-            var cache = GetDeckAbst(from);
+            var cache = GetDeckAbst(isPlayersDeck, from);
 
             if (cache == null || cache.GetDeck.Length <= 0)
                 return null;
@@ -94,15 +69,15 @@ namespace Battles.Deck
 
             return null;
         }
-        public void AddCardToDeck(Card addedCard, DeckEnum toDeck)
+        public void AddCardToDeck(bool isPlayersDeck,Card addedCard, DeckEnum toDeck)
         {
             if (addedCard == null || toDeck == DeckEnum.Selected)
                 return;
 
-            GetDeckAbst(toDeck).AddCard(addedCard);
+            GetDeckAbst(isPlayersDeck,toDeck).AddCard(addedCard);
             CardUIManager.Instance.CraftCardUI(addedCard, toDeck);
         }
-        public void DrawHand(int drawAmount)
+        public void DrawHand(bool isPlayersDeck,int drawAmount)
         {
             if (BattleManager.isGameEnded)
                 return;
@@ -114,9 +89,9 @@ namespace Battles.Deck
              * if we found a card that is null its mean the deck is empty so we want to restore the cards from 
              * the disposal deck and redraw the amount we need
             */
+            var deck = isPlayersDeck ? _playerDecks : _OpponentDecks;
 
-
-            if (_decksDict == null || _decksDict.Count == 0)
+            if (deck == null || deck.Count == 0)
             {
                 Debug.LogError("DeckManager : Deck Dictionary was not assignd!");
                 return;
@@ -127,12 +102,12 @@ namespace Battles.Deck
                 return;
             }
 
-            DeckAbst fromDeck = _decksDict[DeckEnum.PlayerDeck];
-            DeckAbst toDeck = _decksDict[DeckEnum.Hand];
+            DeckAbst fromDeck = deck[DeckEnum.PlayerDeck];
+            DeckAbst toDeck = deck[DeckEnum.Hand];
             Card cardCache;
 
 
-            if (_decksDict[DeckEnum.PlayerDeck] != null)
+            if (deck[DeckEnum.PlayerDeck] != null)
             {
                 for (int i = 0; i < drawAmount; i++)
                 {
@@ -140,7 +115,7 @@ namespace Battles.Deck
 
                     if (cardCache == null)
                     {
-                        _decksDict[DeckEnum.Disposal].ResetDeck();
+                        deck[DeckEnum.Disposal].ResetDeck();
                         cardCache = fromDeck.GetFirstCard();
                     }
 
@@ -176,32 +151,32 @@ namespace Battles.Deck
                 case 4:
                     return DeckEnum.Selected;
                 case 5:
-                    return DeckEnum.PlayerCraftingSlots;
+                    return DeckEnum.CraftingSlots;
             }
 
             return 0;
         }
-        public void OnEndTurn()
+        public void OnEndTurn(bool isPlayersDeck)
         {
             Debug.Log("Discarding the remain cards from hand and placement!");
-            GetDeckAbst(DeckEnum.Selected).ResetDeck();
-            GetDeckAbst(DeckEnum.Hand).ResetDeck();
+            GetDeckAbst(isPlayersDeck, DeckEnum.Selected).ResetDeck();
+            GetDeckAbst(isPlayersDeck, DeckEnum.Hand).ResetDeck();
         }
 
 
         
         public static void AddToCraftingSlot(bool toPlayerCraftingSlots,Card card) 
-            => Instance.GetDeckAbst(toPlayerCraftingSlots ? DeckEnum.PlayerCraftingSlots: DeckEnum.OpponentCraftingSlots).AddCard(card);
+            => Instance.GetDeckAbst(toPlayerCraftingSlots, DeckEnum.CraftingSlots).AddCard(card);
         #endregion
 
         #region Private Functions   
-        public void TransferCard(DeckEnum from, DeckEnum to, Card card) {
+        public void TransferCard(bool isPlayersDeck,DeckEnum from, DeckEnum to, Card card) {
 
-            if (card == null && !GetDeckAbst(from).IsTheCardInDeck(card))
+            if (card == null && !GetDeckAbst(isPlayersDeck,from).IsTheCardInDeck(card))
                 return;
 
-            DeckAbst fromDeck = GetDeckAbst(from);
-            DeckAbst toDeck = GetDeckAbst(to);
+            DeckAbst fromDeck = GetDeckAbst(isPlayersDeck,from);
+            DeckAbst toDeck = GetDeckAbst(isPlayersDeck,to);
 
 
 
@@ -211,13 +186,13 @@ namespace Battles.Deck
           //  toDeck.PrintDecks(to);
         }
    
-        private void TransferCard(DeckEnum from, DeckEnum to, int amount)
+        private void TransferCard(bool isPlayersDeck,DeckEnum from, DeckEnum to, int amount)
         {
             if (amount <= 0 || from == to)
                 return;
 
-            DeckAbst fromDeckCache = GetDeckAbst(from);
-            DeckAbst toDeckCache = GetDeckAbst(to);
+            DeckAbst fromDeckCache = GetDeckAbst(isPlayersDeck,from);
+            DeckAbst toDeckCache = GetDeckAbst(isPlayersDeck, to);
 
             if (fromDeckCache.GetAmountOfFilledSlots >= amount)
             {
@@ -247,35 +222,35 @@ namespace Battles.Deck
 
 
                 if (from == DeckEnum.PlayerDeck)
-                    RefillDeck(from);
+                    RefillDeck(isPlayersDeck,from);
 
-                TransferCard(from, to, remainTransfer);
+                TransferCard(isPlayersDeck,from, to, remainTransfer);
 
             }
         }
 
-        private void RefillDeck(DeckEnum deck)
+        private void RefillDeck(bool isPlayersDeck,DeckEnum deck)
         {
             switch (deck)
             {
                 case DeckEnum.PlayerDeck:
-                    GetDeckAbst(deck).SetDeck = GetDeckAbst(DeckEnum.Disposal).GetDeck;
-                    GetDeckAbst(DeckEnum.Disposal).ResetDeck();
+                    GetDeckAbst(isPlayersDeck, deck).SetDeck = GetDeckAbst(isPlayersDeck, DeckEnum.Disposal).GetDeck;
+                    GetDeckAbst(isPlayersDeck,DeckEnum.Disposal).ResetDeck();
                     break;
 
                 case DeckEnum.Disposal:
-                    GetDeckAbst(DeckEnum.Disposal).ResetDeck();
+                    GetDeckAbst(isPlayersDeck,DeckEnum.Disposal).ResetDeck();
                     break;
 
                 case DeckEnum.Exhaust:
-                    GetDeckAbst(DeckEnum.Exhaust).ResetDeck();
+                    GetDeckAbst(isPlayersDeck ,DeckEnum.Exhaust).ResetDeck();
                     break;
 
                 case DeckEnum.Selected:
-                    GetDeckAbst(DeckEnum.Exhaust).ResetDeck();
+                    GetDeckAbst(isPlayersDeck, DeckEnum.Exhaust).ResetDeck();
                     break;
-                case DeckEnum.PlayerCraftingSlots:
-                    GetDeckAbst(DeckEnum.PlayerCraftingSlots).ResetDeck();
+                case DeckEnum.CraftingSlots:
+                    GetDeckAbst(isPlayersDeck, DeckEnum.CraftingSlots).ResetDeck();
                     break;
                 case DeckEnum.Hand:
                 default:
@@ -283,58 +258,53 @@ namespace Battles.Deck
             }
 
         }
-        private DeckAbst GetDeckAbst(DeckEnum deck)
+        private Dictionary<DeckEnum, DeckAbst> GetDeck(bool playersDeck)
+            => playersDeck ? _playerDecks : _OpponentDecks;
+        private DeckAbst GetDeckAbst(bool isPlayersDeck,DeckEnum deckEnum)
         {
-            if (_decksDict != null && _decksDict.TryGetValue(deck, out DeckAbst deckAbst))
+            var deck = GetDeck(isPlayersDeck);
+            if (deck != null && _playerDecks.TryGetValue(deckEnum, out DeckAbst deckAbst))
                 return deckAbst;
 
             Debug.LogError("DeckManager Didnt find the " + deck.ToString() + " deck");
             return null;
         }
-        private void InitDecks()
+
+        public void InitDeck(bool isPlayer, Card[] deck)
         {
-            // assing dictionary if its not assigned and then reset all the decks
 
-            if (_decksDict == null)
-            {
-              _decksDict = new Dictionary<DeckEnum, DeckAbst>();
+            if (isPlayer && _playerDecks == null)
+                _playerDecks = new Dictionary<DeckEnum, DeckAbst>();
+            else if (!isPlayer && _OpponentDecks == null)
+                _OpponentDecks = new Dictionary<DeckEnum, DeckAbst>();
 
-            _decksDict.Add(DeckEnum.PlayerDeck, new PlayerDeck(GetSetDeck, _deckIcon));
-            _decksDict.Add(DeckEnum.Exhaust, new Exhaust(_playerMaxHandSize));
-            _decksDict.Add(DeckEnum.Disposal,new Disposal(GetSetDeck.Length , _decksDict[DeckEnum.PlayerDeck] as PlayerDeck , _disposalIcon));
-            _decksDict.Add(DeckEnum.Hand, new PlayerHand(_playerStartingHandSize, _decksDict[DeckEnum.Disposal] as Disposal));
-            _decksDict.Add(DeckEnum.Selected, new Selected (_placementSize, _decksDict[DeckEnum.Disposal] as Disposal,_decksDict[DeckEnum.Hand] as PlayerHand ));
-            _decksDict.Add(DeckEnum.PlayerCraftingSlots, new PlayerCraftingSlots(_craftingSlotsSize));
-            _decksDict.Add(DeckEnum.OpponentCraftingSlots, new OpponentCraftingSlot(_craftingSlotsSize));
 
-            }
-
-            ResetDecks();
-
+            (isPlayer ? _playerDecks : _OpponentDecks).Clear();
+        
+            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.PlayerDeck, new PlayerDeck(isPlayer,deck, _deckIcon));
+            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.Exhaust, new Exhaust(isPlayer,_playerMaxHandSize));
+            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.Disposal, new Disposal(isPlayer, deck.Length, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.PlayerDeck] as PlayerDeck, _disposalIcon));
+            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.Hand, new PlayerHand(isPlayer,_playerStartingHandSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Disposal] as Disposal));
+            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.Selected, new Selected(isPlayer,_placementSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Disposal] as Disposal, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Hand] as PlayerHand));
+            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.CraftingSlots, new PlayerCraftingSlots(isPlayer,_craftingSlotsSize));
+     
+            ResetDecks(isPlayer);
         }
 
-        private void ResetDecks()
+        private void ResetDecks(bool playersDeck)
         {
-            // reset the decks
-
-            if (_decksDict == null)
+            var Deck = playersDeck ? _playerDecks : _OpponentDecks;
+            if (Deck != null)
             {
-                Debug.LogError("DeckManager : Deck Dictionary was not assigned!");
-                return;
+
+                foreach (var item in Deck)
+                {
+                    if (!(item.Value is PlayerDeck))
+                        item.Value.EmptySlots();
+                    else
+                        Deck[DeckEnum.PlayerDeck].ResetDeck();
+                }
             }
-
-
-            foreach (var item in _decksDict)
-            {
-                if (!(item.Value is  PlayerDeck))
-                    item.Value.EmptySlots();
-                else
-                    _decksDict[DeckEnum.PlayerDeck].ResetDeck();
-
-            }
-               
-
-            
         }
         #endregion
 

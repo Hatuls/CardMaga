@@ -53,7 +53,7 @@ namespace Battles
             CardUIManager.Instance.LockHandCards(false);
 
 
-            DeckManager.Instance.TransferCard(DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
+            DeckManager.Instance.TransferCard(true,DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
 
             DeckManager.AddToCraftingSlot(true,card);
 

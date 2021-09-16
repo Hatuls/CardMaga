@@ -7,14 +7,14 @@ using ThreadsHandler;
 using System.Linq;
 using Unity.Events;
 using Battles.UI;
-using Unity.Collections;
+
 namespace Combo
 {
     public class ComboManager : MonoSingleton<ComboManager>
     {
       
         #region Fields
-        [SerializeField] ComboCollectionSO _playerKnownRecipe;
+     
         [SerializeField] ComboSO _cardRecipeDetected;
 
         static byte threadId;
@@ -32,14 +32,14 @@ namespace Combo
                 _cardRecipeDetected = value;
             }
         }
-        public ComboCollectionSO PlayerRelics => _playerKnownRecipe;
+
 
         #endregion
 
         public override void Init()
         {
 
-            _playerKnownRecipe = Resources.Load<ComboCollectionSO>("CollectionSO/PlayerRecipe");
+
             threadId = ThreadHandler.GetNewID;
         }
         void CreateCard()
@@ -54,16 +54,16 @@ namespace Combo
                 //create card
                 _successCrafting?.Raise();
 
-                Card crafted = Managers.CardManager.CreateCard(true, _cardRecipeDetected.CraftedCard.CardName);
+                Card crafted = Managers.CardManager.Instance.CreateCard(_cardRecipeDetected.CraftedCard);
              //   BattleUiManager.Instance.SetCardPosition(crafted);
 
-                DeckManager.Instance.AddCardToDeck(crafted, _cardRecipeDetected.GoToDeckAfterCrafting);
+                DeckManager.Instance.AddCardToDeck(true,crafted, _cardRecipeDetected.GoToDeckAfterCrafting);
                 VFXManager.Instance.PlayParticle(true, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
                 _playSound?.Raise( SoundsNameEnum.SuccessfullForge);
             }
             else
             {
-                if (DeckManager.GetCraftingSlots.GetAmountOfFilledSlots <= 0)
+                if (DeckManager.GetCraftingSlots(true).GetAmountOfFilledSlots <= 0)
                 {
              
                    _playSound?.Raise( SoundsNameEnum.Reject);
@@ -77,7 +77,7 @@ namespace Combo
             }
 
 
-            DeckManager.GetCraftingSlots.ResetDeck();
+            DeckManager.GetCraftingSlots(true).ResetDeck();
             _cardRecipeDetected = null;
         }
         public void TryForge()
@@ -115,9 +115,9 @@ namespace Combo
         static void DetectRecipe()
         {
             
-            Card[] craftingSlots =new Card[DeckManager.GetCraftingSlots.GetDeck.Length];
+            Card[] craftingSlots =new Card[DeckManager.GetCraftingSlots(true).GetDeck.Length];
 
-            System.Array.Copy( DeckManager.GetCraftingSlots.GetDeck, craftingSlots, DeckManager.GetCraftingSlots.GetDeck.Length);
+            System.Array.Copy( DeckManager.GetCraftingSlots(true).GetDeck, craftingSlots, DeckManager.GetCraftingSlots(true).GetDeck.Length);
 
             System.Array.Reverse(craftingSlots);
 
@@ -145,16 +145,25 @@ namespace Combo
         }
     static void CheckRecipe(List<CardTypeData> craftingItems)
         {
-            List<CardTypeData> nextRecipe = new List<CardTypeData>(Instance._playerKnownRecipe.GetComboSO[0].ComboSequance.Length);
-            for (int i = 0; i < Instance._playerKnownRecipe.GetComboSO.Length; i++)
+            List<CardTypeData> nextRecipe = new List<CardTypeData>();
+
+            var recipes = Managers.PlayerManager.Instance.Recipes;
+            ComboSO[] combo = new ComboSO[recipes.Length];
+            for (int i = 0; i < recipes.Length; i++)
+                combo[i] = (recipes[i].ComboRecipe);
+            
+
+
+            
+            for (int i = 0; i < combo.Length; i++)
             {
-                for (int j = 0; j < Instance._playerKnownRecipe.GetComboSO[i].ComboSequance.Length; j++)
+                for (int j = 0; j < combo[i].ComboSequance.Length; j++)
                 {
-                    nextRecipe.Add(Instance._playerKnownRecipe.GetComboSO[i].ComboSequance[j]);
+                    nextRecipe.Add(combo[i].ComboSequance[j]);
                 }
                 if (craftingItems.SequenceEqual(nextRecipe , new CardTypeComparer()))
                 {
-                    Instance.CardRecipeDetected = Instance._playerKnownRecipe.GetComboSO[i];
+                    Instance.CardRecipeDetected = combo[i];
                     return;
                 }
                 else

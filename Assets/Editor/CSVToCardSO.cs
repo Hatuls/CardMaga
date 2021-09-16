@@ -46,7 +46,7 @@ public class CSVToCardSO
 
         var Collection = ScriptableObject.CreateInstance<CardsCollectionSO>();
 
-        AssetDatabase.CreateAsset(Collection, $"Assets/Resources/Collection SO/CardCollection.asset");
+       
         List<Cards.CardSO> cardList = new List<Cards.CardSO>();
 
 
@@ -69,8 +69,9 @@ public class CSVToCardSO
         }
 
         Collection.Init(cardList.ToArray());
-        Debug.Log("Cards Updated Completed!");
+        AssetDatabase.CreateAsset(Collection, $"Assets/Resources/Collection SO/CardCollection.asset");
         AssetDatabase.SaveAssets();
+        Debug.Log("Cards Updated Completed!");
     }
     private static Cards.CardSO CreateCard(string[] cardSO)
     {
@@ -132,17 +133,6 @@ public class CSVToCardSO
         //Keywords
         card.CardSOKeywords = GetKeywordsData(cardSO);
 
-        // Card Types
-        card.CardType = new Cards.CardTypeData()
-        {
-            BodyPart = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
-            CardType = int.TryParse(cardSO[CardType], out int cardTypeIndex) ? (Cards.CardTypeEnum)cardTypeIndex : Cards.CardTypeEnum.None,
-        };
-
-        if (card.CardType.CardType == Cards.CardTypeEnum.None)
-            Debug.LogError($"CardID {cardSO[ID]} : Coulmne E {CardType} is Getting Result OF None");
-        if (card.CardType.BodyPart == Cards.BodyPartEnum.None)
-            Debug.LogError($"CardID {cardSO[ID]} : Coulmne D {BodyPart} is Getting Result OF None");
 
 
         //Rarity
@@ -171,9 +161,9 @@ public class CSVToCardSO
         card.CardDescription = cardSO[CardDescription];
 
         //Stamina Cost
-        card.StaminaCost = int.TryParse(cardSO[StaminaCost], out int cost) ? cost : -1;
-        if (card.StaminaCost <0)
-            Debug.LogError($"CardID {cardSO[ID]} : Coulmne R {StaminaCost}  is not an int OR its less than 0");
+        //card.StaminaCost = int.TryParse(cardSO[StaminaCost], out int cost) ? cost : -1;
+        //if (card.StaminaCost <0)
+        //    Debug.LogError($"CardID {cardSO[ID]} : Coulmne R {StaminaCost}  is not an int OR its less than 0");
 
         //Purchase Cost
         card.PurchaseCost = int.TryParse(cardSO[PurchaseCost], out int pCost) ? pCost : -1;
@@ -205,6 +195,7 @@ public class CSVToCardSO
 
         //Upgrades
         List<Cards.PerLevelUpgrade> _PerLevelUpgrade = new List<Cards.PerLevelUpgrade>();
+        _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart,CardType)));
         string firstCardId = cardSO[UpgradeToCardID];
         do
         {
@@ -215,7 +206,7 @@ public class CSVToCardSO
                 if (getRow.Length == 0)
                       Debug.LogError($"ID {myUpgradeVersionID} has no data in it!");
                
-                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart)));
+                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType)));
                 firstCardId = getRow[UpgradeToCardID];
             }
             else
@@ -367,22 +358,27 @@ public class CSVToCardSO
         }
         return null;
     }
-    private static Cards.PerLevelUpgrade.Upgrade[] GetCardsUpgrade(Cards.CardSO card, string[] getRow,int StaminaCost,int BodyPart)
+    private static Cards.PerLevelUpgrade.Upgrade[] GetCardsUpgrade(Cards.CardSO card, string[] getRow,int StaminaCost,int BodyPart, int CardType)
     {
         List<Cards.PerLevelUpgrade.Upgrade> upgrades = new List<Cards.PerLevelUpgrade.Upgrade>();
 
         var keywords = GetKeywordsData(getRow);
-        var bodyPart = int.TryParse(getRow[BodyPart], out int bodyIndex) ? (Cards.BodyPartEnum)bodyIndex : Cards.BodyPartEnum.None;
+
         var stamina = int.TryParse(getRow[StaminaCost], out int sCost) ? sCost : -1;
+
+        upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(new Cards.CardTypeData()
+        {
+            BodyPart = int.TryParse(getRow[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
+            CardType = int.TryParse(getRow[CardType], out int cardTypeIndex) ? (Cards.CardTypeEnum)cardTypeIndex : Cards.CardTypeEnum.None,
+        }));
+
+        upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(Cards.LevelUpgradeEnum.Stamina, stamina));
 
         for (int j = 0; j < keywords.Length; j++)
             upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(keywords[j]));
 
-        if (bodyPart != card.BodyPartEnum)
-            upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(Cards.LevelUpgradeEnum.BodyPart, (int)bodyPart));
 
-        if (stamina != card.StaminaCost)
-            upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(Cards.LevelUpgradeEnum.Stamina, stamina));
+
 
         return upgrades.ToArray();
     }

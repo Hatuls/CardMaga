@@ -20,6 +20,12 @@ namespace Cards
                 _upgradeType = LevelUpgradeEnum.KeywordAddition;
                 _keywordUpgrade = keyword;
             }
+
+            public Upgrade(CardTypeData cardTypeData)
+            {
+                _upgradeType = LevelUpgradeEnum.BodyPart;
+                _cardTypeData = cardTypeData;
+            }
             public Upgrade(LevelUpgradeEnum levelUpgradeEnum,int amount)
             {
                 _upgradeType = levelUpgradeEnum;
@@ -29,9 +35,11 @@ namespace Cards
 
             [SerializeField] private LevelUpgradeEnum _upgradeType;
             [SerializeField] private KeywordData _keywordUpgrade;
+            [SerializeField] private CardTypeData _cardTypeData;
             [SerializeField] private int _amount;
             public LevelUpgradeEnum UpgradeType => _upgradeType;
             public KeywordData KeywordUpgrade => _keywordUpgrade;
+            public CardTypeData CardTypeData => _cardTypeData;
             public int Amount => _amount;
         }
     }

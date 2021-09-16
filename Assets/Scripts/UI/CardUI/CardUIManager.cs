@@ -291,7 +291,7 @@ namespace Battles.UI
         {
             _handUI.TryRemove(_holdingCardUI);
 
-            DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, _holdingCardUI.GFX.GetCardReference);
+            DeckManager.Instance.TransferCard(true,DeckEnum.Hand, DeckEnum.Selected, _holdingCardUI.GFX.GetCardReference);
             _holdingCardUI.CardTranslations.CancelAllTweens();
             _holdingCardUI.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
             _holdingCardUI.CardTranslations.MoveCard(true, _draggableLocation.localPosition, 0.3f);
@@ -303,7 +303,7 @@ namespace Battles.UI
         private void RemoveCardUI()
         {
             _holdingCardUI.GFX.GlowCard(false);
-            DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, _holdingCardUI.GFX.GetCardReference);
+            DeckManager.Instance.TransferCard(true,DeckEnum.Selected, DeckEnum.Hand, _holdingCardUI.GFX.GetCardReference);
             LockHandCards(false);
             _handUI.Add(_holdingCardUI);
         }

@@ -154,9 +154,9 @@ namespace Battles.Turns
         {
             base.PlayTurn();
             // Activate Previous Action if not null
-            yield return EnemyManager.Instance.GetEnemy.PlayEnemyTurn();
+            yield return EnemyManager.Instance.PlayEnemyTurn();
             // set a new action
-            yield return EnemyManager.Instance.GetEnemy.AssignNextCard();
+            yield return EnemyManager.Instance.AssignNextCard();
 
             yield return null;
             MoveToNextTurnState();
@@ -200,7 +200,7 @@ namespace Battles.Turns
         {
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(true);
-            Deck.DeckManager.Instance.DrawHand(StatsHandler.GetInstance.GetCharacterStats(true).DrawCardsAmount);
+            Deck.DeckManager.Instance.DrawHand(true,StatsHandler.GetInstance.GetCharacterStats(true).DrawCardsAmount);
             StaminaHandler.ResetStamina();
             Debug.Log("Drawing Cards!");
             MoveToNextTurnState();
@@ -270,7 +270,7 @@ namespace Battles.Turns
 
 
             CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
-            Deck.DeckManager.Instance.OnEndTurn();
+            Deck.DeckManager.Instance.OnEndTurn(true);
 
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);

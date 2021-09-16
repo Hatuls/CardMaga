@@ -1,5 +1,6 @@
 ﻿using Keywords;
 using System;
+using System.Collections.Generic;
 
 namespace Cards
 {
@@ -12,11 +13,12 @@ namespace Cards
 
         private CardSO _cardSO;
 
-        private int _cardID = 0;
-        private int _currentLevel = 1;
-
+        private int _cardBattleID = 0;
+        private int _currentLevel =0;
+        private bool toExhaust = false;
         public int StaminaCost { get; private set; }
-        public BodyPartEnum BodyPartEnum { get; private set; }
+        CardTypeData _cardTypeData;
+        public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
 
 
         private KeywordData[] _cardKeyword;
@@ -24,7 +26,7 @@ namespace Cards
 
         #region Properties
 
-        public int CardID => _cardID;
+        public int CardID => _cardBattleID;
 
         public int CardLevel => _currentLevel;
 
@@ -39,15 +41,6 @@ namespace Cards
                 if (_cardKeyword == null || _cardKeyword.Length == 0)
                     _cardKeyword = _cardSO.CardSOKeywords;
 
-
-                //needs to re - implement
-                //if (_cardSO.GetCardsKeywords.Length == _cardKeyword.Length && _currentLevel >= _cardSO.GetCardLevelToUnlockKeywords)
-                //{
-                //    _cardKeyword = new KeywordData[_cardSO.GetCardsKeywords.Length + _cardSO.GetAdditionalKeywords.Length];
-                //    Array.Copy(_cardSO.GetCardsKeywords, _cardKeyword, _cardSO.GetCardsKeywords.Length);
-                //    Array.Copy(_cardSO.GetAdditionalKeywords, 0, _cardKeyword, _cardSO.GetCardsKeywords.Length, _cardSO.GetAdditionalKeywords.Length);
-                //}
-
                 return _cardKeyword;
             }
         }
@@ -57,18 +50,47 @@ namespace Cards
 
 
         #region Functions
-        public Card(int specificCardID, CardSO _card)
-        {
-            _cardID = specificCardID;
-            this._cardSO = _card;
-            InitCard(specificCardID, _card);
+        public Card(int battleCardID, CardSO _card, int cardsLevel)
+        {   
+            _cardBattleID = battleCardID;
+            InitCard(_card, cardsLevel);
         }
 
-        public void InitCard(int specificCardID, CardSO _card) {
-            _cardID = specificCardID;
-            CardSO = _card;
-            StaminaCost = _card.StaminaCost;
-            BodyPartEnum = _card.BodyPartEnum;
+        public void InitCard( CardSO _card, int cardsLevel) 
+        {
+            toExhaust = _card.ToExhaust;
+
+            _currentLevel = cardsLevel;
+            var levelUpgrade = _card.GetLevelUpgrade(_currentLevel);
+            List<KeywordData> keywordsList = new List<KeywordData>(1);
+            for (int i = 0; i < levelUpgrade.UpgradesPerLevel.Length; i++)
+            {
+                var upgrade = levelUpgrade.UpgradesPerLevel[i];
+         
+                switch (upgrade.UpgradeType)
+                {
+              
+                    case LevelUpgradeEnum.Stamina:
+                        StaminaCost = upgrade.Amount;
+                        break;
+                    case LevelUpgradeEnum.KeywordAddition:
+                        keywordsList.Add(upgrade.KeywordUpgrade);
+                        break;
+                    case LevelUpgradeEnum.ConditionReduction:
+                        break;
+                    case LevelUpgradeEnum.ToRemoveExhaust:
+                        toExhaust = upgrade.Amount == 1 ? true : false;
+                        break;
+                    case LevelUpgradeEnum.BodyPart:
+                        _cardTypeData = upgrade.CardTypeData;
+                        break;
+                    case LevelUpgradeEnum.None:
+                    default:
+                        break;
+                }
+            }
+            _cardKeyword = keywordsList.ToArray();
+            this._cardSO = _card;
         }
 
         public int GetKeywordAmount(KeywordTypeEnum keyword)
@@ -124,7 +146,8 @@ namespace Cards
 
 
                 case LevelUpgradeEnum.BodyPart:
-                    BodyPartEnum = (BodyPartEnum)levelUpgrade.Amount;
+            
+                    _cardTypeData = levelUpgrade.CardTypeData;
                     break;
 
 

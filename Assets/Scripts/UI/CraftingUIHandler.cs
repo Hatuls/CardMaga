@@ -69,7 +69,7 @@ namespace Battles.UI
         {
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
-                if (_CraftingSlotsUIArr[i] != null && DeckManager.GetCraftingSlots.GetDeck[i]!= null)
+                if (_CraftingSlotsUIArr[i] != null && DeckManager.GetCraftingSlots(true).GetDeck[i]!= null)
                     _CraftingSlotsUIArr[i].ActivateGlow(true);
             }
 
