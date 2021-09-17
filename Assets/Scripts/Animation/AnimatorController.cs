@@ -99,11 +99,7 @@ public class AnimatorController : MonoBehaviour
         transform.position = startPos;
         transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
 
-        if (isPlayer == false)
-        {
-            _playerAnimator.SetInteger("RelicAnim", -1);
-            _playerAnimator.SetInteger("AnimNum", -1);
-        }
+
     }
 
 
@@ -117,7 +113,10 @@ public class AnimatorController : MonoBehaviour
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
     {
         if (_animationQueue.Count == 0 && _currentAnimation == null)
+        {
             SetCamera(CameraController.CameraAngleLookAt.Both);
+         
+        }
     }
 
     public void CharacterWon()
@@ -193,14 +192,12 @@ public class AnimatorController : MonoBehaviour
     private void PlayAnimation(string Name)
     {
         if (isFirst == true)
-        {
-
-             _playerAnimator.CrossFade(Name, _transitionSpeedBetweenAnimations);
-          //  _playerAnimator.Play(Name);
             isFirst = false;
-        }
-        else
+
+        if (_playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name != Name)
             _playerAnimator.CrossFade(Name, _transitionSpeedBetweenAnimations);
+        else
+            _playerAnimator.Play(Name);
     }
 
 

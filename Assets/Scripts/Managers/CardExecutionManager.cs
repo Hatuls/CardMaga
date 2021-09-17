@@ -16,7 +16,10 @@ namespace Battles
         [SerializeField] VFXController __playerVFXHandler;
      
         [SerializeField] Unity.Events.SoundsEvent _playSound;
+        static Queue<Cards.Card> _cardsQueue;
+        static List<KeywordData> _keywordData;
 
+        static int currentKeywordIndex;
 
         public void ResetExecution()
         {
@@ -169,16 +172,12 @@ namespace Battles
         // when animation is finished to tell the queue to pop up the next card and play it
         // each animation has animation keys to notify which index is currently playing
         // when the animation event fire his index -> the list execute the keyword and move to the next index
-        static Queue<Cards.Card> _cardsQueue;
-        static List<KeywordData> _keywordData;
 
-        static int currentKeywordIndex;
-    
         public void AddToQueue(Cards.Card card)
         {   
             bool firstCard = _cardsQueue.Count == 0;
             _cardsQueue.Enqueue(card);
-            Debug.Log($"<a>Register card queue has {_cardsQueue.Count} cards in it</a>");
+            Debug.Log($"<a>Register card queue has {_cardsQueue.Count} cards in it\nIs First Card {firstCard}</a>");
             if (firstCard)
             {
                 ActivateCard();
