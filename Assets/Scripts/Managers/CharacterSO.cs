@@ -62,13 +62,13 @@ namespace Battles
         [ShowInInspector]
         [OdinSerialize]
         public CharacterDifficultyEnum CharacterDiffciulty { get; private set; }
-        [ShowInInspector]
-        [OdinSerialize]
+    
+        [SerializeField]
         private RecipeInfo[] _combos;
         public RecipeInfo[] Combos => _combos;
-        [ShowInInspector]
-        [OdinSerialize]
-        public CardInfo[] Deck { get; private set; }
+        [SerializeField]
+        private CardInfo[] _deck;
+        public CardInfo[] Deck { get => _deck; }
         [ShowInInspector]
         [OdinSerialize]
         public RewardTypeEnum RewardType { get; private set; }
@@ -140,14 +140,14 @@ namespace Battles
                             const int iD = 0, Level = 1;
                             //deck cards
                             string[] Cards = row[CharacterDeckIndex].Split('&');
-                            Deck = new CardInfo[Cards.Length];
+                            _deck = new CardInfo[Cards.Length];
                             for (int i = 0; i < Cards.Length; i++)
                             {
                                 string[] data = Cards[i].Split('^');
 
 
 
-                                Deck[i] = new CardInfo(cardCollection.GetCard(int.Parse(data[iD])), int.Parse(data[Level]));
+                                _deck[i] = new CardInfo(cardCollection.GetCard(int.Parse(data[iD])), int.Parse(data[Level]));
                             
                             }
 
@@ -157,10 +157,10 @@ namespace Battles
                             for (int i = 0; i < Recipe.Length; i++)
                             {
                                 string[] data = Recipe[i].Split('^');
-                                Combos[i] = new RecipeInfo(recipeCollections.GetCombo(int.Parse(data[iD])), int.Parse(data[Level]));
+                                _combos[i] = new RecipeInfo(recipeCollections.GetCombo(int.Parse(data[iD])), int.Parse(data[Level]));
                                
 
-                                if (Combos[i].ComboRecipe == null)
+                                if (_combos[i].ComboRecipe == null)
                                     Debug.LogError("!");
                             }
 

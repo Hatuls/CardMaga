@@ -24,10 +24,11 @@ public class CSVToCardSO
         DestroyWebGameObjects();
 
         _keywordsSO = Resources.LoadAll<Keywords.KeywordSO>("KeywordsSO");
-
+        float timeout = 1000000;
         float timer = 0;
-        while (_keywordsSO == null && timer < float.MaxValue/2)
+        while (_keywordsSO == null && timer < timeout)
         {
+            _keywordsSO = Resources.LoadAll<Keywords.KeywordSO>("KeywordsSO");
             timer += 0.5f;
         }
         if (_keywordsSO == null)
@@ -35,8 +36,9 @@ public class CSVToCardSO
 
         cardsPictures = Resources.LoadAll<Sprite>("Art/CardsPictures");
         timer = 0;
-        while (cardsPictures == null && timer < float.MaxValue / 2)
+        while (cardsPictures == null && timer < timeout)
         {
+            cardsPictures = Resources.LoadAll<Sprite>("Art/CardsPictures");
             timer += 0.5f;
         }
         if (cardsPictures == null)

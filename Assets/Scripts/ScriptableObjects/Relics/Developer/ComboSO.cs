@@ -25,9 +25,9 @@ namespace Combo
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(130)]
-        [OdinSerialize]
-        [ShowInInspector]
-        public int ID { get; set; }
+        [SerializeField]
+        private int _id;
+        public int ID { get => _id; set=> _id = value; }
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(130)]
