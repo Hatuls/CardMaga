@@ -3,6 +3,8 @@ using Unity.Events;
 using UnityEngine;
 using Cards;
 using Rei.Utilities;
+using System.Collections;
+
 public class AnimatorController : MonoBehaviour
 {
     #region Events
@@ -22,6 +24,8 @@ public class AnimatorController : MonoBehaviour
 
     AnimationBundle _currentAnimation;
     Queue<AnimationBundle>  _animationQueue = new Queue<AnimationBundle>();
+    List<AnimationBundle> _animationList = new List<AnimationBundle>();
+
 
     [SerializeField] float _rotationSpeed;
     [SerializeField] float _positionSpeed;
@@ -75,18 +79,6 @@ public class AnimatorController : MonoBehaviour
         _playerAnimator.SetBool("IsWon", false);
         _playerAnimator.SetInteger("AnimNum",-1); // idle animation
     }
-    public void PlayAnimation (Cards.AttackAnimation cardName)
-    {
-        if(_playerAnimator == null)
-        {
-            Debug.LogError("Error in PlayAnimation");
-            return;
-        }
-
-        Debug.Log($"Play Animation {cardName}");
-        _playerAnimator.SetInteger("AnimNum",(int)cardName);
-       
-    }
 
     public void ResetToStartingPosition()
     {
@@ -112,11 +104,28 @@ public class AnimatorController : MonoBehaviour
     }
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
     {
-        if (_animationQueue.Count == 0 && _currentAnimation == null)
+        //if (_animationQueue.Count == 0 && _currentAnimation == null)
+        //{
+        //    SetCamera(CameraController.CameraAngleLookAt.Both);
+
+        //}   
+        //if (_animationQueue.Count>0)
+        //{
+        //    TranstionToNextAnimation();
+        //}
+
+
+        if (_animationList.Count == 0 && _currentAnimation == null)
         {
             SetCamera(CameraController.CameraAngleLookAt.Both);
-         
+
         }
+        
+        if (_animationList.Count>0)
+        {
+            TranstionToNextAnimation();
+        }
+
     }
 
     public void CharacterWon()
@@ -150,45 +159,75 @@ public class AnimatorController : MonoBehaviour
          SetAnimationQueue(card.CardSO.AnimationBundle);
        
     }
-    public void SetAnimationQueue(AnimationBundle animationBundle )
+    public void SetAnimationQueue(AnimationBundle animationBundle)
     {
         if (animationBundle == null)
             return;
 
-        _animationQueue.Enqueue(animationBundle);
+         _animationQueue.Enqueue(animationBundle);
+        //animationList.Add(animationBundle);
 
         IsMyTurn = true;
 
         if (_animationQueue.Count == 1) //&& isFirst
         {
+         
             TranstionToNextAnimation();
         }
+
+
+
     }
+    AnimationBundle _previousAnimation;
     public void TranstionToNextAnimation()
     {
-
-    
-        // we want to go back to idle if we dont have more animation to do
-        // and if we have animation in the queue we want to transtion to them and tell all relevants that a transtion happend
-        //     LeanTween.move(this.gameObject, startPos, 0.1f);
-
         transform.position = startPos;
         transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
-
+ 
+        // we want to go back to idle if we dont have more animation to do
+        // and if we have animation in the queue we want to transtion to them and tell all relevants that a transtion happend
+    
         if (_animationQueue.Count == 0)
         {
             OnFinishAnimation();
-           // Battles.CardExecutionManager.Instance.ResetExecution();
             return;
         }
 
-        _currentAnimation = _animationQueue.Dequeue();
-        PlayAnimation(_currentAnimation._attackAnimation.ToString());
-
-    
-        _movedToNextAnimation?.Raise();
+        StartCoroutine(PlayAnimation());
+      
     }
 
+    IEnumerator PlayAnimation()
+    {
+
+        _previousAnimation = _currentAnimation;
+        _currentAnimation = _animationQueue.Dequeue();
+        Debug.LogWarning(
+            new
+            {
+                AnimationQueue = _animationQueue.Count,
+                PreviousAnimation = (_previousAnimation == null) ? null : _previousAnimation._attackAnimation.ToString(),
+                CurrentAnimation = _currentAnimation == null ? null : _currentAnimation._attackAnimation.ToString()
+            }
+            ) ;
+
+
+
+
+
+        if (_previousAnimation != null && _currentAnimation != null &&_previousAnimation._attackAnimation == _currentAnimation._attackAnimation)
+        {
+            Debug.Log("#%!@@E%#%@#!%#!%#!%!#%");
+            while (!_playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_1")) 
+            {
+                Debug.LogWarning("Got TO loop!");
+                yield return null;
+            }
+
+        }
+        PlayAnimation(_currentAnimation._attackAnimation.ToString());
+        _movedToNextAnimation?.Raise();
+    }
     private void PlayAnimation(string Name)
     {
         if (isFirst == true)
@@ -198,6 +237,7 @@ public class AnimatorController : MonoBehaviour
             _playerAnimator.CrossFade(Name, _transitionSpeedBetweenAnimations);
         else
             _playerAnimator.Play(Name);
+
     }
 
 
@@ -219,7 +259,7 @@ public class AnimatorController : MonoBehaviour
         ResetBothRotaionAndPosition();
         isFirst = true;
         _onFinishedAnimation?.Raise();
-        _currentAnimation = null;
+      //  _currentAnimation = null;
         Battles.CardExecutionManager.Instance.CardFinishExecuting();
     }
 
