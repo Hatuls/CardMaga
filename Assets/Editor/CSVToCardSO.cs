@@ -172,7 +172,7 @@ public class CSVToCardSO
 
         //ToExhaust
         card.ToExhaust = cardSO[IsExhausted] == "0" ? false : true;
-
+        card.StaminaCost = int.Parse(cardSO[StaminaCost]);
     
         // id fuses from
         string[] idCrafts = cardSO[IDThatCraftMe].Split('&');
