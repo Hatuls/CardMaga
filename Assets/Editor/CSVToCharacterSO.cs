@@ -14,12 +14,12 @@ public class CSVToCharacterSO
     {
         Collections.RelicsSO.ComboCollectionSO recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
         float timer = 0;
-        do
+        while (recipeCollection == null && timer < 1000000) 
         {
             recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
 
             timer += 0.5f;
-        } while (recipeCollection == null && timer <1000000);
+        }
         if (recipeCollection == null)
             Debug.LogError($"Recipe Collection is null!! ");
 
@@ -27,12 +27,12 @@ public class CSVToCharacterSO
         CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
 
          timer = 0;
-        do
+        while (cardCollections == null && timer < 1000000)
         {
             cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
 
             timer += 0.5f;
-        } while (cardCollections == null && timer < 1000000);
+        }
         if (cardCollections == null)
             Debug.LogError($"Card Collection is null!! ");
 

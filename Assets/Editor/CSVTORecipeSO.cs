@@ -14,7 +14,7 @@ public class CSVTORecipeSO
     }
     private static void OnCompleteDownloadingRecipeCSV(string txt)
     {
-        CardsCollectionSO cardCollections = null;
+        CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection"); ;
 
         float timer = 0;
         do

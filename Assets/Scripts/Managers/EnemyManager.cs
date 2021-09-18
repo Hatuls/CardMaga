@@ -88,7 +88,7 @@ namespace Battles
 
         public System.Collections.IEnumerator AssignNextCard()
         {
-            enemyAction = GetOpponentCard;
+            enemyAction = DeckManager.Instance.GetCardFromDeck(false,0, DeckEnum.Hand);
             Debug.Log("<a>Enemy Next Move</a>: Is going to be: " + enemyAction.CardSO.CardName.ToString() +
             "\n This attack is going to use " + enemyAction.CardSO.BodyPartEnum.ToString() + "\n" +
             "And Do " + enemyAction.CardSO.CardTypeEnum.ToString() + " with the amount of " + enemyAction.CardSO.CardSOKeywords[0].GetAmountToApply);
@@ -98,13 +98,16 @@ namespace Battles
 
         public System.Collections.IEnumerator PlayEnemyTurn()
         {
+
+            yield return AssignNextCard();
             if (enemyAction == null)
                 yield break;
 
             Debug.Log("Enemy Attack!");
-            DeckManager.AddToCraftingSlot(false, enemyAction);
+            
+           // DeckManager.AddToCraftingSlot(false, enemyAction);
             CardExecutionManager.Instance.RegisterCard(enemyAction, false);
-
+            DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Disposal, enemyAction);
 
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
             EnemyManager.EnemyAnimatorController.ResetToStartingPosition();

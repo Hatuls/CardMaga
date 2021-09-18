@@ -1,17 +1,20 @@
-﻿using Sirenix.OdinInspector;
-using Sirenix.Serialization;
+﻿
+using System;
+
 namespace Cards
 {
-    [System.Serializable]
+    [Serializable]
     public class CardTypeData
-
     {
-        [OdinSerialize]
-        [ShowInInspector]
-        public BodyPartEnum BodyPart { get; set; }
-        [OdinSerialize]
-        [ShowInInspector]
-        public CardTypeEnum CardType { get; set; }
+
+
+        [UnityEngine.SerializeField]
+        private BodyPartEnum _bodyPart;
+        public BodyPartEnum BodyPart { get => _bodyPart; set => _bodyPart = value; }
+
+        [UnityEngine.SerializeField]
+        private CardTypeEnum _cardType;
+        public CardTypeEnum CardType { get => _cardType; set => _cardType = value; }
 
 
 

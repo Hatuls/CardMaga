@@ -115,7 +115,7 @@ namespace Battles.Turns
         {
         }
 
-        public override TurnState GetNextTurn => TurnState.StartEnemyTurn;
+        public override TurnState GetNextTurn => TurnState.StartPlayerTurn;
 
         public override IEnumerator PlayTurn()
         {
@@ -137,7 +137,7 @@ namespace Battles.Turns
         {
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(false);
-            Deck.DeckManager.Instance.DrawHand(true, StatsHandler.GetInstance.GetCharacterStats(true).DrawCardsAmount);
+            Deck.DeckManager.Instance.DrawHand(false, StatsHandler.GetInstance.GetCharacterStats(false).DrawCardsAmount);
             //StaminaHandler.ResetStamina();
             Debug.Log("Enemy Drawing Cards!");
             yield return new WaitForSeconds(0.1f);
@@ -158,8 +158,7 @@ namespace Battles.Turns
             base.PlayTurn();
             // Activate Previous Action if not null
             yield return EnemyManager.Instance.PlayEnemyTurn();
-            // set a new action
-            yield return EnemyManager.Instance.AssignNextCard();
+
 
             yield return null;
             MoveToNextTurnState();
