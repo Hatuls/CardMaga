@@ -113,8 +113,8 @@ public class CSVToCardSO
 
 
 
-        const int StaminaCost = 15;
         const int CardDescription = 16;
+        const int StaminaCost = 17;
 
 
         const int RarityLevel = 18;
@@ -172,7 +172,7 @@ public class CSVToCardSO
 
         //ToExhaust
         card.ToExhaust = cardSO[IsExhausted] == "0" ? false : true;
-
+        card.StaminaCost = int.Parse(cardSO[StaminaCost]);
     
         // id fuses from
         string[] idCrafts = cardSO[IDThatCraftMe].Split('&');
