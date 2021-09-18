@@ -11,16 +11,15 @@ namespace Combo
     {
 
         #region Fields
-  
+
         [TitleGroup("Recipe", "", TitleAlignments.Centered, boldTitle: true)]
         [TabGroup("Recipe/General Info", "Picture")]
 
         [PreviewField(100, ObjectFieldAlignment.Center)]
         [HideLabel]
-
-        [OdinSerialize]
-        [ShowInInspector]
-        public Sprite Image { get; set; }
+        [SerializeField]
+        private Sprite _img;
+        public Sprite Image { get=> _img; set=> _img=value; }
 
 
         [TabGroup("Recipe/General Info", "Data")]
@@ -31,9 +30,9 @@ namespace Combo
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(130)]
-        [OdinSerialize]
-        [ShowInInspector]
-       public string ComboName { get; set; }
+        [SerializeField]
+        private string _comboName;
+        public string ComboName { get=> _comboName; set=> _comboName =value; }
 
 
         [TabGroup("Recipe/General Info", "Data")]
@@ -44,8 +43,9 @@ namespace Combo
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(100)]
-        [ShowInInspector]
-        public int Cost { get; set; }
+        [SerializeField]
+        private int _cost;
+        public int Cost { get => _cost; set=> _cost = value; }
 
 
         [TabGroup("Recipe/General Info", "Data")]
@@ -56,18 +56,17 @@ namespace Combo
 
 
         [TabGroup("Recipe/General Info", "Combo")]
-        [OdinSerialize]
-        [ShowInInspector]
+        [SerializeField]
         [LabelWidth(20)]
-        public Cards.CardTypeData[] ComboSequance { get; set; }
+        private Cards.CardTypeData[] _comboSequance;
+        public Cards.CardTypeData[] ComboSequance { get => _comboSequance; set=> _comboSequance =value; }
 
 
 
         [TabGroup("Recipe/General Info", "Data")]
-
-        [OdinSerialize]
-        [ShowInInspector]
-        public Cards.CardSO CraftedCard { get; set; }
+        [SerializeField]
+        private Cards.CardSO _craftedCard;
+        public Cards.CardSO CraftedCard { get => _craftedCard; set=> _craftedCard =value; }
 
         #endregion
 
