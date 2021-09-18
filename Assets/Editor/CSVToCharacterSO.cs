@@ -12,23 +12,27 @@ public class CSVToCharacterSO
     }
     private static void OnCompleteDownloadingCharacterCSV(string txt)
     {
-        var recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
+        Collections.RelicsSO.ComboCollectionSO recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
         float timer = 0;
         do
         {
+            recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
+
             timer += 0.5f;
-        } while (recipeCollection == null && timer < float.MaxValue/2);
+        } while (recipeCollection == null && timer <1000000);
         if (recipeCollection == null)
             Debug.LogError($"Recipe Collection is null!! ");
 
 
-        var cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+        CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
 
          timer = 0;
         do
         {
+            cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+
             timer += 0.5f;
-        } while (cardCollections == null && timer < float.MaxValue/2);
+        } while (cardCollections == null && timer < 1000000);
         if (cardCollections == null)
             Debug.LogError($"Card Collection is null!! ");
 
