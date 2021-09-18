@@ -113,8 +113,8 @@ public class CSVToCardSO
 
 
 
-        const int StaminaCost = 15;
         const int CardDescription = 16;
+        const int StaminaCost = 17;
 
 
         const int RarityLevel = 18;
