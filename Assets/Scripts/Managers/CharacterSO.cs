@@ -45,23 +45,28 @@ namespace Battles
         [SerializeField]
         private Characters.Stats.CharacterStats _characterStats;
 
-        [ShowInInspector]
-        [OdinSerialize]
-        public int ID { get; private set; }
-        [ShowInInspector]
-        [OdinSerialize]
-        public string CharacterName { get; private set; }
+        [SerializeField]
+        private int _id;
+        public int ID { get=> _id; private set=> _id = value; }
 
-        [ShowInInspector]
-        [OdinSerialize]
+
+        [SerializeField]
+        private string _characterName;
+        public string CharacterName { get=> _characterName; private set=> _characterName=value; }
+
+        [SerializeField]
         [PreviewField(75f)]
-        public GameObject CharacterAvatar { get; private set; }
-        [ShowInInspector]
-        [OdinSerialize]
-        public CharacterTypeEnum CharacterType { get; private set; }
-        [ShowInInspector]
-        [OdinSerialize]
-        public CharacterDifficultyEnum CharacterDiffciulty { get; private set; }
+        private GameObject _characterGO;
+        public GameObject CharacterAvatar { get=> _characterGO; private set=> _characterGO= value; }
+
+        [SerializeField]
+        private CharacterTypeEnum _characterType;
+        public CharacterTypeEnum CharacterType { get => _characterType; private set=> _characterType=value; }
+
+
+        [SerializeField]
+        private CharacterDifficultyEnum _characterDifficultyEnum;
+        public CharacterDifficultyEnum CharacterDiffciulty { get => _characterDifficultyEnum; private set=> _characterDifficultyEnum=value; }
     
         [SerializeField]
         private RecipeInfo[] _combos;
@@ -69,14 +74,11 @@ namespace Battles
         [SerializeField]
         private CardInfo[] _deck;
         public CardInfo[] Deck { get => _deck; }
-        [ShowInInspector]
-        [OdinSerialize]
-        public RewardTypeEnum RewardType { get; private set; }
 
 
-
-       Cards.Card[] _cards;
-
+        [SerializeField]
+        private RewardTypeEnum _rewardType;
+        public RewardTypeEnum RewardType { get=> _rewardType; private set=> _rewardType= value; }
 
 
         public ref Characters.Stats.CharacterStats CharacterStats { get =>ref _characterStats; }

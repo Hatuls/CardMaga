@@ -22,20 +22,20 @@ namespace Cards
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
         [LabelWidth(90f)]
-        [OdinSerialize]
-        [ShowInInspector]
-        public string CardName { get; set; }
+        [SerializeField]
+        private string _cardName;
+        public string CardName { get=> _cardName; set=> _cardName=value; }
 
         [TabGroup("CardData/Info", "Animation")]
-        [OdinSerialize]
-        [ShowInInspector]
-        public AnimationBundle AnimationBundle { get; set; }
+        [SerializeField]
+        private AnimationBundle _animationBundle;
+        public AnimationBundle AnimationBundle { get=> _animationBundle; set=> _animationBundle=value; }
 
 
         [TabGroup("CardData/Info", "Data")]
-        [OdinSerialize]
-        [ShowInInspector]
-        public RarityEnum Rarity { get; set; }
+        [SerializeField]
+        private RarityEnum _rarity;
+        public RarityEnum Rarity { get=> _rarity; set=> _rarity=value; }
 
         [TabGroup("CardData/Info", "Data")]
 
@@ -50,29 +50,29 @@ namespace Cards
 
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
-        [OdinSerialize]
-        [ShowInInspector]
+        [SerializeField]
         [LabelWidth(80f)]
-        public string CardDescription { get; set; }
+        private string _cardDescription;
+        public string CardDescription { get=> _cardDescription; set=> _cardDescription= value; }
 
 
 
         [TabGroup("CardData/Info", "Data")]
-        [OdinSerialize]
-        [ShowInInspector]
-        public int StaminaCost { get; set; }
+        [SerializeField]
+        private int _stamina;
+        public int StaminaCost { get=> _stamina; set=> _stamina=value; }
 
         [TabGroup("CardData/Info", "Data")]
-        [OdinSerialize]
-        [ShowInInspector]
-        public int PurchaseCost { get; set; }
+        [SerializeField]
+        private int _purchaseCost;
+        public int PurchaseCost { get=> _purchaseCost; set=> _purchaseCost=value; }
 
 
 
         [TabGroup("CardData/Info", "Data")]
-        [OdinSerialize]
-        [ShowInInspector]
-        public bool ToExhaust { get; set; }
+        [SerializeField]
+        private bool _toExhaust;
+        public bool ToExhaust { get=> _toExhaust; set=> _toExhaust=value; }
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much coins the card cost")]
@@ -80,24 +80,24 @@ namespace Cards
         int _salvageCost = 1;
 
         [TabGroup("CardData/Info", "Data")]
-        [OdinSerialize]
-        [ShowInInspector]
-        public int ID { get; set; }
+        [SerializeField]
+        private int _id;
+        public int ID { get => _id; set => _id = value; }
 
         [TabGroup("CardData/Info", "Keywords")]
-        [OdinSerialize]
-        [ShowInInspector]
-        public KeywordData[] CardSOKeywords { get; set; }
+        [SerializeField]
+        private KeywordData[] _cardKeywordsData;
+        public KeywordData[] CardSOKeywords { get=> _cardKeywordsData; set=> _cardKeywordsData=value; }
 
         [TabGroup("CardData/Info", "Levels")]
-        [OdinSerialize]
-        [ShowInInspector]
-        public PerLevelUpgrade[] PerLevelUpgrade { get; set; }
+        [SerializeField]
+        private PerLevelUpgrade[] _perLevelUpgrades;
+        public PerLevelUpgrade[] PerLevelUpgrade { get=> _perLevelUpgrades; set=> _perLevelUpgrades=value; }
 
         [TabGroup("CardData/Info", "Crafting")]
-        [OdinSerialize]
-        [ShowInInspector]
-        public int[] CardsFusesFrom { get; set; }
+        [SerializeField]
+        private int[] _cardsFusesFrom;
+        public int[] CardsFusesFrom { get=> _cardsFusesFrom; set=> _cardsFusesFrom=value; }
 
         #endregion
 
