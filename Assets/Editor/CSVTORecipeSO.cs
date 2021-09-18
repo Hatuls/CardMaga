@@ -14,15 +14,15 @@ public class CSVTORecipeSO
     }
     private static void OnCompleteDownloadingRecipeCSV(string txt)
     {
-        var cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+        CardsCollectionSO cardCollections = null;
 
         float timer = 0;
         do
         {
-            timer += 0.5f;
-        } while (cardCollections == null && timer < float.MaxValue /2);
-        if (cardCollections == null)
-            Debug.LogWarning("Card Collection is null!");
+            cardCollections= Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+            timer += 1f;
+        } while (cardCollections == null && timer < 1000000f);
+
 
         CSVToCardSO.DestroyWebGameObjects();
 
