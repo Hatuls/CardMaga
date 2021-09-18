@@ -6,7 +6,7 @@ namespace Battles.Deck
     {
         PlayerDeck _playerDeck;
         BuffIcon _disposalIcon;
-        public Disposal(int length, PlayerDeck deck, BuffIcon icon) : base(length)
+        public Disposal(bool isPlayer,int length, PlayerDeck deck, BuffIcon icon) : base(isPlayer,length)
         {
             _playerDeck = deck;
             _disposalIcon = icon;

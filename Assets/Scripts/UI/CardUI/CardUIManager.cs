@@ -291,7 +291,7 @@ namespace Battles.UI
         {
             _handUI.TryRemove(_holdingCardUI);
 
-            DeckManager.Instance.TransferCard(DeckEnum.Hand, DeckEnum.Selected, _holdingCardUI.GFX.GetCardReference);
+            DeckManager.Instance.TransferCard(true,DeckEnum.Hand, DeckEnum.Selected, _holdingCardUI.GFX.GetCardReference);
             _holdingCardUI.CardTranslations.CancelAllTweens();
             _holdingCardUI.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
             _holdingCardUI.CardTranslations.MoveCard(true, _draggableLocation.localPosition, 0.3f);
@@ -303,7 +303,7 @@ namespace Battles.UI
         private void RemoveCardUI()
         {
             _holdingCardUI.GFX.GlowCard(false);
-            DeckManager.Instance.TransferCard(DeckEnum.Selected, DeckEnum.Hand, _holdingCardUI.GFX.GetCardReference);
+            DeckManager.Instance.TransferCard(true,DeckEnum.Selected, DeckEnum.Hand, _holdingCardUI.GFX.GetCardReference);
             LockHandCards(false);
             _handUI.Add(_holdingCardUI);
         }
@@ -485,41 +485,41 @@ namespace Battles.UI
                     continue;
 
                 RectTransform cardUIRect = cards[i].GFX.GetRectTransform;
-                DeckEnum goToDeck = cards[i].GFX.GetCardReference.CardSO.GoToDeckAfterCrafting;
-                switch (goToDeck)
-                {
-                    case DeckEnum.PlayerDeck:
-                        MoveCardUIToPlayerDeck(cards[i], cardUIRect, destination);
-                        break;
-                    case DeckEnum.Hand:
+                //DeckEnum goToDeck = cards[i].GFX.GetCardReference.CardSO.GoToDeckAfterCrafting;
+                //switch (goToDeck)
+                //{
+                //    case DeckEnum.PlayerDeck:
+                //        MoveCardUIToPlayerDeck(cards[i], cardUIRect, destination);
+                //        break;
+                //    case DeckEnum.Hand:
                         MoveCardUIToHandDeck(cards[i], cardUIRect, destination, _hand);
-                        break;
-                    case DeckEnum.Disposal:
-                        MoveCardUIToDisposalDeck(cards[i], cardUIRect, destination);
+                //        break;
+                //    case DeckEnum.Disposal:
+                //        MoveCardUIToDisposalDeck(cards[i], cardUIRect, destination);
 
-                        break;
+                //        break;
 
-                    default:
-                        throw new Exception("Crafted Card Destination Was Not Valid Check Destination Deck!");
+                //    default:
+                //        throw new Exception("Crafted Card Destination Was Not Valid Check Destination Deck!");
                     
-                }
+                //}
 
                 yield return null;
             }
         }
 
-        private void MoveCardUIToPlayerDeck(CardUI cardUI, RectTransform cardRect, in Vector2 destination)
-        {
-            cardUI.GFX.GlowCard(false);
-            // set their starting scale
-            //play sound
-            _soundEvent?.Raise(SoundsNameEnum.DrawCard);
+        //private void MoveCardUIToPlayerDeck(CardUI cardUI, RectTransform cardRect, in Vector2 destination)
+        //{
+        //    cardUI.GFX.GlowCard(false);
+        //    // set their starting scale
+        //    //play sound
+        //    _soundEvent?.Raise(SoundsNameEnum.DrawCard);
 
 
-            cardUI.CardTranslations?.MoveCardX(destination.x, _cardSettings.CraftingToDrawPileTransitionXTime, null, _cardSettings.CraftingToDrawPileMoveOnXLeanTweenType);
-            cardUI.CardTranslations?.MoveCardY(destination.y, _cardSettings.CraftingToDrawPileTransitionYTime, true, _cardSettings.CraftingToDrawPileMoveOnYLeanTweenType);
+        //    cardUI.CardTranslations?.MoveCardX(destination.x, _cardSettings.CraftingToDrawPileTransitionXTime, null, _cardSettings.CraftingToDrawPileMoveOnXLeanTweenType);
+        //    cardUI.CardTranslations?.MoveCardY(destination.y, _cardSettings.CraftingToDrawPileTransitionYTime, true, _cardSettings.CraftingToDrawPileMoveOnYLeanTweenType);
 
-        }
+        //}
 
         private void MoveCardUIToHandDeck(CardUI cardUI, RectTransform cardRect, in Vector2 destination,HandUI _hand)
         {
@@ -535,19 +535,19 @@ namespace Battles.UI
 
         }
 
-        private void MoveCardUIToDisposalDeck(CardUI cardUI, RectTransform cardRect, in Vector2 destination)
-        {
+        //private void MoveCardUIToDisposalDeck(CardUI cardUI, RectTransform cardRect, in Vector2 destination)
+        //{
 
-            // disable glow
-            cardUI.GFX.GlowCard(false);
-            // set their starting scale
-            //play sound
-            _soundEvent?.Raise(SoundsNameEnum.DisacrdCard);
+        //    // disable glow
+        //    cardUI.GFX.GlowCard(false);
+        //    // set their starting scale
+        //    //play sound
+        //    _soundEvent?.Raise(SoundsNameEnum.DisacrdCard);
 
-            // Move cards and then add it to hand
-            cardUI.CardTranslations?.MoveCardY(destination.y, _cardSettings.CraftingToDiscardTransitionYTime, null, _cardSettings.CraftingToDiscardMoveOnYLeanTweenType);
-            cardUI.CardTranslations?.MoveCardX(destination.x, _cardSettings.CraftingToDiscardTransitionXTime, true, _cardSettings.CraftingToDiscardMoveOnXLeanTweenType);
-        }
+        //    // Move cards and then add it to hand
+        //    cardUI.CardTranslations?.MoveCardY(destination.y, _cardSettings.CraftingToDiscardTransitionYTime, null, _cardSettings.CraftingToDiscardMoveOnYLeanTweenType);
+        //    cardUI.CardTranslations?.MoveCardX(destination.x, _cardSettings.CraftingToDiscardTransitionXTime, true, _cardSettings.CraftingToDiscardMoveOnXLeanTweenType);
+        //}
     }
 
 

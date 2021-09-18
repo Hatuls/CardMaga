@@ -9,7 +9,14 @@ namespace Keywords
     public class KeywordData : IComparable<KeywordData>
     {
 
-        
+        public KeywordData() { }
+        public KeywordData(KeywordSO keywords,TargetEnum targetEnum, int amount,int animationIndex)
+        {
+            _keywordBase = keywords;
+            _target = targetEnum;
+            _animationIndex = animationIndex;
+            _amountToApply = amount;
+        }
         #region Fields
         [Header("Keyword :")]
         [Tooltip("KeywordData")]
@@ -34,7 +41,7 @@ namespace Keywords
         public Condition GetConditions=> _conditions;
         public  TargetEnum GetTarget => _target;
         public int GetAmountToApply { get => _amountToApply; set => _amountToApply = value; }
-        public KeywordSO GetKeywordSO => _keywordBase;
+        public KeywordSO KeywordSO => _keywordBase;
 
         public int CompareTo(KeywordData other)
         {

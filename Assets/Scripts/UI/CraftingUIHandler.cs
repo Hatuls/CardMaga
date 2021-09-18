@@ -69,7 +69,7 @@ namespace Battles.UI
         {
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
-                if (_CraftingSlotsUIArr[i] != null && DeckManager.GetCraftingSlots.GetDeck[i]!= null)
+                if (_CraftingSlotsUIArr[i] != null && DeckManager.GetCraftingSlots(true).GetDeck[i]!= null)
                     _CraftingSlotsUIArr[i].ActivateGlow(true);
             }
 
@@ -112,7 +112,7 @@ namespace Battles.UI
             // check thread possability for color check
 
 
-            var type = cards[0].CardSO.GetCardType._cardType;
+            var type = cards[0].CardSO.CardType.CardType;
 
             _CraftingSlotsUIArr[0].Appear(_leanTweenTime, type);
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
@@ -123,7 +123,7 @@ namespace Battles.UI
             if (cards[_CraftingSlotsUIArr.Length - 1] != null)
             {
 
-                type = cards[_CraftingSlotsUIArr.Length - 1].CardSO.GetCardType._cardType;
+                type = cards[_CraftingSlotsUIArr.Length - 1].CardSO.CardType.CardType;
 
                 _CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].Disapear(_leanTweenTime, type);
             }
@@ -145,7 +145,7 @@ namespace Battles.UI
             }
 
             
-            _CraftingSlotsUIArr[index].InitPlaceHolder(cardCache.CardSO.GetCardType);
+            _CraftingSlotsUIArr[index].InitPlaceHolder(cardCache.CardSO.CardType);
         }
 
     }

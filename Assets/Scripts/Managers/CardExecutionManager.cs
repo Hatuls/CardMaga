@@ -16,7 +16,10 @@ namespace Battles
         [SerializeField] VFXController __playerVFXHandler;
      
         [SerializeField] Unity.Events.SoundsEvent _playSound;
+        static Queue<Cards.Card> _cardsQueue;
+        static List<KeywordData> _keywordData;
 
+        static int currentKeywordIndex;
 
         public void ResetExecution()
         {
@@ -53,7 +56,7 @@ namespace Battles
             CardUIManager.Instance.LockHandCards(false);
 
 
-            DeckManager.Instance.TransferCard(DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
+            DeckManager.Instance.TransferCard(true,DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
 
             DeckManager.AddToCraftingSlot(true,card);
 
@@ -81,18 +84,18 @@ namespace Battles
             {
                 if (currentCard != null)
                 {
-                    switch (currentCard.CardSO.GetCardType._cardType)
+                    switch (currentCard.CardSO.CardType.CardType)
                     {
                         case Cards.CardTypeEnum.Utility:
                         case Cards.CardTypeEnum.Defend:
-                            switch (currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
+                            switch (currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                             {
                                 case KeywordTypeEnum.Defense:
 
                                     VFXManager.Instance.PlayParticle(
                                     isPlayer,
                                     BodyPartEnum.Chest,
-                                    VFXManager.KeywordToParticle(currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
+                                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                                     );
 
                                     _playSound?.Raise(SoundsNameEnum.GainArmor);
@@ -106,7 +109,7 @@ namespace Battles
                                 VFXManager.Instance.PlayParticle(
                                 isPlayer,
                                 BodyPartEnum.BottomBody,
-                                VFXManager.KeywordToParticle(currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
+                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                                 );
 
                                     break;
@@ -119,7 +122,7 @@ namespace Battles
                                 VFXManager.Instance.PlayParticle(
                                 isPlayer,
                                 BodyPartEnum.BottomBody,
-                                VFXManager.KeywordToParticle(currentCard.CardSO.GetCardsKeywords[0].GetKeywordSO.GetKeywordType)
+                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                                 );
 
                                     break;
@@ -142,7 +145,7 @@ namespace Battles
 
 
                         default:
-                            Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.GetCardType._cardType}");
+                            Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
                             break;
                     }
                 }
@@ -169,16 +172,12 @@ namespace Battles
         // when animation is finished to tell the queue to pop up the next card and play it
         // each animation has animation keys to notify which index is currently playing
         // when the animation event fire his index -> the list execute the keyword and move to the next index
-        static Queue<Cards.Card> _cardsQueue;
-        static List<KeywordData> _keywordData;
 
-        static int currentKeywordIndex;
-    
         public void AddToQueue(Cards.Card card)
         {   
             bool firstCard = _cardsQueue.Count == 0;
             _cardsQueue.Enqueue(card);
-            Debug.Log($"<a>Register card queue has {_cardsQueue.Count} cards in it</a>");
+            Debug.Log($"<a>Register card queue has {_cardsQueue.Count} cards in it\nIs First Card {firstCard}</a>");
             if (firstCard)
             {
                 ActivateCard();

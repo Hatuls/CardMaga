@@ -24,6 +24,11 @@ public class GameManager : MonoSingleton<GameManager>
     {
      //  Application.targetFrameRate = _maxFPS;
         ThreadsHandler.ThreadHandler.TickThread();
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Init();
+        }
     }
     public override void Init()
     {

@@ -51,7 +51,7 @@ public class ComboRecipeUI : MonoBehaviour
         {
 
         _comboRecipe = relicSO;
-        _cardUI.GFX.SetCardReference(relicSO.GetCraftedCard, _art);
+        _cardUI.GFX.SetCardReference(relicSO.CraftedCard, _art);
         ActivatedPlaceHolders(relicSO);
         SetVisual(relicSO);
         }
@@ -59,12 +59,12 @@ public class ComboRecipeUI : MonoBehaviour
     private void ActivatedPlaceHolders(ComboSO relicSO)
     {
     
-        if (relicSO.GetCombo.Length != activePlaceHolders)
+        if (relicSO.ComboSequance.Length != activePlaceHolders)
         {
-            int remain = relicSO.GetCombo.Length - activePlaceHolders;
+            int remain = relicSO.ComboSequance.Length - activePlaceHolders;
             if (remain < 0)
             {
-                for (int i = _placeHolderSlotUIs.Length - 1; i >= relicSO.GetCombo.Length; i--)
+                for (int i = _placeHolderSlotUIs.Length - 1; i >= relicSO.ComboSequance.Length; i--)
                 {
                     _placeHolderSlotUIs[i].gameObject.SetActive(false);
                     activePlaceHolders--;
@@ -82,15 +82,15 @@ public class ComboRecipeUI : MonoBehaviour
     }
     private void SetVisual(ComboSO relic)
     {
-        _cardUI.GFX.SetCardReference(relic.GetCraftedCard, _art);
+        _cardUI.GFX.SetCardReference(relic.CraftedCard, _art);
 
         int ComboCheck = 0;
 
         for (int i = 0; i < _placeHolderSlotUIs.Length; i++)
         {
-            if (_placeHolderSlotUIs[i].gameObject.activeSelf && i - ComboCheck >= 0 && i - ComboCheck < relic.GetCombo.Length)
+            if (_placeHolderSlotUIs[i].gameObject.activeSelf && i - ComboCheck >= 0 && i - ComboCheck < relic.ComboSequance.Length)
             {
-               _placeHolderSlotUIs[i].InitPlaceHolder(relic.GetCombo[i - ComboCheck]);
+               _placeHolderSlotUIs[i].InitPlaceHolder(relic.ComboSequance[i - ComboCheck]);
                 ComboCheck = 0;
             }
             else

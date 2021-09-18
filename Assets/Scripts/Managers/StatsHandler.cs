@@ -45,7 +45,7 @@ namespace Characters.Stats
             if (isPlayerStats)
                 return ref Managers.PlayerManager.Instance.GetCharacterStats;
             else
-                return ref Battles.EnemyManager.Instance.GetEnemy.GetCharacterStats;
+                return ref Battles.EnemyManager.Instance.GetCharacterStats;
         }
         public void ResetHealth(bool isPlayer)
         {

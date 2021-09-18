@@ -4,6 +4,7 @@ namespace Battles.Deck
 {
     public abstract class DeckAbst : IDeckHandler
     {
+        public bool isPlayer { get; private set; }
         private Card[] _deckCards;
 
         private int amountOfEmptySlots;
@@ -32,16 +33,19 @@ namespace Battles.Deck
         #endregion
 
         #region Public Functions
-        public DeckAbst(Card[] deckCards)
+        public DeckAbst(bool isPlayer,Card[] deckCards)
         {
             if (_deckCards != null)
             {
                 SetDeck = deckCards;
                 CountCards();
             }
+
+            this.isPlayer = isPlayer;
         }
-        public DeckAbst(int length)
+        public DeckAbst(bool isPlayer,int length)
         {
+            this.isPlayer = isPlayer;
             InitDeck(length);
         }
 
@@ -284,14 +288,15 @@ namespace Battles.Deck
 
     public enum DeckEnum
     {
-        None,
-        PlayerDeck,
-        Hand,
-        Disposal,
-        Exhaust,
-        Selected,
-        PlayerCraftingSlots,
-        OpponentCraftingSlots,
+        None = 0,
+        Hand = 1,
+        PlayerDeck = 2,
+        Disposal=3,
+        AutoActivate =4,
+        Exhaust=5,
+        Selected=6,
+        CraftingSlots=7,
+ 
     };
     public interface IDeckHandler {
       

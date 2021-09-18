@@ -7,7 +7,7 @@ namespace Battles
 {
     public class BattleManager : MonoSingleton<BattleManager>
     {
-        [SerializeField] CharactersDictionary _charactersDictionary;
+        [SerializeField] BattleData _BattleInformation;
       public static bool isGameEnded;
 
         [SerializeField] Unity.Events.SoundsEvent _playSound;
@@ -15,32 +15,26 @@ namespace Battles
 
         IEnumerator _turnCycles;
 
-
-        public static CharactersDictionary GetDictionary(Type _script)
-        {
-            if (_script == typeof(EnemyManager) || _script == typeof(PlayerManager))
-                return Instance._charactersDictionary;
-
-            return null;
-        }
-
         public override void Init()
         {
-            if (_charactersDictionary == null)
+            if (_BattleInformation == null)
                 Debug.LogError("BattleManager: Character Dictionary was not assigned");
 
-            AssignParams();
             ResetParams();
+            AssignParams();
             StartBattle();
         }  
 
         private void AssignParams()
         {
-
+            PlayerManager.Instance.AssignCharacterData(_BattleInformation.OpponentOne);
+            EnemyManager.Instance.AssignCharacterData(_BattleInformation.OpponentTwo);
+            PlayerManager.Instance.UpdateStats();
+            EnemyManager.Instance.UpdateStats();
         }
         private void ResetParams()
         {
-
+         Deck.DeckManager.Instance.ResetDecks();
         }
         private void Update()
         {
@@ -62,16 +56,12 @@ namespace Battles
 
             // turn handler start
 
-            //      SetBattleStats
+         
 
 
+              Instance._turnCycles = TurnHandler.TurnCycle();
 
-            EnemyManager.Instance.SetEnemy(Instance._charactersDictionary.GetCharacter(CharactersEnum.Enemy));
-            UI.StatsUIManager.GetInstance.InitHealthBar(true, PlayerManager.Instance.GetCharacterStats.Health);
 
-            Instance._turnCycles = TurnHandler.TurnCycle();
-
-            Deck.DeckManager.Instance.ResetDeckManager();
             StartGameTurns();
             Instance.StartCoroutine(Instance.BackGroundSoundDelay());
 
@@ -129,7 +119,9 @@ namespace Battles
 
     public interface IBattleHandler
     {
-        void OnStartBattle();
+        void RestartBattle();
+      void  AssignCharacterData(CharacterSO characterSO);
+        void UpdateStats();
         void OnEndBattle();
     }
 }

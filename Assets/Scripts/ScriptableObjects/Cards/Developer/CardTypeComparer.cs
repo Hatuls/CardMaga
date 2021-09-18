@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 namespace Cards
 {
-    public class CardTypeComparer : IEqualityComparer<CardType>
+    public class CardTypeComparer : IEqualityComparer<CardTypeData>
     {
 
         // Products are equal if their names and product numbers are equal.
-        public bool Equals(CardType x, CardType y)
+        public bool Equals(CardTypeData x, CardTypeData y)
         {
 
 
@@ -22,25 +22,25 @@ namespace Cards
 
 
             //Check whether the products' properties are equal.
-            return x._bodyPart == y._bodyPart && x._cardType == y._cardType;
+            return x.BodyPart == y.BodyPart && x.CardType == y.CardType;
 
         }
 
 
         // If Equals() returns true for a pair of objects
         // then GetHashCode() must return the same value for these objects.
-        public int GetHashCode(CardType obj)
+        public int GetHashCode(CardTypeData obj)
         {
             //Check whether the object is null
             if (Object.ReferenceEquals(obj, null))
                 return 0;
 
             //Get hash code for the Name field if it is not null.
-            int hashBodyPart = obj._bodyPart.GetHashCode();
-            int hashCardType = obj._cardType.GetHashCode();
-            int hash_rarityLevel = obj._rarityLevel.GetHashCode();
+            int hashBodyPart = obj.BodyPart.GetHashCode();
+            int hashCardType = obj.CardType.GetHashCode();
 
-            return hashBodyPart ^ hashCardType ^ hash_rarityLevel;
+
+            return hashBodyPart ^ hashCardType ;
         }
 
     }

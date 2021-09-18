@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace Combo
 {
-    public enum ComboNameEnum
-    {
-        NutShell = 0,
-        KnockOut = 1,
-        PowerUp = 2,
-        Breath =3
-    };
+
 
     [CreateAssetMenu (fileName = "Combo", menuName = "ScriptableObjects/Combo")]
     public class ComboSO : ScriptableObject
@@ -17,60 +12,70 @@ namespace Combo
 
         #region Fields
   
-        [TitleGroup("Recipe","", TitleAlignments.Centered,boldTitle: true)]
-        [TabGroup("Recipe/General Info","Picture")]
+        [TitleGroup("Recipe", "", TitleAlignments.Centered, boldTitle: true)]
+        [TabGroup("Recipe/General Info", "Picture")]
 
-        [PreviewField(100,ObjectFieldAlignment.Center)]
+        [PreviewField(100, ObjectFieldAlignment.Center)]
         [HideLabel]
-        [Tooltip("Recipe's Icon")]
-        [SerializeField] Sprite _icon;
 
-
-        [TabGroup("Recipe/General Info","Data")]
-        [LabelWidth(130)]
-        [Tooltip("Relic Name")]
-        [SerializeField] ComboNameEnum _comboName;
+        [OdinSerialize]
+        [ShowInInspector]
+        public Sprite Image { get; set; }
 
 
         [TabGroup("Recipe/General Info", "Data")]
-        [Tooltip("Relic Rarity")]
         [LabelWidth(130)]
-        [SerializeField] Cards.RarityEnum _rarityLevel;
+        [OdinSerialize]
+        [ShowInInspector]
+        public int ID { get; set; }
+
+        [TabGroup("Recipe/General Info", "Data")]
+        [LabelWidth(130)]
+        [OdinSerialize]
+        [ShowInInspector]
+       public string ComboName { get; set; }
+
+
+        [TabGroup("Recipe/General Info", "Data")]
+        [ShowInInspector]
+        [LabelWidth(130)]
+        public Cards.RarityEnum GetRarityEnum => CraftedCard== null ? Cards.RarityEnum.None : CraftedCard.Rarity;
 
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(100)]
-        [SerializeField] int _cost;
+        [ShowInInspector]
+        public int Cost { get; set; }
 
 
         [TabGroup("Recipe/General Info", "Data")]
-        [Tooltip("Combo Description")]
-        [TextArea]
-        [SerializeField] string _description;
+
+        [OdinSerialize]
+        [ShowInInspector]
+        public Battles.Deck.DeckEnum GoToDeckAfterCrafting { get; set; }
 
 
         [TabGroup("Recipe/General Info", "Combo")]
-        [Header("Combo:")]
-        [Tooltip("The Order will define the accomplishment of the combo")]
+        [OdinSerialize]
+        [ShowInInspector]
         [LabelWidth(20)]
-        [SerializeField] Cards.CardType[] _data;
+        public Cards.CardTypeData[] ComboSequance { get; set; }
 
-      
-        [Space(100)]
-        [BoxGroup]
-        [InlineEditor]
-        [SerializeField] Cards.CardSO _craftedCard;
+
+
+        [TabGroup("Recipe/General Info", "Data")]
+
+        [OdinSerialize]
+        [ShowInInspector]
+        public Cards.CardSO CraftedCard { get; set; }
 
         #endregion
 
         #region Properties
-        public Cards.CardType[] GetCombo => _data;
-        public Cards.RarityEnum GetRarityEnum => _rarityLevel;
-        public Sprite GetIcon => _icon;
-        public int Cost => _cost;
-        public ComboNameEnum GetRelicName => _comboName;
-        public string GetDescription => _description;
-        public ref Cards.CardSO GetCraftedCard =>ref _craftedCard;
+
+
+        public string GetDescription => CraftedCard.CardDescription;
+
 
         #endregion
 

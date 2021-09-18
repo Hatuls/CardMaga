@@ -9,8 +9,26 @@ namespace Collections.RelicsSO
         [SerializeField] Combo.ComboSO[] _allComboSO;
         #endregion
 
+        public void Init(Combo.ComboSO[] combos)
+        {
+            _allComboSO = new Combo.ComboSO[combos.Length];
+          System.Array.Copy(combos,_allComboSO,combos.Length);
+        }
+
+
         #region properties
         public Combo.ComboSO[] GetComboSO => _allComboSO;
+
+
+        public Combo.ComboSO GetCombo(int ID)
+        {
+            for (int i = 0; i < _allComboSO.Length; i++)
+            {
+                if (_allComboSO[i].ID == ID)
+                    return _allComboSO[i];
+            }
+            return null;
+        }
         #endregion
     }
 }

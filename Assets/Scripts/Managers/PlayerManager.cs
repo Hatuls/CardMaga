@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Battles;
+using UnityEngine;
 
 
 namespace Managers
@@ -6,69 +7,66 @@ namespace Managers
 
 
 
-    public class PlayerManager : MonoSingleton<PlayerManager> , Battles.IBattleHandler
+    public class PlayerManager : MonoSingleton<PlayerManager>, IBattleHandler
     {
         #region Fields
-
         [Tooltip("Player Stats: ")]
-        [SerializeField] Characters.Stats.CharacterStats _playerStat;
-        [SerializeField] AnimatorController _playerAnimatorController;
-        [SerializeField] Battles.CharacterSO _playerCards;
+        [SerializeField] Characters.Stats.CharacterStats _characterStats;
+        [SerializeField] private CharacterSO _myCharacter;
+        [SerializeField] Cards.Card[] _deck;
+        [SerializeField] CharacterSO.RecipeInfo[] _recipes;
+
+        AnimatorController _playerAnimatorController;
+
 
         #endregion
-        public ref Characters.Stats.CharacterStats GetCharacterStats =>ref  _playerStat;
+        public ref Characters.Stats.CharacterStats GetCharacterStats => ref _characterStats;
+        public Cards.Card[] Deck => _deck;
+
+        public CharacterSO.RecipeInfo[] Recipes => _recipes;
         public AnimatorController PlayerAnimatorController => _playerAnimatorController;
         public override void Init()
         {
-            _playerStat = Battles.BattleManager.GetDictionary(typeof(PlayerManager)).GetCharacter(Battles.CharactersEnum.Player).GetCharacterStats;
-            Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, _playerStat.MaxHealth);
-         //   Battles.UI.StatsUIManager.GetInstance.UpdateHealthBar(true, _playerStat.Health);
-
-            CardManager.Instance.AssignPlayerCardDict(_playerCards.GetCharacterCards);
-
         }
-        private void Start()
+
+
+        public void AssignCharacterData(CharacterSO characterSO)
         {
-        //     Battles.UI.StatsUIManager.GetInstance.InitHealthBar(true, _playerStat.Health);
+            _myCharacter = characterSO;
+            _characterStats = characterSO.CharacterStats;
 
-            Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, _playerStat.Shield);
+
+            var CardInfo = characterSO.Deck;
+            _deck = new Cards.Card[CardInfo.Length];
+            for (int i = 0; i < CardInfo.Length; i++)
+                _deck[i] = CardManager.Instance.CreateCard(CardInfo[i].Card, CardInfo[i].Level);
+
+            Battles.Deck.DeckManager.Instance.InitDeck(true, _deck);
+
+              _recipes = characterSO.Combos;
         }
+
+        public void RestartBattle()
+        {
+            if (_myCharacter != null)
+            {
+                AssignCharacterData(_myCharacter);
+                UpdateStats();
+            }
+        }
+
+        public void UpdateStats()
+        {
+            Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, _characterStats.MaxHealth);
+            Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, _characterStats.Shield);
+            Battles.UI.StatsUIManager.GetInstance.UpdateHealthBar(true, _characterStats.Health);
+
+        }
+
         public void OnEndBattle()
         {
-         
-        }
-
-        public void OnStartBattle()
-        {
-         
+            throw new System.NotImplementedException();
         }
     }
 
-
-
-
-
-
-
-
-
-    //public abstract class AnimationState
-    //{
-    //    public string _animationName;
-    //    public AnimationState(string animName)
-    //    {
-    //        _animationName = animName;
-    //    }
-    //}
-
-    //public class NormalAttack : AnimationState
-    //{
-    //    public Keywords.KeywordData keyword;
-    //}
-
-    //public class ComboAttack : AnimationState
-    //{
-    //    public Keywords.KeywordData[] keyword;
-    //    Relics.RelicSO combo;
-    //}
 }

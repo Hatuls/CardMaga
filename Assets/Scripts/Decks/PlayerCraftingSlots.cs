@@ -4,9 +4,9 @@ using Cards;
 public class PlayerCraftingSlots: Battles.Deck.DeckAbst
 {
     CraftingUIHandler _playerCraftingUIHandler;
-    public PlayerCraftingSlots(int cardsLength):base(cardsLength)
+    public PlayerCraftingSlots(bool isPlayer,int cardsLength):base(isPlayer,cardsLength)
     {
-        _playerCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(true);
+        _playerCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
     }
     public override void AddCard(Card card)
     {
@@ -35,7 +35,9 @@ public class PlayerCraftingSlots: Battles.Deck.DeckAbst
     {
         base.ResetDeck();
         _playerCraftingUIHandler.ResetAllSlots();
-        Combo.ComboManager.StartDetection();
+
+      if(isPlayer) 
+            Combo.ComboManager.StartDetection();
     }
     void ResetPlaceHolderUI(int i)
     {
@@ -53,48 +55,48 @@ public class PlayerCraftingSlots: Battles.Deck.DeckAbst
 }
 
 
-public class OpponentCraftingSlot : Battles.Deck.DeckAbst
-{
-    CraftingUIHandler _opponentCraftingUIHandler;
-    public OpponentCraftingSlot(int cardsLength) : base(cardsLength)
-    {
-        _opponentCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(false);
-    }
-    public override void AddCard(Card card)
-    {
-        for (int i = GetDeck.Length - 1; i >= 0; i--)
-        {
-            if (i != 0)
-            {
-                GetDeck[i] = GetDeck[i - 1];
-            }
-            else
-            {
-                GetDeck[i] = card;
-            }
-            if (i == GetDeck.Length - 1)
-            {
-                GetDeck[i] = null;
-            }
+//public class OpponentCraftingSlot : Battles.Deck.DeckAbst
+//{
+//    CraftingUIHandler _opponentCraftingUIHandler;
+//    public OpponentCraftingSlot(int cardsLength) : base(cardsLength)
+//    {
+//        _opponentCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(false);
+//    }
+//    public override void AddCard(Card card)
+//    {
+//        for (int i = GetDeck.Length - 1; i >= 0; i--)
+//        {
+//            if (i != 0)
+//            {
+//                GetDeck[i] = GetDeck[i - 1];
+//            }
+//            else
+//            {
+//                GetDeck[i] = card;
+//            }
+//            if (i == GetDeck.Length - 1)
+//            {
+//                GetDeck[i] = null;
+//            }
 
 
-            _opponentCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
-        }
+//            _opponentCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
+//        }
 
-        _opponentCraftingUIHandler.ChangeSlotsPos(GetDeck);
-       CountCards();
-     //  Combo.ComboManager.StartDetection();
-    }
-    public override void ResetDeck()
-    {
-        base.ResetDeck();
-        _opponentCraftingUIHandler.ResetAllSlots();
-    //    Combo.ComboManager.StartDetection();
-    }
-    void ResetPlaceHolderUI(int i)
-    {
-        _opponentCraftingUIHandler.ResetPlaceHolderUI(i);
-    }
+//        _opponentCraftingUIHandler.ChangeSlotsPos(GetDeck);
+//       CountCards();
+//     //  Combo.ComboManager.StartDetection();
+//    }
+//    public override void ResetDeck()
+//    {
+//        base.ResetDeck();
+//        _opponentCraftingUIHandler.ResetAllSlots();
+//    //    Combo.ComboManager.StartDetection();
+//    }
+//    void ResetPlaceHolderUI(int i)
+//    {
+//        _opponentCraftingUIHandler.ResetPlaceHolderUI(i);
+//    }
 
 
-}
+//}

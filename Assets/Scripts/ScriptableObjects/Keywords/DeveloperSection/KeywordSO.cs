@@ -6,7 +6,7 @@ namespace Keywords
     public class KeywordSO : ScriptableObject
     {
         #region Fields
-        [Header("Keyward Information:")]
+        [Header("Keyword Information:")]
 
         [Tooltip("what duration is it ?")]
         [SerializeField] DurationEnum _durationEnum;
@@ -29,11 +29,13 @@ namespace Keywords
         #endregion
 
     }
+
+
     public enum TargetEnum {
-        Player,
-        All, 
-        None,
-        Enemy 
+        Player=1,
+        All=3, 
+        None=0,
+        Enemy=2 
     };
     public enum DurationEnum {
         Permanent,

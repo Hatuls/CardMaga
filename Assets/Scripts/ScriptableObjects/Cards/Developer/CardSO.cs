@@ -5,59 +5,74 @@ using Sirenix.Serialization;
 namespace Cards
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
-    public class CardSO : ScriptableObject
+    public class CardSO : SerializedScriptableObject
     {
- 
+
 
         #region Fields
-        [TitleGroup("CardData", BoldTitle =true, Alignment = TitleAlignments.Centered)]  
-     
+        [TitleGroup("CardData", BoldTitle = true, Alignment = TitleAlignments.Centered)]
+
         [HorizontalGroup("CardData/Info/Display")]
 
-
-        [Tooltip("The Image of the card:")]
+        [OdinSerialize]
+        [ShowInInspector]
         [VerticalGroup("CardData/Info/Display/Coulmn 1")]
-        [PreviewField(100, Alignment = ObjectFieldAlignment.Right )]
-        [SerializeField] Sprite _cardImage;
-     
-        [Header("Card Details:")]
+        [PreviewField(100, Alignment = ObjectFieldAlignment.Right)]
+        public Sprite CardSprite { get; set; }
+
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
         [LabelWidth(90f)]
-        [SerializeField] string _cardName;
+        [OdinSerialize]
+        [ShowInInspector]
+        public string CardName { get; set; }
 
         [TabGroup("CardData/Info", "Animation")]
-        [SerializeField]
-        AnimationBundle _animationBundle;
-
-        [TabGroup("CardData/Info", "Data")]
-        [Tooltip("What Type Of Card Is It?")]
-        [SerializeField]
-        CardType _cardData;
+        [OdinSerialize]
+        [ShowInInspector]
+        public AnimationBundle AnimationBundle { get; set; }
 
 
         [TabGroup("CardData/Info", "Data")]
-        [Tooltip("When Crafted what deck does it go to?")]
-        [SerializeField]
-        Battles.Deck.DeckEnum _goToDeckAfterCraft = Battles.Deck.DeckEnum.Hand;
+        [OdinSerialize]
+        [ShowInInspector]
+        public RarityEnum Rarity { get; set; }
+
+        [TabGroup("CardData/Info", "Data")]
+
+        [ShowInInspector]
+        public CardTypeData CardType => PerLevelUpgrade[0]?.UpgradesPerLevel[0]?.CardTypeData;
+
+        public BodyPartEnum BodyPartEnum => CardType.BodyPart;
+        public CardTypeEnum CardTypeEnum => CardType.CardType;
+
+
+
+
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
-      
-        [Tooltip("The Description of the card:")]
-        [TextArea()]
-        [SerializeField] 
-        string _cardDescription;
+        [OdinSerialize]
+        [ShowInInspector]
+        [LabelWidth(80f)]
+        public string CardDescription { get; set; }
 
 
-        [Space]
-        [TabGroup("CardData/Info", "Data")]
-        [Tooltip("How much stamina the card cost")]
-        [SerializeField] 
-        int _staminaCost = 1;    
 
         [TabGroup("CardData/Info", "Data")]
-        [Tooltip("How much coins the card cost")]
-        [SerializeField]
-        int _purchaseCost = 1;
+        [OdinSerialize]
+        [ShowInInspector]
+        public int StaminaCost { get; set; }
+
+        [TabGroup("CardData/Info", "Data")]
+        [OdinSerialize]
+        [ShowInInspector]
+        public int PurchaseCost { get; set; }
+
+
+
+        [TabGroup("CardData/Info", "Data")]
+        [OdinSerialize]
+        [ShowInInspector]
+        public bool ToExhaust { get; set; }
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much coins the card cost")]
@@ -65,53 +80,48 @@ namespace Cards
         int _salvageCost = 1;
 
         [TabGroup("CardData/Info", "Data")]
-        [Tooltip("When Activated is Exhausted")]
-        [SerializeField]
-        bool _toExhaust = false;
+        [OdinSerialize]
+        [ShowInInspector]
+        public int ID { get; set; }
 
-
-
-        [Header("Card's Keywords: ")]
-
-        [Header("Card's Regular Keywords: ")]
-        [Tooltip("Card's Keywords:")]
         [TabGroup("CardData/Info", "Keywords")]
-        [SerializeField] 
-        KeywordData[] _keywords;
+        [OdinSerialize]
+        [ShowInInspector]
+        public KeywordData[] CardSOKeywords { get; set; }
 
         [TabGroup("CardData/Info", "Levels")]
-        [SerializeField] 
-        PerLevelUpgrade[] _perLevelUpgrade;
+        [OdinSerialize]
+        [ShowInInspector]
+        public PerLevelUpgrade[] PerLevelUpgrade { get; set; }
 
         [TabGroup("CardData/Info", "Crafting")]
-        [SerializeField]
-        int[] _cardsIDToCraftMe;
+        [OdinSerialize]
+        [ShowInInspector]
+        public int[] CardsFusesFrom { get; set; }
 
         #endregion
 
         #region Properties
-        public PerLevelUpgrade[] PerLevelUpgrade => _perLevelUpgrade;
-        public ref bool ToExhaust => ref _toExhaust;
-        public CardType GetCardType => _cardData;
-        public RarityEnum GetCardsRarityLevel => _cardData._rarityLevel;
-        public string GetCardName => _cardName;
-        public ref Sprite GetCardImage => ref _cardImage;
-        public ref string GetCardDescription => ref _cardDescription;
-        public ref int MoneyCost => ref _purchaseCost;
-        public CardTypeEnum GetCardTypeEnum => _cardData._cardType;
-        public AnimationBundle GetAnimationBundle => _animationBundle;
-        public BodyPartEnum GetBodyPartEnum => _cardData._bodyPart;
-        public int GetStaminaCost => _staminaCost;
-        public ref Battles.Deck.DeckEnum GoToDeckAfterCrafting =>ref _goToDeckAfterCraft;
-        public KeywordData[] GetCardsKeywords => _keywords;
-        public int CardsMaxLevel => PerLevelUpgrade == null ? 1 : PerLevelUpgrade.Length+1;
-      
+
+
+
+
+        [ShowInInspector]
+        public int CardsMaxLevel => PerLevelUpgrade == null ? 0 : PerLevelUpgrade.Length-1;
+
         #endregion
 
 
+        #region Methods
+        public PerLevelUpgrade GetLevelUpgrade(int level)
+        {
 
-
-       
+            if (level >=0 && level< PerLevelUpgrade.Length)
+              return PerLevelUpgrade[level];
+            
+            return null;
+        }
+        #endregion
 
     }
 
@@ -119,17 +129,19 @@ namespace Cards
     {
         None=0,
         Stamina=1,
-        BodyPart=2,
-        KeywordAddition=3,
-        ConditionReduction=4,
+        KeywordAddition=2,
+        ConditionReduction=3,
+        ToRemoveExhaust = 4,
+        BodyPart = 5,
     }
 
     public enum RarityEnum
     {
-        Common,
-        Uncommon,
-        Rare,
-        Epic,
-        LegendREI
+        None = 0,
+        Common = 1,
+        Uncommon = 2,
+        Rare= 3,
+        Epic=4,
+        LegendREI=5
     };
 }
