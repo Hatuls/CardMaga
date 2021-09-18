@@ -11,23 +11,35 @@ namespace Battles
         [Serializable]
         public class CardInfo
         {
-            [OdinSerialize]
-            [ShowInInspector]
-            public Cards.CardSO Card { get; set; }
-            [OdinSerialize]
-            [ShowInInspector]
-            public int Level { get; set; }
+            public CardInfo(Cards.CardSO card , int level)
+            {
+                _cardSO = card;
+                _level = level;
+            }
+            
+            [SerializeField]
+            private Cards.CardSO _cardSO;
+            public Cards.CardSO Card { get => _cardSO; }
+
+            [SerializeField]
+            private int _level;
+            public int Level { get => _level; }
         }
 
         [Serializable]
         public class RecipeInfo
         {
-            [OdinSerialize]
-            [ShowInInspector]
-            public Combo.ComboSO ComboRecipe { get; set; }
-            [OdinSerialize]
-            [ShowInInspector]
-            public int Level { get; set; }
+            public RecipeInfo(Combo.ComboSO comboSO, int level)
+            {
+                _comboRecipe = comboSO;
+                _level = level;
+            }
+            [SerializeField]
+            private Combo.ComboSO _comboRecipe;
+            public Combo.ComboSO ComboRecipe { get => _comboRecipe; }
+            [SerializeField]
+            private int _level;
+            public int Level { get=> _level; }
         }
 
         [SerializeField]
@@ -135,11 +147,8 @@ namespace Battles
 
 
 
-                                Deck[i] = new CardInfo()
-                                {
-                                    Card = cardCollection.GetCard(int.Parse(data[iD])),
-                                    Level = int.Parse(data[Level]),
-                                };
+                                Deck[i] = new CardInfo(cardCollection.GetCard(int.Parse(data[iD])), int.Parse(data[Level]));
+                            
                             }
 
                             //Recipes / Combos
@@ -148,11 +157,8 @@ namespace Battles
                             for (int i = 0; i < Recipe.Length; i++)
                             {
                                 string[] data = Recipe[i].Split('^');
-                                Combos[i] = new RecipeInfo()
-                                {
-                                    ComboRecipe = recipeCollections.GetCombo(int.Parse(data[iD])),
-                                    Level = int.Parse(data[Level])
-                                };
+                                Combos[i] = new RecipeInfo(recipeCollections.GetCombo(int.Parse(data[iD])), int.Parse(data[Level]));
+                               
 
                                 if (Combos[i].ComboRecipe == null)
                                     Debug.LogError("!");
