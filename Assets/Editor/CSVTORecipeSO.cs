@@ -19,9 +19,10 @@ public class CSVTORecipeSO
         float timer = 0;
         do
         {
-            timer += Time.deltaTime;
-        } while (cardCollections == null && timer < float.MaxValue - 1f);
-
+            timer += 0.5f;
+        } while (cardCollections == null && timer < float.MaxValue /2);
+        if (cardCollections == null)
+            Debug.LogWarning("Card Collection is null!");
 
         CSVToCardSO.DestroyWebGameObjects();
 

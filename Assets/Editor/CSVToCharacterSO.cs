@@ -16,16 +16,22 @@ public class CSVToCharacterSO
         float timer = 0;
         do
         {
-            timer += Time.deltaTime;
-        } while (recipeCollection == null && timer < float.MaxValue - 1f);
+            timer += 0.5f;
+        } while (recipeCollection == null && timer < float.MaxValue/2);
+        if (recipeCollection == null)
+            Debug.LogError($"Recipe Collection is null!! ");
+
 
         var cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
 
          timer = 0;
         do
         {
-            timer += Time.deltaTime;
-        } while (cardCollections == null && timer < float.MaxValue-1f);
+            timer += 0.5f;
+        } while (cardCollections == null && timer < float.MaxValue/2);
+        if (cardCollections == null)
+            Debug.LogError($"Card Collection is null!! ");
+
 
         CSVToCardSO.DestroyWebGameObjects();
 

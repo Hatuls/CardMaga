@@ -24,7 +24,23 @@ public class CSVToCardSO
         DestroyWebGameObjects();
 
         _keywordsSO = Resources.LoadAll<Keywords.KeywordSO>("KeywordsSO");
+
+        float timer = 0;
+        while (_keywordsSO == null && timer < float.MaxValue/2)
+        {
+            timer += 0.5f;
+        }
+        if (_keywordsSO == null)
+            Debug.LogError("Keywords SO is null!!");
+
         cardsPictures = Resources.LoadAll<Sprite>("Art/CardsPictures");
+        timer = 0;
+        while (cardsPictures == null && timer < float.MaxValue / 2)
+        {
+            timer += 0.5f;
+        }
+        if (cardsPictures == null)
+        Debug.LogError("CardPictures is null!!");
 
 
         SeperateFiles(txt);
@@ -221,6 +237,7 @@ public class CSVToCardSO
 
 
         AssetDatabase.CreateAsset(card, $"Assets/Resources/Cards SO/{card.CardName}.asset");
+        
         return card;
     }
     private static bool CheckIfEmpty(string toCheck) => toCheck == "-";
