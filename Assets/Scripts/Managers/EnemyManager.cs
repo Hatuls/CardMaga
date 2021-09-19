@@ -106,7 +106,9 @@ namespace Battles
             
            // DeckManager.AddToCraftingSlot(false, enemyAction);
             CardExecutionManager.Instance.RegisterCard(enemyAction, false);
+            DeckManager.AddToCraftingSlot(false, enemyAction);
             DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Disposal, enemyAction);
+
 
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
             EnemyManager.EnemyAnimatorController.ResetToStartingPosition();
