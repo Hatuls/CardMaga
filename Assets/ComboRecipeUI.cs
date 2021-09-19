@@ -49,7 +49,6 @@ public class ComboRecipeUI : MonoBehaviour
     {
         if (_comboRecipe != relicSO)
         {
-
         _comboRecipe = relicSO;
         _cardUI.GFX.SetCardReference(relicSO.CraftedCard, _art);
         ActivatedPlaceHolders(relicSO);
@@ -84,17 +83,14 @@ public class ComboRecipeUI : MonoBehaviour
     {
         _cardUI.GFX.SetCardReference(relic.CraftedCard, _art);
 
-        int ComboCheck = 0;
-
+       
         for (int i = 0; i < _placeHolderSlotUIs.Length; i++)
         {
-            if (_placeHolderSlotUIs[i].gameObject.activeSelf && i - ComboCheck >= 0 && i - ComboCheck < relic.ComboSequance.Length)
+            if (_placeHolderSlotUIs[i].gameObject.activeSelf && i  >= 0 && i  < relic.ComboSequance.Length)
             {
-               _placeHolderSlotUIs[i].InitPlaceHolder(relic.ComboSequance[i - ComboCheck]);
-                ComboCheck = 0;
+               _placeHolderSlotUIs[i].InitPlaceHolder(relic.ComboSequance[i]);
+             
             }
-            else
-                ComboCheck++;
         }
     }
 }

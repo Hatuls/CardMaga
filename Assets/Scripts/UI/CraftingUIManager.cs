@@ -34,11 +34,12 @@ namespace Battles.UI
             if (_playerCraftingUIHandler == null)
             {
                 _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _playersfirstSlotTransform, leanTweenTime, true, _buttonGlow, _buttonText);
+                _playerCraftingUIHandler.ResetAllSlots();
             }
-
             if (_opponentCraftingUIHandler == null)
             {
                 _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI, _opponentfirstSlotTransform, leanTweenTime, false);
+                _opponentCraftingUIHandler.ResetAllSlots();
             }
         }
 }
