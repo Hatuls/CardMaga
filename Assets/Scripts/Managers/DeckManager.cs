@@ -129,6 +129,7 @@ namespace Battles.Deck
 
 
                 }
+                if(isPlayersDeck)
                 CardUIManager.Instance.DrawCards(toDeck.GetDeck, DeckEnum.PlayerDeck);
             }
 

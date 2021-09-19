@@ -58,8 +58,8 @@ namespace Managers
         public void UpdateStats()
         {
             Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, _characterStats.MaxHealth);
+            Battles.UI.StatsUIManager.GetInstance.InitHealthBar(true, _characterStats.Health);
             Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, _characterStats.Shield);
-            Battles.UI.StatsUIManager.GetInstance.UpdateHealthBar(true, _characterStats.Health);
 
         }
 

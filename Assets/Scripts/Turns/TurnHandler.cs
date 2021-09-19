@@ -115,7 +115,7 @@ namespace Battles.Turns
         {
         }
 
-        public override TurnState GetNextTurn => TurnState.StartEnemyTurn;
+        public override TurnState GetNextTurn => TurnState.StartPlayerTurn;
 
         public override IEnumerator PlayTurn()
         {
@@ -137,6 +137,9 @@ namespace Battles.Turns
         {
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(false);
+            Deck.DeckManager.Instance.DrawHand(false, StatsHandler.GetInstance.GetCharacterStats(false).DrawCardsAmount);
+            //StaminaHandler.ResetStamina();
+            Debug.Log("Enemy Drawing Cards!");
             yield return new WaitForSeconds(0.1f);
             MoveToNextTurnState();
         }
@@ -155,8 +158,7 @@ namespace Battles.Turns
             base.PlayTurn();
             // Activate Previous Action if not null
             yield return EnemyManager.Instance.PlayEnemyTurn();
-            // set a new action
-            yield return EnemyManager.Instance.AssignNextCard();
+
 
             yield return null;
             MoveToNextTurnState();
@@ -177,6 +179,15 @@ namespace Battles.Turns
              * Activate the enemy keywords 
              * Remove The Player Defense
              */
+
+          // CardUIManager.Instance.RemoveHands();
+            CardExecutionManager.Instance.ResetExecution();
+            base.PlayTurn();
+
+
+            CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
+            Deck.DeckManager.Instance.OnEndTurn(false);
+
             base.PlayTurn();
             yield return KeywordManager.Instance.OnEndTurnKeywords(false);
             yield return new WaitForSeconds(0.5f);
@@ -202,7 +213,7 @@ namespace Battles.Turns
             yield return KeywordManager.Instance.OnStartTurnKeywords(true);
             Deck.DeckManager.Instance.DrawHand(true,StatsHandler.GetInstance.GetCharacterStats(true).DrawCardsAmount);
             StaminaHandler.ResetStamina();
-            Debug.Log("Drawing Cards!");
+            Debug.Log("Player Drawing Cards!");
             MoveToNextTurnState();
         }
 
