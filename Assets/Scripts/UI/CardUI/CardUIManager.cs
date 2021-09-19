@@ -101,7 +101,10 @@ namespace Battles.UI
                 for (int i = 0; i < CardUIArr.Length; i++)
                 {
                     if (CardUIArr[i] == null)
+                    {
+                        Debug.LogError("CardUI is NUll at index " + i);
                         break;
+                    }
                     if (CardUIArr[i].gameObject.activeInHierarchy == false || CardUIArr[i].gameObject.activeSelf == false)
                     {
 
@@ -117,8 +120,10 @@ namespace Battles.UI
                         return CardUIArr[i];
                     }
                 }
+
             }
-            Debug.LogError("CardUI is NUll");
+            else
+                Debug.LogError("cardData is NUll");
             return null;
 
             //turn it on

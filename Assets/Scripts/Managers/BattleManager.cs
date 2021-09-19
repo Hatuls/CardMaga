@@ -8,7 +8,7 @@ namespace Battles
     public class BattleManager : MonoSingleton<BattleManager>
     {
         [SerializeField] BattleData _BattleInformation;
-      public static bool isGameEnded;
+        public static bool isGameEnded;
 
         [SerializeField] Unity.Events.SoundsEvent _playSound;
 
@@ -17,13 +17,20 @@ namespace Battles
 
         public override void Init()
         {
+            ResetBattle();
+            SceneHandler.onFinishLoadingScene += OnLoadScene;
+        }
+
+        private void ResetBattle()
+        {
             if (_BattleInformation == null)
                 Debug.LogError("BattleManager: Character Dictionary was not assigned");
+            isGameEnded = false;
 
             ResetParams();
             AssignParams();
-            StartBattle();
-        }  
+           StartBattle();
+        }
 
         private void AssignParams()
         {
@@ -31,10 +38,16 @@ namespace Battles
             EnemyManager.Instance.AssignCharacterData(_BattleInformation.OpponentTwo);
             PlayerManager.Instance.UpdateStats();
             EnemyManager.Instance.UpdateStats();
+            Combo.ComboManager.Instance.Init();
+            Keywords.KeywordManager.Instance.Init();
         }
         private void ResetParams()
         {
-         Deck.DeckManager.Instance.ResetDecks();
+            CardManager.Instance.ResetCards();
+            Deck.DeckManager.Instance.ResetDecks();
+            UI.CardUIManager.Instance.Init();
+            UI.CraftingUIManager.Instance.Init();
+            VFXManager.Instance.Init();
         }
         private void Update()
         {
@@ -44,7 +57,7 @@ namespace Battles
 
             }
         }
-        public static void StartBattle() 
+        public static void StartBattle()
         {
             // Get enemy oponnent
             // get Player stats and cards
@@ -56,12 +69,10 @@ namespace Battles
 
             // turn handler start
 
-         
+            Instance.StopAllCoroutines();
+            Instance._turnCycles = TurnHandler.TurnCycle();
 
-
-              Instance._turnCycles = TurnHandler.TurnCycle();
-
-
+    
             StartGameTurns();
             Instance.StartCoroutine(Instance.BackGroundSoundDelay());
 
@@ -82,7 +93,7 @@ namespace Battles
         }
         public static void BattleEnded(bool isPlayerDied)
         {
-            UI.StatsUIManager.GetInstance.UpdateHealthBar(isPlayerDied, 0);      
+            UI.StatsUIManager.GetInstance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
             if (isPlayerDied)
             {
@@ -97,11 +108,12 @@ namespace Battles
 
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
+            LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.MainMenu);
         }
 
         private static void EnemyDied()
         {
-           PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
+            PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
             Instance._playSound?.Raise(SoundsNameEnum.Victory);
@@ -113,6 +125,13 @@ namespace Battles
             EnemyManager.EnemyAnimatorController.CharacterWon();
             if (isGameEnded == false)
                 Instance._playSound?.Raise(SoundsNameEnum.Defeat);
+        }
+
+
+        private void OnLoadScene(SceneHandler.ScenesEnum scenesEnum)
+        {
+            if (scenesEnum == SceneHandler.ScenesEnum.Battle)
+                ResetBattle();
         }
     }
 

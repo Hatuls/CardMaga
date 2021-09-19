@@ -20,7 +20,7 @@ public class NetworkHandler : MonoBehaviour
         _myVersion.enabled = false;
         _webVersion.enabled = false;
         _status.enabled = false;
-        _continueBtn.enabled = false;
+        _continueBtn.enabled = true;
         
     }
     private void OnEnable()

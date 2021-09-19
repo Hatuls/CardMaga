@@ -38,8 +38,6 @@ namespace Combo
 
         public override void Init()
         {
-
-
             threadId = ThreadHandler.GetNewID;
         }
         void CreateCard()
