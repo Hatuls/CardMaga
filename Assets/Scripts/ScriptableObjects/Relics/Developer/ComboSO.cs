@@ -49,10 +49,9 @@ namespace Combo
 
 
         [TabGroup("Recipe/General Info", "Data")]
-
-        [OdinSerialize]
-        [ShowInInspector]
-        public Battles.Deck.DeckEnum GoToDeckAfterCrafting { get; set; }
+        [SerializeField]
+        private Battles.Deck.DeckEnum _goToDeckAfterCrafting;
+        public Battles.Deck.DeckEnum GoToDeckAfterCrafting { get => _goToDeckAfterCrafting; set=> _goToDeckAfterCrafting = value; }
 
 
         [TabGroup("Recipe/General Info", "Combo")]

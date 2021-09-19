@@ -1,18 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-public static class SceneHandler
+public  class SceneHandler
 {
+    private static SceneHandler _instance;
+    public static SceneHandler Instance => _instance;
+
+
     public enum ScenesEnum { MainMenu = 0, Loading = 1, Battle = 2, }
     static System.Action onLoaderCallback;
     static AsyncOperation _loadingAsyncOperation;
     public static System.Action<ScenesEnum> onFinishLoadingScene;
 
+    public SceneHandler(LoadingManager sceneLoaderCallback)
+    {
+        SceneLoaderCallback = sceneLoaderCallback;
+        _instance = this;
+    }
 
     /// <summary>
     /// Scene gameobject that callbacks on finish loading scene
     /// </summary>
-    public static SceneLoaderCallback SceneLoaderCallback
+    public static LoadingManager SceneLoaderCallback
     { get; set; }
 
 
@@ -39,7 +48,7 @@ public static class SceneHandler
 
 
         CurrentScene = ScenesEnum.Loading;
-        SceneManager.LoadScene((int)ScenesEnum.Loading);
+        SceneManager.LoadScene((int)ScenesEnum.Loading, LoadSceneMode.Single);
 
     }
 
@@ -47,7 +56,7 @@ public static class SceneHandler
     {
         yield return null;
 
-        _loadingAsyncOperation = SceneManager.LoadSceneAsync((int)sceneEnum);
+        _loadingAsyncOperation = SceneManager.LoadSceneAsync((int)sceneEnum, LoadSceneMode.Single);
 
         while (!_loadingAsyncOperation.isDone) 
         yield return null;

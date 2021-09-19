@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cards;
 using Battles;
+using System;
 
 namespace Managers
 {
@@ -48,6 +49,11 @@ namespace Managers
             }
             return null;
 
+        }
+
+        internal void ResetCards()
+        {
+            Init();
         }
     }
 }

@@ -107,7 +107,7 @@ public class BuffIcon : MonoBehaviour
 
     protected void TweenOnUpdateText()
     {
-        if (gameObject.activeSelf)
+        if (gameObject  != null&& gameObject.activeSelf)
         {
         LeanTween.scale(_rectTransform, Vector3.one * _buffIconSettingsSO.ScaleAmount, _buffIconSettingsSO.ScaleEntranceTime).setEase(_buffIconSettingsSO.EntranceTypeTweenType).setOnComplete(() =>
         LeanTween.scale(_rectTransform, Vector3.one, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType)
