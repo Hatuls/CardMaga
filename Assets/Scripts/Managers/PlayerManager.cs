@@ -16,7 +16,7 @@ namespace Managers
         [SerializeField] Cards.Card[] _deck;
         [SerializeField] CharacterSO.RecipeInfo[] _recipes;
 
-        AnimatorController _playerAnimatorController;
+     [SerializeField]   AnimatorController _playerAnimatorController;
 
 
         #endregion
@@ -24,7 +24,30 @@ namespace Managers
         public Cards.Card[] Deck => _deck;
 
         public CharacterSO.RecipeInfo[] Recipes => _recipes;
-        public AnimatorController PlayerAnimatorController => _playerAnimatorController;
+        public AnimatorController PlayerAnimatorController
+        {
+            get {
+                if (_playerAnimatorController == null)
+                {
+                    var animators = FindObjectsOfType<AnimatorController>();
+
+                    if (animators != null && animators.Length > 0)
+                    {
+                        foreach (var anim in animators)
+                        {
+                            if (anim.tag == "Player")
+                            {
+                                _playerAnimatorController = anim;
+                                break;
+                            }
+                        }
+                    }
+  
+                }
+                return _playerAnimatorController;
+            } 
+        
+        }
         public override void Init()
         {
         }

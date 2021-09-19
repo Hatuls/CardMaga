@@ -29,7 +29,7 @@ namespace Keywords
         }
 
   
-        public void ActivateKeyword(KeywordData keyword)
+        public void ActivateKeyword(bool isPlayerTurn, KeywordData keyword)
         {
             if (keyword == null)
             {
@@ -49,24 +49,30 @@ namespace Keywords
 
             if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.KeywordSO.GetKeywordType, out KeywordAbst keywordEffect))
             {
-                switch (keyword.GetTarget)
-                {
-                
-                    case TargetEnum.Player:
-                        keywordEffect.ProcessOnTarget( false, true,ref keyword);
-                        break;
-                    case TargetEnum.All:
-                        keywordEffect.ProcessOnTarget(true, false, ref keyword);
-                        keywordEffect.ProcessOnTarget(false, true, ref keyword);
-                        break;
-                    case TargetEnum.Enemy:
-                        keywordEffect.ProcessOnTarget(true, false, ref keyword);
-                        break;
-
-                }
+                keywordEffect.ProcessOnTarget(isPlayerTurn, keyword);
             }
-            else
-                Debug.LogError("KeywordManager: Type Of keyword was not found in dictionary!");
+
+
+            //if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.KeywordSO.GetKeywordType, out KeywordAbst keywordEffect))
+            //{
+            //    switch (keyword.GetTarget)
+            //    {
+
+                //        case TargetEnum.MySelf:
+                //            keywordEffect.ProcessOnTarget( false, true,ref keyword);
+                //            break;
+                //        case TargetEnum.All:
+                //            keywordEffect.ProcessOnTarget(true, false, ref keyword);
+                //            keywordEffect.ProcessOnTarget(false, true, ref keyword);
+                //            break;
+                //        case TargetEnum.Opponent:
+                //            keywordEffect.ProcessOnTarget(true, false, ref keyword);
+                //            break;
+
+                //    }
+                //}
+                //else
+                //    Debug.LogError("KeywordManager: Type Of keyword was not found in dictionary!");
         }
 
 

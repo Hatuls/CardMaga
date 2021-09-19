@@ -31,12 +31,14 @@ namespace Battles.Deck
 
 
             base.AddCard(card);
-            _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
+            if (isPlayer)
+                _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
         }
         public override void DiscardCard(in Card card)
         {
             base.DiscardCard(card);
-            _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
+            if (isPlayer)
+               _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
         }
 
         private bool CheckDuplicate(Card card)

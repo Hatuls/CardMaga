@@ -45,11 +45,15 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>
         var recipes = Managers.PlayerManager.Instance.Recipes;
         Combo.ComboSO[] playerRecipe = new Combo.ComboSO[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
-            playerRecipe[i] = recipes[i].ComboRecipe;
-
-        for (int i = 0; i < comboRecipeUIs.Length-1; i++)
         {
-            if (i * page < playerRecipe.Length)
+            playerRecipe[i] = recipes[i].ComboRecipe;
+            Debug.LogWarning($"Recipe { playerRecipe[i].name}"); ;
+
+        }
+
+        for (int i = 0; i < comboRecipeUIs.Length; i++)
+        {
+            if (comboRecipeUIs[i]  != null && comboRecipeUIs[i].gameObject.activeSelf && i * page < playerRecipe.Length)
             {
 
             comboRecipeUIs[i].InitRecipe(playerRecipe[i* page]);

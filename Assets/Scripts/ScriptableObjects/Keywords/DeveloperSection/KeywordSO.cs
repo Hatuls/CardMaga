@@ -32,10 +32,10 @@ namespace Keywords
 
 
     public enum TargetEnum {
-        Player=1,
+        MySelf=1,
         All=3, 
         None=0,
-        Enemy=2 
+        Opponent=2 
     };
     public enum DurationEnum {
         Permanent,

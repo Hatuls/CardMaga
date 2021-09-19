@@ -17,11 +17,11 @@ public class CSVTORecipeSO
         CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection"); ;
 
         float timer = 0;
-        do
+        while (cardCollections == null && timer < 1000000f) 
         {
             cardCollections= Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
             timer += 1f;
-        } while (cardCollections == null && timer < 1000000f);
+        } 
 
 
         CSVToCardSO.DestroyWebGameObjects();

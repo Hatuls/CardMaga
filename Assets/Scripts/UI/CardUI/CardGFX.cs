@@ -113,8 +113,10 @@ namespace Battles.UI.CardUIAttributes
         }
         internal void SetCardReference(CardSO cardData, ArtSO artSO)
         {
+            if (cardData == null)
+                return;
      // set visual
-            SetNameText(cardData.CardName.ToString());
+            SetNameText(cardData.CardName);
 
             SetCardDescriptionText(cardData.CardDescription);
 
