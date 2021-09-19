@@ -267,7 +267,7 @@ namespace Battles.Deck
             if (deck != null && deck.TryGetValue(deckEnum, out DeckAbst deckAbst))
                 return deckAbst;
 
-            Debug.LogError($"DeckManager Didnt find the " +((isPlayersDeck == true) ? "Player's" : "Enemy's")+" " + deck.ToString() + " deck");
+            Debug.LogError($"DeckManager Didnt find the " +((isPlayersDeck == true) ? "Player's" : "Enemy's")+" " + deckEnum.ToString() + " deck");
             return null;
         }
 

@@ -1,8 +1,7 @@
-﻿using Sirenix.OdinInspector;
-using Sirenix.Serialization;
+﻿
 using UnityEngine;
 [CreateAssetMenu(fileName =("CardsCollections"), menuName =("ScriptableObjects/Collections/CardsCollections"))]
-public class CardsCollectionSO : SerializedScriptableObject
+public class CardsCollectionSO : ScriptableObject
 {
     [SerializeField]
     Cards.CardSO[] _cardCollection;

@@ -29,7 +29,7 @@ public class VFXManager : MonoSingleton<VFXManager>
 
     public override void Init()
     {
-        if (_VFXDictionary == null)
+
             _VFXDictionary = new Dictionary<ParticleEffectsEnum, ParticalEffectBase>();
 
 
@@ -50,15 +50,15 @@ public class VFXManager : MonoSingleton<VFXManager>
         if (effect == ParticleEffectsEnum.None)
             return;
 
+        var controller = isOnPlayer ? _playerVFX : _enemyVFX;
 
-        if (isOnPlayer)
+        if (_VFXDictionary != null && _VFXDictionary.TryGetValue(effect, out ParticalEffectBase value))
         {
-            _playerVFX.ActivateParticle(part, _VFXDictionary[effect]);
+            controller.ActivateParticle(part, value);
         }
         else
-        {
-            _enemyVFX.ActivateParticle(part, _VFXDictionary[effect]);
-        }
+            Debug.Log("Could not find Partical Effect Base");
+
 
 
     }
