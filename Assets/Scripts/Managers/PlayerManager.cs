@@ -67,6 +67,8 @@ namespace Managers
             Battles.Deck.DeckManager.Instance.InitDeck(true, _deck);
 
               _recipes = characterSO.Combos;
+
+            PlayerAnimatorController.ResetAnimator();
         }
 
         public void RestartBattle()
