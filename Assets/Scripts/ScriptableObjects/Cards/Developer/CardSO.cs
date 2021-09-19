@@ -14,11 +14,12 @@ namespace Cards
 
         [HorizontalGroup("CardData/Info/Display")]
 
-        [OdinSerialize]
-        [ShowInInspector]
+
         [VerticalGroup("CardData/Info/Display/Coulmn 1")]
         [PreviewField(100, Alignment = ObjectFieldAlignment.Right)]
-        public Sprite CardSprite { get; set; }
+        [SerializeField]
+        private Sprite _cardSprite;
+        public Sprite CardSprite { get=> _cardSprite; set=> _cardSprite=value; }
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
         [LabelWidth(90f)]

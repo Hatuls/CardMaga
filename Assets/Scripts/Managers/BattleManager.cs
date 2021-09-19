@@ -101,7 +101,7 @@ namespace Battles
 
         private static void EnemyDied()
         {
-            PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
+           PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
             Instance._playSound?.Raise(SoundsNameEnum.Victory);

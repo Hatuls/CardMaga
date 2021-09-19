@@ -55,8 +55,7 @@ namespace Battles
 
 
             _recipes = characterSO.Combos;
-
-         //   SetEnemy(characterSO);
+            EnemyAnimatorController.ResetAnimator();
         }
 
         public void UpdateStats()

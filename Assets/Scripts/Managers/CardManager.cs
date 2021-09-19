@@ -41,7 +41,7 @@ namespace Managers
 
         public Card CreateCard(CardSO cardSO, int level = 0)
         {
-            if (cardSO != null && (level >= 0 && level < cardSO.CardsMaxLevel))
+            if (cardSO != null && (level >= 0 && level <= cardSO.CardsMaxLevel))
             {
                 _battleCardIdList.Add(_battleID);
                 return new Card(_battleID++, cardSO, level);

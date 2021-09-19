@@ -24,7 +24,6 @@ public class AnimatorController : MonoBehaviour
 
     AnimationBundle _currentAnimation;
     Queue<AnimationBundle>  _animationQueue = new Queue<AnimationBundle>();
-    List<AnimationBundle> _animationList = new List<AnimationBundle>();
 
 
     [SerializeField] float _rotationSpeed;
@@ -48,10 +47,6 @@ public class AnimatorController : MonoBehaviour
     #region Methods
 
     #region MonoBehaviour Callbacks   
-    private void Start()
-    {
-        ResetAnimator();
-    }
 
     private void Update()
     {
@@ -77,7 +72,9 @@ public class AnimatorController : MonoBehaviour
         _isAnimationPlaying = false;
         _playerAnimator.SetBool("IsDead", false);
         _playerAnimator.SetBool("IsWon", false);
-        _playerAnimator.SetInteger("AnimNum",-1); // idle animation
+        _animationQueue.Clear();
+        _currentAnimation = null;
+        ReturnToIdle();
     }
 
     public void ResetToStartingPosition()
@@ -90,8 +87,6 @@ public class AnimatorController : MonoBehaviour
 
         transform.position = startPos;
         transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
-
-
     }
 
 
@@ -104,28 +99,15 @@ public class AnimatorController : MonoBehaviour
     }
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
     {
-        //if (_animationQueue.Count == 0 && _currentAnimation == null)
-        //{
-        //    SetCamera(CameraController.CameraAngleLookAt.Both);
-
-        //}   
-        //if (_animationQueue.Count>0)
-        //{
-        //    TranstionToNextAnimation();
-        //}
-
-
-        if (_animationList.Count == 0 && _currentAnimation == null)
+        if (_animationQueue.Count == 0 && _currentAnimation == null)
         {
             SetCamera(CameraController.CameraAngleLookAt.Both);
 
         }
-        
-        if (_animationList.Count>0)
-        {
-            TranstionToNextAnimation();
-        }
-
+        //if (_animationQueue.Count > 0)
+        //{
+        //    TranstionToNextAnimation();
+        //}
     }
 
     public void CharacterWon()

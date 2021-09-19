@@ -79,32 +79,31 @@ namespace Battles
 
 
 
-          var  currentCard = card;
-            if (isPlayer)
+            var currentCard = card;
+
+            if (currentCard != null)
             {
-                if (currentCard != null)
+                switch (currentCard.CardSO.CardType.CardType)
                 {
-                    switch (currentCard.CardSO.CardType.CardType)
-                    {
-                        case Cards.CardTypeEnum.Utility:
-                        case Cards.CardTypeEnum.Defend:
-                            switch (currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                            {
-                                case KeywordTypeEnum.Defense:
+                    case Cards.CardTypeEnum.Utility:
+                    case Cards.CardTypeEnum.Defend:
+                        switch (currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
+                        {
+                            case KeywordTypeEnum.Defense:
 
-                                    VFXManager.Instance.PlayParticle(
-                                    isPlayer,
-                                    BodyPartEnum.Chest,
-                                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                                    );
+                                VFXManager.Instance.PlayParticle(
+                                isPlayer,
+                                BodyPartEnum.Chest,
+                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
+                                );
 
-                                    _playSound?.Raise(SoundsNameEnum.GainArmor);
+                                _playSound?.Raise(SoundsNameEnum.GainArmor);
 
-                                 break;
+                                break;
 
-                                case KeywordTypeEnum.Strength:
+                            case KeywordTypeEnum.Strength:
 
-                                    _playSound?.Raise(SoundsNameEnum.GainStrength);
+                                _playSound?.Raise(SoundsNameEnum.GainStrength);
 
                                 VFXManager.Instance.PlayParticle(
                                 isPlayer,
@@ -112,12 +111,12 @@ namespace Battles
                                 VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                                 );
 
-                                    break;
+                                break;
 
 
-                                case KeywordTypeEnum.Heal:
+                            case KeywordTypeEnum.Heal:
 
-                                    _playSound?.Raise(SoundsNameEnum.Healing);
+                                _playSound?.Raise(SoundsNameEnum.Healing);
 
                                 VFXManager.Instance.PlayParticle(
                                 isPlayer,
@@ -125,35 +124,29 @@ namespace Battles
                                 VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                                 );
 
-                                    break;
+                                break;
 
 
-                                case KeywordTypeEnum.Attack:
-                                case KeywordTypeEnum.Bleed:
-                                case KeywordTypeEnum.MaxHealth:
-                                default:
-                                    break;
-                            }
-                           
-                            ExecuteCard(currentCard);
-                            break;
+                            case KeywordTypeEnum.Attack:
+                            case KeywordTypeEnum.Bleed:
+                            case KeywordTypeEnum.MaxHealth:
+                            default:
+                                break;
+                        }
 
-                        case Cards.CardTypeEnum.Attack:
-                            //    _playerAnimator.SetAnimationQueue(card);
-                            AddToQueue(card);
-                            break;
+                        ExecuteCard(currentCard);
+                        break;
+
+                    case Cards.CardTypeEnum.Attack:
+                        //    _playerAnimator.SetAnimationQueue(card);
+                        AddToQueue(card);
+                        break;
 
 
-                        default:
-                            Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
-                            break;
-                    }
+                    default:
+                        Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
+                        break;
                 }
-            }
-            else
-            {
-                // _enemyAnimator.SetAnimationQueue(card);
-                AddToQueue(card);
             }
         }
 
@@ -162,9 +155,11 @@ namespace Battles
         {
             if (current == null || current.CardKeywords == null || current.CardKeywords.Length == 0 || BattleManager.isGameEnded)
                 return;
+            bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
+
 
             for (int j = 0; j < current.CardKeywords.Length; j++)
-                KeywordManager.Instance.ActivateKeyword(current.CardKeywords[j]);
+                KeywordManager.Instance.ActivateKeyword(currentTurn, current.CardKeywords[j]);
         }
 
         // need to register the players cards into a queue and tell the animation to play the animation
@@ -253,12 +248,15 @@ namespace Battles
         public void OnKeywordEvent()
         {
                 Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
+            bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
+
+
             for (int i = 0; i < _keywordData.Count; i++)
             {
                 if (currentKeywordIndex == _keywordData[i].AnimationIndex)
                 {
                     // activate the keyword
-                    KeywordManager.Instance.ActivateKeyword(_keywordData[i]);
+                    KeywordManager.Instance.ActivateKeyword(currentTurn, _keywordData[i]);
 
                     //remove from the list
                     _keywordData.Remove(_keywordData[i]);

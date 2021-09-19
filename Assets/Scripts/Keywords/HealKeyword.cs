@@ -15,5 +15,27 @@ namespace Keywords
             }
         }
 
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            switch (data.GetTarget)
+            {
+                case TargetEnum.MySelf:
+                    StatsHandler.GetInstance.AddHealh(currentPlayer, data.GetAmountToApply);
+                    break;
+
+                case TargetEnum.All:
+                    StatsHandler.GetInstance.AddHealh(currentPlayer, data.GetAmountToApply);
+                    StatsHandler.GetInstance.AddHealh(!currentPlayer, data.GetAmountToApply);
+                    break;
+
+                case TargetEnum.Opponent:
+                    StatsHandler.GetInstance.AddHealh(!currentPlayer, data.GetAmountToApply);
+                    break;
+                case TargetEnum.None:
+                default:
+                    break;
+            }
+
+        }
     }
 }

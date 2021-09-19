@@ -264,10 +264,10 @@ namespace Battles.Deck
         private DeckAbst GetDeckAbst(bool isPlayersDeck,DeckEnum deckEnum)
         {
             var deck = GetDeck(isPlayersDeck);
-            if (deck != null && _playerDecks.TryGetValue(deckEnum, out DeckAbst deckAbst))
+            if (deck != null && deck.TryGetValue(deckEnum, out DeckAbst deckAbst))
                 return deckAbst;
 
-            Debug.LogError("DeckManager Didnt find the " + deck.ToString() + " deck");
+            Debug.LogError($"DeckManager Didnt find the " +((isPlayersDeck == true) ? "Player's" : "Enemy's")+" " + deck.ToString() + " deck");
             return null;
         }
 
@@ -279,16 +279,22 @@ namespace Battles.Deck
             else if (!isPlayer && _OpponentDecks == null)
                 _OpponentDecks = new Dictionary<DeckEnum, DeckAbst>();
 
+            var characterDeck = (isPlayer ? _playerDecks : _OpponentDecks);
+            characterDeck.Clear();
 
-            (isPlayer ? _playerDecks : _OpponentDecks).Clear();
+            characterDeck.Add(DeckEnum.PlayerDeck, new PlayerDeck(isPlayer, deck, _deckIcon));
+            characterDeck.Add(DeckEnum.Exhaust, new Exhaust(isPlayer, _playerMaxHandSize));
+            characterDeck.Add(DeckEnum.Disposal, new Disposal(isPlayer, deck.Length, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.PlayerDeck] as PlayerDeck, _disposalIcon));
+            characterDeck.Add(DeckEnum.Hand, new PlayerHand(isPlayer, _playerStartingHandSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Disposal] as Disposal));
+            characterDeck.Add(DeckEnum.Selected, new Selected(isPlayer, _placementSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Disposal] as Disposal, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Hand] as PlayerHand));
+            characterDeck.Add(DeckEnum.CraftingSlots, new PlayerCraftingSlots(isPlayer, _craftingSlotsSize));
         
-            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.PlayerDeck, new PlayerDeck(isPlayer,deck, _deckIcon));
-            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.Exhaust, new Exhaust(isPlayer,_playerMaxHandSize));
-            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.Disposal, new Disposal(isPlayer, deck.Length, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.PlayerDeck] as PlayerDeck, _disposalIcon));
-            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.Hand, new PlayerHand(isPlayer,_playerStartingHandSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Disposal] as Disposal));
-            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.Selected, new Selected(isPlayer,_placementSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Disposal] as Disposal, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Hand] as PlayerHand));
-            (isPlayer ? _playerDecks : _OpponentDecks).Add(DeckEnum.CraftingSlots, new PlayerCraftingSlots(isPlayer,_craftingSlotsSize));
-     
+            
+            if (isPlayer)
+                _playerDecks = characterDeck;
+            else
+                _OpponentDecks = characterDeck;
+
             ResetDecks(isPlayer);
         }
 

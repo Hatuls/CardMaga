@@ -33,15 +33,11 @@ namespace Battles.Deck
         #endregion
 
         #region Public Functions
-        public DeckAbst(bool isPlayer,Card[] deckCards)
+        public DeckAbst(bool isPlayer, Card[] deckCards)
         {
-            if (_deckCards != null)
-            {
-                SetDeck = deckCards;
-                CountCards();
-            }
-
+            SetDeck = deckCards;
             this.isPlayer = isPlayer;
+            CountCards();
         }
         public DeckAbst(bool isPlayer,int length)
         {
