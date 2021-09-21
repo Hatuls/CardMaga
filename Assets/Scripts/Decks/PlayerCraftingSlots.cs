@@ -29,6 +29,33 @@ public class PlayerCraftingSlots: Battles.Deck.DeckAbst
 
         _playerCraftingUIHandler.ChangeSlotsPos(GetDeck);
         CountCards();
+
+      
+         Combo.ComboManager.StartDetection();
+    }
+    public void AddCard(Card card , bool toDetect)
+    {
+        for (int i = GetDeck.Length - 1; i >= 0; i--)
+        {
+            if (i != 0)
+            {
+                GetDeck[i] = GetDeck[i - 1];
+            }
+            else
+            {
+                GetDeck[i] = card;
+            }
+            if (i == GetDeck.Length - 1)
+            {
+                GetDeck[i] = null;
+            }
+            _playerCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
+        }
+
+        _playerCraftingUIHandler.ChangeSlotsPos(GetDeck);
+        CountCards();
+
+        if(toDetect)
         Combo.ComboManager.StartDetection();
     }
     public override void ResetDeck()

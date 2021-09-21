@@ -46,28 +46,27 @@ public  class SceneHandler
             SceneLoaderCallback.StartCoroutine(LoadSceneAsync(sceneEnum));
         };
 
-
         CurrentScene = ScenesEnum.Loading;
         SceneManager.LoadScene((int)ScenesEnum.Loading, LoadSceneMode.Single);
 
     }
 
     static IEnumerator LoadSceneAsync(ScenesEnum sceneEnum)
-    {
+    { 
         yield return null;
-
         _loadingAsyncOperation = SceneManager.LoadSceneAsync((int)sceneEnum, LoadSceneMode.Single);
-
+        Debug.Log("Loading Async the scene " + sceneEnum.ToString());
         while (!_loadingAsyncOperation.isDone) 
         yield return null;
-        
+
+        Debug.Log("Finished Loading Asyncly the scene " + sceneEnum.ToString());
+        SceneManager.SetActiveScene(SceneManager.GetSceneAt((int)sceneEnum));
+        Debug.Log("Set Active Scene " + sceneEnum.ToString());
         
         CurrentScene = sceneEnum;
         onFinishLoadingScene?.Invoke(sceneEnum);
     }
-    /// <summary>
-    /// 
-    /// </summary>
+
     public static void LoaderCallback()
     {
         if (onLoaderCallback != null)

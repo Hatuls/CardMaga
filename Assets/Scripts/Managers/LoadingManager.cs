@@ -16,6 +16,7 @@ public class LoadingManager : MonoSingleton<LoadingManager>
     }
     public void LoadScene(SceneHandler.ScenesEnum scenesEnum)
     {
+
         SceneHandler.LoadScene(scenesEnum);
     }
 }

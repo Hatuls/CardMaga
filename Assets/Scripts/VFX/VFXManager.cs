@@ -23,15 +23,12 @@ public class VFXManager : MonoSingleton<VFXManager>
 {
 
     [SerializeField]VFXController _playerVFX, _enemyVFX;
-
+    [Sirenix.OdinInspector.ShowInInspector]
     static  Dictionary<ParticleEffectsEnum, ParticalEffectBase> _VFXDictionary;
     
 
     public override void Init()
     {
-
-            _VFXDictionary = new Dictionary<ParticleEffectsEnum, ParticalEffectBase>();
-
 
     }
 
@@ -57,7 +54,7 @@ public class VFXManager : MonoSingleton<VFXManager>
             controller.ActivateParticle(part, value);
         }
         else
-            Debug.Log("Could not find Partical Effect Base");
+            Debug.Log($"Could not find Partical Effect Base from {part.ToString()} the effect should have been {effect.ToString()}");
 
 
 

@@ -12,11 +12,12 @@ namespace Combo
 {
     public class ComboManager : MonoSingleton<ComboManager>
     {
-      
-        #region Fields
-     
-        [SerializeField] ComboSO _cardRecipeDetected;
 
+        #region Fields
+
+        [SerializeField] ComboSO _cardRecipeDetected;
+        PlayerCraftingSlots _playerCraftingSlots;
+        PlayerCraftingSlots _enemyCraftingSlots;
         static byte threadId;
 
         #endregion
@@ -26,8 +27,10 @@ namespace Combo
         #endregion
 
         #region Properties
-    
-        public ComboSO CardRecipeDetected { get => _cardRecipeDetected; set
+
+        public ComboSO CardRecipeDetected
+        {
+            get => _cardRecipeDetected; set
             {
                 _cardRecipeDetected = value;
             }
@@ -39,6 +42,7 @@ namespace Combo
         public override void Init()
         {
             threadId = ThreadHandler.GetNewID;
+            
         }
         void CreateCard()
         {
@@ -47,24 +51,24 @@ namespace Combo
 
             Debug.Log(_cardRecipeDetected?.ComboName);
 
-            if(_cardRecipeDetected != null)
+            if (_cardRecipeDetected != null)
             {
                 //create card
                 _successCrafting?.Raise();
 
                 Card crafted = Managers.CardManager.Instance.CreateCard(_cardRecipeDetected.CraftedCard);
-             //   BattleUiManager.Instance.SetCardPosition(crafted);
+                //   BattleUiManager.Instance.SetCardPosition(crafted);
 
-                DeckManager.Instance.AddCardToDeck(true,crafted, _cardRecipeDetected.GoToDeckAfterCrafting);
+                DeckManager.Instance.AddCardToDeck(true, crafted, _cardRecipeDetected.GoToDeckAfterCrafting);
                 VFXManager.Instance.PlayParticle(true, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
-                _playSound?.Raise( SoundsNameEnum.SuccessfullForge);
+                _playSound?.Raise(SoundsNameEnum.SuccessfullForge);
             }
             else
             {
                 if (DeckManager.GetCraftingSlots(true).GetAmountOfFilledSlots <= 0)
                 {
-             
-                   _playSound?.Raise( SoundsNameEnum.Reject);
+
+                    _playSound?.Raise(SoundsNameEnum.Reject);
                     //reject request for forging
                     return;
                 }
@@ -78,17 +82,40 @@ namespace Combo
             DeckManager.GetCraftingSlots(true).ResetDeck();
             _cardRecipeDetected = null;
         }
-        public void TryForge()
+        public void TryForge(bool isPlayer)
         {
 
-            if (Battles.Turns.TurnHandler.CurrentState != Battles.Turns.TurnState.PlayerTurn)
-                return;
+            if (_cardRecipeDetected != null)
+            {
+                var craftedCard = Managers.CardManager.Instance.CreateCard(_cardRecipeDetected.CraftedCard);
+                _playSound?.Raise(SoundsNameEnum.SuccessfullForge);
+                _successCrafting?.Raise();
 
-            CreateCard();
+                switch (_cardRecipeDetected.GoToDeckAfterCrafting)
+                {
+                    case DeckEnum.Hand:
+                    case DeckEnum.PlayerDeck:
+                    case DeckEnum.Disposal:
+                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, _cardRecipeDetected.GoToDeckAfterCrafting);
+                        break;
+
+                    case DeckEnum.AutoActivate:
+           
+                        Battles.CardExecutionManager.Instance.RegisterCard(craftedCard, isPlayer);
+                      //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
+                        DeckManager.GetCraftingSlots(isPlayer).AddCard(craftedCard,false);
+                        break;
+                    default:
+                        Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.GoToDeckAfterCrafting.ToString());
+                        break;
+                }
+            }
+
+           // CreateCard();
 
             // get the crafting deck
-       
-         
+
+
             /*
              * run on the possiblities from low to high
              * 
@@ -97,81 +124,92 @@ namespace Combo
             * return false if nothign found 
              */
         }
-   
+
         public static void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId, () => DetectRecipe(), () => EndDetection()));
         private static void EndDetection()
         {
-              var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(true);
+            bool isPlayer = Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn;
+
+            var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
 
             if (Instance._cardRecipeDetected == null)
-             _craftingUIHandler.ResetSlotsDetection();
-                
+                _craftingUIHandler.ResetSlotsDetection();
+
             else
-              _craftingUIHandler.MarkSlotsDetected();
-            
+            {
+                Instance.StartCoroutine(Instance.OnDetectionOfCombo(isPlayer, _craftingUIHandler));
+            }
+
+        }
+        System.Collections.IEnumerator OnDetectionOfCombo(bool isPlayer,CraftingUIHandler craftingUIHandler)
+        {
+            yield return null;
+            craftingUIHandler.MarkSlotsDetected();
+            yield return new WaitForSeconds(0.15f);
+            VFXManager.Instance.PlayParticle(isPlayer, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
+            yield return new WaitForSeconds(0.15f);
+            TryForge(isPlayer);
         }
         static void DetectRecipe()
         {
-            
-            Card[] craftingSlots =new Card[DeckManager.GetCraftingSlots(true).GetDeck.Length];
+            bool isPlayer = Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn;
+            //coping the relevant crafting slots from the deck manager
+            Card[] craftingSlots = new Card[DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length];
 
-            System.Array.Copy( DeckManager.GetCraftingSlots(true).GetDeck, craftingSlots, DeckManager.GetCraftingSlots(true).GetDeck.Length);
+            System.Array.Copy(DeckManager.GetCraftingSlots(isPlayer).GetDeck, craftingSlots, DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length);
 
             System.Array.Reverse(craftingSlots);
 
-            int amountCache=0;
+            // checking how many of them are not null
+            int amountCache = 0;
             for (int i = 0; i < craftingSlots.Length; i++)
             {
                 if (craftingSlots[i] != null)
                     amountCache++;
             }
-
+        
             List<CardTypeData> craftingItems = new List<CardTypeData>(amountCache);
 
             for (int i = 0; i < craftingSlots.Length; i++)
             {
-                if(craftingSlots[i] != null)
-                {
-                    craftingItems.Add(craftingSlots[i].CardSO.CardType);
-                }
-            }
-            if(craftingItems.Count > 1)
-            {
-                CheckRecipe( craftingItems);
-            }
-         
-        }
-    static void CheckRecipe(List<CardTypeData> craftingItems)
-        {
-            List<CardTypeData> nextRecipe = new List<CardTypeData>();
+                if (craftingSlots[i] != null)
+       
+                 craftingItems.Add(craftingSlots[i].CardSO.CardType);
 
-            var recipes = Managers.PlayerManager.Instance.Recipes;
+            }
+            if (amountCache > 1)
+            {
+                CheckRecipe(craftingItems.ToArray(), isPlayer);
+            }
+
+        }
+        static void CheckRecipe(CardTypeData[] craftingItems, bool isPlayer)
+        {
+           
+            var recipes = isPlayer ? Managers.PlayerManager.Instance.Recipes : Battles.EnemyManager.Instance.Recipes;
             ComboSO[] combo = new ComboSO[recipes.Length];
+
             for (int i = 0; i < recipes.Length; i++)
                 combo[i] = (recipes[i].ComboRecipe);
-            
 
-
-            
+            CardTypeData[] cardTypeDatas;
             for (int i = 0; i < combo.Length; i++)
             {
+                cardTypeDatas = new CardTypeData[combo[i].ComboSequance.Length];
+
                 for (int j = 0; j < combo[i].ComboSequance.Length; j++)
                 {
-                    nextRecipe.Add(combo[i].ComboSequance[j]);
+                    cardTypeDatas[j] = combo[i].ComboSequance[j];
+                    //nextRecipe.Add(combo[i].ComboSequance[j]);
                 }
-                if (craftingItems.SequenceEqual(nextRecipe , new CardTypeComparer()))
+                if (craftingItems.SequenceEqual(cardTypeDatas, new CardTypeComparer()))
                 {
                     Instance.CardRecipeDetected = combo[i];
                     return;
                 }
-                else
-                {
-                    nextRecipe.Clear();
-                }
+              
             }
             Instance.CardRecipeDetected = null;
         }
     }
 }
-
-

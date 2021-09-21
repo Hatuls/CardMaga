@@ -17,9 +17,9 @@ namespace Battles
 
         [SerializeField] Cards.Card enemyAction;
         int _cardAction;
-
         [SerializeField]  AnimatorController _enemyAnimatorController;
         #endregion
+         public CharacterSO.RecipeInfo[] Recipes => _recipes;
         public ref Characters.Stats.CharacterStats GetCharacterStats => ref _characterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
         #region Public Methods
@@ -92,7 +92,7 @@ namespace Battles
             "\n This attack is going to use " + enemyAction.CardSO.BodyPartEnum.ToString() + "\n" +
             "And Do " + enemyAction.CardSO.CardTypeEnum.ToString() + " with the amount of " + enemyAction.CardSO.CardSOKeywords[0].GetAmountToApply);
 
-            yield return new WaitForSeconds(.1f);
+            yield return null;
         }
 
         public System.Collections.IEnumerator PlayEnemyTurn()
@@ -109,7 +109,7 @@ namespace Battles
             DeckManager.AddToCraftingSlot(false, enemyAction);
             DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Disposal, enemyAction);
 
-
+            yield return new WaitForSeconds(1f);
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
             EnemyManager.EnemyAnimatorController.ResetToStartingPosition();
         }

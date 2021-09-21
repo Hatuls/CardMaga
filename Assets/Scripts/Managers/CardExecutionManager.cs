@@ -34,12 +34,8 @@ namespace Battles
             _cardsQueue= new Queue<Cards.Card>();
             _keywordData = new List<KeywordData>();
         }
-
-
-        public bool TryExecuteCard(CardUI cardUI)
+        public bool TryExecuteCard(Cards.Card card)
         {
-            Cards.Card card = cardUI.GFX.GetCardReference;
-
 
             if (StaminaHandler.IsEnoughStamina(card) == false)
             {
@@ -52,24 +48,40 @@ namespace Battles
             }
 
             // execute card
+            StaminaHandler.ReduceStamina(card);
 
             CardUIManager.Instance.LockHandCards(false);
 
 
-            DeckManager.Instance.TransferCard(true,DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
+            DeckManager.Instance.TransferCard(true, DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
 
-            DeckManager.AddToCraftingSlot(true,card);
 
             RegisterCard(card);
 
-            StaminaHandler.ReduceStamina(card);
+            DeckManager.AddToCraftingSlot(true, card);
 
-
-            // reset the holding card
-            CardUIManager.Instance.ExecuteCardUI(cardUI);
+            
             return true;
         }
 
+        public bool TryExecuteCard(CardUI cardUI)
+        {
+            Cards.Card card = cardUI.GFX.GetCardReference;
+            bool isExecuted = TryExecuteCard(card);
+            if (isExecuted)
+            {
+            // reset the holding card
+            CardUIManager.Instance.ExecuteCardUI(cardUI);
+            }
+            return isExecuted;
+        }
+
+        public void ExecuteCraftedCard(bool isPlayer,Cards.Card card)
+        {
+            DeckManager.AddToCraftingSlot(isPlayer, card);
+            RegisterCard(card);
+
+        }
 
         public void RegisterCard(Cards.Card card, bool isPlayer = true)
         {
