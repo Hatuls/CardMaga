@@ -1,4 +1,6 @@
 ﻿using Cards;
+using System;
+using System.Collections.Generic;
 
 namespace Battles.Deck
 {
@@ -25,6 +27,7 @@ namespace Battles.Deck
 
             if (isPlayer)
                 _deckIcon?.SetAmount(GetAmountOfFilledSlots);
+            Shuffle();
         }
         public override void DiscardCard(in Card card)
         {
@@ -32,6 +35,34 @@ namespace Battles.Deck
 
             if (isPlayer)
                 _deckIcon?.SetAmount(GetAmountOfFilledSlots);
+        }
+        public void Shuffle()
+        {
+            if(GetDeck == null)
+                return;
+
+            int deckLength = GetDeck.Length;
+
+            if (deckLength == 0)
+                return;
+
+            Card[] tempArray = new Card[deckLength];
+            List<Card> tempList = new List<Card>(deckLength);
+            for (int i = 0; i < deckLength; i++)
+            {
+                tempList.Add(GetDeck[i]);
+            }
+            Random random = new Random();
+            for (int i = 0; i < deckLength; i++)
+            {
+                int indexNum = random.Next(0, tempList.Count);
+                tempArray[i] = tempList[indexNum];
+                tempList.RemoveAt(indexNum);
+            }
+            for (int i = 0; i < deckLength; i++)
+            {
+                GetDeck[i] = tempArray[i];
+            }
         }
     }
 }

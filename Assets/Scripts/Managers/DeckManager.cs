@@ -168,6 +168,7 @@ namespace Battles.Deck
         
         public static void AddToCraftingSlot(bool toPlayerCraftingSlots,Card card) 
             => Instance.GetDeckAbst(toPlayerCraftingSlots, DeckEnum.CraftingSlots).AddCard(card);
+
         #endregion
 
         #region Private Functions   

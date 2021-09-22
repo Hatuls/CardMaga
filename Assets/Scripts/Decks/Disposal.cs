@@ -23,6 +23,7 @@ namespace Battles.Deck
                     DiscardCard(disposalDeck[i]);
                 }
             }
+            _playerDeck.Shuffle();
         }
         public override void AddCard(Card card)
         {
