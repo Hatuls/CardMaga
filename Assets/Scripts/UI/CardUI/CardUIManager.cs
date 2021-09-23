@@ -226,7 +226,7 @@ namespace Battles.UI
         }
         public override void Init()
         {
-            _handUI = new HandUI(_handCards, GetHandMiddlePosition.anchoredPosition, _cardUISettings);
+            _handUI = new HandUI(_handCards, GetHandMiddlePosition.transform.localPosition, _cardUISettings);
 
             _transitions = new CardUITransition[4]
             {
