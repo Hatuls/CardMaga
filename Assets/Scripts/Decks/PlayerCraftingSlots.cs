@@ -60,11 +60,11 @@ public class PlayerCraftingSlots: Battles.Deck.DeckAbst
     }
     public override void ResetDeck()
     {
-        base.ResetDeck();
+        base.ResetDeck(); 
         _playerCraftingUIHandler.ResetAllSlots();
 
-      if(isPlayer) 
-            Combo.ComboManager.StartDetection();
+      //if(isPlayer) 
+      //      Combo.ComboManager.StartDetection();
     }
     void ResetPlaceHolderUI(int i)
     {

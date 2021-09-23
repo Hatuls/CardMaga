@@ -58,10 +58,10 @@ namespace Combo
 
                 Card crafted = Managers.CardManager.Instance.CreateCard(_cardRecipeDetected.CraftedCard);
                 //   BattleUiManager.Instance.SetCardPosition(crafted);
-
                 DeckManager.Instance.AddCardToDeck(true, crafted, _cardRecipeDetected.GoToDeckAfterCrafting);
                 VFXManager.Instance.PlayParticle(true, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
                 _playSound?.Raise(SoundsNameEnum.SuccessfullForge);
+                DeckManager.GetCraftingSlots(true).ResetDeck();
             }
             else
             {
@@ -79,7 +79,7 @@ namespace Combo
             }
 
 
-            DeckManager.GetCraftingSlots(true).ResetDeck();
+
             _cardRecipeDetected = null;
         }
         public void TryForge(bool isPlayer)
@@ -103,7 +103,7 @@ namespace Combo
            
                         Battles.CardExecutionManager.Instance.RegisterCard(craftedCard, isPlayer);
                       //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
-                        DeckManager.GetCraftingSlots(isPlayer).AddCard(craftedCard,false);
+         //               DeckManager.GetCraftingSlots(isPlayer).AddCard(craftedCard,false);
                         break;
                     default:
                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.GoToDeckAfterCrafting.ToString());
@@ -150,7 +150,7 @@ namespace Combo
             yield return new WaitForSeconds(0.15f);
             TryForge(isPlayer);
             DeckManager.GetCraftingSlots(isPlayer).ResetDeck();
-            craftingUIHandler.ResetAllSlots();
+            _cardRecipeDetected = null;
         }
         static void DetectRecipe()
         {
