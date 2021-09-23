@@ -343,7 +343,7 @@ namespace Battles.UI
             if (card == null)
                 return;
             card.Inputs.OnZoomInputState.OriginalCardPosition = (cardReference.transform.position);
-            _handUI.LockCardsInput(true);
+          //  _handUI.LockCardsInput(true);
             CardUIManager.Instance.AssignDataToCardUI(card, cardReference.GFX.GetCardReference);
             card.CardTranslations.SetPosition(cardReference.transform.localPosition);
             card.gameObject.SetActive(true);
@@ -351,7 +351,7 @@ namespace Battles.UI
         }
         internal void CardUITouchedReleased(CardUI cardReference)
         {
-            _handUI.LockCardsInput(false);
+        //    _handUI.LockCardsInput(false);
 
             var card = _selectedCardUI;
             if (card == null)

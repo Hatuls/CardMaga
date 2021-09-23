@@ -149,6 +149,8 @@ namespace Combo
             VFXManager.Instance.PlayParticle(isPlayer, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
             yield return new WaitForSeconds(0.15f);
             TryForge(isPlayer);
+            DeckManager.GetCraftingSlots(isPlayer).ResetDeck();
+            craftingUIHandler.ResetAllSlots();
         }
         static void DetectRecipe()
         {
