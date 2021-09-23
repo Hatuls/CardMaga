@@ -164,9 +164,9 @@ namespace Battles.UI.CardUIAttributes
 
 
         public OnZoomInputState OnZoomInputState { get => (OnZoomInputState)GetTouchable(CardUIInput.Zoomed); }
+        public InHandInputState InHandInputState { get => (InHandInputState)GetTouchable(CardUIInput.Hand); }
 
 
-       
 
         public ITouchable GetTouchable(CardUIInput cardUIInput)
         {
@@ -238,25 +238,22 @@ namespace Battles.UI.CardUIAttributes
 
     public class InHandInputState : InputStateAbst
     {
-        CardUIEvent _zoomCardUIEvent;
-        CardUIEvent _selectCardUIEvent;
+        public bool HasValue { get; set; }
+        public int Index { get; set; }
         CardUI _cardReference;
-        float _middlePos;
+     
         public InHandInputState(CardInputs cardInputHandler, CardUIEvent selectCardUI, CardUIEvent zoomCard,float middlePos) : base(cardInputHandler)
-        {
-            _zoomCardUIEvent = zoomCard;
-            _selectCardUIEvent = selectCardUI;
-            _middlePos = middlePos;
+        { 
             _cardReference = cardInputHandler.ThisCardUI;
         }
         public override void OnFirstTouch(in Vector2 touchPos)
         {
-            CardUIManager.Instance.CardUITouched(_cardReference);
+            CardUIHandler.Instance.CardUITouched(_cardReference);
         }
 
         public override void OnReleaseTouch(in Vector2 touchPos)
         {
-            CardUIManager.Instance.CardUITouchedReleased(_cardReference);
+            CardUIHandler.Instance.CardUITouchedReleased(_cardReference);
             Debug.Log("Released card!");
         }
 
@@ -267,6 +264,7 @@ namespace Battles.UI.CardUIAttributes
 
     public class OnZoomInputState : InputStateAbst
     {
+        bool isZoomed;
         float _offset =130f;
         float _middlePos;
         public Vector2 OriginalCardPosition { get; set; }
@@ -277,6 +275,7 @@ namespace Battles.UI.CardUIAttributes
 
         public override void OnFirstTouch(in Vector2 touchPos)
         {
+            isZoomed = false;
             OnHoldTouch(touchPos, touchPos);
         }
         public override void OnHoldTouch(in Vector2 touchPos, in Vector2 startPos)
@@ -285,22 +284,40 @@ namespace Battles.UI.CardUIAttributes
             // if its close to the original position then zoom
             // if its above then move to hold
             // if its side ways then remove it
-            float distanceFromOriginalPoint = Vector2.Distance(OriginalCardPosition, touchPos);
-            Debug.Log(distanceFromOriginalPoint);
 
-
-
-            if (IsAboveTheTouchLine(touchPos))
+            float distance = Mathf.Abs(touchPos.y) - Mathf.Abs(OriginalCardPosition.y);
+            Debug.Log(distance);
+            if (distance < _offset )
             {
+                if (!isZoomed)
+                CardUIHandler.Instance.ToZoomCardUI();
+                isZoomed = true;
+                return;
+            }
+            else
+            {
+                isZoomed = false;
+                _cardInputHandler.ThisCardUI.CardTranslations.CancelAllTweens();
                 _cardInputHandler.CurrentState = CardInputs.CardUIInput.Hold;
             }
+           
+
         }
         private bool IsAboveTheTouchLine(in Vector2 touchPos) => (touchPos.y >= _middlePos);
         public override void OnReleaseTouch(in Vector2 touchPos)
         {
+            float distanceFromOriginalPoint = Vector2.Distance(OriginalCardPosition, touchPos);
+            isZoomed = false;
+            if (distanceFromOriginalPoint <= _offset)
+            {
+                CardUIHandler.Instance.ToUnZoomCardUI();
 
-            CardUIManager.Instance.CardUITouchedReleased(_cardInputHandler.ThisCardUI);
-            _cardInputHandler.ThisCardUI.CardTranslations.CancelAllTweens();
+            }
+            //else
+            //{
+            //    CardUIManager.Instance.CardUITouchedReleased(_cardInputHandler.ThisCardUI);
+            //    _cardInputHandler.ThisCardUI.CardTranslations.CancelAllTweens();
+            //}
 
         }
   
@@ -322,13 +339,21 @@ namespace Battles.UI.CardUIAttributes
 
         public override void OnHoldTouch(in Vector2 touchPos, in Vector2 startPos)
         {
-
+            CardUIHandler.Instance.DragCard(this._cardInputHandler.ThisCardUI, touchPos);
+          //  if (IsAboveTheTouchLine(touchPos))
+            
         }
         public override void OnReleaseTouch(in Vector2 touchPos)
         {
-
-            CardUIManager.Instance.CardUITouchedReleased(_cardInputHandler.ThisCardUI);
-            _cardInputHandler.ThisCardUI.CardTranslations.CancelAllTweens();
+            if (IsAboveTheTouchLine(touchPos))
+            {
+                CardUIHandler.Instance.TryExecuteCardUI(_cardInputHandler.ThisCardUI);
+            }
+            else
+            {
+                CardUIHandler.Instance.CardUITouchedReleased(_cardInputHandler.ThisCardUI);
+                _cardInputHandler.ThisCardUI.CardTranslations.CancelAllTweens();
+            }
 
         }
 

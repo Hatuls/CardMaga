@@ -16,6 +16,7 @@ namespace Cards
         private int _cardBattleID = 0;
         private int _currentLevel =0;
         private bool toExhaust = false;
+        public bool IsExhausted { get => toExhaust; }
         public int StaminaCost { get; private set; }
         CardTypeData _cardTypeData;
         public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }

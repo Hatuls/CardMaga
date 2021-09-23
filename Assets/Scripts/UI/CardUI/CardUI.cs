@@ -140,7 +140,7 @@ public class CardAnimator
 
     public void ScaleAnimation(bool value)
     {
-        _animator.SetBool("ToZoom", value);
+        _animator.SetBool(AnimatorParameters.ZoomAnimation, value);
     }
 
 

@@ -11,7 +11,7 @@ namespace Battles.UI.CardUIAttributes
         {
             _rectTransform = rectTransform;
         }
-        public void MoveCard(bool withTween, Vector3 moveTo, float seconds, bool? setActiveLater = null)
+        public void MoveCard(bool withTween, Vector3 moveTo, float seconds, bool? setActiveLater = null, System.Action Act = null)
         {
             if (_rectTransform == null)
             {
@@ -25,13 +25,13 @@ namespace Battles.UI.CardUIAttributes
                 {
                     MoveCardX(moveTo.x, seconds);
                     MoveCardY(moveTo.y, seconds);
-                    MoveCardZ(moveTo.z, seconds);
+                    MoveCardZ(moveTo.z, seconds, Act);
                 }
                 else
                 {
                     MoveCardX(moveTo.x, seconds);
                     MoveCardY(moveTo.y, seconds,true);
-                    MoveCardZ(moveTo.z, seconds);
+                    MoveCardZ(moveTo.z, seconds, Act);
                 }       
                
             }
@@ -42,8 +42,11 @@ namespace Battles.UI.CardUIAttributes
         {
             LeanTween.cancelAll(true);
         }
-        public void MoveCardZ(float destination, float time)
+        public void MoveCardZ(float destination, float time, System.Action act = null)
         {
+            if (act != null)
+                        LeanTween.moveZ(_rectTransform, destination, time).setOnComplete(act);
+                        else
             LeanTween.moveZ(_rectTransform, destination, time);
         }
         public void MoveCardX(float destination, float time, bool? SetActiveLater= null ,LeanTweenType type = LeanTweenType.notUsed)

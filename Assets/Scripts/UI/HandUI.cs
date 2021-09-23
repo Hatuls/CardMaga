@@ -8,11 +8,12 @@ namespace Battles.UI
         CardUISO _cardUISO;
         CardUI[] _handCards;
         Vector2 _middleHandPos;
-
+        public static HandUI Instance;
 
         public HandUI(CardUI[] handCards, Vector2 middlePos,  CardUISO cardUISO)
         {
-            _handCards = handCards;
+            Instance = this;
+           _handCards = handCards;
             _middleHandPos = middlePos;
             _cardUISO = cardUISO;
             AlignCards();
@@ -24,7 +25,10 @@ namespace Battles.UI
             for (int i = 0; i < _handCards.Length; i++)
             {
                 SetHandCardPosition(GetHandCardUIFromIndex(i), i);
-                _handCards[i].Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Hand;
+               _handCards[i].Inputs.InHandInputState.Index = i;
+               _handCards[i].Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Hand;
+                _handCards[i].Inputs.InHandInputState.HasValue = false;
+                _handCards[i].gameObject.SetActive(false);
             }
           
         }
@@ -34,7 +38,12 @@ namespace Battles.UI
                 return _handCards[index];
             return null;
         }
-
+        public int GetCardIndex(CardUI card)
+        {
+            if (card == null)
+                return -1;
+            return card.Inputs.InHandInputState.Index;
+        }
         private void SetHandCardPosition(CardUI cardUI, int index)
         {
             Vector2 startPos = _middleHandPos;
@@ -66,6 +75,14 @@ namespace Battles.UI
             }
         }
 
+        internal void DiscardHand()
+        {
+            for (int i = 0; i < _handCards.Length; i++)
+            {
+                _handCards[i].Inputs.InHandInputState.HasValue = false;
+                _handCards[i].gameObject.SetActive(false);
+            }
+        }
     }
 
 

@@ -42,8 +42,7 @@ namespace Battles
                 // not enough stamina 
 
                 _playSound?.Raise(SoundsNameEnum.Reject);
-                CardUIManager.Instance.ZoomCard(null);
-                CardUIManager.Instance.SelectCardUI(null);
+
                 return false;
             }
 
