@@ -1,8 +1,6 @@
 ﻿using Cards;
 namespace Characters.Stats
 {
-
-
     public class StaminaHandler
     {
         #region StaminaUI
@@ -17,6 +15,7 @@ namespace Characters.Stats
             {
                 if (_instance == null)
                     _instance = new StaminaHandler();
+
                 return _instance;
             }
         }
@@ -30,7 +29,7 @@ namespace Characters.Stats
                 StatsHandler.GetInstance.GetCharacterStats(false).StartStamina
                 );
         }
-
+        #region Character Stamina
         public CharacterStamina _playerStamina;
         public CharacterStamina _opponentStamina;
         public class CharacterStamina
@@ -69,6 +68,15 @@ namespace Characters.Stats
             }
         }
 
+
+        #endregion
+
+        private CharacterStamina GetCharacterStamina(bool playersStamina)
+           => playersStamina ? _playerStamina : _opponentStamina;
+
+
+
+        #region Public Methods
         public void ResetStamina(bool isPlayer)
         {
             var charactersStamina = GetCharacterStamina(isPlayer);
@@ -77,21 +85,8 @@ namespace Characters.Stats
             charactersStamina.ResetStaminaAddition();
 
             if (isPlayer)
-               _staminaUI?.SetText(charactersStamina.Stamina);
+                _staminaUI?.SetText(charactersStamina.Stamina);
         }
-
-
-        private CharacterStamina GetCharacterStamina(bool playersStamina)
-           => playersStamina ? _playerStamina : _opponentStamina;
-
-
-
-
-       
-
-
-        #region Public Methods
-
         public bool IsEnoughStamina(bool isPlayer,Card card)
          =>  GetCharacterStamina(isPlayer).Stamina >= card.StaminaCost;
        

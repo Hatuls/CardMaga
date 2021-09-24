@@ -36,12 +36,14 @@ namespace Battles
         }
         public bool TryExecuteCard(bool isPlayer, Cards.Card card)
         {
+            if (card == null)
+                return false;
 
             if (StaminaHandler.Instance.IsEnoughStamina(isPlayer,card) == false)
             {
                 // not enough stamina 
-
-                _playSound?.Raise(SoundsNameEnum.Reject);
+                if (isPlayer)
+                 _playSound?.Raise(SoundsNameEnum.Reject);
 
                 return false;
             }
@@ -49,15 +51,16 @@ namespace Battles
             // execute card
             StaminaHandler.Instance.ReduceStamina(isPlayer,card);
 
-            CardUIManager.Instance.LockHandCards(false);
+            if (isPlayer)
+               CardUIManager.Instance.LockHandCards(false);
 
 
-            DeckManager.Instance.TransferCard(true, DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
+            DeckManager.Instance.TransferCard(isPlayer, DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
 
 
-            RegisterCard(card);
+            RegisterCard(card, isPlayer);
 
-            DeckManager.AddToCraftingSlot(true, card);
+            DeckManager.AddToCraftingSlot(isPlayer, card);
 
             
             return true;
@@ -139,7 +142,6 @@ namespace Battles
 
 
                             case KeywordTypeEnum.Stamina:
-                                
                             case KeywordTypeEnum.Attack:
                             case KeywordTypeEnum.Bleed:
                             case KeywordTypeEnum.MaxHealth:
@@ -169,8 +171,8 @@ namespace Battles
         {
             if (current == null || current.CardKeywords == null || current.CardKeywords.Length == 0 || BattleManager.isGameEnded)
                 return;
-            bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
 
+            bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
 
             for (int j = 0; j < current.CardKeywords.Length; j++)
                 KeywordManager.Instance.ActivateKeyword(currentTurn, current.CardKeywords[j]);
@@ -209,6 +211,7 @@ namespace Battles
                    {  
                        if (_cardsQueue.Count == 0)
                         return;
+
                        if (Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn)
                            _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
                        else if (Turns.TurnHandler.CurrentState == Turns.TurnState.EnemyTurn)
@@ -224,7 +227,7 @@ namespace Battles
             //  SortKeywords();
 
         }
-        public void SortKeywords()
+        private void SortKeywords()
         {
             //clearing the list
             // registering the keywords

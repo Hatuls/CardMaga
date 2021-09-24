@@ -40,7 +40,7 @@ public class CraftingSlotUI : MonoBehaviour
     #endregion
     private void Start()
     {
-        slotPos = GetIconHolderRectTransform.anchoredPosition3D;
+        slotPos = GetIconHolderRectTransform.localPosition;
     }
 
    public void InitPlaceHolder( Cards.CardTypeData cardType)
@@ -64,31 +64,13 @@ public class CraftingSlotUI : MonoBehaviour
             _glowImage.gameObject.SetActive(toActivate);
         }
     }
-    void SetDecorImage(Sprite img)
-    {
-        if (img != null)
-        {
-            _decorImage.sprite = img;
-        }
-    }
-    void SetBackgroundImage(Sprite img)
-    {
-        if (img != null)
-        {
-            _backgroundImage.sprite = img;
-        }
-    }
+
     void SetIconImage(Sprite img)
     {
         if (img != null)
-        {
             _iconImage.sprite = img;
-        }
     }
-    public void SetGlowImageColor()
-    {
-     //   _glowImage.color = _craftingUIPalette.SlotGlowColor;
-    }
+  
     public void ResetSlotUI()
     {
 
@@ -136,14 +118,11 @@ public class CraftingSlotUI : MonoBehaviour
         //v3.y = moveTo.anchoredPosition3D.y;
         //v3.x = 0;
         //v3.z = 0;
-        GetIconHolderRectTransform.anchoredPosition3D = v3;
+        GetIconHolderRectTransform.localPosition = v3;
     }
     public void MoveDown(float time) =>  LeanTween.move(GetIconHolderRectTransform, slotPos, time);
     public void Appear(float time ,Cards.CardTypeEnum type )
     {
-
-
-
 
         LeanTween.alpha(_iconImage.rectTransform, 0, 0.001f);
         LeanTween.alpha(_decorImage.rectTransform, 0, 0.001f);

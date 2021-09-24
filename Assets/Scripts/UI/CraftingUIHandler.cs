@@ -12,19 +12,13 @@ namespace Battles.UI
         //set slots UI by Data and index
         //arr of crafting slot UI
         #region Fields
-
-
+        int EnterToLeftHash = Animator.StringToHash("EnterToLeft");
+        Animator _animator;
          CraftingSlotUI[] _CraftingSlotsUIArr;
          RectTransform _firstSlotTransform;
          float _leanTweenTime;
 
          float _offsetPos =1 ;
-
-
-         GameObject _buttonGlow;
-
-         TextMeshProUGUI _buttonText;
-
 
         bool isPlayersCrafting;
         #region Properties
@@ -33,13 +27,12 @@ namespace Battles.UI
 
 
 
-        public CraftingUIHandler(CraftingSlotUI[] _CraftingSlotsUIArr, RectTransform _firstSlotTransform, float _leanTweenTime,bool isPlayersCrafting, GameObject _buttonGlow = null, TextMeshProUGUI _buttonText = null)
+        public CraftingUIHandler(CraftingSlotUI[] _CraftingSlotsUIArr,Animator _anim ,RectTransform _firstSlotTransform, float _leanTweenTime,bool isPlayersCrafting)
         {
+            this._animator = _anim;
             this._CraftingSlotsUIArr = _CraftingSlotsUIArr;
             this._firstSlotTransform = _firstSlotTransform;
             this._leanTweenTime = _leanTweenTime;
-            this._buttonGlow = _buttonGlow;
-            this._buttonText = _buttonText;
             this.isPlayersCrafting = isPlayersCrafting;
             ResetAllSlots();
         }
@@ -56,12 +49,6 @@ namespace Battles.UI
             }
             LeanTween.alpha(_CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
 
-            if (_buttonGlow!= null && _buttonGlow.activeSelf != false)
-            {
-                _buttonGlow?.SetActive(false);
-                _buttonText.text = "Clear";
-            }
-            
             
         }
 
@@ -71,12 +58,6 @@ namespace Battles.UI
             {
                 if (_CraftingSlotsUIArr[i] != null && DeckManager.GetCraftingSlots(true).GetDeck[i]!= null)
                     _CraftingSlotsUIArr[i].ActivateGlow(true);
-            }
-
-            if (_buttonGlow != null && _buttonGlow.activeSelf != true)
-            {
-                _buttonGlow?.SetActive(true);
-                _buttonText.text = "Craft";
             }
         }
         #endregion
@@ -107,19 +88,21 @@ namespace Battles.UI
             }
             _CraftingSlotsUIArr[index].ResetSlotUI();
         }
-        public void ChangeSlotsPos(Cards.Card[] cards )
+        public void ChangeSlotsPos(Cards.Card[] cards , bool isFull)
         {
-            // check thread possability for color check
-
+         
 
             var type = cards[0].CardSO.CardType.CardType;
 
             _CraftingSlotsUIArr[0].Appear(_leanTweenTime, type);
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
-                _CraftingSlotsUIArr[i].MovePlaceHolderSlot(ref isPlayersCrafting, GetRectTransform(i), _CraftingSlotsUIArr.Length - 1 == i? 0: _offsetPos);
+                _CraftingSlotsUIArr[i].MovePlaceHolderSlot(ref isPlayersCrafting, GetRectTransform(i), _CraftingSlotsUIArr.Length - 1 == i ? 0 : _offsetPos);
                 _CraftingSlotsUIArr[i].MoveDown(_leanTweenTime);
             }
+
+
+
             if (cards[_CraftingSlotsUIArr.Length - 1] != null)
             {
 
@@ -143,8 +126,6 @@ namespace Battles.UI
                 ResetPlaceHolderUI(index);
                 return;
             }
-
-            
             _CraftingSlotsUIArr[index].InitPlaceHolder(cardCache.CardSO.CardType);
         }
 

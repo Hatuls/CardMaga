@@ -10,13 +10,13 @@ namespace Battles.UI
 
         [SerializeField] CraftingSlotUI[] _playerCraftingSlotsUI;
         [SerializeField] RectTransform _playersfirstSlotTransform;
+        [SerializeField] Animator _playerAnimator;
 
         [SerializeField] CraftingSlotUI[] _opponentCraftingSlotsUI;
         [SerializeField] RectTransform _opponentfirstSlotTransform;
+        [SerializeField] Animator _opponentAnimator;
 
-        [SerializeField]  GameObject _buttonGlow;
 
-        [SerializeField] TextMeshProUGUI _buttonText;
 
         [SerializeField] float leanTweenTime;
 
@@ -33,12 +33,12 @@ namespace Battles.UI
         {
             if (_playerCraftingUIHandler == null)
             {
-                _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _playersfirstSlotTransform, leanTweenTime, true, _buttonGlow, _buttonText);
+                _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _playerAnimator, _playersfirstSlotTransform, leanTweenTime, true );
                 _playerCraftingUIHandler.ResetAllSlots();
             }
             if (_opponentCraftingUIHandler == null)
             {
-                _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI, _opponentfirstSlotTransform, leanTweenTime, false);
+                _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI, _opponentAnimator, _opponentfirstSlotTransform, leanTweenTime, false);
                 _opponentCraftingUIHandler.ResetAllSlots();
             }
         }

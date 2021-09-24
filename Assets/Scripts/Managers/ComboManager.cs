@@ -128,6 +128,7 @@ namespace Combo
         public static void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId, () => DetectRecipe(), () => EndDetection()));
         private static void EndDetection()
         {
+            // need to change the logic!
             bool isPlayer = Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn;
 
             var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);

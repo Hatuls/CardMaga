@@ -8,8 +8,6 @@ namespace Cards
         // Products are equal if their names and product numbers are equal.
         public bool Equals(CardTypeData x, CardTypeData y)
         {
-
-
             //Check whether the compared objects reference the same data.
             if (Object.ReferenceEquals(x, y))
                 return true;

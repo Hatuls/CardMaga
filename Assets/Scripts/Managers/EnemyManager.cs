@@ -25,13 +25,9 @@ namespace Battles
         #region Public Methods
         public override void Init()
         {
-       
+           
         }
-        //public void SetEnemy(CharacterSO _character)
-        //{
-        //    if (EnemyAI != null && _character != null)
-        //        EnemyAI.AssignData(_character);
-        //}
+
 
         public void RestartBattle()
         {
@@ -72,42 +68,39 @@ namespace Battles
 
         }
 
-        //public Opponents GetEnemyAction {
-        //    get
-        //    {
-        //        if (EnemyAI == null)
-        //        {
-        //            Debug.LogError("Trying To Get Enemy Before Initializing the Enemy Manager First!");
-        //        }
 
-        //        return  EnemyAI;
-        //    }
-        //}
-
-
-        public System.Collections.IEnumerator AssignNextCard()
+        public void CalculateEnemyMoves()
         {
-            enemyAction = DeckManager.Instance.GetCardFromDeck(false,0, DeckEnum.Hand);
-            Debug.Log("<a>Enemy Next Move</a>: Is going to be: " + enemyAction.CardSO.CardName.ToString() +
-            "\n This attack is going to use " + enemyAction.CardSO.BodyPartEnum.ToString() + "\n" +
-            "And Do " + enemyAction.CardSO.CardTypeEnum.ToString() + " with the amount of " + enemyAction.CardSO.CardSOKeywords[0].GetAmountToApply);
+            //ThreadsHandler.ThreadHandler.StartThread(new ThreadsHandler.ThreadList(ThreadsHandler.ThreadHandler.GetNewID,))
 
-            yield return null;
+        }
+
+        private void SortEnemyCards()
+        {
+            var EnemyHand = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
+            System.Array.Sort(EnemyHand);
+            for (int i = 0; i < EnemyHand.Length; i++)
+            {
+
+            }
         }
 
         public System.Collections.IEnumerator PlayEnemyTurn()
         {
-
-            yield return AssignNextCard();
-            if (enemyAction == null)
-                yield break;
-
             Debug.Log("Enemy Attack!");
-            
-           // DeckManager.AddToCraftingSlot(false, enemyAction);
-            CardExecutionManager.Instance.RegisterCard(enemyAction, false);
-            DeckManager.AddToCraftingSlot(false, enemyAction);
-            DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Disposal, enemyAction);
+
+   
+            do
+            {   
+                yield return null;
+                enemyAction = DeckManager.Instance.GetCardFromDeck(false,0, DeckEnum.Hand);
+           
+                 yield return new WaitForSeconds(1f);
+
+
+            } while (CardExecutionManager.Instance.TryExecuteCard(false, enemyAction));
+
+
 
             yield return new WaitForSeconds(1f);
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
