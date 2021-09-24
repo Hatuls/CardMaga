@@ -94,7 +94,10 @@ namespace Battles
             {   
                 yield return null;
                 enemyAction = DeckManager.Instance.GetCardFromDeck(false,0, DeckEnum.Hand);
-           
+
+                if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
+                 yield return new WaitForSeconds(.3f);
+                else
                  yield return new WaitForSeconds(1f);
 
 
