@@ -1,51 +1,115 @@
 ﻿using Cards;
-
 namespace Characters.Stats
 {
-    public static class StaminaHandler
+
+
+    public class StaminaHandler
     {
-        #region Fields
-        private static int _stamina;
-
-        private static int _extraStamina = 0;
-        #endregion
-
-        #region Properties
-        public static int Stamina => _stamina;
-
-
+        #region StaminaUI
         private static StaminaUI _staminaUI;
         public static StaminaUI StaminaUI { set => _staminaUI = value; }
         #endregion
 
+        private static StaminaHandler _instance;
+        public static StaminaHandler Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new StaminaHandler();
+                return _instance;
+            }
+        }
+        public StaminaHandler()
+        {
+            _playerStamina = new CharacterStamina(
+                StatsHandler.GetInstance.GetCharacterStats(true).StartStamina
+                );
+
+            _opponentStamina = new CharacterStamina(
+                StatsHandler.GetInstance.GetCharacterStats(false).StartStamina
+                );
+        }
+
+        public CharacterStamina _playerStamina;
+        public CharacterStamina _opponentStamina;
+        public class CharacterStamina
+        {
+            public int Stamina { get; set; }
+            public int StartStamina { get; private set; }
+            public int StaminaShards { get;private set; }
+            public int StaminaAddition { get; set; }
+
+
+            public void StartTurn() => Stamina = StartStamina + StaminaAddition;
+
+            public void AddStaminaAddition(int addition)
+            => StaminaAddition += addition;
+            
+
+            public void ResetStaminaAddition() => StaminaAddition = 0;
+
+            public void AddStaminaShard(int shards)
+            {
+                StaminaShards += shards;
+
+                if (StaminaShards/ StartStamina >0)
+                {
+                    StartStamina++;
+                    StaminaShards = 0;
+                }
+            }
+
+            public CharacterStamina(int startAmount)
+            {
+                StaminaAddition = 0;
+                StartStamina = startAmount;
+                Stamina = startAmount;
+                StaminaShards = 0;
+            }
+        }
+
+        public void ResetStamina(bool isPlayer)
+        {
+            var charactersStamina = GetCharacterStamina(isPlayer);
+
+            charactersStamina.StartTurn();
+            charactersStamina.ResetStaminaAddition();
+
+            if (isPlayer)
+               _staminaUI?.SetText(charactersStamina.Stamina);
+        }
+
+
+        private CharacterStamina GetCharacterStamina(bool playersStamina)
+           => playersStamina ? _playerStamina : _opponentStamina;
+
+
+
+
+       
+
 
         #region Public Methods
 
-        public static void ResetStamina()
+        public bool IsEnoughStamina(bool isPlayer,Card card)
+         =>  GetCharacterStamina(isPlayer).Stamina >= card.StaminaCost;
+       
+        public  void ReduceStamina(bool isPlayer ,Card card)
         {
-            _stamina = StatsHandler.GetInstance.GetCharacterStats(true).StartStamina + _extraStamina;
+            var character = GetCharacterStamina(isPlayer);
+            character.Stamina -= card.StaminaCost;
 
-            _staminaUI?.SetText(_stamina);
-            ResetExtraStamina();
+            if(isPlayer)
+            _staminaUI?.SetText(character.Stamina);
         }
 
-        public static bool IsEnoughStamina(Card card)
-        => Stamina >= card.StaminaCost;
-
-        public static void ResetExtraStamina()
+        public void AddStamina(bool isPlayer, int amount)
         {
-         _extraStamina = 0;
-        }
-        public static void ReduceStamina(Card card)
-        {
-         _stamina -= card.StaminaCost;
-            _staminaUI?.SetText(_stamina);
-        }
-
-        public static void AddStamina(int amount)
-        {
-            _stamina += amount;
-            _staminaUI?.SetText(_stamina);
+            var character = GetCharacterStamina(isPlayer);
+            character.Stamina += amount;
+            if(isPlayer)
+            _staminaUI?.SetText(character.Stamina);
         }
         #endregion
     }

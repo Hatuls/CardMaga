@@ -53,26 +53,6 @@ namespace Keywords
             }
 
 
-            //if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.KeywordSO.GetKeywordType, out KeywordAbst keywordEffect))
-            //{
-            //    switch (keyword.GetTarget)
-            //    {
-
-                //        case TargetEnum.MySelf:
-                //            keywordEffect.ProcessOnTarget( false, true,ref keyword);
-                //            break;
-                //        case TargetEnum.All:
-                //            keywordEffect.ProcessOnTarget(true, false, ref keyword);
-                //            keywordEffect.ProcessOnTarget(false, true, ref keyword);
-                //            break;
-                //        case TargetEnum.Opponent:
-                //            keywordEffect.ProcessOnTarget(true, false, ref keyword);
-                //            break;
-
-                //    }
-                //}
-                //else
-                //    Debug.LogError("KeywordManager: Type Of keyword was not found in dictionary!");
         }
 
 
@@ -112,6 +92,7 @@ namespace Keywords
                 {KeywordTypeEnum.Defense , new DefenseKeyword() },
                 {KeywordTypeEnum.Strength , new StrengthKeyword() },
                 {KeywordTypeEnum.Bleed , new BleedKeyword() },
+                {KeywordTypeEnum.Stamina, new StaminaKeyword()}
             };
             }
             if (_keywordDict == null)
@@ -130,7 +111,7 @@ namespace Keywords
         Strength =4,
         Bleed = 5,
         MaxHealth =6,
-        
+        Stamina = 23,
     };
 
 }

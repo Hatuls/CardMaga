@@ -135,10 +135,17 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+            bool isPlayerTurn = false;
             base.PlayTurn();
-            yield return KeywordManager.Instance.OnStartTurnKeywords(false);
-            Deck.DeckManager.Instance.DrawHand(false, StatsHandler.GetInstance.GetCharacterStats(false).DrawCardsAmount);
-            //StaminaHandler.ResetStamina();
+            yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
+
+            Deck.DeckManager.Instance.DrawHand(
+                isPlayerTurn,
+                StatsHandler.GetInstance.GetCharacterStats(isPlayerTurn).DrawCardsAmount
+                ); 
+
+            StaminaHandler.Instance.ResetStamina(isPlayerTurn);
+
             Debug.Log("Enemy Drawing Cards!");
             yield return new WaitForSeconds(0.1f);
             MoveToNextTurnState();
@@ -212,7 +219,7 @@ namespace Battles.Turns
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(true);
             Deck.DeckManager.Instance.DrawHand(true,StatsHandler.GetInstance.GetCharacterStats(true).DrawCardsAmount);
-            StaminaHandler.ResetStamina();
+            StaminaHandler.Instance.ResetStamina(true) ;
             Debug.Log("Player Drawing Cards!");
             MoveToNextTurnState();
         }

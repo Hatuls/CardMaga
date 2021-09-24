@@ -346,21 +346,20 @@ public class CSVToCardSO
     private static Keywords.KeywordSO KeywordSOFromIndex(int KeywordSoIndex)
     {
         // checking if its valid enum and then check if the keyword so that were loadded has this enum in it
-        
-        if (KeywordSoIndex >= 0 && KeywordSoIndex < Enum.GetNames(typeof(Keywords.KeywordTypeEnum)).Length)
+
+
+        if ((Keywords.KeywordTypeEnum)KeywordSoIndex == Keywords.KeywordTypeEnum.None)
+            Debug.LogError("Keyword Type Is not In Range of KeywordTypeEnum");
+
+        if (_keywordsSO.Length == 0)
+            Debug.LogError("Keyword So Was Not Loaded From Assets/Resources/KeywordsSO");
+
+        for (int j = 0; j < _keywordsSO.Length; j++)
         {
-            if ((Keywords.KeywordTypeEnum)KeywordSoIndex == Keywords.KeywordTypeEnum.None)
-                Debug.LogError("Keyword Type Is not In Range of KeywordTypeEnum");
-
-            if (_keywordsSO.Length == 0)
-                Debug.LogError("Keyword So Was Not Loaded From Assets/Resources/KeywordsSO");
-
-            for (int j = 0; j < _keywordsSO.Length; j++)
-            {
-                if (_keywordsSO[j].GetKeywordType == (Keywords.KeywordTypeEnum)KeywordSoIndex)
-                    return _keywordsSO[j];
-            }
+            if (_keywordsSO[j].GetKeywordType == (Keywords.KeywordTypeEnum)KeywordSoIndex)
+                return _keywordsSO[j];
         }
+
 
         return null;
     }

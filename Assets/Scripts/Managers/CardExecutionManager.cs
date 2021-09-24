@@ -34,10 +34,10 @@ namespace Battles
             _cardsQueue= new Queue<Cards.Card>();
             _keywordData = new List<KeywordData>();
         }
-        public bool TryExecuteCard(Cards.Card card)
+        public bool TryExecuteCard(bool isPlayer, Cards.Card card)
         {
 
-            if (StaminaHandler.IsEnoughStamina(card) == false)
+            if (StaminaHandler.Instance.IsEnoughStamina(isPlayer,card) == false)
             {
                 // not enough stamina 
 
@@ -47,7 +47,7 @@ namespace Battles
             }
 
             // execute card
-            StaminaHandler.ReduceStamina(card);
+            StaminaHandler.Instance.ReduceStamina(isPlayer,card);
 
             CardUIManager.Instance.LockHandCards(false);
 
@@ -66,7 +66,7 @@ namespace Battles
         public bool TryExecuteCard(CardUI cardUI)
         {
             Cards.Card card = cardUI.GFX.GetCardReference;
-            bool isExecuted = TryExecuteCard(card);
+            bool isExecuted = TryExecuteCard(true,card);
             if (isExecuted)
             {
             // reset the holding card
@@ -138,6 +138,8 @@ namespace Battles
                                 break;
 
 
+                            case KeywordTypeEnum.Stamina:
+                                
                             case KeywordTypeEnum.Attack:
                             case KeywordTypeEnum.Bleed:
                             case KeywordTypeEnum.MaxHealth:

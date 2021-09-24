@@ -187,16 +187,18 @@ namespace Battles.UI
             for (int i = 0; i < cardData.Length; i++)
             {
                 var card = _handUI.GetHandCardUIFromIndex(i);
-                var InHandInputState = card.Inputs.InHandInputState;
-                if (InHandInputState.HasValue == false)
+                if (card != null)
                 {
+                    var InHandInputState = card.Inputs.InHandInputState;
+                    if (InHandInputState.HasValue == false)
+                    {
 
-                    card.gameObject.SetActive(true);
-                    InHandInputState.HasValue = true;
-                    AssignDataToCardUI(card, cardData[i]);
+                        card.gameObject.SetActive(true);
+                        InHandInputState.HasValue = true;
+                        AssignDataToCardUI(card, cardData[i]);
+                    }
                 }
             }
-
 
             //Vector2 deckPos = GetDeckPosition(fromDeck);
             //CardUI[] cards = new CardUI[cardData.Length];
