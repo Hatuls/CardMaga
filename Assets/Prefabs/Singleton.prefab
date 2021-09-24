@@ -54,10 +54,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd56a49f43984449aab1d6d83a1f2f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxFPS: 30
+  _maxFPS: 60
   _panel: {fileID: 11400000, guid: 484541ddba1d383449cde73e74955828, type: 2}
   _art:
-    ArtSO: {fileID: 0}
+    ArtSO: {fileID: 11400000, guid: 484541ddba1d383449cde73e74955828, type: 2}
 --- !u!82 &1076432509
 AudioSource:
   m_ObjectHideFlags: 0
@@ -197,8 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64d641d53819b2a4a987d915556941f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _charactersDictionary: {fileID: 11400000, guid: c3b228c667582594eaf1a403fc8a9297,
-    type: 2}
+  _BattleInformation: {fileID: 11400000, guid: c3b228c667582594eaf1a403fc8a9297, type: 2}
   _playSound: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa, type: 2}
 --- !u!1 &2806236739573109155
 GameObject:
@@ -246,7 +245,7 @@ MonoBehaviour:
   _deckIcon: {fileID: 0}
   _disposalIcon: {fileID: 0}
   _playerMaxHandSize: 10
-  _playerStartingHandSize: 5
+  _playerStartingHandSize: 4
 --- !u!1 &4136077259455129387
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,8 +289,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715980c7c9c625b4f82573e4a96c530f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cardSOCollections: {fileID: 11400000, guid: cfd59924d692a524393d05958e68bcfd, type: 2}
-  _amountOfCardsToStartCache: 10
 --- !u!1 &4147605569478178821
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +398,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8513023217717614139}
-        m_MethodName: ExecuteCard
+        m_MethodName: OnKeywordEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -559,7 +556,7 @@ GameObject:
   - component: {fileID: 5668709163757501658}
   - component: {fileID: 1511457884063859248}
   m_Layer: 0
-  m_Name: Relics
+  m_Name: Combo Recipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,7 +588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d4f06ddf8dcfd049af82a33878db572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerKnownRecipe: {fileID: 11400000, guid: 3624130992cc76241930274ac5acc6f6, type: 2}
   _cardRecipeDetected: {fileID: 0}
   _playSound: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa, type: 2}
   _successCrafting: {fileID: 11400000, guid: 01936ff9a3ed66e47b1d9e213f25f55e, type: 2}
@@ -638,18 +634,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24c5b582a21854a4581869d812f1be65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _opponent:
-    _difficultyLevel: 0
-    _name: 1
-    _enemyStats:
-      _maxHealth: 0
-      _health: 0
-      _defense: 0
-      _gold: 0
-      _strengthPoint: 0
-      _bleedPoints: 0
-      _cardDraw: 0
-      _maxStamina: 0
+  _characterStats:
+    _maxHealth: 0
+    _health: 0
+    _defense: 0
+    _gold: 0
+    _strengthPoint: 0
+    _bleedPoints: 0
+    _cardDraw: 0
+    _startStamina: 0
+  _myCharacter: {fileID: 0}
+  _recipes: []
   _enemyAnimatorController: {fileID: 0}
 --- !u!1 &6096008466143656032
 GameObject:
@@ -752,7 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebff4e7f2aa32d4aa82a0da132088ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerStat:
+  _characterStats:
     _maxHealth: 0
     _health: 0
     _defense: 0
@@ -760,9 +755,10 @@ MonoBehaviour:
     _strengthPoint: 0
     _bleedPoints: 0
     _cardDraw: 0
-    _maxStamina: 0
+    _startStamina: 0
+  _myCharacter: {fileID: 0}
+  _recipes: []
   _playerAnimatorController: {fileID: 0}
-  _playerCards: {fileID: 11400000, guid: 111a0707846489347b78a4502b16f493, type: 2}
 --- !u!1001 &560829603274829597
 PrefabInstance:
   m_ObjectHideFlags: 0
