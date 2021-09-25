@@ -89,21 +89,31 @@ namespace Battles
         {
             Debug.Log("Enemy Attack!");
 
-   
+            var staminaHandler = Characters.Stats.StaminaHandler.Instance; 
+            int indexCheck = -1;
+            bool noMoreCardsAvailable;
             do
-            {   
-                yield return null;
-                enemyAction = DeckManager.Instance.GetCardFromDeck(false,0, DeckEnum.Hand);
+            {
+                do
+                {
+                    indexCheck++;
+                    yield return null;
+                    enemyAction = DeckManager.Instance.GetCardFromDeck(false, indexCheck, DeckEnum.Hand);
+
+                    noMoreCardsAvailable = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand).Length - 1 <= indexCheck;
+
+
+                } while (!CardExecutionManager.Instance.TryExecuteCard(false, enemyAction));
 
                 if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
-                 yield return new WaitForSeconds(.3f);
+                    yield return new WaitForSeconds(.3f);
                 else
-                 yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(1f);
 
+                   indexCheck = -1;
+            } while (staminaHandler.HasStamina(false) && noMoreCardsAvailable == true) ;
 
-            } while (CardExecutionManager.Instance.TryExecuteCard(false, enemyAction));
-
-
+            
 
             yield return new WaitForSeconds(1f);
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
@@ -124,93 +134,5 @@ namespace Battles
 
     }
 
-    //[System.Serializable]
-    //public class Opponents
-    //{
-    //    #region Fields
-     
-    //    [SerializeField] CharacterDifficultyEnum _difficultyLevel;
-    //    [SerializeField] CharacterTypeEnum _name;
-    //    [SerializeField] Cards.Card[] _deck;
-    //    [SerializeField] Characters.Stats.CharacterStats _enemyStats;
-    //    [SerializeField] Cards.Card enemyAction;
-    //    int _cardAction;
-   
-    //    #endregion
-
-    //    public Opponents()
-    //    {
-
-    //    }
-    //    public Cards.Card GetEnemyAction => enemyAction;
-
-    //    #region Public Methods
-    //    public System.Collections.IEnumerator AssignNextCard()
-    //    {
-    //        enemyAction = GetOpponentCard;
-    //        Debug.Log("<a>Enemy Next Move</a>: Is going to be: " + enemyAction.CardSO.CardName.ToString() +
-    //        "\n This attack is going to use " + enemyAction.CardSO.BodyPartEnum.ToString() + "\n" +
-    //        "And Do " + enemyAction.CardSO.CardTypeEnum.ToString() + " with the amount of " + enemyAction.CardSO.CardSOKeywords[0].GetAmountToApply);
-
-    //        yield return new WaitForSeconds(.1f);
-    //    }
-
-    //    public System.Collections.IEnumerator PlayEnemyTurn()
-    //    {
-    //        if (enemyAction == null)
-    //            yield break;
-
-    //        Debug.Log("Enemy Attack!");
-    //        Deck.DeckManager.AddToCraftingSlot(false, enemyAction);
-    //        CardExecutionManager.Instance.RegisterCard(enemyAction, false);
-   
-
-    //        yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
-    //        EnemyManager.EnemyAnimatorController.ResetToStartingPosition();
-    //    }
-    //    public void AssignData(CharacterSO characterAbstSO)// enemySO. get struct stats from scriptable object
-    //    {
-    //        _cards = characterAbstSO.GetCharacterCards;
-    //        _enemyStats = characterAbstSO.CharacterStats;
-    //        _name = characterAbstSO.CharacterType;
-    //        _difficultyLevel = characterAbstSO.CharacterDiffciulty;
-    //        _cardAction = -1;
-    //        enemyAction = null;
-
-
-            
-
-
-    //        UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(false,_enemyStats.MaxHealth);
-    //        UI.StatsUIManager.GetInstance.InitHealthBar(false,_enemyStats.Health);
-
-    //        UI.StatsUIManager.GetInstance.UpdateShieldBar(false,_enemyStats.Shield);
-            
-    //    }
-    //    #endregion
-
-    //    #region Properties
-        
-    //    public ref Cards.Card[] GetCards => ref _cards;
-    //    public CharacterDifficultyEnum GetDifficulty => _difficultyLevel;
-    //    public CharacterTypeEnum GetOpponentName => _name;
-    //    public ref  Characters.Stats.CharacterStats GetCharacterStats
-    //    {
-    //        get { 
-    //            return ref _enemyStats;
-    //        }
-    //    }
-
-
-    //    public Cards.Card GetOpponentCard
-    //    {
-    //        get
-    //        {
-    //                _cardAction++;
-
-    //            return _cards[_cardAction % _cards.Length];
-    //        }
-    //    }
-    //    #endregion
-  //  }
+ 
 }

@@ -44,10 +44,9 @@ namespace Characters.Stats
 
             public void AddStaminaAddition(int addition)
             => StaminaAddition += addition;
-            
 
             public void ResetStaminaAddition() => StaminaAddition = 0;
-
+           
             public void AddStaminaShard(int shards)
             {
                 StaminaShards += shards;
@@ -89,7 +88,7 @@ namespace Characters.Stats
         }
         public bool IsEnoughStamina(bool isPlayer,Card card)
          =>  GetCharacterStamina(isPlayer).Stamina >= card.StaminaCost;
-       
+        public bool HasStamina(bool isPlayer) => GetCharacterStamina(isPlayer).Stamina > 0;
         public  void ReduceStamina(bool isPlayer ,Card card)
         {
             var character = GetCharacterStamina(isPlayer);

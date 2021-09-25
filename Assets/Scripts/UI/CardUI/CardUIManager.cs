@@ -31,7 +31,7 @@ namespace Battles.UI
         [Tooltip("Exhaust Card position")]
         [SerializeField] RectTransform _exhaustDeckPosition;
 
-        [Tooltip("Exhaust Card position")]
+  
         [SerializeField] RectTransform _craftingBtnPosition;
 
 
