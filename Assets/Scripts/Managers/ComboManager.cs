@@ -36,6 +36,8 @@ namespace Combo
             }
         }
 
+        public  static bool FoundCombo { get; internal set; }
+
 
         #endregion
 
@@ -44,49 +46,13 @@ namespace Combo
             threadId = ThreadHandler.GetNewID;
             
         }
-        void CreateCard()
-        {
-
-            Debug.Log(_cardRecipeDetected);
-
-            Debug.Log(_cardRecipeDetected?.ComboName);
-
-            if (_cardRecipeDetected != null)
-            {
-                //create card
-                _successCrafting?.Raise();
-
-                Card crafted = Managers.CardManager.Instance.CreateCard(_cardRecipeDetected.CraftedCard);
-                //   BattleUiManager.Instance.SetCardPosition(crafted);
-                DeckManager.Instance.AddCardToDeck(true, crafted, _cardRecipeDetected.GoToDeckAfterCrafting);
-                VFXManager.Instance.PlayParticle(true, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
-                _playSound?.Raise(SoundsNameEnum.SuccessfullForge);
-                DeckManager.GetCraftingSlots(true).ResetDeck();
-            }
-            else
-            {
-                if (DeckManager.GetCraftingSlots(true).GetAmountOfFilledSlots <= 0)
-                {
-
-                    _playSound?.Raise(SoundsNameEnum.Reject);
-                    //reject request for forging
-                    return;
-                }
-                else
-                {
-                    _playSound?.Raise(SoundsNameEnum.BurningSound);
-                }
-            }
-
-
-
-            _cardRecipeDetected = null;
-        }
+        
         public void TryForge(bool isPlayer)
         {
 
             if (_cardRecipeDetected != null)
             {
+            
                 var craftedCard = Managers.CardManager.Instance.CreateCard(_cardRecipeDetected.CraftedCard);
                 _playSound?.Raise(SoundsNameEnum.SuccessfullForge);
                 _successCrafting?.Raise();
@@ -96,7 +62,18 @@ namespace Combo
                     case DeckEnum.Hand:
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Disposal:
-                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, _cardRecipeDetected.GoToDeckAfterCrafting);
+                        var gotolocation = _cardRecipeDetected.GoToDeckAfterCrafting;
+                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, gotolocation);
+
+                        if (isPlayer)
+                        {
+                            if (gotolocation == DeckEnum.Hand)
+                                CardUIManager.Instance.CraftCardUI(craftedCard, gotolocation);
+                            else
+                                DeckManager.Instance.DrawHand(true, 1);
+                        }
+
+                      
                         break;
 
                     case DeckEnum.AutoActivate:
@@ -134,10 +111,16 @@ namespace Combo
             var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
 
             if (Instance._cardRecipeDetected == null)
+            {
+                FoundCombo = false;
+                if(isPlayer)
+                DeckManager.Instance.DrawHand(true, 1);
                 _craftingUIHandler.ResetSlotsDetection();
 
+            }
             else
             {
+                FoundCombo = true;
                 Instance.StartCoroutine(Instance.OnDetectionOfCombo(isPlayer, _craftingUIHandler));
             }
 

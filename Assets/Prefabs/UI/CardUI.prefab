@@ -958,10 +958,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6643414198357883796}
   - component: {fileID: 4185218193788805487}
-  - component: {fileID: 5896733370288645620}
   - component: {fileID: 3816590915777760927}
   - component: {fileID: 5064769893490256158}
   - component: {fileID: 396468894783928062}
+  - component: {fileID: 5529884022572445637}
+  - component: {fileID: 6811713081316951102}
   m_Layer: 5
   m_Name: CardUI
   m_TagString: Untagged
@@ -1001,7 +1002,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae0e234010e98e4abd0a162839bfbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentState: 0
+  _settings: {fileID: 11400000, guid: 7d40fd7a3665f1f4fa5c8520c5b10430, type: 2}
+  _eventTrigger: {fileID: 5064769893490256158}
+  startState: 0
   _cardGFX:
     _titleText: {fileID: 415205226435449388}
     _descriptionTxt: {fileID: 7453504031560551904}
@@ -1020,32 +1023,6 @@ MonoBehaviour:
   Card: 1
   _zoomCardEvent: {fileID: 11400000, guid: b001bc32e27cdf04d9edd46238baf45b, type: 2}
   _selectCardEvent: {fileID: 11400000, guid: 5a5784c11b887204d8953718a892f433, type: 2}
---- !u!61 &5896733370288645620
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6643414198357883797}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -19}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 280, y: 400}
-  m_EdgeRadius: 0
 --- !u!225 &3816590915777760927
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1090,6 +1067,43 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!222 &5529884022572445637
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6643414198357883797}
+  m_CullTransparentMesh: 0
+--- !u!114 &6811713081316951102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6643414198357883797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7188777341924937267
 GameObject:
   m_ObjectHideFlags: 0

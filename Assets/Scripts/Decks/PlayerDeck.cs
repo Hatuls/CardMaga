@@ -27,6 +27,7 @@ namespace Battles.Deck
 
             if (isPlayer)
                 _deckIcon?.SetAmount(GetAmountOfFilledSlots);
+
             Shuffle();
         }
         public override void DiscardCard(in Card card)

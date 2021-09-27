@@ -75,7 +75,7 @@ namespace Battles.Deck
                 return;
 
             GetDeckAbst(isPlayersDeck,toDeck).AddCard(addedCard);
-            CardUIManager.Instance.CraftCardUI(addedCard, toDeck);
+
         }
         public void DrawHand(bool isPlayersDeck,int drawAmount)
         {

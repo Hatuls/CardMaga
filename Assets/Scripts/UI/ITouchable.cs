@@ -3,10 +3,13 @@ using UnityEngine;
 
 public interface ITouchable
 {
+    Battles.UI.CardUIAttributes.CardStateMachine.CardUIInput State { get; }
+
     RectTransform Rect { get; }
     bool IsInteractable { get; }
-     void ResetTouch();
-     void OnFirstTouch(in Vector2 touchPos);
-     void OnReleaseTouch(in Vector2 touchPos);
-     void OnHoldTouch(in Vector2 touchPos,in Vector2 startPos);
+    void ResetTouch();
+    void OnStateEnter();
+    void OnStateExit();
+    void OnTick(in Touch touchPos);
+    void OnMouse();
 }

@@ -6,6 +6,7 @@ using Battles.Deck;
 using Cards;
 using Unity.Events;
 using System;
+using Battles.UI.CardUIAttributes;
 
 namespace Battles.UI
 {
@@ -76,62 +77,14 @@ namespace Battles.UI
         #endregion
 
         #region Private Methods
-        public CardUI ActivateCard(Card card)
-            => ActivateCard(card, _craftingBtnPosition.localPosition);
-
 
         internal void CraftCardUI(Card addedCard, DeckEnum toDeck)
         {
-            var cardui = ActivateCard(addedCard, _craftingBtnPosition.localPosition);
-
-            var handler = GetCardUIHandler<CraftCardUIHandler>();
-
-            StartCoroutine(
-                handler.MoveCardsUI(
-                new CardUI[1] { cardui },
-                GetDeckPosition(toDeck),
-                _craftingBtnPosition.localPosition)
-                );
+            if (toDeck == DeckEnum.Hand)
+             AssignDataToCardUI(_handUI.CurrentlyHolding, addedCard);
 
         }
 
-        public CardUI ActivateCard(Card cardData, Vector2 pos)
-        {
-            if (cardData != null)
-            {
-                //get one cardUI
-                //for (int i = 0; i < CardUIArr.Length; i++)
-                //{
-                //    if (CardUIArr[i] == null)
-                //    {
-                //        Debug.LogError("CardUI is NUll at index " + i);
-                //        break;
-                //    }
-                //    if (CardUIArr[i].gameObject.activeInHierarchy == false || CardUIArr[i].gameObject.activeSelf == false)
-                //    {
-
-                //        CardUIArr[i].CardTranslations?.SetScale(_cardUISettings.StartScaleSize * Vector3.one, Time.deltaTime);
-                //        CardUIArr[i].gameObject.SetActive(true);
-                //        CardUIArr[i].CardTranslations?.SetPosition(pos);
-                //        CardUIArr[i].CardTranslations.SetRotation(Vector3.zero);
-                //        AssignDataToCardUI(CardUIArr[i], cardData);
-
-                //        if (CardUIArr[i].Inputs != null)
-                //            CardUIArr[i].Inputs.GetCanvasGroup.blocksRaycasts = true;
-
-                //        return CardUIArr[i];
-                //    }
-                //}
-
-            }
-            else
-                Debug.LogError("cardData is NUll");
-            return null;
-
-            //turn it on
-            //position of turning on
-            //add data
-        }
         public void AssignDataToCardUI(CardUI card, Cards.Card cardData)
         {
 
@@ -161,60 +114,27 @@ namespace Battles.UI
         public void InitCardUI()
         {
             _cardUIHandler = new CardUIHandler(_handUI, _cardsHandler, _cardUISettings);
-
-
-            //if (CardUIArr == null && CardUIArr.Length == 0)
-            //{
-            //    Debug.LogError("Error in CardUIArr");
-            //    return;
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < CardUIArr.Length; i++)
-            //    {
-            //        if (CardUIArr[i] == null)
-            //        {
-            //            Debug.LogError("CardUI is NUll");
-            //            return;
-            //        }
-            //        CardUIArr[i].GFX.SetActive(false);
-            //    }
-            //}
         }
-        // remove
+
         public void DrawCards(Card[] cardData, DeckEnum fromDeck)
         {
             for (int i = 0; i < cardData.Length; i++)
             {
                 var card = _handUI.GetHandCardUIFromIndex(i);
-                if (card != null)
+                if (card != null && cardData[i] != null)
                 {
-                    var InHandInputState = card.Inputs.InHandInputState;
-                    if (InHandInputState.HasValue == false)
+                    var InHandInputState = card.Inputs.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
+                    if (InHandInputState.HasValue ==  false)
                     {
 
-                        card.gameObject.SetActive(true);
-                        InHandInputState.HasValue = true;
-                        AssignDataToCardUI(card, cardData[i]);
+                    card.gameObject.SetActive(true);
+                    InHandInputState.HasValue = true;
+                    AssignDataToCardUI(card, cardData[i]);
+
                     }
                 }
             }
 
-            //Vector2 deckPos = GetDeckPosition(fromDeck);
-            //CardUI[] cards = new CardUI[cardData.Length];
-            //     for (int j = 0; j < cardData.Length; j++)
-            //     {
-            //         if (_handUI.GetAmountOfCardsInHand >= _cardUISettings.GetAmountOfCardsUIInHand)
-            //         {
-            //             Debug.Log("Tried to draw card but couldnt because hand is full");
-            //             break;
-            //         }
-            //         if (cardData[j] != null)
-            //         {
-            //             cards[j] = ActivateCard(cardData[j], deckPos);
-            //         }
-            //     }
-            //     StartCoroutine(GetCardUIHandler<DrawCardUIHandler>().MoveCardsUI(cards, GetDeckPosition(DeckEnum.Hand), deckPos));
         }
 
 
@@ -265,7 +185,7 @@ namespace Battles.UI
         {
             if (card == null)
                 return;
-            card.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Locked;
+     //       card.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Locked;
             var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
             StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal), card.transform.localPosition));
 
@@ -283,12 +203,13 @@ namespace Battles.UI
         {
             if (_cardUISettings.ToDrawGizmos)
             {
+                Gizmos.color = Color.green;
                 float screenWidth = (float)Screen.width;
                 float fromX = _handMiddlePosition.position.x - screenWidth / 2;
-                float fromY = _handMiddlePosition.position.y + _cardUISettings.LineOfHandTeritory;
+                float fromY = GetInputHandLine;
+
                 Vector3 from = new Vector3(fromX, fromY);
                 Vector3 rightLine = new Vector3(from.x + (screenWidth), from.y);
-                Gizmos.color = Color.green;
                 Gizmos.DrawLine(from, rightLine);
             }
         }
@@ -296,12 +217,6 @@ namespace Battles.UI
 
         #endregion
 
-
-
-        private void DrawCard(in Vector2 location, CardUI Card)
-        {
-
-        }
 
       
     }
@@ -337,31 +252,26 @@ namespace Battles.UI
       
         internal void CardUITouched(CardUI cardReference)
         {
-            _OriginalCard = cardReference;
-            //  copy the data from the original card and assign it to the new one
-            //  set his position on the original one
-            var card = _selectedCardUI;
-
-            if (card == null)
-                return;
-            card.Inputs.OnZoomInputState.OriginalCardPosition = (cardReference.transform.position);
-          //  _handUI.LockCardsInput(true);
-            CardUIManager.Instance.AssignDataToCardUI(card, cardReference.GFX.GetCardReference);
-            card.CardTranslations.SetPosition(cardReference.transform.localPosition);
-            card.gameObject.SetActive(true);
-            InputManager.Instance.AssignObjectFromTouch(card.GetTouchAbleInput);
+     
+            _handUI.ReplaceCard(_selectedCardUI, cardReference);
+            _handUI.LockCardsInput(true);
+            _selectedCardUI.Inputs.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hand);
+            _selectedCardUI.gameObject.SetActive(true);
+            _selectedCardUI = cardReference;
         }
         internal void CardUITouchedReleased(CardUI cardReference)
         {
-        //    _handUI.LockCardsInput(false);
 
             var card = _selectedCardUI;
             if (card == null)
                 return;
-            card._currentState = CardUIAttributes.CardInputs.CardUIInput.Zoomed;
+          //    card.startState =CardInputs.CardUIInput.Zoomed;
+            InputManager.Instance.RemoveObjectFromTouch();
+            card.CardAnimator.ResetAllAnimations();    
+            _handUI.LockCardsInput(false);
             card.gameObject.SetActive(false);
-            InputManager.Instance.RemoveObjectrFromTouch();
-            card.CardTranslations.CancelAllTweens();
+           // card.CardTranslations.CancelAllTweens();
+
         }
 
         internal void ToZoomCardUI()
@@ -369,14 +279,15 @@ namespace Battles.UI
             var card = _selectedCardUI;
             if (card == null)
                 return;
-            card.Inputs.GetCanvasGroup.blocksRaycasts = false;
-            card.CardTranslations?.MoveCard(true, Vector2.zero, _cardUISettings.GetCardMoveToDeckDelay);
+            //     card.Inputs.GetCanvasGroup.blocksRaycasts = false;
+            // card.CardTranslations?.SetPosition( Vector2.zero);
+            card.CardTranslations?.MoveCard(true, Vector2.zero, _cardUISettings.GetCardScaleDelay);
             card.CardAnimator.ScaleAnimation(true);
             card.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
             card.GFX.GlowCard(true);
         }
 
-        internal void ToUnZoomCardUI()
+        internal void ToUnZoomCardUI(in Vector2 location)
         {
             var card = _selectedCardUI;
             if (card == null)
@@ -384,19 +295,14 @@ namespace Battles.UI
 
             card.GFX.GlowCard(false);
 
-            card.CardTranslations?.MoveCard(
-                true,
-                _OriginalCard.transform.localPosition,
-                _cardUISettings.GetCardMoveToDeckDelay,
-                null,
-                () =>
-                {
-                    CardUITouchedReleased(_OriginalCard);
-                }
-                );
+            //card.CardTranslations?.MoveCard(
+            //    true,
+            //  location,
+            //    _cardUISettings.GetCardMoveToDeckDelay,
+            //    null);
 
             card.CardAnimator.ScaleAnimation(false);
-            card.Inputs.GetCanvasGroup.blocksRaycasts = true;
+      //      card.Inputs.GetCanvasGroup.blocksRaycasts = true;
         }
 
         internal void DragCard(CardUI thisCardUI, in Vector2 touchPos)
@@ -409,13 +315,14 @@ namespace Battles.UI
         {
             if (CardExecutionManager.Instance.TryExecuteCard(_selectedCardUI))
             {
-                _OriginalCard.Inputs.InHandInputState.HasValue = false;
+  //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
                 OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition,_OriginalCard);
                 int index = _handUI.GetCardIndex(_selectedCardUI);
-                DeckManager.Instance.TransferCard(true, DeckEnum.Hand, _OriginalCard.GFX.GetCardReference.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal, _OriginalCard.GFX.GetCardReference);
-                DeckManager.Instance.DrawHand(true, 1);
+                DeckManager.Instance.TransferCard(true, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal, _selectedCardUI.GFX.GetCardReference);
+
+         
             }
-            CardUITouchedReleased(thisCardUI);
+     
         }
 
     }
@@ -508,18 +415,18 @@ namespace Battles.UI
             if (cards == null || cards.Length == 0)
                 yield break;
 
-            for (int i = 0; i < cards.Length; i++)
-            { 
-                if (cards[i] == null)
-                    continue;
-                var translation = cards[i].CardTranslations;
+            //for (int i = 0; i < cards.Length; i++)
+            //{ 
+            //    if (cards[i] == null)
+            //        continue;
+            //    var translation = cards[i].CardTranslations;
 
-                cards[i].GFX.SetAlpha(_cardSettings.GetAlphaRemovalAmount, _cardSettings.GetAlphaRemovalTime,_cardSettings.GetAlphaLeanTween);
-                translation.SetScale(Vector3.one * _cardSettings.GetScaleSizeForRemoval, _cardSettings.GetRemovalTimeForRemoval, _cardSettings.GetScaleRemovalLeanTweenType);
-                 yield return new WaitForSeconds(_cardSettings.GetDelayTillStartMovement);
-                translation.MoveCardX(destination.x, _cardSettings.GetRemovalTransitionXTime, null, _cardSettings.GetMoveOnXLeanTween);
-                translation.MoveCardY(destination.y, _cardSettings.GetRemovalTransitionYTime, false, _cardSettings.GetMoveOnYLeanTween);
-            }
+            //    cards[i].GFX.SetAlpha(_cardSettings.GetAlphaRemovalAmount, _cardSettings.GetAlphaRemovalTime,_cardSettings.GetAlphaLeanTween);
+            //    translation.SetScale(Vector3.one * _cardSettings.GetScaleSizeForRemoval, _cardSettings.GetRemovalTimeForRemoval, _cardSettings.GetScaleRemovalLeanTweenType);
+            //     yield return new WaitForSeconds(_cardSettings.GetDelayTillStartMovement);
+            //    translation.MoveCardX(destination.x, _cardSettings.GetRemovalTransitionXTime, null, _cardSettings.GetMoveOnXLeanTween);
+            //    translation.MoveCardY(destination.y, _cardSettings.GetRemovalTransitionYTime, false, _cardSettings.GetMoveOnYLeanTween);
+            //}
         }
 
     }

@@ -145,6 +145,10 @@ namespace Battles.UI.CardUIAttributes
     
         internal void SetCardReference(Card cardData, ArtSO artSO)
         {
+            if (cardData == null)
+            {
+                Debug.LogError("Card Data is NULL!");
+            }
            _cardReferenceInHandDeck = cardData;
             SetCardReference( cardData.CardSO, artSO);
         }

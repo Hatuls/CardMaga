@@ -111,7 +111,7 @@ namespace Battles
                     yield return new WaitForSeconds(1f);
 
                    indexCheck = -1;
-            } while (staminaHandler.HasStamina(false) && noMoreCardsAvailable == true) ;
+            } while (staminaHandler.HasStamina(false) && noMoreCardsAvailable == false) ;
 
             
 

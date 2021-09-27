@@ -2,16 +2,23 @@
 using Unity.Events;
 using UnityEngine;
 using Battles.UI.CardUIAttributes;
+using UnityEngine.EventSystems;
 
 namespace Battles.UI
 {
 
-    public class CardUI : MonoBehaviour , IInputAbleObject
+    public class CardUI : MonoBehaviour, IInputAbleObject
     {
         #region Fields
         [SerializeField]
+        CardUISO _settings;
+        public CardUISO Settings { get => _settings; }
 
-        internal CardInputs.CardUIInput _currentState = CardInputs.CardUIInput.Locked;
+        [SerializeField]
+        EventTrigger _eventTrigger;
+        [SerializeField]
+
+        internal CardStateMachine.CardUIInput startState = CardStateMachine.CardUIInput.Locked;
         [SerializeField]
    //     [HideInInspector]
         private CardGFX _cardGFX;
@@ -66,8 +73,10 @@ namespace Battles.UI
 
 
         }
-        #endregion
 
+
+        #endregion
+     
         #endregion
 
 
@@ -88,7 +97,7 @@ namespace Battles.UI
             get
             {
                 if (_inputs == null && (Card & CardUISettings.Touchable) == CardUISettings.Touchable)
-                    _inputs = new CardInputs( _canvasGroup,GFX.GetRectTransform, _zoomCardEvent , _selectCardEvent, this);
+                    _inputs = new CardInputs( _canvasGroup, _eventTrigger, startState, this);
                 return  _inputs;
             }
         }
@@ -114,7 +123,7 @@ namespace Battles.UI
                 return _cardAnimator;
             }
         }
-        public ITouchable GetTouchAbleInput => ((Card & CardUISettings.Touchable) == CardUISettings.Touchable) ? Inputs : null;
+        public ITouchable GetTouchAbleInput => ((Card & CardUISettings.Touchable) == CardUISettings.Touchable) ? Inputs.CardStateMachine.CurrentState : null;
         #endregion
 
 
@@ -149,6 +158,12 @@ public class CardAnimator
     public static class AnimatorParameters
     {
         public static int ZoomAnimation = Animator.StringToHash("ToZoom");
+        public static int ResetAllAnimation = Animator.StringToHash("ResetAll");
+    }
+
+    internal void ResetAllAnimations()
+    {
+        _animator.SetTrigger(AnimatorParameters.ResetAllAnimation);
     }
 }
 
