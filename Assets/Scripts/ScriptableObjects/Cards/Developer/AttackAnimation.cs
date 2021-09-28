@@ -3,6 +3,7 @@
     [System.Serializable]
     public class AnimationBundle
     {
+        public BodyPartEnum BodyPartEnum;
         public AttackAnimation _attackAnimation;
         public ShieldAnimation _shieldAnimation;
         public GetHitAnimation _getHitAnimation;

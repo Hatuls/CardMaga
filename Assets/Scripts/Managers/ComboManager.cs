@@ -60,22 +60,14 @@ namespace Combo
                 switch (_cardRecipeDetected.GoToDeckAfterCrafting)
                 {
                     case DeckEnum.Hand:
+                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, _cardRecipeDetected.GoToDeckAfterCrafting);
+
+                        CardUIManager.Instance.UpdateHand();
+                        break;
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Disposal:
                         var gotolocation = _cardRecipeDetected.GoToDeckAfterCrafting;
                         DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, gotolocation);
-                        if (gotolocation == DeckEnum.Hand)
-                            CardUIManager.Instance.DrawCards(DeckManager.Instance.GetCardsFromDeck(isPlayer, DeckEnum.Hand), DeckEnum.Hand);
-                        //if (isPlayer && gotolocation == DeckEnum.Hand)
-                        //    CardUIManager.Instance.UpdateHand();
-
-                            //{
-                            //    if (gotolocation == DeckEnum.Hand)
-                            //        CardUIManager.Instance.CraftCardUI(craftedCard, gotolocation);
-                            //    else
-                            //      DeckManager.Instance.DrawHand(true, 1);
-                            //}
-
 
                         break;
 
@@ -109,7 +101,8 @@ namespace Combo
         private static void EndDetection()
         {
             // need to change the logic!
-            bool isPlayer = Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn;
+            var state = Battles.Turns.TurnHandler.CurrentState;
+            bool isPlayer = state == Battles.Turns.TurnState.PlayerTurn || state == Battles.Turns.TurnState.StartPlayerTurn || state == Battles.Turns.TurnState.EndPlayerTurn;
 
             var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
 
@@ -117,28 +110,20 @@ namespace Combo
             {
                 FoundCombo = false;
                 _craftingUIHandler.ResetSlotsDetection();
-                if(isPlayer)
                 DeckManager.Instance.DrawHand(isPlayer, 1);
-
             }
             else
             {
                 FoundCombo = true;
-                Instance.StartCoroutine(Instance.OnDetectionOfCombo(isPlayer, _craftingUIHandler));
+                _craftingUIHandler.MarkSlotsDetected();
+                Instance.TryForge(isPlayer);
+                VFXManager.Instance.PlayParticle(isPlayer, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
+                DeckManager.GetCraftingSlots(isPlayer).ResetDeck();
+                Instance. _cardRecipeDetected = null;
             }
 
         }
-        System.Collections.IEnumerator OnDetectionOfCombo(bool isPlayer,CraftingUIHandler craftingUIHandler)
-        {
-            yield return null;
-            craftingUIHandler.MarkSlotsDetected();
-            yield return new WaitForSeconds(0.15f);
-            VFXManager.Instance.PlayParticle(isPlayer, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
-            yield return new WaitForSeconds(0.15f);
-            TryForge(isPlayer);
-            DeckManager.GetCraftingSlots(isPlayer).ResetDeck();
-            _cardRecipeDetected = null;
-        }
+  
         static void DetectRecipe()
         {
             bool isPlayer = Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn;

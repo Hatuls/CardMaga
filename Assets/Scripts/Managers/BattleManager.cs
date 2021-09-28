@@ -40,6 +40,8 @@ namespace Battles
             EnemyManager.Instance.UpdateStats();
             Combo.ComboManager.Instance.Init();
             Keywords.KeywordManager.Instance.Init();
+
+            EndTurnButton._OnFinishTurnPress += TurnHandler.OnFinishTurn;
         }
         private void ResetParams()
         {

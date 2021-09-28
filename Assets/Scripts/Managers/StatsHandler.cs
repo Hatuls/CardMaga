@@ -189,7 +189,7 @@ namespace Characters.Stats
                 stats.Health = 0;
                 Debug.Log(string.Concat("The" + (isPlayer ? "Player" : "Enemy") + " Died!"));
                 _updateUIStats?.Invoke(isPlayer, 0, Keywords.KeywordTypeEnum.Attack);
-                Battles.BattleManager.BattleEnded(isPlayer);
+
                 return;
             }
             else

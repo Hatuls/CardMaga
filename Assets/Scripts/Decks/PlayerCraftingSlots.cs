@@ -63,24 +63,7 @@ public class PlayerCraftingSlots: Battles.Deck.DeckAbst
 
         GetDeck[0] = card;
 
-        //for (int i = GetDeck.Length - 1; i >= 0; i--)
-        //{
-        //    if (i != 0)
-        //    {
-        //        GetDeck[i] = GetDeck[i - 1];
-        //    }
-        //    else
-        //    {
-        //        GetDeck[i] = card;
-        //    }
-        //    if (i == GetDeck.Length - 1)
-        //    {
-        //        GetDeck[i] = null;
-        //    }
-        //    _playerCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
-        //}
 
-     //   _playerCraftingUIHandler.ChangeSlotsPos(GetDeck , lastCardInDeck);
         CountCards();
 
         if(toDetect)

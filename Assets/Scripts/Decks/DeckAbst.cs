@@ -214,7 +214,7 @@ namespace Battles.Deck
 
 
         #region Private Functions
-        private void OrderDeck()
+        protected void OrderDeck()
         {
             /*
              * go each card on deck
@@ -285,6 +285,23 @@ namespace Battles.Deck
             CountCards();
         }
         #endregion
+
+
+        public override string ToString()
+        {
+            string ToString = base.ToString() + "\n";
+
+            for (int i = 0; i < _deckCards.Length; i++)
+            {
+                if (_deckCards[i] != null)
+                    ToString += $" Card Number {i + 1} is {_deckCards[i]}  {_deckCards[i].CardSO.CardName}\n";
+                else
+                    ToString += $"Card Number {i + 1} is NULL!";
+            }
+
+            return ToString;
+
+        }
     }
 
     public enum DeckEnum

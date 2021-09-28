@@ -1,10 +1,7 @@
 ﻿
 using UnityEngine;
-
-using System.Collections;
 using Battles.Deck;
 using Cards;
-using Unity.Events;
 using System;
 using Battles.UI.CardUIAttributes;
 
@@ -70,7 +67,7 @@ namespace Battles.UI
 
         internal void UpdateHand()
         {
-            DrawCards(DeckManager.Instance.GetCardsFromDeck(true, DeckEnum.Hand), DeckEnum.Hand);
+            DrawCards(DeckManager.Instance.GetCardsFromDeck(true, DeckEnum.Hand));
         }
 
 
@@ -121,7 +118,7 @@ namespace Battles.UI
             _cardUIHandler = new CardUIHandler(_handUI, _cardsHandler, _cardUISettings);
         }
 
-        public void DrawCards(Card[] cardData, DeckEnum fromDeck)
+        public void DrawCards(Card[] cardData)
         {
             for (int i = 0; i < cardData.Length; i++)
             {
@@ -135,9 +132,11 @@ namespace Battles.UI
                         if (cardData[j] != null)
                             cardsDrawn += cardData[j].ToString() + " " + cardData[j].CardSO.CardName + "\n";
                         else
-                            cardsDrawn += "Card at index " + i + " Is null!";
-                    }       
-                    throw new Exception($"Drawn Card is null!!\n {cardsDrawn} ,\n from {fromDeck.ToString()}");
+                            cardsDrawn += "Card at index " + i + " Is null!\n";
+                    }
+                    Debug.LogError($"Drawn Card is null!!\n {cardsDrawn} ,\n");
+                  //  card.gameObject.SetActive(false);
+                    continue;
                 }
 
                 if (card != null)
@@ -272,18 +271,23 @@ namespace Battles.UI
             _selectedCardUI = firstCardUI;
             this._cardUISettings = cardUISettings;
             _selectedCardUI.gameObject.SetActive(false);
+            EndTurnButton._OnFinishTurnPress += OnFinishTurn;
         }
 
-      
+        ~CardUIHandler() => EndTurnButton._OnFinishTurnPress -= OnFinishTurn;
+        private void OnFinishTurn()
+        {
+            CardUITouchedReleased(false, null);
+        }
         internal void CardUITouched(CardUI cardReference)
         {
-     
+            DeckManager.Instance.TransferCard(true, DeckEnum.Hand,DeckEnum.Selected, cardReference.GFX.GetCardReference);
             _handUI.ReplaceCard(_selectedCardUI, cardReference);
             _handUI.LockCardsInput(true);
             _selectedCardUI.Inputs.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hand);
             _selectedCardUI.gameObject.SetActive(true);
             _selectedCardUI = cardReference;
-            DeckManager.Instance.TransferCard(true, DeckEnum.Hand,DeckEnum.Selected, _selectedCardUI.GFX.GetCardReference);
+
 
         }
         internal void CardUITouchedReleased(bool ExecuteSucceded,CardUI cardReference)
@@ -292,7 +296,6 @@ namespace Battles.UI
             var card = _selectedCardUI;
             if (card == null)
                 return;
-            if (!ExecuteSucceded)
 
                 if (ExecuteSucceded==false)
                     DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
@@ -345,13 +348,16 @@ namespace Battles.UI
 
         internal bool TryExecuteCardUI(CardUI thisCardUI)
         {
-            bool succeded = CardExecutionManager.Instance.TryExecuteCard(_selectedCardUI);
-            if (succeded)
+            var card = DeckManager.Instance.GetCardFromDeck(true, 0, DeckEnum.Selected);
+            if (card == null)
+                Debug.LogError("CardUIHandler - Selected Card  is null !");
+            bool succeded = CardExecutionManager.Instance.TryExecuteCard(true, card);
+            if (succeded )
             {
                 //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
                 OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition, _OriginalCard);
                 int index = _handUI.GetCardIndex(_selectedCardUI);
-                DeckManager.Instance.TransferCard(true, DeckEnum.Selected, _selectedCardUI.GFX.GetCardReference.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal, _selectedCardUI.GFX.GetCardReference);
+                DeckManager.Instance.TransferCard(true, DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
             }
             return succeded;
            

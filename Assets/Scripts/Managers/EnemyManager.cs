@@ -115,8 +115,8 @@ namespace Battles
 
             
 
-            yield return new WaitForSeconds(1f);
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
+            yield return new WaitForSeconds(1f);
             EnemyManager.EnemyAnimatorController.ResetToStartingPosition();
         }
 

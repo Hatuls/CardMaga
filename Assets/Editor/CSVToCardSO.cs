@@ -171,6 +171,7 @@ public class CSVToCardSO
             _getHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? Cards.GetHitAnimation.None : (Cards.GetHitAnimation)Enum.Parse(typeof(Cards.GetHitAnimation), cardSO[GotHitAnimation].Replace(' ', '_')),
             IsCinemtaic = cardSO[Cinematic] == "1" ,
             //IsSlowMotion = bool.Parse
+            BodyPartEnum = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
 
         };
 

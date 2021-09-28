@@ -43,7 +43,9 @@ namespace Battles.Turns
         }
         public static bool FinishTurn { get; set; }
 
-
+        public static void OnFinishTurn() {
+            FinishTurn = true;
+        }
         public static void MoveToNextTurn(TurnState turnState)
         {
             Debug.Log("Current Turn State is " + CurrentState);
@@ -281,14 +283,14 @@ namespace Battles.Turns
              * and remove the current card from the placementslot
             */
 
-
+            Deck.DeckManager.Instance.OnEndTurn(true);
             CardUIManager.Instance.RemoveHands();
             CardExecutionManager.Instance.ResetExecution();
             base.PlayTurn();
 
 
             CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
-            Deck.DeckManager.Instance.OnEndTurn(true);
+
 
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);

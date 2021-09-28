@@ -58,6 +58,21 @@ namespace Battles.Deck
                 return cache.GetDeck;
         }
 
+        public override string ToString()
+        {
+            string r = "";
+
+            foreach (var item in _playerDecks)
+            {
+                r += item.ToString();
+                r += "\n\n\n";
+            }
+
+            return r;
+        }
+
+
+
         public Card GetCardFromDeck(bool isPlayersDeck,int index, DeckEnum from) {
 
             var cache = GetDeckAbst(isPlayersDeck, from);
@@ -124,13 +139,13 @@ namespace Battles.Deck
                         toDeck.AddCard(cardCache);
                         fromDeck.DiscardCard(cardCache);
                     }
-                   else
-                       Debug.LogError("DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card");
+                    else
+                       Debug.LogError("DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card \n " + fromDeck.ToString());
 
 
                 }
                 if(isPlayersDeck)
-                CardUIManager.Instance.DrawCards(toDeck.GetDeck, DeckEnum.PlayerDeck);
+                CardUIManager.Instance.DrawCards(toDeck.GetDeck);
             }
 
 
@@ -168,6 +183,23 @@ namespace Battles.Deck
         
         public static void AddToCraftingSlot(bool toPlayerCraftingSlots,Card card) 
             => Instance.GetDeckAbst(toPlayerCraftingSlots, DeckEnum.CraftingSlots).AddCard(card);
+
+
+
+
+        public void ReplaceCard(bool isPlayer,DeckEnum firstDeck, Card firstCard, DeckEnum secondDeck, Card secondCard)
+        {
+            if (firstDeck == DeckEnum.Hand)
+            {
+                TransferCard(isPlayer, firstDeck, secondDeck,firstCard);
+                TransferCard(isPlayer, secondDeck,firstDeck , secondCard);
+            }
+            else
+            {
+                TransferCard(isPlayer, secondDeck, firstDeck, secondCard);
+                TransferCard(isPlayer, firstDeck, secondDeck, firstCard);
+            }
+        }
 
         #endregion
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using Cards;
 using Rei.Utilities;
 using System.Collections;
+using System;
 
 public class AnimatorController : MonoBehaviour
 {
@@ -127,10 +128,13 @@ public class AnimatorController : MonoBehaviour
     public void SetCamera(CameraController.CameraAngleLookAt cameraAngleLookAt)
     {
         _moveCameraAngle?.Raise((int)cameraAngleLookAt);
-    } 
- 
+    }
 
 
+    public void DeathAnimationCompleted()
+    {
+        Battles.BattleManager.BattleEnded(isPlayer);
+    }
 
     public void SetAnimationQueue(Card card)
     {
@@ -181,9 +185,9 @@ public class AnimatorController : MonoBehaviour
 
     IEnumerator PlayAnimation()
     {
-
         _previousAnimation = _currentAnimation;
         _currentAnimation = _animationQueue.Dequeue();
+        SetLayerWeight(_currentAnimation.BodyPartEnum);
         Debug.LogWarning(
             new
             {
@@ -199,7 +203,7 @@ public class AnimatorController : MonoBehaviour
 
         if (_previousAnimation != null && _currentAnimation != null &&_previousAnimation._attackAnimation == _currentAnimation._attackAnimation)
         {
-            Debug.Log("#%!@@E%#%@#!%#!%#!%!#%");
+          //  Debug.Log("#%!@@E%#%@#!%#!%#!%!#%");
             while (!_playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_1")) 
             {
                 Debug.LogWarning("Got TO loop!");
@@ -207,18 +211,47 @@ public class AnimatorController : MonoBehaviour
             }
 
         }
+   
+
+
+
         PlayAnimation(_currentAnimation._attackAnimation.ToString());
         _movedToNextAnimation?.Raise();
     }
+
+    private void SetLayerWeight(Cards.BodyPartEnum bodyPartEnum)
+    {
+        _playerAnimator.SetLayerWeight(1, 0);
+        _playerAnimator.SetLayerWeight(2, 0);
+
+        switch (bodyPartEnum)
+        {
+            case Cards.BodyPartEnum.Head:
+                break;
+            case Cards.BodyPartEnum.Elbow:
+            case Cards.BodyPartEnum.Hand:
+                _playerAnimator.SetLayerWeight(2, 1);
+                break;
+            case Cards.BodyPartEnum.Knee:
+            case Cards.BodyPartEnum.Leg:
+                _playerAnimator.SetLayerWeight(1, 1);
+                break;
+            case Cards.BodyPartEnum.Joker:
+                break;
+            default:
+                break;
+        }
+    }
+
     private void PlayAnimation(string Name)
     {
         if (isFirst == true)
             isFirst = false;
 
-        if (_playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name != Name)
+      //  if (_playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name != Name)
             _playerAnimator.CrossFade(Name, _transitionSpeedBetweenAnimations);
-        else
-            _playerAnimator.Play(Name);
+     //   else
+      //      _playerAnimator.Play(Name);
 
     }
 

@@ -17,6 +17,19 @@ namespace Battles.Deck
 
             if (isPlayer)
                 _deckIcon?.SetAmount(GetAmountOfFilledSlots);
+          
+        }
+
+
+        public override Card GetFirstCard()
+        {
+            var card = base.GetFirstCard();
+            if (card ==  null)
+            {
+                OrderDeck();
+                card = base.GetFirstCard();
+            }
+            return card;
         }
         public override void ResetDeck()
         {
@@ -28,7 +41,9 @@ namespace Battles.Deck
             if (isPlayer)
                 _deckIcon?.SetAmount(GetAmountOfFilledSlots);
 
+
             Shuffle();
+            OrderDeck();
 
             CountCards();
         }

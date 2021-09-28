@@ -204,20 +204,20 @@ namespace Battles
 
             Debug.Log("<a>Activating Card</a>");
             // sort his keyowrds
-        
+
 
             ThreadsHandler.ThreadHandler.StartThread(
                 new ThreadsHandler.ThreadList(
                     ThreadsHandler.ThreadHandler.GetNewID,
                     () => SortKeywords(),
                    () =>
-                   {  
+                   {
                        if (_cardsQueue.Count == 0)
-                        return;
-
-                       if (Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn)
+                           return;
+                       var State = Turns.TurnHandler.CurrentState;
+                       if (State == Turns.TurnState.PlayerTurn || State== Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
                            _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
-                       else if (Turns.TurnHandler.CurrentState == Turns.TurnState.EnemyTurn)
+                       else if (State == Turns.TurnState.EnemyTurn || State == Turns.TurnState.StartEnemyTurn || State == Turns.TurnState.EndEnemyTurn)
                            _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
                        else
                            Debug.LogError("Current turn is not a turn that a card could be played!");
