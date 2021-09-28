@@ -159,7 +159,13 @@ public class CardAnimator
     {
         public static int ZoomAnimation = Animator.StringToHash("ToZoom");
         public static int ResetAllAnimation = Animator.StringToHash("ResetAll");
+        public static int NoticeAnimation = Animator.StringToHash("CardUI_Notice");
     }
+    internal void PlayNoticeAnimation()
+    {
+        _animator.Play(AnimatorParameters.NoticeAnimation);
+    }
+
 
     internal void ResetAllAnimations()
     {

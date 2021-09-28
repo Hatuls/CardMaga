@@ -124,8 +124,8 @@ namespace Battles.Deck
                         toDeck.AddCard(cardCache);
                         fromDeck.DiscardCard(cardCache);
                     }
-                 //  else
-                 //      Debug.LogError("DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card");
+                   else
+                       Debug.LogError("DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card");
 
 
                 }

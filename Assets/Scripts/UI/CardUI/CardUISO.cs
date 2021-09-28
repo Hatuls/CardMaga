@@ -133,8 +133,8 @@ public class CardUISO : ScriptableObject
     [Range(0, 1)]
     [SerializeField] float _startAlphaAmount;
 
-    [TabGroup("Card UI/CardUI/Draw Cards/Params", "Alpha")]
-    [SerializeField] float _alphaDrawTime;
+ //   [TabGroup("Card UI/CardUI/Holding Cards/Params", "Alpha")]
+    [SerializeField] float _alphaWhenHold;
 
     [TabGroup("Card UI/CardUI/Draw Cards/Params", "Alpha")]
     [SerializeField] LeanTweenType _alphaDrawTweenType;
@@ -168,7 +168,7 @@ public class CardUISO : ScriptableObject
     public ref float ScaleDrawTime => ref _scaleDrawTime;
     public ref LeanTweenType ScaleDrawTweenType => ref _scaleDrawTweenType;
     public ref float StartAlphaAmount => ref _startAlphaAmount;
-    public ref float AlphaDrawTime => ref _alphaDrawTime;
+    public ref float AlphaWhenHold => ref _alphaWhenHold;
     public ref LeanTweenType AlphaDrawTweenType => ref _alphaDrawTweenType;
     public ref LeanTweenType DrawMoveOnXLeanTweenType => ref _drawMoveOnXLeanTweenType;
     public ref LeanTweenType DrawMoveOnYLeanTweenType => ref _drawMoveOnYLeanTweenType;

@@ -37,7 +37,7 @@ namespace Battles.Deck
         {
             SetDeck = deckCards;
             this.isPlayer = isPlayer;
-            CountCards();
+
         }
         public DeckAbst(bool isPlayer,int length)
         {
@@ -49,8 +49,7 @@ namespace Battles.Deck
         {
             // assign new deck in the legnth we want
 
-            _deckCards = new Card[length];
-            CountCards();
+            SetDeck = new Card[length];
         }
 
         protected void CountCards()
@@ -75,7 +74,7 @@ namespace Battles.Deck
                     amountOfFilledSlots++;
             }
         }
-        public Card GetFirstCard()
+        public virtual Card GetFirstCard()
         {
             // return the Card from the first slot in the array
 
@@ -94,7 +93,7 @@ namespace Battles.Deck
             // and recount the amounts
 
             if (_deckCards == null || _deckCards.Length == 0)
-                InitDeck(5);
+                InitDeck(4);
 
             if (ExpandingDeckPolicy())
             {
@@ -102,7 +101,9 @@ namespace Battles.Deck
                 _deckCards[index] = card;
 
                 OrderDeck();
-                CountCards();
+                amountOfEmptySlots--;
+                amountOfFilledSlots++;
+                //CountCards();
             }
         }
         public virtual bool ExpandingDeckPolicy() => true;
@@ -124,14 +125,15 @@ namespace Battles.Deck
                        && _deckCards[i].CardID == card.CardID)
                     {
                         _deckCards[i] = null;
-       
+                        amountOfEmptySlots++;
+                        amountOfFilledSlots--;
                         break;
                     }
 
                 }
             }
             OrderDeck();
-            CountCards();
+           // CountCards();
         }
         public void EmptySlots()
         {
@@ -153,7 +155,10 @@ namespace Battles.Deck
                         GetDeck[i] = null;
                 }
             }
-            CountCards();
+            amountOfEmptySlots = GetDeck.Length;
+            amountOfFilledSlots=0;
+
+            //  CountCards();
         }
         public virtual void ResetDeck()
         {
@@ -237,7 +242,7 @@ namespace Battles.Deck
                 }
             }
         }
-        private int GetIndexOfFirstNull()
+        protected int GetIndexOfFirstNull()
         {
             /*
              * Get the first index in the deck
@@ -249,7 +254,7 @@ namespace Battles.Deck
 
             if (_deckCards == null || _deckCards.Length == 0)
             {
-                InitDeck(5);
+                InitDeck(4);
                 return 0;
             }
 

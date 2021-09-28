@@ -11,6 +11,7 @@ public class StaminaUI : MonoBehaviour
     [SerializeField] Animator _animator;
 
     int ScaleAnimation = Animator.StringToHash("Scale");
+    int RejectAnimation = Animator.StringToHash("StaminaIcon_Reject");
     private void Start()
     {
         StaminaHandler.StaminaUI = this;
@@ -19,7 +20,10 @@ public class StaminaUI : MonoBehaviour
             _animator = GetComponent<Animator>();
     }
 
-   
+    public void PlayRejectAnimation()
+    {
+        _animator.Play(RejectAnimation);
+    }
     public void SetText(int stamina) {
         _animator.Play("Scale");
         _text.text = (stamina).ToString(); 

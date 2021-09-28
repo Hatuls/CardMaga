@@ -40,7 +40,7 @@ namespace Battles.UI.CardUIAttributes
                 case TouchPhase.Canceled:
                 default:
                     OnStateExit();
-                    CardUIHandler.Instance.CardUITouchedReleased(_cardStateMachine.CardReference);
+                    CardUIHandler.Instance.CardUITouchedReleased(false,_cardStateMachine.CardReference);
 
                     break;
             }

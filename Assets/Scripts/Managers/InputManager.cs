@@ -100,6 +100,22 @@ public class InputManager :MonoBehaviour
         {
             Application.Quit();
         }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            string HandCards = "";
+            var deck = Battles.Deck.DeckManager.Instance.GetCardsFromDeck(true, Battles.Deck.DeckEnum.Hand);
+
+            for (int i = 0; i < deck.Length; i++)
+            {
+                if (deck[i]!= null)
+                                HandCards += deck[i].CardSO.CardName + "\n";
+                else
+                    HandCards += "NULL!\n";
+                          }
+
+            Debug.LogWarning(HandCards);
+
+        }
     }
 
     private void MouseDetector()

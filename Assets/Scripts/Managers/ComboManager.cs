@@ -64,23 +64,26 @@ namespace Combo
                     case DeckEnum.Disposal:
                         var gotolocation = _cardRecipeDetected.GoToDeckAfterCrafting;
                         DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, gotolocation);
+                        if (gotolocation == DeckEnum.Hand)
+                            CardUIManager.Instance.DrawCards(DeckManager.Instance.GetCardsFromDeck(isPlayer, DeckEnum.Hand), DeckEnum.Hand);
+                        //if (isPlayer && gotolocation == DeckEnum.Hand)
+                        //    CardUIManager.Instance.UpdateHand();
 
-                        if (isPlayer)
-                        {
-                            if (gotolocation == DeckEnum.Hand)
-                                CardUIManager.Instance.CraftCardUI(craftedCard, gotolocation);
-                            else
-                                DeckManager.Instance.DrawHand(true, 1);
-                        }
+                            //{
+                            //    if (gotolocation == DeckEnum.Hand)
+                            //        CardUIManager.Instance.CraftCardUI(craftedCard, gotolocation);
+                            //    else
+                            //      DeckManager.Instance.DrawHand(true, 1);
+                            //}
 
-                      
+
                         break;
 
                     case DeckEnum.AutoActivate:
            
                         Battles.CardExecutionManager.Instance.RegisterCard(craftedCard, isPlayer);
                       //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
-         //               DeckManager.GetCraftingSlots(isPlayer).AddCard(craftedCard,false);
+                        DeckManager.GetCraftingSlots(isPlayer).AddCard(craftedCard,false);
                         break;
                     default:
                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.GoToDeckAfterCrafting.ToString());
@@ -113,9 +116,9 @@ namespace Combo
             if (Instance._cardRecipeDetected == null)
             {
                 FoundCombo = false;
-                if(isPlayer)
-                DeckManager.Instance.DrawHand(true, 1);
                 _craftingUIHandler.ResetSlotsDetection();
+                if(isPlayer)
+                DeckManager.Instance.DrawHand(isPlayer, 1);
 
             }
             else

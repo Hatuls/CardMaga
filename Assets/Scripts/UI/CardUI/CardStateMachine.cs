@@ -182,7 +182,7 @@ namespace Battles.UI.CardUIAttributes
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
                     Debug.Log("CardUI - State Hand -  End Touch");
-                    CardUIHandler.Instance.CardUITouchedReleased(_cardStateMachine.CardReference);
+                    CardUIHandler.Instance.CardUITouchedReleased(false,_cardStateMachine.CardReference);
                     break;
                 default:
                     break;

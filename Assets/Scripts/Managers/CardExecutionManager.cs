@@ -18,7 +18,7 @@ namespace Battles
         [SerializeField] Unity.Events.SoundsEvent _playSound;
         static Queue<Cards.Card> _cardsQueue;
         static List<KeywordData> _keywordData;
-
+        [SerializeField] StaminaUI _staminaBtn;
         static int currentKeywordIndex;
 
         public void ResetExecution()
@@ -43,7 +43,10 @@ namespace Battles
             {
                 // not enough stamina 
                 if (isPlayer)
+                {
+                    _staminaBtn.PlayRejectAnimation();
                  _playSound?.Raise(SoundsNameEnum.Reject);
+                }
 
                 return false;
             }

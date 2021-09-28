@@ -29,6 +29,8 @@ namespace Battles.Deck
                 _deckIcon?.SetAmount(GetAmountOfFilledSlots);
 
             Shuffle();
+
+            CountCards();
         }
         public override void DiscardCard(in Card card)
         {

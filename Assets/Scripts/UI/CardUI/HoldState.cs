@@ -6,10 +6,11 @@ namespace Battles.UI.CardUIAttributes
     {
         CardTranslations _translation;
         static float _cardUIFollowUP;
+        float alpha;
 
         public HoldState(CardUI card, CardStateMachine cardStateMachine) : base(card.GFX.GetRectTransform, cardStateMachine)
         {
-
+            alpha = card.Settings.AlphaWhenHold;
             _translation = cardStateMachine.CardReference.CardTranslations;
             _cardUIFollowUP = card.Settings.GetCardFollowDelay;
         }
@@ -35,13 +36,14 @@ namespace Battles.UI.CardUIAttributes
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
                     // check if its close to starting position 
+                    bool succed = false;
                     if (IsAboveTheTouchLine(touchPos.position))
             {
                         Debug.LogWarning("<a>Above The Line!</a>");
-                        CardUIHandler.Instance.TryExecuteCardUI(_cardStateMachine.CardReference);
+                        succed=  CardUIHandler.Instance.TryExecuteCardUI(_cardStateMachine.CardReference);
                     }
                    
-                    CardUIHandler.Instance.CardUITouchedReleased(_cardStateMachine.CardReference);
+                    CardUIHandler.Instance.CardUITouchedReleased(succed,_cardStateMachine.CardReference);
                     break;
                 default:
                     break;
@@ -50,7 +52,13 @@ namespace Battles.UI.CardUIAttributes
 
         public override void OnStateEnter()
         {
-            _translation.MoveCard(false, InputManager.PlayerTouch.Value.position, _cardUIFollowUP);
+            _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = alpha;
+            OnTick(InputManager.PlayerTouch.Value);
+        }
+        public override void OnStateExit()
+        {
+           
+            _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = 1f;
         }
         private bool IsAboveTheTouchLine(in Vector2 touchPos) => (touchPos.y >= CardUIManager.Instance.GetInputHandLine);
     }

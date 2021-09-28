@@ -47,7 +47,7 @@ namespace Battles.UI
         private HandUI _handUI;
         private CardUI _zoomedCard;
         private CardUI _holdingCardUI;
-        private CardUITransition[] _transitions;
+       // private CardUITransition[] _transitions;
 
 
         [SerializeField]
@@ -67,6 +67,11 @@ namespace Battles.UI
         public RectTransform GetExhaustDeckPosition => _exhaustDeckPosition;
         public RectTransform GetHandMiddlePosition => _handMiddlePosition;
         public float GetInputHandLine => GetHandMiddlePosition.position.y + _cardUISettings.LineOfHandTeritory;
+
+        internal void UpdateHand()
+        {
+            DrawCards(DeckManager.Instance.GetCardsFromDeck(true, DeckEnum.Hand), DeckEnum.Hand);
+        }
 
 
         #endregion
@@ -121,15 +126,35 @@ namespace Battles.UI
             for (int i = 0; i < cardData.Length; i++)
             {
                 var card = _handUI.GetHandCardUIFromIndex(i);
-                if (card != null && cardData[i] != null)
+
+                if (cardData[i] == null)
+                {
+                    string cardsDrawn = "";
+                    for (int j = 0; j < cardData.Length; j++)
+                    {
+                        if (cardData[j] != null)
+                            cardsDrawn += cardData[j].ToString() + " " + cardData[j].CardSO.CardName + "\n";
+                        else
+                            cardsDrawn += "Card at index " + i + " Is null!";
+                    }       
+                    throw new Exception($"Drawn Card is null!!\n {cardsDrawn} ,\n from {fromDeck.ToString()}");
+                }
+
+                if (card != null)
                 {
                     var InHandInputState = card.Inputs.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
                     if (InHandInputState.HasValue ==  false)
                     {
+                        if (card.gameObject.activeSelf == false)
+                            card.gameObject.SetActive(true);
 
-                    card.gameObject.SetActive(true);
-                    InHandInputState.HasValue = true;
-                    AssignDataToCardUI(card, cardData[i]);
+                        InHandInputState.HasValue = true;
+
+                        card.CardAnimator.PlayNoticeAnimation();
+
+                     //  var cardRefenrec = card.GFX.GetCardReference;
+                     //  if (cardRefenrec ==null|| cardData[i].CardSO != cardRefenrec.CardSO && cardRefenrec.CardLevel != cardData[i].CardLevel)
+                           AssignDataToCardUI(card, cardData[i]);
 
                     }
                 }
@@ -150,13 +175,13 @@ namespace Battles.UI
         {
             _handUI = new HandUI(_handCards, GetHandMiddlePosition.transform.localPosition, _cardUISettings);
 
-            _transitions = new CardUITransition[4]
-            {
-                new DrawCardUIHandler(this,_handUI,_soundEvent,_cardUISettings),
-                new RemoveCardAfterACtivated(this, _cardUISettings, _soundEvent),
-                new DiscardHandHandler(this,_cardUISettings,_handUI,_soundEvent),
-                new CraftCardUIHandler(_handUI ,this, _cardUISettings,_soundEvent)
-            };
+            //_transitions = new CardUITransition[4]
+            //{
+            //    new DrawCardUIHandler(this,_handUI,_soundEvent,_cardUISettings),
+            //    new RemoveCardAfterACtivated(this, _cardUISettings, _soundEvent),
+            //    new DiscardHandHandler(this,_cardUISettings,_handUI,_soundEvent),
+            //    new CraftCardUIHandler(_handUI ,this, _cardUISettings,_soundEvent)
+            //};
 
 
             InitCardUI();
@@ -168,17 +193,17 @@ namespace Battles.UI
         /// </summary>
         /// <typeparam name="T"> </typeparam>
         /// <returns>DrawCardUIHandler, RemoveCardAfterActivated, DiscardHandHandler, CraftCardUIHandler</returns>
-        private T GetCardUIHandler<T>() where T : CardUITransition
-        {
-            for (int i = 0; i < _transitions.Length; i++)
-            {
-                if (_transitions[i].GetType() == typeof(T))
-                {
-                    return _transitions[i] as T;
-                }
-            }
-            return null;
-        }
+        //private T GetCardUIHandler<T>() where T : CardUITransition
+        //{
+        //    for (int i = 0; i < _transitions.Length; i++)
+        //    {
+        //        if (_transitions[i].GetType() == typeof(T))
+        //        {
+        //            return _transitions[i] as T;
+        //        }
+        //    }
+        //    return null;
+        //}
 
 
         public void ExecuteCardUI(CardUI card)
@@ -186,8 +211,8 @@ namespace Battles.UI
             if (card == null)
                 return;
      //       card.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Locked;
-            var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
-            StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal), card.transform.localPosition));
+        //    var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
+        //    StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal), card.transform.localPosition));
 
         }
 
@@ -258,14 +283,21 @@ namespace Battles.UI
             _selectedCardUI.Inputs.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hand);
             _selectedCardUI.gameObject.SetActive(true);
             _selectedCardUI = cardReference;
+            DeckManager.Instance.TransferCard(true, DeckEnum.Hand,DeckEnum.Selected, _selectedCardUI.GFX.GetCardReference);
+
         }
-        internal void CardUITouchedReleased(CardUI cardReference)
+        internal void CardUITouchedReleased(bool ExecuteSucceded,CardUI cardReference)
         {
 
             var card = _selectedCardUI;
             if (card == null)
                 return;
-          //    card.startState =CardInputs.CardUIInput.Zoomed;
+            if (!ExecuteSucceded)
+
+                if (ExecuteSucceded==false)
+                    DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
+
+            //    card.startState =CardInputs.CardUIInput.Zoomed;
             InputManager.Instance.RemoveObjectFromTouch();
             card.CardAnimator.ResetAllAnimations();    
             _handUI.LockCardsInput(false);
@@ -311,18 +343,18 @@ namespace Battles.UI
             thisCardUI.CardTranslations.MoveCard(false, touchPos, _cardUISettings.GetCardFollowDelay);
         }
 
-        internal void TryExecuteCardUI(CardUI thisCardUI)
+        internal bool TryExecuteCardUI(CardUI thisCardUI)
         {
-            if (CardExecutionManager.Instance.TryExecuteCard(_selectedCardUI))
+            bool succeded = CardExecutionManager.Instance.TryExecuteCard(_selectedCardUI);
+            if (succeded)
             {
-  //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
-                OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition,_OriginalCard);
+                //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
+                OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition, _OriginalCard);
                 int index = _handUI.GetCardIndex(_selectedCardUI);
-                DeckManager.Instance.TransferCard(true, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal, _selectedCardUI.GFX.GetCardReference);
-
-         
+                DeckManager.Instance.TransferCard(true, DeckEnum.Selected, _selectedCardUI.GFX.GetCardReference.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal, _selectedCardUI.GFX.GetCardReference);
             }
-     
+            return succeded;
+           
         }
 
     }
@@ -343,237 +375,20 @@ namespace Battles.UI
 
 
 
-    public abstract class CardUITransition
-    {
-        protected CardUIManager _cardUIManager;
-        protected SoundsEvent _soundEvent;
-        protected CardUISO _cardSettings;
+    //public abstract class CardUITransition
+    //{
+    //    protected CardUIManager _cardUIManager;
+    //    protected SoundsEvent _soundEvent;
+    //    protected CardUISO _cardSettings;
       
-        public CardUITransition(CardUIManager cuim,CardUISO so, SoundsEvent soundEvent)
-        {
-            _cardUIManager = cuim;
-            _soundEvent = soundEvent;
-            _cardSettings = so;
-        }
-        public abstract IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination,Vector2 startPos);
+    //    public CardUITransition(CardUIManager cuim,CardUISO so, SoundsEvent soundEvent)
+    //    {
+    //        _cardUIManager = cuim;
+    //        _soundEvent = soundEvent;
+    //        _cardSettings = so;
+    //    }
+    //    public abstract IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination,Vector2 startPos);
 
-    }
+    //}
 
-    public class DiscardHandHandler : CardUITransition
-    {
-        HandUI _handUI;
-        public DiscardHandHandler(CardUIManager cuim, CardUISO so, HandUI hands, SoundsEvent soundEvent) : base(cuim, so, soundEvent)
-        {
-            _handUI = hands;
-        }
-
-        public override IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination, Vector2 startPos)
-        {
-            if (cards == null || cards.Length == 0)
-                yield break;
-
-
-            for (int i = cards.Length - 1; i >= 0; i--)
-            {
-                if (cards[i] == null)
-                    continue;
-                _cardUIManager.StartCoroutine(DiscardCard(cards[i], destination));
-
-                yield return new WaitForSeconds(_cardSettings.DelayBetweenCardsIsDiscarded);
-
-            }
-
-        }
-
-        IEnumerator DiscardCard(CardUI card, Vector2 destination)
-        {
-
-            _soundEvent?.Raise(SoundsNameEnum.DisacrdCard);
-            card.GFX?.SetAlpha(_cardSettings.EndDiscardAlphaAmount, _cardSettings.AlphaDiscardTime, _cardSettings.AlphaDiscardTweenType);
-            var translation = card.CardTranslations;
-            if (translation!= null)
-            {
-                translation.SetScale(Vector3.one * _cardSettings.DiscardEndScaleSize, _cardSettings.ScaleDiscardTime, _cardSettings.ScaleDiscardTweenType);
-
-            yield return new WaitForSeconds(_cardSettings.DelayBetweenVisualAndMoving);
-                translation.MoveCardX(destination.x, _cardSettings.DiscardTransitionXTime, null,_cardSettings.DiscardMoveOnYLeanTweenType);
-                translation.MoveCardY(destination.y, _cardSettings.DiscardTransitionYTime,false,_cardSettings.DiscardMoveOnYLeanTweenType);
-
-            }
-       
-        }
-    }
-
-    public class RemoveCardAfterACtivated : CardUITransition
-    {
-        public RemoveCardAfterACtivated(CardUIManager _manager, CardUISO so, SoundsEvent soundEvent) : base(_manager, so, soundEvent)
-        {
-        }
-
-        public override IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination, Vector2 startPos)
-        {
-            if (cards == null || cards.Length == 0)
-                yield break;
-
-            //for (int i = 0; i < cards.Length; i++)
-            //{ 
-            //    if (cards[i] == null)
-            //        continue;
-            //    var translation = cards[i].CardTranslations;
-
-            //    cards[i].GFX.SetAlpha(_cardSettings.GetAlphaRemovalAmount, _cardSettings.GetAlphaRemovalTime,_cardSettings.GetAlphaLeanTween);
-            //    translation.SetScale(Vector3.one * _cardSettings.GetScaleSizeForRemoval, _cardSettings.GetRemovalTimeForRemoval, _cardSettings.GetScaleRemovalLeanTweenType);
-            //     yield return new WaitForSeconds(_cardSettings.GetDelayTillStartMovement);
-            //    translation.MoveCardX(destination.x, _cardSettings.GetRemovalTransitionXTime, null, _cardSettings.GetMoveOnXLeanTween);
-            //    translation.MoveCardY(destination.y, _cardSettings.GetRemovalTransitionYTime, false, _cardSettings.GetMoveOnYLeanTween);
-            //}
-        }
-
-    }
-
-
-    public class CraftCardUIHandler : CardUITransition
-    {
-        HandUI _hand;
-        public CraftCardUIHandler(HandUI hand, CardUIManager cuim, CardUISO so, SoundsEvent soundEvent) : base(cuim, so, soundEvent)
-        {
-            _hand = hand;
-        }
-
-        public override IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination, Vector2 startPos)
-        {
-            if (cards == null || cards.Length == 0)
-                yield break;
-
-
-
-            for (int i = 0; i < cards.Length; i++)
-            {
-                if (cards[i] == null)
-                    continue;
-
-                RectTransform cardUIRect = cards[i].GFX.GetRectTransform;
-                //DeckEnum goToDeck = cards[i].GFX.GetCardReference.CardSO.GoToDeckAfterCrafting;
-                //switch (goToDeck)
-                //{
-                //    case DeckEnum.PlayerDeck:
-                //        MoveCardUIToPlayerDeck(cards[i], cardUIRect, destination);
-                //        break;
-                //    case DeckEnum.Hand:
-                        MoveCardUIToHandDeck(cards[i], cardUIRect, destination, _hand);
-                //        break;
-                //    case DeckEnum.Disposal:
-                //        MoveCardUIToDisposalDeck(cards[i], cardUIRect, destination);
-
-                //        break;
-
-                //    default:
-                //        throw new Exception("Crafted Card Destination Was Not Valid Check Destination Deck!");
-                    
-                //}
-
-                yield return null;
-            }
-        }
-
-        //private void MoveCardUIToPlayerDeck(CardUI cardUI, RectTransform cardRect, in Vector2 destination)
-        //{
-        //    cardUI.GFX.GlowCard(false);
-        //    // set their starting scale
-        //    //play sound
-        //    _soundEvent?.Raise(SoundsNameEnum.DrawCard);
-
-
-        //    cardUI.CardTranslations?.MoveCardX(destination.x, _cardSettings.CraftingToDrawPileTransitionXTime, null, _cardSettings.CraftingToDrawPileMoveOnXLeanTweenType);
-        //    cardUI.CardTranslations?.MoveCardY(destination.y, _cardSettings.CraftingToDrawPileTransitionYTime, true, _cardSettings.CraftingToDrawPileMoveOnYLeanTweenType);
-
-        //}
-
-        private void MoveCardUIToHandDeck(CardUI cardUI, RectTransform cardRect, in Vector2 destination,HandUI _hand)
-        {
-            cardUI.GFX.GlowCard(true);
-            // set their starting scale
-            cardUI.GFX.SetAlpha(1, _cardSettings.AlphaDrawTime, _cardSettings.AlphaDrawTweenType);
-            //play sound
-            _soundEvent?.Raise(SoundsNameEnum.DrawCard);
-
-            cardUI.CardTranslations?.MoveCardY(destination.y, _cardSettings.CraftingToHandTransitionYTime, null, _cardSettings.CraftingToHandMoveOnYLeanTweenType);
-            LeanTween.moveX(cardRect, destination.x, _cardSettings.CraftingToHandTransitionXTime).setEase(_cardSettings.CraftingToHandMoveOnXLeanTweenType);
-
-        }
-
-        //private void MoveCardUIToDisposalDeck(CardUI cardUI, RectTransform cardRect, in Vector2 destination)
-        //{
-
-        //    // disable glow
-        //    cardUI.GFX.GlowCard(false);
-        //    // set their starting scale
-        //    //play sound
-        //    _soundEvent?.Raise(SoundsNameEnum.DisacrdCard);
-
-        //    // Move cards and then add it to hand
-        //    cardUI.CardTranslations?.MoveCardY(destination.y, _cardSettings.CraftingToDiscardTransitionYTime, null, _cardSettings.CraftingToDiscardMoveOnYLeanTweenType);
-        //    cardUI.CardTranslations?.MoveCardX(destination.x, _cardSettings.CraftingToDiscardTransitionXTime, true, _cardSettings.CraftingToDiscardMoveOnXLeanTweenType);
-        //}
-    }
-
-
-
-    public class DrawCardUIHandler : CardUITransition
-    {
-        HandUI _hand;
-        public DrawCardUIHandler(CardUIManager _manager,HandUI hand,SoundsEvent _soundEvent, CardUISO so) : base(_manager,so, _soundEvent)
-        {
-            _hand = hand;
-        }
-
-        public override IEnumerator MoveCardsUI(CardUI[] cards, Vector2 destination,Vector2 startPos)
-        {
-            // check if its valid array
-            if (cards == null || cards.Length == 0)
-                yield break;
-
-            
-            for (int i = 0; i < cards.Length; i++)
-            {
-                if (cards[i] == null)
-                    continue;
-                MoveCardUI(cards[i], destination);
-
-                yield return new WaitForSeconds(_cardSettings.DelayTillDrawNextCard);
-
-            }
-        }
-
-        private void MoveCardUI(CardUI card, Vector2 destination)
-        {
-            // cache rectTransform
-            RectTransform cardUIRect = card.GFX.GetRectTransform;
-            // disable glow
-            card.GFX.GlowCard(false);
-            // set their starting scale
-            cardUIRect.localScale = Vector3.one * _cardSettings.StartScaleSize;
-
-            //play sound
-            _soundEvent?.Raise(SoundsNameEnum.DrawCard);
-
-            //set their alpha
-            card.GFX.SetAlpha(
-                _cardSettings.StartAlphaAmount,
-                0.001f, LeanTweenType.notUsed,
-                () => 
-                { card.GFX.SetAlpha(1, _cardSettings.AlphaDrawTime, _cardSettings.AlphaDrawTweenType); }
-                ); 
-            //LeanTween.alpha(cardUIRect, _cardSettings.StartAlphaAmount, 0.001f).setOnComplete(() =>
-            //LeanTween.alpha(cardUIRect, 1, _cardSettings.AlphaDrawTime).setEase(_cardSettings.AlphaDrawTweenType));
-
-            // set 
-            card.CardTranslations?.SetScale(Vector3.one, _cardSettings.ScaleDrawTime);
-            // Move cards and then add it to hand
-            card.CardTranslations?.MoveCardY(destination.y, _cardSettings.DrawTransitionYTime, null, _cardSettings.DrawMoveOnYLeanTweenType);
-          //  card.CardTranslations?.MoveCardX(destination.x, _cardSettings.DrawTransitionXTime, null, _cardSettings.DrawMoveOnXLeanTweenType);
-            LeanTween.moveX(cardUIRect, destination.x, _cardSettings.DrawTransitionXTime).setEase(_cardSettings.DrawMoveOnXLeanTweenType);
-        }
-        
-    }
 }

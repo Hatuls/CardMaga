@@ -60,7 +60,8 @@ public  class SceneHandler
         yield return null;
 
         Debug.Log("Finished Loading Asyncly the scene " + sceneEnum.ToString());
-        SceneManager.SetActiveScene(SceneManager.GetSceneAt((int)sceneEnum));
+    //    Debug.Log(SceneManager.sceneCount);
+    //    SceneManager.SetActiveScene(SceneManager.GetSceneAt((int)sceneEnum));
         Debug.Log("Set Active Scene " + sceneEnum.ToString());
         
         CurrentScene = sceneEnum;
