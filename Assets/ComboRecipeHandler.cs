@@ -1,7 +1,8 @@
 ﻿
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>
+public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>, IPointerClickHandler
 {
     [SerializeField]
     ComboRecipeUI[] comboRecipeUIs;
@@ -71,5 +72,10 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>
             SetActivePanels();
         }
         
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Init();
     }
 }

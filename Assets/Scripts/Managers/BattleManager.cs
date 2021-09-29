@@ -40,7 +40,7 @@ namespace Battles
             EnemyManager.Instance.UpdateStats();
             Combo.ComboManager.Instance.Init();
             Keywords.KeywordManager.Instance.Init();
-
+            AudioManager.Instance.ResetAudioCollection();
             EndTurnButton._OnFinishTurnPress += TurnHandler.OnFinishTurn;
         }
         private void ResetParams()
@@ -50,6 +50,10 @@ namespace Battles
             UI.CardUIManager.Instance.Init();
             UI.CraftingUIManager.Instance.Init();
             VFXManager.Instance.Init();
+
+
+            PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
+            EnemyManager.EnemyAnimatorController.ResetLayerWeight();
         }
         private void Update()
         {
@@ -106,12 +110,17 @@ namespace Battles
                 EnemyDied();
             }
 
-
+            PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
+            EnemyManager.EnemyAnimatorController.ResetLayerWeight();
 
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
-            LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.MainMenu);
+
         }
+
+        public static void ReturnToMainMenu() => LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.MainMenu);
+
+
 
         private static void EnemyDied()
         {

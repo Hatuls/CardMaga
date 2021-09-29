@@ -201,6 +201,8 @@ namespace Battles.Turns
             yield return KeywordManager.Instance.OnEndTurnKeywords(false);
             yield return new WaitForSeconds(0.5f);
             StatsHandler.GetInstance.ResetShield(true);
+            Managers.PlayerManager.Instance.OnEndTurn();
+            EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();
 
 
@@ -296,6 +298,8 @@ namespace Battles.Turns
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
             yield return new WaitForSeconds(0.1f);
             StatsHandler.GetInstance.ResetShield(false);
+            Managers.PlayerManager.Instance.OnEndTurn();
+            EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();
         }
 

@@ -80,6 +80,10 @@ namespace Managers
             }
         }
 
+        public void OnEndTurn() => _playerAnimatorController.ResetLayerWeight();
+
+
+
         public void UpdateStats()
         {
             Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, _characterStats.MaxHealth);

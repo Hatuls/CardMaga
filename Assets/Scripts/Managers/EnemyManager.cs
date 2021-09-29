@@ -84,7 +84,7 @@ namespace Battles
 
             }
         }
-
+        public void OnEndTurn() => _enemyAnimatorController.ResetLayerWeight();
         public System.Collections.IEnumerator PlayEnemyTurn()
         {
             Debug.Log("Enemy Attack!");

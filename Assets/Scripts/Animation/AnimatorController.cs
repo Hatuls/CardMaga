@@ -133,7 +133,7 @@ public class AnimatorController : MonoBehaviour
 
     public void DeathAnimationCompleted()
     {
-        Battles.BattleManager.BattleEnded(isPlayer);
+      Battles.BattleManager.ReturnToMainMenu();
     }
 
     public void SetAnimationQueue(Card card)
@@ -218,11 +218,15 @@ public class AnimatorController : MonoBehaviour
         PlayAnimation(_currentAnimation._attackAnimation.ToString());
         _movedToNextAnimation?.Raise();
     }
-
-    private void SetLayerWeight(Cards.BodyPartEnum bodyPartEnum)
+    public void ResetLayerWeight()
     {
         _playerAnimator.SetLayerWeight(1, 0);
         _playerAnimator.SetLayerWeight(2, 0);
+    }
+
+    private void SetLayerWeight(Cards.BodyPartEnum bodyPartEnum)
+    {
+        ResetLayerWeight();
 
         switch (bodyPartEnum)
         {

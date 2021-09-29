@@ -76,6 +76,7 @@ namespace Combo
                         Battles.CardExecutionManager.Instance.RegisterCard(craftedCard, isPlayer);
                       //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
                         DeckManager.GetCraftingSlots(isPlayer).AddCard(craftedCard,false);
+                        DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
                     default:
                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.GoToDeckAfterCrafting.ToString());

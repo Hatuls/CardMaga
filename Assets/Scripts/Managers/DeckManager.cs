@@ -140,7 +140,7 @@ namespace Battles.Deck
                         fromDeck.DiscardCard(cardCache);
                     }
                     else
-                       Debug.LogError("DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card \n " + fromDeck.ToString());
+                       Debug.LogError($"DeckManager: {isPlayersDeck} The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card \n " + fromDeck.ToString());
 
 
                 }
