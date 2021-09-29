@@ -110,7 +110,15 @@ namespace Keywords
         Heal = 3 ,
         Strength =4,
         Bleed = 5,
-        MaxHealth =6,
+        MaxHealth = 6,
+        Interupt =7,
+        Weak = 8,
+        Vulnerable = 9,
+        Fatigue = 10,
+        Regeneration = 11,
+        Dexterity =12,
+        Draw = 13,
+
         Stamina = 23,
     };
 

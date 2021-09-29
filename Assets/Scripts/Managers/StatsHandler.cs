@@ -201,3 +201,23 @@ namespace Characters.Stats
     }
 
 }
+
+
+
+
+
+public abstract class StatAbst
+{
+    public abstract Keywords.KeywordTypeEnum Keyword { get; }
+    public int Amount { get;protected set; }
+    public StatAbst(int amount)
+    {
+        Amount = amount;
+    }
+
+    public virtual void Add(int amount) => Amount += amount;
+    public virtual void Reduce(int amount) => Amount -= amount;
+    public virtual bool HasValue() => Amount > 0;
+    public virtual void Reset(int value = 0) => Amount = value;
+}
+
