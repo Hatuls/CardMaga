@@ -101,7 +101,7 @@ namespace Battles.UI
 
                 case Keywords.KeywordTypeEnum.Bleed:
                     SetBuffUI(isPlayer, BuffIcons.Bleed , Amount);
-                    StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
+                   // StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
                     break;
 
                 case Keywords.KeywordTypeEnum.MaxHealth:

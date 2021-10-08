@@ -24,24 +24,13 @@ namespace Keywords
             {
                 UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
 
+                var target = data.GetTarget;
+                if (target == TargetEnum.MySelf || target == TargetEnum.All)
+                    CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
 
+                if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                    CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
 
-                switch (data.GetTarget)
-                {
-
-                    case TargetEnum.All:
-                        CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
-                        CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
-                        break;
-
-                    case TargetEnum.MySelf:
-                    case TargetEnum.Opponent:
-                        CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
-                        break;
-                    case TargetEnum.None:
-                    default:
-                        break;
-                }
             }
         }
     }

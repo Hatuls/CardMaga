@@ -147,19 +147,23 @@ public class AnimatorController : MonoBehaviour
     }
     public void SetAnimationQueue(AnimationBundle animationBundle)
     {
-        if (animationBundle == null)
-            return;
+        _currentAnimation = animationBundle;
+        SetLayerWeight(animationBundle.BodyPartEnum);
+        PlayAnimation(animationBundle._attackAnimation.ToString());
+        //  StartCoroutine(PlayAnimation());
+        //if (animationBundle == null)
+        //    return;
 
-         _animationQueue.Enqueue(animationBundle);
-        //animationList.Add(animationBundle);
+        // _animationQueue.Enqueue(animationBundle);
+        ////animationList.Add(animationBundle);
 
-        IsMyTurn = true;
+        //IsMyTurn = true;
 
-        if (_animationQueue.Count == 1) //&& isFirst
-        {
-         
-            TranstionToNextAnimation();
-        }
+        //if (_animationQueue.Count == 1) //&& isFirst
+        //{
+
+        //    TranstionToNextAnimation();
+        //}
 
 
 
@@ -169,55 +173,32 @@ public class AnimatorController : MonoBehaviour
     {
         transform.position = startPos;
         transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
- 
+
         // we want to go back to idle if we dont have more animation to do
         // and if we have animation in the queue we want to transtion to them and tell all relevants that a transtion happend
-    
-        if (_animationQueue.Count == 0)
-        {
+
+     
             OnFinishAnimation();
-            return;
-        }
 
-        StartCoroutine(PlayAnimation());
-      
     }
 
-    IEnumerator PlayAnimation()
-    {
-        _previousAnimation = _currentAnimation;
-        _currentAnimation = _animationQueue.Dequeue();
-        SetLayerWeight(_currentAnimation.BodyPartEnum);
-        Debug.LogWarning(
-            new
-            {
-                AnimationQueue = _animationQueue.Count,
-                PreviousAnimation = (_previousAnimation == null) ? null : _previousAnimation._attackAnimation.ToString(),
-                CurrentAnimation = _currentAnimation == null ? null : _currentAnimation._attackAnimation.ToString()
-            }
-            ) ;
+    //IEnumerator PlayAnimation()
+    //{
+    //    _previousAnimation = _currentAnimation;
+    //    _currentAnimation = _animationQueue.Dequeue();
+    //    SetLayerWeight(_currentAnimation.BodyPartEnum);
+    //    Debug.LogWarning(
+    //        new
+    //        {
+    //            AnimationQueue = _animationQueue.Count,
+    //            PreviousAnimation = (_previousAnimation == null) ? null : _previousAnimation._attackAnimation.ToString(),
+    //            CurrentAnimation = _currentAnimation == null ? null : _currentAnimation._attackAnimation.ToString()
+    //        }
+    //        ) ;
 
+    //    PlayAnimation(_currentAnimation._attackAnimation.ToString());
 
-
-
-
-        if (_previousAnimation != null && _currentAnimation != null &&_previousAnimation._attackAnimation == _currentAnimation._attackAnimation)
-        {
-          //  Debug.Log("#%!@@E%#%@#!%#!%#!%!#%");
-            while (!_playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_1")) 
-            {
-                Debug.LogWarning("Got TO loop!");
-                yield return null;
-            }
-
-        }
-   
-
-
-
-        PlayAnimation(_currentAnimation._attackAnimation.ToString());
-        _movedToNextAnimation?.Raise();
-    }
+    //}
     public void ResetLayerWeight()
     {
         _playerAnimator.SetLayerWeight(1, 0);
@@ -274,10 +255,10 @@ public class AnimatorController : MonoBehaviour
     }
     private void OnFinishAnimation()
     {
-        ReturnToIdle();
+        //ReturnToIdle();
         ResetBothRotaionAndPosition();
-        isFirst = true;
-        _onFinishedAnimation?.Raise();
+      //  isFirst = true;
+     //   _onFinishedAnimation?.Raise();
       //  _currentAnimation = null;
         Battles.CardExecutionManager.Instance.CardFinishExecuting();
     }

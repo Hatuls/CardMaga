@@ -133,7 +133,7 @@ namespace Combo
 
             System.Array.Copy(DeckManager.GetCraftingSlots(isPlayer).GetDeck, craftingSlots, DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length);
 
-            System.Array.Reverse(craftingSlots);
+          //  System.Array.Reverse(craftingSlots);
 
             // checking how many of them are not null
             int amountCache = 0;
