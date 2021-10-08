@@ -1,54 +1,50 @@
 ﻿using Battles.UI;
 using Cards;
 
-public class PlayerCraftingSlots: Battles.Deck.DeckAbst
+public class PlayerCraftingSlots : Battles.Deck.DeckAbst
 {
     CraftingUIHandler _playerCraftingUIHandler;
-    public PlayerCraftingSlots(bool isPlayer,int cardsLength):base(isPlayer,cardsLength)
+    public PlayerCraftingSlots(bool isPlayer, int cardsLength) : base(isPlayer, cardsLength)
     {
         _playerCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
     }
+
+    private bool AddCardToEmptySlot(Card card)
+    {
+        bool foundEmptySlots = false;
+        for (int i = 0; i < GetDeck.Length; i++)
+        {
+            if (GetDeck[i] == null)
+            {
+                foundEmptySlots = true;
+                GetDeck[i] = card;
+                _playerCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
+                break;
+            }
+        }
+        return foundEmptySlots;
+    }
     public override void AddCard(Card card)
     {
-        //Card lastCardInDeck = null;
-        bool isDeckIsFull = true ;
-        //for (int i = GetDeck.Length - 1; i >= 1; i--)
-        //{
-        //    if (GetDeck[i] == null)
-        //        isDeckIsFull = false;
 
-
-        //    if (i == GetDeck.Length - 1)
-        //        lastCardInDeck = GetDeck[i];
-        //    else GetDeck[i] = GetDeck[i - 1];
-        //}
-
-        //GetDeck[0] = card;
-
-
-        for (int i = GetDeck.Length - 1; i >= 0; i--)
+        if (AddCardToEmptySlot(card) == false)
         {
-            if (i != 0)
-            {
-                GetDeck[i] = GetDeck[i - 1];
-            }
-            else
-            {
-                GetDeck[i] = card;
-            }
-            if (i == GetDeck.Length - 1)
-            {
-                GetDeck[i] = null;
-            }
-            if (GetDeck[i] == null)
-                isDeckIsFull = false;
+            Card removingCard = GetDeck[0];
 
-            _playerCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
+            for (int i = 1; i < GetDeck.Length; i++)
+                GetDeck[i - 1] = GetDeck[i];
+
+            GetDeck[GetDeck.Length - 1] = card;
+            _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
+
+            //for (int i = 0; i < GetDeck.Length; i++)
+            //    _playerCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
+
+
         }
 
-        _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, isDeckIsFull);
         CountCards();
-         Combo.ComboManager.StartDetection();
+        Combo.ComboManager.StartDetection();
     }
     public void AddCard(Card card , bool toDetect)
     {

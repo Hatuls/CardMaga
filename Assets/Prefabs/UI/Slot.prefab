@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 6017666313966591195}
   - component: {fileID: 2421999509592065131}
   - component: {fileID: 3318732992464304593}
+  - component: {fileID: 2509663575967089474}
   m_Layer: 5
   m_Name: Slot
   m_TagString: Untagged
@@ -173,7 +174,9 @@ MonoBehaviour:
   _decorImage: {fileID: 1759933099469194616}
   _SlotID: 0
   _iconHolder: {fileID: 2484443019284043767}
-  _rectTransform: {fileID: 0}
+  _rectTransform: {fileID: 8834776471377040744}
+  crossFadeAnimationTime: 1
+  _anim: {fileID: 2509663575967089474}
 --- !u!61 &5189727826717169475
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -282,6 +285,25 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!95 &2509663575967089474
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597036620056316685}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e81a227603fe719488d27c8f085cc879, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2896004030381798892
 GameObject:
   m_ObjectHideFlags: 0

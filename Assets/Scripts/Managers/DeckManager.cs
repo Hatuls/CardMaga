@@ -23,7 +23,7 @@ namespace Battles.Deck
         [SerializeField] int _playerMaxHandSize;
         [SerializeField] int _playerStartingHandSize;
         public const int _placementSize = 1;
-        public const int _craftingSlotsSize = 4;
+        public const int _craftingSlotsSize = 3;
         #endregion
         #endregion
         #region Properties
@@ -92,7 +92,7 @@ namespace Battles.Deck
             GetDeckAbst(isPlayersDeck,toDeck).AddCard(addedCard);
 
         }
-        public void DrawHand(bool isPlayersDeck,int drawAmount)
+        public void DrawHand(bool isPlayersDeck, int drawAmount)
         {
             if (BattleManager.isGameEnded)
                 return;
@@ -122,31 +122,30 @@ namespace Battles.Deck
             Card cardCache;
 
 
-            if (deck[DeckEnum.PlayerDeck] != null)
+
+            for (int i = 0; i < drawAmount; i++)
             {
-                for (int i = 0; i < drawAmount; i++)
+                cardCache = fromDeck.GetFirstCard();
+
+                if (cardCache == null)
                 {
+                    deck[DeckEnum.Disposal].ResetDeck();
                     cardCache = fromDeck.GetFirstCard();
-
-                    if (cardCache == null)
-                    {
-                        deck[DeckEnum.Disposal].ResetDeck();
-                        cardCache = fromDeck.GetFirstCard();
-                    }
-
-                    if (cardCache != null)
-                    {
-                        toDeck.AddCard(cardCache);
-                        fromDeck.DiscardCard(cardCache);
-                    }
-                    else
-                       Debug.LogError($"DeckManager: {isPlayersDeck} The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card \n " + fromDeck.ToString());
-
-
                 }
-                if(isPlayersDeck)
-                CardUIManager.Instance.DrawCards(toDeck.GetDeck);
+
+                if (cardCache != null)
+                {
+                    toDeck.AddCard(cardCache);
+                    fromDeck.DiscardCard(cardCache);
+                }
+                else
+                    Debug.LogError($"DeckManager: {isPlayersDeck} The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card {cardCache} \n " + fromDeck.ToString());
+
+
             }
+            if (isPlayersDeck)
+                CardUIManager.Instance.DrawCards(toDeck.GetDeck);
+
 
 
         }
@@ -306,11 +305,12 @@ namespace Battles.Deck
 
         public void InitDeck(bool isPlayer, Card[] deck)
         {
+            const int size = 6;
 
             if (isPlayer && _playerDecks == null)
-                _playerDecks = new Dictionary<DeckEnum, DeckAbst>();
+                _playerDecks = new Dictionary<DeckEnum, DeckAbst>(size);
             else if (!isPlayer && _OpponentDecks == null)
-                _OpponentDecks = new Dictionary<DeckEnum, DeckAbst>();
+                _OpponentDecks = new Dictionary<DeckEnum, DeckAbst>(size);
 
             var characterDeck = (isPlayer ? _playerDecks : _OpponentDecks);
             characterDeck.Clear();

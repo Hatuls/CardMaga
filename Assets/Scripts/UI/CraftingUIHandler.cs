@@ -12,28 +12,30 @@ namespace Battles.UI
         //set slots UI by Data and index
         //arr of crafting slot UI
         #region Fields
-        int EnterToLeftHash = Animator.StringToHash("EnterToLeft");
-        Animator _animator;
+        static int _moveLeftAnimHash = Animator.StringToHash("MoveLeft");
+        static int _AssignAnimHash = Animator.StringToHash("AssignedAnimation");
+        static int _fadingInAnim = Animator.StringToHash("AlphaFade");
+
+     
+
          CraftingSlotUI[] _CraftingSlotsUIArr;
+         CraftingSlotUI _fadingOut;
          RectTransform _firstSlotTransform;
-         float _leanTweenTime;
 
-         float _offsetPos =1 ;
-
-        bool isPlayersCrafting;
+        static float leanTweenTime;
         #region Properties
         public CraftingSlotUI[] GetCraftingSlotsUIArr => _CraftingSlotsUIArr;
         #endregion
 
 
 
-        public CraftingUIHandler(CraftingSlotUI[] _CraftingSlotsUIArr,Animator _anim ,RectTransform _firstSlotTransform, float _leanTweenTime,bool isPlayersCrafting)
+        public CraftingUIHandler(CraftingSlotUI[] _CraftingSlotsUIArr, CraftingSlotUI _fadingOut, RectTransform _firstSlotTransform, float _leanTweenTime,bool isPlayersCrafting)
         {
-            this._animator = _anim;
+
+           this. _fadingOut = _fadingOut;
             this._CraftingSlotsUIArr = _CraftingSlotsUIArr;
             this._firstSlotTransform = _firstSlotTransform;
-            this._leanTweenTime = _leanTweenTime;
-            this.isPlayersCrafting = isPlayersCrafting;
+            leanTweenTime = _leanTweenTime;
             ResetAllSlots();
         }
 
@@ -47,9 +49,7 @@ namespace Battles.UI
                 if (_CraftingSlotsUIArr[i] != null)
                     _CraftingSlotsUIArr[i].ActivateGlow(false);
             }
-            LeanTween.alpha(_CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
-
-            
+     
         }
 
         internal void MarkSlotsDetected()
@@ -61,21 +61,19 @@ namespace Battles.UI
             }
         }
         #endregion
- 
+
         public void ResetAllSlots()
         {
-            if(_CraftingSlotsUIArr == null)
+            if (_CraftingSlotsUIArr == null)
             {
                 Debug.LogError("Error in ResetAllSlots");
                 return;
             }
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
-               _CraftingSlotsUIArr[i].SlotID = i + 1;
+                _CraftingSlotsUIArr[i].SlotID = i + 1;
                 ResetPlaceHolderUI(i);
             }
-
-            LeanTween.alpha(_CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].RectTransform, 0, 0.001f);
         }
         public void ResetPlaceHolderUI(int index)
         {
@@ -88,33 +86,21 @@ namespace Battles.UI
             }
             _CraftingSlotsUIArr[index].ResetSlotUI();
         }
-        public void ChangeSlotsPos(Cards.Card[] cards , bool isFull)
+        public void ChangeSlotsPos(Cards.Card[] cards , Cards.Card removedCard)
         {
-         
+            if (removedCard == null)
+                return;
+            _fadingOut.InitPlaceHolder(removedCard.CardSO.CardType);
+            _fadingOut.PlayAnimation(_fadingInAnim);
+            _fadingOut.MoveLocation(_CraftingSlotsUIArr[0].RectTransform.localPosition, leanTweenTime);
 
-            var type = cards[0].CardSO.CardType.CardType;
-
-            _CraftingSlotsUIArr[0].Appear(_leanTweenTime, type);
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
-                _CraftingSlotsUIArr[i].MovePlaceHolderSlot(ref isPlayersCrafting, GetRectTransform(i), _CraftingSlotsUIArr.Length - 1 == i ? 0 : _offsetPos);
-                _CraftingSlotsUIArr[i].MoveDown(_leanTweenTime);
+                _CraftingSlotsUIArr[i].InitPlaceHolder(cards[i].CardSO.CardType);
+                Vector2 startPos = i == _CraftingSlotsUIArr.Length - 1 ? _firstSlotTransform.localPosition: _CraftingSlotsUIArr[i + 1].RectTransform.localPosition;
+                _CraftingSlotsUIArr[i].MoveLocation(startPos, leanTweenTime);
             }
 
-
-
-            if (cards[_CraftingSlotsUIArr.Length - 1] != null)
-            {
-
-                type = cards[_CraftingSlotsUIArr.Length - 1].CardSO.CardType.CardType;
-
-                _CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].Disapear(_leanTweenTime, type);
-            }
-            else
-            {
-                _CraftingSlotsUIArr[_CraftingSlotsUIArr.Length - 1].Disapear(_leanTweenTime);
-
-            }
         }
         public RectTransform GetRectTransform(int index)
         => index == 0 ? _firstSlotTransform : _CraftingSlotsUIArr[index -1].RectTransform;
@@ -127,6 +113,7 @@ namespace Battles.UI
                 return;
             }
             _CraftingSlotsUIArr[index].InitPlaceHolder(cardCache.CardSO.CardType);
+            _CraftingSlotsUIArr[index].PlayAnimation(_AssignAnimHash);
         }
 
     }

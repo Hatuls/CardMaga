@@ -91,31 +91,46 @@ namespace Battles
         {
             Debug.Log("Enemy Attack!");
 
-            var staminaHandler = Characters.Stats.StaminaHandler.Instance; 
+            var staminaHandler = Characters.Stats.StaminaHandler.Instance;
+
+           var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
+
+
             int indexCheck = -1;
-            bool noMoreCardsAvailable;
+            bool noMoreCardsAvailable = false;
             do
             {
                 do
                 {
-                    indexCheck++;
                     yield return null;
-                    enemyAction = DeckManager.Instance.GetCardFromDeck(false, indexCheck, DeckEnum.Hand);
+                    indexCheck++;   
+                    if (indexCheck >= handCards.Length)
+                    {
+                        noMoreCardsAvailable = true;
+                        break;
+                    }
 
-                    noMoreCardsAvailable = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand).Length - 1 <= indexCheck;
+                    enemyAction = handCards[indexCheck];
 
+                    if (staminaHandler.IsEnoughStamina(false, enemyAction))
+                        DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, enemyAction);
+
+                
 
                 } while (!CardExecutionManager.Instance.TryExecuteCard(false, enemyAction));
 
-                if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
-                    yield return new WaitForSeconds(.3f);
-                else
-                    yield return new WaitForSeconds(1f);
+                if (noMoreCardsAvailable == false)
+                {
+                    if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
+                        yield return new WaitForSeconds(.3f);
+                    else
+                        yield return new WaitForSeconds(1f);
+                }
 
-                   indexCheck = -1;
-            } while (staminaHandler.HasStamina(false) && noMoreCardsAvailable == false) ;
+                indexCheck = -1;
+            } while (staminaHandler.HasStamina(false) && noMoreCardsAvailable == false);
 
-            
+
 
             yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
             yield return new WaitForSeconds(1f);

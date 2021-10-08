@@ -10,15 +10,15 @@ namespace Battles.UI
 
         [SerializeField] CraftingSlotUI[] _playerCraftingSlotsUI;
         [SerializeField] RectTransform _playersfirstSlotTransform;
-        [SerializeField] Animator _playerAnimator;
+        [SerializeField] CraftingSlotUI _fadeOutCraftingSlots;
 
         [SerializeField] CraftingSlotUI[] _opponentCraftingSlotsUI;
         [SerializeField] RectTransform _opponentfirstSlotTransform;
-        [SerializeField] Animator _opponentAnimator;
+        [SerializeField] CraftingSlotUI _opponentfadeOutCraftingSlots;
 
 
 
-        [SerializeField] float leanTweenTime;
+        [SerializeField] float moveLeanTweenTime;
 
         public CraftingUIHandler GetCharacterUIHandler(bool players)
         {
@@ -33,12 +33,12 @@ namespace Battles.UI
         {
             if (_playerCraftingUIHandler == null)
             {
-                _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _playerAnimator, _playersfirstSlotTransform, leanTweenTime, true );
+                _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _fadeOutCraftingSlots, _playersfirstSlotTransform, moveLeanTweenTime, true );
                 _playerCraftingUIHandler.ResetAllSlots();
             }
             if (_opponentCraftingUIHandler == null)
             {
-                _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI, _opponentAnimator, _opponentfirstSlotTransform, leanTweenTime, false);
+                _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI, _opponentfadeOutCraftingSlots, _opponentfirstSlotTransform, moveLeanTweenTime, false);
                 _opponentCraftingUIHandler.ResetAllSlots();
             }
         }
