@@ -1,4 +1,5 @@
 ﻿using Battles;
+using Characters.Stats;
 using UnityEngine;
 
 
@@ -57,7 +58,7 @@ namespace Managers
         {
             _myCharacter = characterSO;
             _characterStats = characterSO.CharacterStats;
-
+            CharacterStatsManager.RegisterCharacterStats(true, ref _characterStats);
 
             var CardInfo = characterSO.Deck;
             _deck = new Cards.Card[CardInfo.Length];

@@ -1,6 +1,8 @@
 ﻿using Managers;
 using UnityEngine;
 using Battles.Deck;
+using Characters.Stats;
+
 namespace Battles
 {
     public class EnemyManager : MonoSingleton<EnemyManager> , IBattleHandler
@@ -40,7 +42,7 @@ namespace Battles
            // EnemyAI = new Opponents();
             _myCharacter = characterSO;
             _characterStats = characterSO.CharacterStats;
-
+            CharacterStatsManager.RegisterCharacterStats(false,ref _characterStats);
 
             var CardInfo = characterSO.Deck;
             _deck = new Cards.Card[CardInfo.Length];

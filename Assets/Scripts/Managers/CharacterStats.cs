@@ -29,17 +29,20 @@ namespace Characters.Stats
         [SerializeField] int _cardDraw;
 
         [SerializeField] int _startStamina;
+
+        [SerializeField] int _regenerationPoints;
         #endregion
 
         #region Properties
+        public int RegenerationPoints { get => _regenerationPoints; set => _regenerationPoints = value; }
         public int Dexterity { get; set; }
         public int StartStamina { get => _startStamina; set => _startStamina = value; }
         public int DrawCardsAmount { get => _cardDraw; set => _cardDraw = value; }
         public int Health {  get => _health; set => _health = value; }
-        public int MaxHealth { get => _maxHealth; set =>_maxHealth =value; }
+        public  int MaxHealth { get =>  _maxHealth; set =>_maxHealth =value; }
         public int Shield { get => _defense; set => _defense = value; }
         public int Gold { get => _gold; set => _gold = value; }
-        public int Strength { get => _strengthPoint; set => _strengthPoint = value; }
+        public  int Strength { get => _strengthPoint; set => _strengthPoint = value; }
         public int Bleed { get => _bleedPoints; set => _bleedPoints = value; }
 
         #endregion

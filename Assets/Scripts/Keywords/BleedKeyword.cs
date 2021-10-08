@@ -12,7 +12,9 @@ namespace Keywords
             {
                 UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + keywordData.GetTarget.ToString() + " recieved " + keywordData.KeywordSO.GetKeywordType.ToString() + " with Amount of " + keywordData.GetAmountToApply);
 
-                StatsHandler.GetInstance.AddBleedPoints(isToPlayer, keywordData.GetAmountToApply);
+
+                CharacterStatsManager.GetCharacterStatsHandler(isToPlayer).GetStats(GetKeyword).Add(keywordData.GetAmountToApply);
+
             }
         }
 
@@ -28,13 +30,13 @@ namespace Keywords
                 {
 
                     case TargetEnum.All:
-                        StatsHandler.GetInstance.AddBleedPoints(currentPlayer, data.GetAmountToApply);
-                        StatsHandler.GetInstance.AddBleedPoints(!currentPlayer, data.GetAmountToApply);
+                        CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
+                        CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
                         break;
 
                     case TargetEnum.MySelf:
                     case TargetEnum.Opponent:
-                        StatsHandler.GetInstance.AddBleedPoints(currentPlayer, data.GetAmountToApply);
+                        CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
                         break;
                     case TargetEnum.None:
                     default:

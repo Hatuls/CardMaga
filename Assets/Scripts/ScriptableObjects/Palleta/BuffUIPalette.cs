@@ -61,7 +61,7 @@ namespace Art
             switch (keywordTypeEnum)
             {   case Keywords.KeywordTypeEnum.MaxHealth:
                 case Keywords.KeywordTypeEnum.Attack:
-                case Keywords.KeywordTypeEnum.Defense:
+                case Keywords.KeywordTypeEnum.Shield:
                 case Keywords.KeywordTypeEnum.Heal:
                default:
                     break;

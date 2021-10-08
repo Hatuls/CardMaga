@@ -143,8 +143,8 @@ namespace Battles.Turns
 
             Deck.DeckManager.Instance.DrawHand(
                 isPlayerTurn,
-                StatsHandler.GetInstance.GetCharacterStats(isPlayerTurn).DrawCardsAmount
-                ); 
+                CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount
+                ) ; 
 
             StaminaHandler.Instance.ResetStamina(isPlayerTurn);
 
@@ -200,7 +200,8 @@ namespace Battles.Turns
             base.PlayTurn();
             yield return KeywordManager.Instance.OnEndTurnKeywords(false);
             yield return new WaitForSeconds(0.5f);
-            StatsHandler.GetInstance.ResetShield(true);
+            CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Shield).Reset();
+
             Managers.PlayerManager.Instance.OnEndTurn();
             EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();
@@ -222,7 +223,8 @@ namespace Battles.Turns
         {
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(true);
-            Deck.DeckManager.Instance.DrawHand(true,StatsHandler.GetInstance.GetCharacterStats(true).DrawCardsAmount);
+
+            Deck.DeckManager.Instance.DrawHand(true, CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Draw).Amount);
             StaminaHandler.Instance.ResetStamina(true) ;
             Debug.Log("Player Drawing Cards!");
             MoveToNextTurnState();
@@ -296,8 +298,9 @@ namespace Battles.Turns
 
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
-            yield return new WaitForSeconds(0.1f);
-            StatsHandler.GetInstance.ResetShield(false);
+            yield return new WaitForSeconds(0.1f); 
+            CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(KeywordTypeEnum.Shield).Reset();
+
             Managers.PlayerManager.Instance.OnEndTurn();
             EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();

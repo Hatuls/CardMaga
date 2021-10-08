@@ -106,7 +106,7 @@ namespace Battles
                     case Cards.CardTypeEnum.Defend:
                         switch (currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                         {
-                            case KeywordTypeEnum.Defense:
+                            case KeywordTypeEnum.Shield:
 
                                 VFXManager.Instance.PlayParticle(
                                 isPlayer,

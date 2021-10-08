@@ -1,8 +1,10 @@
 ﻿using Battles.Turns;
 using UnityEngine;
-using System;
+using Sirenix.OdinInspector;
 using Managers;
 using System.Collections;
+using Characters.Stats;
+
 namespace Battles
 {
     public class BattleManager : MonoSingleton<BattleManager>
@@ -29,7 +31,7 @@ namespace Battles
 
             ResetParams();
             AssignParams();
-           StartBattle();
+            StartBattle();
         }
 
         private void AssignParams()
@@ -78,7 +80,7 @@ namespace Battles
             Instance.StopAllCoroutines();
             Instance._turnCycles = TurnHandler.TurnCycle();
 
-    
+
             StartGameTurns();
             Instance.StartCoroutine(Instance.BackGroundSoundDelay());
 
@@ -144,6 +146,27 @@ namespace Battles
             if (scenesEnum == SceneHandler.ScenesEnum.Battle)
                 ResetBattle();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Editor Section
+        [Button]
+        public void KillEnemy()
+        => CharacterStatsManager.GetCharacterStatsHandler(false)?.RecieveDamage(1000000);
+
+        [Button]
+        public void KillPlayer()
+           => CharacterStatsManager.GetCharacterStatsHandler(true)?.RecieveDamage(1000000);
+        #endregion
     }
 
 

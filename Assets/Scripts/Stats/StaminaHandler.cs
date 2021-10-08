@@ -22,11 +22,11 @@ namespace Characters.Stats
         public StaminaHandler()
         {
             _playerStamina = new CharacterStamina(
-                StatsHandler.GetInstance.GetCharacterStats(true).StartStamina
+                CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(Keywords.KeywordTypeEnum.Stamina).Amount
                 );
 
             _opponentStamina = new CharacterStamina(
-                StatsHandler.GetInstance.GetCharacterStats(false).StartStamina
+               CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(Keywords.KeywordTypeEnum.Stamina).Amount
                 );
         }
         #region Character Stamina

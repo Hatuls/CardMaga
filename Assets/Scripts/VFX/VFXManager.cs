@@ -66,7 +66,7 @@ public class VFXManager : MonoSingleton<VFXManager>
         {
             case Keywords.KeywordTypeEnum.Attack:
                 return ParticleEffectsEnum.Attack;
-            case Keywords.KeywordTypeEnum.Defense:
+            case Keywords.KeywordTypeEnum.Shield:
                 return ParticleEffectsEnum.Shield;
             case Keywords.KeywordTypeEnum.Heal:
                 return ParticleEffectsEnum.Heal;

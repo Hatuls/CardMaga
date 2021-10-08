@@ -13,50 +13,36 @@ namespace Keywords
                 //  CameraController.ShakeCamera();
 
                 UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + keywordData.GetTarget.ToString() + " recieved " + keywordData.KeywordSO.GetKeywordType.ToString() + " with Amount " + keywordData.GetAmountToApply);
-                StatsHandler.GetInstance.RecieveDamage(
-                    isToPlayer,
-                    StatsHandler.GetInstance.GetCharacterStats(isFromPlayer).Strength + keywordData.GetAmountToApply
-                    );
+
+                var reciver = CharacterStatsManager.GetCharacterStatsHandler(isToPlayer);
+                var applier = CharacterStatsManager.GetCharacterStatsHandler(isFromPlayer);
+
+                reciver.RecieveDamage(applier.GetStats(KeywordTypeEnum.Strength).Amount + keywordData.GetAmountToApply);
+
             }
         }
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
-            switch (data.GetTarget)
+
+            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
-                case TargetEnum.MySelf:
-                    StatsHandler.GetInstance.RecieveDamage(
-                           currentPlayer,
-                           StatsHandler.GetInstance.GetCharacterStats(!currentPlayer).Strength + data.GetAmountToApply
-                           );
+                var reciver = CharacterStatsManager.GetCharacterStatsHandler(currentPlayer);
+                var applierStrength = CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(KeywordTypeEnum.Strength).Amount;
 
-                    break;
-
-                case TargetEnum.All:
-                    StatsHandler.GetInstance.RecieveDamage(
-                    currentPlayer,
-                    StatsHandler.GetInstance.GetCharacterStats(!currentPlayer).Strength + data.GetAmountToApply
-                    );
-
-                    StatsHandler.GetInstance.RecieveDamage(
-                    !currentPlayer,
-                    StatsHandler.GetInstance.GetCharacterStats(currentPlayer).Strength + data.GetAmountToApply
-                    );
-
-                    break;
-
-                case TargetEnum.Opponent:
-
-                    StatsHandler.GetInstance.RecieveDamage(
-                   !currentPlayer,
-                    StatsHandler.GetInstance.GetCharacterStats(currentPlayer).Strength + data.GetAmountToApply
-                    );
-                    break;
-                case TargetEnum.None:
-                default:
-                    break;
+                reciver.RecieveDamage(applierStrength + data.GetAmountToApply);
             }
+         
 
+            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
+            {
+                var reciver = CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer);
+                var applierStrength = CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(KeywordTypeEnum.Strength).Amount;
+
+                reciver.RecieveDamage(applierStrength + data.GetAmountToApply);
+
+            }
+  
         }
     }
 }

@@ -11,31 +11,17 @@ namespace Keywords
             if ( keywordData != null)
             {
                 UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + keywordData.GetTarget.ToString() + " recieved " + keywordData.KeywordSO.GetKeywordType.ToString() + " with Amount " + keywordData.GetAmountToApply);
-                StatsHandler.GetInstance.AddHealh(isToPlayer,keywordData.GetAmountToApply);
+                CharacterStatsManager.GetCharacterStatsHandler(isToPlayer).GetStats(GetKeyword).Add(keywordData.GetAmountToApply);
             }
         }
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
-            switch (data.GetTarget)
-            {
-                case TargetEnum.MySelf:
-                    StatsHandler.GetInstance.AddHealh(currentPlayer, data.GetAmountToApply);
-                    break;
+            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
+                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
 
-                case TargetEnum.All:
-                    StatsHandler.GetInstance.AddHealh(currentPlayer, data.GetAmountToApply);
-                    StatsHandler.GetInstance.AddHealh(!currentPlayer, data.GetAmountToApply);
-                    break;
-
-                case TargetEnum.Opponent:
-                    StatsHandler.GetInstance.AddHealh(!currentPlayer, data.GetAmountToApply);
-                    break;
-                case TargetEnum.None:
-                default:
-                    break;
-            }
-
+            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
+                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
         }
     }
 }

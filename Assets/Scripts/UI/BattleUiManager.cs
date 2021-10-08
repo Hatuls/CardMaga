@@ -73,40 +73,39 @@ namespace Battles.UI
 
         public void UpdateUiStats(bool isPlayer,int Amount, Keywords.KeywordTypeEnum actionTypeEnum)
         {
-             var characterStats = Characters.Stats.StatsHandler.GetInstance.GetCharacterStats(isPlayer);
             switch (actionTypeEnum)
             {
                 case Keywords.KeywordTypeEnum.Attack:
 
-                    _textEvent?.Raise(TextType.NormalDMG, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
-                    StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, characterStats.Health);
-                    StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, characterStats.Shield);
+                //    _textEvent?.Raise(TextType.NormalDMG, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
+                    StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
+                    StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, Amount);
                     break;
 
-                case Keywords.KeywordTypeEnum.Defense:
+                case Keywords.KeywordTypeEnum.Shield:
         
-                    _textEvent?.Raise(TextType.Shield, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
-                    StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, characterStats.Shield);
+                 //   _textEvent?.Raise(TextType.Shield, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
+                    StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, Amount);
 
                     break;
 
                 case Keywords.KeywordTypeEnum.Heal:
                
-                    _textEvent?.Raise(TextType.Healing, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
-                    StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, characterStats.Health);
+                //    _textEvent?.Raise(TextType.Healing, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
+                    StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
                     break;
 
                 case Keywords.KeywordTypeEnum.Strength:
-                    SetBuffUI(isPlayer, BuffIcons.Strength, characterStats.Strength);
+                    SetBuffUI(isPlayer, BuffIcons.Strength, Amount);
                     break;
 
                 case Keywords.KeywordTypeEnum.Bleed:
-                    SetBuffUI(isPlayer, BuffIcons.Bleed , characterStats.Bleed);
-                    StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, characterStats.Health);
+                    SetBuffUI(isPlayer, BuffIcons.Bleed , Amount);
+                    StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
                     break;
 
                 case Keywords.KeywordTypeEnum.MaxHealth:
-                    StatsUIManager.GetInstance.UpdateMaxHealthBar(isPlayer, characterStats.MaxHealth);
+                    StatsUIManager.GetInstance.UpdateMaxHealthBar(isPlayer, Amount);
                     break;
                 default:
                     break;
