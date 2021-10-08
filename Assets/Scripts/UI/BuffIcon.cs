@@ -97,7 +97,9 @@ public class BuffIcon : MonoBehaviour
     {
         SetText(amount.ToString());
         if (amount != 0)
-          TweenOnUpdateText();
+            TweenOnUpdateText();
+        else
+            ResetEnumType();
     }
     protected void ShowIcon()
     {
