@@ -15,4 +15,23 @@ namespace Characters.Stats
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Regeneration;
     }
 
+
+    public class HealthRegenerationKeyword : KeywordAbst
+    {
+        public override KeywordTypeEnum GetKeyword => KeywordTypeEnum.Regeneration;
+
+    
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            if (data == null)
+                throw new System.Exception("HealthRegen data is null!!");
+
+            var target = data.GetTarget;
+
+            if (target == TargetEnum.MySelf || target == TargetEnum.All)
+                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
+        }
+    }
 }

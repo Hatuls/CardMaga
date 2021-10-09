@@ -281,31 +281,41 @@ namespace Battles.UI
         }
         internal void CardUITouched(CardUI cardReference)
         {
+            if (cardReference == _selectedCardUI)
+                return;
+
+
             DeckManager.Instance.TransferCard(true, DeckEnum.Hand,DeckEnum.Selected, cardReference.GFX.GetCardReference);
             _handUI.ReplaceCard(_selectedCardUI, cardReference);
+            _selectedCardUI.gameObject.SetActive(true);
+            cardReference.GFX.GlowCard(true);
+            _selectedCardUI = cardReference;
             //_selectedCardUI.Inputs.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hand);
             _handUI.LockCardsInput(true);
-            _selectedCardUI.gameObject.SetActive(true);
-            _selectedCardUI = cardReference;
 
 
         }
         internal void CardUITouchedReleased(bool ExecuteSucceded,CardUI cardReference)
         {
-
+         
             var card = _selectedCardUI;
             if (card == null)
                 return;
+
+            card?.GFX.GlowCard(false);
 
                 if (ExecuteSucceded==false)
                     DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
 
             //    card.startState =CardInputs.CardUIInput.Zoomed;
+
             InputManager.Instance.RemoveObjectFromTouch();
             card.CardAnimator.ResetAllAnimations();    
             _handUI.LockCardsInput(false);
+            cardReference?.GFX.GlowCard(false);
             card.gameObject.SetActive(false);
-           // card.CardTranslations.CancelAllTweens();
+            // card.CardTranslations.CancelAllTweens();
+       //     _selectedCardUI = null;
 
         }
 
@@ -316,7 +326,8 @@ namespace Battles.UI
                 return;
             //     card.Inputs.GetCanvasGroup.blocksRaycasts = false;
             // card.CardTranslations?.SetPosition( Vector2.zero);
-            card.CardTranslations?.MoveCard(true, Vector2.zero, _cardUISettings.GetCardScaleDelay);
+
+           // card.CardTranslations?.MoveCard(false, Vector2.zero, _cardUISettings.GetCardScaleDelay);
             card.CardAnimator.ScaleAnimation(true);
             card.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
             card.GFX.GlowCard(true);
@@ -330,27 +341,20 @@ namespace Battles.UI
 
             card.GFX.GlowCard(false);
 
-            //card.CardTranslations?.MoveCard(
-            //    true,
-            //  location,
-            //    _cardUISettings.GetCardMoveToDeckDelay,
-            //    null);
-
             card.CardAnimator.ScaleAnimation(false);
-      //      card.Inputs.GetCanvasGroup.blocksRaycasts = true;
+
         }
 
-        internal void DragCard(CardUI thisCardUI, in Vector2 touchPos)
-        {
-            thisCardUI.CardAnimator.ScaleAnimation(false);
-            thisCardUI.CardTranslations.MoveCard(false, touchPos, _cardUISettings.GetCardFollowDelay);
-        }
 
         internal bool TryExecuteCardUI(CardUI thisCardUI)
         {
             var card = DeckManager.Instance.GetCardFromDeck(true, 0, DeckEnum.Selected);
             if (card == null)
+            {
+                OnFinishTurn();
                 Debug.LogError("CardUIHandler - Selected Card  is null !");
+
+            }
             bool succeded = CardExecutionManager.Instance.TryExecuteCard(true, card);
             if (succeded )
             {

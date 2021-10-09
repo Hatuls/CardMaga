@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Keywords;
 using UnityEngine;
 using UnityEngine.Events;
-public class RemoveUIIcon: UnityEvent<bool ,BuffIcons>{}
+public class RemoveUIIcon: UnityEvent<bool ,KeywordTypeEnum>{}
 public class BuffIconsHandler : MonoBehaviour
 {
     #region Fields
@@ -11,8 +11,6 @@ public class BuffIconsHandler : MonoBehaviour
     [SerializeField] BuffIcon armourIcon;
     [SerializeField]
     BuffIcon[] _buffSlots;
-
- 
     [SerializeField] Art.ArtSO _artSO;
 
     [SerializeField] BuffIcon _enemyOpponentActionUI;
@@ -49,7 +47,7 @@ public class BuffIconsHandler : MonoBehaviour
         Debug.LogError("Error in GetBuffIcon");
         return null;
     }
-    public void SetBuffIcon(BuffIcons icon, int amount)
+    public void SetBuffIcon(KeywordTypeEnum icon, int amount)
     {
   
         if(CheckForDuplicates(icon))
@@ -68,7 +66,7 @@ public class BuffIconsHandler : MonoBehaviour
         armourIcon.SetAmount(amount);
     }
 
-    public void RemoveBuffIcon(BuffIcons icon)
+    public void RemoveBuffIcon(KeywordTypeEnum icon)
     {
         if (_buffSlots != null && _buffSlots.Length > 0)
         {
@@ -83,7 +81,7 @@ public class BuffIconsHandler : MonoBehaviour
             }
         }
     }
-    private bool CheckForDuplicates(BuffIcons icon)
+    private bool CheckForDuplicates(KeywordTypeEnum icon)
     {
         if (_buffSlots != null && _buffSlots.Length > 0)
         {
@@ -130,7 +128,7 @@ public class BuffIconsHandler : MonoBehaviour
         _enemyOpponentActionUI?.InitIconData(enemyAction);
     }
 
-    BuffIcon GetDuplicate(BuffIcons icon)
+    BuffIcon GetDuplicate(KeywordTypeEnum icon)
     {
         if (_buffSlots != null && _buffSlots.Length > 0)
         {

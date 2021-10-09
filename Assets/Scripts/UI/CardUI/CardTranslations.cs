@@ -79,7 +79,7 @@ namespace Battles.UI.CardUIAttributes
                 //Debug.LogError("RectTranscorm is Null");
                 return;
             }
-            _rectTransform.anchoredPosition3D = setTo;
+            _rectTransform.localPosition = setTo;
         }
         public void SetRotation(Vector3 rotateTo)
         {

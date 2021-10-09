@@ -6,6 +6,9 @@ public class UIIconSO : ScriptableObject
 {
     #region Fields
     [SerializeField]
+    public  Keywords.KeywordTypeEnum KeywordIcon;
+
+    [SerializeField]
     Sprite _icon;
     [SerializeField]
     Color _detectedBackGround;

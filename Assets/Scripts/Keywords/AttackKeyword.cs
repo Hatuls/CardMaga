@@ -6,22 +6,7 @@ namespace Keywords
     {
         public override KeywordTypeEnum GetKeyword => KeywordTypeEnum.Attack;
 
-        public override void ProcessOnTarget(bool isFromPlayer, bool isToPlayer, ref KeywordData keywordData)
-        {
-            if (keywordData != null)
-            {
-                //  CameraController.ShakeCamera();
-
-                UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + keywordData.GetTarget.ToString() + " recieved " + keywordData.KeywordSO.GetKeywordType.ToString() + " with Amount " + keywordData.GetAmountToApply);
-
-                var reciver = CharacterStatsManager.GetCharacterStatsHandler(isToPlayer);
-                var applier = CharacterStatsManager.GetCharacterStatsHandler(isFromPlayer);
-
-                reciver.RecieveDamage(applier.GetStats(KeywordTypeEnum.Strength).Amount + keywordData.GetAmountToApply);
-
-            }
-        }
-
+     
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
 

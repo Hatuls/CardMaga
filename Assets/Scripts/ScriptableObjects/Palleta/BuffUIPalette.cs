@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
+using Keywords;
 namespace Art
 {
     [CreateAssetMenu(fileName = "Buff Palette", menuName = "ScriptableObjects/Art/Buff Palette")]
@@ -38,39 +39,25 @@ namespace Art
          *  1 - Bleed
          */
 
-        public Color GetBuffIconFromColor(BuffIcons buff)
-        {
-            Color clr =Color.white;
-            switch (buff)
-            {
-                case BuffIcons.Bleed:
-                    clr = _buffImageColors.Colors[1];
-                    break;
-                case BuffIcons.Strength:
-                    clr = _buffImageColors.Colors[0];
-                    break;
-                default:
-                    break;
-            }
-            return clr;
-        }
 
-        public Color GetBuffIconFromColor(Keywords.KeywordTypeEnum keywordTypeEnum)
+
+        public Color GetBuffIconFromColor(KeywordTypeEnum keywordTypeEnum)
         {
             Color clr = Color.black;
             switch (keywordTypeEnum)
-            {   case Keywords.KeywordTypeEnum.MaxHealth:
-                case Keywords.KeywordTypeEnum.Attack:
-                case Keywords.KeywordTypeEnum.Shield:
-                case Keywords.KeywordTypeEnum.Heal:
+            {   case KeywordTypeEnum.MaxHealth:
+                case KeywordTypeEnum.Attack:
+                case KeywordTypeEnum.Heal:
                default:
                     break;
 
-
-                case Keywords.KeywordTypeEnum.Strength:
+                case KeywordTypeEnum.Shield:
+                    clr = _buffImageColors.Colors[2];
+                    break;
+                case KeywordTypeEnum.Strength:
                     clr = _buffImageColors.Colors[0];
                     break;
-                case Keywords.KeywordTypeEnum.Bleed:
+                case KeywordTypeEnum.Bleed:
                     clr = _buffImageColors.Colors[1];
                     break;
                 

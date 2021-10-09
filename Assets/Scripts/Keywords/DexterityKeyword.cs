@@ -6,10 +6,7 @@ namespace Keywords
     {
         public override KeywordTypeEnum GetKeyword => KeywordTypeEnum.Dexterity;
 
-        public override void ProcessOnTarget(bool isFromPlayer, bool isToPlayer, ref KeywordData keywordData)
-        {
    
-        }
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {

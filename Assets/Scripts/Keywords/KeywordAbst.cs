@@ -7,7 +7,7 @@ namespace Keywords
     {
  
         public abstract KeywordTypeEnum GetKeyword { get; }
-        public abstract void ProcessOnTarget(bool isFromPlayer, bool isToPlayer,ref  KeywordData keywordData);
+
         public abstract void ProcessOnTarget(bool currentPlayer, KeywordData data);
 
         public static bool CheckCondition(ref Condition con) {
@@ -41,7 +41,7 @@ namespace Keywords
     }
     public interface IKeyword
     {
-        void ProcessOnTarget(bool isFromPlayer, bool isToPlayer, ref KeywordData keywordData);
+        void ProcessOnTarget(bool isFromPlayer, KeywordData keywordData);
         KeywordTypeEnum GetKeyword { get; }
     }
 }

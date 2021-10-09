@@ -16,7 +16,7 @@ namespace Battles.UI.CardUIAttributes
         };
  
         public CardUI CardReference { get; set; }
-        private CanvasGroup _canvasGroup;
+
         private RectTransform _rect;
          Dictionary<CardUIInput, CardUIAbstractState> _statesDictionary;
         private ITouchable _currentState;
@@ -37,6 +37,7 @@ namespace Battles.UI.CardUIAttributes
         }
         public void MoveToState (CardUIInput cardUIInput)
         {
+            Debug.LogWarning($"Current State is: {CurrentState?.State}\nChanging state to: {cardUIInput}");
             CurrentState = _statesDictionary[cardUIInput];
         }
 
@@ -48,7 +49,6 @@ namespace Battles.UI.CardUIAttributes
         public CardStateMachine(CardUI cardUI ,CanvasGroup canvasGroup, CardUIInput firstState)
         {
             CardReference = cardUI;
-            _canvasGroup = canvasGroup;
             _rect = cardUI.GFX.GetRectTransform;
 
             const int states = 5;
@@ -63,7 +63,6 @@ namespace Battles.UI.CardUIAttributes
 
             _currentState = _statesDictionary[firstState];
         }
-
 
 
         #region Interface Implementation
@@ -136,7 +135,7 @@ namespace Battles.UI.CardUIAttributes
         }
 
         public override CardStateMachine.CardUIInput State => CardStateMachine.CardUIInput.Hand;
-        float scaleTimeOffset = 0.3f;
+        float scaleTimeOffset = 0.35f;
         float currentTime = 0;
         public bool HasValue { get; set; }
         public int Index { get; internal set; }
@@ -165,6 +164,7 @@ namespace Battles.UI.CardUIAttributes
 
                 case TouchPhase.Moved:
                 case TouchPhase.Stationary:
+
                     if (Vector2.Distance(CardStateMachine.TouchPos, touchPos.position) > StationaryOffset)
                     {
                         _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hold);
@@ -172,6 +172,7 @@ namespace Battles.UI.CardUIAttributes
                     }
                     else if(currentTime > scaleTimeOffset)
                     {
+                        Debug.Log($"Time Exceeds! {currentTime} / {scaleTimeOffset}");
                         _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Zoomed);
                     }
                     
@@ -191,6 +192,10 @@ namespace Battles.UI.CardUIAttributes
         }
 
         public override void OnStateExit()
+        {
+            currentTime = 0;
+        }
+        public override void OnStateEnter()
         {
             currentTime = 0;
         }

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Art;
+using Keywords;
 public class BuffIcon : MonoBehaviour
 {
     #region Fields
-    BuffIcons? _name;
+    [SerializeField] KeywordTypeEnum _name;
 
     [SerializeField]
     protected TextMeshProUGUI _iconText;
@@ -29,7 +29,7 @@ public class BuffIcon : MonoBehaviour
 
     #endregion
     #region Properties
-    public BuffIcons? GetSetName { get => _name; set => _name = value; }
+    public KeywordTypeEnum GetSetName { get => _name; set => _name = value; }
     #endregion
 
     public virtual void InitIconData(Cards.Card card)
@@ -48,7 +48,7 @@ public class BuffIcon : MonoBehaviour
 
         _iconText.color = clr;
     }
-    public void InitIconData(UIIconSO iconData, int amount , BuffIcons buffIcons)
+    public void InitIconData(UIIconSO iconData, int amount , KeywordTypeEnum buffIcons)
     {
         if (iconData == null)
         {
@@ -75,7 +75,7 @@ public class BuffIcon : MonoBehaviour
     }
     public void ResetEnumType()
     {
-             GetSetName = null;
+        GetSetName =  KeywordTypeEnum.None;
         TweenExitEntrance(false);
     }
 
@@ -98,8 +98,8 @@ public class BuffIcon : MonoBehaviour
         SetText(amount.ToString());
         if (amount != 0)
             TweenOnUpdateText();
-        else
-            ResetEnumType();
+        else if (_name != KeywordTypeEnum.Shield)
+            TweenExitEntrance(false);
     }
     protected void ShowIcon()
     {

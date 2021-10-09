@@ -59,7 +59,10 @@ namespace Keywords
         public IEnumerator OnStartTurnKeywords(bool isPlayer)
         {
             Debug.Log("Activating Keywords Effect on " + (isPlayer? "Player":"Enemy") + " that are activated on the start of the turn");
+           
             CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyBleed();
+            CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyHealRegeneration();
+
             yield return new WaitForSeconds(1f);
 
             
@@ -91,7 +94,10 @@ namespace Keywords
                 {KeywordTypeEnum.Shield , new DefenseKeyword() },
                 {KeywordTypeEnum.Strength , new StrengthKeyword() },
                 {KeywordTypeEnum.Bleed , new BleedKeyword() },
-                {KeywordTypeEnum.Stamina, new StaminaKeyword()}
+                {KeywordTypeEnum.Stamina, new StaminaKeyword()},
+                {KeywordTypeEnum.Dexterity, new DexterityKeyword() },
+                {KeywordTypeEnum.Regeneration, new HealthRegenerationKeyword() },
+
             };
             }
             if (_keywordDict == null)
