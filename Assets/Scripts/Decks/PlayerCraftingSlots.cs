@@ -46,6 +46,18 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
         CountCards();
         Combo.ComboManager.StartDetection();
     }
+
+    public void PushSlots()
+    {
+        Card removingCard = GetDeck[0];
+
+        for (int i = 1; i < GetDeck.Length; i++)
+            GetDeck[i - 1] = GetDeck[i];
+
+        GetDeck[GetDeck.Length - 1] = null;
+        _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
+        CountCards();
+    }
     public void AddCard(Card card , bool toDetect)
     {
         Card lastCardInDeck = null;

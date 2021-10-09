@@ -46,6 +46,10 @@ public class CraftingSlotUI : MonoBehaviour
     public void PlayAnimation(int animation) => _anim.CrossFade(animation, crossFadeAnimationTime);
     public void InitPlaceHolder(Cards.CardTypeData cardType)
     {
+        if (cardType == null)
+            ResetSlotUI();
+    
+        else
         InitPlaceHolder(
                 cardType.CardType,
                       ArtSettings.CardIconCollectionSO.GetSprite(cardType.BodyPart)

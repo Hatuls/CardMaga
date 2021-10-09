@@ -4,7 +4,7 @@ namespace Keywords
 {
     public class DefenseKeyword : KeywordAbst
     {
-        public override KeywordTypeEnum GetKeyword => KeywordTypeEnum.Shield;
+        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Shield;
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
@@ -20,7 +20,7 @@ namespace Keywords
                     var characterStatHandler = CharacterStatsManager.GetCharacterStatsHandler(currentPlayer);
                     var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
 
-                    characterStatHandler.GetStats(GetKeyword)
+                    characterStatHandler.GetStats(Keyword)
                         .Add(
                           dexterity + data.GetAmountToApply
                         );
@@ -31,7 +31,7 @@ namespace Keywords
                     var characterStatHandler = CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer);
                     var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
 
-                    characterStatHandler.GetStats(GetKeyword)
+                    characterStatHandler.GetStats(Keyword)
                         .Add(
                           dexterity + data.GetAmountToApply
                         );

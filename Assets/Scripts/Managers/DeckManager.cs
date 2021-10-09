@@ -147,30 +147,8 @@ namespace Battles.Deck
                 CardUIManager.Instance.DrawCards(toDeck.GetDeck);
 
 
-
         }
 
-        public DeckEnum IntToDeck(int deckID)
-        {
-            switch (deckID)
-            {
-             
-                case 0:
-                    return DeckEnum.PlayerDeck;
-                case 1: 
-                   return DeckEnum.Hand;
-                case 2:
-                    return DeckEnum.Disposal;
-                case 3:
-                    return DeckEnum.Exhaust;
-                case 4:
-                    return DeckEnum.Selected;
-                case 5:
-                    return DeckEnum.CraftingSlots;
-            }
-
-            return 0;
-        }
         public void OnEndTurn(bool isPlayersDeck)
         {
             Debug.Log("Discarding the remain cards from hand and placement!");
@@ -184,7 +162,10 @@ namespace Battles.Deck
             => Instance.GetDeckAbst(toPlayerCraftingSlots, DeckEnum.CraftingSlots).AddCard(card);
 
 
-
+        public void ResetDeck(bool isPlayers,DeckEnum resetDeck)
+        {
+            GetDeck(isPlayers)[resetDeck].ResetDeck();
+        }
 
         public void ReplaceCard(bool isPlayer,DeckEnum firstDeck, Card firstCard, DeckEnum secondDeck, Card secondCard)
         {

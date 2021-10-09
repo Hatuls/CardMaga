@@ -4,7 +4,7 @@ namespace Keywords
 {
     public class StrengthKeyword : KeywordAbst
     {
-        public override KeywordTypeEnum GetKeyword => KeywordTypeEnum.Strength;
+        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Strength;
 
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
@@ -14,7 +14,7 @@ namespace Keywords
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
                 CharacterStatsManager.GetCharacterStatsHandler(currentPlayer)
-             .GetStats(GetKeyword)
+             .GetStats(Keyword)
              .Add(data.GetAmountToApply);
             }
 
@@ -22,7 +22,7 @@ namespace Keywords
             {
 
                 CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer)
-                .GetStats(GetKeyword)
+                .GetStats(Keyword)
                 .Add(data.GetAmountToApply);
             }
 

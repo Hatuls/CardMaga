@@ -81,7 +81,7 @@ namespace Characters.Stats
             var charactersStamina = GetCharacterStamina(isPlayer);
 
             charactersStamina.StartTurn();
-            charactersStamina.ResetStaminaAddition();
+          //  charactersStamina.ResetStaminaAddition();
 
             if (isPlayer)
                 _staminaUI?.SetText(charactersStamina.Stamina);
@@ -97,7 +97,11 @@ namespace Characters.Stats
             if(isPlayer)
             _staminaUI?.SetText(character.Stamina);
         }
-
+        public void AddStartStamina(bool isPlayer,int Amount)
+        {
+            var character = GetCharacterStamina(isPlayer);
+            character.AddStaminaAddition (Amount);
+        }
         public void AddStamina(bool isPlayer, int amount)
         {
             var character = GetCharacterStamina(isPlayer);

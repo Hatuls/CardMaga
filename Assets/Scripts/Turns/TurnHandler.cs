@@ -93,7 +93,7 @@ namespace Battles.Turns
     }
     public abstract class Turn : ITurnHandler
     {
-
+        public static WaitForSeconds WaitOneSecond = new WaitForSeconds(1f);
 
         public Turn()
         {

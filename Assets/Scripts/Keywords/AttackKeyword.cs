@@ -4,7 +4,7 @@ namespace Keywords
 {
     public class AttackKeyword : KeywordAbst
     {
-        public override KeywordTypeEnum GetKeyword => KeywordTypeEnum.Attack;
+        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Attack;
 
      
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)

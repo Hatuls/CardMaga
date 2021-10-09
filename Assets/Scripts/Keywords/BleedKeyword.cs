@@ -4,7 +4,7 @@ namespace Keywords
 {
     public class BleedKeyword : KeywordAbst
     {
-        public override KeywordTypeEnum GetKeyword => KeywordTypeEnum.Bleed;
+        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Bleed;
 
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
@@ -15,10 +15,10 @@ namespace Keywords
 
                 var target = data.GetTarget;
                 if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                    CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
+                    CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
 
                 if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                    CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
+                    CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
 
             }
         }

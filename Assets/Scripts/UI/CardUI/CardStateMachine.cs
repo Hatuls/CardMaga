@@ -159,16 +159,16 @@ namespace Battles.UI.CardUIAttributes
                     CardStateMachine.TouchPos =touchPos.position;
                     var card = _cardStateMachine.CardReference;
                     CardUIHandler.Instance.CardUITouched(card);
-      
+                    currentTime += Time.deltaTime;
                     break;
 
                 case TouchPhase.Moved:
                 case TouchPhase.Stationary:
-
+                    currentTime += Time.deltaTime;
                     if (Vector2.Distance(CardStateMachine.TouchPos, touchPos.position) > StationaryOffset)
                     {
                         _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hold);
-                        Debug.Log($"CardUI - State Hand - Moved Touch\n First Touch = { CardStateMachine.TouchPos}\nCurrent Touch Position = {touchPos.position} ");
+                     //   Debug.Log($"CardUI - State Hand - Moved Touch\n First Touch = { CardStateMachine.TouchPos}\nCurrent Touch Position = {touchPos.position} ");
                     }
                     else if(currentTime > scaleTimeOffset)
                     {
@@ -188,7 +188,7 @@ namespace Battles.UI.CardUIAttributes
                 default:
                     break;
             }
-            currentTime += Time.deltaTime;
+       
         }
 
         public override void OnStateExit()

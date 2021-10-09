@@ -4,7 +4,7 @@ namespace Keywords
 {
     public class DexterityKeyword : KeywordAbst
     {
-        public override KeywordTypeEnum GetKeyword => KeywordTypeEnum.Dexterity;
+        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Dexterity;
 
    
 
@@ -15,10 +15,10 @@ namespace Keywords
             var target = data.GetTarget;
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
+                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
+                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
           
         }
     }

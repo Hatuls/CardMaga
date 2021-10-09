@@ -166,6 +166,8 @@ namespace Battles
                         break;
                 }
             }
+            else
+                throw new System.Exception($"Cannot Execute Card that is null!!!!");
 
         }
 
@@ -206,28 +208,41 @@ namespace Battles
             // sort his keyowrds
 
 
-            ThreadsHandler.ThreadHandler.StartThread(
-                new ThreadsHandler.ThreadList(
-                    ThreadsHandler.ThreadHandler.GetNewID,
-                    () => SortKeywords(),
-                   () =>
-                   {
-                       if (_cardsQueue.Count == 0)
-                           return;
-                       var State = Turns.TurnHandler.CurrentState;
-                       if (State == Turns.TurnState.PlayerTurn || State== Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
-                           _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
-                       else if (State == Turns.TurnState.EnemyTurn || State == Turns.TurnState.StartEnemyTurn || State == Turns.TurnState.EndEnemyTurn)
-                           _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
-                       else
-                           Debug.LogError("Current turn is not a turn that a card could be played!");
+            //ThreadsHandler.ThreadHandler.StartThread(
+            //    new ThreadsHandler.ThreadList(
+            //        ThreadsHandler.ThreadHandler.GetNewID,
+            //        () => SortKeywords(),
+            //       () =>
+            //       {
+            //           if (_cardsQueue.Count == 0)
+            //               return;
+            //           var State = Turns.TurnHandler.CurrentState;
+            //           if (State == Turns.TurnState.PlayerTurn || State== Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
+            //               _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
+            //           else if (State == Turns.TurnState.EnemyTurn || State == Turns.TurnState.StartEnemyTurn || State == Turns.TurnState.EndEnemyTurn)
+            //               _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
+            //           else
+            //               Debug.LogError("Current turn is not a turn that a card could be played!");
 
-                       // reset Index
-                       currentKeywordIndex = 0;
-                   }
-                 )
-                );
-            //  SortKeywords();
+            //           // reset Index
+            //           currentKeywordIndex = 0;
+            //       }
+            //     )
+            //    );
+              SortKeywords();
+
+            if (_cardsQueue.Count == 0)
+                return;
+            var State = Turns.TurnHandler.CurrentState;
+            if (State == Turns.TurnState.PlayerTurn || State == Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
+                _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
+            else if (State == Turns.TurnState.EnemyTurn || State == Turns.TurnState.StartEnemyTurn || State == Turns.TurnState.EndEnemyTurn)
+                _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
+            else
+                Debug.LogError("Current turn is not a turn that a card could be played!");
+
+            // reset Index
+            currentKeywordIndex = 0;
 
         }
         private void SortKeywords()

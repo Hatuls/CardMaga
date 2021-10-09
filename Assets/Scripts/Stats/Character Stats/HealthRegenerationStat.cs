@@ -18,7 +18,7 @@ namespace Characters.Stats
 
     public class HealthRegenerationKeyword : KeywordAbst
     {
-        public override KeywordTypeEnum GetKeyword => KeywordTypeEnum.Regeneration;
+        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Regeneration;
 
     
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
@@ -29,9 +29,9 @@ namespace Characters.Stats
             var target = data.GetTarget;
 
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
+                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(GetKeyword).Add(data.GetAmountToApply);
+                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
         }
     }
 }

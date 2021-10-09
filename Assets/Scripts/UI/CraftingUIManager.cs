@@ -26,7 +26,12 @@ namespace Battles.UI
             return players ? _playerCraftingUIHandler : _opponentCraftingUIHandler;
         }
 
-
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.K))
+                Deck.DeckManager.GetCraftingSlots(true).PushSlots();   
+            
+        }
 
 
         public override void Init()

@@ -63,9 +63,7 @@ namespace Keywords
             CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyBleed();
             CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyHealRegeneration();
 
-            yield return new WaitForSeconds(1f);
-
-            
+            yield return Battles.Turns.Turn.WaitOneSecond;
         }
 
 
@@ -76,7 +74,7 @@ namespace Keywords
         
             
             //     var statCache = GetCharacterStats(targetEnum);
-            yield return new WaitForSeconds(1f);
+            yield return Battles.Turns.Turn.WaitOneSecond;
 
         }
         #endregion
@@ -97,7 +95,13 @@ namespace Keywords
                 {KeywordTypeEnum.Stamina, new StaminaKeyword()},
                 {KeywordTypeEnum.Dexterity, new DexterityKeyword() },
                 {KeywordTypeEnum.Regeneration, new HealthRegenerationKeyword() },
-
+                {KeywordTypeEnum.MaxHealth, new MaxHealthKeyword() },
+                {KeywordTypeEnum.Coins, new CoinKeyword() },
+                {KeywordTypeEnum.MaxStamina, new MaxStaminaKeyword() },
+                {KeywordTypeEnum.Interupt, new InteruptKeyword() },
+                    {KeywordTypeEnum.Draw, new DrawKeyword() },
+                    {KeywordTypeEnum.Clear, new ClearKeyword() },
+                    {KeywordTypeEnum.Shuffle, new ShuffleKeyword() }
             };
             }
             if (_keywordDict == null)
@@ -123,9 +127,11 @@ namespace Keywords
         Regeneration = 11,
         Dexterity =12,
         Draw = 13,
-
-        Coins,
-        Stamina = 23,
+        MaxStamina = 14,
+        Coins=18,
+        Stamina = 22,
+        Clear = 29,
+        Shuffle = 31,
     };
 
 }

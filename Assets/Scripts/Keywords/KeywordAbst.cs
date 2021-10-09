@@ -6,7 +6,7 @@ namespace Keywords
     public abstract class KeywordAbst : IKeyword
     {
  
-        public abstract KeywordTypeEnum GetKeyword { get; }
+        public abstract KeywordTypeEnum Keyword { get; }
 
         public abstract void ProcessOnTarget(bool currentPlayer, KeywordData data);
 
@@ -42,6 +42,6 @@ namespace Keywords
     public interface IKeyword
     {
         void ProcessOnTarget(bool isFromPlayer, KeywordData keywordData);
-        KeywordTypeEnum GetKeyword { get; }
+        KeywordTypeEnum Keyword { get; }
     }
 }

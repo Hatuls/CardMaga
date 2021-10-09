@@ -88,15 +88,14 @@ namespace Battles.UI
         }
         public void ChangeSlotsPos(Cards.Card[] cards , Cards.Card removedCard)
         {
-            if (removedCard == null)
-                return;
-            _fadingOut.InitPlaceHolder(removedCard.CardSO.CardType);
+ 
+            _fadingOut.InitPlaceHolder(removedCard?.CardSO?.CardType);
             _fadingOut.PlayAnimation(_fadingInAnim);
             _fadingOut.MoveLocation(_CraftingSlotsUIArr[0].RectTransform.localPosition, leanTweenTime);
 
             for (int i = 0; i < _CraftingSlotsUIArr.Length; i++)
             {
-                _CraftingSlotsUIArr[i].InitPlaceHolder(cards[i].CardSO.CardType);
+                _CraftingSlotsUIArr[i].InitPlaceHolder(cards[i]?.CardSO?.CardType);
                 Vector2 startPos = i == _CraftingSlotsUIArr.Length - 1 ? _firstSlotTransform.localPosition: _CraftingSlotsUIArr[i + 1].RectTransform.localPosition;
                 _CraftingSlotsUIArr[i].MoveLocation(startPos, leanTweenTime);
             }
