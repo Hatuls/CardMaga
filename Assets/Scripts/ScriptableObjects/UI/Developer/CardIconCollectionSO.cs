@@ -17,7 +17,7 @@ public class CardIconCollectionSO : ScriptableObject
         {
             default:
             case Cards.BodyPartEnum.None:
-                Debug.LogError("Body Part Is Not Set To return Sprite");
+            //    Debug.LogError("Body Part Is Not Set To return Sprite");
                 return null;
             case Cards.BodyPartEnum.Head:
                 return _bodyPartIcons[0];

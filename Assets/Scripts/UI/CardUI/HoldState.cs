@@ -30,11 +30,9 @@ namespace Battles.UI.CardUIAttributes
                     break;
                 case TouchPhase.Moved:
                 case TouchPhase.Stationary:
-                //    Debug.Log($"Moving! \ntouch position :{touchPos.position}\ncard position: {_cardStateMachine.Rect.position}\n distance between: {Vector2.Distance(touchPos.position, _cardStateMachine.Rect.position)}");
+                    //    Debug.Log($"Moving! \ntouch position :{touchPos.position}\ncard position: {_cardStateMachine.Rect.position}\n distance between: {Vector2.Distance(touchPos.position, _cardStateMachine.Rect.position)}");
                     float speed = _cardUIFollowUP;
 
-                    if (Vector2.Distance(touchPos.position , _cardStateMachine.Rect.position) > 100f)
-                        speed /= 2;
                  //   Debug.LogWarning($"SPEED: {speed}");
                     _translation.MoveCard(false, touchPos.position, speed);
                     break;
@@ -48,7 +46,7 @@ namespace Battles.UI.CardUIAttributes
                         Debug.LogWarning("<a>Above The Line!</a>");
                         succed = CardUIHandler.Instance.TryExecuteCardUI(_cardStateMachine.CardReference);
                     }
-
+                    Debug.Log("!!!!");
                     CardUIHandler.Instance.CardUITouchedReleased(succed, _cardStateMachine.CardReference);
                     break;
                 default:
@@ -59,7 +57,8 @@ namespace Battles.UI.CardUIAttributes
         public override void OnStateEnter()
         {
             _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = alpha;
-              OnTick(InputManager.PlayerTouch.Value);
+            //     OnTick(InputManager.PlayerTouch.Value);
+            InputManager.Instance.AssignObjectFromTouch(_cardStateMachine.CurrentState);
          //   _cardStateMachine.CardReference.CardTranslations.MoveCard(true, InputManager.PlayerTouch.Value.position, _cardStateMachine.CardReference.Settings.GetCardFollowDelay);
         }
         public override void OnStateExit()

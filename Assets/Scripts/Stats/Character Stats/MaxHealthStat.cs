@@ -3,11 +3,11 @@ namespace Characters.Stats
 {
     public class MaxHealthStat : StatAbst
     {
-        HealthStat _healthStat;
+       public HealthStat _healthStat { get; set; }
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.MaxHealth;
-        public MaxHealthStat(HealthStat health, bool isPlayer,  int amount) : base(isPlayer,  amount)
+        public MaxHealthStat( bool isPlayer,  int amount) : base(isPlayer,  amount)
         {
-            _healthStat = health;
+
         }
         public override void Reduce(int amount)
         {

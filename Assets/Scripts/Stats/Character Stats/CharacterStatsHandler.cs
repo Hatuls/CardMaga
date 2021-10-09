@@ -9,9 +9,9 @@ namespace Characters.Stats
         public CharacterStatsHandler(bool isPlayer,ref CharacterStats stats)
         {
 
-            MaxHealthStat _max = null;
-            HealthStat _health=null;
-            ShieldStat _defense = null ;
+            MaxHealthStat _max = new MaxHealthStat(isPlayer, stats.MaxHealth);
+            HealthStat _health= new HealthStat(_max, isPlayer, stats.Health); ;
+            ShieldStat _defense = new ShieldStat(_health, isPlayer, stats.Shield);
             StrengthStat _str = new StrengthStat(isPlayer, stats.Strength);
             DexterityStat _dex = new DexterityStat(isPlayer,  stats.Dexterity);
             BleedStat _bleed = new BleedStat(isPlayer, stats.Bleed);
@@ -20,10 +20,7 @@ namespace Characters.Stats
             StaminaStat _stamina = new StaminaStat(isPlayer,  stats.StartStamina);
             DrawCardStat _draw = new DrawCardStat(isPlayer,  stats.DrawCardsAmount);
 
-            _max = new MaxHealthStat(_health, isPlayer,  stats.MaxHealth);
-            _health = new HealthStat(_max, isPlayer,  stats.Health);
-            _defense = new ShieldStat(_health, isPlayer,  stats.Shield);
-
+            _max._healthStat = _health;
 
 
             _statsDictionary = new System.Collections.Generic.Dictionary<KeywordTypeEnum, StatAbst>(StatsCapacity) {
