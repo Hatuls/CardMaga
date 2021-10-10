@@ -3,8 +3,7 @@ using Unity.Events;
 using UnityEngine;
 using Cards;
 using Rei.Utilities;
-using System.Collections;
-using System;
+
 
 public class AnimatorController : MonoBehaviour
 {
