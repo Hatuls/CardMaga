@@ -170,13 +170,13 @@ public class AnimatorController : MonoBehaviour
             _playerAnimator.SetTrigger("Duplicate");
         else
         {
-            var cardQueue = Battles.CardExecutionManager.CardsQueue;
-            string output = "";
-            foreach (var card in cardQueue)
-            {
-                output += " " + card.CardSO.AnimationBundle._attackAnimation.ToString();
-            }
-            Debug.LogError(output);
+            //var cardQueue = Battles.CardExecutionManager.CardsQueue;
+            //string output = "";
+
+            //foreach (var card in cardQueue)
+            //    output += " " + card.CardSO.AnimationBundle._attackAnimation.ToString();
+       
+            //Debug.LogError(output);
 
             PlayAnimation(_currentAnimation._attackAnimation.ToString());
         }
