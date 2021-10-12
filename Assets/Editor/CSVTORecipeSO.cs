@@ -16,6 +16,8 @@ public class CSVTORecipeSO
     {
         CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection"); ;
 
+        CSVToCardSO.DestroyWebGameObjects();
+
         float timer = 0;
         while (cardCollections == null && timer < 2000000f) 
         {
@@ -24,7 +26,6 @@ public class CSVTORecipeSO
         } 
 
 
-        CSVToCardSO.DestroyWebGameObjects();
 
 
         string[] rows = txt.Replace("\r", "").Split('\n');

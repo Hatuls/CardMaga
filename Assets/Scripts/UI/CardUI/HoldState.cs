@@ -7,6 +7,7 @@ namespace Battles.UI.CardUIAttributes
         CardTranslations _translation;
         static float _cardUIFollowUP;
         float alpha;
+        bool isLooking;
 
         private const float StationaryOffset = 30f;
         float scaleTimeOffset = 0.35f;
@@ -30,27 +31,28 @@ namespace Battles.UI.CardUIAttributes
             switch (touchPos.phase)
             {
                 case TouchPhase.Began:
-                    break;
                 case TouchPhase.Moved:
                 case TouchPhase.Stationary:
                     //    Debug.Log($"Moving! \ntouch position :{touchPos.position}\ncard position: {_cardStateMachine.Rect.position}\n distance between: {Vector2.Distance(touchPos.position, _cardStateMachine.Rect.position)}");
-             
 
 
-                    currentTime += Time.deltaTime;
-                    if (Vector2.Distance(CardStateMachine.TouchPos, touchPos.position) < StationaryOffset
-                        && currentTime > scaleTimeOffset)
+                    if (isLooking == true)
                     {
-                        Debug.Log($"Time Exceeds! {currentTime} / {scaleTimeOffset}");
-                        _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Zoomed);
-                        return;
+                        currentTime += Time.deltaTime;
+                        if (Vector2.Distance(CardStateMachine.TouchPos, touchPos.position) < StationaryOffset
+                            && currentTime > scaleTimeOffset)
+                        {
+                            Debug.Log($"Time Exceeds! {currentTime} / {scaleTimeOffset}");
+                            _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Zoomed);
+                            isLooking = false;
+                            return;
+                        }
                     }
-
 
                     Debug.Log("CardUI - State Hand - Stationary Touch ");
 
 
-       float speed = _cardUIFollowUP;
+                    float speed = _cardUIFollowUP;
                     //   Debug.LogWarning($"SPEED: {speed}");
                     _translation.MoveCard(false, touchPos.position, speed);
                     break;
@@ -74,6 +76,7 @@ namespace Battles.UI.CardUIAttributes
 
         public override void OnStateEnter()
         {
+            isLooking = true;
             currentTime = 0;
             _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = alpha;
             //     OnTick(InputManager.PlayerTouch.Value);
