@@ -175,7 +175,7 @@ public class AnimatorController : MonoBehaviour
 
             //foreach (var card in cardQueue)
             //    output += " " + card.CardSO.AnimationBundle._attackAnimation.ToString();
-       
+
             //Debug.LogError(output);
 
             PlayAnimation(_currentAnimation._attackAnimation.ToString());
