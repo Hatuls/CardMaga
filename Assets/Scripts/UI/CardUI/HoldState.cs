@@ -8,6 +8,9 @@ namespace Battles.UI.CardUIAttributes
         static float _cardUIFollowUP;
         float alpha;
 
+        private const float StationaryOffset = 30f;
+        float scaleTimeOffset = 0.35f;
+        float currentTime = 0;
         public HoldState(CardUI card, CardStateMachine cardStateMachine) : base(card.GFX.GetRectTransform, cardStateMachine)
         {
             alpha = card.Settings.AlphaWhenHold;
@@ -31,9 +34,24 @@ namespace Battles.UI.CardUIAttributes
                 case TouchPhase.Moved:
                 case TouchPhase.Stationary:
                     //    Debug.Log($"Moving! \ntouch position :{touchPos.position}\ncard position: {_cardStateMachine.Rect.position}\n distance between: {Vector2.Distance(touchPos.position, _cardStateMachine.Rect.position)}");
-                    float speed = _cardUIFollowUP;
+             
 
-                 //   Debug.LogWarning($"SPEED: {speed}");
+
+                    currentTime += Time.deltaTime;
+                    if (Vector2.Distance(CardStateMachine.TouchPos, touchPos.position) < StationaryOffset
+                        && currentTime > scaleTimeOffset)
+                    {
+                        Debug.Log($"Time Exceeds! {currentTime} / {scaleTimeOffset}");
+                        _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Zoomed);
+                        return;
+                    }
+
+
+                    Debug.Log("CardUI - State Hand - Stationary Touch ");
+
+
+       float speed = _cardUIFollowUP;
+                    //   Debug.LogWarning($"SPEED: {speed}");
                     _translation.MoveCard(false, touchPos.position, speed);
                     break;
 
@@ -56,6 +74,7 @@ namespace Battles.UI.CardUIAttributes
 
         public override void OnStateEnter()
         {
+            currentTime = 0;
             _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = alpha;
             //     OnTick(InputManager.PlayerTouch.Value);
             InputManager.Instance.AssignObjectFromTouch(_cardStateMachine.CurrentState);
@@ -63,7 +82,7 @@ namespace Battles.UI.CardUIAttributes
         }
         public override void OnStateExit()
         {
-           
+            currentTime = 0;
             _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = 1f;
         }
         public static bool IsAboveTheTouchLine(in Vector2 touchPos) => (touchPos.y >= CardUIManager.Instance.GetInputHandLine);

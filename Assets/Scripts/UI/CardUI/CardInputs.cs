@@ -37,18 +37,7 @@ namespace Battles.UI.CardUIAttributes
 
 
             CardStateMachine = new CardStateMachine(card, canvasGroup, cardUIInput);
-            //const byte states = 5;
-            //_touchables = new ITouchable[states]
-            //  {
-            //    null, // <- locked state
-            //    new InHandInputState(this,selectCardEvent ,zoomCardEvent, middlePos),
-            //    new OnZoomInputState(this,zoomCardEvent, selectCardEvent, middlePos),
-            //    new OnHoldInputstate(this,selectCardEvent ,zoomCardEvent,middlePos),
-            //    null
-            //   };
-
-
-
+   
             RegisterInputs();
         }
         ~CardInputs()

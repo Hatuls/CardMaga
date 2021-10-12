@@ -135,11 +135,10 @@ namespace Battles.UI.CardUIAttributes
         }
 
         public override CardStateMachine.CardUIInput State => CardStateMachine.CardUIInput.Hand;
-        float scaleTimeOffset = 0.35f;
-        float currentTime = 0;
+
         public bool HasValue { get; set; }
         public int Index { get; internal set; }
-        private const float StationaryOffset = 30f;
+
         public override void OnMouse()
         {
 
@@ -155,30 +154,16 @@ namespace Battles.UI.CardUIAttributes
             switch (touchPos.phase)
             {
                 case TouchPhase.Began:
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
                     Debug.Log("CardUI - State Hand - Began Touch ");
                     CardStateMachine.TouchPos =touchPos.position;
                     var card = _cardStateMachine.CardReference;
                     CardUIHandler.Instance.CardUITouched(card);
-                    currentTime += Time.deltaTime;
+                 //   currentTime += Time.deltaTime;      
+                    _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hold);
                     break;
 
-                case TouchPhase.Moved:
-                case TouchPhase.Stationary:
-                    currentTime += Time.deltaTime;
-                    if (Vector2.Distance(CardStateMachine.TouchPos, touchPos.position) > StationaryOffset)
-                    {
-                        _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hold);
-                     //   Debug.Log($"CardUI - State Hand - Moved Touch\n First Touch = { CardStateMachine.TouchPos}\nCurrent Touch Position = {touchPos.position} ");
-                    }
-                    else if(currentTime > scaleTimeOffset)
-                    {
-                        Debug.Log($"Time Exceeds! {currentTime} / {scaleTimeOffset}");
-                        _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Zoomed);
-                    }
-                    
-
-                    Debug.Log("CardUI - State Hand - Stationary Touch ");
-                    break;
 
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
@@ -193,11 +178,11 @@ namespace Battles.UI.CardUIAttributes
 
         public override void OnStateExit()
         {
-            currentTime = 0;
+        //currentTime = 0;
         }
         public override void OnStateEnter()
         {
-            currentTime = 0;
+          
         }
     }
 
