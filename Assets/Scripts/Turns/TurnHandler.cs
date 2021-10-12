@@ -42,7 +42,15 @@ namespace Battles.Turns
             }
         }
         public static bool FinishTurn { get; set; }
+        public static bool IsPlayerTurn
+        {
+            get
+            {
+                var State = TurnHandler.CurrentState;
+                return (State == TurnState.PlayerTurn || State == TurnState.StartPlayerTurn || State == TurnState.EndPlayerTurn);
 
+            }
+        }
         public static void OnFinishTurn() {
             FinishTurn = true;
         }

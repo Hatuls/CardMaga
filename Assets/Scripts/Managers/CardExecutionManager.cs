@@ -16,7 +16,9 @@ namespace Battles
         [SerializeField] VFXController __playerVFXHandler;
      
         [SerializeField] Unity.Events.SoundsEvent _playSound;
+        [Sirenix.OdinInspector.ShowInInspector]
         static Queue<Cards.Card> _cardsQueue;
+        public static Queue<Cards.Card> CardsQueue => _cardsQueue;
         static List<KeywordData> _keywordData;
         [SerializeField] StaminaUI _staminaBtn;
         static int currentKeywordIndex;
@@ -37,8 +39,7 @@ namespace Battles
         public bool TryExecuteCard(bool isPlayer, Cards.Card card)
         {
             if (card == null)
-                return false;
-
+                throw new System.Exception("Card cannot be executed card is null\n Player " + isPlayer + " Tried to play a null Card");
             if (StaminaHandler.Instance.IsEnoughStamina(isPlayer,card) == false)
             {
                 // not enough stamina 
@@ -57,11 +58,9 @@ namespace Battles
             if (isPlayer)
                CardUIManager.Instance.LockHandCards(false);
 
+            RegisterCard(card, isPlayer);
 
             DeckManager.Instance.TransferCard(isPlayer, DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
-
-
-            RegisterCard(card, isPlayer);
 
             DeckManager.AddToCraftingSlot(isPlayer, card);
 
@@ -191,8 +190,8 @@ namespace Battles
 
         public void AddToQueue(Cards.Card card)
         {   
-            bool firstCard = _cardsQueue.Count == 0;
             _cardsQueue.Enqueue(card);
+            bool firstCard = _cardsQueue.Count == 1;
             Debug.Log($"<a>Register card queue has {_cardsQueue.Count} cards in it\nIs First Card {firstCard}</a>");
             if (firstCard)
             {
@@ -200,10 +199,11 @@ namespace Battles
             }
 
         }
-        void ActivateCard()
+       public void ActivateCard()
         {
             // play the card animation
-
+   if (_cardsQueue.Count == 0)
+                return;
             Debug.Log("<a>Activating Card</a>");
             // sort his keyowrds
 
@@ -217,7 +217,7 @@ namespace Battles
             //           if (_cardsQueue.Count == 0)
             //               return;
             //           var State = Turns.TurnHandler.CurrentState;
-            //           if (State == Turns.TurnState.PlayerTurn || State== Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
+            //           if (State == Turns.TurnState.PlayerTurn || State == Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
             //               _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
             //           else if (State == Turns.TurnState.EnemyTurn || State == Turns.TurnState.StartEnemyTurn || State == Turns.TurnState.EndEnemyTurn)
             //               _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
@@ -229,55 +229,58 @@ namespace Battles
             //       }
             //     )
             //    );
-              SortKeywords();
+            SortKeywords();
 
-            if (_cardsQueue.Count == 0)
-                return;
-            var State = Turns.TurnHandler.CurrentState;
-            if (State == Turns.TurnState.PlayerTurn || State == Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
-                _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
-            else if (State == Turns.TurnState.EnemyTurn || State == Turns.TurnState.StartEnemyTurn || State == Turns.TurnState.EndEnemyTurn)
-                _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
-            else
-                Debug.LogError("Current turn is not a turn that a card could be played!");
-
+              currentKeywordIndex = 0;
+         if(Turns.TurnHandler.IsPlayerTurn)
+                _playerAnimator.PlayCrossAnimation();
+            else 
+                _enemyAnimator.PlayCrossAnimation();
+       
             // reset Index
-            currentKeywordIndex = 0;
+       
 
         }
         private void SortKeywords()
         {
-            //clearing the list
-            // registering the keywords
-            // sorting it by the animation index
-            Debug.Log("<a>Keywords Cleared</a>");
-           _keywordData.Clear();
+            if (_cardsQueue.Count > 0)
+            {
+                //clearing the list
+                // registering the keywords
+                // sorting it by the animation index
+                Debug.Log("<a>Keywords Cleared</a>");
+                _keywordData.Clear();
 
-            var currentCard = _cardsQueue.Peek().CardKeywords;
-            Debug.Log($"<a>sorting keywords {_cardsQueue.Count} cards left to be executed </a>");
+                var currentCard = _cardsQueue.Peek().CardKeywords;
+                Debug.Log($"<a>sorting keywords {_cardsQueue.Count} cards left to be executed </a>");
 
-            for (int i = 0; i < currentCard.Length; i++)
-                _keywordData.Add(currentCard[i]);
-            
-            _keywordData.Sort();
-            Debug.Log($"<a>{_keywordData.Count} keys were added</a>");
+                for (int i = 0; i < currentCard.Length; i++)
+                    _keywordData.Add(currentCard[i]);
+
+                _keywordData.Sort();
+                Debug.Log($"<a>{_keywordData.Count} keys were added</a>");
+            }
+
         }
-
-  
+    
         public void CardFinishExecuting()
         {
-                Debug.Log($"<a>Animation Finished {_cardsQueue.Count} left to be executed </a>");
-            if (_cardsQueue.Count ==0)
-                    return;
-            
-                Debug.Log("<a>Dequeueing to next card</a>");
-            _cardsQueue.Dequeue();
+        
+            //Debug.Log($"<a>Animation Finished {_cardsQueue.Count} left to be executed </a>");
+            //if (_cardsQueue.Count == 0)
+            //    return null;
+
+            //Debug.Log("<a>Dequeueing to next card</a>");
+            //var card = _cardsQueue.Dequeue();
 
             if (_cardsQueue.Count > 0)
             {
                 Debug.Log("<a>Activating Next card</a>");
                 ActivateCard();
+
             }
+      //      return card;
+
         }
 
         public void OnKeywordEvent()

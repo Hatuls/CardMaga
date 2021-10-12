@@ -22,6 +22,7 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] Animator _playerAnimator;
     [SerializeField] Transform targetToLookAt;
 
+    AnimationBundle _previousAnimation;
     AnimationBundle _currentAnimation;
     Queue<AnimationBundle>  _animationQueue = new Queue<AnimationBundle>();
 
@@ -35,7 +36,6 @@ public class AnimatorController : MonoBehaviour
 
     [SerializeField] bool isPlayer;
     bool _isAnimationPlaying;
-    [SerializeField]   bool isFirst;
     [SerializeField]  Vector3 startPos;
     #endregion
 
@@ -66,7 +66,6 @@ public class AnimatorController : MonoBehaviour
     #region Public
     public void ResetAnimator()
     {
-        isFirst = true;
 
          startPos = new Vector3( transform.position.x, transform.position.y, transform.position.z);
         _isAnimationPlaying = false;
@@ -132,72 +131,101 @@ public class AnimatorController : MonoBehaviour
 
     public void DeathAnimationCompleted()
     {
-      Battles.BattleManager.ReturnToMainMenu();
+        Battles.BattleManager.ReturnToMainMenu();
     }
 
-    public void SetAnimationQueue(Card card)
+
+    public void CheckForRegisterCards()
     {
-        // When we finish the planning turn we get the cards and start the animation 
-        if (card == null )
+        if (CheckIfMyTurn())
+       Battles.CardExecutionManager.Instance.CardFinishExecuting();
+        _previousAnimation = null;
+    }
+
+    public bool CheckIfMyTurn()
+    {  
+            return (Battles.Turns.TurnHandler.IsPlayerTurn == isPlayer);
+    }
+    public void PlayCrossAnimation()
+    {
+        var cardQueue = Battles.CardExecutionManager.CardsQueue;
+
+        if (cardQueue == null)
+            throw new System.Exception("Cannot Play animation from card\n CardExecutionManager.CardsQueue is null!!");
+        else if (cardQueue.Count == 0)
             return;
 
-         SetAnimationQueue(card.CardSO.AnimationBundle);
-       
+        PlayCrossAnimationQueue(cardQueue.Peek().CardSO.AnimationBundle);
+
     }
-    public void SetAnimationQueue(AnimationBundle animationBundle)
+
+
+   
+    public void PlayCrossAnimationQueue(AnimationBundle animationBundle)
     {
+
         _currentAnimation = animationBundle;
-        SetLayerWeight(animationBundle.BodyPartEnum);
-        PlayAnimation(animationBundle._attackAnimation.ToString());
-        //  StartCoroutine(PlayAnimation());
-        //if (animationBundle == null)
-        //    return;
 
-        // _animationQueue.Enqueue(animationBundle);
-        ////animationList.Add(animationBundle);
+        if (_currentAnimation?._attackAnimation == _previousAnimation?._attackAnimation)
+            _playerAnimator.SetTrigger("Duplicate");
+        else
+        {
+            var cardQueue = Battles.CardExecutionManager.CardsQueue;
+            string output = "";
+            foreach (var card in cardQueue)
+            {
+                output += " " + card.CardSO.AnimationBundle._attackAnimation.ToString();
+            }
+            Debug.LogError(output);
 
-        //IsMyTurn = true;
-
-        //if (_animationQueue.Count == 1) //&& isFirst
-        //{
-
-        //    TranstionToNextAnimation();
-        //}
-
-
+            PlayAnimation(_currentAnimation._attackAnimation.ToString());
+        }
+        
+    }
+    [SerializeField] bool _crossFadeBetweenAnimations = false;
+    private void PlayAnimation(string name)
+    {
+        if (_crossFadeBetweenAnimations)
+            _playerAnimator.CrossFade(name, _transitionSpeedBetweenAnimations);
+        else
+             _playerAnimator.Play(name);
 
     }
-    AnimationBundle _previousAnimation;
+
+
+
     public void TranstionToNextAnimation()
     {
         transform.position = startPos;
         transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
-
-        // we want to go back to idle if we dont have more animation to do
-        // and if we have animation in the queue we want to transtion to them and tell all relevants that a transtion happend
-
-     
+        var cardQueue = Battles.CardExecutionManager.CardsQueue;
+        if (cardQueue.Count == 0)
+        {
             OnFinishAnimation();
+            return;
+        }
+
+        _previousAnimation = cardQueue.Dequeue().CardSO.AnimationBundle;
+
+        if (cardQueue.Count != 0)
+        {
+            Battles.CardExecutionManager.Instance.CardFinishExecuting();
+        }
+
+    
 
     }
+    private void OnFinishAnimation()
+    {
+            _previousAnimation = null;
+        //ReturnToIdle();
+        ResetBothRotaionAndPosition();
+        //  isFirst = true;
+        //   _onFinishedAnimation?.Raise();
+        //  _currentAnimation = null;
 
-    //IEnumerator PlayAnimation()
-    //{
-    //    _previousAnimation = _currentAnimation;
-    //    _currentAnimation = _animationQueue.Dequeue();
-    //    SetLayerWeight(_currentAnimation.BodyPartEnum);
-    //    Debug.LogWarning(
-    //        new
-    //        {
-    //            AnimationQueue = _animationQueue.Count,
-    //            PreviousAnimation = (_previousAnimation == null) ? null : _previousAnimation._attackAnimation.ToString(),
-    //            CurrentAnimation = _currentAnimation == null ? null : _currentAnimation._attackAnimation.ToString()
-    //        }
-    //        ) ;
-
-    //    PlayAnimation(_currentAnimation._attackAnimation.ToString());
-
-    //}
+    }
+ 
     public void ResetLayerWeight()
     {
         _playerAnimator.SetLayerWeight(1, 0);
@@ -227,17 +255,7 @@ public class AnimatorController : MonoBehaviour
         }
     }
 
-    private void PlayAnimation(string Name)
-    {
-        if (isFirst == true)
-            isFirst = false;
-
-      //  if (_playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name != Name)
-            _playerAnimator.CrossFade(Name, _transitionSpeedBetweenAnimations);
-     //   else
-      //      _playerAnimator.Play(Name);
-
-    }
+ 
 
 
     public void PlayHitOrDefenseAnimation()
@@ -251,15 +269,6 @@ public class AnimatorController : MonoBehaviour
             _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString());
         
        
-    }
-    private void OnFinishAnimation()
-    {
-        //ReturnToIdle();
-        ResetBothRotaionAndPosition();
-      //  isFirst = true;
-     //   _onFinishedAnimation?.Raise();
-      //  _currentAnimation = null;
-        Battles.CardExecutionManager.Instance.CardFinishExecuting();
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();

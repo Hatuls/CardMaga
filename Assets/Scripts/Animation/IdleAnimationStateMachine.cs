@@ -1,16 +1,27 @@
 ﻿
 using UnityEngine;
 
-public class JumpAnimation : CharacterBaseStateMachine
-{
+public class IdleAnimationStateMachine : CharacterBaseStateMachine
+{ 
+    bool toDetect = false;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {       
-        GetAnimatorController(animator).OnStartAnimation(stateInfo);
+    {
+        toDetect = true;  
+        if (toDetect)
+        {
+            GetAnimatorController(animator).CheckForRegisterCards();
+            toDetect = false;
+        }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        GetAnimatorController(animator).OnFinishAnimation(stateInfo);
+
+    }
+
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+   
     }
 
 }
