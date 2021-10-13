@@ -44,10 +44,13 @@ namespace Battles
             _characterStats = characterSO.CharacterStats;
             CharacterStatsManager.RegisterCharacterStats(false,ref _characterStats);
 
+
+            var factory = Factory.GameFactory.Instance.CardFactoryHandler;
+
             var CardInfo = characterSO.Deck;
             _deck = new Cards.Card[CardInfo.Length];
             for (int i = 0; i < CardInfo.Length; i++)
-                _deck[i] = CardManager.Instance.CreateCard(CardInfo[i].Card, CardInfo[i].Level);
+                _deck[i] = factory.CreateCard(CardInfo[i].Card, CardInfo[i].Level);
 
             DeckManager.Instance.InitDeck(false, _deck);
 
@@ -77,15 +80,7 @@ namespace Battles
 
         }
 
-        private void SortEnemyCards()
-        {
-            var EnemyHand = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
-            System.Array.Sort(EnemyHand);
-            for (int i = 0; i < EnemyHand.Length; i++)
-            {
 
-            }
-        }
         public void OnEndTurn() => _enemyAnimatorController.ResetLayerWeight();
         public System.Collections.IEnumerator PlayEnemyTurn()
         {
@@ -124,7 +119,7 @@ namespace Battles
                     if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
                         yield return new WaitForSeconds(.3f);
                     else
-                        yield return new WaitForSeconds(1f);
+                        yield return Turns.Turn.WaitOneSecond;
                 }
 
                 indexCheck = -1;
@@ -132,9 +127,9 @@ namespace Battles
 
 
 
-            yield return new WaitUntil(() => EnemyManager.EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
-            yield return new WaitForSeconds(1f);
-            EnemyManager.EnemyAnimatorController.ResetToStartingPosition();
+            yield return new WaitUntil(() => EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
+            yield return Turns.Turn.WaitOneSecond;
+            EnemyAnimatorController.ResetToStartingPosition();
         }
 
 

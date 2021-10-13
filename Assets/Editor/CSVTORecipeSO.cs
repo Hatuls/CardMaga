@@ -14,7 +14,7 @@ public class CSVTORecipeSO
     }
     private static void OnCompleteDownloadingRecipeCSV(string txt)
     {
-        CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection"); ;
+        CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection"); 
 
         CSVToCardSO.DestroyWebGameObjects();
 

@@ -67,6 +67,8 @@ namespace Combo
         private Cards.CardSO _craftedCard;
         public Cards.CardSO CraftedCard { get => _craftedCard; set=> _craftedCard =value; }
 
+
+
         #endregion
 
         #region Properties

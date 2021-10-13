@@ -12,7 +12,7 @@ namespace Managers
     {
         #region Fields
         [Tooltip("Player Stats: ")]
-        [SerializeField] Characters.Stats.CharacterStats _characterStats;
+        [SerializeField] CharacterStats _characterStats;
         [SerializeField] private CharacterSO _myCharacter;
         [SerializeField] Cards.Card[] _deck;
         [SerializeField] CharacterSO.RecipeInfo[] _recipes;
@@ -62,8 +62,9 @@ namespace Managers
 
             var CardInfo = characterSO.Deck;
             _deck = new Cards.Card[CardInfo.Length];
+            var cardFactory = Factory.GameFactory.Instance.CardFactoryHandler;
             for (int i = 0; i < CardInfo.Length; i++)
-                _deck[i] = CardManager.Instance.CreateCard(CardInfo[i].Card, CardInfo[i].Level);
+                _deck[i] = cardFactory.CreateCard(CardInfo[i].Card, CardInfo[i].Level);
 
             Battles.Deck.DeckManager.Instance.InitDeck(true, _deck);
 
