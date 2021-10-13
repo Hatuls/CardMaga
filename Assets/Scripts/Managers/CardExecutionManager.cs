@@ -17,9 +17,9 @@ namespace Battles
      
         [SerializeField] Unity.Events.SoundsEvent _playSound;
         [Sirenix.OdinInspector.ShowInInspector]
-        static Queue<Cards.Card> _cardsQueue;
+        static Queue<Cards.Card> _cardsQueue  = new Queue<Cards.Card>();
         public static Queue<Cards.Card> CardsQueue => _cardsQueue;
-        static List<KeywordData> _keywordData;
+        static List<KeywordData> _keywordData = new List<KeywordData>();
         [SerializeField] StaminaUI _staminaBtn;
         static int currentKeywordIndex;
 
@@ -33,8 +33,8 @@ namespace Battles
     
         public override void Init()
         {
-            _cardsQueue= new Queue<Cards.Card>();
-            _keywordData = new List<KeywordData>();
+            _cardsQueue.Clear();
+               _keywordData.Clear();
         }
         public bool TryExecuteCard(bool isPlayer, Cards.Card card)
         {
@@ -202,7 +202,7 @@ namespace Battles
        public void ActivateCard()
         {
             // play the card animation
-   if (_cardsQueue.Count == 0)
+           if (_cardsQueue.Count == 0)
                 return;
             Debug.Log("<a>Activating Card</a>");
             // sort his keyowrds

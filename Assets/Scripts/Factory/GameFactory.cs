@@ -38,6 +38,7 @@ namespace Factory
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
 
+            Debug.Log("Factory Created<a>!</a>");
 
             _instance = this;
         }
