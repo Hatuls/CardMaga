@@ -52,8 +52,9 @@ namespace Combo
 
             if (_cardRecipeDetected != null)
             {
-            
-                var craftedCard = Managers.CardManager.Instance.CreateCard(_cardRecipeDetected.CraftedCard);
+                var factory = Factory.GameFactory.Instance.CardFactoryHandler;
+                var craftedCard = factory.CreateCard(_cardRecipeDetected.CraftedCard);
+
                 _playSound?.Raise(SoundsNameEnum.SuccessfullForge);
                 _successCrafting?.Raise();
 
