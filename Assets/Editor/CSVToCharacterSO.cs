@@ -17,7 +17,8 @@ public class CSVToCharacterSO
         CSVToCardSO.DestroyWebGameObjects();
 
         float timer = 0;
-        while (recipeCollection == null && timer < 1000000) 
+        const float timeCheck = 1000000;
+        while (recipeCollection == null && timer < timeCheck) 
         {
             recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
 
@@ -30,7 +31,7 @@ public class CSVToCharacterSO
 
 
          timer = 0;
-        while (cardCollections == null && timer < 1000000)
+        while (cardCollections == null && timer < timeCheck)
         {
             cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
 
