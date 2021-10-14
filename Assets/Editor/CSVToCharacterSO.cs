@@ -13,6 +13,9 @@ public class CSVToCharacterSO
     private static void OnCompleteDownloadingCharacterCSV(string txt)
     {
         Collections.RelicsSO.ComboCollectionSO recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
+        CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+        CSVToCardSO.DestroyWebGameObjects();
+
         float timer = 0;
         while (recipeCollection == null && timer < 1000000) 
         {
@@ -24,7 +27,7 @@ public class CSVToCharacterSO
             Debug.LogError($"Recipe Collection is null!! ");
 
 
-        CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+
 
          timer = 0;
         while (cardCollections == null && timer < 1000000)
@@ -37,7 +40,6 @@ public class CSVToCharacterSO
             Debug.LogError($"Card Collection is null!! ");
 
 
-        CSVToCardSO.DestroyWebGameObjects();
 
         string[] rows = txt.Replace("\r", "").Split('\n');
 

@@ -11,18 +11,17 @@ namespace Battles
      //   [UnityEngine.SerializeField] Opponents EnemyAI;
 
         [Tooltip("Player Stats: ")]
-        [SerializeField] private Characters.Stats.CharacterStats _characterStats;
-        [SerializeField] private  CharacterSO _myCharacter;
-        [SerializeField] private Cards.Card[] _deck;
-        [SerializeField] private CharacterSO.RecipeInfo[] _recipes;
-        public Cards.Card[] Deck => _deck;
 
-        [SerializeField] Cards.Card enemyAction;
+        [SerializeField] private  Character _myCharacter;
+        [Space]
+
         int _cardAction;
+        [SerializeField] Cards.Card enemyAction;
         [SerializeField]  AnimatorController _enemyAnimatorController;
         #endregion
-         public CharacterSO.RecipeInfo[] Recipes => _recipes;
-        public ref Characters.Stats.CharacterStats GetCharacterStats => ref _characterStats;
+         public Combo.Combo[] Recipes => _myCharacter.ComboRecipe;
+        public Cards.Card[] Deck => _myCharacter.CharacterDeck;
+        public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
         #region Public Methods
         public override void Init()
@@ -37,35 +36,21 @@ namespace Battles
         }
 
         public void AssignCharacterData(CharacterSO characterSO)
-        {
+      => AssignCharacterData(new Character(characterSO));
+        public void AssignCharacterData(Character character)
+        { 
+            _myCharacter = character;
 
-           // EnemyAI = new Opponents();
-            _myCharacter = characterSO;
-            _characterStats = characterSO.CharacterStats;
-            CharacterStatsManager.RegisterCharacterStats(false,ref _characterStats);
+            CharacterStatsManager.RegisterCharacterStats(false, ref character.CharacterStats);
+            DeckManager.Instance.InitDeck(false, character.CharacterDeck);
 
-
-            var factory = Factory.GameFactory.Instance.CardFactoryHandler;
-
-            var CardInfo = characterSO.Deck;
-            _deck = new Cards.Card[CardInfo.Length];
-            for (int i = 0; i < CardInfo.Length; i++)
-                _deck[i] = factory.CreateCard(CardInfo[i].Card, CardInfo[i].Level);
-
-            DeckManager.Instance.InitDeck(false, _deck);
-
-
-            _recipes = characterSO.Combos;
             EnemyAnimatorController.ResetAnimator();
         }
-
-        public void UpdateStats()
+        public void UpdateStatsUI()
         {
-
-
-            UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(false, _characterStats.MaxHealth);
-            UI.StatsUIManager.GetInstance.InitHealthBar(false, _characterStats.Health);
-            UI.StatsUIManager.GetInstance.UpdateShieldBar(false, _characterStats.Shield);
+            UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(false, GetCharacterStats.MaxHealth);
+            UI.StatsUIManager.GetInstance.InitHealthBar(false, GetCharacterStats.Health);
+            UI.StatsUIManager.GetInstance.UpdateShieldBar(false, GetCharacterStats.Shield);
         }
 
         public void OnEndBattle()
@@ -133,15 +118,6 @@ namespace Battles
         }
 
 
-        public Cards.Card GetOpponentCard
-        {
-            get
-            {
-                _cardAction++;
-
-                return _deck[_cardAction % _deck.Length];
-            }
-        }
         #endregion
 
     }

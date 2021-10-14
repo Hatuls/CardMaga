@@ -81,14 +81,18 @@ namespace Battles.UI
             {
                 CurrentlyHolding = ReplacingCard;
                 CardUIManager.Instance.AssignDataToCardUI(ReplacingCard, ReplacedCard.GFX.GetCardReference);
+           
                 var index = ReplacedCard.Inputs.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand).Index;
                 var replacinghandSTate = ReplacingCard.Inputs.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
                 replacinghandSTate.Index = index;
                 replacinghandSTate.HasValue = false;
+
+
                 int childIndex = ReplacingCard.transform.GetSiblingIndex();
                 int replacedIndex = ReplacedCard.transform.GetSiblingIndex();
                 ReplacingCard.transform.SetSiblingIndex(replacedIndex);
                 ReplacedCard.transform.SetSiblingIndex(childIndex);
+
                 SetHandCardPosition(ReplacingCard, replacedIndex);
                 _handCards[index] = ReplacingCard;
             }

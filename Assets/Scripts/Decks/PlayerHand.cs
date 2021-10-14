@@ -37,8 +37,9 @@ namespace Battles.Deck
             }
             return null;
         }
-        public override void AddCard(Card card)
+        public override bool AddCard(Card card)
         {
+            bool added = false;
             var deck = GetDeck;
             if (deck == null || deck.Length == 0)
                 InitDeck(4);
@@ -47,14 +48,16 @@ namespace Battles.Deck
                 if (deck[i] == null)
                 {
                     GetDeck[i]= card;
+                    added = true;
                     break;
                 }
             }
                 CountCards();
-            
+            return added;
         }
-        public override void DiscardCard(in Card card)
+        public override bool DiscardCard(in Card card)
         {
+            bool found = false;
             if (GetDeck != null && card != null && GetDeck.Length > 0)
             {
                 for (int i = 0; i < GetDeck.Length; i++)
@@ -62,12 +65,14 @@ namespace Battles.Deck
                     if (GetDeck[i] != null
                        && GetDeck[i].CardID == card.CardID)
                     {
+                        found = true;
                         GetDeck[i] = null;
                         CountCards();
                         break;
                     }
                 }
             }
+            return found;
         }
     }
 }

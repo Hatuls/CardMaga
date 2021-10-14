@@ -84,7 +84,7 @@ namespace Battles.Deck
 
             return null;
         }
-        public virtual void AddCard(Card card)
+        public virtual bool AddCard(Card card)
         {
             //  add card to the deck
             // if its not assigned then create a deck of 5 cards
@@ -104,10 +104,12 @@ namespace Battles.Deck
                 amountOfEmptySlots--;
                 amountOfFilledSlots++;
                 //CountCards();
+                return true;
             }
+            return false;
         }
         public virtual bool ExpandingDeckPolicy() => true;
-        public virtual void DiscardCard(in Card card)
+        public virtual bool DiscardCard(in Card card)
         {
             /*
              * check if the deck and card is valids
@@ -115,7 +117,7 @@ namespace Battles.Deck
              * if we found then reset him to null 
              * and reoder and recount
              */
-
+            bool foundCard= false;
 
             if (_deckCards != null && card != null && _deckCards.Length > 0)
             {
@@ -127,13 +129,14 @@ namespace Battles.Deck
                         _deckCards[i] = null;
                         amountOfEmptySlots++;
                         amountOfFilledSlots--;
+                        foundCard = true;
                         break;
                     }
 
                 }
             }
             OrderDeck();
-           // CountCards();
+            return foundCard;
         }
         public void EmptySlots()
         {
@@ -318,9 +321,9 @@ namespace Battles.Deck
     };
     public interface IDeckHandler {
       
-        void DiscardCard(in Cards.Card card);
+        bool DiscardCard(in Card card);
         void ResetDeck();
-        void AddCard( Cards.Card card);
+        bool AddCard(Card card);
         void InitDeck(int length);
     }
 }

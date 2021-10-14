@@ -11,20 +11,19 @@ namespace Managers
     public class PlayerManager : MonoSingleton<PlayerManager>, IBattleHandler
     {
         #region Fields
-        [Tooltip("Player Stats: ")]
-        [SerializeField] CharacterStats _characterStats;
-        [SerializeField] private CharacterSO _myCharacter;
-        [SerializeField] Cards.Card[] _deck;
+
+        [SerializeField] Character _characterData;
+
         [SerializeField] CharacterSO.RecipeInfo[] _recipes;
 
-     [SerializeField]   AnimatorController _playerAnimatorController;
+        [SerializeField]   AnimatorController _playerAnimatorController;
 
 
         #endregion
-        public ref Characters.Stats.CharacterStats GetCharacterStats => ref _characterStats;
-        public Cards.Card[] Deck => _deck;
+        public ref CharacterStats GetCharacterStats => ref _characterData.CharacterStats;
+        public Cards.Card[] Deck => _characterData?.CharacterDeck;
+        public Combo.Combo[] Recipes => _characterData.ComboRecipe;
 
-        public CharacterSO.RecipeInfo[] Recipes => _recipes;
         public AnimatorController PlayerAnimatorController
         {
             get {
@@ -52,46 +51,34 @@ namespace Managers
         public override void Init()
         {
         }
-
-
         public void AssignCharacterData(CharacterSO characterSO)
+         =>  AssignCharacterData(new Character(characterSO));
+        
+        public void AssignCharacterData(Character characterData)
         {
-            _myCharacter = characterSO;
-            _characterStats = characterSO.CharacterStats;
-            CharacterStatsManager.RegisterCharacterStats(true, ref _characterStats);
-
-            var CardInfo = characterSO.Deck;
-            _deck = new Cards.Card[CardInfo.Length];
-            var cardFactory = Factory.GameFactory.Instance.CardFactoryHandler;
-            for (int i = 0; i < CardInfo.Length; i++)
-                _deck[i] = cardFactory.CreateCard(CardInfo[i].Card, CardInfo[i].Level);
-
-            Battles.Deck.DeckManager.Instance.InitDeck(true, _deck);
-
-              _recipes = characterSO.Combos;
-
+            this._characterData = characterData;
+            CharacterStatsManager.RegisterCharacterStats(true, ref characterData.CharacterStats);
+            Battles.Deck.DeckManager.Instance.InitDeck(true, Deck);
             PlayerAnimatorController.ResetAnimator();
         }
-
-        public void RestartBattle()
+         public void UpdateStatsUI()
         {
-            if (_myCharacter != null)
-            {
-                AssignCharacterData(_myCharacter);
-                UpdateStats();
-            }
+
+            Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, GetCharacterStats.MaxHealth);
+            Battles.UI.StatsUIManager.GetInstance.InitHealthBar(true, GetCharacterStats.Health);
+            Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, GetCharacterStats.Shield);
         }
 
-        public void OnEndTurn() => _playerAnimatorController.ResetLayerWeight();
+       
+        public void OnEndTurn() 
+            => _playerAnimatorController.ResetLayerWeight();
 
 
 
-        public void UpdateStats()
+     
+ public void RestartBattle()
         {
-            Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, _characterStats.MaxHealth);
-            Battles.UI.StatsUIManager.GetInstance.InitHealthBar(true, _characterStats.Health);
-            Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, _characterStats.Shield);
-
+            throw new System.NotImplementedException();
         }
 
         public void OnEndBattle()

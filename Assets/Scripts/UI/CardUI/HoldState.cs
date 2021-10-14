@@ -49,7 +49,7 @@ namespace Battles.UI.CardUIAttributes
                         }
                     }
 
-                    Debug.Log("CardUI - State Hand - Stationary Touch ");
+                 //   Debug.Log("CardUI - State Hand - Stationary Touch ");
 
 
                     float speed = _cardUIFollowUP;
@@ -66,7 +66,7 @@ namespace Battles.UI.CardUIAttributes
                         Debug.LogWarning("<a>Above The Line!</a>");
                         succed = CardUIHandler.Instance.TryExecuteCardUI(_cardStateMachine.CardReference);
                     }
-                    Debug.Log("!!!!");
+
                     CardUIHandler.Instance.CardUITouchedReleased(succed, _cardStateMachine.CardReference);
                     break;
                 default:
@@ -79,10 +79,8 @@ namespace Battles.UI.CardUIAttributes
             isLooking = true;
             currentTime = 0;
             _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = alpha;
-            //     OnTick(InputManager.PlayerTouch.Value);
             InputManager.Instance.AssignObjectFromTouch(_cardStateMachine.CurrentState);
-         //   _cardStateMachine.CardReference.CardTranslations.MoveCard(true, InputManager.PlayerTouch.Value.position, _cardStateMachine.CardReference.Settings.GetCardFollowDelay);
-        }
+         }
         public override void OnStateExit()
         {
             currentTime = 0;

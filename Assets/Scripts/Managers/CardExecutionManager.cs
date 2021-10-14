@@ -58,9 +58,9 @@ namespace Battles
             if (isPlayer)
                CardUIManager.Instance.LockHandCards(false);
 
-            RegisterCard(card, isPlayer);
-
             DeckManager.Instance.TransferCard(isPlayer, DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
+
+            RegisterCard(card, isPlayer);
 
             DeckManager.AddToCraftingSlot(isPlayer, card);
 

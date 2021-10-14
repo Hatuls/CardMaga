@@ -11,13 +11,28 @@ namespace Factory
         [SerializeField] CharacterCollection characters;
         private void Awake()
         {
+
             if (cards == null)
-                throw new System.Exception("Card Collection Was Not Assigned!");
+            {
+                cards = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+                if (cards == null)
+                    throw new System.Exception("Card Collection Was Not Assigned!");
+            }
+
             if (combos == null)
-                throw new System.Exception("Combo Collection Was Not Assigned!");
+            {
+                combos = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
+                if (combos == null)
+                    throw new System.Exception("Combo Collection Was Not Assigned!");
+            }
+
             if (characters == null)
-                throw new System.Exception("Characters Collection Was Not Assigned!");
-            
+            {
+                characters = Resources.Load<CharacterCollection>("Collection SO/CharacterCollection");
+                if (characters == null)
+                    throw new System.Exception("Characters Collection Was Not Assigned!");
+            }
+
 
             GameFactory gameFactory = new GameFactory(cards, combos, characters);
             Destroy(this.gameObject);

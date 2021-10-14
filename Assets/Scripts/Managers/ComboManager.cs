@@ -166,7 +166,7 @@ namespace Combo
             ComboSO[] combo = new ComboSO[recipes.Length];
 
             for (int i = 0; i < recipes.Length; i++)
-                combo[i] = (recipes[i].ComboRecipe);
+                combo[i] = (recipes[i].ComboSO);
 
             CardTypeData[] cardTypeDatas;
             for (int i = 0; i < combo.Length; i++)

@@ -25,7 +25,7 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>, IPointerCli
         var recipes = Managers.PlayerManager.Instance.Recipes;
         Combo.ComboSO[] playerRecipe = new Combo.ComboSO[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
-            playerRecipe[i] = recipes[i].ComboRecipe;
+            playerRecipe[i] = recipes[i].ComboSO;
 
         if (playerRecipe.Length < comboRecipeUIs.Length)
         {
@@ -47,7 +47,7 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>, IPointerCli
         Combo.ComboSO[] playerRecipe = new Combo.ComboSO[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
         {
-            playerRecipe[i] = recipes[i].ComboRecipe;
+            playerRecipe[i] = recipes[i].ComboSO;
             Debug.LogWarning($"Recipe { playerRecipe[i].name}"); ;
 
         }
@@ -57,7 +57,7 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>, IPointerCli
             if (comboRecipeUIs[i]  != null && comboRecipeUIs[i].gameObject.activeSelf && i * page < playerRecipe.Length)
             {
 
-            comboRecipeUIs[i].InitRecipe(playerRecipe[i* page]);
+            comboRecipeUIs[i].InitRecipe(playerRecipe[i * page]);
             }
         }
     }

@@ -11,13 +11,13 @@ namespace Battles.Deck
         {
             _deckIcon = DeckIcon;
         }
-        public override void AddCard(Card card)
+        public override bool AddCard(Card card)
         {
-            base.AddCard(card);
+         bool added =   base.AddCard(card);
 
             if (isPlayer)
                 _deckIcon?.SetAmount(GetAmountOfFilledSlots);
-          
+            return added;
         }
 
 
@@ -47,12 +47,13 @@ namespace Battles.Deck
 
             CountCards();
         }
-        public override void DiscardCard(in Card card)
+        public override bool DiscardCard(in Card card)
         {
-            base.DiscardCard(card);
+            bool succeed = base.DiscardCard(card);
 
             if (isPlayer)
                 _deckIcon?.SetAmount(GetAmountOfFilledSlots);
+            return succeed;
         }
         public void Shuffle()
         {

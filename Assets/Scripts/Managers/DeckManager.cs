@@ -135,8 +135,9 @@ namespace Battles.Deck
 
                 if (cardCache != null)
                 {
-                    toDeck.AddCard(cardCache);
-                    fromDeck.DiscardCard(cardCache);
+                    
+                    if ( toDeck.AddCard(cardCache))
+                     fromDeck.DiscardCard(cardCache)  ;
                 }
                 else
                     Debug.LogError($"DeckManager: {isPlayersDeck} The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card {cardCache} \n " + fromDeck.ToString());
@@ -152,10 +153,11 @@ namespace Battles.Deck
         public void OnEndTurn(bool isPlayersDeck)
         {
             Debug.Log("Discarding the remain cards from hand and placement!");
-            GetDeckAbst(isPlayersDeck, DeckEnum.Selected).ResetDeck();
-            GetDeckAbst(isPlayersDeck, DeckEnum.Hand).ResetDeck();
+            ResetCharacterDeck(isPlayersDeck, DeckEnum.Selected);
+            ResetCharacterDeck(isPlayersDeck, DeckEnum.Hand);
         }
-
+        public void ResetCharacterDeck(bool isPlayer, DeckEnum deck)
+            => GetDeckAbst(isPlayer, deck).ResetDeck();
 
         
         public static void AddToCraftingSlot(bool toPlayerCraftingSlots,Card card) 
@@ -194,8 +196,8 @@ namespace Battles.Deck
 
 
 
-            toDeck.AddCard( card);
-            fromDeck.DiscardCard(card);
+            if(fromDeck.DiscardCard(card))
+              toDeck.AddCard( card);
             //fromDeck.PrintDecks(from);
           //  toDeck.PrintDecks(to);
         }
@@ -213,8 +215,8 @@ namespace Battles.Deck
 
                 for (int i = 0; i < amount; i++)
                 {
+                   if( fromDeckCache.DiscardCard(fromDeckCache.GetFirstCard()))
                     toDeckCache.AddCard(toDeckCache.GetFirstCard());
-                    fromDeckCache.DiscardCard(fromDeckCache.GetFirstCard());
                     // ui Transfer
                 }
 
@@ -226,8 +228,8 @@ namespace Battles.Deck
                  for (int i = 0; i < fromDeckCache.GetAmountOfFilledSlots; i++)
                 {
 
+                    if(fromDeckCache.DiscardCard(fromDeckCache.GetFirstCard()))
                     toDeckCache.AddCard(toDeckCache.GetFirstCard());
-                    fromDeckCache.DiscardCard(fromDeckCache.GetFirstCard());
 
                   
 

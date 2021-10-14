@@ -25,11 +25,10 @@ namespace Battles.UI.CardUIAttributes
             {
 
                 case TouchPhase.Began:
-                    break;
-
                 case TouchPhase.Moved:
                 case TouchPhase.Stationary:
                         reference.CardTranslations?.MoveCard(false, UIManager.MiddleScreenPosition, reference.Settings.GetCardScaleDelay);
+                  
                     if (Vector2.Distance(CardStateMachine.TouchPos, touchPos.position) > StationaryOffset)
                     {
                         location = touchPos.position;

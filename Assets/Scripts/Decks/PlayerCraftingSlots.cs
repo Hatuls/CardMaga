@@ -24,7 +24,7 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
         }
         return foundEmptySlots;
     }
-    public override void AddCard(Card card)
+    public override bool AddCard(Card card)
     {
 
         if (AddCardToEmptySlot(card) == false)
@@ -36,15 +36,11 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
 
             GetDeck[GetDeck.Length - 1] = card;
             _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
-
-            //for (int i = 0; i < GetDeck.Length; i++)
-            //    _playerCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
-
-
         }
 
         CountCards();
         Combo.ComboManager.StartDetection();
+        return true;
     }
 
     public void PushSlots()

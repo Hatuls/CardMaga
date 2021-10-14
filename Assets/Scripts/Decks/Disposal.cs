@@ -25,21 +25,23 @@ namespace Battles.Deck
             }
             _playerDeck.Shuffle();
         }
-        public override void AddCard(Card card)
+        public override bool AddCard(Card card)
         {
             if (CheckDuplicate(card))
-                return;
+                return false;
 
 
-            base.AddCard(card);
+          bool added =   base.AddCard(card);
             if (isPlayer)
                 _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
+            return added;
         }
-        public override void DiscardCard(in Card card)
+        public override bool DiscardCard(in Card card)
         {
-            base.DiscardCard(card);
+           bool succeed =  base.DiscardCard(card);
             if (isPlayer)
-               _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
+                _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
+            return succeed;
         }
 
         private bool CheckDuplicate(Card card)

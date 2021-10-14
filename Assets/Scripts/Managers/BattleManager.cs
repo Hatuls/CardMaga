@@ -36,10 +36,20 @@ namespace Battles
 
         private void AssignParams()
         {
-            PlayerManager.Instance.AssignCharacterData(_BattleInformation.OpponentOne);
-            EnemyManager.Instance.AssignCharacterData(_BattleInformation.OpponentTwo);
-            PlayerManager.Instance.UpdateStats();
-            EnemyManager.Instance.UpdateStats();
+            if (_BattleInformation.UseSO)
+            {
+                PlayerManager.Instance.AssignCharacterData(_BattleInformation.OpponentOne);
+                EnemyManager.Instance.AssignCharacterData(_BattleInformation.OpponentTwo);
+            }
+            else
+            {
+                PlayerManager.Instance.AssignCharacterData(_BattleInformation.PlayerCharacterData);
+                PlayerManager.Instance.AssignCharacterData(_BattleInformation.OpponentCharacterData);
+            }
+
+
+            PlayerManager.Instance.UpdateStatsUI();
+            EnemyManager.Instance.UpdateStatsUI();
             Combo.ComboManager.Instance.Init();
             Keywords.KeywordManager.Instance.Init();
             AudioManager.Instance.ResetAudioCollection();
@@ -174,7 +184,8 @@ namespace Battles
     {
         void RestartBattle();
       void  AssignCharacterData(CharacterSO characterSO);
-        void UpdateStats();
+      void  AssignCharacterData(Character character);
+        void UpdateStatsUI();
         void OnEndBattle();
     }
 }

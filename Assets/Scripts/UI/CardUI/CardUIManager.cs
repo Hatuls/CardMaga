@@ -285,6 +285,7 @@ namespace Battles.UI
                 return;
 
 
+
             DeckManager.Instance.TransferCard(true, DeckEnum.Hand,DeckEnum.Selected, cardReference.GFX.GetCardReference);
             _handUI.ReplaceCard(_selectedCardUI, cardReference);
             _selectedCardUI.gameObject.SetActive(true);
@@ -307,13 +308,12 @@ namespace Battles.UI
                 if (ExecuteSucceded==false)
                     DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
 
-            //    card.startState =CardInputs.CardUIInput.Zoomed;
-
             InputManager.Instance.RemoveObjectFromTouch();
             card.CardAnimator.ResetAllAnimations();    
             _handUI.LockCardsInput(false);
             cardReference?.GFX.GlowCard(false);
             card.gameObject.SetActive(false);
+            card.Inputs.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.None);
             // card.CardTranslations.CancelAllTweens();
        //     _selectedCardUI = null;
 
@@ -361,8 +361,7 @@ namespace Battles.UI
                 //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
                 OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition, _OriginalCard);
                 int index = _handUI.GetCardIndex(_selectedCardUI);
-                DeckManager.Instance.TransferCard(true, DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
-            }
+             }
             return succeded;
            
         }

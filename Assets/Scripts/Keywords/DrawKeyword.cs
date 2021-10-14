@@ -8,7 +8,8 @@
         {
             if (data.GetTarget == TargetEnum.MySelf)
             {
-                Battles.Deck.DeckManager.Instance.OnEndTurn(currentPlayer);
+                //  Battles.Deck.DeckManager.Instance.OnEndTurn(currentPlayer);
+                Battles.Deck.DeckManager.Instance.ResetCharacterDeck(currentPlayer, Battles.Deck.DeckEnum.Hand);
                 Battles.UI.CardUIManager.Instance.RemoveHands();
                 Battles.Deck.DeckManager.Instance.DrawHand(
                     currentPlayer,

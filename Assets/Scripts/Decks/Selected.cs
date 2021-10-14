@@ -24,36 +24,48 @@ namespace Battles.Deck
             }
 
             var deck = GetDeck;
-
+       
             if (deck[0] != null)
             {
-                _disposalDeck.AddCard(deck[0]);
+                DeckManager.Instance.AddCardToDeck(
+                    isPlayer,
+                    deck[0],
+                    deck[0].IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal
+                    );
+
                 DiscardCard(deck[0]);
             }
         }
       
-        public void DiscardCard(in Card card, DeckEnum? discardTo = null)
+        public bool DiscardCard(in Card card, DeckEnum? discardTo = null)
         {
+
             if (card == null)
-                return;
+                return false;
             else if (GetDeck == null || GetDeck.Length == 0)
                 InitDeck(DeckManager._placementSize);
-
+  
             if (GetDeck[0] == null)
-                return;
+                return true;
+
+            DeckEnum destination = (discardTo == null) ?
+                ( (card.IsExhausted) ? DeckEnum.Exhaust : DeckEnum.Disposal)
+                : discardTo.Value;
 
             DeckManager.Instance.TransferCard(
                 isPlayer,
                 DeckEnum.Selected,
-                discardTo == null ? _discardTo : discardTo.Value,
+                destination,
                 card);
 
             GetDeck[0] = null;
+
+            return true;
         }
-        public override void AddCard(Card card)
+        public override bool AddCard(Card card)
         {
             if (card == null)
-                return;
+                return false;
             else if (GetDeck == null || GetDeck.Length == 0)
                 InitDeck(DeckManager._placementSize);
 
@@ -62,12 +74,11 @@ namespace Battles.Deck
             {
                 _discardTo = DeckEnum.Hand;
                 GetDeck[0] = card;
-                return;
             }
 
-            DiscardCard(GetDeck[0], DeckEnum.Hand);
-            AddCard(card);
-
+           // DiscardCard(GetDeck[0], DeckEnum.Hand);
+            //AddCard(card);
+         return true;
         }
      
     }
