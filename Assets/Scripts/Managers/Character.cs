@@ -27,7 +27,7 @@ namespace Battles
 
 
         public bool AddCardToDeck(CharacterSO.CardInfo card) => AddCardToDeck(card.Card, card.Level);
-        public bool AddCardToDeck(Cards.CardSO card, int level = 0)
+        public bool AddCardToDeck(Cards.CardSO card, byte level = 0)
         {
             if (card == null)
                 throw new Exception("Cannot add card to deck the card you tried to add is null!");

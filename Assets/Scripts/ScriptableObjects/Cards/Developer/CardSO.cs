@@ -60,13 +60,13 @@ namespace Cards
 
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]
-        private int _stamina;
-        public int StaminaCost { get=> _stamina; set=> _stamina=value; }
+        private byte _stamina;
+        public byte StaminaCost { get=> _stamina; set=> _stamina=value; }
 
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]
-        private int _purchaseCost;
-        public int PurchaseCost { get=> _purchaseCost; set=> _purchaseCost=value; }
+        private ushort _purchaseCost;
+        public ushort PurchaseCost { get=> _purchaseCost; set=> _purchaseCost=value; }
 
 
 
@@ -78,12 +78,12 @@ namespace Cards
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much coins the card cost")]
         [SerializeField]
-        int _salvageCost = 1;
+        ushort _salvageCost = 1;
 
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]
-        private int _id;
-        public int ID { get => _id; set => _id = value; }
+        private ushort _id;
+        public ushort ID { get => _id; set => _id = value; }
 
         [TabGroup("CardData/Info", "Keywords")]
         [SerializeField]
@@ -97,8 +97,8 @@ namespace Cards
 
         [TabGroup("CardData/Info", "Crafting")]
         [SerializeField]
-        private int[] _cardsFusesFrom;
-        public int[] CardsFusesFrom { get=> _cardsFusesFrom; set=> _cardsFusesFrom=value; }
+        private ushort[] _cardsFusesFrom;
+        public ushort[] CardsFusesFrom { get=> _cardsFusesFrom; set=> _cardsFusesFrom=value; }
 
         #endregion
 
@@ -108,13 +108,13 @@ namespace Cards
 
 
         [ShowInInspector]
-        public int CardsMaxLevel => PerLevelUpgrade == null ? 0 : PerLevelUpgrade.Length-1;
+        public byte CardsMaxLevel => PerLevelUpgrade == null ? (byte)0 : (byte)(PerLevelUpgrade.Length-1);
 
         #endregion
 
 
         #region Methods
-        public PerLevelUpgrade GetLevelUpgrade(int level)
+        public PerLevelUpgrade GetLevelUpgrade(byte level)
         {
 
             if (level >=0 && level< PerLevelUpgrade.Length)

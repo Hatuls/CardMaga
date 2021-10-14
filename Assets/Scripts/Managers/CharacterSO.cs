@@ -9,7 +9,7 @@ namespace Battles
         [Serializable]
         public class CardInfo
         {
-            public CardInfo(Cards.CardSO card , int level)
+            public CardInfo(Cards.CardSO card , byte level)
             {
                 _cardSO = card;
                 _level = level;
@@ -20,14 +20,14 @@ namespace Battles
             public Cards.CardSO Card { get => _cardSO; }
 
             [SerializeField]
-            private int _level;
-            public int Level { get => _level; }
+            private byte _level;
+            public byte Level { get => _level; }
         }
 
         [Serializable]
         public class RecipeInfo
         {
-            public RecipeInfo(Combo.ComboSO comboSO, int level)
+            public RecipeInfo(Combo.ComboSO comboSO, byte level)
             {
                 _comboRecipe = comboSO;
                 _level = level;
@@ -36,8 +36,8 @@ namespace Battles
             private Combo.ComboSO _comboRecipe;
             public Combo.ComboSO ComboRecipe { get => _comboRecipe; }
             [SerializeField]
-            private int _level;
-            public int Level { get=> _level; }
+            private byte _level;
+            public byte Level { get=> _level; }
         }
 
         [SerializeField]
@@ -81,26 +81,26 @@ namespace Battles
 
         public ref Characters.Stats.CharacterStats CharacterStats { get =>ref _characterStats; }
 
-        public bool Init(int id , string[] row, CardsCollectionSO cardCollection, Collections.RelicsSO.ComboCollectionSO recipeCollections)
+        public bool Init(ushort id , string[] row, CardsCollectionSO cardCollection, Collections.RelicsSO.ComboCollectionSO recipeCollections)
         {
             ID = id;
 
 
             //CharacterType
-            const int CharacterTypeIndex = 1;
-            const int CharacterDifficultyIndex = 2;
-            const int CharacterNameIndex = 3;
-            const int CharacterModelIndex = 4;
-            const int CharacterMaxHpIndex = 5;
-            const int CharacterDefenseIndex = 6;
-            const int CharacterStaminaIndex = 7;
-            const int CharacterCardDrawIndex = 8;
-            const int CharacterGoldIndex = 9;
-            const int CharacterStrengthPointIndex = 10;
-            const int CharacterDexterityPointIndex = 11;
-            const int CharacterDeckIndex = 12;
-            const int CharacterRecipeIndex = 13;
-            const int RewardTypeIndex = 14;
+            const byte CharacterTypeIndex = 1;
+            const byte CharacterDifficultyIndex = 2;
+            const byte CharacterNameIndex = 3;
+            const byte CharacterModelIndex = 4;
+            const byte CharacterMaxHpIndex = 5;
+            const byte CharacterDefenseIndex = 6;
+            const byte CharacterStaminaIndex = 7;
+            const byte CharacterCardDrawIndex = 8;
+            const byte CharacterGoldIndex = 9;
+            const byte CharacterStrengthPointIndex = 10;
+            const byte CharacterDexterityPointIndex = 11;
+            const byte CharacterDeckIndex = 12;
+            const byte CharacterRecipeIndex = 13;
+            const byte RewardTypeIndex = 14;
 
 
             if (Enum.TryParse<CharacterTypeEnum>(row[CharacterTypeIndex].Replace(' ','_'), out CharacterTypeEnum cte))
@@ -145,7 +145,7 @@ namespace Battles
 
 
 
-                                _deck[i] = new CardInfo(cardCollection.GetCard(int.Parse(data[iD])), int.Parse(data[Level]));
+                                _deck[i] = new CardInfo(cardCollection.GetCard(ushort.Parse(data[iD])), byte.Parse(data[Level]));
                             
                             }
 
@@ -155,7 +155,7 @@ namespace Battles
                             for (int i = 0; i < Recipe.Length; i++)
                             {
                                 string[] data = Recipe[i].Split('^');
-                                _combos[i] = new RecipeInfo(recipeCollections.GetCombo(int.Parse(data[iD])), int.Parse(data[Level]));
+                                _combos[i] = new RecipeInfo(recipeCollections.GetCombo(ushort.Parse(data[iD])), byte.Parse(data[Level]));
                                
 
                                 if (_combos[i].ComboRecipe == null)

@@ -13,11 +13,11 @@ namespace Cards
 
         private CardSO _cardSO;
 
-        private int _cardBattleID = 0;
-        private int _currentLevel =0;
+        private ushort _cardBattleID = 0;
+        private byte _currentLevel =0;
         private bool toExhaust = false;
         public bool IsExhausted { get => toExhaust; }
-        public int StaminaCost { get; private set; }
+        public byte StaminaCost { get; private set; }
         CardTypeData _cardTypeData;
         public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
 
@@ -27,9 +27,9 @@ namespace Cards
 
         #region Properties
 
-        public int CardID => _cardBattleID;
+        public ushort CardID => _cardBattleID;
 
-        public int CardLevel => _currentLevel;
+        public byte CardLevel => _currentLevel;
 
         public  CardSO CardSO
         {    private set => _cardSO = value;
@@ -51,18 +51,18 @@ namespace Cards
 
 
         #region Functions
-        public Card(int battleCardID, CardSO _card, int cardsLevel)
+        public Card(ushort battleCardID, CardSO _card, byte cardsLevel)
         {   
             _cardBattleID = battleCardID;
             InitCard(_card, cardsLevel);
         }
 
-        public void InitCard( CardSO _card, int cardsLevel) 
+        public void InitCard( CardSO _card, byte cardsLevel) 
         {
             toExhaust = _card.ToExhaust;
 
             _currentLevel = cardsLevel;
-            var levelUpgrade = _card.GetLevelUpgrade(_currentLevel);
+            var levelUpgrade = _card.GetLevelUpgrade(cardsLevel);
             List<KeywordData> keywordsList = new List<KeywordData>(1);
             for (int i = 0; i < levelUpgrade.UpgradesPerLevel.Length; i++)
             {
@@ -72,7 +72,7 @@ namespace Cards
                 {
               
                     case LevelUpgradeEnum.Stamina:
-                        StaminaCost = upgrade.Amount;
+                        StaminaCost = (byte)upgrade.Amount;
                         break;
                     case LevelUpgradeEnum.KeywordAddition:
                         keywordsList.Add(upgrade.KeywordUpgrade);
@@ -141,7 +141,7 @@ namespace Cards
             switch (levelUpgrade.UpgradeType)
             {
                 case LevelUpgradeEnum.Stamina:
-                    StaminaCost = levelUpgrade.Amount;
+                    StaminaCost =(byte) levelUpgrade.Amount;
                     break;
 
 

@@ -78,14 +78,14 @@ namespace Factory
              public Combo.Combo CreateCombo(CharacterSO.RecipeInfo recipe)
              =>new Combo.Combo(recipe);
 
-            public Combo.Combo CreateCombo(ComboSO comboSO, int level = 0)
+            public Combo.Combo CreateCombo(ComboSO comboSO, byte level = 0)
                => new Combo.Combo(comboSO, level);
 
         }
         public class CardFactory 
         { 
             static List<int> _battleCardIdList;
-            static int _battleID;
+            static ushort _battleID;
             public CardsCollectionSO CardCollection { get; set; }
             public CardFactory(CardsCollectionSO cards)
             {
@@ -120,8 +120,9 @@ namespace Factory
 
                 _battleID = 1;
             }
-
-            public Card CreateCard(CardSO cardSO, int level = 0)
+            public Card CreateCard(ushort CardSOID, byte level = 0)
+             => CreateCard(CardCollection.GetCard(CardSOID), level);
+            public Card CreateCard(CardSO cardSO, byte level = 0)
             {
 
                 if (cardSO != null && (level >= 0 && level <= cardSO.CardsMaxLevel))

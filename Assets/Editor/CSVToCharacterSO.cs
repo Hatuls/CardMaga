@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
+
 public class CSVToCharacterSO
 {
     const string _driveURLOfCharacterSO = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=945070348";
@@ -77,7 +78,7 @@ List<Battles.CharacterSO> charactersList = new List<Battles.CharacterSO>();
     private static Battles.CharacterSO CreateCharacter(string[] line, CardsCollectionSO cardCollections, Collections.RelicsSO.ComboCollectionSO recipeCollection)
     {
         const int ID = 0;
-        if (int.TryParse(line[ID], out int characterID))
+        if (ushort.TryParse(line[ID], out ushort characterID))
         {
             var character = ScriptableObject.CreateInstance<Battles.CharacterSO>();
             if (character.Init(characterID, line, cardCollections, recipeCollection))

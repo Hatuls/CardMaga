@@ -5,11 +5,11 @@ namespace Combo
     public class Combo
     {
         public ComboSO ComboSO { get; private set; }
-        public int Level { get; private set; }
+        public byte Level { get; private set; }
 
         public Combo(Battles.CharacterSO.RecipeInfo recipeInfo) : this(recipeInfo?.ComboRecipe, recipeInfo.Level) { }
 
-        public Combo(ComboSO comboSO, int level = 0)
+        public Combo(ComboSO comboSO, byte level = 0)
         {
             if (comboSO == null)
                 throw new Exception("Combo SO is null!");

@@ -144,7 +144,7 @@ public class CSVToCardSO
         const int IsExhausted = 24;
         
 
-        card.ID = int.Parse(cardSO[ID]);
+        card.ID = ushort.Parse(cardSO[ID]);
 
         card.CardName = cardSO[CardName];
         card.CardSprite = GetCardImageByName(card.CardName);
@@ -185,25 +185,25 @@ public class CSVToCardSO
         //    Debug.LogError($"CardID {cardSO[ID]} : Coulmne R {StaminaCost}  is not an int OR its less than 0");
 
         //Purchase Cost
-        card.PurchaseCost = int.TryParse(cardSO[PurchaseCost], out int pCost) ? pCost : -1;
-        if (card.PurchaseCost < 0)
+        card.PurchaseCost = ushort.TryParse(cardSO[PurchaseCost], out ushort pCost) ? pCost : (ushort)0;
+        if (card.PurchaseCost == 0)
             Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
         //ToExhaust
         card.ToExhaust = cardSO[IsExhausted] == "0" ? false : true;
-        card.StaminaCost = int.Parse(cardSO[StaminaCost]);
+        card.StaminaCost = byte.Parse(cardSO[StaminaCost]);
     
         // id fuses from
         string[] idCrafts = cardSO[IDThatCraftMe].Split('&');
         if (idCrafts[0].Equals('0') == false)
         {
-            int[] arr = new int[0];
+            ushort[] arr = new ushort[0];
             foreach (var id in idCrafts)
             {
                 if (int.Parse(id) == 0)
                     break;
                 Array.Resize(ref arr, arr.Length+1);
-                arr[arr.Length - 1] = int.Parse(id);
+                arr[arr.Length - 1] = ushort.Parse(id);
             }
 
             card.CardsFusesFrom = arr;
