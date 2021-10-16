@@ -87,7 +87,12 @@ namespace Battles.UI
         [SerializeField] CardUIEvent _selectCardEvent;
         #endregion
 
-
+        private void Start()
+        {
+            if (_cardAnimator == null &&
+               ((Card & CardUISettings.With_Animations) == CardUISettings.With_Animations))
+                GetComponent<Animator>().enabled = true;
+        }
 
         #region Properties
         public  CardGFX GFX =>  _cardGFX;
@@ -129,7 +134,7 @@ namespace Battles.UI
 
     }
 
-
+   
    
 }
 

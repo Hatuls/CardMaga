@@ -142,8 +142,11 @@ namespace Battles
             Instance._BattleInformation.UpdatePlayerCharacter(x);
         }
 
-        public static void DeathAnimationFinished(bool isPlayer) => BattleUIRewardHandler.Instance.ShowBattleRewardUI(isPlayer);
+        public static void DeathAnimationFinished(bool isPlayer)
+        {
 
+            BattleUIRewardHandler.Instance.ShowBattleRewardUI(isPlayer);
+        }
 
 
         private static void EnemyDied()

@@ -18,13 +18,14 @@ namespace Rewards.Battles
         {
             if (playerWon)
             {
-                var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(data.UseSO ? data.OpponentTwo.CharacterType: data.OpponentCharacterData.Info.CharacterType );
+                var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(data.UseSO ? data.OpponentTwo.CharacterType : data.OpponentCharacterData.Info.CharacterType);
                 if (rewardBundle == null)
                     throw new System.Exception("Reward Bundle is null!");
 
                 BattleUIRewardHandler.Instance.BattleReward = rewardBundle;
             }
-
+            else
+                data.ResetPlayerStats();
         }
 
         public void AddCard(Cards.Card cardToAdd)

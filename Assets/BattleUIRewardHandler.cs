@@ -32,11 +32,19 @@ namespace Rewards.Battles
    
         public void ShowBattleRewardUI(bool isPlayer)
         {
+            if (!isPlayer)
+            {
             if (BattleReward == null)
                 throw new System.Exception("Need To Show Battle Reward but battle reward is null");
 
             ResetRewardUI();
             _moneyTxt.text = string.Concat(BattleReward.MoneyReward , " Coins");
+            }
+            else
+            {
+          
+                LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.PreBattle);
+            }
         }
         private void ResetRewardUI()
         {
