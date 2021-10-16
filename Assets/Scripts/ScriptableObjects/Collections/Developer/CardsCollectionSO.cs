@@ -1,13 +1,11 @@
 ﻿using Cards;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName =("CardsCollections"), menuName =("ScriptableObjects/Collections/CardsCollections"))]
 public class CardsCollectionSO : ScriptableObject
 {
     [SerializeField]
-    Cards.CardSO[] _cardCollection;
+    CardSO[] _cardCollection;
 
 
 
@@ -21,6 +19,17 @@ public class CardsCollectionSO : ScriptableObject
 
     [SerializeField]
     RarityCards[] _rarity;
+    public RarityCards[] CardsByRarity => _rarity;
+
+    public RarityCards GetCardByRarity (RarityEnum rarity)
+    {
+        for (int i = 0; i < _rarity.Length; i++)
+        {
+            if (_rarity[i].Rarity == rarity)
+                return _rarity[i];
+        }
+        throw new System.Exception("Rarity was Not Valid or Rarity Cards variable was not start up correctly");
+    }
 
     [System.Serializable]
     public class RarityCards
@@ -39,25 +48,28 @@ public class CardsCollectionSO : ScriptableObject
         public ushort[] CardsID => _cardsID;
     }
 
-    public void Init(CardSO[] collection)
+    public void Init(CardSO[] collection , RarityCards[] rarityCards)
     {
-        int Rareity = System.Enum.GetNames(typeof(RarityEnum)).Length- 1;
-        _rarity = new RarityCards[Rareity];
-
         _cardCollection = collection;
-        List<ushort> cards;
-        for (int i = 0; i < Rareity; i++)
-        {
-            cards = new List<ushort>();
+        _rarity = rarityCards;
 
-            for (int j = 0; j < collection.Length; j++)
-            {
-                if (collection[j].Rarity == (RarityEnum)(i + 1))
-                    cards.Add(collection[j].ID);
-            }
 
-            _rarity[i] = new RarityCards(cards.ToArray(), (RarityEnum)(i + 1));
-        }
+        //int Rareity = System.Enum.GetNames(typeof(RarityEnum)).Length- 1;
+        //_rarity = new RarityCards[Rareity];
+
+        //List<ushort> cards;
+        //for (int i = 0; i < Rareity; i++)
+        //{
+        //    cards = new List<ushort>();
+
+        //    for (int j = 0; j < collection.Length; j++)
+        //    {
+        //        if (collection[j].Rarity == (RarityEnum)(i + 1))
+        //            cards.Add(collection[j].ID);
+        //    }
+
+        //    _rarity[i] = new RarityCards(cards.ToArray(), (RarityEnum)(i + 1));
+        //}
 
 
     }
@@ -84,6 +96,6 @@ public class CardsCollectionSO : ScriptableObject
             if (_cardCollection[i].ID == ID)
                 return _cardCollection[i];
         }
-        return null;
+        throw new System.Exception($"Card SO Could not been found from ID \nID is {ID}\nCheck Collection For card SO");
     }
 }

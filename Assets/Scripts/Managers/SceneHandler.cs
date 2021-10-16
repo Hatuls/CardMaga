@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-public  class SceneHandler
+public class SceneHandler
 {
     private static SceneHandler _instance;
     public static SceneHandler Instance => _instance;
 
 
-    public enum ScenesEnum { MainMenu = 0, Loading = 1, Battle = 2, }
+    public enum ScenesEnum { MainMenu = 0, Loading = 2,PreBattle =1, Battle = 3, }
     static System.Action onLoaderCallback;
     static AsyncOperation _loadingAsyncOperation;
     public static System.Action<ScenesEnum> onFinishLoadingScene;

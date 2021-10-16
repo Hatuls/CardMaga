@@ -1,18 +1,24 @@
 ﻿using System;
+using UnityEngine;
 namespace Battles
 {
     [Serializable]
     public class Character
     {
+
+        [SerializeField]
         private Characters.Stats.CharacterStats _characterStats;
         public ref Characters.Stats.CharacterStats CharacterStats { get => ref _characterStats; }
 
+        [SerializeField]
         private Cards.Card[] _characterDeck;
         public Cards.Card[] CharacterDeck { get => _characterDeck; }
 
+        [SerializeField]
         private Combo.Combo[] _comboRecipe;
         public Combo.Combo[] ComboRecipe { get => _comboRecipe; }
 
+        [Sirenix.OdinInspector.ShowInInspector]
         public CharacterSO Info { get;private set; }
         public Character(CharacterSO characterSO)
         {
@@ -32,13 +38,17 @@ namespace Battles
             if (card == null)
                 throw new Exception("Cannot add card to deck the card you tried to add is null!");
 
-            Array.Resize(ref _characterDeck, CharacterDeck.Length + 1);
-
             var cardCreated = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(card, level);
-            _characterDeck[CharacterDeck.Length - 1] = cardCreated;
-
-            return cardCreated != null;
+      
+            return    AddCardToDeck(cardCreated); 
         }
+        public bool AddCardToDeck(Cards.Card card)
+        {
+            Array.Resize(ref _characterDeck, CharacterDeck.Length + 1);
+            _characterDeck[CharacterDeck.Length - 1] = card;
+            return card != null;
+        }
+
         public bool AddComboRecipe(CharacterSO.RecipeInfo recipeInfo)
         {
             bool hasThisCombo = false;

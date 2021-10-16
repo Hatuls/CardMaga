@@ -9,6 +9,7 @@ namespace Factory
         [SerializeField] CardsCollectionSO cards;
         [SerializeField] ComboCollectionSO combos;
         [SerializeField] CharacterCollection characters;
+        [SerializeField] Rewards.BattleRewardCollectionSO rewards;
         private void Awake()
         {
 
@@ -33,8 +34,14 @@ namespace Factory
                     throw new System.Exception("Characters Collection Was Not Assigned!");
             }
 
+            if (rewards == null)
+            {
+                rewards = Resources.Load<Rewards.BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
+                if (rewards == null)
+                    throw new System.Exception("Reward Collection Was Not Assigned!");
+            }
 
-            GameFactory gameFactory = new GameFactory(cards, combos, characters);
+            GameFactory gameFactory = new GameFactory(cards, combos, characters, rewards);
             Destroy(this.gameObject);
         }
     }

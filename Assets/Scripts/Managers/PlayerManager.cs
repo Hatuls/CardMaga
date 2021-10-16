@@ -21,7 +21,8 @@ namespace Managers
 
         #endregion
         public ref CharacterStats GetCharacterStats => ref _characterData.CharacterStats;
-        public Cards.Card[] Deck => _characterData?.CharacterDeck;
+        Cards.Card[] _playerDeck;
+        public Cards.Card[] Deck => _playerDeck;
         public Combo.Combo[] Recipes => _characterData.ComboRecipe;
 
         public AnimatorController PlayerAnimatorController
@@ -57,8 +58,11 @@ namespace Managers
         public void AssignCharacterData(Character characterData)
         {
             this._characterData = characterData;
+            int Length = characterData.CharacterDeck.Length;
+            _playerDeck = new Cards.Card[Length];
+            System.Array.Copy(characterData.CharacterDeck, _playerDeck, Length);
             CharacterStatsManager.RegisterCharacterStats(true, ref characterData.CharacterStats);
-            Battles.Deck.DeckManager.Instance.InitDeck(true, Deck);
+            Battles.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
             PlayerAnimatorController.ResetAnimator();
         }
          public void UpdateStatsUI()

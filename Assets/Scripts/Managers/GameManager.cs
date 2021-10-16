@@ -33,8 +33,8 @@ public class GameManager : MonoSingleton<GameManager>
     public override void Init()
     {
         _art = new ArtSettings(_panel);
-
-        _singletons = new ISingleton[13]
+        const byte amount = 15;
+        _singletons = new ISingleton[amount]
         {
             VFXManager.Instance,
             CardExecutionManager.Instance,
@@ -48,7 +48,9 @@ public class GameManager : MonoSingleton<GameManager>
             Battles.Deck.DeckManager.Instance,
             CardUIManager.Instance,
             ComboRecipeHandler.Instance,
-            BattleManager.Instance
+            BattleManager.Instance,
+            Rewards.Battles.BattleUIRewardHandler.Instance ,
+            Rewards.Battles.BattleRewardHandler.Instance
         };
 
         StartCoroutine(InitScripts());

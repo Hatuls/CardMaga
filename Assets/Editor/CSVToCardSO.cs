@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Cards;
 
 public class CSVToCardSO 
 {
@@ -59,18 +60,28 @@ public class CSVToCardSO
 
     private static void SeperateFiles(string data)
     {
-        
-         csv = data.Replace("\r", "").Split('\n');
 
-        var Collection = ScriptableObject.CreateInstance<CardsCollectionSO>();
+        csv = data.Replace("\r", "").Split('\n');
 
-       
+       var _cardCollection = ScriptableObject.CreateInstance<CardsCollectionSO>();
+
+
         List<Cards.CardSO> cardList = new List<Cards.CardSO>();
+
+
+
+        List<ushort> commonList = new List<ushort>(); ;
+        List<ushort> unCommonList = new List<ushort>();
+        List<ushort> rareList = new List<ushort>();
+        List<ushort> epicList = new List<ushort>();
+        List<ushort> legendReiList = new List<ushort>();
+
 
 
         //0 is the headers
         // 1 is example card
         const int firstCardsIndex = 2;
+        const int IsBattleReward = 25;
 
         for (int i = firstCardsIndex; i < csv.GetLength(0); i++)
         {
@@ -80,14 +91,66 @@ public class CSVToCardSO
                 break;
 
             var cardCache = CreateCard(row);
+
+
+
             if (cardCache == null)
                 continue;
             else
+            {
                 cardList.Add(cardCache);
+
+                // battle reward sort
+                if (int.TryParse(row[IsBattleReward], out int result))
+                {
+                    // is reward card
+                    if (result == 1)
+                    {
+
+                        switch (cardCache.Rarity)
+                        {
+
+                            case RarityEnum.Common:
+                                commonList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.Uncommon:
+                                unCommonList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.Rare:
+                                rareList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.Epic:
+                                epicList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.LegendREI:
+                                legendReiList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.None:
+                            default:
+                                throw new Exception("Rarity card is None or not acceptabl\ncard id" + +cardCache.ID);
+                        }
+
+                    }
+                }
+                else
+                    throw new Exception("Battle reward was not stated in the card :" + cardCache.ID);
+            }
         }
 
-        Collection.Init(cardList.ToArray());
-        AssetDatabase.CreateAsset(Collection, $"Assets/Resources/Collection SO/CardCollection.asset");
+        var _rarity = new CardsCollectionSO.RarityCards[]
+        {
+        new  CardsCollectionSO.RarityCards(commonList.ToArray(), RarityEnum.Common),
+        new  CardsCollectionSO.RarityCards(unCommonList.ToArray(), RarityEnum.Uncommon),
+        new  CardsCollectionSO.RarityCards(rareList.ToArray(), RarityEnum.Rare),
+        new  CardsCollectionSO.RarityCards(epicList.ToArray(), RarityEnum.Epic),
+        new  CardsCollectionSO.RarityCards(legendReiList.ToArray(), RarityEnum.LegendREI),
+        };
+
+
+
+
+        _cardCollection.Init(cardList.ToArray(), _rarity);
+        AssetDatabase.CreateAsset(_cardCollection, $"Assets/Resources/Collection SO/CardCollection.asset");
         AssetDatabase.SaveAssets();
         Debug.Log("Cards Updated Completed!");
     }

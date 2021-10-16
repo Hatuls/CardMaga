@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public class SceneLoaderCallback : MonoBehaviour
+[CreateAssetMenu (fileName = "SceneLoaderSO", menuName = "ScriptableObjects/SceneLoader")]
+public class SceneLoaderCallback : ScriptableObject
 {
 
-    public void LoadScene()
+    public void LoadScene(int destination)
     {
-        SceneHandler.LoadScene(SceneHandler.ScenesEnum.Battle);
-
+        SceneHandler.LoadScene((SceneHandler.ScenesEnum)destination);
     }
 
 }

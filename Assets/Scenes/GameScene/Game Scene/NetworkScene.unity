@@ -248,9 +248,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdbd216997b362f48829c15ebca9f2a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cards: {fileID: 11400000, guid: 1adb1efd4d7c35e44ac5e8f2b1670be4, type: 2}
-  combos: {fileID: 11400000, guid: 3624130992cc76241930274ac5acc6f6, type: 2}
-  characters: {fileID: 11400000, guid: 4990250593656304197c639dbd6b4ea8, type: 2}
+  cards: {fileID: 0}
+  combos: {fileID: 0}
+  characters: {fileID: 0}
+  rewards: {fileID: 0}
 --- !u!4 &418630275
 Transform:
   m_ObjectHideFlags: 0
@@ -322,7 +323,6 @@ GameObject:
   m_Component:
   - component: {fileID: 934399935}
   - component: {fileID: 934399934}
-  - component: {fileID: 934399933}
   - component: {fileID: 934399936}
   m_Layer: 0
   m_Name: GameManager
@@ -331,18 +331,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &934399933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 934399932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d760ddd5765bea4ea5f097b317b513d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &934399934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1122,8 +1110,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 934399933}
+      - m_Target: {fileID: 11400000, guid: e5ff733d907a10542b627fcacc9f89e9, type: 2}
         m_MethodName: LoadScene
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: c3b228c667582594eaf1a403fc8a9297, type: 2}
+        m_MethodName: ResetPlayerStats
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

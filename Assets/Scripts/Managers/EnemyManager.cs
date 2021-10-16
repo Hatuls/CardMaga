@@ -20,7 +20,8 @@ namespace Battles
         [SerializeField]  AnimatorController _enemyAnimatorController;
         #endregion
          public Combo.Combo[] Recipes => _myCharacter.ComboRecipe;
-        public Cards.Card[] Deck => _myCharacter.CharacterDeck;
+        private Cards.Card[] _deck;
+        public Cards.Card[] Deck => _deck;
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
         #region Public Methods
@@ -40,9 +41,12 @@ namespace Battles
         public void AssignCharacterData(Character character)
         { 
             _myCharacter = character;
+            int deckLength = character.CharacterDeck.Length;
+            _deck = new Cards.Card[deckLength];
+            System.Array.Copy(character.CharacterDeck, _deck, deckLength);
 
             CharacterStatsManager.RegisterCharacterStats(false, ref character.CharacterStats);
-            DeckManager.Instance.InitDeck(false, character.CharacterDeck);
+            DeckManager.Instance.InitDeck(false, _deck);
 
             EnemyAnimatorController.ResetAnimator();
         }

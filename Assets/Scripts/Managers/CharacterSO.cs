@@ -193,13 +193,11 @@ namespace Battles
     public enum CharacterTypeEnum
     {
         None=0,
-        Class_1 =1,
-        Class_2 =2,
-        Class_3 =3,
-        Class_4 =4,
-        Basic_Enemy =5,
-        Elite_Enemy =6,
-        Boss_Enemy =7,
+        Player =1,
+        Tutorial =2,
+        Basic_Enemy =3,
+        Elite_Enemy =4,
+        Boss_Enemy =5,
     }
 
     public enum CharacterDifficultyEnum

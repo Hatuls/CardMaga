@@ -2,19 +2,19 @@
 using System;
 namespace Combo
 {
+    [Serializable]
     public class Combo
     {
-        public ComboSO ComboSO { get; private set; }
-        public byte Level { get; private set; }
-
+        [Sirenix.OdinInspector.ShowInInspector]
+        private ComboSO _comboSO;
+        public ComboSO ComboSO { get=> _comboSO; private set { _comboSO = value; } }
+        private byte _level;
+        public byte Level { get=> _level; private set=> _level =value; }
         public Combo(Battles.CharacterSO.RecipeInfo recipeInfo) : this(recipeInfo?.ComboRecipe, recipeInfo.Level) { }
 
         public Combo(ComboSO comboSO, byte level = 0)
         {
-            if (comboSO == null)
-                throw new Exception("Combo SO is null!");
-
-            ComboSO = comboSO;
+            ComboSO = (comboSO != null) ? comboSO : throw new Exception("Combo SO is null!");
             Level = level;
         }
 

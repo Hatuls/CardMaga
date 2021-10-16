@@ -131,7 +131,7 @@ public class AnimatorController : MonoBehaviour
 
     public void DeathAnimationCompleted()
     {
-        Battles.BattleManager.ReturnToMainMenu();
+        Battles.BattleManager.DeathAnimationFinished(isPlayer);
     }
 
 

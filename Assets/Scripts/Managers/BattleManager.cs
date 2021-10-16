@@ -4,6 +4,8 @@ using Sirenix.OdinInspector;
 using Managers;
 using System.Collections;
 using Characters.Stats;
+using System;
+using Rewards.Battles;
 
 namespace Battles
 {
@@ -21,6 +23,11 @@ namespace Battles
         {
             ResetBattle();
             SceneHandler.onFinishLoadingScene += OnLoadScene;
+        }
+
+        private void Start()
+        {
+            Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(81);
         }
 
         private void ResetBattle()
@@ -44,7 +51,7 @@ namespace Battles
             else
             {
                 PlayerManager.Instance.AssignCharacterData(_BattleInformation.PlayerCharacterData);
-                PlayerManager.Instance.AssignCharacterData(_BattleInformation.OpponentCharacterData);
+                EnemyManager.Instance.AssignCharacterData(_BattleInformation.OpponentCharacterData);
             }
 
 
@@ -67,14 +74,7 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
         }
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                StartBattle();
 
-            }
-        }
         public static void StartBattle()
         {
             // Get enemy oponnent
@@ -122,15 +122,27 @@ namespace Battles
                 EnemyDied();
             }
 
+            UpdateStats();
+
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
 
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
-
+            BattleRewardHandler.Instance.FinishMatch(!isPlayerDied);
         }
 
-        public static void ReturnToMainMenu() => LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.MainMenu);
+        private static void UpdateStats()
+        {
+            var x = Instance._BattleInformation.PlayerCharacterData;
+            var playerBattleStats = CharacterStatsManager.GetCharacterStatsHandler(true);
+
+            x.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
+        
+            Instance._BattleInformation.UpdatePlayerCharacter(x);
+        }
+
+        public static void DeathAnimationFinished(bool isPlayer) => BattleUIRewardHandler.Instance.ShowBattleRewardUI(isPlayer);
 
 
 

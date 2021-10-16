@@ -288,10 +288,11 @@ namespace Battles.UI
 
             DeckManager.Instance.TransferCard(true, DeckEnum.Hand,DeckEnum.Selected, cardReference.GFX.GetCardReference);
             _handUI.ReplaceCard(_selectedCardUI, cardReference);
+
             _selectedCardUI.gameObject.SetActive(true);
             cardReference.GFX.GlowCard(true);
+
             _selectedCardUI = cardReference;
-            //_selectedCardUI.Inputs.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hand);
             _handUI.LockCardsInput(true);
 
 

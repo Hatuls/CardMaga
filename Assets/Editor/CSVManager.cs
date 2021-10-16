@@ -1,31 +1,48 @@
-﻿using System;
+﻿using Cards;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
+using Rewards;
 public class CSVManager
 {
+
     static Battles.CharacterCollection _characterCollection;
     static Collections.RelicsSO.ComboCollectionSO _comboCollection;
     static CardsCollectionSO _cardCollection;
     static Keywords.KeywordSO[] _keywordsSO;
     static Sprite[] cardsPictures;
+    static BattleRewardCollectionSO _battleRewards;
 
-    const string _driveURLOfCardSO = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=1611461659";
-    const string _driveURLOfRecipeSO = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=371699274";
-    const string _driveURLOfCharacterSO = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=945070348";
+
+    #region URL
+    const string _driveURL = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=";
+    const string _driveURLOfCardSO = "1611461659";
+    const string _driveURLOfRecipeSO = "371699274";
+    const string _driveURLOfCharacterSO = "945070348";
+    const string _driveURLOfBattleRewardSO = "39048757";
+    #endregion
 
     static string[] csv;
     [MenuItem("Google Drive/Update All")]
     public static void Update()
     {
-      
-        WebRequests.Get(_driveURLOfCardSO, (x) => Debug.Log("Error " + x), OnCompleteDownloadingCardCSV);
+        WebRequests.Get(string.Concat(_driveURL,_driveURLOfCardSO), (x) => Debug.Log("Error " + x), OnCompleteDownloadingCardCSV);
     }
     private static void OnCompleteDownloadingCardCSV(string txt)
     {
         DestroyWebGameObjects();
 
+        LoadSpritesAndKeywords();
+
+        SeperateFiles(txt);
+
+        WebRequests.Get(string.Concat(_driveURL,_driveURLOfRecipeSO), (x) => Debug.Log("Error " + x), OnCompleteDownloadingRecipeCSV);
+
+    }
+
+    private static void LoadSpritesAndKeywords()
+    {
         _keywordsSO = Resources.LoadAll<Keywords.KeywordSO>("KeywordsSO");
         float timeout = 1000000;
         float timer = 0;
@@ -46,23 +63,11 @@ public class CSVManager
         }
         if (cardsPictures == null)
             Debug.LogError("CardPictures is null!!");
-
-        SeperateFiles(txt);
-
-        csv = null;
-
-
-        WebRequests.Get(_driveURLOfRecipeSO, (x) => Debug.Log("Error " + x), OnCompleteDownloadingRecipeCSV);
-
     }
     private static void OnCompleteDownloadingRecipeCSV(string txt)
     {
     
         CSVToCardSO.DestroyWebGameObjects();
-
-  
-
-
 
         string[] rows = txt.Replace("\r", "").Split('\n');
 
@@ -92,7 +97,7 @@ public class CSVManager
 
         Debug.Log("Recipe Update Complete!");
 
-        WebRequests.Get(_driveURLOfCharacterSO, (x) => Debug.Log("Error " + x), OnCompleteDownloadingCharacterCSV);
+        WebRequests.Get(string.Concat(_driveURL, _driveURLOfCharacterSO), (x) => Debug.Log("Error " + x), OnCompleteDownloadingCharacterCSV);
 
     }
     private static void OnCompleteDownloadingCharacterCSV(string txt)
@@ -130,8 +135,13 @@ public class CSVManager
         AssetDatabase.CreateAsset(_characterCollection, $"Assets/Resources/Collection SO/CharacterCollection.asset");
 
         AssetDatabase.SaveAssets();
+
+        WebRequests.Get(string.Concat(_driveURL, _driveURLOfBattleRewardSO), (x) => Debug.Log("Error " + x), OnCompleteDownloadingBattleRewardCSV);
         Debug.Log("Character  Update Complete!");
     }
+
+
+
 
     #region cards
     private static void SeperateFiles(string data)
@@ -145,9 +155,19 @@ public class CSVManager
         List<Cards.CardSO> cardList = new List<Cards.CardSO>();
 
 
+
+        List<ushort> commonList= new List<ushort>();;
+        List<ushort> unCommonList =new List<ushort>(); 
+        List<ushort> rareList= new List<ushort>(); 
+        List<ushort> epicList= new List<ushort>(); 
+        List<ushort> legendReiList= new List<ushort>(); 
+        
+
+
         //0 is the headers
         // 1 is example card
         const int firstCardsIndex = 2;
+        const int IsBattleReward = 25;
 
         for (int i = firstCardsIndex; i < csv.GetLength(0); i++)
         {
@@ -157,13 +177,65 @@ public class CSVManager
                 break;
 
             var cardCache = CreateCard(row);
+
+
+
             if (cardCache == null)
                 continue;
             else
+            {
                 cardList.Add(cardCache);
+
+                // battle reward sort
+                if (int.TryParse(row[IsBattleReward], out int result))
+                {
+                    // is reward card
+                    if (result == 1)
+                    {
+
+                        switch (cardCache.Rarity)
+                        {
+
+                            case RarityEnum.Common:
+                                commonList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.Uncommon:
+                                unCommonList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.Rare:
+                                rareList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.Epic:
+                                epicList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.LegendREI:
+                                legendReiList.Add(cardCache.ID);
+                                break;
+                            case RarityEnum.None:
+                            default:
+                                throw new Exception("Rarity card is None or not acceptabl\ncard id" + +cardCache.ID);
+                        }
+
+                    }
+                }
+                else
+                    throw new Exception("Battle reward was not stated in the card :" + cardCache.ID);
+            }
         }
 
-        _cardCollection.Init(cardList.ToArray());
+        var _rarity = new CardsCollectionSO.RarityCards[]
+        {
+        new  CardsCollectionSO.RarityCards(commonList.ToArray(), RarityEnum.Common),
+        new  CardsCollectionSO.RarityCards(unCommonList.ToArray(), RarityEnum.Uncommon),
+        new  CardsCollectionSO.RarityCards(rareList.ToArray(), RarityEnum.Rare),
+        new  CardsCollectionSO.RarityCards(epicList.ToArray(), RarityEnum.Epic),
+        new  CardsCollectionSO.RarityCards(legendReiList.ToArray(), RarityEnum.LegendREI),
+        };
+
+  
+
+
+        _cardCollection.Init(cardList.ToArray(), _rarity);
         AssetDatabase.CreateAsset(_cardCollection, $"Assets/Resources/Collection SO/CardCollection.asset");
         AssetDatabase.SaveAssets();
         Debug.Log("Cards Updated Completed!");
@@ -219,7 +291,7 @@ public class CSVManager
         const int IDThatCraftMe = 22;
         const int UpgradeToCardID = 23;
         const int IsExhausted = 24;
-
+   
 
         card.ID = ushort.Parse(cardSO[ID]);
 
@@ -257,9 +329,7 @@ public class CSVManager
         card.CardDescription = cardSO[CardDescription];
 
         //Stamina Cost
-        //card.StaminaCost = int.TryParse(cardSO[StaminaCost], out int cost) ? cost : -1;
-        //if (card.StaminaCost <0)
-        //    Debug.LogError($"CardID {cardSO[ID]} : Coulmne R {StaminaCost}  is not an int OR its less than 0");
+        card.StaminaCost = byte.Parse(cardSO[StaminaCost]);
 
         //Purchase Cost
         card.PurchaseCost = ushort.TryParse(cardSO[PurchaseCost], out ushort pCost) ? pCost : (ushort)0;
@@ -268,7 +338,7 @@ public class CSVManager
 
         //ToExhaust
         card.ToExhaust = cardSO[IsExhausted] == "0" ? false : true;
-        card.StaminaCost = byte.Parse(cardSO[StaminaCost]);
+
 
         // id fuses from
         string[] idCrafts = cardSO[IDThatCraftMe].Split('&');
@@ -632,6 +702,64 @@ public class CSVManager
         else
             return null;
     }
+    #endregion
+
+
+    #region Rewards 
+
+    private static void OnCompleteDownloadingBattleRewardCSV(string data)
+    {
+        CSVToCardSO.DestroyWebGameObjects();
+        _battleRewards = ScriptableObject.CreateInstance<BattleRewardCollectionSO>();
+
+        List<BattleRewardSO> battleRewards = new List<BattleRewardSO>();
+
+        const int row = 2;
+        string[] rows = data.Replace("\r", "").Split('\n');
+
+        for (int i = row; i < rows.Length; i++)
+        {
+            string[] line = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
+
+            var reward = CreateBattleReward(line);
+
+            if (reward == null)
+                break;
+            else
+                battleRewards.Add(reward);
+
+        }
+
+        _battleRewards.Init(battleRewards.ToArray());
+            
+        AssetDatabase.CreateAsset(_battleRewards, $"Assets/Resources/Collection SO/BattleRewardsCollection.asset");
+
+        AssetDatabase.SaveAssets();
+    }
+
+    private static BattleRewardSO CreateBattleReward(string[] line)
+    {
+        const int ID = 0;
+        if (ushort.TryParse(line[ID], out ushort characterID))
+        {
+            var rewards = ScriptableObject.CreateInstance<BattleRewardSO>();
+
+            if (rewards.Init(line))
+            {
+                AssetDatabase.CreateAsset(rewards, $"Assets/Resources/Rewards/BattleRewards/{rewards.CharacterDifficultyEnum}BattleRewardSO.asset");
+                return rewards;
+            }
+            else
+                return null;
+        }
+        else
+            return null;
+    }
+
+
+
+
+
     #endregion
 }
 

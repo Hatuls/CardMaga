@@ -6,8 +6,13 @@ public class LoadingManager : MonoSingleton<LoadingManager>
     SceneHandler _sceneHandler;
     private void Start()
     {
+        if (Instance != null && Instance != this)
+            Destroy(this);
+        else
+        {
         DontDestroyOnLoad(this.gameObject);
         Init();
+        }
     }
     public override void Init()
     {

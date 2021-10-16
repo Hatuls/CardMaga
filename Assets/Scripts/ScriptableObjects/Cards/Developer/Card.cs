@@ -6,11 +6,13 @@ namespace Cards
 {
     public enum CardTypeEnum { Utility = 3, Defend = 2, Attack = 1 ,None = 0,};
 
+   
     public enum BodyPartEnum { None =0 ,Empty = 1, Head =2, Elbow=3, Hand=4, Knee=5, Leg=6 ,Joker = 7};
+    [Serializable]
     public class Card
     {
         #region Fields
-
+        [UnityEngine.SerializeField]
         private CardSO _cardSO;
 
         private ushort _cardBattleID = 0;
