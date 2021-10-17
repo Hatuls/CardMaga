@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Collections;
 namespace Battles
 {
     [CreateAssetMenu(fileName = "Battle Data", menuName = "ScriptableObjects/Battle Data")]
@@ -30,16 +30,18 @@ namespace Battles
         public void UpdatePlayerCharacter(Character data)
         => _player =  data;
         
-        public void Initbattle(CharacterTypeEnum opponent,Character data = null)
+        public IEnumerator Initbattle(CharacterTypeEnum opponent,Character data = null)
         {
             if (UseSO == true)
-                return;
+                yield break; ;
 
                 var characterFacory = Factory.GameFactory.Instance.CharacterFactoryHandler;
 
             UpdatePlayerCharacter(data);
-
-              _opponent = characterFacory.CreateCharacter(opponent);
+            yield return null;
+            Debug.Log("Player created! " + data.CharacterStats.Health);
+            _opponent = characterFacory.CreateCharacter(opponent);
+            yield return null;
         }
         [Sirenix.OdinInspector.Button]
         public void ResetPlayerStats() => _player = null;

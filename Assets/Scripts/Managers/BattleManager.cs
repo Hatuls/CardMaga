@@ -53,7 +53,8 @@ namespace Battles
                 PlayerManager.Instance.AssignCharacterData(_BattleInformation.PlayerCharacterData);
                 EnemyManager.Instance.AssignCharacterData(_BattleInformation.OpponentCharacterData);
             }
-
+            if (_BattleInformation.PlayerCharacterData.CharacterStats.Health <= 0)
+                throw new Exception("Battle data was not work correctly!");
 
             PlayerManager.Instance.UpdateStatsUI();
             EnemyManager.Instance.UpdateStatsUI();
@@ -86,6 +87,7 @@ namespace Battles
             // reset turns
 
             // turn handler start
+
 
             Instance.StopAllCoroutines();
             Instance._turnCycles = TurnHandler.TurnCycle();

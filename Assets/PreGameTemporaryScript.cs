@@ -12,7 +12,7 @@ public class PreGameTemporaryScript : MonoBehaviour
     [SerializeField] ArtSO art;
     [SerializeField] SceneLoaderCallback _sceneloaderEvent;
     [SerializeField] BattleData _data;
-    [SerializeField]
+    
     Character player;
 
     [SerializeField] RectTransform _cardUIpanel;
@@ -34,7 +34,7 @@ public class PreGameTemporaryScript : MonoBehaviour
     private void Start()
     {
         player = _data.PlayerCharacterData;
-        if (player == null)
+        if (player == null || _data.PlayerCharacterData.CharacterStats.Health <=0)
         {
             _battleBtnTxt.text = "Start!";
             _newRunBtn.gameObject.SetActive(false);
@@ -56,16 +56,25 @@ public class PreGameTemporaryScript : MonoBehaviour
     }
     public void StartNewRun()
     {
-        player = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter( CharacterTypeEnum.Player);
-        _data.Initbattle( CharacterTypeEnum.Basic_Enemy,player);
+        StartCoroutine(Try());
+    }
+
+    private IEnumerator Try()
+    {
+        player = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(CharacterTypeEnum.Player);
+        yield return null;
+        Debug.Log("Player created! " + player.CharacterStats.Health + " deck legth: " + player.CharacterDeck.Length);
+
+        yield return   _data.Initbattle(CharacterTypeEnum.Basic_Enemy, player);
 
         _battleBtnTxt.text = "Start!";
         _newRunBtn.gameObject.SetActive(false);
         _goldText.gameObject.SetActive(false);
         _healthText.gameObject.SetActive(false);
         _showDeckBtn.SetActive(false);
-    }
 
+   
+    }
     public void Battle()
     {
         if (_data == null)
@@ -74,9 +83,13 @@ public class PreGameTemporaryScript : MonoBehaviour
         if (_data.PlayerCharacterData == null || _data.PlayerCharacterData.CharacterStats.Health <= 0)
             StartNewRun();
 
+     StartCoroutine(LoadScene());
+    }
+    IEnumerator LoadScene()
+    {
+        yield return null;
         _sceneloaderEvent.LoadScene(3);
     }
-
     public void OpenDeck()
     {
         if (_cardUIGOs != null && _cardUIGOs.Length >0)

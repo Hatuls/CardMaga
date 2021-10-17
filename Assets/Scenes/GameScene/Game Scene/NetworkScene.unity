@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -248,10 +248,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdbd216997b362f48829c15ebca9f2a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cards: {fileID: 0}
-  combos: {fileID: 0}
-  characters: {fileID: 0}
-  rewards: {fileID: 0}
+  cards: {fileID: 11400000, guid: 1adb1efd4d7c35e44ac5e8f2b1670be4, type: 2}
+  combos: {fileID: 11400000, guid: f57a898c19066ef42a151e39670e29ee, type: 2}
+  characters: {fileID: 11400000, guid: 4990250593656304197c639dbd6b4ea8, type: 2}
+  rewards: {fileID: 11400000, guid: df1d1fecfcc36104e8619d6a5d87c1cc, type: 2}
 --- !u!4 &418630275
 Transform:
   m_ObjectHideFlags: 0
@@ -1110,17 +1110,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: e5ff733d907a10542b627fcacc9f89e9, type: 2}
-        m_MethodName: LoadScene
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 11400000, guid: c3b228c667582594eaf1a403fc8a9297, type: 2}
         m_MethodName: ResetPlayerStats
         m_Mode: 1
@@ -1128,6 +1117,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: e5ff733d907a10542b627fcacc9f89e9, type: 2}
+        m_MethodName: LoadScene
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
