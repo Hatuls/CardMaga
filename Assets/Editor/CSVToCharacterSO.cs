@@ -50,7 +50,7 @@ public class CSVToCharacterSO
         if (recipeCollection == null || recipeCollection.GetComboSO.Length == 0)
             Debug.LogError("Card Collection Is empty make sure you have combos in the recipe Collection SO at \"Resources\\Collection SO\\RecipeCollection\"");
 
-        Battles.CharacterCollection characterCollection = ScriptableObject.CreateInstance<Battles.CharacterCollection>();
+        Battles.CharacterCollectionSO characterCollection = ScriptableObject.CreateInstance<Battles.CharacterCollectionSO>();
 List<Battles.CharacterSO> charactersList = new List<Battles.CharacterSO>();
 
         for (int i = 2; i < rows.Length; i++)

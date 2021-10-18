@@ -4,7 +4,7 @@
 namespace Battles
 {
     [CreateAssetMenu(fileName = "CharacterCollection", menuName = "ScriptableObjects/Collection")]
-    public class CharacterCollection :ScriptableObject
+    public class CharacterCollectionSO :ScriptableObject
     {
         [SerializeField]
         private CharacterSO[] _charactersSO;

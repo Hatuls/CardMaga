@@ -8,7 +8,7 @@ namespace Factory
     {
         [SerializeField] CardsCollectionSO cards;
         [SerializeField] ComboCollectionSO combos;
-        [SerializeField] CharacterCollection characters;
+        [SerializeField] CharacterCollectionSO characters;
         [SerializeField] Rewards.BattleRewardCollectionSO rewards;
         private void Awake()
         {
@@ -29,7 +29,7 @@ namespace Factory
 
             if (characters == null)
             {
-                characters = Resources.Load<CharacterCollection>("Collection SO/CharacterCollection");
+                characters = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
                 if (characters == null)
                     throw new System.Exception("Characters Collection Was Not Assigned!");
             }

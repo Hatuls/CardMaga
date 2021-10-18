@@ -7,7 +7,7 @@ using Rewards;
 public class CSVManager
 {
 
-    static Battles.CharacterCollection _characterCollection;
+    static Battles.CharacterCollectionSO _characterCollection;
     static Collections.RelicsSO.ComboCollectionSO _comboCollection;
     static CardsCollectionSO _cardCollection;
     static Keywords.KeywordSO[] _keywordsSO;
@@ -113,7 +113,7 @@ public class CSVManager
         if (_comboCollection == null || _comboCollection.GetComboSO.Length == 0)
             Debug.LogError("Card Collection Is empty make sure you have combos in the recipe Collection SO at \"Resources\\Collection SO\\RecipeCollection\"");
 
-        _characterCollection = ScriptableObject.CreateInstance<Battles.CharacterCollection>();
+        _characterCollection = ScriptableObject.CreateInstance<Battles.CharacterCollectionSO>();
         List<Battles.CharacterSO> charactersList = new List<Battles.CharacterSO>();
 
         for (int i = 2; i < rows.Length; i++)

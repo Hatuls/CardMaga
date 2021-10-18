@@ -19,7 +19,7 @@ namespace Factory
                 {
                     CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
                     ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
-                    CharacterCollection characterCollection = Resources.Load<CharacterCollection>("Collection SO/CharacterCollection");
+                    CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
                     BattleRewardCollectionSO battleRewardsCollection = Resources.Load<BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
 
                     _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, battleRewardsCollection);
@@ -31,7 +31,7 @@ namespace Factory
         public CardFactory CardFactoryHandler { get; private set; }
         public CharacterFactory CharacterFactoryHandler { get; private set; }
         public RewardFactory RewardFactoryHandler { get; private set; }
-        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollection characters, BattleRewardCollectionSO rewards )
+        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards )
         {
             if (cards == null || comboCollectionSO == null || characters == null || rewards == null)
                 throw new System.Exception("Collections is null!!");
@@ -64,16 +64,16 @@ namespace Factory
 
         public class CharacterFactory 
         {
-            public CharacterCollection Characters { get; private set; }
-            public CharacterFactory(CharacterCollection characterCollection)
+            public CharacterCollectionSO CharacterCollection { get; private set; }
+            public CharacterFactory(CharacterCollectionSO characterCollection)
             {
-                Characters = characterCollection;
+                CharacterCollection = characterCollection;
             }
 
         
             internal Character CreateCharacter(CharacterTypeEnum character)
             {
-                var characterSO = Characters.CharactersSO;
+                var characterSO = CharacterCollection.CharactersSO;
                 for (int i = 0; i < characterSO.Length; i++)
                 {
                     if (characterSO[i].CharacterType == character)
@@ -112,9 +112,9 @@ namespace Factory
         }
         public class CardFactory 
         { 
-            static List<int> _battleCardIdList;
+            static List<ushort> _battleCardIdList;
             static ushort _battleID;
-            public CardsCollectionSO CardCollection { get; set; }
+            public CardsCollectionSO CardCollection { get;private set; }
             public CardFactory(CardsCollectionSO cards)
             {
                 CardCollection = cards;
@@ -141,7 +141,7 @@ namespace Factory
             public void Reset()
             {
                 if (_battleCardIdList == null)
-                    _battleCardIdList = new List<int>();
+                    _battleCardIdList = new List<ushort>();
                 else
                     _battleCardIdList.Clear();
 

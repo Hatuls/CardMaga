@@ -38,6 +38,7 @@ namespace Battles
                 var characterFacory = Factory.GameFactory.Instance.CharacterFactoryHandler;
 
             UpdatePlayerCharacter(data);
+
             yield return null;
             Debug.Log("Player created! " + data.CharacterStats.Health);
             _opponent = characterFacory.CreateCharacter(opponent);
