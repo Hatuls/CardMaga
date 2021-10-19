@@ -6,31 +6,28 @@ namespace Rewards.Battles
 
     public class BattleRewardHandler : MonoSingleton<BattleRewardHandler>
     {
-        [SerializeField] BattleData data;
+
 
         public override void Init()
         {
-            if (data == null)
-                throw new System.Exception("BattleRewardHandler : Battle Data was not assigned in inspector!");
-        }
+         }
 
        public void FinishMatch(bool playerWon)
         {
             if (playerWon)
             {
-                var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(data.UseSO ? data.OpponentTwo.CharacterType : data.OpponentCharacterData.Info.CharacterType);
+                var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards( BattleData.Opponent.CharacterData.Info.CharacterType);
                 if (rewardBundle == null)
                     throw new System.Exception("Reward Bundle is null!");
 
                 BattleUIRewardHandler.Instance.BattleReward = rewardBundle;
             }
-            else
-                data.ResetPlayerStats();
+          
         }
 
         public void AddCard(Cards.Card cardToAdd)
         {
-            data.PlayerCharacterData.AddCardToDeck(cardToAdd);
+            BattleData.Player.AddCardToDeck(cardToAdd);
 
 
         }
@@ -39,17 +36,13 @@ namespace Rewards.Battles
         {
             var playerStats = Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(true);
 
-
-
             playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Add(amount);
 
+            var player = BattleData.Player;
 
-            var x = data.PlayerCharacterData;
+            player.CharacterData.CharacterStats.Gold = playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Amount;
 
-
-            x.CharacterStats.Gold = playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Amount;
-
-            data.UpdatePlayerCharacter(x);
+            BattleData.Player =player;
         }
     }
 }

@@ -1,26 +1,31 @@
-﻿using System;
-using UnityEngine;
-namespace Battles
-{
-    [Serializable]
-    public class Character
-    {
+﻿using Battles;
+using System;
 
+using UnityEngine;
+
+
+namespace Characters
+{
+
+    [Serializable]
+    public class CharacterData
+    {
         [SerializeField]
-        private Characters.Stats.CharacterStats _characterStats;
-        public ref Characters.Stats.CharacterStats CharacterStats { get => ref _characterStats; }
+        private Stats.CharacterStats _characterStats;
+        public ref Stats.CharacterStats CharacterStats { get => ref _characterStats;  }
 
         [SerializeField]
         private Cards.Card[] _characterDeck;
-        public Cards.Card[] CharacterDeck { get => _characterDeck; }
+        public Cards.Card[] CharacterDeck { get => _characterDeck; internal set => _characterDeck = value; }
 
         [SerializeField]
         private Combo.Combo[] _comboRecipe;
-        public Combo.Combo[] ComboRecipe { get => _comboRecipe; }
+        public Combo.Combo[] ComboRecipe { get => _comboRecipe; internal set => _comboRecipe = value; }
 
         [Sirenix.OdinInspector.ShowInInspector]
-        public CharacterSO Info { get;private set; }
-        public Character(CharacterSO characterSO)
+        public CharacterSO Info { get; private set; }
+
+        public CharacterData(CharacterSO characterSO)
         {
             Info = characterSO;
             var factory = Factory.GameFactory.Instance;
@@ -30,7 +35,27 @@ namespace Battles
             _characterStats = Info.CharacterStats;
         }
 
+    }
+    [Serializable]
+    public class Character
+    {
+        [SerializeField]
+        CharacterData _characterData;
+        public CharacterData CharacterData { get => _characterData; private set => _characterData = value; }
+       public Character(CharacterSO characterSO)  
+        {
+            if (characterSO == null)
+                throw new Exception($"Character: CharactersO is null!");
 
+            CharacterData = new CharacterData(characterSO);
+        }
+        public Character(CharacterData data)
+        {
+            if (data == null)
+                throw new Exception($"Character: CharacterData is null!");
+
+            _characterData = data;
+        }
 
         public bool AddCardToDeck(CharacterSO.CardInfo card) => AddCardToDeck(card.Card, card.Level);
         public bool AddCardToDeck(Cards.CardSO card, byte level = 0)
@@ -44,24 +69,31 @@ namespace Battles
         }
         public bool AddCardToDeck(Cards.Card card)
         {
-            Array.Resize(ref _characterDeck, CharacterDeck.Length + 1);
-            _characterDeck[CharacterDeck.Length - 1] = card;
+            if (card == null)
+                throw new Exception("Character Class : Card is null");
+
+            var deck = _characterData.CharacterDeck;
+            int length = _characterData.CharacterDeck.Length;
+            Array.Resize(ref deck, length + 1);
+            deck[length ] = card;
+            _characterData.CharacterDeck = deck;
+
             return card != null;
         }
 
         public bool AddComboRecipe(CharacterSO.RecipeInfo recipeInfo)
         {
             bool hasThisCombo = false;
-
-            for (int i = 0; i < _comboRecipe.Length; i++)
+            var comboRecipe = _characterData.ComboRecipe;
+            for (int i = 0; i < comboRecipe.Length; i++)
             {
-                hasThisCombo = _comboRecipe[i].ComboSO.ID == recipeInfo.ComboRecipe.ID;
+                hasThisCombo = comboRecipe[i].ComboSO.ID == recipeInfo.ComboRecipe.ID;
 
                 if (hasThisCombo)
                 {
-                    if (recipeInfo.Level > _comboRecipe[i].Level)
-                        _comboRecipe[i] = Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(recipeInfo);
-                    
+                    if (recipeInfo.Level > comboRecipe[i].Level)
+                        comboRecipe[i] = Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(recipeInfo);
+
                     break;
                 }
 
@@ -69,11 +101,12 @@ namespace Battles
 
             if (hasThisCombo == false)
             {
-                Array.Resize(ref _comboRecipe, _comboRecipe.Length + 1);
-                _comboRecipe[_comboRecipe.Length - 1] = Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(recipeInfo);
+                Array.Resize(ref comboRecipe, comboRecipe.Length + 1);
+                comboRecipe[comboRecipe.Length - 1] = Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(recipeInfo);
 
                 hasThisCombo = true;
             }
+            _characterData.ComboRecipe = comboRecipe;
 
             return hasThisCombo;
         }

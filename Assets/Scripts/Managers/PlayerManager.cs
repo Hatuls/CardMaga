@@ -1,4 +1,5 @@
 ﻿using Battles;
+using Characters;
 using Characters.Stats;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Managers
     {
         #region Fields
 
-        [SerializeField] Character _characterData;
+        [SerializeField] Character _character;
 
         [SerializeField] CharacterSO.RecipeInfo[] _recipes;
 
@@ -20,10 +21,10 @@ namespace Managers
 
 
         #endregion
-        public ref CharacterStats GetCharacterStats => ref _characterData.CharacterStats;
+        public ref CharacterStats GetCharacterStats => ref _character.CharacterData.CharacterStats;
         Cards.Card[] _playerDeck;
         public Cards.Card[] Deck => _playerDeck;
-        public Combo.Combo[] Recipes => _characterData.ComboRecipe;
+        public Combo.Combo[] Recipes => _character.CharacterData.ComboRecipe;
 
         public AnimatorController PlayerAnimatorController
         {
@@ -52,16 +53,19 @@ namespace Managers
         public override void Init()
         {
         }
-        public void AssignCharacterData(CharacterSO characterSO)
-         =>  AssignCharacterData(new Character(characterSO));
-        
+
         public void AssignCharacterData(Character characterData)
         {
-            this._characterData = characterData;
-            int Length = characterData.CharacterDeck.Length;
+            this._character = characterData;
+            var data = characterData.CharacterData;
+
+            int Length = data.CharacterDeck.Length;
+
             _playerDeck = new Cards.Card[Length];
-            System.Array.Copy(characterData.CharacterDeck, _playerDeck, Length);
-            CharacterStatsManager.RegisterCharacterStats(true, ref characterData.CharacterStats);
+
+            System.Array.Copy(data.CharacterDeck, _playerDeck, Length);
+
+            CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
             Battles.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
             PlayerAnimatorController.ResetAnimator();
         }

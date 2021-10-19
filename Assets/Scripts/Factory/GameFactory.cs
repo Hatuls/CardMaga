@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Rewards;
+using Characters;
+
 namespace Factory
 {
     public class GameFactory
@@ -22,6 +24,9 @@ namespace Factory
                     CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
                     BattleRewardCollectionSO battleRewardsCollection = Resources.Load<BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
 
+
+                    
+
                     _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, battleRewardsCollection);
                 }
                 return _instance;
@@ -29,7 +34,7 @@ namespace Factory
         }
         public ComboFactory ComboFactoryHandler { get; private set; }
         public CardFactory CardFactoryHandler { get; private set; }
-        public CharacterFactory CharacterFactoryHandler { get; private set; }
+        public CharacterFactory CharacterFactoryHandler { get; private set; } 
         public RewardFactory RewardFactoryHandler { get; private set; }
         public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards )
         {
@@ -70,7 +75,9 @@ namespace Factory
                 CharacterCollection = characterCollection;
             }
 
-        
+            public CharacterSO GetCharacterSO(CharacterTypeEnum x)
+            => CharacterCollection.GetCharacter(x);
+           
             internal Character CreateCharacter(CharacterTypeEnum character)
             {
                 var characterSO = CharacterCollection.CharactersSO;

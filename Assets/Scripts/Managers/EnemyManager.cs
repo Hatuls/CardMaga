@@ -2,6 +2,7 @@
 using UnityEngine;
 using Battles.Deck;
 using Characters.Stats;
+using Characters;
 
 namespace Battles
 {
@@ -19,10 +20,10 @@ namespace Battles
         [SerializeField] Cards.Card enemyAction;
         [SerializeField]  AnimatorController _enemyAnimatorController;
         #endregion
-         public Combo.Combo[] Recipes => _myCharacter.ComboRecipe;
+         public Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
         private Cards.Card[] _deck;
         public Cards.Card[] Deck => _deck;
-        public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterStats;
+        public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
         #region Public Methods
         public override void Init()
@@ -36,16 +37,16 @@ namespace Battles
 
         }
 
-        public void AssignCharacterData(CharacterSO characterSO)
-      => AssignCharacterData(new Character(characterSO));
+ 
         public void AssignCharacterData(Character character)
         { 
             _myCharacter = character;
-            int deckLength = character.CharacterDeck.Length;
+            var characterdata = character.CharacterData;
+            int deckLength = characterdata.CharacterDeck.Length;
             _deck = new Cards.Card[deckLength];
-            System.Array.Copy(character.CharacterDeck, _deck, deckLength);
+            System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
 
-            CharacterStatsManager.RegisterCharacterStats(false, ref character.CharacterStats);
+            CharacterStatsManager.RegisterCharacterStats(false, ref characterdata.CharacterStats);
             DeckManager.Instance.InitDeck(false, _deck);
 
             EnemyAnimatorController.ResetAnimator();

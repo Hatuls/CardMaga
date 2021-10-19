@@ -6,12 +6,13 @@ using System.Collections;
 using Characters.Stats;
 using System;
 using Rewards.Battles;
+using Characters;
 
 namespace Battles
 {
     public class BattleManager : MonoSingleton<BattleManager>
     {
-        [SerializeField] BattleData _BattleInformation;
+  
         public static bool isGameEnded;
 
         [SerializeField] Unity.Events.SoundsEvent _playSound;
@@ -32,8 +33,7 @@ namespace Battles
 
         private void ResetBattle()
         {
-            if (_BattleInformation == null)
-                Debug.LogError("BattleManager: Character Dictionary was not assigned");
+
             isGameEnded = false;
 
             ResetParams();
@@ -43,17 +43,12 @@ namespace Battles
 
         private void AssignParams()
         {
-            if (_BattleInformation.UseSO)
-            {
-                PlayerManager.Instance.AssignCharacterData(_BattleInformation.OpponentOne);
-                EnemyManager.Instance.AssignCharacterData(_BattleInformation.OpponentTwo);
-            }
-            else
-            {
-                PlayerManager.Instance.AssignCharacterData(_BattleInformation.PlayerCharacterData);
-                EnemyManager.Instance.AssignCharacterData(_BattleInformation.OpponentCharacterData);
-            }
-            if (_BattleInformation.PlayerCharacterData.CharacterStats.Health <= 0)
+         
+            
+                PlayerManager.Instance.AssignCharacterData(BattleData.Player);
+                EnemyManager.Instance.AssignCharacterData(BattleData.Opponent);
+            
+            if (BattleData.Player.CharacterData.CharacterStats.Health <= 0)
                 throw new Exception("Battle data was not work correctly!");
 
             PlayerManager.Instance.UpdateStatsUI();
@@ -136,12 +131,12 @@ namespace Battles
 
         private static void UpdateStats()
         {
-            var x = Instance._BattleInformation.PlayerCharacterData;
+            var x = BattleData.Player;
             var playerBattleStats = CharacterStatsManager.GetCharacterStatsHandler(true);
 
-            x.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
-        
-            Instance._BattleInformation.UpdatePlayerCharacter(x);
+            x.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
+
+            BattleData.Player = x;
         }
 
         public static void DeathAnimationFinished(bool isPlayer)
@@ -200,7 +195,7 @@ namespace Battles
     public interface IBattleHandler
     {
         void RestartBattle();
-      void  AssignCharacterData(CharacterSO characterSO);
+
       void  AssignCharacterData(Character character);
         void UpdateStatsUI();
         void OnEndBattle();

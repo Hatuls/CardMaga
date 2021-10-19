@@ -1,5 +1,4 @@
 ﻿using Battles;
-using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
@@ -11,9 +10,9 @@ public class PreGameTemporaryScript : MonoBehaviour
 
     [SerializeField] ArtSO art;
     [SerializeField] SceneLoaderCallback _sceneloaderEvent;
-    [SerializeField] BattleData _data;
+
     
-    Character player;
+ 
 
     [SerializeField] RectTransform _cardUIpanel;
     [SerializeField] GameObject _showDeckBtn;
@@ -33,8 +32,8 @@ public class PreGameTemporaryScript : MonoBehaviour
     
     private void Start()
     {
-        player = _data.PlayerCharacterData;
-        if (player == null || _data.PlayerCharacterData.CharacterStats.Health <=0)
+      var  player = BattleData.Player;
+        if (player == null || player.CharacterData.CharacterStats.Health <=0)
         {
             _battleBtnTxt.text = "Start!";
             _newRunBtn.gameObject.SetActive(false);
@@ -44,11 +43,11 @@ public class PreGameTemporaryScript : MonoBehaviour
         }
         else
         {
-            _goldText.text = string.Concat("Gold: ",player.CharacterStats.Gold );
+            _goldText.text = string.Concat("Gold: ",player.CharacterData.CharacterStats.Gold );
             _goldText.gameObject.SetActive(true);
-            _healthText.text = string.Concat("Health: ", player.CharacterStats.Health);
+            _healthText.text = string.Concat("Health: ", player.CharacterData.CharacterStats.Health);
             _healthText.gameObject.SetActive(true);
-            _battleBtnTxt.text = "Continue!";
+            _battleBtnTxt.text = string.Concat("Continue!");
             _newRunBtn.gameObject.SetActive(true);
             _showDeckBtn.SetActive(true);
         }
@@ -56,16 +55,12 @@ public class PreGameTemporaryScript : MonoBehaviour
     }
     public void StartNewRun()
     {
-        StartCoroutine(Try());
-    }
+        var characterHandler = Factory.GameFactory.Instance.CharacterFactoryHandler;
+        var player = characterHandler.CreateCharacter(CharacterTypeEnum.Player);
 
-    private IEnumerator Try()
-    {
-        player = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(CharacterTypeEnum.Player);
-        yield return null;
-        Debug.Log("Player created! " + player.CharacterStats.Health + " deck legth: " + player.CharacterDeck.Length);
+        Debug.Log("Player created! " + player.CharacterData.CharacterStats.Health + " deck legth: " + player.CharacterData.CharacterDeck.Length);
 
-        yield return   _data.Initbattle(CharacterTypeEnum.Basic_Enemy, player);
+        BattleData.Opponent = characterHandler.CreateCharacter(CharacterTypeEnum.Basic_Enemy);
 
         _battleBtnTxt.text = "Start!";
         _newRunBtn.gameObject.SetActive(false);
@@ -73,23 +68,20 @@ public class PreGameTemporaryScript : MonoBehaviour
         _healthText.gameObject.SetActive(false);
         _showDeckBtn.SetActive(false);
 
-   
+        BattleData.Player = player;
     }
+
     public void Battle()
     {
-        if (_data == null)
-            throw new System.Exception("BattleSO data  Was not assigned!");
 
-        if (_data.PlayerCharacterData == null || _data.PlayerCharacterData.CharacterStats.Health <= 0)
+        if (BattleData.Player == null || BattleData.Player.CharacterData.CharacterStats.Health <= 0)
             StartNewRun();
 
-     StartCoroutine(LoadScene());
-    }
-    IEnumerator LoadScene()
-    {
-        yield return null;
+        
+        
         _sceneloaderEvent.LoadScene(3);
     }
+
     public void OpenDeck()
     {
         if (_cardUIGOs != null && _cardUIGOs.Length >0)
@@ -100,7 +92,7 @@ public class PreGameTemporaryScript : MonoBehaviour
             }
         }
 
-        var deck = player.CharacterDeck;
+        var deck = BattleData.Player.CharacterData.CharacterDeck;
         _cardUIGOs = new GameObject[deck.Length];
         for (int i = 0; i < deck.Length; i++)
         {
