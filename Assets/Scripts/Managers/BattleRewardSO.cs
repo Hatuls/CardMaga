@@ -163,7 +163,10 @@ namespace Rewards
                 var rarityCardCollection = cardCollection.GetCardByRarity((RarityEnum)(index + 1));
                 
                 int randomID = Random.Range(0, rarityCardCollection.CardsID.Length);
-
+                if (randomID >= rarityCardCollection.CardsID.Length)
+              Debug.Log($"Rarity is : {(RarityEnum)(index + 1)}\nrarityCardCollection.CardsID.Length = {rarityCardCollection.CardsID.Length}\nRandom ID is : {randomID}");
+            
+                
                 ushort CardId = rarityCardCollection.CardsID[randomID];
                 // get cards level;
                 var DropChance = _cardChances.DropChances[index];
