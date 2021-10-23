@@ -196,8 +196,7 @@ public class AnimatorController : MonoBehaviour
 
     public void TranstionToNextAnimation()
     {
-        transform.position = startPos;
-        transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
+        transform.SetPositionAndRotation(startPos, ToolClass.RotateToLookTowards(targetToLookAt, transform));
         var cardQueue = Battles.CardExecutionManager.CardsQueue;
         if (cardQueue.Count == 0)
         {

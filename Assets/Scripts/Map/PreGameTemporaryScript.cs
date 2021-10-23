@@ -60,7 +60,7 @@ public class PreGameTemporaryScript : MonoBehaviour
 
         Debug.Log("Player created! " + player.CharacterData.CharacterStats.Health + " deck legth: " + player.CharacterData.CharacterDeck.Length);
 
-        BattleData.Opponent = characterHandler.CreateCharacter(CharacterTypeEnum.Basic_Enemy);
+        BattleData.Opponent = characterHandler.CreateCharacter(CharacterTypeEnum.Elite_Enemy);
 
         _battleBtnTxt.text = "Start!";
         _newRunBtn.gameObject.SetActive(false);
