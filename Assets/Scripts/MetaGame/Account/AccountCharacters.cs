@@ -7,7 +7,7 @@ namespace Meta.Account
     public class AccountCharacters : MonoBehaviour
     {
         #region Fields
-        Dictionary<CharacterEnum, CharacterInfo> _characters;
+        Dictionary<CharacterEnum, CharacterData> _characters;
         #endregion
         #region Properties
         #endregion
