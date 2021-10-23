@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Account.GeneralData
@@ -10,8 +10,6 @@ namespace Account.GeneralData
         #endregion
         #region Properties
         public List<CardAccountInfo> CardList => _cardList;
-        #endregion
-        #region PrivateMethods
         #endregion
         #region PublicMethods
         public void AddCard(uint id, uint level)
@@ -28,19 +26,19 @@ namespace Account.GeneralData
         }
         public bool CheckCardByID(uint id)
         {
-            return false;
+            throw new NotImplementedException();
         }
         public CardAccountInfo FindCardByID(uint id)
         {
-            return null;
+            throw new NotImplementedException();
         }
         public bool CheckCarDyInstance(uint instanceID)
         {
-            return false;
+            throw new NotImplementedException();
         }
         public CardAccountInfo FindCardByInstance(uint instanceID)
         {
-            return null;
+            throw new NotImplementedException();
         }
         #endregion
     }
