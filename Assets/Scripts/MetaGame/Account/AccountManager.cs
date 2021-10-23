@@ -1,19 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Account.GeneralData;
 
-namespace Meta
-{
-    enum CharacterEnum
+    public enum CharacterEnum
     {
-        Null = 0,
-        Chiara = 1,
-        TestSubject007 = 2,
+        Chiara = 0,
+        TestSubject007 = 1,
     }
 
-}
-
-namespace Meta.Account
+namespace Account
 {
     public class AccountManager : MonoBehaviour
     {
@@ -36,14 +30,12 @@ namespace Meta.Account
         #endregion
         #region Fields
         AccountCharacters _accountCharacters;
-        AccountDecks _accountDecks;
         AccountCards _accountCards;
         AccountCombos _accountCombos;
         AccountSettingsData _accountSettingsData;
         #endregion
         #region Properties
         public AccountCharacters AccountCharacters => _accountCharacters;
-        public AccountDecks AccountDecks => _accountDecks;
         public AccountCards AccountCards => _accountCards;
         public AccountCombos AccountCombos => _accountCombos;
         public AccountSettingsData AccountSettingsData => _accountSettingsData;

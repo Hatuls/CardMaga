@@ -2,8 +2,7 @@
 
 namespace Account.GeneralData
 {
-    public class AccountCombos
+    public class AccountDeck
     {
-
     }
 }

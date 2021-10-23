@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Meta.Account
+namespace Account.GeneralData
 {
-    public class AccountCharacters : MonoBehaviour
+    public class AccountCharacters
     {
         #region Fields
         Dictionary<CharacterEnum, CharacterData> _characters;

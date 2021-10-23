@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Meta.Account
+namespace Account.GeneralData
 {
-    public class AccountSettingsData : MonoBehaviour
+    public class AccountSettingsData
     {
 
     }
