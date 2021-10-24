@@ -43,7 +43,14 @@ namespace Factory
                     throw new System.Exception("Reward Collection Was Not Assigned!");
             }
 
-            GameFactory gameFactory = new GameFactory(_cards, _combos, _characters, _rewards);
+            if (_eventPoints == null)
+            {
+                _eventPoints = Resources.Load<Map.EventPointCollectionSO>("Collection SO/EventPointCollection");
+                if (_eventPoints == null)
+                    throw new System.Exception("Event Point Collection Was Not Assigned!");
+            }
+
+            GameFactory gameFactory = new GameFactory(_cards, _combos, _characters, _rewards, _eventPoints);
             Destroy(this.gameObject);
         }
     }

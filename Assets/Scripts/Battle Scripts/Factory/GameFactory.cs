@@ -9,6 +9,8 @@ using Rewards;
 using Characters;
 using Account.GeneralData;
 
+using Map;
+
 namespace Factory
 {
     public class GameFactory
@@ -35,11 +37,12 @@ namespace Factory
         }
         public ComboFactory ComboFactoryHandler { get; private set; }
         public CardFactory CardFactoryHandler { get; private set; }
-        public CharacterFactory CharacterFactoryHandler { get; private set; } 
+        public CharacterFactory CharacterFactoryHandler { get; private set; }
         public RewardFactory RewardFactoryHandler { get; private set; }
-        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards )
+        public EventPointFactory EventPointFactoryHandler { get; private set; }
+        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards , EventPointCollectionSO eventPoints)
         {
-            if (cards == null || comboCollectionSO == null || characters == null || rewards == null)
+            if (cards == null || comboCollectionSO == null || characters == null || rewards == null|| eventPoints == null)
                 throw new Exception("Collections is null!!");
 
 
@@ -47,6 +50,7 @@ namespace Factory
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
             RewardFactoryHandler = new RewardFactory(rewards);
+            EventPointFactoryHandler = new EventPointFactory(eventPoints);
             Debug.Log("Factory Created<a>!</a>");
 
             _instance = this;
@@ -54,6 +58,17 @@ namespace Factory
 
 
 
+        public class EventPointFactory
+        {
+            public EventPointCollectionSO EventPointCollection { get; private set; }
+            public EventPointFactory(EventPointCollectionSO eventPoints)
+            {
+                EventPointCollection = eventPoints;
+            }
+
+            public EventPointAbstSO GetEventPoint(EventPointType type)
+           => EventPointCollection.GetEventPoint(type);
+        }
         public class RewardFactory
         {
             public BattleRewardCollectionSO BattleRewardCollection { get; private set; }
@@ -67,7 +82,6 @@ namespace Factory
 
 
         }
-
         public class CharacterFactory 
         {
             public CharacterCollectionSO CharacterCollection { get; private set; }
@@ -153,7 +167,19 @@ namespace Factory
                 CardCollection = cards;
                 Reset();
             }
+            public static ushort GetInstanceID
+            {
+                get
+                {
+                    if (_battleCardIdList == null)
+                        _battleCardIdList = new List<ushort>();
 
+                    while (_battleCardIdList.Contains(_battleID))
+                        _battleID++;
+
+                    return _battleID;
+                }
+            }
 
             public Card[] CreateDeck(CharacterSO.CardInfo[] cardsInfo)
             {
