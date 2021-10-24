@@ -1,4 +1,5 @@
 ﻿
+using Map;
 using UnityEngine;
 namespace Meta.Map
 {
@@ -8,13 +9,19 @@ namespace Meta.Map
         [SerializeField] GameObject _legendPanel;
         [SerializeField] Animator _legendAnimator;
         [SerializeField] GameObject _legendInfoContainer;
-
+        [SerializeField] LegendRow[] _legendsRows;
+        [SerializeField] EventPointCollectionSO _eventPointCollection;
         int _entranceAnimatioHash = Animator.StringToHash("Entrance");
         int _exitAnimationHash = Animator.StringToHash("Exit");
 
         private void Start()
         {
             _legendInfoContainer.SetActive(false);
+
+            for (int i = 0; i < _legendsRows.Length; i++)
+            {
+                _legendsRows[i].Init(_eventPointCollection.EventPoints[i]);
+            }
         }
 
 
