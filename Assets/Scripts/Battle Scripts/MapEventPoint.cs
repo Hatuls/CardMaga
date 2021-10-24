@@ -9,7 +9,15 @@ namespace Meta.Map
 {
     public class MapEventPoint : MonoBehaviour
     {
-    
+        [SerializeField] byte _floorLevel;
+        [SerializeField] bool _isOpen;
+        [SerializeField] EventPointType _eventPointType;
+
+        [SerializeField] MapEventPoint[] _connectFrom;
+        public MapEventPoint[] ConnectTo => _connectFrom;
+        public byte FloorLevel { get => _floorLevel; set => _floorLevel = value; }
+        public bool IsOpen { get => _isOpen; private set => _isOpen = value; }
+        public EventPointType EventPointType { get => _eventPointType; private set => _eventPointType = value; }
         [SerializeField] Image _backgroundImg;
         [SerializeField] Image _img;
         public void PointSelected()

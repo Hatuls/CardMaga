@@ -85,8 +85,22 @@ namespace UI.Map
             var bossPoint = new EventPoint(EighthFloor, EventPointType.Boss_Enemy);
 
             //RestPoint before Boss
-            var restArea1 = new EventPoint(SeventhFloor, EventPointType.Rest_Area);
+            var restArea1 = new EventPoint(SeventhFloor, EventPointType.Rest_Area, bossPoint);
+            var restArea2 = new EventPoint(SeventhFloor, EventPointType.Rest_Area, bossPoint);
 
+            // sixth floor
+            var Floor6_1 = new EventPoint(SixthFloor, EventPointType.Basic_Enemy, restArea1);
+            var Floor6_2 = new EventPoint(SixthFloor, EventPointType.Basic_Enemy, restArea2);
+
+            // fifth floor
+            var Floor5_1 = new EventPoint(FifthFloor, EventPointType.QuestionMark, Floor6_1);
+            var Floor5_2 = new EventPoint(FifthFloor, EventPointType.Elite_Enemy, Floor6_1, Floor6_2);
+            var Floor5_3 = new EventPoint(FifthFloor, EventPointType.Basic_Enemy, Floor6_2);
+
+            //forth floor
+            var Floor4_1 = new EventPoint(FourthFloor, EventPointType.Basic_Enemy, Floor6_2);
+            var Floor4_2 = new EventPoint(FourthFloor, EventPointType.Basic_Enemy, Floor6_2);
+            var Floor4_3 = new EventPoint(FourthFloor, EventPointType.Basic_Enemy, Floor6_2);
 
         }
          MapEventPoint[] _points;
@@ -94,10 +108,10 @@ namespace UI.Map
 
         public static void ResetMap()
         {
-            _currentPoint.reset
+          // _currentPoint.reset
         }
 
 
-        public static 
+      //  public static 
     }
 }
