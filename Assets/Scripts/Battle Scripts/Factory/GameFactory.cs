@@ -26,11 +26,10 @@ namespace Factory
                     ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
                     CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
                     BattleRewardCollectionSO battleRewardsCollection = Resources.Load<BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
+                    EventPointCollectionSO eventPointCollection  = Resources.Load<EventPointCollectionSO>("Collection SO/EventPointCollection");
 
 
-                    
-
-                    _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, battleRewardsCollection);
+                    _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, battleRewardsCollection, eventPointCollection);
                 }
                 return _instance;
             }
