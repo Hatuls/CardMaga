@@ -6,42 +6,44 @@ namespace Factory
 {
     public class GameFactoryTerminal : MonoBehaviour
     {
-        [SerializeField] CardsCollectionSO cards;
-        [SerializeField] ComboCollectionSO combos;
-        [SerializeField] CharacterCollectionSO characters;
-        [SerializeField] Rewards.BattleRewardCollectionSO rewards;
+        [SerializeField] CardsCollectionSO _cards;
+        [SerializeField] ComboCollectionSO _combos;
+        [SerializeField] CharacterCollectionSO _characters;
+        [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
+        [SerializeField]
+        Map.EventPointCollectionSO _eventPoints;
         private void Awake()
         {
 
-            if (cards == null)
+            if (_cards == null)
             {
-                cards = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
-                if (cards == null)
+                _cards = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+                if (_cards == null)
                     throw new System.Exception("Card Collection Was Not Assigned!");
             }
 
-            if (combos == null)
+            if (_combos == null)
             {
-                combos = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
-                if (combos == null)
+                _combos = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
+                if (_combos == null)
                     throw new System.Exception("Combo Collection Was Not Assigned!");
             }
 
-            if (characters == null)
+            if (_characters == null)
             {
-                characters = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
-                if (characters == null)
+                _characters = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
+                if (_characters == null)
                     throw new System.Exception("Characters Collection Was Not Assigned!");
             }
 
-            if (rewards == null)
+            if (_rewards == null)
             {
-                rewards = Resources.Load<Rewards.BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
-                if (rewards == null)
+                _rewards = Resources.Load<Rewards.BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
+                if (_rewards == null)
                     throw new System.Exception("Reward Collection Was Not Assigned!");
             }
 
-            GameFactory gameFactory = new GameFactory(cards, combos, characters, rewards);
+            GameFactory gameFactory = new GameFactory(_cards, _combos, _characters, _rewards);
             Destroy(this.gameObject);
         }
     }

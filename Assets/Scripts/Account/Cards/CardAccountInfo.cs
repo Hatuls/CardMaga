@@ -17,7 +17,6 @@
         {
             _level = level;
             _cardID = cardID;
-    
         }
         #endregion
     }
