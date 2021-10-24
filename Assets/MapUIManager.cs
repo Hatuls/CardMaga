@@ -50,7 +50,6 @@ namespace UI.Map
         }
     }
 
-
     public class MapManager
     {
         private static MapManager _instance;
