@@ -10,17 +10,8 @@ namespace Meta.Map
     public class MapEventPoint : MonoBehaviour
     {
     
-        [SerializeField] byte _floorLevel;
-
-
         [SerializeField] Image _backgroundImg;
         [SerializeField] Image _img;
-        [SerializeField] bool _isOpen;
-        [SerializeField] EventPointType _eventPointType;
-
-        [SerializeField] MapEventPoint[] _connectTO;
-        public MapEventPoint[] ConnectTo => _connectTO;
-        public byte FloorLevel { get => _floorLevel; set => _floorLevel = value; }
         public void PointSelected()
         {
             if (_isOpen)
@@ -52,5 +43,25 @@ namespace Meta.Map
 
         
 
+    }
+
+    public class EventPoint
+    {
+        public EventPoint(byte floorLevel,EventPointType type,params EventPoint[] points )
+        {
+            EventPointType = type;
+            _floorLevel = floorLevel;
+            IsOpen = _floorLevel == 0;
+             _connectFrom = points;
+        }
+        [SerializeField] byte _floorLevel;
+        [SerializeField] bool _isOpen;
+        [SerializeField] EventPointType _eventPointType;
+
+        [SerializeField] EventPoint[] _connectFrom;
+        public EventPoint[] ConnectTo => _connectFrom;
+        public byte FloorLevel { get => _floorLevel; set => _floorLevel = value; }
+        public bool IsOpen { get => _isOpen;private set => _isOpen = value; }
+        public EventPointType EventPointType { get => _eventPointType;private set => _eventPointType = value; }
     }
 }
