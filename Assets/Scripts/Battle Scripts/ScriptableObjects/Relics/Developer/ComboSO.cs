@@ -25,8 +25,8 @@ namespace Combo
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(130)]
         [SerializeField]
-        private int _id;
-        public int ID { get => _id; set=> _id = value; }
+        private ushort _id;
+        public ushort ID { get => _id; set=> _id = value; }
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(130)]

@@ -48,7 +48,10 @@ namespace Account
         #region PublicMethods
         public void Init()
         {
-            
+            _accountCharacters = new AccountCharacters();
+            _accountCards = new AccountCards();
+            _accountCombos = new AccountCombos();
+            _accountSettingsData = new AccountSettingsData();
         }
         public void DownloadDataFromServer()
         {
