@@ -47,6 +47,8 @@ namespace Battles
         private int _id;
         public int ID { get=> _id; private set=> _id = value; }
 
+        [SerializeField] byte _unlockAtLevel;
+        public byte UnlockAtLevel => _unlockAtLevel;
 
         [SerializeField]
         private string _characterName;
@@ -93,95 +95,110 @@ namespace Battles
 
             //CharacterType
             const byte CharacterTypeIndex = 1;
-            const byte CharacterDifficultyIndex = 2;
-            const byte CharacterNameIndex = 3;
-            const byte CharacterModelIndex = 4;
-            const byte CharacterMaxHpIndex = 5;
-            const byte CharacterDefenseIndex = 6;
-            const byte CharacterStaminaIndex = 7;
-            const byte CharacterCardDrawIndex = 8;
-            const byte CharacterGoldIndex = 9;
-            const byte CharacterStrengthPointIndex = 10;
-            const byte CharacterDexterityPointIndex = 11;
-            const byte CharacterDeckIndex = 12;
-            const byte CharacterRecipeIndex = 13;
-            const byte RewardTypeIndex = 14;
+            const byte CharacterEnumIndex = 2;
+            const byte CharacterDifficultyIndex = 3;
+            const byte CharacterNameIndex = 4;
+            const byte CharacterModelIndex = 5;
+            const byte CharacterUnlockLevel = 6;
+            const byte CharacterMaxHpIndex =7;
+            const byte CharacterDefenseIndex = 8;
+            const byte CharacterStaminaIndex = 9;
+            const byte CharacterCardDrawIndex = 10;
+            const byte CharacterGoldIndex =11;
+            const byte CharacterStrengthPointIndex = 12;
+            const byte CharacterDexterityPointIndex = 13;
+            const byte CharacterDeckIndex = 14;
+            const byte CharacterRecipeIndex = 15;
+            const byte RewardTypeIndex = 16;
 
 
             if (Enum.TryParse<CharacterTypeEnum>(row[CharacterTypeIndex].Replace(' ','_'), out CharacterTypeEnum cte))
             {
                 CharacterType = cte;
-               
-                if (Enum.TryParse<CharacterDifficultyEnum>(row[CharacterDifficultyIndex], out CharacterDifficultyEnum cde))
+                if (int.TryParse(row[CharacterEnumIndex], out int ce))
                 {
-                    CharacterDiffciulty = cde;
+                    _characterEnum = (CharacterEnum)ce;
 
-                    //Name
-                    if (row[CharacterNameIndex].Length != 0)
+                    if (Enum.TryParse<CharacterDifficultyEnum>(row[CharacterDifficultyIndex], out CharacterDifficultyEnum cde))
                     {
-                        CharacterName = row[CharacterNameIndex];
-      
-                        GameObject characterModel = Resources.Load<GameObject>($"Art/Models/{row[CharacterModelIndex]}");
-                        if (row[CharacterModelIndex].Length != 0 && characterModel != null)
-                        {  
-                            CharacterAvatar = characterModel;
+                        CharacterDiffciulty = cde;
 
-                            CharacterStats = new Characters.Stats.CharacterStats()
+                        //Name
+                        if (row[CharacterNameIndex].Length != 0)
+                        {
+                            CharacterName = row[CharacterNameIndex];
+
+                            GameObject characterModel = Resources.Load<GameObject>($"Art/Models/{row[CharacterModelIndex]}");
+                            if (row[CharacterModelIndex].Length != 0 && characterModel != null)
                             {
-                                MaxHealth = int.Parse(row[CharacterMaxHpIndex]),
-                                Shield = int.Parse(row[CharacterDefenseIndex]),
-                                StartStamina = int.Parse(row[CharacterStaminaIndex]),
-                                DrawCardsAmount = int.Parse(row[CharacterCardDrawIndex]),
-                                Gold = int.Parse(row[CharacterGoldIndex]),
-                                Bleed = 0,
-                                Strength = int.Parse(row[CharacterStrengthPointIndex]),
-                                Health = int.Parse(row[CharacterMaxHpIndex]),
-                                Dexterity = int.Parse(row[CharacterDexterityPointIndex]),
-                            };
+                                CharacterAvatar = characterModel;
+
+                                CharacterStats = new Characters.Stats.CharacterStats()
+                                {
+                                    MaxHealth = int.Parse(row[CharacterMaxHpIndex]),
+                                    Shield = int.Parse(row[CharacterDefenseIndex]),
+                                    StartStamina = int.Parse(row[CharacterStaminaIndex]),
+                                    DrawCardsAmount = int.Parse(row[CharacterCardDrawIndex]),
+                                    Gold = int.Parse(row[CharacterGoldIndex]),
+                                    Bleed = 0,
+                                    Strength = int.Parse(row[CharacterStrengthPointIndex]),
+                                    Health = int.Parse(row[CharacterMaxHpIndex]),
+                                    Dexterity = int.Parse(row[CharacterDexterityPointIndex]),
+                                };
 
 
-                            const int iD = 0, Level = 1;
-                            //deck cards
-                            string[] Cards = row[CharacterDeckIndex].Split('&');
-                            _deck = new CardInfo[Cards.Length];
-                            for (int i = 0; i < Cards.Length; i++)
-                            {
-                                string[] data = Cards[i].Split('^');
+                                const int iD = 0, Level = 1;
+                                //deck cards
+                                string[] Cards = row[CharacterDeckIndex].Split('&');
+                                _deck = new CardInfo[Cards.Length];
+                                for (int i = 0; i < Cards.Length; i++)
+                                {
+                                    string[] data = Cards[i].Split('^');
 
 
 
-                                _deck[i] = new CardInfo(cardCollection.GetCard(ushort.Parse(data[iD])), byte.Parse(data[Level]));
-                            
+                                    _deck[i] = new CardInfo(cardCollection.GetCard(ushort.Parse(data[iD])), byte.Parse(data[Level]));
+
+                                }
+
+                                //Recipes / Combos
+                                string[] Recipe = row[CharacterRecipeIndex].Split('&');
+                                _combos = new RecipeInfo[Recipe.Length];
+                                for (int i = 0; i < Recipe.Length; i++)
+                                {
+                                    string[] data = Recipe[i].Split('^');
+                                    _combos[i] = new RecipeInfo(recipeCollections.GetCombo(ushort.Parse(data[iD])), byte.Parse(data[Level]));
+
+
+                                    if (_combos[i].ComboRecipe == null)
+                                        Debug.LogError("!");
+                                }
+
+
+                                if (int.TryParse(row[RewardTypeIndex], out int RewardInt))
+                                {
+                                    RewardType = (RewardTypeEnum)RewardInt;
+                                }
+
+
+                                if (byte.TryParse(row[CharacterUnlockLevel], out byte level))
+                                    _unlockAtLevel = level;
+
+
+
+                                return true;
                             }
-
-                            //Recipes / Combos
-                            string[] Recipe = row[CharacterRecipeIndex].Split('&');
-                            _combos = new RecipeInfo[Recipe.Length];
-                            for (int i = 0; i < Recipe.Length; i++)
-                            {
-                                string[] data = Recipe[i].Split('^');
-                                _combos[i] = new RecipeInfo(recipeCollections.GetCombo(ushort.Parse(data[iD])), byte.Parse(data[Level]));
-                               
-
-                                if (_combos[i].ComboRecipe == null)
-                                    Debug.LogError("!");
-                            }
-
-
-                            if (int.TryParse(row[RewardTypeIndex], out int RewardInt))
-                            {
-                                RewardType = (RewardTypeEnum)RewardInt;
-                            }
-                            return true;
+                            else
+                                Debug.LogError($"Coulmne G : ID= {ID} - Model Name ({row[CharacterModelIndex]}) Was Not correct or wasnt found on resources/Art/Avatars");
                         }
                         else
-                         Debug.LogError($"Coulmne E : ID= {ID} - Model Name ({row[CharacterModelIndex]}) Was Not correct or wasnt found on resources/Art/Avatars");
+                            Debug.LogError($"Coulmne E: ID= {ID} Name is Empty!");
                     }
                     else
-                        Debug.LogError($"Coulmne D: ID= {ID} Name is Empty!");
+                        Debug.LogError($"Coulmne D: ID= {ID} Character Difficulty is not valid ENUM! - {row[CharacterDifficultyIndex]} ");
                 }
                 else
-                    Debug.LogError($"Coulmne C: ID= {ID} Character Difficulty is not valid ENUM! - {row[CharacterDifficultyIndex]} ");
+                    Debug.LogError($"Coulmne C: ID={ID} Character enum is not valid! - {row[CharacterEnumIndex]}");
             }
             else
                 Debug.LogError($"Coulmne B: ID= {ID} Character type is not a  ENUM!! - {row[CharacterTypeIndex]}");
