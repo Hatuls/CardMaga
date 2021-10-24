@@ -34,12 +34,16 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] float _transitionSpeedBetweenAnimations = 0.1f;
     [SerializeField] float transitionToIdle = 0.1f;
 
-    [SerializeField] bool isPlayer;
+    [SerializeField] bool _isPlayer;
+
+
     bool _isAnimationPlaying;
     [SerializeField]  Vector3 startPos;
     #endregion
 
+
     #region Properties
+    public bool AnimatorIsPlayer => _isPlayer;
     public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
     public AnimationBundle SetCurrentAnimationBundle { set => _currentAnimation = value; }
     #endregion
@@ -50,7 +54,7 @@ public class AnimatorController : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayer)
+        if (_isPlayer)
         {
             if (IsMyTurn)
                 transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
@@ -93,7 +97,7 @@ public class AnimatorController : MonoBehaviour
     {
         
         if (_currentAnimation != null && _currentAnimation.IsCinemtaic)
-            SetCamera(isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
+            SetCamera(_isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
 
     }
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
@@ -131,7 +135,7 @@ public class AnimatorController : MonoBehaviour
 
     public void DeathAnimationCompleted()
     {
-        Battles.BattleManager.DeathAnimationFinished(isPlayer);
+        Battles.BattleManager.DeathAnimationFinished(_isPlayer);
     }
 
 
@@ -144,7 +148,7 @@ public class AnimatorController : MonoBehaviour
 
     public bool CheckIfMyTurn()
     {  
-            return (Battles.Turns.TurnHandler.IsPlayerTurn == isPlayer);
+            return (Battles.Turns.TurnHandler.IsPlayerTurn == _isPlayer);
     }
     public void PlayCrossAnimation()
     {
@@ -261,7 +265,7 @@ public class AnimatorController : MonoBehaviour
     {
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
-        if (Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(!isPlayer).GetStats(Keywords.KeywordTypeEnum.Shield).Amount > 0)
+        if (Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(!_isPlayer).GetStats(Keywords.KeywordTypeEnum.Shield).Amount > 0)
             _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString());
         
         else

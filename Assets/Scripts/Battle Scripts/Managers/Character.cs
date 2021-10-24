@@ -1,55 +1,34 @@
-﻿using Battles;
+﻿using Account.GeneralData;
+using Battles;
 using System;
-
 using UnityEngine;
 
 
 namespace Characters
 {
-
-    [Serializable]
-    public class CharacterData
-    {
-        [SerializeField]
-        private Stats.CharacterStats _characterStats;
-        public ref Stats.CharacterStats CharacterStats { get => ref _characterStats;  }
-
-        [SerializeField]
-        private Cards.Card[] _characterDeck;
-        public Cards.Card[] CharacterDeck { get => _characterDeck; internal set => _characterDeck = value; }
-
-        [SerializeField]
-        private Combo.Combo[] _comboRecipe;
-        public Combo.Combo[] ComboRecipe { get => _comboRecipe; internal set => _comboRecipe = value; }
-
-        [Sirenix.OdinInspector.ShowInInspector]
-        public CharacterSO Info { get; private set; }
-
-        public CharacterData(CharacterSO characterSO)
-        {
-            Info = characterSO;
-            var factory = Factory.GameFactory.Instance;
-            _characterDeck = factory.CardFactoryHandler.CreateDeck(Info.Deck);
-            _comboRecipe = factory.ComboFactoryHandler.CreateCombo(Info.Combos);
-
-            _characterStats = Info.CharacterStats;
-        }
-
-    }
     [Serializable]
     public class Character
     {
         [SerializeField]
-        CharacterData _characterData;
-        public CharacterData CharacterData { get => _characterData; private set => _characterData = value; }
+        CharacterBattleData _characterData;
+        public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
+        public Character(CharacterData data, AccountDeck _deck)
+        {
+            if (data == null)
+                throw new Exception($"Character: CharacterData is null!");
+            else if (_deck == null || _deck.Cards.Length == 0)
+                throw new Exception("AccountDeck Is null or empty!");
+
+            CharacterData = new CharacterBattleData(data,_deck);
+        }
        public Character(CharacterSO characterSO)  
         {
             if (characterSO == null)
                 throw new Exception($"Character: CharactersO is null!");
 
-            CharacterData = new CharacterData(characterSO);
+            CharacterData = new CharacterBattleData(characterSO);
         }
-        public Character(CharacterData data)
+        public Character(CharacterBattleData data)
         {
             if (data == null)
                 throw new Exception($"Character: CharacterData is null!");

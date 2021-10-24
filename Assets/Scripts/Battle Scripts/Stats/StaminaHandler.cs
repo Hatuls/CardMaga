@@ -1,4 +1,5 @@
-﻿using Cards;
+﻿
+using Cards;
 namespace Characters.Stats
 {
     public class StaminaHandler
@@ -21,17 +22,21 @@ namespace Characters.Stats
         }
         public StaminaHandler()
         {
+            bool isPlayer = true;
             _playerStamina = new CharacterStamina(
-                CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(Keywords.KeywordTypeEnum.Stamina).Amount
+                CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(Keywords.KeywordTypeEnum.Stamina).Amount
                 );
 
             _opponentStamina = new CharacterStamina(
-               CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(Keywords.KeywordTypeEnum.Stamina).Amount
+               CharacterStatsManager.GetCharacterStatsHandler(!isPlayer).GetStats(Keywords.KeywordTypeEnum.Stamina).Amount
                 );
         }
         #region Character Stamina
-        public CharacterStamina _playerStamina;
-        public CharacterStamina _opponentStamina;
+        private CharacterStamina _playerStamina;
+        public CharacterStamina PlayerStamina => _playerStamina;
+        
+        private CharacterStamina _opponentStamina;
+        public CharacterStamina OpponentStamina => _opponentStamina;
         public class CharacterStamina
         {
             public int Stamina { get; set; }
@@ -46,7 +51,7 @@ namespace Characters.Stats
             => StaminaAddition += addition;
 
             public void ResetStaminaAddition() => StaminaAddition = 0;
-           
+            public bool HasStamina => Stamina > 0;
             public void AddStaminaShard(int shards)
             {
                 StaminaShards += shards;
@@ -71,7 +76,7 @@ namespace Characters.Stats
         #endregion
 
         private CharacterStamina GetCharacterStamina(bool playersStamina)
-           => playersStamina ? _playerStamina : _opponentStamina;
+           => playersStamina ? PlayerStamina : OpponentStamina;
 
 
 

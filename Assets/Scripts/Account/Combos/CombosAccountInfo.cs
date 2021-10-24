@@ -7,8 +7,10 @@
         byte _level;
         #endregion
         #region Properties
-        ushort ID => _id;
-        byte Level => _level;
+        public ushort ID => _id;
+        public byte Level => _level;
         #endregion
+
+        public void LevelUp() => _level++;
     }
 }

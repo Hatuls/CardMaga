@@ -4,13 +4,13 @@
     {
         #region Fields
         ushort _cardID;
-        ushort _InstanceID;
+        ushort _instanceID;
         byte _level;
         #endregion
 
         #region Properties
         public ushort CardID => _cardID;
-        public ushort InstanceID => _InstanceID;
+        public ushort InstanceID { get => _instanceID; set => _instanceID = value; }
         public byte Level => _level;
         #endregion
     }

@@ -17,7 +17,7 @@ namespace Account.GeneralData
         public CharacterStats Stats => _stats;
         public AccountDeck[] Decks => _decks;
         public CombosAccountInfo[] CharacterCombos => _characterCombos;
-        public ushort unlockAtLevel => _unlockAtLevel;
+        public ushort UnlockAtLevel => _unlockAtLevel;
         #endregion
         #region PublicMethods
         public AccountDeck GetDeckAt(int index)

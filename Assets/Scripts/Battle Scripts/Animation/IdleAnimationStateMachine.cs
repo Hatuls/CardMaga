@@ -2,7 +2,8 @@
 using UnityEngine;
 
 public class IdleAnimationStateMachine : CharacterBaseStateMachine
-{ 
+{
+   public bool? isPlayer;
     bool toDetect = false;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -12,6 +13,9 @@ public class IdleAnimationStateMachine : CharacterBaseStateMachine
             GetAnimatorController(animator).CheckForRegisterCards();
             toDetect = false;
         }
+
+        if (isPlayer == null)
+            isPlayer = GetAnimatorController(animator).AnimatorIsPlayer;
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -21,8 +25,21 @@ public class IdleAnimationStateMachine : CharacterBaseStateMachine
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-   
+        if (GetAnimatorController(animator).AnimatorIsPlayer)
+                   CheckPlayerTurn();
+
     }
+
+
+
+    private void CheckPlayerTurn()
+    {
+
+        Battles.Turns.TurnHandler.CheckPlayerTurnForAvailableAction();
+
+    }
+
+
 
 }
 public class CharacterBaseStateMachine : StateMachineBehaviour

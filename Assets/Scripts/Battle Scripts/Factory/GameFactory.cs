@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewards;
 using Characters;
+using Account.GeneralData;
 
 namespace Factory
 {
@@ -39,7 +40,7 @@ namespace Factory
         public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards )
         {
             if (cards == null || comboCollectionSO == null || characters == null || rewards == null)
-                throw new System.Exception("Collections is null!!");
+                throw new Exception("Collections is null!!");
 
 
             CardFactoryHandler = new CardFactory(cards);
@@ -75,9 +76,13 @@ namespace Factory
                 CharacterCollection = characterCollection;
             }
 
-            public CharacterSO GetCharacterSO(CharacterTypeEnum x)
-            => CharacterCollection.GetCharacter(x);
-           
+            public CharacterSO GetCharacterSO(CharacterTypeEnum character)
+            => CharacterCollection.GetCharacterSO(character);
+            internal CharacterSO GetCharacterSO(CharacterEnum characterEnum)
+             => CharacterCollection.GetCharacterSO(characterEnum);
+
+            public Character CreateCharacter(CharacterData data, AccountDeck _deck)
+                => new Character( data,  _deck);
             internal Character CreateCharacter(CharacterTypeEnum character)
             {
                 var characterSO = CharacterCollection.CharactersSO;
@@ -116,12 +121,33 @@ namespace Factory
             public Combo.Combo CreateCombo(ComboSO comboSO, byte level = 0)
                => new Combo.Combo(comboSO, level);
 
+            internal Combo.Combo[] CreateCombo(CombosAccountInfo[] characterCombos)
+            {
+                if (characterCombos == null)
+                    throw new Exception("Combo Factory: characterCombos is null!");
+
+                int length = characterCombos.Length;
+                Combo.Combo[] combos = new Combo.Combo[length];
+                for (int i = 0; i < length; i++)
+                {
+                    combos[i] = CreateCombo(characterCombos[i]);
+                }
+                return combos;
+            }
+
+            private Combo.Combo CreateCombo(CombosAccountInfo combosAccountInfo)
+            {
+                if (combosAccountInfo == null)
+                    throw new Exception("Combo Factory: CombosAccountInfo is null!");
+
+                return new Combo.Combo(ComboCollection.GetCombo(combosAccountInfo.ID), combosAccountInfo.Level);
+            }
         }
-        public class CardFactory 
-        { 
+        public class CardFactory
+        {
             static List<ushort> _battleCardIdList;
             static ushort _battleID;
-            public CardsCollectionSO CardCollection { get;private set; }
+            public CardsCollectionSO CardCollection { get; private set; }
             public CardFactory(CardsCollectionSO cards)
             {
                 CardCollection = cards;
@@ -171,6 +197,38 @@ namespace Factory
                 }
                 throw new Exception($" card was not created!\nCardSO is :{cardSO}");
 
+            }
+            public Card CreateCard(CardAccountInfo card)
+            {
+                if (card == null)
+                    throw new Exception("Card Factory: Card Account Info Is null!");
+                card.InstanceID = _battleID;
+                return CreateCard(card.CardID, card.Level);
+            }
+            internal Card[] CreateDeck(AccountDeck deck)
+            {
+                if (deck == null)
+                    throw new Exception("Card Factory: AccountDeck is null!");
+
+                int length = deck.Cards.Length;
+                var cardsDataHolder = deck.Cards;
+                Card[] cards = new Card[length];
+
+                for (int i = 0; i < length; i++)
+                {
+                    var cardContainer = cardsDataHolder[i];
+
+                    if (cardContainer == null )
+                    throw new Exception($"CardFactory: card was not created!\nCard at index: {i}  is null!");
+
+                    cards[i] = CreateCard(cardContainer);
+
+                    if (cards[i] == null)
+                        throw new Exception($"Card Factory: Card Was Not Created From:\n ID: {cardContainer.CardID}\nLevel: {cardContainer.Level}");
+                 
+                }
+
+                return cards;
             }
         }
     }

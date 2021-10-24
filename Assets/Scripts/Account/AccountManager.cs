@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using Account.GeneralData;
 
-    public enum CharacterEnum
-    {
-        Chiara = 0,
-        TestSubject007 = 1,
-    }
+public enum CharacterEnum
+{
+    Enemy = 0,
+    Chiara = 1,
+    TestSubject007 = 2,
+}
 
 namespace Account
 {

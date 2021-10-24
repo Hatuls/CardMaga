@@ -27,6 +27,8 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
 
     [SerializeField]
     List<AudioSourceAbstract> _audioSourceStackable;
+
+    [Sirenix.OdinInspector.ShowInInspector]
     Queue<AudioConfigurationSO> _notStackableAudioQueue;
     IEnumerator LoadSound()
     {

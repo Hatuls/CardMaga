@@ -15,7 +15,7 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>, IPointerCli
     {
         _currentPage = 1;
 
-        this.gameObject.SetActive(false);
+        Instance?.gameObject?.SetActive(false);
 
     }
 

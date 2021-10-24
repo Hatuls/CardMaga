@@ -27,6 +27,7 @@ namespace Battles.Turns
                 };
 
 
+
         private static TurnState _currectState;
         public static TurnState CurrentState
         {
@@ -51,7 +52,8 @@ namespace Battles.Turns
 
             }
         }
-        public static void OnFinishTurn() {
+        public static void OnFinishTurn()
+        {
             FinishTurn = true;
         }
         public static void MoveToNextTurn(TurnState turnState)
@@ -76,6 +78,23 @@ namespace Battles.Turns
 
             CurrentState = TurnState.EndBattle;
             yield return _turnDict[CurrentState].PlayTurn();
+        }
+
+
+
+
+        internal static void CheckPlayerTurnForAvailableAction()
+        {
+            if (CurrentState != TurnState.PlayerTurn)
+                return;
+
+            bool noMoreActionAvailable = StaminaHandler.Instance.PlayerStamina.HasStamina == false;
+
+            if (noMoreActionAvailable)
+            {
+          
+                EndTurnButton.FinishTurn();
+            }
         }
     }
 

@@ -78,7 +78,7 @@ namespace Battles.UI.CardUIAttributes
         {
             isLooking = true;
             currentTime = 0;
-            _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = alpha;
+     //       _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = alpha;
             InputManager.Instance.AssignObjectFromTouch(_cardStateMachine.CurrentState);
          }
         public override void OnStateExit()

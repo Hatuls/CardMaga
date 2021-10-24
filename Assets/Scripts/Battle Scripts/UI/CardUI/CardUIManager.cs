@@ -278,6 +278,7 @@ namespace Battles.UI
         private void OnFinishTurn()
         {
             CardUITouchedReleased(false, null);
+            
         }
         internal void CardUITouched(CardUI cardReference)
         {
