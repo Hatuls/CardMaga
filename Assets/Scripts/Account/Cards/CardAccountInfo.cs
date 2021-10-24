@@ -13,11 +13,11 @@
         public ushort InstanceID { get => _instanceID; set => _instanceID = value; }
         public byte Level => _level;
 
-        public CardAccountInfo(ushort cardID, byte level)
+        public CardAccountInfo(ushort cardID,ushort cardInstanceID ,byte level)
         {
-            _level = level;
             _cardID = cardID;
-    
+            _instanceID = cardInstanceID;
+            _level = level;
         }
         #endregion
     }

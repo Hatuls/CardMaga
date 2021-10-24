@@ -11,7 +11,7 @@
         public string DeckName { get => _deckName; set => _deckName = value; }
         #endregion
         #region PublicMethods
-        public AccountDeck(CardAccountInfo[] cards)
+        public AccountDeck(CardAccountInfo[] accountCards)
         {
 
         }
