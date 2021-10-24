@@ -177,6 +177,8 @@ namespace Factory
                     while (_battleCardIdList.Contains(_battleID))
                         _battleID++;
 
+                    _battleCardIdList.Add(_battleID);
+
                     return _battleID;
                 }
             }
