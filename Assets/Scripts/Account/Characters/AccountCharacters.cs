@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System;
+using Sirenix.OdinInspector;
 
 namespace Account.GeneralData
 {
+    [Serializable]
     public class AccountCharacters
     {
         #region Fields
+        [ShowInInspector]
         Dictionary<CharacterEnum, CharacterData> _characters;
         #endregion
         #region PrivateMethods

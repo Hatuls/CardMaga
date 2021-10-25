@@ -1,9 +1,14 @@
-﻿namespace Account.GeneralData
+﻿using System;
+using UnityEngine;
+namespace Account.GeneralData
 {
+    [Serializable]
     public class CombosAccountInfo
     {
         #region Fields
+        [SerializeField]
         ushort _id;
+        [SerializeField]
         byte _level;
         #endregion
         #region Properties

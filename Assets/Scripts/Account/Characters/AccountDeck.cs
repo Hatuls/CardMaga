@@ -1,9 +1,13 @@
-﻿namespace Account.GeneralData
+﻿using UnityEngine;
+namespace Account.GeneralData
 {
+    [System.Serializable]
     public class AccountDeck
     {
-        #region Fields;
+        #region Fields
+        [SerializeField]
         CardAccountInfo[] _cards;
+        [SerializeField]
         string _deckName;
         #endregion
         #region Properties

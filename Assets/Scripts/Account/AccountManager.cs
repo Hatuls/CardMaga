@@ -33,10 +33,15 @@ namespace Account
         }
         #endregion
         #region Fields
+        [SerializeField]
         AccountCharacters _accountCharacters;
+        [SerializeField]
         AccountCards _accountCards;
+        [SerializeField]
         AccountCombos _accountCombos;
+        [SerializeField]
         AccountSettingsData _accountSettingsData;
+ 
         #endregion
         #region Properties
         public AccountCharacters AccountCharacters => _accountCharacters;
@@ -46,9 +51,9 @@ namespace Account
 
 
         #endregion
-        #region PrivateMethods
+        #region Private Methods
         #endregion
-        #region PublicMethods
+        #region Public Methods
         public void Init()
         {
             _accountCharacters = new AccountCharacters();

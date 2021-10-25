@@ -1,14 +1,21 @@
 ﻿using Characters.Stats;
 using System;
+using UnityEngine;
 namespace Account.GeneralData
 {
+    [Serializable]
     public class CharacterData
     {
     #region Field
+        [SerializeField]
         CharacterEnum _character;
+        [SerializeField]
         CharacterStats _stats;
+        [SerializeField]
         AccountDeck[] _decks;
+        [SerializeField]
         CombosAccountInfo[] _characterCombos;
+        [SerializeField]
         ushort _unlockAtLevel;
 
     #endregion
@@ -19,13 +26,16 @@ namespace Account.GeneralData
         public CombosAccountInfo[] CharacterCombos => _characterCombos;
         public ushort UnlockAtLevel => _unlockAtLevel;
         #endregion
-        #region PublicMethods
+        #region Public Methods
         public CharacterData(CharacterEnum characterEnum,byte deckAmount = 4)
         {
             if(characterEnum == CharacterEnum.Enemy)
             {
                 throw new Exception("CharacterData inserted an enemy instead of a player character");
             }
+
+            _character = characterEnum;
+
             var characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(characterEnum);
             _stats = characterSO.CharacterStats;
             _unlockAtLevel = characterSO.UnlockAtLevel;
@@ -36,6 +46,8 @@ namespace Account.GeneralData
             {
                 tempCard[i] = new CardAccountInfo(characterSO.Deck[i].Card.ID, Factory.GameFactory.CardFactory.GetInstanceID, characterSO.Deck[i].Level);
             }
+
+
             AccountDeck tempDeck = new AccountDeck(tempCard);
             for (int i = 0; i < deckAmount; i++)
             {
@@ -48,6 +60,7 @@ namespace Account.GeneralData
             {
                 tempCombos[i] = new CombosAccountInfo(characterSO.Combos[i].ComboRecipe.ID, characterSO.Combos[i].Level);
             }
+
             _characterCombos = tempCombos;
 
         }
