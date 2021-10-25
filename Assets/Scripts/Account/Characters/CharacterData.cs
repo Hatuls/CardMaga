@@ -40,6 +40,7 @@ namespace Account.GeneralData
             for (int i = 0; i < deckAmount; i++)
             {
                 Decks[i] = tempDeck;
+                Decks[i].DeckName = $"Basic Deck {i}";
             }
 
             CombosAccountInfo[] tempCombos = new CombosAccountInfo[characterSO.Combos.Length];
