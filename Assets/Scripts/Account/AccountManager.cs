@@ -10,19 +10,18 @@ public enum CharacterEnum
 
 namespace Account
 {
+
     public class AccountManager : MonoBehaviour
     {
-        
-
         #region Singleton
         private static AccountManager _instance;
-        public static AccountManager GetInstance
+        public static AccountManager Instance
         {
             get
             {
                 if (_instance == null)
                     Debug.LogError("AccountManager is null!");
-
+                          
                 return _instance;
             }
         }
@@ -44,7 +43,6 @@ namespace Account
         public AccountCombos AccountCombos => _accountCombos;
         public AccountSettingsData AccountSettingsData => _accountSettingsData;
 
-
         #endregion
         #region PrivateMethods
         #endregion
@@ -58,7 +56,6 @@ namespace Account
         }
         public void DownloadDataFromServer()
         {
-
         }
         #endregion
     }
