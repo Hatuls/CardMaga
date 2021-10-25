@@ -1,0 +1,36 @@
+﻿using UnityEngine;
+using TMPro;
+using Battles.UI;
+
+namespace UI.Meta.Laboratory
+{
+    public class CardCollectionUIScreen : IOpenCloseUIHandler
+    {
+        #region Fields
+        TextMeshProUGUI _amountText;
+        GameObject _infoPanel;
+        CardUI[] _cardUI;
+        #endregion
+        #region Public Methods
+        public void SortByLevel()
+        {
+            
+        }
+        public void CardUIClicked(CardUI _cardUI)
+        {
+
+        }
+        #endregion
+        #region Interface
+        public void Close()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Open()
+        {
+            throw new System.NotImplementedException();
+        }
+        #endregion
+    }
+}
