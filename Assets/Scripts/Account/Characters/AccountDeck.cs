@@ -13,7 +13,7 @@
         #region PublicMethods
         public AccountDeck(CardAccountInfo[] accountCards)
         {
-
+            _cards = accountCards;
         }
         #endregion
     }

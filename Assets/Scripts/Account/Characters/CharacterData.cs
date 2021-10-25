@@ -22,23 +22,34 @@ namespace Account.GeneralData
         #region PublicMethods
         public CharacterData(CharacterEnum characterEnum,byte deckAmount = 4)
         {
+            if(characterEnum == CharacterEnum.Enemy)
+            {
+                throw new Exception("CharacterData inserted an enemy instead of a player character");
+            }
             var characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(characterEnum);
             _stats = characterSO.CharacterStats;
+            _unlockAtLevel = characterSO.UnlockAtLevel;
+            
             _decks = new AccountDeck[deckAmount];
             CardAccountInfo[] tempCard = new CardAccountInfo[characterSO.Deck.Length];
             for (int i = 0; i < characterSO.Deck.Length; i++)
             {
-                tempCard[i] = new CardAccountInfo(characterSO.Deck[i].Card.ID, 0, characterSO.Deck[i].Level);
+                tempCard[i] = new CardAccountInfo(characterSO.Deck[i].Card.ID, Factory.GameFactory.CardFactory.GetInstanceID, characterSO.Deck[i].Level);
             }
             AccountDeck tempDeck = new AccountDeck(tempCard);
             for (int i = 0; i < deckAmount; i++)
             {
                 Decks[i] = tempDeck;
+                Decks[i].DeckName = $"Basic Deck {i}";
             }
-            //create a new cardAccountInfo[]
-            //fill it with cards acording to the deck of the player
-            //for every cardAccountInfo[i] add the ID of the card, card InstanceID and the Level of the card
-            //use the cardAccountInfo to fill all the deck slots
+
+            CombosAccountInfo[] tempCombos = new CombosAccountInfo[characterSO.Combos.Length];
+            for (int i = 0; i < characterSO.Combos.Length; i++)
+            {
+                tempCombos[i] = new CombosAccountInfo(characterSO.Combos[i].ComboRecipe.ID, characterSO.Combos[i].Level);
+            }
+            _characterCombos = tempCombos;
+
         }
         public AccountDeck GetDeckAt(int index)
         {

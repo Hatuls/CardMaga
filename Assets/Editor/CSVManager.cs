@@ -582,7 +582,7 @@ public class CSVManager
             return null;
 
         Combo.ComboSO recipe = ScriptableObject.CreateInstance<Combo.ComboSO>();
-        recipe.ID = int.Parse(row[ID]);
+        recipe.ID = ushort.Parse(row[ID]);
 
 
         // crafted card + recipe name + recipe Image

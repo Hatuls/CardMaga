@@ -12,6 +12,8 @@ namespace Account
 {
     public class AccountManager : MonoBehaviour
     {
+        
+
         #region Singleton
         private static AccountManager _instance;
         public static AccountManager GetInstance
@@ -27,6 +29,7 @@ namespace Account
         private void Awake()
         {
             _instance = this;
+            Init();
         }
         #endregion
         #region Fields
@@ -48,7 +51,10 @@ namespace Account
         #region PublicMethods
         public void Init()
         {
-            
+            _accountCharacters = new AccountCharacters();
+            _accountCards = new AccountCards();
+            _accountCombos = new AccountCombos();
+            _accountSettingsData = new AccountSettingsData();
         }
         public void DownloadDataFromServer()
         {
