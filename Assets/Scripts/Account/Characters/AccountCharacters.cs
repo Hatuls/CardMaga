@@ -14,7 +14,8 @@ namespace Account.GeneralData
         #region PrivateMethods
         public void  Init()
         {
-            const byte characterAmount = 2;
+
+            const byte characterAmount = 4;
             _characters = new Dictionary<CharacterEnum, CharacterData>(characterAmount);
             AddChatacterToDictionary(CharacterEnum.Chiara);
             AddChatacterToDictionary(CharacterEnum.TestSubject007);
