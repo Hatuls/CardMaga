@@ -31,6 +31,7 @@ namespace Account
             Init();
         }
         #endregion
+
         #region Fields
         [SerializeField]
         AccountCharacters _accountCharacters;

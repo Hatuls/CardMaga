@@ -14,12 +14,13 @@ namespace Account.GeneralData
         #region PrivateMethods
         public void  Init()
         {
-            _characters = new Dictionary<CharacterEnum, CharacterData>();
+            const byte characterAmount = 2;
+            _characters = new Dictionary<CharacterEnum, CharacterData>(characterAmount);
             AddChatacterToDictionary(CharacterEnum.Chiara);
             AddChatacterToDictionary(CharacterEnum.TestSubject007);
         }
         #endregion
-        #region PublicMethods
+        #region Public Methods
         public AccountCharacters()
         {
             Init();

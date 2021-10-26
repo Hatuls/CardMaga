@@ -89,6 +89,9 @@ public class InputManager :MonoBehaviour
     #region Monobehaiviour CallBacks
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+
         if (_isScreenLocked == false)
         {
             TouchDetector();
