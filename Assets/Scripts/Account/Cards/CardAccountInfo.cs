@@ -1,10 +1,15 @@
-﻿namespace Account.GeneralData
+﻿using UnityEngine;
+namespace Account.GeneralData
 {
+    [System.Serializable]
     public class CardAccountInfo
     {
         #region Fields
+        [SerializeField]
         ushort _cardID;
+        [SerializeField]
         ushort _instanceID;
+        [SerializeField]
         byte _level;
         #endregion
 

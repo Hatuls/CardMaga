@@ -1,15 +1,22 @@
 ﻿using Characters.Stats;
 using System;
+using UnityEngine;
 namespace Account.GeneralData
 {
+    [Serializable]
     public class CharacterData
     {
 
     #region Field
+        [SerializeField]
         CharacterEnum _character;
+        [SerializeField]
         CharacterStats _stats;
+        [SerializeField]
         AccountDeck[] _decks;
+        [SerializeField]
         CombosAccountInfo[] _characterCombos;
+        [SerializeField]
         ushort _unlockAtLevel;
     #endregion
 
@@ -24,12 +31,15 @@ namespace Account.GeneralData
         #region PrivateMethods
         void AssignDeck(Battles.CharacterSO characterSO,byte deckAmount)
         {
+
             _decks = new AccountDeck[deckAmount];
             CardAccountInfo[] tempCard = new CardAccountInfo[characterSO.Deck.Length];
             for (int i = 0; i < characterSO.Deck.Length; i++)
             {
                 tempCard[i] = new CardAccountInfo(characterSO.Deck[i].Card.ID, Factory.GameFactory.CardFactory.GetInstanceID, characterSO.Deck[i].Level);
             }
+
+
             AccountDeck tempDeck = new AccountDeck(tempCard);
             for (int i = 0; i < deckAmount; i++)
             {
@@ -44,6 +54,7 @@ namespace Account.GeneralData
             {
                 tempCombos[i] = new CombosAccountInfo(characterSO.Combos[i].ComboRecipe.ID, characterSO.Combos[i].Level);
             }
+
             _characterCombos = tempCombos;
         }
         #endregion

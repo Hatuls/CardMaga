@@ -31,11 +31,17 @@ namespace Account
             Init();
         }
         #endregion
+
         #region Fields
+
         AccountCharacters _accountCharacters;
+
         AccountCards _accountCards;
+
         AccountCombos _accountCombos;
+ 
         AccountSettingsData _accountSettingsData;
+ 
         #endregion
         #region Properties
         public AccountCharacters AccountCharacters => _accountCharacters;
@@ -44,9 +50,9 @@ namespace Account
         public AccountSettingsData AccountSettingsData => _accountSettingsData;
 
         #endregion
-        #region PrivateMethods
+        #region Private Methods
         #endregion
-        #region PublicMethods
+        #region Public Methods
         public void Init()
         {
             _accountCharacters = new AccountCharacters();

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using UnityEngine;
 namespace Account.GeneralData
 {
+    [Serializable]
     public class AccountCards
     {
         #region Fields
+        [SerializeField]
         List<CardAccountInfo> _cardList;
         #endregion
         #region Properties
