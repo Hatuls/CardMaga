@@ -41,6 +41,8 @@ namespace Account
         AccountCombos _accountCombos;
  
         AccountSettingsData _accountSettingsData;
+
+        AccountGeneralData _accountGeneralData;
  
         #endregion
         #region Properties
@@ -48,6 +50,7 @@ namespace Account
         public AccountCards AccountCards => _accountCards;
         public AccountCombos AccountCombos => _accountCombos;
         public AccountSettingsData AccountSettingsData => _accountSettingsData;
+        public AccountGeneralData AccountGeneralData => _accountGeneralData;
 
         #endregion
         #region Private Methods
@@ -59,6 +62,7 @@ namespace Account
             _accountCards = new AccountCards();
             _accountCombos = new AccountCombos();
             _accountSettingsData = new AccountSettingsData();
+            _accountGeneralData = new AccountGeneralData();
         }
         public void DownloadDataFromServer()
         {

@@ -24,6 +24,7 @@ namespace UI.Meta.PlayScreen
 
         #region Fields
         CharacterDataUI _characters;
+        [SerializeField]
         GameObject _chooseCharacterPanel;
         #endregion
         #region Public Methods
@@ -37,7 +38,14 @@ namespace UI.Meta.PlayScreen
         }
         public void ChooseCharacterSwitch()
         {
-
+            if(_chooseCharacterPanel.activeSelf == true)
+            {
+                _chooseCharacterPanel.gameObject.SetActive(false);
+            }
+            else
+            {
+                _chooseCharacterPanel.gameObject.SetActive(true);
+            }
         }
         public void ResetCharacterScreen()
         {

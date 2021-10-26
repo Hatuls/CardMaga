@@ -13,8 +13,8 @@ namespace Account.GeneralData
 
         public AccountLevelData(uint exp=0, byte lvl=0)
         {
-            _level = new Stat<byte>(lvl);
-            _exp = new Stat<uint>(exp);
+            _level = new ByteStat(lvl);
+            _exp = new UintStat(exp);
         }
      
     }

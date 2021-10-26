@@ -6,10 +6,10 @@ namespace Account.GeneralData
     {
         public AccountInfoData(DateTime? lastLogin, string accountName = "User",uint accountID = 0)
         {
-            _lastLogin =new Stat<DateTime>((lastLogin == null) ?DateTime.Now : lastLogin.Value);
+            _lastLogin =new DateTimeStat((lastLogin == null) ?DateTime.Now : lastLogin.Value);
             _accountID = accountID;
             _accountName = accountName;
-            _timePlayerToday = new Stat<TimeSpan>(TimeSpan.Zero);
+            _timePlayerToday = new TimeSpanStat(TimeSpan.Zero);
         }
 
         private Stat<DateTime> _lastLogin;

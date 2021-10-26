@@ -1,21 +1,12 @@
-﻿namespace Account.Resources
+﻿namespace Meta.Resources
 {
-    public abstract class ResourceHandler
+    public abstract class ResourceHandler<T> where T:struct
     {
         #region Public Methods
-        public abstract ushort Stat(ushort amount);
-        public virtual void AddAmount(ushort amount)
-        {
-
-        }
-        public virtual void ReduceAmount(ushort amount)
-        {
-
-        }
-        public virtual void HasAmount(ushort amount)
-        {
-            
-        }
+        public abstract ushort Stat(T amount);
+        public abstract void AddAmount(T amount);
+        public abstract void ReduceAmount(T amount);
+        public abstract bool HasAmount(T amount);
         #endregion
     }
 }

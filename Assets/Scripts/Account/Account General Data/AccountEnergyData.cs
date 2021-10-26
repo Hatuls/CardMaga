@@ -23,24 +23,46 @@ namespace Account.GeneralData
             Energy.MaxEnergy = MaxEnergy;
             MaxEnergy.Energy = Energy;
         }
-
-
-
         #region Energy Classes
-        public class MaxEnergyStat: Stat<uint>
+        public class MaxEnergyStat: UshortStat
         {
             public EnergyStat Energy { get; set; }
-            public MaxEnergyStat(uint value) : base (value)
+            public MaxEnergyStat(ushort value) : base (value)
             {
 
             }
         }
-        public class EnergyStat : Stat<uint>
+        public class EnergyStat : UshortStat
         {
-          public MaxEnergyStat MaxEnergy { get; set; }
-            public EnergyStat(uint _value) : base (_value)
-            {
 
+          public MaxEnergyStat MaxEnergy { get; set; }
+            public EnergyStat(ushort _value) : base (_value)
+            {
+               
+            }
+            public bool CheckAndAddValue(ushort value)
+            {
+                if (value <= 0)
+                {
+                    throw new Exception("AccountEnergyData added value is negative or 0");
+                }
+                if (Value >= MaxEnergy.Value)
+                {
+                    return false;
+                }
+                else
+                {
+                    if(Value + value > MaxEnergy.Value)
+                    {
+                        ushort dif = (ushort)(MaxEnergy.Value - Value);//////////
+                        _value += dif;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
         }
         #endregion

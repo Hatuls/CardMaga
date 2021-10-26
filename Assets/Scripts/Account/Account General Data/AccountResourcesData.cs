@@ -20,9 +20,9 @@ namespace Account.GeneralData
 
         public AccountResourcesData(ushort chips = 0,uint diamonds = 0, uint gold = 0 )
         {
-            _chips = new Stat<ushort>(chips);
-            _diamonds = new Stat<uint>(diamonds);
-            _gold = new Stat<uint>(gold);
+            _chips = new UshortStat(chips);
+            _diamonds = new UintStat(diamonds);
+            _gold = new UintStat(gold);
         }
     }
 }

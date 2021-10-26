@@ -2,29 +2,19 @@
 namespace Account.GeneralData
 {
     [Serializable]
-    public class Stat<T> where T : struct
+    public abstract class Stat<T> where T : struct
     {
-        private T _value;
+        protected T _value;
         public T Value => _value;
 
         public Stat(T val)
         {
             _value = val;
         }
-        public virtual bool CheckStat(T value)
-        {
-            throw new NotImplementedException();
-        
-        }
+        public abstract bool CheckStat(T value);
+        public abstract bool AddValue(T value);
+        public abstract bool ReduceValue(T value);
 
-
-        public virtual bool AddValue(T value)
-        {
-            throw new NotImplementedException();
-        }
-        public virtual bool ReduceValue(T value)
-        {
-            throw new NotImplementedException();
-        }
     }
+
 }

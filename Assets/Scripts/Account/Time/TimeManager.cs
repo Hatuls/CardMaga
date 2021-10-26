@@ -8,7 +8,7 @@ namespace Account
     {
         #region Singleton
         private static TimeManager _instance;
-        public static TimeManager GetInstance
+        public static TimeManager Instance
         {
             get
             {
