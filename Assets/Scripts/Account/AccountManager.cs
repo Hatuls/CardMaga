@@ -33,13 +33,13 @@ namespace Account
         #endregion
 
         #region Fields
-        [SerializeField]
+
         AccountCharacters _accountCharacters;
-        [SerializeField]
+
         AccountCards _accountCards;
-        [SerializeField]
+
         AccountCombos _accountCombos;
-        [SerializeField]
+ 
         AccountSettingsData _accountSettingsData;
  
         #endregion

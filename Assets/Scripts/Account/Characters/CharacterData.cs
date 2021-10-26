@@ -28,8 +28,6 @@ namespace Account.GeneralData
         public ushort UnlockAtLevel => _unlockAtLevel;
         #endregion
 
-        #region Public Methods
-      
         #region PrivateMethods
         void AssignDeck(Battles.CharacterSO characterSO,byte deckAmount)
         {
