@@ -4,14 +4,15 @@ namespace Account.GeneralData
 {
     public class CharacterData
     {
+
     #region Field
         CharacterEnum _character;
         CharacterStats _stats;
         AccountDeck[] _decks;
         CombosAccountInfo[] _characterCombos;
         ushort _unlockAtLevel;
-
     #endregion
+
     #region Properties
         public CharacterEnum Character => _character;
         public CharacterStats Stats => _stats;
@@ -19,17 +20,10 @@ namespace Account.GeneralData
         public CombosAccountInfo[] CharacterCombos => _characterCombos;
         public ushort UnlockAtLevel => _unlockAtLevel;
         #endregion
-        #region PublicMethods
-        public CharacterData(CharacterEnum characterEnum,byte deckAmount = 4)
+
+        #region PrivateMethods
+        void AssignDeck(Battles.CharacterSO characterSO,byte deckAmount)
         {
-            if(characterEnum == CharacterEnum.Enemy)
-            {
-                throw new Exception("CharacterData inserted an enemy instead of a player character");
-            }
-            var characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(characterEnum);
-            _stats = characterSO.CharacterStats;
-            _unlockAtLevel = characterSO.UnlockAtLevel;
-            
             _decks = new AccountDeck[deckAmount];
             CardAccountInfo[] tempCard = new CardAccountInfo[characterSO.Deck.Length];
             for (int i = 0; i < characterSO.Deck.Length; i++)
@@ -42,14 +36,31 @@ namespace Account.GeneralData
                 Decks[i] = tempDeck;
                 Decks[i].DeckName = $"Basic Deck {i}";
             }
-
+        }
+        void AssignCombos(Battles.CharacterSO characterSO)
+        {
             CombosAccountInfo[] tempCombos = new CombosAccountInfo[characterSO.Combos.Length];
             for (int i = 0; i < characterSO.Combos.Length; i++)
             {
                 tempCombos[i] = new CombosAccountInfo(characterSO.Combos[i].ComboRecipe.ID, characterSO.Combos[i].Level);
             }
             _characterCombos = tempCombos;
+        }
+        #endregion
 
+        #region PublicMethods
+        public CharacterData(CharacterEnum characterEnum,byte deckAmount = 4)
+        {
+            if(characterEnum == CharacterEnum.Enemy)
+            {
+                throw new Exception("CharacterData inserted an enemy instead of a player character");
+            }
+            var characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(characterEnum);
+            _character = characterEnum;
+            _stats = characterSO.CharacterStats;
+            _unlockAtLevel = characterSO.UnlockAtLevel;
+            AssignDeck(characterSO, deckAmount);
+            AssignCombos(characterSO);
         }
         public AccountDeck GetDeckAt(int index)
         {
