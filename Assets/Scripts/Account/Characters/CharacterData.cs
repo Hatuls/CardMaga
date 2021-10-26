@@ -3,20 +3,20 @@ using System;
 using UnityEngine;
 namespace Account.GeneralData
 {
-    [Serializable]
+    
     public class CharacterData
     {
 
     #region Field
-        [SerializeField]
+
         CharacterEnum _character;
-        [SerializeField]
+
         CharacterStats _stats;
-        [SerializeField]
+
         AccountDeck[] _decks;
-        [SerializeField]
+
         CombosAccountInfo[] _characterCombos;
-        [SerializeField]
+
         ushort _unlockAtLevel;
     #endregion
 

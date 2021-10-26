@@ -3,11 +3,11 @@ using System;
 
 namespace Account.GeneralData
 {
-    [Serializable]
+
     public class AccountCombos
     {
         #region Fields
-        [UnityEngine.SerializeField]
+
         List<CombosAccountInfo> _comboList;
         #endregion
         #region Properties
