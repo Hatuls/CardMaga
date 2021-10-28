@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
+using Collections;
+
 namespace Battles
 {
     [CreateAssetMenu(fileName = "CharacterSO", menuName = "ScriptableObjects/Characters/CharacterSO")]
@@ -88,7 +90,7 @@ namespace Battles
 
         public ref Characters.Stats.CharacterStats CharacterStats { get =>ref _characterStats; }
 
-        public bool Init(ushort id , string[] row, CardsCollectionSO cardCollection, Collections.RelicsSO.ComboCollectionSO recipeCollections)
+        public bool Init(ushort id , string[] row, CardsCollectionSO cardCollection, ComboCollectionSO recipeCollections)
         {
             ID = id;
 

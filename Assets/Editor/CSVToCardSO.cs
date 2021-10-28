@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Cards;
+using Collections;
 
 public class CSVToCardSO 
 {
@@ -66,7 +67,7 @@ public class CSVToCardSO
        var _cardCollection = ScriptableObject.CreateInstance<CardsCollectionSO>();
 
 
-        List<Cards.CardSO> cardList = new List<Cards.CardSO>();
+        List<CardSO> cardList = new List<CardSO>();
 
 
 

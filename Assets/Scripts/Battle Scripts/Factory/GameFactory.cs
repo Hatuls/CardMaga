@@ -1,6 +1,6 @@
 ﻿using Battles;
 using Cards;
-using Collections.RelicsSO;
+using Collections;
 using Combo;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,6 @@ using UnityEngine;
 using Rewards;
 using Characters;
 using Account.GeneralData;
-
 using Map;
 
 namespace Factory
@@ -114,6 +113,7 @@ namespace Factory
             public ComboFactory( ComboCollectionSO comboCollection)
             {
                 ComboCollection = comboCollection;
+                comboCollection.AssignDictionary();
             }
             public Combo.Combo[] CreateCombo(CharacterSO.RecipeInfo[] recipeInfos)
             {
@@ -164,6 +164,7 @@ namespace Factory
             public CardFactory(CardsCollectionSO cards)
             {
                 CardCollection = cards;
+                cards.AssignDictionary();
                 Reset();
             }
             public static ushort GetInstanceID

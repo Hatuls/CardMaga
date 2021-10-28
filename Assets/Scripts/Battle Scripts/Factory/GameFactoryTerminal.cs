@@ -1,7 +1,6 @@
 ﻿using Battles;
-using Collections.RelicsSO;
+using Collections;
 using UnityEngine;
-
 namespace Factory
 {
     public class GameFactoryTerminal : MonoBehaviour
@@ -11,7 +10,7 @@ namespace Factory
         [SerializeField] CharacterCollectionSO _characters;
         [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
         [SerializeField]
-        Map.EventPointCollectionSO _eventPoints;
+       EventPointCollectionSO _eventPoints;
         private void Awake()
         {
 
@@ -45,7 +44,7 @@ namespace Factory
 
             if (_eventPoints == null)
             {
-                _eventPoints = Resources.Load<Map.EventPointCollectionSO>("Collection SO/EventPointCollection");
+                _eventPoints = Resources.Load<EventPointCollectionSO>("Collection SO/EventPointCollection");
                 if (_eventPoints == null)
                     throw new System.Exception("Event Point Collection Was Not Assigned!");
             }

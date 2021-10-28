@@ -7,9 +7,10 @@ public class LoadingManager : MonoSingleton<LoadingManager>
     private void Start()
     {
         if (Instance != null && Instance != this)
-            Destroy(this);
+            Destroy(this.gameObject);
         else
         {
+          
         DontDestroyOnLoad(this.gameObject);
         Init();
         }
@@ -17,7 +18,7 @@ public class LoadingManager : MonoSingleton<LoadingManager>
     public override void Init()
     {
         _sceneHandler = new SceneHandler(this);
-        NetworkHandler.CheckVersionEvent.Invoke();
+        NetworkHandler.CheckVersionEvent?.Invoke();
     }
     public void LoadScene(SceneHandler.ScenesEnum scenesEnum)
     {

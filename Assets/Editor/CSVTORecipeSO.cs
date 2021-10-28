@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ public class CSVTORecipeSO
         if (cardCollections == null || cardCollections.GetAllCards.Length == 0)
             Debug.LogError("Card Collection Is empty make sure you have cards in the Card Collection SO at \"Resources\\Collection SO\\CardCollection\"");
 
-        Collections.RelicsSO.ComboCollectionSO comboCollection = ScriptableObject.CreateInstance<Collections.RelicsSO.ComboCollectionSO>();
+        ComboCollectionSO comboCollection = ScriptableObject.CreateInstance<ComboCollectionSO>();
       
         List<Combo.ComboSO> combosRecipe = new List<Combo.ComboSO>();
 
