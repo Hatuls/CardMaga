@@ -1,6 +1,5 @@
 ﻿using Map;
-using System.Collections;
-using System.Collections.Generic;
+
 using UI.Map;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,14 +59,14 @@ namespace Meta.Map
             EventPointType = type;
             _floorLevel = floorLevel;
             IsOpen = _floorLevel == 0;
-             _connectFrom = points;
+             _connectedTo = points;
         }
         [SerializeField] byte _floorLevel;
         [SerializeField] bool _isOpen;
         [SerializeField] EventPointType _eventPointType;
 
-        [SerializeField] EventPoint[] _connectFrom;
-        public EventPoint[] ConnectTo => _connectFrom;
+        [SerializeField] EventPoint[] _connectedTo;
+        public EventPoint[] ConnectTo => _connectedTo;
         public byte FloorLevel { get => _floorLevel; set => _floorLevel = value; }
         public bool IsOpen { get => _isOpen;private set => _isOpen = value; }
         public EventPointType EventPointType { get => _eventPointType;private set => _eventPointType = value; }

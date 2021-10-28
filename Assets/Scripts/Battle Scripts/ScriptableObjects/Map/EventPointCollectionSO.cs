@@ -1,8 +1,9 @@
 ﻿
+using Map;
 using UnityEngine;
 
 
-namespace Map
+namespace Collections
 {
     [CreateAssetMenu (fileName ="EventPointCollection", menuName ="ScriptableObjects/Collections/Map Event Points Collection")]
     public class EventPointCollectionSO : ScriptableObject

@@ -22,10 +22,12 @@ public class InputManager :MonoBehaviour
         {
             _instance = this;
             Init();
-            DontDestroyOnLoad(this);
+       
         }
         else if (_instance != this)
-            Destroy(this);
+            Destroy(this);  
+        
+        DontDestroyOnLoad(this);
     }
 
 

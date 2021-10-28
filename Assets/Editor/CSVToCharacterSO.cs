@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class CSVToCharacterSO
     }
     private static void OnCompleteDownloadingCharacterCSV(string txt)
     {
-        Collections.RelicsSO.ComboCollectionSO recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
+        ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
         CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
         CSVToCardSO.DestroyWebGameObjects();
 
@@ -21,7 +22,7 @@ public class CSVToCharacterSO
         const float timeCheck = 1000000;
         while (recipeCollection == null && timer < timeCheck) 
         {
-            recipeCollection = Resources.Load<Collections.RelicsSO.ComboCollectionSO>("Collection SO/RecipeCollection");
+            recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
 
             timer += 0.5f;
         }
@@ -50,7 +51,7 @@ public class CSVToCharacterSO
         if (recipeCollection == null || recipeCollection.GetComboSO.Length == 0)
             Debug.LogError("Card Collection Is empty make sure you have combos in the recipe Collection SO at \"Resources\\Collection SO\\RecipeCollection\"");
 
-        Battles.CharacterCollectionSO characterCollection = ScriptableObject.CreateInstance<Battles.CharacterCollectionSO>();
+        CharacterCollectionSO characterCollection = ScriptableObject.CreateInstance<CharacterCollectionSO>();
 List<Battles.CharacterSO> charactersList = new List<Battles.CharacterSO>();
 
         for (int i = 2; i < rows.Length; i++)
@@ -75,7 +76,7 @@ List<Battles.CharacterSO> charactersList = new List<Battles.CharacterSO>();
         Debug.Log("Character  Update Complete!");
     }
 
-    private static Battles.CharacterSO CreateCharacter(string[] line, CardsCollectionSO cardCollections, Collections.RelicsSO.ComboCollectionSO recipeCollection)
+    private static Battles.CharacterSO CreateCharacter(string[] line, CardsCollectionSO cardCollections, ComboCollectionSO recipeCollection)
     {
         const int ID = 0;
         if (ushort.TryParse(line[ID], out ushort characterID))

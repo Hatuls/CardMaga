@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Battles;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Battles
+namespace Collections
 {
     [CreateAssetMenu(fileName = "CharacterCollection", menuName = "ScriptableObjects/Collection")]
-    public class CharacterCollectionSO :ScriptableObject
+    public class CharacterCollectionSO :ScriptableObject , IScriptableObjectCollection
     {
         [SerializeField]
         private CharacterSO[] _charactersSO;
         public CharacterSO[] CharactersSO { get => _charactersSO; }
+
+        private Dictionary<CharacterEnum, CharacterSO> _characterDict;
 
 
         public void Init(CharacterSO[] characterSOs)
@@ -40,6 +44,11 @@ namespace Battles
             }
             throw new Exception($"Character Collection: tried to get CharacterSO from character collection through the parameter CharacterEnum: <a>{characterEnum}</a>\n check if such characterSO exist in resource folder or in the collection!");
 
+        }
+
+        public void AssignDictionary()
+        {
+            throw new NotImplementedException();
         }
     }
 }

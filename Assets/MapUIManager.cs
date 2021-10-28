@@ -9,7 +9,7 @@ namespace UI.Map
     {
         private static MapUIManager _instance;
         public static MapUIManager Instance => _instance;
-        [SerializeField]  EventPointCollectionSO _eventPointCollection;
+     //   [SerializeField]  EventPointCollectionSO _eventPointCollection;
         [SerializeField] MapEventPoint[] _points;
         [SerializeField] byte _chestFloor;
         [SerializeField] MapEventPoint _currentPoint;
@@ -26,7 +26,7 @@ namespace UI.Map
             _currentPoint = null;
             for (int i = 0; i < _points.Length; i++)
             {
-                _points[i].Init(_eventPointCollection.EventPoints[Random.Range(0, _eventPointCollection.EventPoints.Length)]);
+      //          _points[i].Init(_eventPointCollection.EventPoints[Random.Range(0, _eventPointCollection.EventPoints.Length)]);
             }
         }
 

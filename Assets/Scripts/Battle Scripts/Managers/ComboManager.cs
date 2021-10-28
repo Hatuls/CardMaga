@@ -2,7 +2,7 @@
 using UnityEngine;
 using Cards;
 using System.Collections.Generic;
-using Collections.RelicsSO;
+using Collections;
 using ThreadsHandler;
 using System.Linq;
 using Unity.Events;

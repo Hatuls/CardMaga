@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Rewards;
+using Collections;
+
 public class CSVManager
 {
 
-    static Battles.CharacterCollectionSO _characterCollection;
-    static Collections.RelicsSO.ComboCollectionSO _comboCollection;
+    static CharacterCollectionSO _characterCollection;
+    static ComboCollectionSO _comboCollection;
     static CardsCollectionSO _cardCollection;
     static Keywords.KeywordSO[] _keywordsSO;
     static Sprite[] cardsPictures;
@@ -74,7 +76,7 @@ public class CSVManager
         if (_cardCollection == null || _cardCollection.GetAllCards.Length == 0)
             Debug.LogError("Card Collection Is empty make sure you have cards in the Card Collection SO at \"Resources\\Collection SO\\CardCollection\"");
 
-        _comboCollection = ScriptableObject.CreateInstance<Collections.RelicsSO.ComboCollectionSO>();
+        _comboCollection = ScriptableObject.CreateInstance<ComboCollectionSO>();
 
         List<Combo.ComboSO> combosRecipe = new List<Combo.ComboSO>();
 
@@ -113,7 +115,7 @@ public class CSVManager
         if (_comboCollection == null || _comboCollection.GetComboSO.Length == 0)
             Debug.LogError("Card Collection Is empty make sure you have combos in the recipe Collection SO at \"Resources\\Collection SO\\RecipeCollection\"");
 
-        _characterCollection = ScriptableObject.CreateInstance<Battles.CharacterCollectionSO>();
+        _characterCollection = ScriptableObject.CreateInstance<CharacterCollectionSO>();
         List<Battles.CharacterSO> charactersList = new List<Battles.CharacterSO>();
 
         for (int i = 2; i < rows.Length; i++)
@@ -683,7 +685,7 @@ public class CSVManager
 
     #region Characters
 
-    private static Battles.CharacterSO CreateCharacter(string[] line, CardsCollectionSO cardCollections, Collections.RelicsSO.ComboCollectionSO recipeCollection)
+    private static Battles.CharacterSO CreateCharacter(string[] line, CardsCollectionSO cardCollections,ComboCollectionSO recipeCollection)
     {
         const int ID = 0;
         if (ushort.TryParse(line[ID], out ushort characterID))
