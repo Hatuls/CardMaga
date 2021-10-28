@@ -10,9 +10,9 @@ namespace Battles
     public class CardExecutionManager : MonoSingleton<CardExecutionManager>
     {
         [SerializeField]
-        AnimatorController _playerAnimator;
+        AnimatorController _playerAnimatorController;
         [SerializeField]
-        AnimatorController _enemyAnimator;
+        AnimatorController _enemyAnimatorController;
         [SerializeField] VFXController __playerVFXHandler;
      
         [SerializeField] Unity.Events.SoundsEvent _playSound;
@@ -97,61 +97,13 @@ namespace Battles
 
             var currentCard = card;
 
-            if (currentCard != null)
-            {
-                switch (currentCard.CardSO.CardType.CardType)
+            if (currentCard == null)
+                throw new System.Exception($"Cannot Execute Card that is null!!!!");
+            switch (currentCard.CardSO.CardType.CardType)
                 {
                     case Cards.CardTypeEnum.Utility:
                     case Cards.CardTypeEnum.Defend:
-                        switch (currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                        {
-                            case KeywordTypeEnum.Shield:
-
-                                VFXManager.Instance.PlayParticle(
-                                isPlayer,
-                                BodyPartEnum.Chest,
-                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                                );
-
-                                _playSound?.Raise(SoundsNameEnum.GainArmor);
-
-                                break;
-
-                            case KeywordTypeEnum.Strength:
-
-                                _playSound?.Raise(SoundsNameEnum.GainStrength);
-
-                                VFXManager.Instance.PlayParticle(
-                                isPlayer,
-                                BodyPartEnum.BottomBody,
-                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                                );
-
-                                break;
-
-
-                            case KeywordTypeEnum.Heal:
-
-                                _playSound?.Raise(SoundsNameEnum.Healing);
-
-                                VFXManager.Instance.PlayParticle(
-                                isPlayer,
-                                BodyPartEnum.BottomBody,
-                                VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                                );
-
-                                break;
-
-
-                            case KeywordTypeEnum.Stamina:
-                            case KeywordTypeEnum.Attack:
-                            case KeywordTypeEnum.Bleed:
-                            case KeywordTypeEnum.MaxHealth:
-                            default:
-                                break;
-                        }
-
-                        ExecuteCard(currentCard);
+                        ExecuteUtilityAndDefendCard(isPlayer, currentCard);
                         break;
 
                     case Cards.CardTypeEnum.Attack:
@@ -164,12 +116,61 @@ namespace Battles
                         Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
                         break;
                 }
-            }
-            else
-                throw new System.Exception($"Cannot Execute Card that is null!!!!");
 
         }
 
+        private void ExecuteUtilityAndDefendCard(bool isPlayer, Cards.Card currentCard)
+        {
+            switch (currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
+            {
+                case KeywordTypeEnum.Shield:
+
+                    VFXManager.Instance.PlayParticle(
+                    isPlayer,
+                    BodyPartEnum.Chest,
+                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
+                    );
+
+                    _playSound?.Raise(SoundsNameEnum.GainArmor);
+
+                    break;
+
+                case KeywordTypeEnum.Strength:
+
+                    _playSound?.Raise(SoundsNameEnum.GainStrength);
+
+                    VFXManager.Instance.PlayParticle(
+                    isPlayer,
+                    BodyPartEnum.BottomBody,
+                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
+                    );
+
+                    break;
+
+
+                case KeywordTypeEnum.Heal:
+
+                    _playSound?.Raise(SoundsNameEnum.Healing);
+
+                    VFXManager.Instance.PlayParticle(
+                    isPlayer,
+                    BodyPartEnum.BottomBody,
+                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
+                    );
+
+                    break;
+
+
+                case KeywordTypeEnum.Stamina:
+                case KeywordTypeEnum.Attack:
+                case KeywordTypeEnum.Bleed:
+                case KeywordTypeEnum.MaxHealth:
+                default:
+                    break;
+            }
+
+            ExecuteCard(currentCard);
+        }
 
         public void ExecuteCard(Cards.Card current)
         {
@@ -207,35 +208,38 @@ namespace Battles
             Debug.Log("<a>Activating Card</a>");
             // sort his keyowrds
 
+            {
+                //ThreadsHandler.ThreadHandler.StartThread(
+                //    new ThreadsHandler.ThreadList(
+                //        ThreadsHandler.ThreadHandler.GetNewID,
+                //        () => SortKeywords(),
+                //       () =>
+                //       {
+                //           if (_cardsQueue.Count == 0)
+                //               return;
+                //           var State = Turns.TurnHandler.CurrentState;
+                //           if (State == Turns.TurnState.PlayerTurn || State == Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
+                //               _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
+                //           else if (State == Turns.TurnState.EnemyTurn || State == Turns.TurnState.StartEnemyTurn || State == Turns.TurnState.EndEnemyTurn)
+                //               _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
+                //           else
+                //               Debug.LogError("Current turn is not a turn that a card could be played!");
 
-            //ThreadsHandler.ThreadHandler.StartThread(
-            //    new ThreadsHandler.ThreadList(
-            //        ThreadsHandler.ThreadHandler.GetNewID,
-            //        () => SortKeywords(),
-            //       () =>
-            //       {
-            //           if (_cardsQueue.Count == 0)
-            //               return;
-            //           var State = Turns.TurnHandler.CurrentState;
-            //           if (State == Turns.TurnState.PlayerTurn || State == Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
-            //               _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
-            //           else if (State == Turns.TurnState.EnemyTurn || State == Turns.TurnState.StartEnemyTurn || State == Turns.TurnState.EndEnemyTurn)
-            //               _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
-            //           else
-            //               Debug.LogError("Current turn is not a turn that a card could be played!");
+                //           // reset Index
+                //           currentKeywordIndex = 0;
+                //       }
+                //     )
+                //    );
+            }
 
-            //           // reset Index
-            //           currentKeywordIndex = 0;
-            //       }
-            //     )
-            //    );
             SortKeywords();
 
               currentKeywordIndex = 0;
+
          if(Turns.TurnHandler.IsPlayerTurn)
-                _playerAnimator.PlayCrossAnimation();
+                _playerAnimatorController.PlayCrossAnimation();
             else 
-                _enemyAnimator.PlayCrossAnimation();
+                _enemyAnimatorController.PlayCrossAnimation();
        
             // reset Index
        
@@ -265,22 +269,12 @@ namespace Battles
     
         public void CardFinishExecuting()
         {
-        
-            //Debug.Log($"<a>Animation Finished {_cardsQueue.Count} left to be executed </a>");
-            //if (_cardsQueue.Count == 0)
-            //    return null;
-
-            //Debug.Log("<a>Dequeueing to next card</a>");
-            //var card = _cardsQueue.Dequeue();
-
             if (_cardsQueue.Count > 0)
             {
                 Debug.Log("<a>Activating Next card</a>");
                 ActivateCard();
 
             }
-      //      return card;
-
         }
 
         public void OnKeywordEvent()

@@ -19,7 +19,7 @@ public class AnimatorController : MonoBehaviour
 
     #region Fields
     [SerializeField] AnimatorController _opponentController;
-    [SerializeField] Animator _playerAnimator;
+    [SerializeField] Animator _animator;
     [SerializeField] Transform targetToLookAt;
 
     AnimationBundle _previousAnimation;
@@ -73,8 +73,8 @@ public class AnimatorController : MonoBehaviour
 
          startPos = new Vector3( transform.position.x, transform.position.y, transform.position.z);
         _isAnimationPlaying = false;
-        _playerAnimator.SetBool("IsDead", false);
-        _playerAnimator.SetBool("IsWon", false);
+        _animator.SetBool("IsDead", false);
+        _animator.SetBool("IsWon", false);
         _animationQueue.Clear();
         _currentAnimation = null;
         ReturnToIdle();
@@ -82,7 +82,7 @@ public class AnimatorController : MonoBehaviour
 
     public void ResetToStartingPosition()
     {
-        if (_playerAnimator == null)
+        if (_animator == null)
         {
             Debug.LogError("Error in ResetToIdle");
             return;
@@ -117,13 +117,13 @@ public class AnimatorController : MonoBehaviour
     {
         _isAnimationPlaying = false;
       
-        _playerAnimator.SetBool("IsWon", true);
+        _animator.SetBool("IsWon", true);
        //_playerAnimator.SetInteger("AnimNum", -2);
         transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left , transform.position));
     }
     public void CharacterIsDead()
     {
-        _playerAnimator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
+        _animator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
     }
 
 
@@ -142,8 +142,9 @@ public class AnimatorController : MonoBehaviour
     public void CheckForRegisterCards()
     {
         if (CheckIfMyTurn())
-       Battles.CardExecutionManager.Instance.CardFinishExecuting();
-        _previousAnimation = null;
+            TranstionToNextAnimation();
+       //Battles.CardExecutionManager.Instance.CardFinishExecuting();
+      //  _previousAnimation = null;
     }
 
     public bool CheckIfMyTurn()
@@ -171,28 +172,20 @@ public class AnimatorController : MonoBehaviour
         _currentAnimation = animationBundle;
 
         if (_currentAnimation?._attackAnimation == _previousAnimation?._attackAnimation)
-            _playerAnimator.SetTrigger("Duplicate");
+            _animator.SetTrigger("Duplicate");
         else
-        {
-            //var cardQueue = Battles.CardExecutionManager.CardsQueue;
-            //string output = "";
-
-            //foreach (var card in cardQueue)
-            //    output += " " + card.CardSO.AnimationBundle._attackAnimation.ToString();
-
-            //Debug.LogError(output);
-
             PlayAnimation(_currentAnimation._attackAnimation.ToString());
-        }
+        
         
     }
     [SerializeField] bool _crossFadeBetweenAnimations = false;
     private void PlayAnimation(string name)
     {
+        Debug.Log("Play Anim " + name);
         if (_crossFadeBetweenAnimations)
-            _playerAnimator.CrossFade(name, _transitionSpeedBetweenAnimations);
+            _animator.CrossFade(name, _transitionSpeedBetweenAnimations);
         else
-             _playerAnimator.Play(name);
+             _animator.Play(name);
 
     }
 
@@ -207,12 +200,16 @@ public class AnimatorController : MonoBehaviour
             OnFinishAnimation();
             return;
         }
-
+        Debug.Log($"Dequeue animations {cardQueue.Peek().CardSO.CardName} and more animations: {cardQueue.Count}");
         _previousAnimation = cardQueue.Dequeue().CardSO.AnimationBundle;
 
         if (cardQueue.Count != 0)
         {
             Battles.CardExecutionManager.Instance.CardFinishExecuting();
+        }
+        else
+        {
+            _previousAnimation = null;
         }
 
     
@@ -231,8 +228,8 @@ public class AnimatorController : MonoBehaviour
  
     public void ResetLayerWeight()
     {
-        _playerAnimator.SetLayerWeight(1, 0);
-        _playerAnimator.SetLayerWeight(2, 0);
+        _animator.SetLayerWeight(1, 0);
+        _animator.SetLayerWeight(2, 0);
     }
 
     private void SetLayerWeight(Cards.BodyPartEnum bodyPartEnum)
@@ -245,11 +242,11 @@ public class AnimatorController : MonoBehaviour
                 break;
             case Cards.BodyPartEnum.Elbow:
             case Cards.BodyPartEnum.Hand:
-                _playerAnimator.SetLayerWeight(2, 1);
+                _animator.SetLayerWeight(2, 1);
                 break;
             case Cards.BodyPartEnum.Knee:
             case Cards.BodyPartEnum.Leg:
-                _playerAnimator.SetLayerWeight(1, 1);
+                _animator.SetLayerWeight(1, 1);
                 break;
             case Cards.BodyPartEnum.Joker:
                 break;
@@ -292,10 +289,10 @@ public class AnimatorController : MonoBehaviour
         {    
             bool isEmptyList = _animationQueue.Count == 0;
             bool isIdle = true ;
-            if (_playerAnimator.GetCurrentAnimatorClipInfo(0).Length > 0)
+            if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)
             {
              
-                isIdle=_playerAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
+                isIdle=_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
             }
             
 
@@ -310,7 +307,7 @@ public class AnimatorController : MonoBehaviour
     #endregion
 
     #region Private
-    private void ReturnToIdle() => _playerAnimator.CrossFade("KB_Idle", transitionToIdle);
+    private void ReturnToIdle() => _animator.CrossFade("KB_Idle", transitionToIdle);
     #endregion
 
     #endregion
