@@ -21,6 +21,8 @@ namespace UI.Meta.PlayScreen
         #region Public Methods
         public void Init(CharacterData characterData,byte playerLevel,CharacterSO characterSO)
         {
+            Debug.Log($"Init {characterData.CharacterEnum.ToString()} Character Data");
+            gameObject.SetActive(true);
             CheckLevel(playerLevel,characterData.UnlockAtLevel);
             SetLockedImage();
             _characterEnum = characterData.CharacterEnum;
@@ -41,10 +43,12 @@ namespace UI.Meta.PlayScreen
         {
             if(_isOpen)
             {
+                Debug.Log("Disabling Locked Image");
                 _lockedImage.gameObject.SetActive(false);
             }
             else
             {
+                Debug.Log("Enabling Locked Image");
                 _lockedImage.gameObject.SetActive(true);
             }
         }

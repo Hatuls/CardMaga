@@ -7,6 +7,7 @@
         {
             //_accountInfoData = new AccountInfoData(TimeManager.Instance.GetCurrentTime(),);
             _accountEnergyData = new AccountEnergyData(30,5);
+            _accountLevelData = new AccountLevelData(0, 1);
         }
         #region Fields
         private AccountInfoData _accountInfoData;

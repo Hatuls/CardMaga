@@ -30,6 +30,7 @@ namespace UI.Meta.PlayScreen
         #endregion
 
         #region Fields
+        [SerializeField]
         CharacterDataUI[] _characters;
         [SerializeField]
         GameObject _chooseCharacterPanel;
@@ -37,6 +38,9 @@ namespace UI.Meta.PlayScreen
         #region Public Methods
         public void Init()
         {
+            Debug.Log("InitingCharacterPanel");
+            ChooseCharacterSetActiveState(true);
+            ResetCharacterScreen();
             byte playerLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
             if (playerLevel <= 0)
             {
@@ -50,26 +54,18 @@ namespace UI.Meta.PlayScreen
                 _characters[i].Init(characterData,playerLevel,characters[i]);
             }
         }
-        //public void ChooseCharacterSwitch()
-        //{
-        //    if(_chooseCharacterPanel.activeSelf == true)
-        //    {
-        //        _chooseCharacterPanel.gameObject.SetActive(false);
-        //    }
-        //    else
-        //    {
-        //        _chooseCharacterPanel.gameObject.SetActive(true);
-        //    }
-        //}
         public void ChooseCharacterSetActiveState(bool toState)
         {
             _chooseCharacterPanel.SetActive(toState);
         }
-
-        public void ResetCharacterScreen()
-        {
-
-        }
         #endregion
+        private void ResetCharacterScreen()
+        {
+            Debug.Log("ResetingCharacterScreen");
+            for (int i = 0; i < _characters.Length; i++)
+            {
+                _characters[i].gameObject.SetActive(false);
+            }
+        }
     }
 }
