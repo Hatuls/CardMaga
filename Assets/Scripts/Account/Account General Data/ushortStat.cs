@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 namespace Account.GeneralData
 {
     public class UshortStat : Stat<ushort>
@@ -20,6 +21,8 @@ namespace Account.GeneralData
 
         public override bool CheckStat(ushort value)
         {
+            Debug.Log($"value Inserted to be compared against: {value}");
+            Debug.Log($"Current Value: {_value}");
             if (value <= 0)
             {
                 throw new Exception("UshortStat value inserted is lower or equal to 0");

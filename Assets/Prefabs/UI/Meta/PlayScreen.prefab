@@ -83,6 +83,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5381375149274161396}
+  - component: {fileID: 1929893720}
   m_Layer: 5
   m_Name: PlayScreen
   m_TagString: Untagged
@@ -115,6 +116,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1929893720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279302408825356556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 200eec69f6427084982958750ab34df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _chooseCharacterScreen: {fileID: 4589309510562180902}
 --- !u!1001 &254796488044723024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126,6 +140,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075992821790893688, guid: a9fd890054a64454b831e9b28405cfac,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559381126170685889, guid: a9fd890054a64454b831e9b28405cfac,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559381126170685889, guid: a9fd890054a64454b831e9b28405cfac,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559381126170685889, guid: a9fd890054a64454b831e9b28405cfac,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1929893720}
+    - target: {fileID: 6559381126170685889, guid: a9fd890054a64454b831e9b28405cfac,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559381126170685889, guid: a9fd890054a64454b831e9b28405cfac,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559381126170685889, guid: a9fd890054a64454b831e9b28405cfac,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7488419376398853337, guid: a9fd890054a64454b831e9b28405cfac,
         type: 3}
@@ -482,6 +531,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Choose Character Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 7787815735393890871, guid: 7f3453ec5072ba241a6b35a7ed09f1ba,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1929893720}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f3453ec5072ba241a6b35a7ed09f1ba, type: 3}
 --- !u!224 &238299702349142384 stripped
@@ -490,6 +544,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7461501483145538373}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4589309510562180902 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6357979587541058659, guid: 7f3453ec5072ba241a6b35a7ed09f1ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 7461501483145538373}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b9542ff78dc244f9b02e1f3a8302cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7806143266583237943
 PrefabInstance:
   m_ObjectHideFlags: 0

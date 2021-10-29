@@ -90,7 +90,7 @@ namespace Collections
         {
             Debug.Log("<a>Started  Assiging Card Dictionary!!!</a>");
 
-            const int Module = 20;
+            const int Module = 50;
             int length = _cardCollection.Length;
             _cardDict = new Dictionary<ushort, CardSO>(length);
 
