@@ -62,6 +62,10 @@ namespace Battles
         public GameObject CharacterAvatar { get=> _characterGO; private set=> _characterGO= value; }
 
         [SerializeField]
+        private Sprite _characterSprite;
+        public Sprite CharacterSprite => _characterSprite;
+
+        [SerializeField]
 
         private CharacterTypeEnum _characterType;
         public CharacterTypeEnum CharacterType { get => _characterType; private set=> _characterType=value; }

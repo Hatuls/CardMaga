@@ -5,7 +5,7 @@ namespace Cards.Meta
     {
         #region Singleton
         private static CardManager _instance;
-        public static CardManager GetInstance
+        public static CardManager Instance
         {
             get
             {
