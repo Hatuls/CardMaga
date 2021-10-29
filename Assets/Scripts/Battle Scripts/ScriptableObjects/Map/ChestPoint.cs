@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Map
 {
     [CreateAssetMenu (fileName = "Chest", menuName = "ScriptableObjects/Map/Points/Chest")]
-    public class ChestPoint : EventPointAbstSO
+    public class ChestPoint : NodePointAbstSO
     {
-        public override EventPointType PointType =>  EventPointType.Chest;
+        public override NodeType PointType =>  NodeType.Chest;
 
         public override void ActivatePoint()
         {

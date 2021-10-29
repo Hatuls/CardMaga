@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Map
 {
     [CreateAssetMenu (fileName = "Rest Area Point", menuName = "ScriptableObjects/Map/Points/Rest Area")]
-    public class RestAreaPoint : EventPointAbstSO
+    public class RestAreaPoint : NodePointAbstSO
     {
-        public override EventPointType PointType => EventPointType.Rest_Area;
+        public override NodeType PointType => NodeType.Rest_Area;
 
         public override void ActivatePoint()
         {

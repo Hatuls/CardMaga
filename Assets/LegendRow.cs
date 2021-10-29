@@ -7,7 +7,7 @@ public class LegendRow : MonoBehaviour
 {
     [SerializeField] Image _img;
     [SerializeField] TextMeshProUGUI _text;
-    internal void Init(EventPointAbstSO eventPointAbstSO)
+    internal void Init(NodePointAbstSO eventPointAbstSO)
     {
         _text.text = eventPointAbstSO.Name;
         //_img.sprite = eventPointAbstSO.Icon;

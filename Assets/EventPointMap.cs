@@ -6,24 +6,24 @@ namespace UI.Map
     public class EventPointMap : ScriptableObject
     {
         [SerializeField]
-        EventPointAbstSO[] _startFloor;
+        NodePointAbstSO[] _startFloor;
         [SerializeField]
-        EventPointAbstSO[] _firstFloor;
+        NodePointAbstSO[] _firstFloor;
         [SerializeField]
-        EventPointAbstSO[] _secondsFloor;
+        NodePointAbstSO[] _secondsFloor;
         [SerializeField]
-        EventPointAbstSO[] _thirdFloor;
+        NodePointAbstSO[] _thirdFloor;
         [SerializeField]
-        EventPointAbstSO[] _forthFloor;
+        NodePointAbstSO[] _forthFloor;
         [SerializeField]
-        EventPointAbstSO[] _fifthFloor;
+        NodePointAbstSO[] _fifthFloor;
         [SerializeField]
-        EventPointAbstSO[] _sixthFloor;
+        NodePointAbstSO[] _sixthFloor;
         [SerializeField]
-        EventPointAbstSO[] _seventhFloor;
+        NodePointAbstSO[] _seventhFloor;
         [SerializeField]
-        EventPointAbstSO[] _eighthFloor;
-        public EventPointAbstSO[] GetFloorEventPointSO(byte floor)
+        NodePointAbstSO[] _eighthFloor;
+        public NodePointAbstSO[] GetFloorEventPointSO(byte floor)
         {
             switch (floor)
             {

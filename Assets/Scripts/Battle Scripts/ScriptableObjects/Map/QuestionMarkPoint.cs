@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Map
 {
     [CreateAssetMenu(fileName = "Question Point", menuName = "ScriptableObjects/Map/Points/Question Mark")]
-    public class QuestionMarkPoint : EventPointAbstSO
+    public class QuestionMarkPoint : NodePointAbstSO
     {
-        public override EventPointType PointType =>  EventPointType.QuestionMark;
+        public override NodeType PointType =>  NodeType.QuestionMark;
 
         public override void ActivatePoint()
         {

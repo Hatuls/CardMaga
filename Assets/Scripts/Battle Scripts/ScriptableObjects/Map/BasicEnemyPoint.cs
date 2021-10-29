@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Map
 {
     [CreateAssetMenu(fileName = "Basic Enemy", menuName = "ScriptableObjects/Map/Points/Basic Enemy")]
-    public class BasicEnemyPoint : EventPointAbstSO
+    public class BasicEnemyPoint : NodePointAbstSO
     {
-        public override EventPointType PointType =>  EventPointType.Basic_Enemy;
+        public override NodeType PointType =>  NodeType.Basic_Enemy;
 
         public override void ActivatePoint()
         {

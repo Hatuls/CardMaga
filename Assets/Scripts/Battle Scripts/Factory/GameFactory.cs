@@ -64,7 +64,7 @@ namespace Factory
                 EventPointCollection = eventPoints;
             }
 
-            public EventPointAbstSO GetEventPoint(EventPointType type)
+            public NodePointAbstSO GetEventPoint(NodeType type)
            => EventPointCollection.GetEventPoint(type);
         }
         public class RewardFactory

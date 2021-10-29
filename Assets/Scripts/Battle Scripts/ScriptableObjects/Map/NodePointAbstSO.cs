@@ -4,28 +4,29 @@ using UnityEngine;
 
 namespace Map
 {
-    public abstract class EventPointAbstSO : ScriptableObject
+    public abstract class NodePointAbstSO : ScriptableObject
     {
         [SerializeField]
         private Color _clr;
         public Color PointColor => _clr;
         [SerializeField]
         private Sprite _icon;
-        public abstract EventPointType PointType {get;}
+        [Sirenix.OdinInspector.ShowInInspector]
+        public abstract NodeType PointType {get;}
         public string Name; 
         public abstract void ActivatePoint();
         public Sprite Icon => _icon;
     }
 
-    public enum EventPointType
+    public enum NodeType
     {
         None = 0,
         Basic_Enemy =1,
         Elite_Enemy=2,
-        Boss_Enemy=3,
+        Chest=3,
         QuestionMark=4,
         Rest_Area=5,
         Dojo=6,
-        Chest=7,
+        Boss_Enemy=7,
     }
 }

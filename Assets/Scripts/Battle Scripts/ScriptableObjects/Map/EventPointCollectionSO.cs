@@ -8,10 +8,10 @@ namespace Collections
     [CreateAssetMenu (fileName ="EventPointCollection", menuName ="ScriptableObjects/Collections/Map Event Points Collection")]
     public class EventPointCollectionSO : ScriptableObject
     {
-        [SerializeField] EventPointAbstSO[] _points;
-        public EventPointAbstSO[] EventPoints => _points;
+        [SerializeField] NodePointAbstSO[] _points;
+        public NodePointAbstSO[] EventPoints => _points;
 
-        public EventPointAbstSO GetEventPoint(EventPointType type)
+        public NodePointAbstSO GetEventPoint(NodeType type)
         {
             for (int i = 0; i < _points.Length; i++)
             {
