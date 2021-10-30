@@ -77,8 +77,9 @@ namespace Map
             //CreateMapBackground(map);
         }
 
-        private void SetAttainableNodes()
+        public void SetAttainableNodes()
         {
+            // first set all the nodes as unattainable/locked:
             foreach (var node in _nodeMaps)
                 node.SetState(NodeStates.Locked);
 

@@ -22,9 +22,13 @@ namespace Map
         private float mouseDownTime;
         private const float MaxClickDuration = 0.5f;
 
+        private void Awake()
+        {
+            
+        }
         private void OnMouseDown()
         {
-            Debug.Log("OnMouseDown");
+            MapPlayerTracker.Instance.SelectNode(this);
         }
 
         public void PointSelected()
