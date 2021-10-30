@@ -8,17 +8,19 @@ namespace UI.Meta.PlayScreen
         DeckScreen = 0,
         ComboScreen = 1,
     }
-    public class ChooseLoadOutScreen
+    public class ChooseDeckScreen: MonoBehaviour
     {
         #region Fields
-        DecksScreen _totalDeckScreen;
-        ComboScreen _totalComboScreen;
+        [SerializeField]
+        ShowDeckScreen _showDeckScreen;
+        [SerializeField]
+        ShowComboScreen _showComboScreen;
         CharacterData _currentCharacter;
         #endregion
         #region Public Methods
-        public void InitLoadOutScreen(CharacterEnum characterEnum)
+        public void InitLoadOutScreen(CharacterData characterData)
         {
-
+            ChooseDeckSetActiveState(true);
         }
         public void TransitionToScreen(LoadOutScreenUIEnum loadOutScreenUIEnum)
         {
@@ -31,6 +33,10 @@ namespace UI.Meta.PlayScreen
         public void RestLoadOutScreen()
         {
 
+        }
+        public void ChooseDeckSetActiveState(bool toState)
+        {
+            _showDeckScreen.gameObject.SetActive(toState);
         }
         #endregion
     }

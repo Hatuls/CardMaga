@@ -23,14 +23,15 @@ namespace UI.Meta.PlayScreen
         }
         #endregion
         #region Fields
-        ChooseLoadOutScreen _chooseLoadOutScreen = new ChooseLoadOutScreen();
+        [SerializeField]
+        ChooseDeckScreen _chooseDeckScreen = new ChooseDeckScreen();
         [SerializeField]
         ChooseCharacterScreen _chooseCharacterScreen;
         [SerializeField]
         GameObject _backgroundPanel;
         #endregion
         #region Properties
-        public ChooseLoadOutScreen ChooseLoadOutScreen => _chooseLoadOutScreen;
+        public ChooseDeckScreen ChooseLoadOutScreen => _chooseDeckScreen;
         #endregion
         #region Public Methods
         public void OpenPlayScreen()
@@ -40,7 +41,7 @@ namespace UI.Meta.PlayScreen
         public void ResetPlayScreen()
         {
             _chooseCharacterScreen.ChooseCharacterSetActiveState(false);
-            _chooseLoadOutScreen.RestLoadOutScreen();
+            _chooseDeckScreen.RestLoadOutScreen();
             BGPanelSetActiveState(false);
         }
         public void OnPlayClicked()

@@ -4,12 +4,13 @@ using Account.GeneralData;
 
 namespace UI.Meta.PlayScreen
 {
-    public class DecksScreen
+    public class ShowDeckScreen: MonoBehaviour
     {
         #region Fields
-        GameObject _deckScreenContainer;
-        GameObject _decksPanel;
-        GameObject _deckPanel;
+
+
+        GameObject _chooseDecksPanel;
+        [SerializeField]
         TextMeshProUGUI _title;
         DeckUI[] _decksUI;
         #endregion
@@ -17,7 +18,7 @@ namespace UI.Meta.PlayScreen
         #region Public Methods
         public void Init(CharacterData characterData)
         {
-
+            _chooseDecksPanel.gameObject.SetActive(true);
         }
         public void EnableDecksPanel(bool toEnable)
         {

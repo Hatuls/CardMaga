@@ -15,17 +15,17 @@ namespace UI.Meta.PlayScreen
         Image _lockedImage;
         [SerializeField]
         TextMeshProUGUI _characterName;
-        CharacterEnum _characterEnum;
+        CharacterData _characterData;
         bool _isOpen = false;
         #endregion
         #region Public Methods
         public void Init(CharacterData characterData,byte playerLevel,CharacterSO characterSO)
         {
-            Debug.Log($"Init {characterData.CharacterEnum.ToString()} Character Data");
+            _characterData = characterData;
+            Debug.Log($"Init {_characterData.CharacterEnum.ToString()} Character Data");
             gameObject.SetActive(true);
-            CheckLevel(playerLevel,characterData.UnlockAtLevel);
+            CheckLevel(playerLevel, _characterData.UnlockAtLevel);
             SetLockedImage();
-            _characterEnum = characterData.CharacterEnum;
             _characterImage.sprite = characterSO.CharacterSprite;
             _characterName.text = characterSO.name;
         }
@@ -56,7 +56,7 @@ namespace UI.Meta.PlayScreen
         {
             PlayScreenUI playScreenUI = PlayScreenUI.Instance;
             playScreenUI.ResetPlayScreen();
-            playScreenUI.ChooseLoadOutScreen.InitLoadOutScreen(_characterEnum);
+            playScreenUI.ChooseLoadOutScreen.InitLoadOutScreen(_characterData);
         }
         #endregion
     }

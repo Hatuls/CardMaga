@@ -3,7 +3,7 @@ using TMPro;
 
 namespace UI.Meta.PlayScreen
 {
-    public class ComboScreen
+    public class ShowComboScreen
     {
         #region Fields
         GameObject _panel;
