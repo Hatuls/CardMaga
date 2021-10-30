@@ -1,9 +1,6 @@
 ﻿
-
-using UI.Map;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using System.Collections.Generic;
 
 namespace Map
 {
@@ -34,7 +31,7 @@ namespace Map
         {
             if (NodeData.IsOpen)
             {
-                Debug.Log($"Point Was Selected:\nFloor: {NodeData.GetPoint.FloorLevel}\nEvent is: {NodeData.NodeTypeEnum}");
+                Debug.Log($"Point Was Selected:\nFloor: {NodeData.point.y}\nEvent is: {NodeData.NodeTypeEnum}");
    
             }
         }
@@ -76,46 +73,6 @@ namespace Map
                     break;
             }
         }
-    }
-
-    public class Node
-    {
-        public Node(NodeType type, Point p )
-        {
-            NodeTypeEnum = type;
-            GetPoint = p;
-            IsOpen = p.FloorLevel == 0;
-            _connectedTo = new List<Node>();
-            _connectedFrom = new List<Node>();
-        }
-  
-        [SerializeField] bool _isOpen;
-        [SerializeField] NodeStates _nodeState;
-        [SerializeField] NodeType _nodeType;
-        [SerializeField] List<Node> _connectedTo;
-        [SerializeField] List<Node> _connectedFrom;
-        Point _point;
-        public Vector2 position;
-
-        public List<Node> ConnectTo => _connectedTo;
-        public List<Node> ConnectFrom => _connectedFrom;
-        public Point GetPoint { get => _point; private set => _point = value; }
-        public bool IsOpen { get => _isOpen;private set => _isOpen = value; }
-        public NodeStates NodeState => _nodeState;
-        public NodeType NodeTypeEnum { get => _nodeType;private set => _nodeType = value; }
-
-        public void SetState(NodeStates state) { _nodeState = state; IsOpen = state == NodeStates.Attainable; }
-    }
-
-    public class Point
-    {
-        public Point(int FloorLevel, int Index)
-        {
-            this.Index = Index;
-            this.FloorLevel = FloorLevel;
-        }
-        public int FloorLevel;
-        public int Index;
     }
 
     public enum NodeStates

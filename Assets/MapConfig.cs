@@ -1,7 +1,7 @@
-﻿using Map;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
-namespace UI.Map
+namespace Map
 {
     [CreateAssetMenu(fileName = "Map Config", menuName = "ScriptableObjects/Map/Map Config")]
     public class MapConfig : ScriptableObject
@@ -9,6 +9,7 @@ namespace UI.Map
         [SerializeField]
         NodePointAbstSO[] _nodesSO;
 
+        public int GridWidth => Mathf.Max(_maxNumOfPreBossNodes, _maxNumOfStartingNodes);
 
         [SerializeField] int _minNumOfPreBossNodes;
         [SerializeField] int _maxNumOfPreBossNodes;
@@ -53,7 +54,9 @@ namespace UI.Map
         private float _nodesApartDistance;
 
         [Tooltip("If this is set to 0, nodes on this layer will appear in a straight line. Closer to 1f = more position randomization")]
-        [Range(0f, 1f)] private float _randomizePosition;
+        [Range(0f, 1f)] 
+        [SerializeField]
+        private float _randomizePosition;
 
 
         [Space]
@@ -62,12 +65,6 @@ namespace UI.Map
         [Range(0, 1)]
         [SerializeField] float _randomizeNode;
 
-        [Space]
-        [Range(1, 4)]
-        [SerializeField] int _minAmountOfNodes = 1;
-        [Range(1, 4)]
-        [SerializeField] int _maxAmountOfNodes = 4;
-        public int RandomAmountOfPoints => Random.Range(_minAmountOfNodes, _maxAmountOfNodes+1);
         public NodeType MainlyNode => _mainlyNode; 
         public float MinDistanceFromPreviousLayer  => _minDistanceFromPreviousLayer; 
         public float MaxDistanceFromPreviousLayer  => _maxDistanceFromPreviousLayer; 
