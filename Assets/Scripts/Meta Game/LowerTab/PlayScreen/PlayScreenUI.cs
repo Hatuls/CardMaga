@@ -1,4 +1,5 @@
-﻿using Meta.Resources;
+﻿using Account.GeneralData;
+using Meta.Resources;
 using UnityEngine;
 
 namespace UI.Meta.PlayScreen
@@ -24,14 +25,16 @@ namespace UI.Meta.PlayScreen
         #endregion
         #region Fields
         [SerializeField]
-        ChooseDeckScreen _chooseDeckScreen = new ChooseDeckScreen();
+        ChooseDeckScreen _chooseDeckScreen;
         [SerializeField]
         ChooseCharacterScreen _chooseCharacterScreen;
         [SerializeField]
         GameObject _backgroundPanel;
+        PlayPackage _playpackage = new PlayPackage();
         #endregion
         #region Properties
-        public ChooseDeckScreen ChooseLoadOutScreen => _chooseDeckScreen;
+        public ChooseDeckScreen ChooseDeckScreen => _chooseDeckScreen;
+        public PlayPackage playPackage => _playpackage;
         #endregion
         #region Public Methods
         public void OpenPlayScreen()
@@ -42,6 +45,7 @@ namespace UI.Meta.PlayScreen
         {
             _chooseCharacterScreen.ResetCharacterScreen();
             _chooseDeckScreen.ResetChooseDeckScreen();
+            _chooseDeckScreen.ResetShowCardsScreen();
             BGPanelSetActiveState(false);
         }
         public void OnPlayClicked()
@@ -58,6 +62,25 @@ namespace UI.Meta.PlayScreen
         public void BGPanelSetActiveState(bool isOn)
         {
             _backgroundPanel.SetActive(isOn);
+        }
+        public void CharacterChoosen(CharacterData character)
+        {
+            _playpackage.CharacterData = character;
+
+            ResetPlayScreen();
+            ChooseDeckScreen.InitChooseDeckScreen();
+        }
+        public void DeckChoosen(AccountDeck deck)
+        {
+            _playpackage.Deck = deck;
+
+            ResetPlayScreen();
+            ChooseDeckScreen.DeckStats(deck);
+        }
+        public void ConfirmPlayPackage()
+        {
+            ResetPlayScreen();
+            _playpackage.SendPackage();
         }
         #endregion
     }

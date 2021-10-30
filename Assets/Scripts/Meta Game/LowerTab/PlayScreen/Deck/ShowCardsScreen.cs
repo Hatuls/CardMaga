@@ -7,35 +7,43 @@ namespace UI.Meta.PlayScreen
     public class ShowCardsScreen: MonoBehaviour
     {
         #region Fields
-
-
-        GameObject _chooseDecksPanel;
         [SerializeField]
         TextMeshProUGUI _title;
-        DeckUI[] _decksUI;
+        [SerializeField]
+        CardUIRow[] _cards;
         #endregion
 
         #region Public Methods
-        public void Init(CharacterData characterData)
+        public void Init(AccountDeck deck)
         {
-            _chooseDecksPanel.gameObject.SetActive(true);
-        }
-        public void EnableDecksPanel(bool toEnable)
-        {
+            gameObject.SetActive(true);
 
-        }
-        public void EnableCardsPanel(bool toEnable)
-        {
+            ResetCardsShown();
 
+            ShowCards(deck);
+            _title.text = deck.DeckName;
         }
-        public void EnableDeckScreenPanel(bool toEnable)
+        public void ResetShowCardsScreen()
         {
-
+            ResetCardsShown();
+            gameObject.SetActive(false);
         }
-        public void ConfirmDeck(bool toConfirm)
+        private void ResetCardsShown()
         {
-            
+            for (int i = 0; i < _cards.Length; i++)
+            {
+                _cards[i].gameObject.SetActive(false);
+            }
         }
         #endregion
+        private void ShowCards(AccountDeck deck)
+        {
+            var factoryCardCollection = Factory.GameFactory.Instance.CardFactoryHandler.CardCollection;
+            for (int i = 0; i < deck.Cards.Length; i++)
+            {
+                _cards[i].gameObject.SetActive(true);
+                _cards[i].Init(factoryCardCollection.GetCard(deck.Cards[i].CardID), deck.Cards[i].Level);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using Account.GeneralData;
 
 namespace UI.Meta.PlayScreen
 {
@@ -11,7 +12,7 @@ namespace UI.Meta.PlayScreen
         ComboRowUI[] _comboUI;
         #endregion
         #region Public Method
-        public void Init()
+        public void Init(CharacterData character)
         {
 
         }

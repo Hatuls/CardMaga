@@ -54,9 +54,9 @@ namespace UI.Meta.PlayScreen
         }
         public void Selected()
         {
-            PlayScreenUI playScreenUI = PlayScreenUI.Instance;
-            playScreenUI.ResetPlayScreen();
-            playScreenUI.ChooseLoadOutScreen.InitLoadOutScreen(_characterData);
+            PlayScreenUI.Instance.CharacterChoosen(_characterData);
+            
+
         }
         #endregion
     }

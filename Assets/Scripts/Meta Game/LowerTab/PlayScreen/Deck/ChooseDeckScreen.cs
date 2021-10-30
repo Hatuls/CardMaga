@@ -16,36 +16,36 @@ namespace UI.Meta.PlayScreen
         [SerializeField]
         ShowComboScreen _showComboScreen;
         [SerializeField]
-        DeckUI[] _avilableDecks;
+        DeckUI[] _availableDecks;
         CharacterData _currentCharacter;
 
         #endregion
         #region Public Methods
-        public void InitLoadOutScreen(CharacterData characterData)
+        public void InitChooseDeckScreen()
         {
+            PlayScreenUI playScreenUI = PlayScreenUI.Instance;
             Debug.Log("Initializing Choose Deck Panel");
             ResetChooseDeckScreen();
             ChooseDeckSetActiveState(true);
-            PlayScreenUI.Instance.BGPanelSetActiveState(true);
-            InitDecksData(characterData);
-
+            playScreenUI.BGPanelSetActiveState(true);
+            InitDecksData(playScreenUI.playPackage.CharacterData);
         }
         public void TransitionToScreen(ChooseDeckScreenUIEnum chooseDeckScreenUIEnum)
-        {
-
-        }
-        public void SelectDeck()
         {
 
         }
         public void ResetChooseDeckScreen()
         {
             Debug.Log("Reseting Choose Deck Screen");
-            for (int i = 0; i < _avilableDecks.Length; i++)
+            for (int i = 0; i < _availableDecks.Length; i++)
             {
-                _avilableDecks[i].gameObject.SetActive(false);
+                _availableDecks[i].gameObject.SetActive(false);
             }
             ChooseDeckSetActiveState(false);
+        }
+        public void ResetShowCardsScreen()
+        {
+            _showCardsScreen.ResetShowCardsScreen();
         }
         public void ChooseDeckSetActiveState(bool toState)
         {
@@ -54,14 +54,22 @@ namespace UI.Meta.PlayScreen
         private void InitDecksData(CharacterData characterData)
         {
             Debug.Log("Initializing Decks Data");
-            _avilableDecks = new DeckUI[characterData.Decks.Length];
             for (int i = 0; i < characterData.Decks.Length; i++)
             {
                 AccountDeck deck = characterData.Decks[i];
                 ushort firstCardID = deck.Cards[0].CardID;
                 Cards.CardSO firstCard =  Factory.GameFactory.Instance.CardFactoryHandler.CardCollection.GetCard(firstCardID);
-                _avilableDecks[i].init(firstCard.CardSprite,deck.DeckName);
+                _availableDecks[i].gameObject.SetActive(true);
+                _availableDecks[i].Init(firstCard.CardSprite,deck);
             }
+        }
+        public void DeckStats(AccountDeck deck)
+        {
+            _showCardsScreen.Init(deck);
+        }
+        public void ShowComboCards(CharacterData character)
+        {
+            _showComboScreen.Init(character);
         }
         #endregion
     }

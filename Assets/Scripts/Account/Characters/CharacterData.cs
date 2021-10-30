@@ -1,5 +1,6 @@
 ﻿using Characters.Stats;
 using System;
+using UI.Meta.PlayScreen;
 using UnityEngine;
 namespace Account.GeneralData
 {
@@ -18,9 +19,10 @@ namespace Account.GeneralData
         CombosAccountInfo[] _characterCombos;
 
         byte _unlockAtLevel;
-    #endregion
+        internal DeckUI[] _avilableDecks;
+        #endregion
 
-    #region Properties
+        #region Properties
         public CharacterEnum CharacterEnum => _characterEnum;
         public CharacterStats Stats => _stats;
         public AccountDeck[] Decks => _decks;
@@ -33,17 +35,16 @@ namespace Account.GeneralData
         {
 
             _decks = new AccountDeck[deckAmount];
-            CardAccountInfo[] tempCard = new CardAccountInfo[characterSO.Deck.Length];
+            CardAccountInfo[] tempCards = new CardAccountInfo[characterSO.Deck.Length];
             for (int i = 0; i < characterSO.Deck.Length; i++)
             {
-                tempCard[i] = new CardAccountInfo(characterSO.Deck[i].Card.ID, Factory.GameFactory.CardFactory.GetInstanceID, characterSO.Deck[i].Level);
+                tempCards[i] = new CardAccountInfo(characterSO.Deck[i].Card.ID, Factory.GameFactory.CardFactory.GetInstanceID, characterSO.Deck[i].Level);
             }
 
 
-            AccountDeck tempDeck = new AccountDeck(tempCard);
             for (int i = 0; i < deckAmount; i++)
             {
-                Decks[i] = tempDeck;
+                Decks[i] = new AccountDeck(tempCards);
                 Decks[i].DeckName = $"Basic Deck {i}";
             }
         }
