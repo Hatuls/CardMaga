@@ -48,10 +48,14 @@ namespace UI.Map
         [SerializeField] float _maxDistanceFromPreviousLayer;
         [Space]
 
-        [Range(0, 1)]
-        [SerializeField] float _randomizeXMinPosition;
-        [Range(0, 1)]
-        [SerializeField] float _randomizeXMaxPosition;
+        [Tooltip("Distance between the nodes on this layer")]
+        [SerializeField]
+        private float _nodesApartDistance;
+
+        [Tooltip("If this is set to 0, nodes on this layer will appear in a straight line. Closer to 1f = more position randomization")]
+        [Range(0f, 1f)] private float _randomizePosition;
+
+
         [Space]
         [Header("Node Randomization:")]
         [Tooltip("0 - mean it always be the mainlyNode")]
@@ -64,10 +68,14 @@ namespace UI.Map
         [Range(1, 4)]
         [SerializeField] int _maxAmountOfNodes = 4;
         public int RandomAmountOfPoints => Random.Range(_minAmountOfNodes, _maxAmountOfNodes+1);
-        public NodeType MainlyNode { get => _mainlyNode; }
-        public float MinDistanceFromPreviousLayer { get => _minDistanceFromPreviousLayer; }
-        public float MaxDistanceFromPreviousLayer { get => _maxDistanceFromPreviousLayer; }
-        public float RandomizeNode { get => _randomizeNode; }
-        public float RandomizeXPosition { get => Random.Range(-_randomizeXMinPosition,_randomizeXMaxPosition); }
+        public NodeType MainlyNode => _mainlyNode; 
+        public float MinDistanceFromPreviousLayer  => _minDistanceFromPreviousLayer; 
+        public float MaxDistanceFromPreviousLayer  => _maxDistanceFromPreviousLayer; 
+
+        public float RandomizeDistanceFromPreviousLayer => Random.Range(_minDistanceFromPreviousLayer, _maxDistanceFromPreviousLayer);
+        public float RandomizeNode  => _randomizeNode; 
+        public float NodesApartDistance  => _nodesApartDistance; 
+        public float RandomizePosition => _randomizePosition;
+
     }
 }

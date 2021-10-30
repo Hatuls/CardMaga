@@ -11,29 +11,32 @@ namespace UI.Map
         private static MapManager _instance;
         public static MapManager Instance => _instance;
         //   [SerializeField]  EventPointCollectionSO _eventPointCollection;
-        [SerializeField] NodeMap[] _points;
-        [SerializeField] NodeMap _currentPoint;
+
+        Map _currentMap;
+
+
         [SerializeField]
         MapView _mapView;
 
         [SerializeField]
         MapConfig _mapCFG;
+
         [Sirenix.OdinInspector.Button()]
-        public void GenerateMap() => _mapView.GenerateMap(_mapCFG);
-
-
-        public void MapPointSelected(NodeMap selectedPoint, Node node)
+        public void GenerateMap() => GenerateMap(_mapCFG);
+        public void GenerateMap(MapConfig mapConfig)
         {
-            _currentPoint = selectedPoint;
-            var eventPoint = Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(node.NodeTypeEnum);
-            eventPoint.ActivatePoint();
+            _currentMap = MapGenerator.GetMap(mapConfig);
+            _mapView.ShowMap(_currentMap);
 
         }
 
-        public void CompleteBattle()
+        public void SaveMap()
         {
-            for (int i = 0; i < _points.Length; i++)
-                _points[i].PointLockState(false);
+            if (_currentMap == null) return;
+
+            var json = JsonUtilityHandler.ConvertObjectToJson(_currentMap);
+            PlayerPrefs.SetString("Map", json);
+            PlayerPrefs.Save();
         }
     }
 
@@ -41,7 +44,19 @@ namespace UI.Map
 
     public class Map
     {
- 
+        public List<Node> nodes; // template of the map (the whole map nodes)
 
+        public List<Point> path; // players path
+
+        public string configName;
+        public Map(string configName,List<Node> nodes, List<Point> path)
+        {
+            this.configName = configName;
+            this.nodes = nodes;
+            this.path = path;
+        }
+
+        public string ToJson()
+        =>  Rei.Utilities.JsonUtilityConverter.ConvertToJson(this);
     }
 }
