@@ -80,6 +80,9 @@ namespace UI.Meta.PlayScreen
         public void ConfirmPlayPackage()
         {
             ResetPlayScreen();
+
+            EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
+            energyHandler.ReduceAmount(5);
             _playpackage.SendPackage();
         }
         #endregion

@@ -18,6 +18,7 @@ namespace UI.Meta.PlayScreen
 
         public void SendPackage()
         {
+            Debug.Log($"Sending Package of Character {CharacterData.CharacterEnum} with the Chosen Deck {Deck.DeckName}");
             Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(_characterData, _deck);
         }
     }
