@@ -4,7 +4,7 @@ using Account.GeneralData;
 
 namespace UI.Meta.PlayScreen
 {
-    public class ShowDeckScreen: MonoBehaviour
+    public class ShowCardsScreen: MonoBehaviour
     {
         #region Fields
 
@@ -29,10 +29,6 @@ namespace UI.Meta.PlayScreen
 
         }
         public void EnableDeckScreenPanel(bool toEnable)
-        {
-
-        }
-        public void SelectDeckUI(int index)
         {
 
         }
