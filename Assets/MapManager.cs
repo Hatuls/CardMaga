@@ -26,8 +26,8 @@ namespace UI.Map
         {
             _currentPoint = selectedPoint;
             var eventPoint = Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(node.NodeTypeEnum);
-
             eventPoint.ActivatePoint();
+
         }
 
         public void CompleteBattle()

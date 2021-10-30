@@ -32,11 +32,11 @@ namespace Map
 
         public void PointSelected()
         {
-            //if (_node.IsOpen)
-            //{
-            //    Debug.Log($"Point Was Selected:\nFloor: {_node.FloorLevel}\nEvent is: {_node.EventPointType}");
-            //    MapManager.Instance.MapPointSelected(this, _node);
-            //}
+            if (NodeData.IsOpen)
+            {
+                Debug.Log($"Point Was Selected:\nFloor: {NodeData.FloorLevel}\nEvent is: {NodeData.NodeTypeEnum}");
+                MapManager.Instance.MapPointSelected(this, NodeData);
+            }
         }
         public void PointLockState(bool state)
         {
@@ -85,14 +85,15 @@ namespace Map
             NodeTypeEnum = type;
             _floorLevel = floorLevel;
             IsOpen = _floorLevel == 0;
-     
+            _connectedTo = new List<Node>();
+            _connectedFrom = new List<Node>();
         }
         [SerializeField] byte _floorLevel;
         [SerializeField] bool _isOpen;
         [SerializeField] NodeStates _nodeState;
         [SerializeField] NodeType _nodeType;
-        [SerializeField] List<Node> _connectedTo = new List<Node>();
-        [SerializeField] List<Node> _connectedFrom = new List<Node>();
+        [SerializeField] List<Node> _connectedTo;
+        [SerializeField] List<Node> _connectedFrom;
 
 
 

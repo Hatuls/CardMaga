@@ -71,13 +71,26 @@ namespace UI.Map
                     Node currentNode = currentFloorNode[j];
 
                     int goToIndex = j;
+                    bool legalIndex;
                     do
                     {
                         goToIndex = RandomIndexToGoTo() + j;
+         
+                        legalIndex = IsIndexLegal(goToIndex, floorAbove);
 
-                    } while (!IsIndexLegal(goToIndex,floorAbove) && !currentNode.ConnectTo.Contains(floorAbove[goToIndex]));
+                        if (legalIndex == false&& currentFloorNode.Count > floorAbove.Count)
+                        {
+                            goToIndex = floorAbove.Count - 1;
+                            legalIndex = true;
+                        }
+                    } while (!legalIndex); //|| currentNode.ConnectTo.Contains(floorAbove[goToIndex]));
 
-                    currentNode.ConnectTo.Add(floorAbove[goToIndex]);
+
+                    Debug.Log("@ " + goToIndex);
+                    if (currentNode.ConnectTo.Contains(floorAbove[goToIndex]) == false)
+                        currentNode.ConnectTo.Add(floorAbove[goToIndex]);
+
+                    if (floorAbove[goToIndex].ConnectFrom.Contains(currentNode) == false)
                     floorAbove[goToIndex].ConnectFrom.Add(currentNode);
 
 
@@ -87,10 +100,24 @@ namespace UI.Map
                         do
                         {
                             goToIndex = RandomIndexToGoTo() + j;
+                            legalIndex = IsIndexLegal(goToIndex, _layerNodeUnderMe);
+                    
 
-                        } while (!IsIndexLegal(goToIndex, _layerNodeUnderMe) && !currentNode.ConnectTo.Contains(_layerNodeUnderMe[goToIndex]));
+                            if (legalIndex == false && currentFloorNode.Count > _layerNodeUnderMe.Count)
+                            {
+                                goToIndex = _layerNodeUnderMe.Count - 1;
+                                legalIndex = IsIndexLegal(goToIndex, _layerNodeUnderMe);
+                            }
 
+                        Debug.Log("! " + goToIndex);
+
+                        } while (!legalIndex);// currentNode.ConnectTo.Contains(_layerNodeUnderMe[goToIndex]));
+
+                        Debug.Log("! " + goToIndex);
+                        if (currentNode.ConnectFrom.Contains(_layerNodeUnderMe[goToIndex]) == false)
                         currentNode.ConnectFrom.Add(_layerNodeUnderMe[goToIndex]);
+
+                        if (_layerNodeUnderMe[goToIndex].ConnectTo.Contains(currentNode) == false)
                         _layerNodeUnderMe[goToIndex].ConnectTo.Add(currentNode);
                     }
 
@@ -98,14 +125,14 @@ namespace UI.Map
             }
 
 
-            currentFloorNode = _layersNodeList[_layersNodeList.Count - 2];
-            floorAbove = _layersNodeList[_layersNodeList.Count - 1];
-
-            for (int i = 0; i < currentFloorNode.Count; i++)
-            {
-                currentFloorNode[i].ConnectTo.Add(floorAbove[0]);
-                floorAbove[0].ConnectFrom.Add(currentFloorNode[i]);
-            }
+            //currentFloorNode = _layersNodeList[_layersNodeList.Count - 2];
+            //floorAbove = _layersNodeList[_layersNodeList.Count - 1];
+            //var bossNode = floorAbove[0];
+            //for (int i = 0; i < currentFloorNode.Count; i++)
+            //{
+            //    currentFloorNode[i].ConnectTo.Add(floorAbove[0]);
+            //    bossNode.ConnectFrom.Add(currentFloorNode[i]);
+            //}
 
 
             bool IsIndexLegal(int index, List<Node> a) => index >= 0 && index < a.Count;
