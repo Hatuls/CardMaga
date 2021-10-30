@@ -41,7 +41,7 @@ namespace UI.Meta.PlayScreen
         public void ResetPlayScreen()
         {
             _chooseCharacterScreen.ChooseCharacterSetActiveState(false);
-            _chooseDeckScreen.RestLoadOutScreen();
+            _chooseDeckScreen.ResetChooseDeckScreen();
             BGPanelSetActiveState(false);
         }
         public void OnPlayClicked()
