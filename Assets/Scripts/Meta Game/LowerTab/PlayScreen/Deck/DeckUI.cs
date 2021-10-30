@@ -9,14 +9,17 @@ namespace UI.Meta.PlayScreen
     public class DeckUI: MonoBehaviour
     {
         #region Field
-        Image _img;
-        TextMeshProUGUI _title;
+        [SerializeField]
+        Image _image;
+        [SerializeField]
+        TextMeshProUGUI _deckName;
         #endregion
 
         #region Public Method
-        public void init()
+        public void init(Sprite firsCardSprite, string deckName)
         {
-
+            _image.sprite = firsCardSprite;
+            _deckName.text = deckName;
         }
         #endregion
     }

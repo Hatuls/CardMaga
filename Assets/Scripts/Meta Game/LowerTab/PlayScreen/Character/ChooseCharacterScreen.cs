@@ -39,8 +39,26 @@ namespace UI.Meta.PlayScreen
         public void Init()
         {
             Debug.Log("InitingCharacterPanel");
-            ChooseCharacterSetActiveState(true);
             ResetCharacterScreen();
+            ChooseCharacterSetActiveState(true);
+            InitCharactersData();
+        }
+        public void ChooseCharacterSetActiveState(bool toState)
+        {
+            _chooseCharacterPanel.SetActive(toState);
+        }
+        #endregion
+        public void ResetCharacterScreen()
+        {
+            Debug.Log("ResetingCharacterScreen");
+            for (int i = 0; i < _characters.Length; i++)
+            {
+                _characters[i].gameObject.SetActive(false);
+            }
+            ChooseCharacterSetActiveState(false);
+        }
+        private void InitCharactersData()
+        {
             byte playerLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
             if (playerLevel <= 0)
             {
@@ -51,20 +69,7 @@ namespace UI.Meta.PlayScreen
             for (int i = 0; i < characters.Length; i++)
             {
                 CharacterData characterData = new CharacterData(characters[i].CharacterEnum);
-                _characters[i].Init(characterData,playerLevel,characters[i]);
-            }
-        }
-        public void ChooseCharacterSetActiveState(bool toState)
-        {
-            _chooseCharacterPanel.SetActive(toState);
-        }
-        #endregion
-        private void ResetCharacterScreen()
-        {
-            Debug.Log("ResetingCharacterScreen");
-            for (int i = 0; i < _characters.Length; i++)
-            {
-                _characters[i].gameObject.SetActive(false);
+                _characters[i].Init(characterData, playerLevel, characters[i]);
             }
         }
     }
