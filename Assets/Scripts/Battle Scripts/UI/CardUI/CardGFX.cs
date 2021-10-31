@@ -198,25 +198,27 @@ namespace Battles.UI.CardUIAttributes
         private void SetCardColors(CardTypeEnum cardType)
         {
             // Body Part:
-            Color clr = ArtSettings.CardTypePalette.GetDecorationColorFromEnum(cardType);
+            var artso = Factory.GameFactory.Instance.ArtBlackBoard;
+            var arttypePalleta = artso.GetPallette<CardTypePalette>();
+            Color clr = arttypePalleta.GetDecorationColorFromEnum(cardType);
             _bodyPartDecor.color = clr;
-            _bodyPartBackground.color = ArtSettings.CardTypePalette.GetBackgroundColorFromEnum(cardType);
-            _bodyPartIcon.color = ArtSettings.CardTypePalette.GetIconBodyPartColorFromEnum(cardType);
+            _bodyPartBackground.color = arttypePalleta.GetBackgroundColorFromEnum(cardType);
+            _bodyPartIcon.color = arttypePalleta.GetIconBodyPartColorFromEnum(cardType);
 
-
+            var carduiPalete = artso.GetPallette<CardUIPalette>();
             // Stamina Part:
-            _staminaBackground.color = ArtSettings.CardUIPalette.StaminaBackgroundColor;
-            _staminaDecor.color = ArtSettings.CardUIPalette.StaminaDecorateColor;
-            _staminaText.color = ArtSettings.CardUIPalette.StaminaTextColor;
+            _staminaBackground.color = carduiPalete.StaminaBackgroundColor;
+            _staminaDecor.color = carduiPalete.StaminaDecorateColor;
+            _staminaText.color = carduiPalete.StaminaTextColor;
 
             //Background Image
             _cardDecor.color = clr;
-            _cardBackGroundImg.color = ArtSettings.CardUIPalette.CardDefaultBackgroundColor;
+            _cardBackGroundImg.color = carduiPalete.CardDefaultBackgroundColor;
 
 
             // Description
-            _descriptionTxt.color = ArtSettings.CardUIPalette.CardInformationDescriptionTextColor;
-            _titleText.color = ArtSettings.CardUIPalette.CardInformationTitleTextColor;
+            _descriptionTxt.color = carduiPalete.CardInformationDescriptionTextColor;
+            _titleText.color = carduiPalete.CardInformationTitleTextColor;
 
 
 

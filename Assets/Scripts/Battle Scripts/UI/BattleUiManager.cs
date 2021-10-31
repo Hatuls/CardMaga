@@ -72,7 +72,7 @@ namespace Battles.UI
         }
 
 
-        public void UpdateUiStats(bool isPlayer,int Amount, KeywordTypeEnum actionTypeEnum)
+        public void UpdateUiStats(bool isPlayer, int Amount, KeywordTypeEnum actionTypeEnum)
         {
             switch (actionTypeEnum)
             {

@@ -51,9 +51,14 @@ namespace Map
             Locked = lockAfterSelecting;
             mapManager.CurrentMap.path.Add(mapNode.NodeData.point);
             mapManager.SaveMap();
-           view.SetAttainableNodes();
+  
             //    view.SetLineColors();
             EnterNode(mapNode);
+        }
+
+        private void Start()
+        {
+            view.SetAttainableNodes();
         }
 
         private static void EnterNode(NodeMap mapNode)
@@ -63,26 +68,30 @@ namespace Map
             // load appropriate scene with context based on nodeType:
             // or show appropriate GUI over the map: 
             // if you choose to show GUI in some of these cases, do not forget to set "Locked" in MapPlayerTracker back to false
-            switch (mapNode.NodeData.NodeTypeEnum)
-            {
+
+
+            Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(mapNode.NodeData.NodeTypeEnum).ActivatePoint();
+
+            //switch (mapNode.NodeData.NodeTypeEnum)
+            //{
            
-                case NodeType.Basic_Enemy:
-                    break;
-                case NodeType.Elite_Enemy:
-                    break;
-                case NodeType.Chest:
-                    break;
-                case NodeType.QuestionMark:
-                    break;
-                case NodeType.Rest_Area:
-                    break;
-                case NodeType.Dojo:
-                    break;
-                case NodeType.Boss_Enemy:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            //    case NodeType.Basic_Enemy:
+            //        break;
+            //    case NodeType.Elite_Enemy:
+            //        break;
+            //    case NodeType.Chest:
+            //        break;
+            //    case NodeType.QuestionMark:
+            //        break;
+            //    case NodeType.Rest_Area:
+            //        break;
+            //    case NodeType.Dojo:
+            //        break;
+            //    case NodeType.Boss_Enemy:
+            //        break;
+            //    default:
+            //        throw new ArgumentOutOfRangeException();
+            //}
 
         }
 

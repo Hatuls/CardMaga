@@ -3,7 +3,7 @@ namespace Characters.Stats
 {
     public class CoinStat : StatAbst
     {
-        public CoinStat(bool isPlayer,  int amount) : base(isPlayer,  amount)
+        public CoinStat(bool isPlayer, int amount) : base(isPlayer,  amount)
         {
         }
 
@@ -11,8 +11,9 @@ namespace Characters.Stats
         public override void Reduce(int amount)
         {
             if (Amount - amount < 0)
-                throw new System.Exception("Not Enough Coins to Reduce!");
-            base.Reduce(amount);
+                Amount = 0;
+            else
+                base.Reduce(amount);
         }
     }
 

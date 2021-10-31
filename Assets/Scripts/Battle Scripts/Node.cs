@@ -22,8 +22,8 @@ namespace Map
         [SerializeField] public Vector2 position;
 
         public Point point { get => _point; set => _point = value; }
-        public readonly List<Point> incoming = new List<Point>();
-        public readonly List<Point> outgoing = new List<Point>();
+        public  List<Point> incoming = new List<Point>();
+        public  List<Point> outgoing = new List<Point>();
         public void AddIncoming(Point p)
         {
             if (incoming.Any(element => element.Equals(p)))

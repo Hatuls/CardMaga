@@ -85,7 +85,7 @@ namespace Battles.Turns
 
         internal static void CheckPlayerTurnForAvailableAction()
         {
-            if (CurrentState != TurnState.PlayerTurn)
+            if (CurrentState != TurnState.PlayerTurn && BattleManager.isGameEnded == false)
                 return;
 
             bool noMoreActionAvailable = StaminaHandler.Instance.PlayerStamina.HasStamina == false;

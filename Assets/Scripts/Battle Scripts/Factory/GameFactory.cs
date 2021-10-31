@@ -26,9 +26,9 @@ namespace Factory
                     CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
                     BattleRewardCollectionSO battleRewardsCollection = Resources.Load<BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
                     EventPointCollectionSO eventPointCollection  = Resources.Load<EventPointCollectionSO>("Collection SO/EventPointCollection");
+                    Art.ArtSO _art = Resources.Load<Art.ArtSO>("Art/AllPalette/ART BLACKBOARD");
 
-
-                    _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, battleRewardsCollection, eventPointCollection);
+                    _instance = new GameFactory(_art,cardCollections, recipeCollection, characterCollection, battleRewardsCollection, eventPointCollection);
                 }
                 return _instance;
             }
@@ -38,12 +38,16 @@ namespace Factory
         public CharacterFactory CharacterFactoryHandler { get; private set; }
         public RewardFactory RewardFactoryHandler { get; private set; }
         public EventPointFactory EventPointFactoryHandler { get; private set; }
-        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards , EventPointCollectionSO eventPoints)
+
+        public Art.ArtSO ArtBlackBoard { get; private set; }
+
+
+        public GameFactory(Art.ArtSO art,CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards , EventPointCollectionSO eventPoints)
         {
             if (cards == null || comboCollectionSO == null || characters == null || rewards == null|| eventPoints == null)
                 throw new Exception("Collections is null!!");
 
-
+            ArtBlackBoard = art;
             CardFactoryHandler = new CardFactory(cards);
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
@@ -93,6 +97,18 @@ namespace Factory
             internal CharacterSO GetCharacterSO(CharacterEnum characterEnum)
              => CharacterCollection.GetCharacterSO(characterEnum);
 
+            public CharacterSO GetRandomCharacterSO(CharacterTypeEnum character)
+            {
+                var collection = CharacterCollection.GetCharactersSO(character);
+                int collecitonLength = collection.Length;
+
+                if (collecitonLength == 0)
+                    throw new Exception($"CharacterFactory: Couldnt find any characterSO from the character collection based on the CharacterTypeEnum : {character}");
+
+                return collection[UnityEngine.Random.Range(0, collecitonLength)];
+            }
+
+            public Character CreateCharacter(CharacterSO characterSO) => new Character(characterSO);
             public Character CreateCharacter(CharacterData data, AccountDeck _deck)
                 => new Character( data,  _deck);
             internal Character CreateCharacter(CharacterTypeEnum character)

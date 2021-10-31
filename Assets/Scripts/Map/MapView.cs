@@ -79,6 +79,8 @@ namespace Map
 
         public void SetAttainableNodes()
         {
+            if (_mapManager.CurrentMap == null)
+                return;
             // first set all the nodes as unattainable/locked:
             foreach (var node in _nodeMaps)
                 node.SetState(NodeStates.Locked);

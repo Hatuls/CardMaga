@@ -25,6 +25,8 @@ namespace Rewards.Battles
 
         [SerializeField] TextMeshProUGUI _moneyTxt;
         [SerializeField] TextMeshProUGUI _title;
+
+        [SerializeField] SceneLoaderCallback _sceneloaderEvent;
         public override void Init()
         {
             _rewardScreen.SetActive(false);
@@ -96,8 +98,8 @@ namespace Rewards.Battles
         public void ExitBattle()
         {
             // exit battle
-            LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.PreBattle);
-           // ResetRewardUI();
+            _sceneloaderEvent?.LoadScene((int)SceneHandler.ScenesEnum.PreBattle);
+
         }
     }
 }

@@ -73,20 +73,8 @@ namespace Battles
 
         public static void StartBattle()
         {
-            // Get enemy oponnent
-            // get Player stats and cards
-            // assign stats handler
-            // set keywords
-            // set relics
-            // reset decks
-            // reset turns
-
-            // turn handler start
-
-
             Instance.StopAllCoroutines();
             Instance._turnCycles = TurnHandler.TurnCycle();
-
 
             StartGameTurns();
             Instance.StartCoroutine(Instance.BackGroundSoundDelay());

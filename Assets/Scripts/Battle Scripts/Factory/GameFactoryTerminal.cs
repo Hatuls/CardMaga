@@ -9,8 +9,8 @@ namespace Factory
         [SerializeField] ComboCollectionSO _combos;
         [SerializeField] CharacterCollectionSO _characters;
         [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
-        [SerializeField]
-       EventPointCollectionSO _eventPoints;
+        [SerializeField] EventPointCollectionSO _eventPoints;
+        [SerializeField] Art.ArtSO _art;
         private void Awake()
         {
 
@@ -49,7 +49,14 @@ namespace Factory
                     throw new System.Exception("Event Point Collection Was Not Assigned!");
             }
 
-            GameFactory gameFactory = new GameFactory(_cards, _combos, _characters, _rewards, _eventPoints);
+            if (_art == null)
+            {
+                _art = Resources.Load<Art.ArtSO>("Art/AllPalette/ART BLACKBOARD");
+                if (_art == null)
+                    throw new System.Exception("ArtSO Was Not Assigned!");
+            }
+
+            GameFactory gameFactory = new GameFactory(_art, _cards, _combos, _characters, _rewards, _eventPoints);
             Destroy(this.gameObject);
         }
     }

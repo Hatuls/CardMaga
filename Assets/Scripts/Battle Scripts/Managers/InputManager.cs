@@ -25,7 +25,7 @@ public class InputManager :MonoBehaviour
        
         }
         else if (_instance != this)
-            Destroy(this);  
+            Destroy(this.gameObject);  
         
         DontDestroyOnLoad(this);
     }

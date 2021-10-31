@@ -3,6 +3,7 @@
     public static System.Action _OnFinishTurnPress;
 
     private static EndTurnButton _instance;
+
     private void Awake()
     {
         _instance = this;
@@ -22,8 +23,11 @@
 
     public static void FinishTurn()
     {
-        _instance._playSound?.Raise(SoundsNameEnum.EndTurn);
-        _OnFinishTurnPress?.Invoke();
-    }
+        if (Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn && Battles.BattleManager.isGameEnded == false)
+        {
 
+            _instance._playSound?.Raise(SoundsNameEnum.EndTurn);
+            _OnFinishTurnPress?.Invoke();
+        }
+    }
 }

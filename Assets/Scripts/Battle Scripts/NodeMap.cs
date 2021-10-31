@@ -49,7 +49,7 @@ namespace Map
         {
             NodeData = data;
             BluePrintNode = bluePrint;
-          //  _sr.sprite = bluePrint.Icon;
+            _sr.color = bluePrint.PointColor;
             _backgroundImg.color = data.IsOpen ? Color.black : Color.white;
 
             if (data.NodeTypeEnum == NodeType.Boss_Enemy) 
@@ -64,14 +64,14 @@ namespace Map
             switch (state)
             {
                 case NodeStates.Locked:
-                 
-                    _sr.color = MapView.Instance.lockedColor;
+
+                    _backgroundImg.color = MapView.Instance.lockedColor;
                     break;
                 case NodeStates.Visited:
-                    _sr.color = MapView.Instance.visitedColor;
+                    _backgroundImg.color = MapView.Instance.visitedColor;
                     break;
                 case NodeStates.Attainable:
-                    _sr.color = Color.green;
+                    _backgroundImg.color = Color.green;
                     break;
                 default:
                     break;

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 
 namespace Collections
 {
@@ -30,6 +30,11 @@ namespace Collections
 
             throw new Exception($"Could not find the character type: {type}\nin the character collections");
         }
+
+        public CharacterSO[] GetCharactersSO(CharacterTypeEnum type)
+        => _charactersSO.Where(character => character.CharacterType == type).ToArray();
+
+        
 
         internal CharacterSO GetCharacterSO(CharacterEnum characterEnum)
         {

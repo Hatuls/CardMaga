@@ -22,6 +22,10 @@ namespace Rewards.Battles
 
                 BattleUIRewardHandler.Instance.BattleReward = rewardBundle;
             }
+            else
+            {
+                BattleData.Player = null;
+            }
           
         }
 
@@ -40,7 +44,7 @@ namespace Rewards.Battles
 
             var player = BattleData.Player;
 
-            player.CharacterData.CharacterStats.Gold = playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Amount;
+            player.CharacterData.CharacterStats.Gold = (ushort)playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Amount;
 
             BattleData.Player =player;
         }
