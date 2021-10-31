@@ -16,12 +16,12 @@ namespace UI.Meta.PlayScreen
         #region Public Method
         public void Init(CharacterData character, Art.ArtSO artSO)
         {
+            _artSO = artSO;
             gameObject.SetActive(true);
 
             ResetCombosShown();
 
             ShowCombos(character);
-            _artSO = artSO;
         }
         public void ResetShowComboScreen()
         {
