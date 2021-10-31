@@ -1,5 +1,6 @@
 ﻿using Characters.Stats;
 using System;
+using UI.Meta.PlayScreen;
 using UnityEngine;
 namespace Account.GeneralData
 {
@@ -9,7 +10,7 @@ namespace Account.GeneralData
 
     #region Field
 
-        CharacterEnum _character;
+        CharacterEnum _characterEnum;
 
         CharacterStats _stats;
 
@@ -17,15 +18,16 @@ namespace Account.GeneralData
 
         CombosAccountInfo[] _characterCombos;
 
-        ushort _unlockAtLevel;
-    #endregion
+        byte _unlockAtLevel;
+        internal DeckUI[] _avilableDecks;
+        #endregion
 
-    #region Properties
-        public CharacterEnum Character => _character;
+        #region Properties
+        public CharacterEnum CharacterEnum => _characterEnum;
         public CharacterStats Stats => _stats;
         public AccountDeck[] Decks => _decks;
         public CombosAccountInfo[] CharacterCombos => _characterCombos;
-        public ushort UnlockAtLevel => _unlockAtLevel;
+        public byte UnlockAtLevel => _unlockAtLevel;
         #endregion
 
         #region PrivateMethods
@@ -33,17 +35,16 @@ namespace Account.GeneralData
         {
 
             _decks = new AccountDeck[deckAmount];
-            CardAccountInfo[] tempCard = new CardAccountInfo[characterSO.Deck.Length];
+            CardAccountInfo[] tempCards = new CardAccountInfo[characterSO.Deck.Length];
             for (int i = 0; i < characterSO.Deck.Length; i++)
             {
-                tempCard[i] = new CardAccountInfo(characterSO.Deck[i].Card.ID, Factory.GameFactory.CardFactory.GetInstanceID, characterSO.Deck[i].Level);
+                tempCards[i] = new CardAccountInfo(characterSO.Deck[i].Card.ID, Factory.GameFactory.CardFactory.GetInstanceID, characterSO.Deck[i].Level);
             }
 
 
-            AccountDeck tempDeck = new AccountDeck(tempCard);
             for (int i = 0; i < deckAmount; i++)
             {
-                Decks[i] = tempDeck;
+                Decks[i] = new AccountDeck(tempCards);
                 Decks[i].DeckName = $"Basic Deck {i}";
             }
         }
@@ -67,7 +68,7 @@ namespace Account.GeneralData
                 throw new Exception("CharacterData inserted an enemy instead of a player character");
             }
             var characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(characterEnum);
-            _character = characterEnum;
+            _characterEnum = characterEnum;
             _stats = characterSO.CharacterStats;
             _unlockAtLevel = characterSO.UnlockAtLevel;
             AssignDeck(characterSO, deckAmount);
@@ -78,7 +79,7 @@ namespace Account.GeneralData
             throw new NotImplementedException();
         }
         public void CharacterAccount(CharacterEnum character, CharacterStats stats, AccountDeck[] decks,
-            CombosAccountInfo[] combos, ushort unlocksAtLevel)
+            CombosAccountInfo[] combos, byte unlocksAtLevel)
         {
 
         }

@@ -1,4 +1,11 @@
 ﻿using UnityEngine;
+using Factory;
+using Battles;
+using Account.GeneralData;
+using Account;
+using System;
+
+
 
 namespace UI.Meta.PlayScreen
 {
@@ -23,34 +30,47 @@ namespace UI.Meta.PlayScreen
         #endregion
 
         #region Fields
-        CharacterDataUI _characters;
+        [SerializeField]
+        CharacterDataUI[] _characters;
         [SerializeField]
         GameObject _chooseCharacterPanel;
         #endregion
         #region Public Methods
         public void Init()
         {
-
+            Debug.Log("InitingCharacterPanel");
+            ResetCharacterScreen();
+            ChooseCharacterSetActiveState(true);
+            InitCharactersData();
         }
-        public void Selected(CharacterEnum characterEnum)
+        public void ChooseCharacterSetActiveState(bool toState)
         {
-            
-        }
-        public void ChooseCharacterSwitch()
-        {
-            if(_chooseCharacterPanel.activeSelf == true)
-            {
-                _chooseCharacterPanel.gameObject.SetActive(false);
-            }
-            else
-            {
-                _chooseCharacterPanel.gameObject.SetActive(true);
-            }
-        }
-        public void ResetCharacterScreen()
-        {
-
+            _chooseCharacterPanel.SetActive(toState);
         }
         #endregion
+        public void ResetCharacterScreen()
+        {
+            Debug.Log("ResetingCharacterScreen");
+            for (int i = 0; i < _characters.Length; i++)
+            {
+                _characters[i].gameObject.SetActive(false);
+            }
+            ChooseCharacterSetActiveState(false);
+        }
+        private void InitCharactersData()
+        {
+            byte playerLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
+            if (playerLevel <= 0)
+            {
+                throw new Exception("ChooseCharacterScreen playerLevel is not logical");
+            }
+
+            CharacterSO[] characters = GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(CharacterTypeEnum.Player);
+            for (int i = 0; i < characters.Length; i++)
+            {
+                CharacterData characterData = new CharacterData(characters[i].CharacterEnum);
+                _characters[i].Init(characterData, playerLevel, characters[i]);
+            }
+        }
     }
 }

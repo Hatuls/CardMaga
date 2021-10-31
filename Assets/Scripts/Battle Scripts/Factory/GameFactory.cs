@@ -97,6 +97,7 @@ namespace Factory
             internal CharacterSO GetCharacterSO(CharacterEnum characterEnum)
              => CharacterCollection.GetCharacterSO(characterEnum);
 
+
             public CharacterSO GetRandomCharacterSO(CharacterTypeEnum character)
             {
                 var collection = CharacterCollection.GetCharactersSO(character);
@@ -109,6 +110,26 @@ namespace Factory
             }
 
             public Character CreateCharacter(CharacterSO characterSO) => new Character(characterSO);
+
+            public CharacterSO[] GetCharactersSO(CharacterTypeEnum characterType)
+            {
+
+                List<CharacterSO> characterFound = new List<CharacterSO>();
+                CharacterSO[] characterSOs = CharacterCollection.CharactersSO; 
+                for (int i = 0; i < characterSOs.Length; i++)
+                {
+                    if(characterSOs[i].CharacterType == characterType)
+                    {
+                        characterFound.Add(characterSOs[i]);
+                    }
+                }
+                if(characterFound.Count == 0)
+                {
+                    throw new Exception($"GameFactory did not find a character from {characterType}");
+                }
+                return characterFound.ToArray();
+            }
+
             public Character CreateCharacter(CharacterData data, AccountDeck _deck)
                 => new Character( data,  _deck);
             internal Character CreateCharacter(CharacterTypeEnum character)
