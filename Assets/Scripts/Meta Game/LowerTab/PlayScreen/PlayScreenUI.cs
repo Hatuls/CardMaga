@@ -46,6 +46,7 @@ namespace UI.Meta.PlayScreen
             _chooseCharacterScreen.ResetCharacterScreen();
             _chooseDeckScreen.ResetChooseDeckScreen();
             _chooseDeckScreen.ResetShowCardsScreen();
+            _chooseDeckScreen.ResetShowComboScreen();
             BGPanelSetActiveState(false);
         }
         public void OnPlayClicked()
@@ -75,7 +76,7 @@ namespace UI.Meta.PlayScreen
             _playpackage.Deck = deck;
 
             ResetPlayScreen();
-            ChooseDeckScreen.DeckStats(deck);
+            ChooseDeckScreen.ShowDeckCards(deck);
         }
         public void ConfirmPlayPackage()
         {

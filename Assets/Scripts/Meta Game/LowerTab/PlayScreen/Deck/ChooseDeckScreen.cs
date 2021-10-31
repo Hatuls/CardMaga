@@ -30,9 +30,16 @@ namespace UI.Meta.PlayScreen
             playScreenUI.BGPanelSetActiveState(true);
             InitDecksData(playScreenUI.playPackage.CharacterData);
         }
-        public void TransitionToScreen(ChooseDeckScreenUIEnum chooseDeckScreenUIEnum)
+        public void TransitionToScreen(int screenID)
         {
-
+            if(screenID == 0)
+            {
+                ShowDeckCards(PlayScreenUI.Instance.playPackage.Deck);
+            }
+            else
+            {
+                ShowCombos(PlayScreenUI.Instance.playPackage.CharacterData);
+            }
         }
         public void ResetChooseDeckScreen()
         {
@@ -46,6 +53,10 @@ namespace UI.Meta.PlayScreen
         public void ResetShowCardsScreen()
         {
             _showCardsScreen.ResetShowCardsScreen();
+        }
+        public void ResetShowComboScreen()
+        {
+            _showComboScreen.ResetShowComboScreen();
         }
         public void ChooseDeckSetActiveState(bool toState)
         {
@@ -63,12 +74,16 @@ namespace UI.Meta.PlayScreen
                 _availableDecks[i].Init(firstCard.CardSprite,deck);
             }
         }
-        public void DeckStats(AccountDeck deck)
+        public void ShowDeckCards(AccountDeck deck)
         {
+            PlayScreenUI.Instance.BGPanelSetActiveState(true);
+            _showComboScreen.ResetShowComboScreen();
             _showCardsScreen.Init(deck);
         }
-        public void ShowComboCards(CharacterData character)
+        public void ShowCombos(CharacterData character)
         {
+            PlayScreenUI.Instance.BGPanelSetActiveState(true);
+            _showCardsScreen.ResetShowCardsScreen();
             _showComboScreen.Init(character);
         }
         #endregion

@@ -25,6 +25,12 @@ namespace UI.Meta.PlayScreen
             _bodyPartImage.color = _artSO.GetPallette<CardTypePalette>().GetIconBodyPartColorFromEnum(card.CardTypeEnum);
             _decorImage.color = _artSO.GetPallette<CardTypePalette>().GetDecorationColorFromEnum(card.CardTypeEnum);
         }
+        public void Init(CardTypeData cardTypeData)
+        {
+            _bodyPartImage.sprite = _artSO.IconCollection.GetSprite(cardTypeData.BodyPart);
+            _bodyPartImage.color = _artSO.GetPallette<CardTypePalette>().GetIconBodyPartColorFromEnum(cardTypeData.CardType);
+            _decorImage.color = _artSO.GetPallette<CardTypePalette>().GetDecorationColorFromEnum(cardTypeData.CardType);
+        }
         #endregion
     }
 }
