@@ -31,6 +31,9 @@ namespace UI.Meta.PlayScreen
         [SerializeField]
         GameObject _backgroundPanel;
         PlayPackage _playpackage = new PlayPackage();
+
+        [SerializeField]
+        SceneLoaderCallback _sceneLoad;
         #endregion
         #region Properties
         public ChooseDeckScreen ChooseDeckScreen => _chooseDeckScreen;
@@ -85,6 +88,7 @@ namespace UI.Meta.PlayScreen
             EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
             energyHandler.ReduceAmount(5);
             _playpackage.SendPackage();
+            _sceneLoad.LoadScene(1);
         }
         #endregion
     }
