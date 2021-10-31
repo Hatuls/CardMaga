@@ -11,7 +11,11 @@ namespace Map
 
         public override void ActivatePoint()
         {
-            throw new System.NotImplementedException();
+            var characterFactory = Factory.GameFactory.Instance.CharacterFactoryHandler;
+            var enemySO = characterFactory.GetRandomCharacterSO(Battles.CharacterTypeEnum.Elite_Enemy);
+            var enemy = characterFactory.CreateCharacter(enemySO);
+            SinglePlayerHandler.Instance.RegisterOpponent(enemy);
+            SinglePlayerHandler.Instance.Battle();
         }
     }
 }
