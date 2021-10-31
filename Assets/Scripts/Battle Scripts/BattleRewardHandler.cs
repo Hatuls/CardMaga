@@ -7,7 +7,7 @@ namespace Rewards.Battles
     public class BattleRewardHandler : MonoSingleton<BattleRewardHandler>
     {
 
-
+        [SerializeField] SceneLoaderCallback sceneLoader;
         public override void Init()
         {
          }
@@ -25,6 +25,7 @@ namespace Rewards.Battles
             else
             {
                 BattleData.Player = null;
+                sceneLoader.LoadScene(0);
             }
           
         }
