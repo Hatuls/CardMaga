@@ -18,12 +18,15 @@ namespace UI.Meta.PlayScreen
         ArtSO _artSO;
 
         #endregion
+
         #region Public Methods
+
         public void Init(CardSO card)
         {
+            var cardTypePalette = _artSO.GetPallette<CardTypePalette>();
             _bodyPartImage.sprite = _artSO.IconCollection.GetSprite(card.BodyPartEnum);
-            _bodyPartImage.color = _artSO.GetPallette<CardTypePalette>().GetIconBodyPartColorFromEnum(card.CardTypeEnum);
-            _decorImage.color = _artSO.GetPallette<CardTypePalette>().GetDecorationColorFromEnum(card.CardTypeEnum);
+            _bodyPartImage.color = cardTypePalette.GetIconBodyPartColorFromEnum(card.CardTypeEnum);
+            _decorImage.color = cardTypePalette.GetDecorationColorFromEnum(card.CardTypeEnum);
         }
         public void Init(CardTypeData cardTypeData)
         {
