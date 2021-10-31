@@ -40,7 +40,7 @@ namespace Characters
                 throw new Exception($"CharacterBattleData : Did not constructed because CharacterData is null!");
             var factory = Factory.GameFactory.Instance;
             _characterStats = data.Stats;
-
+            Info = factory.CharacterFactoryHandler.GetCharacterSO(data.CharacterEnum);
             _characterDeck = factory.CardFactoryHandler.CreateDeck(_deck);
             _comboRecipe = factory.ComboFactoryHandler.CreateCombo(data.CharacterCombos);
         }

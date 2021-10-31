@@ -120,7 +120,7 @@ public class RestArea
     [SerializeField] ushort _HPHeal;
     [SerializeField] ushort _MaxHPAddition;
     public ushort HPHeal => _HPHeal;
-    public ushort MaxHPAddition => _HPHeal;
+    public ushort MaxHPAddition => _MaxHPAddition;
     public void AddHealth()
     {
         var stats = Battles.BattleData.Player.CharacterData.CharacterStats;

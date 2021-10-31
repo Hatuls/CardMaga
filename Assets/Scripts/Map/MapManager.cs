@@ -32,6 +32,7 @@ namespace Map
         }
         private void Start()
         {
+
             StartMap();
         }
 
@@ -93,7 +94,9 @@ namespace Map
 
         private void OnApplicationQuit()
         {
-            SaveMap();
+            ResetSavedMap();
+
+          //  SaveMap();
         }
     }
 

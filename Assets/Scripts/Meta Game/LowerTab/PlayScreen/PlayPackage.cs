@@ -1,6 +1,4 @@
 ﻿using Account.GeneralData;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.Meta.PlayScreen
@@ -20,6 +18,9 @@ namespace UI.Meta.PlayScreen
         {
             Debug.Log($"Sending Package of Character {CharacterData.CharacterEnum} with the Chosen Deck {Deck.DeckName}");
             Battles.BattleData.Player = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(_characterData, _deck);
+
+            if (PlayerPrefs.HasKey("Map"))
+                PlayerPrefs.DeleteKey("Map");
         }
     }
 }
