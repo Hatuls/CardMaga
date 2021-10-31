@@ -11,11 +11,13 @@ namespace UI.Meta.PlayScreen
         TextMeshProUGUI _title;
         [SerializeField]
         CardUIRow[] _cards;
+        Art.ArtSO _artSO;
         #endregion
 
         #region Public Methods
-        public void Init(AccountDeck deck)
+        public void Init(AccountDeck deck, Art.ArtSO artSO)
         {
+            _artSO = artSO;
             gameObject.SetActive(true);
 
             ResetCardsShown();
@@ -42,7 +44,7 @@ namespace UI.Meta.PlayScreen
             for (int i = 0; i < deck.Cards.Length; i++)
             {
                 _cards[i].gameObject.SetActive(true);
-                _cards[i].Init(factoryCardCollection.GetCard(deck.Cards[i].CardID), deck.Cards[i].Level);
+                _cards[i].Init(factoryCardCollection.GetCard(deck.Cards[i].CardID), deck.Cards[i].Level, _artSO);
             }
         }
     }

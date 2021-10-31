@@ -1,4 +1,5 @@
 ﻿using Account.GeneralData;
+using System;
 using UnityEngine;
 
 namespace UI.Meta.PlayScreen
@@ -18,6 +19,8 @@ namespace UI.Meta.PlayScreen
         [SerializeField]
         DeckUI[] _availableDecks;
         CharacterData _currentCharacter;
+        [SerializeField]
+        Art.ArtSO _artSO;
 
         #endregion
         #region Public Methods
@@ -76,15 +79,23 @@ namespace UI.Meta.PlayScreen
         }
         public void ShowDeckCards(AccountDeck deck)
         {
+            if (_artSO == null)
+            {
+                throw new Exception("ChooseDeckScreen ArtSO is NULL");
+            }
             PlayScreenUI.Instance.BGPanelSetActiveState(true);
             _showComboScreen.ResetShowComboScreen();
-            _showCardsScreen.Init(deck);
+            _showCardsScreen.Init(deck, _artSO);
         }
         public void ShowCombos(CharacterData character)
         {
+            if (_artSO == null)
+            {
+                throw new Exception("ChooseDeckScreen ArtSO is NULL");
+            }
             PlayScreenUI.Instance.BGPanelSetActiveState(true);
             _showCardsScreen.ResetShowCardsScreen();
-            _showComboScreen.Init(character);
+            _showComboScreen.Init(character,_artSO);
         }
         #endregion
     }

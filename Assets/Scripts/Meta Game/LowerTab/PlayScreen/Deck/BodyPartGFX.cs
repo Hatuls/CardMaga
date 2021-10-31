@@ -14,25 +14,22 @@ namespace UI.Meta.PlayScreen
         Image _decorImage;
         [SerializeField]
         Image _bodyPartImage;
-        [SerializeField]
-        ArtSO _artSO;
 
         #endregion
 
         #region Public Methods
 
-        public void Init(CardSO card)
+        public void Init(CardSO card, CardIconCollectionSO artSOIconCollection, CardTypePalette cardTypePalette)
         {
-            var cardTypePalette = _artSO.GetPallette<CardTypePalette>();
-            _bodyPartImage.sprite = _artSO.IconCollection.GetSprite(card.BodyPartEnum);
+            _bodyPartImage.sprite = artSOIconCollection.GetSprite(card.BodyPartEnum);
             _bodyPartImage.color = cardTypePalette.GetIconBodyPartColorFromEnum(card.CardTypeEnum);
             _decorImage.color = cardTypePalette.GetDecorationColorFromEnum(card.CardTypeEnum);
         }
-        public void Init(CardTypeData cardTypeData)
+        public void Init(CardTypeData cardTypeData, CardIconCollectionSO artSOIconCollection,CardTypePalette cardTypePalette)
         {
-            _bodyPartImage.sprite = _artSO.IconCollection.GetSprite(cardTypeData.BodyPart);
-            _bodyPartImage.color = _artSO.GetPallette<CardTypePalette>().GetIconBodyPartColorFromEnum(cardTypeData.CardType);
-            _decorImage.color = _artSO.GetPallette<CardTypePalette>().GetDecorationColorFromEnum(cardTypeData.CardType);
+            _bodyPartImage.sprite = artSOIconCollection.GetSprite(cardTypeData.BodyPart);
+            _bodyPartImage.color = cardTypePalette.GetIconBodyPartColorFromEnum(cardTypeData.CardType);
+            _decorImage.color = cardTypePalette.GetDecorationColorFromEnum(cardTypeData.CardType);
         }
         #endregion
     }

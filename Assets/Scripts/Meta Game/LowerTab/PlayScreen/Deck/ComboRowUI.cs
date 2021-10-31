@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Art;
+using TMPro;
 using UnityEngine;
 
 namespace UI.Meta.PlayScreen
@@ -16,16 +17,18 @@ namespace UI.Meta.PlayScreen
         BodyPartGFX[] _comboRecipe;
         #endregion
         #region Public Methods
-        public void Init(Combo.ComboSO combo, byte comboLevel)
+        public void Init(Combo.ComboSO combo, byte comboLevel, Art.ArtSO artSO)
         {
             ResetComboRecipeSlots();
             _comboName.text = combo.ComboName;
             _levelText.text = $"LVL {comboLevel}";
-            _comboBodyPart.Init(combo.CraftedCard);
+            var cardTypePalette = artSO.GetPallette<CardTypePalette>();
+            var iconCollection = artSO.IconCollection;
+            _comboBodyPart.Init(combo.CraftedCard, iconCollection,cardTypePalette);
             for (int i = 0; i < combo.ComboSequance.Length; i++)
             {
                 _comboRecipe[i].gameObject.SetActive(true);
-                _comboRecipe[i].Init(combo.ComboSequance[i]);
+                _comboRecipe[i].Init(combo.ComboSequance[i],iconCollection ,cardTypePalette);
             }
         }
         private void ResetComboRecipeSlots()

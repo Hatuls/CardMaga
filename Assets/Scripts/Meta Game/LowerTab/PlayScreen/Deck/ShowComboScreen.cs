@@ -11,15 +11,17 @@ namespace UI.Meta.PlayScreen
         TextMeshProUGUI _title;
         [SerializeField]
         ComboRowUI[] _comboUI;
+        Art.ArtSO _artSO;
         #endregion
         #region Public Method
-        public void Init(CharacterData character)
+        public void Init(CharacterData character, Art.ArtSO artSO)
         {
             gameObject.SetActive(true);
 
             ResetCombosShown();
 
             ShowCombos(character);
+            _artSO = artSO;
         }
         public void ResetShowComboScreen()
         {
@@ -39,7 +41,7 @@ namespace UI.Meta.PlayScreen
             for (int i = 0; i < character.CharacterCombos.Length; i++)
             {
                 _comboUI[i].gameObject.SetActive(true);
-                _comboUI[i].Init(factorycomboCollection.GetCombo(character.CharacterCombos[i].ID), character.CharacterCombos[i].Level);
+                _comboUI[i].Init(factorycomboCollection.GetCombo(character.CharacterCombos[i].ID), character.CharacterCombos[i].Level, _artSO);
             }
         }
         #endregion
