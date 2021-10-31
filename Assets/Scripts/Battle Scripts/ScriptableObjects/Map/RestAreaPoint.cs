@@ -9,9 +9,10 @@ namespace Map
     {
         public override NodeType PointType => NodeType.Rest_Area;
 
+        [Sirenix.OdinInspector.Button]
         public override void ActivatePoint()
         {
-            throw new System.NotImplementedException();
+            RestAreaUI.Instance.EnterRestArea();
         }
     }
 }

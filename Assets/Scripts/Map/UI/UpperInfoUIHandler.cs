@@ -22,6 +22,10 @@ public class UpperInfoUIHandler : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        UpdateUpperInfoHandler(ref BattleData.Player.CharacterData.CharacterStats);
+    }
     public void UpdateUpperInfoHandler(ref Characters.Stats.CharacterStats stats)
     {
         _hpBar.SetMaxValue(stats.MaxHealth);

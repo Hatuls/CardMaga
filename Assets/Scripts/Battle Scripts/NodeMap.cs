@@ -22,10 +22,6 @@ namespace Map
         private float mouseDownTime;
         private const float MaxClickDuration = 0.5f;
 
-        private void Awake()
-        {
-            
-        }
         private void OnMouseDown()
         {
             MapPlayerTracker.Instance.SelectNode(this);
@@ -64,13 +60,15 @@ namespace Map
             switch (state)
             {
                 case NodeStates.Locked:
-
+                    _backgroundImg.transform.localScale = Vector3.one;
                     _backgroundImg.color = MapView.Instance.lockedColor;
                     break;
                 case NodeStates.Visited:
+                    _backgroundImg.transform.localScale = Vector3.one;
                     _backgroundImg.color = MapView.Instance.visitedColor;
                     break;
                 case NodeStates.Attainable:
+                    _backgroundImg.transform.localScale = Vector3.one * HoverScaleFactor;
                     _backgroundImg.color = Color.green;
                     break;
                 default:
