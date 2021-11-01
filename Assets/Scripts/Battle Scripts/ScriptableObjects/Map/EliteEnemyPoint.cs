@@ -9,6 +9,7 @@ namespace Map
     {
         public override NodeType PointType =>  NodeType.Elite_Enemy;
 
+        [Sirenix.OdinInspector.Button("Fight Elite Enemy")]
         public override void ActivatePoint()
         {
             var characterFactory = Factory.GameFactory.Instance.CharacterFactoryHandler;

@@ -16,11 +16,13 @@ namespace Characters.Stats
             {
                 if (_instance == null)
                     _instance = new StaminaHandler();
+                
 
                 return _instance;
             }
         }
-        public StaminaHandler()
+    
+        public void InitStaminaHandler()
         {
             bool isPlayer = true;
             _playerStamina = new CharacterStamina(
@@ -31,6 +33,7 @@ namespace Characters.Stats
                CharacterStatsManager.GetCharacterStatsHandler(!isPlayer).GetStats(Keywords.KeywordTypeEnum.Stamina).Amount
                 );
         }
+
         #region Character Stamina
         private CharacterStamina _playerStamina;
         public CharacterStamina PlayerStamina => _playerStamina;

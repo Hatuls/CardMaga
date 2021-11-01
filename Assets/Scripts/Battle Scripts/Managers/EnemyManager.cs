@@ -106,9 +106,9 @@ namespace Battles
 
                 if (noMoreCardsAvailable == false)
                 {
-                    if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
-                        yield return new WaitForSeconds(.3f);
-                    else
+                    //if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
+                    //    yield return new WaitForSeconds(.3f);
+                    //else
                         yield return Turns.Turn.WaitOneSecond;
                 }
 

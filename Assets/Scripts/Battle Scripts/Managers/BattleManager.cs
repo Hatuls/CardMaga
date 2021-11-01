@@ -26,11 +26,6 @@ namespace Battles
             SceneHandler.onFinishLoadingScene += OnLoadScene;
         }
 
-        private void Start()
-        {
-            Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(81);
-        }
-
         private void ResetBattle()
         {
 
@@ -56,7 +51,13 @@ namespace Battles
             Combo.ComboManager.Instance.Init();
             Keywords.KeywordManager.Instance.Init();
             AudioManager.Instance.ResetAudioCollection();
+
+
+            if (EndTurnButton._OnFinishTurnPress!= null)
+            EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
             EndTurnButton._OnFinishTurnPress += TurnHandler.OnFinishTurn;
+
+            StaminaHandler.Instance.InitStaminaHandler();
         }
         private void ResetParams()
         {
@@ -66,6 +67,8 @@ namespace Battles
             UI.CraftingUIManager.Instance.Init();
             VFXManager.Instance.Init();
 
+
+           
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
@@ -165,7 +168,11 @@ namespace Battles
 
 
 
-
+        private void OnDestroy()
+        {
+            if (EndTurnButton._OnFinishTurnPress != null)
+                EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
+        }
 
 
         #region Editor Section
