@@ -98,7 +98,7 @@ namespace Rewards.Battles
         public void ExitBattle()
         {
             // exit battle
-            _sceneloaderEvent?.LoadScene((int)SceneHandler.ScenesEnum.MapScene);
+            _sceneloaderEvent?.LoadScene(SceneHandler.ScenesEnum.MapScene);
 
         }
     }

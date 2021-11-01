@@ -25,7 +25,7 @@ namespace Rewards.Battles
             else
             {
                 BattleData.Player = null;
-                sceneLoader.LoadScene((int)SceneHandler.ScenesEnum.MainMenuScene);
+                sceneLoader.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
             }
           
         }
