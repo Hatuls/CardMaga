@@ -7,7 +7,7 @@ public class SceneHandler
     public static SceneHandler Instance => _instance;
 
 
-    public enum ScenesEnum { MainMenu = 0, Loading = 2,PreBattle =1, Battle = 3, }
+    public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1,MainMenuScene=2, MapScene = 3, GameBattleScene = 4 }
     static System.Action onLoaderCallback;
     static AsyncOperation _loadingAsyncOperation;
     public static System.Action<ScenesEnum> onFinishLoadingScene;
@@ -25,7 +25,7 @@ public class SceneHandler
     { get; set; }
 
 
-    private static ScenesEnum _currentScene = ScenesEnum.MainMenu;
+    private static ScenesEnum _currentScene = ScenesEnum.NetworkScene;
     public static ScenesEnum CurrentScene
     {
         get => _currentScene;
@@ -41,14 +41,13 @@ public class SceneHandler
     
     public static void LoadScene(ScenesEnum sceneEnum)
     {
+        CurrentScene = ScenesEnum.LoadingScene;
+        SceneManager.LoadScene((int)ScenesEnum.LoadingScene, LoadSceneMode.Single);
+
         onLoaderCallback = () =>
         {
             SceneLoaderCallback.StartCoroutine(LoadSceneAsync(sceneEnum));
         };
-
-        CurrentScene = ScenesEnum.Loading;
-        SceneManager.LoadScene((int)ScenesEnum.Loading, LoadSceneMode.Single);
-
     }
 
     static IEnumerator LoadSceneAsync(ScenesEnum sceneEnum)

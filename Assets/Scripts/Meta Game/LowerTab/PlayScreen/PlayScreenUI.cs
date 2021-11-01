@@ -88,7 +88,7 @@ namespace UI.Meta.PlayScreen
             EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
             energyHandler.ReduceAmount(5);
             _playpackage.SendPackage();
-            _sceneLoad.LoadScene(1);
+            _sceneLoad.LoadScene((int)SceneHandler.ScenesEnum.MapScene);
         }
         #endregion
     }

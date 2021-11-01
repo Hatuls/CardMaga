@@ -9,4 +9,6 @@ public class SceneLoaderCallback : ScriptableObject
         SceneHandler.LoadScene((SceneHandler.ScenesEnum)destination);
     }
 
+
+
 }

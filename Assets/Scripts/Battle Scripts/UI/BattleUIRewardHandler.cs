@@ -45,7 +45,7 @@ namespace Rewards.Battles
             else
             {
           
-                LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.PreBattle);
+                LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
             }
         }
         private void ResetRewardUI()
@@ -98,7 +98,7 @@ namespace Rewards.Battles
         public void ExitBattle()
         {
             // exit battle
-            _sceneloaderEvent?.LoadScene((int)SceneHandler.ScenesEnum.PreBattle);
+            _sceneloaderEvent?.LoadScene((int)SceneHandler.ScenesEnum.MapScene);
 
         }
     }

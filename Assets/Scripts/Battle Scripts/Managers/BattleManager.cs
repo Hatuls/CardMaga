@@ -156,7 +156,7 @@ namespace Battles
 
         private void OnLoadScene(SceneHandler.ScenesEnum scenesEnum)
         {
-            if (scenesEnum == SceneHandler.ScenesEnum.Battle)
+            if (scenesEnum == SceneHandler.ScenesEnum.GameBattleScene)
                 ResetBattle();
         }
 

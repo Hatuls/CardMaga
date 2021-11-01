@@ -10,7 +10,7 @@ public class NetworkHandler : MonoBehaviour
     [SerializeField] TextMeshProUGUI _status;
     [SerializeField] TextMeshProUGUI _myVersion;
     [SerializeField] TextMeshProUGUI _webVersion;
-    [SerializeField] Button _continueBtn;
+
     string path = "https://drive.google.com/uc?export=download&id=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
 
     GameVersion _gv;
@@ -20,7 +20,7 @@ public class NetworkHandler : MonoBehaviour
         _myVersion.enabled = false;
         _webVersion.enabled = false;
         _status.enabled = false;
-        _continueBtn.enabled = true;
+   
         
     }
     private void OnEnable()
@@ -45,10 +45,12 @@ public class NetworkHandler : MonoBehaviour
                 //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
                 _gv = JsonUtility.FromJson<GameVersion>(text);
                 CheckVersion(_gv);
+                LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+
             }
             );
 
-        _continueBtn.enabled = true;
+      //  _continueBtn.enabled = true;
     }
     private void CheckVersion(GameVersion currentVersion)
     {
@@ -59,7 +61,7 @@ public class NetworkHandler : MonoBehaviour
         {
     
            _status.text ="Status: Up to date!";
-            _continueBtn.enabled = true;
+         //   _continueBtn.enabled = true;
         }
         else
         {
