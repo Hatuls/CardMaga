@@ -9,15 +9,7 @@ namespace Map
 {
 
 
-    public static class ScreenSettings
-    {
-        public static float _screenMaxX;
-        public static float _screenMinX;
-        public static float _screenMaxY;
-        public static float _screenMinY;
-        public static float _xOffset;
-        public static float _yOffset;
-    }
+
     public class MapView : MonoBehaviour
     {
       
@@ -25,7 +17,7 @@ namespace Map
         public static MapView Instance => _instance;
 
         [SerializeField] GameObject _nodePrefab;
-
+        [SerializeField] GameObject _linePrefab;
 
         [SerializeField]
         MapManager _mapManager;
@@ -43,7 +35,7 @@ namespace Map
 
         // List<LineConnectionPrefabs> _lineConnections = new List<LineConnectionPrefabs>();
         List<NodeMap> _nodeMaps = new List<NodeMap>();
-
+        List<MapLine> _mapLines = new List<MapLine>();
         private void Awake()
         {
             _instance = this;
@@ -51,7 +43,9 @@ namespace Map
         }
 
 
-    
+
+
+
 
         public void ShowMap(Map map)
         {
@@ -68,7 +62,7 @@ namespace Map
 
             CreateNodes(map.nodes);
 
-            //DrawLines();
+            DrawLines();
 
             SetAttainableNodes();
 
@@ -76,6 +70,29 @@ namespace Map
 
             //CreateMapBackground(map);
         }
+        private void DrawLines()
+        {
+            int nodeMapLength = _nodeMaps.Count;
+            Map map = MapManager.Instance.CurrentMap;
+            Point p = null;
+            for (int i = 0; i < nodeMapLength; i++)
+            {
+                var nodeData = _nodeMaps[i].NodeData;
+                var connectedAmount = nodeData.incoming;
+                int pointConnectedAmount = connectedAmount.Count;
+                
+                for (int j = 0; j < pointConnectedAmount; j++)
+                {
+                    p = connectedAmount[j];
+                    MapLine mapLine = Instantiate(_linePrefab, mapParent.transform)
+                             .GetComponent<MapLine>();
+
+                    mapLine.ConnectLines(nodeData.position, map.GetNode(p).position);
+                    _mapLines.Add(mapLine);
+              }
+            }
+        }
+     
 
         public void SetAttainableNodes()
         {
@@ -154,11 +171,13 @@ namespace Map
             {
                 Destroy(_nodeMaps[i].gameObject);
             }
+            for (int i = 0; i < _mapLines.Count; i++)
+            {
+                Destroy(_mapLines[i].gameObject);
+            }
 
-
-            //_lineConnections.Clear();
             _nodeMaps.Clear();
-
+            _mapLines.Clear();
         }
  
         private void AssignScreenCoordinates()
@@ -176,5 +195,14 @@ namespace Map
         }
 
 
+    }
+    public static class ScreenSettings
+    {
+        public static float _screenMaxX;
+        public static float _screenMinX;
+        public static float _screenMaxY;
+        public static float _screenMinY;
+        public static float _xOffset;
+        public static float _yOffset;
     }
 }
