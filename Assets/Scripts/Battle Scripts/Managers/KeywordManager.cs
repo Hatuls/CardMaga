@@ -99,9 +99,10 @@ namespace Keywords
                 {KeywordTypeEnum.Coins, new CoinKeyword() },
                 {KeywordTypeEnum.MaxStamina, new MaxStaminaKeyword() },
                 {KeywordTypeEnum.Interupt, new InteruptKeyword() },
-                    {KeywordTypeEnum.Draw, new DrawKeyword() },
-                    {KeywordTypeEnum.Clear, new ClearKeyword() },
-                    {KeywordTypeEnum.Shuffle, new ShuffleKeyword() }
+                {KeywordTypeEnum.Draw, new DrawKeyword() },
+                {KeywordTypeEnum.Clear, new ClearKeyword() },
+                {KeywordTypeEnum.Shuffle, new ShuffleKeyword() },
+                    {KeywordTypeEnum.StaminaShards, new StaminaShardKeyword() }
             };
             }
             if (_keywordDict == null)
@@ -129,6 +130,7 @@ namespace Keywords
         Draw = 13,
         MaxStamina = 14,
         Coins=18,
+        StaminaShards = 19,
         Stamina = 22,
         Clear = 29,
         Shuffle = 31,

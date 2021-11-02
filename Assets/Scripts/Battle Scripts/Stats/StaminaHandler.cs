@@ -47,6 +47,7 @@ namespace Characters.Stats
             public int StaminaShards { get;private set; }
             public int StaminaAddition { get; set; }
 
+         
 
             public void StartTurn() => Stamina = StartStamina + StaminaAddition;
 
@@ -119,4 +120,5 @@ namespace Characters.Stats
         }
         #endregion
     }
+
 }

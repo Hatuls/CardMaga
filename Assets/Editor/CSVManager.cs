@@ -5,16 +5,24 @@ using UnityEditor;
 using UnityEngine;
 using Rewards;
 using Collections;
+using System.Threading.Tasks;
+
+public abstract class CSVAbst {
+
+    public virtual async Task StartCSV(string data)
+    { }
+}
+
 
 public class CSVManager
-{
+{ 
 
-    static CharacterCollectionSO _characterCollection;
-    static ComboCollectionSO _comboCollection;
-    static CardsCollectionSO _cardCollection;
-    static Keywords.KeywordSO[] _keywordsSO;
-    static Sprite[] cardsPictures;
-    static BattleRewardCollectionSO _battleRewards;
+    public static CharacterCollectionSO _characterCollection;
+    public static ComboCollectionSO _comboCollection;
+    public static CardsCollectionSO _cardCollection;
+    public static Keywords.KeywordSO[] _keywordsSO;
+    public static Sprite[] cardsPictures;
+    public static BattleRewardCollectionSO _battleRewards;
 
 
     #region URL
@@ -22,6 +30,7 @@ public class CSVManager
     const string _driveURLOfCardSO = "1611461659";
     const string _driveURLOfRecipeSO = "371699274";
     const string _driveURLOfCharacterSO = "945070348";
+    const string _driveURLOfKeywordsSO = "116208579";
     const string _driveURLOfBattleRewardSO = "39048757";
     #endregion
 
@@ -31,6 +40,35 @@ public class CSVManager
     {
         WebRequests.Get(string.Concat(_driveURL,_driveURLOfCardSO), (x) => Debug.Log("Error " + x), OnCompleteDownloadingCardCSV);
     }
+    [MenuItem("Google Drive/Update Character!")]
+    public static void Start()
+    {
+        StartAsync();
+    }
+    public async static void StartAsync()
+    {
+        string[] urls = new string[]
+        {
+       // _driveURLOfKeywordsSO,
+        _driveURLOfCardSO,
+     //   _driveURLOfRecipeSO,
+     //   _driveURLOfCharacterSO,
+     //   _driveURLOfBattleRewardSO
+        };
+
+        CSVAbst[] csvs = new CSVAbst[] {
+            new CSVToCardSO(),
+      //  new CSVToCharacterSO ()
+        };
+        for (int i = 0; i < csvs.Length; i++)
+        {
+            await csvs[i].StartCSV(string.Concat(_driveURL, urls[i]));
+            DestroyWebGameObjects();
+        }
+
+    }
+
+
     private static void OnCompleteDownloadingCardCSV(string txt)
     {
         DestroyWebGameObjects();
@@ -45,6 +83,7 @@ public class CSVManager
 
     private static void LoadSpritesAndKeywords()
     {
+        
         _keywordsSO = Resources.LoadAll<Keywords.KeywordSO>("KeywordsSO");
         float timeout = 1000000;
         float timer = 0;
@@ -69,7 +108,7 @@ public class CSVManager
     private static void OnCompleteDownloadingRecipeCSV(string txt)
     {
     
-        CSVToCardSO.DestroyWebGameObjects();
+       // CSVToCardSO.DestroyWebGameObjects();
 
         string[] rows = txt.Replace("\r", "").Split('\n');
 
@@ -104,7 +143,7 @@ public class CSVManager
     }
     private static void OnCompleteDownloadingCharacterCSV(string txt)
     {
-         CSVToCardSO.DestroyWebGameObjects();
+   //      CSVToCardSO.DestroyWebGameObjects();
 
      
 
@@ -122,12 +161,12 @@ public class CSVManager
         {
             string[] line = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
 
-            var recipe = CreateCharacter(line, _cardCollection, _comboCollection);
+            var character = CreateCharacter(line, _cardCollection, _comboCollection);
 
-            if (recipe == null)
+            if (character == null)
                 break;
             else
-                charactersList.Add(recipe);
+                charactersList.Add(character);
 
         }
 
@@ -711,7 +750,7 @@ public class CSVManager
 
     private static void OnCompleteDownloadingBattleRewardCSV(string data)
     {
-        CSVToCardSO.DestroyWebGameObjects();
+       // CSVToCardSO.DestroyWebGameObjects();
         _battleRewards = ScriptableObject.CreateInstance<BattleRewardCollectionSO>();
 
         List<BattleRewardSO> battleRewards = new List<BattleRewardSO>();

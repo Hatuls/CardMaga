@@ -51,15 +51,15 @@ namespace Characters.Stats
             if (_statsDictionary[KeywordTypeEnum.Regeneration].Amount > 0)
             {
                 _statsDictionary[KeywordTypeEnum.Heal].Add(_statsDictionary[KeywordTypeEnum.Regeneration].Amount);
-            _statsDictionary[KeywordTypeEnum.Regeneration].Reduce(1);
+                _statsDictionary[KeywordTypeEnum.Regeneration].Reduce(1);
             }
         }
         public void ApplyBleed()
         {
-            if (_statsDictionary[KeywordTypeEnum.Bleed].Amount>0)
+            if (_statsDictionary[KeywordTypeEnum.Bleed].Amount > 0)
             {
-            _statsDictionary[KeywordTypeEnum.Heal].Reduce(_statsDictionary[KeywordTypeEnum.Bleed].Amount);
-            _statsDictionary[KeywordTypeEnum.Bleed].Reduce(1);
+                _statsDictionary[KeywordTypeEnum.Heal].Reduce(_statsDictionary[KeywordTypeEnum.Bleed].Amount);
+                _statsDictionary[KeywordTypeEnum.Bleed].Reduce(1);
             }
         }
 
