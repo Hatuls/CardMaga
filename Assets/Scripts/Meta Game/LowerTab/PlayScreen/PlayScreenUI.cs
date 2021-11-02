@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UI.Meta.PlayScreen
 {
-    public class PlayScreenUI : MonoBehaviour
+    public class PlayScreenUI :  TabAbst
     {
         #region Singleton
         private static PlayScreenUI _instance;
@@ -40,10 +40,6 @@ namespace UI.Meta.PlayScreen
         public PlayPackage playPackage => _playpackage;
         #endregion
         #region Public Methods
-        public void OpenPlayScreen()
-        {
-
-        }
         public void ResetPlayScreen()
         {
             _chooseCharacterScreen.ResetCharacterScreen();
@@ -89,6 +85,18 @@ namespace UI.Meta.PlayScreen
             energyHandler.ReduceAmount(5);
             _playpackage.SendPackage();
             _sceneLoad.LoadScene(SceneHandler.ScenesEnum.MapScene);
+        }
+
+        public override void Open()
+        {
+            gameObject.SetActive(true);
+            ResetPlayScreen();
+        }
+
+        public override void Close()
+        {
+            ResetPlayScreen();
+            gameObject.SetActive(false);
         }
         #endregion
     }
