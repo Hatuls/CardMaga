@@ -1,4 +1,4 @@
-﻿namespace UI.Meta
+﻿namespace UI
 {
     public interface IOpenCloseUIHandler
     {
