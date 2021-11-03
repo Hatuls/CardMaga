@@ -1,16 +1,10 @@
-﻿using Cards;
-using System;
-using System.Collections.Generic;
+﻿
 using UnityEditor;
 using UnityEngine;
 using Rewards;
 using Collections;
 using System.Threading.Tasks;
 
-public abstract class CSVAbst {
-    public virtual async Task StartCSV(string data)
-    { }
-}
 
 
 public class CSVManager
@@ -33,12 +27,6 @@ public class CSVManager
     const string _driveURLOfBattleRewardSO = "39048757";
     #endregion
 
-    static string[] csv;
-    //[MenuItem("Google Drive/Update All")]
-    //public static void Update()
-    //{
-    //    WebRequests.Get(string.Concat(_driveURL,_driveURLOfCardSO), (x) => Debug.Log("Error " + x), OnCompleteDownloadingCardCSV);
-    //}
     [MenuItem("Google Drive/Update All ScriptableObjects!")]
     public static void Start()
     {
@@ -67,6 +55,7 @@ public class CSVManager
         for (int i = 0; i < csvs.Length; i++)
         {
             await csvs[i].StartCSV(string.Concat(_driveURL, urls[i]));
+            
             DestroyWebGameObjects();
         }
         Debug.Log("Completed Updateing SO From CSV!");
@@ -81,3 +70,8 @@ public class CSVManager
     }
 }
 
+public abstract class CSVAbst
+{
+    public virtual async Task StartCSV(string data)
+    { }
+}
