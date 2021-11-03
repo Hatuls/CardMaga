@@ -1,4 +1,5 @@
 ﻿
+using UnityEditor;
 using UnityEngine;
 namespace Keywords
 {
@@ -35,7 +36,7 @@ namespace Keywords
 
         public bool Init(string[] Data)
         {
-
+      
             const int IDIndex = 0;
             const int DurationIndex = 1;
             const int StackableIndex = 2;
@@ -44,8 +45,8 @@ namespace Keywords
 
             if (int.TryParse(Data[IDIndex], out int keywordID))
             {
-                _iD = keywordID;
-                _keyword = (KeywordTypeEnum)_iD;
+               _iD = keywordID;
+               _keyword = (KeywordTypeEnum)keywordID;
             }
             else
                 return false;
@@ -56,7 +57,7 @@ namespace Keywords
                 throw new System.Exception($"ID:{_iD}, Keyword: {_keyword}\nDuration is not a valid number!");
 
             if (int.TryParse(Data[StackableIndex], out int stackable))
-                  _isStackable = stackable == 1;
+               _isStackable = stackable == 1;
            else
                 throw new System.Exception($"ID:{_iD}, Keyword: {_keyword}\nIs Stackable is not a valid number!");
 
@@ -66,9 +67,9 @@ namespace Keywords
             throw new System.Exception($"ID:{_iD}, Keyword: {_keyword}\nIs Precentage is not a valid number!");
 
             if (int.TryParse(Data[InfoAmountIndex], out int amount))
-                _infoAmount = amount;
-            else
-                throw new System.Exception($"ID:{_iD}, Keyword: {_keyword}\nInfo Amount is not a valid Number!");
+               _infoAmount = amount;
+           
+           
 
             return true;
         }

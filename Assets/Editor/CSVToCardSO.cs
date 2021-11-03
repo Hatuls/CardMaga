@@ -131,19 +131,12 @@ public class CSVToCardSO : CSVAbst
 
     private async static Task LoadSpritesAndKeywords()
     {
-        CSVManager._keywordsSO = Resources.LoadAll<Keywords.KeywordSO>("KeywordsSO");
+       
         float timeout = 1000000;
         float timer = 0;
-        while (CSVManager._keywordsSO == null && timer < timeout)
-        {
-            CSVManager._keywordsSO = Resources.LoadAll<Keywords.KeywordSO>("KeywordsSO");
-            timer += 0.5f;
-        }
-        if (CSVManager._keywordsSO == null)
-            Debug.LogError("Keywords SO is null!!");
-
+        
         CSVManager.cardsPictures = Resources.LoadAll<Sprite>("Art/CardsPictures");
-        timer = 0;
+     
         while (CSVManager.cardsPictures == null && timer < timeout)
         {
             CSVManager.cardsPictures = Resources.LoadAll<Sprite>("Art/CardsPictures");
