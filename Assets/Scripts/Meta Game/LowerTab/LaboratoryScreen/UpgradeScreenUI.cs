@@ -1,13 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace UI.Meta.Laboratory
 {
-    public class FuseScreenUI : TabAbst
+    public class UpgradeScreenUI : TabAbst
     {
-        #region Fields
-        GameObject _upgradeScreenPanel;
-        #endregion
-        #region Interface
         public override void Open()
         {
             gameObject.SetActive(true);
@@ -16,6 +14,5 @@ namespace UI.Meta.Laboratory
         {
             gameObject.SetActive(false);
         }
-        #endregion
     }
 }

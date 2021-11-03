@@ -4,7 +4,7 @@ using Battles.UI;
 
 namespace UI.Meta.Laboratory
 {
-    public class CardCollectionUIScreen : IOpenCloseUIHandler
+    public class CardCollectionUIScreen : MonoBehaviour
     {
         #region Fields
         TextMeshProUGUI _amountText;

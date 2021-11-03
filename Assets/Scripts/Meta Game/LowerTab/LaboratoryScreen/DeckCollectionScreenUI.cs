@@ -6,7 +6,7 @@ using Cards;
 
 namespace UI.Meta.Laboratory
 {
-    public class DeckCollectionScreenUI : IOpenCloseUIHandler
+    public class DeckCollectionScreenUI: TabAbst
     {
         #region Fields
         CardUI[] _deckCards;
@@ -37,14 +37,15 @@ namespace UI.Meta.Laboratory
         #endregion
 
         #region Interface
-        public void Close()
+
+        public override void Open()
         {
-            throw new System.NotImplementedException();
+            gameObject.SetActive(true);
         }
 
-        public void Open()
+        public override void Close()
         {
-            throw new System.NotImplementedException();
+            gameObject.SetActive(false);
         }
         #endregion
     }
