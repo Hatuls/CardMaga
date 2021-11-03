@@ -56,14 +56,14 @@ namespace Map
         {
             if (_currentMap == null) return;
 
-            SaveManager.SaveFile(_currentMap, "Map", SaveManager.FileStreamType.PlayerPref);
+            SaveManager.SaveFile(_currentMap, "Map");
             await Task.Yield();
         }
  
         private  void StartMap()
         {
               //Map map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.FileStream,"txt",false);
-              Map map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.PlayerPref);
+              Map map = SaveManager.Load<Map>("Map", _currentMap.FileStreamType);
             if (map != null)
             {
              
