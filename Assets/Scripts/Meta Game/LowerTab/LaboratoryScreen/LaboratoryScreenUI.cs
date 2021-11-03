@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 namespace UI.Meta.Laboratory
@@ -12,7 +10,8 @@ namespace UI.Meta.Laboratory
         FuseScreenUI _fuseScreenUI;
         //UpgradeScreenUI _upgradeScreenUI;
         TextMeshProUGUI _dismantleText;
-
+        [SerializeField]
+        MaxScrollLength _labTabs;
         public override void Close()
         {
             gameObject.SetActive(false);
