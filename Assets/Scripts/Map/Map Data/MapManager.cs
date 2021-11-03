@@ -47,6 +47,8 @@ namespace Map
             _currentMap = MapGenerator.GetMap(_mapCFG);
  
             Debug.Log(_currentMap.ToJson());
+        
+
             _mapView.ShowMap(_currentMap);
         }
 
@@ -54,18 +56,17 @@ namespace Map
         {
             if (_currentMap == null) return;
 
-            var json = JsonUtilityHandler.ConvertObjectToJson(_currentMap);
-            PlayerPrefs.SetString("Map", json);
-            PlayerPrefs.Save();
+            SaveManager.SaveFile(_currentMap, "Map", SaveManager.FileStreamType.PlayerPref);
             await Task.Yield();
         }
  
         private  void StartMap()
         {
-            if (PlayerPrefs.HasKey("Map"))
+              //Map map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.FileStream,"txt",false);
+              Map map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.PlayerPref);
+            if (map != null)
             {
-               var mapJson = PlayerPrefs.GetString("Map");
-                var map = JsonUtilityHandler.LoadFromJson<Map>(mapJson);
+             
 
                 if (map.nodes == null || map.nodes.Count ==0)
                 {
