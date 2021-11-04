@@ -13,7 +13,7 @@ namespace Map
 
         public string configName;
 
-        public SaveManager.FileStreamType FileStreamType => SaveManager.FileStreamType.Binary;
+        public SaveManager.FileStreamType FileStreamType => SaveManager.FileStreamType.FileStream;
 
         public Map(string configName,List<Node> nodes, List<Point> path)
         {

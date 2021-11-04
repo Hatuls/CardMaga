@@ -9,7 +9,10 @@ public static class SaveManager
     [UnityEditor.MenuItem("Save System/Open data path")]
     private static void OpenDataPath()
     {
+        string path = Application.persistentDataPath;
 
+        path = path.Replace(@"/", @"");
+        System.Diagnostics.Process.Start("explorer.exe", "/open," + path);
     }
 #endif
     public enum FileStreamType { Binary = 0, FileStream = 1 , PlayerPref =2 };
@@ -136,5 +139,5 @@ public static class SaveManager
 }
 public interface ISaveable
 {
-    SaveManager.FileStreamType FileStreamType { get; }
+   SaveManager.FileStreamType FileStreamType { get; }
 }

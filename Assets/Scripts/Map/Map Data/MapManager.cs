@@ -18,7 +18,12 @@ namespace Map
         MapConfig _mapCFG;
 
 
-
+        [SerializeField] string _saveMapCFGName;
+        [Sirenix.OdinInspector.Button("Save Map Config")]
+        public void SaveMapConfig()
+        {
+            SaveManager.SaveFile(_currentMap, _saveMapCFGName,false, "txt", "Maps/");
+        }
 
 
         private void Awake()
@@ -62,8 +67,10 @@ namespace Map
  
         private  void StartMap()
         {
-              //Map map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.FileStream,"txt",false);
-              Map map = SaveManager.Load<Map>("Map", _currentMap.FileStreamType);
+            Map  map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.FileStream);
+
+
+
             if (map != null)
             {
              
