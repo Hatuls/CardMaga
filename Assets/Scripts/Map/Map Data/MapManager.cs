@@ -66,6 +66,16 @@ namespace Map
             SaveManager.SaveFile(_currentMap, _saveMapCFGName,false, "txt", "Resources/MapCFG/");
         }
 
+        [Sirenix.OdinInspector.Button("Load Map Config")]
+        public void LoadMapConfig()
+        {
+         var txt =  Resources.Load<TextAsset>("MapCFG/"+_saveMapCFGName);
+            _currentMap = JsonUtilityHandler.LoadFromJson<Map>(txt.text);
+      
+            _mapView.ShowMap(_currentMap);
+        }
+
+
 
         private void Awake()
         {
