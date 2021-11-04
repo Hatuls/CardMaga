@@ -5,12 +5,23 @@ using UnityEngine;
 
 public static class SaveManager
 {
+#if UNITY_EDITOR
+    [UnityEditor.MenuItem("Save System/Open data path")]
+    private static void OpenDataPath()
+    {
+        string path = Application.persistentDataPath;
+
+        path = path.Replace(@"/", @"");
+        System.Diagnostics.Process.Start("explorer.exe", "/open," + path);
+    }
+#endif
     public enum FileStreamType { Binary = 0, FileStream = 1 , PlayerPref =2 };
 
 
-    public static void SaveFile<T>(T objectT, string fileName, FileStreamType fileStreamType ,bool toPersistantDataPath = true, string fileType = "txt", string PathFolders = "")
+    public static void SaveFile<T>(T objectT, string fileName,bool toPersistantDataPath = true, string fileType = "txt", string PathFolders = "")   where T : ISaveable
     {
-        switch (fileStreamType)
+
+        switch (objectT.FileStreamType)
         {
             case FileStreamType.Binary:
                 SaveToFilePathAndConvertItToBinary(objectT, fileName, fileType, PathFolders, toPersistantDataPath);
@@ -125,4 +136,8 @@ public static class SaveManager
         }
         return null;
     }
+}
+public interface ISaveable
+{
+   SaveManager.FileStreamType FileStreamType { get; }
 }

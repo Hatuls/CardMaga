@@ -152,6 +152,8 @@ namespace Battles
                                     Dexterity = int.Parse(row[CharacterDexterityPointIndex]),
                                 };
 
+                                ushort _iD = 0; 
+                                byte _lEVEL = 0;
 
                                 const int iD = 0, Level = 1;
                                 //deck cards
@@ -161,19 +163,47 @@ namespace Battles
                                 {
                                     string[] data = Cards[i].Split('^');
 
+                                    if (ushort.TryParse(data[iD], out ushort rID))
+                                    {
+                                        _iD = rID;
+                                    }else
+                                        throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid ID! ({data[iD]})");
 
-
-                                    _deck[i] = new CardInfo(cardCollection.GetCard(ushort.Parse(data[iD])), byte.Parse(data[Level]));
+                                    if (byte.TryParse(data[Level], out byte lvl))
+                                    {
+                                        _lEVEL = lvl;
+                                    }else
+                                        throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
+                                    _deck[i] = new CardInfo(cardCollection.GetCard(_iD), _lEVEL);
 
                                 }
 
                                 //Recipes / Combos
                                 string[] Recipe = row[CharacterRecipeIndex].Split('&');
                                 _combos = new RecipeInfo[Recipe.Length];
+
                                 for (int i = 0; i < Recipe.Length; i++)
                                 {
                                     string[] data = Recipe[i].Split('^');
-                                    _combos[i] = new RecipeInfo(recipeCollections.GetCombo(ushort.Parse(data[iD])), byte.Parse(data[Level]));
+
+                                    if (ushort.TryParse(data[iD] , out ushort rID))
+                                    {
+                                        _iD = rID;
+                                    }
+                                    else
+                                        throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid ID! ({data[iD]})");
+
+
+                                    if (byte.TryParse(data[Level],out byte lvl))
+                                    {
+                                        _lEVEL = lvl;
+                                    }
+                                    else
+                                        throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid level ({data[Level]}) for recipe id: {_id}");
+                                    
+
+
+                                    _combos[i] = new RecipeInfo(recipeCollections.GetCombo(_iD), _lEVEL);
 
 
                                     if (_combos[i].ComboRecipe == null)

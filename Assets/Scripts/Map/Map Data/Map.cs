@@ -5,13 +5,16 @@ using System.Linq;
 namespace Map
 {
     [System.Serializable]
-    public class Map
+    public class Map : ISaveable
     {
         public List<Node> nodes; // template of the map (the whole map nodes)
 
         public List<Point> path; // players path
 
         public string configName;
+
+        public SaveManager.FileStreamType FileStreamType => SaveManager.FileStreamType.FileStream;
+
         public Map(string configName,List<Node> nodes, List<Point> path)
         {
             this.configName = configName;
