@@ -146,7 +146,7 @@ namespace Map
             {
                 var maps = Factory.GameFactory.Instance.MapsTemplate.maps;
                 _currentMap = maps[Random.Range(0, maps.Length)];
-                _mapView.ShowMap(map);
+                _mapView.ShowMap(_currentMap);
             }
             //if (map != null)
             //{
