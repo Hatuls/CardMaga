@@ -130,8 +130,10 @@ namespace Map
                    return;
                }
 
-                if (map.path.Any(p => p.y == map.nodes.Count - 1))
-                {
+                // if (map.path.Any(p => map.GetNode(p).NodeTypeEnum== NodeType.Boss_Enemy))
+                int bossYPoint = _mapCFG._nodeLayers.Length - 1;
+                if (map.path.Any(p => p.y == bossYPoint))
+                { 
                     FinishedMap();
                 }
                 else
