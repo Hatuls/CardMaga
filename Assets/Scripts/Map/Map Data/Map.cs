@@ -13,7 +13,7 @@ namespace Map
 
         public string configName;
 
-        public SaveManager.FileStreamType FileStreamType => SaveManager.FileStreamType.FileStream;
+        public SaveManager.FileStreamType FileStreamType => SaveManager.FileStreamType.PlayerPref;
 
         public Map(string configName,List<Node> nodes, List<Point> path)
         {

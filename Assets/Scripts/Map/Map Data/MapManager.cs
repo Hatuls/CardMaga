@@ -8,7 +8,7 @@ namespace Map
 
     public class MapsTemplateContainer
     {
-       public static Map[] maps;
+       public  Map[] maps;
         public MapsTemplateContainer()
         {
             Debug.Log("Loading Maps From Resources");
@@ -60,6 +60,8 @@ namespace Map
 
 
         [SerializeField] string _saveMapCFGName;
+
+   
         [Sirenix.OdinInspector.Button("Save Map Config")]
         public void SaveMapConfig()
         {
@@ -89,7 +91,7 @@ namespace Map
         private void Start()
         {
 
-            StartMap();
+           StartMap();
         }
 
         [Sirenix.OdinInspector.Button()]
@@ -118,24 +120,19 @@ namespace Map
  
         private  void StartMap()
         {
-            Map  map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.FileStream);
+            Map  map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.PlayerPref);
 
-
-
-            if (map != null)
+            if (map!= null)
             {
-             
+               if (map.nodes == null || map.nodes.Count ==0)
+               {
+                   GenerateNewMap();  
+                   return;
+               }
 
-                if (map.nodes == null || map.nodes.Count ==0)
+                if (map.path.Any(p => p.y == map.nodes.Count - 1))
                 {
-                    GenerateNewMap();  
-                    return;
-                }
-                // using this instead of .Contains()
-                if (map.path.Any(p => p.y == map.nodes.Count-1))
-                {
-                    // player has already reached the boss, generate a new map
-                    GenerateNewMap();
+                    FinishedMap();
                 }
                 else
                 {
@@ -144,12 +141,45 @@ namespace Map
                     _mapView.ShowMap(map);
                 }
                 return;
+            }
+            else
+            {
+                var maps = Factory.GameFactory.Instance.MapsTemplate.maps;
+                _currentMap = maps[Random.Range(0, maps.Length)];
+                _mapView.ShowMap(map);
+            }
+            //if (map != null)
+            //{
 
-            }else
-            GenerateNewMap();
+
+            //    if (map.nodes == null || map.nodes.Count ==0)
+            //    {
+            //        GenerateNewMap();  
+            //        return;
+            //    }
+            //    // using this instead of .Contains()
+            //    if (map.path.Any(p => p.y == map.nodes.Count-1))
+            //    {
+            //        // player has already reached the boss, generate a new map
+            //        GenerateNewMap();
+            //    }
+            //    else
+            //    {
+            //        _currentMap = map;
+            //        // player has not reached the boss yet, load the current map
+            //        _mapView.ShowMap(map);
+            //    }
+            //    return;
+
+            //}else
+            //GenerateNewMap();
 
         }
 
+        private  void FinishedMap()
+        {
+            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+        }
 
         private void OnApplicationQuit()
         {
