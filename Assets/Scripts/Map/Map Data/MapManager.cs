@@ -1,9 +1,50 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Map
 {
+
+    public class MapsTemplateContainer
+    {
+       public static Map[] maps;
+        public MapsTemplateContainer()
+        {
+            Debug.Log("Loading Maps From Resources");
+            LoadMapsResources();
+        }
+        private async void LoadMapsResources()
+        {
+            var texts = Resources.LoadAll<TextAsset>("MapCFG");
+            if (texts.Length == 0)
+            {
+                Debug.LogWarning("No Maps Found!");
+                return;
+            }
+            List<Map> _maps = new List<Map>(texts.Length);
+
+            for (int i = 0; i < texts.Length; i++)
+                CreateMap(texts[i].text, _maps);
+            
+
+                await Task.Yield();
+            maps = _maps.ToArray();
+            Debug.Log("<a>Map Loading Complete!</a>");
+        }
+
+        private async void CreateMap(string data, List<Map> maps)
+        {
+            Debug.Log(data);
+                var m = JsonUtilityHandler.LoadFromJson<Map>(data);
+            await Task.Yield();
+            maps.Add(m);
+
+        }
+    }
+
+
+
     public class MapManager : MonoBehaviour
     {
         private static MapManager _instance;
@@ -22,7 +63,7 @@ namespace Map
         [Sirenix.OdinInspector.Button("Save Map Config")]
         public void SaveMapConfig()
         {
-            SaveManager.SaveFile(_currentMap, _saveMapCFGName,false, "txt", "Maps/");
+            SaveManager.SaveFile(_currentMap, _saveMapCFGName,false, "txt", "Resources/MapCFG/");
         }
 
 

@@ -41,13 +41,14 @@ namespace Factory
 
         public Art.ArtSO ArtBlackBoard { get; private set; }
 
-
+        public MapsTemplateContainer MapsTemplate { get; set; }
         public GameFactory(Art.ArtSO art,CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards , EventPointCollectionSO eventPoints)
         {
             if (cards == null || comboCollectionSO == null || characters == null || rewards == null|| eventPoints == null)
                 throw new Exception("Collections is null!!");
 
             ArtBlackBoard = art;
+            MapsTemplate = new MapsTemplateContainer();
             CardFactoryHandler = new CardFactory(cards);
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
