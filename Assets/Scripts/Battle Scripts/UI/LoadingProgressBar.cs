@@ -8,15 +8,18 @@ public class LoadingProgressBar : MonoBehaviour
 
 
     bool isFirstUpdate = true;
- 
+
+
     void Update()
     {
         if (isFirstUpdate)
         {
+            _loadingBar.value = 0;
             isFirstUpdate = false;
             SceneHandler.LoaderCallback();
+            
         }
 
-        _loadingBar.value = SceneHandler.LoadingProgress();
+        _loadingBar.value = 1-SceneHandler.LoadingProgress();
     }
 }
