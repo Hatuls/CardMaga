@@ -22,6 +22,8 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>, IPointerCli
 
     private void SetActivePanels()
     {
+        _currentPage = 1;
+
         var recipes = Managers.PlayerManager.Instance.Recipes;
         Combo.ComboSO[] playerRecipe = new Combo.ComboSO[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
