@@ -54,11 +54,37 @@ public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>, IPointerCli
 
         for (int i = 0; i < comboRecipeUIs.Length; i++)
         {
-            if (comboRecipeUIs[i]  != null && comboRecipeUIs[i].gameObject.activeSelf && i * page < playerRecipe.Length)
+            var calculation = (comboRecipeUIs.Length * (page - 1)) + i;
+            if (calculation < playerRecipe.Length)
+            {
+                if(!comboRecipeUIs[i].gameObject.activeSelf)
+                {
+                    comboRecipeUIs[i].gameObject.SetActive(true);
+                }
+                comboRecipeUIs[i].InitRecipe(playerRecipe[calculation]);
+            }
+            else
             {
 
-            comboRecipeUIs[i].InitRecipe(playerRecipe[i * page]);
+                comboRecipeUIs[i].gameObject.SetActive(false);
             }
+        }
+    }
+    public void PageRight()
+    {
+        var recipes = Managers.PlayerManager.Instance.Recipes;
+        if(recipes.Length > comboRecipeUIs.Length * _currentPage)
+        {
+            _currentPage++;
+            InitPage(_currentPage);
+        }
+    }
+    public void PageLeft()
+    {
+        if (comboRecipeUIs.Length * _currentPage > comboRecipeUIs.Length)
+        {
+            _currentPage--;
+            InitPage(_currentPage);
         }
     }
 
