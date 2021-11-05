@@ -84,6 +84,9 @@ namespace UI.Meta.PlayScreen
             EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
             energyHandler.ReduceAmount(5);
             _playpackage.SendPackage();
+            if (PlayerPrefs.HasKey("Map"))
+            PlayerPrefs.DeleteKey("Map");
+                
             _sceneLoad.LoadScene(SceneHandler.ScenesEnum.MapScene);
         }
 
