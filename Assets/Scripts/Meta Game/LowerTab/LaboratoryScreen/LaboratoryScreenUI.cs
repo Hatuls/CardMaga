@@ -1,17 +1,33 @@
 ﻿using UnityEngine;
 using TMPro;
+using System;
 
 namespace UI.Meta.Laboratory
 {
+    public enum LabPanelsEnum
+    {
+        Deck = 0,
+        Upgrade = 1,
+        Fuse = 2,
+    }
     public class LaboratoryScreenUI: TabAbst
     {
         #region Fields
-        DeckCollectionScreenUI _deckCollectionScreenUI;
-        FuseScreenUI _fuseScreenUI;
-        //UpgradeScreenUI _upgradeScreenUI;
-        TextMeshProUGUI _dismantleText;
         [SerializeField]
-        MaxScrollLength _labTabs;
+        GameObject _deckPanel;
+        [SerializeField]
+        GameObject _deckPanelTitle;
+        [SerializeField]
+        GameObject _upgradePanel;
+        [SerializeField]
+        GameObject _upgradePanelTitle;
+        [SerializeField]
+        GameObject _fusePanel;
+        [SerializeField]
+        GameObject _fusePanelTitle;
+        TextMeshProUGUI _dismantleText;
+        #endregion
+
         public override void Close()
         {
             gameObject.SetActive(false);
@@ -19,6 +35,64 @@ namespace UI.Meta.Laboratory
         public override void Open()
         {
             gameObject.SetActive(true);
+
+        }
+
+        #region ButtonSwitch
+        public void OpenPanel(int panelIndex)
+        {
+            switch ((LabPanelsEnum)panelIndex)
+            {
+                case LabPanelsEnum.Deck:
+                    OpenDeckPanel();
+                    break;
+                case LabPanelsEnum.Upgrade:
+                    OpenUpgradePanel();
+                    break;
+                case LabPanelsEnum.Fuse:
+                    OpenFusePanel();
+                    break;
+                default:
+                    throw new Exception("LabratoryScreenUI Unknown Enum");
+            }
+        }
+
+        private void OpenDeckPanel()
+        {
+            CloseUpgradePanel();
+            CloseFusePanel();
+            _deckPanelTitle.gameObject.SetActive(true);
+            _deckPanel.gameObject.SetActive(true);
+        }
+        private void OpenUpgradePanel()
+        {
+            CloseDeckPanel();
+            CloseFusePanel();
+            _upgradePanelTitle.gameObject.SetActive(true);
+            _upgradePanel.gameObject.SetActive(true);
+
+        }
+        private void OpenFusePanel()
+        {
+            CloseDeckPanel();
+            CloseUpgradePanel();
+            _fusePanelTitle.gameObject.SetActive(true);
+            _fusePanel.gameObject.SetActive(true);
+        }
+        private void CloseDeckPanel()
+        {
+            _deckPanelTitle.gameObject.SetActive(false);
+            _deckPanel.gameObject.SetActive(false);
+        }
+        private void CloseUpgradePanel()
+        {
+            _upgradePanelTitle.gameObject.SetActive(false);
+            _upgradePanel.gameObject.SetActive(false);
+        }
+        private void CloseFusePanel()
+        {
+            _fusePanelTitle.gameObject.SetActive(false);
+            _fusePanel.gameObject.SetActive(false);
         }
         #endregion
     }
