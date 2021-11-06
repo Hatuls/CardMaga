@@ -11,6 +11,10 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
 
     private bool AddCardToEmptySlot(Card card)
     {
+        var bodypartEnum = card.BodyPartEnum;
+        if (bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None)
+            return true;
+
         bool foundEmptySlots = false;
         for (int i = 0; i < GetDeck.Length; i++)
         {
@@ -26,6 +30,9 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
     }
     public override bool AddCard(Card card)
     {
+        var bodypartEnum = card.BodyPartEnum;
+        if (bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None)
+            return true;
 
         if (AddCardToEmptySlot(card) == false)
         {
@@ -56,8 +63,13 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
     }
     public void AddCard(Card card , bool toDetect)
     {
+
+        var bodypartEnum = card.BodyPartEnum;
+        if (bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None)
+            return;
+
         Card lastCardInDeck = null;
-        
+
         for (int i = GetDeck.Length - 1; i >= 1; i--)
         {
             if (i == GetDeck.Length - 1)
@@ -86,59 +98,6 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
         _playerCraftingUIHandler.ResetPlaceHolderUI(i);
     }
 
-    //when getting a card I move all other cards first
-    //if card is on the 5th index I turn his UI off and reset the slot
-    //if a card in on the second to the 4th slot I move him by 1 with leen tween and his data
-
-    //assign his data to the first slot
-    //turn on his UI on the first slot
-    //than move him to the next slot and data
-    //clear the first slot
+  
 }
 
-
-//public class OpponentCraftingSlot : Battles.Deck.DeckAbst
-//{
-//    CraftingUIHandler _opponentCraftingUIHandler;
-//    public OpponentCraftingSlot(int cardsLength) : base(cardsLength)
-//    {
-//        _opponentCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(false);
-//    }
-//    public override void AddCard(Card card)
-//    {
-//        for (int i = GetDeck.Length - 1; i >= 0; i--)
-//        {
-//            if (i != 0)
-//            {
-//                GetDeck[i] = GetDeck[i - 1];
-//            }
-//            else
-//            {
-//                GetDeck[i] = card;
-//            }
-//            if (i == GetDeck.Length - 1)
-//            {
-//                GetDeck[i] = null;
-//            }
-
-
-//            _opponentCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
-//        }
-
-//        _opponentCraftingUIHandler.ChangeSlotsPos(GetDeck);
-//       CountCards();
-//     //  Combo.ComboManager.StartDetection();
-//    }
-//    public override void ResetDeck()
-//    {
-//        base.ResetDeck();
-//        _opponentCraftingUIHandler.ResetAllSlots();
-//    //    Combo.ComboManager.StartDetection();
-//    }
-//    void ResetPlaceHolderUI(int i)
-//    {
-//        _opponentCraftingUIHandler.ResetPlaceHolderUI(i);
-//    }
-
-
-//}

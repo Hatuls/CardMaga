@@ -13,7 +13,7 @@ public class CSVManager
     public static CharacterCollectionSO _characterCollection;
     public static ComboCollectionSO _comboCollection;
     public static CardsCollectionSO _cardCollection;
-    public static Keywords.KeywordSO[] _keywordsSO;
+    public static Keywords.KeywordsCollectionSO _keywordsSO;
     public static Sprite[] cardsPictures;
     public static BattleRewardCollectionSO _battleRewards;
 

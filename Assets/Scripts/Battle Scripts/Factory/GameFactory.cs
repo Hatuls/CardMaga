@@ -1,14 +1,14 @@
-﻿using Battles;
+﻿using Account.GeneralData;
+using Battles;
 using Cards;
+using Characters;
 using Collections;
 using Combo;
+using Map;
+using Rewards;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Rewards;
-using Characters;
-using Account.GeneralData;
-using Map;
 
 namespace Factory
 {
@@ -25,26 +25,28 @@ namespace Factory
                     ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
                     CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
                     BattleRewardCollectionSO battleRewardsCollection = Resources.Load<BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
-                    EventPointCollectionSO eventPointCollection  = Resources.Load<EventPointCollectionSO>("Collection SO/EventPointCollection");
+                    EventPointCollectionSO eventPointCollection = Resources.Load<EventPointCollectionSO>("Collection SO/EventPointCollection");
                     Art.ArtSO _art = Resources.Load<Art.ArtSO>("Art/AllPalette/ART BLACKBOARD");
-
-                    _instance = new GameFactory(_art,cardCollections, recipeCollection, characterCollection, battleRewardsCollection, eventPointCollection);
+                    Keywords.KeywordsCollectionSO keywordsCollection = Resources.Load<Keywords.KeywordsCollectionSO>("Collection SO/KeywordSOCollection");
+                    _instance = new GameFactory(_art, cardCollections, recipeCollection, characterCollection, battleRewardsCollection, eventPointCollection, keywordsCollection);
                 }
                 return _instance;
             }
         }
+
+        
         public ComboFactory ComboFactoryHandler { get; private set; }
         public CardFactory CardFactoryHandler { get; private set; }
         public CharacterFactory CharacterFactoryHandler { get; private set; }
         public RewardFactory RewardFactoryHandler { get; private set; }
         public EventPointFactory EventPointFactoryHandler { get; private set; }
-
+        public KeywordFactory KeywordSOHandler { get; private set; }
         public Art.ArtSO ArtBlackBoard { get; private set; }
-
+       
         public MapsTemplateContainer MapsTemplate { get; set; }
-        public GameFactory(Art.ArtSO art,CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards , EventPointCollectionSO eventPoints)
+        public GameFactory(Art.ArtSO art, CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards, EventPointCollectionSO eventPoints, Keywords.KeywordsCollectionSO keywords)
         {
-            if (cards == null || comboCollectionSO == null || characters == null || rewards == null|| eventPoints == null)
+            if (cards == null || comboCollectionSO == null || characters == null || rewards == null || eventPoints == null)
                 throw new Exception("Collections is null!!");
 
             ArtBlackBoard = art;
@@ -54,6 +56,7 @@ namespace Factory
             CharacterFactoryHandler = new CharacterFactory(characters);
             RewardFactoryHandler = new RewardFactory(rewards);
             EventPointFactoryHandler = new EventPointFactory(eventPoints);
+            KeywordSOHandler = new KeywordFactory(keywords);
             Debug.Log("Factory Created<a>!</a>");
 
             _instance = this;
@@ -85,7 +88,7 @@ namespace Factory
 
 
         }
-        public class CharacterFactory 
+        public class CharacterFactory
         {
             public CharacterCollectionSO CharacterCollection { get; private set; }
             public CharacterFactory(CharacterCollectionSO characterCollection)
@@ -116,15 +119,15 @@ namespace Factory
             {
 
                 List<CharacterSO> characterFound = new List<CharacterSO>();
-                CharacterSO[] characterSOs = CharacterCollection.CharactersSO; 
+                CharacterSO[] characterSOs = CharacterCollection.CharactersSO;
                 for (int i = 0; i < characterSOs.Length; i++)
                 {
-                    if(characterSOs[i].CharacterType == characterType)
+                    if (characterSOs[i].CharacterType == characterType)
                     {
                         characterFound.Add(characterSOs[i]);
                     }
                 }
-                if(characterFound.Count == 0)
+                if (characterFound.Count == 0)
                 {
                     throw new Exception($"GameFactory did not find a character from {characterType}");
                 }
@@ -132,7 +135,7 @@ namespace Factory
             }
 
             public Character CreateCharacter(CharacterData data, AccountDeck _deck)
-                => new Character( data,  _deck);
+                => new Character(data, _deck);
             internal Character CreateCharacter(CharacterTypeEnum character)
             {
                 var characterSO = CharacterCollection.CharactersSO;
@@ -144,11 +147,11 @@ namespace Factory
                 throw new Exception($"Could not create Character class because {characterSO} was not found in the SO !");
             }
         }
-        public class ComboFactory 
+        public class ComboFactory
         {
             public ComboCollectionSO ComboCollection { get; private set; }
 
-            public ComboFactory( ComboCollectionSO comboCollection)
+            public ComboFactory(ComboCollectionSO comboCollection)
             {
                 ComboCollection = comboCollection;
                 comboCollection.AssignDictionary();
@@ -166,8 +169,8 @@ namespace Factory
                 return null;
             }
 
-             public Combo.Combo CreateCombo(CharacterSO.RecipeInfo recipe)
-             =>new Combo.Combo(recipe);
+            public Combo.Combo CreateCombo(CharacterSO.RecipeInfo recipe)
+            => new Combo.Combo(recipe);
 
             public Combo.Combo CreateCombo(ComboSO comboSO, byte level = 0)
                => new Combo.Combo(comboSO, level);
@@ -284,19 +287,31 @@ namespace Factory
                 {
                     var cardContainer = cardsDataHolder[i];
 
-                    if (cardContainer == null )
-                    throw new Exception($"CardFactory: card was not created!\nCard at index: {i}  is null!");
+                    if (cardContainer == null)
+                        throw new Exception($"CardFactory: card was not created!\nCard at index: {i}  is null!");
 
                     cards[i] = CreateCard(cardContainer);
 
                     if (cards[i] == null)
                         throw new Exception($"Card Factory: Card Was Not Created From:\n ID: {cardContainer.CardID}\nLevel: {cardContainer.Level}");
-                 
+
                 }
 
                 return cards;
             }
         }
+
+
+        public class KeywordFactory
+        {
+            Keywords.KeywordsCollectionSO _keywordCollection;
+            public KeywordFactory(Keywords.KeywordsCollectionSO keyword)
+            {
+                _keywordCollection = keyword;
+            }
+            public Keywords.KeywordSO GetKeywordSO(Keywords.KeywordTypeEnum type)
+                => _keywordCollection.GetKeywordSO(type);
+        }
     }
-     
+
 }

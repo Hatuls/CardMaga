@@ -74,7 +74,7 @@ namespace Combo
         #region Properties
 
 
-        public string GetDescription => CraftedCard.CardDescription;
+        public string GetDescription => CraftedCard.CardDescription(0);
 
 
         #endregion

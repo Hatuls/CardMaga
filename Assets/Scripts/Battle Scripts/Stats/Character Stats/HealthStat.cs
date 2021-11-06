@@ -5,7 +5,7 @@ namespace Characters.Stats
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Heal;
         MaxHealthStat _maxHealthStats;
-        public HealthStat(MaxHealthStat maxHealth,bool isPlayer , int amount) : base(isPlayer, amount)
+        public HealthStat(MaxHealthStat maxHealth, bool isPlayer, int amount) : base(isPlayer, amount)
         {
             _maxHealthStats = maxHealth;
         }

@@ -64,6 +64,7 @@ namespace Cards
             toExhaust = _card.ToExhaust;
 
             _currentLevel = cardsLevel;
+
             var levelUpgrade = _card.GetLevelUpgrade(cardsLevel);
             List<KeywordData> keywordsList = new List<KeywordData>(1);
             for (int i = 0; i < levelUpgrade.UpgradesPerLevel.Length; i++)

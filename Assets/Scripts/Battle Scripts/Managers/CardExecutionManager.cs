@@ -190,7 +190,10 @@ namespace Battles
         // when the animation event fire his index -> the list execute the keyword and move to the next index
 
         public void AddToQueue(Cards.Card card)
-        {   
+        {
+            if (BattleManager.isGameEnded)
+                return;
+
             _cardsQueue.Enqueue(card);
             bool firstCard = _cardsQueue.Count == 1;
             Debug.Log($"<a>Register card queue has {_cardsQueue.Count} cards in it\nIs First Card {firstCard}</a>");
@@ -203,7 +206,7 @@ namespace Battles
        public void ActivateCard()
         {
             // play the card animation
-           if (_cardsQueue.Count == 0)
+           if (_cardsQueue.Count == 0 || BattleManager.isGameEnded)
                 return;
             Debug.Log("<a>Activating Card</a>");
             // sort his keyowrds
@@ -279,6 +282,10 @@ namespace Battles
 
         public void OnKeywordEvent()
         {
+            if (BattleManager.isGameEnded)
+                return;
+
+
                 Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
             bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
 

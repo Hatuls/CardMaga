@@ -24,6 +24,7 @@ public class CSVToKeywordsSO :CSVAbst
 
         List<KeywordSO> _keywordList = new List<KeywordSO>();
         const int secondRow = 2;
+
         for (int i = secondRow; i < rows.Length; i++)
         {
             string[] line = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
@@ -39,7 +40,12 @@ public class CSVToKeywordsSO :CSVAbst
             else
                 break;
         }
-        CSVManager._keywordsSO = _keywordList.ToArray();
+       var keywor  = _keywordList.ToArray();
+
+      CSVManager._keywordsSO  = ScriptableObject.CreateInstance<KeywordsCollectionSO>();
+        CSVManager._keywordsSO.Init(keywor);
+        AssetDatabase.CreateAsset(CSVManager._keywordsSO, string.Concat("Assets/Resources/Collection SO/", "KeywordSOCollection", ".asset"));
+
         AssetDatabase.SaveAssets();
         _isCompleted = true;
     }

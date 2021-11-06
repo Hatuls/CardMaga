@@ -5,9 +5,14 @@ namespace Cards
     [System.Serializable]
     public class PerLevelUpgrade
     {
-        public PerLevelUpgrade(Upgrade[] upgrades)
-            => _upgradesPerLevel = upgrades;
-
+        public PerLevelUpgrade(Upgrade[] upgrades, string info)
+        {
+          _upgradesPerLevel = upgrades;
+            _description = info;
+        }
+[SerializeField]
+        private string _description;
+        public string Description => _description;
         [SerializeField]
         private Upgrade[] _upgradesPerLevel;
         public Upgrade[] UpgradesPerLevel => _upgradesPerLevel;

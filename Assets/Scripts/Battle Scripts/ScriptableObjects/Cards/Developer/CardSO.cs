@@ -47,14 +47,8 @@ namespace Cards
         public CardTypeEnum CardTypeEnum => CardType.CardType;
 
 
-
-
-
-        [VerticalGroup("CardData/Info/Display/Coulmn 2")]
-        [SerializeField]
-        [LabelWidth(80f)]
-        private string _cardDescription;
-        public string CardDescription { get=> _cardDescription; set=> _cardDescription= value; }
+        public string CardDescription(byte level)
+            => PerLevelUpgrade[level]?.Description;
 
 
 

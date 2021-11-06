@@ -1,4 +1,5 @@
-﻿using Keywords;
+﻿using Battles.UI;
+using Keywords;
 using UnityEngine;
 using UnityEngine.Events;
 public class RemoveUIIcon: UnityEvent<bool ,KeywordTypeEnum>{}
@@ -14,6 +15,8 @@ public class BuffIconsHandler : MonoBehaviour
     [SerializeField] Art.ArtSO _artSO;
 
     [SerializeField] BuffIcon _enemyOpponentActionUI;
+
+    [SerializeField] bool isPlayer;
     #endregion
     private void Start()
     {
@@ -31,6 +34,10 @@ public class BuffIconsHandler : MonoBehaviour
                 }
             }
         }
+        if (isPlayer)
+            BattleUiManager.Instance.PlayerBuffHandler = this;
+     else
+            BattleUiManager.Instance.EnemyBuffHandler = this;
     }
     BuffIcon GetFreeSlot()
     {

@@ -173,7 +173,7 @@ namespace Battles.Turns
                 CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount
                 ) ; 
 
-            StaminaHandler.Instance.ResetStamina(isPlayerTurn);
+            StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
 
             Debug.Log("Enemy Drawing Cards!");
             yield return new WaitForSeconds(0.1f);
@@ -252,7 +252,7 @@ namespace Battles.Turns
             yield return KeywordManager.Instance.OnStartTurnKeywords(true);
 
             Deck.DeckManager.Instance.DrawHand(true, CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Draw).Amount);
-            StaminaHandler.Instance.ResetStamina(true) ;
+            StaminaHandler.Instance.OnStartTurn(true) ;
             Debug.Log("Player Drawing Cards!");
             MoveToNextTurnState();
         }
@@ -313,7 +313,7 @@ namespace Battles.Turns
              * each animation that finished tell the CardExecutionManager to execute the keyword effects of the current card
              * and remove the current card from the placementslot
             */
-
+            StaminaHandler.Instance.OnEndTurn(true);
             Deck.DeckManager.Instance.OnEndTurn(true);
             CardUIManager.Instance.RemoveHands();
             CardExecutionManager.Instance.ResetExecution();

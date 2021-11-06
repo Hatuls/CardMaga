@@ -1,5 +1,5 @@
-﻿using System;
-using Battles.UI;
+﻿using Battles.UI;
+using System;
 
 namespace Characters.Stats
 {
@@ -13,8 +13,8 @@ namespace Characters.Stats
         {
             this.isPlayer = isPlayer;
             Amount = amount;
-            if (_updateUIStats== null)
-             _updateUIStats += BattleUiManager.Instance.UpdateUiStats;
+            if (_updateUIStats == null)
+                _updateUIStats += BattleUiManager.Instance.UpdateUiStats;
         }
         ~StatAbst()
         {

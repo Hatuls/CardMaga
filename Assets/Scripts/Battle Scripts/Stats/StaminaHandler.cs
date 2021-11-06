@@ -25,12 +25,14 @@ namespace Characters.Stats
         public void InitStaminaHandler()
         {
             bool isPlayer = true;
+            var character = CharacterStatsManager.GetCharacterStatsHandler(isPlayer);
             _playerStamina = new CharacterStamina(
-                CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(Keywords.KeywordTypeEnum.Stamina).Amount
+              character.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, character.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount
                 );
 
+             character = CharacterStatsManager.GetCharacterStatsHandler(!isPlayer);
             _opponentStamina = new CharacterStamina(
-               CharacterStatsManager.GetCharacterStatsHandler(!isPlayer).GetStats(Keywords.KeywordTypeEnum.Stamina).Amount
+              character.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, character.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount
                 );
         }
 
@@ -48,7 +50,7 @@ namespace Characters.Stats
             public int StaminaAddition { get; set; }
 
          
-
+            
             public void StartTurn() => Stamina = StartStamina + StaminaAddition;
 
             public void AddStaminaAddition(int addition)
@@ -67,12 +69,12 @@ namespace Characters.Stats
                 }
             }
 
-            public CharacterStamina(int startAmount)
+            public CharacterStamina(int startAmount ,int stamminaShards)
             {
                 StaminaAddition = 0;
                 StartStamina = startAmount;
                 Stamina = startAmount;
-                StaminaShards = 0;
+                StaminaShards = stamminaShards;
             }
         }
 
@@ -85,7 +87,18 @@ namespace Characters.Stats
 
 
         #region Public Methods
-        public void ResetStamina(bool isPlayer)
+
+        public void OnEndTurn(bool isPlayer)
+        {
+            var charactersStamina = GetCharacterStamina(isPlayer);
+
+            charactersStamina.Stamina = 0;
+            //  charactersStamina.ResetStaminaAddition();
+
+            if (isPlayer)
+                _staminaUI?.SetText(charactersStamina.Stamina);
+        }
+        public void OnStartTurn(bool isPlayer)
         {
             var charactersStamina = GetCharacterStamina(isPlayer);
 

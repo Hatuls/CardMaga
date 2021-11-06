@@ -1,6 +1,4 @@
-﻿
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 namespace Keywords
 {
     [CreateAssetMenu( fileName = "KeywordSO", menuName ="ScriptableObjects/Keywords" )]
@@ -22,12 +20,12 @@ namespace Keywords
         [Tooltip("What Effect does it do")]
         [SerializeField] KeywordTypeEnum _keyword;
 
-        [SerializeField] int _infoAmount;
+        [SerializeField] byte _infoAmount;
         #endregion
 
         #region Properties
         public int ID => _iD;
-        public int InfoAmount => _infoAmount;
+        public byte InfoAmount => _infoAmount;
         public bool GetIsStackable => _isStackable;
         public bool GetIsPrecentage => _isPrecentage;
         public DurationEnum GetDurationEnum => _durationEnum;
@@ -66,7 +64,7 @@ namespace Keywords
             else
             throw new System.Exception($"ID:{_iD}, Keyword: {_keyword}\nIs Precentage is not a valid number!");
 
-            if (int.TryParse(Data[InfoAmountIndex], out int amount))
+            if (byte.TryParse(Data[InfoAmountIndex], out byte amount))
                _infoAmount = amount;
            
            
@@ -89,5 +87,5 @@ namespace Keywords
         OverBattles
     };
 
-    
+
 }

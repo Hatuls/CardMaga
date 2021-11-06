@@ -111,14 +111,14 @@ namespace Battles.UI.CardUIAttributes
             }
             GetDescriptionTxt.text = cardDescription;
         }
-        internal void SetCardReference(CardSO cardData, ArtSO artSO)
+        internal void SetCardReference(CardSO cardData, ArtSO artSO ,byte lvl = 0)
         {
             if (cardData == null)
                 return;
      // set visual
             SetNameText(cardData.CardName);
 
-            SetCardDescriptionText(cardData.CardDescription);
+            SetCardDescriptionText(cardData.CardDescription(lvl));
 
             SetLastCardEffectText("");
 
@@ -150,7 +150,7 @@ namespace Battles.UI.CardUIAttributes
                 Debug.LogError("Card Data is NULL!");
             }
            _cardReferenceInHandDeck = cardData;
-            SetCardReference( cardData.CardSO, artSO);
+            SetCardReference( cardData.CardSO, artSO, cardData.CardLevel);
         }
 
         private void SetStaminaText(int stamina)

@@ -1,11 +1,10 @@
-﻿using UnityEditor;
-using System.IO;
-using UnityEngine;
+﻿using Cards;
+using Collections;
 using System;
 using System.Collections.Generic;
-using Cards;
-using Collections;
 using System.Threading.Tasks;
+using UnityEditor;
+using UnityEngine;
 
 public class CSVToCardSO : CSVAbst
 {
@@ -24,9 +23,9 @@ public class CSVToCardSO : CSVAbst
     private async static void OnCompleteDownloadingCardCSV(string txt)
     {
 
-       await LoadSpritesAndKeywords();
+        await LoadSpritesAndKeywords();
 
-       await SeperateFiles(txt);
+        await SeperateFiles(txt);
 
         isCompleted = true;
 
@@ -34,7 +33,7 @@ public class CSVToCardSO : CSVAbst
 
     private async static Task SeperateFiles(string data)
     {
- csv = data.Replace("\r", "").Split('\n');
+        csv = data.Replace("\r", "").Split('\n');
 
         CSVManager._cardCollection = ScriptableObject.CreateInstance<CardsCollectionSO>();
 
@@ -131,12 +130,12 @@ public class CSVToCardSO : CSVAbst
 
     private async static Task LoadSpritesAndKeywords()
     {
-       
+
         float timeout = 1000000;
         float timer = 0;
-        
+
         CSVManager.cardsPictures = Resources.LoadAll<Sprite>("Art/CardsPictures");
-     
+
         while (CSVManager.cardsPictures == null && timer < timeout)
         {
             CSVManager.cardsPictures = Resources.LoadAll<Sprite>("Art/CardsPictures");
@@ -201,6 +200,7 @@ public class CSVToCardSO : CSVAbst
 
         card.ID = ushort.Parse(cardSO[ID]);
 
+
         card.CardName = cardSO[CardName];
         card.CardSprite = GetCardImageByName(card.CardName);
         //Keywords
@@ -230,9 +230,6 @@ public class CSVToCardSO : CSVAbst
 
         };
 
-
-        // Description
-        card.CardDescription = cardSO[CardDescription];
 
         //Stamina Cost
         card.StaminaCost = byte.Parse(cardSO[StaminaCost]);
@@ -267,7 +264,7 @@ public class CSVToCardSO : CSVAbst
 
         //Upgrades
         List<Cards.PerLevelUpgrade> _PerLevelUpgrade = new List<Cards.PerLevelUpgrade>();
-        _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType)));
+        _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType), cardSO[CardDescription]));
         string firstCardId = cardSO[UpgradeToCardID];
         do
         {
@@ -278,7 +275,7 @@ public class CSVToCardSO : CSVAbst
                 if (getRow.Length == 0)
                     Debug.LogError($"ID {myUpgradeVersionID} has no data in it!");
 
-                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType)));
+                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType), getRow[CardDescription]));
                 firstCardId = getRow[UpgradeToCardID];
             }
             else
@@ -331,26 +328,7 @@ public class CSVToCardSO : CSVAbst
         return upgrades.ToArray();
     }
 
-    private static Keywords.KeywordSO KeywordSOFromIndex(int KeywordSoIndex)
-    {
-        // checking if its valid enum and then check if the keyword so that were loadded has this enum in it
 
-
-        if ((Keywords.KeywordTypeEnum)KeywordSoIndex == Keywords.KeywordTypeEnum.None)
-            Debug.LogError("Keyword Type Is not In Range of KeywordTypeEnum");
-
-        if (CSVManager._keywordsSO.Length == 0)
-            Debug.LogError("Keyword So Was Not Loaded From Assets/Resources/KeywordsSO");
-
-        for (int j = 0; j < CSVManager._keywordsSO.Length; j++)
-        {
-            if (CSVManager._keywordsSO[j].GetKeywordType == (Keywords.KeywordTypeEnum)KeywordSoIndex)
-                return CSVManager._keywordsSO[j];
-        }
-
-
-        return null;
-    }
     private static string[] GetRowFromCSVByID(int id)
     {
         for (int i = 0; i < csv.GetLength(0); i++)
@@ -407,8 +385,8 @@ public class CSVToCardSO : CSVAbst
             {
                 if (IKeywordsType == 0)
                     continue;
+                keywordSO = CSVManager._keywordsSO.GetKeywordSO((Keywords.KeywordTypeEnum)IKeywordsType);
 
-                keywordSO = KeywordSOFromIndex(IKeywordsType);
 
                 if (int.TryParse(SSeperationAmountKeywords[i], out ISeperationAmountKeywords))
                 {

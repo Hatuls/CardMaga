@@ -187,8 +187,12 @@ namespace Rewards
                 }
                 var card = cardFactoryHandler.CardCollection.GetCard(CardId);
                 
-                rewardCards[i] = cardFactoryHandler.CreateCard(card, card.CardsMaxLevel > (byte)index ? (byte)0:(byte) index);
+                rewardCards[i] = cardFactoryHandler.CreateCard(card,( card.CardsMaxLevel <= (byte)index) ? (byte)card.CardsMaxLevel : (byte) index);
 
+                if (index > 0)
+                {
+
+                }
                 if (rewardCards[i] == null)
                     throw new System.Exception("Card Created is Null!"); 
             }

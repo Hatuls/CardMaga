@@ -5,6 +5,7 @@ namespace Factory
 {
     public class GameFactoryTerminal : MonoBehaviour
     {
+        [SerializeField] Keywords.KeywordsCollectionSO _keywords;
         [SerializeField] CardsCollectionSO _cards;
         [SerializeField] ComboCollectionSO _combos;
         [SerializeField] CharacterCollectionSO _characters;
@@ -51,6 +52,13 @@ namespace Factory
                         throw new System.Exception("Event Point Collection Was Not Assigned!");
                 }
 
+                if (_keywords == null)
+                {
+                    _keywords = Resources.Load<Keywords.KeywordsCollectionSO>("Collection SO/KeywordSOCollection");
+                    if(_keywords == null) 
+                        throw new System.Exception("GameFactoryTerminal : KeywordCollection Was not assigned!");
+                }
+
                 if (_art == null)
                 {
                     _art = Resources.Load<Art.ArtSO>("Art/AllPalette/ART BLACKBOARD");
@@ -58,7 +66,7 @@ namespace Factory
                         throw new System.Exception("ArtSO Was Not Assigned!");
                 }
 
-                GameFactory gameFactory = new GameFactory(_art, _cards, _combos, _characters, _rewards, _eventPoints);
+                GameFactory gameFactory = new GameFactory(_art, _cards, _combos, _characters, _rewards, _eventPoints, _keywords);
             }
             Destroy(this.gameObject);
         }

@@ -8,10 +8,12 @@ namespace Battles.UI
     public class BattleUiManager : MonoSingleton<BattleUiManager>
     {
         #region Fields
-        [SerializeField]
-        BuffIconsHandler _playerBuffHandler;
-        [SerializeField]
-        BuffIconsHandler _enemyBuffHandler;
+
+      public  BuffIconsHandler PlayerBuffHandler { get; set; }
+
+        public BuffIconsHandler EnemyBuffHandler { get; set; }
+
+
 
         #endregion
 
@@ -32,7 +34,7 @@ namespace Battles.UI
 
         public void SetBuffUI(bool isPlayer, KeywordTypeEnum icon,int amount)
         {
-            if(_playerBuffHandler == null || _enemyBuffHandler == null)
+            if(PlayerBuffHandler == null || EnemyBuffHandler == null)
             {
                 Debug.LogError("Error in SetBuffUI");
                 return;
@@ -43,27 +45,27 @@ namespace Battles.UI
 
             if(isPlayer)
             {
-                _playerBuffHandler.SetBuffIcon(icon , amount);
+                PlayerBuffHandler.SetBuffIcon(icon , amount);
             }
             else
             {
-                _enemyBuffHandler.SetBuffIcon(icon , amount);
+                EnemyBuffHandler.SetBuffIcon(icon , amount);
             }
         }
         public void RemoveBuffUI(bool isPlayer, KeywordTypeEnum icon)
         {
-            if (_playerBuffHandler == null || _enemyBuffHandler == null)
+            if (PlayerBuffHandler == null || EnemyBuffHandler == null)
             {
                 Debug.LogError("Error in RemoveBuffUI");
                 return;
             }
             if (isPlayer)
             {
-                _playerBuffHandler.RemoveBuffIcon(icon);
+                PlayerBuffHandler.RemoveBuffIcon(icon);
             }
             else
             {
-                _enemyBuffHandler.RemoveBuffIcon(icon);
+                EnemyBuffHandler.RemoveBuffIcon(icon);
             }
         }
         public override void Init()

@@ -3,26 +3,33 @@ namespace Characters.Stats
 {
     public class CharacterStatsHandler
     {
-      
-        
+
+
         private System.Collections.Generic.Dictionary<KeywordTypeEnum, StatAbst> _statsDictionary;
-        public CharacterStatsHandler(bool isPlayer,ref CharacterStats stats)
+        public CharacterStatsHandler(bool isPlayer, ref CharacterStats stats)
         {
 
             MaxHealthStat _max = new MaxHealthStat(isPlayer, stats.MaxHealth);
-            HealthStat _health= new HealthStat(_max, isPlayer, stats.Health); ;
+            HealthStat _health = new HealthStat(_max, isPlayer, stats.Health); ;
             ShieldStat _defense = new ShieldStat(_health, isPlayer, stats.Shield);
             StrengthStat _str = new StrengthStat(isPlayer, stats.Strength);
-            DexterityStat _dex = new DexterityStat(isPlayer,  stats.Dexterity);
+            DexterityStat _dex = new DexterityStat(isPlayer, stats.Dexterity);
             BleedStat _bleed = new BleedStat(isPlayer, stats.Bleed);
-            HealthRegenerationStat _regen = new HealthRegenerationStat(isPlayer,  stats.RegenerationPoints);
-            CoinStat _coin = new CoinStat(isPlayer,  stats.Gold);
-            StaminaStat _stamina = new StaminaStat(isPlayer,  stats.StartStamina);
-            DrawCardStat _draw = new DrawCardStat(isPlayer,  stats.DrawCardsAmount);
+            HealthRegenerationStat _regen = new HealthRegenerationStat(isPlayer, stats.RegenerationPoints);
+            CoinStat _coin = new CoinStat(isPlayer, stats.Gold);
+            StaminaStat _stamina = new StaminaStat(isPlayer, stats.StartStamina);
+            DrawCardStat _draw = new DrawCardStat(isPlayer, stats.DrawCardsAmount);
+            RageStat _rage = new RageStat(isPlayer, stats.RagePoint);
+            ProtectedStat _protected = new ProtectedStat(isPlayer, stats.ProtectionPoints);
+
+            StaminaShard _staminaShards = new StaminaShard(isPlayer, stats.StaminaShard);
+            StunShard _stun = new StunShard(isPlayer, stats.StunShard);
+            RageShard _rageShard = new RageShard(isPlayer, stats.RageShard);
+            ProtectionShard _protectionShard = new ProtectionShard(isPlayer, stats.ProtectionShards);
 
             _max._healthStat = _health;
 
-            const int StatsCapacity=10;
+            const int StatsCapacity = 10;
 
             _statsDictionary = new System.Collections.Generic.Dictionary<KeywordTypeEnum, StatAbst>(StatsCapacity) {
                 {_health.Keyword,_health },
@@ -35,14 +42,20 @@ namespace Characters.Stats
                 {_coin.Keyword,_coin },
                 {_stamina.Keyword,_stamina },
                 {_draw.Keyword,_draw },
+                {_rage.Keyword,_rage },
+                {_protected.Keyword,_protected },
+                {_staminaShards.Keyword,_staminaShards },
+                {_stun.Keyword,_stun },
+                {_rageShard.Keyword,_rageShard },
+                {_protectionShard.Keyword,_protectionShard },
             };
         }
 
         public StatAbst GetStats(KeywordTypeEnum keyword)
         {
-            if (_statsDictionary.TryGetValue(keyword , out StatAbst stat))      
+            if (_statsDictionary.TryGetValue(keyword, out StatAbst stat))
                 return stat;
-            
+
             UnityEngine.Debug.LogError("Keyword Was Not Found!");
             return null;
         }
@@ -62,8 +75,6 @@ namespace Characters.Stats
                 _statsDictionary[KeywordTypeEnum.Bleed].Reduce(1);
             }
         }
-
-
         public void RecieveDamage(int amount, bool pierceThroughTheArmour = false)
         {
             if (pierceThroughTheArmour)
@@ -71,6 +82,7 @@ namespace Characters.Stats
             else
                 GetStats(KeywordTypeEnum.Shield).Reduce(amount);
         }
-    }
 
+
+    }
 }
