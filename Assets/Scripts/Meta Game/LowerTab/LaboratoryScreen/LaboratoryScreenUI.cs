@@ -6,12 +6,15 @@ namespace UI.Meta.Laboratory
     public class LaboratoryScreenUI: TabAbst
     {
         #region Fields
+        [SerializeField]
         DeckCollectionScreenUI _deckCollectionScreenUI;
+        [SerializeField]
         FuseScreenUI _fuseScreenUI;
-        //UpgradeScreenUI _upgradeScreenUI;
-        TextMeshProUGUI _dismantleText;
+        [SerializeField]
+        UpgradeScreenUI _upgradeScreenUI;
         [SerializeField]
         MaxScrollLength _labTabs;
+        TextMeshProUGUI _dismantleText;
         public override void Close()
         {
             gameObject.SetActive(false);
