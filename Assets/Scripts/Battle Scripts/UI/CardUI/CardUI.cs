@@ -153,7 +153,7 @@ public class CardAnimator
 
     public void ScaleAnimation(bool value)
     {
-        _animator.SetBool(AnimatorParameters.ZoomAnimation, value);
+        _animator.SetTrigger((value) ? AnimatorParameters.ZoomOutAnimation :  AnimatorParameters.ZoomInAnimation);
     }
 
 
@@ -161,13 +161,14 @@ public class CardAnimator
 
     public static class AnimatorParameters
     {
-        public static int ZoomAnimation = Animator.StringToHash("ToZoom");
+        public static int ZoomInAnimation = Animator.StringToHash("ToZoomIn");
+        public static int ZoomOutAnimation = Animator.StringToHash("ToZoomOut");
         public static int ResetAllAnimation = Animator.StringToHash("ResetAll");
-        public static int NoticeAnimation = Animator.StringToHash("CardUI_Notice");
+        public static int NoticeAnimation = Animator.StringToHash("ToNotice");
     }
     internal void PlayNoticeAnimation()
     {
-        _animator.Play(AnimatorParameters.NoticeAnimation);
+        _animator.SetTrigger(AnimatorParameters.NoticeAnimation);
     }
 
 
