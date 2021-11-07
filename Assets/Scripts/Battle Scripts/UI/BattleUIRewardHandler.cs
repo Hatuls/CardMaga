@@ -1,6 +1,8 @@
 ﻿using Battles.UI;
 using UnityEngine;
 using TMPro;
+using Battles;
+
 namespace Rewards.Battles
 {
     public class BattleUIRewardHandler : MonoSingleton<BattleUIRewardHandler>
@@ -42,8 +44,11 @@ namespace Rewards.Battles
         {
             if (!isPlayer)
             {
-            if (BattleReward == null)
-                throw new System.Exception("Need To Show Battle Reward but battle reward is null");
+                if (BattleReward == null)
+                    throw new System.Exception("Need To Show Battle Reward but battle reward is null");
+                else if (BattleData.Opponent.CharacterData.Info.CharacterType == CharacterTypeEnum.Boss_Enemy)
+                    BattleRewardHandler.Instance.FinishBoss();
+
 
             ResetRewardUI();
             _moneyTxt.text = string.Concat(BattleReward.MoneyReward , " Coins");

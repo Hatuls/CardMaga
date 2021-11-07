@@ -1,4 +1,5 @@
 ﻿using Battles;
+using System;
 using UnityEngine;
 
 namespace Rewards.Battles
@@ -46,6 +47,11 @@ namespace Rewards.Battles
             player.CharacterData.CharacterStats.Gold = (ushort)playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Amount;
 
             BattleData.Player =player;
+        }
+
+        internal void FinishBoss()
+        {
+            ReturnToMainMenu();
         }
     }
 }
