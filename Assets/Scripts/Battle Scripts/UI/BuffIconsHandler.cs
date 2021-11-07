@@ -65,6 +65,14 @@ public class BuffIconsHandler : MonoBehaviour
     {
         if (this.isPlayer != isPlayer)
             return;
+
+        if (amount == 0)
+        {
+            RemoveBuffIcon(icon);
+            return;
+        }
+
+
         if (CheckForDuplicates(icon))
         {
             GetDuplicate(icon).SetAmount(amount);
@@ -137,11 +145,6 @@ public class BuffIconsHandler : MonoBehaviour
         }
     }
 
-
-    public void SetOpponentActionUI(Cards.Card enemyAction)
-    {
-        _enemyOpponentActionUI?.InitIconData(enemyAction);
-    }
 
     BuffIcon GetDuplicate(KeywordTypeEnum icon)
     {

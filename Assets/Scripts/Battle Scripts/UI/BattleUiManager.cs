@@ -8,10 +8,7 @@ namespace Battles.UI
     {
         #region Fields
 
-      public  BuffIconsHandler PlayerBuffHandler { get; set; }
-
-        public BuffIconsHandler EnemyBuffHandler { get; set; }
-
+    
 
 
         #endregion
@@ -30,22 +27,7 @@ namespace Battles.UI
         }
 
    
-        public void RemoveBuffUI(bool isPlayer, KeywordTypeEnum icon)
-        {
-            if (PlayerBuffHandler == null || EnemyBuffHandler == null)
-            {
-                Debug.LogError("Error in RemoveBuffUI");
-                return;
-            }
-            if (isPlayer)
-            {
-                PlayerBuffHandler.RemoveBuffIcon(icon);
-            }
-            else
-            {
-                EnemyBuffHandler.RemoveBuffIcon(icon);
-            }
-        }
+     
         public override void Init()
         {
            
@@ -76,7 +58,7 @@ namespace Battles.UI
                 //    _textEvent?.Raise(TextType.Healing, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
                     break;
-case KeywordTypeEnum.Bleed:
+                case KeywordTypeEnum.Bleed:
                 case KeywordTypeEnum.Strength:
                     _buffEvent.Invoke(isPlayer,Amount ,actionTypeEnum );
                     break;
