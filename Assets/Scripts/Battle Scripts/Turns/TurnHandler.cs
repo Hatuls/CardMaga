@@ -176,7 +176,7 @@ namespace Battles.Turns
             StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
 
             Debug.Log("Enemy Drawing Cards!");
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
             MoveToNextTurnState();
         }
 
@@ -226,7 +226,7 @@ namespace Battles.Turns
 
             base.PlayTurn();
             yield return KeywordManager.Instance.OnEndTurnKeywords(false);
-            yield return new WaitForSeconds(0.5f);
+          
             CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Shield).Reset();
 
             Managers.PlayerManager.Instance.OnEndTurn();
@@ -326,7 +326,7 @@ namespace Battles.Turns
 
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
-            yield return new WaitForSeconds(0.1f); 
+            yield return null; 
             CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(KeywordTypeEnum.Shield).Reset();
 
             Managers.PlayerManager.Instance.OnEndTurn();

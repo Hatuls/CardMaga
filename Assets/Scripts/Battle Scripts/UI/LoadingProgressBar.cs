@@ -6,7 +6,7 @@ public class LoadingProgressBar : MonoBehaviour
     [SerializeField] Slider _loadingBar;
 
 
-
+   
     bool isFirstUpdate = true;
 
 
@@ -21,5 +21,8 @@ public class LoadingProgressBar : MonoBehaviour
         }
 
         _loadingBar.value = 1-SceneHandler.LoadingProgress();
+        if (SceneHandler.LoadingComplete)
+            SceneHandler.UnloadScene(SceneHandler.ScenesEnum.LoadingScene);
+        
     }
 }

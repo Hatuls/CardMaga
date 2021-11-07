@@ -22,19 +22,17 @@ namespace Rewards.Battles
 
                 BattleUIRewardHandler.Instance.BattleReward = rewardBundle;
             }
-            else
-            {
-                BattleData.Player = null;
-                sceneLoader.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
-            }
+       
           
         }
-
+        public void ReturnToMainMenu()
+        {
+            BattleData.Player = null;
+            sceneLoader.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+        }
         public void AddCard(Cards.Card cardToAdd)
         {
             BattleData.Player.AddCardToDeck(cardToAdd);
-
-
         }
 
         public void AddMoney(int amount)

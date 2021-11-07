@@ -6,7 +6,7 @@ public class SceneHandler
     private static SceneHandler _instance;
     public static SceneHandler Instance => _instance;
 
-
+    public static bool LoadingComplete;
     public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1,MainMenuScene=2, MapScene = 3, GameBattleScene = 4 }
     static System.Action onLoaderCallback;
     static AsyncOperation _loadingAsyncOperation;
@@ -41,8 +41,9 @@ public class SceneHandler
     
     public static void LoadScene(ScenesEnum sceneEnum)
     {
+        LoadingComplete = false;
         CurrentScene = ScenesEnum.LoadingScene;
-        SceneManager.LoadScene((int)ScenesEnum.LoadingScene, LoadSceneMode.Single);
+        SceneManager.LoadScene((int)ScenesEnum.LoadingScene, LoadSceneMode.Additive);
 
         onLoaderCallback = () =>
         {
@@ -62,11 +63,18 @@ public class SceneHandler
     //    Debug.Log(SceneManager.sceneCount);
     //    SceneManager.SetActiveScene(SceneManager.GetSceneAt((int)sceneEnum));
         Debug.Log("Set Active Scene " + sceneEnum.ToString());
-        
+        yield return null;
+        LoadingComplete = true;
         CurrentScene = sceneEnum;
         onFinishLoadingScene?.Invoke(sceneEnum);
     }
-
+    public static void UnloadScene(ScenesEnum scene) {
+        int sceneIndex = (int)scene;
+        if (SceneManager.GetActiveScene().buildIndex == sceneIndex)
+        {
+            SceneManager.UnloadSceneAsync(sceneIndex);
+        }
+    }
     public static void LoaderCallback()
     {
         if (onLoaderCallback != null)

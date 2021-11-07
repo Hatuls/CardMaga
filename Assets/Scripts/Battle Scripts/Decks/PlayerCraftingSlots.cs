@@ -31,20 +31,20 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
     public override bool AddCard(Card card)
     {
         var bodypartEnum = card.BodyPartEnum;
-        if (bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None)
-            return true;
-
-        if (AddCardToEmptySlot(card) == false)
+        if (!(bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None))
         {
-            Card removingCard = GetDeck[0];
 
-            for (int i = 1; i < GetDeck.Length; i++)
-                GetDeck[i - 1] = GetDeck[i];
+            if (AddCardToEmptySlot(card) == false)
+            {
+                Card removingCard = GetDeck[0];
 
-            GetDeck[GetDeck.Length - 1] = card;
-            _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
+                for (int i = 1; i < GetDeck.Length; i++)
+                    GetDeck[i - 1] = GetDeck[i];
+
+                GetDeck[GetDeck.Length - 1] = card;
+                _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
+            }
         }
-
         CountCards();
         Combo.ComboManager.StartDetection();
         return true;
@@ -61,7 +61,7 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
         _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
         CountCards();
     }
-    public void AddCard(Card card , bool toDetect)
+    public void AddCard(Card card, bool toDetect)
     {
 
         var bodypartEnum = card.BodyPartEnum;
@@ -82,22 +82,22 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
 
         CountCards();
 
-        if(toDetect)
-        Combo.ComboManager.StartDetection();
+        if (toDetect)
+            Combo.ComboManager.StartDetection();
     }
     public override void ResetDeck()
     {
-        base.ResetDeck(); 
+        base.ResetDeck();
         _playerCraftingUIHandler.ResetAllSlots();
 
-      //if(isPlayer) 
-      //      Combo.ComboManager.StartDetection();
+        //if(isPlayer) 
+        //      Combo.ComboManager.StartDetection();
     }
     void ResetPlaceHolderUI(int i)
     {
         _playerCraftingUIHandler.ResetPlaceHolderUI(i);
     }
 
-  
+
 }
 

@@ -27,9 +27,15 @@ namespace Rewards.Battles
         [SerializeField] TextMeshProUGUI _title;
 
         [SerializeField] SceneLoaderCallback _sceneloaderEvent;
+
+
+        [SerializeField] GameObject _losePanel;
         public override void Init()
         {
-            _rewardScreen.SetActive(false);
+            if (_losePanel.gameObject.activeSelf == true)
+               _losePanel.SetActive(false);
+            if (_rewardScreen.gameObject.activeSelf ==true)
+                        _rewardScreen.SetActive(false);
         }
    
         public void ShowBattleRewardUI(bool isPlayer)
@@ -44,10 +50,14 @@ namespace Rewards.Battles
             }
             else
             {
-          
-                LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
+                OpenLoseScreen();
             }
         }
+        private void OpenLoseScreen()
+        {
+            _losePanel.SetActive(true);
+        }
+     
         private void ResetRewardUI()
         {
             _rewardScreen.SetActive(true);

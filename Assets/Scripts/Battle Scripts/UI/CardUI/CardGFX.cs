@@ -145,11 +145,6 @@ namespace Battles.UI.CardUIAttributes
        
         private void SetBodyPartImage(Sprite bodyPartSprite)
         {
-            if (bodyPartSprite == null)
-            {
-                // Debug.LogError("Body Part Sprite Missing");
-                return;
-            }
             _bodyPartIcon.sprite = bodyPartSprite;
         }
 
