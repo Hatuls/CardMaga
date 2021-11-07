@@ -248,11 +248,12 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+            bool isPlayerTurn = true;
             base.PlayTurn();
-            yield return KeywordManager.Instance.OnStartTurnKeywords(true);
+            yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
 
-            Deck.DeckManager.Instance.DrawHand(true, CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Draw).Amount);
-            StaminaHandler.Instance.OnStartTurn(true) ;
+            Deck.DeckManager.Instance.DrawHand(isPlayerTurn, CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount);
+            StaminaHandler.Instance.OnStartTurn(isPlayerTurn) ;
             Debug.Log("Player Drawing Cards!");
             MoveToNextTurnState();
         }

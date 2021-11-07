@@ -18,6 +18,16 @@ public class BuffIconsHandler : MonoBehaviour
 
     [SerializeField] bool isPlayer;
     #endregion
+
+    private void Awake()
+    {
+        BattleUiManager._buffEvent += SetBuffIcon;
+    }
+    private void OnDisable()
+    {
+         BattleUiManager._buffEvent -= SetBuffIcon;
+    }
+
     private void Start()
     {
         Init();
@@ -34,10 +44,7 @@ public class BuffIconsHandler : MonoBehaviour
                 }
             }
         }
-        if (isPlayer)
-            BattleUiManager.Instance.PlayerBuffHandler = this;
-     else
-            BattleUiManager.Instance.EnemyBuffHandler = this;
+
     }
     BuffIcon GetFreeSlot()
     {
@@ -54,10 +61,11 @@ public class BuffIconsHandler : MonoBehaviour
         Debug.LogError("Error in GetBuffIcon");
         return null;
     }
-    public void SetBuffIcon(KeywordTypeEnum icon, int amount)
+    public void SetBuffIcon(bool isPlayer, int amount, KeywordTypeEnum icon)
     {
-  
-        if(CheckForDuplicates(icon))
+        if (this.isPlayer != isPlayer)
+            return;
+        if (CheckForDuplicates(icon))
         {
             GetDuplicate(icon).SetAmount(amount);
             //set text
@@ -65,7 +73,7 @@ public class BuffIconsHandler : MonoBehaviour
         }
         var buffSlot = GetFreeSlot();
         buffSlot.GetSetName = icon;
-        buffSlot.InitIconData(_buffCollection.GetIconData(icon),amount , icon);
+        buffSlot.InitIconData(_buffCollection.GetIconData(icon), amount, icon);
     }
 
     internal void UpdateArmour(int amount)

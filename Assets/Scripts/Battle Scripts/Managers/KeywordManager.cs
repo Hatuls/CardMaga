@@ -61,6 +61,7 @@ namespace Keywords
             Debug.Log("Activating Keywords Effect on " + (isPlayer? "Player":"Enemy") + " that are activated on the start of the turn");
            
             CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyBleed();
+            yield return new WaitForSeconds(0.2f);
             CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyHealRegeneration();
 
             yield return Battles.Turns.Turn.WaitOneSecond;

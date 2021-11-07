@@ -10,16 +10,16 @@ namespace Keywords
         {
 
             var target = data.GetTarget;
-            
+
 
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
-                StaminaHandler.Instance.PlayerStamina.AddStaminaShard(data.GetAmountToApply);
+                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
             }
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                StaminaHandler.Instance.OpponentStamina.AddStaminaShard(data.GetAmountToApply);
+                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
         }
     }
 }

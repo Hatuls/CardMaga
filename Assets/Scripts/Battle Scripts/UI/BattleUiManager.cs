@@ -2,7 +2,6 @@
 using Unity.Events;
 using Keywords;
 namespace Battles.UI
-
 {
     public class UpdateUiStats : UnityEngine.Events.UnityEvent<bool,int, KeywordTypeEnum> { }
     public class BattleUiManager : MonoSingleton<BattleUiManager>
@@ -30,28 +29,7 @@ namespace Battles.UI
             _endTurn?.Raise();
         }
 
-
-
-        public void SetBuffUI(bool isPlayer, KeywordTypeEnum icon,int amount)
-        {
-            if(PlayerBuffHandler == null || EnemyBuffHandler == null)
-            {
-                Debug.LogError("Error in SetBuffUI");
-                return;
-            }
-
-           
-
-
-            if(isPlayer)
-            {
-                PlayerBuffHandler.SetBuffIcon(icon , amount);
-            }
-            else
-            {
-                EnemyBuffHandler.SetBuffIcon(icon , amount);
-            }
-        }
+   
         public void RemoveBuffUI(bool isPlayer, KeywordTypeEnum icon)
         {
             if (PlayerBuffHandler == null || EnemyBuffHandler == null)
@@ -73,6 +51,7 @@ namespace Battles.UI
            
         }
 
+        public static System.Action<bool, int, KeywordTypeEnum> _buffEvent;
 
         public void UpdateUiStats(bool isPlayer, int Amount, KeywordTypeEnum actionTypeEnum)
         {
@@ -97,14 +76,9 @@ namespace Battles.UI
                 //    _textEvent?.Raise(TextType.Healing, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
                     break;
-
+case KeywordTypeEnum.Bleed:
                 case KeywordTypeEnum.Strength:
-                    SetBuffUI(isPlayer, KeywordTypeEnum.Strength, Amount);
-                    break;
-
-                case KeywordTypeEnum.Bleed:
-                    SetBuffUI(isPlayer, KeywordTypeEnum.Bleed , Amount);
-                   // StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
+                    _buffEvent.Invoke(isPlayer,Amount ,actionTypeEnum );
                     break;
 
                 case KeywordTypeEnum.MaxHealth:

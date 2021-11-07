@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1705,11 +1705,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5839501969983220414, guid: a9019e3f67fdb9644aa750f50ae0b9e8,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9019e3f67fdb9644aa750f50ae0b9e8, type: 3}
 --- !u!1001 &4193550164846327726
@@ -1719,10 +1714,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 985487182}
     m_Modifications:
+    - target: {fileID: 4193550166200711009, guid: 3872f45a24cea3341ab42ac38d71c363,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4193550166378806998, guid: 3872f45a24cea3341ab42ac38d71c363,
         type: 3}
       propertyPath: m_Name
       value: Rest Area
+      objectReference: {fileID: 0}
+    - target: {fileID: 4193550166378806998, guid: 3872f45a24cea3341ab42ac38d71c363,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4193550166378806999, guid: 3872f45a24cea3341ab42ac38d71c363,
         type: 3}
@@ -1828,11 +1833,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7201118343325436571, guid: 3872f45a24cea3341ab42ac38d71c363,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3872f45a24cea3341ab42ac38d71c363, type: 3}

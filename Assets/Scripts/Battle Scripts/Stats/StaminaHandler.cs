@@ -58,16 +58,7 @@ namespace Characters.Stats
 
             public void ResetStaminaAddition() => StaminaAddition = 0;
             public bool HasStamina => Stamina > 0;
-            public void AddStaminaShard(int shards)
-            {
-                StaminaShards += shards;
-
-                if (StaminaShards/ StartStamina >0)
-                {
-                    StartStamina++;
-                    StaminaShards = 0;
-                }
-            }
+        
 
             public CharacterStamina(int startAmount ,int stamminaShards)
             {
