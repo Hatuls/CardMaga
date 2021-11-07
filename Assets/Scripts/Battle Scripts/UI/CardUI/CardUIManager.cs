@@ -282,7 +282,7 @@ namespace Battles.UI
         }
         internal void CardUITouched(CardUI cardReference)
         {
-            if (cardReference == _selectedCardUI)
+            if (cardReference == _selectedCardUI || BattleManager.isGameEnded)
                 return;
 
 

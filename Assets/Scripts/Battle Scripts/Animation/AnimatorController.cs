@@ -185,10 +185,10 @@ public class AnimatorController : MonoBehaviour
         
     }
     [SerializeField] bool _crossFadeBetweenAnimations = false;
-    private void PlayAnimation(string name)
+    private void PlayAnimation(string name , bool toCrossFade = false)
     {
         Debug.Log("Play Anim " + name);
-        if (_crossFadeBetweenAnimations)
+        if (_crossFadeBetweenAnimations || toCrossFade)
             _animator.CrossFade(name, _transitionSpeedBetweenAnimations);
         else
              _animator.Play(name);
@@ -269,10 +269,10 @@ public class AnimatorController : MonoBehaviour
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
         if (Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(!_isPlayer).GetStats(Keywords.KeywordTypeEnum.Shield).Amount > 0)
-            _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString());
+            _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString(), true);
         
         else
-            _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString());
+            _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString(), true);
         
        
     }

@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -857,7 +857,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1539545379}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -935,15 +935,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 60
+    m_Left: 50
     m_Right: 0
     m_Top: 100
     m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 70, y: 130.2}
+  m_CellSize: {x: 220, y: 330}
+  m_Spacing: {x: 10, y: 12.7}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!225 &1577368172
@@ -1263,6 +1263,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 985487182}
     m_Modifications:
+    - target: {fileID: 1805920574, guid: 368d9336bcf7dff42a95d7d597c67500, type: 3}
+      propertyPath: cardUIGO
+      value: 
+      objectReference: {fileID: 6415996358653658824, guid: d3ce9e8e2e5dfc74287e542a4680e68c,
+        type: 3}
     - target: {fileID: 1805920574, guid: 368d9336bcf7dff42a95d7d597c67500, type: 3}
       propertyPath: _cardUIpanel
       value: 

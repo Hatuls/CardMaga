@@ -24,7 +24,6 @@ namespace Battles.UI
         private CardGFX _cardGFX;
 
 
-       [HideInInspector]
         [SerializeField]
         private CanvasGroup _canvasGroup;
         private CardAnimator _cardAnimator;

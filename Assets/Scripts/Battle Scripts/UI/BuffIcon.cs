@@ -50,23 +50,19 @@ public class BuffIcon : MonoBehaviour
     }
     public void InitIconData(UIIconSO iconData, int amount , KeywordTypeEnum buffIcons)
     {
-        if (iconData == null)
-        {
-            Debug.Log("Error in set Colors");
-            return;
-        }
+      
 
         ShowIcon();
         var buffUIPalette = ArtSettings.BuffUIPalette;
-        _background.sprite = iconData.GetBackground;
+        _background.sprite = iconData?.GetBackground;
         // _background.color = iconData.GetBackgroundColor;
         _background.color = buffUIPalette.CardDefaultBackground;
 
-        _decor.sprite = iconData.GetDecor;
+        _decor.sprite = iconData?.GetDecor;
         //_decor.color = iconData.GetDecorColor;
         _decor.color = buffUIPalette.CardDefaultDecorateColor;
 
-        _icon.sprite = iconData.GetIcon;
+        _icon.sprite = iconData?.GetIcon;
         //_icon.color = iconData.GetIconColor;
         _icon.color = buffUIPalette.GetBuffIconFromColor(buffIcons);
    

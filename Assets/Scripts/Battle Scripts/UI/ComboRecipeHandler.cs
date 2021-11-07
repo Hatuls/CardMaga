@@ -2,16 +2,21 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ComboRecipeHandler : MonoSingleton<ComboRecipeHandler>, IPointerClickHandler
+public class ComboRecipeHandler : MonoBehaviour, IPointerClickHandler
 {
+    public static ComboRecipeHandler Instance;
     [SerializeField]
     ComboRecipeUI[] comboRecipeUIs;
     bool isFirstTime;
     [SerializeField]
     int _currentPage;
     [SerializeField] GameObject _panel;
-
-    public override void Init()
+    private void Start()
+    {
+        Instance = this;
+        Init();
+    }
+    public void Init()
     {
         _currentPage = 1;
 
