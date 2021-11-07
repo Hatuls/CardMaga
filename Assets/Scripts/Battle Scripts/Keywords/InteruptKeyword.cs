@@ -9,18 +9,20 @@
             {
                 UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
 
-
+                int length = data.GetAmountToApply;
                 var target = data.GetTarget;
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
                 {
-                    for (int i = 0; i < data.GetAmountToApply; i++)
-                        Battles.Deck.DeckManager.GetCraftingSlots(currentPlayer).PushSlots();
+                    var craftingslots = Battles.Deck.DeckManager.GetCraftingSlots(currentPlayer);
+                    for (int i = 0; i < length; i++)
+                        craftingslots.PushSlots();
                 }
 
                 if (target == TargetEnum.Opponent || target == TargetEnum.All)
                 {
-                    for (int i = 0; i < data.GetAmountToApply; i++)
-                             Battles.Deck.DeckManager.GetCraftingSlots(!currentPlayer).PushSlots();
+                    var craftingslot = Battles.Deck.DeckManager.GetCraftingSlots(!currentPlayer);
+                    for (int i = 0; i < length; i++)
+                        craftingslot.PushSlots();
                 }
             }
             else
