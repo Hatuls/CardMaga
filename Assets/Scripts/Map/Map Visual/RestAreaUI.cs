@@ -127,7 +127,7 @@ public class RestAreaUI : MonoBehaviour
         _topOptionLeftImage.color = _optionTakenColor;
 
         _topOptionRightImage.color = _optionNotTakeColor;
-        _topOptionRightImage.gameObject.SetActive(false);
+        _topOptionRightText.gameObject.SetActive(false);
         CheckForBothDecisionsAssigned();
     }
     public void StamiaShard() 
@@ -142,7 +142,7 @@ public class RestAreaUI : MonoBehaviour
         _bottomOptionRightImage.color = _optionTakenColor;
 
         _bottomOptionLeftImage.color = _optionNotTakeColor;
-        _bottomOptionLeftImage.gameObject.SetActive(false);
+        _bottomOptionLeftText.gameObject.SetActive(false);
 
         CheckForBothDecisionsAssigned();
     }
@@ -155,7 +155,7 @@ public class RestAreaUI : MonoBehaviour
         _bottomOptionLeftImage.color = _optionTakenColor;
 
         _bottomOptionRightImage.color = _optionNotTakeColor;
-        _bottomOptionRightImage.gameObject.SetActive(false);
+        _bottomOptionRightText.gameObject.SetActive(false);
 
 
        
