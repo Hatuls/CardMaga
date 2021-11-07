@@ -12,11 +12,16 @@
 
                 var target = data.GetTarget;
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                    Battles.Deck.DeckManager.GetCraftingSlots(currentPlayer).PushSlots();
+                {
+                    for (int i = 0; i < data.GetAmountToApply; i++)
+                        Battles.Deck.DeckManager.GetCraftingSlots(currentPlayer).PushSlots();
+                }
 
                 if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                    Battles.Deck.DeckManager.GetCraftingSlots(!currentPlayer).PushSlots();
-
+                {
+                    for (int i = 0; i < data.GetAmountToApply; i++)
+                             Battles.Deck.DeckManager.GetCraftingSlots(!currentPlayer).PushSlots();
+                }
             }
             else
                 throw new System.Exception("Error Keyword Data is Null!! at "+ Keyword.ToString());
