@@ -1,6 +1,8 @@
 ﻿using Battles.UI;
 using UnityEngine;
 using TMPro;
+using Battles;
+
 namespace Rewards.Battles
 {
     public class BattleUIRewardHandler : MonoSingleton<BattleUIRewardHandler>
@@ -27,27 +29,40 @@ namespace Rewards.Battles
         [SerializeField] TextMeshProUGUI _title;
 
         [SerializeField] SceneLoaderCallback _sceneloaderEvent;
+
+
+        [SerializeField] GameObject _losePanel;
         public override void Init()
         {
-            _rewardScreen.SetActive(false);
+            if (_losePanel.gameObject.activeSelf == true)
+               _losePanel.SetActive(false);
+            if (_rewardScreen.gameObject.activeSelf ==true)
+                        _rewardScreen.SetActive(false);
         }
    
         public void ShowBattleRewardUI(bool isPlayer)
         {
             if (!isPlayer)
             {
-            if (BattleReward == null)
-                throw new System.Exception("Need To Show Battle Reward but battle reward is null");
+                if (BattleReward == null)
+                    throw new System.Exception("Need To Show Battle Reward but battle reward is null");
+                else if (BattleData.Opponent.CharacterData.Info.CharacterType == CharacterTypeEnum.Boss_Enemy)
+                    BattleRewardHandler.Instance.FinishBoss();
+
 
             ResetRewardUI();
             _moneyTxt.text = string.Concat(BattleReward.MoneyReward , " Coins");
             }
             else
             {
-          
-                LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
+                OpenLoseScreen();
             }
         }
+        private void OpenLoseScreen()
+        {
+            _losePanel.SetActive(true);
+        }
+     
         private void ResetRewardUI()
         {
             _rewardScreen.SetActive(true);

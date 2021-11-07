@@ -5,7 +5,7 @@ using Cards;
 using Art;
 namespace Battles.UI.CardUIAttributes
 {
-
+    public enum CardUILevelState { Off = 0 , On =1, Missing = 2};
     [System.Serializable]
 
     public class CardGFX
@@ -29,35 +29,24 @@ namespace Battles.UI.CardUIAttributes
         [Tooltip("The Decoration Of The BodyPart Decoration")]
         [SerializeField] Image _bodyPartDecor;
 
-        [Tooltip("The Decoration Of The BodyPart Decoration")]
-        [SerializeField] Image _bodyPartBackground;
 
 
-
-        [Tooltip("The background Image of the Stamina")]
-        [SerializeField] Image _staminaBackground;
-
-        [Tooltip("The Decoration of the stamina icon")]
-        [SerializeField] Image _staminaDecor;
-
-
-
+        [SerializeField] CardUILevelHandler _cardUILevelHandler;
 
         [Tooltip("Card Background Img")]
-        [SerializeField] Image _cardBackGroundImg;
+        [SerializeField] Image _cardFrameIMG;
 
 
-
-        [Tooltip("Card's Background Decoration")]
-        [SerializeField] Image _cardDecor;
+        [Tooltip("Card Img")]
+        [SerializeField] Image _innerCardImage;
 
 
 
         [Tooltip("Card Glow Effect")]
         [SerializeField] Image _glowBackground;
 
-
-
+        [Tooltip("Card Rarity Img")]
+        [SerializeField] Image _rarityImage;
 
         [SerializeField] RectTransform _rectTransform;
 
@@ -72,9 +61,7 @@ namespace Battles.UI.CardUIAttributes
 
         #region Properties
         public  Card GetCardReference { get => _cardReferenceInHandDeck; }
-        public TextMeshProUGUI GetNameTxt => _titleText;
-        public TextMeshProUGUI GetDescriptionTxt => _descriptionTxt;
-        public TextMeshProUGUI GetStaminaText => _staminaText;
+
         public RectTransform GetRectTransform =>  _rectTransform;
         #endregion
 
@@ -92,7 +79,7 @@ namespace Battles.UI.CardUIAttributes
                 //   Debug.LogError("No Name For Card");
                 return;
             }
-            GetNameTxt.text = cardName;
+            _titleText.text = cardName;
         }
 
         public void GlowCard(bool toGlow)
@@ -109,7 +96,7 @@ namespace Battles.UI.CardUIAttributes
                 //  Debug.LogError("No Description For Card");
                 return;
             }
-            GetDescriptionTxt.text = cardDescription;
+            _descriptionTxt.text = cardDescription;
         }
         internal void SetCardReference(CardSO cardData, ArtSO artSO ,byte lvl = 0)
         {
@@ -119,8 +106,6 @@ namespace Battles.UI.CardUIAttributes
             SetNameText(cardData.CardName);
 
             SetCardDescriptionText(cardData.CardDescription(lvl));
-
-            SetLastCardEffectText("");
 
             SetBodyPartImage(
                 artSO.IconCollection.GetSprite(
@@ -134,12 +119,7 @@ namespace Battles.UI.CardUIAttributes
 
             SetCardUIImage(cardData.CardSprite);
 
-            //   card.SetLastCardEffectText(cardData.GetSetCard.GetCardLCEDescription);
-            //    card.SetRotation(Vector3.zero);
-            //image of card
-            //color of card
-            //icon of body part
-            //icon of targeted part
+            _cardUILevelHandler.SetLevels(lvl,cardData.Rarity);
 
         }
     
@@ -162,68 +142,45 @@ namespace Battles.UI.CardUIAttributes
         }
         public void SetActive(bool setActive)
         => this._rectTransform?.gameObject.SetActive(setActive);
-        private void SetLastCardEffectText(in string lastCardEffectDescription)
-        {
-            if (lastCardEffectDescription == null)
-            {
-                // Debug.LogError("No Description for LCE");
-                return;
-            }
-            GetStaminaText.text = lastCardEffectDescription;
-        }
+       
         private void SetBodyPartImage(Sprite bodyPartSprite)
         {
-            if (bodyPartSprite == null)
-            {
-                // Debug.LogError("Body Part Sprite Missing");
-                return;
-            }
             _bodyPartIcon.sprite = bodyPartSprite;
         }
-        //private void SetTargetedBodyPartImage(Sprite targetedBodyPartSprite)
-        //{
-        //    if (targetedBodyPartSprite == null)
-        //    {
-        //        //   Debug.LogError("Targeted Body Part Sprite is Missing");
-        //        return;
-        //    }
-        //    GetTargetBodyPartImg.sprite = targetedBodyPartSprite;
-        //}
+
         public void SetAlpha(float amount,float time,LeanTweenType type = LeanTweenType.notUsed, System.Action actionAfterAlpha = null)
         {
             LeanTween.alphaCanvas(_canvasGroup, amount, time).setEase(type).setOnComplete(actionAfterAlpha);
         }
         private void SetCardUIImage(Sprite img)
-        => _cardBackGroundImg.sprite = img;
+        => _innerCardImage.sprite = img;
         private void SetCardColors(CardTypeEnum cardType)
         {
             // Body Part:
             var artso = Factory.GameFactory.Instance.ArtBlackBoard;
             var arttypePalleta = artso.GetPallette<CardTypePalette>();
             Color clr = arttypePalleta.GetDecorationColorFromEnum(cardType);
+
             _bodyPartDecor.color = clr;
-            _bodyPartBackground.color = arttypePalleta.GetBackgroundColorFromEnum(cardType);
             _bodyPartIcon.color = arttypePalleta.GetIconBodyPartColorFromEnum(cardType);
 
             var carduiPalete = artso.GetPallette<CardUIPalette>();
             // Stamina Part:
-            _staminaBackground.color = carduiPalete.StaminaBackgroundColor;
-            _staminaDecor.color = carduiPalete.StaminaDecorateColor;
+
             _staminaText.color = carduiPalete.StaminaTextColor;
 
-            //Background Image
-            _cardDecor.color = clr;
-            _cardBackGroundImg.color = carduiPalete.CardDefaultBackgroundColor;
+            ////Background Image
+            //_cardFrameIMG.color = carduiPalete.CardDefaultBackgroundColor;
 
 
             // Description
             _descriptionTxt.color = carduiPalete.CardInformationDescriptionTextColor;
             _titleText.color = carduiPalete.CardInformationTitleTextColor;
 
-
-
-
+            _cardFrameIMG.sprite = carduiPalete.GetCardUIImage(cardType);
+      
         }
         #endregion
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Battles;
+using System;
 using UnityEngine;
 
 namespace Rewards.Battles
@@ -22,19 +23,17 @@ namespace Rewards.Battles
 
                 BattleUIRewardHandler.Instance.BattleReward = rewardBundle;
             }
-            else
-            {
-                BattleData.Player = null;
-                sceneLoader.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
-            }
+       
           
         }
-
+        public void ReturnToMainMenu()
+        {
+            BattleData.Player = null;
+            sceneLoader.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+        }
         public void AddCard(Cards.Card cardToAdd)
         {
             BattleData.Player.AddCardToDeck(cardToAdd);
-
-
         }
 
         public void AddMoney(int amount)
@@ -48,6 +47,11 @@ namespace Rewards.Battles
             player.CharacterData.CharacterStats.Gold = (ushort)playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Amount;
 
             BattleData.Player =player;
+        }
+
+        internal void FinishBoss()
+        {
+            ReturnToMainMenu();
         }
     }
 }

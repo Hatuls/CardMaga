@@ -198,6 +198,8 @@ namespace Battles.Deck
 
             if(fromDeck.DiscardCard(card))
               toDeck.AddCard( card);
+
+          
             //fromDeck.PrintDecks(from);
           //  toDeck.PrintDecks(to);
         }

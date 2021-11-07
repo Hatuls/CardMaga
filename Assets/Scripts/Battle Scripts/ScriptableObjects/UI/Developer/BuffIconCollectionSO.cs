@@ -24,9 +24,6 @@ public class BuffIconCollectionSO : ScriptableObject
                 break;
             }
         }
-        if (uIIconSO == null)
-            throw new Exception("Could not Find UIICONSO for the keyword " + iconEnum.ToString());
-
 
         return uIIconSO;
     }

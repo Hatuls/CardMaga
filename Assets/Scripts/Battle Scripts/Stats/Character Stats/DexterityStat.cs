@@ -16,10 +16,10 @@ namespace Characters.Stats
         }
         public override void Reduce(int amount)
         {
-            if (Amount -amount <= 0)
-                Amount = 0;
+            if (Amount - amount <= 0)
+                base.Reset();
             else
-            base.Reduce(amount);
+                base.Reduce(amount);
 
         }
 

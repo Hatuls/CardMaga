@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 namespace Art
 {
     [CreateAssetMenu(fileName = "Card UI Palette", menuName = "ScriptableObjects/Art/Card UI Palette")]
@@ -9,14 +9,29 @@ namespace Art
 
 
         #region Card UI BackGround
-        [TabGroup("Card UI/Colors", "BackGround")]
+        [TabGroup("Card UI/Colors", "BackGround Sprite")]
         [InfoBox("0 - Background")]
-        [SerializeField]
-        ColorSettings _backGroundColors;
-        /*
-         *  0 -Default Background
-         */
-        public Color CardDefaultBackgroundColor => _backGroundColors.Colors[0];
+        [SerializeField] Sprite[] _frames;
+        public Sprite GetCardUIImage(Cards.CardTypeEnum cardType)
+        {
+            switch (cardType)
+            {
+                case Cards.CardTypeEnum.Utility:
+                    return _frames[0];
+
+                case Cards.CardTypeEnum.Defend:
+                    return _frames[1];
+                case Cards.CardTypeEnum.Attack:
+                    return _frames[2];
+
+                case Cards.CardTypeEnum.None:
+                default:
+                    throw new System.Exception("CardUIPallete: Cannot Return Sprite Based on the cardtypeEnum " + cardType);
+
+            }
+        }
+
+
         #endregion
 
         #region Card UI Glow

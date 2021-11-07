@@ -54,12 +54,16 @@ namespace Battles.UI
                     break;
 
                 case KeywordTypeEnum.Heal:
-               
-                //    _textEvent?.Raise(TextType.Healing, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
                     break;
                 case KeywordTypeEnum.Bleed:
                 case KeywordTypeEnum.Strength:
+                case KeywordTypeEnum.Dexterity:
+                case KeywordTypeEnum.Regeneration:
+                case KeywordTypeEnum.StaminaShards:
+                case KeywordTypeEnum.StunShard:
+                case KeywordTypeEnum.RageShard:
+                case KeywordTypeEnum.ProtectionShard:
                     _buffEvent.Invoke(isPlayer,Amount ,actionTypeEnum );
                     break;
 

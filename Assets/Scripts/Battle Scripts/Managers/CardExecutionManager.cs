@@ -104,6 +104,7 @@ namespace Battles
                     case Cards.CardTypeEnum.Utility:
                     case Cards.CardTypeEnum.Defend:
                         ExecuteUtilityAndDefendCard(isPlayer, currentCard);
+
                         break;
 
                     case Cards.CardTypeEnum.Attack:
