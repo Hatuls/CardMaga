@@ -52,6 +52,12 @@ public class AnimatorController : MonoBehaviour
 
     #region MonoBehaviour Callbacks   
 
+    private void Start()
+    {
+        ResetAnimator();
+    }
+
+
     private void Update()
     {
         if (_isPlayer)
