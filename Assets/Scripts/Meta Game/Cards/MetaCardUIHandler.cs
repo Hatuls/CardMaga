@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Battles.UI;
+using System;
 using UnityEngine;
 
 namespace UI.Meta.Laboratory
 {
-    enum CardPositionEnum
+    public enum CardPanelLocationEnum
     {
-        CardCollection = 0,
+        Collection = 0,
         Deck = 1,
         Fuse = 2,
         Upgrade = 3,
@@ -23,33 +22,64 @@ namespace UI.Meta.Laboratory
         [SerializeField]
         GameObject _dismantleButton;
         [SerializeField]
-        CardPositionEnum _currentPosition;
+        CardPanelLocationEnum _cardPanelLocation;
+        [SerializeField]
+        CardUI _cardUI;
+
+        CardPanelState _currentState;
+
+        public CardUI CardUI => _cardUI;
 
         private void Awake()
         {
             OnCardClickedEvent += CloseDropList;
+            InitState();
+        }
+        private void InitState()
+        {
+            switch (_cardPanelLocation)
+            {
+                case CardPanelLocationEnum.Collection:
+                    _currentState = new CardUICollectionState();
+                    break;
+                case CardPanelLocationEnum.Deck:
+                    _currentState = new CardUIDeckState();
+                    break;
+                case CardPanelLocationEnum.Fuse:
+                    _currentState = new CardUIFuseState();
+                    break;
+                case CardPanelLocationEnum.Upgrade:
+                    _currentState = new CardUIUpgradeState();
+                    break;
+                default:
+                    throw new Exception("MetaCardUIHandler Unknown State");
+            }
         }
         public void CloseDropList()
         {
             _dropList.SetActive(false);
-            _useButton.SetActive(false);
-            _dismantleButton.SetActive(false);
-
+            _currentState.OnReset();
         }
         public void OpenDropList()
         {
             _dropList.SetActive(true);
-            switch (_currentPosition)
+            switch (_cardPanelLocation)
             {
-                case CardPositionEnum.CardCollection:
+                case CardPanelLocationEnum.Collection:
+
                     _useButton.SetActive(true);
+                    _dismantleButton.SetActive(false);
                     break;
-                case CardPositionEnum.Deck:
+                case CardPanelLocationEnum.Deck:
+                    _dismantleButton.SetActive(false);
                     break;
-                case CardPositionEnum.Fuse:
+                case CardPanelLocationEnum.Fuse:
+                    _dismantleButton.SetActive(false);
                     break;
-                case CardPositionEnum.Upgrade:
+                case CardPanelLocationEnum.Upgrade:
                     _dismantleButton.SetActive(true);
+                    _useButton.SetActive(false);
+
                     break;
                 default:
                     break;
@@ -57,11 +87,6 @@ namespace UI.Meta.Laboratory
         }
         public void OnCardClicked()
         {
-            //There can be only one open Droplist from all of the cards...
-            //any action other than pressing a button on the drop list will be closeing the drop list
-            //Can be a static class?
-
-
             Debug.Log("Changeing Drop List State");
             if (_dropList.activeSelf)
             {
@@ -70,11 +95,54 @@ namespace UI.Meta.Laboratory
             else
             {
                 OnCardClickedEvent.Invoke();
-                OpenDropList();
+                _currentState.OnClick();
             }
-            
-
-
+        }
+        private void OnDestroy()
+        {
+            OnCardClickedEvent -= CloseDropList;
         }
     }
+    public abstract class CardPanelState : ICardPanelState
+    {
+        public virtual void OnReset()
+        {
+            
+        }
+        public abstract void OnClick();
+    }
+    public class CardUICollectionState : CardPanelState
+    {
+        public override void OnClick()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class CardUIDeckState : CardPanelState
+    {
+        public override void OnClick()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class CardUIUpgradeState : CardPanelState
+    {
+        public override void OnClick()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class CardUIFuseState : CardPanelState
+    {
+        public override void OnClick()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public interface ICardPanelState
+    {
+        void OnClick();
+        void OnReset();
+    }
+
 }
