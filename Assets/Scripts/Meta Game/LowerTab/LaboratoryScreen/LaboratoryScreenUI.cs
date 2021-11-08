@@ -12,6 +12,24 @@ namespace UI.Meta.Laboratory
     }
     public class LaboratoryScreenUI: TabAbst
     {
+        #region Singleton
+        private static LaboratoryScreenUI _instance;
+        public static LaboratoryScreenUI Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    Debug.LogError("LaboratoryScreenUI is null!");
+
+                return _instance;
+            }
+        }
+        private void Awake()
+        {
+            _instance = this;
+        }
+        #endregion
+
         #region Fields
         [SerializeField]
         GameObject _deckPanel;
@@ -27,7 +45,6 @@ namespace UI.Meta.Laboratory
         GameObject _fusePanelTitle;
         TextMeshProUGUI _dismantleText;
         #endregion
-
         public override void Close()
         {
             gameObject.SetActive(false);
