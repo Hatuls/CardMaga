@@ -17,7 +17,25 @@ public static class SaveManager
 #endif
     public enum FileStreamType { Binary = 0, FileStream = 1 , PlayerPref =2 };
 
+    
+    public static void SaveFile<T>(T objectT, string fileName, FileStreamType fileStreamType , bool toPersistantDataPath = true, string fileType = "txt", string PathFolders = "") where T: class
+    {
+        switch (fileStreamType)
+        {
+            case FileStreamType.Binary:
+                SaveToFilePathAndConvertItToBinary(objectT, fileName, fileType, PathFolders, toPersistantDataPath);
+                break;
+            case FileStreamType.FileStream:
+                SaveToFilePathAndDontConvertItToBinary(objectT, fileName, fileType, PathFolders, toPersistantDataPath);
+                break;
+            case FileStreamType.PlayerPref:
+                SaveToPlayerPref(objectT, fileName);
+                break;
+            default:
+                throw new System.Exception("Save method was not assigned!");
 
+        }
+    }
     public static void SaveFile<T>(T objectT, string fileName,bool toPersistantDataPath = true, string fileType = "txt", string PathFolders = "")   where T : ISaveable
     {
 

@@ -60,13 +60,14 @@ namespace Map
 
 
         [SerializeField] string _saveMapCFGName;
-
-   
+#if UNITY_EDITOR
+        public SaveManager.FileStreamType saveType;
         [Sirenix.OdinInspector.Button("Save Map Config")]
         public void SaveMapConfig()
         {
-            SaveManager.SaveFile(_currentMap, _saveMapCFGName,false, "txt", "Resources/MapCFG/");
+            SaveManager.SaveFile(_currentMap, _saveMapCFGName, saveType, false, "txt", "Resources/MapCFG/");
         }
+#endif
 
         [Sirenix.OdinInspector.Button("Load Map Config")]
         public void LoadMapConfig()
