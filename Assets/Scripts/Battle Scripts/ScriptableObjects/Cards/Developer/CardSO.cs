@@ -102,7 +102,7 @@ namespace Cards
 
 
         [ShowInInspector]
-        public byte CardsMaxLevel => PerLevelUpgrade == null ? (byte)0 : (byte)(PerLevelUpgrade.Length-1);
+        public byte CardsMaxLevel => PerLevelUpgrade == null ? (byte)0 : (byte)(PerLevelUpgrade.Length);
 
         #endregion
 

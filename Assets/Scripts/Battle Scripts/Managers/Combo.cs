@@ -22,7 +22,7 @@ namespace Combo
         {
             Level++;
 
-            if (Level > ComboSO.CraftedCard.CardsMaxLevel)
+            if (Level >= ComboSO.CraftedCard.CardsMaxLevel)
             {
                 Level = ComboSO.CraftedCard.CardsMaxLevel;
                 return false;
