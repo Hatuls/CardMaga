@@ -14,7 +14,7 @@ namespace Battles
     {
   
         public static bool isGameEnded;
-
+        public static Action OnGameEnded;
         [SerializeField] Unity.Events.SoundsEvent _playSound;
 
 
@@ -61,6 +61,8 @@ namespace Battles
         }
         private void ResetParams()
         {
+            isGameEnded = false;
+
             CardManager.Instance.ResetCards();
             Deck.DeckManager.Instance.ResetDecks();
             UI.CardUIManager.Instance.Init();
@@ -99,6 +101,9 @@ namespace Battles
         }
         public static void BattleEnded(bool isPlayerDied)
         {
+            if (isGameEnded == true)
+                return;
+            OnGameEnded?.Invoke();
             UI.StatsUIManager.GetInstance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
             if (isPlayerDied)

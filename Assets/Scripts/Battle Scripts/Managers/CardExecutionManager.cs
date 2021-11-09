@@ -22,7 +22,7 @@ namespace Battles
         static List<KeywordData> _keywordData = new List<KeywordData>();
         [SerializeField] StaminaUI _staminaBtn;
         static int currentKeywordIndex;
-
+        public static bool FinishedAnimation;
         public void ResetExecution()
         {
             //_keywordData.Clear();
@@ -33,6 +33,7 @@ namespace Battles
     
         public override void Init()
         {
+            FinishedAnimation = true;
             _cardsQueue.Clear();
                _keywordData.Clear();
         }
@@ -244,10 +245,10 @@ namespace Battles
                 _playerAnimatorController.PlayCrossAnimation();
             else 
                 _enemyAnimatorController.PlayCrossAnimation();
-       
-            // reset Index
-       
 
+            // reset Index
+
+        
         }
         private void SortKeywords()
         {
@@ -279,6 +280,7 @@ namespace Battles
                 ActivateCard();
 
             }
+            FinishedAnimation = true;
         }
 
         public void OnKeywordEvent()

@@ -274,7 +274,11 @@ namespace Battles.UI
             EndTurnButton._OnFinishTurnPress += OnFinishTurn;
         }
 
-        ~CardUIHandler() => EndTurnButton._OnFinishTurnPress -= OnFinishTurn;
+        ~CardUIHandler() { 
+            EndTurnButton._OnFinishTurnPress -= OnFinishTurn; 
+   
+        }
+
         private void OnFinishTurn()
         {
             CardUITouchedReleased(false, null);

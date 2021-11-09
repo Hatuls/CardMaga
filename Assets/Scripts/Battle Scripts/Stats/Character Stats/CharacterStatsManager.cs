@@ -1,4 +1,5 @@
-﻿namespace Characters.Stats
+﻿
+namespace Characters.Stats
 {
     public static class CharacterStatsManager {
 

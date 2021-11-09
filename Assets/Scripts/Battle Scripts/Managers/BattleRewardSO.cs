@@ -149,7 +149,7 @@ namespace Rewards
                     if (j > 0)
                         addition += cardChances[j - 1].DropChance;
 
-                    if (random <  (addition + cardChances[j].DropChance))
+                    if (random < (addition + cardChances[j].DropChance))
                     {
                         index = j;
                         break;
@@ -161,12 +161,14 @@ namespace Rewards
 
 
                 var rarityCardCollection = cardCollection.GetCardByRarity((RarityEnum)(index + 1));
-                
+
                 int randomID = Random.Range(0, rarityCardCollection.CardsID.Length);
                 if (randomID >= rarityCardCollection.CardsID.Length)
-              Debug.Log($"Rarity is : {(RarityEnum)(index + 1)}\nrarityCardCollection.CardsID.Length = {rarityCardCollection.CardsID.Length}\nRandom ID is : {randomID}");
-            
-                
+                    Debug.Log($"Rarity is : {(RarityEnum)(index + 1)}\nrarityCardCollection.CardsID.Length = {rarityCardCollection.CardsID.Length}\nRandom ID is : {randomID}");
+
+                if (randomID >= rarityCardCollection.CardsID.Length)
+                    throw new System.Exception(
+                        $"BattleRewardSO: CardID Was bigger than the reward collection for: {rarityCardCollection.CardsID.Length}\nCardID: {randomID}\n Rarity: {(RarityEnum)(index + 1)}");
                 ushort CardId = rarityCardCollection.CardsID[randomID];
                 // get cards level;
                 var DropChance = _cardChances.DropChances[index];

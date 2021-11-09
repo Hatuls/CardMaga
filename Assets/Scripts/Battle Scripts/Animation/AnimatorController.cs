@@ -170,17 +170,23 @@ public class AnimatorController : MonoBehaviour
 
     }
 
-
-   
+    const string duplicateAnimationAddOnString = " 0";
+    bool duplicate;
     public void PlayCrossAnimationQueue(AnimationBundle animationBundle)
     {
 
         _currentAnimation = animationBundle;
 
-        if (_currentAnimation?._attackAnimation == _previousAnimation?._attackAnimation)
-            _animator.SetTrigger("Duplicate");
+        if (_currentAnimation?._attackAnimation == _previousAnimation?._attackAnimation && duplicate)
+        {
+            PlayAnimation(string.Concat(_currentAnimation._attackAnimation, duplicateAnimationAddOnString));
+            duplicate = false;
+        }
         else
+        {
+            duplicate = true;
             PlayAnimation(_currentAnimation._attackAnimation.ToString());
+        }
         
         
     }
@@ -206,6 +212,14 @@ public class AnimatorController : MonoBehaviour
             OnFinishAnimation();
             return;
         }
+
+
+        if (Battles.CardExecutionManager.FinishedAnimation)
+            Battles.CardExecutionManager.FinishedAnimation = false;
+        else
+            return;
+
+
         Debug.Log($"Dequeue animations {cardQueue.Peek().CardSO.CardName} and more animations: {cardQueue.Count}");
         _previousAnimation = cardQueue.Dequeue().CardSO.AnimationBundle;
 
@@ -215,7 +229,7 @@ public class AnimatorController : MonoBehaviour
         }
         else
         {
-            _previousAnimation = null;
+            OnFinishAnimation();
         }
 
     
@@ -223,7 +237,8 @@ public class AnimatorController : MonoBehaviour
     }
     private void OnFinishAnimation()
     {
-            _previousAnimation = null;
+        Battles.CardExecutionManager.FinishedAnimation = true;
+          _previousAnimation = null;
         //ReturnToIdle();
         ResetBothRotaionAndPosition();
         //  isFirst = true;
