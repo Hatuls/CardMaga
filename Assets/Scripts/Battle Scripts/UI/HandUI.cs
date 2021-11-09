@@ -20,8 +20,11 @@ namespace Battles.UI
             _cardUISO = cardUISO;
             AlignCards();
             CurrentlyHolding = null;
+            BattleManager.OnGameEnded += LockCards;
         }
-
+        ~HandUI()
+            => BattleManager.OnGameEnded -= LockCards;
+        private void LockCards() => LockCardsInput(true);
         public void AlignCards()
         {
             for (int i = 0; i < _handCards.Length; i++)
@@ -69,7 +72,11 @@ namespace Battles.UI
         {
             for (int i = 0; i < _handCards.Length; i++)
             {
+                if (_handCards[i] != null && _handCards[i].Inputs!=null && _handCards[i].Inputs.GetCanvasGroup!= null)
+                {
+
                 _handCards[i].Inputs.GetCanvasGroup.blocksRaycasts = !toLock;
+                }
                 var stateMachine = _handCards[i]?.Inputs.CardStateMachine;
                 var gotoState = toLock ? CardStateMachine.CardUIInput.Locked : CardStateMachine.CardUIInput.Hand;
                 stateMachine.MoveToState(gotoState);
