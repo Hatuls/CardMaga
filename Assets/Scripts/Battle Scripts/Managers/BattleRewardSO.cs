@@ -189,7 +189,7 @@ namespace Rewards
                 }
                 var card = cardFactoryHandler.CardCollection.GetCard(CardId);
                 
-                rewardCards[i] = cardFactoryHandler.CreateCard(card,( card.CardsMaxLevel <= (byte)index) ? (byte)card.CardsMaxLevel : (byte) index);
+                rewardCards[i] = cardFactoryHandler.CreateCard(card,( card.CardsMaxLevel < (byte)index) ? (byte)(card.CardsMaxLevel-1) : (byte) index);
 
                 if (index > 0)
                 {
