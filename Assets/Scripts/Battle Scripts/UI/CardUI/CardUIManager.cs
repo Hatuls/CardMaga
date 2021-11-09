@@ -311,7 +311,10 @@ namespace Battles.UI
                     DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
 
             InputManager.Instance.RemoveObjectFromTouch();
-            card.CardAnimator.ResetAllAnimations();    
+            card.CardAnimator.ResetAllAnimations();
+            cardReference?.CardAnimator.ResetAllAnimations();
+            card.CardTranslations.SetScale(Vector2.one,0);
+            cardReference?.CardTranslations.SetScale(Vector2.one,0);
             _handUI.LockCardsInput(false);
             cardReference?.GFX.GlowCard(false);
             card.gameObject.SetActive(false);
