@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
-  m_Name: Puncture
+  m_Name: Clear
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _cardSprite: {fileID: 0}
-  _cardName: Puncture
+  _cardName: Clear
   _animationBundle:
     BodyPartEnum: 1
     _attackAnimation: 0
@@ -33,19 +33,19 @@ MonoBehaviour:
   _rarity: 1
   _stamina: 1
   _purchaseCost: 30
-  _toExhaust: 1
+  _toExhaust: 0
   _salvageCost: 1
-  _id: 63
+  _id: 77
   _cardKeywordsData:
-  - _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
-    _target: 2
-    _amountToApply: 2
+  - _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
+    _target: 1
+    _amountToApply: 1
     _animationIndex: 0
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
-  - _description: 2 Bleed  Exhaust
+  - _description: '1 Clear '
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -58,7 +58,7 @@ MonoBehaviour:
           _paramaterCondition: []
       _cardTypeData:
         _bodyPart: 1
-        _cardType: 1
+        _cardType: 3
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -75,9 +75,9 @@ MonoBehaviour:
       _amount: 1
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
-        _target: 2
-        _amountToApply: 2
+        _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
+        _target: 1
+        _amountToApply: 1
         _animationIndex: 0
         _conditions:
           _comboCondition: []
