@@ -16,6 +16,7 @@ public class UpperInfoUIHandler : MonoBehaviour
     [SerializeField] GameObject[] _cardUIGOs;
     [SerializeField] GameObject cardUIGO;
     [SerializeField] RectTransform _cardUIpanel;
+    [SerializeField] GameObject _dropList;
     public static UpperInfoUIHandler Instance;
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class UpperInfoUIHandler : MonoBehaviour
     private void Start()
     {
         UpdateUpperInfoHandler(ref BattleData.Player.CharacterData.CharacterStats);
+        _dropList.SetActive(false);
     }
     public void UpdateUpperInfoHandler(ref Characters.Stats.CharacterStats stats)
     {
@@ -33,6 +35,17 @@ public class UpperInfoUIHandler : MonoBehaviour
         _moneyHandler.SetMoneyText( stats.Gold);
     }
 
+    public void DropListChangeState()
+    {
+        if (_dropList.activeSelf)
+        {
+            _dropList.gameObject.SetActive(false);
+        }
+        else
+        {
+            _dropList.gameObject.SetActive(true);
+        }
+    }
     public void OpenDeck()
     {
         if (_cardUIGOs != null && _cardUIGOs.Length > 0)
