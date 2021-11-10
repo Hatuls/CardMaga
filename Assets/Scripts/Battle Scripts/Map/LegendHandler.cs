@@ -8,7 +8,7 @@ namespace Meta.Map
     public class LegendHandler : MonoBehaviour
     {
         [SerializeField] GameObject _legendPanel;
-        [SerializeField] Animator _legendAnimator;
+        //[SerializeField] Animator _legendAnimator;
         [SerializeField] GameObject _legendInfoContainer;
         [SerializeField] LegendRow[] _legendsRows;
         [SerializeField] EventPointCollectionSO _eventPointCollection;
@@ -36,11 +36,12 @@ namespace Meta.Map
         private void OpenLegend()
         {
             SetLegendIfoContainerState(true);
-            _legendAnimator.Play(_entranceAnimatioHash);
+            //_legendAnimator.Play(_entranceAnimatioHash);
         }
         private void CloseLegend()
         {
-            _legendAnimator.Play(_exitAnimationHash);
+            SetLegendIfoContainerState(false);
+            //_legendAnimator.Play(_exitAnimationHash);
         }
         public void SetLegendIfoContainerState(bool state)
             => _legendInfoContainer.SetActive(state);
