@@ -62,9 +62,9 @@ namespace Map
 
             CreateNodes(map.nodes);
 
-            DrawLines();
-
             SetAttainableNodes();
+
+            DrawLines();
 
             //SetLineColors();
 
@@ -86,8 +86,11 @@ namespace Map
                     p = connectedAmount[j];
                     MapLine mapLine = Instantiate(_linePrefab, mapParent.transform)
                              .GetComponent<MapLine>();
+                    var Node = map.GetNode(p);
 
-                    mapLine.ConnectLines(nodeData.position, map.GetNode(p).position);
+                    mapLine.SetColor(Node.NodeState);
+                   
+                    mapLine.ConnectLines(nodeData.position, Node.position);
                     _mapLines.Add(mapLine);
               }
             }
