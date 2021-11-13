@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
-  m_Name: Disturb
+  m_Name: Barrier
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -22,9 +22,9 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _cardSprite: {fileID: 0}
-  _cardName: Disturb
+  _cardName: Barrier
   _animationBundle:
-    BodyPartEnum: 6
+    BodyPartEnum: 2
     _attackAnimation: 0
     _shieldAnimation: 0
     _getHitAnimation: 0
@@ -33,19 +33,26 @@ MonoBehaviour:
   _rarity: 2
   _stamina: 1
   _purchaseCost: 60
-  _toExhaust: 0
+  _toExhaust: 1
   _salvageCost: 1
-  _id: 65
+  _id: 35
   _cardKeywordsData:
-  - _keywordBase: {fileID: 11400000, guid: 5e4b0a9fbd1b49e4d935ed54e93329b9, type: 2}
-    _target: 2
+  - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
+    _target: 1
+    _amountToApply: 4
+    _animationIndex: 0
+    _conditions:
+      _comboCondition: []
+      _paramaterCondition: []
+  - _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
+    _target: 1
     _amountToApply: 1
     _animationIndex: 0
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
-  - _description: '1 Interupt '
+  - _description: 4 Defense 1 Gain Stamina  Exhaust
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -57,8 +64,8 @@ MonoBehaviour:
           _comboCondition: []
           _paramaterCondition: []
       _cardTypeData:
-        _bodyPart: 6
-        _cardType: 3
+        _bodyPart: 2
+        _cardType: 2
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -75,8 +82,21 @@ MonoBehaviour:
       _amount: 1
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 5e4b0a9fbd1b49e4d935ed54e93329b9, type: 2}
-        _target: 2
+        _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
+        _target: 1
+        _amountToApply: 4
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
+        _target: 1
         _amountToApply: 1
         _animationIndex: 0
         _conditions:
@@ -86,7 +106,7 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-  - _description: '2 Interupt 1 Weak '
+  - _description: 7 Defense 1 Gain Stamina  Exhaust
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -98,8 +118,8 @@ MonoBehaviour:
           _comboCondition: []
           _paramaterCondition: []
       _cardTypeData:
-        _bodyPart: 6
-        _cardType: 3
+        _bodyPart: 2
+        _cardType: 2
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -116,9 +136,9 @@ MonoBehaviour:
       _amount: 1
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 5e4b0a9fbd1b49e4d935ed54e93329b9, type: 2}
-        _target: 2
-        _amountToApply: 2
+        _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
+        _target: 1
+        _amountToApply: 7
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -129,8 +149,8 @@ MonoBehaviour:
       _amount: 0
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 7503710f43d99f24dac343b8d01d8c5d, type: 2}
-        _target: 2
+        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
+        _target: 1
         _amountToApply: 1
         _animationIndex: 0
         _conditions:
@@ -140,7 +160,7 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-  - _description: '2 Interupt 1 Weak 1 Vulnerable '
+  - _description: 10 Defense 1 Gain Stamina  Exhaust
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -152,8 +172,8 @@ MonoBehaviour:
           _comboCondition: []
           _paramaterCondition: []
       _cardTypeData:
-        _bodyPart: 6
-        _cardType: 3
+        _bodyPart: 2
+        _cardType: 2
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -170,9 +190,9 @@ MonoBehaviour:
       _amount: 1
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 5e4b0a9fbd1b49e4d935ed54e93329b9, type: 2}
-        _target: 2
-        _amountToApply: 2
+        _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
+        _target: 1
+        _amountToApply: 10
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -183,21 +203,8 @@ MonoBehaviour:
       _amount: 0
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 7503710f43d99f24dac343b8d01d8c5d, type: 2}
-        _target: 2
-        _amountToApply: 1
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9, type: 2}
-        _target: 2
+        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
+        _target: 1
         _amountToApply: 1
         _animationIndex: 0
         _conditions:

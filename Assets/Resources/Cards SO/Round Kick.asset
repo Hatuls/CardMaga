@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
-  m_Name: Refresh
+  m_Name: Round Kick
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -22,37 +22,30 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _cardSprite: {fileID: 0}
-  _cardName: Refresh
+  _cardName: Round Kick
   _animationBundle:
-    BodyPartEnum: 1
-    _attackAnimation: 0
-    _shieldAnimation: 0
-    _getHitAnimation: 0
+    BodyPartEnum: 6
+    _attackAnimation: 6
+    _shieldAnimation: 1
+    _getHitAnimation: 4
     IsSlowMotion: 0
     IsCinemtaic: 0
-  _rarity: 1
-  _stamina: 1
-  _purchaseCost: 30
+  _rarity: 2
+  _stamina: 2
+  _purchaseCost: 60
   _toExhaust: 0
   _salvageCost: 1
-  _id: 77
+  _id: 21
   _cardKeywordsData:
-  - _keywordBase: {fileID: 11400000, guid: 7036128c6a9a20f4c899795a8a8fb402, type: 2}
-    _target: 1
-    _amountToApply: 1
-    _animationIndex: 0
-    _conditions:
-      _comboCondition: []
-      _paramaterCondition: []
-  - _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
-    _target: 1
-    _amountToApply: 1
+  - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
+    _target: 2
+    _amountToApply: 10
     _animationIndex: 0
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
-  - _description: '1 Shuffle 1 Clear '
+  - _description: '10 Attack '
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -64,8 +57,8 @@ MonoBehaviour:
           _comboCondition: []
           _paramaterCondition: []
       _cardTypeData:
-        _bodyPart: 1
-        _cardType: 3
+        _bodyPart: 6
+        _cardType: 1
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -79,12 +72,12 @@ MonoBehaviour:
       _cardTypeData:
         _bodyPart: 0
         _cardType: 0
-      _amount: 1
+      _amount: 2
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 7036128c6a9a20f4c899795a8a8fb402, type: 2}
-        _target: 1
-        _amountToApply: 1
+        _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
+        _target: 2
+        _amountToApply: 10
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -93,20 +86,7 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
-        _target: 1
-        _amountToApply: 1
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-  - _description: '1 Shuffle 1 Clear 1 Draw '
+  - _description: '13 Attack 2 Bleed '
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -118,8 +98,8 @@ MonoBehaviour:
           _comboCondition: []
           _paramaterCondition: []
       _cardTypeData:
-        _bodyPart: 1
-        _cardType: 3
+        _bodyPart: 6
+        _cardType: 1
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -133,12 +113,12 @@ MonoBehaviour:
       _cardTypeData:
         _bodyPart: 0
         _cardType: 0
-      _amount: 1
+      _amount: 2
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 7036128c6a9a20f4c899795a8a8fb402, type: 2}
-        _target: 1
-        _amountToApply: 1
+        _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
+        _target: 2
+        _amountToApply: 13
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -149,9 +129,9 @@ MonoBehaviour:
       _amount: 0
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
-        _target: 1
-        _amountToApply: 1
+        _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
+        _target: 2
+        _amountToApply: 2
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -160,20 +140,7 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 2d94b4cd1dcfe7d40ab0dd72990db508, type: 2}
-        _target: 1
-        _amountToApply: 1
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-  - _description: 1 Shuffle 1 Clear 1 Draw 1 Gain Stamina
+  - _description: '17 Attack 4 Bleed '
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -185,8 +152,8 @@ MonoBehaviour:
           _comboCondition: []
           _paramaterCondition: []
       _cardTypeData:
-        _bodyPart: 1
-        _cardType: 3
+        _bodyPart: 6
+        _cardType: 1
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -200,12 +167,12 @@ MonoBehaviour:
       _cardTypeData:
         _bodyPart: 0
         _cardType: 0
-      _amount: 1
+      _amount: 2
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 7036128c6a9a20f4c899795a8a8fb402, type: 2}
-        _target: 1
-        _amountToApply: 1
+        _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
+        _target: 2
+        _amountToApply: 17
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -216,9 +183,9 @@ MonoBehaviour:
       _amount: 0
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
-        _target: 1
-        _amountToApply: 1
+        _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
+        _target: 2
+        _amountToApply: 4
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -227,30 +194,4 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 2d94b4cd1dcfe7d40ab0dd72990db508, type: 2}
-        _target: 1
-        _amountToApply: 1
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
-        _target: 1
-        _amountToApply: 1
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-  _cardsFusesFrom: 
+  _cardsFusesFrom: 0c000c00

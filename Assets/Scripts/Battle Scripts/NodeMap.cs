@@ -6,6 +6,10 @@ namespace Map
 {
     public class NodeMap : MonoBehaviour
     {
+        [SerializeField]
+        Animator _animator;
+        int IsAttentableHash = Animator.StringToHash("IsAttenable");
+
         [ShowInInspector]
          public Node NodeData { get; private set; }
 
@@ -17,10 +21,14 @@ namespace Map
         [SerializeField] SpriteRenderer _backgroundImg;
         [SerializeField] SpriteRenderer _sr;
 
-        float initialScale;
-        private const float HoverScaleFactor = 1.2f;
-        private float mouseDownTime;
-        private const float MaxClickDuration = 0.5f;
+        [SerializeField]
+        Vector3 _startSize;
+        [SerializeField]
+        float _scaleWhenAttendable =1.1f;
+        private void Start()
+        {
+            _startSize = transform.localScale;
+        }
 
         private void OnMouseDown()
         {
@@ -45,8 +53,9 @@ namespace Map
         {
             NodeData = data;
             BluePrintNode = bluePrint;
-            _sr.color = bluePrint.PointColor;
-            _backgroundImg.color = data.IsOpen ? Color.black : Color.white;
+          //  _sr.color = bluePrint.PointColor;
+            _sr.sprite = bluePrint.Icon;
+            _backgroundImg.color =Color.cyan;
 
             if (data.NodeTypeEnum == NodeType.Boss_Enemy) 
                 transform.localScale *= 1.5f;
@@ -60,16 +69,13 @@ namespace Map
             switch (state)
             {
                 case NodeStates.Locked:
-                    _backgroundImg.transform.localScale = Vector3.one;
-                    _backgroundImg.color = MapView.Instance.lockedColor;
-                    break;
                 case NodeStates.Visited:
-                    _backgroundImg.transform.localScale = Vector3.one;
-                    _backgroundImg.color = MapView.Instance.visitedColor;
+                    transform.localScale = _startSize;
+                    _animator.SetBool(IsAttentableHash, false);
                     break;
                 case NodeStates.Attainable:
-                    _backgroundImg.transform.localScale = Vector3.one * HoverScaleFactor;
-                    _backgroundImg.color = Color.green;
+                    transform.localScale = _startSize * _scaleWhenAttendable;
+                    _animator.SetBool(IsAttentableHash, true);
                     break;
                 default:
                     break;
