@@ -28,7 +28,7 @@ namespace Battles
         #region Public Methods
         public override void Init()
         {
-           
+        
         }
 
 
@@ -71,7 +71,11 @@ namespace Battles
         }
 
 
-        public void OnEndTurn() => _enemyAnimatorController.ResetLayerWeight();
+        public void OnEndTurn()
+        {
+            _enemyAnimatorController.ResetLayerWeight();
+ 
+        }
         public System.Collections.IEnumerator PlayEnemyTurn()
         {
             Debug.Log("Enemy Attack!");
@@ -100,8 +104,6 @@ namespace Battles
                     if (staminaHandler.IsEnoughStamina(false, enemyAction))
                         DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, enemyAction);
 
-                
-
                 } while (!CardExecutionManager.Instance.TryExecuteCard(false, enemyAction));
 
                 if (noMoreCardsAvailable == false)
@@ -118,6 +120,7 @@ namespace Battles
 
 
             yield return new WaitUntil(() => EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
+            UI.CardUIManager.Instance.ActivateEnemyCardUI(false);
             yield return Turns.Turn.WaitOneSecond;
             EnemyAnimatorController.ResetToStartingPosition();
         }

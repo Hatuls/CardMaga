@@ -21,8 +21,8 @@ namespace Battles.UI.CardUIAttributes
         private EventTrigger.Entry onClick;
         private EventTrigger.Entry onPointerEnter;
 
-
-        public CardStateMachine CardStateMachine { get; private set; }
+ 
+        
         [SerializeField]
         private CardUI _thisCard;
         internal CardUI ThisCardUI => _thisCard;
@@ -34,13 +34,10 @@ namespace Battles.UI.CardUIAttributes
         [SerializeField]
         ObserverSO _observer;
 
-        private void Awake()
-        {
-            RegisterInputs();
-        }
+      
         private void Start()
         {
-            CardStateMachine = new CardStateMachine(_thisCard, GetCanvasGroup);
+       
 
             RegisterInputs();
         }
@@ -50,7 +47,7 @@ namespace Battles.UI.CardUIAttributes
             beginDrag.callback.RemoveAllListeners();
             endDrag.callback.RemoveAllListeners();
             onClick.callback.RemoveAllListeners();
-
+            
         }
         public void RegisterInputs()
         {

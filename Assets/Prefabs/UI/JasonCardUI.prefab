@@ -698,6 +698,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2213801214290407149}
   - component: {fileID: 5595351864141621532}
+  - component: {fileID: 6196394212146425403}
   - component: {fileID: 5347105687579326753}
   - component: {fileID: 3318038313717640659}
   - component: {fileID: 6774362276483852640}
@@ -753,6 +754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings: {fileID: 11400000, guid: 7d40fd7a3665f1f4fa5c8520c5b10430, type: 2}
   _eventTrigger: {fileID: 6774362276483852640}
+  _cardStateMachine: {fileID: 6196394212146425403}
   startState: 0
   _cardGFX:
     _titleText: {fileID: 4582511095875149909}
@@ -780,6 +782,20 @@ MonoBehaviour:
   Card: 1
   _zoomCardEvent: {fileID: 11400000, guid: b001bc32e27cdf04d9edd46238baf45b, type: 2}
   _selectCardEvent: {fileID: 11400000, guid: 5a5784c11b887204d8953718a892f433, type: 2}
+--- !u!114 &6196394212146425403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415996358653658824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea22a8b6c6bc284aaf334143b0f8910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardUI: {fileID: 5595351864141621532}
+  _rect: {fileID: 2213801214290407149}
 --- !u!114 &5347105687579326753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,6 +812,7 @@ MonoBehaviour:
   _eventTrigger: {fileID: 6774362276483852640}
   _thisCard: {fileID: 5595351864141621532}
   _rect: {fileID: 2213801214290407149}
+  _observer: {fileID: 0}
 --- !u!225 &3318038313717640659
 CanvasGroup:
   m_ObjectHideFlags: 0

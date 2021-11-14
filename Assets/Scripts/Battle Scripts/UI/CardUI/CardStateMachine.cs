@@ -1,11 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 namespace Battles.UI.CardUIAttributes
 {
-    public  class CardStateMachine :ScriptableObject, ITouchable
+    public class CardStateMachine : MonoBehaviour, ITouchable
     {
         public enum CardUIInput
         {
@@ -15,11 +14,22 @@ namespace Battles.UI.CardUIAttributes
             Hold = 3,
             None = 4
         };
- 
-        public CardUI CardReference { get; set; }
 
+        [SerializeField]
+        private CardUI _cardUI;
+        public CardUI CardReference
+        {
+            get
+            {
+                if (_cardUI == null)
+                    _cardUI = GetComponent<CardUI>();
+                return _cardUI;
+            }
+        }
+
+        [SerializeField]
         private RectTransform _rect;
-         Dictionary<CardUIInput, CardUIAbstractState> _statesDictionary;
+        Dictionary<CardUIInput, CardUIAbstractState> _statesDictionary;
         private ITouchable _currentState;
         public static Vector2 TouchPos { get; set; }
         public ITouchable CurrentState
@@ -31,13 +41,13 @@ namespace Battles.UI.CardUIAttributes
                     _currentState.OnStateExit();
 
                 _currentState = value;
-                CardReference.startState = (_currentState != null ) ? _currentState.State : CardUIInput.None;
+                CardReference.startState = (_currentState != null) ? _currentState.State : CardUIInput.None;
 
                 if (_currentState != null)
                     _currentState.OnStateEnter();
             }
         }
-        public void MoveToState (CardUIInput cardUIInput)
+        public void MoveToState(CardUIInput cardUIInput)
         {
             Debug.LogWarning($"Current State is: {CurrentState?.State}\nChanging state to: {cardUIInput}");
             CurrentState = _statesDictionary[cardUIInput];
@@ -47,12 +57,8 @@ namespace Battles.UI.CardUIAttributes
         {
             return _statesDictionary[cardUIInput] as T;
         }
-
-        public CardStateMachine(CardUI cardUI ,CanvasGroup canvasGroup)
+        public void Start()
         {
-            CardReference = cardUI;
-            _rect = cardUI.GFX.GetRectTransform;
-
             const int states = 5;
             _statesDictionary = new Dictionary<CardUIInput, CardUIAbstractState>(states)
             {
@@ -65,11 +71,20 @@ namespace Battles.UI.CardUIAttributes
 
             _currentState = _statesDictionary[CardUIInput.None];
 
+
+        }
+        public void OnEnable()
+        {
+            CardReference.Inputs.OnPointerClickEvent += OnPointerClick;
             CardReference.Inputs.OnBeginDragEvent += OnBeginDrag;
         }
-        ~CardStateMachine()
-            => CardReference.Inputs.OnBeginDragEvent -= OnBeginDrag;
 
+        private void OnDisable()
+        {
+
+            CardReference.Inputs.OnPointerClickEvent -= OnPointerClick;
+            CardReference.Inputs.OnBeginDragEvent -= OnBeginDrag;
+        }
         private void OnBeginDrag(CardUI card, PointerEventData data)
         {
             if (card != CardReference)
@@ -77,13 +92,20 @@ namespace Battles.UI.CardUIAttributes
 
             InputManager.Instance.AssignObjectFromTouch(CurrentState, data.position);
         }
+        private void OnPointerClick(CardUI card, PointerEventData data)
+        {
+            if (card != CardReference)
+                return;
+
+            InputManager.Instance.AssignObjectFromTouch(CurrentState);
+        }
 
         #region Interface Implementation
-    
+
 
         public RectTransform Rect => _rect;
 
-        public bool IsInteractable => (CurrentState.State == CardUIInput.Locked || CurrentState.State== CardUIInput.None) ? false : CurrentState.IsInteractable;
+        public bool IsInteractable => (CurrentState.State == CardUIInput.Locked || CurrentState.State == CardUIInput.None) ? false : CurrentState.IsInteractable;
 
         public CardUIInput State => CurrentState.State;
 
@@ -115,7 +137,7 @@ namespace Battles.UI.CardUIAttributes
         #endregion
 
     }
- 
+
 
 
 
@@ -128,7 +150,7 @@ namespace Battles.UI.CardUIAttributes
 
 
 
-        public CardUIAbstractState(RectTransform rectm , CardStateMachine cardStateMachine)
+        public CardUIAbstractState(RectTransform rectm, CardStateMachine cardStateMachine)
         {
             Rect = rectm;
             _cardStateMachine = cardStateMachine;
@@ -171,10 +193,10 @@ namespace Battles.UI.CardUIAttributes
                 case TouchPhase.Moved:
                 case TouchPhase.Stationary:
                     Debug.Log("CardUI - State Hand - Began Touch ");
-                    CardStateMachine.TouchPos =touchPos.position;
+                    CardStateMachine.TouchPos = touchPos.position;
                     var card = _cardStateMachine.CardReference;
                     CardUIHandler.Instance.CardUITouched(card);
-                 //   currentTime += Time.deltaTime;      
+                    //   currentTime += Time.deltaTime;      
                     _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hold);
                     break;
 
@@ -182,17 +204,17 @@ namespace Battles.UI.CardUIAttributes
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
                     Debug.Log("CardUI - State Hand -  End Touch");
-                    CardUIHandler.Instance.CardUITouchedReleased(false,_cardStateMachine.CardReference);
+                    CardUIHandler.Instance.CardUITouchedReleased(false, _cardStateMachine.CardReference);
                     break;
                 default:
                     break;
             }
-       
+
         }
 
         public override void OnStateExit()
         {
-        //currentTime = 0;
+            //currentTime = 0;
         }
         public override void OnStateEnter()
         {

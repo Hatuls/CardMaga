@@ -1,6 +1,7 @@
 ﻿using Account.GeneralData;
 using Battles;
 using System;
+using System.Linq;
 using UnityEngine;
 
 
@@ -19,9 +20,9 @@ namespace Characters
             else if (_deck == null || _deck.Cards.Length == 0)
                 throw new Exception("AccountDeck Is null or empty!");
 
-            CharacterData = new CharacterBattleData(data,_deck);
+            CharacterData = new CharacterBattleData(data, _deck);
         }
-       public Character(CharacterSO characterSO)  
+        public Character(CharacterSO characterSO)
         {
             if (characterSO == null)
                 throw new Exception($"Character: CharactersO is null!");
@@ -36,6 +37,16 @@ namespace Characters
             _characterData = data;
         }
 
+        public bool RemoveCardFromDeck(ushort InstanceID)
+        {
+            var deckList = _characterData.CharacterDeck.ToList();
+        
+            Cards.Card card = (Cards.Card)deckList.Where((x) => x.CardID == InstanceID);
+            bool check = deckList.Remove(card);
+            if (check)
+                _characterData.CharacterDeck = deckList.ToArray();
+            return check;
+        }
         public bool AddCardToDeck(CharacterSO.CardInfo card) => AddCardToDeck(card.Card, card.Level);
         public bool AddCardToDeck(Cards.CardSO card, byte level = 0)
         {
@@ -43,8 +54,8 @@ namespace Characters
                 throw new Exception("Cannot add card to deck the card you tried to add is null!");
 
             var cardCreated = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(card, level);
-      
-            return    AddCardToDeck(cardCreated); 
+
+            return AddCardToDeck(cardCreated);
         }
         public bool AddCardToDeck(Cards.Card card)
         {
@@ -54,7 +65,7 @@ namespace Characters
             var deck = _characterData.CharacterDeck;
             int length = _characterData.CharacterDeck.Length;
             Array.Resize(ref deck, length + 1);
-            deck[length ] = card;
+            deck[length] = card;
             _characterData.CharacterDeck = deck;
 
             return card != null;
