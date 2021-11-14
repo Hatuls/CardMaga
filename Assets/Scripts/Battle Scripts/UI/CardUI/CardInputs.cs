@@ -1,4 +1,5 @@
-﻿using Unity.Events;
+﻿using DesignPattern;
+using Unity.Events;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -30,18 +31,17 @@ namespace Battles.UI.CardUIAttributes
         private RectTransform _rect;
         public RectTransform Rect => _rect;
 
+        [SerializeField]
+        ObserverSO _observer;
+
         private void Awake()
         {
             RegisterInputs();
         }
-        public CardInputs(CanvasGroup canvasGroup, EventTrigger eventTrigger, CardStateMachine.CardUIInput cardUIInput, CardUI card)
+        private void Start()
         {
+            CardStateMachine = new CardStateMachine(_thisCard, GetCanvasGroup);
 
-
-
-
-            CardStateMachine = new CardStateMachine(card, canvasGroup, cardUIInput);
-   
             RegisterInputs();
         }
         private void OnDestroy()
@@ -78,13 +78,17 @@ namespace Battles.UI.CardUIAttributes
 
         }
 
-        //int f = 0;
-        //int j = 0;
-        //int i = 0;
+  
+
+        public UnityAction<CardUI,PointerEventData> OnPointerClickEvent;
+        public UnityAction<CardUI, PointerEventData> OnBeginDragEvent;
+        public UnityAction<CardUI, PointerEventData> OnEndDragEvent;
+
         public void OnPointerClick(PointerEventData eventData)
         {
-          //  InputManager.Instance.AssignObjectFromTouch(CardStateMachine.CurrentState);
+            //  InputManager.Instance.AssignObjectFromTouch(CardStateMachine.CurrentState);
             //      Debug.Log($"Card {CardStateMachine.CardReference.name} click  id : {++i}");
+            OnPointerClickEvent?.Invoke(_thisCard,eventData);
         }
 
         public void BeginDrag(PointerEventData eventData)
@@ -94,12 +98,15 @@ namespace Battles.UI.CardUIAttributes
             //if (InputManager.inputState ==  InputManager.InputState.Touch)
             // _canvasGroup.blocksRaycasts = false;
             //     if (CardStateMachine.CurrentState != null&& CardStateMachine.CurrentState.State == CardStateMachine.CardUIInput.Hand)
-         //   InputManager.Instance.AssignObjectFromTouch(CardStateMachine.CurrentState, eventData.position);
+            //  InputManager.Instance.AssignObjectFromTouch(CardStateMachine.CurrentState, eventData.position);
+
+            OnBeginDragEvent?.Invoke(_thisCard, eventData);
 
         }
         public void EndDrag(PointerEventData eventData)
         {
             //     Debug.Log($"Card {CardStateMachine.CardReference.name} End Drag id : {++f}");
+            OnEndDragEvent?.Invoke(_thisCard, eventData);
 
         }
 

@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace Battles.UI.CardUIAttributes
 {
-    public class CardStateMachine : ITouchable
+    public  class CardStateMachine :ScriptableObject, ITouchable
     {
         public enum CardUIInput
         {
@@ -31,6 +32,7 @@ namespace Battles.UI.CardUIAttributes
 
                 _currentState = value;
                 CardReference.startState = (_currentState != null ) ? _currentState.State : CardUIInput.None;
+
                 if (_currentState != null)
                     _currentState.OnStateEnter();
             }
@@ -46,7 +48,7 @@ namespace Battles.UI.CardUIAttributes
             return _statesDictionary[cardUIInput] as T;
         }
 
-        public CardStateMachine(CardUI cardUI ,CanvasGroup canvasGroup, CardUIInput firstState)
+        public CardStateMachine(CardUI cardUI ,CanvasGroup canvasGroup)
         {
             CardReference = cardUI;
             _rect = cardUI.GFX.GetRectTransform;
@@ -61,9 +63,20 @@ namespace Battles.UI.CardUIAttributes
                 {CardUIInput.Zoomed, new ZoomState(_rect,this)}
             };
 
-            _currentState = _statesDictionary[firstState];
-        }
+            _currentState = _statesDictionary[CardUIInput.None];
 
+            CardReference.Inputs.OnBeginDragEvent += OnBeginDrag;
+        }
+        ~CardStateMachine()
+            => CardReference.Inputs.OnBeginDragEvent -= OnBeginDrag;
+
+        private void OnBeginDrag(CardUI card, PointerEventData data)
+        {
+            if (card != CardReference)
+                return;
+
+            InputManager.Instance.AssignObjectFromTouch(CurrentState, data.position);
+        }
 
         #region Interface Implementation
     
@@ -102,6 +115,7 @@ namespace Battles.UI.CardUIAttributes
         #endregion
 
     }
+ 
 
 
 
