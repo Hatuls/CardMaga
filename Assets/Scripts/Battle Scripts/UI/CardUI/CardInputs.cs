@@ -6,10 +6,11 @@ using UnityEngine.EventSystems;
 namespace Battles.UI.CardUIAttributes
 {
     [RequireComponent(typeof(EventTrigger))]
-    public class CardInputs : IPointerClickHandler//, IPointerEnterHandlerIBeginDragHandler,IPointerUpHandler
+    public class CardInputs :MonoBehaviour,IPointerClickHandler//, IPointerEnterHandlerIBeginDragHandler,IPointerUpHandler
     {
-
+        [SerializeField]
         private CanvasGroup _canvasGroup;
+        [SerializeField]
         private EventTrigger _eventTrigger;
         public CanvasGroup GetCanvasGroup => _canvasGroup;
 
@@ -20,19 +21,21 @@ namespace Battles.UI.CardUIAttributes
 
 
         public CardStateMachine CardStateMachine { get; private set; }
+        [SerializeField]
         private CardUI _thisCard;
         internal CardUI ThisCardUI => _thisCard;
 
+        [SerializeField]
         private RectTransform _rect;
         public RectTransform Rect => _rect;
 
-
+        private void Awake()
+        {
+            RegisterInputs();
+        }
         public CardInputs(CanvasGroup canvasGroup, EventTrigger eventTrigger, CardStateMachine.CardUIInput cardUIInput, CardUI card)
         {
-            _thisCard = card;
-            _rect = card.GFX.GetRectTransform;
-            _canvasGroup = canvasGroup;
-            _eventTrigger = eventTrigger;
+
 
 
 
@@ -40,7 +43,7 @@ namespace Battles.UI.CardUIAttributes
    
             RegisterInputs();
         }
-        ~CardInputs()
+        private void OnDestroy()
         {
             onPointerEnter.callback.RemoveAllListeners();
             beginDrag.callback.RemoveAllListeners();

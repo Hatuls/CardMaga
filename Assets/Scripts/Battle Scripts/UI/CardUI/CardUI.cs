@@ -27,6 +27,7 @@ namespace Battles.UI
         [SerializeField]
         private CanvasGroup _canvasGroup;
         private CardAnimator _cardAnimator;
+        [SerializeField]
         private CardInputs _inputs;
 
         private CardTranslations _cardTranslations;
@@ -100,8 +101,8 @@ namespace Battles.UI
         {
             get
             {
-                if (_inputs == null && (Card & CardUISettings.Touchable) == CardUISettings.Touchable)
-                    _inputs = new CardInputs( _canvasGroup, _eventTrigger, startState, this);
+                //if (_inputs == null && (Card & CardUISettings.Touchable) == CardUISettings.Touchable)
+                //    _inputs = new CardInputs( _canvasGroup, _eventTrigger, startState, this);
                 return  _inputs;
             }
         }
