@@ -1,10 +1,11 @@
 ﻿
 using UnityEngine;
 using Sirenix.OdinInspector;
+using DesignPattern;
 
 namespace Map
 {
-    public class NodeMap : MonoBehaviour
+    public class NodeMap : MonoBehaviour , IObserver
     {
         [SerializeField]
         Animator _animator;
@@ -25,11 +26,24 @@ namespace Map
         Vector3 _startSize;
         [SerializeField]
         float _scaleWhenAttendable =1.1f;
+
+        [SerializeField] ObserverSO _observer;
+        [SerializeField] BoxCollider2D _boxCollider;
         private void Start()
         {
+            _observer.Subscribe(this);
             _startSize = transform.localScale;
+            SetTrigger(true);
         }
-
+        private void OnDisable()
+        {
+            _observer.UnSubscribe(this);
+        }
+        private void SetTrigger(bool state)
+        {
+          
+            _boxCollider.enabled = state;
+        }
         private void OnMouseDown()
         {
             MapPlayerTracker.Instance.SelectNode(this);
@@ -80,6 +94,14 @@ namespace Map
                 default:
                     break;
             }
+        }
+
+        public void OnNotify(IObserver Myself)
+        {
+            if (Myself == null)
+                SetTrigger(true);
+            else if ((Object)Myself != this)
+                SetTrigger(false);
         }
     }
 

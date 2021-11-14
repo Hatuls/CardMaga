@@ -1,13 +1,14 @@
 ﻿using Battles;
 using Battles.UI;
-
+using DesignPattern;
 using UnityEngine;
 
-public class UpperInfoUIHandler : MonoBehaviour
+public class UpperInfoUIHandler : MonoBehaviour 
 {
     [SerializeField] MoneyIcon _moneyHandler;
     [SerializeField] UIBar _hpBar;
-
+    [SerializeField]
+    DeckAndCombosScreenUI _deckAndComboScreen;
 
 
     // Deck Show
@@ -37,34 +38,13 @@ public class UpperInfoUIHandler : MonoBehaviour
 
     public void DropListChangeState()
     {
-        if (_dropList.activeSelf)
-        {
-            _dropList.gameObject.SetActive(false);
-        }
-        else
-        {
-            _dropList.gameObject.SetActive(true);
-        }
+      _dropList.gameObject.SetActive(!_dropList.activeSelf);
     }
-    public void OpenDeck()
+    public void OpenDeckAndComboScreen()
     {
-        if (_cardUIGOs != null && _cardUIGOs.Length > 0)
-        {
-            for (int i = 0; i < _cardUIGOs.Length; i++)
-            {
-                Destroy(_cardUIGOs[i]);
-            }
-        }
-
-        var deck = BattleData.Player.CharacterData.CharacterDeck;
-        _cardUIGOs = new GameObject[deck.Length];
-        for (int i = 0; i < deck.Length; i++)
-        {
-            _cardUIGOs[i] = Instantiate(cardUIGO, _cardUIpanel);
-            _cardUIGOs[i].GetComponent<CardUI>().GFX.SetCardReference(deck[i], _art);
-            _cardUIGOs[i].transform.localScale = Vector3.one * 0.5f;
-        }
+        DropListChangeState();
+        _deckAndComboScreen.Open();
     }
 
-
+   
 }
