@@ -52,8 +52,8 @@ public class CraftingSlotUI : MonoBehaviour
         else
         InitPlaceHolder(
                 cardType.CardType,
-                      ArtSettings.CardIconCollectionSO.GetSprite(cardType.BodyPart)
-                 );
+                        Factory.GameFactory.Instance.ArtBlackBoard.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardType.BodyPart)
+                      );
     }
     public void InitPlaceHolder(Cards.CardTypeEnum cardType, Sprite icon)
     {
@@ -75,35 +75,25 @@ public class CraftingSlotUI : MonoBehaviour
     }
     public void ResetSlotUI()
     {
-
-        if (ArtSettings.CraftingUIPalette == null)
-        {
-            Debug.LogError("Error in ResetSlot");
-            return;
-        }
-
+        var artBoard = Factory.GameFactory.Instance.ArtBlackBoard;
         if (_glowImage.gameObject.activeSelf)
             _glowImage.gameObject.SetActive(false);
 
-
+        var craftingUIPalete = artBoard.GetPallette<CraftingUIPalette>();
         _iconImage.color = Color.clear;
-        _decorImage.color = ArtSettings.CraftingUIPalette.SlotDecorationColor;
-        _backgroundImage.color = ArtSettings.CraftingUIPalette.SlotBackgroundColor;
+        _decorImage.color = craftingUIPalete.SlotDecorationColor;
+        _backgroundImage.color = craftingUIPalete.SlotBackgroundColor;
 
         _iconImage.sprite = null;
     }
     void SetColors(Cards.CardTypeEnum cardType)
     {
-        if (ArtSettings.CraftingUIPalette == null || ArtSettings.CardTypePalette == null)
-        {
-            Debug.LogError("Error in SetSlotData");
-            return;
-        }
-
-        _backgroundImage.color = ArtSettings.CraftingUIPalette.SlotBackgroundColor;
-
-        _iconImage.color = ArtSettings.CardTypePalette.GetIconBodyPartColorFromEnum(cardType);
-        _decorImage.color = ArtSettings.CardTypePalette.GetDecorationColorFromEnum(cardType);
+        var artBoard = Factory.GameFactory.Instance.ArtBlackBoard;
+       
+        _backgroundImage.color = artBoard.GetPallette<CraftingUIPalette>().SlotBackgroundColor;
+        var cardTypePallete = artBoard.GetPallette<CardTypePalette>();
+        _iconImage.color = cardTypePallete.GetIconBodyPartColorFromEnum(cardType);
+        _decorImage.color = cardTypePallete.GetDecorationColorFromEnum(cardType);
     }
 
     public void MoveLocation(Vector2 startPosition, float leantweenTime)

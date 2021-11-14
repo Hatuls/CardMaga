@@ -2,6 +2,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+namespace Map.UI
+{
+
 
 public class RestAreaUI : MonoBehaviour
 {
@@ -100,7 +103,7 @@ public class RestAreaUI : MonoBehaviour
 
     public void ExitRestArea()
     {
-        Map.MapView.Instance.SetAttainableNodes();
+        MapView.Instance.SetAttainableNodes();
         SetActiveRestAreaContainer(false);
     }
 
@@ -216,4 +219,4 @@ public class RestArea
       Battles.BattleData.Player.CharacterData.CharacterStats.StaminaShard += _staminaShardAmount;
         Debug.Log("Added Stamina Shard From Rest Area\nCurrent Amount: " + Battles.BattleData.Player.CharacterData.CharacterStats.StaminaShard);
     }
-}
+}}
