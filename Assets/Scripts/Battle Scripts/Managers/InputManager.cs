@@ -22,7 +22,7 @@ public class InputManager :MonoBehaviour
         {
             _instance = this;
             Init();
-       
+            SceneHandler.onFinishLoadingScene += OnSceneLoad;
         }
         else if (_instance != this)
             Destroy(this.gameObject);  
@@ -31,7 +31,10 @@ public class InputManager :MonoBehaviour
     }
 
 
-
+    private void OnDestroy()
+    {
+        SceneHandler.onFinishLoadingScene -= OnSceneLoad;
+    }
     void Init()
     {
         inputState = InputState.Touch;
@@ -89,6 +92,11 @@ public class InputManager :MonoBehaviour
     #region Functions
 
     #region Monobehaiviour CallBacks
+
+    private void OnSceneLoad(SceneHandler.ScenesEnum scene)
+    {
+        ResetTouch();
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -105,12 +113,7 @@ public class InputManager :MonoBehaviour
         {
             Application.Quit();
         }
-        else if (Input.GetMouseButtonDown(1))
-        {
-
-           Debug.LogWarning(Battles.Deck.DeckManager.Instance.ToString());
-
-        }
+  
     }
 
     private void MouseDetector()

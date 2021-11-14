@@ -1,21 +1,22 @@
 ﻿using Battles.UI.CardUIAttributes;
-using System;
 using UnityEngine;
 namespace Battles.UI
 {
 
     public class HandUI
     {
-       public CardUI CurrentlyHolding { get; private set; }
+
+        public CardUI CurrentlyHolding { get; private set; }
         CardUISO _cardUISO;
         CardUI[] _handCards;
+
         Vector2 _middleHandPos;
         public static HandUI Instance;
 
-        public HandUI(CardUI[] handCards, Vector2 middlePos,  CardUISO cardUISO)
+        public HandUI(CardUI[] handCards, Vector2 middlePos, CardUISO cardUISO)
         {
             Instance = this;
-           _handCards = handCards;
+            _handCards = handCards;
             _middleHandPos = middlePos;
             _cardUISO = cardUISO;
             AlignCards();
@@ -30,13 +31,13 @@ namespace Battles.UI
             for (int i = 0; i < _handCards.Length; i++)
             {
                 SetHandCardPosition(GetHandCardUIFromIndex(i), i);
-                var handstate = _handCards[i].Inputs.CardStateMachine.GetState<HandState>( CardStateMachine.CardUIInput.Hand);
+                var handstate = _handCards[i].CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
                 handstate.Index = i;
                 handstate.HasValue = false;
-               _handCards[i].Inputs.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hand);
-               _handCards[i].gameObject.SetActive(false);
+                _handCards[i].CardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hand);
+                _handCards[i].gameObject.SetActive(false);
             }
-          
+
         }
         public CardUI GetHandCardUIFromIndex(int index)
         {
@@ -48,7 +49,7 @@ namespace Battles.UI
         {
             if (card == null)
                 return -1;
-            return card.Inputs.CardStateMachine.GetState<HandState>( CardStateMachine.CardUIInput.Hand).Index;
+            return card.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand).Index;
         }
         private void SetHandCardPosition(CardUI cardUI, int index)
         {
@@ -59,7 +60,7 @@ namespace Battles.UI
 
             float xMaxDistance = _handCards.Length * spaceBetweenCard / 2;
             float offset = spaceBetweenCard / 2;
-            destination += Vector2.left * (xMaxDistance- offset);
+            destination += Vector2.left * (xMaxDistance - offset);
 
             cardUI.CardTranslations.SetPosition(destination);
         }
@@ -72,12 +73,12 @@ namespace Battles.UI
         {
             for (int i = 0; i < _handCards.Length; i++)
             {
-                if (_handCards[i] != null && _handCards[i].Inputs!=null && _handCards[i].Inputs.GetCanvasGroup!= null)
+                if (_handCards[i] != null && _handCards[i].Inputs != null && _handCards[i].Inputs.GetCanvasGroup != null)
                 {
 
-                _handCards[i].Inputs.GetCanvasGroup.blocksRaycasts = !toLock;
+                    _handCards[i].Inputs.GetCanvasGroup.blocksRaycasts = !toLock;
                 }
-                var stateMachine = _handCards[i]?.Inputs.CardStateMachine;
+                var stateMachine = _handCards[i]?.CardStateMachine;
                 var gotoState = toLock ? CardStateMachine.CardUIInput.Locked : CardStateMachine.CardUIInput.Hand;
                 stateMachine.MoveToState(gotoState);
             }
@@ -88,9 +89,9 @@ namespace Battles.UI
             {
                 CurrentlyHolding = ReplacingCard;
                 CardUIManager.Instance.AssignDataToCardUI(ReplacingCard, ReplacedCard.GFX.GetCardReference);
-           
-                var index = ReplacedCard.Inputs.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand).Index;
-                var replacinghandSTate = ReplacingCard.Inputs.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
+
+                var index = ReplacedCard.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand).Index;
+                var replacinghandSTate = ReplacingCard.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
                 replacinghandSTate.Index = index;
                 replacinghandSTate.HasValue = false;
 
@@ -109,7 +110,7 @@ namespace Battles.UI
         {
             for (int i = 0; i < _handCards.Length; i++)
             {
-                _handCards[i].Inputs.CardStateMachine.GetState<HandState>( CardStateMachine.CardUIInput.Hand).HasValue = false;
+                _handCards[i].CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand).HasValue = false;
                 _handCards[i].gameObject.SetActive(false);
             }
         }

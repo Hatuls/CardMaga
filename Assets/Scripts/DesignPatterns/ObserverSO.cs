@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Battles.UI;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace DesignPattern
 {
@@ -24,6 +26,4 @@ namespace DesignPattern
             _observers.Remove(observer);
         }
     }
-
-
 }

@@ -57,7 +57,9 @@ namespace Battles
             StaminaHandler.Instance.ReduceStamina(isPlayer,card);
 
             if (isPlayer)
-               CardUIManager.Instance.LockHandCards(false);
+                CardUIManager.Instance.LockHandCards(false);
+            else
+                CardUIManager.Instance.PlayEnemyCard(card);
 
             DeckManager.Instance.TransferCard(isPlayer, DeckEnum.Selected, card.CardSO.ToExhaust ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
 

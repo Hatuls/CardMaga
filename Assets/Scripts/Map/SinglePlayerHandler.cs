@@ -30,13 +30,14 @@ public class SinglePlayerHandler : MonoBehaviour
     public static void RegisterPlayerCharacterDataForNewRun(Character playerCharacter) => BattleData.Player = playerCharacter;
     public void StartNewRun(Character playerLoadOut = null)
     {
+
         if (playerLoadOut== null)
         {
             Debug.LogWarning("SingePlayerHandler: Character playerLoadOut class is null.\nCreateing Character from SO");
             playerLoadOut = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(CharacterTypeEnum.Player);
         }
-
-        Debug.Log($"Registering Player: {playerLoadOut.CharacterData.Info.CharacterName}");
+       BattleData.PlayerWon = false;
+       Debug.Log($"Registering Player: {playerLoadOut.CharacterData.Info.CharacterName}");
         BattleData.Player = playerLoadOut;
         UpperInfoUIHandler.Instance.UpdateUpperInfoHandler(ref BattleData.Player.CharacterData.CharacterStats);
     }

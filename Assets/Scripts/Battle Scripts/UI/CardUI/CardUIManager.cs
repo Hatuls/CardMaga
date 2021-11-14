@@ -65,11 +65,23 @@ namespace Battles.UI
         public RectTransform GetHandMiddlePosition => _handMiddlePosition;
         public float GetInputHandLine => GetHandMiddlePosition.position.y + _cardUISettings.LineOfHandTeritory;
 
+        [SerializeField]
+        private CardUI _enemyCardUI;
         internal void UpdateHand()
         {
             DrawCards(DeckManager.Instance.GetCardsFromDeck(true, DeckEnum.Hand));
         }
 
+        internal void PlayEnemyCard(Card card)
+        {
+            if (_enemyCardUI.gameObject.activeSelf == false)
+                ActivateEnemyCardUI(true);
+            AssignDataToCardUI(_enemyCardUI,card);
+    
+        }
+
+        public void ActivateEnemyCardUI(bool state)
+            => _enemyCardUI.gameObject.SetActive(state);
 
         #endregion
 
@@ -141,7 +153,7 @@ namespace Battles.UI
 
                 if (card != null)
                 {
-                    var InHandInputState = card.Inputs.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
+                    var InHandInputState = card.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
                     if (InHandInputState.HasValue ==  false)
                     {
                         if (card.gameObject.activeSelf == false)
@@ -322,7 +334,7 @@ namespace Battles.UI
             _handUI.LockCardsInput(false);
             cardReference?.GFX.GlowCard(false);
             card.gameObject.SetActive(false);
-            card.Inputs.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.None);
+            card.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.None);
             // card.CardTranslations.CancelAllTweens();
        //     _selectedCardUI = null;
 

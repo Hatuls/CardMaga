@@ -27,13 +27,21 @@ namespace Map
         [SerializeField]
         float _scaleWhenAttendable =1.1f;
 
+        [SerializeField]
+        float _bossScale = 1.5f;
+
+
         [SerializeField] ObserverSO _observer;
         [SerializeField] BoxCollider2D _boxCollider;
         private void Start()
         {
-            _observer.Subscribe(this);
+
             _startSize = transform.localScale;
             SetTrigger(true);
+        }
+        private void OnEnable()
+        {
+            _observer.Subscribe(this);
         }
         private void OnDisable()
         {
@@ -72,7 +80,7 @@ namespace Map
             _backgroundImg.color =Color.cyan;
 
             if (data.NodeTypeEnum == NodeType.Boss_Enemy) 
-                transform.localScale *= 1.5f;
+                transform.localScale *= _bossScale;
 
             SetState(NodeStates.Locked);
         }
@@ -100,7 +108,7 @@ namespace Map
         {
             if (Myself == null)
                 SetTrigger(true);
-            else if ((Object)Myself != this)
+            else 
                 SetTrigger(false);
         }
     }

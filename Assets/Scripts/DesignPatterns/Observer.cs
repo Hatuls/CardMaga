@@ -2,7 +2,27 @@
 
 namespace DesignPattern
 {
+    public class Observer<T1,T2> : ISubject<T1,T2>
+    {
+        private List<IObserver<T1,T2>> _observers = new List<IObserver<T1, T2>>();
 
+        public void Notify(T1 data, T2 Data)
+        {
+            for (int i = 0; i < _observers.Count; i++)
+                _observers[i].OnNotify(data,Data);
+        }
+
+        public void Subscribe(IObserver<T1, T2> observer)
+        {
+            if (!_observers.Contains(observer))
+                _observers.Add(observer);
+        }
+
+        public void UnSubscribe(IObserver<T1, T2> observer)
+        {
+            _observers.Remove(observer);
+        }
+    }
 
 
 
@@ -48,7 +68,10 @@ namespace DesignPattern
             _observers.Remove(observer);
         }
     }
-
+    public interface IObserver<T1,T2>
+    {
+        void OnNotify(T1 data, T2 secondData);
+    }
 
     public interface IObserver<T>
     {
@@ -57,6 +80,12 @@ namespace DesignPattern
     public interface IObserver
     {
         void OnNotify(IObserver Myself);
+    }
+    public interface ISubject<T1, T2>
+    {
+        void Notify(T1 data, T2 Data);
+        void Subscribe(IObserver<T1,T2> observer);
+        void UnSubscribe(IObserver<T1,T2> observer);
     }
     public interface ISubject<T>
     {

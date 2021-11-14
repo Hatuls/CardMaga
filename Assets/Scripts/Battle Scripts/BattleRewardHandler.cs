@@ -1,35 +1,43 @@
 ﻿using Battles;
+using DesignPattern;
 using System;
 using UnityEngine;
 
 namespace Rewards.Battles
 {
 
-    public class BattleRewardHandler : MonoSingleton<BattleRewardHandler>
+    public class BattleRewardHandler : MonoBehaviour ,IObserver
     {
-
-        [SerializeField] SceneLoaderCallback sceneLoader;
-        public override void Init()
+        [SerializeField] BattleUIRewardHandler _battleUIRewardHandler;
+        [SerializeField] ObserverSO _observerSO;
+        [SerializeField] MoneyIcon _moneyIcon;
+        private void Start()
         {
-         }
+            if (!BattleData.PlayerWon)
+                return;
 
-       public void FinishMatch(bool playerWon)
-        {
-            if (playerWon)
+            BattleData.PlayerWon = false;
+
+            var opponentType = BattleData.Opponent.CharacterData.Info.CharacterType;
+
+            if (opponentType == CharacterTypeEnum.Boss_Enemy)
             {
-                var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards( BattleData.Opponent.CharacterData.Info.CharacterType);
-                if (rewardBundle == null)
-                    throw new System.Exception("Reward Bundle is null!");
-
-                BattleUIRewardHandler.Instance.BattleReward = rewardBundle;
+                FinishBoss();
+                return;
             }
-       
-          
+            _observerSO.Notify(this);
+            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(opponentType);
+            if (rewardBundle == null)
+                throw new Exception("Reward Bundle is null!");
+
+            _battleUIRewardHandler.OpenRewardScreen(rewardBundle);
         }
+
         public void ReturnToMainMenu()
         {
+
             BattleData.Player = null;
-            sceneLoader.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
         }
         public void AddCard(Cards.Card cardToAdd)
         {
@@ -45,13 +53,24 @@ namespace Rewards.Battles
             var player = BattleData.Player;
 
             player.CharacterData.CharacterStats.Gold = (ushort)playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Amount;
-
-            BattleData.Player =player;
+            _moneyIcon.SetMoneyText(player.CharacterData.CharacterStats.Gold);
+            BattleData.Player = player;
         }
 
         internal void FinishBoss()
         {
+            // see when boss is fnished!
             ReturnToMainMenu();
+        }
+
+        internal void AddCombo(Combo.Combo[] rewardCombos)
+        {
+          bool recievedSuccessfully =  BattleData.Player.AddComboRecipe(rewardCombos[0]);
+        }
+
+        public void OnNotify(IObserver Myself)
+        {
+            throw new NotImplementedException();
         }
     }
 }

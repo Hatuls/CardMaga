@@ -17,7 +17,10 @@ namespace Battles.UI
         [SerializeField]
         EventTrigger _eventTrigger;
         [SerializeField]
+        CardStateMachine _cardStateMachine;
 
+
+        [SerializeField]
         internal CardStateMachine.CardUIInput startState = CardStateMachine.CardUIInput.Locked;
         [SerializeField]
    //     [HideInInspector]
@@ -86,6 +89,11 @@ namespace Battles.UI
         [SerializeField] CardUIEvent _zoomCardEvent;
         [SerializeField] CardUIEvent _selectCardEvent;
         #endregion
+        private void Awake()
+        {
+            if (((Card & CardUISettings.Touchable) != CardUISettings.Touchable))
+                Destroy(GetComponent<CardStateMachine>());
+        }
 
         private void Start()
         {
@@ -101,6 +109,8 @@ namespace Battles.UI
         {
             get
             {
+                if (_inputs == null)
+                    _inputs = gameObject.GetComponent<CardInputs>();
                 //if (_inputs == null && (Card & CardUISettings.Touchable) == CardUISettings.Touchable)
                 //    _inputs = new CardInputs( _canvasGroup, _eventTrigger, startState, this);
                 return  _inputs;
@@ -128,10 +138,9 @@ namespace Battles.UI
                 return _cardAnimator;
             }
         }
-        public ITouchable GetTouchAbleInput => ((Card & CardUISettings.Touchable) == CardUISettings.Touchable) ? Inputs.CardStateMachine.CurrentState : null;
+        public CardStateMachine CardStateMachine =>_cardStateMachine;
+        public ITouchable GetTouchAbleInput => ((Card & CardUISettings.Touchable) == CardUISettings.Touchable) ? CardStateMachine.CurrentState : null;
         #endregion
-
-
     }
 
    

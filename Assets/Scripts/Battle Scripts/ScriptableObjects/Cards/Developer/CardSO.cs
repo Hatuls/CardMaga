@@ -113,8 +113,8 @@ namespace Cards
 
             if (level >=0 && level< PerLevelUpgrade.Length)
               return PerLevelUpgrade[level];
-            
-            return null;
+
+            throw new System.Exception($"CardSO: ID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
         }
         #endregion
 
