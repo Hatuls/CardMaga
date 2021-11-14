@@ -21,8 +21,7 @@ namespace Battles.UI.CardUIAttributes
         {
             get
             {
-                if (_cardUI == null)
-                    _cardUI = GetComponent<CardUI>();
+       
                 return _cardUI;
             }
         }
@@ -41,7 +40,8 @@ namespace Battles.UI.CardUIAttributes
                     _currentState.OnStateExit();
 
                 _currentState = value;
-                CardReference.startState = (_currentState != null) ? _currentState.State : CardUIInput.None;
+                if (CardReference!= null)
+                   CardReference.startState = (_currentState != null) ? _currentState.State : CardUIInput.None;
 
                 if (_currentState != null)
                     _currentState.OnStateEnter();
@@ -71,20 +71,21 @@ namespace Battles.UI.CardUIAttributes
 
             _currentState = _statesDictionary[CardUIInput.None];
 
-
         }
         public void OnEnable()
         {
-            CardReference.Inputs.OnPointerClickEvent += OnPointerClick;
-            CardReference.Inputs.OnBeginDragEvent += OnBeginDrag;
+            var @event = CardReference.Inputs;
+            @event.OnPointerClickEvent += OnPointerClick;
+            @event.OnBeginDragEvent += OnBeginDrag;
         }
 
         private void OnDisable()
         {
-
-            CardReference.Inputs.OnPointerClickEvent -= OnPointerClick;
-            CardReference.Inputs.OnBeginDragEvent -= OnBeginDrag;
+            var @event = CardReference.Inputs;
+            @event.OnPointerClickEvent -= OnPointerClick;
+            @event.OnBeginDragEvent -= OnBeginDrag;
         }
+
         private void OnBeginDrag(CardUI card, PointerEventData data)
         {
             if (card != CardReference)
@@ -94,7 +95,7 @@ namespace Battles.UI.CardUIAttributes
         }
         private void OnPointerClick(CardUI card, PointerEventData data)
         {
-            if (card != CardReference)
+            if (card != CardReference || SceneHandler.CurrentScene != SceneHandler.ScenesEnum.GameBattleScene)
                 return;
 
             InputManager.Instance.AssignObjectFromTouch(CurrentState);

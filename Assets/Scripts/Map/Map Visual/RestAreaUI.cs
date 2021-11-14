@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Battles.UI;
+using DesignPattern;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,14 +8,17 @@ namespace Map.UI
 {
 
 
-    public class RestAreaUI : MonoBehaviour
+    public class RestAreaUI : MonoBehaviour ,IObserver
     {
-
+        [SerializeField] ObserverSO _observer;
         public static RestAreaUI Instance;
         [SerializeField] GameObject _RestAreaContainer;
+        [SerializeField] GameObject _backgroundPanel;
         [SerializeField]
         RestArea _restArea;
 
+        [SerializeField]
+        RemoveCardPanelScreen _removeCardPanelScreen;
         [SerializeField] Image _topOptionLeftImage;
         [SerializeField] Image _topOptionRightImage;
 
@@ -31,6 +36,7 @@ namespace Map.UI
         const string HealOptionText = "Heal ";
         const string StaminaShardText = "Add StaminaShard";
         const string MaxHpAdditonText = " Max HP";
+        const string RemoveCardText ="Remove Card";
 
         [SerializeField] Color _optionTakenColor;
         [SerializeField] Color _optionNotTakeColor;
@@ -65,9 +71,9 @@ namespace Map.UI
                 _bottomOptionRightText.gameObject.SetActive(true);
 
 
+            _secondOptionFlag = true;
 
-
-            _bottomOptionLeftText.text = string.Concat("WIP");
+            _bottomOptionLeftText.text = string.Concat(RemoveCardText);
             _bottomOptionRightText.text = string.Concat(StaminaShardText);
 
             _bottomOptionLeftImage.color = _resetColor;
@@ -86,8 +92,7 @@ namespace Map.UI
             _topOptionRightText.text = string.Concat(_restArea.MaxHPAddition, MaxHpAdditonText);
             _topOptionLeftImage.color = _resetColor;
             _topOptionRightImage.color = _resetColor;
-
-
+            _firstOptionFlag = true;
 
         }
 
@@ -95,16 +100,18 @@ namespace Map.UI
 
         public void EnterRestArea()
         {
+            _observer.Notify(this);
             ResetRestArea();
             SetActiveRestAreaContainer(true);
-            _secondOptionFlag = true;
-            _firstOptionFlag = true;
+            _backgroundPanel.SetActive(true);
         }
 
         public void ExitRestArea()
         {
             MapView.Instance.SetAttainableNodes();
             SetActiveRestAreaContainer(false);
+            _backgroundPanel.SetActive(false);
+            _observer.Notify(null);
         }
 
         public void AddMaxHealth()
@@ -153,17 +160,26 @@ namespace Map.UI
         {
             if (_secondOptionFlag == false)
                 return;
-            _secondOptionFlag = false;
 
+            _removeCardPanelScreen.OpenRemoveCardScreen();
+            SetActiveRestAreaContainer(false);
+
+
+        }
+        public void CancelRemoveCardUI()
+        => SetActiveRestAreaContainer(true);
+        public void RemoveCardUI(CardUI card)
+        {
             _bottomOptionLeftImage.color = _optionTakenColor;
-
             _bottomOptionRightImage.color = _optionNotTakeColor;
             _bottomOptionRightText.gameObject.SetActive(false);
-
-           
-
+            _secondOptionFlag = false;
+            _restArea.RemoveCard(card.GFX.GetCardReference.CardID);
+            SetActiveRestAreaContainer(true);
             CheckForBothDecisionsAssigned();
         }
+
+
 
         private void CheckForBothDecisionsAssigned()
         {
@@ -171,7 +187,10 @@ namespace Map.UI
                 ExitRestArea();
         }
 
-
+        public void OnNotify(IObserver Myself)
+        {
+   
+        }
     }
     [Serializable]
     public class RestArea

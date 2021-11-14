@@ -1,10 +1,11 @@
-﻿using System;
+﻿using DesignPattern;
+using System;
 using System.Linq;
 using UnityEngine;
 
 namespace Map
 {
-    public class MapPlayerTracker : MonoBehaviour
+    public class MapPlayerTracker : MonoBehaviour , IObserver
     {
         public bool lockAfterSelecting = false;
        // public float enterNodeDelay = 1f;
@@ -12,6 +13,8 @@ namespace Map
         public MapView view;
 
         public static MapPlayerTracker Instance;
+
+        [SerializeField] ObserverSO _observerSO;
 
         public bool Locked { get; set; }
 
@@ -25,7 +28,7 @@ namespace Map
             if (Locked) return;
 
             // Debug.Log("Selected node: " + mapNode.Node.point);
-
+           // _observerSO.Notify(this);
             if (mapManager.CurrentMap.path.Count == 0)
             {
                 // player has not selected the node yet, he can select any of the nodes with y = 0
@@ -98,6 +101,11 @@ namespace Map
         private void PlayWarningThatNodeCannotBeAccessed()
         {
             Debug.Log("Selected node cannot be accessed");
+        }
+
+        public void OnNotify(IObserver Myself)
+        {
+            throw new NotImplementedException();
         }
     }
 

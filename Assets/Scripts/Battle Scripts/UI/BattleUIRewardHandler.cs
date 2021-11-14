@@ -1,120 +1,151 @@
-﻿using Battles.UI;
-using UnityEngine;
+﻿using Battles;
+using Battles.UI;
+using DesignPattern;
 using TMPro;
-using Battles;
+using UnityEngine;
 
 namespace Rewards.Battles
 {
-    public class BattleUIRewardHandler : MonoSingleton<BattleUIRewardHandler>
+    public class BattleUIRewardHandler : MonoSingleton<BattleUIRewardHandler>, IObserver
     {
+        [SerializeField]
+        ushort _moneyForNotTakingAnything;
         [Sirenix.OdinInspector.ShowInInspector]
-        public BattleReward BattleReward{get;set;}
+        public BattleReward BattleReward { get; set; }
         [SerializeField] Animator _animator;
 
 
-        [SerializeField] GameObject _rewardScreen;
+        [SerializeField]
+        SelectCardRewardScreen _selectCardRewardScreen;
+        [SerializeField]
+        BattleRewardHandler _battleRewardHandler;
 
-        [SerializeField] GameObject _rewardGroupsContainer;
 
+        [SerializeField] GameObject _backgroundPanel;
+
+        [SerializeField] GameObject _comboContainer;
 
         [SerializeField] GameObject _moneyContainer;
-        [SerializeField] GameObject _moneyBtn;
 
-        [SerializeField] GameObject _cardContainer;
-        [SerializeField] GameObject _cardSelection;
 
-        [SerializeField] CardUI[] _cards;
+        [SerializeField] GameObject _cardRewardContainer;
 
+        [SerializeField] GameObject _cardSelectionScreen;
+
+ 
         [SerializeField] TextMeshProUGUI _moneyTxt;
-        [SerializeField] TextMeshProUGUI _title;
+        [SerializeField] GameObject _rewardPanel;
 
-        [SerializeField] SceneLoaderCallback _sceneloaderEvent;
+        [SerializeField] ComboRecipeUI _comboUI;
+        [SerializeField] ObserverSO _observerSO;
 
+        bool cardTaken;
+        bool goldTaken;
+        bool comboTaken;
+        private void CheckIfAllIsTaken()
+        {
+            bool toClose = true;
+            toClose &= cardTaken;
+            toClose &= goldTaken;
+            toClose &= comboTaken;
+            if (toClose)
+            {
+                Invoke("UnNotify", 0.3f);
+                _rewardPanel.SetActive(false);
+                _backgroundPanel.SetActive(false);
+            }
+        }
 
-        [SerializeField] GameObject _losePanel;
+        private void UnNotify() => _observerSO.Notify(null);
+        internal void OpenRewardScreen(BattleReward rewardBundle)
+        {
+            _observerSO.Notify(this);
+            BattleReward = rewardBundle;
+            Init();
+            _rewardPanel.SetActive(true);
+        }
+
         public override void Init()
         {
-            if (_losePanel.gameObject.activeSelf == true)
-               _losePanel.SetActive(false);
-            if (_rewardScreen.gameObject.activeSelf ==true)
-                        _rewardScreen.SetActive(false);
-        }
-   
-        public void ShowBattleRewardUI(bool isPlayer)
-        {
-            if (!isPlayer)
-            {
-                if (BattleReward == null)
-                    throw new System.Exception("Need To Show Battle Reward but battle reward is null");
-                else if (BattleData.Opponent.CharacterData.Info.CharacterType == CharacterTypeEnum.Boss_Enemy)
-                    BattleRewardHandler.Instance.FinishBoss();
+            if (BattleReward == null)
+                throw new System.Exception("Need To Show Battle Reward but battle reward is null");
+            else if (BattleData.Opponent.CharacterData.Info.CharacterType == CharacterTypeEnum.Boss_Enemy)
+                _battleRewardHandler.FinishBoss();
 
 
             ResetRewardUI();
-            _moneyTxt.text = string.Concat(BattleReward.MoneyReward , " Coins");
-            }
-            else
-            {
-                OpenLoseScreen();
-            }
+            _moneyTxt.text = string.Concat(BattleReward.MoneyReward);
         }
-        private void OpenLoseScreen()
-        {
-            _losePanel.SetActive(true);
-        }
-     
+
         private void ResetRewardUI()
         {
-            _rewardScreen.SetActive(true);
-            _moneyContainer.SetActive(true);
-            _rewardGroupsContainer.SetActive(true);
-            _cardSelection.SetActive(false);
-            _cardContainer.SetActive(true);
-            _title.text = "Victory!";
+
+            if (!_rewardPanel.activeSelf)
+                _rewardPanel.SetActive(true);
+
+            if (!_moneyContainer.activeSelf)
+                _moneyContainer.SetActive(true);
+
+
+            _backgroundPanel.SetActive(true);
+
+            if (_cardSelectionScreen.activeSelf)
+                _cardSelectionScreen.SetActive(false);
+
+            if (_cardRewardContainer.activeSelf)
+                _cardRewardContainer.SetActive(true);
+            bool thereIsComboReward = BattleReward.RewardCombos != null && BattleReward.RewardCombos.Length > 0;
+            if (_comboContainer.activeSelf != thereIsComboReward)
+                _comboContainer.SetActive(thereIsComboReward);
+
+            if (!thereIsComboReward)
+                comboTaken = true;
+            else
+                _comboUI.InitRecipe(BattleReward.RewardCombos[0]);
         }
 
-
+        public void AddCombo()
+        {
+            _battleRewardHandler.AddCombo(BattleReward.RewardCombos);
+            comboTaken = true;
+            CheckIfAllIsTaken();
+        }
 
 
         public void AddMoney()
         {
-            BattleRewardHandler.Instance.AddMoney(BattleReward.MoneyReward);
+            _battleRewardHandler.AddMoney(BattleReward.MoneyReward);
             _moneyContainer.SetActive(false);
-
+            goldTaken = true;
+            CheckIfAllIsTaken();
         }
 
 
         public void ShowCards()
         {
-            _rewardGroupsContainer.SetActive(false);
-
-            for (int i = 0; i < _cards.Length; i++)
-                CardUIManager.Instance.AssignDataToCardUI(_cards[i], BattleReward.RewardCards[i]);
-
-            _title.text = "Choose A Card!";
-            _cardSelection.SetActive(true);
-        }
-
-
-        public void SelectCard(int selectionIndex)
-        {
-            BattleRewardHandler.Instance.AddCard(BattleReward.RewardCards[selectionIndex]);
-            ReturnFromCardsSelection();
+            _backgroundPanel.SetActive(false);
+            _rewardPanel.SetActive(false);
+            _selectCardRewardScreen.OnOpenCardUI(BattleReward.RewardCards, _moneyForNotTakingAnything);
         }
 
         public void ReturnFromCardsSelection()
         {
-            _title.text = "Victory!";
-            _cardSelection.SetActive(false);
-            _cardContainer.SetActive(false);
-            _rewardGroupsContainer.SetActive(true);
+            _rewardPanel.SetActive(true);
+            _backgroundPanel.SetActive(true);
+            cardTaken = true;
+            CheckIfAllIsTaken();
         }
 
         public void ExitBattle()
         {
             // exit battle
-            _sceneloaderEvent?.LoadScene(SceneHandler.ScenesEnum.MapScene);
 
+
+        }
+
+        public void OnNotify(IObserver Myself)
+        {
+         
         }
     }
 }

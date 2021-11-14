@@ -80,7 +80,7 @@ namespace Battles
         {
             Instance.StopAllCoroutines();
             Instance._turnCycles = TurnHandler.TurnCycle();
-
+            BattleData.PlayerWon = false;
             StartGameTurns();
             Instance.StartCoroutine(Instance.BackGroundSoundDelay());
 
@@ -106,6 +106,8 @@ namespace Battles
             OnGameEnded?.Invoke();
             UI.StatsUIManager.GetInstance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
+
+
             if (isPlayerDied)
             {
                 PlayerDied();
@@ -114,7 +116,7 @@ namespace Battles
             {
                 EnemyDied();
             }
-
+            BattleData.PlayerWon = !isPlayerDied;
             UpdateStats();
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
@@ -122,7 +124,7 @@ namespace Battles
 
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
-            BattleRewardHandler.Instance.FinishMatch(!isPlayerDied);
+         //   BattleRewardHandler.Instance.FinishMatch(!isPlayerDied);
         }
 
         private static void UpdateStats()
@@ -137,8 +139,11 @@ namespace Battles
 
         public static void DeathAnimationFinished(bool isPlayer)
         {
-
-            BattleUIRewardHandler.Instance.ShowBattleRewardUI(isPlayer);
+          
+            if (!isPlayer)
+                SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
+            else
+                SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
         }
 
 

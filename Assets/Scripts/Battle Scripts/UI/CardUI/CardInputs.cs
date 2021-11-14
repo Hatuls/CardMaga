@@ -35,19 +35,19 @@ namespace Battles.UI.CardUIAttributes
         ObserverSO _observer;
 
       
-        private void Start()
+        private void OnEnable()
         {
-       
-
             RegisterInputs();
         }
-        private void OnDestroy()
+        private void OnDisable()
         {
-            onPointerEnter.callback.RemoveAllListeners();
-            beginDrag.callback.RemoveAllListeners();
-            endDrag.callback.RemoveAllListeners();
-            onClick.callback.RemoveAllListeners();
-            
+            if (onPointerEnter.callback.GetPersistentEventCount() > 0)
+            {
+             onPointerEnter.callback.RemoveAllListeners();
+             beginDrag.callback.RemoveAllListeners();
+             endDrag.callback.RemoveAllListeners();
+             onClick.callback.RemoveAllListeners();
+            }
         }
         public void RegisterInputs()
         {

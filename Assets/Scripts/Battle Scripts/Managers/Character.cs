@@ -41,7 +41,8 @@ namespace Characters
         {
             var deckList = _characterData.CharacterDeck.ToList();
         
-            Cards.Card card = (Cards.Card)deckList.Where((x) => x.CardID == InstanceID);
+            Cards.Card card = deckList.Find((x) => x.CardID == InstanceID);
+           
             bool check = deckList.Remove(card);
             if (check)
                 _characterData.CharacterDeck = deckList.ToArray();
@@ -70,6 +71,40 @@ namespace Characters
 
             return card != null;
         }
+
+
+        public bool AddComboRecipe(Combo.Combo combo)
+        {
+            bool hasThisCombo = false;
+            var comboRecipe = _characterData.ComboRecipe;
+            for (int i = 0; i < comboRecipe.Length; i++)
+            {
+                hasThisCombo = comboRecipe[i].ComboSO.ID == combo.ComboSO.ID;
+
+                if (hasThisCombo)
+                {
+                    if (combo.Level > comboRecipe[i].Level)
+                        comboRecipe[i] = combo;
+                    else
+                        return false;
+
+                    break;
+                }
+
+            }
+
+            if (hasThisCombo == false)
+            {
+                Array.Resize(ref comboRecipe, comboRecipe.Length + 1);
+                comboRecipe[comboRecipe.Length - 1] = combo;
+
+                hasThisCombo = true;
+            }
+            _characterData.ComboRecipe = comboRecipe;
+
+            return hasThisCombo;
+        }
+
 
         public bool AddComboRecipe(CharacterSO.RecipeInfo recipeInfo)
         {

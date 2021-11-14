@@ -89,6 +89,11 @@ namespace Battles.UI
         [SerializeField] CardUIEvent _zoomCardEvent;
         [SerializeField] CardUIEvent _selectCardEvent;
         #endregion
+        private void Awake()
+        {
+            if (((Card & CardUISettings.Touchable) != CardUISettings.Touchable))
+                Destroy(GetComponent<CardStateMachine>());
+        }
 
         private void Start()
         {
