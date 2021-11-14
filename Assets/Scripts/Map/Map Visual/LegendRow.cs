@@ -11,6 +11,6 @@ public class LegendRow : MonoBehaviour
     {
         _text.text = eventPointAbstSO.Name;
         //_img.sprite = eventPointAbstSO.Icon;
-        _img.color = eventPointAbstSO.PointColor;
+        _img.sprite = eventPointAbstSO.Icon;
     }
 }

@@ -59,6 +59,9 @@ namespace Map
         public NodeStates NodeState => _nodeState;
         public NodeType NodeTypeEnum { get => _nodeType;private set => _nodeType = value; }
 
-        public void SetState(NodeStates state) { _nodeState = state; IsOpen = state == NodeStates.Attainable; }
+        public void SetState(NodeStates state) 
+        { _nodeState = state; 
+            IsOpen = state == NodeStates.Attainable;
+        }
     }
 }
