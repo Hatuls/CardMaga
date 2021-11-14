@@ -1,5 +1,6 @@
 ﻿using Unity.Events;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 
@@ -82,7 +83,7 @@ namespace Battles.UI.CardUIAttributes
         //int i = 0;
         public void OnPointerClick(PointerEventData eventData)
         {
-            InputManager.Instance.AssignObjectFromTouch(CardStateMachine.CurrentState);
+          //  InputManager.Instance.AssignObjectFromTouch(CardStateMachine.CurrentState);
             //      Debug.Log($"Card {CardStateMachine.CardReference.name} click  id : {++i}");
         }
 
@@ -93,7 +94,7 @@ namespace Battles.UI.CardUIAttributes
             //if (InputManager.inputState ==  InputManager.InputState.Touch)
             // _canvasGroup.blocksRaycasts = false;
             //     if (CardStateMachine.CurrentState != null&& CardStateMachine.CurrentState.State == CardStateMachine.CardUIInput.Hand)
-            InputManager.Instance.AssignObjectFromTouch(CardStateMachine.CurrentState, eventData.position);
+         //   InputManager.Instance.AssignObjectFromTouch(CardStateMachine.CurrentState, eventData.position);
 
         }
         public void EndDrag(PointerEventData eventData)
@@ -117,5 +118,10 @@ namespace Battles.UI.CardUIAttributes
     }
 
 
+    [CreateAssetMenu]
+    public class InputSO : ScriptableObject
+    {
+       // public UnityEvent
+    }
 
 }
