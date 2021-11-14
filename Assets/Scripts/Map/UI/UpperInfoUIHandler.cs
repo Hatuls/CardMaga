@@ -2,6 +2,8 @@
 using Battles.UI;
 using DesignPattern;
 using UnityEngine;
+namespace Map.UI
+{
 
 public class UpperInfoUIHandler : MonoBehaviour 
 {
@@ -47,4 +49,6 @@ public class UpperInfoUIHandler : MonoBehaviour
     }
 
    
+}
+
 }

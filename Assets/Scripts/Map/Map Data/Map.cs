@@ -15,6 +15,8 @@ namespace Map
 
         public SaveManager.FileStreamType FileStreamType => SaveManager.FileStreamType.PlayerPref;
 
+
+
         public Map(string configName,List<Node> nodes, List<Point> path)
         {
             this.configName = configName;
