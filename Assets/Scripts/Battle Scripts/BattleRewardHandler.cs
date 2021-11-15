@@ -46,15 +46,11 @@ namespace Rewards.Battles
 
         public void AddMoney(int amount)
         {
-            var playerStats = Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(true);
+      
 
-            playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Add(amount);
-
-            var player = BattleData.Player;
-
-            player.CharacterData.CharacterStats.Gold = (ushort)playerStats.GetStats(Keywords.KeywordTypeEnum.Coins).Amount;
-            _moneyIcon.SetMoneyText(player.CharacterData.CharacterStats.Gold);
-            BattleData.Player = player;
+            BattleData.Player.CharacterData.CharacterStats.Gold += (ushort)amount;
+            _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
+       
         }
 
         internal void FinishBoss()

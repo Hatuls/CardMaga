@@ -6,14 +6,14 @@ using UnityEngine;
 
 namespace Rewards.Battles
 {
-    public class BattleUIRewardHandler : MonoSingleton<BattleUIRewardHandler>, IObserver
+    public class BattleUIRewardHandler : MonoBehaviour, IObserver
     {
         [SerializeField]
         ushort _moneyForNotTakingAnything;
         [Sirenix.OdinInspector.ShowInInspector]
         public BattleReward BattleReward { get; set; }
         [SerializeField] Animator _animator;
-
+        public static BattleUIRewardHandler Instance;
 
         [SerializeField]
         SelectCardRewardScreen _selectCardRewardScreen;
@@ -50,22 +50,33 @@ namespace Rewards.Battles
             toClose &= comboTaken;
             if (toClose)
             {
-                Invoke("UnNotify", 0.3f);
+                Invoke("UnNotify", 1f);
                 _rewardPanel.SetActive(false);
                 _backgroundPanel.SetActive(false);
             }
         }
 
         private void UnNotify() => _observerSO.Notify(null);
-        internal void OpenRewardScreen(BattleReward rewardBundle)
+        public void OpenChestScreen(BattleReward rewardBundle)
+        {
+            _observerSO.Notify(this);
+            BattleReward = rewardBundle;
+            _rewardPanel.SetActive(true);
+            ResetRewardUI();
+            _moneyTxt.text = string.Concat(BattleReward.MoneyReward);
+        }
+        public void OpenRewardScreen(BattleReward rewardBundle)
         {
             _observerSO.Notify(this);
             BattleReward = rewardBundle;
             Init();
             _rewardPanel.SetActive(true);
         }
-
-        public override void Init()
+        private void Awake()
+        {
+            Instance = this;
+        }
+        public  void Init()
         {
             if (BattleReward == null)
                 throw new System.Exception("Need To Show Battle Reward but battle reward is null");
@@ -86,17 +97,26 @@ namespace Rewards.Battles
             if (!_moneyContainer.activeSelf)
                 _moneyContainer.SetActive(true);
 
+            if(!_moneyContainer.activeSelf==(false))
+              _moneyContainer.SetActive(true);
 
             _backgroundPanel.SetActive(true);
 
             if (_cardSelectionScreen.activeSelf)
                 _cardSelectionScreen.SetActive(false);
 
-            if (_cardRewardContainer.activeSelf)
+            if (!_cardRewardContainer.activeSelf)
                 _cardRewardContainer.SetActive(true);
-            bool thereIsComboReward = BattleReward.RewardCombos != null && BattleReward.RewardCombos.Length > 0;
+
+            bool thereIsComboReward = BattleReward.RewardCombos != null && BattleReward.RewardCombos.Length > 0 && BattleReward.RewardCombos[0]!= null;
+
             if (_comboContainer.activeSelf != thereIsComboReward)
                 _comboContainer.SetActive(thereIsComboReward);
+
+            cardTaken = false ;
+            goldTaken= false;
+            comboTaken= false;
+
 
             if (!thereIsComboReward)
                 comboTaken = true;
@@ -147,5 +167,6 @@ namespace Rewards.Battles
         {
          
         }
+       
     }
 }

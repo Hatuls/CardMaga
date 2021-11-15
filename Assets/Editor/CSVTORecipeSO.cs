@@ -8,21 +8,24 @@ using UnityEngine;
 
 public class CSVTORecipeSO : CSVAbst
 {
+
+    static List<Combo.ComboSO> _rewardedCombos;
     static bool isCompleted;
     public async  override Task StartCSV(string data)
     {
+        _rewardedCombos = new List<Combo.ComboSO>();
         isCompleted = false;
         WebRequests.Get(data, (x) => Debug.LogError($"Error On Loading Recipes {x} "), OnCompleteDownloadingRecipeCSV);
         while (isCompleted == false)
         {
             await Task.Yield();
         }
+        _rewardedCombos = null;
+        await Task.Yield();
     }
 
     private static async void OnCompleteDownloadingRecipeCSV(string txt)
     {
-
-        // CSVToCardSO.DestroyWebGameObjects();
 
         string[] rows = txt.Replace("\r", "").Split('\n');
 
@@ -49,7 +52,7 @@ public class CSVTORecipeSO : CSVAbst
 
         }
 
-        CSVManager._comboCollection.Init(combosRecipe.ToArray());
+        CSVManager._comboCollection.Init(combosRecipe.ToArray(), _rewardedCombos.ToArray());
         AssetDatabase.CreateAsset(CSVManager._comboCollection, $"Assets/Resources/Collection SO/RecipeCollection.asset");
         AssetDatabase.SaveAssets();
 
@@ -68,6 +71,7 @@ public class CSVTORecipeSO : CSVAbst
         const int GoldCost = 3;
         const int AmountBodyPartsAndType = 4;
         const int BodyPartsAndType = 5;
+        const int IsBattleRewarded = 6;
 
         if (row[ID] == "-")
             return null;
@@ -154,6 +158,15 @@ public class CSVTORecipeSO : CSVAbst
             Debug.LogError($"Coulmne E Row {recipe.ID} is not an intiger!");
             return null;
         }
+
+
+        if (int.TryParse(row[IsBattleRewarded], out int outcome))
+        {
+            if (outcome == 1)
+                _rewardedCombos.Add(recipe);
+        }
+
+
 
         AssetDatabase.CreateAsset(recipe, $"Assets/Resources/Recipe SO/{recipe.ComboName}.asset");
         return recipe;

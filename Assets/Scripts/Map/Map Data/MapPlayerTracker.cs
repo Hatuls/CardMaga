@@ -75,26 +75,7 @@ namespace Map
 
             Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(mapNode.NodeData.NodeTypeEnum).ActivatePoint();
 
-            //switch (mapNode.NodeData.NodeTypeEnum)
-            //{
-           
-            //    case NodeType.Basic_Enemy:
-            //        break;
-            //    case NodeType.Elite_Enemy:
-            //        break;
-            //    case NodeType.Chest:
-            //        break;
-            //    case NodeType.QuestionMark:
-            //        break;
-            //    case NodeType.Rest_Area:
-            //        break;
-            //    case NodeType.Dojo:
-            //        break;
-            //    case NodeType.Boss_Enemy:
-            //        break;
-            //    default:
-            //        throw new ArgumentOutOfRangeException();
-            //}
+
 
         }
 

@@ -264,7 +264,7 @@ namespace Factory
 
                     return new Card(_battleID, cardSO, level);
                 }
-                throw new Exception($" card was not created!\nCardSO is :{cardSO}");
+                throw new Exception($" card was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
 
             }
             public Card CreateCard(CardAccountInfo card)
