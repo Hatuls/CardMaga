@@ -98,9 +98,9 @@ public class ComboRecipeHandler : MonoBehaviour, IPointerClickHandler
     public void ActivateRelicPanel()
     {
         
-        this.gameObject.SetActive(!this.gameObject.activeSelf);
+        gameObject.SetActive(!gameObject.activeSelf);
 
-        if (this.gameObject.activeSelf)
+        if (gameObject.activeSelf)
         {
             SetActivePanels();
         }
