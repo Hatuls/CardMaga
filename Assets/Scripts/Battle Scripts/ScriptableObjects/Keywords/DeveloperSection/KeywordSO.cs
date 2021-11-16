@@ -21,6 +21,9 @@ namespace Keywords
         [SerializeField] KeywordTypeEnum _keyword;
 
         [SerializeField] byte _infoAmount;
+
+        [SerializeField] string[] _descriptions;
+
         #endregion
 
         #region Properties
@@ -30,6 +33,17 @@ namespace Keywords
         public bool GetIsPrecentage => _isPrecentage;
         public DurationEnum GetDurationEnum => _durationEnum;
         public KeywordTypeEnum GetKeywordType => _keyword;
+
+
+        public string GetDescription(params int[] amount)
+        {
+            string info = "";
+            for (int i = 0; i < _descriptions.Length; i++)
+            {
+                info += _descriptions[i] + amount[i] ;
+            }
+            return info;
+        }
         #endregion
 
         public bool Init(string[] Data)
@@ -40,6 +54,7 @@ namespace Keywords
             const int StackableIndex = 2;
             const int PrecentageIndex = 3;
             const int InfoAmountIndex =4;
+            const int DescriptionIndex = 5;
 
             if (int.TryParse(Data[IDIndex], out int keywordID))
             {
@@ -66,8 +81,8 @@ namespace Keywords
 
             if (byte.TryParse(Data[InfoAmountIndex], out byte amount))
                _infoAmount = amount;
-           
-           
+
+            _descriptions = Data[DescriptionIndex].Split('#');
 
             return true;
         }

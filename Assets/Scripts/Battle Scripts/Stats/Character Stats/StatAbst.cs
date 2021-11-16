@@ -15,6 +15,8 @@ namespace Characters.Stats
             Amount = amount;
             if (_updateUIStats == null)
                 _updateUIStats += BattleUiManager.Instance.UpdateUiStats;
+
+            _updateUIStats?.Invoke(isPlayer, amount,Keyword);
         }
         ~StatAbst()
         {

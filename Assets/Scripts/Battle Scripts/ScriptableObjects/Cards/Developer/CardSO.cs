@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Keywords;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
+using System.Linq;
 namespace Cards
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
@@ -50,7 +50,7 @@ namespace Cards
         public string CardDescription(byte level)
             => PerLevelUpgrade[level]?.Description;
 
-
+  
 
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]
@@ -115,6 +115,19 @@ namespace Cards
               return PerLevelUpgrade[level];
 
             throw new System.Exception($"CardSO: ID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
+        }
+
+
+        public KeywordData[] KeywordsCombin(byte lvl)
+        {
+            var combines = GetLevelUpgrade(lvl);
+            var keywordsAddition = combines.UpgradesPerLevel
+                .Where((x) => x.UpgradeType == LevelUpgradeEnum.KeywordAddition)
+                .GroupBy((x) => x.KeywordUpgrade.KeywordSO.GetKeywordType);
+
+            KeywordData[] keywordData = new KeywordData[keywordsAddition.Count()];
+
+            return null;
         }
         #endregion
 

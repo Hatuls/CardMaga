@@ -52,7 +52,7 @@ namespace Map
           
             _boxCollider.enabled = state;
         }
-        private void OnMouseDown()
+        private void OnMouseUp()
         {
             MapPlayerTracker.Instance.SelectNode(this);
         }
