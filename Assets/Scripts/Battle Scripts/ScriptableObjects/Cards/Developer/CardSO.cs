@@ -127,29 +127,7 @@ namespace Cards
         }
 
 
-<<<<<<< Updated upstream
-        //public KeywordData[] KeywordsCombin(byte lvl)
-        //{
-        //    var combines = GetLevelUpgrade(lvl);
-        //    var keywordsAddition = combines.UpgradesPerLevel
-        //        .Where((x) => x.UpgradeType == LevelUpgradeEnum.KeywordAddition)
-        //        .Select(x => x.KeywordUpgrade);
 
-        //    List<KeywordSO> _list = new List<KeywordSO>();
-        //    List<KeywordData> _keyowrds = new List<KeywordData>();
-        //    foreach (var item in keywordsAddition)
-        //    {
-        //        var keywordso = item.KeywordSO;
-        //        if (!_list.Contains(keywordso))
-        //        {
-        //            _list.Add(keywordso);
-        //            _keyowrds.Add(new KeywordData(keywordso,))
-        //        }
-        //    }
-
-        //    return null;
-        //}
-=======
         public KeywordData[] KeywordsCombin(byte lvl)
         {
             var combines = GetLevelUpgrade(lvl);
@@ -177,7 +155,7 @@ namespace Cards
 
             return _keywords.ToArray() ;
         }
->>>>>>> Stashed changes
+
         #endregion
 
     }
