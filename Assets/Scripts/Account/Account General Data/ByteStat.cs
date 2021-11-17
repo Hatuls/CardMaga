@@ -1,8 +1,13 @@
 ﻿using System;
 namespace Account.GeneralData
 {
+    [Serializable]
     public class ByteStat : Stat<byte>
     {
+        public ByteStat() : base()
+        {
+
+        }
         public ByteStat(byte val) : base(val)
         {
         }

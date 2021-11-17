@@ -4,22 +4,22 @@ using UI.Meta.PlayScreen;
 using UnityEngine;
 namespace Account.GeneralData
 {
-    
+    [Serializable]
     public class CharacterData
     {
 
-    #region Field
-
+        #region Field
+        [SerializeField]
         CharacterEnum _characterEnum;
-
+        [SerializeField]
         CharacterStats _stats;
-
+        [SerializeField]
         AccountDeck[] _decks;
-
+        [SerializeField]
         CombosAccountInfo[] _characterCombos;
-
+        [SerializeField]
         byte _unlockAtLevel;
-        internal DeckUI[] _avilableDecks;
+      
         #endregion
 
         #region Properties
@@ -73,6 +73,10 @@ namespace Account.GeneralData
             _unlockAtLevel = characterSO.UnlockAtLevel;
             AssignDeck(characterSO, deckAmount);
             AssignCombos(characterSO);
+        }
+        public CharacterData()
+        {
+
         }
         public AccountDeck GetDeckAt(int index)
         {

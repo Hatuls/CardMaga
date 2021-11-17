@@ -83,7 +83,8 @@ public static class SaveManager
     }
     private static void SaveToPlayerPref<T>(T objectT, string fileName)
     {
-        PlayerPrefs.SetString(fileName, JsonUtilityHandler.ConvertObjectToJson(objectT));
+        string json = JsonUtilityHandler.ConvertObjectToJson(objectT);
+        PlayerPrefs.SetString(fileName, json);
         PlayerPrefs.Save();
     }
     public static T Load<T>(string fileName, FileStreamType fileStream, string fileType = "txt",bool fromApplicationPersistantDataPath = true, string PathFolders = "") where T : class

@@ -1,9 +1,13 @@
 ﻿using System;
 namespace Account.GeneralData
 {
-
-   public class UintStat : Stat<uint>
+    [Serializable]
+    public class UintStat : Stat<uint>
    {
+        public UintStat() : base()
+        {
+
+        }
        public UintStat(uint val) : base(val)
        {
 

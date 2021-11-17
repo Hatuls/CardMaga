@@ -2,6 +2,8 @@
 using Keywords;
 using Sirenix.OdinInspector;
 using System.Linq;
+using System.Collections.Generic;
+
 namespace Cards
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
@@ -48,9 +50,16 @@ namespace Cards
 
 
         public string CardDescription(byte level)
-            => PerLevelUpgrade[level]?.Description;
+        {
+            string description = string.Empty;
+            int length = PerLevelUpgrade[level].Description.Length;
+            var desctiption = PerLevelUpgrade[level].Description;
+            for (int i = 0; i < length; i++)
+                description += desctiption[i];
 
-  
+            return description;
+            
+        }
 
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]
@@ -118,17 +127,27 @@ namespace Cards
         }
 
 
-        public KeywordData[] KeywordsCombin(byte lvl)
-        {
-            var combines = GetLevelUpgrade(lvl);
-            var keywordsAddition = combines.UpgradesPerLevel
-                .Where((x) => x.UpgradeType == LevelUpgradeEnum.KeywordAddition)
-                .GroupBy((x) => x.KeywordUpgrade.KeywordSO.GetKeywordType);
+        //public KeywordData[] KeywordsCombin(byte lvl)
+        //{
+        //    var combines = GetLevelUpgrade(lvl);
+        //    var keywordsAddition = combines.UpgradesPerLevel
+        //        .Where((x) => x.UpgradeType == LevelUpgradeEnum.KeywordAddition)
+        //        .Select(x => x.KeywordUpgrade);
 
-            KeywordData[] keywordData = new KeywordData[keywordsAddition.Count()];
+        //    List<KeywordSO> _list = new List<KeywordSO>();
+        //    List<KeywordData> _keyowrds = new List<KeywordData>();
+        //    foreach (var item in keywordsAddition)
+        //    {
+        //        var keywordso = item.KeywordSO;
+        //        if (!_list.Contains(keywordso))
+        //        {
+        //            _list.Add(keywordso);
+        //            _keyowrds.Add(new KeywordData(keywordso,))
+        //        }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
         #endregion
 
     }

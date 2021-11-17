@@ -1,10 +1,14 @@
 ﻿using Battles;
 using Collections;
 using UnityEngine;
+using UnityEngine.Events;
+
 namespace Factory
 {
     public class GameFactoryTerminal : MonoBehaviour
     {
+
+
         [SerializeField] Keywords.KeywordsCollectionSO _keywords;
         [SerializeField] CardsCollectionSO _cards;
         [SerializeField] ComboCollectionSO _combos;
@@ -67,6 +71,7 @@ namespace Factory
                 }
 
                 GameFactory gameFactory = new GameFactory(_art, _cards, _combos, _characters, _rewards, _eventPoints, _keywords);
+             
             }
             Destroy(this.gameObject);
         }

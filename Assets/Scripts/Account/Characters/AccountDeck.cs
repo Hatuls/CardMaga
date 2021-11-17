@@ -15,6 +15,10 @@ namespace Account.GeneralData
         public string DeckName { get => _deckName; set => _deckName = value; }
         #endregion
         #region PublicMethods
+        public AccountDeck()
+        {
+
+        }
         public AccountDeck(CardAccountInfo[] accountCards)
         {
             _cards = accountCards;

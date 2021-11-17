@@ -3,6 +3,8 @@ using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Account;
+
 public class NetworkHandler : MonoBehaviour
 {
     public static System.Action CheckVersionEvent;
@@ -45,8 +47,8 @@ public class NetworkHandler : MonoBehaviour
                 //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
                 _gv = JsonUtility.FromJson<GameVersion>(text);
                 CheckVersion(_gv);
-                LoadingManager.Instance.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
 
+                AccountManager.Instance.Init();
             }
             );
 

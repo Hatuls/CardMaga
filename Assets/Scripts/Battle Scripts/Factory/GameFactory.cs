@@ -9,11 +9,13 @@ using Rewards;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Factory
 {
     public class GameFactory
     {
+        public static Action OnFactoryFinishedLoading;
         private static GameFactory _instance;
         public static GameFactory Instance
         {
@@ -60,6 +62,8 @@ namespace Factory
             Debug.Log("Factory Created<a>!</a>");
 
             _instance = this;
+
+            OnFactoryFinishedLoading?.Invoke();
         }
 
 

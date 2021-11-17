@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Keywords;
+using System.Linq;
 namespace Cards
 {
     [System.Serializable]
@@ -8,11 +9,12 @@ namespace Cards
         public PerLevelUpgrade(Upgrade[] upgrades, string info)
         {
           _upgradesPerLevel = upgrades;
-            _description = info;
+            _upgradesPerLevel.OrderBy(x => x.UpgradeType).Select(x=>x.KeywordUpgrade).OrderBy(x=>x.KeywordSO.GetKeywordType);
+            _description = info.Split('#');
         }
 [SerializeField]
-        private string _description;
-        public string Description => _description;
+        private string[] _description;
+        public string[] Description => _description;
         [SerializeField]
         private Upgrade[] _upgradesPerLevel;
         public Upgrade[] UpgradesPerLevel => _upgradesPerLevel;

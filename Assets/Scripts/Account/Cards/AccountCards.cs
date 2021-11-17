@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Account.GeneralData
 {
-
-    public class AccountCards
+    [Serializable]
+    public class AccountCards : ILoadFirstTime
     {
         #region Fields
-
+        [SerializeField]
         List<CardAccountInfo> _cardList;
         #endregion
         #region Properties
@@ -41,6 +41,11 @@ namespace Account.GeneralData
         public CardAccountInfo FindCardByInstance(uint instanceID)
         {
             throw new NotImplementedException();
+        }
+
+        public void NewLoad()
+        {
+
         }
         #endregion
     }

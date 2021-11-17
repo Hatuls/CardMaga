@@ -4,20 +4,30 @@ namespace Account.GeneralData
 {
     [Serializable]
  
-    public class AccountLevelData
+    public class AccountLevelData : ILoadFirstTime
     {
-        Stat<uint> _exp;
-        public Stat<uint> Exp => _exp;
+     [SerializeField]
+        UintStat _exp;
+        public UintStat Exp => _exp;
 
-        Stat<byte> _level;
-        public Stat<byte> Level => _level;
+        [SerializeField]
+        ByteStat _level;
+        public ByteStat Level => _level;
+        public AccountLevelData()
+        {
 
+        }
         public AccountLevelData(uint exp=0, byte lvl=1)
         {
-            Debug.Log("Starting Account Level Data");
+
             _level = new ByteStat(lvl);
             _exp = new UintStat(exp);
         }
-     
+
+        public void NewLoad()
+        {
+            _level = new ByteStat(1);
+            _exp = new UintStat(0);
+        }
     }
 }

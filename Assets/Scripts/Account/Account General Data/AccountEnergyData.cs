@@ -1,45 +1,68 @@
 ﻿using System;
+using UnityEngine;
 namespace Account.GeneralData
 {
     [Serializable]
-    public class AccountEnergyData
+    public class AccountEnergyData : ILoadFirstTime
     {
         #region Fields
+        [SerializeField]
         private MaxEnergyStat _maxEnergy;
+        [SerializeField]
         private EnergyStat  _energy;
         #endregion
 
         #region Properties
         public EnergyStat Energy { get => _energy; private set => _energy = value; }
         public MaxEnergyStat MaxEnergy { get => _maxEnergy; private set => _maxEnergy = value; }
-        #endregion
 
-
-
-        public AccountEnergyData (ushort maxEnergy, ushort energy)
+        public void NewLoad()
         {
+            const int maxEnergy = 30;
+            const int energy = 1000;
             MaxEnergy = new MaxEnergyStat(maxEnergy);
             Energy = new EnergyStat(energy);
+
             Energy.MaxEnergy = MaxEnergy;
             MaxEnergy.Energy = Energy;
         }
+        #endregion
+
+
         #region Energy Classes
+        [Serializable]
         public class MaxEnergyStat: UshortStat
         {
-            public EnergyStat Energy { get; set; }
+            [SerializeField]
+            private EnergyStat _energy;
+
+            public MaxEnergyStat() : base()
+            {
+
+            }
             public MaxEnergyStat(ushort value) : base (value)
             {
 
             }
+
+            public EnergyStat Energy { get => _energy; set => _energy = value; }
         }
+        [Serializable]
         public class EnergyStat : UshortStat
         {
+            [SerializeField]
+            private MaxEnergyStat _maxEnergy;
+            public EnergyStat() : base()
+            {
 
-          public MaxEnergyStat MaxEnergy { get; set; }
+            }
             public EnergyStat(ushort _value) : base (_value)
             {
                
             }
+
+            public MaxEnergyStat MaxEnergy { get => _maxEnergy; set => _maxEnergy = value; }
+
             public bool CheckAndAddValue(ushort value)
             {
                 if (value <= 0)

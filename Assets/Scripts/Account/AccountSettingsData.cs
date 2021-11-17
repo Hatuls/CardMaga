@@ -3,8 +3,11 @@
 namespace Account.GeneralData
 {
     [Serializable]
-    public class AccountSettingsData
+    public class AccountSettingsData : ILoadFirstTime
     {
+        public void NewLoad()
+        {
 
+        }
     }
 }

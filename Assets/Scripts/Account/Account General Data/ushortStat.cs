@@ -2,13 +2,17 @@
 using UnityEngine;
 namespace Account.GeneralData
 {
+    [Serializable]
     public class UshortStat : Stat<ushort>
     {
         public UshortStat(ushort val) : base(val)
         {
 
         }
+        public UshortStat() : base()
+        {
 
+        }
         public override bool AddValue(ushort value)
         {
             if(value <= 0)
@@ -27,11 +31,8 @@ namespace Account.GeneralData
             {
                 throw new Exception("UshortStat value inserted is lower or equal to 0");
             }
-            if (_value >= value)
-            {
-                return true;
-            }
-            return false;
+         
+            return _value >= value;
         }
 
         public override bool ReduceValue(ushort value)
@@ -41,14 +42,12 @@ namespace Account.GeneralData
                 throw new Exception("UshortStat value inserted is lower or equal to 0");
             }
             if(_value < value)
-            {
                 return false;
-            }
+            
             else
-            {
                 _value -= value;
                 return true;
-            }
+            
 
         }
     }

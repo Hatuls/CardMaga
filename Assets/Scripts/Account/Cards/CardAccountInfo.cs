@@ -18,6 +18,10 @@ namespace Account.GeneralData
         public ushort InstanceID { get => _instanceID; set => _instanceID = value; }
         public byte Level => _level;
 
+        public CardAccountInfo()
+        {
+                
+        }
         public CardAccountInfo(ushort cardID,ushort cardInstanceID ,byte level)
         {
             _cardID = cardID;
