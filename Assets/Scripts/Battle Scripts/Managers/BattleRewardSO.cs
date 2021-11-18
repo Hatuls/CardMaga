@@ -1,10 +1,27 @@
 ﻿using Battles;
 using Cards;
+using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 namespace Rewards
 {
-
+    public enum ResourceEnum
+    {
+        None = 0,
+        Credits = 1,
+        EXP = 2,
+        Diamonds = 3,
+        Gold = 4,
+        Energy = 5,
+    }
+    public enum ActsEnum
+    {
+        None = 0,
+        ActOne = 1,
+        ActTwo = 2,
+        ActThree = 3
+    }
     [CreateAssetMenu(fileName = "Reward", menuName = "ScriptableObjects/Rewards/Battle Reward")]
     public class BattleRewardSO : ScriptableObject
     {
@@ -13,112 +30,56 @@ namespace Rewards
         public CharacterTypeEnum CharacterDifficultyEnum => _characterDifficultyEnum;
 
 
-        [SerializeField]
-        ushort _minMoneyReward;
-        [SerializeField]
-        ushort _maxMoneyReward;
-
-        public ushort MoneyReward { get { return (ushort)Random.Range(_minMoneyReward, _maxMoneyReward); } }
 
         [SerializeField]
-        BattleDropChance _cardChances;
+        BattleDropChance[] _cardChances;
         [SerializeField]
-        BattleDropChance _recipesChances;
+        BattleDropChance[] _recipesChances;
 
+        [SerializeField]
+       List<CurrencyRewardAmount> _rewardTypes ;
 
-
-
-
-
-
-
-
-
-        public bool Init(string[] row)
+        [System.Serializable]
+        public class CurrencyRewardAmount
         {
-            const int ID = 0;
-            const int Gold = 1;
-            const int DropChance = 2;
-            const int Common = 3;
-            const int UnCommon = 4;
-            const int Rare = 5;
-            const int Epic = 6;
-            const int Legendrei = 7;
 
-            const int hasRecipe = 8;
+            [SerializeField]
+            ResourceEnum _currencyType;
 
-            const int Recipe = 7;
+            [SerializeField]
+            ushort[] _minValue;
+            [SerializeField]
+            ushort[] _maxValue;
+            public ResourceEnum CurrencyType => _currencyType;
 
-
-            // character difficultyenum
-            if (int.TryParse(row[ID], out int outcome))
-                _characterDifficultyEnum = (CharacterTypeEnum)outcome;
-            else
-                return false;
-
-            //gold
-            string[] gold = row[Gold].Split('&');
-            for (int i = 0; i < gold.Length; i++)
+            public CurrencyRewardAmount(ushort[] minValue, ushort[] maxValue, ResourceEnum currencyType)
             {
-                if (ushort.TryParse(gold[i], out ushort amount))
-                {
-                    if (i == 0)
-                        _minMoneyReward = amount;
-                    else
-                        _maxMoneyReward = amount;
-                }
+                _minValue = minValue;
+                _maxValue = maxValue;
+                _currencyType = currencyType;
+                
             }
-
-            //card Drop Chances
-
-            var dropChances = SplitData(row[DropChance]);
-            var commonChanceLevels = SplitData(row[Common]);
-            var uncommonChanceLevels = SplitData(row[UnCommon]);
-            var rareChanceLevels = SplitData(row[Rare]);
-            var epicChanceLevels = SplitData(row[Epic]);
-            var legendreiLevels = SplitData(row[Legendrei]);
-
-            _cardChances = new BattleDropChance(dropChances, commonChanceLevels, uncommonChanceLevels, rareChanceLevels, epicChanceLevels, legendreiLevels);
-
-
-            if (int.TryParse(row[hasRecipe], out int result))
+            public ushort RandomizeAmount(ActsEnum _actType)
             {
-                if (result == 1)
-                {
-                    dropChances = SplitData(row[DropChance + Recipe]);
-                    commonChanceLevels = SplitData(row[Common + Recipe]);
-                    uncommonChanceLevels = SplitData(row[UnCommon + Recipe]);
-                    rareChanceLevels = SplitData(row[Rare + Recipe]);
-                    epicChanceLevels = SplitData(row[Epic + Recipe]);
-                    legendreiLevels = SplitData(row[Legendrei + Recipe]);
-
-                    _recipesChances = new BattleDropChance(dropChances, commonChanceLevels, uncommonChanceLevels, rareChanceLevels, epicChanceLevels, legendreiLevels);
-                }
-            }
-
-            return true;
-
-            byte[] SplitData(string tab)
-            {
-                string[] data = tab.Split('&');
-                byte[] array = new byte[data.Length];
-
-                for (int i = 0; i < data.Length; i++)
-                {
-                    if (byte.TryParse(data[i], out byte amount))
-                        array[i] = amount;
-                    else
-                        throw new System.Exception(" Could not be converted to number (byte)!\n" + data[i]); ;
-                }
-                return array;
+                int index = (int)_actType;
+               return (ushort)Random.Range(_minValue[index], _maxValue[index]);
             }
         }
 
+        public ushort RandomAmount(ResourceEnum currencyEnum, ActsEnum _actType)
+        {
+            for (int i = 0; i < _rewardTypes.Count; i++)
+            {
+                if (_rewardTypes[i].CurrencyType == currencyEnum)
+                    return _rewardTypes[i].RandomizeAmount(_actType);
+            }
+            throw new System.Exception($"BattleRewardSO: CurrencyEnum is not a valid type {currencyEnum}!");
+        }
 
-        public BattleReward CreateReward()
+        public BattleReward CreateReward(ActsEnum actsEnum)
         {
 
-
+            var actCardChance = _cardChances.First(x => x.ActEnum == actsEnum);
             const byte CardAmount = 3;
             Card[] rewardCards = new Card[CardAmount];
 
@@ -126,7 +87,7 @@ namespace Rewards
             var cardFactoryHandler = Factory.GameFactory.Instance.CardFactoryHandler;
 
             var cardCollection = cardFactoryHandler.CardCollection;
-            var cardChances = _cardChances.DropChances;
+            var cardChances = actCardChance.DropChances;
 
             const int OneHundred = 100;
 
@@ -166,7 +127,7 @@ namespace Rewards
                         $"BattleRewardSO: CardID Was bigger than the reward collection for: {rarityCardCollection.CardsID.Length}\nCardID: {randomID}\n Rarity: {(RarityEnum)(index + 1)}");
                 ushort CardId = rarityCardCollection.CardsID[randomID];
                 // get cards level;
-                var DropChance = _cardChances.DropChances[index];
+                var DropChance = actCardChance.DropChances[index];
                 var levelChances = DropChance.LevelChances;
                 addition = 0;
                 random = (byte)Random.Range(0, OneHundred);
@@ -197,7 +158,7 @@ namespace Rewards
             Combo.Combo[] combo = null;
             if (_characterDifficultyEnum >= CharacterTypeEnum.Elite_Enemy)
             {
-
+               var recipesChances = _recipesChances.First(x => x.ActEnum == actsEnum);
                 combo = new Combo.Combo[1];
 
 
@@ -205,7 +166,7 @@ namespace Rewards
                 var comboIDs = playerCombo.Select(x => new { ID = x.ComboSO.ID });
                 var comboFactoryHandler = Factory.GameFactory.Instance.ComboFactoryHandler;
                 var comboCollection = comboFactoryHandler.ComboCollection;
-                var comboChances = _recipesChances.DropChances;
+                var comboChances = recipesChances.DropChances;
                 do
                 {
                     if (tryTimes <= 0)
@@ -219,7 +180,7 @@ namespace Rewards
                     byte addition = 0;
                     random = (byte)Random.Range(0, OneHundred);
 
-      
+
                     for (int j = 0; j < comboChances.Length; j++)
                     {
                         if (j > 0)
@@ -243,13 +204,13 @@ namespace Rewards
 
                     playerID.ToList();
                     var comboID = rarityComboCollection.ComboID.Union(playerID).Distinct();
-                    comboID = comboID.Where((x)=> !playerID.Contains(x));
+                    comboID = comboID.Where((x) => !playerID.Contains(x));
                     if (comboID.Count() == 0)
                         continue;
 
-                     ushort id = comboID.ElementAt(Random.Range(0, comboID.Count()));
+                    ushort id = comboID.ElementAt(Random.Range(0, comboID.Count()));
 
-                    var DropChance = _recipesChances.DropChances[index];
+                    var DropChance = recipesChances.DropChances[index];
                     var levelChances = DropChance.LevelChances;
                     addition = 0;
                     random = (byte)Random.Range(0, OneHundred);
@@ -272,7 +233,13 @@ namespace Rewards
 
             }
 
-            BattleReward reward = new BattleReward(MoneyReward, rewardCards,combo);
+            ushort EXP = RandomAmount(ResourceEnum.EXP, actsEnum);
+            ushort Credits = RandomAmount(ResourceEnum.Credits, actsEnum);
+            ushort Gold = RandomAmount(ResourceEnum.Gold, actsEnum);
+            ushort Diamonds = RandomAmount(ResourceEnum.Diamonds, actsEnum);
+
+
+            BattleReward reward = new BattleReward(Credits,EXP,Gold,Diamonds, rewardCards, combo);
 
             return reward;
         }
@@ -290,15 +257,15 @@ namespace Rewards
             public class RarityDropChance
             {
                 [SerializeField]
-                RarityEnum _rarityEnum;
+                 RarityEnum _rarityEnum;
                 public RarityEnum RarityEnumType => _rarityEnum;
 
                 [SerializeField]
-                byte _dropChance;
+                 byte _dropChance;
                 public byte DropChance => _dropChance;
 
                 [SerializeField]
-                byte[] _levelChances;
+                readonly byte[] _levelChances;
                 public byte[] LevelChances => _levelChances;
                 public RarityDropChance(RarityEnum rare, byte chance, byte[] levelChances)
                 {
@@ -310,36 +277,19 @@ namespace Rewards
             [SerializeField]
             RarityDropChance[] _dropChances;
 
-            //[SerializeField] 
-            //    byte[] _commonChanceLevels;
-
-            //[SerializeField] 
-            //    byte[] _uncommonChanceLevels;
-
-            //[SerializeField] 
-            //    byte[] _rareChanceLevels;
-
-            //[SerializeField]
-            //    byte[] _epicChanceLevels;
-
-            //[SerializeField]
-            //    byte[] _legendreiLevels;
+            [SerializeField]
+            private ActsEnum _act;
 
             public RarityDropChance[] DropChances => _dropChances;
-            //public byte[] CommonChanceLevels => _commonChanceLevels;
-            //public byte[] UncommonChanceLevels => _uncommonChanceLevels;
-            //public byte[] RareChanceLevels => _rareChanceLevels;
-            //public byte[] EpicChanceLevels => _epicChanceLevels;
-            //public byte[] LegendreiLevels => _legendreiLevels;
-
-            public BattleDropChance(params byte[][] chances)
+            public ActsEnum ActEnum => _act;
+            public BattleDropChance(ActsEnum act, params byte[][] chances)
             {
                 _dropChances = new RarityDropChance[chances[0].Length];
 
                 for (int i = 0; i < chances[0].Length; i++)
                     _dropChances[i] = new RarityDropChance((RarityEnum)(i + 1), chances[0][i], chances[i + 1]);
 
-
+                _act = act;
                 //_commonChanceLevels = chances[1];
                 //_uncommonChanceLevels = chances[2];
                 //_rareChanceLevels = chances[3];
@@ -349,6 +299,135 @@ namespace Rewards
 
             }
         }
+
+
+
+        public bool Init(string[] row)
+        {
+            const int ID = 0;
+            const int Credits = 1;
+
+            const int DropChance = 5;
+            const int Common = 6;
+            const int UnCommon = 7;
+            const int Rare = 8;
+            const int Epic = 9;
+            const int Legendrei = 10;
+
+            const int hasRecipe = 11;
+
+            const int Recipe = 7;
+
+
+            // character difficultyenum
+            if (int.TryParse(row[ID], out int outcome))
+                _characterDifficultyEnum = (CharacterTypeEnum)outcome;
+            else
+                return false;
+
+            //gold
+            List<CurrencyRewardAmount> _currencyList = new List<CurrencyRewardAmount>();
+            for (int i = 0; i < 4; i++)
+            {
+                string[] amount = row[Credits + i].Split('^');
+                List<ushort> minAmount = new List<ushort>();
+                List<ushort> maxAmount = new List<ushort>();
+                for (int j = 1; j <= amount.Length; j++)
+                {
+                    amount[j - 1].Trim();
+                    string[] perActs = amount[j - 1].Split('&');
+
+                    if (ushort.TryParse(perActs[0], out ushort min))
+                    {
+                        minAmount.Add(min);
+                    } else
+                        throw new System.Exception($"Battle RewardSO: Min Value is not a valid number {(ResourceEnum)Credits + i} -  {perActs[0]}");
+
+                    if (ushort.TryParse(perActs[1], out ushort max))
+                    {
+                        maxAmount.Add(max);
+                    }
+                    else
+                        throw new System.Exception($"Battle RewardSO: Max Value is not a valid number {(ResourceEnum)Credits + i} -  {perActs[1]}");
+
+                }
+                    _currencyList.Add(new CurrencyRewardAmount(minAmount.ToArray(), maxAmount.ToArray(), (ResourceEnum)Credits + i));
+            }
+
+            _rewardTypes = _currencyList;
+
+
+
+            //card Drop Chances
+            List<BattleDropChance> _battleDropChacnes = new List<BattleDropChance>();
+            { 
+            string[] dropChanceString = row[DropChance].Split('^');
+            string[] commonChanceLevelsString = row[Common].Split('^');
+            string[] uncommonChanceLevelsString = row[UnCommon].Split('^');
+            string[] rareChanceLevelsString = row[Rare].Split('^');
+            string[] epicChanceLevelsString = row[Epic].Split('^');
+            string[] legendreiLevelsString = row[Legendrei].Split('^');
+
+            for (int i = 0; i < dropChanceString.Length; i++)
+            {
+
+                var dropChances = SplitData(dropChanceString[i]);
+                var commonChanceLevels = SplitData(commonChanceLevelsString[i]);
+                var uncommonChanceLevels = SplitData(uncommonChanceLevelsString[i]);
+                var rareChanceLevels = SplitData(rareChanceLevelsString[i]);
+                var epicChanceLevels = SplitData(epicChanceLevelsString[i]);
+                var legendreiLevels = SplitData(legendreiLevelsString[i]);
+
+                _battleDropChacnes.Add(new BattleDropChance((ActsEnum)(i + 1), dropChances, commonChanceLevels, uncommonChanceLevels, rareChanceLevels, epicChanceLevels, legendreiLevels));
+            }
+                _cardChances = _battleDropChacnes.ToArray();
+        }
+
+            if (int.TryParse(row[hasRecipe], out int result))
+            {
+                if (result == 1)
+                {
+                    _battleDropChacnes = new List<BattleDropChance>();
+                    string[] dropChanceString = row[DropChance + Recipe].Split('^');
+                    string[] commonChanceLevelsString = row[Common + Recipe].Split('^');
+                    string[] uncommonChanceLevelsString = row[UnCommon + Recipe].Split('^');
+                    string[] rareChanceLevelsString = row[Rare + Recipe].Split('^');
+                    string[] epicChanceLevelsString = row[Epic + Recipe].Split('^');
+                    string[] legendreiLevelsString = row[Legendrei + Recipe].Split('^');
+
+                    for (int i = 0; i < dropChanceString.Length; i++)
+                    {
+                        var dropChances = SplitData(dropChanceString[i]);
+                        var commonChanceLevels = SplitData(commonChanceLevelsString[i]);
+                        var uncommonChanceLevels = SplitData(uncommonChanceLevelsString[i]);
+                        var rareChanceLevels = SplitData(rareChanceLevelsString[i]);
+                        var epicChanceLevels = SplitData(epicChanceLevelsString[i]);
+                        var legendreiLevels = SplitData(legendreiLevelsString[i]);
+
+                        _battleDropChacnes.Add(new BattleDropChance((ActsEnum)(i + 1),dropChances, commonChanceLevels, uncommonChanceLevels, rareChanceLevels, epicChanceLevels, legendreiLevels));
+                    }   
+                    _recipesChances = _battleDropChacnes.ToArray();
+                }
+            }
+
+            return true;
+
+            byte[] SplitData(string tab)
+            {
+                string[] data = tab.Split('&');
+                byte[] array = new byte[data.Length];
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    if (byte.TryParse(data[i], out byte amount))
+                        array[i] = amount;
+                    else
+                        throw new System.Exception(" Could not be converted to number (byte)!\n" + data[i]); ;
+                }
+                return array;
+            }
+        }
+
 
     }
 

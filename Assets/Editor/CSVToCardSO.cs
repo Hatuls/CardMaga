@@ -109,6 +109,8 @@ public class CSVToCardSO : CSVAbst
             }
         }
 
+
+        await Task.Yield();
         var _rarity = new CardsCollectionSO.RarityCards[]
         {
         new  CardsCollectionSO.RarityCards(commonList.ToArray(), RarityEnum.Common),
@@ -354,8 +356,8 @@ public class CSVToCardSO : CSVAbst
 
         const int KeywordType = 8;
         const int AmountOfTheSameKeywords = 9;
-        const int Target = 12;
         const int Amount = 10;
+        const int Target = 12;
         const int AnimationIndex = 11;
 
         List<Keywords.KeywordData> keywordsDataList = new List<Keywords.KeywordData>();
@@ -409,7 +411,7 @@ public class CSVToCardSO : CSVAbst
 
                             if (int.TryParse(SAnimationIndexPerKeyword[j], out int animationIndex))
                             {
-                                if (int.TryParse(SAmountIndexPerKeyword[j], out int amount))
+                                if (int.TryParse(SAmountIndexPerKeyword[1], out int amount))
                                 {
                                     keywordDataCache = new Keywords.KeywordData(
                                         keywordSO,

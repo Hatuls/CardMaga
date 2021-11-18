@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
-  m_Name: Stamina Shard
+  m_Name: Evasive
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _cardSprite: {fileID: 0}
-  _cardName: Stamina Shard
+  _cardName: Evasive
   _animationBundle:
     BodyPartEnum: 1
     _attackAnimation: 0
@@ -30,14 +30,21 @@ MonoBehaviour:
     _getHitAnimation: 0
     IsSlowMotion: 0
     IsCinemtaic: 0
-  _rarity: 1
-  _stamina: 1
-  _purchaseCost: 30
-  _toExhaust: 1
+  _rarity: 2
+  _stamina: 2
+  _purchaseCost: 60
+  _toExhaust: 0
   _salvageCost: 1
-  _id: 64
+  _id: 66
   _cardKeywordsData:
-  - _keywordBase: {fileID: 11400000, guid: 0c48908d412e2154aa31d9c53dff7933, type: 2}
+  - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
+    _target: 1
+    _amountToApply: 6
+    _animationIndex: 0
+    _conditions:
+      _comboCondition: []
+      _paramaterCondition: []
+  - _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
     _target: 1
     _amountToApply: 1
     _animationIndex: 0
@@ -45,7 +52,8 @@ MonoBehaviour:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
-  - _description: 1 Stamina Shard  Exhaust
+  - _description:
+    - '6 Defense 1 Clear '
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -58,7 +66,7 @@ MonoBehaviour:
           _paramaterCondition: []
       _cardTypeData:
         _bodyPart: 1
-        _cardType: 3
+        _cardType: 2
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -72,10 +80,23 @@ MonoBehaviour:
       _cardTypeData:
         _bodyPart: 0
         _cardType: 0
-      _amount: 1
+      _amount: 2
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 0c48908d412e2154aa31d9c53dff7933, type: 2}
+        _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
+        _target: 1
+        _amountToApply: 6
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
         _target: 1
         _amountToApply: 1
         _animationIndex: 0
@@ -86,7 +107,8 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-  - _description: 1 Stamina Shard 1 Gain Stamina  Exhaust
+  - _description:
+    - '8 Defense 1 Clear '
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -99,7 +121,7 @@ MonoBehaviour:
           _paramaterCondition: []
       _cardTypeData:
         _bodyPart: 1
-        _cardType: 3
+        _cardType: 2
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -113,12 +135,12 @@ MonoBehaviour:
       _cardTypeData:
         _bodyPart: 0
         _cardType: 0
-      _amount: 1
+      _amount: 2
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 0c48908d412e2154aa31d9c53dff7933, type: 2}
+        _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
         _target: 1
-        _amountToApply: 1
+        _amountToApply: 8
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -129,7 +151,7 @@ MonoBehaviour:
       _amount: 0
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
+        _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
         _target: 1
         _amountToApply: 1
         _animationIndex: 0
@@ -140,7 +162,8 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-  - _description: 1 Stamina Shard 2 Gain Stamina  Exhaust
+  - _description:
+    - '12 Defense 1 Clear '
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -153,7 +176,7 @@ MonoBehaviour:
           _paramaterCondition: []
       _cardTypeData:
         _bodyPart: 1
-        _cardType: 3
+        _cardType: 2
       _amount: 0
     - _upgradeType: 1
       _keywordUpgrade:
@@ -167,12 +190,12 @@ MonoBehaviour:
       _cardTypeData:
         _bodyPart: 0
         _cardType: 0
-      _amount: 1
+      _amount: 2
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 0c48908d412e2154aa31d9c53dff7933, type: 2}
+        _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
         _target: 1
-        _amountToApply: 1
+        _amountToApply: 12
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -183,9 +206,9 @@ MonoBehaviour:
       _amount: 0
     - _upgradeType: 2
       _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
+        _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3, type: 2}
         _target: 1
-        _amountToApply: 2
+        _amountToApply: 1
         _animationIndex: 0
         _conditions:
           _comboCondition: []

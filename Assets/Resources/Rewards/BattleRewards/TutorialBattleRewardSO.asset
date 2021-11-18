@@ -13,24 +13,30 @@ MonoBehaviour:
   m_Name: TutorialBattleRewardSO
   m_EditorClassIdentifier: 
   _characterDifficultyEnum: 2
-  _minMoneyReward: 80
-  _maxMoneyReward: 100
   _cardChances:
-    _dropChances:
+  - _dropChances:
     - _rarityEnum: 1
       _dropChance: 100
-      _levelChances: 640000
     - _rarityEnum: 2
       _dropChance: 0
-      _levelChances: 640000
     - _rarityEnum: 3
       _dropChance: 0
-      _levelChances: 6400000000
     - _rarityEnum: 4
       _dropChance: 0
-      _levelChances: 6400000000
     - _rarityEnum: 5
       _dropChance: 0
-      _levelChances: 64000000000000
-  _recipesChances:
-    _dropChances: []
+    _act: 1
+  _recipesChances: []
+  _rewardTypes:
+  - _currencyType: 1
+    _minValue: 6400
+    _maxValue: 6400
+  - _currencyType: 2
+    _minValue: 6400
+    _maxValue: 6400
+  - _currencyType: 3
+    _minValue: 6400
+    _maxValue: 6400
+  - _currencyType: 4
+    _minValue: 6400
+    _maxValue: 6400

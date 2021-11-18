@@ -13,24 +13,54 @@ MonoBehaviour:
   m_Name: Basic_EnemyBattleRewardSO
   m_EditorClassIdentifier: 
   _characterDifficultyEnum: 3
-  _minMoneyReward: 20
-  _maxMoneyReward: 50
   _cardChances:
-    _dropChances:
+  - _dropChances:
     - _rarityEnum: 1
       _dropChance: 80
-      _levelChances: 500f05
     - _rarityEnum: 2
       _dropChance: 20
-      _levelChances: 520d05
     - _rarityEnum: 3
       _dropChance: 0
-      _levelChances: 5405040403
     - _rarityEnum: 4
       _dropChance: 0
-      _levelChances: 5605040302
     - _rarityEnum: 5
       _dropChance: 0
-      _levelChances: 58030302020101
-  _recipesChances:
-    _dropChances: []
+    _act: 1
+  - _dropChances:
+    - _rarityEnum: 1
+      _dropChance: 70
+    - _rarityEnum: 2
+      _dropChance: 20
+    - _rarityEnum: 3
+      _dropChance: 10
+    - _rarityEnum: 4
+      _dropChance: 0
+    - _rarityEnum: 5
+      _dropChance: 0
+    _act: 2
+  - _dropChances:
+    - _rarityEnum: 1
+      _dropChance: 50
+    - _rarityEnum: 2
+      _dropChance: 25
+    - _rarityEnum: 3
+      _dropChance: 20
+    - _rarityEnum: 4
+      _dropChance: 5
+    - _rarityEnum: 5
+      _dropChance: 0
+    _act: 3
+  _recipesChances: []
+  _rewardTypes:
+  - _currencyType: 1
+    _minValue: 14001e003c00
+    _maxValue: 32004b009600
+  - _currencyType: 2
+    _minValue: 040008001400
+    _maxValue: 040008001400
+  - _currencyType: 3
+    _minValue: 000001000200
+    _maxValue: 000001000200
+  - _currencyType: 4
+    _minValue: 010001000100
+    _maxValue: 010001000100

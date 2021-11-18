@@ -1,4 +1,5 @@
 ﻿using DesignPattern;
+using Rewards;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -15,8 +16,10 @@ namespace Map
         public static MapPlayerTracker Instance;
 
         [SerializeField] ObserverSO _observerSO;
-
+        [SerializeField]
+        ActsEnum _currentAct= ActsEnum.ActOne;
         public bool Locked { get; set; }
+        public ActsEnum CurrentAct { get => _currentAct; set => _currentAct = value; }
 
         private void Awake()
         {

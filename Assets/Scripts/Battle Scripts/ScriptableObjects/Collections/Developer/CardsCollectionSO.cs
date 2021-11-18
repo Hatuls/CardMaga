@@ -6,6 +6,8 @@ using UnityEngine;
 namespace Collections
 {
 
+
+
     [CreateAssetMenu(fileName = ("CardsCollections"), menuName = ("ScriptableObjects/Collections/CardsCollections"))]
     public class CardsCollectionSO : ScriptableObject, IScriptableObjectCollection
     {

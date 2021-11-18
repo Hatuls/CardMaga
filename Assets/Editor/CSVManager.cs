@@ -16,23 +16,31 @@ public class CSVManager
     public static Keywords.KeywordsCollectionSO _keywordsSO;
     public static Sprite[] cardsPictures;
     public static BattleRewardCollectionSO _battleRewards;
+    public static PackRewardSO _packRewardSO;
 
 
     #region URL
+
+    #region Battle CSV
     const string _driveURL = "https://docs.google.com/spreadsheets/d/1R1mP6Bk_rplQTWiIapxpgYIezIZWsVI7z-m2up1Ck88/export?format=csv&gid=";
+
     const string _driveURLOfCardSO = "1611461659";
     const string _driveURLOfRecipeSO = "371699274";
     const string _driveURLOfCharacterSO = "945070348";
     const string _driveURLOfKeywordsSO = "116208579";
     const string _driveURLOfBattleRewardSO = "39048757";
     #endregion
+    const string _driveMetaURL = "https://docs.google.com/spreadsheets/d/11FQ280bkkd9J-UZpHKlLdKnLdoULX4MI3md1trWPArI/export?format=csv&gid=";
+    const string _driveURLOfPackRewards = "463836199";
 
+
+    #endregion
     [MenuItem("Google Drive/Update All ScriptableObjects!")]
     public static void Start()
     {
-        StartAsync();
+        BattleDataAsync();
     }
-    public async static void StartAsync()
+    public async static void BattleDataAsync()
     {
         string[] urls = new string[]
         {

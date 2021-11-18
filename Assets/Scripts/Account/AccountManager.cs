@@ -112,7 +112,7 @@ namespace Account
     public class AccountData : ILoadFirstTime
     {
         public const string SaveName = "AccountData";
-     [SerializeField]  AccountGeneralData _accountGeneralData;
+        [SerializeField]  AccountGeneralData _accountGeneralData;
 
         [SerializeField]  AccountCards _accountCards;
 

@@ -2,12 +2,14 @@
 using DesignPattern;
 using System;
 using UnityEngine;
-
+using Map;
 namespace Rewards.Battles
 {
 
     public class BattleRewardHandler : MonoBehaviour ,IObserver
     {
+        [SerializeField]
+        MapPlayerTracker _mapTracker;
         [SerializeField] BattleUIRewardHandler _battleUIRewardHandler;
         [SerializeField] ObserverSO _observerSO;
         [SerializeField] MoneyIcon _moneyIcon;
@@ -26,7 +28,7 @@ namespace Rewards.Battles
                 return;
             }
             _observerSO.Notify(this);
-            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(opponentType);
+            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(opponentType, _mapTracker.CurrentAct);
             if (rewardBundle == null)
                 throw new Exception("Reward Bundle is null!");
 
