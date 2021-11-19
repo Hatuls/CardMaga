@@ -1,22 +1,20 @@
 ﻿
+using Collections;
+using Rewards;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using Rewards;
-using Collections;
-using System.Threading.Tasks;
-
-
 
 public class CSVManager
-{ 
-
+{
+    public static PackRewardsCollectionSO _packRewardsCollectionSO;
     public static CharacterCollectionSO _characterCollection;
     public static ComboCollectionSO _comboCollection;
     public static CardsCollectionSO _cardCollection;
     public static Keywords.KeywordsCollectionSO _keywordsSO;
     public static Sprite[] cardsPictures;
     public static BattleRewardCollectionSO _battleRewards;
-    public static PackRewardSO _packRewardSO;
+
 
 
     #region URL
@@ -30,16 +28,19 @@ public class CSVManager
     const string _driveURLOfKeywordsSO = "116208579";
     const string _driveURLOfBattleRewardSO = "39048757";
     #endregion
-    const string _driveMetaURL = "https://docs.google.com/spreadsheets/d/11FQ280bkkd9J-UZpHKlLdKnLdoULX4MI3md1trWPArI/export?format=csv&gid=";
+
+const string _driveMetaURL = "https://docs.google.com/spreadsheets/d/11FQ280bkkd9J-UZpHKlLdKnLdoULX4MI3md1trWPArI/export?format=csv&gid=";
     const string _driveURLOfPackRewards = "463836199";
-
-
-    #endregion
+                            #endregion
     [MenuItem("Google Drive/Update All ScriptableObjects!")]
     public static void Start()
     {
+        Debug.ClearDeveloperConsole();
+        System.Console.Clear();
         BattleDataAsync();
     }
+
+
     public async static void BattleDataAsync()
     {
         string[] urls = new string[]
@@ -63,10 +64,33 @@ public class CSVManager
         for (int i = 0; i < csvs.Length; i++)
         {
             await csvs[i].StartCSV(string.Concat(_driveURL, urls[i]));
-            
+
             DestroyWebGameObjects();
         }
-        Debug.Log("Completed Updateing SO From CSV!");
+
+
+        Debug.Log("<a>Completed Updateing Battle SO's From CSV!</a>");
+
+        CSVAbst[] metacsv = new CSVAbst[] {
+         new CSVToPackReward(),
+        };
+
+        string[] metaurls = new string[]
+        {
+        _driveURLOfPackRewards,
+
+        };
+
+
+        for (int i = 0; i < metacsv.Length; i++)
+        {
+            await metacsv[i].StartCSV(string.Concat(_driveMetaURL, metaurls[i]));
+
+            DestroyWebGameObjects();
+        }
+        Debug.Log("<a>Completed Updateing Meta SO's From CSV!</a>");
+
+        Debug.Log("<a>Completed Updateing SO's From CSV!</a>");
     }
 
     private static void DestroyWebGameObjects()
