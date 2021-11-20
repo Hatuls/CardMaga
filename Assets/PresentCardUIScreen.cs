@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class PresentCardUIScreen : MonoBehaviour
@@ -20,7 +21,8 @@ public class PresentCardUIScreen : MonoBehaviour
     [SerializeField]
     Transform _keywordsParent;
 
-  
+    [SerializeField]
+    UnityEvent OnCloseEvent;
 
     public void OpenCardUIInfo(CardUI cardUI, PointerEventData data)
     {
@@ -37,11 +39,16 @@ public class PresentCardUIScreen : MonoBehaviour
         SortKeywords(card);
     }
     public void CloseCardUIInfo()
-        => _gameObject.SetActive(false);
+    {
+        OnCloseEvent?.Invoke();
+        _gameObject.SetActive(false); 
+    }
     private void SortKeywords(Cards.Card card)
     {
         var keywords = card.CardKeywords;
         List<Keywords.KeywordTypeEnum> list = new List<Keywords.KeywordTypeEnum>();
+
+
 
         foreach (var keyword in keywords)
         {
@@ -53,13 +60,14 @@ public class PresentCardUIScreen : MonoBehaviour
         while (_keywordsInfo.Count < list.Count)
             CreateKeywordInfo();
 
+        _keywordsInfo.ForEach(x => x.gameObject.SetActive(false));
+
         for (int i = 0; i <= list.Count; i++)
         {
-     
-
             if (i == list.Count)
                 return;
             AssignKeywords(keywords, list[i], i);
+
         }
 
         if (card.IsExhausted)
