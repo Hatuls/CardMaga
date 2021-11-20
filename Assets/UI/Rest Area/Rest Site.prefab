@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.00012207031}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8743881768183377195
@@ -108,7 +108,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.399994, y: 3.5999756}
+  m_AnchoredPosition: {x: -2.3999023, y: 3.5999756}
   m_SizeDelta: {x: -140.91422, y: -63.641388}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4135570129057710507
@@ -219,7 +219,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4402243180505354500}
-  - component: {fileID: 2002665681}
   - component: {fileID: 485023465308966608}
   m_Layer: 5
   m_Name: Rest Site
@@ -227,7 +226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4402243180505354500
 RectTransform:
   m_ObjectHideFlags: 0
@@ -250,37 +249,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2002665681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4402243180505354523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54e4557711046ed4d92fc3f611249fc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _observer: {fileID: 0}
-  _RestAreaContainer: {fileID: 4402243180505354523}
-  _backgroundPanel: {fileID: 0}
-  _restArea:
-    _staminaShardAmount: 1
-    HPPrecentage: 0
-    _MaxHPAddition: 0
-  _removeCardPanelScreen: {fileID: 0}
-  _topOptionLeftImage: {fileID: 0}
-  _topOptionRightImage: {fileID: 0}
-  _topOptionLeftText: {fileID: 0}
-  _topOptionRightText: {fileID: 0}
-  _bottomOptionLeftImage: {fileID: 0}
-  _bottomOptionRightImage: {fileID: 0}
-  _bottomOptionLeftText: {fileID: 0}
-  _bottomOptionRightText: {fileID: 0}
-  _optionTakenColor: {r: 0.0627451, g: 0.5803922, b: 0, a: 0}
-  _optionNotTakeColor: {r: 0.76470596, g: 0.10588236, b: 0.003921569, a: 0}
-  _resetColor: {r: 0.03137255, g: 0.32156864, b: 0.6745098, a: 0}
 --- !u!114 &485023465308966608
 MonoBehaviour:
   m_ObjectHideFlags: 0
