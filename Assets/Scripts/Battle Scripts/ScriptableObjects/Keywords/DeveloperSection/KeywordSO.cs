@@ -6,7 +6,10 @@ namespace Keywords
     {
         #region Fields
         [Header("Keyword Information:")]
+        [SerializeField]
         private int _iD;
+        [SerializeField]
+        bool _ignoreInfoAmmount;
 
         [Tooltip("what duration is it ?")]
         [SerializeField] DurationEnum _durationEnum;
@@ -33,6 +36,7 @@ namespace Keywords
         public bool GetIsPrecentage => _isPrecentage;
         public DurationEnum GetDurationEnum => _durationEnum;
         public KeywordTypeEnum GetKeywordType => _keyword;
+        public string KeywordName => _keyword.ToString();
 
 
         public string GetDescription(params int[] amount)
@@ -60,7 +64,8 @@ namespace Keywords
             const int StackableIndex = 2;
             const int PrecentageIndex = 3;
             const int InfoAmountIndex = 4;
-            const int DescriptionIndex = 5;
+            const int IgnoreInfoAmountIndex = 5;
+            const int DescriptionIndex = 6;
 
             if (int.TryParse(Data[IDIndex], out int keywordID))
             {
@@ -88,7 +93,12 @@ namespace Keywords
             if (byte.TryParse(Data[InfoAmountIndex], out byte amount))
                 _infoAmount = amount;
 
-            _descriptions = Data[DescriptionIndex].Split('#');
+            if (byte.TryParse(Data[IgnoreInfoAmountIndex], out byte toIgnore))
+                _ignoreInfoAmmount = System.Convert.ToBoolean(toIgnore);
+            else
+                throw new System.Exception($"KeywordsSO:\nID: {_iD}\n Ignore info amount on keyword is not a valid number!");
+
+            _descriptions = Data[DescriptionIndex].Replace('^' , ',').Split('#');
 
             return true;
         }
