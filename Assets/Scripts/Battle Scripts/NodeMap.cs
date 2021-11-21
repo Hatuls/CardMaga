@@ -79,10 +79,11 @@ namespace Map
             _sr.sprite = bluePrint.Icon;
             _backgroundImg.color =Color.cyan;
 
-            if (data.NodeTypeEnum == NodeType.Boss_Enemy) 
-                transform.localScale *= _bossScale;
-
             SetState(NodeStates.Locked);
+
+
+
+
         }
 
         public void SetState(NodeStates state)
@@ -102,6 +103,9 @@ namespace Map
                 default:
                     break;
             }
+
+            if (NodeData.NodeTypeEnum == NodeType.Boss_Enemy)
+                transform.localScale = Vector3.one * _bossScale;
         }
 
         public void OnNotify(IObserver Myself)

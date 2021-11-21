@@ -38,9 +38,12 @@ namespace Keywords
         public KeywordTypeEnum GetKeywordType => _keyword;
         public string KeywordName => _keyword.ToString();
 
-
+        public bool IgnoreInfoAmount => _ignoreInfoAmmount;
         public string GetDescription(params int[] amount)
         {
+            if (IgnoreInfoAmount)
+                return _descriptions[0];
+
             string info = string.Empty;
             for (int i = 0; i < _descriptions.Length; i++)
             {

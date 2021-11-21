@@ -259,17 +259,17 @@ namespace Battles
                 //clearing the list
                 // registering the keywords
                 // sorting it by the animation index
-                Debug.Log("<a>Keywords Cleared</a>");
+              //  Debug.Log("<a>Keywords Cleared</a>");
                 _keywordData.Clear();
 
                 var currentCard = _cardsQueue.Peek().CardKeywords;
-                Debug.Log($"<a>sorting keywords {_cardsQueue.Count} cards left to be executed </a>");
+             //   Debug.Log($"<a>sorting keywords {_cardsQueue.Count} cards left to be executed </a>");
 
                 for (int i = 0; i < currentCard.Length; i++)
                     _keywordData.Add(currentCard[i]);
 
                 _keywordData.Sort();
-                Debug.Log($"<a>{_keywordData.Count} keys were added</a>");
+            //    Debug.Log($"<a>{_keywordData.Count} keys were added</a>");
             }
 
         }

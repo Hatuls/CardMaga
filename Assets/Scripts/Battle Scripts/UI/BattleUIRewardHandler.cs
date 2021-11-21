@@ -1,5 +1,5 @@
 ﻿using Battles;
-using Battles.UI;
+using UI;
 using DesignPattern;
 using TMPro;
 using UnityEngine;
@@ -24,6 +24,7 @@ namespace Rewards.Battles
         [SerializeField] GameObject _backgroundPanel;
 
         [SerializeField] GameObject _comboContainer;
+        [SerializeField] GameObject _comboPresentContainer;
 
         [SerializeField] GameObject _moneyContainer;
 
@@ -102,8 +103,8 @@ namespace Rewards.Battles
 
             _backgroundPanel.SetActive(true);
 
-            if (_cardSelectionScreen.activeSelf)
-                _cardSelectionScreen.SetActive(false);
+            //if (_cardSelectionScreen.activeSelf)
+            //    _cardSelectionScreen.SetActive(false);
 
             if (!_cardRewardContainer.activeSelf)
                 _cardRewardContainer.SetActive(true);
@@ -116,17 +117,22 @@ namespace Rewards.Battles
             cardTaken = false ;
             goldTaken= false;
             comboTaken= false;
-
+            _comboPresentContainer.SetActive(false);
 
             if (!thereIsComboReward)
                 comboTaken = true;
             else
                 _comboUI.InitRecipe(BattleReward.RewardCombos[0]);
+
+            _selectCardRewardScreen.AssignRewardCardScreen(BattleReward.RewardCards, _moneyForNotTakingAnything);
+
         }
 
         public void AddCombo()
         {
             _battleRewardHandler.AddCombo(BattleReward.RewardCombos);
+            _comboPresentContainer.SetActive(false);
+            _comboContainer.SetActive(false);
             comboTaken = true;
             CheckIfAllIsTaken();
         }
@@ -141,18 +147,12 @@ namespace Rewards.Battles
         }
 
 
-        public void ShowCards()
-        {
-            _backgroundPanel.SetActive(false);
-            _rewardPanel.SetActive(false);
-            _selectCardRewardScreen.OnOpenCardUI(BattleReward.RewardCards, _moneyForNotTakingAnything);
-        }
-
         public void ReturnFromCardsSelection()
         {
             _rewardPanel.SetActive(true);
             _backgroundPanel.SetActive(true);
             cardTaken = true;
+            _cardSelectionScreen.SetActive(false);
             CheckIfAllIsTaken();
         }
 

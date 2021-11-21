@@ -345,10 +345,12 @@ namespace Battles.UI
             var card = _selectedCardUI;
             if (card == null)
                 return;
+
+            GameBattleDescriptionUI.Instance.CheckCardUI(card);
             //     card.Inputs.GetCanvasGroup.blocksRaycasts = false;
             // card.CardTranslations?.SetPosition( Vector2.zero);
 
-           // card.CardTranslations?.MoveCard(false, Vector2.zero, _cardUISettings.GetCardScaleDelay);
+            // card.CardTranslations?.MoveCard(false, Vector2.zero, _cardUISettings.GetCardScaleDelay);
             card.CardAnimator.ScaleAnimation(true);
             card.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
             card.GFX.GlowCard(true);
@@ -359,7 +361,7 @@ namespace Battles.UI
             var card = _selectedCardUI;
             if (card == null)
                 return;
-
+            GameBattleDescriptionUI.Instance.CloseCardUIInfo();
             card.GFX.GlowCard(false);
 
             card.CardAnimator.ScaleAnimation(false);
@@ -369,6 +371,9 @@ namespace Battles.UI
 
         internal bool TryExecuteCardUI(CardUI thisCardUI)
         {
+            if (BattleManager.isGameEnded)
+                return false;
+
             var card = DeckManager.Instance.GetCardFromDeck(true, 0, DeckEnum.Selected);
             if (card == null)
             {

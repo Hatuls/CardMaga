@@ -93,6 +93,9 @@ namespace Account
         private void AddEnergy() => _accountData.AccountGeneralData.AccountEnergyData.Energy.AddValue(10);
         [Sirenix.OdinInspector.Button]
         private void ResetAccountSave() => PlayerPrefs.DeleteKey(AccountData.SaveName);
+
+        [Sirenix.OdinInspector.Button]
+        private void AddEXP() => _accountData.AccountGeneralData.AccountLevelData.Exp.AddValue(5);
 #endif
 
         private void OnDestroy()

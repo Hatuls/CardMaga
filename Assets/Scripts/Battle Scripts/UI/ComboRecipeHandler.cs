@@ -1,4 +1,5 @@
 ﻿
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,7 +8,7 @@ public class ComboRecipeHandler : MonoBehaviour, IPointerClickHandler
     public static ComboRecipeHandler Instance;
     [SerializeField]
     ComboRecipeUI[] comboRecipeUIs;
-    bool isFirstTime;
+
     [SerializeField]
     int _currentPage;
     [SerializeField] GameObject _panel;

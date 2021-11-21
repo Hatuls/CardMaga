@@ -11,7 +11,9 @@ namespace UI.Meta
         [SerializeField]
         TextMeshProUGUI _energysAmountText;
         [SerializeField]
-        TextMeshProUGUI _levelAmountText;
+        TextMeshProUGUI _levelAmountText;    
+        [SerializeField]
+        TextMeshProUGUI _chipAmountText;
 
         void Start()
         {
@@ -19,9 +21,11 @@ namespace UI.Meta
         }
         public void UpdateStats()
         {
-            _energysAmountText.text = $"{ Account.AccountManager.Instance.AccountGeneralData.AccountEnergyData.Energy.Value}";
-            _diamondsAmountText.text = $"{ Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.Value}";
-            _levelAmountText.text = $"{ Account.AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value}";
+            var account = Account.AccountManager.Instance.AccountGeneralData;
+            _chipAmountText.text = $"{account.AccountResourcesData.Chips.Value}";
+            _energysAmountText.text = $"{ account.AccountEnergyData.Energy.Value}";
+            _diamondsAmountText.text = $"{ account.AccountResourcesData.Diamonds.Value}";
+            _levelAmountText.text = $"{ account.AccountLevelData.Level.Value}";
         }
     }
 }
