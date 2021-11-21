@@ -35,7 +35,7 @@ public class LevelBarUI : MonoBehaviour
     public void UpdateEXP(int value, int maxVal)
     {
   
-        _fillImage.fillAmount = (float)(value / maxVal);
+        _fillImage.fillAmount = (float)((float)value / (float)maxVal);
 
     }
 

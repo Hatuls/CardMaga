@@ -111,7 +111,7 @@ namespace Battles
                     //if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
                     //    yield return new WaitForSeconds(.3f);
                     //else
-                      yield return null;
+                 
                       yield return Turns.Turn.WaitOneSecond;
                 }
 
