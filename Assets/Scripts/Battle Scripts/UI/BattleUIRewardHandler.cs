@@ -1,5 +1,5 @@
 ﻿using Battles;
-using Battles.UI;
+using UI;
 using DesignPattern;
 using TMPro;
 using UnityEngine;
@@ -145,7 +145,7 @@ namespace Rewards.Battles
         {
             _backgroundPanel.SetActive(false);
             _rewardPanel.SetActive(false);
-            _selectCardRewardScreen.OnOpenCardUI(BattleReward.RewardCards, _moneyForNotTakingAnything);
+            _selectCardRewardScreen.AssignRewardCardScreen(BattleReward.RewardCards, _moneyForNotTakingAnything);
         }
 
         public void ReturnFromCardsSelection()

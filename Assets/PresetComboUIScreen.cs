@@ -1,5 +1,4 @@
-﻿using Battles.UI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -7,29 +6,33 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 namespace UI
 {
-    public class PresentCardUIScreen : MonoBehaviour
+    public class PresetComboUIScreen : MonoBehaviour
     {
         [SerializeField]
-        GameObject _gameObject;
+        ComboRecipeUI _comboScreen;
         [SerializeField]
-        CardUI _cardUI;
+        GameObject _gameObject;
+
         [SerializeField]
         GameObject _keywordinfoPrefab;
+
         [SerializeField]
         List<KeywordInfoUI> _keywordsInfo;
-        public CardUI CardUI => _cardUI;
+
+        public ComboRecipeUI ComboRecipeUI => _comboScreen;
+
         [SerializeField]
         Transform _keywordsParent;
+
 
         [SerializeField]
         UnityEvent OnCloseEvent;
 
-        public void OpenCardUIInfo(CardUI cardUI, PointerEventData data)
+        public void OpenCardUIInfo(ComboRecipeUI combo)
         {
-
-            var art = Factory.GameFactory.Instance.ArtBlackBoard;
-            Cards.Card card = cardUI.GFX.GetCardReference;
-            _cardUI.GFX.SetCardReference(card, art);
+            _comboScreen.InitRecipe(combo.ComboRecipe);
+            Cards.Card card = combo.CardUI.GFX.GetCardReference;
+   
             for (int i = 0; i < _keywordsInfo.Count; i++)
             {
                 if (_keywordsInfo[i].gameObject.activeSelf)
@@ -37,11 +40,6 @@ namespace UI
             }
             _gameObject.SetActive(true);
             SortKeywords(card);
-        }
-        public void CloseCardUIInfo()
-        {
-            OnCloseEvent?.Invoke();
-            _gameObject.SetActive(false);
         }
         private void SortKeywords(Cards.Card card)
         {
@@ -80,25 +78,6 @@ namespace UI
 
             }
         }
-
-        internal void SubScribe(bool toAssign, CardUI[] _cards)
-        {
-            if (toAssign)
-            {
-                for (int i = 0; i < _cards.Length; i++)
-                    _cards[i].Inputs.OnPointerClickEvent += OpenCardUIInfo;
-            }
-            else
-                for (int i = 0; i < _cards.Length; i++)
-                    _cards[i].Inputs.OnPointerClickEvent -= OpenCardUIInfo;
-        }
-
-        private void CreateKeywordInfo()
-        {
-            var keyword = Instantiate(_keywordinfoPrefab, _keywordsParent).GetComponent<KeywordInfoUI>();
-            _keywordsInfo.Add(keyword);
-        }
-
         private async void AssignKeywords(Keywords.KeywordData[] keywords, Keywords.KeywordTypeEnum keywordTypeEnum, int i)
         {
 
@@ -128,6 +107,11 @@ namespace UI
             await Task.Yield();
             if (!_keywordsInfo[i].gameObject.activeSelf)
                 _keywordsInfo[i].gameObject.SetActive(true);
+        }
+        private void CreateKeywordInfo()
+        {
+            var keyword = Instantiate(_keywordinfoPrefab, _keywordsParent).GetComponent<KeywordInfoUI>();
+            _keywordsInfo.Add(keyword);
         }
     }
 

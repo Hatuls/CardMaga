@@ -41,6 +41,9 @@ namespace Keywords
         public bool IgnoreInfoAmount => _ignoreInfoAmmount;
         public string GetDescription(params int[] amount)
         {
+            if (IgnoreInfoAmount)
+                return _descriptions[0];
+
             string info = string.Empty;
             for (int i = 0; i < _descriptions.Length; i++)
             {

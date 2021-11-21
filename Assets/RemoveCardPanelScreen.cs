@@ -2,6 +2,7 @@
 using Battles;
 using Battles.UI;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 namespace Map.UI

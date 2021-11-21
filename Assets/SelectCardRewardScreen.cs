@@ -2,7 +2,10 @@
 using Cards;
 using Rewards.Battles;
 using TMPro;
+
 using UnityEngine;
+namespace UI
+{
 
 public class SelectCardRewardScreen : MonoBehaviour
 {
@@ -17,7 +20,9 @@ public class SelectCardRewardScreen : MonoBehaviour
     ushort _money;
     [SerializeField]
     PresentCardUIScreen _presentCardUIScreen;
-    public void OnOpenCardUI(Card[] cards, ushort money)
+
+
+    public void AssignRewardCardScreen(Card[] cards, ushort money)
     {
         if (_cards.Length != cards.Length)
             throw new System.Exception($"SelectCardRewardScreen: Rewarded Cards Is bigger Than Given Option\nBattle Reward Cards: {cards.Length}\nCard UI Length: {_cards.Length}");
@@ -31,7 +36,13 @@ public class SelectCardRewardScreen : MonoBehaviour
         gameObject.SetActive(true);
 
     }
+    public void CollectSelectedCardUI()
+    {
+        _battleRewardHandler.AddCard(_presentCardUIScreen.CardUI.GFX.GetCardReference);
+        gameObject.SetActive(false);
 
+        _battleUIRewardHandler.ReturnFromCardsSelection();
+    }
 
     private void AssignInfoEvent(bool toAssign)
     {
@@ -63,4 +74,6 @@ public class SelectCardRewardScreen : MonoBehaviour
         gameObject.SetActive(false);
         _battleUIRewardHandler.ReturnFromCardsSelection();
     }
+}
+
 }
