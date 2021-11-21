@@ -265,7 +265,7 @@ namespace Rewards
                 public byte DropChance => _dropChance;
 
                 [SerializeField]
-                readonly byte[] _levelChances;
+                 byte[] _levelChances;
                 public byte[] LevelChances => _levelChances;
                 public RarityDropChance(RarityEnum rare, byte chance, byte[] levelChances)
                 {
