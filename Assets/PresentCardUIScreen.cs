@@ -1,5 +1,4 @@
 ﻿using Battles.UI;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,15 +32,15 @@ public class PresentCardUIScreen : MonoBehaviour
         for (int i = 0; i < _keywordsInfo.Count; i++)
         {
             if (_keywordsInfo[i].gameObject.activeSelf)
-            _keywordsInfo[i].gameObject.SetActive(false);
-        }     
+                _keywordsInfo[i].gameObject.SetActive(false);
+        }
         _gameObject.SetActive(true);
         SortKeywords(card);
     }
     public void CloseCardUIInfo()
     {
         OnCloseEvent?.Invoke();
-        _gameObject.SetActive(false); 
+        _gameObject.SetActive(false);
     }
     private void SortKeywords(Cards.Card card)
     {
@@ -73,8 +72,8 @@ public class PresentCardUIScreen : MonoBehaviour
         if (card.IsExhausted)
         {
             var lastKeyword = _keywordsInfo[_keywordsInfo.Count - 1];
-            if (lastKeyword.gameObject.activeInHierarchy)
-                lastKeyword.gameObject.SetActive(true); 
+            if (!lastKeyword.gameObject.activeSelf)
+                lastKeyword.gameObject.SetActive(true);
             lastKeyword.SetKeywordName("Exhaust");
             lastKeyword.SetKeywordDescription("Can Be Played Once Per Battle");
 
@@ -86,7 +85,7 @@ public class PresentCardUIScreen : MonoBehaviour
         if (toAssign)
         {
             for (int i = 0; i < _cards.Length; i++)
-                _cards[i].Inputs.OnPointerClickEvent +=OpenCardUIInfo;
+                _cards[i].Inputs.OnPointerClickEvent += OpenCardUIInfo;
         }
         else
             for (int i = 0; i < _cards.Length; i++)
@@ -101,20 +100,28 @@ public class PresentCardUIScreen : MonoBehaviour
 
     private async void AssignKeywords(Keywords.KeywordData[] keywords, Keywords.KeywordTypeEnum keywordTypeEnum, int i)
     {
-   
+
         List<Keywords.KeywordData> listCache = new List<Keywords.KeywordData>();
         listCache = keywords.Where((x) => x.KeywordSO.GetKeywordType == keywordTypeEnum).ToList();
 
-    
+
         _keywordsInfo[i].SetKeywordName(keywordTypeEnum.ToString());
         //find the keyword Description and insert int with the corrent amount
 
         int amount = 0;
+        bool toIgnore = false;
         for (int j = 0; j < keywords.Length; j++)
+        {
+            if (keywords[i].KeywordSO.IgnoreInfoAmount)
+            {
+                toIgnore = true;
+                break;
+            }
             amount += keywords[j].GetAmountToApply;
+        }
 
-        _keywordsInfo[i].SetKeywordDescription(amount.ToString());
-        await Task.Yield();  
+        _keywordsInfo[i].SetKeywordDescription(toIgnore ? "" : amount.ToString());
+        await Task.Yield();
         if (!_keywordsInfo[i].gameObject.activeSelf)
             _keywordsInfo[i].gameObject.SetActive(true);
     }
