@@ -87,8 +87,8 @@ namespace Factory
                 BattleRewardCollection = battleRewardCollectionSO;
             }
 
-            public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum)
-       => BattleRewardCollection.GetReward(characterTypeEnum);
+            public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum,ActsEnum act)
+           => BattleRewardCollection.GetReward(characterTypeEnum, act);
 
 
         }

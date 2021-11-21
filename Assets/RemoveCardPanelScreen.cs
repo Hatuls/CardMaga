@@ -10,13 +10,20 @@ namespace Map.UI
     public class RemoveCardPanelScreen : MonoBehaviour
     {
         [SerializeField]
-        GameObject _cardUIPrefab;
+        GameObject _cardUIPrefab;      
+        
+        [SerializeField]
+        GameObject _acceptBtn;
+
+
         [SerializeField]
         List<CardUI> _deckCardsUI;
         CardUI _holdingCard;
 
         [SerializeField] RestAreaUI _restAreaUI;
 
+        [SerializeField]
+        PresentCardUIScreen _presentCardUIScreen;
         public void OnDisable()
         {
             int length = _deckCardsUI.Count;
@@ -30,6 +37,12 @@ namespace Map.UI
         internal void OpenRemoveCardScreen()
         {
             _holdingCard = null;
+
+            if (_acceptBtn.activeSelf)
+                _acceptBtn.SetActive(false);
+
+            if (_presentCardUIScreen.gameObject.activeSelf)
+                _presentCardUIScreen.gameObject.SetActive(false);
 
             if (!gameObject.activeSelf)
                 SetActivePanel(true);
@@ -71,24 +84,21 @@ namespace Map.UI
                     if (_deckCardsUI[i].gameObject.activeSelf == true)
                         _deckCardsUI[i].gameObject.SetActive(false);
                 }
-
-
             }
-
-
         }
 
         private void SelectedCard(CardUI card, PointerEventData data)
         {
+            _acceptBtn.SetActive(true);
             _holdingCard = card;
             card.GFX.GlowCard(true);
             card.CardAnimator.PlayNoticeAnimation();
+            _presentCardUIScreen.OpenCardUIInfo(card, data);
+
         }
 
         public void Confirm()
         {
-
-
             if (_holdingCard == null)
                 Cancel();
             else
@@ -100,6 +110,16 @@ namespace Map.UI
 
         public void Cancel()
         {
+            if (_acceptBtn.activeSelf)
+            {
+                _acceptBtn.SetActive(false);
+                _holdingCard = null;        
+                if (_presentCardUIScreen.gameObject.activeSelf)
+                _presentCardUIScreen.gameObject.SetActive(false);
+                return;
+            }
+
+
             if (gameObject.activeSelf)
                 SetActivePanel(false);
 

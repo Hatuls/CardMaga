@@ -63,7 +63,7 @@ namespace Rewards.Battles
             BattleReward = rewardBundle;
             _rewardPanel.SetActive(true);
             ResetRewardUI();
-            _moneyTxt.text = string.Concat(BattleReward.MoneyReward);
+            _moneyTxt.text = string.Concat(BattleReward.CreditReward);
         }
         public void OpenRewardScreen(BattleReward rewardBundle)
         {
@@ -85,7 +85,7 @@ namespace Rewards.Battles
 
 
             ResetRewardUI();
-            _moneyTxt.text = string.Concat(BattleReward.MoneyReward);
+            _moneyTxt.text = string.Concat(BattleReward.CreditReward);
         }
 
         private void ResetRewardUI()
@@ -134,7 +134,7 @@ namespace Rewards.Battles
 
         public void AddMoney()
         {
-            _battleRewardHandler.AddMoney(BattleReward.MoneyReward);
+            _battleRewardHandler.AddMoney(BattleReward.CreditReward);
             _moneyContainer.SetActive(false);
             goldTaken = true;
             CheckIfAllIsTaken();

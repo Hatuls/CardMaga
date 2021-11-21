@@ -22,7 +22,7 @@ public class MapLine : MonoBehaviour
     {
         if (_lineRenderer == null)
             _lineRenderer = GetComponent<LineRenderer>();
-        Debug.Log(nodeStates);
+       // Debug.Log(nodeStates);
         //var matList = _lineRenderer.materials.ToList();
         _lineRenderer.colorGradient = (nodeStates == NodeStates.Visited) ? _attainableColor : _notAttainableColor;
         _lineRenderer.startColor = (nodeStates == NodeStates.Visited) ? _attainableColor.colorKeys[0].color : _notAttainableColor.colorKeys[0].color;

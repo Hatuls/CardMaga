@@ -30,23 +30,23 @@ MonoBehaviour:
     _getHitAnimation: 2
     IsSlowMotion: 0
     IsCinemtaic: 1
-  _rarity: 2
+  _rarity: 1
   _stamina: 1
-  _purchaseCost: 60
+  _purchaseCost: 30
   _toExhaust: 1
   _salvageCost: 1
-  _id: 38
+  _id: 32
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
     _target: 2
-    _amountToApply: 2
+    _amountToApply: 3
     _animationIndex: 0
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
     _target: 2
-    _amountToApply: 4
+    _amountToApply: 3
     _animationIndex: 1
     _conditions:
       _comboCondition: []
@@ -66,87 +66,8 @@ MonoBehaviour:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
-  - _description: 2^4 Attack 1^1 Bleed  Exhaust
-    _upgradesPerLevel:
-    - _upgradeType: 5
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 4
-        _cardType: 1
-      _amount: 0
-    - _upgradeType: 1
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 1
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
-        _target: 2
-        _amountToApply: 2
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
-        _target: 2
-        _amountToApply: 4
-        _animationIndex: 1
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
-        _target: 2
-        _amountToApply: 1
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
-        _target: 2
-        _amountToApply: 1
-        _animationIndex: 1
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-  - _description: 3^6 Attack 1^2 Bleed  Exhaust
+  - _description:
+    - 3 Attack 1 Bleed  Exhaust
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -191,7 +112,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
         _target: 2
-        _amountToApply: 6
+        _amountToApply: 3
         _animationIndex: 1
         _conditions:
           _comboCondition: []
@@ -217,7 +138,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
         _target: 2
-        _amountToApply: 2
+        _amountToApply: 1
         _animationIndex: 1
         _conditions:
           _comboCondition: []
@@ -226,7 +147,8 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-  - _description: 4^8 Attack 2^4 Bleed  Exhaust
+  - _description:
+    - 4 Attack 2 Bleed  Exhaust
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -271,7 +193,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
         _target: 2
-        _amountToApply: 8
+        _amountToApply: 4
         _animationIndex: 1
         _conditions:
           _comboCondition: []
@@ -297,7 +219,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
         _target: 2
-        _amountToApply: 4
+        _amountToApply: 2
         _animationIndex: 1
         _conditions:
           _comboCondition: []

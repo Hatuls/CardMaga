@@ -140,10 +140,11 @@ namespace Battles
         public static void DeathAnimationFinished(bool isPlayer)
         {
           
-            if (!isPlayer)
-                SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
-            else
-                SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+            if (isPlayer) 
+                BattleData.IsFinishedPlaying = true;
+
+            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
+        
         }
 
 

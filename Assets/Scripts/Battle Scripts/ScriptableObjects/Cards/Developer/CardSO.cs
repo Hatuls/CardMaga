@@ -127,27 +127,35 @@ namespace Cards
         }
 
 
-        //public KeywordData[] KeywordsCombin(byte lvl)
-        //{
-        //    var combines = GetLevelUpgrade(lvl);
-        //    var keywordsAddition = combines.UpgradesPerLevel
-        //        .Where((x) => x.UpgradeType == LevelUpgradeEnum.KeywordAddition)
-        //        .Select(x => x.KeywordUpgrade);
 
-        //    List<KeywordSO> _list = new List<KeywordSO>();
-        //    List<KeywordData> _keyowrds = new List<KeywordData>();
-        //    foreach (var item in keywordsAddition)
-        //    {
-        //        var keywordso = item.KeywordSO;
-        //        if (!_list.Contains(keywordso))
-        //        {
-        //            _list.Add(keywordso);
-        //            _keyowrds.Add(new KeywordData(keywordso,))
-        //        }
-        //    }
+        public KeywordData[] KeywordsCombin(byte lvl)
+        {
+            var combines = GetLevelUpgrade(lvl);
 
-        //    return null;
-        //}
+            var keywordsAddition = combines.UpgradesPerLevel
+                .Where((x) => x.UpgradeType == LevelUpgradeEnum.KeywordAddition).Select((X) => X.KeywordUpgrade);
+
+            List<KeywordSO> keywordTypes = new List<KeywordSO>();
+            List<KeywordData> _keywords = new List<KeywordData>();
+            foreach (var item in keywordsAddition)
+            {
+                if (!keywordTypes.Contains(item.KeywordSO))
+                {
+                    keywordTypes.Add(item.KeywordSO);
+                    _keywords.Add(new KeywordData(item.KeywordSO,
+                        TargetEnum.None,
+                        keywordsAddition
+                        .Where(x => x.KeywordSO.GetKeywordType == item.KeywordSO.GetKeywordType)
+                        .Sum(x => x.GetAmountToApply),0));
+                }
+            }
+
+
+
+
+            return _keywords.ToArray() ;
+        }
+
         #endregion
 
     }

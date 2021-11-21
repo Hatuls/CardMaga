@@ -59,8 +59,8 @@ namespace Map
         MapConfig _mapCFG;
 
 
-        [SerializeField] string _saveMapCFGName;
 #if UNITY_EDITOR
+        [SerializeField] string _saveMapCFGName;
         public SaveManager.FileStreamType saveType;
         [Sirenix.OdinInspector.Button("Save Map Config")]
         public void SaveMapConfig()
@@ -121,6 +121,8 @@ namespace Map
  
         private  void StartMap()
         {
+
+
             Map  map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.PlayerPref);
 
             if (map!= null)
