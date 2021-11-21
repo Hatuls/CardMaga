@@ -59,8 +59,8 @@ namespace Map
         MapConfig _mapCFG;
 
 
-#if UNITY_EDITOR
         [SerializeField] string _saveMapCFGName;
+#if UNITY_EDITOR
         public SaveManager.FileStreamType saveType;
         [Sirenix.OdinInspector.Button("Save Map Config")]
         public void SaveMapConfig()

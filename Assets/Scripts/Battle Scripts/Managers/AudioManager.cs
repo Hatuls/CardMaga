@@ -51,6 +51,7 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
     public void Awake()
     {
         Init();
+
     }
     private void  Init()
     {
@@ -59,6 +60,7 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
             LoadAudio();
+            SceneHandler.onFinishLoadingScene += OnChangeScene;
         }
         else if (_instance != this)
             Destroy(this.gameObject);
@@ -103,6 +105,33 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
         return false;
     }
 
+    private void OnChangeScene(SceneHandler.ScenesEnum scene) {
+        switch (scene)
+        {
+
+            case SceneHandler.ScenesEnum.MainMenuScene:
+           
+                StartCoroutine(PlayWithDelay(SoundsNameEnum.MainMenuBackground, 0));
+                break;
+      
+            case SceneHandler.ScenesEnum.GameBattleScene:
+
+                StartCoroutine(PlayWithDelay(SoundsNameEnum.CombatBackground, 0.5f));
+                break;
+            default:
+                break;
+        }
+
+
+
+    }
+    IEnumerator PlayWithDelay(SoundsNameEnum soundsNameEnum, float delay)
+    {
+        ResetAudioCollection();
+        PlayNext();
+        yield return new WaitForSeconds(delay);
+        PlayerAudioSource(soundsNameEnum);
+    }
     public void PlayerAudioSource(SoundsNameEnum nameOfSound)
     {
 
@@ -147,7 +176,12 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
             PlayNext();
 
     }
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            SceneHandler.onFinishLoadingScene -= OnChangeScene;
 
+    }
     public void PlayNext()
     {
         if (_notStackableAudioQueue.Count > 0 && !_audioQueuePlayer.GetIsCurrentlyPlaying)
