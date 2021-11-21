@@ -82,6 +82,7 @@ namespace Account
         }
         #endregion
 
+        #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]
         private void AddDiamonds() => _accountData.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(10);
 
@@ -92,8 +93,8 @@ namespace Account
         private void AddEnergy() => _accountData.AccountGeneralData.AccountEnergyData.Energy.AddValue(10);
         [Sirenix.OdinInspector.Button]
         private void ResetAccountSave() => PlayerPrefs.DeleteKey(AccountData.SaveName);
+#endif
 
-   
         private void OnDestroy()
         {
 

@@ -20,6 +20,8 @@ namespace Rewards.Battles
 
             BattleData.PlayerWon = false;
 
+
+
             var opponentType = BattleData.Opponent.CharacterData.Info.CharacterType;
 
             if (opponentType == CharacterTypeEnum.Boss_Enemy)
@@ -32,7 +34,16 @@ namespace Rewards.Battles
             if (rewardBundle == null)
                 throw new Exception("Reward Bundle is null!");
 
+
+            RecieveEXPAndDiamonds(rewardBundle);
+
             _battleUIRewardHandler.OpenRewardScreen(rewardBundle);
+        }
+
+        private void RecieveEXPAndDiamonds(BattleReward battleReward)
+        {
+            BattleData.MapRewards.Diamonds += battleReward.DiamondsReward;
+            BattleData.MapRewards.EXP += battleReward.EXPReward;
         }
 
         public void ReturnToMainMenu()
