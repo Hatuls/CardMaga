@@ -31,8 +31,8 @@ public class SelectCardRewardScreen : MonoBehaviour
         for (int i = 0; i < cards.Length; i++)
             _cards[i].GFX.SetCardReference(cards[i], artBoard);
 
-        _money = money; 
-        _moneyText.text = money.ToString();
+        _money = money;
+            _moneyText.text = string.Concat("Do you want to get ", money, " credits INSTEAD of choosing a card?");
         gameObject.SetActive(true);
 
     }
@@ -46,7 +46,7 @@ public class SelectCardRewardScreen : MonoBehaviour
 
     private void AssignInfoEvent(bool toAssign)
     {
-        _presentCardUIScreen.SubScribe(toAssign,  _cards);
+        _presentCardUIScreen?.SubScribe(toAssign,  _cards);
     }
     private void OnEnable()
     {

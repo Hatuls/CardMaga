@@ -38,8 +38,8 @@ namespace UI
                 if (_keywordsInfo[i].gameObject.activeSelf)
                     _keywordsInfo[i].gameObject.SetActive(false);
             }
-            _gameObject.SetActive(true);
             SortKeywords(card);
+            _gameObject.SetActive(true);
         }
         private void SortKeywords(Cards.Card card)
         {
