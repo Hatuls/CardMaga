@@ -4,11 +4,13 @@ namespace Battles.UI.CardUIAttributes
 {
     internal class ZoomState : CardUIAbstractState
     {
+       
         const float StationaryOffset = 60f;
         Vector2 location;
         CardUI reference;
         public ZoomState(RectTransform rectm, CardStateMachine cardStateMachine) : base(rectm, cardStateMachine)
         {
+
             reference = _cardStateMachine.CardReference;
         }
 
@@ -34,6 +36,7 @@ namespace Battles.UI.CardUIAttributes
                         location = touchPos.position;
                         _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hold);
                     }
+
                     
                     break;
 
@@ -58,13 +61,16 @@ namespace Battles.UI.CardUIAttributes
         }
         public override void OnStateEnter()
         {
+            GameBattleDescriptionUI.Instance.CloseCardUIInfo();
             CardUIHandler.Instance.ToZoomCardUI();
             reference.CardTranslations?.MoveCard(false, UIManager.MiddleScreenPosition, reference.Settings.GetCardScaleDelay);
         }
         public override void OnStateExit()
         {
+        
             CardUIHandler.Instance.ToUnZoomCardUI(location);
             reference.CardTranslations?.MoveCard(false,InputManager.PlayerTouch.Value.position, reference.Settings.GetCardScaleDelay);
+       
         }
     }
 }

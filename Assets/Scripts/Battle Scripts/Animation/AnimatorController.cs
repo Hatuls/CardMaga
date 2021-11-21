@@ -205,7 +205,15 @@ public class AnimatorController : MonoBehaviour
 
     public void TranstionToNextAnimation()
     {
+
         transform.SetPositionAndRotation(startPos, ToolClass.RotateToLookTowards(targetToLookAt, transform));
+        if (Battles.Turns.TurnHandler.IsPlayerTurn != _isPlayer)
+        {
+
+            _previousAnimation = null;
+        return;
+        }
+
         var cardQueue = Battles.CardExecutionManager.CardsQueue;
         if (cardQueue.Count == 0)
         {
@@ -238,7 +246,7 @@ public class AnimatorController : MonoBehaviour
     private void OnFinishAnimation()
     {
         Battles.CardExecutionManager.FinishedAnimation = true;
-          _previousAnimation = null;
+     
         //ReturnToIdle();
         ResetBothRotaionAndPosition();
         //  isFirst = true;

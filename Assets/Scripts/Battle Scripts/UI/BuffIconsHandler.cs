@@ -41,6 +41,7 @@ public class BuffIconsHandler : MonoBehaviour
                 if(_buffSlots[i] != null && _buffSlots[i].gameObject.activeSelf)
                 {
                     _buffSlots[i].ResetEnumType();
+                    _buffSlots[i].gameObject.SetActive(false);
                 }
             }
         }
