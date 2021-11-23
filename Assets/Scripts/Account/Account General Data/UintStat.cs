@@ -14,7 +14,7 @@ namespace Account.GeneralData
        }
        public override bool AddValue(uint value)
        {
-           if (value <= 0)
+           if (value < 0)
            {
                throw new Exception("UintStat value inserted is lower or equal to 0");
            }
