@@ -13,11 +13,9 @@ namespace Battles.UI.CardUIAttributes
         public void SetLevels(int level, RarityEnum rarity, bool toShowMissingLevels = false)
         {
 
-            const byte CommonAndUnCommonMaxLevel = 3;
-            const byte RareAndEpicMaxLevel = 5;
-            const byte LegendaryMaxLevel = 7;
+           
 
-            byte amountOfLevelsToTurnOn = GetAmoungOfLevel(rarity, CommonAndUnCommonMaxLevel, RareAndEpicMaxLevel, LegendaryMaxLevel);
+            byte amountOfLevelsToTurnOn = GetAmoungOfLevel(rarity);
             byte totalLevelLength = (byte)_cardsLevels.Length;
 
             for (byte i = 0; i < totalLevelLength; i++)
@@ -40,29 +38,38 @@ namespace Battles.UI.CardUIAttributes
                     currentLevel.SetState((i <= level) ? CardUILevelState.On : (toShowMissingLevels)? CardUILevelState.Missing: CardUILevelState.Off);
             }
         }
-        private static byte GetAmoungOfLevel(RarityEnum rarity, byte CommonAndUnCommonMaxLevel, byte RareAndEpicMaxLevel, byte LegendaryMaxLevel)
+        private static byte GetAmoungOfLevel(RarityEnum rarity)
         {
-            byte amountOfLevelsToTurnOn;
+            const byte CommonMaxLevel = 2;
+            const byte UnCommonMaxLevel = 3;
+            const byte RareMaxLevel = 4;
+            const byte EpicMaxLevel = 5;
+            const byte LegendaryMaxLevel = 6;
+         
             switch (rarity)
             {
 
                 case RarityEnum.Common:
+                    return CommonMaxLevel;
+
                 case RarityEnum.Uncommon:
-                    amountOfLevelsToTurnOn = CommonAndUnCommonMaxLevel;
-                    break;
+                    return UnCommonMaxLevel;
+                
                 case RarityEnum.Rare:
+                    return RareMaxLevel;
+
                 case RarityEnum.Epic:
-                    amountOfLevelsToTurnOn = RareAndEpicMaxLevel;
-                    break;
+                    return EpicMaxLevel;
+                    
                 case RarityEnum.LegendREI:
-                    amountOfLevelsToTurnOn = LegendaryMaxLevel;
-                    break;
+                    return LegendaryMaxLevel;
+                    
                 case RarityEnum.None:
                 default:
                     throw new System.Exception("Cannot activate level for card because its rarity level is not valid! " + rarity.ToString());
             }
 
-            return amountOfLevelsToTurnOn;
+          ;
         }
     }
 }

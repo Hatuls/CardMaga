@@ -36,18 +36,20 @@ namespace Account
             if (_instance == null)
             {
                 _instance = this;
-                DontDestroyOnLoad(this.gameObject);
+              
             }else if (_instance != this)
-                Destroy(this.gameObject);
+                Destroy(this.gameObject); 
 
-            
-         
+
+             if(_instance == this)
+            DontDestroyOnLoad(this.gameObject);
         }
      
         #endregion
 
         #region Fields
-  
+        [HideInInspector]
+         [SerializeField]
         private AccountData _accountData;
 
         #endregion
@@ -104,12 +106,7 @@ namespace Account
                 SaveManager.SaveFile(_accountData, AccountData.SaveName, SaveManager.FileStreamType.PlayerPref);
             Debug.Log("Saving Account Data");
         }
-        private void OnDisable()
-        {
-      
-                SaveManager.SaveFile(_accountData, AccountData.SaveName, SaveManager.FileStreamType.PlayerPref);
-            Debug.Log("Saving Account Data");
-        }
+    
     }
 
     [System.Serializable]

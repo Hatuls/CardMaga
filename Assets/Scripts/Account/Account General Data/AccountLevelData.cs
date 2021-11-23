@@ -1,16 +1,14 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Account.GeneralData
 {
     [Serializable]
- 
     public class AccountLevelData : ILoadFirstTime
     {
-       [SerializeField]
+        [SerializeField]
         EXPStat _exp;
-       [SerializeField]
+        [SerializeField]
         MaxEXPStat _maxEXP;
         public UintStat MaxEXP => _maxEXP;
         public UintStat Exp => _exp;
@@ -22,7 +20,7 @@ namespace Account.GeneralData
         {
 
         }
-        public AccountLevelData(uint exp=0,uint maxExp = 10,byte lvl=1)
+        public AccountLevelData(uint exp = 0, uint maxExp = 10, byte lvl = 1)
         {
             _maxEXP = new MaxEXPStat(maxExp);
             _level = new LevelStat(lvl, _maxEXP);
@@ -33,13 +31,13 @@ namespace Account.GeneralData
         {
             _maxEXP = new MaxEXPStat(10);
             _level = new LevelStat(1, _maxEXP);
-            _exp = new EXPStat(0 ,_level, _maxEXP);
+            _exp = new EXPStat(0, _level, _maxEXP);
         }
     }
-   [Serializable]
+    [Serializable]
     public class EXPStat : UintStat
     {
-        public static Action<int,int> OnGainEXP;
+        public static Action<int, int> OnGainEXP;
         [SerializeField]
         ByteStat _level;
         [SerializeField]
@@ -47,24 +45,24 @@ namespace Account.GeneralData
 
         public override bool AddValue(uint value)
         {
-           
+
             base.AddValue(value);
             if (Value >= _maxExp.Value)
             {
                 _value = 0;
-               _level.AddValue(1);
+                _level.AddValue(1);
             }
             OnGainEXP?.Invoke((int)_value, (int)_maxExp.Value);
             return true;
         }
-        public EXPStat(uint val,ByteStat level, UintStat maxExp) : base (val)
+        public EXPStat(uint val, ByteStat level, UintStat maxExp) : base(val)
         {
             _level = level;
             _maxExp = maxExp;
         }
     }
-   [Serializable]
-   public class LevelStat : ByteStat
+    [Serializable]
+    public class LevelStat : ByteStat
     {
         public static Action<int> OnLevelUp;
         [SerializeField]
@@ -75,7 +73,7 @@ namespace Account.GeneralData
             _maxExp.AddValue((uint)(_value + value) * 10);
             return base.AddValue(value);
         }
-        public LevelStat(byte val, UintStat maxExp) :base(val)
+        public LevelStat(byte val, UintStat maxExp) : base(val)
         {
             this._maxExp = maxExp;
         }
