@@ -54,10 +54,13 @@ namespace Map
         public Map CurrentMap => _currentMap;
         [SerializeField]
         MapView _mapView;
-
+        [SerializeField]
+        EndRunScreen _endScreen;
         [SerializeField]
         MapConfig _mapCFG;
 
+        [SerializeField]
+        MapData _mapTracker;
 
         [SerializeField] string _saveMapCFGName;
 #if UNITY_EDITOR
@@ -182,17 +185,19 @@ namespace Map
             //GenerateNewMap();
 
         }
-
+   
         private  void FinishedMap()
         {
-            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+            _endScreen.FinishGame();
+            
         }
 
         private void OnApplicationQuit()
         {
+             SaveMap();
+#if UNITY_EDITOR
             ResetSavedMap();
-
-          //  SaveMap();
+#endif
         }
     }
 

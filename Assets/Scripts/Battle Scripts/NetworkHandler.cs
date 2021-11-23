@@ -44,11 +44,11 @@ public class NetworkHandler : MonoBehaviour
             null,
             (string text) =>
             {
+                AccountManager.Instance.Init();
                 //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
                 _gv = JsonUtility.FromJson<GameVersion>(text);
                 CheckVersion(_gv);
 
-                AccountManager.Instance.Init();
             }
             );
 

@@ -1,7 +1,7 @@
 ﻿using Battles;
-using UI;
 using DesignPattern;
 using TMPro;
+using UI;
 using UnityEngine;
 
 namespace Rewards.Battles
@@ -33,7 +33,7 @@ namespace Rewards.Battles
 
         [SerializeField] GameObject _cardSelectionScreen;
 
- 
+
         [SerializeField] TextMeshProUGUI _moneyTxt;
         [SerializeField] GameObject _rewardPanel;
 
@@ -77,7 +77,7 @@ namespace Rewards.Battles
         {
             Instance = this;
         }
-        public  void Init()
+        public void Init()
         {
             if (BattleReward == null)
                 throw new System.Exception("Need To Show Battle Reward but battle reward is null");
@@ -98,8 +98,7 @@ namespace Rewards.Battles
             if (!_moneyContainer.activeSelf)
                 _moneyContainer.SetActive(true);
 
-            if(!_moneyContainer.activeSelf==(false))
-              _moneyContainer.SetActive(true);
+
 
             _backgroundPanel.SetActive(true);
 
@@ -109,21 +108,22 @@ namespace Rewards.Battles
             if (!_cardRewardContainer.activeSelf)
                 _cardRewardContainer.SetActive(true);
 
-            bool thereIsComboReward = BattleReward.RewardCombos != null && BattleReward.RewardCombos.Length > 0 && BattleReward.RewardCombos[0]!= null;
+            bool thereIsComboReward = BattleReward.RewardCombos != null && BattleReward.RewardCombos.Length > 0 && BattleReward.RewardCombos[0] != null;
 
-            if (_comboContainer.activeSelf != thereIsComboReward)
-                _comboContainer.SetActive(thereIsComboReward);
 
-            cardTaken = false ;
-            goldTaken= false;
-            comboTaken= false;
+
+            cardTaken = false;
+            goldTaken = false;
+            comboTaken = false;
             _comboPresentContainer.SetActive(false);
 
             if (!thereIsComboReward)
                 comboTaken = true;
             else
+            {
                 _comboUI.InitRecipe(BattleReward.RewardCombos[0]);
-
+            }
+            _comboContainer.SetActive(thereIsComboReward);
             _selectCardRewardScreen.AssignRewardCardScreen(BattleReward.RewardCards, _moneyForNotTakingAnything);
 
         }
@@ -165,8 +165,8 @@ namespace Rewards.Battles
 
         public void OnNotify(IObserver Myself)
         {
-         
+
         }
-       
+
     }
 }

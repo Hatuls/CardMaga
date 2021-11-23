@@ -58,12 +58,14 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
         if (_instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(this.gameObject);
             LoadAudio();
             SceneHandler.onFinishLoadingScene += OnChangeScene;
         }
         else if (_instance != this)
             Destroy(this.gameObject);
+
+        if (_instance == this)
+        DontDestroyOnLoad(this.gameObject);
     }
     void LoadAudio()
     {

@@ -20,12 +20,72 @@ namespace Map.UI
 
         [SerializeField]
         ShowAllCardsInMenuScreen _sort;
+
+        public enum DefaultScreen
+        {
+            Cards,
+            Combos
+        }
+        public enum ScreenMode
+        {
+            OpenLastScreenSeen,
+            AlwaysOpenCombos,
+            AlwaysOpenCards
+        }
+
+        [SerializeField]
+        ScreenMode _mode;
+        [SerializeField]
+        DefaultScreen _defaultScreen;
+
         public void Open()
         {
             observerSO.Notify(this);
             _canvasGroup.blocksRaycasts = true;
-            OpenCardCollectionScreen();
+            OpenScreenMode();
             _mainPanel.SetActive(true);
+        }
+        private void OpenScreenMode()
+        {
+            bool toRemember = false;
+            switch (_mode)
+            {
+                case ScreenMode.OpenLastScreenSeen:
+                    toRemember = true;
+                    break;
+
+                case ScreenMode.AlwaysOpenCombos:
+                    _defaultScreen = DefaultScreen.Combos;
+                    break;
+
+                case ScreenMode.AlwaysOpenCards:
+                    _defaultScreen = DefaultScreen.Cards;
+                    break;
+
+
+                default:
+                    break;
+            }
+            OpenScreen(_defaultScreen, toRemember);
+        }
+        private void OpenScreen(DefaultScreen defaultScreen, bool toRemember)
+        {
+            switch (defaultScreen)
+            {
+                case DefaultScreen.Cards:
+                    if (toRemember)
+                        _defaultScreen = DefaultScreen.Cards;
+                    OpenCardCollectionScreen();
+                    break;
+                case DefaultScreen.Combos:
+                    if (toRemember)
+                        _defaultScreen = DefaultScreen.Combos;
+                    OpenComboCollectionScreen();
+                    break;
+                default:
+                    throw new System.Exception("OpenScreen: Mode Is not valid! " + defaultScreen);
+            }
+
         }
 
         public void Close()
@@ -33,7 +93,6 @@ namespace Map.UI
             observerSO.Notify(null);
             _canvasGroup.blocksRaycasts = false;
             _mainPanel.SetActive(false);
-            OpenCardCollectionScreen();
         }
 
         public void OpenCardCollectionScreen()
@@ -65,7 +124,7 @@ namespace Map.UI
             if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.GameBattleScene)
                 _deckCardsSelectionPanel.SetActive(toActivate);
             else
-            _cardTypeSelectionPanel.SetActive(toActivate);
+                _cardTypeSelectionPanel.SetActive(toActivate);
         }
 
         public void OnNotify(IObserver Myself)
