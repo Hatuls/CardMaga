@@ -106,6 +106,8 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
     }
 
     private void OnChangeScene(SceneHandler.ScenesEnum scene) {
+
+     
         switch (scene)
         {
 
@@ -130,6 +132,8 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
         ResetAudioCollection();
         PlayNext();
         yield return new WaitForSeconds(delay);
+
+        ResetAudioCollection();
         PlayerAudioSource(soundsNameEnum);
     }
     public void PlayerAudioSource(SoundsNameEnum nameOfSound)

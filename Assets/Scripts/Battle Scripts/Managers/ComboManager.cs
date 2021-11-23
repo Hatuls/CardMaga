@@ -44,7 +44,6 @@ namespace Combo
         public override void Init()
         {
             threadId = ThreadHandler.GetNewID;
-            
         }
         
         public void TryForge(bool isPlayer)
@@ -69,7 +68,7 @@ namespace Combo
                     case DeckEnum.Disposal:
                         var gotolocation = _cardRecipeDetected.GoToDeckAfterCrafting;
                         DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, gotolocation);
-
+                        DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
 
                     case DeckEnum.AutoActivate:
