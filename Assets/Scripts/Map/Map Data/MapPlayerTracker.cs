@@ -93,4 +93,22 @@ namespace Map
         }
     }
 
+
+    [Serializable]
+    public class ActsData
+    {
+      public  MapData this[ActsEnum a]
+       => _acts.FirstOrDefault(x=> x.ActsEnum == a);
+
+        [SerializeField]
+        MapData[] _acts;
+
+        public MapData[] MapData => _acts;
+    }
+    [Serializable]
+    public class MapData
+    {
+        public ActsEnum ActsEnum;
+        public Map Map;
+    }
 }

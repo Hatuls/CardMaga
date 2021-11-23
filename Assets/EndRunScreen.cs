@@ -28,9 +28,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
     {
         if (BattleData.IsFinishedPlaying)
         {
-            _observerSO.Notify(this);
-            _endScreen.SetActive(true);
-            SetTexts();
+            FinishGame();
         }
         else
         {
@@ -40,6 +38,12 @@ public class EndRunScreen : MonoBehaviour, IObserver
         }
     }
 
+    public void FinishGame()
+    {
+        _observerSO.Notify(this);
+        _endScreen.SetActive(true);
+        SetTexts();
+    }
 
     public void SetTexts()
     {

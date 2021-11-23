@@ -128,8 +128,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mapView: {fileID: 3633387717593527760}
+  _endScreen: {fileID: 0}
   _mapCFG: {fileID: 11400000, guid: 1e15fcedd451b0a41b35c53a57f1b4ba, type: 2}
-  _saveMapCFGName: Map2
+  _mapTracker:
+    ActsEnum: 0
+    Map:
+      nodes: []
+      path: []
+      configName: 
+  _saveMapCFGName: Map1
   saveType: 1
 --- !u!114 &3633387717593527760
 MonoBehaviour:
@@ -171,3 +178,5 @@ MonoBehaviour:
   lockAfterSelecting: 0
   mapManager: {fileID: 3633387717593527763}
   view: {fileID: 3633387717593527760}
+  _observerSO: {fileID: 0}
+  _currentAct: 1

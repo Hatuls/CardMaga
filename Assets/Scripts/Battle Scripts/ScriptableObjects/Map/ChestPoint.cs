@@ -24,6 +24,7 @@ namespace Map
 
             BattleUIRewardHandler.Instance.OpenChestScreen(rewardBundle);
             MapPlayerTracker.Instance.view.SetAttainableNodes();
+            MapView.Instance.ShowMap(MapManager.Instance.CurrentMap);
         }
 
         public void OnNotify(IObserver Myself)
