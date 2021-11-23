@@ -1,13 +1,15 @@
 ﻿using Cards;
 using System;
 using System.Collections.Generic;
+using Unity.Events;
 
 namespace Battles.Deck
 {
     public class PlayerDeck : DeckAbst
     {
         BuffIcon _deckIcon;
-        public PlayerDeck(bool isPlayer, Card[] deckCards, BuffIcon DeckIcon) : base(isPlayer, deckCards)
+        SoundsEvent _soundEvent;
+        public PlayerDeck(bool isPlayer, Card[] deckCards, BuffIcon DeckIcon, SoundsEvent soundsEvent) : base(isPlayer, deckCards)
         {
             _deckIcon = DeckIcon;
         }
@@ -74,33 +76,34 @@ namespace Battles.Deck
                 GetDeck[i] = list[index];
                 list.RemoveAt(index);
             }
-
+            if (isPlayer)
+                _soundEvent?.Raise(SoundsNameEnum.ShuffleDeck);
 
             //if(GetDeck == null)
             //    return;
 
-            //int deckLength = GetDeck.Length;
+                //int deckLength = GetDeck.Length;
 
-            //if (deckLength == 0)
-            //    return;
+                //if (deckLength == 0)
+                //    return;
 
-            //Card[] tempArray = new Card[deckLength];
-            //List<Card> tempList = new List<Card>(deckLength);
-            //for (int i = 0; i < deckLength; i++)
-            //{
-            //    tempList.Add(GetDeck[i]);
-            //}
-            //Random random = new Random();
-            //for (int i = 0; i < deckLength; i++)
-            //{
-            //    int indexNum = random.Next(0, tempList.Count);
-            //    tempArray[i] = tempList[indexNum];
-            //    tempList.RemoveAt(indexNum);
-            //}
-            //for (int i = 0; i < deckLength; i++)
-            //{
-            //    GetDeck[i] = tempArray[i];
-            //}
+                //Card[] tempArray = new Card[deckLength];
+                //List<Card> tempList = new List<Card>(deckLength);
+                //for (int i = 0; i < deckLength; i++)
+                //{
+                //    tempList.Add(GetDeck[i]);
+                //}
+                //Random random = new Random();
+                //for (int i = 0; i < deckLength; i++)
+                //{
+                //    int indexNum = random.Next(0, tempList.Count);
+                //    tempArray[i] = tempList[indexNum];
+                //    tempList.RemoveAt(indexNum);
+                //}
+                //for (int i = 0; i < deckLength; i++)
+                //{
+                //    GetDeck[i] = tempArray[i];
+                //}
         }
     }
 }

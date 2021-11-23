@@ -163,6 +163,8 @@ namespace Battles.UI
 
                         card.CardAnimator.PlayNoticeAnimation();
 
+                        _soundEvent.Raise(SoundsNameEnum.DrawCard);
+
                      //  var cardRefenrec = card.GFX.GetCardReference;
                      //  if (cardRefenrec ==null|| cardData[i].CardSO != cardRefenrec.CardSO && cardRefenrec.CardLevel != cardData[i].CardLevel)
                            AssignDataToCardUI(card, cardData[i]);
@@ -177,9 +179,9 @@ namespace Battles.UI
         public void RemoveHands()
         {
             _handUI.DiscardHand();
-
-          //  var removal = GetCardUIHandler<DiscardHandHandler>();
-          //  StartCoroutine(removal.MoveCardsUI(array, GetDeckPosition(DeckEnum.Disposal), GetDeckPosition(DeckEnum.Hand)));
+            _soundEvent.Raise(SoundsNameEnum.DisacrdCard);
+            //  var removal = GetCardUIHandler<DiscardHandHandler>();
+            //  StartCoroutine(removal.MoveCardsUI(array, GetDeckPosition(DeckEnum.Disposal), GetDeckPosition(DeckEnum.Hand)));
 
         }
         public override void Init()

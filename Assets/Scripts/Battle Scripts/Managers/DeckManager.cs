@@ -1,6 +1,7 @@
 ﻿using Battles.UI;
 using Cards;
 using System.Collections.Generic;
+using Unity.Events;
 using UnityEngine;
 
 namespace Battles.Deck
@@ -15,7 +16,8 @@ namespace Battles.Deck
         [Sirenix.OdinInspector.ShowInInspector]
         private Dictionary<DeckEnum, DeckAbst> _playerDecks;
         private Dictionary<DeckEnum, DeckAbst> _OpponentDecks;
-
+        [SerializeField]
+        SoundsEvent _soundEvent;
 
         [SerializeField] BuffIcon _deckIcon;
         [SerializeField] BuffIcon _disposalIcon;
@@ -302,7 +304,7 @@ namespace Battles.Deck
             var characterDeck = (isPlayer ? _playerDecks : _OpponentDecks);
             characterDeck.Clear();
 
-            characterDeck.Add(DeckEnum.PlayerDeck, new PlayerDeck(isPlayer, deck, _deckIcon));
+            characterDeck.Add(DeckEnum.PlayerDeck, new PlayerDeck(isPlayer, deck, _deckIcon,_soundEvent));
             characterDeck.Add(DeckEnum.Exhaust, new Exhaust(isPlayer, _playerMaxHandSize));
             characterDeck.Add(DeckEnum.Disposal, new Disposal(isPlayer, deck.Length, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.PlayerDeck] as PlayerDeck, _disposalIcon));
             characterDeck.Add(DeckEnum.Hand, new PlayerHand(isPlayer, _playerStartingHandSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Disposal] as Disposal));
