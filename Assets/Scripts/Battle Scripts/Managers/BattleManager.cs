@@ -95,7 +95,7 @@ namespace Battles
         IEnumerator BackGroundSoundDelay()
         {
             yield return new WaitForSeconds(0.5f);
-            _playSound?.Raise(SoundsNameEnum.CombatBackground);
+          //  _playSound?.Raise(SoundsNameEnum.CombatBackground);
             yield return new WaitForSeconds(0.5f);
             _playSound?.Raise(SoundsNameEnum.VS);
         }

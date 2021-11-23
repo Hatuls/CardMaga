@@ -31,6 +31,9 @@ namespace Keywords
   
         public void ActivateKeyword(bool isPlayerTurn, KeywordData keyword)
         {
+            if (Battles.BattleManager.isGameEnded)
+                return;
+
             if (keyword == null)
             {
                 Debug.Log("KeywordManager: Tried to activate a Null keyword!");
@@ -63,8 +66,8 @@ namespace Keywords
             CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyBleed();
             yield return new WaitForSeconds(0.2f);
             CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyHealRegeneration();
-
-            yield return Battles.Turns.Turn.WaitOneSecond;
+            yield return null;
+          //  yield return Battles.Turns.Turn.WaitOneSecond;
         }
 
 
@@ -72,10 +75,10 @@ namespace Keywords
         {
           
             Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the end of the turn");
-        
-            
+
+            yield return null;
             //     var statCache = GetCharacterStats(targetEnum);
-            yield return Battles.Turns.Turn.WaitOneSecond;
+            //   yield return Battles.Turns.Turn.WaitOneSecond;
 
         }
         #endregion

@@ -53,6 +53,7 @@ public enum SoundsNameEnum
     None =30,
     BlockSound = 31,
     BurningSound = 32,
-
+    ShuffleDeck = 33,
+    CoinCollect = 34,
     
 }
