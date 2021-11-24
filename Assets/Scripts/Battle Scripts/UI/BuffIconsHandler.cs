@@ -22,16 +22,15 @@ public class BuffIconsHandler : MonoBehaviour
     private void Awake()
     {
         BattleUiManager._buffEvent += SetBuffIcon;
+
     }
     private void OnDisable()
     {
          BattleUiManager._buffEvent -= SetBuffIcon;
-    }
-
-    private void Start()
-    {
         Init();
     }
+
+
     private void Init()//check for bugs
     {
         if(_buffSlots != null && _buffSlots.Length>0)
@@ -41,7 +40,8 @@ public class BuffIconsHandler : MonoBehaviour
                 if(_buffSlots[i] != null && _buffSlots[i].gameObject.activeSelf)
                 {
                     _buffSlots[i].ResetEnumType();
-                    _buffSlots[i].gameObject.SetActive(false);
+                    if (_buffSlots[i].gameObject.activeSelf)
+                   _buffSlots[i].gameObject.SetActive(false);
                 }
             }
         }
