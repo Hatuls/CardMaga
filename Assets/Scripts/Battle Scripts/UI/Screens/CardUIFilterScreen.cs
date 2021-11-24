@@ -8,12 +8,24 @@ using UnityEngine;
 
 namespace Map.UI
 {
-    public class CardUIFilterScreen : MonoBehaviour
-    {
-        [SerializeField] GameObject _cardUIPrefab;
-        [SerializeField] List<CardUI> _deckCardsUI;
 
-        private void CreateCards()
+    public abstract class UIFilterScreen<T,U> : MonoBehaviour where T : class where U : class
+    {
+        [SerializeField]
+        protected GameObject _cardUIPrefab;
+        [SerializeField] 
+        protected List<CardUI> _deckCardsUI;
+
+        protected abstract void CreatePool();
+        public abstract void SortBy(ISort<U> sortedMethod);
+    }
+
+
+
+    public class CardUIFilterScreen : UIFilterScreen<CardUI,Card>
+    {
+
+        protected override void CreatePool()
         {
             var deck = BattleData.Player.CharacterData.CharacterDeck;
             while (deck.Length > _deckCardsUI.Count)
@@ -23,9 +35,9 @@ namespace Map.UI
             }
         }
      
-        public void SortByCards(ISort<Card> sortby)
+        public override void SortBy(ISort<Card> sortby)
         {
-            CreateCards();
+            CreatePool();
             int length = _deckCardsUI.Count;
             var sortedDeck = sortby.Sort();
 
