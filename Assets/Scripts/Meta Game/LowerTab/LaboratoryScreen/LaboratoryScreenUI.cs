@@ -44,6 +44,9 @@ namespace UI.Meta.Laboratory
         [SerializeField]
         GameObject _fusePanelTitle;
         TextMeshProUGUI _dismantleText;
+
+        [SerializeField]
+        LabPanelsEnum _labPanelsEnum;
         #endregion
         public override void Close()
         {
@@ -51,14 +54,15 @@ namespace UI.Meta.Laboratory
         }
         public override void Open()
         {
+            OpenPanel(LabPanelsEnum.Deck);
             gameObject.SetActive(true);
-
         }
 
+
         #region ButtonSwitch
-        public void OpenPanel(int panelIndex)
+        public void OpenPanel(LabPanelsEnum screen)
         {
-            switch ((LabPanelsEnum)panelIndex)
+            switch (screen)
             {
                 case LabPanelsEnum.Deck:
                     OpenDeckPanel();
@@ -73,9 +77,12 @@ namespace UI.Meta.Laboratory
                     throw new Exception("LabratoryScreenUI Unknown Enum");
             }
         }
+        public void OpenPanel(int panelIndex)
+        => OpenPanel((LabPanelsEnum)panelIndex);
 
         private void OpenDeckPanel()
         {
+            _labPanelsEnum = LabPanelsEnum.Deck;
             CloseUpgradePanel();
             CloseFusePanel();
             _deckPanelTitle.gameObject.SetActive(true);
@@ -83,6 +90,7 @@ namespace UI.Meta.Laboratory
         }
         private void OpenUpgradePanel()
         {
+            _labPanelsEnum = LabPanelsEnum.Upgrade;
             CloseDeckPanel();
             CloseFusePanel();
             _upgradePanelTitle.gameObject.SetActive(true);
@@ -91,6 +99,7 @@ namespace UI.Meta.Laboratory
         }
         private void OpenFusePanel()
         {
+            _labPanelsEnum = LabPanelsEnum.Fuse;
             CloseDeckPanel();
             CloseUpgradePanel();
             _fusePanelTitle.gameObject.SetActive(true);

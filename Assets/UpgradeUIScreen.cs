@@ -15,7 +15,7 @@ namespace Meta.UI
         CardUI _upgradedVersion;
 
         [SerializeField]
-        CardUIFilterScreen _presentCardUI;
+        MetaCardUIFilterScreen _collectionFilterHandler;
     }
 
 
