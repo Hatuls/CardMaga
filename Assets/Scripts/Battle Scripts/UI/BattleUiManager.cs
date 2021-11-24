@@ -56,6 +56,11 @@ namespace Battles.UI
                 case KeywordTypeEnum.Heal:
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
                     break;
+                case KeywordTypeEnum.Burn:
+                case KeywordTypeEnum.Protected:
+                case KeywordTypeEnum.Rage:
+                case KeywordTypeEnum.Weak:
+                case KeywordTypeEnum.Vulnerable:
                 case KeywordTypeEnum.Bleed:
                 case KeywordTypeEnum.Strength:
                 case KeywordTypeEnum.Dexterity:

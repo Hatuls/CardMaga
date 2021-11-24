@@ -27,4 +27,12 @@ public class BuffIconCollectionSO : ScriptableObject
 
         return uIIconSO;
     }
+
+#if UNITY_EDITOR
+    [Sirenix.OdinInspector.Button]
+    private void LoadIconsSO()
+    {
+        _buffUIIcons = Resources.LoadAll<UIIconSO>("Art/Battle Keywords Icons");
+    }
+#endif
 }

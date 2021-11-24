@@ -1,8 +1,9 @@
 ﻿using Battles.UI;
 using Keywords;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
-public class RemoveUIIcon: UnityEvent<bool ,KeywordTypeEnum>{}
+public class RemoveUIIcon : UnityEvent<bool, KeywordTypeEnum> { }
 public class BuffIconsHandler : MonoBehaviour
 {
     #region Fields
@@ -17,31 +18,34 @@ public class BuffIconsHandler : MonoBehaviour
     [SerializeField] BuffIcon _enemyOpponentActionUI;
 
     [SerializeField] bool isPlayer;
+
+    [SerializeField] GameObject _buffIconSlotPrefab;
+
     #endregion
 
     private void Awake()
     {
         BattleUiManager._buffEvent += SetBuffIcon;
+
     }
     private void OnDisable()
     {
-         BattleUiManager._buffEvent -= SetBuffIcon;
-    }
-
-    private void Start()
-    {
+        BattleUiManager._buffEvent -= SetBuffIcon;
         Init();
     }
+
+
     private void Init()//check for bugs
     {
-        if(_buffSlots != null && _buffSlots.Length>0)
+        if (_buffSlots != null && _buffSlots.Length > 0)
         {
             for (int i = 0; i < _buffSlots.Length; i++)
             {
-                if(_buffSlots[i] != null && _buffSlots[i].gameObject.activeSelf)
+                if (_buffSlots[i] != null && _buffSlots[i].gameObject.activeSelf)
                 {
                     _buffSlots[i].ResetEnumType();
-                    _buffSlots[i].gameObject.SetActive(false);
+                    if (_buffSlots[i].gameObject.activeSelf)
+                        _buffSlots[i].gameObject.SetActive(false);
                 }
             }
         }
@@ -59,8 +63,17 @@ public class BuffIconsHandler : MonoBehaviour
                 }
             }
         }
-        Debug.LogError("Error in GetBuffIcon");
-        return null;
+       
+        return CreateBuffIconSlot();
+    }
+
+
+    private BuffIcon CreateBuffIconSlot()
+    {
+        Array.Resize(ref _buffSlots, _buffSlots.Length + 1);
+        int lastIndex = _buffSlots.Length - 1;
+        _buffSlots[lastIndex] = GameObject.Instantiate(_buffIconSlotPrefab,this.transform).GetComponent<BuffIcon>();
+        return _buffSlots[lastIndex];
     }
     public void SetBuffIcon(bool isPlayer, int amount, KeywordTypeEnum icon)
     {
@@ -121,23 +134,23 @@ public class BuffIconsHandler : MonoBehaviour
     }
     void OrderArray()
     {
-        for (int i = 0; i < _buffSlots.Length-1; i++)
+        for (int i = 0; i < _buffSlots.Length - 1; i++)
         {
-            if (_buffSlots[i].gameObject.activeSelf==false)
+            if (_buffSlots[i].gameObject.activeSelf == false)
             {
                 for (int j = i + 1; j < _buffSlots.Length; j++)
                 {
-                    if(_buffSlots[j].gameObject.activeSelf)
+                    if (_buffSlots[j].gameObject.activeSelf)
                     {
 
-                       // _buffSlots[j].transform.SetParent(null);
+                        // _buffSlots[j].transform.SetParent(null);
 
                         _buffSlots[j].transform.SetAsFirstSibling();
-                      //  _buffSlots[i].InitIconData(_buffCollection.GetIconData(_buffSlots[j].GetSetName.GetValueOrDefault()));
-                      //  _buffSlots[j].ResetEnumType();
+                        //  _buffSlots[i].InitIconData(_buffCollection.GetIconData(_buffSlots[j].GetSetName.GetValueOrDefault()));
+                        //  _buffSlots[j].ResetEnumType();
                         break;
                     }
-                    if(j == _buffSlots.Length-1)
+                    if (j == _buffSlots.Length - 1)
                     {
                         return;
                     }
