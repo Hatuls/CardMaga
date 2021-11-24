@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine.UI;
 using Cards;
 using Art;
+using UI.Meta.PlayScreen;
+
 namespace Battles.UI.CardUIAttributes
 {
     public enum CardUILevelState { Off = 0 , On =1, Missing = 2};
@@ -23,11 +25,11 @@ namespace Battles.UI.CardUIAttributes
 
 
 
-        [Tooltip("The Body Part used for Action")]
-        [SerializeField] Image _bodyPartIcon;
-
-        [Tooltip("The Decoration Of The BodyPart Decoration")]
-        [SerializeField] Image _bodyPartDecor;
+      //  [Tooltip("The Body Part used for Action")]
+      //  [SerializeField] Image _bodyPartIcon;
+      //
+      //  [Tooltip("The Decoration Of The BodyPart Decoration")]
+      //  [SerializeField] Image _bodyPartDecor;
 
 
 
@@ -55,8 +57,8 @@ namespace Battles.UI.CardUIAttributes
         [SerializeField] CanvasGroup _canvasGroup;
 
 
-
-
+        [SerializeField]
+        BodyPartGFX _bodyPartGFX;
         #endregion
 
         #region Properties
@@ -107,12 +109,8 @@ namespace Battles.UI.CardUIAttributes
 
             SetCardDescriptionText(cardData.CardDescription(lvl));
 
-            SetBodyPartImage(
-                artSO.IconCollection.GetSprite(
-                    (_cardReferenceInHandDeck == null ? cardData.BodyPartEnum :_cardReferenceInHandDeck.BodyPartEnum)
-                    )
-                );
-
+            //replace with crafting slot data
+            _bodyPartGFX.AssignBodyPart(cardData.CardType);
             SetCardColors(cardData.CardTypeEnum);
 
             SetStaminaText(_cardReferenceInHandDeck == null ? cardData.StaminaCost : _cardReferenceInHandDeck.StaminaCost);
@@ -143,10 +141,7 @@ namespace Battles.UI.CardUIAttributes
         public void SetActive(bool setActive)
         => this._rectTransform?.gameObject.SetActive(setActive);
        
-        private void SetBodyPartImage(Sprite bodyPartSprite)
-        {
-            _bodyPartIcon.sprite = bodyPartSprite;
-        }
+       
 
         public void SetAlpha(float amount,float time,LeanTweenType type = LeanTweenType.notUsed, System.Action actionAfterAlpha = null)
         {
@@ -161,8 +156,8 @@ namespace Battles.UI.CardUIAttributes
             var arttypePalleta = artso.GetPallette<CardTypePalette>();
             Color clr = arttypePalleta.GetDecorationColorFromEnum(cardType);
 
-            _bodyPartDecor.color = clr;
-            _bodyPartIcon.color = arttypePalleta.GetIconBodyPartColorFromEnum(cardType);
+         //   _bodyPartDecor.color = clr;
+         //   _bodyPartIcon.color = arttypePalleta.GetIconBodyPartColorFromEnum(cardType);
 
             var carduiPalete = artso.GetPallette<CardUIPalette>();
             // Stamina Part:

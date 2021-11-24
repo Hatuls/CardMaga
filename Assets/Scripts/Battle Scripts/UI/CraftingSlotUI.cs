@@ -46,20 +46,35 @@ public class CraftingSlotUI : MonoBehaviour
     public void PlayAnimation(int animation) => _anim.CrossFade(animation, crossFadeAnimationTime);
     public void InitPlaceHolder(Cards.CardTypeData cardType)
     {
-        if (cardType == null || cardType.BodyPart == Cards.BodyPartEnum.Empty)
+        if (cardType.BodyPart == Cards.BodyPartEnum.Empty)
+        {
+
+        }
+        if (cardType.BodyPart == Cards.BodyPartEnum.None)
+        {
+
+        }
+
+        if (cardType == null )
+        {
             ResetSlotUI();
+
+        }
     
         else
         InitPlaceHolder(
                 cardType.CardType,
-                        Factory.GameFactory.Instance.ArtBlackBoard.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardType.BodyPart)
+                        Factory.GameFactory.Instance.ArtBlackBoard.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardType.BodyPart)                     
                       );
-    }
-    public void InitPlaceHolder(Cards.CardTypeEnum cardType, Sprite icon)
-    {
+        _iconImage.gameObject.SetActive(cardType.BodyPart != Cards.BodyPartEnum.Empty);
 
+    }
+    public void InitPlaceHolder(Cards.CardTypeEnum cardType, Sprite icon )
+    {
         SetIconImage(icon);
         SetColors(cardType);
+
+
     }
     public void ActivateGlow(bool toActivate)
     {
@@ -92,6 +107,7 @@ public class CraftingSlotUI : MonoBehaviour
        
         _backgroundImage.color = artBoard.GetPallette<CraftingUIPalette>().SlotBackgroundColor;
         var cardTypePallete = artBoard.GetPallette<CardTypePalette>();
+
         _iconImage.color = cardTypePallete.GetIconBodyPartColorFromEnum(cardType);
         _decorImage.color = cardTypePallete.GetDecorationColorFromEnum(cardType);
     }

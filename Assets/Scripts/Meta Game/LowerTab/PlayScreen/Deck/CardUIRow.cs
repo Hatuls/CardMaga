@@ -17,11 +17,10 @@ namespace UI.Meta.PlayScreen
         #region Public Methods
         public void Init(Cards.CardSO card,byte cardLevel, ArtSO artSO)
         {
-            var cardTypePalette = artSO.GetPallette<CardTypePalette>();
-            var iconCollection = artSO.IconCollection;
+
             _cardName.text = card.CardName;
             _level.text = $"LVL {cardLevel}";
-            _bodyPartGFX.Init(card, iconCollection, cardTypePalette);
+            _bodyPartGFX.AssignBodyPart(card.CardType);
         }
         #endregion
     }

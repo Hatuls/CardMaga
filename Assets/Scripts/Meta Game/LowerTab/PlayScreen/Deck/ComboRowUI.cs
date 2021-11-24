@@ -24,11 +24,11 @@ namespace UI.Meta.PlayScreen
             _levelText.text = $"LVL {comboLevel}";
             var cardTypePalette = artSO.GetPallette<CardTypePalette>();
             var iconCollection = artSO.IconCollection;
-            _comboBodyPart.Init(combo.CraftedCard, iconCollection,cardTypePalette);
+            _comboBodyPart.AssignBodyPart(combo.CraftedCard.CardType);
             for (int i = 0; i < combo.ComboSequance.Length; i++)
             {
                 _comboRecipe[i].gameObject.SetActive(true);
-                _comboRecipe[i].Init(combo.ComboSequance[i],iconCollection ,cardTypePalette);
+                _comboRecipe[i].AssignBodyPart(combo.ComboSequance[i]);
             }
         }
         private void ResetComboRecipeSlots()
