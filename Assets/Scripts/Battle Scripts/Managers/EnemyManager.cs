@@ -120,7 +120,7 @@ namespace Battles
 
 
 
-            yield return new WaitUntil(() => EnemyAnimatorController.GetIsAnimationCurrentlyActive == false);
+            yield return new WaitUntil(() => EnemyAnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count ==0);
             UI.CardUIManager.Instance.ActivateEnemyCardUI(false);
             yield return Turns.Turn.WaitOneSecond;
             EnemyAnimatorController.ResetToStartingPosition();

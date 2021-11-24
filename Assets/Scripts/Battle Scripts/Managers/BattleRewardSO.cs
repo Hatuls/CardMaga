@@ -261,6 +261,7 @@ namespace Rewards
                     break;
                 }
             }
+            if (id>0)
             combo[0] = comboFactoryHandler.CreateCombo(comboFactoryHandler.ComboCollection.GetCombo(id), (byte)index);
 
 

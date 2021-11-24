@@ -13,7 +13,7 @@ namespace Characters.Stats
             HealthStat _health = new HealthStat(_max, isPlayer, stats.Health); ;
             StrengthStat _str = new StrengthStat(isPlayer, stats.Strength);
             DexterityStat _dex = new DexterityStat(isPlayer, stats.Dexterity);
-            ShieldStat _defense = new ShieldStat(_health, _dex,isPlayer, stats.Shield);
+            ShieldStat _defense = new ShieldStat(_health,isPlayer, stats.Shield);
             BleedStat _bleed = new BleedStat(isPlayer, stats.Bleed);
             HealthRegenerationStat _regen = new HealthRegenerationStat(isPlayer, stats.RegenerationPoints);
             CoinStat _coin = new CoinStat(isPlayer, stats.Gold);
