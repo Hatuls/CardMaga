@@ -11,7 +11,7 @@ namespace Map.UI
         [SerializeField]
         CardUIFilterScreen _filer;
 
-        public void SortRequest() => _filer.SortByCards(this);
+        public void SortRequest() => _filer.SortBy(this);
         public override IEnumerable<Card> Sort()
         {
           return BattleData.Player.CharacterData.CharacterDeck;

@@ -13,7 +13,7 @@ namespace Map.UI
         [SerializeField]
         CardUIFilterScreen _filer;
         public void SortRequested()
-            => _filer.SortByCards(this);
+            => _filer.SortBy(this);
 
         [SerializeField]
         CardTypeEnum cardTypeEnum;

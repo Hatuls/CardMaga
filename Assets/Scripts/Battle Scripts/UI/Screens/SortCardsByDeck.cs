@@ -17,6 +17,6 @@ namespace Map.UI
             return DeckManager.Instance.GetCardsFromDeck(true, _deck); 
         }
         public void SortRequested()
-            => _filer.SortByCards(this);
+            => _filer.SortBy(this);
     }
 }

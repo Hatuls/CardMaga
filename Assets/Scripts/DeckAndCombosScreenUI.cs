@@ -116,7 +116,7 @@ namespace Map.UI
         private void TurnCardCollection(bool toActivate)
         {
             if (toActivate)
-                _cardUIFilter.SortByCards(_sort);
+                _cardUIFilter.SortBy(_sort);
 
 
             _cardPanel.SetActive(toActivate);

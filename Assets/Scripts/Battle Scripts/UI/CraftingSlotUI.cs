@@ -57,7 +57,8 @@ public class CraftingSlotUI : MonoBehaviour
                 cardType.CardType,
                         Factory.GameFactory.Instance.ArtBlackBoard.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardType.BodyPart)                     
                       );
-        _iconImage.gameObject.SetActive(cardType.BodyPart != Cards.BodyPartEnum.Empty);
+
+        _iconImage.gameObject.SetActive(cardType != null && cardType.BodyPart != Cards.BodyPartEnum.Empty);
 
     }
     public void InitPlaceHolder(Cards.CardTypeEnum cardType, Sprite icon )
