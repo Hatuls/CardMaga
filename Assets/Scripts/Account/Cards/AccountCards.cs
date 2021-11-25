@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Account.GeneralData
 {
     [Serializable]
-    public class AccountCards : ILoadFirstTime
+    public class AccountCards : ILoadFirstTime 
     {
         #region Fields
         [SerializeField]
