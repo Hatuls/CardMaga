@@ -227,7 +227,7 @@ namespace Factory
                         _battleCardIdList = new List<ushort>();
 
                     while (_battleCardIdList.Contains(_battleID))
-                        _battleID++;
+                        ++_battleID;
 
                     _battleCardIdList.Add(_battleID);
 
@@ -269,12 +269,9 @@ namespace Factory
 
                 if (cardSO != null && (level >= 0 && level <= cardSO.CardsMaxLevel))
                 {
-                    while (_battleCardIdList.Contains(_battleID))
-                        _battleID++;
+                
 
-                    _battleCardIdList.Add(_battleID);
-
-                    return new Card(_battleID, cardSO, level);
+                    return new Card(GetInstanceID, cardSO, level);
                 }
                 throw new Exception($" card was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
 
@@ -285,6 +282,7 @@ namespace Factory
                 for (int i = 0; i < c.Length; i++)
                 {
                     c[i] = CreateCard(cards[i]);
+                    cards[i].InstanceID = c[i].CardInstanceID;
                 }
                 return c;
             }
@@ -292,7 +290,7 @@ namespace Factory
             {
                 if (card == null)
                     throw new Exception("Card Factory: Card Account Info Is null!");
-                card.InstanceID = _battleID;
+      
                 return CreateCard(card.CardID, card.Level);
             }
             internal Card[] CreateDeck(AccountDeck deck)

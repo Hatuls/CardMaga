@@ -15,12 +15,12 @@ namespace Account.GeneralData
 
         [SerializeField]
         LevelStat _level;
-        public ByteStat Level => _level;
+        public UshortStat Level => _level;
         public AccountLevelData()
         {
 
         }
-        public AccountLevelData(uint exp = 0, uint maxExp = 10, byte lvl = 1)
+        public AccountLevelData(uint exp = 0, uint maxExp = 10, ushort lvl = 1)
         {
             _maxEXP = new MaxEXPStat(maxExp);
             _level = new LevelStat(lvl, _maxEXP);
@@ -39,41 +39,43 @@ namespace Account.GeneralData
     {
         public static Action<int, int> OnGainEXP;
         [SerializeField]
-        ByteStat _level;
+        UshortStat _level;
         [SerializeField]
         UintStat _maxExp;
 
         public override bool AddValue(uint value)
         {
-
-            base.AddValue(value);
-            if (Value >= _maxExp.Value)
+            if (value >= 0)
             {
-                _value = 0;
-                _level.AddValue(1);
+                base.AddValue(value);
+                if (Value >= _maxExp.Value)
+                {
+                    _level.AddValue(1);
+                    AddValue(value - _maxExp.Value);
+                }
+                OnGainEXP?.Invoke((int)_value, (int)_maxExp.Value);
             }
-            OnGainEXP?.Invoke((int)_value, (int)_maxExp.Value);
             return true;
         }
-        public EXPStat(uint val, ByteStat level, UintStat maxExp) : base(val)
+        public EXPStat(uint val, UshortStat level, UintStat maxExp) : base(val)
         {
             _level = level;
             _maxExp = maxExp;
         }
     }
     [Serializable]
-    public class LevelStat : ByteStat
+    public class LevelStat : UshortStat
     {
         public static Action<int> OnLevelUp;
         [SerializeField]
         private UintStat _maxExp;
-        public override bool AddValue(byte value)
+        public override bool AddValue(ushort value)
         {
             OnLevelUp?.Invoke(_value + value);
             _maxExp.AddValue((uint)(_value + value) * 10);
             return base.AddValue(value);
         }
-        public LevelStat(byte val, UintStat maxExp) : base(val)
+        public LevelStat(ushort val, UintStat maxExp) : base(val)
         {
             this._maxExp = maxExp;
         }

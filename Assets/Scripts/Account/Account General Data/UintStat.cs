@@ -1,9 +1,12 @@
 ﻿using System;
+using UnityEngine.Events;
+
 namespace Account.GeneralData
 {
     [Serializable]
     public class UintStat : Stat<uint>
    {
+ 
         public UintStat() : base()
         {
 
@@ -19,6 +22,7 @@ namespace Account.GeneralData
                throw new Exception("UintStat value inserted is lower or equal to 0");
            }
            _value += value;
+            OnValueChange?.Invoke(_value);
            return true;
        }
        public override bool CheckStat(uint value)
@@ -46,6 +50,7 @@ namespace Account.GeneralData
            else
            {
                _value -= value;
+                OnValueChange?.Invoke(_value);
                return true;
            }
        }

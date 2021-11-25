@@ -12,6 +12,7 @@ namespace Account.GeneralData
         #endregion
         #region Properties
         public List<CardAccountInfo> CardList => _cardList;
+
         #endregion
         #region PublicMethods
         public void AddCard(Cards.Card card)
