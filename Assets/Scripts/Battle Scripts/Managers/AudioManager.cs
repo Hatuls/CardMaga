@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
             {
                 Debug.Log("AudioManager Is Null! Instantiating New AudioManager!");
                 GameObject go = new GameObject("AudioManager");
+                if (Application.isPlaying)
                  go.AddComponent<AudioManager>().Init();
                
             }

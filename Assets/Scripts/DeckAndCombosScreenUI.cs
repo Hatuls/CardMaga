@@ -19,7 +19,7 @@ namespace Map.UI
         CardUIFilterScreen _cardUIFilter;
 
         [SerializeField]
-        ShowAllCardsInMenuScreen _sort;
+        ShowAllCards _sort;
 
         public enum DefaultScreen
         {

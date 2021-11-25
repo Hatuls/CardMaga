@@ -124,7 +124,7 @@ namespace Battles.Deck
                 for (int i = 0; i < _deckCards.Length; i++)
                 {
                     if (_deckCards[i] != null
-                       && _deckCards[i].CardID == card.CardID)
+                       && _deckCards[i].CardInstanceID == card.CardInstanceID)
                     {
                         _deckCards[i] = null;
                         amountOfEmptySlots++;
@@ -204,7 +204,7 @@ namespace Battles.Deck
 
             for (int i = 0; i < _deckCards.Length; i++)
             {
-                if (_deckCards[i].CardID == card.CardID)
+                if (_deckCards[i].CardInstanceID == card.CardInstanceID)
                 {
                     cardFound = true;
                     break;
