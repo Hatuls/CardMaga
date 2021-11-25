@@ -9,6 +9,7 @@ namespace UI.Meta.Laboratory
         Deck = 0,
         Upgrade = 1,
         Fuse = 2,
+     
     }
     public class LaboratoryScreenUI: TabAbst
     {
@@ -24,6 +25,9 @@ namespace UI.Meta.Laboratory
                 return _instance;
             }
         }
+
+        public LabPanelsEnum LabPanelsEnum { get => _labPanelsEnum; set => _labPanelsEnum = value; }
+
         private void Awake()
         {
             _instance = this;
@@ -54,7 +58,7 @@ namespace UI.Meta.Laboratory
         }
         public override void Open()
         {
-            OpenPanel(LabPanelsEnum.Deck);
+            OpenPanel(LabPanelsEnum.Upgrade);
             gameObject.SetActive(true);
         }
 
@@ -82,7 +86,7 @@ namespace UI.Meta.Laboratory
 
         private void OpenDeckPanel()
         {
-            _labPanelsEnum = LabPanelsEnum.Deck;
+            LabPanelsEnum = LabPanelsEnum.Deck;
             CloseUpgradePanel();
             CloseFusePanel();
             _deckPanelTitle.gameObject.SetActive(true);
@@ -90,7 +94,7 @@ namespace UI.Meta.Laboratory
         }
         private void OpenUpgradePanel()
         {
-            _labPanelsEnum = LabPanelsEnum.Upgrade;
+            LabPanelsEnum = LabPanelsEnum.Upgrade;
             CloseDeckPanel();
             CloseFusePanel();
             _upgradePanelTitle.gameObject.SetActive(true);
@@ -99,7 +103,7 @@ namespace UI.Meta.Laboratory
         }
         private void OpenFusePanel()
         {
-            _labPanelsEnum = LabPanelsEnum.Fuse;
+            LabPanelsEnum = LabPanelsEnum.Fuse;
             CloseDeckPanel();
             CloseUpgradePanel();
             _fusePanelTitle.gameObject.SetActive(true);

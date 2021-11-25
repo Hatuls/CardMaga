@@ -2,23 +2,32 @@
 using Battles.UI;
 using Cards;
 using Map.UI;
+using Rei.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using UI.Meta.Laboratory;
-using UnityEngine.Events;
+using UnityEngine;
 
 public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
 {
 
-    public UnityEvent<CardUI> OnCardUse;
-    public UnityEvent<CardUI> OnCardInfo;
-    public UnityEvent<CardUI> OnCardDismental;
+    public CardUIEvent OnCardUse;
+    public CardUIEvent OnCardRemove;
+    public CardUIEvent OnCardInfo;
+    public CardUIEvent OnCardDismental;
+
+    [SerializeField]
+    CollectionLabOpen _metaCardUI;
+    [SerializeField]
+    Transform _container;
     protected override void CreatePool()
     {
-        var deck = BattleData.Player.CharacterData.CharacterDeck;
-        while (deck.Length > _collection.Count)
+        var deck = Account.AccountManager.Instance.AccountCards.CardList;
+        while (deck.Count > _collection.Count)
         {
-            var card = Instantiate(_cardUIPrefab, this.transform).GetComponent<MetaCardUIHandler>();
+            var card = Instantiate(_cardUIPrefab, _container).GetComponent<MetaCardUIHandler>();
+            card.MetaCardUIOpenerAbst = _metaCardUI;
+            card.MetaCardUIFilterScreen = this;
             _collection.Add(card);
         }
     }
@@ -31,15 +40,16 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
             );
 
     }
-
-    private void OnCardSelected(CardUI card)
+    private void Update()
     {
-
+        //if (Account.AccountManager.Instance.AccountCards.CardList.Count != _collection.Count)
+        //    Refresh();
     }
 
- 
-    private void Start()
-    {
-            
-    }
+    public void OnCardRemoveSelected(CardUI card) => OnCardRemove?.Invoke(card);
+    public void OnCardUseSelected(CardUI card) => OnCardUse?.Invoke(card);
+    public void OnCardDismentalSelected(CardUI card) => OnCardDismental?.Invoke(card);
+    public void OnCardInfoSelected (CardUI card) => OnCardInfo?.Invoke(card);
+
+
 }

@@ -212,6 +212,14 @@ namespace Factory
                 cards.AssignDictionary();
                 Reset();
             }
+
+            ~CardFactory()
+            {
+                _battleCardIdList?.Clear();
+
+
+                _battleID = 1;
+            }
             public static ushort GetInstanceID
             {
                 get
@@ -248,7 +256,8 @@ namespace Factory
             {
                 if (_battleCardIdList == null)
                     _battleCardIdList = new List<ushort>();
-                else
+
+
                     _battleCardIdList.Clear();
 
 
@@ -270,6 +279,15 @@ namespace Factory
                 }
                 throw new Exception($" card was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
 
+            }
+            public Card[] CreateDeck(CardAccountInfo[] cards)
+            {
+                Card[] c = new Card[cards.Length];
+                for (int i = 0; i < c.Length; i++)
+                {
+                    c[i] = CreateCard(cards[i]);
+                }
+                return c;
             }
             public Card CreateCard(CardAccountInfo card)
             {

@@ -1,90 +1,117 @@
 ﻿using Battles.UI;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UI.Meta.Laboratory
 {
-    public enum CardPanelLocationEnum
+    public interface IOnMetaCardUIClicked
     {
-        Collection = 0,
-        Deck = 1,
-        Fuse = 2,
-        Upgrade = 3,
+        void OpenScreen(MetaCardUIHandler metaCardUIHandler);
     }
-
+    [System.Serializable]
+    public class CardUIEvent : UnityEvent<CardUI> { }
     public class MetaCardUIHandler : MonoBehaviour
     {
-        public static event Action OnCardClickedEvent;
+        public static Action OnCloseMetaCardUIOptionPanel;
+
+        [SerializeField] CardUIEvent OnSelectEvent;
+        [SerializeField] CardUIEvent OnRemoveEvent;
+        [SerializeField] CardUIEvent OnInfoEvent;
+        [SerializeField] CardUIEvent OnDismentalEvent;
+
+
+
         [SerializeField]
         GameObject _dropList;
         [SerializeField]
         GameObject _useButton;
         [SerializeField]
+        GameObject _removeButton;
+        [SerializeField]
         GameObject _dismantleButton;
         [SerializeField]
-        CardPanelLocationEnum _cardPanelLocation;
-        [SerializeField]
         CardUI _cardUI;
-
-        CardPanelState _currentState;
+        [SerializeField]
+        GameObject _infoButton;
+        [SerializeField]
+        MetaCardUIOpenerAbst _onMetaCardUIClicked;
 
         public CardUI CardUI => _cardUI;
 
-        private void Awake()
+        public GameObject RemoveButton => _removeButton;
+        public GameObject InfoButton => _infoButton;
+        public GameObject UseButton { get => _useButton; }
+        public GameObject DismantleButton { get => _dismantleButton; }
+
+        private MetaCardUIFilterScreen _metaCardUIFilterScreen;
+        public MetaCardUIOpenerAbst  MetaCardUIOpenerAbst
         {
-            OnCardClickedEvent += CloseDropList;
-            InitState();
-        }
-        private void InitState()
-        {
-            switch (_cardPanelLocation)
-            {
-                case CardPanelLocationEnum.Collection:
-                    _currentState = new CardUICollectionState();
-                    break;
-                case CardPanelLocationEnum.Deck:
-                    _currentState = new CardUIDeckState();
-                    break;
-                case CardPanelLocationEnum.Fuse:
-                    _currentState = new CardUIFuseState();
-                    break;
-                case CardPanelLocationEnum.Upgrade:
-                    _currentState = new CardUIUpgradeState();
-                    break;
-                default:
-                    throw new Exception("MetaCardUIHandler Unknown State");
+            set {
+                _onMetaCardUIClicked = value;
             }
         }
+        public MetaCardUIFilterScreen MetaCardUIFilterScreen
+        {
+            set
+            {
+                _metaCardUIFilterScreen = value;
+                SubscribeEvents();
+            }
+        }
+        private void OnEnable()
+        {
+            if (Application.isPlaying == false)
+                return;
+
+            OnCloseMetaCardUIOptionPanel += CloseDropList;
+
+            if (_metaCardUIFilterScreen!= null)
+            {
+                SubscribeEvents();
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (Application.isPlaying == false)
+                return;
+
+            OnCloseMetaCardUIOptionPanel -= CloseDropList;
+            UnSubscribeEvents();
+        }
+
         public void CloseDropList()
         {
-            _dropList.SetActive(false);
-            _currentState.OnReset();
+            if (_dropList.activeSelf)
+                _dropList.SetActive(false);
         }
-        public void OpenDropList()
+
+        public void OnSelected()
         {
-            _dropList.SetActive(true);
-            switch (_cardPanelLocation)
-            {
-                case CardPanelLocationEnum.Collection:
+            OnSelectEvent?.Invoke(CardUI);
+            OnCloseMetaCardUIOptionPanel?.Invoke();
 
-                    _useButton.SetActive(true);
-                    _dismantleButton.SetActive(false);
-                    break;
-                case CardPanelLocationEnum.Deck:
-                    _dismantleButton.SetActive(false);
-                    break;
-                case CardPanelLocationEnum.Fuse:
-                    _dismantleButton.SetActive(false);
-                    break;
-                case CardPanelLocationEnum.Upgrade:
-                    _dismantleButton.SetActive(true);
-                    _useButton.SetActive(false);
-
-                    break;
-                default:
-                    break;
-            }
         }
+
+        public void OnInfo()
+        {
+            OnInfoEvent?.Invoke(CardUI);
+            OnCloseMetaCardUIOptionPanel?.Invoke();
+
+        }
+        public void OnRemove()
+        {
+            OnRemoveEvent?.Invoke(CardUI);
+            OnCloseMetaCardUIOptionPanel?.Invoke();
+        }
+        public void OnDismental()
+        {
+            OnDismentalEvent?.Invoke(CardUI);
+            OnCloseMetaCardUIOptionPanel?.Invoke();
+
+        }
+
         public void OnCardClicked()
         {
             Debug.Log("Changeing Drop List State");
@@ -94,55 +121,31 @@ namespace UI.Meta.Laboratory
             }
             else
             {
-                OnCardClickedEvent.Invoke();
-                _currentState.OnClick();
+                OnCloseMetaCardUIOptionPanel?.Invoke();
+                _onMetaCardUIClicked?.OpenScreen(this);
+                _dropList.SetActive(true);
             }
         }
-        private void OnDestroy()
+        private void SubscribeEvents()
         {
-            OnCardClickedEvent -= CloseDropList;
+            UnSubscribeEvents();
+            OnSelectEvent.AddListener(_metaCardUIFilterScreen.OnCardUseSelected);
+            OnRemoveEvent.AddListener(_metaCardUIFilterScreen.OnCardRemoveSelected);
+            OnDismentalEvent.AddListener(_metaCardUIFilterScreen.OnCardDismentalSelected);
+            OnInfoEvent.AddListener(_metaCardUIFilterScreen.OnCardInfoSelected);
+        }
+        private void UnSubscribeEvents()
+        {
+            OnSelectEvent?.RemoveAllListeners();
+            OnRemoveEvent?.RemoveAllListeners();
+            OnDismentalEvent?.RemoveAllListeners();
+            OnInfoEvent?.RemoveAllListeners();
         }
     }
-    public abstract class CardPanelState : ICardPanelState
+    public abstract class MetaCardUIOpenerAbst : MonoBehaviour, IOnMetaCardUIClicked
     {
-        public virtual void OnReset()
-        {
-            
-        }
-        public abstract void OnClick();
-    }
-    public class CardUICollectionState : CardPanelState
-    {
-        public override void OnClick()
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public class CardUIDeckState : CardPanelState
-    {
-        public override void OnClick()
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public class CardUIUpgradeState : CardPanelState
-    {
-        public override void OnClick()
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public class CardUIFuseState : CardPanelState
-    {
-        public override void OnClick()
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public interface ICardPanelState
-    {
-        void OnClick();
-        void OnReset();
+        public abstract void OpenScreen(MetaCardUIHandler metaCardUIHandler);
+
     }
 
 }

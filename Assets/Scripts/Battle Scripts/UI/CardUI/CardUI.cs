@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace Battles.UI
 {
-
+    //[Serializable]
     public class CardUI : MonoBehaviour, IInputAbleObject
     {
         #region Fields

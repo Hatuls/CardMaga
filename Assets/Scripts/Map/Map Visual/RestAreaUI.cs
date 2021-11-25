@@ -174,7 +174,7 @@ namespace Map.UI
             _bottomOptionRightImage.color = _optionNotTakeColor;
             _bottomOptionRightText.gameObject.SetActive(false);
             _secondOptionFlag = false;
-            _restArea.RemoveCard(card.GFX.GetCardReference.CardID);
+            _restArea.RemoveCard(card.GFX.GetCardReference.CardInstanceID);
             SetActiveRestAreaContainer(true);
             CheckForBothDecisionsAssigned();
         }

@@ -35,7 +35,7 @@ namespace Account.GeneralData
 
         public void NewLoad()
         {
-            _chips = new UshortStat(0);
+            _chips = new UshortStat(5);
             _diamonds = new UintStat(0);
             _gold = new UintStat(0);
         }

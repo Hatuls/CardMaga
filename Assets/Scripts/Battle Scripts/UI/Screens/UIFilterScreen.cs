@@ -10,18 +10,25 @@ namespace Map.UI
         [SerializeField]
         protected GameObject _cardUIPrefab;
         [SerializeField]
-        protected List<T> _collection;
+        protected List<T> _collection = new List<T>();
 
-
+        ISort<U> _lastSort;
         protected abstract void OnActivate(IEnumerable<U> sortedDeck, int i);
         protected abstract void CreatePool();
-
+        public virtual void Refresh()
+        {
+            SortBy(_lastSort);
+        }
 
         public void SortBy(ISort<U> sortedMethod)
         {
+            if (sortedMethod == null)
+                return;
+
+            _lastSort = sortedMethod;
             CreatePool();
             int length = _collection.Count;
-            var sortedDeck = sortedMethod.Sort();
+            var sortedDeck =sortedMethod.Sort();
 
             int sortedDeckLength = sortedDeck.Count();
 

@@ -63,7 +63,7 @@ namespace Battles.Deck
                 for (int i = 0; i < GetDeck.Length; i++)
                 {
                     if (GetDeck[i] != null
-                       && GetDeck[i].CardID == card.CardID)
+                       && GetDeck[i].CardInstanceID == card.CardInstanceID)
                     {
                         found = true;
                         GetDeck[i] = null;

@@ -41,7 +41,7 @@ namespace Characters
         {
             var deckList = _characterData.CharacterDeck.ToList();
         
-            Cards.Card card = deckList.Find((x) => x.CardID == InstanceID);
+            Cards.Card card = deckList.Find((x) => x.CardInstanceID == InstanceID);
            
             bool check = deckList.Remove(card);
             if (check)
