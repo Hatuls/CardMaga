@@ -217,7 +217,6 @@ namespace Factory
             {
                 _battleCardIdList?.Clear();
 
-
                 _battleID = 1;
             }
             public static ushort GetInstanceID
