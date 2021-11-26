@@ -19,7 +19,7 @@ namespace UI.Meta.PlayScreen
         bool _isOpen = false;
         #endregion
         #region Public Methods
-        public void Init(CharacterData characterData,byte playerLevel,CharacterSO characterSO)
+        public void Init(CharacterData characterData,ushort playerLevel,CharacterSO characterSO)
         {
             _characterData = characterData;
             Debug.Log($"Init {_characterData.CharacterEnum.ToString()} Character Data");
@@ -29,7 +29,7 @@ namespace UI.Meta.PlayScreen
             _characterImage.sprite = characterSO.CharacterSprite;
             _characterName.text = characterSO.name;
         }
-        private void CheckLevel(byte playerLevel, byte unlocksAtLevel)
+        private void CheckLevel(ushort playerLevel, byte unlocksAtLevel)
         {
             Debug.Log($"Player level is {playerLevel}");
             Debug.Log($"Character unlocks at level {unlocksAtLevel}");

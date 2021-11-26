@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Account.GeneralData
 {
@@ -10,6 +11,7 @@ namespace Account.GeneralData
         protected T _value;
         public T Value => _value;
 
+        public UnityAction<T> OnValueChange;
         public Stat(T val)
         {
             _value = val;

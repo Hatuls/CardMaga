@@ -129,7 +129,8 @@ public class AnimatorController : MonoBehaviour
     }
     public void CharacterIsDead()
     {
-        _animator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
+        _animator.SetBool("IsDead", true);
+  //      _animator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
     }
 
 

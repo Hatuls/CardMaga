@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Account.GeneralData
 {
     [Serializable]
-    public class AccountCards : ILoadFirstTime
+    public class AccountCards : ILoadFirstTime 
     {
         #region Fields
         [SerializeField]
@@ -12,6 +12,7 @@ namespace Account.GeneralData
         #endregion
         #region Properties
         public List<CardAccountInfo> CardList => _cardList;
+
         #endregion
         #region PublicMethods
         public void AddCard(Cards.Card card)

@@ -59,7 +59,7 @@ namespace UI.Meta.PlayScreen
         }
         private void InitCharactersData()
         {
-            byte playerLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
+            ushort playerLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
             if (playerLevel <= 0)
             {
                 throw new Exception("ChooseCharacterScreen playerLevel is not logical");

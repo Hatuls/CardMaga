@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 namespace Account.GeneralData
 {
     [System.Serializable]
-    public class CardAccountInfo
+    public class CardAccountInfo : IEquatable<CardAccountInfo>
     {
         #region Fields
         [SerializeField]
@@ -27,6 +28,11 @@ namespace Account.GeneralData
             _cardID = cardID;
             _instanceID = cardInstanceID;
             _level = level;
+        }
+
+        public bool Equals(CardAccountInfo other)
+        {
+            return other.InstanceID == _instanceID;
         }
         #endregion
     }
