@@ -113,15 +113,9 @@ namespace Meta
             var Cost = cardUpgradeCostSO.NextCardValue(card);
             if (chips.Value >= Cost )
             {
-                if (account.AccountCards.RemoveCard(card.CardInstanceID))
-                {
+                account.AccountCards.UpgradeCard(card.CardInstanceID);
                 chips.ReduceValue(Cost);
-                account.AccountCards.AddCard(Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(card.CardSO, (byte)(card.CardLevel + 1)));
                 return true;
-                }
-                else
-                    return false;
-                       
             }
             else
                 return false;

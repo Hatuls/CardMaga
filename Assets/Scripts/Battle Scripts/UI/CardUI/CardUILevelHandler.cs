@@ -23,6 +23,7 @@ namespace Battles.UI.CardUIAttributes
 
                 var currentLevel = _cardsLevels[i];
                 bool currentActiveState = currentLevel.gameObject.activeSelf;
+
                 if (i < amountOfLevelsToTurnOn)
                 {
                     if (currentActiveState == false)
@@ -33,8 +34,8 @@ namespace Battles.UI.CardUIAttributes
                     if (currentActiveState == true)
                         currentLevel.SetActiveState(false);
                 }
-
-                if (currentActiveState == true)
+        
+                if (currentLevel.gameObject.activeSelf == true)
                     currentLevel.SetState((i <= level) ? CardUILevelState.On : (toShowMissingLevels)? CardUILevelState.Missing: CardUILevelState.Off);
             }
         }

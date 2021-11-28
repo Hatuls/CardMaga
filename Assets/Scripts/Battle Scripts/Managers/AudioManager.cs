@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿
+
+
+using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using System;
@@ -10,11 +13,13 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
     {
         get
         {
+            if (!Application.isPlaying)
+                return null;
             if (_instance == null)
             {
                 Debug.Log("AudioManager Is Null! Instantiating New AudioManager!");
                 GameObject go = new GameObject("AudioManager");
-                if (Application.isPlaying)
+                
                  go.AddComponent<AudioManager>().Init();
                
             }
@@ -185,7 +190,7 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
     }
     private void OnDestroy()
     {
-        if (Instance == this)
+        if (_instance == this)
             SceneHandler.onFinishLoadingScene -= OnChangeScene;
 
     }

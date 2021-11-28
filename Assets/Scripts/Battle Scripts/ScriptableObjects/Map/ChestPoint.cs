@@ -13,12 +13,14 @@ namespace Map
     {
         public override NodeType PointType =>  NodeType.Chest;
         [SerializeField] ObserverSO _observerSO;
-
+        [SerializeField]
+        Battles.CharacterTypeEnum _rarityBasedOn = Battles.CharacterTypeEnum.Elite_Enemy;
         [Button]
+
         public override void ActivatePoint()
         {
             _observerSO.Notify(this);
-            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards( Battles.CharacterTypeEnum.Elite_Enemy,Rewards.ActsEnum.ActOne);
+            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(_rarityBasedOn, Rewards.ActsEnum.ActOne);
             if (rewardBundle == null)
                 throw new Exception("Reward Bundle is null!");
 

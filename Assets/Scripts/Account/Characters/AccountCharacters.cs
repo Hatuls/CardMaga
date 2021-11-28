@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
-
 namespace Account.GeneralData
 {
     [Serializable]
     public class AccountCharacters : ILoadFirstTime
     {
         #region Fields
-        [SerializeField] 
+        [SerializeField]
         CharacterData[] _characterDatas;
-        //  Dictionary<CharacterEnum, CharacterData> _characters;
+
+        public CharacterData[] CharacterDatas { get => _characterDatas; }
+
         #endregion
         #region PrivateMethods
 
@@ -35,12 +37,14 @@ namespace Account.GeneralData
             {
                 throw new Exception("AccountCharacters enemy can not be added to dictionary");
             }
-            // _characters.Add(character,new CharacterData(character));
             for (int i = 0; i < _characterDatas.Length; i++)
             {
                 if (_characterDatas[i] == null)
                 {
-                    _characterDatas[i] = new CharacterData(character);
+                    var deck = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(character).Deck;
+                    var list = AccountManager.Instance.AccountCards.CardList.Where((x) => deck.Any((y) => (x.CardID == y.Card.ID && x.Level == y.Level)));
+                    _characterDatas[i] = new CharacterData(list.ToArray(), character);
+
                     return;
                 }
             }
@@ -54,7 +58,7 @@ namespace Account.GeneralData
 
         public void NewLoad()
         {
-            const byte characterAmount = 4;
+            const byte characterAmount = 2;
             //    _characters = new Dictionary<CharacterEnum, CharacterData>(characterAmount);
             _characterDatas = new CharacterData[characterAmount];
             AddChatacterToDictionary(CharacterEnum.Chiara);

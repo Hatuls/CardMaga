@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Map.UI
 {
@@ -11,7 +12,9 @@ namespace Map.UI
         protected GameObject _cardUIPrefab;
         [SerializeField]
         protected List<T> _collection = new List<T>();
-
+        [SerializeField]
+        UnityEvent OnBeforeSorting;
+        public IReadOnlyList<T> Collection=>_collection;
         ISort<U> _lastSort;
         protected abstract void OnActivate(IEnumerable<U> sortedDeck, int i);
         protected abstract void CreatePool();
@@ -48,6 +51,7 @@ namespace Map.UI
                         _collection[i].gameObject.SetActive(false);
                 }
             }
+            OnBeforeSorting?.Invoke();
         }
 
      

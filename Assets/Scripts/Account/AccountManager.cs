@@ -135,16 +135,16 @@ namespace Account
 
         public void NewLoad()
         {
-            AccountCharacters = new AccountCharacters();
-            AccountCharacters.NewLoad();
-            AccountCards = new AccountCards();
-            AccountCards.NewLoad();
-             AccountCombos = new AccountCombos();
-            AccountCombos.NewLoad();
             AccountSettingsData = new AccountSettingsData();
             AccountSettingsData.NewLoad();
             AccountGeneralData = new AccountGeneralData();
             AccountGeneralData.NewLoad();
+            AccountCards = new AccountCards();
+            AccountCards.NewLoad();
+             AccountCombos = new AccountCombos();
+            AccountCombos.NewLoad();
+            AccountCharacters = new AccountCharacters();
+            AccountCharacters.NewLoad();
         }
     }
 }

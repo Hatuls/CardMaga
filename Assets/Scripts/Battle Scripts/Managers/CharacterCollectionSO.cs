@@ -36,7 +36,7 @@ namespace Collections
 
         
 
-        internal CharacterSO GetCharacterSO(CharacterEnum characterEnum)
+        public CharacterSO GetCharacterSO(CharacterEnum characterEnum)
         {
             if (characterEnum != CharacterEnum.Enemy)
             {

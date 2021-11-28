@@ -68,7 +68,7 @@ namespace Battles.UI.CardUIAttributes
         #endregion
 
 
-        #region Contructor
+        #region constructor
 
         public CardGFX(){}
         #endregion
@@ -116,7 +116,7 @@ namespace Battles.UI.CardUIAttributes
             SetStaminaText(_cardReferenceInHandDeck == null ? cardData.StaminaCost : _cardReferenceInHandDeck.StaminaCost);
 
             SetCardUIImage(cardData.CardSprite);
-
+            Debug.Log("Level Set: " + cardData.CardName + " Level = " + lvl);
             _cardUILevelHandler.SetLevels(lvl,cardData.Rarity);
 
         }

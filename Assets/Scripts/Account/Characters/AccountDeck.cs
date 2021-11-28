@@ -6,12 +6,12 @@ namespace Account.GeneralData
     {
         #region Fields
         [SerializeField]
-        CardAccountInfo[] _cards;
+        CardCoreInfo[] _cards;
         [SerializeField]
         string _deckName;
         #endregion
         #region Properties
-        public CardAccountInfo[] Cards { get => _cards; private set => _cards = value; }
+        public CardCoreInfo[] Cards { get => _cards;  set => _cards = value; }
         public string DeckName { get => _deckName; set => _deckName = value; }
         #endregion
         #region PublicMethods
@@ -19,7 +19,7 @@ namespace Account.GeneralData
         {
 
         }
-        public AccountDeck(CardAccountInfo[] accountCards)
+        public AccountDeck(CardCoreInfo[] accountCards)
         {
             _cards = accountCards;
         }

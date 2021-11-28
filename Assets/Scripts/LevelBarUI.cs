@@ -1,5 +1,4 @@
 ﻿using TMPro;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +9,12 @@ public class LevelBarUI : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI _text;
+
+    [SerializeField]
+    LeanTweenType _leanTweenType;
+    [SerializeField]
+    float _expFillTimer;
+
     private void Start()
     {
         Account.GeneralData.EXPStat.OnGainEXP += (UpdateEXP);
@@ -18,14 +23,14 @@ public class LevelBarUI : MonoBehaviour
     }
     private void OnDestroy()
     {
-        Account.GeneralData.EXPStat.OnGainEXP -=(UpdateEXP);
+        Account.GeneralData.EXPStat.OnGainEXP -= (UpdateEXP);
         Account.GeneralData.LevelStat.OnLevelUp -= (UpdateLevel);
     }
     public void UpdateFillBar()
     {
         var level = Account.AccountManager.Instance.AccountGeneralData.AccountLevelData;
-        UpdateEXP((int)level.Exp.Value , (int)level.MaxEXP.Value);
-        UpdateLevel( level.Level.Value);
+        _fillImage.fillAmount = (float)((float)level.Exp.Value / (float)level.MaxEXP.Value);
+        UpdateLevel(level.Level.Value);
     }
     public void UpdateLevel(int value)
     {
@@ -34,8 +39,8 @@ public class LevelBarUI : MonoBehaviour
 
     public void UpdateEXP(int value, int maxVal)
     {
-  
-        _fillImage.fillAmount = (float)((float)value / (float)maxVal);
+        float val = _fillImage.fillAmount;
+        LeanTween.value(val, (float)((float)value / (float)maxVal), _expFillTimer).setEase(_leanTweenType).setOnUpdate((f) =>  _fillImage.fillAmount = f);
 
     }
 

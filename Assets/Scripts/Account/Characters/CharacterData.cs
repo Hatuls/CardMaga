@@ -31,14 +31,15 @@ namespace Account.GeneralData
         #endregion
 
         #region PrivateMethods
-        void AssignDeck(Battles.CharacterSO characterSO,byte deckAmount)
+
+        void AssignDeck(CardCoreInfo[] cardAccountInfos, byte deckAmount)
         {
 
             _decks = new AccountDeck[deckAmount];
-            CardAccountInfo[] tempCards = new CardAccountInfo[characterSO.Deck.Length];
-            for (int i = 0; i < characterSO.Deck.Length; i++)
+            CardCoreInfo[] tempCards = new CardCoreInfo[cardAccountInfos.Length];
+            for (int i = 0; i < cardAccountInfos.Length; i++)
             {
-                tempCards[i] = new CardAccountInfo(characterSO.Deck[i].Card.ID, Factory.GameFactory.CardFactory.GetInstanceID, characterSO.Deck[i].Level);
+                tempCards[i] = cardAccountInfos[i];
             }
 
 
@@ -61,9 +62,9 @@ namespace Account.GeneralData
         #endregion
 
         #region PublicMethods
-        public CharacterData(CharacterEnum characterEnum,byte deckAmount = 4)
+        public CharacterData(CardCoreInfo[] startingDeck ,CharacterEnum characterEnum, byte deckAmount = 4)
         {
-            if(characterEnum == CharacterEnum.Enemy)
+            if (characterEnum == CharacterEnum.Enemy)
             {
                 throw new Exception("CharacterData inserted an enemy instead of a player character");
             }
@@ -71,21 +72,43 @@ namespace Account.GeneralData
             _characterEnum = characterEnum;
             _stats = characterSO.CharacterStats;
             _unlockAtLevel = characterSO.UnlockAtLevel;
-            AssignDeck(characterSO, deckAmount);
+            AssignDeck(startingDeck, deckAmount);
             AssignCombos(characterSO);
+
+            AccountCards.OnUpgrade += CardUpgraded;
         }
+     
         public CharacterData()
         {
+            AccountCards.OnUpgrade += CardUpgraded;
 
         }
-        public AccountDeck GetDeckAt(int index)
+        ~CharacterData()
         {
-            throw new NotImplementedException();
+            AccountCards.OnUpgrade -= CardUpgraded;
         }
+        public AccountDeck GetDeckAt(int index)
+      => _decks[index];
         public void CharacterAccount(CharacterEnum character, CharacterStats stats, AccountDeck[] decks,
             CombosAccountInfo[] combos, byte unlocksAtLevel)
         {
 
+        }
+
+        public void CardUpgraded(CardCoreInfo cardCoreInfo)
+        {
+            for (int i = 0; i < _decks.Length; i++)
+            {
+                var cards = _decks[i].Cards;
+                for (int j = 0; j < cards.Length; j++)
+                {
+                    if (cards[j].InstanceID == cardCoreInfo.InstanceID)
+                    {
+                        cards[j] = cardCoreInfo;
+                        return;
+                    }
+                }
+            }
         }
         #endregion
     }

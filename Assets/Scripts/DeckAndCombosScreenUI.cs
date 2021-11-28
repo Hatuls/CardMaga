@@ -118,7 +118,7 @@ namespace Map.UI
             if (toActivate)
                 _cardUIFilter.SortBy(_sort);
 
-
+            _cardTypeSelectionPanel.SetActive(toActivate);
             _cardPanel.SetActive(toActivate);
 
             if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.GameBattleScene)

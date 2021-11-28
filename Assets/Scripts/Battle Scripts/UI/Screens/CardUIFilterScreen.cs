@@ -4,10 +4,11 @@ using Cards;
 using Map.UI;
 using System.Collections.Generic;
 using System.Linq;
-
+using UnityEngine;
 public class CardUIFilterScreen : UIFilterScreen<CardUI, Card>
 {
-
+    [SerializeField]
+    float _cardsSize =1f ;
     protected override void CreatePool()
     {
         var deck = BattleData.Player.CharacterData.CharacterDeck;
@@ -22,7 +23,7 @@ public class CardUIFilterScreen : UIFilterScreen<CardUI, Card>
     {
         var artSO = Factory.GameFactory.Instance.ArtBlackBoard;
         _collection[i].GFX.SetCardReference(sortedDeck.ElementAt(i), artSO);
-
+        _collection[i].transform.localScale = Vector3.one * _cardsSize;
     }
 }
 

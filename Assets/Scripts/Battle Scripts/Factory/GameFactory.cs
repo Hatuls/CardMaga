@@ -262,21 +262,30 @@ namespace Factory
 
                 _battleID = 1;
             }
+            public CardCoreInfo CreateCardCoreInfo(CardSO cardSO, byte level = 0)
+                => CreateCardCoreInfo(cardSO.ID, level);
+            public CardCoreInfo CreateCardCoreInfo(ushort cardSOID, byte level = 0)
+            => new CardCoreInfo(cardSOID, GetInstanceID, level);
+            public Card CreateCard(CardCoreInfo _data)
+            {
+                if (_data == null)
+                    throw new Exception($"CardFactory: CardCoreInfo is null!");
+                return new Card(_data);
+            }
             public Card CreateCard(ushort CardSOID, byte level = 0)
              => CreateCard(CardCollection.GetCard(CardSOID), level);
+
             public Card CreateCard(CardSO cardSO, byte level = 0)
             {
 
                 if (cardSO != null && (level >= 0 && level <= cardSO.CardsMaxLevel))
                 {
-                
-
-                    return new Card(GetInstanceID, cardSO, level);
+                    return CreateCard(CreateCardCoreInfo(cardSO,level));
                 }
                 throw new Exception($" card was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
 
             }
-            public Card[] CreateDeck(CardAccountInfo[] cards)
+            public Card[] CreateDeck(CardCoreInfo[] cards)
             {
                 Card[] c = new Card[cards.Length];
                 for (int i = 0; i < c.Length; i++)
@@ -286,13 +295,7 @@ namespace Factory
                 }
                 return c;
             }
-            public Card CreateCard(CardAccountInfo card)
-            {
-                if (card == null)
-                    throw new Exception("Card Factory: Card Account Info Is null!");
-      
-                return CreateCard(card.CardID, card.Level);
-            }
+         
             internal Card[] CreateDeck(AccountDeck deck)
             {
                 if (deck == null)

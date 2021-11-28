@@ -1,4 +1,5 @@
-﻿using Keywords;
+﻿using Account.GeneralData;
+using Keywords;
 using System;
 using System.Collections.Generic;
 
@@ -14,9 +15,8 @@ namespace Cards
         #region Fields
         [UnityEngine.SerializeField]
         private CardSO _cardSO;
+        private CardCoreInfo _cardCoreInfo;
 
-        private ushort _cardBattleID = 0;
-        private byte _currentLevel = 0;
         private bool toExhaust = false;
         public bool IsExhausted { get => toExhaust; }
         public byte StaminaCost { get; private set; }
@@ -29,9 +29,8 @@ namespace Cards
 
         #region Properties
 
-        public ushort CardInstanceID => _cardBattleID;
-
-        public byte CardLevel => _currentLevel;
+        public ushort CardInstanceID => _cardCoreInfo.InstanceID;
+        public byte CardLevel => _cardCoreInfo.Level;
 
         public CardSO CardSO
         {
@@ -50,22 +49,26 @@ namespace Cards
             }
         }
 
+        public CardCoreInfo CardCoreInfo { get => _cardCoreInfo; }
+
 
         #endregion
 
 
         #region Functions
-        public Card(ushort battleCardID, CardSO _card, byte cardsLevel)
+  
+        public Card(CardCoreInfo cardAccountInfo)
         {
-            _cardBattleID = battleCardID;
-            InitCard(_card, cardsLevel);
+            if (cardAccountInfo == null)
+                throw new Exception($"Card: Card Info is null!");
+            _cardCoreInfo = cardAccountInfo;
+            InitCard(Factory.GameFactory.Instance.CardFactoryHandler.CardCollection.GetCard(_cardCoreInfo.CardID), _cardCoreInfo.Level);
         }
-
         public void InitCard(CardSO _card, byte cardsLevel)
         {
             toExhaust = _card.ToExhaust;
 
-            _currentLevel = cardsLevel;
+        
 
             var levelUpgrade = _card.GetLevelUpgrade(cardsLevel);
             List<KeywordData> keywordsList = new List<KeywordData>(1);

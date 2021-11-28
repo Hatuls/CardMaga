@@ -17,30 +17,28 @@ namespace UI.Meta
 
         void Start()
         {
+            var account = Account.AccountManager.Instance.AccountGeneralData;
+            var resources = account.AccountResourcesData;
+            RemoveSubScribers(account, resources);
+
+            SubscribeEvents(account, resources);
             UpdateStats();
         }
         public void UpdateStats()
         {
             var account = Account.AccountManager.Instance.AccountGeneralData;
             _chipAmountText.text = $"{account.AccountResourcesData.Chips.Value}";
-            _energysAmountText.text = $"{ account.AccountEnergyData.Energy.Value}";
+         
             _diamondsAmountText.text = $"{ account.AccountResourcesData.Diamonds.Value}";
             _levelAmountText.text = $"{ account.AccountLevelData.Level.Value}";
+            _energysAmountText.text = $"{ account.AccountEnergyData.Energy.Value} / {account.AccountEnergyData.MaxEnergy.Value}";
         }
-        private void SetEnergyText(ushort val) => _chipAmountText.text = val.ToString();
-        private void SetMaxEnergyText(ushort val) => _chipAmountText.text = val.ToString();
-        private void SetDiamondText(ushort val) => _chipAmountText.text = val.ToString();
-        private void SetLevelText(ushort val) => _chipAmountText.text = val.ToString();
+        private void SetEnergyText(ushort val) => _energysAmountText.text = $"{ val} / {Account.AccountManager.Instance.AccountGeneralData.AccountEnergyData.MaxEnergy.Value}";
+        private void SetMaxEnergyText(ushort val) => _energysAmountText.text = $"{Account.AccountManager.Instance.AccountGeneralData.AccountEnergyData.Energy.Value } / {val}";
+        private void SetDiamondText(ushort val) => _diamondsAmountText.text = val.ToString();
+        private void SetLevelText(ushort val) => _levelAmountText.text = val.ToString();
        
         private void SetChipText(ushort val) => _chipAmountText.text = val.ToString();
-        private void Awake()
-        {
-            var account = Account.AccountManager.Instance.AccountGeneralData;
-            var resources = account.AccountResourcesData;
-            RemoveSubScribers(account, resources);
-
-            SubscribeEvents(account, resources);
-        }
 
         private void SubscribeEvents(Account.GeneralData.AccountGeneralData account, Account.GeneralData.AccountResourcesData resources)
         {
@@ -60,7 +58,7 @@ namespace UI.Meta
             account.AccountEnergyData.MaxEnergy.OnValueChange -= (SetMaxEnergyText);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             var account = Account.AccountManager.Instance.AccountGeneralData;
             var resources = account.AccountResourcesData;

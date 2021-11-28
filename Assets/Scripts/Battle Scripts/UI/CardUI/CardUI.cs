@@ -159,6 +159,7 @@ public class CardAnimator
     {
         _rect = rect;
         _animator = _rect.GetComponent<Animator>();
+        _animator.enabled = true;
     }
 
     public void ScaleAnimation(bool value)

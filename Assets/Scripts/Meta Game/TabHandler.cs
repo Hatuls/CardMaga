@@ -7,7 +7,12 @@ namespace UI
     {
         [SerializeField]
         TabUI[] _tabs;
+        [SerializeField]
+        Sprite _defaultBackground;
+        [SerializeField]
+        Sprite _highlightBackground;
 
+       
         public void CloseAllOtherTabsThan(TabUI tab)
         {
             if(tab == null)
@@ -19,6 +24,12 @@ namespace UI
                 if(_tabs[i] != tab)
                 {
                     _tabs[i].Close();
+                    _tabs[i].BackGroundImage.sprite = _defaultBackground;
+                }
+                else
+                {
+
+                    _tabs[i].BackGroundImage.sprite = _highlightBackground;
                 }
             }
         }

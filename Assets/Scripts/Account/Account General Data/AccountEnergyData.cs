@@ -6,15 +6,14 @@ namespace Account.GeneralData
     public class AccountEnergyData : ILoadFirstTime
     {
         #region Fields
-        [SerializeField]
-        private MaxEnergyStat _maxEnergy;
-        [SerializeField]
-        private EnergyStat  _energy;
+ 
+        public MaxEnergyStat MaxEnergy;
+   
+        public EnergyStat Energy;
         #endregion
 
         #region Properties
-        public EnergyStat Energy { get => _energy; private set => _energy = value; }
-        public MaxEnergyStat MaxEnergy { get => _maxEnergy; private set => _maxEnergy = value; }
+
 
         public void NewLoad()
         {
@@ -24,17 +23,16 @@ namespace Account.GeneralData
             Energy = new EnergyStat(energy);
 
             Energy.MaxEnergy = MaxEnergy;
-            MaxEnergy.Energy = Energy;
+           
         }
         #endregion
 
 
         #region Energy Classes
-        [Serializable]
+        [System.Serializable]
         public class MaxEnergyStat: UshortStat
         {
-            [SerializeField]
-            private EnergyStat _energy;
+        
 
             public MaxEnergyStat() : base()
             {
@@ -45,9 +43,9 @@ namespace Account.GeneralData
 
             }
 
-            public EnergyStat Energy { get => _energy; set => _energy = value; }
+           
         }
-        [Serializable]
+        [System.Serializable]
         public class EnergyStat : UshortStat
         {
             [SerializeField]

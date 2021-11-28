@@ -4,64 +4,68 @@ using UnityEngine;
 namespace Account.GeneralData
 {
     [Serializable]
-    public class AccountCards : ILoadFirstTime 
+    public class AccountCards : ILoadFirstTime
     {
+        public static Action<CardCoreInfo> OnUpgrade;
         #region Fields
         [SerializeField]
-        List<CardAccountInfo> _cardList = new List<CardAccountInfo>();
+        List<CardCoreInfo> _cardList = new List<CardCoreInfo>();
         #endregion
         #region Properties
-        public List<CardAccountInfo> CardList => _cardList;
+        public List<CardCoreInfo> CardList => _cardList;
 
         #endregion
         #region PublicMethods
+        public void AddCard(CardCoreInfo core)
+            => _cardList.Add(core);
         public void AddCard(Cards.Card card)
-        {
-            _cardList.Add(new CardAccountInfo(card.CardSO.ID, card.CardInstanceID, card.CardLevel));
-        }
+        => AddCard(card.CardCoreInfo);
+
         public bool RemoveCard(uint instanceId)
         {
             int length = CardList.Count;
-            for (int i = 0; i <length; i++)
+            for (int i = 0; i < length; i++)
             {
                 if (_cardList[i].InstanceID == instanceId)
                 {
-                    _cardList.Remove(_cardList[i]);
-                    return true;
+                    return _cardList.Remove(_cardList[i]);
                 }
             }
             return false;
         }
-        public void ResetAccountCards()
-        {
 
-        }
-        public bool CheckCardByID(uint id)
+        public void UpgradeCard(uint instanceID)
         {
-            throw new NotImplementedException();
-        }
-        public CardAccountInfo FindCardByID(uint id)
-        {
-            throw new NotImplementedException();
-        }
-        public bool CheckCarDyInstance(uint instanceID)
-        {
-            throw new NotImplementedException();
-        }
-        public CardAccountInfo FindCardByInstance(uint instanceID)
-        {
-            throw new NotImplementedException();
+            int length = _cardList.Count;
+            for (int i = 0; i < length; i++)
+            {
+                if (_cardList[i].InstanceID == instanceID)
+                {
+                    _cardList[i].Level++;
+                    OnUpgrade?.Invoke(_cardList[i]);
+                }
+            }
         }
 
         public void NewLoad()
         {
             var factory = Factory.GameFactory.Instance;
-         var staterPack = factory.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara).Deck;
-         var cards =   factory.CardFactoryHandler.CreateDeck(staterPack);
-            for (int i = 0; i < cards.Length; i++)
+            var currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
+            var so = factory.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.Player);
+            foreach (var item in so)
             {
-                AddCard(cards[i]);
+                if (currentLevel >= item.UnlockAtLevel)
+                {
+                          var cards = factory.CardFactoryHandler.CreateDeck(item.Deck);
+
+                    for (int i = 0; i < cards.Length; i++)
+                    {
+                        AddCard(cards[i]);
+                    }
+                }
             }
+
+
         }
         #endregion
     }

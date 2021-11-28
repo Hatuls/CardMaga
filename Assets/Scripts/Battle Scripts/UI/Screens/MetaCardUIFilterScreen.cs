@@ -20,6 +20,8 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
     CollectionLabOpen _metaCardUI;
     [SerializeField]
     Transform _container;
+    [SerializeField] float _metaCardSize = 1f;
+
     protected override void CreatePool()
     {
         var deck = Account.AccountManager.Instance.AccountCards.CardList;
@@ -38,14 +40,10 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
             sortedDeck.ElementAt(i),
             Factory.GameFactory.Instance.ArtBlackBoard
             );
+        _collection[i].transform.localScale = Vector3.one * _metaCardSize;
 
     }
-    private void Update()
-    {
-        //if (Account.AccountManager.Instance.AccountCards.CardList.Count != _collection.Count)
-        //    Refresh();
-    }
-
+ 
     public void OnCardRemoveSelected(CardUI card) => OnCardRemove?.Invoke(card);
     public void OnCardUseSelected(CardUI card) => OnCardUse?.Invoke(card);
     public void OnCardDismentalSelected(CardUI card) => OnCardDismental?.Invoke(card);

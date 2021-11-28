@@ -1,9 +1,6 @@
-﻿using UnityEngine;
-using Factory;
-using Battles;
-using Account.GeneralData;
-using Account;
+﻿using Account;
 using System;
+using UnityEngine;
 
 
 
@@ -60,16 +57,24 @@ namespace UI.Meta.PlayScreen
         private void InitCharactersData()
         {
             ushort playerLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
-            if (playerLevel <= 0)
+            if (playerLevel < 0)
             {
                 throw new Exception("ChooseCharacterScreen playerLevel is not logical");
             }
-
-            CharacterSO[] characters = GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(CharacterTypeEnum.Player);
-            for (int i = 0; i < characters.Length; i++)
+            var characters = AccountManager.Instance.AccountCharacters.CharacterDatas;
+            int length = characters.Length;
+            for (int i = 0; i < length; i++)
             {
-                CharacterData characterData = new CharacterData(characters[i].CharacterEnum);
-                _characters[i].Init(characterData, playerLevel, characters[i]);
+                var accounts = characters[i];
+                if (accounts != null)
+                {
+                    _characters[i].Init(
+                        accounts,
+                        playerLevel,
+                        Factory.GameFactory.Instance.CharacterFactoryHandler.CharacterCollection.GetCharacterSO(accounts.CharacterEnum)
+                        );
+
+                }
             }
         }
     }

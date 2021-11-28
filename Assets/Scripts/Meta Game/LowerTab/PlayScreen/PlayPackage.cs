@@ -17,7 +17,7 @@ namespace UI.Meta.PlayScreen
         public void SendPackage()
         {
             Debug.Log($"Sending Package of Character {CharacterData.CharacterEnum} with the Chosen Deck {Deck.DeckName}");
-            Battles.BattleData.Player = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(_characterData, _deck);
+            Battles.BattleData.Player = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(_characterData, _characterData.Decks[0]);
             Battles.BattleData.PlayerWon = false;
             Battles.BattleData.IsFinishedPlaying = false;
             Battles.BattleData.MapRewards = new Battles.MapRewards();
