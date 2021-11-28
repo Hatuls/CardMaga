@@ -18,6 +18,7 @@ namespace Battles
         [SerializeField] Unity.Events.SoundsEvent _playSound;
         public UnityEvent OnPlayerDefeat;
         public UnityEvent OnPlayerVictory;
+        public UnityEvent OnBattleStarts;
 
         IEnumerator _turnCycles;
 
@@ -82,6 +83,7 @@ namespace Battles
             Instance.StopAllCoroutines();
             Instance._turnCycles = TurnHandler.TurnCycle();
             BattleData.PlayerWon = false;
+            Instance. OnBattleStarts?.Invoke();
             StartGameTurns();
 
 

@@ -148,7 +148,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
-            GameEventsInvoker.Instance.OnBattleStarts?.Invoke();
+   
             base.PlayTurn();
             yield return null;
             MoveToNextTurnState();

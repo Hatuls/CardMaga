@@ -5,10 +5,9 @@ public class GameEventsInvoker : MonoSingleton<GameEventsInvoker>
 {
     public UnityEvent OnStartTurn;
     public UnityEvent OnEndTurn;
-    public UnityEvent OnBattleStarts;
+
     public UnityEvent OnSelectCard;
     public UnityEvent OnZoomCard;
-
 
     public UnityEvent OnHeal;
 
