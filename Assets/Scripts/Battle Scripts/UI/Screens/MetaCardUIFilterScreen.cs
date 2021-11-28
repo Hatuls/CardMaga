@@ -22,6 +22,15 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
     Transform _container;
     [SerializeField] float _metaCardSize = 1f;
 
+    private void OnEnable()
+    {
+        MetaCardUIHandler.OnInfoEvent += OnCardInfoSelected;
+    }
+    private void OnDisable()
+    {
+        MetaCardUIHandler.OnInfoEvent -= OnCardInfoSelected;
+    }
+
     protected override void CreatePool()
     {
         var deck = Account.AccountManager.Instance.AccountCards.CardList;

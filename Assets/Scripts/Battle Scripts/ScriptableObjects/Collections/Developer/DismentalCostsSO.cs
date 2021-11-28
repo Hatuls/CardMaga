@@ -8,7 +8,15 @@ public class DismentalCostsSO : ScriptableObject
 
     public DismentalCost[] DismentalCosts { get => _dismentalCosts; }
 
-
+    public ushort GetCardDismentalCost(Card card)
+    {
+        for (int i = 0; i < _dismentalCosts.Length; i++)
+        {
+            if (_dismentalCosts[i].Rarity == card.CardSO.Rarity)
+                return _dismentalCosts[i].DismentalCosts[card.CardLevel];
+        }
+        throw new System.Exception($"DismentalCosts: Rarity Was Not Found: {card.CardSO.Rarity}");
+    }
 
 #if UNITY_EDITOR
     public void Init(string[] csv)

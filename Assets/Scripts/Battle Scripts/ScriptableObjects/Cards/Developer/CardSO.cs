@@ -88,6 +88,13 @@ namespace Cards
         private ushort _id;
         public ushort ID { get => _id; set => _id = value; }
 
+        [TabGroup("CardData/Info", "Data")]
+        [SerializeField]
+        bool _isBattleReward;
+        [TabGroup("CardData/Info", "Data")]
+        [SerializeField]
+        bool _isPackReward;
+        
         [TabGroup("CardData/Info", "Keywords")]
         [SerializeField]
         private KeywordData[] _cardKeywordsData;
@@ -112,6 +119,9 @@ namespace Cards
 
         [ShowInInspector]
         public byte CardsMaxLevel => PerLevelUpgrade == null ? (byte)0 : (byte)(PerLevelUpgrade.Length);
+
+        public bool IsBattleReward { get => _isBattleReward; set => _isBattleReward = value; }
+        public bool IsPackReward { get => _isPackReward;  set => _isPackReward = value; }
 
         #endregion
 

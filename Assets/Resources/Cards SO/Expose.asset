@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
-  m_Name: High Kick
+  m_Name: Expose
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,8 +21,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: 8c0cb9eb06f7c8e47bfb7358e094db82, type: 3}
-  _cardName: High Kick
+  _cardSprite: {fileID: 0}
+  _cardName: Expose
   _animationBundle:
     BodyPartEnum: 6
     _attackAnimation: 5
@@ -31,24 +31,31 @@ MonoBehaviour:
     IsSlowMotion: 0
     IsCinemtaic: 0
   _rarity: 1
-  _stamina: 1
+  _stamina: 2
   _purchaseCost: 30
   _toExhaust: 0
   _salvageCost: 1
-  _id: 12
-  _isBattleReward: 1
+  _id: 50
+  _isBattleReward: 0
   _isPackReward: 1
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
     _target: 2
-    _amountToApply: 4
+    _amountToApply: 3
+    _animationIndex: 0
+    _conditions:
+      _comboCondition: []
+      _paramaterCondition: []
+  - _keywordBase: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9, type: 2}
+    _target: 2
+    _amountToApply: 2
     _animationIndex: 0
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - '4 Attack '
+    - '3 Attack 2 Vulnerable '
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -75,12 +82,25 @@ MonoBehaviour:
       _cardTypeData:
         _bodyPart: 0
         _cardType: 0
-      _amount: 1
+      _amount: 2
     - _upgradeType: 2
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
         _target: 2
-        _amountToApply: 4
+        _amountToApply: 3
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9, type: 2}
+        _target: 2
+        _amountToApply: 2
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -90,7 +110,7 @@ MonoBehaviour:
         _cardType: 0
       _amount: 0
   - _description:
-    - '5 Attack '
+    - '6 Attack 3 Vulnerable '
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -117,12 +137,25 @@ MonoBehaviour:
       _cardTypeData:
         _bodyPart: 0
         _cardType: 0
-      _amount: 1
+      _amount: 2
     - _upgradeType: 2
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
         _target: 2
-        _amountToApply: 5
+        _amountToApply: 6
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9, type: 2}
+        _target: 2
+        _amountToApply: 3
         _animationIndex: 0
         _conditions:
           _comboCondition: []

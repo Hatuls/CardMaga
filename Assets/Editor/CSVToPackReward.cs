@@ -50,6 +50,7 @@ public class CSVToPackReward : CSVAbst
 
             if (rewards.Init(line))
             {
+                rewards.LoadRewardCards(CSVManager._cardCollection);
                 AssetDatabase.CreateAsset(rewards, $"Assets/Resources/Rewards/PackRewards/{rewards.Rarity}PackRewardSO.asset");
                 return rewards;
             }
