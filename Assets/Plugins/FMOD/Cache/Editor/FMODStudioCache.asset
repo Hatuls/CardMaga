@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: ../../../Fmod Projects/Card Maga/Card Maga Sounds/Build/Desktop/Charcter.bank
   Name: Charcter
   StudioPath: bank:/Charcter
-  lastModified: 637737234002939027
+  lastModified: 637737347813482337
   FileSizes:
   - Name: Desktop
     Value: 23296
@@ -108,7 +108,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: 2458544526726425644}
+  - {fileID: 6088793146844386689}
   MinDistance: 0
   MaxDistance: 0
   Length: 61548
@@ -150,7 +150,7 @@ MonoBehaviour:
   Path: ../../../Fmod Projects/Card Maga/Card Maga Sounds/Build/Desktop/Loot.bank
   Name: Loot
   StudioPath: bank:/Loot
-  lastModified: 637737234003289264
+  lastModified: 637737347813842398
   FileSizes:
   - Name: Desktop
     Value: 30688
@@ -170,7 +170,7 @@ MonoBehaviour:
   Path: ../../../Fmod Projects/Card Maga/Card Maga Sounds/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 637737234003709634
+  lastModified: 637737347814132795
   FileSizes:
   - Name: Desktop
     Value: 1325024
@@ -213,7 +213,7 @@ MonoBehaviour:
   Path: ../../../Fmod Projects/Card Maga/Card Maga Sounds/Build/Desktop/Combat Mechanics.bank
   Name: Combat Mechanics
   StudioPath: bank:/Combat Mechanics
-  lastModified: 637737234003129142
+  lastModified: 637737347813682296
   FileSizes:
   - Name: Desktop
     Value: 118048
@@ -232,8 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/UI Click
   guid: 6190fde2bfe64242bdbdacf3be327ec4
-  Banks:
-  - {fileID: 407328986945226361}
+  Banks: []
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -287,6 +286,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1253
+--- !u!114 &-2760600103935591146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI Click Exit
+  m_EditorClassIdentifier: 
+  Path: event:/UI Click Exit
+  guid: c75019824859914b8b256739eff573a4
+  Banks:
+  - {fileID: 407328986945226361}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1880
 --- !u!114 &-1001657307752441614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,23 +439,45 @@ MonoBehaviour:
   - {fileID: 4551747948490617574}
   - {fileID: -5233517310361642384}
   - {fileID: 4493199964188475177}
-  - {fileID: -4114925004462900322}
   - {fileID: -5036684281212558132}
   - {fileID: 2516496831288256692}
   - {fileID: 3145484055940724359}
   - {fileID: -3725898094981679205}
-  - {fileID: 1856075805627170337}
   - {fileID: 7322564485591434065}
   - {fileID: 9044166738440971640}
   - {fileID: 3000963049005079260}
   - {fileID: -1001657307752441614}
+  - {fileID: 2421828447665488222}
+  - {fileID: -2760600103935591146}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4648332413665182012}
   StringsBanks:
   - {fileID: 4192865341508675246}
-  stringsBankWriteTime: 637737234002338592
+  stringsBankWriteTime: 637737347813892448
   cacheVersion: 8
+--- !u!114 &368414282325334549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Combat Music/Health
+  m_EditorClassIdentifier: 
+  Name: Health
+  Min: 0
+  Max: 90
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 0
 --- !u!114 &407328986945226361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,7 +493,7 @@ MonoBehaviour:
   Path: ../../../Fmod Projects/Card Maga/Card Maga Sounds/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 637737234003509437
+  lastModified: 637737347814362765
   FileSizes:
   - Name: Desktop
     Value: 107040
@@ -468,8 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/UI Click 9
   guid: c75019824859914b8b256739eff573a4
-  Banks:
-  - {fileID: 407328986945226361}
+  Banks: []
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -500,6 +543,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1462
+--- !u!114 &2421828447665488222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI Click Deck
+  m_EditorClassIdentifier: 
+  Path: event:/UI Click Deck
+  guid: 6190fde2bfe64242bdbdacf3be327ec4
+  Banks:
+  - {fileID: 407328986945226361}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1880
 --- !u!114 &2458544526726425644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,7 +587,7 @@ MonoBehaviour:
     data2: 0
   Type: 0
   IsGlobal: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &2516496831288256692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -629,7 +695,7 @@ MonoBehaviour:
   Path: ../../../Fmod Projects/Card Maga/Card Maga Sounds/Build/Desktop/Cards.bank
   Name: Cards
   StudioPath: bank:/Cards
-  lastModified: 637737234002768897
+  lastModified: 637737347813322032
   FileSizes:
   - Name: Desktop
     Value: 125280
@@ -649,10 +715,10 @@ MonoBehaviour:
   Path: ../../../Fmod Projects/Card Maga/Card Maga Sounds/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637737234002338592
+  lastModified: 637737347813892448
   FileSizes:
   - Name: Desktop
-    Value: 2144
+    Value: 2140
   Exists: 1
 --- !u!114 &4493199964188475177
 MonoBehaviour:
@@ -715,7 +781,7 @@ MonoBehaviour:
   Path: ../../../Fmod Projects/Card Maga/Card Maga Sounds/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637737234002328579
+  lastModified: 637737347813872428
   FileSizes:
   - Name: Desktop
     Value: 1000
@@ -789,6 +855,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 444
+--- !u!114 &6088793146844386689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Combat Music/Health
+  m_EditorClassIdentifier: 
+  Name: Health
+  Min: 0
+  Max: 90
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &6587467736375375908
 MonoBehaviour:
   m_ObjectHideFlags: 0
