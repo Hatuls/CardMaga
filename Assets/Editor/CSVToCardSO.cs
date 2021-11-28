@@ -73,41 +73,39 @@ public class CSVToCardSO : CSVAbst
                 cardList.Add(cardCache);
 
                 // battle reward sort
-                if (int.TryParse(row[IsBattleReward], out int result))
+
+                // is reward card
+                if (cardCache.IsBattleReward)
                 {
-                    // is reward card
-                    if (result == 1)
+
+                    switch (cardCache.Rarity)
                     {
 
-                        switch (cardCache.Rarity)
-                        {
-
-                            case RarityEnum.Common:
-                                commonList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.Uncommon:
-                                unCommonList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.Rare:
-                                rareList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.Epic:
-                                epicList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.LegendREI:
-                                legendReiList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.None:
-                            default:
-                                throw new Exception("Rarity card is None or not acceptabl\ncard id" + +cardCache.ID);
-                        }
-
+                        case RarityEnum.Common:
+                            commonList.Add(cardCache.ID);
+                            break;
+                        case RarityEnum.Uncommon:
+                            unCommonList.Add(cardCache.ID);
+                            break;
+                        case RarityEnum.Rare:
+                            rareList.Add(cardCache.ID);
+                            break;
+                        case RarityEnum.Epic:
+                            epicList.Add(cardCache.ID);
+                            break;
+                        case RarityEnum.LegendREI:
+                            legendReiList.Add(cardCache.ID);
+                            break;
+                        case RarityEnum.None:
+                        default:
+                            throw new Exception("Rarity card is None or not acceptabl\ncard id" + +cardCache.ID);
                     }
+
                 }
-                else
-                    throw new Exception("Battle reward was not stated in the card :" + cardCache.ID);
+               
             }
         }
+
 
 
         await Task.Yield();
@@ -147,7 +145,7 @@ public class CSVToCardSO : CSVAbst
             Debug.LogError("CardPictures is null!!");
     }
     private static bool CheckIfEmpty(string toCheck) => toCheck == "-";
-    private static Cards.CardSO CreateCard(string[] cardSO)
+    private static CardSO CreateCard(string[] cardSO)
     {
         //string input ="";
 
@@ -198,7 +196,7 @@ public class CSVToCardSO : CSVAbst
         const int IDThatCraftMe = 22;
         const int UpgradeToCardID = 23;
         const int IsExhausted = 24;
-
+        const int IsRewardType = 25;
 
         card.ID = ushort.Parse(cardSO[ID]);
 
@@ -288,7 +286,16 @@ public class CSVToCardSO : CSVAbst
         card.PerLevelUpgrade = _PerLevelUpgrade.ToArray();
 
 
+        string[] rewardType = cardSO[IsRewardType].Split('&');
+        if (byte.TryParse(rewardType[0], out byte isBattleReward))
+            card.IsBattleReward = isBattleReward == 1;
+        else
+            throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[0]}");
 
+        if (byte.TryParse(rewardType[1], out byte isPackReward))
+            card.IsPackReward = isPackReward == 1;
+        else
+            throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[1]}");
 
 
         AssetDatabase.CreateAsset(card, $"Assets/Resources/Cards SO/{card.CardName}.asset");

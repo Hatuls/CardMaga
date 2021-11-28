@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class PurchaseCost
+public class ResourceStock
 {
     [SerializeField]
     Rewards.ResourceEnum _resourceEnum;
     [SerializeField]
     ushort _price;
 
-    public PurchaseCost(Rewards.ResourceEnum resourceEnum, ushort price)
+    public ResourceStock(Rewards.ResourceEnum resourceEnum, ushort price)
     {
         _resourceEnum = resourceEnum;
         _price = price;

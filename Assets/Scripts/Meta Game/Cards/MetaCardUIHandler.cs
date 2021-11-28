@@ -17,7 +17,7 @@ namespace UI.Meta.Laboratory
 
         [SerializeField] CardUIEvent OnSelectEvent;
         [SerializeField] CardUIEvent OnRemoveEvent;
-        [SerializeField] CardUIEvent OnInfoEvent;
+         public static Action<CardUI> OnInfoEvent;
         [SerializeField] CardUIEvent OnDismentalEvent;
 
 
@@ -132,14 +132,14 @@ namespace UI.Meta.Laboratory
             OnSelectEvent.AddListener(_metaCardUIFilterScreen.OnCardUseSelected);
             OnRemoveEvent.AddListener(_metaCardUIFilterScreen.OnCardRemoveSelected);
             OnDismentalEvent.AddListener(_metaCardUIFilterScreen.OnCardDismentalSelected);
-            OnInfoEvent.AddListener(_metaCardUIFilterScreen.OnCardInfoSelected);
+         //   OnInfoEvent.AddListener(_metaCardUIFilterScreen.OnCardInfoSelected);
         }
         private void UnSubscribeEvents()
         {
             OnSelectEvent?.RemoveAllListeners();
             OnRemoveEvent?.RemoveAllListeners();
             OnDismentalEvent?.RemoveAllListeners();
-            OnInfoEvent?.RemoveAllListeners();
+        //    OnInfoEvent?.RemoveAllListeners();
         }
     }
     public abstract class MetaCardUIOpenerAbst : MonoBehaviour, IOnMetaCardUIClicked

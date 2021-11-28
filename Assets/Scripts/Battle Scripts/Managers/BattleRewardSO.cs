@@ -13,6 +13,7 @@ namespace Rewards
         Diamonds = 3,
         Gold = 4,
         Energy = 5,
+        Chips = 65,
     }
     public enum ActsEnum
     {
@@ -298,6 +299,7 @@ namespace Rewards
                     _dropChance = chance;
                     _levelChances = levelChances;
                 }
+              
             }
             [SerializeField]
             RarityDropChance[] _dropChances;

@@ -50,14 +50,19 @@ namespace UI.Meta.Laboratory
         TextMeshProUGUI _dismantleText;
 
         [SerializeField]
+        CardUIInteractionHandle _cardUIInteractionHandler;
+
+        [SerializeField]
         LabPanelsEnum _labPanelsEnum;
         #endregion
         public override void Close()
         {
             gameObject.SetActive(false);
+            _cardUIInteractionHandler.UnSubscribe();
         }
         public override void Open()
         {
+            _cardUIInteractionHandler.Subscribe();
             OpenPanel(LabPanelsEnum.Upgrade);
             gameObject.SetActive(true);
         }
