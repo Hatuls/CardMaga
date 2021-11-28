@@ -58,11 +58,18 @@ namespace Account.GeneralData
 
         public void NewLoad()
         {
-            const byte characterAmount = 2;
-            //    _characters = new Dictionary<CharacterEnum, CharacterData>(characterAmount);
-            _characterDatas = new CharacterData[characterAmount];
-            AddChatacterToDictionary(CharacterEnum.Chiara);
-            AddChatacterToDictionary(CharacterEnum.TestSubject007);
+
+
+
+            int currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
+            var characters = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.Player);
+            int length = characters.Length;
+            _characterDatas = new CharacterData[length];
+            for (int i = 0; i < length; i++)
+            {
+                if (characters[i].UnlockAtLevel <= currentLevel)
+                    AddChatacterToDictionary(characters[i].CharacterEnum);
+            }
         }
         #endregion
     }

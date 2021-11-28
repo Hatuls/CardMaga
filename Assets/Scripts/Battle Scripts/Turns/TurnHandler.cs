@@ -85,10 +85,10 @@ namespace Battles.Turns
 
         internal static void CheckPlayerTurnForAvailableAction()
         {
-            if (CurrentState != TurnState.PlayerTurn && BattleManager.isGameEnded == false)
+            if (CurrentState != TurnState.PlayerTurn && BattleManager.isGameEnded == false )
                 return;
 
-            bool noMoreActionAvailable = StaminaHandler.Instance.PlayerStamina.HasStamina == false;
+            bool noMoreActionAvailable = StaminaHandler.Instance.PlayerStamina.HasStamina == false && CardExecutionManager.CardsQueue.Count == 0;
 
             if (noMoreActionAvailable)
             {
