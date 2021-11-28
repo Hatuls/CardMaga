@@ -148,6 +148,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+            GameEventsInvoker.Instance.OnBattleStarts?.Invoke();
             base.PlayTurn();
             yield return null;
             MoveToNextTurnState();
@@ -215,7 +216,7 @@ namespace Battles.Turns
              * Activate the enemy keywords 
              * Remove The Player Defense
              */
-
+            GameEventsInvoker.Instance.OnEndTurn?.Invoke();
           // CardUIManager.Instance.RemoveHands();
             CardExecutionManager.Instance.ResetExecution();
             base.PlayTurn();
@@ -314,6 +315,7 @@ namespace Battles.Turns
              * each animation that finished tell the CardExecutionManager to execute the keyword effects of the current card
              * and remove the current card from the placementslot
             */
+            GameEventsInvoker.Instance.OnEndTurn?.Invoke();
             StaminaHandler.Instance.OnEndTurn(true);
             Deck.DeckManager.Instance.OnEndTurn(true);
             CardUIManager.Instance.RemoveHands();

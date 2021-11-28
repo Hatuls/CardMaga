@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using Characters.Stats;
+using UnityEngine.Events;
 
 namespace Keywords
 {
+    [System.Serializable]
+    public class KeywordEvent : UnityEvent<KeywordAbst> { }
     public class KeywordManager : MonoSingleton<KeywordManager>
     {
-
-
+        [SerializeField]
+        KeywordEvent keywordEvent;
         #region Fields
         private static Dictionary<KeywordTypeEnum, KeywordAbst> _keywordDict;
 
@@ -53,6 +56,9 @@ namespace Keywords
             if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.KeywordSO.GetKeywordType, out KeywordAbst keywordEffect))
             {
                 keywordEffect.ProcessOnTarget(isPlayerTurn, keyword);
+
+                keywordEvent?.Invoke(keywordEffect);
+
             }
 
 

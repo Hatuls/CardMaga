@@ -1,22 +1,23 @@
 ﻿using Battles.Turns;
-using UnityEngine;
-using Sirenix.OdinInspector;
-using Managers;
-using System.Collections;
-using Characters.Stats;
-using System;
-using Rewards.Battles;
 using Characters;
+using Characters.Stats;
+using Managers;
+using Sirenix.OdinInspector;
+using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace Battles
 {
     public class BattleManager : MonoSingleton<BattleManager>
     {
-  
+
         public static bool isGameEnded;
         public static Action OnGameEnded;
         [SerializeField] Unity.Events.SoundsEvent _playSound;
-
+        public UnityEvent OnPlayerDefeat;
+        public UnityEvent OnPlayerVictory;
 
         IEnumerator _turnCycles;
 
@@ -38,11 +39,11 @@ namespace Battles
 
         private void AssignParams()
         {
-         
-            
-                PlayerManager.Instance.AssignCharacterData(BattleData.Player);
-                EnemyManager.Instance.AssignCharacterData(BattleData.Opponent);
-            
+
+
+            PlayerManager.Instance.AssignCharacterData(BattleData.Player);
+            EnemyManager.Instance.AssignCharacterData(BattleData.Opponent);
+
             if (BattleData.Player.CharacterData.CharacterStats.Health <= 0)
                 throw new Exception("Battle data was not work correctly!");
 
@@ -53,8 +54,8 @@ namespace Battles
             AudioManager.Instance.ResetAudioCollection();
 
 
-            if (EndTurnButton._OnFinishTurnPress!= null)
-            EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
+            if (EndTurnButton._OnFinishTurnPress != null)
+                EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
             EndTurnButton._OnFinishTurnPress += TurnHandler.OnFinishTurn;
 
             StaminaHandler.Instance.InitStaminaHandler();
@@ -70,7 +71,7 @@ namespace Battles
             VFXManager.Instance.Init();
 
 
-           
+
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
@@ -82,7 +83,6 @@ namespace Battles
             Instance._turnCycles = TurnHandler.TurnCycle();
             BattleData.PlayerWon = false;
             StartGameTurns();
-            Instance.StartCoroutine(Instance.BackGroundSoundDelay());
 
 
         }
@@ -92,13 +92,7 @@ namespace Battles
             => Instance.StartCoroutine(Instance._turnCycles);
 
 
-        IEnumerator BackGroundSoundDelay()
-        {
-            yield return new WaitForSeconds(0.5f);
-          //  _playSound?.Raise(SoundsNameEnum.CombatBackground);
-            yield return new WaitForSeconds(0.5f);
-            _playSound?.Raise(SoundsNameEnum.VS);
-        }
+
         public static void BattleEnded(bool isPlayerDied)
         {
             if (isGameEnded == true)
@@ -111,6 +105,7 @@ namespace Battles
             if (isPlayerDied)
             {
                 PlayerDied();
+
             }
             else
             {
@@ -124,7 +119,7 @@ namespace Battles
 
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
-         //   BattleRewardHandler.Instance.FinishMatch(!isPlayerDied);
+            //   BattleRewardHandler.Instance.FinishMatch(!isPlayerDied);
         }
 
         private static void UpdateStats()
@@ -139,12 +134,12 @@ namespace Battles
 
         public static void DeathAnimationFinished(bool isPlayer)
         {
-          
-            if (isPlayer) 
+
+            if (isPlayer)
                 BattleData.IsFinishedPlaying = true;
 
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
-        
+
         }
 
 
@@ -153,15 +148,14 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
-            Instance._playSound?.Raise(SoundsNameEnum.Victory);
+            Instance.OnPlayerVictory?.Invoke();
         }
 
         private static void PlayerDied()
         {
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.EnemyAnimatorController.CharacterWon();
-            if (isGameEnded == false)
-                Instance._playSound?.Raise(SoundsNameEnum.Defeat);
+            Instance.OnPlayerDefeat?.Invoke();
         }
 
 
@@ -202,7 +196,7 @@ namespace Battles
     {
         void RestartBattle();
 
-      void  AssignCharacterData(Character character);
+        void AssignCharacterData(Character character);
         void UpdateStatsUI();
         void OnEndBattle();
     }

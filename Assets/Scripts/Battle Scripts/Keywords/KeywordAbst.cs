@@ -1,16 +1,17 @@
 ﻿using Conditions;
-using Characters.Stats;
 
 namespace Keywords
 {
+    [System.Serializable]
     public abstract class KeywordAbst : IKeyword
     {
- 
+
         public abstract KeywordTypeEnum Keyword { get; }
 
         public abstract void ProcessOnTarget(bool currentPlayer, KeywordData data);
 
-        public static bool CheckCondition(ref Condition con) {
+        public static bool CheckCondition(ref Condition con)
+        {
 
             bool isValidCondition = true; ;
             if (con.Equals(typeof(ComboCondition)))

@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using TMPro;
 using Keywords;
+using UnityEngine.Events;
+
 public class BuffIcon : MonoBehaviour
 {
     #region Fields
@@ -24,8 +26,8 @@ public class BuffIcon : MonoBehaviour
 
 [SerializeField] protected RectTransform _rectTransform;
 
-
-
+    [SerializeField]
+    UnityEvent OnGainArmor;
 
     #endregion
     #region Properties
@@ -93,7 +95,10 @@ public class BuffIcon : MonoBehaviour
     {
         SetText(amount.ToString());
         if (amount != 0)
+        {
+        
             TweenOnUpdateText();
+        }
         else if (_name != KeywordTypeEnum.Shield)
             TweenExitEntrance(false);
     }
@@ -107,6 +112,8 @@ public class BuffIcon : MonoBehaviour
     {
         if (gameObject  != null&& gameObject.activeSelf)
         {
+
+
         LeanTween.scale(_rectTransform, Vector3.one * _buffIconSettingsSO.ScaleAmount, _buffIconSettingsSO.ScaleEntranceTime).setEase(_buffIconSettingsSO.EntranceTypeTweenType).setOnComplete(() =>
         LeanTween.scale(_rectTransform, Vector3.one, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType)
             );

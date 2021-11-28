@@ -4,6 +4,7 @@ using Battles.Deck;
 using Cards;
 using System;
 using Battles.UI.CardUIAttributes;
+using UnityEngine.Events;
 
 namespace Battles.UI
 {
@@ -54,6 +55,8 @@ namespace Battles.UI
         #region Events
         [SerializeField]
         Unity.Events.SoundsEvent _soundEvent;
+        [SerializeField]
+        UnityEvent OnDrawCard;
         #endregion
 
         #region Properties
@@ -163,7 +166,7 @@ namespace Battles.UI
 
                         card.CardAnimator.PlayNoticeAnimation();
 
-                        _soundEvent.Raise(SoundsNameEnum.DrawCard);
+                        OnDrawCard?.Invoke();
 
                      //  var cardRefenrec = card.GFX.GetCardReference;
                      //  if (cardRefenrec ==null|| cardData[i].CardSO != cardRefenrec.CardSO && cardRefenrec.CardLevel != cardData[i].CardLevel)
@@ -310,7 +313,7 @@ namespace Battles.UI
 
             _selectedCardUI.gameObject.SetActive(true);
             cardReference.GFX.GlowCard(true);
-
+            GameEventsInvoker.Instance.OnSelectCard?.Invoke();
             _selectedCardUI = cardReference;
             _handUI.LockCardsInput(true);
 
@@ -349,6 +352,7 @@ namespace Battles.UI
                 return;
 
             GameBattleDescriptionUI.Instance.CheckCardUI(card);
+            GameEventsInvoker.Instance.OnZoomCard?.Invoke();
             //     card.Inputs.GetCanvasGroup.blocksRaycasts = false;
             // card.CardTranslations?.SetPosition( Vector2.zero);
 

@@ -4,6 +4,7 @@ using Characters.Stats;
 using System.Collections.Generic;
 using UnityEngine;
 using Keywords;
+using UnityEngine.Events;
 
 namespace Battles
 {
@@ -23,6 +24,10 @@ namespace Battles
         [SerializeField] StaminaUI _staminaBtn;
         static int currentKeywordIndex;
         public static bool FinishedAnimation;
+
+
+        [SerializeField] UnityEvent OnSuccessfullExecution;
+        [SerializeField] UnityEvent OnFailedToExecute;
         public void ResetExecution()
         {
             //_keywordData.Clear();
@@ -47,7 +52,8 @@ namespace Battles
                 if (isPlayer)
                 {
                     _staminaBtn.PlayRejectAnimation();
-                 _playSound?.Raise(SoundsNameEnum.Reject);
+                    OnFailedToExecute?.Invoke();
+
                 }
 
                 return false;
@@ -55,9 +61,12 @@ namespace Battles
 
             // execute card
             StaminaHandler.Instance.ReduceStamina(isPlayer,card);
-
+            OnSuccessfullExecution?.Invoke();
             if (isPlayer)
+            {
+      
                 CardUIManager.Instance.LockHandCards(false);
+            }
             else
                 CardUIManager.Instance.PlayEnemyCard(card);
 
