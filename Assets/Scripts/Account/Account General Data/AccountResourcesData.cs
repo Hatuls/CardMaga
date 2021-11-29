@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace Account.GeneralData
 {
@@ -32,10 +33,10 @@ namespace Account.GeneralData
             _gold = new UshortStat((ushort)gold);
         }
 
-        public void NewLoad()
+        public async Task NewLoad()
         {
             _chips = new UshortStat(5);
-            _diamonds = new UshortStat(0);
+            _diamonds = new UshortStat(40);
             _gold = new UshortStat(0);
         }
     }

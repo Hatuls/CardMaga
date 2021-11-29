@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Account.GeneralData;
 using UnityEngine.Events;
+using System.Threading.Tasks;
 
 [System.Serializable]
 public enum CharacterEnum
@@ -14,7 +15,7 @@ namespace Account
 {
     public interface ILoadFirstTime
     {
-        void NewLoad();
+        Task NewLoad();
     }
     public class AccountManager : MonoBehaviour
     {
@@ -64,21 +65,30 @@ namespace Account
         #region Private Methods
         #endregion
         #region Public Methods
-        public void Init()
+        public async  void Init()
         {
             if (PlayerPrefs.HasKey(AccountData.SaveName))
             {
                 _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, SaveManager.FileStreamType.PlayerPref);
+                if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value ==0 )
+                    await CreateNewAccount();
+                else
                 Debug.Log("Loading Data From PlayerPref");
             }
             else
             {
-                _accountData = new AccountData();
-                _accountData.NewLoad();
+                await CreateNewAccount();
             }
 
             OnFinishLoading?.Invoke();
         }
+        public void ResetAccount() => _ = CreateNewAccount();
+        private async Task CreateNewAccount()
+        {
+            _accountData = new AccountData();
+            await _accountData.NewLoad();
+        }
+
         public void DownloadDataFromServer()
         {
         }
@@ -133,18 +143,18 @@ namespace Account
         public AccountGeneralData AccountGeneralData { get => _accountGeneralData; private set => _accountGeneralData = value; }
 
 
-        public void NewLoad()
+        public async Task NewLoad()
         {
             AccountSettingsData = new AccountSettingsData();
-            AccountSettingsData.NewLoad();
+          await  AccountSettingsData.NewLoad();
             AccountGeneralData = new AccountGeneralData();
-            AccountGeneralData.NewLoad();
+            await AccountGeneralData.NewLoad();
             AccountCards = new AccountCards();
-            AccountCards.NewLoad();
+            await AccountCards.NewLoad();
              AccountCombos = new AccountCombos();
-            AccountCombos.NewLoad();
+            await AccountCombos.NewLoad();
             AccountCharacters = new AccountCharacters();
-            AccountCharacters.NewLoad();
+            await AccountCharacters.NewLoad();
         }
     }
 }

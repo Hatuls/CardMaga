@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace Account.GeneralData
 {
@@ -37,6 +39,7 @@ namespace Account.GeneralData
             {
                 throw new Exception("AccountCharacters enemy can not be added to dictionary");
             }
+            Array.Resize(ref _characterDatas, _characterDatas.Length + 1);
             for (int i = 0; i < _characterDatas.Length; i++)
             {
                 if (_characterDatas[i] == null)
@@ -56,7 +59,7 @@ namespace Account.GeneralData
             throw new NotImplementedException();
         }
 
-        public void NewLoad()
+        public async Task NewLoad()
         {
 
 
@@ -64,11 +67,13 @@ namespace Account.GeneralData
             int currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
             var characters = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.Player);
             int length = characters.Length;
-            _characterDatas = new CharacterData[length];
+            _characterDatas = new CharacterData[0];
             for (int i = 0; i < length; i++)
             {
                 if (characters[i].UnlockAtLevel <= currentLevel)
+                {
                     AddChatacterToDictionary(characters[i].CharacterEnum);
+                }
             }
         }
         #endregion

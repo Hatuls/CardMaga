@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace Account.GeneralData
 {
@@ -15,7 +16,7 @@ namespace Account.GeneralData
         #region Properties
 
 
-        public void NewLoad()
+        public async Task NewLoad()
         {
             const int maxEnergy = 30;
             const int energy = 999;

@@ -122,7 +122,7 @@ namespace Battles.UI
             {
                 if (_cardTranslations == null &&
                     ((Card & CardUISettings.Moveable) == CardUISettings.Moveable))
-                    _cardTranslations = new CardTranslations( _cardGFX.GetRectTransform);
+                    _cardTranslations = new CardTranslations(_cardGFX.GetRectTransform == null ? GetComponent<RectTransform>() :_cardGFX.GetRectTransform);
 
                 return  _cardTranslations;
             }
