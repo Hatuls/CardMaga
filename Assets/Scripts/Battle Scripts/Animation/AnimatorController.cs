@@ -3,7 +3,7 @@ using Unity.Events;
 using UnityEngine;
 using Cards;
 using Rei.Utilities;
-
+using UnityEngine.Events;
 
 public class AnimatorController : MonoBehaviour
 {
@@ -74,6 +74,12 @@ public class AnimatorController : MonoBehaviour
 
 
     #region Public
+    [SerializeField]
+    UnityEvent OnKickEvent;
+    [SerializeField]
+    UnityEvent OnPunchEvent;
+    public void OnKickSound() => OnKickEvent?.Invoke();
+    public void OnPunchSound() => OnPunchEvent?.Invoke();
     public void ResetAnimator()
     {
 
