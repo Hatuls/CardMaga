@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 namespace Account.GeneralData
 {
     [System.Serializable]
@@ -29,18 +30,18 @@ namespace Account.GeneralData
         public AccountResourcesData AccountResourcesData { get => _accountResourcesData; private set => _accountResourcesData = value; }
         public AccountEnergyData AccountEnergyData { get => _accountEnergyData; private set => _accountEnergyData = value; }
 
-        public void NewLoad()
+        public async Task NewLoad()
         {
             //_accountInfoData = new AccountInfoData(TimeManager.Instance.GetCurrentTime(),);
 
 
 
             _accountEnergyData = new AccountEnergyData();
-            _accountEnergyData.NewLoad();
+           await _accountEnergyData.NewLoad();
             _accountLevelData = new AccountLevelData();
-            _accountLevelData.NewLoad();
+            await _accountLevelData.NewLoad();
             _accountResourcesData = new AccountResourcesData();
-            _accountResourcesData.NewLoad();
+            await _accountResourcesData.NewLoad();
         }
         #endregion
     }
