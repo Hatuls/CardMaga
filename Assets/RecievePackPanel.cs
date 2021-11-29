@@ -31,16 +31,16 @@ public class RecievePackPanel : MonoBehaviour
     GameObject buyAgainContainer;
 
 
-    ushort _chipAmount;
+    PackReward _pack;
     public void Open(PackRewardSO pack )
     {
-        _chipAmount = 0;
+       
         var factory = Factory.GameFactory.Instance;
-        var rewards = pack.CreatePackReward();
-        var card = factory.CardFactoryHandler.CreateCard(rewards.RewardCard);
+        _pack = pack.CreatePackReward();
+        var card = factory.CardFactoryHandler.CreateCard(_pack.RewardCard);
         _titleText.text = card.CardSO.Rarity.ToString();
         _currentCard.GFX.SetCardReference(card, factory.ArtBlackBoard);
-        SetChipValues(rewards);
+        SetChipValues();
 
         SetOpenCost(pack.PurchaseCosts[0].Price);
 
@@ -51,31 +51,35 @@ public class RecievePackPanel : MonoBehaviour
     {
         if (Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.Value >= price)
         {
-            _chipAmount = (ushort)price;
-            _openAgainCost.text = _chipAmount.ToString();
+       
+           
+            _openAgainCost.text = price.ToString();
             buyAgainContainer.SetActive(true);
         }
         else
             buyAgainContainer.SetActive(false);
     }
 
-    private void SetChipValues(PackReward pack)
+    private void SetChipValues()
     {
-        if (pack.Reward==null)
+        if (_pack.Reward==null || _pack.Reward.Price == 0)
         {
             _resourceHolder.gameObject.SetActive(false);
         }
         else
         {
 
-            _chipAmountText.text = string.Concat("X",pack.Reward.Price);
+            _chipAmountText.text = string.Concat("X", _pack.Reward.Price);
             _resourceHolder.gameObject.SetActive(true);
         }
     }
     private void RecieveChip()
     {
-        if(_chipAmount>0)
-        Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Chips.AddValue(_chipAmount);
+        if (_pack.Reward != null && _pack.Reward.Price > 0)
+        {
+            Debug.Log("Adding " + _pack.Reward.Price);
+        Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Chips.AddValue(_pack.Reward.Price);
+        }
     }
     private void RecieveCard()
     {
