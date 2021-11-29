@@ -18,7 +18,7 @@ namespace Account.GeneralData
         public void NewLoad()
         {
             const int maxEnergy = 30;
-            const int energy = 1000;
+            const int energy = 999;
             MaxEnergy = new MaxEnergyStat(maxEnergy);
             Energy = new EnergyStat(energy);
 
