@@ -9,7 +9,8 @@ public class CardUIInteractionHandle : MonoBehaviour
     CardUIInfoScreen _cardUIInfoScreen;
     [SerializeField]
     DismentalScreen _dismentalScreen;
-
+    [SerializeField]
+    GameObject _parent;
     public void Subscribe()
     {
         UI.Meta.Laboratory.MetaCardUIHandler.OnInfoEvent += Open;
@@ -23,21 +24,25 @@ public class CardUIInteractionHandle : MonoBehaviour
     }
     public void Open(CardUI card)
     {
-        _card = card;
+          _card = card;
         OpenInfoScreen();
+        _parent.SetActive(true);
     }
 
     public void OpenInfoScreen()
     {
+        _parent.SetActive(true);
         _dismentalScreen.gameObject.SetActive(false);
         _cardUIInfoScreen.OpenInfoScreen(_card);
         _cardUIInfoScreen.gameObject.SetActive(true);
+        _parent.SetActive(false);
     }
 
     public void Close()
     {
         _dismentalScreen.gameObject.SetActive(false);
         _cardUIInfoScreen.gameObject.SetActive(false);
+        _parent.SetActive(false);
     }
 
     public void OpenDismentalScreen()
@@ -58,6 +63,7 @@ public static class DismentalHandler
         if (account.AccountCards.RemoveCard(card.CardCoreInfo.InstanceID))
         {
             account.AccountGeneralData.AccountResourcesData.Chips.AddValue(_dismentalCostsSO.GetCardDismentalCost(card));
+
             Debug.Log("DismentalCard Successfull!");
             return true;
         }

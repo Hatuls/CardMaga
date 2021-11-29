@@ -28,6 +28,7 @@ public class DismentalScreen : MonoBehaviour
     {
       if(DismentalHandler.DismentalCard(_cardUI.GFX.GetCardReference))
         {
+
             OnDismentalSuccess?.Invoke();
         }
     }
