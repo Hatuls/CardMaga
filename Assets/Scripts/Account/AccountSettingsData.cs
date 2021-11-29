@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace Account.GeneralData
 {
@@ -21,7 +22,7 @@ namespace Account.GeneralData
 
 
  
-        public void NewLoad()
+        public async Task NewLoad()
         {
             SFXEffect = true;
             MasterVolume = true;

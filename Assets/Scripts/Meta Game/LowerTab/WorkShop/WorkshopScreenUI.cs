@@ -21,7 +21,7 @@ namespace UI.Meta.Workshop
         [SerializeField]
         Transform _containerPackParent;
 
-
+        [SerializeField] Animator _animator;
 
         private PackRewardSO _lastPack;
         #region Initialize
@@ -71,6 +71,7 @@ namespace UI.Meta.Workshop
             PackUI.OnPackRewardClicked += PurchasePack;
             InitRewardScreen();
             gameObject.SetActive(true);
+
         }
         public override void Close()
         {
@@ -85,15 +86,18 @@ namespace UI.Meta.Workshop
         {
             var diamondCost = packRewardSO.PurchaseCosts;
             ushort price = diamondCost[0].Price;
+            _animator.Play("Default");
             if (Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.ReduceValue(price))
             {
                 _lastPack = packRewardSO;
+                _animator.SetTrigger("Pop");
                 _recievePack.Open(packRewardSO);
             }
         }
 
         public void RePurchasePack()
         {
+
             _recievePack.RecievePack();
             PurchasePack(_lastPack);
         }

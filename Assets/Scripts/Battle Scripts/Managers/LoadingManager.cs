@@ -6,12 +6,14 @@ public class LoadingManager : MonoSingleton<LoadingManager>
     SceneHandler _sceneHandler;
     private void Start()
     {
+       
         if (Instance != null && Instance != this)
             Destroy(this.gameObject);
         else
         {
-          
-        DontDestroyOnLoad(this.gameObject);
+
+            // DontDestroyOnLoad(this.gameObject);
+            if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.NetworkScene)
         Init();
         }
     }

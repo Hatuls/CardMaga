@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Battles;
+using System.Threading.Tasks;
 
 namespace UI.Meta.Settings
 {
@@ -96,6 +97,22 @@ namespace UI.Meta.Settings
             Battles.BattleManager.BattleEnded(true);
             BattleData.IsFinishedPlaying = true;
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
+        }
+
+        public void ResetAccountSettings()
+        {
+            
+            ResetDelay();
+
+
+        }
+       private async Task ResetDelay()
+        {
+            PlayerPrefs.DeleteAll();
+          
+            SceneHandler.LoadScene(SceneHandler.ScenesEnum.NetworkScene);
+            await Task.Delay(1000);
+            NetworkHandler.CheckVersionEvent?.Invoke();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Account.GeneralData
@@ -27,7 +28,7 @@ namespace Account.GeneralData
             _exp = new EXPStat(exp, _level, _maxEXP);
         }
 
-        public void NewLoad()
+        public async Task NewLoad()
         {
             _maxEXP = new MaxEXPStat(10);
             _level = new LevelStat(1, _maxEXP);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace Account.GeneralData
 {
@@ -47,7 +48,7 @@ namespace Account.GeneralData
             }
         }
 
-        public void NewLoad()
+        public async Task NewLoad()
         {
             var factory = Factory.GameFactory.Instance;
             var currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;

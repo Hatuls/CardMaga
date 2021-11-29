@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Threading.Tasks;
 
 namespace Account.GeneralData
 {
@@ -36,7 +37,7 @@ namespace Account.GeneralData
             throw new NotImplementedException();
         }
 
-        public void NewLoad()
+        public async Task NewLoad()
         {
         }
         #endregion

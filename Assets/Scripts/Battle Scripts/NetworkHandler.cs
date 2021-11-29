@@ -25,11 +25,11 @@ public class NetworkHandler : MonoBehaviour
    
         
     }
-    private void OnEnable()
+    private void Start()
     {
         CheckVersionEvent += Init;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         CheckVersionEvent -= Init;
     }
