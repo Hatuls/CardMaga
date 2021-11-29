@@ -44,7 +44,7 @@ public class NetworkHandler : MonoBehaviour
             null,
             (string text) =>
             {
-                AccountManager.Instance.Init();
+                InitAccount();
                 //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
                 _gv = JsonUtility.FromJson<GameVersion>(text);
                 CheckVersion(_gv);
@@ -54,6 +54,13 @@ public class NetworkHandler : MonoBehaviour
 
       //  _continueBtn.enabled = true;
     }
+    [Sirenix.OdinInspector.Button]
+
+    private static void InitAccount()
+    {
+        AccountManager.Instance.Init();
+    }
+
     private void CheckVersion(GameVersion currentVersion)
     {
         _webVersion.enabled = true;

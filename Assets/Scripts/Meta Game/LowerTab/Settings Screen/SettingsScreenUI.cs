@@ -27,22 +27,23 @@ namespace UI.Meta.Settings
         const string OnTxt = "On";
         const string OffTxt = "Off";
 
+        [SerializeField]
+        GameObject _parent;
         private void Start()
         {
             Close();
         }
-
         public override void Close()
         {
-            if (gameObject.activeSelf)
-                     gameObject.SetActive(false);
+            if (_parent.activeSelf)
+                _parent.SetActive(false);
         }
 
         public override void Open()
         {
             SetSettings();
-            if (!gameObject.activeSelf)
-            gameObject.SetActive(true);
+            if (!_parent.activeSelf)
+                _parent.SetActive(true);
         }
         private void SetSettings()
         {
