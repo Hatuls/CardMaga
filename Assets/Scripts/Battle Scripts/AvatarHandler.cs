@@ -20,14 +20,25 @@ public class AvatarHandler : MonoBehaviour
     public Avatar Avatar { get => avatar; }
     private void Start()
     {
+        if (transform.root.TryGetComponent(out VFXController vfx))
+        {
+            vfx.AvatarHandler = this;
+        }
+        else
+            throw new System.Exception($"AvatarHandler : Could Not Find An VFXContoller");
+
+
         if (transform.root.TryGetComponent(out Animator animator))
         {
             animator.avatar = avatar;
         }
         else
             throw new System.Exception($"AvatarHandler : Could Not Find An Animator");
-       
+
+
     }
+
+  
     public Transform GetBodyPart(BodyPartEnum bodyPartEnum)
     {
 

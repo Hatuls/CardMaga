@@ -53,11 +53,12 @@ namespace Managers
         public override void Init()
         {
         }
-
+        static int Counter = 0;
         public void AssignCharacterData(Character characterData)
         {
             Instantiate(characterData.CharacterData.Info.CharacterAvatar, _playerAnimatorController.transform);
-            this._character = characterData;
+           Debug.LogWarning("<a>Spawning " + Counter++ +" </a>");
+            _character = characterData;
             var data = characterData.CharacterData;
 
             int Length = data.CharacterDeck.Length;

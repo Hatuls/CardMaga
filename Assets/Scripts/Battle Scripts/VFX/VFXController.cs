@@ -9,13 +9,8 @@ public class VFXController : MonoBehaviour
 
     [SerializeField] SoundsEvent _soundsEvent;
     [SerializeField] AvatarHandler _avatarHandler;
+    public AvatarHandler AvatarHandler { set => _avatarHandler = value; }
 
-    private void Start()
-    {
-        _avatarHandler = transform.GetComponentInChildren<AvatarHandler>();
-        if (_avatarHandler == null)
-            throw new System.Exception($"Avatar Was Not created!");
-    }
     public void PlaySound(ParticleEffectsEnum keywordType) => _soundsEvent?.Raise(KeywordToSound(keywordType));
 
     private SoundsNameEnum KeywordToSound(ParticleEffectsEnum keywordTypeEnum)

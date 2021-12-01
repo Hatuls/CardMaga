@@ -1,15 +1,14 @@
-﻿using Battles.UI;
+﻿using Art;
 using Battles;
-using Battles.Turns;
+using Battles.UI;
 using Managers;
 using UnityEngine;
-using Art;
 
 public class GameManager : MonoSingleton<GameManager>
 {
     ISingleton[] _singletons;
     [SerializeField]
-    int _maxFPS =30;
+    int _maxFPS = 30;
     [SerializeField]
     Art.ArtSO _panel;
     [SerializeField]
@@ -19,10 +18,10 @@ public class GameManager : MonoSingleton<GameManager>
     {
         Init();
     }
-  
+
     private void Update()
     {
-     //  Application.targetFrameRate = _maxFPS;
+        //  Application.targetFrameRate = _maxFPS;
         ThreadsHandler.ThreadHandler.TickThread();
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -57,11 +56,11 @@ public class GameManager : MonoSingleton<GameManager>
         int frameSeperator = 3;
         for (int i = 0; i < _singletons.Length; i++)
         {
-            if (i% frameSeperator == 0)
-                 yield return null;
+            if (i % frameSeperator == 0)
+                yield return null;
             _singletons[i]?.Init();
-        }     
-       
+        }
+
     }
 }
 
@@ -74,11 +73,11 @@ public class GameManager : MonoSingleton<GameManager>
 
 
 [System.Serializable]
-public  class ArtSettings
+public class ArtSettings
 {
 
     public ArtSO ArtSO;
- 
+
     public static CardTypePalette CardTypePalette;
     public static BarsUIPalette BarsUIPalette;
     public static IconsPalette IconsPalette;
@@ -90,8 +89,8 @@ public  class ArtSettings
     public static CardIconCollectionSO CardIconCollectionSO;
     public ArtSettings(ArtSO artSO)
     {
-        if (ArtSO!= artSO)
-        ArtSO = artSO;
+        if (ArtSO != artSO)
+            ArtSO = artSO;
 
 
         CardTypePalette = ArtSO.GetPallette<CardTypePalette>();
