@@ -44,7 +44,7 @@ namespace Battles
 
             PlayerManager.Instance.AssignCharacterData(BattleData.Player);
             EnemyManager.Instance.AssignCharacterData(BattleData.Opponent);
-
+            
             if (BattleData.Player.CharacterData.CharacterStats.Health <= 0)
                 throw new Exception("Battle data was not work correctly!");
 
@@ -163,8 +163,7 @@ namespace Battles
 
         private void OnLoadScene(SceneHandler.ScenesEnum scenesEnum)
         {
-            if (scenesEnum == SceneHandler.ScenesEnum.GameBattleScene)
-                ResetBattle();
+            
         }
 
 

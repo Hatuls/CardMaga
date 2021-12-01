@@ -1,6 +1,6 @@
 ﻿
-using UnityEngine;
 using Unity.Events;
+using UnityEngine;
 
 public class VFXController : MonoBehaviour
 {
@@ -8,17 +8,11 @@ public class VFXController : MonoBehaviour
     [SerializeField] bool _isPlayer;
 
     [SerializeField] SoundsEvent _soundsEvent;
-
-    [SerializeField] Transform _headPart;
-    [SerializeField] Transform _leftHandPart;
-    [SerializeField] Transform _rightHandPart;
-    [SerializeField] Transform _leftLegPart;
-    [SerializeField] Transform _rightLegPart;
-    [SerializeField] Transform _bottomBody;
-    [SerializeField] Transform _chestPart;
+    [SerializeField] AvatarHandler _avatarHandler;
+    public AvatarHandler AvatarHandler { set => _avatarHandler = value; }
 
     public void PlaySound(ParticleEffectsEnum keywordType) => _soundsEvent?.Raise(KeywordToSound(keywordType));
-  
+
     private SoundsNameEnum KeywordToSound(ParticleEffectsEnum keywordTypeEnum)
     {
         SoundsNameEnum soundsNameEnum;
@@ -80,7 +74,7 @@ public class VFXController : MonoBehaviour
                 break;
             case ParticleEffectsEnum.Crafting:
                 soundsNameEnum = SoundsNameEnum.None;
-                         break;
+                break;
         }
         return soundsNameEnum;
     }
@@ -112,54 +106,26 @@ public class VFXController : MonoBehaviour
         if (particalEffectBase == null)
             Debug.LogError("Particle is null");
 
-        particalEffectBase.SetParticalPosition(GetLocationFromBodyPart(part));
+        particalEffectBase.SetParticalPosition(_avatarHandler.GetBodyPart(part));
         particalEffectBase.PlayParticle();
     }
-    private Transform GetLocationFromBodyPart(BodyPartEnum bodyPart)
-    {
-        Transform transformOfBodyPart = null;
-        switch (bodyPart)
-        {
-            case BodyPartEnum.RightArm:
-                transformOfBodyPart = _rightHandPart;
-                break;
-            case BodyPartEnum.LeftArm:
-                transformOfBodyPart = _leftHandPart;
-                break;
-            case BodyPartEnum.Head:
-                transformOfBodyPart = _headPart;
-                break;
-            case BodyPartEnum.LeftLeg:
-                transformOfBodyPart = _leftLegPart;
-                break;
-            case BodyPartEnum.RightLeg:
-                transformOfBodyPart = _rightLegPart;
-                break;
-            case BodyPartEnum.BottomBody:
-                transformOfBodyPart = _bottomBody;
-                break;
-            case BodyPartEnum.Chest:
-                transformOfBodyPart = _chestPart;
-                break;
-        }
 
 
-        return transformOfBodyPart;
-    }
 
     #endregion
 
 }
 
-public enum BodyPartEnum {
-    None =0,
+public enum BodyPartEnum
+{
+    None = 0,
     RightArm = 1,
     LeftArm = 2,
-    Head =3 ,
-    LeftLeg=4,
-    RightLeg=5,
-    BottomBody=6,
-    Chest=7,
-    Joker =8,
+    Head = 3,
+    LeftLeg = 4,
+    RightLeg = 5,
+    BottomBody = 6,
+    Chest = 7,
+    Joker = 8,
 };
 
