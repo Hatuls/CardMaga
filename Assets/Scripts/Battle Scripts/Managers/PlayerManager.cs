@@ -56,6 +56,7 @@ namespace Managers
 
         public void AssignCharacterData(Character characterData)
         {
+            Instantiate(characterData.CharacterData.Info.CharacterAvatar, _playerAnimatorController.transform);
             this._character = characterData;
             var data = characterData.CharacterData;
 

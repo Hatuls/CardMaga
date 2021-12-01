@@ -39,7 +39,8 @@ namespace Battles
 
  
         public void AssignCharacterData(Character character)
-        { 
+        {
+            Instantiate(character.CharacterData.Info.CharacterAvatar, _enemyAnimatorController.transform);
             _myCharacter = character;
             var characterdata = character.CharacterData;
             int deckLength = characterdata.CharacterDeck.Length;
