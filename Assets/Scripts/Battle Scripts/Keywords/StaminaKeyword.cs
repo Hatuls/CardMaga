@@ -20,7 +20,7 @@ namespace Keywords
                 if (target == TargetEnum.Opponent || target == TargetEnum.All)
                    StaminaHandler.Instance.AddStamina(!currentPlayer, data.GetAmountToApply);
 
-            data.KeywordSO.PlaySound();
+            data.KeywordSO.SoundEventSO.PlaySound();
         }
     }
 
@@ -34,7 +34,7 @@ namespace Keywords
             if (data != null)
             {
                 UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
-                data.KeywordSO.PlaySound();
+                data.KeywordSO.SoundEventSO.PlaySound();
 
                 var target = data.GetTarget;
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)

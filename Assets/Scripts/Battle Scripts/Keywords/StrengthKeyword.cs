@@ -47,7 +47,7 @@ namespace Keywords
                 .GetStats(Keyword)
                 .Add(data.GetAmountToApply);
             }
-            data.KeywordSO.PlaySound();
+            data.KeywordSO.SoundEventSO.PlaySound();
         }
     }
 }

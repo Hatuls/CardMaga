@@ -58,14 +58,6 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
             
         }
     }
-    private void FixedUpdate()
-    {
-        foreach (var data in _fmodLibrary)
-        {
-            if (data.Value.CheckIfFinished(Time.fixedDeltaTime))
-                _fmodLibrary.Remove(data.Key);
-        }
-    }
     public void StopAllSounds()
     {
         foreach (var fmodData in _fmodLibrary)
@@ -94,11 +86,7 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
             PlaySound();
 
         }
-        public bool CheckIfFinished(float deltaTime)
-        {
-            _duration -= deltaTime;
-            return _duration <= 0;
-        }
+
         public void PlaySound()
         {
             _eventInstance.getDescription(out EventDescription desc);
@@ -106,8 +94,6 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
             _duration = d;
             _eventInstance.start();
         }
-        public bool IsValid() => _eventInstance.isValid();
-
         public void StopSound(FMOD.Studio.STOP_MODE mode)
             => _eventInstance.stop(mode);
 
@@ -117,13 +103,3 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
 }
 
 
-public class SoundEventSO :ScriptableObject
-{
-    [SerializeField] string eventName = "string.Empty";
-
-#if UNITY_EDITOR
-    [Sirenix.OdinInspector.ShowInInspector]
-    private string ShowWholeEventName => string.Concat("event:/", eventName);
-#endif
-    public void PlaySound() => AudioManager.Instance.PlaySoundEvent(eventName);
-}

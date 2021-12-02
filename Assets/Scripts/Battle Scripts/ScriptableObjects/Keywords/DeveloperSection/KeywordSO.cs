@@ -27,14 +27,12 @@ namespace Keywords
 
         [SerializeField] string[] _descriptions;
 
-        [SerializeField] string SoundNameEvent;
-#if UNITY_EDITOR
-        [Sirenix.OdinInspector.ShowInInspector]
-        public string FullSoundName => string.Concat(AudioManager.FmodEventString, SoundNameEvent);
-#endif
+        [SerializeField] SoundEventSO _soundEvent;
+
         #endregion
 
         #region Properties
+        public SoundEventSO SoundEventSO => _soundEvent;
         public int ID => _iD;
         public byte InfoAmount => _infoAmount;
         public bool GetIsStackable => _isStackable;
@@ -64,8 +62,7 @@ namespace Keywords
         }
         #endregion
 
-        public void PlaySound()
-            => AudioManager.Instance.PlaySoundEvent(SoundNameEvent);
+      
 #if UNITY_EDITOR
         public bool Init(string[] Data)
         {
@@ -111,6 +108,8 @@ namespace Keywords
 
             _descriptions = Data[DescriptionIndex].Replace('^', ',').Split('#');
 
+
+            _soundEvent = Resources.Load<SoundEventSO>("Audio/Sound Example");
             return true;
         }
 

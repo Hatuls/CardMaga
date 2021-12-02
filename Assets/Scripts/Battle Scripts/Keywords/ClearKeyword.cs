@@ -6,7 +6,7 @@
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
-            data.KeywordSO.PlaySound();
+            data.KeywordSO.SoundEventSO.PlaySound();
             var target = data.GetTarget;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
                 Battles.Deck.DeckManager.GetCraftingSlots(currentPlayer).ResetDeck();

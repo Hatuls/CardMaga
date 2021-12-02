@@ -27,7 +27,7 @@ namespace Keywords
                 reciver.RecieveDamage(applierStrength + data.GetAmountToApply);
 
             }
-            data.KeywordSO.PlaySound();
+            data.KeywordSO.SoundEventSO.PlaySound();
         }
     }
 }
