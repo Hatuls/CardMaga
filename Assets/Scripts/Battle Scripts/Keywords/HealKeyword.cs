@@ -15,7 +15,7 @@ namespace Keywords
 
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
                 CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
-
+            data.KeywordSO.SoundEventSO.PlaySound();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Battles
 
         public static bool isGameEnded;
         public static Action OnGameEnded;
-        [SerializeField] Unity.Events.SoundsEvent _playSound;
+        [SerializeField] Unity.Events.StringEvent _playSound;
         public UnityEvent OnPlayerDefeat;
         public UnityEvent OnPlayerVictory;
         public UnityEvent OnBattleStarts;
@@ -52,7 +52,7 @@ namespace Battles
             EnemyManager.Instance.UpdateStatsUI();
             Combo.ComboManager.Instance.Init();
             Keywords.KeywordManager.Instance.Init();
-            AudioManager.Instance.ResetAudioCollection();
+       
 
 
             if (EndTurnButton._OnFinishTurnPress != null)
@@ -63,6 +63,7 @@ namespace Battles
         }
         private void ResetParams()
         {
+            AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
 
             CardManager.Instance.ResetCards();

@@ -27,9 +27,12 @@ namespace Keywords
 
         [SerializeField] string[] _descriptions;
 
+        [SerializeField] SoundEventSO _soundEvent;
+
         #endregion
 
         #region Properties
+        public SoundEventSO SoundEventSO => _soundEvent;
         public int ID => _iD;
         public byte InfoAmount => _infoAmount;
         public bool GetIsStackable => _isStackable;
@@ -59,6 +62,8 @@ namespace Keywords
         }
         #endregion
 
+      
+#if UNITY_EDITOR
         public bool Init(string[] Data)
         {
 
@@ -101,10 +106,14 @@ namespace Keywords
             else
                 throw new System.Exception($"KeywordsSO:\nID: {_iD}\n Ignore info amount on keyword is not a valid number!");
 
-            _descriptions = Data[DescriptionIndex].Replace('^' , ',').Split('#');
+            _descriptions = Data[DescriptionIndex].Replace('^', ',').Split('#');
 
+
+            _soundEvent = Resources.Load<SoundEventSO>("Audio/Sound Example");
             return true;
         }
+
+#endif
     }
 
 

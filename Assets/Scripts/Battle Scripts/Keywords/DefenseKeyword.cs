@@ -36,8 +36,7 @@ namespace Keywords
                           dexterity + data.GetAmountToApply
                         );
                 }
-
-
+                data.KeywordSO.SoundEventSO.PlaySound();
             }
         }
     }

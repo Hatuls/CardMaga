@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using Keywords;
 using UnityEngine.Events;
+using Art;
 
 public class BuffIcon : MonoBehaviour
 {
@@ -36,10 +37,11 @@ public class BuffIcon : MonoBehaviour
 
     public virtual void InitIconData(Cards.Card card)
     {
-        var _cardTypePalette = ArtSettings.CardTypePalette;
-        _icon.sprite = ArtSettings.CardIconCollectionSO.GetSprite(card.CardSO.BodyPartEnum);
+        var art = Factory.GameFactory.Instance.ArtBlackBoard;
+        var _cardTypePalette = art.GetPallette<CardTypePalette>();
+        _icon.sprite = art.GetSpriteCollections<CardIconCollectionSO>().GetSprite(card.CardSO.BodyPartEnum);
 
-        _background.color = ArtSettings.BuffUIPalette.CardDefaultBackground;
+        _background.color = art.GetPallette<BuffUIPalette>().CardDefaultBackground;
 
         Color clr = _cardTypePalette.GetIconBodyPartColorFromEnum(card.CardSO.CardTypeEnum);
         _icon.color = clr;
@@ -55,7 +57,8 @@ public class BuffIcon : MonoBehaviour
       
 
         ShowIcon();
-        var buffUIPalette = ArtSettings.BuffUIPalette;
+        var art = Factory.GameFactory.Instance.ArtBlackBoard;
+        var buffUIPalette = art.GetPallette<BuffUIPalette>();
         _background.sprite = iconData?.GetBackground;
         // _background.color = iconData.GetBackgroundColor;
         _background.color = buffUIPalette.CardDefaultBackground;
@@ -85,8 +88,8 @@ public class BuffIcon : MonoBehaviour
         //    ? clr.GetValueOrDefault() :  _buffUIPalette.CardDefaultTextColor ;
 
 
-
-        _iconText.color = ArtSettings.BuffUIPalette.CardDefaultTextColor;
+        var art = Factory.GameFactory.Instance.ArtBlackBoard;
+        _iconText.color = art.GetPallette<BuffUIPalette>().CardDefaultTextColor;
 
 
     }

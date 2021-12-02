@@ -2,6 +2,28 @@
 
 namespace Keywords
 {
+    public class StunKeyword : KeywordAbst
+    {
+        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Stun;
+
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
+            {
+                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer)
+             .GetStats(Keyword)
+             .Add(data.GetAmountToApply);
+            }
+
+            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
+            {
+
+                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer)
+                .GetStats(Keyword)
+                .Add(data.GetAmountToApply);
+            }
+        }
+    }
     public class StrengthKeyword : KeywordAbst
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Strength;
@@ -25,7 +47,7 @@ namespace Keywords
                 .GetStats(Keyword)
                 .Add(data.GetAmountToApply);
             }
-
+            data.KeywordSO.SoundEventSO.PlaySound();
         }
     }
 }
