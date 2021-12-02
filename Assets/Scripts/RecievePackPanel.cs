@@ -11,9 +11,6 @@ public class RecievePackPanel : MonoBehaviour
     [SerializeField]
     CardUI _currentCard;
 
-    [SerializeField] 
-    Image _chipImage;
-
     [SerializeField]
     TextMeshProUGUI _chipAmountText;
 
@@ -25,8 +22,6 @@ public class RecievePackPanel : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI _titleText;
 
-    [SerializeField]
-    GameObject _resourceHolder;
     [SerializeField]
     GameObject buyAgainContainer;
 
@@ -40,7 +35,6 @@ public class RecievePackPanel : MonoBehaviour
         var card = factory.CardFactoryHandler.CreateCard(_pack.RewardCard);
         _titleText.text = card.CardSO.Rarity.ToString();
         _currentCard.GFX.SetCardReference(card, factory.ArtBlackBoard);
-        SetChipValues();
 
         SetOpenCost(pack.PurchaseCosts[0].Price);
 
@@ -60,19 +54,6 @@ public class RecievePackPanel : MonoBehaviour
             buyAgainContainer.SetActive(false);
     }
 
-    private void SetChipValues()
-    {
-        if (_pack.Reward==null || _pack.Reward.Price == 0)
-        {
-            _resourceHolder.gameObject.SetActive(false);
-        }
-        else
-        {
-
-            _chipAmountText.text = string.Concat("X", _pack.Reward.Price);
-            _resourceHolder.gameObject.SetActive(true);
-        }
-    }
     private void RecieveChip()
     {
         if (_pack.Reward != null && _pack.Reward.Price > 0)
@@ -87,7 +68,6 @@ public class RecievePackPanel : MonoBehaviour
     }
     public void RecievePack()
     {
-        RecieveChip();
         RecieveCard();
     }
     public void Close()
