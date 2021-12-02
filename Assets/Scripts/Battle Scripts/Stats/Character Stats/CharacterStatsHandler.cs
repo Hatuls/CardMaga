@@ -8,7 +8,7 @@ namespace Characters.Stats
         private System.Collections.Generic.Dictionary<KeywordTypeEnum, StatAbst> _statsDictionary;
         public CharacterStatsHandler(bool isPlayer, ref CharacterStats stats)
         {
-
+            //stats
             MaxHealthStat _max = new MaxHealthStat(isPlayer, stats.MaxHealth);
             HealthStat _health = new HealthStat(_max, isPlayer, stats.Health); ;
             StrengthStat _str = new StrengthStat(isPlayer, stats.Strength);
@@ -22,8 +22,12 @@ namespace Characters.Stats
             RageStat _rage = new RageStat(isPlayer, stats.RagePoint);
             ProtectedStat _protected = new ProtectedStat(isPlayer, stats.ProtectionPoints);
 
+            //Effects
+            StunStat _stun = new StunStat(isPlayer);
+
+            //shards
             StaminaShard _staminaShards = new StaminaShard(isPlayer, stats.StaminaShard);
-            StunShard _stun = new StunShard(isPlayer, stats.StunShard);
+            StunShard _stunShards = new StunShard(isPlayer, stats.StunShard);
             RageShard _rageShard = new RageShard(isPlayer, stats.RageShard);
             ProtectionShard _protectionShard = new ProtectionShard(isPlayer, stats.ProtectionShards);
 
@@ -45,9 +49,10 @@ namespace Characters.Stats
                 {_rage.Keyword,_rage },
                 {_protected.Keyword,_protected },
                 {_staminaShards.Keyword,_staminaShards },
-                {_stun.Keyword,_stun },
+                {_stunShards.Keyword,_stunShards },
                 {_rageShard.Keyword,_rageShard },
                 {_protectionShard.Keyword,_protectionShard },
+                {_stun.Keyword,_stun },
             };
         }
 

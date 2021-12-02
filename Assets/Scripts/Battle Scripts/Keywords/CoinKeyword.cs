@@ -8,7 +8,7 @@ namespace Keywords
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
-
+            data.KeywordSO.SoundEventSO.PlaySound();
             var target = data.GetTarget;
             if (target == TargetEnum.All|| target == TargetEnum.MySelf)
             {

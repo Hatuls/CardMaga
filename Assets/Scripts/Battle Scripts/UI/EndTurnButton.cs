@@ -16,7 +16,7 @@
         }
         else
         {
-            _playSound?.Raise(SoundsNameEnum.Reject);
+            _playSound?.Raise("Reject");
         }
     }
 
@@ -26,7 +26,7 @@
         if (Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn && Battles.BattleManager.isGameEnded == false)
         {
 
-            _instance._playSound?.Raise(SoundsNameEnum.EndTurn);
+            _instance._playSound?.Raise("EndTurn");
             _OnFinishTurnPress?.Invoke();
         }
     }

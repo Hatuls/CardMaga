@@ -169,14 +169,6 @@ namespace Battles.Turns
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
 
-            Deck.DeckManager.Instance.DrawHand(
-                isPlayerTurn,
-                CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount
-                ) ; 
-
-            StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
-
-            Debug.Log("Enemy Drawing Cards!");
             yield return null;
             MoveToNextTurnState();
         }
@@ -192,12 +184,23 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+            bool isPlayerTurn = false;
+            Deck.DeckManager.Instance.DrawHand(
+                isPlayerTurn,
+                CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount
+                );
+
+            StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
+
+            Debug.Log("Enemy Drawing Cards!");
+
             base.PlayTurn();
             // Activate Previous Action if not null
-            yield return EnemyManager.Instance.PlayEnemyTurn();
 
 
-            yield return null;
+            if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
+                yield return EnemyManager.Instance.PlayEnemyTurn();
+      
             MoveToNextTurnState();
         }
 
@@ -253,8 +256,6 @@ namespace Battles.Turns
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
 
-            Deck.DeckManager.Instance.DrawHand(isPlayerTurn, CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount);
-            StaminaHandler.Instance.OnStartTurn(isPlayerTurn) ;
             Debug.Log("Player Drawing Cards!");
             MoveToNextTurnState();
         }
@@ -273,12 +274,17 @@ namespace Battles.Turns
             base.PlayTurn();
             // unlock Player Inputs 
             TurnHandler.FinishTurn = false;
-
-            do
+            bool isPlayerTurn = true;
+            if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
             {
-            yield return null;
-            } while (!TurnHandler.FinishTurn);
+                Deck.DeckManager.Instance.DrawHand(isPlayerTurn, CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount);
+                StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
 
+                do
+                {
+                    yield return null;
+                } while (!TurnHandler.FinishTurn);
+            }
             MoveToNextTurnState();
         }
 

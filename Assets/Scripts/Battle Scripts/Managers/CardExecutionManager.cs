@@ -1,9 +1,9 @@
 ﻿using Battles.Deck;
 using Battles.UI;
 using Characters.Stats;
+using Keywords;
 using System.Collections.Generic;
 using UnityEngine;
-using Keywords;
 using UnityEngine.Events;
 
 namespace Battles
@@ -15,10 +15,10 @@ namespace Battles
         [SerializeField]
         AnimatorController _enemyAnimatorController;
         [SerializeField] VFXController __playerVFXHandler;
-     
-        [SerializeField] Unity.Events.SoundsEvent _playSound;
+
+        [SerializeField] Unity.Events.StringEvent _playSound;
         [Sirenix.OdinInspector.ShowInInspector]
-        static Queue<Cards.Card> _cardsQueue  = new Queue<Cards.Card>();
+        static Queue<Cards.Card> _cardsQueue = new Queue<Cards.Card>();
         public static Queue<Cards.Card> CardsQueue => _cardsQueue;
         static List<KeywordData> _keywordData = new List<KeywordData>();
         [SerializeField] StaminaUI _staminaBtn;
@@ -35,18 +35,18 @@ namespace Battles
             //currentKeywordIndex = 0;
             StopAllCoroutines();
         }
-    
+
         public override void Init()
         {
             FinishedAnimation = true;
             _cardsQueue.Clear();
-               _keywordData.Clear();
+            _keywordData.Clear();
         }
         public bool TryExecuteCard(bool isPlayer, Cards.Card card)
         {
             if (card == null)
                 throw new System.Exception("Card cannot be executed card is null\n Player " + isPlayer + " Tried to play a null Card");
-            if (StaminaHandler.Instance.IsEnoughStamina(isPlayer,card) == false)
+            if (StaminaHandler.Instance.IsEnoughStamina(isPlayer, card) == false)
             {
                 // not enough stamina 
                 if (isPlayer)
@@ -60,11 +60,11 @@ namespace Battles
             }
 
             // execute card
-            StaminaHandler.Instance.ReduceStamina(isPlayer,card);
+            StaminaHandler.Instance.ReduceStamina(isPlayer, card);
             OnSuccessfullExecution?.Invoke();
             if (isPlayer)
             {
-      
+
                 CardUIManager.Instance.LockHandCards(false);
             }
             else
@@ -76,23 +76,23 @@ namespace Battles
 
             DeckManager.AddToCraftingSlot(isPlayer, card);
 
-            
+
             return true;
         }
 
         public bool TryExecuteCard(CardUI cardUI)
         {
             Cards.Card card = cardUI.GFX.GetCardReference;
-            bool isExecuted = TryExecuteCard(true,card);
+            bool isExecuted = TryExecuteCard(true, card);
             if (isExecuted)
             {
-            // reset the holding card
-            CardUIManager.Instance.ExecuteCardUI(cardUI);
+                // reset the holding card
+                CardUIManager.Instance.ExecuteCardUI(cardUI);
             }
             return isExecuted;
         }
 
-        public void ExecuteCraftedCard(bool isPlayer,Cards.Card card)
+        public void ExecuteCraftedCard(bool isPlayer, Cards.Card card)
         {
             DeckManager.AddToCraftingSlot(isPlayer, card);
             RegisterCard(card);
@@ -112,23 +112,23 @@ namespace Battles
             if (currentCard == null)
                 throw new System.Exception($"Cannot Execute Card that is null!!!!");
             switch (currentCard.CardSO.CardType.CardType)
-                {
-                    case Cards.CardTypeEnum.Utility:
-                    case Cards.CardTypeEnum.Defend:
-                        ExecuteUtilityAndDefendCard(isPlayer, currentCard);
+            {
+                case Cards.CardTypeEnum.Utility:
+                case Cards.CardTypeEnum.Defend:
+                    ExecuteUtilityAndDefendCard(isPlayer, currentCard);
 
-                        break;
+                    break;
 
-                    case Cards.CardTypeEnum.Attack:
-                        //    _playerAnimator.SetAnimationQueue(card);
-                        AddToQueue(card);
-                        break;
+                case Cards.CardTypeEnum.Attack:
+                    //    _playerAnimator.SetAnimationQueue(card);
+                    AddToQueue(card);
+                    break;
 
 
-                    default:
-                        Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
-                        break;
-                }
+                default:
+                    Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
+                    break;
+            }
 
         }
 
@@ -144,13 +144,12 @@ namespace Battles
                     VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
                     );
 
-                    _playSound?.Raise(SoundsNameEnum.GainArmor);
+
 
                     break;
 
                 case KeywordTypeEnum.Strength:
 
-                    _playSound?.Raise(SoundsNameEnum.GainStrength);
 
                     VFXManager.Instance.PlayParticle(
                     isPlayer,
@@ -162,14 +161,11 @@ namespace Battles
 
 
                 case KeywordTypeEnum.Heal:
-
-                    _playSound?.Raise(SoundsNameEnum.Healing);
-
                     VFXManager.Instance.PlayParticle(
-                    isPlayer,
-                    BodyPartEnum.BottomBody,
-                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                    );
+                                        isPlayer,
+                                        BodyPartEnum.BottomBody,
+                                        VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
+                                        );
 
                     break;
 
@@ -216,10 +212,10 @@ namespace Battles
             }
 
         }
-       public void ActivateCard()
+        public void ActivateCard()
         {
             // play the card animation
-           if (_cardsQueue.Count == 0 || BattleManager.isGameEnded)
+            if (_cardsQueue.Count == 0 || BattleManager.isGameEnded)
                 return;
             Debug.Log("<a>Activating Card</a>");
             // sort his keyowrds
@@ -250,16 +246,16 @@ namespace Battles
 
             SortKeywords();
 
-              currentKeywordIndex = 0;
+            currentKeywordIndex = 0;
 
-         if(Turns.TurnHandler.IsPlayerTurn)
+            if (Turns.TurnHandler.IsPlayerTurn)
                 _playerAnimatorController.PlayCrossAnimation();
-            else 
+            else
                 _enemyAnimatorController.PlayCrossAnimation();
 
             // reset Index
 
-        
+
         }
         private void SortKeywords()
         {
@@ -268,21 +264,21 @@ namespace Battles
                 //clearing the list
                 // registering the keywords
                 // sorting it by the animation index
-              //  Debug.Log("<a>Keywords Cleared</a>");
+                //  Debug.Log("<a>Keywords Cleared</a>");
                 _keywordData.Clear();
 
                 var currentCard = _cardsQueue.Peek().CardKeywords;
-             //   Debug.Log($"<a>sorting keywords {_cardsQueue.Count} cards left to be executed </a>");
+                //   Debug.Log($"<a>sorting keywords {_cardsQueue.Count} cards left to be executed </a>");
 
                 for (int i = 0; i < currentCard.Length; i++)
                     _keywordData.Add(currentCard[i]);
 
                 _keywordData.Sort();
-            //    Debug.Log($"<a>{_keywordData.Count} keys were added</a>");
+                //    Debug.Log($"<a>{_keywordData.Count} keys were added</a>");
             }
 
         }
-    
+
         public void CardFinishExecuting()
         {
             if (_cardsQueue.Count > 0)
@@ -300,7 +296,7 @@ namespace Battles
                 return;
 
 
-                Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
+            Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
             bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
 
 
@@ -318,5 +314,5 @@ namespace Battles
             }
             currentKeywordIndex++;
         }
-    } 
+    }
 }
