@@ -17,7 +17,7 @@ namespace Battles.Deck
         private Dictionary<DeckEnum, DeckAbst> _playerDecks;
         private Dictionary<DeckEnum, DeckAbst> _OpponentDecks;
         [SerializeField]
-        SoundsEvent _soundEvent;
+        StringEvent _soundEvent;
 
         [SerializeField] BuffIcon _deckIcon;
         [SerializeField] BuffIcon _disposalIcon;

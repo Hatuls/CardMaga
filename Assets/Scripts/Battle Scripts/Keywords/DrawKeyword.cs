@@ -15,6 +15,7 @@
                     currentPlayer,
                     Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Amount
                     );
+                data.KeywordSO.SoundEventSO.PlaySound();
             }
             else
                 throw new System.Exception("Keyword Draw: Illegal action - Target is opponent\n cannot draw cards when its not your turn!");

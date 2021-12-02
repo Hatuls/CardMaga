@@ -1,204 +1,105 @@
 ﻿
 
-
+using FMOD.Studio;
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
-using System;
+
 
 public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
 {
+    static Dictionary<string, FmodData> _fmodLibrary = new Dictionary<string, FmodData>();
     private static AudioManager _instance;
     public static AudioManager Instance
     {
         get
         {
-            if (!Application.isPlaying)
-                return null;
-            if (_instance == null)
-            {
-                Debug.Log("AudioManager Is Null! Instantiating New AudioManager!");
-                GameObject go = new GameObject("AudioManager");
-                
-                 go.AddComponent<AudioManager>().Init();
-               
-            }
 
             return _instance;
         }
     }
-    [SerializeField] GameObject _audioSourcePrefab;
-    Dictionary<SoundsNameEnum, AudioConfigurationSO> AudioDictionary;
-    [SerializeField] AudioSourceQueuePlayer _audioQueuePlayer;
-
-    [SerializeField]
-    List<AudioSourceAbstract> _audioSourceStackable;
-
-    [Sirenix.OdinInspector.ShowInInspector]
-    Queue<AudioConfigurationSO> _notStackableAudioQueue;
-    IEnumerator LoadSound()
-    {
-        AudioConfigurationSO[] audio = Resources.LoadAll<AudioConfigurationSO>("Audio");
-        
-        if (audio == null || audio.Length == 0)
-            yield break;
-
-        AudioDictionary = new Dictionary<SoundsNameEnum, AudioConfigurationSO>();
-        for (int i = 0; i < audio.Length; i++)
-        {
-            AudioDictionary.Add(audio[i].SoundsNameEnum, audio[i]);
-            if (i % 10 == 0)
-                yield return null;
-        }
-
-        Debug.Log("Audio Loaded Complete");
-    }
-
-    public void Awake()
-    {
-        Init();
-
-    }
-    private void  Init()
+    private void Awake()
     {
         if (_instance == null)
         {
             _instance = this;
-            LoadAudio();
-            SceneHandler.onFinishLoadingScene += OnChangeScene;
+            FmodInit();
+
         }
         else if (_instance != this)
             Destroy(this.gameObject);
-
-        if (_instance == this)
-        DontDestroyOnLoad(this.gameObject);
-    }
-    void LoadAudio()
-    {
-        if (AudioDictionary == null || (AudioDictionary != null && AudioDictionary.Count == 0))
-            StartCoroutine(LoadSound());
-
-
-        _notStackableAudioQueue = new Queue<AudioConfigurationSO>();
-    }
-    AudioSourceAbstract EnableAudioSource()
-    {
-        if (_audioSourceStackable == null)
-            _audioSourceStackable = new List<AudioSourceAbstract>();
-
-        if (_audioSourceStackable.Count > 0)
-        {
-            for (int i = 0; i < _audioSourceStackable.Count; i++)
-            {
-                if (!_audioSourceStackable[i].gameObject.activeSelf)
-                {
-                    return _audioSourceStackable[i];
-                }
-            }
-        }
-        GameObject go = Instantiate(_audioSourcePrefab,transform);
-        AudioSourceAbstract ash = go.GetComponent<AudioSourceAbstract>();
-        _audioSourceStackable.Add(ash);
-        return ash;
-    }
-    bool CheckIfPlaying(AudioClip clip)
-    {
-        for (int i = 0; i < _audioSourceStackable.Count; i++)
-        {
-            if (_audioSourceStackable[i].gameObject.activeSelf && _audioSourceStackable[i].GetAudioSource.clip == clip)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void OnChangeScene(SceneHandler.ScenesEnum scene) {
-
-     
-        switch (scene)
-        {
-
-            case SceneHandler.ScenesEnum.MainMenuScene:
-           
-                StartCoroutine(PlayWithDelay(SoundsNameEnum.MainMenuBackground, 0));
-                break;
-      
-            case SceneHandler.ScenesEnum.GameBattleScene:
-
-                StartCoroutine(PlayWithDelay(SoundsNameEnum.CombatBackground, 0.5f));
-                break;
-            default:
-                break;
-        }
-
-
-
-    }
-    IEnumerator PlayWithDelay(SoundsNameEnum soundsNameEnum, float delay)
-    {
-        ResetAudioCollection();
-        PlayNext();
-        yield return new WaitForSeconds(delay);
-
-        ResetAudioCollection();
-        PlayerAudioSource(soundsNameEnum);
-    }
-    public void PlayerAudioSource(SoundsNameEnum nameOfSound)
-    {
-
-
-        if (nameOfSound != SoundsNameEnum.None && AudioDictionary != null && AudioDictionary.Count > 0)
-        {
-            if (AudioDictionary.ContainsKey(nameOfSound))
-                PlayAudioSource(AudioDictionary[nameOfSound]);
-            else
-                throw new Exception("Song Was Not Found In Resource Folder! - " + nameOfSound.ToString());
-        }
-    }
-    // queue to add sounds 
-   // play them if they are stackable
-
-    private void PlayAudioSource(AudioConfigurationSO audio)
-    {
-        if (audio.IsStackable)
-        EnableAudioSource().Init(audio);
         else
-        AddToPlayQueue(audio);
+            DontDestroyOnLoad(this.gameObject);
     }
-    public void ResetAudioCollection()
+
+    private void FmodInit()
     {
-        if (_audioSourceStackable != null && _audioSourceStackable.Count > 0)
+        _fmodLibrary.Clear();
+    }
+
+    public const string FmodEventString = "event:/";
+
+
+    public void PlaySoundEvent(string eventName)
+    {
+        if (_fmodLibrary.TryGetValue(eventName, out FmodData f))
         {
-            for (int i = 0; i < _audioSourceStackable.Count; i++)
-            {
-                if(_audioSourceStackable[i] != null)
-                {
-                    _audioSourceStackable[i].OnEndPlayingSound();
-                }
-            }
+            f.PlaySound();
+        }
+        else
+        {
+            string path = string.Concat(FmodEventString, eventName);
+            EventDescription eventDescription;
+            RuntimeManager.StudioSystem.getEvent(path, out eventDescription);
+            if (eventDescription.isValid())
+                _fmodLibrary.Add(eventName, new FmodData(path));
+            else
+                   throw new System.Exception($"Not A Valid Event Name!!!!\nInputString:{eventName}");
+            
         }
     }
-
-    private void AddToPlayQueue (AudioConfigurationSO audio)
+    public void StopAllSounds()
     {
-        _notStackableAudioQueue.Enqueue(audio);
-
-        if (_notStackableAudioQueue.Count == 1 && !_audioQueuePlayer.GetIsCurrentlyPlaying)
-            PlayNext();
-
-    }
-    private void OnDestroy()
-    {
-        if (_instance == this)
-            SceneHandler.onFinishLoadingScene -= OnChangeScene;
-
-    }
-    public void PlayNext()
-    {
-        if (_notStackableAudioQueue.Count > 0 && !_audioQueuePlayer.GetIsCurrentlyPlaying)
+        foreach (var fmodData in _fmodLibrary)
         {
-            _audioQueuePlayer.Init(_notStackableAudioQueue.Dequeue());
+            fmodData.Value.StopSound(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+            _fmodLibrary.Remove(fmodData.Key);
         }
+        _fmodLibrary.Clear();
+    }
+
+    // Fmod with Params
+    //FMOD.Studio.EventDescription paramEventDescription;
+    //instance.getDescription(out paramEventDescription);
+    //        FMOD.Studio.PARAMETER_DESCRIPTION paramNameDescription;
+    //paramEventDescription.getParameterDescriptionByName(ParameterName, out paramNameDescription);
+    //        paramID = paramNameDescription.id;
+
+    public class FmodData
+    {
+        private EventInstance _eventInstance;
+        float _duration;
+        public FmodData(string eventPath)
+        {
+            _eventInstance = RuntimeManager.CreateInstance(eventPath);
+            PlaySound();
+
+        }
+
+        public void PlaySound()
+        {
+            _eventInstance.getDescription(out EventDescription desc);
+            desc.getLength(out int d);
+            _duration = d;
+            _eventInstance.start();
+        }
+        public void StopSound(FMOD.Studio.STOP_MODE mode)
+            => _eventInstance.stop(mode);
+
+        ~FmodData()
+            => _eventInstance.release();
     }
 }
+
+

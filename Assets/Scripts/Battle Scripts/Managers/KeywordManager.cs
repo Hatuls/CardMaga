@@ -64,7 +64,16 @@ namespace Keywords
 
         }
 
+        public bool IsCharcterIsStunned(bool isPlayer)
+        {
+            bool isStunned;
+            var stunStat = CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(KeywordTypeEnum.Stun);
+            isStunned = stunStat.HasValue();
 
+            stunStat.Reset();
+
+            return isStunned;
+        }
         public IEnumerator OnStartTurnKeywords(bool isPlayer)
         {
             Debug.Log("Activating Keywords Effect on " + (isPlayer? "Player":"Enemy") + " that are activated on the start of the turn");
@@ -112,7 +121,10 @@ namespace Keywords
                 {KeywordTypeEnum.Draw, new DrawKeyword() },
                 {KeywordTypeEnum.Clear, new ClearKeyword() },
                 {KeywordTypeEnum.Shuffle, new ShuffleKeyword() },
-                    {KeywordTypeEnum.StaminaShards, new StaminaShardKeyword() }
+                {KeywordTypeEnum.Stun, new StunKeyword()},
+                    //{KeywordTypeEnum.Vulnerable, new VulnerableKeyword() },
+                    //{KeywordTypeEnum.RageShard, RageShardKeyword() },
+                {KeywordTypeEnum.StaminaShards, new StaminaShardKeyword() },
             };
             }
             if (_keywordDict == null)

@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Cards;
+using Rei.Utilities;
+using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
-using Cards;
-using Rei.Utilities;
-using UnityEngine.Events;
 
 public class AnimatorController : MonoBehaviour
 {
     #region Events
-   
-    [SerializeField] VoidEvent _movedToNextAnimation; 
- 
-    [SerializeField] VoidEvent _onFinishedAnimation; 
+
+    [SerializeField] VoidEvent _movedToNextAnimation;
+
+    [SerializeField] VoidEvent _onFinishedAnimation;
 
     [SerializeField] VoidEvent _onAnimationDoKeyword;
     [SerializeField] IntEvent _moveCameraAngle;
@@ -24,7 +23,7 @@ public class AnimatorController : MonoBehaviour
 
     AnimationBundle _previousAnimation;
     AnimationBundle _currentAnimation;
-    Queue<AnimationBundle>  _animationQueue = new Queue<AnimationBundle>();
+    Queue<AnimationBundle> _animationQueue = new Queue<AnimationBundle>();
 
 
     [SerializeField] float _rotationSpeed;
@@ -38,7 +37,7 @@ public class AnimatorController : MonoBehaviour
 
 
     bool _isAnimationPlaying;
-    [SerializeField]  Vector3 startPos;
+    [SerializeField] Vector3 startPos;
     #endregion
 
 
@@ -74,16 +73,11 @@ public class AnimatorController : MonoBehaviour
 
 
     #region Public
-    [SerializeField]
-    UnityEvent OnKickEvent;
-    [SerializeField]
-    UnityEvent OnPunchEvent;
-    public void OnKickSound() => OnKickEvent?.Invoke();
-    public void OnPunchSound() => OnPunchEvent?.Invoke();
+
     public void ResetAnimator()
     {
 
-         startPos = new Vector3( transform.position.x, transform.position.y, transform.position.z);
+        startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         _isAnimationPlaying = false;
         _animator.SetBool("IsDead", false);
         _animator.SetBool("IsWon", false);
@@ -107,7 +101,7 @@ public class AnimatorController : MonoBehaviour
 
     public void OnStartAnimation(AnimatorStateInfo info)
     {
-        
+
         if (_currentAnimation != null && _currentAnimation.IsCinemtaic)
             SetCamera(_isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
 
@@ -128,15 +122,15 @@ public class AnimatorController : MonoBehaviour
     public void CharacterWon()
     {
         _isAnimationPlaying = false;
-      
+
         _animator.SetBool("IsWon", true);
-       //_playerAnimator.SetInteger("AnimNum", -2);
-        transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left , transform.position));
+        //_playerAnimator.SetInteger("AnimNum", -2);
+        transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
     }
     public void CharacterIsDead()
     {
         _animator.SetBool("IsDead", true);
-  //      _animator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
+        //      _animator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
     }
 
 
@@ -156,13 +150,13 @@ public class AnimatorController : MonoBehaviour
     {
         if (CheckIfMyTurn())
             TranstionToNextAnimation();
-       //Battles.CardExecutionManager.Instance.CardFinishExecuting();
-      //  _previousAnimation = null;
+        //Battles.CardExecutionManager.Instance.CardFinishExecuting();
+        //  _previousAnimation = null;
     }
 
     public bool CheckIfMyTurn()
-    {  
-            return (Battles.Turns.TurnHandler.IsPlayerTurn == _isPlayer);
+    {
+        return (Battles.Turns.TurnHandler.IsPlayerTurn == _isPlayer);
     }
     public void PlayCrossAnimation()
     {
@@ -194,17 +188,17 @@ public class AnimatorController : MonoBehaviour
             duplicate = true;
             PlayAnimation(_currentAnimation._attackAnimation.ToString());
         }
-        
-        
+
+
     }
     [SerializeField] bool _crossFadeBetweenAnimations = false;
-    private void PlayAnimation(string name , bool toCrossFade = false)
+    private void PlayAnimation(string name, bool toCrossFade = false)
     {
         Debug.Log("Play Anim " + name);
         if (_crossFadeBetweenAnimations || toCrossFade)
             _animator.CrossFade(name, _transitionSpeedBetweenAnimations);
         else
-             _animator.Play(name);
+            _animator.Play(name);
 
     }
 
@@ -218,7 +212,7 @@ public class AnimatorController : MonoBehaviour
         {
 
             _previousAnimation = null;
-        return;
+            return;
         }
 
         var cardQueue = Battles.CardExecutionManager.CardsQueue;
@@ -247,13 +241,13 @@ public class AnimatorController : MonoBehaviour
             OnFinishAnimation();
         }
 
-    
+
 
     }
     private void OnFinishAnimation()
     {
         Battles.CardExecutionManager.FinishedAnimation = true;
-     
+
         //ReturnToIdle();
         ResetBothRotaionAndPosition();
         //  isFirst = true;
@@ -261,7 +255,7 @@ public class AnimatorController : MonoBehaviour
         //  _currentAnimation = null;
 
     }
- 
+
     public void ResetLayerWeight()
     {
         _animator.SetLayerWeight(1, 0);
@@ -291,7 +285,7 @@ public class AnimatorController : MonoBehaviour
         }
     }
 
- 
+
 
 
     public void PlayHitOrDefenseAnimation()
@@ -300,21 +294,22 @@ public class AnimatorController : MonoBehaviour
 
         if (Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(!_isPlayer).GetStats(Keywords.KeywordTypeEnum.Shield).Amount > 0)
             _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString(), true);
-        
+
         else
             _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString(), true);
-        
-       
+
+
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();
 
     public void ResetModelPosition() =>
         transform.position = startPos;
-     
+
     public void ResetModelRotaion() => transform.rotation = ToolClass.RotateToLookTowards(targetToLookAt, transform);
 
-    public void ResetBothRotaionAndPosition() {
+    public void ResetBothRotaionAndPosition()
+    {
         ResetModelPosition();
         ResetModelRotaion();
 
@@ -322,24 +317,24 @@ public class AnimatorController : MonoBehaviour
     public bool IsCurrentlyIdle
     {
         get
-        {    
+        {
             bool isEmptyList = _animationQueue.Count == 0;
-            bool isIdle = true ;
+            bool isIdle = true;
             if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)
             {
-             
-                isIdle=_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
-            }
-            
 
-            if (false==isIdle && isEmptyList== false)
+                isIdle = _animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
+            }
+
+
+            if (false == isIdle && isEmptyList == false)
             {
                 Debug.Log("The Player is Not in  idle");
             }
             return isEmptyList && isIdle;
         }
     }
- 
+
     #endregion
 
     #region Private
@@ -347,5 +342,5 @@ public class AnimatorController : MonoBehaviour
     #endregion
 
     #endregion
-   
+
 }
