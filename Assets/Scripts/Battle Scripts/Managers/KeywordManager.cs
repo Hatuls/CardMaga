@@ -64,7 +64,16 @@ namespace Keywords
 
         }
 
+        public bool IsCharcterIsStunned(bool isPlayer)
+        {
+            bool isStunned;
+            var stunStat = CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(KeywordTypeEnum.Stun);
+            isStunned = stunStat.HasValue();
 
+            stunStat.Reset();
+
+            return isStunned;
+        }
         public IEnumerator OnStartTurnKeywords(bool isPlayer)
         {
             Debug.Log("Activating Keywords Effect on " + (isPlayer? "Player":"Enemy") + " that are activated on the start of the turn");
