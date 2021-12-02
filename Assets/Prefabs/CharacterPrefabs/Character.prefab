@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6764571377640259325}
   - component: {fileID: 4130594358284959240}
   - component: {fileID: 6313308576270340692}
+  - component: {fileID: 64105012102307918}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -72,7 +73,7 @@ MonoBehaviour:
     type: 2}
   _moveCameraAngle: {fileID: 11400000, guid: 45b8cd7551d62d44d8eb685b3b08176f, type: 2}
   _opponentController: {fileID: 0}
-  _animator: {fileID: 0}
+  _animator: {fileID: 6764571377640259325}
   targetToLookAt: {fileID: 0}
   _rotationSpeed: 2
   _positionSpeed: 1
@@ -81,34 +82,6 @@ MonoBehaviour:
   transitionToIdle: 0.1
   _isPlayer: 1
   startPos: {x: -0.4, y: -1.5, z: 0.5}
-  OnKickEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnPunchEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _crossFadeBetweenAnimations: 0
 --- !u!114 &6313308576270340692
 MonoBehaviour:
@@ -125,3 +98,19 @@ MonoBehaviour:
   _isPlayer: 0
   _soundsEvent: {fileID: 11400000, guid: 5bdcfd677c14ca64e957792275340eaa, type: 2}
   _avatarHandler: {fileID: 0}
+--- !u!114 &64105012102307918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522867382549449781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbd6b02e4efc6224387102b17338824d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnPunchHitSound: {fileID: 0}
+  OnKickHitSound: {fileID: 0}
+  OnHeadHitSound: {fileID: 0}
+  OnElbowSound: {fileID: 0}

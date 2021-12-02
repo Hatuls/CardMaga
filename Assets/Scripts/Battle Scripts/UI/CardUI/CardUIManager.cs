@@ -54,7 +54,7 @@ namespace Battles.UI
 
         #region Events
         [SerializeField]
-        Unity.Events.SoundsEvent _soundEvent;
+        UnityEvent OnPlayerRemoveHand;
         [SerializeField]
         UnityEvent OnDrawCard;
         #endregion
@@ -182,54 +182,28 @@ namespace Battles.UI
         public void RemoveHands()
         {
             _handUI.DiscardHand();
-            _soundEvent.Raise(SoundsNameEnum.DisacrdCard);
-            //  var removal = GetCardUIHandler<DiscardHandHandler>();
-            //  StartCoroutine(removal.MoveCardsUI(array, GetDeckPosition(DeckEnum.Disposal), GetDeckPosition(DeckEnum.Hand)));
+            OnPlayerRemoveHand?.Invoke();
+      
 
         }
         public override void Init()
         {
             _handUI = new HandUI(_handCards, GetHandMiddlePosition.transform.localPosition, _cardUISettings);
 
-            //_transitions = new CardUITransition[4]
-            //{
-            //    new DrawCardUIHandler(this,_handUI,_soundEvent,_cardUISettings),
-            //    new RemoveCardAfterACtivated(this, _cardUISettings, _soundEvent),
-            //    new DiscardHandHandler(this,_cardUISettings,_handUI,_soundEvent),
-            //    new CraftCardUIHandler(_handUI ,this, _cardUISettings,_soundEvent)
-            //};
 
 
             InitCardUI();
         }
 
 
-        /// <summary>
-        /// Return a Transition Class For The Card UI
-        /// </summary>
-        /// <typeparam name="T"> </typeparam>
-        /// <returns>DrawCardUIHandler, RemoveCardAfterActivated, DiscardHandHandler, CraftCardUIHandler</returns>
-        //private T GetCardUIHandler<T>() where T : CardUITransition
-        //{
-        //    for (int i = 0; i < _transitions.Length; i++)
-        //    {
-        //        if (_transitions[i].GetType() == typeof(T))
-        //        {
-        //            return _transitions[i] as T;
-        //        }
-        //    }
-        //    return null;
-        //}
+   
 
 
         public void ExecuteCardUI(CardUI card)
         {
             if (card == null)
                 return;
-     //       card.Inputs.CurrentState = CardUIAttributes.CardInputs.CardUIInput.Locked;
-        //    var handler = GetCardUIHandler<RemoveCardAfterACtivated>();
-        //    StartCoroutine(handler.MoveCardsUI(new CardUI[1] { card }, GetDeckPosition(DeckEnum.Disposal), card.transform.localPosition));
-
+   
         }
 
 

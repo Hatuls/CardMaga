@@ -14,7 +14,7 @@ namespace Combo
     {
 
         #region Fields
-
+        [SerializeField] string SuccessfullForgeOfComboNameEvent;
         [SerializeField] ComboSO _cardRecipeDetected;
         PlayerCraftingSlots _playerCraftingSlots;
         PlayerCraftingSlots _enemyCraftingSlots;
@@ -22,7 +22,7 @@ namespace Combo
 
         #endregion
         #region Events
-        [SerializeField] SoundsEvent _playSound;
+        [SerializeField] StringEvent _playSound;
         [SerializeField] VoidEvent _successCrafting;
         #endregion
 
@@ -54,7 +54,7 @@ namespace Combo
                 var factory = Factory.GameFactory.Instance.CardFactoryHandler;
                 var craftedCard = factory.CreateCard(_cardRecipeDetected.CraftedCard);
 
-                _playSound?.Raise(SoundsNameEnum.SuccessfullForge);
+                _playSound?.Raise(SuccessfullForgeOfComboNameEvent);
                 _successCrafting?.Raise();
 
                 switch (_cardRecipeDetected.GoToDeckAfterCrafting)

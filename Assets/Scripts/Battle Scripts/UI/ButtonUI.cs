@@ -8,11 +8,10 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Button))]
 public  class ButtonUI : MonoBehaviour
 {
-    [SerializeField]
-    SoundsNameEnum _soundToPlay = SoundsNameEnum.ButtonTapped;
-    [SerializeField] UnityEvent _onBtnPressed;
-    [SerializeField]protected SoundsEvent _playSound;
 
+    [SerializeField] UnityEvent _onBtnPressed;
+    [SerializeField]protected StringEvent _playSound;
+    [SerializeField] string _soundToPlay;
      private void OnEnable()
     {
         GetComponent<Button>().onClick.AddListener(ButtonPressed);

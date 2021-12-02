@@ -9,7 +9,7 @@ namespace Keywords
      
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
-
+         
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
                 var reciver = CharacterStatsManager.GetCharacterStatsHandler(currentPlayer);
@@ -27,7 +27,7 @@ namespace Keywords
                 reciver.RecieveDamage(applierStrength + data.GetAmountToApply);
 
             }
-  
+            data.KeywordSO.PlaySound();
         }
     }
 }

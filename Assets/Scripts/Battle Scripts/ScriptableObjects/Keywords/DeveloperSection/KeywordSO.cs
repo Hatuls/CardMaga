@@ -27,6 +27,11 @@ namespace Keywords
 
         [SerializeField] string[] _descriptions;
 
+        [SerializeField] string SoundNameEvent;
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.ShowInInspector]
+        public string FullSoundName => string.Concat(AudioManager.FmodEventString, SoundNameEvent);
+#endif
         #endregion
 
         #region Properties
@@ -59,6 +64,9 @@ namespace Keywords
         }
         #endregion
 
+        public void PlaySound()
+            => AudioManager.Instance.PlaySoundEvent(SoundNameEvent);
+#if UNITY_EDITOR
         public bool Init(string[] Data)
         {
 
@@ -101,10 +109,12 @@ namespace Keywords
             else
                 throw new System.Exception($"KeywordsSO:\nID: {_iD}\n Ignore info amount on keyword is not a valid number!");
 
-            _descriptions = Data[DescriptionIndex].Replace('^' , ',').Split('#');
+            _descriptions = Data[DescriptionIndex].Replace('^', ',').Split('#');
 
             return true;
         }
+
+#endif
     }
 
 

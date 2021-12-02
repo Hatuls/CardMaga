@@ -14,7 +14,7 @@ namespace Keywords
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
                 StaminaHandler.Instance.AddStartStamina(!currentPlayer, data.GetAmountToApply);
-
+            data.KeywordSO.PlaySound();
         }
     }
 }

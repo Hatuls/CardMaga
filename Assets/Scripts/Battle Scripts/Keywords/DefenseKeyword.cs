@@ -37,7 +37,7 @@ namespace Keywords
                         );
                 }
 
-
+                data.KeywordSO.PlaySound();
             }
         }
     }

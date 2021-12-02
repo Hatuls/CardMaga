@@ -24,6 +24,7 @@
                     for (int i = 0; i < length; i++)
                         craftingslot.PushSlots();
                 }
+                data.KeywordSO.PlaySound();
             }
             else
                 throw new System.Exception("Error Keyword Data is Null!! at "+ Keyword.ToString());

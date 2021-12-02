@@ -26,6 +26,7 @@ namespace Keywords
                 else
                     maxHealth.Reduce(-1*data.GetAmountToApply);
             }
+            data.KeywordSO.PlaySound();
         }
     }
 }

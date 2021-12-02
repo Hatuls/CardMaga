@@ -121,7 +121,10 @@ namespace Keywords
                 {KeywordTypeEnum.Draw, new DrawKeyword() },
                 {KeywordTypeEnum.Clear, new ClearKeyword() },
                 {KeywordTypeEnum.Shuffle, new ShuffleKeyword() },
-                    {KeywordTypeEnum.StaminaShards, new StaminaShardKeyword() }
+                {KeywordTypeEnum.Stun, new StunKeyword()},
+                    //{KeywordTypeEnum.Vulnerable, new VulnerableKeyword() },
+                    //{KeywordTypeEnum.RageShard, RageShardKeyword() },
+                {KeywordTypeEnum.StaminaShards, new StaminaShardKeyword() },
             };
             }
             if (_keywordDict == null)

@@ -32,6 +32,7 @@ namespace Characters.Stats
                 CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
                 CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+            data.KeywordSO.PlaySound();
         }
     }
 }

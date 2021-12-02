@@ -32,7 +32,6 @@ public class VFXManager : MonoSingleton<VFXManager>
 
     }
 
-
     public void PlayParticle(bool isOnPlayer, BodyPartEnum part, ParticleEffectsEnum effect)
     {
         if (effect == ParticleEffectsEnum.None)
