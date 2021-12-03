@@ -76,12 +76,16 @@ namespace Keywords
         }
         public IEnumerator OnStartTurnKeywords(bool isPlayer)
         {
+            var characterStats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer);
             Debug.Log("Activating Keywords Effect on " + (isPlayer? "Player":"Enemy") + " that are activated on the start of the turn");
+
            
-            CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyBleed();
+
+            characterStats.ApplyBleed();
             yield return new WaitForSeconds(0.2f);
-            CharacterStatsManager.GetCharacterStatsHandler(isPlayer).ApplyHealRegeneration();
-            yield return null;
+            characterStats.ApplyHealRegeneration();
+
+
           //  yield return Battles.Turns.Turn.WaitOneSecond;
         }
 
@@ -90,10 +94,17 @@ namespace Keywords
         {
           
             Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the end of the turn");
+            var characterStats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer);
+            var vulnrable = characterStats.GetStats(KeywordTypeEnum.Vulnerable);
+            if (vulnrable.Amount > 0)
+                vulnrable.Reduce(1);
+
+            var Weak = characterStats.GetStats(KeywordTypeEnum.Weak);
+            if (Weak.Amount > 0)
+                Weak.Reduce(1);
 
             yield return null;
-            //     var statCache = GetCharacterStats(targetEnum);
-            //   yield return Battles.Turns.Turn.WaitOneSecond;
+        
 
         }
         #endregion
@@ -122,9 +133,13 @@ namespace Keywords
                 {KeywordTypeEnum.Clear, new ClearKeyword() },
                 {KeywordTypeEnum.Shuffle, new ShuffleKeyword() },
                 {KeywordTypeEnum.Stun, new StunKeyword()},
-                    //{KeywordTypeEnum.Vulnerable, new VulnerableKeyword() },
-                    //{KeywordTypeEnum.RageShard, RageShardKeyword() },
+                {KeywordTypeEnum.Weak,new WeakKeyword() },
+                {KeywordTypeEnum.Vulnerable, new VulnerableKeyword() },
+                {KeywordTypeEnum.ProtectionShard, new ProtectionShardKeyword() },
+                {KeywordTypeEnum.RageShard, new RageShardKeyword() },
                 {KeywordTypeEnum.StaminaShards, new StaminaShardKeyword() },
+                {KeywordTypeEnum.StunShard, new StunShardKeyword() },
+                    {KeywordTypeEnum.Double, new DoubleKeyword() }
             };
             }
             if (_keywordDict == null)
