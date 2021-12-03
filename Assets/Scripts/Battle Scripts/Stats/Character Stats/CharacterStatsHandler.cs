@@ -21,7 +21,8 @@ namespace Characters.Stats
             DrawCardStat _draw = new DrawCardStat(isPlayer, stats.DrawCardsAmount);
             RageStat _rage = new RageStat(isPlayer, stats.RagePoint);
             ProtectedStat _protected = new ProtectedStat(isPlayer, stats.ProtectionPoints);
-
+            WeakStat _weakStat = new WeakStat(isPlayer, stats.Weakend);
+            VulnerableKeyword _vulnerableKeyword = new VulnerableKeyword(isPlayer, stats.Weakend);
             //Effects
             StunStat _stun = new StunStat(isPlayer);
 
@@ -33,7 +34,7 @@ namespace Characters.Stats
 
             _max._healthStat = _health;
 
-            const int StatsCapacity = 10;
+            const int StatsCapacity = 20;
 
             _statsDictionary = new System.Collections.Generic.Dictionary<KeywordTypeEnum, StatAbst>(StatsCapacity) {
                 {_health.Keyword,_health },
@@ -53,6 +54,8 @@ namespace Characters.Stats
                 {_rageShard.Keyword,_rageShard },
                 {_protectionShard.Keyword,_protectionShard },
                 {_stun.Keyword,_stun },
+                {_weakStat.Keyword,_weakStat },
+                {_vulnerableKeyword.Keyword,_vulnerableKeyword  },
             };
         }
 

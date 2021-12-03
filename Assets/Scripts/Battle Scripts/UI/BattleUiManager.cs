@@ -67,6 +67,7 @@ namespace Battles.UI
                 case KeywordTypeEnum.Regeneration:
                 case KeywordTypeEnum.StaminaShards:
                 case KeywordTypeEnum.StunShard:
+                case KeywordTypeEnum.Stun:
                 case KeywordTypeEnum.RageShard:
                 case KeywordTypeEnum.ProtectionShard:
                     _buffEvent.Invoke(isPlayer,Amount ,actionTypeEnum );

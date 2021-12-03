@@ -244,17 +244,6 @@ public class AnimatorController : MonoBehaviour
 
 
     }
-    private void OnFinishAnimation()
-    {
-        Battles.CardExecutionManager.FinishedAnimation = true;
-
-        //ReturnToIdle();
-        ResetBothRotaionAndPosition();
-        //  isFirst = true;
-        //   _onFinishedAnimation?.Raise();
-        //  _currentAnimation = null;
-
-    }
 
     public void ResetLayerWeight()
     {
@@ -262,43 +251,22 @@ public class AnimatorController : MonoBehaviour
         _animator.SetLayerWeight(2, 0);
     }
 
-    private void SetLayerWeight(Cards.BodyPartEnum bodyPartEnum)
-    {
-        ResetLayerWeight();
-
-        switch (bodyPartEnum)
-        {
-            case Cards.BodyPartEnum.Head:
-                break;
-            case Cards.BodyPartEnum.Elbow:
-            case Cards.BodyPartEnum.Hand:
-                _animator.SetLayerWeight(2, 1);
-                break;
-            case Cards.BodyPartEnum.Knee:
-            case Cards.BodyPartEnum.Leg:
-                _animator.SetLayerWeight(1, 1);
-                break;
-            case Cards.BodyPartEnum.Joker:
-                break;
-            default:
-                break;
-        }
-    }
-
-
 
 
     public void PlayHitOrDefenseAnimation()
     {
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
-        if (Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(!_isPlayer).GetStats(Keywords.KeywordTypeEnum.Shield).Amount > 0)
+        //if (Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(!_isPlayer).GetStats(Keywords.KeywordTypeEnum.Shield).Amount > 0)
+        //    _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString(), true);
+
+        //else
+        //    _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString(), true);
+
+        if (Battles.CardExecutionManager.Instance.CanDefendIncomingAttack(!_isPlayer))
             _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString(), true);
-
-        else
+       else
             _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString(), true);
-
-
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();
@@ -338,6 +306,17 @@ public class AnimatorController : MonoBehaviour
     #endregion
 
     #region Private
+    private void OnFinishAnimation()
+    {
+        Battles.CardExecutionManager.FinishedAnimation = true;
+
+        //ReturnToIdle();
+        ResetBothRotaionAndPosition();
+        //  isFirst = true;
+        //   _onFinishedAnimation?.Raise();
+        //  _currentAnimation = null;
+
+    }
     private void ReturnToIdle() => _animator.CrossFade("KB_Idle", transitionToIdle);
     #endregion
 

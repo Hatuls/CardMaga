@@ -54,7 +54,7 @@ namespace Rewards
             int recieveChipChanceResult = ChanceHelper.GetRandomIndexByChances(_recieveChipChance);
 
             ResourceStock resourceStock = null;
-            if (recieveChipChanceResult == 0)
+            if (recieveChipChanceResult == 1)
             {
                 int chipAmountChance = ChanceHelper.GetRandomIndexByChances(_chipChances);
                 resourceStock = new ResourceStock(ResourceEnum.Credits, _chipAmount[chipAmountChance]);

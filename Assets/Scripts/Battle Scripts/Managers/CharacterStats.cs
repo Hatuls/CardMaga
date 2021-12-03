@@ -45,6 +45,8 @@ namespace Characters.Stats
         [SerializeField] int _protectionPoints;
 
 
+        [SerializeField] int _weak;
+        [SerializeField] int _vulnerable;
 
 
 
@@ -102,7 +104,8 @@ namespace Characters.Stats
                 }
             }
         }
-
+        public int Vulnerable => _vulnerable;
+        public int Weakend => _weak;
         public int StunShard { get => _stunShards;
             set => _stunShards = value;
         }

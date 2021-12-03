@@ -4,6 +4,8 @@ using Cards;
 public class PlayerCraftingSlots : Battles.Deck.DeckAbst
 {
     CraftingUIHandler _playerCraftingUIHandler;
+    Card _lastCardEntered;
+    public Card LastCardEntered => _lastCardEntered;
     public PlayerCraftingSlots(bool isPlayer, int cardsLength) : base(isPlayer, cardsLength)
     {
         _playerCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
@@ -11,6 +13,7 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
 
     private bool AddCardToEmptySlot(Card card)
     {
+        _lastCardEntered = card;
         var bodypartEnum = card.BodyPartEnum;
         if (bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None)
             return true;
@@ -30,6 +33,7 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
     }
     public override bool AddCard(Card card)
     {
+        _lastCardEntered = card;
         var bodypartEnum = card.BodyPartEnum;
         if (!(bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None))
         {
@@ -63,7 +67,7 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
     }
     public void AddCard(Card card, bool toDetect)
     {
-
+        _lastCardEntered = card;
         var bodypartEnum = card.BodyPartEnum;
         if (bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None)
             return;
@@ -98,6 +102,6 @@ public class PlayerCraftingSlots : Battles.Deck.DeckAbst
         _playerCraftingUIHandler.ResetPlaceHolderUI(i);
     }
 
-
+  
 }
 

@@ -18,8 +18,8 @@ namespace Characters.Stats
 
             if (Amount >= _maxShardSize)
             {
-                CharacterStatsManager.GetCharacterStatsHandler(!isPlayer).GetStats(KeywordTypeEnum.Stun).Add(1);
-                Reset();
+                CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(KeywordTypeEnum.Stun).Add(1);
+                Reduce(_maxShardSize);
             }
         }
         public override void Reduce(int value)
