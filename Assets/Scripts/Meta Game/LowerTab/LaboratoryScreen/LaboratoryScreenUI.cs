@@ -47,7 +47,12 @@ namespace UI.Meta.Laboratory
         GameObject _fusePanel;
         [SerializeField]
         GameObject _fusePanelTitle;
-        TextMeshProUGUI _dismantleText;
+
+
+        [SerializeField]
+        GameObject[] _gameObjectsToActivateOnLabratortyScreen;
+
+
 
         [SerializeField]
         CardUIInteractionHandle _cardUIInteractionHandler;
@@ -57,14 +62,19 @@ namespace UI.Meta.Laboratory
         #endregion
         public override void Close()
         {
-            gameObject.SetActive(false);
+            for (int i = 0; i < _gameObjectsToActivateOnLabratortyScreen.Length; i++)
+                _gameObjectsToActivateOnLabratortyScreen[i].SetActive(false);
+            
+
             _cardUIInteractionHandler.UnSubscribe();
         }
         public override void Open()
         {
             _cardUIInteractionHandler.Subscribe();
             OpenPanel(LabPanelsEnum.Upgrade);
-            gameObject.SetActive(true);
+            for (int i = 0; i < _gameObjectsToActivateOnLabratortyScreen.Length; i++)
+                _gameObjectsToActivateOnLabratortyScreen[i].SetActive(true);
+
         }
 
 
