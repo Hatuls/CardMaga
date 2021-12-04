@@ -66,17 +66,26 @@ namespace UI.Meta.Workshop
         }
         #endregion
         #region Pack Rewards
+
+        [SerializeField]
+        GameObject[] ContrainersToActivate;
         public override void Open()
         {
             PackUI.OnPackRewardClicked += PurchasePack;
             InitRewardScreen();
-            gameObject.SetActive(true);
+            for (int i = 0; i < ContrainersToActivate.Length; i++)
+            {
+                ContrainersToActivate[i].SetActive(true);
+            }
 
         }
         public override void Close()
         {
             PackUI.OnPackRewardClicked -= PurchasePack;
-            gameObject.SetActive(false);
+            for (int i = 0; i < ContrainersToActivate.Length; i++)
+            {
+                ContrainersToActivate[i].SetActive(false);
+            }
         }
 
         #endregion

@@ -5,7 +5,7 @@
         public override void OpenScreen(MetaCardUIHandler metaCardUIHandler)
         {
 
-                metaCardUIHandler.InfoButton.SetActive(true);
+                metaCardUIHandler.InfoButton.SetActive(false);
 
                 metaCardUIHandler.DismantleButton.SetActive(false);
 
