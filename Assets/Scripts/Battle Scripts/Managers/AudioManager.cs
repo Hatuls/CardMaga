@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
-{
+public class AudioManager : MonoBehaviour
+{ 
     static Dictionary<string, FmodData> _fmodLibrary = new Dictionary<string, FmodData>();
     private static AudioManager _instance;
     public static AudioManager Instance
@@ -60,13 +60,19 @@ public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
     }
     public void StopAllSounds()
     {
-        foreach (var fmodData in _fmodLibrary)
+        if(_fmodLibrary == null)
         {
-            fmodData.Value.StopSound(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-
-            _fmodLibrary.Remove(fmodData.Key);
+            throw new System.Exception("Audio Manager fmodLibrary is null");
         }
-        _fmodLibrary.Clear();
+        if (_fmodLibrary.Count > 0)
+        {
+            foreach (var fmodData in _fmodLibrary)
+            {
+                fmodData.Value.StopSound(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+            }
+            _fmodLibrary.Clear();
+        }
     }
 
     // Fmod with Params
