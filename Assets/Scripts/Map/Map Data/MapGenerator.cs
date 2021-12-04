@@ -173,7 +173,7 @@ namespace Map
         }
         private static float GetDistanceToLayer(int layerIndex)
         {
-            float startPos = ScreenSettings._screenMinY + ScreenSettings._yOffset;
+            float startPos = ScreenCoordinates._screenMinY + ScreenCoordinates._yOffset;
             if (layerIndex ==0)
                 return startPos;
 
@@ -306,7 +306,7 @@ namespace Map
         {
             int layers = _config._nodeLayers.Length;
             _layerDistances = new List<float>(layers);
-            float startPos = ScreenSettings._screenMinY + ScreenSettings._yOffset;
+            float startPos = ScreenCoordinates._screenMinY + ScreenCoordinates._yOffset;
 
             for (int i = 0; i < layers; i++)
                 _layerDistances.Add((i == 0) ? startPos : _config._nodeLayers[i].RandomizeDistanceFromPreviousLayer);
