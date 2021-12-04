@@ -22,6 +22,9 @@ public class UIIconSO : ScriptableObject
     Color _decorColor;
     [SerializeField]
     Color _backgroundColor;
+
+    [SerializeField]
+    bool _toShowAmount = true;
     #endregion
     #region Properties
     public Sprite GetIcon => _icon;
@@ -31,5 +34,6 @@ public class UIIconSO : ScriptableObject
     public Color GetDecorColor => _decorColor;
     public Color GetBackgroundColor => _backgroundColor;
     public Color GetDetectedBackgroundColor => _detectedBackGround;
+    public bool ToShowAmount => _toShowAmount;
     #endregion
 }

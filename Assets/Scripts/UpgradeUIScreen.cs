@@ -20,14 +20,17 @@ namespace Meta.UI
         CardUpgradeCostSO _upgradeCostSO;
 
         [SerializeField]
-        TextMeshProUGUI _costTMPRO;
-
+        TextMeshProUGUI _instructionText;
+        [SerializeField]
+        TextMeshProUGUI _costText;
+        [SerializeField]
+        GameObject _upgradeBtn;
         [SerializeField]
         string _shownText;
 
         [SerializeField]
-        string _defaultText = "Choose Card:";
-        string _costText = "Upgrade Cost: ";
+        string defaultText = "Choose Card:";
+        string costText = "Upgrade Cost: ";
 
         private void Start()
         {
@@ -35,9 +38,10 @@ namespace Meta.UI
         }
         public void ResetScreen()
         {
+            ActivateGameObject(_upgradeBtn, false);
             ActivateGameObject(_selectedCardUI.gameObject, false);
             ActivateGameObject(_upgradedVersion.gameObject, false);
-            _costTMPRO.text = _defaultText;
+            _instructionText.text = defaultText;
         }
 
         public void SelectCardUI(CardUI card)
@@ -62,7 +66,9 @@ namespace Meta.UI
         public void RemoveCardUI() { ResetScreen(); }
         private void SetCostText()
         {
-            _costTMPRO.text = string.Concat(_costText,_upgradeCostSO.NextCardValue(_selectedCardUI.CardUI.GFX.GetCardReference));
+            _instructionText.text = costText;
+            ActivateGameObject(_upgradeBtn, false);
+            _costText.text = _upgradeCostSO.NextCardValue(_selectedCardUI.CardUI.GFX.GetCardReference).ToString();
         }
         private void ActivateGameObject(GameObject go, bool state)
         {
@@ -79,6 +85,7 @@ namespace Meta.UI
                 ResetScreen();
                 _collectionFilterHandler.Refresh();
                 Debug.Log(" Succeed");
+            ActivateGameObject(_upgradeBtn, false);
             }
             else
             {

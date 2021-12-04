@@ -2,6 +2,7 @@
 using Battles.UI;
 using Characters.Stats;
 using Keywords;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -257,6 +258,22 @@ namespace Battles
 
 
         }
+
+        internal bool CanDefendIncomingAttack(bool Reciever)
+        {
+            for (int i = 0; i < _keywordData.Count; i++)
+            {
+                if (currentKeywordIndex == _keywordData[i].AnimationIndex)
+                {
+                    if (_keywordData[i].KeywordSO.GetKeywordType == KeywordTypeEnum.Attack)
+                    {
+                        return CharacterStatsManager.GetCharacterStatsHandler(Reciever).GetStats(KeywordTypeEnum.Shield).Amount >= _keywordData[i].GetAmountToApply;
+                    }
+                }
+            }
+            return false;
+        }
+
         private void SortKeywords()
         {
             if (_cardsQueue.Count > 0)

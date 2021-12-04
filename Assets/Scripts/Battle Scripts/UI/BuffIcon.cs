@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+﻿using Art;
 using Keywords;
+using TMPro;
+using UnityEngine;
 using UnityEngine.Events;
-using Art;
+using UnityEngine.UI;
 
 public class BuffIcon : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class BuffIcon : MonoBehaviour
     protected TextMeshProUGUI _iconText;
 
     [SerializeField]
-   protected Image _background;
+    protected Image _background;
 
     [SerializeField]
     protected Image _decor;
@@ -25,7 +25,7 @@ public class BuffIcon : MonoBehaviour
     [SerializeField]
     protected Image _icon;
 
-[SerializeField] protected RectTransform _rectTransform;
+    [SerializeField] protected RectTransform _rectTransform;
 
     [SerializeField]
     UnityEvent OnGainArmor;
@@ -52,9 +52,9 @@ public class BuffIcon : MonoBehaviour
 
         _iconText.color = clr;
     }
-    public void InitIconData(UIIconSO iconData, int amount , KeywordTypeEnum buffIcons)
+    public void InitIconData(UIIconSO iconData, int amount, KeywordTypeEnum buffIcons)
     {
-      
+
 
         ShowIcon();
         var art = Factory.GameFactory.Instance.ArtBlackBoard;
@@ -70,19 +70,26 @@ public class BuffIcon : MonoBehaviour
         _icon.sprite = iconData?.GetIcon;
         //_icon.color = iconData.GetIconColor;
         _icon.color = buffUIPalette.GetBuffIconFromColor(buffIcons);
-   
 
-        SetText(amount.ToString(), buffUIPalette.CardDefaultTextColor);
+        if (iconData.ToShowAmount)
+        {
+            SetText(amount.ToString(), buffUIPalette.CardDefaultTextColor);
+            _iconText.gameObject.SetActive(true);
+        }
+        else
+        {
+            _iconText.gameObject.SetActive(false);
+        }
     }
     public void ResetEnumType()
     {
-        GetSetName =  KeywordTypeEnum.None;
+        GetSetName = KeywordTypeEnum.None;
         TweenExitEntrance(false);
     }
 
     protected void SetText(string Text, Color? clr = null)
     {
-         _iconText.text = Text;
+        _iconText.text = Text;
 
         //_iconText.color = (clr.HasValue)
         //    ? clr.GetValueOrDefault() :  _buffUIPalette.CardDefaultTextColor ;
@@ -99,7 +106,7 @@ public class BuffIcon : MonoBehaviour
         SetText(amount.ToString());
         if (amount != 0)
         {
-        
+
             TweenOnUpdateText();
         }
         else if (_name != KeywordTypeEnum.Shield)
@@ -113,13 +120,13 @@ public class BuffIcon : MonoBehaviour
 
     protected void TweenOnUpdateText()
     {
-        if (gameObject  != null&& gameObject.activeSelf)
+        if (gameObject != null && gameObject.activeSelf)
         {
 
 
-        LeanTween.scale(_rectTransform, Vector3.one * _buffIconSettingsSO.ScaleAmount, _buffIconSettingsSO.ScaleEntranceTime).setEase(_buffIconSettingsSO.EntranceTypeTweenType).setOnComplete(() =>
-        LeanTween.scale(_rectTransform, Vector3.one, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType)
-            );
+            LeanTween.scale(_rectTransform, Vector3.one * _buffIconSettingsSO.ScaleAmount, _buffIconSettingsSO.ScaleEntranceTime).setEase(_buffIconSettingsSO.EntranceTypeTweenType).setOnComplete(() =>
+            LeanTween.scale(_rectTransform, Vector3.one, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType)
+                );
         }
     }
 
@@ -132,8 +139,8 @@ public class BuffIcon : MonoBehaviour
         }
         else
         {
-           LeanTween.alpha(_rectTransform, 0, _buffIconSettingsSO.AlphaExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType);
-           LeanTween.scale(_rectTransform, Vector3.zero, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType).setOnComplete(() => gameObject.SetActive(false));
+            LeanTween.alpha(_rectTransform, 0, _buffIconSettingsSO.AlphaExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType);
+            LeanTween.scale(_rectTransform, Vector3.zero, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType).setOnComplete(() => gameObject.SetActive(false));
         }
     }
 }

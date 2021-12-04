@@ -1,4 +1,5 @@
 ﻿using Characters.Stats;
+using System.Collections.Generic;
 
 namespace Keywords
 {
@@ -28,5 +29,30 @@ namespace Keywords
                     gold.Reduce(-1 * data.GetAmountToApply);
             }
         }
+    } 
+    public class DoubleKeyword : KeywordAbst
+    {
+        public override KeywordTypeEnum Keyword =>  KeywordTypeEnum.Double;
+
+        public async override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            data.KeywordSO.SoundEventSO.PlaySound();
+            var target = data.GetTarget;
+            await System.Threading.Tasks.Task.Yield();
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+            {
+                var cards = Battles.Deck.DeckManager.GetCraftingSlots(currentPlayer);
+                Battles.Deck.DeckManager.AddToCraftingSlot(currentPlayer, cards.LastCardEntered);
+            }
+
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+            {
+                var cards = Battles.Deck.DeckManager.GetCraftingSlots(!currentPlayer);
+                Battles.Deck.DeckManager.AddToCraftingSlot(!currentPlayer, cards.LastCardEntered);
+
+            }
+        }
+      
+
     }
 }

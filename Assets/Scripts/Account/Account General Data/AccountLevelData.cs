@@ -52,6 +52,7 @@ namespace Account.GeneralData
                 if (Value >= _maxExp.Value)
                 {
                     _level.AddValue(1);
+                    _value = 0;
                     AddValue(value - _maxExp.Value);
                 }
                 OnGainEXP?.Invoke((int)_value, (int)_maxExp.Value);
