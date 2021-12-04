@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class AudioManager : MonoBehaviour //MonoSingleton<AudioManager>
-{
+public class AudioManager : MonoBehaviour
+{ 
     static Dictionary<string, FmodData> _fmodLibrary = new Dictionary<string, FmodData>();
     private static AudioManager _instance;
     public static AudioManager Instance
