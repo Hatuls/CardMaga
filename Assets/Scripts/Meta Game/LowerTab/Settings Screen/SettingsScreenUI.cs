@@ -29,6 +29,8 @@ namespace UI.Meta.Settings
 
         [SerializeField]
         GameObject _parent;
+        [SerializeField]
+        GameObject[] settingsGOToWhenClicked;
         private void Start()
         {
             Close();
@@ -37,6 +39,10 @@ namespace UI.Meta.Settings
         {
             if (_parent.activeSelf)
                 _parent.SetActive(false);
+            for (int i = 0; i < settingsGOToWhenClicked.Length; i++)
+            {
+                settingsGOToWhenClicked[i].SetActive(false);
+            }
         }
 
         public override void Open()
@@ -44,6 +50,10 @@ namespace UI.Meta.Settings
             SetSettings();
             if (!_parent.activeSelf)
                 _parent.SetActive(true);
+            for (int i = 0; i < settingsGOToWhenClicked.Length; i++)
+            {
+                settingsGOToWhenClicked[i].SetActive(true);
+            }
         }
         private void SetSettings()
         {
