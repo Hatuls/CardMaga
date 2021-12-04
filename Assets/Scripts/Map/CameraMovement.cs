@@ -1,4 +1,5 @@
 ﻿using DesignPattern;
+using Map;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour, IObserver
@@ -18,10 +19,36 @@ public class CameraMovement : MonoBehaviour, IObserver
     float _camSpeed;
     [SerializeField]
     Camera _camera;
+    [SerializeField] [Range(0,1)]
+    float _divideScreenOffset = 0.75f;
+    [SerializeField]
+    float _movementTime = 1;
+
+
+    
+    private static float _lastVisitedNodeY;
+
+    public float LastVisitedNodeY
+    { set
+        {
+            _lastVisitedNodeY = value;
+            
+            SetCameraPosition(CameraOffset(_lastVisitedNodeY), _movementTime);
+        }
+    }
 
     Vector3 _dragOrigin;
    public static bool _toLock;
 
+    private void Start()
+    {
+        if(_lastVisitedNodeY != 0)
+        {
+
+            SetCameraPosition(CameraOffset(_lastVisitedNodeY), _movementTime);
+
+        }
+    }
     private void OnEnable()
     {
         _raycastObserver.Subscribe(this);
@@ -50,13 +77,8 @@ public class CameraMovement : MonoBehaviour, IObserver
             Vector3 delta = _dragOrigin - _camera.ScreenToWorldPoint(Input.mousePosition);
              _camera.transform.position += new Vector3(0, delta.y, 0);
 
-            _camera.transform.position = new Vector3(_camera.transform.position.x, Mathf.Clamp(_camera.transform.position.y, _minCamPosition, _maxCamPosition), _camera.transform.position.z);
-
+            SetCameraPosition(_camera.transform.position.y,0);
         }
- 
-
-
-
     }
 
     public void OnNotify(IObserver Myself)
@@ -65,5 +87,15 @@ public class CameraMovement : MonoBehaviour, IObserver
             _toLock = false;
         else if ((Object)Myself != this)
             _toLock = true;
+    }
+    public void SetCameraPosition(float yPos, float timer)
+    {
+        var toPos =  new Vector3(_camera.transform.position.x, Mathf.Clamp(yPos, _minCamPosition, _maxCamPosition), _camera.transform.position.z);
+        LeanTween.move(gameObject, toPos, timer);
+    }
+    private float CameraOffset(float yPos)
+    {
+        var screenOffset = (ScreenCoordinates._screenMaxY - ScreenCoordinates._screenMinY) * _divideScreenOffset;
+        return yPos + screenOffset;
     }
 }

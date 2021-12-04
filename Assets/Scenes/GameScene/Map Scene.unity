@@ -407,6 +407,7 @@ MonoBehaviour:
   _maxCamPosition: 5
   _camSpeed: 0
   _camera: {fileID: 1354244494}
+  _divideScreenOffset: 0.45
 --- !u!114 &1354244498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,35 +670,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3633387717348506064, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
         type: 3}
-      propertyPath: m_Color.b
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3633387717348506064, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
+    - target: {fileID: 3633387717348506065, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
         type: 3}
-      propertyPath: m_Color.g
-      value: 0
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3633387717348506064, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
+    - target: {fileID: 3633387717348506065, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
         type: 3}
-      propertyPath: m_Color.r
-      value: 0
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3633387717348506070, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 3633387717593527760, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
-        type: 3}
-      propertyPath: _yOffset
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3633387717593527760, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
-        type: 3}
-      propertyPath: _linePrefab
-      value: 
-      objectReference: {fileID: 4637866333457711672, guid: 3d4a2cab02581a849a4243985777dea5,
-        type: 3}
     - target: {fileID: 3633387717593527761, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
         type: 3}
       propertyPath: m_RootOrder
@@ -763,11 +748,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map
       objectReference: {fileID: 0}
-    - target: {fileID: 3633387717593527766, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
+    - target: {fileID: 6333568841317425549, guid: ccee7d2afb0cbc34a9f73d10d29a4960,
         type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
+      propertyPath: _cameraMovement
+      value: 
+      objectReference: {fileID: 1354244497}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccee7d2afb0cbc34a9f73d10d29a4960, type: 3}
 --- !u!114 &3633387716841651326 stripped
