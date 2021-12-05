@@ -122,8 +122,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3808349609019635760}
-        m_MethodName: OpenInteractionPanel
+      - m_Target: {fileID: 7061224531713108291}
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -145,12 +145,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2283517fa0342409c368576329d9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dropList: {fileID: 2192143779230614087}
-  _useButton: {fileID: 2192143779660861657}
-  _removeButton: {fileID: 5187413608178212964}
-  _dismantleButton: {fileID: 2192143780334938995}
   _cardUI: {fileID: 6037816339144529212}
-  _infoButton: {fileID: 2192143779789332609}
+  OnCardClicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3808349609019635760}
+        m_MethodName: OpenInteractionPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnCardUIClicked:
+    m_PersistentCalls:
+      m_Calls: []
   _metaCardUIInteraction: {fileID: 3808349609019635760}
 --- !u!114 &3808349609019635760
 MonoBehaviour:
