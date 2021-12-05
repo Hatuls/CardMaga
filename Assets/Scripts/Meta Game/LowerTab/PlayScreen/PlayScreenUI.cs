@@ -1,10 +1,13 @@
 ﻿using Account.GeneralData;
 using Meta.Resources;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UI.Meta.PlayScreen
 {
-    public class PlayScreenUI :  TabAbst
+  [System.Serializable]
+public class  UshortEvent : UnityEvent<ushort> { }
+    public class PlayScreenUI : TabAbst
     {
         #region Singleton
         private static PlayScreenUI _instance;
@@ -24,10 +27,9 @@ namespace UI.Meta.PlayScreen
         }
         #endregion
         #region Fields
+
         [SerializeField]
-        ChooseDeckScreen _chooseDeckScreen;
-        [SerializeField]
-        ChooseCharacterScreen _chooseCharacterScreen;
+        int _delayBeforeStart = 1000;
         [SerializeField]
         GameObject _backgroundPanel;
         PlayPackage _playpackage = new PlayPackage();
@@ -35,30 +37,22 @@ namespace UI.Meta.PlayScreen
         [SerializeField]
         SceneLoaderCallback _sceneLoad;
         #endregion
+
+        [SerializeField]
+        UshortEvent OnSuccessfullPlayClick;
+        [SerializeField]
+        UnityEvent OnUnSuccessfullPlayClick;
+
         #region Properties
-        public ChooseDeckScreen ChooseDeckScreen => _chooseDeckScreen;
+
         public PlayPackage playPackage => _playpackage;
         #endregion
         #region Public Methods
         public void ResetPlayScreen()
         {
-            _chooseCharacterScreen.ResetCharacterScreen();
-            _chooseDeckScreen.ResetChooseDeckScreen();
-            _chooseDeckScreen.ResetShowCardsScreen();
-            _chooseDeckScreen.ResetShowComboScreen();
-            BGPanelSetActiveState(false);
+            BGPanelSetActiveState(true);
         }
-        public void OnPlayClicked()
-        {
-            EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
 
-            if (energyHandler.HasAmount(energyHandler.AmountToStartPlay))
-            {
-                Debug.Log("Activating Character Panel");
-                BGPanelSetActiveState(true);
-                _chooseCharacterScreen.Init();
-            }
-        }
         public void BGPanelSetActiveState(bool isOn)
         {
             _backgroundPanel.SetActive(isOn);
@@ -68,39 +62,66 @@ namespace UI.Meta.PlayScreen
             _playpackage.CharacterData = character;
 
             ResetPlayScreen();
-            ChooseDeckScreen.InitChooseDeckScreen();
+
         }
         public void DeckChoosen(AccountDeck deck)
         {
             _playpackage.Deck = deck;
 
             ResetPlayScreen();
-            ChooseDeckScreen.ShowDeckCards(deck);
+
         }
         public void ConfirmPlayPackage()
         {
-            ResetPlayScreen();
-
-            EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
-            energyHandler.ReduceAmount(5);
             _playpackage.SendPackage();
-            if (PlayerPrefs.HasKey("Map"))
-            PlayerPrefs.DeleteKey("Map");
-                
             _sceneLoad.LoadScene(SceneHandler.ScenesEnum.MapScene);
         }
 
+        public void OnPlayClicked()
+        {
+              EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
+
+            if (energyHandler.HasAmount(energyHandler.AmountToStartPlay))
+            {
+                OnSuccessfullPlayClick?.Invoke(5);
+               // energyHandler.ReduceAmount(5);
+                StartGameDelay();
+            }
+            else
+            {
+                OnUnSuccessfullPlayClick.Invoke();
+            }
+        }
+
+        private async void StartGameDelay()
+        {
+            await System.Threading.Tasks.Task.Delay(_delayBeforeStart);
+            StartGame();
+        }
+        private void StartGame()
+        {
+            var account = Account.AccountManager.Instance;
+            _playpackage.CharacterData = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara);
+            _playpackage.Deck = _playpackage.CharacterData.GetDeckAt(0);
+            ConfirmPlayPackage();
+      
+        }
+        #region Tab Implementation
         public override void Open()
         {
+            BGPanelSetActiveState(true);
             gameObject.SetActive(true);
-            ResetPlayScreen();
+            OnSuccessfullPlayClick.AddListener(ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy).ReduceAmount);
+        
         }
 
         public override void Close()
         {
-            ResetPlayScreen();
+            BGPanelSetActiveState(false);
             gameObject.SetActive(false);
+            OnSuccessfullPlayClick.RemoveListener(ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy).ReduceAmount);
         }
+        #endregion
         #endregion
     }
 }

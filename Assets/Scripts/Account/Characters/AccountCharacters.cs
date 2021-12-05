@@ -16,14 +16,13 @@ namespace Account.GeneralData
 
         #endregion
         #region PrivateMethods
-
+        public CharacterEnum SelectedCharacter = CharacterEnum.Chiara;
         #endregion
         #region Public Methods
 
         public CharacterData GetCharacterData(CharacterEnum character)
         {
-            //if(_characters.TryGetValue(character, out CharacterData value))
-            //    return value;
+
 
             for (int i = 0; i < _characterDatas.Length; i++)
             {
@@ -31,7 +30,7 @@ namespace Account.GeneralData
                     return _characterDatas[i];
             }
 
-            throw new Exception("AccountCharacters characterNotFound!");
+            throw new Exception($"AccountCharacters characterNotFound! - {character}");
         }
         public void AddChatacterToDictionary(CharacterEnum character)
         {
@@ -61,13 +60,12 @@ namespace Account.GeneralData
 
         public async Task NewLoad()
         {
-
-
-
             int currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
             var characters = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.Player);
             int length = characters.Length;
             _characterDatas = new CharacterData[0];
+                SelectedCharacter = CharacterEnum.Chiara;
+
             for (int i = 0; i < length; i++)
             {
                 if (characters[i].UnlockAtLevel <= currentLevel)

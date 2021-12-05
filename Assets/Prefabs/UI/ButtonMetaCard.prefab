@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2192143779119117231}
   - component: {fileID: 2192143779119117232}
   - component: {fileID: 7061224531713108291}
+  - component: {fileID: 3808349609019635760}
   m_Layer: 5
   m_Name: ButtonMetaCard
   m_TagString: Untagged
@@ -121,8 +122,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7061224531713108291}
-        m_MethodName: OnCardClicked
+      - m_Target: {fileID: 3808349609019635760}
+        m_MethodName: OpenInteractionPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -144,33 +145,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2283517fa0342409c368576329d9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnSelectEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRemoveEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDismentalEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _dropList: {fileID: 2192143779230614087}
   _useButton: {fileID: 2192143779660861657}
   _removeButton: {fileID: 5187413608178212964}
   _dismantleButton: {fileID: 2192143780334938995}
   _cardUI: {fileID: 6037816339144529212}
   _infoButton: {fileID: 2192143779789332609}
-  _onMetaCardUIClicked: {fileID: 0}
+  _metaCardUIInteraction: {fileID: 3808349609019635760}
+--- !u!114 &3808349609019635760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2192143779119117234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 706522b8800639548b19e6c1a9302c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _metacardUI: {fileID: 7061224531713108291}
+  _container: {fileID: 2192143779230614087}
+  _selectBtn: {fileID: 2192143779660861655}
+  _infoBtn: {fileID: 2192143779789332671}
+  _dismentalBtn: {fileID: 2192143780334938993}
+  _removeBtn: {fileID: 4416977117008109714}
+  _state: 0
 --- !u!1 &2192143779148390349
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,8 +663,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7061224531713108291}
-        m_MethodName: OnSelected
+      - m_Target: {fileID: 3808349609019635760}
+        m_MethodName: OnUseSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -793,8 +793,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7061224531713108291}
-        m_MethodName: OnInfo
+      - m_Target: {fileID: 3808349609019635760}
+        m_MethodName: OnInfoSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1057,8 +1057,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7061224531713108291}
-        m_MethodName: OnDismental
+      - m_Target: {fileID: 3808349609019635760}
+        m_MethodName: OnDismentalSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1187,8 +1187,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7061224531713108291}
-        m_MethodName: OnRemove
+      - m_Target: {fileID: 3808349609019635760}
+        m_MethodName: OnRemoveSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1629,6 +1629,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5595351864141621532, guid: d3ce9e8e2e5dfc74287e542a4680e68c,
+        type: 3}
+      propertyPath: _cardGFX._art
+      value: 
+      objectReference: {fileID: 11400000, guid: 484541ddba1d383449cde73e74955828,
+        type: 2}
     - target: {fileID: 6008534548670078145, guid: d3ce9e8e2e5dfc74287e542a4680e68c,
         type: 3}
       propertyPath: m_AnchorMax.y

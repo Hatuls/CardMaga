@@ -21,8 +21,7 @@ public class CardUIFilterScreen : UIFilterScreen<CardUI, Card>
 
     protected override void OnActivate(IEnumerable<Card> sortedDeck, int i)
     {
-        var artSO = Factory.GameFactory.Instance.ArtBlackBoard;
-        _collection[i].GFX.SetCardReference(sortedDeck.ElementAt(i), artSO);
+        _collection[i].GFX.SetCardReference(sortedDeck.ElementAt(i));
         _collection[i].transform.localScale = Vector3.one * _cardsSize;
     }
 }

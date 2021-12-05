@@ -48,6 +48,8 @@ namespace UI.Meta.Laboratory
         [SerializeField]
         GameObject _fusePanelTitle;
 
+        [SerializeField]
+        DeckCollectionScreenUI _deckCollectionScreenUI;
 
         [SerializeField]
         GameObject[] _gameObjectsToActivateOnLabratortyScreen;
@@ -71,7 +73,7 @@ namespace UI.Meta.Laboratory
         public override void Open()
         {
             _cardUIInteractionHandler.Subscribe();
-            OpenPanel(LabPanelsEnum.Upgrade);
+            OpenPanel(_labPanelsEnum);
             for (int i = 0; i < _gameObjectsToActivateOnLabratortyScreen.Length; i++)
                 _gameObjectsToActivateOnLabratortyScreen[i].SetActive(true);
 
@@ -104,8 +106,10 @@ namespace UI.Meta.Laboratory
             LabPanelsEnum = LabPanelsEnum.Deck;
             CloseUpgradePanel();
             CloseFusePanel();
+            _deckCollectionScreenUI.Open();
             _deckPanelTitle.gameObject.SetActive(true);
             _deckPanel.gameObject.SetActive(true);
+    
         }
         private void OpenUpgradePanel()
         {
@@ -114,7 +118,7 @@ namespace UI.Meta.Laboratory
             CloseFusePanel();
             _upgradePanelTitle.gameObject.SetActive(true);
             _upgradePanel.gameObject.SetActive(true);
-
+           // _deckCollectionScreenUI
         }
         private void OpenFusePanel()
         {
@@ -128,6 +132,7 @@ namespace UI.Meta.Laboratory
         {
             _deckPanelTitle.gameObject.SetActive(false);
             _deckPanel.gameObject.SetActive(false);
+            _deckCollectionScreenUI.Close();
         }
         private void CloseUpgradePanel()
         {

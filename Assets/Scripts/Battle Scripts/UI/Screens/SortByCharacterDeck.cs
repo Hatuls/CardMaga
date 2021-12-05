@@ -1,7 +1,7 @@
 ﻿using Cards;
 using Rei.Utilities;
 using System.Collections.Generic;
-using System.Linq;
+
 using UnityEngine;
 namespace Map.UI
 {
@@ -13,11 +13,9 @@ namespace Map.UI
         SortEvent _event;
         public override IEnumerable<Card> Sort()
         {
-            var account = Account.AccountManager.Instance;
-            var deck = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara).Decks[deckIndex].Cards;
-            var result = Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(deck.ToArray());
-            return result;
-
+            var account = Account.AccountManager.Instance.AccountCharacters;
+            var currentDeck = account.GetCharacterData(account.SelectedCharacter).GetDeckAt(deckIndex);
+            return Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(currentDeck);
         }
 
         public override void SortRequest()

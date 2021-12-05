@@ -48,7 +48,7 @@ namespace UI.Meta.Settings
         public override void Open()
         {
             SetSettings();
-            if (!_parent.activeSelf)
+           
                 _parent.SetActive(true);
             for (int i = 0; i < settingsGOToWhenClicked.Length; i++)
             {
@@ -112,10 +112,7 @@ namespace UI.Meta.Settings
 
         public void ResetAccountSettings()
         {
-            
             ResetDelay();
-
-
         }
        private async Task ResetDelay()
         {

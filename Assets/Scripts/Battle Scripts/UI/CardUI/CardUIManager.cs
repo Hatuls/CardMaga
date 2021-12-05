@@ -105,7 +105,7 @@ namespace Battles.UI
         public void AssignDataToCardUI(CardUI card, Cards.Card cardData)
         {
 
-            card.GFX.SetCardReference(cardData, _artSO);
+            card.GFX.SetCardReference(cardData);
         }
         private Vector3 GetDeckPosition(DeckEnum fromDeck)
         {

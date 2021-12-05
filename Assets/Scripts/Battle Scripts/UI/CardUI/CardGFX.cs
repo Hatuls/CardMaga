@@ -13,7 +13,12 @@ namespace Battles.UI.CardUIAttributes
     public class CardGFX
     {
 
+
+
         #region Fields
+        [SerializeField]
+        ArtSO _art;
+
         [Tooltip("Name of Card Text")]
         [SerializeField] TextMeshProUGUI _titleText;
 
@@ -22,16 +27,6 @@ namespace Battles.UI.CardUIAttributes
 
         [Tooltip("Description of LCE Action Text")]
         [SerializeField] TextMeshProUGUI _staminaText;
-
-
-
-      //  [Tooltip("The Body Part used for Action")]
-      //  [SerializeField] Image _bodyPartIcon;
-      //
-      //  [Tooltip("The Decoration Of The BodyPart Decoration")]
-      //  [SerializeField] Image _bodyPartDecor;
-
-
 
         [SerializeField] CardUILevelHandler _cardUILevelHandler;
 
@@ -100,7 +95,7 @@ namespace Battles.UI.CardUIAttributes
             }
             _descriptionTxt.text = cardDescription;
         }
-        internal void SetCardReference(CardSO cardData, ArtSO artSO ,byte lvl = 0)
+        internal void SetCardReference(CardSO cardData,byte lvl = 0)
         {
             if (cardData == null)
                 return;
@@ -121,14 +116,14 @@ namespace Battles.UI.CardUIAttributes
 
         }
     
-        internal void SetCardReference(Card cardData, ArtSO artSO)
+        internal void SetCardReference(Card cardData)
         {
             if (cardData == null)
             {
                 Debug.LogError("Card Data is NULL!");
             }
            _cardReferenceInHandDeck = cardData;
-            SetCardReference( cardData.CardSO, artSO, cardData.CardLevel);
+            SetCardReference( cardData.CardSO, cardData.CardLevel);
         }
 
         private void SetStaminaText(int stamina)
@@ -152,14 +147,14 @@ namespace Battles.UI.CardUIAttributes
         private void SetCardColors(CardTypeEnum cardType)
         {
             // Body Part:
-            var artso = Factory.GameFactory.Instance.ArtBlackBoard;
-            var arttypePalleta = artso.GetPallette<CardTypePalette>();
+           
+            var arttypePalleta = _art.GetPallette<CardTypePalette>();
             Color clr = arttypePalleta.GetDecorationColorFromEnum(cardType);
 
          //   _bodyPartDecor.color = clr;
          //   _bodyPartIcon.color = arttypePalleta.GetIconBodyPartColorFromEnum(cardType);
 
-            var carduiPalete = artso.GetPallette<CardUIPalette>();
+            var carduiPalete = _art.GetPallette<CardUIPalette>();
             // Stamina Part:
 
             _staminaText.color = carduiPalete.StaminaTextColor;
