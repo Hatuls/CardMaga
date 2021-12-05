@@ -258,12 +258,10 @@ namespace Factory
 
                     _battleCardIdList.Clear();
             }
-            public void LoadAccountCardsID()
+            public void RegisterAccountLoadedCardsInstanceID(List<CardCoreInfo> accountsCards)
             {
-                var cards = Account.AccountManager.Instance.AccountCards.CardList;
-
-                for (int i = 0; i < cards.Count; i++)
-                    _battleCardIdList.Add(cards[i].InstanceID);
+                for (int i = 0; i < accountsCards.Count; i++)
+                    _battleCardIdList.Add(accountsCards[i].InstanceID);
             }
             public CardCoreInfo CreateCardCoreInfo(CardSO cardSO, byte level = 0)
                 => CreateCardCoreInfo(cardSO.ID, level);

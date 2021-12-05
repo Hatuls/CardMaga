@@ -1,8 +1,12 @@
-﻿public class EndTurnButton : ButtonUI
+﻿using UnityEngine;
+
+public class EndTurnButton : ButtonUI
 {
     public static System.Action _OnFinishTurnPress;
 
     private static EndTurnButton _instance;
+    [SerializeField]
+    SoundEventSO OnRejectSound;
 
     private void Awake()
     {
@@ -16,7 +20,8 @@
         }
         else
         {
-            _playSound?.Raise("Reject");
+            OnRejectSound?.PlaySound();
+           // _playSound?.Raise("Reject");
         }
     }
 
@@ -26,7 +31,6 @@
         if (Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn && Battles.BattleManager.isGameEnded == false)
         {
 
-            _instance._playSound?.Raise("EndTurn");
             _OnFinishTurnPress?.Invoke();
         }
     }

@@ -32,7 +32,7 @@ public class CardUIInfoScreen : MonoBehaviour
         _levelText.text = card.CardLevel.ToString();
         _bodyPartText.text = card.CardSO.BodyPartEnum.ToString();
         _rarityText.text = card.CardSO.Rarity.ToString();
-        _cardUI.GFX.SetCardReference(card, Factory.GameFactory.Instance.ArtBlackBoard);
+        _cardUI.GFX.SetCardReference(card);
         this.gameObject.SetActive(true);
     }
     public void Close()
