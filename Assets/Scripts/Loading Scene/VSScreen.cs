@@ -1,32 +1,45 @@
 ﻿using UnityEngine;
 using TMPro;
+using System;
 
-public class VSScreen : MonoBehaviour
+namespace UI.LoadingScreen
 {
-    [SerializeField]
-    Animator _vsAnimator;
-    [SerializeField]
-    TextMeshProUGUI _playerNameText;
-    [SerializeField]
-    TextMeshProUGUI _opponentNameText;
-    int _playVSHash = Animator.StringToHash("PlayVSAnim");
-    private void Start()
+    public class VSScreen : AbstScreenTransition
     {
-         StartVSScreen();
-    }
+        [SerializeField]
+        TextMeshProUGUI _playerNameText;
+        [SerializeField]
+        TextMeshProUGUI _opponentNameText;
+        [SerializeField]
+        GameObject _objectHolder;
 
-    public void StartVSScreen()
-    {
-        //names
-        if (Battles.BattleData.Player != null || Battles.BattleData.Opponent != null)
+        public override void StartTransition()
         {
+            _animHash = Animator.StringToHash("PlayVSAnim");
+
+            if (Battles.BattleData.Player == null)
+            {
+                throw new Exception("VSScreen BattleData player is null");
+            }
+            if (Battles.BattleData.Opponent == null)
+            {
+                throw new Exception("VSScreen BattleData opponent is null");
+            }
             _playerNameText.text = Battles.BattleData.Player.CharacterData.Info.CharacterName;
             _opponentNameText.text = Battles.BattleData.Opponent.CharacterData.Info.CharacterName;
+            StartAnimation();
         }
-        StartAnimation();
-    }
-    void StartAnimation()
-    {
-        _vsAnimator.SetTrigger(_playVSHash);
+
+        void StartAnimation()
+        {
+            _objectHolder.SetActive(true);
+            _screenAnimator.SetTrigger(_animHash);
+        }
+        public override void TransitionCompleted()
+        {
+            //can be problomatic
+            _objectHolder.SetActive(false);
+            base.TransitionCompleted();
+        }
     }
 }
