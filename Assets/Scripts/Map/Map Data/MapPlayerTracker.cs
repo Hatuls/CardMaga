@@ -18,6 +18,8 @@ namespace Map
         [SerializeField] ObserverSO _observerSO;
         [SerializeField]
         ActsEnum _currentAct= ActsEnum.ActOne;
+        [SerializeField] CameraMovement _cameraMovement;
+
         public bool Locked { get; set; }
         public ActsEnum CurrentAct { get => _currentAct; set => _currentAct = value; }
 
@@ -77,8 +79,7 @@ namespace Map
 
 
             Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(mapNode.NodeData.NodeTypeEnum).ActivatePoint();
-
-
+            Instance._cameraMovement.LastVisitedNodeY = mapNode.transform.position.y;
 
         }
 

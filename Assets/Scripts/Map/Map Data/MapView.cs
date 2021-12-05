@@ -32,7 +32,6 @@ namespace Map
         private GameObject firstParent;
         private GameObject mapParent;
 
-
         // List<LineConnectionPrefabs> _lineConnections = new List<LineConnectionPrefabs>();
         List<NodeMap> _nodeMaps = new List<NodeMap>();
         List<MapLine> _mapLines = new List<MapLine>();
@@ -186,20 +185,20 @@ namespace Map
         private void AssignScreenCoordinates()
         {
             var bottomLeft = Camera.main.ScreenToWorldPoint(Vector2.zero);
-            ScreenSettings. _screenMinY = bottomLeft.y;
-            ScreenSettings. _screenMinX = bottomLeft.x;
+            ScreenCoordinates. _screenMinY = bottomLeft.y;
+            ScreenCoordinates. _screenMinX = bottomLeft.x;
 
            var topRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-            ScreenSettings._screenMaxX = topRight.x;
-            ScreenSettings._screenMaxY = topRight.y;
+            ScreenCoordinates._screenMaxX = topRight.x;
+            ScreenCoordinates._screenMaxY = topRight.y;
 
-            ScreenSettings._xOffset = _xOffset;
-            ScreenSettings._yOffset = _yOffset;
+            ScreenCoordinates._xOffset = _xOffset;
+            ScreenCoordinates._yOffset = _yOffset;
         }
 
 
     }
-    public static class ScreenSettings
+    public static class ScreenCoordinates
     {
         public static float _screenMaxX;
         public static float _screenMinX;
