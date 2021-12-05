@@ -10,8 +10,6 @@ namespace UI.LoadingScreen
         TextMeshProUGUI _playerNameText;
         [SerializeField]
         TextMeshProUGUI _opponentNameText;
-        [SerializeField]
-        GameObject _objectHolder;
 
         public override void StartTransition()
         {

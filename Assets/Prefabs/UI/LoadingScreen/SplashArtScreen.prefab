@@ -1,5 +1,43 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2244837381504624459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3657673407276350812}
+  m_Layer: 5
+  m_Name: ObjectHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &3657673407276350812
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2244837381504624459}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7124621788467669892}
+  - {fileID: 7124621788579691668}
+  - {fileID: 7124621788308094314}
+  m_Father: {fileID: 7124621788911544723}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7124621787335463904
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,12 +253,12 @@ RectTransform:
   - {fileID: 7124621788971034041}
   - {fileID: 7124621788903087600}
   - {fileID: 7124621787335463905}
-  m_Father: {fileID: 7124621788911544723}
+  m_Father: {fileID: 3657673407276350812}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.9883891, y: 0.100824334}
-  m_AnchoredPosition: {x: 8.5, y: 200.8}
+  m_AnchoredPosition: {x: 8.5, y: 200.7998}
   m_SizeDelta: {x: -124.589966, y: -239}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &7124621788308094317
@@ -303,7 +341,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7124621788911544723}
+  m_Father: {fileID: 3657673407276350812}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -391,7 +429,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7124621788911544723}
+  m_Father: {fileID: 3657673407276350812}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -543,6 +581,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7124621788911544723}
   - component: {fileID: 309616310}
+  - component: {fileID: 5563696822100428941}
+  - component: {fileID: 6764539977296494456}
   m_Layer: 5
   m_Name: SplashArtScreen
   m_TagString: Untagged
@@ -561,9 +601,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7124621788467669892}
-  - {fileID: 7124621788579691668}
-  - {fileID: 7124621788308094314}
+  - {fileID: 3657673407276350812}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -586,6 +624,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _screenAnimator: {fileID: 0}
   _secondsToWait: 1
+--- !u!114 &5563696822100428941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7124621788911544722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf36dec1542eeaa4eb2e36b5fd474d8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  img: {fileID: 7124621788467669893}
+  _sprites:
+  - {fileID: 21300000, guid: 496b536efc2a9ff44be6f810226de842, type: 3}
+--- !u!114 &6764539977296494456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7124621788911544722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fe3834ceb457a4ebdd4bc1028af31c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _loadingBar: {fileID: 7124621788308094317}
 --- !u!1 &7124621788971034040
 GameObject:
   m_ObjectHideFlags: 0
