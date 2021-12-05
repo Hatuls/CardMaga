@@ -13,20 +13,19 @@ public class CardUIInteractionHandle : MonoBehaviour
     GameObject _parent;
     public void Subscribe()
     {
-        UI.Meta.Laboratory.MetaCardUIHandler.OnInfoEvent += Open;
+     //   UI.Meta.Laboratory.MetaCardUIHandler.OnInfoEvent += Open;
         Close();
     }
 
     public void UnSubscribe()
     {
 
-        UI.Meta.Laboratory.MetaCardUIHandler.OnInfoEvent -= Open;
+       // UI.Meta.Laboratory.MetaCardUIHandler.OnInfoEvent -= Open;
     }
     public void Open(CardUI card)
     {
           _card = card;
         OpenInfoScreen();
-        _parent.SetActive(true);
     }
 
     public void OpenInfoScreen()
@@ -35,7 +34,7 @@ public class CardUIInteractionHandle : MonoBehaviour
         _dismentalScreen.gameObject.SetActive(false);
         _cardUIInfoScreen.OpenInfoScreen(_card);
         _cardUIInfoScreen.gameObject.SetActive(true);
-        _parent.SetActive(false);
+   
     }
 
     public void Close()

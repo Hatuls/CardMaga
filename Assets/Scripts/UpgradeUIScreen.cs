@@ -49,7 +49,7 @@ namespace Meta.UI
             if (card == null)
                 throw new System.Exception($"UpgradeUIScreen : Card Is Null!");
 
-            _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference, Factory.GameFactory.Instance.ArtBlackBoard);
+            _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference);
             ActivateGameObject(_selectedCardUI.gameObject, true);
 
             var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(_selectedCardUI.CardUI.GFX.GetCardReference);
@@ -57,7 +57,7 @@ namespace Meta.UI
             if (upgradedVersion != null)
             {
                 SetCostText();
-                _upgradedVersion.CardUI.GFX.SetCardReference(upgradedVersion, Factory.GameFactory.Instance.ArtBlackBoard);
+                _upgradedVersion.CardUI.GFX.SetCardReference(upgradedVersion);
             }
 
 

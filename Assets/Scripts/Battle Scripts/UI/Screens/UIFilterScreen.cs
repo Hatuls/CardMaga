@@ -18,20 +18,21 @@ namespace Map.UI
         ISort<U> _lastSort;
         protected abstract void OnActivate(IEnumerable<U> sortedDeck, int i);
         protected abstract void CreatePool();
+
         public virtual void Refresh()
         {
             SortBy(_lastSort);
         }
 
-        public void SortBy(ISort<U> sortedMethod)
+        public void SortBy(ISort<U> sortMethod)
         {
-            if (sortedMethod == null)
+            if (sortMethod == null)
                 return;
 
-            _lastSort = sortedMethod;
+            _lastSort = sortMethod;
             CreatePool();
             int length = _collection.Count;
-            var sortedDeck =sortedMethod.Sort();
+            var sortedDeck =sortMethod.Sort();
 
             int sortedDeckLength = sortedDeck.Count();
 
@@ -41,13 +42,13 @@ namespace Map.UI
             {
                 if (i < sortedDeckLength && sortedDeck.ElementAt(i) != null)
                 {
-                    if (_collection[i].gameObject.activeSelf == false)
+        
                         _collection[i].gameObject.SetActive(true);
                     OnActivate(sortedDeck, i);
                 }
                 else
                 {
-                    if (_collection[i].gameObject.activeSelf == true)
+              
                         _collection[i].gameObject.SetActive(false);
                 }
             }

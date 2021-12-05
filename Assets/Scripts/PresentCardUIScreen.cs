@@ -27,9 +27,8 @@ namespace UI
         public void OpenCardUIInfo(CardUI cardUI, PointerEventData data)
         {
 
-            var art = Factory.GameFactory.Instance.ArtBlackBoard;
             Cards.Card card = cardUI.GFX.GetCardReference;
-            _cardUI.GFX.SetCardReference(card, art);
+            _cardUI.GFX.SetCardReference(card);
             for (int i = 0; i < _keywordsInfo.Count; i++)
             {
                 if (_keywordsInfo[i].gameObject.activeSelf)

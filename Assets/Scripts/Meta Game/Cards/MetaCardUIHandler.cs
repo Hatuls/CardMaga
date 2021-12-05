@@ -5,20 +5,20 @@ using UnityEngine.Events;
 
 namespace UI.Meta.Laboratory
 {
-    public interface IOnMetaCardUIClicked
-    {
-        void OpenScreen(MetaCardUIHandler metaCardUIHandler);
-    }
+    //public interface IOnMetaCardUIClicked
+    //{
+    //    void OpenScreen(MetaCardUIHandler metaCardUIHandler);
+    //}
     [System.Serializable]
     public class CardUIEvent : UnityEvent<CardUI> { }
     public class MetaCardUIHandler : MonoBehaviour
     {
         public static Action OnCloseMetaCardUIOptionPanel;
 
-        [SerializeField] CardUIEvent OnSelectEvent;
-        [SerializeField] CardUIEvent OnRemoveEvent;
-         public static Action<CardUI> OnInfoEvent;
-        [SerializeField] CardUIEvent OnDismentalEvent;
+        //[SerializeField] CardUIEvent OnSelectEvent;
+        //[SerializeField] CardUIEvent OnRemoveEvent;
+        // public static Action<CardUI> OnInfoEvent;
+        //[SerializeField] CardUIEvent OnDismentalEvent;
 
 
 
@@ -34,8 +34,6 @@ namespace UI.Meta.Laboratory
         CardUI _cardUI;
         [SerializeField]
         GameObject _infoButton;
-        [SerializeField]
-        MetaCardUIOpenerAbst _onMetaCardUIClicked;
 
         public CardUI CardUI => _cardUI;
 
@@ -44,42 +42,10 @@ namespace UI.Meta.Laboratory
         public GameObject UseButton { get => _useButton; }
         public GameObject DismantleButton { get => _dismantleButton; }
 
-        private MetaCardUIFilterScreen _metaCardUIFilterScreen;
-        public MetaCardUIOpenerAbst  MetaCardUIOpenerAbst
-        {
-            set {
-                _onMetaCardUIClicked = value;
-            }
-        }
-        public MetaCardUIFilterScreen MetaCardUIFilterScreen
-        {
-            set
-            {
-                _metaCardUIFilterScreen = value;
-                SubscribeEvents();
-            }
-        }
-        private void OnEnable()
-        {
-            if (Application.isPlaying == false)
-                return;
+        [SerializeField]
+        private MetaCardUIInteractionPanel _metaCardUIInteraction;
+        public MetaCardUIInteractionPanel MetaCardUIInteraction => _metaCardUIInteraction;
 
-            OnCloseMetaCardUIOptionPanel += CloseDropList;
-
-            if (_metaCardUIFilterScreen!= null)
-            {
-                SubscribeEvents();
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (Application.isPlaying == false)
-                return;
-
-            OnCloseMetaCardUIOptionPanel -= CloseDropList;
-            UnSubscribeEvents();
-        }
 
         public void CloseDropList()
         {
@@ -87,65 +53,50 @@ namespace UI.Meta.Laboratory
                 _dropList.SetActive(false);
         }
 
-        public void OnSelected()
-        {
-            OnSelectEvent?.Invoke(CardUI);
-            OnCloseMetaCardUIOptionPanel?.Invoke();
+        //public void OnSelected()
+        //{
+        //    OnSelectEvent?.Invoke(CardUI);
+        //    OnCloseMetaCardUIOptionPanel?.Invoke();
 
-        }
+        //}
 
-        public void OnInfo()
-        {
-            OnInfoEvent?.Invoke(CardUI);
-            OnCloseMetaCardUIOptionPanel?.Invoke();
+        //public void OnInfo()
+        //{
+        //    OnInfoEvent?.Invoke(CardUI);
+        //    OnCloseMetaCardUIOptionPanel?.Invoke();
 
-        }
-        public void OnRemove()
-        {
-            OnRemoveEvent?.Invoke(CardUI);
-            OnCloseMetaCardUIOptionPanel?.Invoke();
-        }
-        public void OnDismental()
-        {
-            OnDismentalEvent?.Invoke(CardUI);
-            OnCloseMetaCardUIOptionPanel?.Invoke();
+        //}
+        //public void OnRemove()
+        //{
+        //    OnRemoveEvent?.Invoke(CardUI);
+        //    OnCloseMetaCardUIOptionPanel?.Invoke();
+        //}
+        //public void OnDismental()
+        //{
+        //    OnDismentalEvent?.Invoke(CardUI);
+        //    OnCloseMetaCardUIOptionPanel?.Invoke();
 
-        }
+        //}
 
-        public void OnCardClicked()
+        //public void OnCardClicked()
+        //{
+        //    Debug.Log("Changeing Drop List State");
+        //    if (_dropList.activeSelf)
+        //    {
+        //        CloseDropList();
+        //    }
+        //    else
+        //    {
+        //        OnCloseMetaCardUIOptionPanel?.Invoke();
+        //    //    _onMetaCardUIClicked?.OpenScreen(this);
+        //        _dropList.SetActive(true);
+        //    }
+        //}
+
+
+        public void ResetMetaCardInteraction()
         {
-            Debug.Log("Changeing Drop List State");
-            if (_dropList.activeSelf)
-            {
-                CloseDropList();
-            }
-            else
-            {
-                OnCloseMetaCardUIOptionPanel?.Invoke();
-                _onMetaCardUIClicked?.OpenScreen(this);
-                _dropList.SetActive(true);
-            }
-        }
-        private void SubscribeEvents()
-        {
-            UnSubscribeEvents();
-            OnSelectEvent.AddListener(_metaCardUIFilterScreen.OnCardUseSelected);
-            OnRemoveEvent.AddListener(_metaCardUIFilterScreen.OnCardRemoveSelected);
-            OnDismentalEvent.AddListener(_metaCardUIFilterScreen.OnCardDismentalSelected);
-         //   OnInfoEvent.AddListener(_metaCardUIFilterScreen.OnCardInfoSelected);
-        }
-        private void UnSubscribeEvents()
-        {
-            OnSelectEvent?.RemoveAllListeners();
-            OnRemoveEvent?.RemoveAllListeners();
-            OnDismentalEvent?.RemoveAllListeners();
-        //    OnInfoEvent?.RemoveAllListeners();
+            _dropList.SetActive(false); 
         }
     }
-    public abstract class MetaCardUIOpenerAbst : MonoBehaviour, IOnMetaCardUIClicked
-    {
-        public abstract void OpenScreen(MetaCardUIHandler metaCardUIHandler);
-
-    }
-
 }

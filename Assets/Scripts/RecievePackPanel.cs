@@ -34,7 +34,7 @@ public class RecievePackPanel : MonoBehaviour
         _pack = pack.CreatePackReward();
         var card = factory.CardFactoryHandler.CreateCard(_pack.RewardCard);
         _titleText.text = card.CardSO.Rarity.ToString();
-        _currentCard.GFX.SetCardReference(card, factory.ArtBlackBoard);
+        _currentCard.GFX.SetCardReference(card);
 
         SetOpenCost(pack.PurchaseCosts[0].Price);
 

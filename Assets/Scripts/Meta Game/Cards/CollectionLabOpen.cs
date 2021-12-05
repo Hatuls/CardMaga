@@ -3,34 +3,34 @@ using UnityEngine;
 
 namespace UI.Meta.Laboratory
 {
-    public class CollectionLabOpen : MetaCardUIOpenerAbst
+    public class CollectionLabOpen : MonoBehaviour
     {
-        [SerializeField]
-        MetaCardUIOpenerAbst _upgradeOpener;
+      //  [SerializeField]
+        //DeckCollectionScreenUI _upgradeOpener;
 
+       // [SerializeField]
+        //MetaCardUIOpenerAbst _fuseOpener;
         [SerializeField]
-        MetaCardUIOpenerAbst _fuseOpener;
-        [SerializeField]
-        MetaCardUIOpenerAbst _deckOpener;
+        DeckCollectionScreenUI _deckOpener;
        
-        public override  void OpenScreen(MetaCardUIHandler metaCardUIHandler)
-        {
-            switch (LaboratoryScreenUI.Instance.LabPanelsEnum)
-            {
-                case LabPanelsEnum.Deck:
-                    _deckOpener.OpenScreen(metaCardUIHandler);
-                    break;
-                case LabPanelsEnum.Upgrade:
-                    _upgradeOpener.OpenScreen(metaCardUIHandler);
-                    break;
-                case LabPanelsEnum.Fuse:
-                    _fuseOpener.OpenScreen(metaCardUIHandler);
-                    break;
+        //public override  void OpenScreen(MetaCardUIHandler metaCardUIHandler)
+        //{
+        //    switch (LaboratoryScreenUI.Instance.LabPanelsEnum)
+        //    {
+        //        case LabPanelsEnum.Deck:
+        //            _deckOpener.OpenScreen(metaCardUIHandler);
+        //            break;
+        //        case LabPanelsEnum.Upgrade:
+        //            _upgradeOpener.OpenScreen(metaCardUIHandler);
+        //            break;
+        //        case LabPanelsEnum.Fuse:
+        //            _fuseOpener.OpenScreen(metaCardUIHandler);
+        //            break;
                
-                default:
-                    throw new NotImplementedException();
-            }
-        }
+        //        default:
+        //            throw new NotImplementedException();
+        //    }
+        //}
 
 
     }

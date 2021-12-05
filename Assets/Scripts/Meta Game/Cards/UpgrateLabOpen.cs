@@ -1,20 +1,20 @@
 ﻿namespace UI.Meta.Laboratory
 {
-    public class UpgrateLabOpen : MetaCardUIOpenerAbst
-    {
-        public override void OpenScreen(MetaCardUIHandler metaCardUIHandler)
-        {
+    //public class UpgrateLabOpen : MetaCardUIOpenerAbst
+    //{
+    //    public override void OpenScreen(MetaCardUIHandler metaCardUIHandler)
+    //    {
 
-            metaCardUIHandler.InfoButton.SetActive(true);
-
-
-            metaCardUIHandler.DismantleButton.SetActive(false);
+    //        metaCardUIHandler.InfoButton.SetActive(true);
 
 
-            metaCardUIHandler.UseButton.SetActive(true);
+    //        metaCardUIHandler.DismantleButton.SetActive(false);
 
 
-            metaCardUIHandler.RemoveButton.SetActive(false);
-        }
-    }
+    //        metaCardUIHandler.UseButton.SetActive(true);
+
+
+    //        metaCardUIHandler.RemoveButton.SetActive(false);
+    //    }
+    //}
 }

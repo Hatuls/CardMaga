@@ -15,6 +15,12 @@ namespace UI.Meta
         [SerializeField]
         TextMeshProUGUI _chipAmountText;
 
+
+        [SerializeField]
+        TextMeshProUGUI _energyTextAnimation;
+        [SerializeField]
+        Animator _upperTabAnimator;
+
         void Start()
         {
             var account = Account.AccountManager.Instance.AccountGeneralData;
@@ -58,6 +64,14 @@ namespace UI.Meta
             account.AccountEnergyData.MaxEnergy.OnValueChange -= (SetMaxEnergyText);
         }
 
+
+
+
+        public void PlayReduceEnergyAnimation(ushort amount)
+        {
+            _energyTextAnimation.text = string.Concat("- ", amount);
+            _upperTabAnimator.Play("ReduceEnergy");
+        }
         private void OnDisable()
         {
             var account = Account.AccountManager.Instance.AccountGeneralData;

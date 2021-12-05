@@ -27,9 +27,9 @@ public class SelectCardRewardScreen : MonoBehaviour
         if (_cards.Length != cards.Length)
             throw new System.Exception($"SelectCardRewardScreen: Rewarded Cards Is bigger Than Given Option\nBattle Reward Cards: {cards.Length}\nCard UI Length: {_cards.Length}");
 
-        var artBoard = Factory.GameFactory.Instance.ArtBlackBoard;
+       
         for (int i = 0; i < cards.Length; i++)
-            _cards[i].GFX.SetCardReference(cards[i], artBoard);
+            _cards[i].GFX.SetCardReference(cards[i]);
 
         _money = money;
             _moneyText.text = string.Concat("Do you want to get ", money, " credits INSTEAD of choosing a card?");

@@ -10,8 +10,8 @@ public  class ButtonUI : MonoBehaviour
 {
 
     [SerializeField] UnityEvent _onBtnPressed;
-    [SerializeField]protected StringEvent _playSound;
-    [SerializeField] string _soundToPlay;
+
+
      private void OnEnable()
     {
         GetComponent<Button>().onClick.AddListener(ButtonPressed);
@@ -24,6 +24,6 @@ public  class ButtonUI : MonoBehaviour
     public virtual void ButtonPressed()
     {
         _onBtnPressed?.Invoke();
-        _playSound?.Raise(_soundToPlay);
+
     }
 }

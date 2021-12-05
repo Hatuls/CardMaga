@@ -65,7 +65,7 @@ namespace UI
         {
             _comboRecipe = combo.ComboSO;
             var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(combo.ComboSO.CraftedCard, combo.Level);
-            _cardUI.GFX.SetCardReference(craftedCard, _art);
+            _cardUI.GFX.SetCardReference(craftedCard);
             ActivatedPlaceHolders(_comboRecipe);
             SetVisual(_comboRecipe);
         }
@@ -74,7 +74,7 @@ namespace UI
             if (_comboRecipe != relicSO)
             {
                 _comboRecipe = relicSO;
-                _cardUI.GFX.SetCardReference(relicSO.CraftedCard, _art);
+                _cardUI.GFX.SetCardReference(relicSO.CraftedCard);
                 ActivatedPlaceHolders(relicSO);
                 SetVisual(relicSO);
             }
@@ -105,7 +105,7 @@ namespace UI
         }
         private void SetVisual(ComboSO relic)
         {
-            _cardUI.GFX.SetCardReference(relic.CraftedCard, _art);
+            _cardUI.GFX.SetCardReference(relic.CraftedCard);
 
 
             for (int i = 0; i < _placeHolderSlotUIs.Length; i++)

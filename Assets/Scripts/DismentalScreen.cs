@@ -18,7 +18,7 @@ public class DismentalScreen : MonoBehaviour
     public void Open(CardUI card)
     {
         var refcard = card.GFX.GetCardReference;
-        _cardUI.GFX.SetCardReference(refcard, Factory.GameFactory.Instance.ArtBlackBoard);
+        _cardUI.GFX.SetCardReference(refcard);
         _amount = _dismental.GetCardDismentalCost(refcard);
         costText.text = _amount.ToString();
         gameObject.SetActive(true);

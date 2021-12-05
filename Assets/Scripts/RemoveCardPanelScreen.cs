@@ -69,7 +69,7 @@ namespace Map.UI
             CreateCards();
             int length = _deckCardsUI.Count;
             var deck = BattleData.Player.CharacterData.CharacterDeck;
-            var artSO = Factory.GameFactory.Instance.ArtBlackBoard;
+        
             for (int i = 0; i < length; i++)
             {
                 if (i < deck.Length)
@@ -78,7 +78,7 @@ namespace Map.UI
                         _deckCardsUI[i].gameObject.SetActive(true);
 
            
-                    _deckCardsUI[i].GFX.SetCardReference(deck[i], artSO);
+                    _deckCardsUI[i].GFX.SetCardReference(deck[i]);
                 }
                 else
                 {

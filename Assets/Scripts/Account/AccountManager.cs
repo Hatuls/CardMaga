@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Account.GeneralData;
-using UnityEngine.Events;
+﻿using Account.GeneralData;
 using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 public enum CharacterEnum
@@ -28,7 +28,7 @@ namespace Account
             {
                 if (_instance == null)
                     Debug.LogError("AccountManager is null!");
-                          
+
                 return _instance;
             }
         }
@@ -37,20 +37,21 @@ namespace Account
             if (_instance == null)
             {
                 _instance = this;
-              
-            }else if (_instance != this)
-                Destroy(this.gameObject); 
+
+            }
+            else if (_instance != this)
+                Destroy(this.gameObject);
 
 
-             if(_instance == this)
-            DontDestroyOnLoad(this.gameObject);
+            if (_instance == this)
+                DontDestroyOnLoad(this.gameObject);
         }
-     
+
         #endregion
 
         #region Fields
         [HideInInspector]
-         [SerializeField]
+        [SerializeField]
         private AccountData _accountData;
 
         #endregion
@@ -65,15 +66,21 @@ namespace Account
         #region Private Methods
         #endregion
         #region Public Methods
-        public async  void Init()
+        public async void Init()
         {
             if (PlayerPrefs.HasKey(AccountData.SaveName))
             {
                 _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, SaveManager.FileStreamType.PlayerPref);
-                if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value ==0 )
+                if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value == 0)
+                {
                     await CreateNewAccount();
+
+                }
                 else
-                Debug.Log("Loading Data From PlayerPref");
+                {
+                    Debug.Log("Loading Data From PlayerPref");
+                    Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
+                }
             }
             else
             {
@@ -94,7 +101,7 @@ namespace Account
         }
         #endregion
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]
         private void AddDiamonds() => _accountData.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(10);
 
@@ -110,33 +117,51 @@ namespace Account
         private void AddEXP() => _accountData.AccountGeneralData.AccountLevelData.Exp.AddValue(5);
 #endif
 
+        private void OnDisable()
+        {
+            SaveAccount();
+        }
+   
+
+        void OnApplicationPause(bool pauseStatus)
+        {
+             if(pauseStatus)
+                SaveAccount();
+        }
+
+
+        private void OnApplicationQuit()
+        {
+            SaveAccount();
+            Debug.Log("Saving Account Data");
+        }
+        public void SaveAccount() => SaveManager.SaveFile(_accountData, AccountData.SaveName, SaveManager.FileStreamType.PlayerPref);
         private void OnDestroy()
         {
             if (Application.isPlaying)
             {
-
-                SaveManager.SaveFile(_accountData, AccountData.SaveName, SaveManager.FileStreamType.PlayerPref);
-            Debug.Log("Saving Account Data");
+                SaveAccount();
+                Debug.Log("Saving Account Data");
             }
         }
-    
+
     }
 
     [System.Serializable]
     public class AccountData : ILoadFirstTime
     {
         public const string SaveName = "AccountData";
-        [SerializeField]  AccountGeneralData _accountGeneralData;
+        [SerializeField] AccountGeneralData _accountGeneralData;
 
-        [SerializeField]  AccountCards _accountCards;
+        [SerializeField] AccountCards _accountCards;
 
-        [SerializeField]  AccountCombos _accountCombos;
+        [SerializeField] AccountCombos _accountCombos;
 
         [SerializeField] AccountSettingsData _accountSettingsData;
 
-        [SerializeField] AccountCharacters _accountCharacters; 
+        [SerializeField] AccountCharacters _accountCharacters;
 
-        public AccountCharacters AccountCharacters { get => _accountCharacters;private set => _accountCharacters = value; }
+        public AccountCharacters AccountCharacters { get => _accountCharacters; private set => _accountCharacters = value; }
         public AccountCards AccountCards { get => _accountCards; private set => _accountCards = value; }
         public AccountCombos AccountCombos { get => _accountCombos; private set => _accountCombos = value; }
         public AccountSettingsData AccountSettingsData { get => _accountSettingsData; private set => _accountSettingsData = value; }
@@ -146,12 +171,12 @@ namespace Account
         public async Task NewLoad()
         {
             AccountSettingsData = new AccountSettingsData();
-          await  AccountSettingsData.NewLoad();
+            await AccountSettingsData.NewLoad();
             AccountGeneralData = new AccountGeneralData();
             await AccountGeneralData.NewLoad();
             AccountCards = new AccountCards();
             await AccountCards.NewLoad();
-             AccountCombos = new AccountCombos();
+            AccountCombos = new AccountCombos();
             await AccountCombos.NewLoad();
             AccountCharacters = new AccountCharacters();
             await AccountCharacters.NewLoad();
