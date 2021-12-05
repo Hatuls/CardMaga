@@ -256,11 +256,14 @@ namespace Factory
                 if (_battleCardIdList == null)
                     _battleCardIdList = new List<ushort>();
 
-
                     _battleCardIdList.Clear();
+            }
+            public void LoadAccountCardsID()
+            {
+                var cards = Account.AccountManager.Instance.AccountCards.CardList;
 
-
-                _battleID = 1;
+                for (int i = 0; i < cards.Count; i++)
+                    _battleCardIdList.Add(cards[i].InstanceID);
             }
             public CardCoreInfo CreateCardCoreInfo(CardSO cardSO, byte level = 0)
                 => CreateCardCoreInfo(cardSO.ID, level);

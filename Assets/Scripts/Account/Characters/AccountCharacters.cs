@@ -16,14 +16,13 @@ namespace Account.GeneralData
 
         #endregion
         #region PrivateMethods
-        public static CharacterEnum SelectedCharacter;
+        public CharacterEnum SelectedCharacter = CharacterEnum.Chiara;
         #endregion
         #region Public Methods
 
         public CharacterData GetCharacterData(CharacterEnum character)
         {
-            //if(_characters.TryGetValue(character, out CharacterData value))
-            //    return value;
+
 
             for (int i = 0; i < _characterDatas.Length; i++)
             {
@@ -31,7 +30,7 @@ namespace Account.GeneralData
                     return _characterDatas[i];
             }
 
-            throw new Exception("AccountCharacters characterNotFound!");
+            throw new Exception($"AccountCharacters characterNotFound! - {character}");
         }
         public void AddChatacterToDictionary(CharacterEnum character)
         {

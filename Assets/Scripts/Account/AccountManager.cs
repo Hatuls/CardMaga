@@ -70,10 +70,16 @@ namespace Account
             if (PlayerPrefs.HasKey(AccountData.SaveName))
             {
                 _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, SaveManager.FileStreamType.PlayerPref);
-                if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value ==0 )
+                if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value ==0)
+                {
                     await CreateNewAccount();
+                   
+                }
                 else
+                {
                 Debug.Log("Loading Data From PlayerPref");
+                    Factory.GameFactory.Instance.CardFactoryHandler.LoadAccountCardsID();
+                }
             }
             else
             {

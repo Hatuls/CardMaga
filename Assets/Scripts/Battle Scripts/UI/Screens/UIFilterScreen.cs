@@ -18,6 +18,7 @@ namespace Map.UI
         ISort<U> _lastSort;
         protected abstract void OnActivate(IEnumerable<U> sortedDeck, int i);
         protected abstract void CreatePool();
+
         public virtual void Refresh()
         {
             SortBy(_lastSort);
