@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace UI.Meta.Laboratory
 {
-    public class DeckCollectionScreenUI: TabAbst
+    public class DeckCollectionScreenUI : TabAbst
     {
         #region Fields
 
@@ -32,17 +32,19 @@ namespace UI.Meta.Laboratory
             foreach (var card in _allCardsScreen.Collection)
                 card.ResetMetaCardInteraction();
 
-            foreach (var card in _deckScreen.Collection)
-                card.ResetMetaCardInteraction();
+            DisableDeckCollectionInteraction();
         }
 
         public void OpenDeckCollection()
         {
             CloseAll();
         }
+        private void DisableDeckCollectionInteraction()
+        {
+            foreach (var card in _deckScreen.Collection)
+                card.ResetMetaCardInteraction();
+        }
 
-
-    
         #endregion
 
         #region Interface
@@ -52,12 +54,37 @@ namespace UI.Meta.Laboratory
             CloseAll();
             OnOpenDeckScreen?.Invoke();
             DefaultSettings();
+
+            _selectedCardUI.gameObject.SetActive(false);
+            SetMainCardCollectionActiveState(true);
             gameObject.SetActive(true);
 
         }
-        public void DefaultSettings()
+
+
+        private void CardSelected(CardUI card)
         {
-            var deck =_deckScreen.Collection;
+            SetMainCardCollectionActiveState(false);
+            DisableDeckCollectionInteraction();
+            _selectedCardUI.GFX.SetCardReference(card.GFX.GetCardReference);
+            _selectedCardUI.gameObject.SetActive(true);
+        }
+
+        private void SetMainCardCollectionActiveState(bool state) => _allCardsScreen.gameObject.SetActive(state);
+
+        public override void Close()
+        {
+            gameObject.SetActive(false);
+        }
+        #endregion
+
+
+
+        #region States
+        #region Default Settings
+        private void DefaultSettings()
+        {
+            var deck = _deckScreen.Collection;
             for (int i = 0; i < deck.Count; i++)
             {
                 var metaCardUI = deck[i].MetaCardUIInteraction;
@@ -74,22 +101,7 @@ namespace UI.Meta.Laboratory
                 metaCardUI.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Use, CardSelected);
             }
         }
-
-        private void CardSelected(CardUI card)
-        {
-            _allCardsScreen.gameObject.SetActive(false);
-            _selectedCardUI.GFX.SetCardReference(card.GFX.GetCardReference);
-      
-            _selectedCardUI.gameObject.SetActive(true);
-
-        }
-
-
-
-        public override void Close()
-        {
-            gameObject.SetActive(false);
-        }
+        #endregion
         #endregion
     }
 }

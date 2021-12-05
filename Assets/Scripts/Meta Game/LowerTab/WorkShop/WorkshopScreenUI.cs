@@ -2,6 +2,7 @@
 using Rewards.Packs;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UI.Meta.Workshop
 {
@@ -91,6 +92,10 @@ namespace UI.Meta.Workshop
         #endregion
 
         #region Purchase
+        [SerializeField]
+        UnityEvent OnSuccessfullPurchase;
+        [SerializeField]
+        UnityEvent OnUnSuccessfullPurchase;
         public void PurchasePack(PackRewardSO packRewardSO)
         {
             var diamondCost = packRewardSO.PurchaseCosts;
@@ -98,10 +103,13 @@ namespace UI.Meta.Workshop
             _animator.Play("Default");
             if (Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.ReduceValue(price))
             {
+                OnSuccessfullPurchase?.Invoke();
                 _lastPack = packRewardSO;
                 _animator.SetTrigger("Pop");
                 _recievePack.Open(packRewardSO);
             }
+            else
+                OnUnSuccessfullPurchase?.Invoke();
         }
 
         public void RePurchasePack()
