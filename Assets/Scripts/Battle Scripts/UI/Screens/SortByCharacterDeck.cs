@@ -13,6 +13,7 @@ namespace Map.UI
         SortEvent _event;
         public override IEnumerable<Card> Sort()
         {
+            
             var account = Account.AccountManager.Instance;
             var deck = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara).Decks[deckIndex].Cards;
             var result = Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(deck.ToArray());

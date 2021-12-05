@@ -16,7 +16,7 @@ namespace Account.GeneralData
 
         #endregion
         #region PrivateMethods
-
+        public static CharacterEnum SelectedCharacter;
         #endregion
         #region Public Methods
 
@@ -61,13 +61,12 @@ namespace Account.GeneralData
 
         public async Task NewLoad()
         {
-
-
-
             int currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
             var characters = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.Player);
             int length = characters.Length;
             _characterDatas = new CharacterData[0];
+                SelectedCharacter = CharacterEnum.Chiara;
+
             for (int i = 0; i < length; i++)
             {
                 if (characters[i].UnlockAtLevel <= currentLevel)

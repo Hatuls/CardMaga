@@ -71,7 +71,7 @@ namespace UI.Meta.Laboratory
         public override void Open()
         {
             _cardUIInteractionHandler.Subscribe();
-            OpenPanel(LabPanelsEnum.Upgrade);
+            OpenPanel(_labPanelsEnum);
             for (int i = 0; i < _gameObjectsToActivateOnLabratortyScreen.Length; i++)
                 _gameObjectsToActivateOnLabratortyScreen[i].SetActive(true);
 
