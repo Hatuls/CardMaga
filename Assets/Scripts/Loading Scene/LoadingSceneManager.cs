@@ -32,9 +32,16 @@ namespace UI.LoadingScreen
         #region Fields
         [SerializeField]
         SceneTransitionSO[] _sceneTransitions;
+        [SerializeField]
+        GameObject[] _objectHolders;
         #endregion
         public void StartTransition(SceneHandler.ScenesEnum fromScene, SceneHandler.ScenesEnum toScene)
         {
+            for (int i = 0; i < _objectHolders.Length; i++)
+            {
+                _objectHolders[i].SetActive(false);
+            }
+
             for (int i = 0; i < _sceneTransitions.Length; i++)
             {
                 if(_sceneTransitions[i].FromScene == fromScene && _sceneTransitions[i].ToScene == toScene)

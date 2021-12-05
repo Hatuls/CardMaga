@@ -10,6 +10,7 @@ namespace UI.LoadingScreen
         float _secondsToWait = 1;
         public override void StartTransition()
         {
+            _objectHolder.SetActive(true);
             StartCoroutine(SplashScreenWait());
         }
         IEnumerator SplashScreenWait()
