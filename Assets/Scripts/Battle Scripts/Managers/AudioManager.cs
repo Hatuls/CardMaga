@@ -53,8 +53,8 @@ public class AudioManager : MonoBehaviour
             RuntimeManager.StudioSystem.getEvent(path, out eventDescription);
             if (eventDescription.isValid())
                 _fmodLibrary.Add(eventName, new FmodData(path));
-            else
-                   throw new System.Exception($"Not A Valid Event Name!!!!\nInputString:{eventName}");
+           else
+                 Debug.LogError($"Not A Valid Event Name!!!!\nInputString:{eventName}");
             
         }
     }

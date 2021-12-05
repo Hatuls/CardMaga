@@ -321,12 +321,13 @@ namespace Battles
             {
                 if (currentKeywordIndex == _keywordData[i].AnimationIndex)
                 {
-                    // activate the keyword
-                    KeywordManager.Instance.ActivateKeyword(currentTurn, _keywordData[i]);
-
+                    var keyword = _keywordData[i];
                     //remove from the list
                     _keywordData.Remove(_keywordData[i]);
                     i--;
+                    // activate the keyword
+                    KeywordManager.Instance.ActivateKeyword(currentTurn, keyword);
+
                 }
             }
             currentKeywordIndex++;

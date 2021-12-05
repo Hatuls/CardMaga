@@ -62,8 +62,9 @@ namespace Keywords
         }
         #endregion
 
-      
+
 #if UNITY_EDITOR
+        const string SoundURLPath = "Audio/Keywords";
         public bool Init(string[] Data)
         {
 
@@ -74,6 +75,8 @@ namespace Keywords
             const int InfoAmountIndex = 4;
             const int IgnoreInfoAmountIndex = 5;
             const int DescriptionIndex = 6;
+            const int VFXIndex = 7;
+            const int SoundIndex = 8;
 
             if (int.TryParse(Data[IDIndex], out int keywordID))
             {
@@ -108,8 +111,15 @@ namespace Keywords
 
             _descriptions = Data[DescriptionIndex].Replace('^', ',').Split('#');
 
+            if (Data[SoundIndex] != "-")
+            {
+                string resourceLoad = string.Concat(SoundURLPath, Data[SoundIndex]);
+                _soundEvent = Resources.Load<SoundEventSO>(resourceLoad);
+            }
+            else
+                throw new System.Exception($"Sound Name Is Not Valid!\nKeyword: {_keyword}");
 
-            _soundEvent = Resources.Load<SoundEventSO>("Audio/Sound Example");
+            //resource.load<~VFX>(Data[VFXIndex]);
             return true;
         }
 
