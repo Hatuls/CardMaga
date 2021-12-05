@@ -314,6 +314,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1880
+--- !u!114 &-8065716699928875175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI Error
+  m_EditorClassIdentifier: 
+  Path: event:/UI Error
+  guid: 4bcac8bda299b943a6e2dbfe35b71175
+  Banks:
+  - {fileID: -1725570926823617792}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 809
 --- !u!114 &-8048590074770710198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -818,7 +841,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 637743386404480830
+  lastModified: 637743411575365258
   FileSizes: []
   Exists: 1
 --- !u!114 &-6111146713505541937
@@ -1744,7 +1767,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Cards.bank
   Name: Cards
   StudioPath: bank:/Cards
-  lastModified: 637743386403440082
+  lastModified: 637743411574454626
   FileSizes: []
   Exists: 1
 --- !u!114 &-3658340031582586839
@@ -2217,6 +2240,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-1976704893731120259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Combat Music/Health
+  m_EditorClassIdentifier: 
+  Name: Health
+  Min: 0
+  Max: 90
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &-1902333737257087345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2278,7 +2323,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 637743386404811039
+  lastModified: 637743411575615450
   FileSizes: []
   Exists: 1
 --- !u!114 &-1720376858119586342
@@ -2505,7 +2550,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: -2095971357679936355}
+  - {fileID: 7800747133195897157}
   MinDistance: 0
   MaxDistance: 0
   Length: 61548
@@ -2542,10 +2587,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637743386404220617
+  lastModified: 637743411575115083
   FileSizes:
   - Name: 
-    Value: 4310
+    Value: 4358
   Exists: 1
 --- !u!114 &-1007792895689423090
 MonoBehaviour:
@@ -2631,7 +2676,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Charcter.bank
   Name: Charcter
   StudioPath: bank:/Charcter
-  lastModified: 637743386403670223
+  lastModified: 637743411574664795
   FileSizes: []
   Exists: 1
 --- !u!114 &-734719040292813604
@@ -2914,12 +2959,13 @@ MonoBehaviour:
   - {fileID: -8150757808191889342}
   - {fileID: 116224296841717772}
   - {fileID: 1788757386582533855}
+  - {fileID: -8065716699928875175}
   EditorParameters: []
   MasterBanks:
   - {fileID: 7658866654347037246}
   StringsBanks:
   - {fileID: -1055866870208052576}
-  stringsBankWriteTime: 637743386404220617
+  stringsBankWriteTime: 637743411575115083
   cacheVersion: 8
 --- !u!114 &17738183308758486
 MonoBehaviour:
@@ -3032,7 +3078,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
-  Length: 2194
+  Length: 2069
 --- !u!114 &368414282325334549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3816,6 +3862,28 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 0
+--- !u!114 &2475685287495069477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Combat Music/Health
+  m_EditorClassIdentifier: 
+  Name: Health
+  Min: 0
+  Max: 90
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 0
 --- !u!114 &2488663548644177358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4021,6 +4089,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1880
+--- !u!114 &2868228421188617074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Combat Music/Health
+  m_EditorClassIdentifier: 
+  Name: Health
+  Min: 0
+  Max: 90
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 0
 --- !u!114 &2923733702327192257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4945,7 +5035,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Keyword.bank
   Name: Keyword
   StudioPath: bank:/Keyword
-  lastModified: 637743386405341444
+  lastModified: 637743411575995705
   FileSizes: []
   Exists: 1
 --- !u!114 &5576514481763415636
@@ -5143,7 +5233,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Loot.bank
   Name: Loot
   StudioPath: bank:/Loot
-  lastModified: 637743386404140563
+  lastModified: 637743411575055058
   FileSizes: []
   Exists: 1
 --- !u!114 &5951327966440440295
@@ -5205,7 +5295,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Combat Mechanics.bank
   Name: Combat Mechanics
   StudioPath: bank:/Combat Mechanics
-  lastModified: 637743386403940418
+  lastModified: 637743411574874921
   FileSizes: []
   Exists: 1
 --- !u!114 &6333058279646202507
@@ -5454,6 +5544,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 45531
+--- !u!114 &7139842693056645850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Combat Music/Health
+  m_EditorClassIdentifier: 
+  Name: Health
+  Min: 0
+  Max: 90
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 0
 --- !u!114 &7162371318934427721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5545,6 +5657,28 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 0
+--- !u!114 &7404053364103850009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI Eror
+  m_EditorClassIdentifier: 
+  Path: event:/UI Eror
+  guid: 4bcac8bda299b943a6e2dbfe35b71175
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 809
 --- !u!114 &7489905903302920839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5649,7 +5783,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637743386404190607
+  lastModified: 637743411575085070
   FileSizes: []
   Exists: 1
 --- !u!114 &7685544707141052823
@@ -5742,6 +5876,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1436
+--- !u!114 &7800747133195897157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Combat Music/Health
+  m_EditorClassIdentifier: 
+  Name: Health
+  Min: 0
+  Max: 90
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &7837087411118935619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6012,7 +6168,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
-  Length: 1766
+  Length: 1454
 --- !u!114 &8668038834440658233
 MonoBehaviour:
   m_ObjectHideFlags: 0
