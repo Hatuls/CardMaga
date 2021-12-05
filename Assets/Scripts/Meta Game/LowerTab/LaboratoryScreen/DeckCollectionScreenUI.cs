@@ -21,28 +21,26 @@ namespace UI.Meta.Laboratory
         UnityEvent OnOpenDeckScreen;
 
         [SerializeField]
-        CardUI _selectedCardUI;
+        GameObject _selectedCardUIContainer;
+        [SerializeField]
+        MetaCardUIHandler _selectedCardUI;
         #endregion
         #region Public Methods
 
 
 
-        public void CloseAll()
+        public void DisableInteractions()
         {
-            foreach (var card in _allCardsScreen.Collection)
-                card.ResetMetaCardInteraction();
-
             DisableDeckCollectionInteraction();
         }
 
         public void OpenDeckCollection()
         {
-            CloseAll();
+            DisableInteractions();
         }
         private void DisableDeckCollectionInteraction()
         {
-            foreach (var card in _deckScreen.Collection)
-                card.ResetMetaCardInteraction();
+            MetaCardUIInteractionPanel.OnOpenInteractionScreen?.Invoke();
         }
 
         #endregion
@@ -51,11 +49,11 @@ namespace UI.Meta.Laboratory
 
         public override void Open()
         {
-            CloseAll();
+            DisableInteractions();
             OnOpenDeckScreen?.Invoke();
             DefaultSettings();
-
-            _selectedCardUI.gameObject.SetActive(false);
+            _selectedCardUI.OnCardClicked.RemoveAllListeners();
+            _selectedCardUIContainer.SetActive(false);
             SetMainCardCollectionActiveState(true);
             gameObject.SetActive(true);
 
@@ -65,11 +63,44 @@ namespace UI.Meta.Laboratory
         private void CardSelected(CardUI card)
         {
             SetMainCardCollectionActiveState(false);
-            DisableDeckCollectionInteraction();
-            _selectedCardUI.GFX.SetCardReference(card.GFX.GetCardReference);
-            _selectedCardUI.gameObject.SetActive(true);
+            DisableInteractions();
+            _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference);
+            SetCardsToWaitForInputState(true);
+            _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Remove, RemoveSelectedCardUI);
+            _selectedCardUIContainer.SetActive(true);
+            SetCardsToWaitForInputState(true);
         }
+        public void SetCardsToWaitForInputState(bool state)
+        {
+            var collection = _deckScreen.Collection;
+            for (int i = 0; i < collection.Count; i++)
+            {
+                collection[i].CardIsWaitingForInput = state;
 
+                if (state)
+                    collection[i].OnCardUIClicked.AddListener(SwitchCards);
+            }
+        }
+        private void RemoveSelectedCardUI(CardUI card)
+        {
+            _selectedCardUI.OnCardClicked.AddListener(Open);
+            SetCardsToWaitForInputState(false);
+
+            DisableInteractions();
+
+            OnOpenDeckScreen?.Invoke();
+
+            DefaultSettings();
+
+            _selectedCardUI.MetaCardUIInteraction.ResetInteraction();
+            _selectedCardUIContainer.SetActive(false);
+
+            SetMainCardCollectionActiveState(true);
+        }
+        private void SwitchCards(CardUI card)
+        {
+            Debug.Log("Switch");
+        }
         private void SetMainCardCollectionActiveState(bool state) => _allCardsScreen.gameObject.SetActive(state);
 
         public override void Close()

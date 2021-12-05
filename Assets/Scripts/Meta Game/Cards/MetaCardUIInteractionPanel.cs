@@ -35,7 +35,7 @@ namespace UI.Meta.Laboratory
         Button _removeBtn;
 
         [SerializeField]
-   
+
         MetaCardUiInteractionEnum _state;
         [Flags]
         public enum MetaCardUiInteractionEnum
@@ -54,11 +54,11 @@ namespace UI.Meta.Laboratory
         }
         public void ResetInteraction()
         {
-          OnRemoveEvent = null;
-          OnDismentalEvent = null;
-          OnUseEvent = null;
-          OnInfoEvent = null;
-    }
+            OnRemoveEvent = null;
+            OnDismentalEvent = null;
+            OnUseEvent = null;
+            OnInfoEvent = null;
+        }
 
         private void OnEnable()
         {
@@ -76,8 +76,8 @@ namespace UI.Meta.Laboratory
 
                 case MetaCardUiInteractionEnum.Info:
                     if (action != null)
-                    OnInfoEvent += action;
-                    
+                        OnInfoEvent += action;
+
                     break;
                 case MetaCardUiInteractionEnum.Remove:
                     if (action != null)
@@ -105,13 +105,14 @@ namespace UI.Meta.Laboratory
             => _container.SetActive(false);
         public void OpenInteractionPanel()
         {
-            if (_state!= MetaCardUiInteractionEnum.None)
+            if (_state != MetaCardUiInteractionEnum.None && !_container.activeSelf)
             {
+
                 OnOpenInteractionScreen?.Invoke();
-                _infoBtn.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Info));
-                _selectBtn.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Use));
-                _removeBtn.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Remove));
-                _dismentalBtn.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Dismental));
+                _infoBtn?.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Info));
+                _selectBtn?.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Use));
+                _removeBtn?.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Remove));
+                _dismentalBtn?.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Dismental));
                 _container.SetActive(true);
             }
             else

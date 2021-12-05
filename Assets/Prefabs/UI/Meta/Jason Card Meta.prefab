@@ -592,6 +592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2209822504042910723}
   - component: {fileID: 6111747168020395985}
+  - component: {fileID: 3061395832588997932}
   m_Layer: 5
   m_Name: Jason Card Meta
   m_TagString: Untagged
@@ -632,11 +633,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2283517fa0342409c368576329d9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dropList: {fileID: 4338153032498854172}
-  _useButton: {fileID: 2765176322086926622}
-  _dismantleButton: {fileID: 8998913237880070661}
-  _cardPanelLocation: 0
   _cardUI: {fileID: 0}
+  _metaCardUIInteraction: {fileID: 0}
+  OnCardClicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6111747168020395985}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  CardIsWaitingForInput: 0
+--- !u!114 &3061395832588997932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553045902681487845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 706522b8800639548b19e6c1a9302c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _metacardUI: {fileID: 6111747168020395985}
+  _container: {fileID: 4338153032498854172}
+  _selectBtn: {fileID: 39773553306195012}
+  _infoBtn: {fileID: 7443325607772291872}
+  _dismentalBtn: {fileID: 7015453715908784955}
+  _removeBtn: {fileID: 0}
+  _state: 0
 --- !u!1 &8998913237880070661
 GameObject:
   m_ObjectHideFlags: 0
