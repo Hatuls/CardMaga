@@ -12,6 +12,7 @@ namespace Map
         public override void ActivatePoint()
         {
             throw new System.NotImplementedException();
+            OnEnterNode?.PlaySound();
         }
     }
 }

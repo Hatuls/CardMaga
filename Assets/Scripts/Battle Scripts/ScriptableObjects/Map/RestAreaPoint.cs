@@ -13,6 +13,7 @@ namespace Map
         [Sirenix.OdinInspector.Button]
         public override void ActivatePoint()
         {
+                        OnEnterNode.PlaySound();
             RestAreaUI.Instance.EnterRestArea();
         }
     }
