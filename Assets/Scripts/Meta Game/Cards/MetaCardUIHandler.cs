@@ -22,9 +22,9 @@ namespace UI.Meta.Laboratory
         CardUI _cardUI;
         [SerializeField]
         public UnityEvent OnCardClicked;
-        [SerializeField]
-        public CardUIEvent OnCardUIClicked;
-
+      //  [SerializeField]
+      //  public CardUIEvent OnCardUIClicked;
+        public Action<CardUI> OnCardUIClicked;
 
 
 
@@ -42,7 +42,11 @@ namespace UI.Meta.Laboratory
             else
                 OnCardClicked?.Invoke();
         }
-
+        public void ResetAll()
+        {
+            OnCardClicked?.RemoveAllListeners();
+            OnCardUIClicked = null;
+        }
         //public void OnSelected()
         //{
         //    OnSelectEvent?.Invoke(CardUI);
