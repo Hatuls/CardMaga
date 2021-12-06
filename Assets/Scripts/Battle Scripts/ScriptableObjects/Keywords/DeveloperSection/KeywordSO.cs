@@ -32,7 +32,7 @@ namespace Keywords
         #endregion
 
         #region Properties
-        public SoundEventSO SoundEventSO => _soundEvent;
+        public SoundEventSO SoundEventSO { get => _soundEvent; set => _soundEvent = value; }
         public int ID => _iD;
         public byte InfoAmount => _infoAmount;
         public bool GetIsStackable => _isStackable;
@@ -64,7 +64,7 @@ namespace Keywords
 
 
 #if UNITY_EDITOR
-        const string SoundURLPath = "Audio/Keywords";
+    
         public bool Init(string[] Data)
         {
 
@@ -76,7 +76,7 @@ namespace Keywords
             const int IgnoreInfoAmountIndex = 5;
             const int DescriptionIndex = 6;
             const int VFXIndex = 7;
-            const int SoundIndex = 8;
+   
 
             if (int.TryParse(Data[IDIndex], out int keywordID))
             {
@@ -110,15 +110,7 @@ namespace Keywords
                 throw new System.Exception($"KeywordsSO:\nID: {_iD}\n Ignore info amount on keyword is not a valid number!");
 
             _descriptions = Data[DescriptionIndex].Replace('^', ',').Split('#');
-
-            if (Data[SoundIndex] != "-")
-            {
-                string resourceLoad = string.Concat(SoundURLPath, Data[SoundIndex]);
-                _soundEvent = Resources.Load<SoundEventSO>(resourceLoad);
-            }
-            else
-                throw new System.Exception($"Sound Name Is Not Valid!\nKeyword: {_keyword}");
-
+      
             //resource.load<~VFX>(Data[VFXIndex]);
             return true;
         }
