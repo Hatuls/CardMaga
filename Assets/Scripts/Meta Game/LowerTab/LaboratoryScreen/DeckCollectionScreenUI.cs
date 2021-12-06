@@ -47,15 +47,19 @@ namespace UI.Meta.Laboratory
         public override void Open()
         {
             DisableInteractions();
+            ResetToDefault();
+            gameObject.SetActive(true);
+
+        }
+
+        private void ResetToDefault()
+        {
             OnOpenDeckScreen?.Invoke();
             DefaultSettings();
             _selectedCardUI.OnCardClicked.RemoveAllListeners();
             _selectedCardUIContainer.SetActive(false);
             SetMainCardCollectionActiveState(true);
-            gameObject.SetActive(true);
-
         }
-
 
         private void CardSelected(CardUI card)
         {
@@ -78,7 +82,7 @@ namespace UI.Meta.Laboratory
                     collection[i].OnCardUIClicked += (SwitchCards);
             }
         }
-        private void RemoveSelectedCardUI(CardUI card)
+        public void RemoveSelectedCardUI()
         {
             _selectedCardUI.OnCardClicked.AddListener(Open);
             SetCardsToWaitForInputState(false);
@@ -94,6 +98,8 @@ namespace UI.Meta.Laboratory
 
             SetMainCardCollectionActiveState(true);
         }
+        private void RemoveSelectedCardUI(CardUI card)
+    => RemoveSelectedCardUI();
         private void SwitchCards(CardUI card)
         {
             Debug.Log("Switch");
@@ -101,25 +107,36 @@ namespace UI.Meta.Laboratory
             var selectedCard = account.AccountCharacters.SelectedCharacter;
             var deck = account.AccountCharacters.GetCharacterData(selectedCard).GetDeckAt(0);
             var coreCardInfo = _selectedCardUI.CardUI.GFX.GetCardReference.CardCoreInfo;
-            ushort currentCardID = coreCardInfo.InstanceID;
+            ushort currentCardID = card.GFX.GetCardReference.CardCoreInfo.InstanceID;
             int length = deck.Cards.Length;
             var cards = deck.Cards;
             bool _cardFound = false;
+
+
             for (int i = 0; i < length; i++)
             {
                 if (cards[i].InstanceID == currentCardID)
                 {
-
+                    cards[i] = coreCardInfo;
+                    _cardFound = true;
+                    break;
                 }
             }
+            if (!_cardFound)
+                throw new System.Exception($"Card Was Not Found In Deck\nID: {currentCardID}");
             _deckScreen.Refresh();
             _allCardsScreen.Refresh();
-
+            ResetToDefault();
         }
         private void SetMainCardCollectionActiveState(bool state) => _allCardsScreen.gameObject.SetActive(state);
 
         public override void Close()
         {
+            _selectedCardUI.gameObject.SetActive(false);
+            _deckScreen.gameObject.SetActive(false);
+            _allCardsScreen.gameObject.SetActive(true);
+            DisableInteractions();
+
             gameObject.SetActive(false);
         }
         #endregion

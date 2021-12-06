@@ -54,7 +54,8 @@ namespace UI.Meta.Laboratory
         [SerializeField]
         GameObject[] _gameObjectsToActivateOnLabratortyScreen;
 
-
+        [SerializeField]
+        UpgradeScreenUI _upgradeScreenUI;
 
         [SerializeField]
         CardUIInteractionHandle _cardUIInteractionHandler;
@@ -118,7 +119,7 @@ namespace UI.Meta.Laboratory
             CloseFusePanel();
             _upgradePanelTitle.gameObject.SetActive(true);
             _upgradePanel.gameObject.SetActive(true);
-           // _deckCollectionScreenUI
+            _upgradeScreenUI.Open();
         }
         private void OpenFusePanel()
         {
