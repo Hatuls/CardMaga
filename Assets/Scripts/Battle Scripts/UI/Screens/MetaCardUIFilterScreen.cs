@@ -22,7 +22,7 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
         while (deck.Count > _collection.Count)
         {
             var card = Instantiate(_cardUIPrefab, _container).GetComponent<MetaCardUIHandler>();
-            //  card.MetaCardUIOpenerAbst = _metaCardUI;
+                        //  card.MetaCardUIOpenerAbst = _metaCardUI;
 
             _collection.Add(card);
         }

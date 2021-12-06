@@ -317,7 +317,7 @@ public class AnimatorController : MonoBehaviour
         //  _currentAnimation = null;
 
     }
-    private void ReturnToIdle() => _animator.CrossFade("KB_Idle", transitionToIdle);
+    private void ReturnToIdle() => _animator.CrossFade("Idle_1", transitionToIdle);
     #endregion
 
     #endregion

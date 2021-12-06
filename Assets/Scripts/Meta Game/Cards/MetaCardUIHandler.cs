@@ -5,52 +5,42 @@ using UnityEngine.Events;
 
 namespace UI.Meta.Laboratory
 {
-    //public interface IOnMetaCardUIClicked
-    //{
-    //    void OpenScreen(MetaCardUIHandler metaCardUIHandler);
-    //}
-    [System.Serializable]
+
+
+
+
+    [Serializable]
     public class CardUIEvent : UnityEvent<CardUI> { }
     public class MetaCardUIHandler : MonoBehaviour
     {
         public static Action OnCloseMetaCardUIOptionPanel;
 
-        //[SerializeField] CardUIEvent OnSelectEvent;
-        //[SerializeField] CardUIEvent OnRemoveEvent;
-        // public static Action<CardUI> OnInfoEvent;
-        //[SerializeField] CardUIEvent OnDismentalEvent;
+        private bool _cardIsWaitingForInput = false;
 
 
-
-        [SerializeField]
-        GameObject _dropList;
-        [SerializeField]
-        GameObject _useButton;
-        [SerializeField]
-        GameObject _removeButton;
-        [SerializeField]
-        GameObject _dismantleButton;
         [SerializeField]
         CardUI _cardUI;
         [SerializeField]
-        GameObject _infoButton;
+        public UnityEvent OnCardClicked;
+        [SerializeField]
+        public CardUIEvent OnCardUIClicked;
 
-        public CardUI CardUI => _cardUI;
 
-        public GameObject RemoveButton => _removeButton;
-        public GameObject InfoButton => _infoButton;
-        public GameObject UseButton { get => _useButton; }
-        public GameObject DismantleButton { get => _dismantleButton; }
+
 
         [SerializeField]
         private MetaCardUIInteractionPanel _metaCardUIInteraction;
         public MetaCardUIInteractionPanel MetaCardUIInteraction => _metaCardUIInteraction;
+        public CardUI CardUI => _cardUI;
+        public bool CardIsWaitingForInput { get => _cardIsWaitingForInput; set => _cardIsWaitingForInput = value; }
 
 
-        public void CloseDropList()
+        public void OnClick()
         {
-            if (_dropList.activeSelf)
-                _dropList.SetActive(false);
+            if (CardIsWaitingForInput)
+                OnCardUIClicked?.Invoke(this.CardUI);
+            else
+                OnCardClicked?.Invoke();
         }
 
         //public void OnSelected()
@@ -94,9 +84,6 @@ namespace UI.Meta.Laboratory
         //}
 
 
-        public void ResetMetaCardInteraction()
-        {
-            _dropList.SetActive(false); 
-        }
+
     }
 }

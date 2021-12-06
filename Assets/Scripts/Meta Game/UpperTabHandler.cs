@@ -11,7 +11,7 @@ namespace UI.Meta
         [SerializeField]
         TextMeshProUGUI _energysAmountText;
         [SerializeField]
-        TextMeshProUGUI _levelAmountText;    
+        TextMeshProUGUI _levelAmountText;
         [SerializeField]
         TextMeshProUGUI _chipAmountText;
 
@@ -34,7 +34,7 @@ namespace UI.Meta
         {
             var account = Account.AccountManager.Instance.AccountGeneralData;
             _chipAmountText.text = $"{account.AccountResourcesData.Chips.Value}";
-         
+
             _diamondsAmountText.text = $"{ account.AccountResourcesData.Diamonds.Value}";
             _levelAmountText.text = $"{ account.AccountLevelData.Level.Value}";
             _energysAmountText.text = $"{ account.AccountEnergyData.Energy.Value} / {account.AccountEnergyData.MaxEnergy.Value}";
@@ -43,7 +43,7 @@ namespace UI.Meta
         private void SetMaxEnergyText(ushort val) => _energysAmountText.text = $"{Account.AccountManager.Instance.AccountGeneralData.AccountEnergyData.Energy.Value } / {val}";
         private void SetDiamondText(ushort val) => _diamondsAmountText.text = val.ToString();
         private void SetLevelText(ushort val) => _levelAmountText.text = val.ToString();
-       
+
         private void SetChipText(ushort val) => _chipAmountText.text = val.ToString();
 
         private void SubscribeEvents(Account.GeneralData.AccountGeneralData account, Account.GeneralData.AccountResourcesData resources)
@@ -57,7 +57,7 @@ namespace UI.Meta
 
         private void RemoveSubScribers(Account.GeneralData.AccountGeneralData account, Account.GeneralData.AccountResourcesData resources)
         {
-            resources.Chips.OnValueChange-=(SetChipText);
+            resources.Chips.OnValueChange -= (SetChipText);
             resources.Diamonds.OnValueChange -= (SetDiamondText);
             account.AccountLevelData.Level.OnValueChange -= (SetLevelText);
             account.AccountEnergyData.Energy.OnValueChange -= (SetEnergyText);
@@ -74,9 +74,13 @@ namespace UI.Meta
         }
         private void OnDisable()
         {
-            var account = Account.AccountManager.Instance.AccountGeneralData;
-            var resources = account.AccountResourcesData;
-            RemoveSubScribers(account, resources);
+            if (Account.AccountManager.Instance != null && Account.AccountManager.Instance.AccountGeneralData != null)
+            {
+
+                var account = Account.AccountManager.Instance.AccountGeneralData;
+                var resources = account.AccountResourcesData;
+                RemoveSubScribers(account, resources);
+            }
         }
     }
 }
