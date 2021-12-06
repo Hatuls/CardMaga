@@ -61,7 +61,8 @@ namespace Map
 
         [SerializeField]
         MapData _mapTracker;
-
+        [SerializeField]
+        SoundEventSO _soundSO;
         [SerializeField] string _saveMapCFGName;
 #if UNITY_EDITOR
         public SaveManager.FileStreamType saveType;
@@ -94,7 +95,7 @@ namespace Map
         }
         private void Start()
         {
-
+            _soundSO.PlaySound();
            StartMap();
         }
 

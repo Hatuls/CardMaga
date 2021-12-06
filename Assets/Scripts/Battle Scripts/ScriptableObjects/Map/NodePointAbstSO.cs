@@ -7,6 +7,8 @@ namespace Map
     public abstract class NodePointAbstSO : ScriptableObject
     {
         [SerializeField]
+        protected SoundEventSO OnEnterNode;
+        [SerializeField]
         private Color _clr;
         public Color PointColor => _clr;
         [SerializeField]

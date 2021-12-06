@@ -24,6 +24,7 @@ namespace Map
             if (rewardBundle == null)
                 throw new Exception("Reward Bundle is null!");
 
+            OnEnterNode.PlaySound();
             BattleUIRewardHandler.Instance.OpenChestScreen(rewardBundle);
             MapPlayerTracker.Instance.view.SetAttainableNodes();
             MapView.Instance.ShowMap(MapManager.Instance.CurrentMap);
