@@ -11,6 +11,7 @@ namespace Map
 
         public override void ActivatePoint()
         {
+            OnEnterNode.PlaySound();
             var characterFactory = Factory.GameFactory.Instance.CharacterFactoryHandler;
            var enemySO= characterFactory.GetRandomCharacterSO(Battles.CharacterTypeEnum.Basic_Enemy);
            var enemy = characterFactory.CreateCharacter(enemySO);
