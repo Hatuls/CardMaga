@@ -1,8 +1,5 @@
 ﻿using Battles.UI;
-using UnityEngine.UI;
 using UnityEngine;
-using TMPro;
-using Cards;
 using UnityEngine.Events;
 
 namespace UI.Meta.Laboratory
@@ -78,7 +75,7 @@ namespace UI.Meta.Laboratory
                 collection[i].CardIsWaitingForInput = state;
 
                 if (state)
-                    collection[i].OnCardUIClicked.AddListener(SwitchCards);
+                    collection[i].OnCardUIClicked += (SwitchCards);
             }
         }
         private void RemoveSelectedCardUI(CardUI card)
@@ -100,6 +97,24 @@ namespace UI.Meta.Laboratory
         private void SwitchCards(CardUI card)
         {
             Debug.Log("Switch");
+            var account = Account.AccountManager.Instance;
+            var selectedCard = account.AccountCharacters.SelectedCharacter;
+            var deck = account.AccountCharacters.GetCharacterData(selectedCard).GetDeckAt(0);
+            var coreCardInfo = _selectedCardUI.CardUI.GFX.GetCardReference.CardCoreInfo;
+            ushort currentCardID = coreCardInfo.InstanceID;
+            int length = deck.Cards.Length;
+            var cards = deck.Cards;
+            bool _cardFound = false;
+            for (int i = 0; i < length; i++)
+            {
+                if (cards[i].InstanceID == currentCardID)
+                {
+
+                }
+            }
+            _deckScreen.Refresh();
+            _allCardsScreen.Refresh();
+
         }
         private void SetMainCardCollectionActiveState(bool state) => _allCardsScreen.gameObject.SetActive(state);
 
