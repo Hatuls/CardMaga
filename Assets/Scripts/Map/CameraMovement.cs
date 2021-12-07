@@ -36,6 +36,11 @@ public class CameraMovement : MonoBehaviour, IObserver
             SetCameraPosition(CameraOffset(_lastVisitedNodeY), _movementTime);
         }
     }
+    public static void ResetCameraMovementLocation()
+    {
+        _lastVisitedNodeY = 0;
+    }
+        
 
     Vector3 _dragOrigin;
    public static bool _toLock;
