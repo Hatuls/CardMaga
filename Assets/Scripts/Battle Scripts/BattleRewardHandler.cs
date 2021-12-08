@@ -65,11 +65,12 @@ namespace Rewards.Battles
             _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
        
         }
-
+        [SerializeField] EndRunScreen _endRunScreen;
         internal void FinishBoss()
         {
             // see when boss is fnished!
-            ReturnToMainMenu();
+            //     ReturnToMainMenu();
+            _endRunScreen.FinishGame();
         }
 
         internal void AddCombo(Combo.Combo[] rewardCombos)

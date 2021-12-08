@@ -27,7 +27,7 @@ namespace Map
         {
             Instance = this;
         }
-
+   
         public void SelectNode(NodeMap mapNode)
         {
             if (Locked) return;
@@ -66,6 +66,7 @@ namespace Map
 
         private void Start()
         {
+            Instance = this;
             view.SetAttainableNodes();
         }
 
