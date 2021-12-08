@@ -59,6 +59,7 @@ namespace UI.Meta.Laboratory
             _selectedCardUI.OnCardClicked.RemoveAllListeners();
             _selectedCardUIContainer.SetActive(false);
             SetMainCardCollectionActiveState(true);
+            SetCardsToWaitForInputState(false);
         }
 
         private void CardSelected(CardUI card)
@@ -69,7 +70,7 @@ namespace UI.Meta.Laboratory
             SetCardsToWaitForInputState(true);
             _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Remove, RemoveSelectedCardUI);
             _selectedCardUIContainer.SetActive(true);
-            SetCardsToWaitForInputState(true);
+       
         }
         public void SetCardsToWaitForInputState(bool state)
         {
@@ -80,6 +81,8 @@ namespace UI.Meta.Laboratory
 
                 if (state)
                     collection[i].OnCardUIClicked += (SwitchCards);
+                else
+                    collection[i].OnCardUIClicked -= (SwitchCards);
             }
         }
         public void RemoveSelectedCardUI()
@@ -99,14 +102,18 @@ namespace UI.Meta.Laboratory
             SetMainCardCollectionActiveState(true);
         }
         private void RemoveSelectedCardUI(CardUI card)
-    => RemoveSelectedCardUI();
+         => RemoveSelectedCardUI();
         private void SwitchCards(CardUI card)
         {
+            var coreCardInfo = _selectedCardUI.CardUI.GFX.GetCardReference.CardCoreInfo;
+
+            if (coreCardInfo == null)
+                return; 
+
             Debug.Log("Switch");
             var account = Account.AccountManager.Instance;
             var selectedCard = account.AccountCharacters.SelectedCharacter;
             var deck = account.AccountCharacters.GetCharacterData(selectedCard).GetDeckAt(0);
-            var coreCardInfo = _selectedCardUI.CardUI.GFX.GetCardReference.CardCoreInfo;
             ushort currentCardID = card.GFX.GetCardReference.CardCoreInfo.InstanceID;
             int length = deck.Cards.Length;
             var cards = deck.Cards;
