@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using Cards;
+using Sirenix.OdinInspector;
 using UnityEngine;
 namespace Art
 {
@@ -93,6 +94,36 @@ namespace Art
         public Color CardInformationIconBackgroundColor => _cardInformation.Colors[0];
         public Color CardInformationTitleTextColor => _cardInformation.Colors[1];
         public Color CardInformationDescriptionTextColor => _cardInformation.Colors[2];
+        #endregion
+
+        #region Rarity Colors
+        [SerializeField]
+        [TabGroup("Card UI/Colors", "Card Rarity")]
+        [InfoBox("0 - Common\n1 - UnCommon\n2 - Rare\n3 - Epic\n4 - LegendRei")]
+        ColorSettings _rarityColors;
+
+
+        public Color GetRarityColor(RarityEnum rarityEnum)
+        {
+            Color[] colors = _rarityColors.Colors;
+
+            switch (rarityEnum)
+            {
+                case RarityEnum.Common:
+                    return colors[0];
+                case RarityEnum.Uncommon:
+                    return colors[1];
+                case RarityEnum.Rare:
+                    return colors[2];
+                case RarityEnum.Epic:
+                    return colors[3];
+                case RarityEnum.LegendREI:
+                    return colors[4];
+                case RarityEnum.None:
+                default:
+                    throw new System.Exception($"Rarity Enum selected is not valid!\nInput {rarityEnum}");
+            }
+        }
         #endregion
     }
 

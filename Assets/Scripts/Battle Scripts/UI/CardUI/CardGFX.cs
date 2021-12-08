@@ -106,8 +106,8 @@ namespace Battles.UI.CardUIAttributes
 
             //replace with crafting slot data
             _bodyPartGFX.AssignBodyPart(cardData.CardType);
-            SetCardColors(cardData.CardTypeEnum);
-
+            SetCardColors(cardData.CardTypeEnum,cardData.Rarity);
+           
             SetStaminaText(_cardReferenceInHandDeck == null ? cardData.StaminaCost : _cardReferenceInHandDeck.StaminaCost);
 
             SetCardUIImage(cardData.CardSprite);
@@ -144,7 +144,7 @@ namespace Battles.UI.CardUIAttributes
         }
         private void SetCardUIImage(Sprite img)
         => _innerCardImage.sprite = img;
-        private void SetCardColors(CardTypeEnum cardType)
+        private void SetCardColors(CardTypeEnum cardType,RarityEnum rarity)
         {
             // Body Part:
            
@@ -156,7 +156,7 @@ namespace Battles.UI.CardUIAttributes
 
             var carduiPalete = _art.GetPallette<CardUIPalette>();
             // Stamina Part:
-
+            _rarityImage.color = carduiPalete.GetRarityColor(rarity);
             _staminaText.color = carduiPalete.StaminaTextColor;
 
             ////Background Image
