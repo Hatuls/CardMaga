@@ -41,6 +41,8 @@ public class SceneHandler
     
     public static void LoadScene(ScenesEnum sceneEnum)
     {
+
+
         LoadingComplete = false;
         CurrentScene = ScenesEnum.LoadingScene;
         SceneManager.LoadScene((int)ScenesEnum.LoadingScene, LoadSceneMode.Additive);
