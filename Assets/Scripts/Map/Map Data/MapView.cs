@@ -1,9 +1,7 @@
 ﻿
 using System.Collections.Generic;
-using UnityEngine;
-using System.Threading.Tasks;
-using System;
 using System.Linq;
+using UnityEngine;
 
 namespace Map
 {
@@ -12,7 +10,7 @@ namespace Map
 
     public class MapView : MonoBehaviour
     {
-      
+
         static MapView _instance;
         public static MapView Instance => _instance;
 
@@ -79,7 +77,7 @@ namespace Map
                 var nodeData = _nodeMaps[i].NodeData;
                 var connectedAmount = nodeData.incoming;
                 int pointConnectedAmount = connectedAmount.Count;
-                
+
                 for (int j = 0; j < pointConnectedAmount; j++)
                 {
                     p = connectedAmount[j];
@@ -88,13 +86,13 @@ namespace Map
                     var Node = map.GetNode(p);
 
                     mapLine.SetColor(Node.NodeState);
-                   
+
                     mapLine.ConnectLines(nodeData.position, Node.position);
                     _mapLines.Add(mapLine);
-              }
+                }
             }
         }
-     
+
 
         public void SetAttainableNodes()
         {
@@ -139,9 +137,9 @@ namespace Map
             if (firstParent == null)
             {
 
-            firstParent = new GameObject("OuterMapParent");
-            mapParent = new GameObject("MapParentWithAScroll");
-            mapParent.transform.SetParent(firstParent.transform);
+                firstParent = new GameObject("OuterMapParent");
+                mapParent = new GameObject("MapParentWithAScroll");
+                mapParent.transform.SetParent(firstParent.transform);
             }
 
         }
@@ -156,18 +154,18 @@ namespace Map
             }
         }
 
-        private NodeMap CreateMapNode(Node node,Factory.GameFactory.EventPointFactory eventFactoryRef)
+        private NodeMap CreateMapNode(Node node, Factory.GameFactory.EventPointFactory eventFactoryRef)
         {
             var mapNodeObject = Instantiate(_nodePrefab, mapParent.transform);
             var mapNode = mapNodeObject.GetComponent<NodeMap>();
-            var blueprint =eventFactoryRef.GetEventPoint(node.NodeTypeEnum);
+            var blueprint = eventFactoryRef.GetEventPoint(node.NodeTypeEnum);
             mapNode.SetUp(node, blueprint);
             //      mapNode.transform.localPosition = node.position;
             mapNode.transform.position = node.position;
             return mapNode;
         }
 
-        private  void ClearMap()
+        private void ClearMap()
         {
             for (int i = 0; i < _nodeMaps.Count; i++)
             {
@@ -181,14 +179,14 @@ namespace Map
             _nodeMaps.Clear();
             _mapLines.Clear();
         }
- 
+
         private void AssignScreenCoordinates()
         {
             var bottomLeft = Camera.main.ScreenToWorldPoint(Vector2.zero);
-            ScreenCoordinates. _screenMinY = bottomLeft.y;
-            ScreenCoordinates. _screenMinX = bottomLeft.x;
+            ScreenCoordinates._screenMinY = bottomLeft.y;
+            ScreenCoordinates._screenMinX = bottomLeft.x;
 
-           var topRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+            var topRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
             ScreenCoordinates._screenMaxX = topRight.x;
             ScreenCoordinates._screenMaxY = topRight.y;
 

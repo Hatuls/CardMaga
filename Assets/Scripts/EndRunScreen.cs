@@ -30,12 +30,12 @@ public class EndRunScreen : MonoBehaviour, IObserver
         {
             FinishGame();
         }
-        else
-        {
-            _observerSO.Notify(null);
-            if (_endScreen.activeSelf)
-                _endScreen.SetActive(false);
-        }
+        //else
+        //{
+        //    _observerSO.Notify(null);
+        //    if (_endScreen.activeSelf)
+        //        _endScreen.SetActive(false);
+        //}
     }
 
     public void FinishGame()
