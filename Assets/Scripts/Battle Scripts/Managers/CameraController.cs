@@ -2,10 +2,12 @@
 using Cinemachine;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
+
 [RequireComponent(typeof(IntListener))]
 public class CameraController : MonoSingleton<CameraController>
 {
-    public enum CameraAngleLookAt { Enemy=0  ,Both =1, Player=2}
+    public enum CameraAngleLookAt { Player = 0  ,Both =1, Enemy = 2 }
 
 
 
@@ -16,6 +18,7 @@ public class CameraController : MonoSingleton<CameraController>
     // [SerializeField] RectTransform _parentCanvas;
     // [SerializeField] LeanTweenType[] _cameraShakes;
     [SerializeField] GameObject IntroCinematic; // 
+    [SerializeField] PlayableDirector IntroDirector;
     [SerializeField] GameObject MoveCameraAngle;
     [SerializeField] GameObject ShakeAtPlayer;
     [SerializeField] GameObject ShakeAtMiddle;
@@ -41,7 +44,7 @@ public class CameraController : MonoSingleton<CameraController>
     private void Start()
     {
         _cameraAngleLookAt = CameraAngleLookAt.Both;
-
+        StartIntro();
         GetAngleTrackedDolly.m_PathPosition = (int)_cameraAngleLookAt;
         return;
         //MoveCameraAngle.SetActive(false);
@@ -62,9 +65,9 @@ public class CameraController : MonoSingleton<CameraController>
             StopCoroutine(CameraTransition(index));
             StartCoroutine(CameraTransition(index));
         }
-        //0 is player
+        //0 is Enemy
         //1 is middle
-        //2 is Enemy
+        //2 is player
     }
     IEnumerator CameraTransition(int point)
     {
@@ -83,6 +86,10 @@ public class CameraController : MonoSingleton<CameraController>
         }
         _cameraAngleLookAt = (CameraAngleLookAt)point;
        
+    }
+    public void StartIntro()
+    {
+        IntroDirector.Play();
     }
     public void Shake(int moveCameraAngleIndex)
     {
