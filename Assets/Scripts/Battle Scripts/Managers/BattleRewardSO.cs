@@ -98,10 +98,10 @@ namespace Rewards
             return reward;
         }
 
-        private Card[] GenerateCardsRewards(ActsEnum actsEnum)
+        public Card[] GenerateCardsRewards(ActsEnum actsEnum, byte CardAmount = 3)
         {
             var actCardChance = _cardChances.First(x => x.ActEnum == actsEnum);
-            const byte CardAmount = 3;
+     
             Card[] rewardCards = new Card[CardAmount];
 
             byte random;
@@ -176,9 +176,9 @@ namespace Rewards
             return rewardCards;
         }
 
-        private Combo.Combo[] GenerateComboReward(ActsEnum actsEnum)
+        public Combo.Combo[] GenerateComboReward(ActsEnum actsEnum , byte amount = 1 )
         {
-            Combo.Combo[] combo = new Combo.Combo[1];
+            Combo.Combo[] combo = new Combo.Combo[amount];
             int tryTimes = 6;
             var recipesChances = _recipesChances.First(x => x.ActEnum == actsEnum);
             int addition = 0;

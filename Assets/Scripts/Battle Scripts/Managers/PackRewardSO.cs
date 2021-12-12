@@ -48,7 +48,7 @@ namespace Rewards
         CardsCollectionSO.RarityCards[] _dropChances;
         public PackReward CreatePackReward()
         {
-        int cardRarity = (ChanceHelper.GetRandomIndexByChances(_cardChances));
+            int cardRarity = (ChanceHelper.GetRandomIndexByChances(_cardChances));
             int recieveChipChanceResult = ChanceHelper.GetRandomIndexByChances(_recieveChipChance);
 
             ResourceStock resourceStock = null;
