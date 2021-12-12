@@ -7,8 +7,7 @@ namespace Map.UI
 {
     public class SortCardsByUpgradeable : SortAbst<Card>
     {
-            [SerializeField]
-            SortEvent _event;
+            
         public override IEnumerable<Card> Sort()
         {
             var accountCards = Account.AccountManager.Instance.AccountCards.CardList;
@@ -22,7 +21,7 @@ namespace Map.UI
 
         public override void SortRequest()
         {
-            _event?.Invoke(this);
+            _cardEvent?.Invoke(this);
         }
     }
 }

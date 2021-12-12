@@ -102,21 +102,21 @@ public class AnimatorController : MonoBehaviour
     public void OnStartAnimation(AnimatorStateInfo info)
     {
 
-        if (_currentAnimation != null && _currentAnimation.IsCinemtaic)
+        if (_currentAnimation != null && _currentAnimation.CinemtaicView == CameraViews.OverTheShoulder)
             SetCamera(_isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
 
     }
     internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
     {
-        if (_animationQueue.Count == 0 && _currentAnimation == null)
-        {
-            SetCamera(CameraController.CameraAngleLookAt.Both);
-
-        }
-        //if (_animationQueue.Count > 0)
+        //if (_animationQueue.Count == 0 && _currentAnimation == null)
         //{
-        //    TranstionToNextAnimation();
+        //    SetCamera(CameraController.CameraAngleLookAt.Both);
+
         //}
+        ////if (_animationQueue.Count > 0)
+        ////{
+        ////    TranstionToNextAnimation();
+        ////}
     }
 
     public void CharacterWon()
@@ -309,7 +309,7 @@ public class AnimatorController : MonoBehaviour
     private void OnFinishAnimation()
     {
         Battles.CardExecutionManager.FinishedAnimation = true;
-
+        SetCamera(CameraController.CameraAngleLookAt.Both);
         //ReturnToIdle();
         ResetBothRotaionAndPosition();
         //  isFirst = true;

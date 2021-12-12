@@ -110,18 +110,16 @@ namespace UI
 
             for (int i = 0; i < _placeHolderSlotUIs.Length; i++)
             {
-                //if (_placeHolderSlotUIs[i].gameObject.activeSelf && i  >= 0 && i  < relic.ComboSequance.Length)
+                if (!_placeHolderSlotUIs[i].gameObject.activeSelf)
+                    _placeHolderSlotUIs[i].gameObject.SetActive(true);
+
                 if (i < relic.ComboSequance.Length)
-                {
-                    if (!_placeHolderSlotUIs[i].gameObject.activeSelf)
-                        _placeHolderSlotUIs[i].gameObject.SetActive(true);
                     _placeHolderSlotUIs[i].InitPlaceHolder(relic.ComboSequance[i]);
-                }
+                
                 else
-                {
-                    if (_placeHolderSlotUIs[i].gameObject.activeSelf)
-                        _placeHolderSlotUIs[i].gameObject.SetActive(false);
-                }
+                    _placeHolderSlotUIs[i].ResetSlotUI();
+                
+         
             }
         }
     }

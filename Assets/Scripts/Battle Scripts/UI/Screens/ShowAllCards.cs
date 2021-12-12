@@ -7,14 +7,13 @@ using UnityEngine.Events;
 namespace Map.UI
 {
     [System.Serializable]
-    public class SortEvent : UnityEvent<ISort<Card>> { }
+    public class SortComboEvent : UnityEvent<ISort<Combo.Combo>> { }
+    [System.Serializable]
+    public class SortCardEvent : UnityEvent<ISort<Card>> { }
     public class ShowAllCards : SortAbst<Card>
     {
-        [SerializeField]
-        SortEvent _event;
 
-
-        public override void SortRequest() => _event?.Invoke(this);
+        public override void SortRequest() => _cardEvent?.Invoke(this);
         public override IEnumerable<Card> Sort()
         {
 

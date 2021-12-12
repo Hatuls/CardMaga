@@ -29,10 +29,12 @@ namespace Rewards.Packs
         [SerializeField] TextMeshProUGUI _openText;
         [TabGroup("Pack/Components", "Texts")]
         [SerializeField] TextMeshProUGUI _costText;
+        [TabGroup("Pack/Components", "Texts")]
+        [SerializeField] TextMeshProUGUI _packNameText;
 
-        
         public void Init(PackRewardSO packRewardSO)
         {
+            _packNameText.text = packRewardSO.PackName;
             _packRewardSO = packRewardSO;
             _costText.text = string.Concat("X", packRewardSO.PurchaseCosts[0].Price);
             _openText.text = "Open X1";

@@ -219,15 +219,14 @@ public class CSVToCardSO : CSVAbst
 
 
         // Animations
-        card.AnimationBundle = new Cards.AnimationBundle
+        card.AnimationBundle = new AnimationBundle
         {
             _attackAnimation = (CheckIfEmpty(cardSO[AttackAnimation])) ? "" :  cardSO[AttackAnimation].Replace(' ', '_'),
             _shieldAnimation = (CheckIfEmpty(cardSO[ShieldAnimation])) ? "" :  cardSO[ShieldAnimation].Replace(' ', '_'),
             _getHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? "" :  cardSO[GotHitAnimation].Replace(' ', '_'),
-            IsCinemtaic = cardSO[Cinematic] == "1",
+            CinemtaicView = int.TryParse(cardSO[Cinematic], out int cin) ? (CameraViews)cin : (CameraViews.None),
             //IsSlowMotion = bool.Parse
             BodyPartEnum = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
-
         };
 
 
