@@ -3,9 +3,9 @@ using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ComboRecipeHandler : MonoBehaviour, IPointerClickHandler
+public class ComboRecipeDisplayer : MonoBehaviour, IPointerClickHandler
 {
-    public static ComboRecipeHandler Instance;
+    public static ComboRecipeDisplayer Instance;
     [SerializeField]
     ComboRecipeUI[] comboRecipeUIs;
 

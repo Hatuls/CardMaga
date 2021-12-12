@@ -44,14 +44,14 @@ public class CSVToPackReward : CSVAbst
     private PackRewardSO CreatePack(string[] line)
     {
         const int ID = 0;
-        if (ushort.TryParse(line[ID], out ushort characterID))
+        if (line[ID] != "-")
         {
             var rewards = ScriptableObject.CreateInstance<PackRewardSO>();
 
             if (rewards.Init(line))
             {
                 rewards.LoadRewardCards(CSVManager._cardCollection);
-                AssetDatabase.CreateAsset(rewards, $"Assets/Resources/Rewards/PackRewards/{rewards.Rarity}PackRewardSO.asset");
+                AssetDatabase.CreateAsset(rewards, $"Assets/Resources/Rewards/PackRewards/{rewards.PackName}PackRewardSO.asset");
                 return rewards;
             }
             else

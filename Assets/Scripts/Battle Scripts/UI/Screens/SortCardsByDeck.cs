@@ -7,8 +7,7 @@ namespace Map.UI
 {
     public class SortCardsByDeck : SortAbst<Card>
     {
-        [SerializeField]
-        SortEvent _event;
+      
         [SerializeField]
         DeckEnum _deck;
         public override IEnumerable<Card> Sort()
@@ -18,7 +17,7 @@ namespace Map.UI
 
         public override void SortRequest()
         {
-            _event?.Invoke(this);
+            _cardEvent?.Invoke(this);
         }
     }
 }

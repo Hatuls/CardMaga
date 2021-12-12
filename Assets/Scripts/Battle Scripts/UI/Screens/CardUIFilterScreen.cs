@@ -7,6 +7,8 @@ using System.Linq;
 using UnityEngine;
 public class CardUIFilterScreen : UIFilterScreen<CardUI, Card>
 {
+    [SerializeReference]
+    
     [SerializeField]
     float _cardsSize =1f ;
     protected override void CreatePool()

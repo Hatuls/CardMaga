@@ -15,16 +15,7 @@ public class PlayerData
             return _instance;
         }
     }
-    public PlayerData()
-    {
 
-
-
-
-
-
-
-    }
     
 
 

@@ -34,7 +34,7 @@ public class IdleAnimationStateMachine : CharacterBaseStateMachine
 
     private void CheckPlayerTurn()
     {
-
+  
         Battles.Turns.TurnHandler.CheckPlayerTurnForAvailableAction();
 
     }

@@ -9,10 +9,12 @@ namespace Map
     {
         public override NodeType PointType => NodeType.Dojo;
 
+        [Sirenix.OdinInspector.Button("Open Dojo")]
+
         public override void ActivatePoint()
         {
-            throw new System.NotImplementedException();
             OnEnterNode?.PlaySound();
+            DojoManager.Instance.InitDojo();
         }
     }
 }

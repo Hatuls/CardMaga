@@ -1,9 +1,11 @@
 ﻿using Battles.UI;
 using Meta;
+using Rewards;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UI.Meta.Laboratory
 {
@@ -38,14 +40,19 @@ namespace UI.Meta.Laboratory
 
         [SerializeField]
         string defaultText = "Choose Card:";
+        [SerializeField]
         string costText = "Upgrade Cost: ";
 
 
+        [SerializeField]
+        ResourceEnum _resourceType = ResourceEnum.Chips;
+        [SerializeField]
+        bool _toShowDismentalOption= true;
 
-
-
-
-
+        [SerializeField]
+        UnityEvent OnSuccessfullUpgrade;
+        [SerializeField]
+        UnityEvent OnUnSuccessfullUpgrade;
         public override void Open()
         {
             OnOpenUpgradeScreen();
@@ -56,8 +63,8 @@ namespace UI.Meta.Laboratory
             var deck = _collectionFilterHandler.Collection;
             for (int i = 0; i < deck.Count; i++)
             {
-                deck[i].MetaCardUIInteraction.ResetInteraction();
                 deck[i].MetaCardUIInteraction.ResetEnum();
+                deck[i].MetaCardUIInteraction.ClosePanel();
             }
             ResetScreen();
             gameObject.SetActive(false);
@@ -77,8 +84,11 @@ namespace UI.Meta.Laboratory
                 var metacardInteraction = deck[i].MetaCardUIInteraction;
                 metacardInteraction.ResetInteraction();
                 metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Use, SelectCardUI);
-                metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Dismental, _cardUIInteractionHandle.OpenDismentalScreen);
+                if (_toShowDismentalOption)
+                {
                 metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
+                metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Dismental, _cardUIInteractionHandle.OpenDismentalScreen);
+                }
             }
             _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Remove, RemoveCardUI);
         }
@@ -120,7 +130,7 @@ namespace UI.Meta.Laboratory
         {
             _instructionText.text = costText;
             ActivateGameObject(_upgradeBtn, true);
-            _costText.text = _upgradeCostSO.NextCardValue(_selectedCardUI.CardUI.GFX.GetCardReference).ToString();
+            _costText.text = _upgradeCostSO.NextCardValue(_selectedCardUI.CardUI.GFX.GetCardReference, _resourceType).ToString();
         }
         private void ActivateGameObject(GameObject go, bool state)
         {
@@ -132,16 +142,18 @@ namespace UI.Meta.Laboratory
         {
             if (!_selectedCardUI.gameObject.activeSelf || !_upgradedVersion.gameObject.activeSelf)
                 return;
-            if (UpgradeHandler.TryUpgradeCard(_upgradeCostSO, _selectedCardUI.CardUI.GFX.GetCardReference))
+            if (UpgradeHandler.TryUpgradeCard(_upgradeCostSO, _selectedCardUI.CardUI.GFX.GetCardReference , _resourceType))
             {
                 ResetScreen();
-                _collectionFilterHandler.Refresh();
+            _collectionFilterHandler.Refresh();
+  
                 Debug.Log(" Succeed");
                 ActivateGameObject(_upgradeBtn, false);
+                OnSuccessfullUpgrade?.Invoke();
             }
             else
             {
-
+                OnUnSuccessfullUpgrade?.Invoke();
 
                 Debug.Log("Didnt upgrade");
             }

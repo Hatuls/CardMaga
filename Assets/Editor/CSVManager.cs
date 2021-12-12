@@ -47,7 +47,7 @@ public class CSVManager
     }
     public async static void BattleDataAsync()
     {
-        await  LoadBattleData();
+        await LoadBattleData();
 
         Debug.Log("<a>Completed Updateing Battle SO's From CSV!</a>");
 
@@ -73,7 +73,7 @@ public class CSVManager
         _driveURLOfDismentalAndUpgrades
         };
 
-       await StartLoading(_driveMetaURL,metaurls, metacsv);
+        await StartLoading(_driveMetaURL, metaurls, metacsv);
     }
     private async static Task LoadBattleData()
     {
@@ -94,9 +94,9 @@ public class CSVManager
             new CSVToBattleReward()
         };
 
-      await  StartLoading(_driveURL,urls, csvs);
+        await StartLoading(_driveURL, urls, csvs);
     }
-    private static async Task StartLoading(string MainUrl ,string[] urls , CSVAbst[] cSVAbsts)
+    private static async Task StartLoading(string MainUrl, string[] urls, CSVAbst[] cSVAbsts)
     {
         for (int i = 0; i < cSVAbsts.Length; i++)
         {
@@ -118,4 +118,45 @@ public abstract class CSVAbst
 {
     public virtual async Task StartCSV(string data)
     { }
+}
+
+
+public class SceneHelper
+{
+    static string NetworkSceneName = "NetworkScene";
+    static string LoadingSceneName = "LoadingScene";
+    static string BattleSceneName = "Game Battle Scene";
+    static string MainMenuSceneName = "Main Menu Scene";
+    static string MapSceneName = "Map Scene";
+
+
+    [MenuItem("Scenes/Network Scene")]
+    private static void NetworkScene()
+    {
+        LoadScene(NetworkSceneName);
+    }
+    [MenuItem("Scenes/Battle Scene")]
+    private static void BattleScene()
+    {
+        LoadScene(BattleSceneName);
+    }
+    [MenuItem("Scenes/Map Scene")]
+    private static void MapScene()
+    { LoadScene(MapSceneName); }
+    [MenuItem("Scenes/Main Menu Scene")]
+    private static void MainMenuScene()
+    {
+        LoadScene(MainMenuSceneName);
+    }
+
+    [MenuItem("Scenes/Loading Scene Scene")]
+    private static void LoadingScene()
+    {
+        LoadScene(LoadingSceneName); }
+    private static void LoadScene(string sceneName)
+    {
+        UnityEditor.SceneManagement.EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+        UnityEditor.SceneManagement.EditorSceneManager.OpenScene(string.Concat(Application.dataPath, "/Scenes/GameScene/", sceneName, ".unity"), UnityEditor.SceneManagement.OpenSceneMode.Single);
+
+    }
 }
