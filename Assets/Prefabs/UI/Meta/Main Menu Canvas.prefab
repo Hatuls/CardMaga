@@ -2102,7 +2102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddb5fa246fa6cc438fa7d06c17a4463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6573815436123048081}
@@ -2116,6 +2116,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
   deckIndex: 0
 --- !u!114 &6597994631734246901
 MonoBehaviour:
@@ -2129,7 +2132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e250b52459439ef46a20e7e376facb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6834140794871755987}
@@ -2143,6 +2146,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
   deckIndex: 0
 --- !u!114 &6597994631734246904
 MonoBehaviour:
@@ -2167,6 +2173,7 @@ MonoBehaviour:
   _shownText: 'Upgrade Card:'
   defaultText: 'Choose Card:'
   costText: 'Upgrade Cost: '
+  _resourceType: 65
   _toShowDismentalOption: 1
   OnSuccessfullUpgrade:
     m_PersistentCalls:
@@ -8726,6 +8733,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192508654257293036, guid: 4cd51bc17f913aa4d89103d432430ddb,
+        type: 3}
+      propertyPath: _cardEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192508654257293036, guid: 4cd51bc17f913aa4d89103d432430ddb,
+        type: 3}
+      propertyPath: _cardEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192508654257293036, guid: 4cd51bc17f913aa4d89103d432430ddb,
+        type: 3}
+      propertyPath: _cardEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6834140794871755987}
+    - target: {fileID: 2192508654257293036, guid: 4cd51bc17f913aa4d89103d432430ddb,
+        type: 3}
+      propertyPath: _cardEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192508654257293036, guid: 4cd51bc17f913aa4d89103d432430ddb,
+        type: 3}
+      propertyPath: _cardEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SortBy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2192508654257293036, guid: 4cd51bc17f913aa4d89103d432430ddb,
+        type: 3}
+      propertyPath: _cardEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2249410153328878987, guid: 4cd51bc17f913aa4d89103d432430ddb,
         type: 3}
