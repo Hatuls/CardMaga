@@ -1,7 +1,5 @@
-﻿using Battles;
-using Collections;
+﻿using Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Factory
 {
@@ -16,10 +14,13 @@ namespace Factory
         [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
         [SerializeField] EventPointCollectionSO _eventPoints;
         [SerializeField] Art.ArtSO _art;
+        static bool flag;
         private void Awake()
         {
-            if (GameFactory.Instance == null)
+            if (!flag)
             {
+                flag = true;
+
 
                 if (_cards == null)
                 {
@@ -59,7 +60,7 @@ namespace Factory
                 if (_keywords == null)
                 {
                     _keywords = Resources.Load<Keywords.KeywordsCollectionSO>("Collection SO/KeywordSOCollection");
-                    if(_keywords == null) 
+                    if (_keywords == null)
                         throw new System.Exception("GameFactoryTerminal : KeywordCollection Was not assigned!");
                 }
 
@@ -70,9 +71,9 @@ namespace Factory
                         throw new System.Exception("ArtSO Was Not Assigned!");
                 }
 
-                GameFactory gameFactory = new GameFactory(_art, _cards, _combos, _characters, _rewards, _eventPoints, _keywords);
-             
+               new GameFactory(_art, _cards, _combos, _characters, _rewards, _eventPoints, _keywords);
             }
+
             Destroy(this.gameObject);
         }
     }
