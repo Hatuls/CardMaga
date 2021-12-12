@@ -1,5 +1,6 @@
 ﻿using Battles.UI;
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,20 +21,27 @@ namespace UI.Meta.Laboratory
         public Action<CardUI> OnDismentalEvent;
         public Action<CardUI> OnUseEvent;
         public Action<CardUI> OnInfoEvent;
+        public Action<CardUI> OnBuyEvent;
         [SerializeField]
         MetaCardUIHandler _metacardUI;
 
         [SerializeField]
         GameObject _container;
         [SerializeField]
-        Button _selectBtn;
+        CardUIInteractionButton _selectBtn;
         [SerializeField]
-        Button _infoBtn;
+        CardUIInteractionButton _infoBtn;
         [SerializeField]
-        Button _dismentalBtn;
+        CardUIInteractionButton _dismentalBtn;
         [SerializeField]
-        Button _removeBtn;
+        CardUIInteractionButton _removeBtn;
+        [SerializeField]
+        CardUIInteractionBuyButtom _buyBtn;
 
+        [SerializeField]
+        TextMeshProUGUI _moneyText;
+        [SerializeField]
+        Image _moneyIcon;
         [SerializeField]
 
         MetaCardUiInteractionEnum _state;
@@ -45,6 +53,7 @@ namespace UI.Meta.Laboratory
             Remove = 1 << 1,
             Use = 1 << 2,
             Dismental = 1 << 3,
+            Buy = 1 << 4,
         }
         public void ResetEnum()
         {
@@ -91,7 +100,10 @@ namespace UI.Meta.Laboratory
                     if (action != null)
                         OnDismentalEvent += action;
                     break;
-
+                case MetaCardUiInteractionEnum.Buy:
+                    if (action != null)
+                        OnBuyEvent += action;
+                    break;
                 case MetaCardUiInteractionEnum.None:
                 default:
                     ResetEnum();
@@ -109,10 +121,10 @@ namespace UI.Meta.Laboratory
             {
 
                 OnOpenInteractionScreen?.Invoke();
-                _infoBtn?.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Info));
-                _selectBtn?.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Use));
-                _removeBtn?.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Remove));
-                _dismentalBtn?.gameObject.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Dismental));
+                _infoBtn?.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Info));
+                _selectBtn?.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Use));
+                _removeBtn?.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Remove));
+                _dismentalBtn?.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Dismental));
                 _container.SetActive(true);
             }
             else
@@ -140,6 +152,12 @@ namespace UI.Meta.Laboratory
         public void OnDismentalSelect()
         {
             OnDismentalEvent?.Invoke(_metacardUI.CardUI);
+            ClosePanel();
+        }
+
+        public void OnBuySelect()
+        {
+            OnBuyEvent?.Invoke(_metacardUI.CardUI);
             ClosePanel();
         }
     }

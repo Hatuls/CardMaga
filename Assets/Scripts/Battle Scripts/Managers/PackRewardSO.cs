@@ -12,9 +12,7 @@ namespace Rewards
 
         [TitleGroup("Packs")]
         [SerializeField]
-        RarityEnum _rarePack;
-        public RarityEnum Rarity => _rarePack;
-
+      public  string PackName;
         public byte CardAmount { get => _cardAmount; }
         public byte[] CardChances { get => _cardChances; }
         public byte[] RecieveChipChances { get => _recieveChipChance; }
@@ -131,9 +129,9 @@ namespace Rewards
             const int ChipAmountIndex = 6;
 
             // rarity
-            if (int.TryParse(csv[PackTypeIndex], out int packType))
-                _rarePack = packType == 0 ? RarityEnum.Common : RarityEnum.Rare;
-            else
+
+            PackName = csv[PackTypeIndex];
+            if (PackName == "-")
                 return false;
 
             // purchase cost
