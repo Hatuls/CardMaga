@@ -1,39 +1,98 @@
-﻿using Battles.UI;
+﻿using Battles;
+using Battles.UI;
+using Sirenix.OdinInspector;
+using DesignPattern;
 using UI;
 using UI.Meta.Laboratory;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class DojoManager : MonoBehaviour
+public class DojoManager : MonoBehaviour, IObserver
 {
+    private static DojoManager _instance;
+    public static DojoManager Instance { get => _instance; }
+
+    [TitleGroup("Dojo")]
+    [TabGroup("Dojo/Component", "Card UI")]
     [SerializeField]
     MetaCardUIHandler[] _metaCardUIs;
-
+    [TabGroup("Dojo/Component", "Combo UI")]
     [SerializeField]
     ComboRecipeUI[] _comboUI;
 
+
+    [TabGroup("Dojo/Component", "Events")]
+    [SerializeField]
+    UnityEvent OnClosingUpgradePanel;
+    [TabGroup("Dojo/Component", "Events")]
+    [SerializeField]
+    UnityEvent OnOpeningUpgradePanel;
+
+    [TabGroup("Dojo/Component", "Panels")]
     [SerializeField]
     GameObject _dojoMainScreen;
 
+    [TabGroup("Dojo/Component", "Panels")]
+    [SerializeField]
+    GameObject _upgradeScrollContainer;
+    [TabGroup("Dojo/Component", "Panels")]
+    [SerializeField]
+    GameObject _dojoUpgardeBtns;
+
+    [TabGroup("Dojo/Component", "Panels")]
+    [SerializeField]
+    GameObject _presentCardPanel;
+    [TabGroup("Dojo/Component", "Panels")]
+    [SerializeField]
+    GameObject _presentComboPanel;
+
+
+
+    [TabGroup("Dojo/Component", "Others")]
+    [SerializeField]
+    ObserverSO _observer; 
+    [TabGroup("Dojo/Component", "Others")]
+    [SerializeField]
+    string _soldtext = "Sold";
+    [TabGroup("Dojo/Component", "Others")]
+    [SerializeField]
+    SoundEventSO SuccessfullPurchaseSound;
+    [TabGroup("Dojo/Component", "Others")]
+    [SerializeField]
+    SoundEventSO UnSuccessfullPurchaseSound;
+    [TabGroup("Dojo/Component", "Others")]
+    [SerializeField]
+    MoneyIcon _moneyIcon;
+
+
     private void Start()
     {
+        _instance = this;
         ClosePanels();
     }
     public void InitDojo()
     {
+        _observer.Notify(this);
         AssignDojosValues();
         //assign cards and combos Inputs
         OpenDojoPanel();
     }
     public void CloseUpgradeScreen()
     {
-
+        OnClosingUpgradePanel?.Invoke();
+        ClosePanels();
+        OpenDojoPanel();
     }
     public void OpenUpgradeScreen()
     {
-
+        ClosePanels();
+        _dojoMainScreen.SetActive(false);
+        OnOpeningUpgradePanel?.Invoke();
+        _dojoUpgardeBtns.SetActive(true);
+        _upgradeScrollContainer.SetActive(true);
     }
- 
 
+    #region Assign Values
     private void AssignCards(Rewards.BattleRewardCollectionSO battleReward)
     {
         int amountOfCards = _metaCardUIs.Length;
@@ -41,6 +100,12 @@ public class DojoManager : MonoBehaviour
 
         for (byte i = 0; i < amountOfCards; i++)
         {
+            var metaCard = _metaCardUIs[i].MetaCardUIInteraction;
+            metaCard.ResetEnum();
+            metaCard.ClosePanel();
+            metaCard.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Buy, BuyCard);
+            metaCard.BuyBtn.SetText(cards[i].CardSO.PurchaseCost.ToString());
+            metaCard.OpenInteractionPanel();
             _metaCardUIs[i].CardUI.DisplayCard(cards[i]);
         }
     }
@@ -59,37 +124,50 @@ public class DojoManager : MonoBehaviour
         AssignCards(battleRewards);
         AssingCombos(battleRewards);
     }
-    public void BuyCard(CardUI cardUI)
+    #endregion
+
+    private void BuyCard(CardUI cardUI)
     {
+
         var card = cardUI.RecieveCardReference();
-        if (Battles.BattleData.Player.CharacterData.CharacterStats.Gold >= card.CardSO.PurchaseCost)
+        if (BattleData.Player.CharacterData.CharacterStats.Gold >= card.CardSO.PurchaseCost)
         {
             //card added
-            Battles.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.PurchaseCost;
-            Battles.BattleData.Player.AddCardToDeck(card);
-
+            BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.PurchaseCost;
+            _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
+            BattleData.Player.AddCardToDeck(card);
+            for (int i = 0; i < _metaCardUIs.Length; i++)
+            {
+                if (_metaCardUIs[i].CardUI.RecieveCardReference().CardInstanceID == card.CardInstanceID)
+                {
+                    var metaCardInteraction = _metaCardUIs[i].MetaCardUIInteraction;
+                    metaCardInteraction.ResetEnum();
+                    metaCardInteraction.BuyBtn.SetText(_soldtext);
+                    break;
+                }
+            }
+            SuccessfullPurchaseSound.PlaySound();
         }
         else
         {
-
-        // not enough gold
+            // not enough gold
+            UnSuccessfullPurchaseSound.PlaySound();
         }
-
     }
-    public void BuyCombo(Combo.Combo combo)
+    private void BuyCombo(Combo.Combo combo)
     {
-        var card = combo.ComboSO.Cost.RecieveCardReference();
         int cost = combo.ComboSO.Cost;
-        if (Battles.BattleData.Player.CharacterData.CharacterStats.Gold >= combo.ComboSO.Cost)
+        if (BattleData.Player.CharacterData.CharacterStats.Gold >= cost)
         {
             //card added
-            Battles.BattleData.Player.CharacterData.CharacterStats.Gold -= combo.ComboSO.Cost;
-            Battles.BattleData.Player.AddComboRecipe(combo);
-
+            BattleData.Player.CharacterData.CharacterStats.Gold -= cost;
+            BattleData.Player.AddComboRecipe(combo);
+            _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
+            SuccessfullPurchaseSound.PlaySound();
         }
         else
         {
-
+            UnSuccessfullPurchaseSound.PlaySound();
             // not enough gold
         }
     }
@@ -98,15 +176,24 @@ public class DojoManager : MonoBehaviour
     {
         CloseUpgradeScreen();
         ClosePanels();
+        _observer.Notify(null);
     }
-    private void OpenDojoPanel()
+    public void OpenDojoPanel()
     {
-        CloseUpgradeScreen();
         _dojoMainScreen.SetActive(true);
     }
     private void ClosePanels()
     {
         _dojoMainScreen.SetActive(false);
-
+        _presentComboPanel.SetActive(false);
+        _presentCardPanel.SetActive(false);
+        _dojoUpgardeBtns.SetActive(false);
     }
+    
+    public void OnNotify(IObserver Myself)
+    {
+      
+    }
+
+
 }

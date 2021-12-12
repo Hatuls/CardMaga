@@ -45,6 +45,9 @@ namespace UI.Meta.Laboratory
         [SerializeField]
 
         MetaCardUiInteractionEnum _state;
+
+        public CardUIInteractionBuyButtom BuyBtn { get => _buyBtn; }
+
         [Flags]
         public enum MetaCardUiInteractionEnum
         {
@@ -59,7 +62,6 @@ namespace UI.Meta.Laboratory
         {
             _state = MetaCardUiInteractionEnum.None;
             ResetInteraction();
-            ClosePanel();
         }
         public void ResetInteraction()
         {
@@ -107,6 +109,7 @@ namespace UI.Meta.Laboratory
                 case MetaCardUiInteractionEnum.None:
                 default:
                     ResetEnum();
+                    ClosePanel();
                     return;
             }
 
@@ -119,12 +122,17 @@ namespace UI.Meta.Laboratory
         {
             if (_state != MetaCardUiInteractionEnum.None && !_container.activeSelf)
             {
-
                 OnOpenInteractionScreen?.Invoke();
-                _infoBtn?.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Info));
-                _selectBtn?.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Use));
-                _removeBtn?.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Remove));
-                _dismentalBtn?.SetActive(_state.HasFlag(MetaCardUiInteractionEnum.Dismental));
+                bool toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Info);
+                _infoBtn?.SetActive(toOpen) ;
+                 toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Use);
+                _selectBtn?.SetActive(toOpen);
+                toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Remove);
+                _removeBtn?.SetActive(toOpen);
+                toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Dismental);
+                _dismentalBtn?.SetActive(toOpen);
+                toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Buy);
+                _buyBtn?.SetActive(toOpen);
                 _container.SetActive(true);
             }
             else
@@ -158,7 +166,7 @@ namespace UI.Meta.Laboratory
         public void OnBuySelect()
         {
             OnBuyEvent?.Invoke(_metacardUI.CardUI);
-            ClosePanel();
+     //       ClosePanel();
         }
     }
 }

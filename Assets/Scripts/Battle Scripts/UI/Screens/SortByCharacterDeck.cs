@@ -9,8 +9,7 @@ namespace Map.UI
     {
         [SerializeField]
         int deckIndex;
-        [SerializeField]
-        SortEvent _event;
+
         public override IEnumerable<Card> Sort()
         {
             var account = Account.AccountManager.Instance.AccountCharacters;
@@ -20,7 +19,7 @@ namespace Map.UI
 
         public override void SortRequest()
         {
-            _event?.Invoke(this);
+            _cardEvent?.Invoke(this);
         }
     }
 }

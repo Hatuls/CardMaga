@@ -159,6 +159,7 @@ namespace UI.Meta.Laboratory
             {
                 var metaCardUI = deck[i].MetaCardUIInteraction;
                 metaCardUI.ResetEnum();
+                metaCardUI.ClosePanel();
                 metaCardUI.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
             }
             deck = _allCardsScreen.Collection;
@@ -167,6 +168,7 @@ namespace UI.Meta.Laboratory
             {
                 var metaCardUI = deck[i].MetaCardUIInteraction;
                 metaCardUI.ResetEnum();
+                metaCardUI.ClosePanel();
                 metaCardUI.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
                 metaCardUI.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Use, CardSelected);
             }

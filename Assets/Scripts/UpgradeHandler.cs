@@ -9,21 +9,37 @@
 
             return Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(card.CardSO, (byte)(card.CardLevel + 1));
         }
-        public static bool TryUpgradeCard(CardUpgradeCostSO cardUpgradeCostSO,Cards.Card card)
+        public static bool TryUpgradeCard(CardUpgradeCostSO cardUpgradeCostSO, Cards.Card card, Rewards.ResourceEnum resourceEnum)
         {
-            var account = Account.AccountManager.Instance;
-            var chips = account.AccountGeneralData.AccountResourcesData.Chips;
-            var Cost = cardUpgradeCostSO.NextCardValue(card);
-            if (chips.Value >= Cost )
+            if (resourceEnum == Rewards.ResourceEnum.Chips)
             {
-                account.AccountCards.UpgradeCard(card.CardInstanceID);
-                chips.ReduceValue(Cost);
-                return true;
+
+                Account.AccountManager account = Account.AccountManager.Instance;
+                Account.GeneralData.UshortStat chips = account.AccountGeneralData.AccountResourcesData.Chips;
+                ushort Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
+                if (chips.Value >= Cost)
+                {
+                    account.AccountCards.UpgradeCard(card.CardInstanceID);
+                    chips.ReduceValue(Cost);
+                    return true;
+                }
             }
-            else
-                return false;
+            else if (resourceEnum == Rewards.ResourceEnum.Gold)
+            {
+                Characters.Character account = Battles.BattleData.Player;
+                int gold = account.CharacterData.CharacterStats.Gold;
+                ushort Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
+                if (gold >= Cost)
+                {
+                    account.RemoveCardFromDeck(card.CardInstanceID);
+                    account.AddCardToDeck(card.CardSO, (byte)(card.CardLevel + 1));
+                    account.CharacterData.CharacterStats.Gold -= Cost;
+                    return true;
+                }
+            }
+            return false;
         }
-   
+
     }
 
 }

@@ -101,7 +101,7 @@ namespace Rewards
         public Card[] GenerateCardsRewards(ActsEnum actsEnum, byte CardAmount = 3)
         {
             var actCardChance = _cardChances.First(x => x.ActEnum == actsEnum);
-     
+
             Card[] rewardCards = new Card[CardAmount];
 
             byte random;
@@ -176,102 +176,96 @@ namespace Rewards
             return rewardCards;
         }
 
-        public Combo.Combo[] GenerateComboReward(ActsEnum actsEnum , byte amount = 1 )
+        public Combo.Combo[] GenerateComboReward(ActsEnum actsEnum, byte amount = 1)
         {
             Combo.Combo[] combo = new Combo.Combo[amount];
             int tryTimes = 6;
             var recipesChances = _recipesChances.First(x => x.ActEnum == actsEnum);
-            int addition = 0;
-            int random;
-            int OneHundred = 100;
-            var playerCombo = BattleData.Player.CharacterData.ComboRecipe.ToList();
+             var playerCombo = BattleData.Player.CharacterData.ComboRecipe.ToList();
             var comboIDs = playerCombo.Select(x => new { ID = x.ComboSO.ID });
             var comboFactoryHandler = Factory.GameFactory.Instance.ComboFactoryHandler;
             var comboCollection = comboFactoryHandler.ComboCollection;
             var comboChances = recipesChances.DropChances;
             int index = -1;
-            ushort id=0;
-            do
+            ushort id = 0;
+            for (int z = 0; z < amount; z++)
             {
-                if (tryTimes <= 0)
-                {
-                    combo = null;
-                    break;
-                }
-                tryTimes--;
+
 
                 do
                 {
-
-
-                    addition = 0;
-                    random = Random.Range(0, OneHundred);
-
-
-                    for (int j = 0; j < comboChances.Length; j++)
+                    if (tryTimes <= 0)
                     {
-                        if (j > 0)
-                            addition += comboChances[j - 1].DropChance;
+                        combo[z] = null;
+                        break;
+                    }
+                    tryTimes--;
 
-                        if (random <= (addition + comboChances[j].DropChance))
+                    do
+                    {
+                        byte[] chances = new byte[comboChances.Length];
+
+                        for (int i = 0; i < chances.Length; i++)
+                            chances[i] = comboChances[i].DropChance;
+                        
+                        index = ChanceHelper.GetRandomIndexByChances(chances);
+
+                        if (index == -1)
+                            throw new System.Exception("Index Was Not Found - Random Chance was not in any of the rarity chances");
+
+
+                    } while (comboCollection.GetComboByRarity((RarityEnum)(index + 1)).ComboID.Length == 0);
+
+                    var rarityComboCollection = comboCollection.GetComboByRarity((RarityEnum)(index + 1));
+
+
+                    ushort[] playerID = new ushort[comboIDs.Count()];
+                    for (int i = 0; i < playerID.Length; i++)
+                        playerID[i] = comboIDs.ElementAt(i).ID;
+
+                    playerID.ToList();
+                    var comboID = rarityComboCollection.ComboID.Union(playerID).Distinct();
+                    comboID = comboID.Where((x) => !playerID.Contains(x));
+
+                    if (comboID.Count() == 0)
+                        continue;
+                    id = comboID.ElementAt(Random.Range(0, comboID.Count()));
+
+
+                    bool duplicateCombosCheck = false;
+                    for (int i = 0; i < combo.Length; i++)
+                    {
+                        if (combo[i] == null)
+                            break;
+                        else if (combo[i].ComboSO.ID == id)
                         {
-                            index = j;
+                            duplicateCombosCheck = true;
                             break;
                         }
                     }
+                    if (duplicateCombosCheck)
+                        continue;
 
-                    if (index == -1)
-                        throw new System.Exception("Index Was Not Found - Random Chance was not in any of the rarity chances");
+                } while (playerCombo.Contains(combo[z]) || (combo[z] == null && tryTimes > 0));
 
-                   
-                } while (comboCollection.GetComboByRarity((RarityEnum)(index + 1)).ComboID.Length == 0);
-                var rarityComboCollection = comboCollection.GetComboByRarity((RarityEnum)(index + 1));
+                var DropChance = recipesChances.DropChances[index];
+                var levelChances = DropChance.LevelChances;
 
+                index = ChanceHelper.GetRandomIndexByChances(levelChances);
 
-                ushort[] playerID = new ushort[comboIDs.Count()];
-                for (int i = 0; i < playerID.Length; i++)
-                    playerID[i] = comboIDs.ElementAt(i).ID;
-
-                playerID.ToList();
-                var comboID = rarityComboCollection.ComboID.Union(playerID).Distinct();
-                comboID = comboID.Where((x) => !playerID.Contains(x));
-
-                if (comboID.Count() == 0)
-                    continue;
-                 id = comboID.ElementAt(Random.Range(0, comboID.Count()));
+                if (id > 0)
+                    combo[z] = comboFactoryHandler.CreateCombo(comboFactoryHandler.ComboCollection.GetCombo(id), (byte)index);
 
 
-
-            } while (playerCombo.Contains(combo[0]) || (combo[0] == null && tryTimes>0));
-
-
-
-            var DropChance = recipesChances.DropChances[index];
-            var levelChances = DropChance.LevelChances;
-
-            random = (byte)Random.Range(0, OneHundred);
-
-            for (int j = 0; j < levelChances.Length; j++)
-            {
-                if (j > 0)
-                    addition += levelChances[j - 1];
-
-                if (random < (addition + levelChances[j]))
+                if (combo[z] == null)
                 {
-                    index = j;
-                    break;
+                    Debug.Log("Tried Few Times But There Was No Combo!");
+                }
+                else
+                {
+                    tryTimes = 6;
                 }
             }
-            if (id>0)
-            combo[0] = comboFactoryHandler.CreateCombo(comboFactoryHandler.ComboCollection.GetCombo(id), (byte)index);
-
-
-            if (combo[0] == null)
-            {
-                Debug.Log("Tried Few Times But There Was No Combo!");
-
-            }
-
             return combo;
         }
 
@@ -299,7 +293,7 @@ namespace Rewards
                     _dropChance = chance;
                     _levelChances = levelChances;
                 }
-              
+
             }
             [SerializeField]
             RarityDropChance[] _dropChances;
@@ -328,7 +322,7 @@ namespace Rewards
         }
 
 
-
+#if UNITY_EDITOR
         public bool Init(string[] row)
         {
             const int ID = 0;
@@ -456,7 +450,7 @@ namespace Rewards
             }
         }
 
-
+#endif
     }
 
 
