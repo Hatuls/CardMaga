@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public class UpperCutAnimation :  CharacterBaseStateMachine
+public class AnimationNotifier :  CharacterBaseStateMachine
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
