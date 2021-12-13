@@ -45,6 +45,8 @@ QualitySettings:
     excludedTargetPlatforms:
     - Standalone
     - Windows Store Apps
+    - Android
+    - iPhone
   - serializedVersion: 2
     name: Medium
     pixelLightCount: 1
@@ -84,6 +86,7 @@ QualitySettings:
     excludedTargetPlatforms:
     - Standalone
     - Windows Store Apps
+    - iPhone
   - serializedVersion: 2
     name: High
     pixelLightCount: 2
@@ -123,4 +126,10 @@ QualitySettings:
     excludedTargetPlatforms:
     - Windows Store Apps
     - Standalone
-  m_PerPlatformDefaultQuality: {}
+    - iPhone
+    - Android
+  m_PerPlatformDefaultQuality:
+    Android: 0
+    Standalone: 0
+    Windows Store Apps: 0
+    iPhone: 0
