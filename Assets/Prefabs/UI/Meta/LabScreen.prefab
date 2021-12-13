@@ -1652,9 +1652,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _metaCardUI: {fileID: 0}
   _container: {fileID: 3448679434673942907}
   _metaCardSize: 1
+  toUseAccountInfo: 0
 --- !u!114 &6597994631734246888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2048,20 +2048,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8565d2af3bf997d46b36c1af26775a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3419921840273876077}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3448679434833419645
 GameObject:
   m_ObjectHideFlags: 0
@@ -2636,20 +2628,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba05a5462ae12c840b7f685485f9d378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3419921840273876077}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3448679435421718029
 GameObject:
   m_ObjectHideFlags: 0
@@ -3163,8 +3147,6 @@ GameObject:
   - component: {fileID: 3448679436063661576}
   - component: {fileID: 3448679436063661577}
   - component: {fileID: 6161567791164746304}
-  - component: {fileID: 2192508654257293036}
-  - component: {fileID: 5816205098431879865}
   m_Layer: 5
   m_Name: DeckCollectionButton
   m_TagString: Untagged
@@ -3298,7 +3280,7 @@ MonoBehaviour:
   _onBtnPressed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2192508654257293036}
+      - m_Target: {fileID: 0}
         m_MethodName: SortRequest
         m_Mode: 1
         m_Arguments:
@@ -3309,63 +3291,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5816205098431879865}
+      - m_Target: {fileID: 0}
         m_MethodName: SortRequest
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &2192508654257293036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3448679436063661579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e250b52459439ef46a20e7e376facb35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deckIndex: 0
-  _event:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3070149121312675887}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &5816205098431879865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3448679436063661579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ddb5fa246fa6cc438fa7d06c17a4463, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deckIndex: 0
-  _event:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3419921840273876077}
-        m_MethodName: SortBy
-        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3518,20 +3446,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8565d2af3bf997d46b36c1af26775a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3419921840273876077}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2798879412907933667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4703,9 +4623,9 @@ MonoBehaviour:
   OnBeforeSorting:
     m_PersistentCalls:
       m_Calls: []
-  _metaCardUI: {fileID: 1351686173426574145}
   _container: {fileID: 6098059909250529879}
   _metaCardSize: 1
+  toUseAccountInfo: 0
 --- !u!1 &6240549053663785001
 GameObject:
   m_ObjectHideFlags: 0
@@ -5980,21 +5900,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddb5fa246fa6cc438fa7d06c17a4463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckIndex: 3
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3419921840273876077}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deckIndex: 3
 --- !u!114 &2638054021368238283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6044,32 +5956,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e250b52459439ef46a20e7e376facb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckIndex: 3
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3070149121312675887}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3090700805068411522}
-        m_MethodName: SetDeckIndex
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deckIndex: 3
 --- !u!114 &7249013108307846127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6082,21 +5975,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddb5fa246fa6cc438fa7d06c17a4463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckIndex: 0
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3419921840273876077}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deckIndex: 0
 --- !u!114 &8922149433327338332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6157,21 +6042,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e250b52459439ef46a20e7e376facb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckIndex: 0
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3070149121312675887}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deckIndex: 0
 --- !u!114 &6002846658363931942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6184,21 +6061,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e250b52459439ef46a20e7e376facb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckIndex: 1
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3070149121312675887}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deckIndex: 1
 --- !u!114 &7738790608497940703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6211,21 +6080,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddb5fa246fa6cc438fa7d06c17a4463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckIndex: 1
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3419921840273876077}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deckIndex: 1
 --- !u!114 &9144333577805999379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6286,21 +6147,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddb5fa246fa6cc438fa7d06c17a4463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckIndex: 2
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3419921840273876077}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deckIndex: 2
 --- !u!114 &1466106716271504060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6350,32 +6203,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e250b52459439ef46a20e7e376facb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckIndex: 2
-  _event:
+  _cardEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3070149121312675887}
-        m_MethodName: SortBy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3090700805068411522}
-        m_MethodName: SetDeckIndex
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deckIndex: 2
 --- !u!114 &3090700805068411522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7874,6 +7708,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4165b8f0d6fdf149ab816e373061ce5, type: 3}
+--- !u!224 &1657560392633408911 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2192143779119117233, guid: d4165b8f0d6fdf149ab816e373061ce5,
+    type: 3}
+  m_PrefabInstance: {fileID: 679156521557421630}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7535185245358344061 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7061224531713108291, guid: d4165b8f0d6fdf149ab816e373061ce5,
@@ -7886,12 +7726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2283517fa0342409c368576329d9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1657560392633408911 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2192143779119117233, guid: d4165b8f0d6fdf149ab816e373061ce5,
-    type: 3}
-  m_PrefabInstance: {fileID: 679156521557421630}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2496613858453355389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8596,12 +8430,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3ce9e8e2e5dfc74287e542a4680e68c, type: 3}
---- !u!224 &3790011367020349635 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2213801214290407149, guid: d3ce9e8e2e5dfc74287e542a4680e68c,
-    type: 3}
-  m_PrefabInstance: {fileID: 3035939877082064430}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7460069727370497842 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5595351864141621532, guid: d3ce9e8e2e5dfc74287e542a4680e68c,
@@ -8614,6 +8442,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae0e234010e98e4abd0a162839bfbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &3790011367020349635 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2213801214290407149, guid: d3ce9e8e2e5dfc74287e542a4680e68c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3035939877082064430}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3382423068943778348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17701,15 +17535,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3448679435629649720}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &6098059909745637378 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8898130454668257082, guid: 1eeee2f9a3adee246b6babf9f1d3b387,
-    type: 3}
-  m_PrefabInstance: {fileID: 3448679435629649720}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6098059909745637379 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8898130454668257083, guid: 1eeee2f9a3adee246b6babf9f1d3b387,
+    type: 3}
+  m_PrefabInstance: {fileID: 3448679435629649720}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &6098059909745637378 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8898130454668257082, guid: 1eeee2f9a3adee246b6babf9f1d3b387,
     type: 3}
   m_PrefabInstance: {fileID: 3448679435629649720}
   m_PrefabAsset: {fileID: 0}
@@ -19377,12 +19211,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84f0790d0c11504f89b4d84e8ef57af, type: 3}
---- !u!1 &9127610878597519960 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3448679434936301810, guid: e84f0790d0c11504f89b4d84e8ef57af,
-    type: 3}
-  m_PrefabInstance: {fileID: 5870409229681648298}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9127610877680221034 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3448679436038674880, guid: e84f0790d0c11504f89b4d84e8ef57af,
@@ -19392,6 +19220,12 @@ GameObject:
 --- !u!1 &9127610878444400612 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3448679435294870862, guid: e84f0790d0c11504f89b4d84e8ef57af,
+    type: 3}
+  m_PrefabInstance: {fileID: 5870409229681648298}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &9127610877309315172 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3448679436207655630, guid: e84f0790d0c11504f89b4d84e8ef57af,
     type: 3}
   m_PrefabInstance: {fileID: 5870409229681648298}
   m_PrefabAsset: {fileID: 0}
@@ -19413,18 +19247,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5870409229681648298}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9127610877309315173 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3448679436207655631, guid: e84f0790d0c11504f89b4d84e8ef57af,
-    type: 3}
-  m_PrefabInstance: {fileID: 5870409229681648298}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &9127610877309315172 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3448679436207655630, guid: e84f0790d0c11504f89b4d84e8ef57af,
-    type: 3}
-  m_PrefabInstance: {fileID: 5870409229681648298}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9127610877818426394 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3448679435631507120, guid: e84f0790d0c11504f89b4d84e8ef57af,
@@ -19434,6 +19256,18 @@ GameObject:
 --- !u!224 &9127610877818426373 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3448679435631507119, guid: e84f0790d0c11504f89b4d84e8ef57af,
+    type: 3}
+  m_PrefabInstance: {fileID: 5870409229681648298}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9127610877309315173 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3448679436207655631, guid: e84f0790d0c11504f89b4d84e8ef57af,
+    type: 3}
+  m_PrefabInstance: {fileID: 5870409229681648298}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9127610878597519960 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3448679434936301810, guid: e84f0790d0c11504f89b4d84e8ef57af,
     type: 3}
   m_PrefabInstance: {fileID: 5870409229681648298}
   m_PrefabAsset: {fileID: 0}
@@ -22302,6 +22136,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4165b8f0d6fdf149ab816e373061ce5, type: 3}
+--- !u!224 &7174481948760367159 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2192143779119117233, guid: d4165b8f0d6fdf149ab816e373061ce5,
+    type: 3}
+  m_PrefabInstance: {fileID: 9078393135447036806}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2018294577863260869 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7061224531713108291, guid: d4165b8f0d6fdf149ab816e373061ce5,
@@ -22314,9 +22154,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2283517fa0342409c368576329d9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &7174481948760367159 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2192143779119117233, guid: d4165b8f0d6fdf149ab816e373061ce5,
-    type: 3}
-  m_PrefabInstance: {fileID: 9078393135447036806}
-  m_PrefabAsset: {fileID: 0}
