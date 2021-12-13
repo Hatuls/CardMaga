@@ -205,6 +205,7 @@ public class DojoManager : MonoBehaviour, IObserver
         CloseUpgradeScreen();
         ClosePanels();
         _observer.Notify(null);
+        Map.MapView.Instance.SetAttainableNodes();
     }
     public void OpenDojoPanel()
     {
