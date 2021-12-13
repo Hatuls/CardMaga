@@ -80,7 +80,7 @@ public class MapUpgradesCollection : MonoBehaviour
         CloseComboUpgrades();
         _titleText.text = _upgradeCardsTitleText;
         _metaCardFilter.gameObject.SetActive(true);
-        _upgradeCardScreen.ResetScreen();
+        _upgradeCardScreen.OnOpenUpgradeScreen();
 
         _upgradeCardsPanel.SetActive(true);
     }
@@ -89,7 +89,7 @@ public class MapUpgradesCollection : MonoBehaviour
     {
         CloseCardsUpgrades();
         _titleText.text = _upgradeCombosTitleText;
-        _upgradeComboScreen.ResetScreen(); 
+        _upgradeComboScreen.OnOpenUpgradeScreen(); 
         _metaComboFilter.gameObject.SetActive(true);
         _upgradeComboPanel.SetActive(true);
     }

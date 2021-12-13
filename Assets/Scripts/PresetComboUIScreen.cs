@@ -28,9 +28,9 @@ namespace UI
         [SerializeField]
         UnityEvent OnCloseEvent;
 
-        public void OpenCardUIInfo(ComboRecipeUI combo)
+        public void OpenComboUIscreen(ComboRecipeUI combo)
         {
-            _comboScreen.InitRecipe(combo.ComboRecipe);
+            _comboScreen.InitRecipe(combo.Combo);
             Cards.Card card = combo.CardUI.GFX.GetCardReference;
    
             for (int i = 0; i < _keywordsInfo.Count; i++)

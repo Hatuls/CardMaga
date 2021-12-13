@@ -19,7 +19,7 @@ public class MetaComboUIFilterScreen : UIFilterScreen<ComboRecipeUI, Combo.Combo
 
         while (deckCount > _collection.Count)
         {
-            var card = Instantiate(_cardUIPrefab, _container).GetComponent<ComboRecipeUI>();
+            var card = Instantiate(_cardUIPrefab, _container).GetComponentInChildren<ComboRecipeUI>();
             _collection.Add(card);
         }
     }

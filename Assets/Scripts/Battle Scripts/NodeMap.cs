@@ -55,7 +55,7 @@ namespace Map
 
         private void OnMouseUp()
         {
-           if(toRecieveInputs)
+      //     if(toRecieveInputs)
             MapPlayerTracker.Instance.SelectNode(this);
         }
         public void PointSelected()

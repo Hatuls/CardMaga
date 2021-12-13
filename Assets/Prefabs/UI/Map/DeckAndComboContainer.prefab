@@ -651,7 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc361bfc40c5904ea3b455283b6cc88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5368586503020326320}
@@ -665,6 +665,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
   cardTypeEnum: 2
 --- !u!114 &4203007778644551318
 MonoBehaviour:
@@ -836,7 +839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc361bfc40c5904ea3b455283b6cc88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5368586503020326320}
@@ -850,6 +853,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
   cardTypeEnum: 1
 --- !u!114 &2427050480591485367
 MonoBehaviour:
@@ -1021,7 +1027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc361bfc40c5904ea3b455283b6cc88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5368586503020326320}
@@ -1035,6 +1041,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
   cardTypeEnum: 3
 --- !u!114 &3988040443510853626
 MonoBehaviour:
@@ -1243,7 +1252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba05a5462ae12c840b7f685485f9d378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5368586503020326320}
@@ -1257,6 +1266,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5080039252838722789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,7 +1956,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4152077463225238563}
-        m_MethodName: SortRequested
+        m_MethodName: SortRequest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1977,7 +1989,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e92263f9dbc7bb4393f0a426aca85ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5368586503020326320}
+        m_MethodName: SortBy
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _comboEvent:
     m_PersistentCalls:
       m_Calls: []
   _deck: 5
@@ -2588,7 +2614,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8268520856874118971}
-        m_MethodName: SortRequested
+        m_MethodName: SortRequest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2621,7 +2647,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e92263f9dbc7bb4393f0a426aca85ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5368586503020326320}
+        m_MethodName: SortBy
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _comboEvent:
     m_PersistentCalls:
       m_Calls: []
   _deck: 2
@@ -3251,7 +3291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba05a5462ae12c840b7f685485f9d378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5368586503020326320}
@@ -3265,6 +3305,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _comboEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5080039254547669080
 GameObject:
   m_ObjectHideFlags: 0
@@ -3527,7 +3570,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1821735605148130122}
-        m_MethodName: SortRequested
+        m_MethodName: SortRequest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3560,7 +3603,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e92263f9dbc7bb4393f0a426aca85ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event:
+  _cardEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5368586503020326320}
+        m_MethodName: SortBy
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _comboEvent:
     m_PersistentCalls:
       m_Calls: []
   _deck: 3

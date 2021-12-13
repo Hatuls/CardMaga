@@ -6,6 +6,7 @@ using UI;
 using UI.Meta.Laboratory;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class DojoManager : MonoBehaviour, IObserver
 {
@@ -66,6 +67,13 @@ public class DojoManager : MonoBehaviour, IObserver
     MoneyIcon _moneyIcon;
 
 
+    [SerializeField]
+    TextMeshProUGUI[] _comboTexts;
+ 
+
+    [SerializeField]
+    GameObject[] _comboPurchaseBtns;
+ 
     private void Start()
     {
         _instance = this;
@@ -117,13 +125,29 @@ public class DojoManager : MonoBehaviour, IObserver
     {
         int amountOfCombos = _comboUI.Length;
         var combos = battleReward.GetRewardCombos(Rewards.ActsEnum.ActOne, (byte)amountOfCombos);
+        var comboFactory = Factory.GameFactory.Instance.ComboFactoryHandler;
         for (byte i = 0; i < amountOfCombos; i++)
         {
-            _comboUI[i].InitRecipe(combos[i]);
+            if (combos[i] != null)
+            {
+                _comboTexts[i].text = combos[i].ComboSO.Cost.ToString();
+                _comboUI[i].gameObject.SetActive(true);
+            _comboUI[i].InitRecipe(comboFactory.CreateCombo(combos[i].ComboSO, 0));
+            }
+            else
+            {
+                _comboUI[i].gameObject.SetActive(false);
+               
+            }
+            _comboPurchaseBtns[i].gameObject.SetActive(combos[i] != null);
         }
     }
     private void AssignDojosValues()
     {
+        isPurchaseable = new bool[2]
+        {
+            true,true
+        };
         var battleRewards = Factory.GameFactory.Instance.RewardFactoryHandler.BattleRewardCollection;
         AssignCards(battleRewards);
         AssingCombos(battleRewards);
@@ -197,6 +221,45 @@ public class DojoManager : MonoBehaviour, IObserver
     {
       
     }
+    bool[] isPurchaseable;
+    public void TryBuyCombo(int index)
+    {
+        if (index == 0 )
+        {
+            if (BattleData.Player.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost && isPurchaseable[index])
+            {
+                isPurchaseable[index] = false;
+                //card added
+                BattleData.Player.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
+                _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
+                BattleData.Player.AddComboRecipe(_comboUI[index].Combo);
+                _comboTexts[index].text = "Sold";
+                SuccessfullPurchaseSound.PlaySound();
+            }
+            else
+            {
+                // not enough gold
+                UnSuccessfullPurchaseSound.PlaySound();
+            }
 
-
+        }
+        else if (index == 1)
+        {
+            if (BattleData.Player.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost && isPurchaseable[index])
+            {
+                isPurchaseable[index] = false;
+                //card added
+                BattleData.Player.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
+                _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
+                BattleData.Player.AddComboRecipe(_comboUI[index].Combo);
+                _comboTexts[index].text = "Sold";
+                SuccessfullPurchaseSound.PlaySound();
+            }
+            else
+            {
+                // not enough gold
+                UnSuccessfullPurchaseSound.PlaySound();
+            }
+        }
+    }
 }

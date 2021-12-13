@@ -74,7 +74,13 @@ namespace UI.Meta.Laboratory
         private void DefaultSet()
         {
             var deck = _collectionFilterHandler.Collection;
-            
+            for (int i = 0; i < deck.Count; i++)
+            {
+                deck[i].ResetClick();
+                deck[i].RegisterClick(SelectCombo);
+            }
+            _selectedComboUI.ResetClick();
+            _selectedComboUI.RegisterClick(RemoveCombo);
         }
 
         public void ResetScreen()
@@ -90,15 +96,16 @@ namespace UI.Meta.Laboratory
             if (combo == null)
                 throw new System.Exception($"UpgradeUIScreen : Card Is Null!");
 
-            _selectedComboUI.CardUI.GFX.SetCardReference(combo.CardUI.RecieveCardReference());
+            _selectedComboUI.InitRecipe(combo.Combo);
             ActivateGameObject(_selectedComboUI.gameObject, true);
 
-            var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(_selectedComboUI.CardUI.RecieveCardReference());
+            var upgradedVersion = UpgradeHandler.GetUpgradedComboVersion(combo.Combo);
 
             if (upgradedVersion != null)
             {
                 SetCostText();
-                _upgradedComboUI.CardUI.DisplayCard(upgradedVersion);
+
+                _upgradedComboUI.InitRecipe(upgradedVersion);
             }
             else
             {
@@ -109,7 +116,7 @@ namespace UI.Meta.Laboratory
 
             ActivateGameObject(_upgradedComboUI.gameObject, upgradedVersion != null);
         }
-        public void RemoveCardUI(CardUI card) { ResetScreen(); }
+        public void RemoveCombo(ComboRecipeUI card) { ResetScreen(); }
         private void SetCostText()
         {
             _instructionText.text = costText;
