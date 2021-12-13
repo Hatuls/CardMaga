@@ -1,6 +1,7 @@
 ﻿using Battles.UI;
 using Combo;
 using Sirenix.OdinInspector;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -60,7 +61,8 @@ namespace UI
             activePlaceHolders = 0;
 
         }
-        public void ResetClick() { }
+        public void ResetClick() { _event.RemoveAllListeners(); }
+        public void RegisterClick(UnityAction<ComboRecipeUI> combo) => _event.AddListener(combo);
         public void OnClick()
             => _event?.Invoke(this);
         public void InitRecipe(Combo.Combo combo)
