@@ -9,6 +9,20 @@
 
             return Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(card.CardSO, (byte)(card.CardLevel + 1));
         }
+        public static bool TryUpgradeCombo(CardUpgradeCostSO upgrade, Combo.Combo combo , Rewards.ResourceEnum resourceenum)
+        {
+            Characters.Character battleData = Battles.BattleData.Player;
+            int gold = battleData.CharacterData.CharacterStats.Gold;
+          
+            ushort Cost = upgrade.NextCardValue(combo.ComboSO.CraftedCard,combo.Level);
+            if (gold >= Cost)
+            {
+                combo.LevelUp();
+                battleData.CharacterData.CharacterStats.Gold -= Cost;
+                return true;
+            }
+            return false;
+        }
         public static bool TryUpgradeCard(CardUpgradeCostSO cardUpgradeCostSO, Cards.Card card, Rewards.ResourceEnum resourceEnum)
         {
             if (resourceEnum == Rewards.ResourceEnum.Chips)

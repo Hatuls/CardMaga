@@ -35,9 +35,7 @@ public class DojoManager : MonoBehaviour, IObserver
     [TabGroup("Dojo/Component", "Panels")]
     [SerializeField]
     GameObject _upgradeScrollContainer;
-    [TabGroup("Dojo/Component", "Panels")]
-    [SerializeField]
-    GameObject _dojoUpgardeBtns;
+ 
 
     [TabGroup("Dojo/Component", "Panels")]
     [SerializeField]
@@ -62,6 +60,9 @@ public class DojoManager : MonoBehaviour, IObserver
     SoundEventSO UnSuccessfullPurchaseSound;
     [TabGroup("Dojo/Component", "Others")]
     [SerializeField]
+    MapUpgradesCollection _upgradeHandler;  
+    [SerializeField]
+    [TabGroup("Dojo/Component", "Others")]
     MoneyIcon _moneyIcon;
 
 
@@ -80,6 +81,8 @@ public class DojoManager : MonoBehaviour, IObserver
     public void CloseUpgradeScreen()
     {
         OnClosingUpgradePanel?.Invoke();
+        gameObject.SetActive(true);
+        _upgradeHandler.Close();
         ClosePanels();
         OpenDojoPanel();
     }
@@ -88,8 +91,9 @@ public class DojoManager : MonoBehaviour, IObserver
         ClosePanels();
         _dojoMainScreen.SetActive(false);
         OnOpeningUpgradePanel?.Invoke();
-        _dojoUpgardeBtns.SetActive(true);
+        _upgradeHandler.Open();
         _upgradeScrollContainer.SetActive(true);
+      
     }
 
     #region Assign Values
@@ -187,7 +191,6 @@ public class DojoManager : MonoBehaviour, IObserver
         _dojoMainScreen.SetActive(false);
         _presentComboPanel.SetActive(false);
         _presentCardPanel.SetActive(false);
-        _dojoUpgardeBtns.SetActive(false);
     }
     
     public void OnNotify(IObserver Myself)

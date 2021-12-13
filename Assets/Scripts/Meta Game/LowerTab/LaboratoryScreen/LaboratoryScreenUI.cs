@@ -55,7 +55,7 @@ namespace UI.Meta.Laboratory
         GameObject[] _gameObjectsToActivateOnLabratortyScreen;
 
         [SerializeField]
-        UpgradeScreenUI _upgradeScreenUI;
+        UpgradeCardScreenUI _upgradeScreenUI;
 
         [SerializeField]
         CardUIInteractionHandle _cardUIInteractionHandler;

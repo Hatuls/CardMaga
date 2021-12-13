@@ -1,4 +1,5 @@
-﻿using Rewards;
+﻿using Cards;
+using Rewards;
 using UnityEngine;
 
 public class CardUpgradeCostSO : ScriptableObject
@@ -13,18 +14,23 @@ public class CardUpgradeCostSO : ScriptableObject
             return _upgradecostInMainMenu[card.CardLevel];
         else
         {
-            for (int i = 0; i < _rarityCards.Length; i++)
-            {
-                if (_rarityCards[i].Rarity == card.CardSO.Rarity)
-                {
-                    return _rarityCards[i].CardsID[card.CardLevel];
-                }
-            }
+            return NextCardValue(card.CardSO, card.CardLevel);
         }
         throw new System.Exception($"CardUpgradeCostSO : Rarity was not valid!");
     }
 
+    public ushort NextCardValue(CardSO card, byte level)
+    {
 
+        for (int i = 0; i < _rarityCards.Length; i++)
+        {
+            if (_rarityCards[i].Rarity == card.Rarity)
+            {
+                return _rarityCards[i].CardsID[level];
+            }
+        }
+        throw new System.Exception($"CardUpgradeCostSO: Next Card Value Was not found!");
+    }
 
 
 #if UNITY_EDITOR

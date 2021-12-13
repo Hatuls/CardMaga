@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3808349609019635760}
+      - m_Target: {fileID: 0}
         m_MethodName: OnBuySelect
         m_Mode: 1
         m_Arguments:
@@ -159,8 +159,6 @@ GameObject:
   - component: {fileID: 2192143779119117230}
   - component: {fileID: 2192143779119117231}
   - component: {fileID: 2192143779119117232}
-  - component: {fileID: 7061224531713108291}
-  - component: {fileID: 3808349609019635760}
   m_Layer: 5
   m_Name: ButtonMetaCombo
   m_TagString: Untagged
@@ -269,7 +267,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7061224531713108291}
+      - m_Target: {fileID: 3486928549351979810}
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -280,56 +278,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7061224531713108291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2192143779119117234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2283517fa0342409c368576329d9cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cardUI: {fileID: 0}
-  OnCardClicked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3808349609019635760}
-        m_MethodName: OpenInteractionPanel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _metaCardUIInteraction: {fileID: 3808349609019635760}
---- !u!114 &3808349609019635760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2192143779119117234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 706522b8800639548b19e6c1a9302c1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _metacardUI: {fileID: 7061224531713108291}
-  _container: {fileID: 2192143779230614087}
-  _selectBtn: {fileID: 5892156251226337811}
-  _infoBtn: {fileID: 1128714500558698952}
-  _dismentalBtn: {fileID: 4280123345723268956}
-  _removeBtn: {fileID: 8695300424216538438}
-  _buyBtn: {fileID: 269076701260568321}
-  _moneyText: {fileID: 8386350056490730792}
-  _moneyIcon: {fileID: 5673745749153780289}
-  _state: 0
 --- !u!1 &2192143779148390349
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,7 +772,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3808349609019635760}
+      - m_Target: {fileID: 0}
         m_MethodName: OnUseSelect
         m_Mode: 1
         m_Arguments:
@@ -969,7 +917,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3808349609019635760}
+      - m_Target: {fileID: 0}
         m_MethodName: OnInfoSelect
         m_Mode: 1
         m_Arguments:
@@ -1248,7 +1196,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3808349609019635760}
+      - m_Target: {fileID: 0}
         m_MethodName: OnDismentalSelect
         m_Mode: 1
         m_Arguments:
@@ -1467,7 +1415,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3808349609019635760}
+      - m_Target: {fileID: 0}
         m_MethodName: OnRemoveSelect
         m_Mode: 1
         m_Arguments:
@@ -2121,3 +2069,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1983536792580878582}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3486928549351979810 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3162370532905159636, guid: 03ffabeabb45fdf48a73ff5236497871,
+    type: 3}
+  m_PrefabInstance: {fileID: 1983536792580878582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f625080c8b6da84793a8edd307cbcdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -77,7 +77,7 @@ namespace UI.Meta.Laboratory
             var collection = _deckScreen.Collection;
             for (int i = 0; i < collection.Count; i++)
             {
-                collection[i].CardIsWaitingForInput = state;
+                collection[i].ToOpenInteractionPanel = state;
 
                 if (state)
                     collection[i].OnCardUIClicked += (SwitchCards);
