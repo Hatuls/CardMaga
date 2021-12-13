@@ -31,13 +31,13 @@ internal class CSVToUpgradeAndDismental : CSVAbst
                 break;
 
             string[] upradeByChips = line[firstElement].Split('&');
-            string[] upgradesByGolds = new string[line.Length - 1];
+            string[] upgradesByGolds = new string[upradeByChips.Length];
 
-            for (int j = (firstElement+1); j < rarities; j++)
+            for (int j = (firstElement+1); j <= rarities; j++)
             {
-                upgradesByGolds[j] = line[i];
+                upgradesByGolds[j-1]= line[j];
             }
-            CreateUpgradesSO(upgradesByGolds, upgradesByGolds);
+            CreateUpgradesSO(upgradesByGolds, upradeByChips);
 
 
             string[] dismentalCost = new string[rarities];

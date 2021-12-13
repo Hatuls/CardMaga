@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 namespace UI
 {
-
+    
     [System.Serializable]
     public class ComboRecipeEvent : UnityEvent<ComboRecipeUI> { }
     public class ComboRecipeUI : MonoBehaviour
@@ -16,8 +16,8 @@ namespace UI
         [BoxGroup("References")]
         [SerializeField]
         CardUI _cardUI;
-
-        ComboSO _comboRecipe;
+        Combo.Combo _combo;
+        
 
         [SerializeField]
         ComboRecipeEvent _event;
@@ -51,29 +51,34 @@ namespace UI
         byte activePlaceHolders = 0;
 
         public CardUI CardUI { get => _cardUI; set => _cardUI = value; }
-        public ComboSO ComboRecipe { get => _comboRecipe; set => _comboRecipe = value; }
+        public ComboSO ComboRecipe { get => _combo.ComboSO; }
+        public Combo.Combo Combo { get => _combo; set => _combo = value; }
+    
 
         private void Start()
         {
             activePlaceHolders = 0;
 
         }
-
+        public void ResetClick() { }
         public void OnClick()
             => _event?.Invoke(this);
         public void InitRecipe(Combo.Combo combo)
         {
-            _comboRecipe = combo.ComboSO;
+            _combo = combo;
+         
             var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(combo.ComboSO.CraftedCard, combo.Level);
             _cardUI.GFX.SetCardReference(craftedCard);
-            ActivatedPlaceHolders(_comboRecipe);
-            SetVisual(_comboRecipe);
+            ActivatedPlaceHolders(ComboRecipe);
+            SetVisual(ComboRecipe);
         }
         public void InitRecipe(ComboSO relicSO)
         {
-            if (_comboRecipe != relicSO)
+
+      var combo =      Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(relicSO, 0);
+            if (ComboRecipe != relicSO)
             {
-                _comboRecipe = relicSO;
+                _combo  = combo;
                 _cardUI.GFX.SetCardReference(relicSO.CraftedCard);
                 ActivatedPlaceHolders(relicSO);
                 SetVisual(relicSO);

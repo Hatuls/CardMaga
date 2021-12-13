@@ -1,30 +1,22 @@
 ﻿using Battles.UI;
 using Meta;
 using Rewards;
-using System.Collections;
-using System.Collections.Generic;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace UI.Meta.Laboratory
 {
-    public class UpgradeScreenUI : TabAbst
+    public class UpgradeComboScreenUI : TabAbst
     {
-        
         [SerializeField]
-         CardUIInteractionHandle _cardUIInteractionHandle;
-
-
-
+        ComboRecipeUI _selectedComboUI;
         [SerializeField]
-        MetaCardUIHandler _selectedCardUI;
+        ComboRecipeUI _upgradedComboUI;
 
         [SerializeField]
-        MetaCardUIHandler _upgradedVersion;
-
-        [SerializeField]
-        MetaCardUIFilterScreen _collectionFilterHandler;
+        MetaComboUIFilterScreen _collectionFilterHandler;
 
         [SerializeField]
         CardUpgradeCostSO _upgradeCostSO;
@@ -47,12 +39,14 @@ namespace UI.Meta.Laboratory
         [SerializeField]
         ResourceEnum _resourceType = ResourceEnum.Chips;
         [SerializeField]
-        bool _toShowDismentalOption= true;
+        bool _toShowDismentalOption = true;
 
         [SerializeField]
         UnityEvent OnSuccessfullUpgrade;
         [SerializeField]
         UnityEvent OnUnSuccessfullUpgrade;
+
+
         public override void Open()
         {
             OnOpenUpgradeScreen();
@@ -60,17 +54,18 @@ namespace UI.Meta.Laboratory
         }
         public override void Close()
         {
-            var deck = _collectionFilterHandler.Collection;
-            for (int i = 0; i < deck.Count; i++)
-            {
-                deck[i].MetaCardUIInteraction.ResetEnum();
-                deck[i].MetaCardUIInteraction.ClosePanel();
-            }
-            ResetScreen();
+            CloseUpgradeScreen();
             gameObject.SetActive(false);
         }
 
-        private void OnOpenUpgradeScreen()
+        public void CloseUpgradeScreen()
+        {
+            var deck = _collectionFilterHandler.Collection;
+
+            ResetScreen();
+        }
+
+        public void OnOpenUpgradeScreen()
         {
             ResetScreen();
             DefaultSet();
@@ -79,42 +74,31 @@ namespace UI.Meta.Laboratory
         private void DefaultSet()
         {
             var deck = _collectionFilterHandler.Collection;
-            for (int i = 0; i <deck.Count; i++)
-            {
-                var metacardInteraction = deck[i].MetaCardUIInteraction;
-                metacardInteraction.ResetInteraction();
-                metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Use, SelectCardUI);
-                if (_toShowDismentalOption)
-                {
-                metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
-                metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Dismental, _cardUIInteractionHandle.OpenDismentalScreen);
-                }
-            }
-            _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Remove, RemoveCardUI);
+            
         }
 
         public void ResetScreen()
         {
             ActivateGameObject(_upgradeBtn, false);
-            ActivateGameObject(_selectedCardUI.gameObject, false);
-            ActivateGameObject(_upgradedVersion.gameObject, false);
+            ActivateGameObject(_selectedComboUI.gameObject, false);
+            ActivateGameObject(_upgradedComboUI.gameObject, false);
             _instructionText.text = defaultText;
         }
 
-        public void SelectCardUI(CardUI card)
+        public void SelectCombo(ComboRecipeUI combo)
         {
-            if (card == null)
+            if (combo == null)
                 throw new System.Exception($"UpgradeUIScreen : Card Is Null!");
 
-            _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference);
-            ActivateGameObject(_selectedCardUI.gameObject, true);
+            _selectedComboUI.CardUI.GFX.SetCardReference(combo.CardUI.RecieveCardReference());
+            ActivateGameObject(_selectedComboUI.gameObject, true);
 
-            var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(_selectedCardUI.CardUI.GFX.GetCardReference);
+            var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(_selectedComboUI.CardUI.RecieveCardReference());
 
             if (upgradedVersion != null)
             {
                 SetCostText();
-                _upgradedVersion.CardUI.GFX.SetCardReference(upgradedVersion);
+                _upgradedComboUI.CardUI.DisplayCard(upgradedVersion);
             }
             else
             {
@@ -123,14 +107,14 @@ namespace UI.Meta.Laboratory
             }
 
 
-            ActivateGameObject(_upgradedVersion.gameObject, upgradedVersion != null);
+            ActivateGameObject(_upgradedComboUI.gameObject, upgradedVersion != null);
         }
         public void RemoveCardUI(CardUI card) { ResetScreen(); }
         private void SetCostText()
         {
             _instructionText.text = costText;
             ActivateGameObject(_upgradeBtn, true);
-            _costText.text = _upgradeCostSO.NextCardValue(_selectedCardUI.CardUI.GFX.GetCardReference, _resourceType).ToString();
+            _costText.text = _upgradeCostSO.NextCardValue(_selectedComboUI.CardUI.GFX.GetCardReference, _resourceType).ToString();
         }
         private void ActivateGameObject(GameObject go, bool state)
         {
@@ -140,13 +124,13 @@ namespace UI.Meta.Laboratory
 
         public void OnUpgradeClick()
         {
-            if (!_selectedCardUI.gameObject.activeSelf || !_upgradedVersion.gameObject.activeSelf)
+            if (!_selectedComboUI.gameObject.activeSelf || !_upgradedComboUI.gameObject.activeSelf)
                 return;
-            if (UpgradeHandler.TryUpgradeCard(_upgradeCostSO, _selectedCardUI.CardUI.GFX.GetCardReference , _resourceType))
+            if (UpgradeHandler.TryUpgradeCombo(_upgradeCostSO, _selectedComboUI.Combo, _resourceType))
             {
                 ResetScreen();
-            _collectionFilterHandler.Refresh();
-  
+                _collectionFilterHandler.Refresh();
+
                 Debug.Log(" Succeed");
                 ActivateGameObject(_upgradeBtn, false);
                 OnSuccessfullUpgrade?.Invoke();
