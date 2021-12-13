@@ -56,7 +56,7 @@ public class NetworkHandler : MonoBehaviour
     }
     [Sirenix.OdinInspector.Button]
 
-    private static void InitAccount()
+    public void InitAccount()
     {
         AccountManager.Instance.Init();
     }

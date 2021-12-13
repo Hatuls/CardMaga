@@ -99,10 +99,8 @@ public class InputManager :MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
-
-        if (_isScreenLocked == false)
+      
+        if (_isScreenLocked == false &&!Battles.BattleManager.isGameEnded )
         {
             TouchDetector();
             MouseDetector();

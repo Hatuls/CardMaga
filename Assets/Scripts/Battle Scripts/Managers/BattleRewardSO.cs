@@ -191,7 +191,6 @@ namespace Rewards
             for (int z = 0; z < amount; z++)
             {
 
-
                 do
                 {
                     if (tryTimes <= 0)
@@ -200,7 +199,7 @@ namespace Rewards
                         break;
                     }
                     tryTimes--;
-
+                    id = 0;
                     do
                     {
                         byte[] chances = new byte[comboChances.Length];
@@ -232,21 +231,20 @@ namespace Rewards
                     id = comboID.ElementAt(Random.Range(0, comboID.Count()));
 
 
-                    bool duplicateCombosCheck = false;
                     for (int i = 0; i < combo.Length; i++)
                     {
                         if (combo[i] == null)
                             break;
                         else if (combo[i].ComboSO.ID == id)
                         {
-                            duplicateCombosCheck = true;
+             
+                            combo[z] = null;
                             break;
                         }
                     }
-                    if (duplicateCombosCheck)
-                        continue;
+            
 
-                } while (playerCombo.Contains(combo[z]) || (combo[z] == null && tryTimes > 0));
+                } while (playerCombo.Contains(combo[z]) || (combo[z] == null && tryTimes > 0) );
 
                 var DropChance = recipesChances.DropChances[index];
                 var levelChances = DropChance.LevelChances;
@@ -255,7 +253,8 @@ namespace Rewards
 
                 if (id > 0)
                     combo[z] = comboFactoryHandler.CreateCombo(comboFactoryHandler.ComboCollection.GetCombo(id), (byte)index);
-
+                else
+                    combo[z] = null;
 
                 if (combo[z] == null)
                 {

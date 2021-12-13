@@ -9,6 +9,13 @@
 
             return Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(card.CardSO, (byte)(card.CardLevel + 1));
         }
+        public static Combo.Combo GetUpgradedComboVersion(Combo.Combo combo)
+        {
+            if (combo.Level == combo.ComboSO.CraftedCard.CardsMaxLevel)
+                return null;
+    
+            return Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(combo.ComboSO,(byte)(combo.Level + 1));
+        }
         public static bool TryUpgradeCombo(CardUpgradeCostSO upgrade, Combo.Combo combo , Rewards.ResourceEnum resourceenum)
         {
             Characters.Character battleData = Battles.BattleData.Player;

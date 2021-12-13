@@ -1,4 +1,5 @@
 ﻿using Battles.Turns;
+using Battles.UI;
 using Characters;
 using Characters.Stats;
 using Managers;
@@ -103,6 +104,7 @@ namespace Battles
             OnGameEnded?.Invoke();
             UI.StatsUIManager.GetInstance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
+            CardUIManager.Instance.ResetCardUIManager();
 
 
             if (isPlayerDied)
@@ -119,7 +121,6 @@ namespace Battles
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
-
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
             //   BattleRewardHandler.Instance.FinishMatch(!isPlayerDied);

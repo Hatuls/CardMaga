@@ -232,7 +232,10 @@ namespace Battles.UI
 
         #endregion
 
-
+        public void ResetCardUIManager()
+        {
+            CardUIHandler.Instance._selectedCardUI.gameObject.SetActive(false);
+        }
       
     }
 
@@ -249,7 +252,7 @@ namespace Battles.UI
     {
         public static Action<Vector2, CardUI> OnExecuteCardUI;
         public static CardUIHandler Instance;
-        CardUI _selectedCardUI;
+      public  CardUI _selectedCardUI;
         CardUISO _cardUISettings;
         CardUI _OriginalCard;
         HandUI _handUI;

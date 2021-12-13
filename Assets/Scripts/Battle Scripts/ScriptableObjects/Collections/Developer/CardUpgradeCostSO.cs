@@ -50,7 +50,7 @@ public class CardUpgradeCostSO : ScriptableObject
             {
                 if (ushort.TryParse(seperations[j], out ushort result))
                 {
-                    costs[i] = result;
+                    costs[j] = result;
                 }
                 else
                     throw new System.Exception($"Reward Gold is not a valid number - " + seperations[j]);
