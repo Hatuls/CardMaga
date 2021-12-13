@@ -43,7 +43,11 @@ public class CardUIInteractionHandle : MonoBehaviour
         _cardUIInfoScreen.gameObject.SetActive(false);
         _parent.SetActive(false);
     }
-
+    public void OpenDismentalScreen(CardUI card)
+    {
+        _cardUIInfoScreen.gameObject.SetActive(false);
+        _dismentalScreen.Open(card);
+    }
     public void OpenDismentalScreen()
     {
         _cardUIInfoScreen.gameObject.SetActive(false);

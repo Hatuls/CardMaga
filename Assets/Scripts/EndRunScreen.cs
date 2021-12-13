@@ -30,12 +30,12 @@ public class EndRunScreen : MonoBehaviour, IObserver
         {
             FinishGame();
         }
-        else
-        {
-            _observerSO.Notify(null);
-            if (_endScreen.activeSelf)
-                _endScreen.SetActive(false);
-        }
+        //else
+        //{
+        //    _observerSO.Notify(null);
+        //    if (_endScreen.activeSelf)
+        //        _endScreen.SetActive(false);
+        //}
     }
 
     public void FinishGame()
@@ -54,6 +54,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
 
     public void ReturnToMainMenu()
     {
+        CameraMovement.ResetCameraMovementLocation();
         SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
         var accountData = Account.AccountManager.Instance.AccountGeneralData;
         accountData.AccountResourcesData.Diamonds.AddValue(BattleData.MapRewards.Diamonds);

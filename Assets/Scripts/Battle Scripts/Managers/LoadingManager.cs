@@ -1,12 +1,22 @@
-﻿using Unity.Events;
+﻿using System;
+using System.Threading.Tasks;
+using Unity.Events;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using static SceneHandler;
 
 public class LoadingManager : MonoSingleton<LoadingManager>
 {
-    [UnityEngine.SerializeField] VoidEvent _loadBattleEvent;
+    [SerializeField] VoidEvent _loadBattleEvent;
     SceneHandler _sceneHandler;
+    [SerializeField]
+    SceneTransitionSO SceneTransitionSO;
+    [SerializeField]
+    UnityEvent<float> _progressEvent;
     private void Start()
     {
-       
+
         if (Instance != null && Instance != this)
             Destroy(this.gameObject);
         else
@@ -14,7 +24,7 @@ public class LoadingManager : MonoSingleton<LoadingManager>
 
             // DontDestroyOnLoad(this.gameObject);
             if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.NetworkScene)
-        Init();
+                Init();
         }
     }
     public override void Init()
@@ -26,5 +36,35 @@ public class LoadingManager : MonoSingleton<LoadingManager>
     {
 
         SceneHandler.LoadScene(scenesEnum);
+    }
+
+
+    public async void LoadScene2(SceneHandler.ScenesEnum s)
+    {
+     await   RemoveSceneAsync(
+         SceneHandler.CurrentScene,
+         ()=> _ = AddSceneAsync(s, () => Debug.Log("FinishedLoading")));
+
+    }
+    private async Task RemoveSceneAsync(ScenesEnum scene, Action OnFinished = null)
+    {
+        var operation = SceneManager.UnloadSceneAsync((int)scene);
+        do
+        {
+            await Task.Yield();
+        } while (operation.isDone == false);
+        OnFinished?.Invoke();
+     
+    }
+
+    private async Task AddSceneAsync(ScenesEnum scene, Action OnFinished = null)
+    {
+        var operation = SceneManager.LoadSceneAsync((int)scene);
+        do
+        {
+            await Task.Yield();
+        } while (operation.isDone == false);
+        OnFinished?.Invoke();
+
     }
 }

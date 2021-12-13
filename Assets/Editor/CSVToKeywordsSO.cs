@@ -21,10 +21,10 @@ public class CSVToKeywordsSO :CSVAbst
     private static void OnCompleteDownloadingKeywordsCSV(string csv)
     {
         string[] rows = csv.Replace("\r", "").Split('\n');
-
+        const string SoundURLPath = "Audio/Keywords";
         List<KeywordSO> _keywordList = new List<KeywordSO>();
         const int secondRow = 2;
-
+        SoundEventSO[] sounds = Resources.LoadAll<SoundEventSO>(SoundURLPath);
         for (int i = secondRow; i < rows.Length; i++)
         {
             string[] line = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
@@ -34,6 +34,24 @@ public class CSVToKeywordsSO :CSVAbst
                 Debug.Log((KeywordTypeEnum)id);
                 KeywordSO keyword = ScriptableObject.CreateInstance<KeywordSO>();
                 keyword.Init(line);
+
+                const int SoundIndex = 8;
+                if (line[SoundIndex] != "-")
+                {
+                    for (int j = 0; j < sounds.Length; j++)
+                    {
+                        if (line[SoundIndex] == sounds[j].name)
+                        {
+                            keyword.SoundEventSO = sounds[j];
+                            break;
+                        }
+                    }
+                }
+                else
+                    throw new System.Exception($"Sound Name Is Not Valid!\nKeyword ID: {id}");
+
+
+
                 AssetDatabase.CreateAsset(keyword, string.Concat("Assets/Resources/KeywordsSO/", $"{keyword.GetKeywordType.ToString()}KeywordSO", ".asset"));
                 _keywordList.Add(keyword);
             }

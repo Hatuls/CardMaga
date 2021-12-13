@@ -35,7 +35,6 @@ namespace Map
         [SerializeField] BoxCollider2D _boxCollider;
         private void Start()
         {
-
             _startSize = transform.localScale;
             SetTrigger(true);
         }
@@ -43,6 +42,7 @@ namespace Map
         {
             _observer.Subscribe(this);
         }
+        bool toRecieveInputs = true;
         private void OnDisable()
         {
             _observer.UnSubscribe(this);
@@ -52,11 +52,12 @@ namespace Map
           
             _boxCollider.enabled = state;
         }
+
         private void OnMouseUp()
         {
+           if(toRecieveInputs)
             MapPlayerTracker.Instance.SelectNode(this);
         }
-
         public void PointSelected()
         {
             if (NodeData.IsOpen)
@@ -111,9 +112,16 @@ namespace Map
         public void OnNotify(IObserver Myself)
         {
             if (Myself == null)
-                SetTrigger(true);
-            else 
-                SetTrigger(false);
+            {
+                toRecieveInputs = true;
+              
+            }
+            else
+            {
+
+                toRecieveInputs = false;
+            }
+                SetTrigger(toRecieveInputs);
         }
     }
 

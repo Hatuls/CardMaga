@@ -21,7 +21,7 @@ internal class CSVToUpgradeAndDismental : CSVAbst
         string[] rows = csv.Replace("\r", "").Split('\n');
         const int startingRow = 2;
         const int firstElement = 0;
-     
+        const int rarities = 5;
 
         for (int i = startingRow; i < rows.Length; i++)
         {
@@ -29,12 +29,20 @@ internal class CSVToUpgradeAndDismental : CSVAbst
 
             if (line[firstElement].Length == 1 || line[firstElement].Length == 0)
                 break;
-           CreateUpgradesSO(line[firstElement].Split('&'));
+
+            string[] upradeByChips = line[firstElement].Split('&');
+            string[] upgradesByGolds = new string[upradeByChips.Length];
+
+            for (int j = (firstElement+1); j <= rarities; j++)
+            {
+                upgradesByGolds[j-1]= line[j];
+            }
+            CreateUpgradesSO(upgradesByGolds, upradeByChips);
 
 
-            string[] dismentalCost = new string[line.Length-1];
-            for (int j = 1; j < line.Length; j++)
-                dismentalCost[j-1] += line[j];
+            string[] dismentalCost = new string[rarities];
+            for (int j = 0; j < rarities; j++)
+                dismentalCost[j] += line[rarities + 1];
 
             CreateDiscmentalCostSO(dismentalCost);
         }
@@ -49,10 +57,10 @@ internal class CSVToUpgradeAndDismental : CSVAbst
         AssetDatabase.CreateAsset(CSVManager._dismentalCardCostSO, $"Assets/Resources/MetaGameData/DismentalCostSO.asset");
 
     }
-    private void CreateUpgradesSO (string[] csv)
+    private void CreateUpgradesSO (string[] MapupgradeCost,string[] upgradeChipCost)
     {
         CSVManager._upgradeCardCostSO = ScriptableObject.CreateInstance<CardUpgradeCostSO>();
-        CSVManager._upgradeCardCostSO.Init(csv);
+        CSVManager._upgradeCardCostSO.Init(MapupgradeCost, upgradeChipCost);
         AssetDatabase.CreateAsset(CSVManager._upgradeCardCostSO, $"Assets/Resources/MetaGameData/UpgradeCostSO.asset");
 
     }

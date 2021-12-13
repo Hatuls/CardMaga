@@ -141,12 +141,17 @@ namespace Battles.UI
         public CardStateMachine CardStateMachine =>_cardStateMachine;
         public ITouchable GetTouchAbleInput => ((Card & CardUISettings.Touchable) == CardUISettings.Touchable) ? CardStateMachine.CurrentState : null;
         #endregion
+
+    
     }
 
    
    
+public static class CardUIHelper {
+        public static void DisplayCard(this CardUI cardUI, Cards.Card card) => cardUI.GFX.SetCardReference(card);
+        public static Cards.Card RecieveCardReference(this CardUI cardui) => cardui.GFX.GetCardReference;
+    }
 }
-
 
 
 public class CardAnimator

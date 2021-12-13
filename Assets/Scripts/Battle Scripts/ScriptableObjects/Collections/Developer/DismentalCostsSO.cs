@@ -4,16 +4,16 @@ using UnityEngine;
 public class DismentalCostsSO : ScriptableObject
 {
     [SerializeField]
-    private DismentalCost[] _dismentalCosts;
+    private RarirtyLevelCosts[] _dismentalCosts;
 
-    public DismentalCost[] DismentalCosts { get => _dismentalCosts; }
+    public RarirtyLevelCosts[] DismentalCosts { get => _dismentalCosts; }
 
     public ushort GetCardDismentalCost(Card card)
     {
         for (int i = 0; i < _dismentalCosts.Length; i++)
         {
             if (_dismentalCosts[i].Rarity == card.CardSO.Rarity)
-                return _dismentalCosts[i].DismentalCosts[card.CardLevel];
+                return _dismentalCosts[i].Costs[card.CardLevel];
         }
         throw new System.Exception($"DismentalCosts: Rarity Was Not Found: {card.CardSO.Rarity}");
     }
@@ -21,7 +21,7 @@ public class DismentalCostsSO : ScriptableObject
 #if UNITY_EDITOR
     public void Init(string[] csv)
     {
-        _dismentalCosts = new DismentalCost[csv.Length];
+        _dismentalCosts = new RarirtyLevelCosts[csv.Length];
         for (int i = 0; i < csv.Length; i++)
         {
             string[] costs = csv[i].Split('&');
@@ -31,7 +31,7 @@ public class DismentalCostsSO : ScriptableObject
                 if (!ushort.TryParse(costs[j], out costsValue[j]))
                     throw new System.Exception($"DismentalCostSO: Cost is not valid number !\nRarity: {((RarityEnum)i + 1)} value: {costs[j]}");
             }
-            _dismentalCosts[i] = new DismentalCost(((RarityEnum)i + 1), costsValue);
+            _dismentalCosts[i] = new RarirtyLevelCosts(((RarityEnum)i + 1), costsValue);
 
         }
     }
@@ -39,22 +39,22 @@ public class DismentalCostsSO : ScriptableObject
 
 #endif
     [System.Serializable]
-    public class DismentalCost
+    public class RarirtyLevelCosts
     {
         [SerializeField]
         private RarityEnum rarity;
 
         [SerializeField]
-        ushort[] _dismentalCosts;
+        ushort[] _costs;
 
-        public DismentalCost(RarityEnum rarity, ushort[] dismentalCosts)
+        public RarirtyLevelCosts(RarityEnum rarity, ushort[] cost)
         {
             this.rarity = rarity;
-            _dismentalCosts = dismentalCosts;
+            _costs = cost;
         }
 
         public RarityEnum Rarity { get => rarity;  }
-        public ushort[] DismentalCosts { get => _dismentalCosts; }
+        public ushort[] Costs { get => _costs; }
     }
 }
 

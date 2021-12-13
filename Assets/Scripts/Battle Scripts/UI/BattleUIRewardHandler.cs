@@ -40,6 +40,7 @@ namespace Rewards.Battles
         [SerializeField] ComboRecipeUI _comboUI;
         [SerializeField] ObserverSO _observerSO;
 
+   
         bool cardTaken;
         bool goldTaken;
         bool comboTaken;

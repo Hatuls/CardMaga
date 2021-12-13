@@ -36,7 +36,21 @@ namespace Characters
 
             _characterData = data;
         }
-
+        public bool RemoveCombo(ushort comboID)
+        {
+            var combo = _characterData.ComboRecipe.ToList();
+            for (int i = 0; i < combo.Count; i++)
+            {
+                if (combo[i].ComboSO.ID == comboID)
+                {
+                    combo.RemoveAt(i);
+                    _characterData.ComboRecipe = combo.ToArray();
+                    return true;
+                }
+            }
+       
+            return false;
+        }
         public bool RemoveCardFromDeck(ushort InstanceID)
         {
             var deckList = _characterData.CharacterDeck.ToList();

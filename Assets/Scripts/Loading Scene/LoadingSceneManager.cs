@@ -37,10 +37,10 @@ namespace UI.LoadingScreen
         #endregion
         public void StartTransition(SceneHandler.ScenesEnum fromScene, SceneHandler.ScenesEnum toScene)
         {
-            for (int i = 0; i < _objectHolders.Length; i++)
-            {
-                _objectHolders[i].SetActive(false);
-            }
+            //for (int i = 0; i < _objectHolders.Length; i++)
+            //{
+            //    _objectHolders[i].SetActive(false);
+            //}
 
             for (int i = 0; i < _sceneTransitions.Length; i++)
             {

@@ -28,16 +28,8 @@ namespace UI.Meta.Workshop
         #region Initialize
         private void InitRewardScreen()
         {
-            List<PackRewardSO> packs = new List<PackRewardSO>();
-            foreach (var item in System.Enum.GetValues(typeof(Cards.RarityEnum)))
-            {
-                if ((Cards.RarityEnum)item == Cards.RarityEnum.None)
-                    continue;
-                var packReward = _packRewardsCollectionSO.PackRewardSO((Cards.RarityEnum)item);
-                if (!packs.Contains(packReward))
-                    packs.Add(packReward);
-            }
-            int length = packs.Count;
+            PackRewardSO[] packs = _packRewardsCollectionSO.PacksRewardSO;
+            int length = packs.Length;
 
 
             CreatePacks(length);

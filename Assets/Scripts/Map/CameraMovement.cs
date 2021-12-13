@@ -19,30 +19,37 @@ public class CameraMovement : MonoBehaviour, IObserver
     float _camSpeed;
     [SerializeField]
     Camera _camera;
-    [SerializeField] [Range(0,1)]
+    [SerializeField]
+    [Range(0, 1)]
     float _divideScreenOffset = 0.75f;
     [SerializeField]
     float _movementTime = 1;
 
 
-    
+
     private static float _lastVisitedNodeY;
 
     public float LastVisitedNodeY
-    { set
+    {
+        set
         {
             _lastVisitedNodeY = value;
-            
+
             SetCameraPosition(CameraOffset(_lastVisitedNodeY), _movementTime);
         }
     }
+    public static void ResetCameraMovementLocation()
+    {
+        _lastVisitedNodeY = 0;
+    }
+
 
     Vector3 _dragOrigin;
-   public static bool _toLock;
+    public static bool _toLock;
 
     private void Start()
     {
-        if(_lastVisitedNodeY != 0)
+        if (_lastVisitedNodeY != 0)
         {
 
             SetCameraPosition(CameraOffset(_lastVisitedNodeY), _movementTime);
@@ -57,11 +64,14 @@ public class CameraMovement : MonoBehaviour, IObserver
     {
         _raycastObserver.UnSubscribe(this);
     }
-    private void Update()
+
+    private void LateUpdate()
     {
+
         if (!_toLock)
             MoveCam();
     }
+    bool flag;
     void MoveCam()
     {
         if (Input.GetMouseButtonUp(0))
@@ -70,14 +80,22 @@ public class CameraMovement : MonoBehaviour, IObserver
             return;
         }
         if (Input.GetMouseButtonDown(0))
+        {
             _dragOrigin = _camera.ScreenToWorldPoint(Input.mousePosition);
+            flag = true;
+            return;
+        }
         if (Input.GetMouseButton(0))
         {
-            _raycastObserver.Notify(this);
+            if (flag)
+            {
+                _raycastObserver.Notify(this);
+                flag = false;
+            }
             Vector3 delta = _dragOrigin - _camera.ScreenToWorldPoint(Input.mousePosition);
-             _camera.transform.position += new Vector3(0, delta.y, 0);
+            _camera.transform.position += new Vector3(0, delta.y, 0);
 
-            SetCameraPosition(_camera.transform.position.y,0);
+            SetCameraPosition(_camera.transform.position.y, 0);
         }
     }
 
@@ -90,7 +108,7 @@ public class CameraMovement : MonoBehaviour, IObserver
     }
     public void SetCameraPosition(float yPos, float timer)
     {
-        var toPos =  new Vector3(_camera.transform.position.x, Mathf.Clamp(yPos, _minCamPosition, _maxCamPosition), _camera.transform.position.z);
+        var toPos = new Vector3(_camera.transform.position.x, Mathf.Clamp(yPos, _minCamPosition, _maxCamPosition), _camera.transform.position.z);
         LeanTween.move(gameObject, toPos, timer);
     }
     private float CameraOffset(float yPos)
