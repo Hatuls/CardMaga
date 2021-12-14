@@ -1,4 +1,5 @@
 ﻿using Account.GeneralData;
+using Battles;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
@@ -53,7 +54,9 @@ namespace Account
         [HideInInspector]
         [SerializeField]
         private AccountData _accountData;
-
+        SaveManager.FileStreamType saveType = SaveManager.FileStreamType.FileStream;
+        string path = "Account/";
+   
         #endregion
         #region Properties
         public AccountCharacters AccountCharacters => _accountData.AccountCharacters;
@@ -61,16 +64,21 @@ namespace Account
         public AccountCombos AccountCombos => _accountData.AccountCombos;
         public AccountSettingsData AccountSettingsData => _accountData.AccountSettingsData;
         public AccountGeneralData AccountGeneralData => _accountData.AccountGeneralData;
+        public BattleData BattleData => _accountData.BattleData;
 
         #endregion
         #region Private Methods
+        private void Start()
+        {
+            SceneHandler.OnSceneChange += SaveAccount;
+        }
         #endregion
         #region Public Methods
         public async void Init()
         {
-            if (PlayerPrefs.HasKey(AccountData.SaveName))
+            if (SaveManager.CheckFileExists(AccountData.SaveName, saveType, true, path))
             {
-                _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, SaveManager.FileStreamType.PlayerPref);
+                _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, saveType, "txt", true, path);
                 if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value == 0)
                 {
                     await CreateNewAccount();
@@ -78,7 +86,7 @@ namespace Account
                 }
                 else
                 {
-                    Debug.Log("Loading Data From PlayerPref");
+                    Debug.Log("Loading Data From " + saveType);
                     Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
                 }
             }
@@ -111,7 +119,7 @@ namespace Account
         [Sirenix.OdinInspector.Button]
         private void AddEnergy() => _accountData.AccountGeneralData.AccountEnergyData.Energy.AddValue(10);
         [Sirenix.OdinInspector.Button]
-        private void ResetAccountSave() => PlayerPrefs.DeleteKey(AccountData.SaveName);
+        private void ResetAccountSave() => SaveManager.DeleteFile(AccountData.SaveName, "txt", saveType, path, true);// PlayerPrefs.DeleteKey(AccountData.SaveName);
 
         [Sirenix.OdinInspector.Button]
         private void AddEXP() => _accountData.AccountGeneralData.AccountLevelData.Exp.AddValue(5);
@@ -133,9 +141,10 @@ namespace Account
         private void OnApplicationQuit()
         {
             SaveAccount();
+            SceneHandler.OnSceneChange -= SaveAccount;
             Debug.Log("Saving Account Data");
         }
-        public void SaveAccount() => SaveManager.SaveFile(_accountData, AccountData.SaveName, SaveManager.FileStreamType.PlayerPref);
+        public void SaveAccount() => SaveManager.SaveFile(_accountData, AccountData.SaveName, saveType, true, "txt", path);
         private void OnDestroy()
         {
             if (Application.isPlaying)
@@ -161,13 +170,17 @@ namespace Account
 
         [SerializeField] AccountCharacters _accountCharacters;
 
+        [SerializeField] BattleData _battleData;
+
         public AccountCharacters AccountCharacters { get => _accountCharacters; private set => _accountCharacters = value; }
         public AccountCards AccountCards { get => _accountCards; private set => _accountCards = value; }
         public AccountCombos AccountCombos { get => _accountCombos; private set => _accountCombos = value; }
         public AccountSettingsData AccountSettingsData { get => _accountSettingsData; private set => _accountSettingsData = value; }
         public AccountGeneralData AccountGeneralData { get => _accountGeneralData; private set => _accountGeneralData = value; }
+        public BattleData BattleData { get => _battleData; set => _battleData = value; }
 
-
+        [SerializeField]
+        SceneHandler.ScenesEnum _currentScene;
         public async Task NewLoad()
         {
             AccountSettingsData = new AccountSettingsData();
@@ -180,6 +193,9 @@ namespace Account
             await AccountCombos.NewLoad();
             AccountCharacters = new AccountCharacters();
             await AccountCharacters.NewLoad();
+            _battleData = new BattleData();
+           _battleData.ResetData();
+           
         }
     }
 }

@@ -17,7 +17,7 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
     protected override void CreatePool()
     {
         var deckCount = toUseAccountInfo ?
-            Battles.BattleData.Player.CharacterData.CharacterDeck.Length:
+            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck.Length:
             Account.AccountManager.Instance.AccountCards.CardList.Count ;
 
         while (deckCount > _collection.Count)

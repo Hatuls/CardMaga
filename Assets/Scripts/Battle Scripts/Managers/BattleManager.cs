@@ -42,11 +42,11 @@ namespace Battles
         private void AssignParams()
         {
 
-
-            PlayerManager.Instance.AssignCharacterData(BattleData.Player);
-            EnemyManager.Instance.AssignCharacterData(BattleData.Opponent);
+            var battleData = Account.AccountManager.Instance.BattleData;
+            PlayerManager.Instance.AssignCharacterData(battleData.Player);
+            EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
             
-            if (BattleData.Player.CharacterData.CharacterStats.Health <= 0)
+            if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
                 throw new Exception("Battle data was not work correctly!");
 
             PlayerManager.Instance.UpdateStatsUI();
@@ -84,7 +84,7 @@ namespace Battles
         {
             Instance.StopAllCoroutines();
             Instance._turnCycles = TurnHandler.TurnCycle();
-            BattleData.PlayerWon = false;
+            Account.AccountManager.Instance.BattleData.PlayerWon = false;
             Instance. OnBattleStarts?.Invoke();
             StartGameTurns();
 
@@ -116,7 +116,7 @@ namespace Battles
             {
                 EnemyDied();
             }
-            BattleData.PlayerWon = !isPlayerDied;
+            Account.AccountManager.Instance.BattleData.PlayerWon = !isPlayerDied;
             UpdateStats();
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
@@ -128,19 +128,19 @@ namespace Battles
 
         private static void UpdateStats()
         {
-            var x = BattleData.Player;
+            var x = Account.AccountManager.Instance.BattleData.Player;
             var playerBattleStats = CharacterStatsManager.GetCharacterStatsHandler(true);
 
             x.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
 
-            BattleData.Player = x;
+            Account.AccountManager.Instance.BattleData.Player = x;
         }
 
         public static void DeathAnimationFinished(bool isPlayer)
         {
 
             if (isPlayer)
-                BattleData.IsFinishedPlaying = true;
+                Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
 

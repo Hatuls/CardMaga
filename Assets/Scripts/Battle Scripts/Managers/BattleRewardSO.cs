@@ -181,7 +181,7 @@ namespace Rewards
             Combo.Combo[] combo = new Combo.Combo[amount];
             int tryTimes = 6;
             var recipesChances = _recipesChances.First(x => x.ActEnum == actsEnum);
-             var playerCombo = BattleData.Player.CharacterData.ComboRecipe.ToList();
+             var playerCombo = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe.ToList();
             var comboIDs = playerCombo.Select(x => new { ID = x.ComboSO.ID });
             var comboFactoryHandler = Factory.GameFactory.Instance.ComboFactoryHandler;
             var comboCollection = comboFactoryHandler.ComboCollection;

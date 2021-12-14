@@ -18,7 +18,7 @@
         }
         public static bool TryUpgradeCombo(CardUpgradeCostSO upgrade, Combo.Combo combo , Rewards.ResourceEnum resourceenum)
         {
-            Characters.Character battleData = Battles.BattleData.Player;
+            Characters.Character battleData = Account.AccountManager.Instance.BattleData.Player;
             int gold = battleData.CharacterData.CharacterStats.Gold;
           
             ushort Cost = upgrade.NextCardValue(combo.ComboSO.CraftedCard,combo.Level);
@@ -47,7 +47,7 @@
             }
             else if (resourceEnum == Rewards.ResourceEnum.Gold)
             {
-                Characters.Character account = Battles.BattleData.Player;
+                Characters.Character account = Account.AccountManager.Instance.BattleData.Player;
                 int gold = account.CharacterData.CharacterStats.Gold;
                 ushort Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
                 if (gold >= Cost)

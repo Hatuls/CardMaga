@@ -26,7 +26,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
     // Start is called before the first frame update
     void Start()
     {
-        if (BattleData.IsFinishedPlaying)
+        if (Account.AccountManager.Instance.BattleData.IsFinishedPlaying)
         {
             FinishGame();
         }
@@ -47,18 +47,19 @@ public class EndRunScreen : MonoBehaviour, IObserver
 
     public void SetTexts()
     {
-        var rewards = BattleData.MapRewards;
+        var rewards = Account.AccountManager.Instance.BattleData.MapRewards;
         _expText.text = rewards.EXP.ToString();
         _diamondText.text = rewards.Diamonds.ToString();
     }
 
     public void ReturnToMainMenu()
     {
+        var data = Account.AccountManager.Instance.BattleData;
         CameraMovement.ResetCameraMovementLocation();
         SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
         var accountData = Account.AccountManager.Instance.AccountGeneralData;
-        accountData.AccountResourcesData.Diamonds.AddValue(BattleData.MapRewards.Diamonds);
-        accountData.AccountLevelData.Exp.AddValue(BattleData.MapRewards.EXP);
+        accountData.AccountResourcesData.Diamonds.AddValue(data.MapRewards.Diamonds);
+        accountData.AccountLevelData.Exp.AddValue(data.MapRewards.EXP);
     }
 
     public void OnNotify(IObserver Myself)

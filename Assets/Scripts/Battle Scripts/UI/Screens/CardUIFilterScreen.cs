@@ -13,7 +13,7 @@ public class CardUIFilterScreen : UIFilterScreen<CardUI, Card>
     float _cardsSize =1f ;
     protected override void CreatePool()
     {
-        var deck = BattleData.Player.CharacterData.CharacterDeck;
+        var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
         while (deck.Length > _collection.Count)
         {
             var card = Instantiate(_cardUIPrefab, this.transform).GetComponent<CardUI>();

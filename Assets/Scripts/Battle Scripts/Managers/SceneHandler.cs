@@ -11,7 +11,7 @@ public class SceneHandler
     static System.Action onLoaderCallback;
     static AsyncOperation _loadingAsyncOperation;
     public static System.Action<ScenesEnum> onFinishLoadingScene;
-
+    public static System.Action OnSceneChange;
     public SceneHandler(LoadingManager sceneLoaderCallback)
     {
         SceneLoaderCallback = sceneLoaderCallback;
@@ -69,6 +69,7 @@ public class SceneHandler
         LoadingComplete = true;
         CurrentScene = sceneEnum;
         onFinishLoadingScene?.Invoke(sceneEnum);
+        OnSceneChange?.Invoke();
     }
     public static void UnloadScene(ScenesEnum scene) {
         int sceneIndex = (int)scene;

@@ -30,31 +30,5 @@ namespace Game.LoadAndSave
         void SaveData();
         void LoadData();
     }
-    public static class SaveSystem
-    {
-        public static void Save(string SaveReferenceName, string data)
-        {
-            if (SaveReferenceName == null || SaveReferenceName.Length == 0 || SaveReferenceName == "")
-                throw new System.Exception($"SaveSystem: SaveReferenceName - {SaveReferenceName}\n is not valid!");
-            else if (data == null || data.Length == 0 || data == "")
-                throw new System.Exception($"SaveSystem: Data - {data}\n is not valid!");
-            
-            
-            PlayerPrefs.SetString(SaveReferenceName, data);
-        }
-
-        public static string Load(string SaveReferenceName)
-        {
-            if (SaveReferenceName == null || SaveReferenceName.Length == 0 || SaveReferenceName == "")
-                throw new System.Exception($"SaveSystem: String Parameter (SaveReferenceName - {SaveReferenceName}) is empty!");
-
-            var data = PlayerPrefs.GetString(SaveReferenceName);
-
-            if (data == null || data.Length == 0)
-                throw new System.Exception($"SaveSystem: Could not load data from: <a>{SaveReferenceName}</a>!");
-
-            return data;
-        }
-        
-    }
+  
 }

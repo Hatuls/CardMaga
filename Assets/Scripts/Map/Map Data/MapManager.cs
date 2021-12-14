@@ -64,8 +64,10 @@ namespace Map
         [SerializeField]
         SoundEventSO _soundSO;
         [SerializeField] string _saveMapCFGName;
+       static string _folderPath = "Map/";
+       static string _fileName = "Map";
+        static SaveManager.FileStreamType saveType = SaveManager.FileStreamType.FileStream;
 #if UNITY_EDITOR
-        public SaveManager.FileStreamType saveType;
         [Sirenix.OdinInspector.Button("Save Map Config")]
         public void SaveMapConfig()
         {
@@ -100,7 +102,7 @@ namespace Map
         }
 
         [Sirenix.OdinInspector.Button()]
-        public void ResetSavedMap() => PlayerPrefs.DeleteKey("Map");
+        public static void ResetSavedMap() => SaveManager.DeleteFile(_fileName, "txt", saveType, _folderPath, true); //PlayerPrefs.DeleteKey("Map");
 
         [Sirenix.OdinInspector.Button()]
         public void GenerateMap() => GenerateNewMap();
@@ -119,7 +121,7 @@ namespace Map
         {
             if (_currentMap == null) return;
 
-            SaveManager.SaveFile(_currentMap, "Map");
+            SaveManager.SaveFile(_currentMap, _fileName, saveType, true,"txt", _folderPath);
             await Task.Yield();
         }
  
@@ -127,7 +129,7 @@ namespace Map
         {
 
 
-            Map  map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.PlayerPref);
+            Map  map = SaveManager.Load<Map>(_fileName, SaveManager.FileStreamType.FileStream, "txt", true, _folderPath);
 
             if (map!= null)
             {

@@ -141,10 +141,7 @@ namespace Map
                 bool getMainNode = Random.Range(0f, 1f) >= currentLayer.RandomizeNode;
                 NodeType nodeType = getMainNode ? currentLayer.MainlyNode : (NodeType)Random.Range(1, (System.Enum.GetNames(typeof(NodeType)).Length - 1));
 
-                Node n = new Node(nodeType, new Point(j,floorLevel ))
-                {
-                    position = pos
-                };
+                Node n = new Node(nodeType, new Point(j, floorLevel), pos);
    
 
                 currentLayerList.Add(n);
@@ -205,7 +202,7 @@ namespace Map
                     var x = xRnd * layer.NodesApartDistance / 2f;
                     var y = yRnd < 0 ? distToPreviousLayer * yRnd / 2f : distToNextLayer * yRnd / 2f;
 
-                    node.position += new Vector2(x, y) * layer.RandomizePosition;
+                    node.RandomizePosition( new Vector2(x, y) * layer.RandomizePosition);
                 }
             }
         }

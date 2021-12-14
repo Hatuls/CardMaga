@@ -21,7 +21,7 @@ namespace Map.UI
                 return Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(Account.AccountManager.Instance.AccountCards.CardList.ToArray());
             else
             {
-                return BattleData.Player.CharacterData.CharacterDeck;
+                return Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
             }
 
 
