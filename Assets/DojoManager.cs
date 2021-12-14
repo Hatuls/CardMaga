@@ -158,12 +158,12 @@ public class DojoManager : MonoBehaviour, IObserver
     {
 
         var card = cardUI.RecieveCardReference();
-        if (BattleData.Player.CharacterData.CharacterStats.Gold >= card.CardSO.PurchaseCost)
+        if (Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold >= card.CardSO.PurchaseCost)
         {
             //card added
-            BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.PurchaseCost;
-            _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
-            BattleData.Player.AddCardToDeck(card);
+            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.PurchaseCost;
+            _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
+            Account.AccountManager.Instance.BattleData.Player.AddCardToDeck(card);
             for (int i = 0; i < _metaCardUIs.Length; i++)
             {
                 if (_metaCardUIs[i].CardUI.RecieveCardReference().CardInstanceID == card.CardInstanceID)
@@ -185,12 +185,13 @@ public class DojoManager : MonoBehaviour, IObserver
     private void BuyCombo(Combo.Combo combo)
     {
         int cost = combo.ComboSO.Cost;
-        if (BattleData.Player.CharacterData.CharacterStats.Gold >= cost)
+        var battledata = Account.AccountManager.Instance.BattleData.Player;
+        if (battledata.CharacterData.CharacterStats.Gold >= cost)
         {
             //card added
-            BattleData.Player.CharacterData.CharacterStats.Gold -= cost;
-            BattleData.Player.AddComboRecipe(combo);
-            _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
+            battledata.CharacterData.CharacterStats.Gold -= cost;
+            battledata.AddComboRecipe(combo);
+            _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
             SuccessfullPurchaseSound.PlaySound();
         }
         else
@@ -225,15 +226,17 @@ public class DojoManager : MonoBehaviour, IObserver
     bool[] isPurchaseable;
     public void TryBuyCombo(int index)
     {
+       
+       var battledata = Account.AccountManager.Instance.BattleData.Player;
         if (index == 0 )
         {
-            if (BattleData.Player.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost && isPurchaseable[index])
+            if (battledata.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost && isPurchaseable[index])
             {
                 isPurchaseable[index] = false;
                 //card added
-                BattleData.Player.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
-                _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
-                BattleData.Player.AddComboRecipe(_comboUI[index].Combo);
+                battledata.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
+                _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
+                battledata.AddComboRecipe(_comboUI[index].Combo);
                 _comboTexts[index].text = "Sold";
                 SuccessfullPurchaseSound.PlaySound();
             }
@@ -246,13 +249,13 @@ public class DojoManager : MonoBehaviour, IObserver
         }
         else if (index == 1)
         {
-            if (BattleData.Player.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost && isPurchaseable[index])
+            if (battledata.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost && isPurchaseable[index])
             {
                 isPurchaseable[index] = false;
                 //card added
-                BattleData.Player.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
-                _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
-                BattleData.Player.AddComboRecipe(_comboUI[index].Combo);
+                battledata.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
+                _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
+                battledata.AddComboRecipe(_comboUI[index].Combo);
                 _comboTexts[index].text = "Sold";
                 SuccessfullPurchaseSound.PlaySound();
             }

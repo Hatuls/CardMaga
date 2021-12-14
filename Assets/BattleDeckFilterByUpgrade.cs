@@ -10,7 +10,7 @@ public class BattleDeckFilterByUpgrade : SortAbst<Card>
     [SerializeField]
     public override IEnumerable<Card> Sort()
     {
-        var deck = BattleData.Player.CharacterData.CharacterDeck;
+        var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
         var sortedDeck =deck.Where(x => x.CardLevel < (x.CardSO.CardsMaxLevel - 1)); 
         return sortedDeck;
     }

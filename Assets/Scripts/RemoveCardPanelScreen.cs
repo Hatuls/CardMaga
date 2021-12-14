@@ -56,7 +56,7 @@ namespace Map.UI
         }
         private void CreateCards()
         {
-            var deck = BattleData.Player.CharacterData.CharacterDeck;
+            var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
             while (deck.Length > _deckCardsUI.Count)
             {
                 var card = Instantiate(_cardUIPrefab, this.transform).GetComponent<CardUI>();
@@ -68,7 +68,7 @@ namespace Map.UI
         {
             CreateCards();
             int length = _deckCardsUI.Count;
-            var deck = BattleData.Player.CharacterData.CharacterDeck;
+            var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
         
             for (int i = 0; i < length; i++)
             {

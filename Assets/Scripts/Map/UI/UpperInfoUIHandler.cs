@@ -28,7 +28,7 @@ public class UpperInfoUIHandler : MonoBehaviour
 
     private void Start()
     {
-        UpdateUpperInfoHandler(ref BattleData.Player.CharacterData.CharacterStats);
+        UpdateUpperInfoHandler(ref Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats);
         _dropList.SetActive(false);
     }
     public void UpdateUpperInfoHandler(ref Characters.Stats.CharacterStats stats)

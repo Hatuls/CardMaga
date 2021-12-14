@@ -15,14 +15,14 @@ namespace Rewards.Battles
         [SerializeField] MoneyIcon _moneyIcon;
         private void Start()
         {
-            if (!BattleData.PlayerWon)
+            var data = Account.AccountManager.Instance.BattleData;
+            if (!data.PlayerWon)
                 return;
-
-            BattleData.PlayerWon = false;
-
+            data.PlayerWon = false;
 
 
-            var opponentType = BattleData.Opponent.CharacterData.Info.CharacterType;
+
+            var opponentType = data.Opponent.CharacterData.Info.CharacterType;
 
             if (opponentType == CharacterTypeEnum.Boss_Enemy)
             {
@@ -42,27 +42,28 @@ namespace Rewards.Battles
 
         private void RecieveEXPAndDiamonds(BattleReward battleReward)
         {
-            BattleData.MapRewards.Diamonds += battleReward.DiamondsReward;
-            BattleData.MapRewards.EXP += battleReward.EXPReward;
+            var data = Account.AccountManager.Instance.BattleData.MapRewards;
+           data.Diamonds += battleReward.DiamondsReward;
+            data.EXP += battleReward.EXPReward;
         }
 
         public void ReturnToMainMenu()
         {
 
-            BattleData.Player = null;
+            Account.AccountManager.Instance.BattleData.Player = null;
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
         }
         public void AddCard(Cards.Card cardToAdd)
         {
-            BattleData.Player.AddCardToDeck(cardToAdd);
+            Account.AccountManager.Instance.BattleData.Player.AddCardToDeck(cardToAdd);
         }
 
         public void AddMoney(int amount)
         {
-      
 
-            BattleData.Player.CharacterData.CharacterStats.Gold += (ushort)amount;
-            _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
+
+            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold += (ushort)amount;
+            _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
        
         }
         [SerializeField] EndRunScreen _endRunScreen;
@@ -75,7 +76,7 @@ namespace Rewards.Battles
 
         internal void AddCombo(Combo.Combo[] rewardCombos)
         {
-          bool recievedSuccessfully =  BattleData.Player.AddComboRecipe(rewardCombos[0]);
+          bool recievedSuccessfully = Account.AccountManager.Instance.BattleData.Player.AddComboRecipe(rewardCombos[0]);
         }
 
         public void OnNotify(IObserver Myself)

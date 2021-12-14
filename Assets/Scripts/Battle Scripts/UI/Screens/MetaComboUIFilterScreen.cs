@@ -15,7 +15,7 @@ public class MetaComboUIFilterScreen : UIFilterScreen<ComboRecipeUI, Combo.Combo
     {
         var deckCount = toUseAccountData ?
                  Account.AccountManager.Instance.AccountCombos.ComboList.Count :
-                 Battles.BattleData.Player.CharacterData.ComboRecipe.Length;
+                 Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe.Length;
 
         while (deckCount > _collection.Count)
         {

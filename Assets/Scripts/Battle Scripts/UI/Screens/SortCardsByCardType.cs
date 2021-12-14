@@ -15,7 +15,7 @@ namespace Map.UI
         CardTypeEnum cardTypeEnum;
         public override IEnumerable<Card> Sort()
         {
-            var deck = BattleData.Player.CharacterData.CharacterDeck;
+            var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
             return deck.Where((x) => x.CardSO.CardTypeEnum == cardTypeEnum);
         }
 
