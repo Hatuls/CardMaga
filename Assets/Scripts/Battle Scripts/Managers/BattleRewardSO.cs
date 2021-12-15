@@ -178,6 +178,20 @@ namespace Rewards
 
         public Combo.Combo[] GenerateComboReward(ActsEnum actsEnum, byte amount = 1)
         {
+            // roll combos from rarity 
+            // check if the combo is optional to be reward based on interface
+            // if no -> reduce the rarity level
+            // if yes -> try highest rarity level
+            // 
+
+            //int index = -1;
+            //var recipesChances = _recipesChances.First(x => x.ActEnum == actsEnum);
+            //var comboChances = recipesChances.DropChances;
+            //var comboFactoryHandler = Factory.GameFactory.Instance.ComboFactoryHandler;
+            //var comboCollection = comboFactoryHandler.ComboCollection;
+            //List<Combo.Combo> playerCombo = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe.ToList();
+            //var comboIDs = playerCombo.Select(x => new { ID = x.ComboSO.ID });
+
             Combo.Combo[] combo = new Combo.Combo[amount];
             int tryTimes = 6;
             var recipesChances = _recipesChances.First(x => x.ActEnum == actsEnum);
@@ -448,7 +462,6 @@ namespace Rewards
                 return array;
             }
         }
-
 #endif
     }
 
