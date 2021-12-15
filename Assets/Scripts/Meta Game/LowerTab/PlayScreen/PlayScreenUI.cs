@@ -33,7 +33,7 @@ public class  UshortEvent : UnityEvent<ushort> { }
         [SerializeField]
         GameObject _backgroundPanel;
         PlayPackage _playpackage = new PlayPackage();
-
+        [SerializeField] ushort _energyCost = 5;
         [SerializeField]
         SceneLoaderCallback _sceneLoad;
         #endregion
@@ -83,8 +83,8 @@ public class  UshortEvent : UnityEvent<ushort> { }
 
             if (energyHandler.HasAmount(energyHandler.AmountToStartPlay))
             {
-                OnSuccessfullPlayClick?.Invoke(5);
-               // energyHandler.ReduceAmount(5);
+                OnSuccessfullPlayClick?.Invoke(_energyCost);
+                energyHandler.ReduceAmount(_energyCost);
                 StartGameDelay();
             }
             else

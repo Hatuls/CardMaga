@@ -42,7 +42,7 @@ internal class CSVToUpgradeAndDismental : CSVAbst
 
             string[] dismentalCost = new string[rarities];
             for (int j = 0; j < rarities; j++)
-                dismentalCost[j] += line[rarities + 1];
+                dismentalCost[j] += line[rarities + 1 +j];
 
             CreateDiscmentalCostSO(dismentalCost);
         }
