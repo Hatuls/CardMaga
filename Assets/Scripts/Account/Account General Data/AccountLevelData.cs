@@ -46,14 +46,18 @@ namespace Account.GeneralData
 
         public override bool AddValue(uint value)
         {
-            if (value >= 0)
+            if (value > 0)
             {
                 base.AddValue(value);
                 if (Value >= _maxExp.Value)
                 {
                     _level.AddValue(1);
                     _value = 0;
-                    AddValue(value - _maxExp.Value);
+                    int remain = (int)value - (int)_maxExp.Value;
+
+
+                    if (remain > 0)
+                        AddValue((uint)remain);
                 }
                 OnGainEXP?.Invoke((int)_value, (int)_maxExp.Value);
             }

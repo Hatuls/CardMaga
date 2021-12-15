@@ -54,6 +54,7 @@ namespace Account
         [HideInInspector]
         [SerializeField]
         private AccountData _accountData;
+
         SaveManager.FileStreamType saveType = SaveManager.FileStreamType.FileStream;
         string path = "Account/";
    
@@ -159,7 +160,7 @@ namespace Account
     [System.Serializable]
     public class AccountData : ILoadFirstTime
     {
-        public const string SaveName = "AccountData";
+        public static string SaveName = "AccountData";
         [SerializeField] AccountGeneralData _accountGeneralData;
 
         [SerializeField] AccountCards _accountCards;
