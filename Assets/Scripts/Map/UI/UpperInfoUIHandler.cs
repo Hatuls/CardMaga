@@ -44,7 +44,7 @@ public class UpperInfoUIHandler : MonoBehaviour
     }
     public void OpenDeckAndComboScreen()
     {
-        DropListChangeState();
+        //DropListChangeState();
         _deckAndComboScreen.Open();
     }
 
