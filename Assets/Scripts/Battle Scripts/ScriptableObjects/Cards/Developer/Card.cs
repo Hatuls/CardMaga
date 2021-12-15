@@ -2,7 +2,7 @@
 using Keywords;
 using System;
 using System.Collections.Generic;
-
+using UnityEngine;
 namespace Cards
 {
     public enum CardTypeEnum { Utility = 3, Defend = 2, Attack = 1, None = 0, };
@@ -13,24 +13,31 @@ namespace Cards
     public class Card
     {
         #region Fields
-        [UnityEngine.SerializeField]
+        [SerializeField]
         private CardSO _cardSO;
+        [SerializeField]
         private CardCoreInfo _cardCoreInfo;
-
+        [SerializeField]
         private bool toExhaust = false;
-        public bool IsExhausted { get => toExhaust; }
-        public byte StaminaCost { get; private set; }
+
+
+        [SerializeField]
         CardTypeData _cardTypeData;
-        public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
 
-
+        [SerializeField]
         private KeywordData[] _cardKeyword;
+
+        [SerializeField]
+        private byte staminaCost;
         #endregion
 
         #region Properties
 
+        public bool IsExhausted { get => toExhaust; }
+        public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
         public ushort CardInstanceID => _cardCoreInfo.InstanceID;
         public byte CardLevel => _cardCoreInfo.Level;
+        public byte StaminaCost { get => staminaCost; private set => staminaCost = value; }
 
         public CardSO CardSO
         {
@@ -56,7 +63,7 @@ namespace Cards
 
 
         #region Functions
-  
+
         public Card(CardCoreInfo cardAccountInfo)
         {
             if (cardAccountInfo == null)
@@ -68,7 +75,7 @@ namespace Cards
         {
             toExhaust = _card.ToExhaust;
 
-        
+
 
             var levelUpgrade = _card.GetLevelUpgrade(cardsLevel);
             List<KeywordData> keywordsList = new List<KeywordData>(1);

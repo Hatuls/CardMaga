@@ -57,7 +57,7 @@ namespace Account
 
         SaveManager.FileStreamType saveType = SaveManager.FileStreamType.FileStream;
         string path = "Account/";
-   
+
         #endregion
         #region Properties
         public AccountCharacters AccountCharacters => _accountData.AccountCharacters;
@@ -71,7 +71,29 @@ namespace Account
         #region Private Methods
         private void Start()
         {
-            SceneHandler.OnSceneChange += SaveAccount;
+
+            SceneHandler.onFinishLoadingScene += UpdateLastScene;
+        }
+
+        public void LoadLastScene()
+        {
+            switch (_accountData.CurrentScene)
+            {
+                case SceneHandler.ScenesEnum.MapScene:
+                case SceneHandler.ScenesEnum.GameBattleScene:
+                    SceneHandler.LoadScene(_accountData.CurrentScene);
+                    break;
+                default:
+                    SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+                    break;
+            }
+        }
+
+        private void UpdateLastScene(SceneHandler.ScenesEnum scene)
+        {
+            _accountData.CurrentScene = scene;
+
+            SaveAccount();
         }
         #endregion
         #region Public Methods
@@ -97,6 +119,7 @@ namespace Account
             }
 
             OnFinishLoading?.Invoke();
+            LoadLastScene();
         }
         public void ResetAccount() => _ = CreateNewAccount();
         private async Task CreateNewAccount()
@@ -130,11 +153,11 @@ namespace Account
         {
             SaveAccount();
         }
-   
+
 
         void OnApplicationPause(bool pauseStatus)
         {
-             if(pauseStatus)
+            if (pauseStatus)
                 SaveAccount();
         }
 
@@ -142,7 +165,7 @@ namespace Account
         private void OnApplicationQuit()
         {
             SaveAccount();
-            SceneHandler.OnSceneChange -= SaveAccount;
+            SceneHandler.onFinishLoadingScene -= UpdateLastScene;
             Debug.Log("Saving Account Data");
         }
         public void SaveAccount() => SaveManager.SaveFile(_accountData, AccountData.SaveName, saveType, true, "txt", path);
@@ -179,9 +202,11 @@ namespace Account
         public AccountSettingsData AccountSettingsData { get => _accountSettingsData; private set => _accountSettingsData = value; }
         public AccountGeneralData AccountGeneralData { get => _accountGeneralData; private set => _accountGeneralData = value; }
         public BattleData BattleData { get => _battleData; set => _battleData = value; }
+        public SceneHandler.ScenesEnum CurrentScene { get => _lastScene; set => _lastScene = value; }
 
         [SerializeField]
-        SceneHandler.ScenesEnum _currentScene;
+        SceneHandler.ScenesEnum _lastScene;
+
         public async Task NewLoad()
         {
             AccountSettingsData = new AccountSettingsData();
@@ -195,8 +220,8 @@ namespace Account
             AccountCharacters = new AccountCharacters();
             await AccountCharacters.NewLoad();
             _battleData = new BattleData();
-           _battleData.ResetData();
-           
+            _battleData.ResetData();
+
         }
     }
 }

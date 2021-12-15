@@ -38,14 +38,14 @@ public class SinglePlayerHandler : MonoBehaviour
         }
         var data = Account.AccountManager.Instance.BattleData;
         data.PlayerWon = false;
-       Debug.Log($"Registering Player: {playerLoadOut.CharacterData.Info.CharacterName}");
+       Debug.Log($"Registering Player: {playerLoadOut.CharacterData.CharacterSO.CharacterName}");
         data.Player = playerLoadOut;
         UpperInfoUIHandler.Instance.UpdateUpperInfoHandler(ref data.Player.CharacterData.CharacterStats);
     }
 
     public void RegisterOpponent(Character opponent)
     {
-        Debug.Log($"Registering Opponent: {opponent.CharacterData.Info.CharacterName}\nDifficulty: {opponent.CharacterData.Info.CharacterDiffciulty}");
+        Debug.Log($"Registering Opponent: {opponent.CharacterData.CharacterSO.CharacterName}\nDifficulty: {opponent.CharacterData.CharacterSO.CharacterDiffciulty}");
         Account.AccountManager.Instance.BattleData.Opponent = opponent;
     }
 
@@ -56,7 +56,7 @@ public class SinglePlayerHandler : MonoBehaviour
         if (Account.AccountManager.Instance.BattleData.Player == null)
             StartNewRun();
   
-        Debug.Log($"Start battle!\n{Account.AccountManager.Instance.BattleData.Player.CharacterData.Info.CharacterName} VS {Account.AccountManager.Instance.BattleData.Opponent.CharacterData.Info.CharacterName}");
+        Debug.Log($"Start battle!\n{Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterSO.CharacterName} VS {Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterName}");
         _sceneloaderEvent.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
     }
 

@@ -69,8 +69,6 @@ namespace ThreadsHandler
             {
                 if (!_threads[i].IsThreadAlive)
                 { 
-                    _threads[i].actionOnFinishThread?.Invoke();
-                    _threads[i].AbortThread();
                     RemoveFromList(_threads[i].ID);
                 }
             }
@@ -102,10 +100,10 @@ namespace ThreadsHandler
             {
                 if (_threads[i].ID == id)
                 {
-                    if (_threads[i].IsThreadAlive)
+                
                         _threads[i].AbortThread();
 
-                    _threads.Remove(_threads[i]);
+                    _threads.RemoveAt(i);
                 }
             }
         }
@@ -128,14 +126,17 @@ namespace ThreadsHandler
         public byte ID;
         public Thread thread;
         public System.Action actionOnStartThread;
-        public System.Action actionOnFinishThread;
+        private System.Action actionOnFinishThread;
         public ThreadList(byte id, System.Action ActionInThread, System.Action _actionOnFinishThread = null)
         {
             ID = id;
             actionOnStartThread = ActionInThread;
             actionOnFinishThread = _actionOnFinishThread;
         }
-        public void AbortThread() => thread?.Abort();
+        public void AbortThread() {
+            thread?.Abort();
+                actionOnFinishThread?.Invoke(); 
+        }
         public bool IsThreadAlive
          => (thread != null) ? thread.IsAlive : false;
     }
