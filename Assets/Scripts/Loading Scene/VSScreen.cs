@@ -23,8 +23,8 @@ namespace UI.LoadingScreen
             {
                 throw new Exception("VSScreen BattleData opponent is null");
             }
-            _playerNameText.text = data.Player.CharacterData.Info.CharacterName;
-            _opponentNameText.text = data.Opponent.CharacterData.Info.CharacterName;
+            _playerNameText.text = data.Player.CharacterData.CharacterSO.CharacterName;
+            _opponentNameText.text = data.Opponent.CharacterData.CharacterSO.CharacterName;
             StartAnimation();
         }
 

@@ -15,7 +15,7 @@ namespace Combo
 
         #region Fields
         [SerializeField] string SuccessfullForgeOfComboNameEvent;
-        [SerializeField] ComboSO _cardRecipeDetected;
+        [SerializeField] Combo _cardRecipeDetected;
         PlayerCraftingSlots _playerCraftingSlots;
         PlayerCraftingSlots _enemyCraftingSlots;
         static byte threadId;
@@ -28,7 +28,7 @@ namespace Combo
 
         #region Properties
 
-        public ComboSO CardRecipeDetected
+        public Combo CardRecipeDetected
         {
             get => _cardRecipeDetected; set
             {
@@ -49,24 +49,24 @@ namespace Combo
         public void TryForge(bool isPlayer)
         {
 
-            if (_cardRecipeDetected != null)
+            if (_cardRecipeDetected != null && _cardRecipeDetected.ComboSO != null)
             {
                 var factory = Factory.GameFactory.Instance.CardFactoryHandler;
-                var craftedCard = factory.CreateCard(_cardRecipeDetected.CraftedCard);
+                var craftedCard = factory.CreateCard(_cardRecipeDetected.ComboSO.CraftedCard,_cardRecipeDetected.Level);
 
                 _playSound?.Raise(SuccessfullForgeOfComboNameEvent);
                 _successCrafting?.Raise();
 
-                switch (_cardRecipeDetected.GoToDeckAfterCrafting)
+                switch (_cardRecipeDetected.ComboSO.GoToDeckAfterCrafting)
                 {
                     case DeckEnum.Hand:
-                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, _cardRecipeDetected.GoToDeckAfterCrafting);
+                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting);
 
                         CardUIManager.Instance.UpdateHand();
                         break;
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Disposal:
-                        var gotolocation = _cardRecipeDetected.GoToDeckAfterCrafting;
+                        var gotolocation = _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting;
                         DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, gotolocation);
                         DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
@@ -79,7 +79,7 @@ namespace Combo
                         DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
                     default:
-                        Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.GoToDeckAfterCrafting.ToString());
+                        Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
                         break;
                 }
             }
@@ -107,7 +107,7 @@ namespace Combo
 
             var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
 
-            if (Instance._cardRecipeDetected == null)
+            if (Instance._cardRecipeDetected == null || Instance._cardRecipeDetected.ComboSO == null)
             {
                 FoundCombo = false;
                 _craftingUIHandler.ResetSlotsDetection();
@@ -160,26 +160,24 @@ namespace Combo
         }
         static void CheckRecipe(CardTypeData[] craftingItems, bool isPlayer)
         {
-           
+           // need to make algorithem better!!! 
             var recipes = isPlayer ? Managers.PlayerManager.Instance.Recipes : Battles.EnemyManager.Instance.Recipes;
-            ComboSO[] combo = new ComboSO[recipes.Length];
-
-            for (int i = 0; i < recipes.Length; i++)
-                combo[i] = (recipes[i].ComboSO);
+           
 
             CardTypeData[] cardTypeDatas;
-            for (int i = 0; i < combo.Length; i++)
+            for (int i = 0; i < recipes.Length; i++)
             {
-                cardTypeDatas = new CardTypeData[combo[i].ComboSequance.Length];
+                var comboSO = recipes[i].ComboSO;
+                cardTypeDatas = new CardTypeData[comboSO.ComboSequance.Length];
 
-                for (int j = 0; j < combo[i].ComboSequance.Length; j++)
+                for (int j = 0; j < comboSO.ComboSequance.Length; j++)
                 {
-                    cardTypeDatas[j] = combo[i].ComboSequance[j];
+                    cardTypeDatas[j] = comboSO.ComboSequance[j];
                     //nextRecipe.Add(combo[i].ComboSequance[j]);
                 }
                 if (craftingItems.SequenceEqual(cardTypeDatas, new CardTypeComparer()))
                 {
-                    Instance.CardRecipeDetected = combo[i];
+                    Instance.CardRecipeDetected = recipes[i];
                     return;
                 }
               

@@ -1,13 +1,15 @@
-﻿
+﻿using UnityEngine;
 using System;
 namespace Combo
 {
     [Serializable]
     public class Combo
     {
-        [Sirenix.OdinInspector.ShowInInspector]
+
+        [SerializeField]
         private ComboSO _comboSO;
         public ComboSO ComboSO { get=> _comboSO; private set { _comboSO = value; } }
+        [SerializeField]
         private byte _level;
         public byte Level { get=> _level; private set=> _level =value; }
         public Combo(Battles.CharacterSO.RecipeInfo recipeInfo) : this(recipeInfo?.ComboRecipe, recipeInfo.Level) { }

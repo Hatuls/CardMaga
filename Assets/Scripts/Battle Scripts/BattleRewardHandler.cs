@@ -22,7 +22,7 @@ namespace Rewards.Battles
 
 
 
-            var opponentType = data.Opponent.CharacterData.Info.CharacterType;
+            var opponentType = data.Opponent.CharacterData.CharacterSO.CharacterType;
 
             if (opponentType == CharacterTypeEnum.Boss_Enemy)
             {
