@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine.Events;
-using UnityEngine;
+﻿using UnityEngine;
 namespace Battles.UI
 {
     public class StatsUIManager : MonoBehaviour
@@ -18,7 +16,7 @@ namespace Battles.UI
                 if (_instance == null)
                     Debug.LogError("StatsUIManager is null!");
 
-            return _instance;
+                return _instance;
             }
         }
         private void Awake()
@@ -28,17 +26,32 @@ namespace Battles.UI
 
 
         public void UpdateHealthBar(bool isPlayer, int health)
-        =>(isPlayer ? _playerHealthBar : _enemyHealthBar).SetValueBar(health);
-        public void InitHealthBar(bool isPlayer,int health)
-            => (isPlayer? _playerHealthBar : _enemyHealthBar).InitValueBar(health);
-        public void UpdateMaxHealthBar(bool isPlayer , int maxHealth)
+        {
+            (isPlayer ? _playerHealthBar : _enemyHealthBar).SetValueBar(health);
+            if (isPlayer) 
+                PlaySound( health);
+        }
+        float playerMaxHealth = 0;
+        private async void PlaySound(float val)
+        {
+            if (playerMaxHealth == 0)
+            {
+                playerMaxHealth = Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
+                await System.Threading.Tasks.Task.Yield();
+            }
+
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Hp Parameter", val / playerMaxHealth);
+        }
+        public void InitHealthBar(bool isPlayer, int health)
+            => (isPlayer ? _playerHealthBar : _enemyHealthBar).InitValueBar(health);
+        public void UpdateMaxHealthBar(bool isPlayer, int maxHealth)
             => (isPlayer ? _playerHealthBar : _enemyHealthBar).SetMaxValue(maxHealth);
 
 
         public void UpdateShieldBar(bool isPlayer, int shield)
         {
-         (isPlayer ? _playerBuffIconHandler : _opponentBuffIconHandler)?.UpdateArmour(shield);
-        
+            (isPlayer ? _playerBuffIconHandler : _opponentBuffIconHandler)?.UpdateArmour(shield);
+
         }
 
     }
