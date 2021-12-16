@@ -14,6 +14,7 @@ namespace Battles
         [Tooltip("Player Stats: ")]
 
         [SerializeField] private  Character _myCharacter;
+        [SerializeField] AnimationBodyPartSoundsHandler _animationSoundHandler;
         [Space]
 
         int _cardAction;
@@ -43,6 +44,7 @@ namespace Battles
             Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
             _myCharacter = character;
             var characterdata = character.CharacterData;
+            _animationSoundHandler.CurrentCharacter = characterdata.CharacterSO;
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new Cards.Card[deckLength];
             System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
