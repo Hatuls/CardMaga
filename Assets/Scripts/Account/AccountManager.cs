@@ -52,8 +52,8 @@ namespace Account
 
         #region Fields
         [SerializeField]
-        private RewardGift _rewardGift ;
-            
+        private RewardGift _rewardGift;
+
         [HideInInspector]
         [SerializeField]
         private AccountData _accountData;
@@ -69,7 +69,7 @@ namespace Account
         public AccountSettingsData AccountSettingsData => _accountData.AccountSettingsData;
         public AccountGeneralData AccountGeneralData => _accountData.AccountGeneralData;
         public BattleData BattleData => _accountData.BattleData;
-
+        public SceneHandler.ScenesEnum CurrentScene => _accountData.CurrentScene;
         public RewardGift RewardGift { get => _rewardGift; }
 
         #endregion
@@ -80,18 +80,11 @@ namespace Account
             SceneHandler.onFinishLoadingScene += UpdateLastScene;
         }
 
-        public void LoadLastScene()
+        public void EnterMainMenu()
         {
-            switch (_accountData.CurrentScene)
-            {
-                case SceneHandler.ScenesEnum.MapScene:
-                case SceneHandler.ScenesEnum.GameBattleScene:
-                    SceneHandler.LoadScene(_accountData.CurrentScene);
-                    break;
-                default:
-                    SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
-                    break;
-            }
+            ReturnLoadingScene.GoToScene = _accountData.CurrentScene;
+            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+            
         }
 
         private void UpdateLastScene(SceneHandler.ScenesEnum scene)
@@ -125,7 +118,7 @@ namespace Account
             RewardLoad();
 
             OnFinishLoading?.Invoke();
-            LoadLastScene();
+            EnterMainMenu();
         }
 
         private void RewardLoad()
@@ -181,10 +174,11 @@ namespace Account
             SceneHandler.onFinishLoadingScene -= UpdateLastScene;
             Debug.Log("Saving Account Data");
         }
-        public void SaveAccount() {
+        public void SaveAccount()
+        {
             SaveManager.SaveFile(_accountData, AccountData.SaveName, saveType, true, "txt", path);
             SaveManager.SaveFile(RewardGift, "Reward", saveType);
-        
+
         }
         private void OnDestroy()
         {
