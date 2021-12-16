@@ -52,9 +52,11 @@ namespace Account
 
         #region Fields
         [SerializeField]
-        private RewardGift _rewardGift;
 
-        [HideInInspector]
+        private RewardGift _rewardGift ;
+            
+        //[HideInInspector]
+
         [SerializeField]
         private AccountData _accountData;
 
