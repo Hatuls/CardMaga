@@ -265,24 +265,24 @@ namespace Battles
 
         private void LoadSounds(string[] row)
         {
-            string folderPath = string.Concat("Audio/Characters/"  , _characterName, "/");
+            string folderPath = string.Concat("Audio/Characters/", _characterName, "/");
 
-            string path = string.Concat(folderPath,  "Punch");
+            string path = string.Concat(folderPath, "Punch");
             PunchSounds = CreateAudioSelection(path);
 
-            path = string.Concat(folderPath,  "Kick");
+            path = string.Concat(folderPath, "Kick");
             KickSounds = CreateAudioSelection(path);
 
-            path = string.Concat(folderPath,  "HitSounds");
+            path = string.Concat(folderPath, "HitSounds");
             HitSounds = CreateAudioSelection(path);
 
-            path = string.Concat(folderPath,  "KO");
+            path = string.Concat(folderPath, "KO");
             KOSounds = CreateAudioSelection(path);
 
             path = string.Concat(folderPath, "VictorySound");
             VictorySound = CreateAudioSelection(path);
 
-            path = string.Concat(folderPath,  "Combo");
+            path = string.Concat(folderPath, "Combo");
             ComboSound = CreateAudioSelection(path);
 
             path = string.Concat(folderPath, "Taunts");
@@ -300,9 +300,9 @@ namespace Battles
                     throw new Exception($"Character: {_characterName} Does Not have Sounds!\nPlease Check Path: Resources/{urlPath}");
             }
         }
-    }
-#endif
 
+#endif
+    }
 
 
     public enum CharacterTypeEnum
@@ -334,18 +334,19 @@ namespace Battles
         CardReward = 2 << 1,
         Recipe = 3 << 2,
     }
-}
-[Serializable]
-public class AudioSelection
-{
-    [SerializeField]
-    SoundEventSO[] _sounds;
-    public AudioSelection(SoundEventSO[] audioSounds)
+    [Serializable]
+    public class AudioSelection
     {
-        _sounds = audioSounds;
-    }
-    public SoundEventSO[] Sounds { get => _sounds; }
+        [SerializeField]
+        SoundEventSO[] _sounds;
+        public AudioSelection(SoundEventSO[] audioSounds)
+        {
+            _sounds = audioSounds;
+        }
+        public SoundEventSO[] Sounds=> _sounds; 
 
-    public SoundEventSO GetRandomSound()
-    => Sounds[UnityEngine.Random.Range(0, Sounds.Length)];
+        public SoundEventSO GetRandomSound()
+        => Sounds[UnityEngine.Random.Range(0, Sounds.Length)];
+    }
+
 }
