@@ -45,7 +45,7 @@ namespace Battles
             var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.AssignCharacterData(battleData.Player);
             EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
-            
+
             if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
                 throw new Exception("Battle data was not work correctly!");
 
@@ -53,7 +53,7 @@ namespace Battles
             EnemyManager.Instance.UpdateStatsUI();
             Combo.ComboManager.Instance.Init();
             Keywords.KeywordManager.Instance.Init();
-       
+
 
 
             if (EndTurnButton._OnFinishTurnPress != null)
@@ -85,7 +85,7 @@ namespace Battles
             Instance.StopAllCoroutines();
             Instance._turnCycles = TurnHandler.TurnCycle();
             Account.AccountManager.Instance.BattleData.PlayerWon = false;
-            Instance. OnBattleStarts?.Invoke();
+            Instance.OnBattleStarts?.Invoke();
             StartGameTurns();
 
 
@@ -152,7 +152,17 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
+
+            AddRewards();
             Instance.OnPlayerVictory?.Invoke();
+        }
+
+        private static void AddRewards()
+        {
+            var battleData = Account.AccountManager.Instance.BattleData;
+            var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(battleData.Opponent.CharacterData.CharacterSO.CharacterType, battleData.CurrentAct);
+            battleData.MapRewards.Diamonds += reward.DiamondsReward;
+            battleData.MapRewards.EXP += reward.EXPReward;
         }
 
         private static void PlayerDied()
@@ -165,7 +175,7 @@ namespace Battles
 
         private void OnLoadScene(SceneHandler.ScenesEnum scenesEnum)
         {
-            
+
         }
 
 

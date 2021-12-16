@@ -94,28 +94,42 @@ namespace Battles
 
         public ref Characters.Stats.CharacterStats CharacterStats { get =>ref _characterStats; }
 
+        public AudioSelection PunchSounds;
+        public AudioSelection KickSounds;
+        public AudioSelection HitSounds;
+        public AudioSelection KOSounds;
+        public AudioSelection VictorySound;
+        public AudioSelection ComboSound;
+        public AudioSelection TauntSounds;
+
+
+
+
+#if UNITY_EDITOR
         public bool Init(ushort id , string[] row, CardsCollectionSO cardCollection, ComboCollectionSO recipeCollections)
         {
             ID = id;
 
 
             //CharacterType
-            const byte CharacterTypeIndex = 1;
-            const byte CharacterEnumIndex = 2;
-            const byte CharacterDifficultyIndex = 3;
-            const byte CharacterNameIndex = 4;
-            const byte CharacterModelIndex = 5;
-            const byte CharacterUnlockLevel = 6;
-            const byte CharacterMaxHpIndex =7;
-            const byte CharacterDefenseIndex = 8;
-            const byte CharacterStaminaIndex = 9;
-            const byte CharacterCardDrawIndex = 10;
-            const byte CharacterGoldIndex =11;
-            const byte CharacterStrengthPointIndex = 12;
-            const byte CharacterDexterityPointIndex = 13;
-            const byte CharacterDeckIndex = 14;
-            const byte CharacterRecipeIndex = 15;
-            const byte RewardTypeIndex = 16;
+            const int CharacterTypeIndex = 1;
+            const int CharacterEnumIndex = 2;
+            const int CharacterDifficultyIndex = 3;
+            const int CharacterNameIndex = 4;
+            const int CharacterModelIndex = 5;
+            const int CharacterUnlockLevel = 6;
+            const int CharacterMaxHpIndex =7;
+            const int CharacterDefenseIndex = 8;
+            const int CharacterStaminaIndex = 9;
+            const int CharacterCardDrawIndex = 10;
+            const int CharacterGoldIndex =11;
+            const int CharacterStrengthPointIndex = 12;
+            const int CharacterDexterityPointIndex = 13;
+            const int CharacterDeckIndex = 14;
+            const int CharacterRecipeIndex = 15;
+            const int RewardTypeIndex = 16;
+
+
 
 
             if (Enum.TryParse<CharacterTypeEnum>(row[CharacterTypeIndex].Replace(' ','_'), out CharacterTypeEnum cte))
@@ -220,7 +234,7 @@ namespace Battles
                                 if (byte.TryParse(row[CharacterUnlockLevel], out byte level))
                                     _unlockAtLevel = level;
 
-
+                                LoadSounds(row);
 
                                 return true;
                             }
@@ -240,13 +254,41 @@ namespace Battles
                 Debug.LogError($"Coulmne B: ID= {ID} Character type is not a  ENUM!! - {row[CharacterTypeIndex]}");
 
 
+
+
+
             return false;
         }
+
+
+        private void LoadSounds(string[] row)
+        {
+            const int PunchSoundIndex = 17;
+            const int KickSoundIndex = 18;
+            const int GetHitSoundIndex = 19;
+            const int KOSoundIndex = 20;
+            const int VictorySoundIndex = 21;
+            const int ComboSoundIndex = 22;
+            const int TauntSoundIndex = 23;
+
+
+
+
+        }
+#endif
     }
 
+    [System.Serializable]
+    public class AudioSelection
+    {
+        [SerializeField]
+        SoundEventSO[] _sounds;
 
+        public SoundEventSO[] Sounds { get => _sounds;}
 
-
+        public SoundEventSO GetRandomSound()
+        => Sounds[UnityEngine.Random.Range(0, Sounds.Length)];
+    }
 
     public enum CharacterTypeEnum
     {

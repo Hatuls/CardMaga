@@ -90,7 +90,8 @@ namespace Factory
             public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum,ActsEnum act)
            => BattleRewardCollection.GetReward(characterTypeEnum, act);
 
-
+            public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
+                => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
         }
         public class CharacterFactory
         {
