@@ -51,6 +51,9 @@ namespace Account
         #endregion
 
         #region Fields
+        [SerializeField]
+        private RewardGift _rewardGift ;
+            
         [HideInInspector]
         [SerializeField]
         private AccountData _accountData;
@@ -66,6 +69,8 @@ namespace Account
         public AccountSettingsData AccountSettingsData => _accountData.AccountSettingsData;
         public AccountGeneralData AccountGeneralData => _accountData.AccountGeneralData;
         public BattleData BattleData => _accountData.BattleData;
+
+        public RewardGift RewardGift { get => _rewardGift; }
 
         #endregion
         #region Private Methods
@@ -117,10 +122,18 @@ namespace Account
             {
                 await CreateNewAccount();
             }
+            RewardLoad();
 
             OnFinishLoading?.Invoke();
             LoadLastScene();
         }
+
+        private void RewardLoad()
+        {
+            if (SaveManager.CheckFileExists("Reward", saveType))
+                _rewardGift = SaveManager.Load<RewardGift>("Reward", saveType);
+        }
+
         public void ResetAccount() => _ = CreateNewAccount();
         private async Task CreateNewAccount()
         {
@@ -168,7 +181,11 @@ namespace Account
             SceneHandler.onFinishLoadingScene -= UpdateLastScene;
             Debug.Log("Saving Account Data");
         }
-        public void SaveAccount() => SaveManager.SaveFile(_accountData, AccountData.SaveName, saveType, true, "txt", path);
+        public void SaveAccount() {
+            SaveManager.SaveFile(_accountData, AccountData.SaveName, saveType, true, "txt", path);
+            SaveManager.SaveFile(RewardGift, "Reward", saveType);
+        
+        }
         private void OnDestroy()
         {
             if (Application.isPlaying)
@@ -184,6 +201,9 @@ namespace Account
     public class AccountData : ILoadFirstTime
     {
         public static string SaveName = "AccountData";
+
+
+
         [SerializeField] AccountGeneralData _accountGeneralData;
 
         [SerializeField] AccountCards _accountCards;
@@ -223,5 +243,12 @@ namespace Account
             _battleData.ResetData();
 
         }
+    }
+    [System.Serializable]
+    public class RewardGift
+    {
+        public bool NeedToBeRewarded { get => _needToBeRewarded; set => _needToBeRewarded = value; }
+
+        [SerializeField] bool _needToBeRewarded = true;
     }
 }
