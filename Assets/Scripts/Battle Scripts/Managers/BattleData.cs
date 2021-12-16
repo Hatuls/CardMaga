@@ -1,5 +1,6 @@
 ﻿
 using Characters;
+using Rewards;
 using UnityEngine;
 namespace Battles
 {
@@ -16,12 +17,20 @@ namespace Battles
         private bool _isFinishedPlaying = false;
         [SerializeField]
         private bool _playerWon = false;
+        [SerializeField]
+        Map.Map _map;
 
+        [SerializeField]
+        ActsEnum _currentAct;
+
+        public Map.Map Map { get => _map; set => _map = value; }
         public MapRewards MapRewards { get => _mapRewards; set => _mapRewards = value; }
         public Character Player { get => _player; set => _player = value; }
         public Character Opponent { get => _opponent; set => _opponent = value; }
         public bool PlayerWon { get => _playerWon; set => _playerWon = value; }
         public bool IsFinishedPlaying { get => _isFinishedPlaying; set => _isFinishedPlaying = value; }
+        public ActsEnum CurrentAct { get => _currentAct; set => _currentAct = value; }
+
         public void ResetData()
         {
             _mapRewards = null;
@@ -29,6 +38,8 @@ namespace Battles
             _opponent = null;
             _isFinishedPlaying = false;
             _playerWon = false;
+            _map = null;
+            _currentAct = ActsEnum.ActOne;
         }
     }
 

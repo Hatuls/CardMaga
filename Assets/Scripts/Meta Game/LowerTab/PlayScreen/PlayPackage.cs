@@ -22,6 +22,7 @@ namespace UI.Meta.PlayScreen
             battleData.PlayerWon = false;
             battleData.IsFinishedPlaying = false;
             battleData.MapRewards = new Battles.MapRewards();
+
             Map.MapManager.ResetSavedMap();
         }
     }
