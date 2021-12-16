@@ -9,7 +9,7 @@ public class ReturnLoadingScene : MonoBehaviour
     [SerializeField] GameObject _mainPanel;
     private void Start()
     {
-        if (_mainPanel.activeInHierarchy)
+        //if (_mainPanel.activeInHierarchy)
             Close();
         switch (GoToScene)
         {
