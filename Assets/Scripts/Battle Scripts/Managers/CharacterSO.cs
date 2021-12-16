@@ -273,13 +273,13 @@ namespace Battles
             path = string.Concat(folderPath, "Kick");
             KickSounds = CreateAudioSelection(path);
 
-            path = string.Concat(folderPath, "HitSounds");
+            path = string.Concat(folderPath, "Get Hit");
             HitSounds = CreateAudioSelection(path);
 
             path = string.Concat(folderPath, "KO");
             KOSounds = CreateAudioSelection(path);
 
-            path = string.Concat(folderPath, "VictorySound");
+            path = string.Concat(folderPath, "Victory");
             VictorySound = CreateAudioSelection(path);
 
             path = string.Concat(folderPath, "Combo");
@@ -291,9 +291,9 @@ namespace Battles
             AudioSelection CreateAudioSelection(string urlPath)
             {
                 SoundEventSO[] soundEvents = Resources.LoadAll<SoundEventSO>(urlPath);
-                if (soundEvents != null)
+                if (soundEvents != null && soundEvents.Length >0)
                 {
-                    return new AudioSelection(soundEvents);
+                    return new AudioSelection(soundEvents[0]);
 
                 }
                 else
@@ -338,15 +338,12 @@ namespace Battles
     public class AudioSelection
     {
         [SerializeField]
-        SoundEventSO[] _sounds;
-        public AudioSelection(SoundEventSO[] audioSounds)
+        SoundEventSO _soundEvent;
+        public AudioSelection(SoundEventSO audioSounds)
         {
-            _sounds = audioSounds;
+            _soundEvent = audioSounds;
         }
-        public SoundEventSO[] Sounds=> _sounds; 
-
-        public SoundEventSO GetRandomSound()
-        => Sounds[UnityEngine.Random.Range(0, Sounds.Length)];
+        public SoundEventSO Sounds=> _soundEvent; 
     }
 
 }

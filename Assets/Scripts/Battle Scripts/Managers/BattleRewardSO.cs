@@ -389,7 +389,11 @@ namespace Rewards
                         throw new System.Exception($"Battle RewardSO: Max Value is not a valid number {(ResourceEnum)Credits + i} -  {perActs[1]}");
 
                 }
-                _currencyList.Add(new CurrencyRewardAmount(minAmount.ToArray(), maxAmount.ToArray(), (ResourceEnum)Credits + i));
+
+                var minVal = minAmount.ToArray();
+                var maxVal = maxAmount.ToArray();
+                var rarity = (ResourceEnum)(Credits + i);
+                _currencyList.Add(new CurrencyRewardAmount(minVal, maxVal, rarity));
             }
 
             _rewardTypes = _currencyList;
