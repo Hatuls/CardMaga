@@ -116,7 +116,7 @@ public class DojoManager : MonoBehaviour, IObserver
             metaCard.ResetEnum();
             metaCard.ClosePanel();
             metaCard.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Buy, BuyCard);
-            metaCard.BuyBtn.SetText(cards[i].CardSO.PurchaseCost.ToString());
+            metaCard.BuyBtn.SetText(cards[i].CardSO.GetCostPerUpgrade(cards[i].CardLevel).ToString());
             metaCard.OpenInteractionPanel();
             _metaCardUIs[i].CardUI.DisplayCard(cards[i]);
         }
@@ -158,10 +158,10 @@ public class DojoManager : MonoBehaviour, IObserver
     {
 
         var card = cardUI.RecieveCardReference();
-        if (Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold >= card.CardSO.PurchaseCost)
+        if (Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold >= card.CardSO.GetCostPerUpgrade(card.CardLevel))
         {
             //card added
-            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.PurchaseCost;
+            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.GetCostPerUpgrade(card.CardLevel);
             _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
             Account.AccountManager.Instance.BattleData.Player.AddCardToDeck(card);
             for (int i = 0; i < _metaCardUIs.Length; i++)
@@ -184,7 +184,7 @@ public class DojoManager : MonoBehaviour, IObserver
     }
     private void BuyCombo(Combo.Combo combo)
     {
-        int cost = combo.ComboSO.Cost;
+        int cost = combo.ComboSO.CraftedCard.GetCostPerUpgrade(combo.Level);
         var battledata = Account.AccountManager.Instance.BattleData.Player;
         if (battledata.CharacterData.CharacterStats.Gold >= cost)
         {
