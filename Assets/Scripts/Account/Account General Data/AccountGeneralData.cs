@@ -6,9 +6,6 @@ namespace Account.GeneralData
     public class AccountGeneralData : ILoadFirstTime
     {
         [SerializeField] bool _isFirstTime = false;
-        [SerializeField] bool _recievedDiamondbonus = false;
-
-
         public AccountGeneralData()
         {
 
@@ -32,12 +29,12 @@ namespace Account.GeneralData
         public AccountResourcesData AccountResourcesData { get => _accountResourcesData; private set => _accountResourcesData = value; }
         public AccountEnergyData AccountEnergyData { get => _accountEnergyData; private set => _accountEnergyData = value; }
         public bool IsFirstTime { get => _isFirstTime; set => _isFirstTime = value; }
-        public bool RecievedDiamondbonus { get => _recievedDiamondbonus; set => _recievedDiamondbonus = value; }
+
 
         public async Task NewLoad()
         {
             //_accountInfoData = new AccountInfoData(TimeManager.Instance.GetCurrentTime(),);
-            _recievedDiamondbonus = false;
+      
             IsFirstTime = false;
 
 
