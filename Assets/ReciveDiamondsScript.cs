@@ -1,20 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class ReciveDiamondsScript : MonoBehaviour
 {
     [SerializeField]
-    int _diamondAmount;
+    ushort _diamondAmount;
     [SerializeField]
     TextMeshProUGUI _diamondAmountText;
-
-
-
+    [SerializeField]
+    GameObject _rewardPanel;
+    public void Start()
+    {
+        UpdateText();
+    }
+    private void UpdateText()
+    {
+        _diamondAmountText.text = _diamondAmount.ToString();
+    }
     public void OnReciveRewards()
     {
-
+        if(true)//check if bool is true
+        {
+            Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(_diamondAmount);
+        }
+        //change bool to false
+        _rewardPanel.SetActive(false);
     }
 
         

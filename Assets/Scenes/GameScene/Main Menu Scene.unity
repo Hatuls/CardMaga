@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -705,7 +705,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 854457851}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1700485406}
+        m_MethodName: OnReciveRewards
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &854457851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,6 +966,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9205acf5c91ee39489a8dcf13a71eae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _diamondAmount: 100
+  _diamondAmountText: {fileID: 755928632}
+  _rewardPanel: {fileID: 1700485402}
 --- !u!1 &1800690471
 GameObject:
   m_ObjectHideFlags: 0
