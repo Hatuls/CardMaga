@@ -5,12 +5,12 @@ using UnityEngine;
 public class ReturnLoadingScene : MonoBehaviour
 {
     public static SceneHandler.ScenesEnum GoToScene;
-    [SerializeField] TextMeshProUGUI _returnText;
+
     [SerializeField] GameObject _mainPanel;
     private void Start()
     {
-        if (_mainPanel.activeSelf)
-         _mainPanel.SetActive(false);
+        if (_mainPanel.activeInHierarchy)
+            Close();
         switch (GoToScene)
         {
             case SceneHandler.ScenesEnum.MapScene:
