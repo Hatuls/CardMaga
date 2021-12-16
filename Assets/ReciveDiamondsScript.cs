@@ -11,7 +11,11 @@ public class ReciveDiamondsScript : MonoBehaviour
     GameObject _rewardPanel;
     public void Start()
     {
-        UpdateText();
+        if(Account.AccountManager.Instance.RewardGift.NeedToBeRewarded)
+        {
+            _rewardPanel.SetActive(true);
+            UpdateText();
+        }
     }
     private void UpdateText()
     {
@@ -19,11 +23,9 @@ public class ReciveDiamondsScript : MonoBehaviour
     }
     public void OnReciveRewards()
     {
-        if(true)//check if bool is true
-        {
-            Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(_diamondAmount);
-        }
-        //change bool to false
+        Debug.Log("Reciving Rewards");
+        Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(_diamondAmount);
+        Account.AccountManager.Instance.RewardGift.NeedToBeRewarded = false;
         _rewardPanel.SetActive(false);
     }
 
