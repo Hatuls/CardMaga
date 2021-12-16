@@ -54,7 +54,7 @@ namespace Account
         [SerializeField]
         private RewardGift _rewardGift ;
             
-        [HideInInspector]
+        //[HideInInspector]
         [SerializeField]
         private AccountData _accountData;
 
