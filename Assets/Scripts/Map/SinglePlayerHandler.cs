@@ -22,11 +22,7 @@ public class SinglePlayerHandler : MonoBehaviour
     private void Start()
     {
         if (Account.AccountManager.Instance.BattleData.Player == null)
-            StartNewRun();
-        else if (Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Health <= 0)
-            throw new System.Exception($"SingePlayerHandler: BattleData.Player's health is 0!\n need to return to main menu!");
-            
-    }
+            StartNewRun();    }
     public static void RegisterPlayerCharacterDataForNewRun(Character playerCharacter) => Account.AccountManager.Instance.BattleData.Player = playerCharacter;
     public void StartNewRun(Character playerLoadOut = null)
     {
