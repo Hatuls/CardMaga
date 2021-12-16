@@ -208,10 +208,10 @@ public static class SaveManager
         }
 
 
+#if UNITY_EDITOR
                 RefreshEditorProjectWindow();
                 void RefreshEditorProjectWindow()
                     =>
-#if UNITY_EDITOR
                     UnityEditor.AssetDatabase.Refresh();
 #endif
     }
