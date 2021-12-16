@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ReturnLoadingScene : MonoBehaviour
 {
-    public static SceneHandler.ScenesEnum GoToScene = SceneHandler.ScenesEnum.NetworkScene;
+    public static SceneHandler.ScenesEnum GoToScene;
 
     [SerializeField] GameObject _mainPanel;
     private void Start()
     {
-
+        //if (_mainPanel.activeInHierarchy)
             Close();
         switch (GoToScene)
         {
@@ -28,7 +28,6 @@ public class ReturnLoadingScene : MonoBehaviour
     public void SwitchScene()
     {
         SceneHandler.LoadScene(GoToScene);
-        GoToScene = SceneHandler.ScenesEnum.NetworkScene;
         Close();
     }
     public void Close()
