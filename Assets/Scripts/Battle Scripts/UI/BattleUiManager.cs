@@ -44,6 +44,7 @@ namespace Battles.UI
                 //    _textEvent?.Raise(TextType.NormalDMG, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
                     StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, Amount);
+               
                     break;
 
                 case KeywordTypeEnum.Shield:

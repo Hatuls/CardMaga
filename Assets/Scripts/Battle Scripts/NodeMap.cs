@@ -52,9 +52,9 @@ namespace Map
           
             _boxCollider.enabled = state;
         }
-
-        private void OnMouseUp()
+        private void OnMouseExit()
         {
+  
       //     if(toRecieveInputs)
             MapPlayerTracker.Instance.SelectNode(this);
         }
@@ -78,7 +78,8 @@ namespace Map
             BluePrintNode = bluePrint;
           //  _sr.color = bluePrint.PointColor;
             _sr.sprite = bluePrint.Icon;
-            _backgroundImg.color =Color.cyan;
+            _backgroundImg.sprite = bluePrint.BackGroundImage;
+            //_backgroundImg.color =Color.cyan;
 
             SetState(NodeStates.Locked);
 
