@@ -84,20 +84,23 @@ namespace Rewards
             if (_characterDifficultyEnum >= CharacterTypeEnum.Elite_Enemy)
             {
                 combo = GenerateComboReward(actsEnum);
-
             }
 
-            ushort EXP = RandomAmount(ResourceEnum.EXP, actsEnum);
+
             ushort Credits = RandomAmount(ResourceEnum.Credits, actsEnum);
             ushort Gold = RandomAmount(ResourceEnum.Gold, actsEnum);
-            ushort Diamonds = RandomAmount(ResourceEnum.Diamonds, actsEnum);
 
 
-            BattleReward reward = new BattleReward(Credits, EXP, Gold, Diamonds, rewardCards, combo);
+            BattleReward reward = new BattleReward(Credits, Gold, rewardCards, combo);
 
             return reward;
         }
-
+        public RunReward CreateRunReward(ActsEnum act)
+        {
+            ushort EXP = RandomAmount(ResourceEnum.EXP, act);
+            ushort Diamonds = RandomAmount(ResourceEnum.Diamonds, act);
+            return new RunReward(EXP, Diamonds);
+        }
         public Card[] GenerateCardsRewards(ActsEnum actsEnum, byte CardAmount = 3)
         {
             var actCardChance = _cardChances.First(x => x.ActEnum == actsEnum);
@@ -195,7 +198,7 @@ namespace Rewards
             Combo.Combo[] combo = new Combo.Combo[amount];
             int tryTimes = 6;
             var recipesChances = _recipesChances.First(x => x.ActEnum == actsEnum);
-             var playerCombo = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe.ToList();
+            var playerCombo = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe.ToList();
             var comboIDs = playerCombo.Select(x => new { ID = x.ComboSO.ID });
             var comboFactoryHandler = Factory.GameFactory.Instance.ComboFactoryHandler;
             var comboCollection = comboFactoryHandler.ComboCollection;
@@ -220,7 +223,7 @@ namespace Rewards
 
                         for (int i = 0; i < chances.Length; i++)
                             chances[i] = comboChances[i].DropChance;
-                        
+
                         index = ChanceHelper.GetRandomIndexByChances(chances);
 
                         if (index == -1)
@@ -251,14 +254,14 @@ namespace Rewards
                             break;
                         else if (combo[i].ComboSO.ID == id)
                         {
-             
+
                             combo[z] = null;
                             break;
                         }
                     }
-            
 
-                } while (playerCombo.Contains(combo[z]) || (combo[z] == null && tryTimes > 0) );
+
+                } while (playerCombo.Contains(combo[z]) || (combo[z] == null && tryTimes > 0));
 
                 var DropChance = recipesChances.DropChances[index];
                 var levelChances = DropChance.LevelChances;

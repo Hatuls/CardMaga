@@ -35,18 +35,11 @@ namespace Rewards.Battles
                 throw new Exception("Reward Bundle is null!");
 
 
-            RecieveEXPAndDiamonds(rewardBundle);
 
             _battleUIRewardHandler.OpenRewardScreen(rewardBundle);
         }
 
-        private void RecieveEXPAndDiamonds(BattleReward battleReward)
-        {
-            var data = Account.AccountManager.Instance.BattleData.MapRewards;
-           data.Diamonds += battleReward.DiamondsReward;
-            data.EXP += battleReward.EXPReward;
-        }
-
+    
         public void ReturnToMainMenu()
         {
 

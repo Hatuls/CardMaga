@@ -17,6 +17,8 @@ namespace Rewards
         {
             return BattleReward(CharacterTypeEnum.Elite_Enemy).GenerateCardsRewards(act, amount);
         }
+        public RunReward GetRunReward(CharacterTypeEnum characterType, ActsEnum act)
+            => BattleReward(characterType).CreateRunReward(act);
         public Combo.Combo[] GetRewardCombos(ActsEnum act, byte amount)
         {
             return BattleReward(CharacterTypeEnum.Elite_Enemy).GenerateComboReward(act, amount);
