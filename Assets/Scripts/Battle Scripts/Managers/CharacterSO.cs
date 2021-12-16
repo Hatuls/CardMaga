@@ -271,8 +271,7 @@ namespace Battles
             const int ComboSoundIndex = 22;
             const int TauntSoundIndex = 23;
 
-
-
+          //  Resources.LoadAll<SoundEventSO>(string.Concat(_characterName, "/Punch", row[PunchSoundIndex]);
 
         }
 #endif
