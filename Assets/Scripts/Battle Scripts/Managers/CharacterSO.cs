@@ -270,7 +270,7 @@ namespace Battles
             const int IndexDeathSound = 19;
             const int IndexVictorySound = 20;
             const int IndexComboSound = 21;
-            const int IndexTauntSound = 21;
+            const int IndexTauntSound = 22;
 
 
 
@@ -279,24 +279,24 @@ namespace Battles
             string path = string.Concat(folderPath, "SoundOnAttack", fileName);
             SoundOnAttack = Resources.Load< SoundEventWithParamsSO>(path);
 
-            fileName = "";
-            path = string.Concat(folderPath, "Get Hit", "");
+            fileName = row[IndexDamageSound];
+            path = string.Concat(folderPath, "Get Hit", fileName);
             GetHitSounds = Resources.Load<SoundEventWithParamsSO>(path);
 
-            fileName = "";
-            path = string.Concat(folderPath, "KO", "");
+            fileName = row[IndexDeathSound];
+            path = string.Concat(folderPath, "KO", fileName);
             DeathSounds = Resources.Load<SoundEventSO>(path);
 
-            fileName = "";
-            path = string.Concat(folderPath, "Victory", "");
+            fileName = row[IndexVictorySound];
+            path = string.Concat(folderPath, "Victory", fileName);
             VictorySound = Resources.Load<SoundEventSO>(path);
 
-            fileName = "";
-            path = string.Concat(folderPath, "Combo", "");
+            fileName = row[IndexComboSound];
+            path = string.Concat(folderPath, "Combo", fileName);
             ComboSounds = Resources.Load<SoundEventSO>(path);
 
-            fileName = "";
-            path = string.Concat(folderPath, "Taunts", "");
+            fileName = row[IndexTauntSound];
+            path = string.Concat(folderPath, "Taunts", fileName);
             TauntSounds = Resources.Load<SoundEventSO>(path);
 
 
@@ -335,7 +335,6 @@ namespace Battles
         CardReward = 2 << 1,
         Recipe = 3 << 2,
     }
-    [Serializable]
 
 
 }
