@@ -20,7 +20,7 @@ namespace Map
         public override void ActivatePoint()
         {
             _observerSO.Notify(this);
-            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(_rarityBasedOn, Rewards.ActsEnum.ActOne);
+            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(_rarityBasedOn, Rewards.ActsEnum.ActOne, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
             if (rewardBundle == null)
                 throw new Exception("Reward Bundle is null!");
 

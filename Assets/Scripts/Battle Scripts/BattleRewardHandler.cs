@@ -30,7 +30,7 @@ namespace Rewards.Battles
                 return;
             }
             _observerSO.Notify(this);
-            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(opponentType, _mapTracker.CurrentAct);
+            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(opponentType, _mapTracker.CurrentAct,data.Player.CharacterData.ComboRecipe);
             if (rewardBundle == null)
                 throw new Exception("Reward Bundle is null!");
 

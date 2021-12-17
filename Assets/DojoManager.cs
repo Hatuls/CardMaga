@@ -7,6 +7,7 @@ using UI.Meta.Laboratory;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using System.Collections.Generic;
 
 public class DojoManager : MonoBehaviour, IObserver
 {
@@ -121,10 +122,10 @@ public class DojoManager : MonoBehaviour, IObserver
             _metaCardUIs[i].CardUI.DisplayCard(cards[i]);
         }
     }
-    private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward)
+    private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward, IEnumerable<Combo.Combo> workOnCombo)
     {
         int amountOfCombos = _comboUI.Length;
-        var combos = battleReward.GetRewardCombos(Rewards.ActsEnum.ActOne, (byte)amountOfCombos);
+        var combos = battleReward.GetRewardCombos(Rewards.ActsEnum.ActOne, (byte)amountOfCombos,workOnCombo);
         var comboFactory = Factory.GameFactory.Instance.ComboFactoryHandler;
         for (byte i = 0; i < amountOfCombos; i++)
         {
@@ -150,7 +151,7 @@ public class DojoManager : MonoBehaviour, IObserver
         };
         var battleRewards = Factory.GameFactory.Instance.RewardFactoryHandler.BattleRewardCollection;
         AssignCards(battleRewards);
-        AssingCombos(battleRewards);
+        AssingCombos(battleRewards, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
     }
     #endregion
 
