@@ -46,7 +46,7 @@ public class AudioManager : MonoBehaviour
     {
         SceneHandler.onFinishLoadingScene += SceneParameter;
 
-        string path = string.Concat(FmodEventString, _backgroundMusic.EventPathName);
+        string path = "event:/Background Music";//string.Concat(FmodEventString, _backgroundMusic.EventPathName);
         EventDescription eventDescription;
         RuntimeManager.StudioSystem.getEvent(path, out eventDescription);
         if (eventDescription.isValid())
@@ -56,6 +56,7 @@ public class AudioManager : MonoBehaviour
             backgroundFmod.PlaySound(0);
         }
         _fmodLibrary.Clear();
+        _backgroundMusic.PlaySound();
     }
 
     public const string FmodEventString = "event:/";
