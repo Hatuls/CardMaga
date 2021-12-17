@@ -146,7 +146,7 @@ namespace Account
         private void AddDiamonds() => _accountData.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(10);
 
         [Sirenix.OdinInspector.Button]
-        private void AddGold() => _accountData.AccountGeneralData.AccountResourcesData.Gold.AddValue(10);
+        private void AddGold() => _accountData.BattleData.Player.CharacterData.CharacterStats.Gold += 100;
 
         [Sirenix.OdinInspector.Button]
         private void AddEnergy() => _accountData.AccountGeneralData.AccountEnergyData.Energy.AddValue(10);
