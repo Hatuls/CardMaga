@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Map
 {
-    public class MapPlayerTracker : MonoBehaviour , IObserver
+    public class MapPlayerTracker : MonoBehaviour, IObserver
     {
         public bool lockAfterSelecting = false;
-       // public float enterNodeDelay = 1f;
+        // public float enterNodeDelay = 1f;
         public MapManager mapManager;
         public MapView view;
 
@@ -17,7 +17,7 @@ namespace Map
 
         [SerializeField] ObserverSO _observerSO;
         [SerializeField]
-        ActsEnum _currentAct= ActsEnum.ActOne;
+        ActsEnum _currentAct = ActsEnum.ActOne;
         [SerializeField] CameraMovement _cameraMovement;
 
         public bool Locked { get; set; }
@@ -27,13 +27,13 @@ namespace Map
         {
             Instance = this;
         }
-   
+
         public void SelectNode(NodeMap mapNode)
         {
             if (Locked) return;
 
             // Debug.Log("Selected node: " + mapNode.Node.point);
-           // _observerSO.Notify(this);
+            // _observerSO.Notify(this);
             if (mapManager.CurrentMap.path.Count == 0)
             {
                 // player has not selected the node yet, he can select any of the nodes with y = 0
@@ -59,7 +59,7 @@ namespace Map
             Locked = lockAfterSelecting;
             mapManager.CurrentMap.path.Add(mapNode.NodeData.point);
             mapManager.SaveMap();
-  
+
             //    view.SetLineColors();
             EnterNode(mapNode);
         }
@@ -78,7 +78,13 @@ namespace Map
             // or show appropriate GUI over the map: 
             // if you choose to show GUI in some of these cases, do not forget to set "Locked" in MapPlayerTracker back to false
 
+            AnalyticsHandler.SendEvent("Entering Node", new System.Collections.Generic.Dictionary<string, object> {
+                { "Map:", Instance.mapManager.CurrentMap.configName },
+                {"Node:" ,mapNode.NodeData.NodeTypeEnum.ToString() },
+                {"Location:" ,mapNode.NodeData.Position },
 
+            });
+            
             Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(mapNode.NodeData.NodeTypeEnum).ActivatePoint();
             Instance._cameraMovement.LastVisitedNodeY = mapNode.transform.position.y;
 

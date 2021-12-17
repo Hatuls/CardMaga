@@ -26,7 +26,7 @@ namespace Battles
         public override void Init()
         {
             ResetBattle();
-            SceneHandler.onFinishLoadingScene += OnLoadScene;
+
         }
 
         private void ResetBattle()
@@ -54,10 +54,9 @@ namespace Battles
             Combo.ComboManager.Instance.Init();
             Keywords.KeywordManager.Instance.Init();
 
-
-
             if (EndTurnButton._OnFinishTurnPress != null)
                 EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
+
             EndTurnButton._OnFinishTurnPress += TurnHandler.OnFinishTurn;
 
             StaminaHandler.Instance.InitStaminaHandler();
@@ -128,12 +127,12 @@ namespace Battles
 
         private static void UpdateStats()
         {
-            var x = Account.AccountManager.Instance.BattleData.Player;
+            var playerDAta = Account.AccountManager.Instance.BattleData.Player;
             var playerBattleStats = CharacterStatsManager.GetCharacterStatsHandler(true);
 
-            x.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
+            playerDAta.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
 
-            Account.AccountManager.Instance.BattleData.Player = x;
+            Account.AccountManager.Instance.BattleData.Player = playerDAta;
         }
 
         public static void DeathAnimationFinished(bool isPlayer)
@@ -152,7 +151,12 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
-
+            var battleData = Account.AccountManager.Instance.BattleData;
+            AnalyticsHandler.SendEvent("Player Won Enemy", new System.Collections.Generic.Dictionary<string, object>() {
+                { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
+                {"Difficulty",  battleData.Opponent.CharacterData.CharacterSO.CharacterDiffciulty },
+                {"Character Type", battleData.Opponent.CharacterData.CharacterSO.CharacterType }
+            });
             AddRewards();
             Instance.OnPlayerVictory?.Invoke();
         }
@@ -163,26 +167,21 @@ namespace Battles
             var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(battleData.Opponent.CharacterData.CharacterSO.CharacterType, battleData.CurrentAct);
             battleData.MapRewards.Diamonds += reward.DiamondsReward;
             battleData.MapRewards.EXP += reward.EXPReward;
+        
         }
 
         private static void PlayerDied()
         {
+            var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.EnemyAnimatorController.CharacterWon();
+            AnalyticsHandler.SendEvent("Enemy Defeated Player", new System.Collections.Generic.Dictionary<string, object>() {
+                { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
+                {"Difficulty",  battleData.Opponent.CharacterData.CharacterSO.CharacterDiffciulty },
+                {"Character Type", battleData.Opponent.CharacterData.CharacterSO.CharacterType }
+            });
             Instance.OnPlayerDefeat?.Invoke();
         }
-
-
-        private void OnLoadScene(SceneHandler.ScenesEnum scenesEnum)
-        {
-
-        }
-
-
-
-
-
-
 
 
 

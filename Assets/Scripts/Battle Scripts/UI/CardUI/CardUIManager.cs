@@ -366,6 +366,13 @@ namespace Battles.UI
                 if (succeded)
                 {
                     //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
+#if !UNITY_EDITOR
+                    AnalyticsHandler.SendEvent("Card Played", new System.Collections.Generic.Dictionary<string, object>()
+                    {
+                        {"Card", card.CardSO.CardName},
+                        {"Level", card.CardLevel},
+                    });
+#endif
                     OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition, _OriginalCard);
                     int index = _handUI.GetCardIndex(_selectedCardUI);
                 }

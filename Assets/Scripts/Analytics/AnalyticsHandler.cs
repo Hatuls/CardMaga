@@ -2,12 +2,18 @@
 public static class AnalyticsHandler
 {
     public static void SendEvent(string EventName)
-    => CheckWarning(Analytics.CustomEvent(EventName));
+    {
+#if !UNITY_EDITOR 
+        CheckWarning(Analytics.CustomEvent(EventName));
+#endif
+    }
 
     public static void SendEvent(string EventName, System.Collections.Generic.Dictionary<string, object> dictionary)
-    => CheckWarning(Analytics.CustomEvent(EventName, dictionary));
-
-
+    {
+#if !UNITY_EDITOR
+        CheckWarning(Analytics.CustomEvent(EventName, dictionary));
+#endif
+    }
     private static void CheckWarning(AnalyticsResult data)
     {
         if (data != AnalyticsResult.Ok)
