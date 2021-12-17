@@ -101,7 +101,7 @@ public class CraftingSlotUI : MonoBehaviour
         var cardTypePallete = artBoard.GetPallette<CardTypePalette>();
 
         _iconImage.color = cardTypePallete.GetIconBodyPartColorFromEnum(cardType);
-        _decorImage.color = cardTypePallete.GetDecorationColorFromEnum(cardType);
+        //_decorImage.color = cardTypePallete.GetDecorationColorFromEnum(cardType);
     }
 
     public void MoveLocation(Vector2 startPosition, float leantweenTime)
