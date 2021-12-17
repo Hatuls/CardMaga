@@ -179,7 +179,7 @@ namespace Rewards
             return rewardCards;
         }
 
-        public Combo.Combo[] GenerateComboReward(ActsEnum actsEnum,IEnumerable<Combo.Combo> workOnCombo,  byte amount = 1)
+        public Combo.Combo[] GenerateComboReward(ActsEnum actsEnum, IEnumerable<Combo.Combo> workOnCombo, byte amount = 1)
         {
             // roll combos from rarity 
             // check if the combo is optional to be reward based on interface
@@ -196,44 +196,87 @@ namespace Rewards
             var comboIDs = workOnCombo.Select(x => new { ID = x.ComboSO.ID });
 
             Combo.Combo[] combo = new Combo.Combo[amount];
+            List<ushort> allPossibleCombosIDFromChances = new List<ushort>();
+            byte[] chances = new byte[comboChances.Length];
+            for (int j = 0; j < chances.Length; j++)
+            {
+                chances[j] = comboChances[j].DropChance;
+                if (chances[j] > 0)
+                {
+                    var ids = comboCollection.GetComboByRarity((RarityEnum)(j + 1)).ComboID;
+                    for (int i = 0; i < ids.Length; i++)
+                        allPossibleCombosIDFromChances.Add(ids[i]);
+                }
+            }
+
+
 
             for (int i = 0; i < amount; i++)
             {
-                byte[] chances = new byte[comboChances.Length];
-                for (int j = 0; j < chances.Length; j++)
-                    chances[j] = comboChances[j].DropChance;
-
-
-                index = ChanceHelper.GetRandomIndexByChances(chances);
                 do
                 {
+                    index = ChanceHelper.GetRandomIndexByChances(chances);
                     if (index == -1)
                     {
                         Debug.LogError("Index Was Not Found - Random Chance was not in any of the rarity chances");
                         combo[i] = null;
                     }
-                    List<ushort> combos = comboCollection.GetComboByRarity((RarityEnum)(index + 1)).ComboID.ToList();
+                    ushort[] comboID = comboCollection.GetComboByRarity((RarityEnum)(index + 1)).ComboID;
                     // ushort[] combosSortByRarity = new ushort[combos.Length];
                     //   System.Array.Copy(combos, combosSortByRarity, combos.Length);
-             
-                    List<ushort> combosSortByRarity = new List<ushort>(combos[i]);
-                 //   for (int i = 0; i < length; i++)
-                 //   {
-                 //
-                 //   }
-                 //
-                 //   for (int j = 0; j < combosSortByRarity.Length; j++)
-                 //   {
-                 //       if (!workOnCombo.Any(combo => combo.ComboSO.ID == combosSortByRarity[j]) && !combo.Any(x => x?.ComboSO.ID == combosSortByRarity[j]))
-                 //       {
-                 //           var DropChance = recipesChances.DropChances[index];
-                 //           var levelChances = DropChance.LevelChances;
-                 //           int level = ChanceHelper.GetRandomIndexByChances(levelChances);
-                 //           combo[i] = comboFactoryHandler.CreateCombo(comboFactoryHandler.ComboCollection.GetCombo(combosSortByRarity[j]), (byte)level);
-                 //           break;
-                 //       }
-                 //   }
-                } while (combo[i] != null);
+                    int length = comboID.Length;
+                    List<ushort> combos = new List<ushort>(length);
+                    for (int j = 0; j < length; j++)
+                        combos.Add(comboID[j]);
+
+                    List<ushort> combosSortByRarity = new List<ushort>(length);
+                    for (int j = 0; j < length; j++)
+                    {
+                        int randomindex = Random.Range(0, combos.Count);
+                        combosSortByRarity.Add(combos.ElementAt(randomindex));
+                        combos.RemoveAt(randomindex);
+                    }
+
+                    for (int j = 0; j < length; j++)
+                    {
+                        if (!workOnCombo.Any(x => x.ComboSO.ID == combosSortByRarity[j]) && !combo.Any(x => x?.ComboSO.ID == combosSortByRarity[j]))
+                        {
+                            var DropChance = recipesChances.DropChances[index];
+                            var levelChances = DropChance.LevelChances;
+                            int level = ChanceHelper.GetRandomIndexByChances(levelChances);
+                            combo[i] = comboFactoryHandler.CreateCombo(comboFactoryHandler.ComboCollection.GetCombo(combosSortByRarity[j]), (byte)level);
+                            break;
+                        }
+                    }
+
+                    if (combo[i] == null)
+                    {
+                        // check if he has all the possibles combos
+                        bool hasAll = false;
+                        for (int j = 0; j < allPossibleCombosIDFromChances.Count; j++)
+                        {
+                            hasAll = false;
+                            for (int z = 0; z < comboIDs.Count(); z++)
+                            {
+                                if (comboIDs.ElementAt(z).ID == allPossibleCombosIDFromChances[i])
+                                {
+                                    hasAll = true;
+                                    break;
+
+                                }
+                            }
+                            if (!hasAll)
+                                break;
+                        }
+                        if (hasAll)
+                        {
+                            Debug.LogWarning("he got all the combos that he can get from this chances returning null");
+                            return combo;
+                        }
+
+
+                    }
+                } while (combo[i] == null);
             }
 
 

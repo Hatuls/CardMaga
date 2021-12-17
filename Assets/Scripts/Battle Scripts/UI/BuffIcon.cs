@@ -58,22 +58,22 @@ public class BuffIcon : MonoBehaviour
 
         ShowIcon();
         var art = Factory.GameFactory.Instance.ArtBlackBoard;
-        var buffUIPalette = art.GetPallette<BuffUIPalette>();
+        //var buffUIPalette = art.GetPallette<BuffUIPalette>();
         _background.sprite = iconData?.GetBackground;
         // _background.color = iconData.GetBackgroundColor;
-        _background.color = buffUIPalette.CardDefaultBackground;
+        //_background.color = buffUIPalette.CardDefaultBackground;
 
         _decor.sprite = iconData?.GetDecor;
         //_decor.color = iconData.GetDecorColor;
-        _decor.color = buffUIPalette.CardDefaultDecorateColor;
+        //_decor.color = buffUIPalette.CardDefaultDecorateColor;
 
         _icon.sprite = iconData?.GetIcon;
         //_icon.color = iconData.GetIconColor;
-        _icon.color = buffUIPalette.GetBuffIconFromColor(buffIcons);
+        //_icon.color = buffUIPalette.GetBuffIconFromColor(buffIcons);
 
         if (iconData.ToShowAmount)
         {
-            SetText(amount.ToString(), buffUIPalette.CardDefaultTextColor);
+            SetText(amount.ToString());
             _iconText.gameObject.SetActive(true);
         }
         else
@@ -87,7 +87,7 @@ public class BuffIcon : MonoBehaviour
         TweenExitEntrance(false);
     }
 
-    protected void SetText(string Text, Color? clr = null)
+    protected void SetText(string Text)
     {
         _iconText.text = Text;
 
@@ -95,8 +95,8 @@ public class BuffIcon : MonoBehaviour
         //    ? clr.GetValueOrDefault() :  _buffUIPalette.CardDefaultTextColor ;
 
 
-        var art = Factory.GameFactory.Instance.ArtBlackBoard;
-        _iconText.color = art.GetPallette<BuffUIPalette>().CardDefaultTextColor;
+        //var art = Factory.GameFactory.Instance.ArtBlackBoard;
+        //_iconText.color = art.GetPallette<BuffUIPalette>().CardDefaultTextColor;
 
 
     }

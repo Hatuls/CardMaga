@@ -259,11 +259,7 @@ public class CSVToCardSO : CSVAbst
         if (cost == 0)
             Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
-        //ToExhaust
-        if (card.CardName == "Patch")
-        {
-            Debug.Log("!");
-        }
+      
         //Upgrades
         List<PerLevelUpgrade> _PerLevelUpgrade = new List<Cards.PerLevelUpgrade>();
         _PerLevelUpgrade.Add(new PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType, IsExhausted), cardSO[CardDescription], cost));
