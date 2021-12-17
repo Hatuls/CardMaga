@@ -94,14 +94,12 @@ namespace Battles
 
         public ref Characters.Stats.CharacterStats CharacterStats { get => ref _characterStats; }
 
-        public AudioSelection PunchSounds;
-        public AudioSelection KickSounds;
-        public AudioSelection HitSounds;
-        public AudioSelection KOSounds;
-        public AudioSelection VictorySound;
-        public AudioSelection ComboSound;
-        public AudioSelection TauntSounds;
-
+        public SoundEventWithParamsSO SoundOnAttack; // parameter "Voice"
+        public SoundEventWithParamsSO GetHitSounds;//Parameter "Get Hit"
+        public SoundEventSO VictorySound; 
+        public SoundEventSO TauntSounds; 
+        public SoundEventSO DeathSounds; 
+        public SoundEventSO ComboSounds; 
 
 
 
@@ -267,38 +265,41 @@ namespace Battles
         {
             string folderPath = string.Concat("Audio/Characters/", _characterName, "/");
 
-            string path = string.Concat(folderPath, "Punch");
-            PunchSounds = CreateAudioSelection(path);
+            const int IndexSoundOnAttack = 17;
+            const int IndexDamageSound = 18;
+            const int IndexDeathSound = 19;
+            const int IndexVictorySound = 20;
+            const int IndexComboSound = 21;
+            const int IndexTauntSound = 22;
 
-            path = string.Concat(folderPath, "Kick");
-            KickSounds = CreateAudioSelection(path);
 
-            path = string.Concat(folderPath, "Get Hit");
-            HitSounds = CreateAudioSelection(path);
 
-            path = string.Concat(folderPath, "KO");
-            KOSounds = CreateAudioSelection(path);
 
-            path = string.Concat(folderPath, "Victory");
-            VictorySound = CreateAudioSelection(path);
+            string fileName = row[IndexSoundOnAttack];
+            string path = string.Concat(folderPath, "SoundOnAttack", fileName);
+            SoundOnAttack = Resources.Load< SoundEventWithParamsSO>(path);
 
-            path = string.Concat(folderPath, "Combo");
-            ComboSound = CreateAudioSelection(path);
+            fileName = row[IndexDamageSound];
+            path = string.Concat(folderPath, "Get Hit", fileName);
+            GetHitSounds = Resources.Load<SoundEventWithParamsSO>(path);
 
-            path = string.Concat(folderPath, "Taunts");
-            TauntSounds = CreateAudioSelection(path);
+            fileName = row[IndexDeathSound];
+            path = string.Concat(folderPath, "KO", fileName);
+            DeathSounds = Resources.Load<SoundEventSO>(path);
 
-            AudioSelection CreateAudioSelection(string urlPath)
-            {
-                SoundEventSO[] soundEvents = Resources.LoadAll<SoundEventSO>(urlPath);
-                if (soundEvents != null && soundEvents.Length >0)
-                {
-                    return new AudioSelection(soundEvents[0]);
+            fileName = row[IndexVictorySound];
+            path = string.Concat(folderPath, "Victory", fileName);
+            VictorySound = Resources.Load<SoundEventSO>(path);
 
-                }
-                else
-                    throw new Exception($"Character: {_characterName} Does Not have Sounds!\nPlease Check Path: Resources/{urlPath}");
-            }
+            fileName = row[IndexComboSound];
+            path = string.Concat(folderPath, "Combo", fileName);
+            ComboSounds = Resources.Load<SoundEventSO>(path);
+
+            fileName = row[IndexTauntSound];
+            path = string.Concat(folderPath, "Taunts", fileName);
+            TauntSounds = Resources.Load<SoundEventSO>(path);
+
+
         }
 
 #endif
@@ -334,16 +335,6 @@ namespace Battles
         CardReward = 2 << 1,
         Recipe = 3 << 2,
     }
-    [Serializable]
-    public class AudioSelection
-    {
-        [SerializeField]
-        SoundEventSO _soundEvent;
-        public AudioSelection(SoundEventSO audioSounds)
-        {
-            _soundEvent = audioSounds;
-        }
-        public SoundEventSO Sounds=> _soundEvent; 
-    }
+
 
 }
