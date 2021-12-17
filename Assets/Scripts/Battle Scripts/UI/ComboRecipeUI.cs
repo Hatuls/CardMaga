@@ -1,6 +1,7 @@
 ﻿using Battles.UI;
 using Combo;
 using Sirenix.OdinInspector;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,6 +17,7 @@ namespace UI
         [BoxGroup("References")]
         [SerializeField]
         CardUI _cardUI;
+        [SerializeField]
         Combo.Combo _combo;
         
 
@@ -60,7 +62,8 @@ namespace UI
             activePlaceHolders = 0;
 
         }
-        public void ResetClick() { }
+        public void ResetClick() { _event.RemoveAllListeners(); }
+        public void RegisterClick(UnityAction<ComboRecipeUI> combo) => _event.AddListener(combo);
         public void OnClick()
             => _event?.Invoke(this);
         public void InitRecipe(Combo.Combo combo)
@@ -72,18 +75,18 @@ namespace UI
             ActivatedPlaceHolders(ComboRecipe);
             SetVisual(ComboRecipe);
         }
-        public void InitRecipe(ComboSO relicSO)
-        {
+      //  public void InitRecipe(ComboSO relicSO)
+      //  {
 
-      var combo =      Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(relicSO, 0);
-            if (ComboRecipe != relicSO)
-            {
-                _combo  = combo;
-                _cardUI.GFX.SetCardReference(relicSO.CraftedCard);
-                ActivatedPlaceHolders(relicSO);
-                SetVisual(relicSO);
-            }
-        }
+      //var combo =      Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(relicSO, 0);
+      //      if (ComboRecipe != relicSO)
+      //      {
+      //          _combo  = combo;
+      //          _cardUI.GFX.SetCardReference(relicSO.CraftedCard);
+      //          ActivatedPlaceHolders(relicSO);
+      //          SetVisual(relicSO);
+      //      }
+      //  }
         private void ActivatedPlaceHolders(ComboSO relicSO)
         {
 
@@ -110,9 +113,7 @@ namespace UI
         }
         private void SetVisual(ComboSO relic)
         {
-            _cardUI.GFX.SetCardReference(relic.CraftedCard);
-
-
+         
             for (int i = 0; i < _placeHolderSlotUIs.Length; i++)
             {
                 if (!_placeHolderSlotUIs[i].gameObject.activeSelf)

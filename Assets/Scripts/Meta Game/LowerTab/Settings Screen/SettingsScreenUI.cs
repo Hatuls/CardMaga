@@ -106,7 +106,7 @@ namespace UI.Meta.Settings
         {
             Close();
             Battles.BattleManager.BattleEnded(true);
-            BattleData.IsFinishedPlaying = true;
+            Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
         }
 

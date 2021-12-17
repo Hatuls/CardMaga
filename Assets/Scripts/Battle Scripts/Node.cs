@@ -8,8 +8,10 @@ namespace Map
     [System.Serializable]
     public class Node
     {
-        public Node(NodeType type, Point p )
+        public Node(NodeType type, Point p, Vector2 pos )
         {
+            positionX = pos.x;
+            positionY = pos.y;
             NodeTypeEnum = type;
             point = p;
             IsOpen = p.y == 0;
@@ -19,7 +21,9 @@ namespace Map
         [SerializeField] NodeStates _nodeState;
         [SerializeField] NodeType _nodeType;
         [SerializeField] Point _point;
-        [SerializeField] public Vector2 position;
+       // [SerializeField] public Vector2 position;
+        [SerializeField] private float positionX;
+        [SerializeField] private float positionY;
 
         public Point point { get => _point; set => _point = value; }
         public  List<Point> incoming = new List<Point>();
@@ -31,7 +35,12 @@ namespace Map
 
             incoming.Add(p);
         }
-
+        public void RandomizePosition (Vector2 pos)
+        {
+            positionX += pos.x;
+            positionY += pos.y;
+        }
+        public Vector2 Position => new Vector2(positionX, positionY);
         public void AddOutgoing(Point p)
         {
             if (outgoing.Any(element => element.Equals(p)))

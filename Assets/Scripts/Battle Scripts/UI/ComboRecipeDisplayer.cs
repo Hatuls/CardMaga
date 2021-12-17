@@ -52,11 +52,11 @@ public class ComboRecipeDisplayer : MonoBehaviour, IPointerClickHandler
             page = 1;
 
         var recipes = Managers.PlayerManager.Instance.Recipes;
-        Combo.ComboSO[] playerRecipe = new Combo.ComboSO[recipes.Length];
+        Combo.Combo[] playerRecipe = new Combo.Combo[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
         {
-            playerRecipe[i] = recipes[i].ComboSO;
-            Debug.LogWarning($"Recipe { playerRecipe[i].name}"); ;
+            playerRecipe[i] = recipes[i];
+            Debug.LogWarning($"Recipe { playerRecipe[i].ComboSO.ComboName}"); ;
 
         }
 

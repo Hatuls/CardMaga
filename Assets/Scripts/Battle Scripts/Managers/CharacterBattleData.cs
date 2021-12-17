@@ -11,7 +11,7 @@ namespace Characters
     {
         [SerializeField]
         private Stats.CharacterStats _characterStats;
-        public ref Stats.CharacterStats CharacterStats { get => ref _characterStats;  }
+        public ref Stats.CharacterStats CharacterStats { get => ref _characterStats; }
 
         [SerializeField]
         private Cards.Card[] _characterDeck;
@@ -19,19 +19,22 @@ namespace Characters
 
         [SerializeField]
         private Combo.Combo[] _comboRecipe;
+        [SerializeField]
+        private CharacterSO _characterSO;
+
         public Combo.Combo[] ComboRecipe { get => _comboRecipe; internal set => _comboRecipe = value; }
 
         [Sirenix.OdinInspector.ShowInInspector]
-        public CharacterSO Info { get; private set; }
+        public CharacterSO CharacterSO { get => _characterSO; private set => _characterSO = value; }
 
         public CharacterBattleData(CharacterSO characterSO)
         {
-            Info = characterSO;
+            CharacterSO = characterSO;
             var factory = Factory.GameFactory.Instance;
-            _characterDeck = factory.CardFactoryHandler.CreateDeck(Info.Deck);
-            _comboRecipe = factory.ComboFactoryHandler.CreateCombo(Info.Combos);
+            _characterDeck = factory.CardFactoryHandler.CreateDeck(CharacterSO.Deck);
+            _comboRecipe = factory.ComboFactoryHandler.CreateCombo(CharacterSO.Combos);
 
-            _characterStats = Info.CharacterStats;
+            _characterStats = CharacterSO.CharacterStats;
         }
 
         public CharacterBattleData(CharacterData data, AccountDeck _deck)
@@ -40,7 +43,7 @@ namespace Characters
                 throw new Exception($"CharacterBattleData : Did not constructed because CharacterData is null!");
             var factory = Factory.GameFactory.Instance;
             _characterStats = data.Stats;
-            Info = factory.CharacterFactoryHandler.GetCharacterSO(data.CharacterEnum);
+            CharacterSO = factory.CharacterFactoryHandler.GetCharacterSO(data.CharacterEnum);
             _characterDeck = factory.CardFactoryHandler.CreateDeck(_deck);
             _comboRecipe = factory.ComboFactoryHandler.CreateCombo(data.CharacterCombos);
         }

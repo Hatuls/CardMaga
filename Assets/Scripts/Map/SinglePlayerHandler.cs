@@ -21,13 +21,9 @@ public class SinglePlayerHandler : MonoBehaviour
     }
     private void Start()
     {
-        if (BattleData.Player == null)
-            StartNewRun();
-        else if (BattleData.Player.CharacterData.CharacterStats.Health <= 0)
-            throw new System.Exception($"SingePlayerHandler: BattleData.Player's health is 0!\n need to return to main menu!");
-            
-    }
-    public static void RegisterPlayerCharacterDataForNewRun(Character playerCharacter) => BattleData.Player = playerCharacter;
+        if (Account.AccountManager.Instance.BattleData.Player == null)
+            StartNewRun();    }
+    public static void RegisterPlayerCharacterDataForNewRun(Character playerCharacter) => Account.AccountManager.Instance.BattleData.Player = playerCharacter;
     public void StartNewRun(Character playerLoadOut = null)
     {
 
@@ -36,26 +32,27 @@ public class SinglePlayerHandler : MonoBehaviour
             Debug.LogWarning("SingePlayerHandler: Character playerLoadOut class is null.\nCreateing Character from SO");
             playerLoadOut = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(CharacterTypeEnum.Player);
         }
-       BattleData.PlayerWon = false;
-       Debug.Log($"Registering Player: {playerLoadOut.CharacterData.Info.CharacterName}");
-        BattleData.Player = playerLoadOut;
-        UpperInfoUIHandler.Instance.UpdateUpperInfoHandler(ref BattleData.Player.CharacterData.CharacterStats);
+        var data = Account.AccountManager.Instance.BattleData;
+        data.PlayerWon = false;
+       Debug.Log($"Registering Player: {playerLoadOut.CharacterData.CharacterSO.CharacterName}");
+        data.Player = playerLoadOut;
+        UpperInfoUIHandler.Instance.UpdateUpperInfoHandler(ref data.Player.CharacterData.CharacterStats);
     }
 
     public void RegisterOpponent(Character opponent)
     {
-        Debug.Log($"Registering Opponent: {opponent.CharacterData.Info.CharacterName}\nDifficulty: {opponent.CharacterData.Info.CharacterDiffciulty}");
-        BattleData.Opponent = opponent;
+        Debug.Log($"Registering Opponent: {opponent.CharacterData.CharacterSO.CharacterName}\nDifficulty: {opponent.CharacterData.CharacterSO.CharacterDiffciulty}");
+        Account.AccountManager.Instance.BattleData.Opponent = opponent;
     }
 
 
     public void Battle()
     {
 
-        if (BattleData.Player == null)
+        if (Account.AccountManager.Instance.BattleData.Player == null)
             StartNewRun();
   
-        Debug.Log($"Start battle!\n{BattleData.Player.CharacterData.Info.CharacterName} VS {BattleData.Opponent.CharacterData.Info.CharacterName}");
+        Debug.Log($"Start battle!\n{Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterSO.CharacterName} VS {Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterName}");
         _sceneloaderEvent.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
     }
 

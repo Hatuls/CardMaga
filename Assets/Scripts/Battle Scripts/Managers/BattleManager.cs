@@ -1,4 +1,5 @@
 ﻿using Battles.Turns;
+using Battles.UI;
 using Characters;
 using Characters.Stats;
 using Managers;
@@ -25,7 +26,7 @@ namespace Battles
         public override void Init()
         {
             ResetBattle();
-            SceneHandler.onFinishLoadingScene += OnLoadScene;
+
         }
 
         private void ResetBattle()
@@ -41,22 +42,21 @@ namespace Battles
         private void AssignParams()
         {
 
+            var battleData = Account.AccountManager.Instance.BattleData;
+            PlayerManager.Instance.AssignCharacterData(battleData.Player);
+            EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
 
-            PlayerManager.Instance.AssignCharacterData(BattleData.Player);
-            EnemyManager.Instance.AssignCharacterData(BattleData.Opponent);
-            
-            if (BattleData.Player.CharacterData.CharacterStats.Health <= 0)
+            if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
                 throw new Exception("Battle data was not work correctly!");
 
             PlayerManager.Instance.UpdateStatsUI();
             EnemyManager.Instance.UpdateStatsUI();
             Combo.ComboManager.Instance.Init();
             Keywords.KeywordManager.Instance.Init();
-       
-
 
             if (EndTurnButton._OnFinishTurnPress != null)
                 EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
+
             EndTurnButton._OnFinishTurnPress += TurnHandler.OnFinishTurn;
 
             StaminaHandler.Instance.InitStaminaHandler();
@@ -83,8 +83,8 @@ namespace Battles
         {
             Instance.StopAllCoroutines();
             Instance._turnCycles = TurnHandler.TurnCycle();
-            BattleData.PlayerWon = false;
-            Instance. OnBattleStarts?.Invoke();
+            Account.AccountManager.Instance.BattleData.PlayerWon = false;
+            Instance.OnBattleStarts?.Invoke();
             StartGameTurns();
 
 
@@ -103,6 +103,7 @@ namespace Battles
             OnGameEnded?.Invoke();
             UI.StatsUIManager.GetInstance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
+            CardUIManager.Instance.ResetCardUIManager();
 
 
             if (isPlayerDied)
@@ -114,12 +115,11 @@ namespace Battles
             {
                 EnemyDied();
             }
-            BattleData.PlayerWon = !isPlayerDied;
+            Account.AccountManager.Instance.BattleData.PlayerWon = !isPlayerDied;
             UpdateStats();
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
-
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
             //   BattleRewardHandler.Instance.FinishMatch(!isPlayerDied);
@@ -127,19 +127,19 @@ namespace Battles
 
         private static void UpdateStats()
         {
-            var x = BattleData.Player;
+            var playerDAta = Account.AccountManager.Instance.BattleData.Player;
             var playerBattleStats = CharacterStatsManager.GetCharacterStatsHandler(true);
 
-            x.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
+            playerDAta.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
 
-            BattleData.Player = x;
+            Account.AccountManager.Instance.BattleData.Player = playerDAta;
         }
 
         public static void DeathAnimationFinished(bool isPlayer)
         {
 
             if (isPlayer)
-                BattleData.IsFinishedPlaying = true;
+                Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
 
@@ -151,27 +151,37 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
+            var battleData = Account.AccountManager.Instance.BattleData;
+            AnalyticsHandler.SendEvent("Player Won Enemy", new System.Collections.Generic.Dictionary<string, object>() {
+                { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
+                {"Difficulty",  battleData.Opponent.CharacterData.CharacterSO.CharacterDiffciulty },
+                {"Character Type", battleData.Opponent.CharacterData.CharacterSO.CharacterType }
+            });
+            AddRewards();
             Instance.OnPlayerVictory?.Invoke();
+        }
+
+        private static void AddRewards()
+        {
+            var battleData = Account.AccountManager.Instance.BattleData;
+            var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(battleData.Opponent.CharacterData.CharacterSO.CharacterType, battleData.CurrentAct);
+            battleData.MapRewards.Diamonds += reward.DiamondsReward;
+            battleData.MapRewards.EXP += reward.EXPReward;
+        
         }
 
         private static void PlayerDied()
         {
+            var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.EnemyAnimatorController.CharacterWon();
+            AnalyticsHandler.SendEvent("Enemy Defeated Player", new System.Collections.Generic.Dictionary<string, object>() {
+                { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
+                {"Difficulty",  battleData.Opponent.CharacterData.CharacterSO.CharacterDiffciulty },
+                {"Character Type", battleData.Opponent.CharacterData.CharacterSO.CharacterType }
+            });
             Instance.OnPlayerDefeat?.Invoke();
         }
-
-
-        private void OnLoadScene(SceneHandler.ScenesEnum scenesEnum)
-        {
-            
-        }
-
-
-
-
-
-
 
 
 

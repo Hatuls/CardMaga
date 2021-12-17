@@ -1,5 +1,4 @@
-﻿using Cards;
-using UnityEngine;
+﻿using UnityEngine;
 namespace Rewards
 {
     [CreateAssetMenu(fileName = "Pack Reward Collection", menuName = "ScriptableObjects/Collection/Pack Rewards Collection")]
@@ -15,7 +14,7 @@ namespace Rewards
             _packs = packRewardSOs;
         }
         public PackRewardSO[] PacksRewardSO => _packs;
-   
+
     }
 
 }

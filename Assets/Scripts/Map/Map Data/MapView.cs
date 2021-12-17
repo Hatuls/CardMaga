@@ -87,7 +87,7 @@ namespace Map
 
                     mapLine.SetColor(Node.NodeState);
 
-                    mapLine.ConnectLines(nodeData.position, Node.position);
+                    mapLine.ConnectLines(nodeData.Position, Node.Position);
                     _mapLines.Add(mapLine);
                 }
             }
@@ -161,7 +161,7 @@ namespace Map
             var blueprint = eventFactoryRef.GetEventPoint(node.NodeTypeEnum);
             mapNode.SetUp(node, blueprint);
             //      mapNode.transform.localPosition = node.position;
-            mapNode.transform.position = node.position;
+            mapNode.transform.position = node.Position;
             return mapNode;
         }
 

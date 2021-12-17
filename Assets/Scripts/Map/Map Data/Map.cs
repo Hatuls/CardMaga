@@ -5,17 +5,13 @@ using System.Linq;
 namespace Map
 {
     [System.Serializable]
-    public class Map : ISaveable
+    public class Map 
     {
         public List<Node> nodes; // template of the map (the whole map nodes)
 
         public List<Point> path; // players path
 
         public string configName;
-
-        public SaveManager.FileStreamType FileStreamType => SaveManager.FileStreamType.PlayerPref;
-
-
 
         public Map(string configName,List<Node> nodes, List<Point> path)
         {
@@ -36,7 +32,7 @@ namespace Map
             if (bossNode == null || firstLayerNode == null)
                 return 0f;
 
-            return bossNode.position.y - firstLayerNode.position.y;
+            return bossNode.Position.y - firstLayerNode.Position.y;
         }
 
         public Node GetNode(Point point)

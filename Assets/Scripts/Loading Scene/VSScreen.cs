@@ -14,17 +14,17 @@ namespace UI.LoadingScreen
         public override void StartTransition()
         {
             _animHash = Animator.StringToHash("PlayVSAnim");
-
-            if (Battles.BattleData.Player == null)
+            var data = Account.AccountManager.Instance.BattleData;
+            if (data.Player == null)
             {
                 throw new Exception("VSScreen BattleData player is null");
             }
-            if (Battles.BattleData.Opponent == null)
+            if (data.Opponent == null)
             {
                 throw new Exception("VSScreen BattleData opponent is null");
             }
-            _playerNameText.text = Battles.BattleData.Player.CharacterData.Info.CharacterName;
-            _opponentNameText.text = Battles.BattleData.Opponent.CharacterData.Info.CharacterName;
+            _playerNameText.text = data.Player.CharacterData.CharacterSO.CharacterName;
+            _opponentNameText.text = data.Opponent.CharacterData.CharacterSO.CharacterName;
             StartAnimation();
         }
 

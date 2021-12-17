@@ -12,7 +12,7 @@ namespace Map.UI
 
         private void CreateRecipes()
         {
-            var combos = BattleData.Player.CharacterData.ComboRecipe;
+            var combos = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe;
             while (combos.Length > _comboRecipies.Count)
             {
                 var combo = Instantiate(_comboRecipePrefab, this.transform).GetComponent<ComboRecipeUI>();
@@ -29,7 +29,7 @@ namespace Map.UI
         {
             CreateRecipes();
             int length = _comboRecipies.Count;
-            var combos = BattleData.Player.CharacterData.ComboRecipe;
+            var combos = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe;
             var sortedCombos = combos.Where((x) => x.ComboSO.ComboSequance.Length == amount);
 
             int sortedCombosLength = sortedCombos.Count();
@@ -53,7 +53,7 @@ namespace Map.UI
         {
             CreateRecipes();
             int length = _comboRecipies.Count;
-            var combos = BattleData.Player.CharacterData.ComboRecipe;
+            var combos = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe;
             for (int i = 0; i < length; i++)
             {
                 if (i < combos.Length)

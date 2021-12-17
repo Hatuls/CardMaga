@@ -18,8 +18,7 @@ namespace Managers
         [SerializeField] CharacterSO.RecipeInfo[] _recipes;
 
         [SerializeField]   AnimatorController _playerAnimatorController;
-
-
+        [SerializeField] AnimationBodyPartSoundsHandler _soundAnimation;
         #endregion
         public ref CharacterStats GetCharacterStats => ref _character.CharacterData.CharacterStats;
         Cards.Card[] _playerDeck;
@@ -56,10 +55,11 @@ namespace Managers
         static int Counter = 0;
         public void AssignCharacterData(Character characterData)
         {
-            Instantiate(characterData.CharacterData.Info.CharacterAvatar, _playerAnimatorController.transform);
+            Instantiate(characterData.CharacterData.CharacterSO.CharacterAvatar, _playerAnimatorController.transform);
            Debug.LogWarning("<a>Spawning " + Counter++ +" </a>");
             _character = characterData;
             var data = characterData.CharacterData;
+            _soundAnimation.CurrentCharacter = data.CharacterSO;
 
             int Length = data.CharacterDeck.Length;
 

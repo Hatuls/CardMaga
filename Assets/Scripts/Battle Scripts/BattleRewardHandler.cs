@@ -15,14 +15,14 @@ namespace Rewards.Battles
         [SerializeField] MoneyIcon _moneyIcon;
         private void Start()
         {
-            if (!BattleData.PlayerWon)
+            var data = Account.AccountManager.Instance.BattleData;
+            if (!data.PlayerWon)
                 return;
-
-            BattleData.PlayerWon = false;
-
+            data.PlayerWon = false;
 
 
-            var opponentType = BattleData.Opponent.CharacterData.Info.CharacterType;
+
+            var opponentType = data.Opponent.CharacterData.CharacterSO.CharacterType;
 
             if (opponentType == CharacterTypeEnum.Boss_Enemy)
             {
@@ -30,39 +30,33 @@ namespace Rewards.Battles
                 return;
             }
             _observerSO.Notify(this);
-            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(opponentType, _mapTracker.CurrentAct);
+            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(opponentType, _mapTracker.CurrentAct,data.Player.CharacterData.ComboRecipe);
             if (rewardBundle == null)
                 throw new Exception("Reward Bundle is null!");
 
 
-            RecieveEXPAndDiamonds(rewardBundle);
 
             _battleUIRewardHandler.OpenRewardScreen(rewardBundle);
         }
 
-        private void RecieveEXPAndDiamonds(BattleReward battleReward)
-        {
-            BattleData.MapRewards.Diamonds += battleReward.DiamondsReward;
-            BattleData.MapRewards.EXP += battleReward.EXPReward;
-        }
-
+    
         public void ReturnToMainMenu()
         {
 
-            BattleData.Player = null;
+            Account.AccountManager.Instance.BattleData.Player = null;
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
         }
         public void AddCard(Cards.Card cardToAdd)
         {
-            BattleData.Player.AddCardToDeck(cardToAdd);
+            Account.AccountManager.Instance.BattleData.Player.AddCardToDeck(cardToAdd);
         }
 
         public void AddMoney(int amount)
         {
-      
 
-            BattleData.Player.CharacterData.CharacterStats.Gold += (ushort)amount;
-            _moneyIcon.SetMoneyText(BattleData.Player.CharacterData.CharacterStats.Gold);
+
+            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold += (ushort)amount;
+            _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
        
         }
         [SerializeField] EndRunScreen _endRunScreen;
@@ -75,7 +69,7 @@ namespace Rewards.Battles
 
         internal void AddCombo(Combo.Combo[] rewardCombos)
         {
-          bool recievedSuccessfully =  BattleData.Player.AddComboRecipe(rewardCombos[0]);
+          bool recievedSuccessfully = Account.AccountManager.Instance.BattleData.Player.AddComboRecipe(rewardCombos[0]);
         }
 
         public void OnNotify(IObserver Myself)

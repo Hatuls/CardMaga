@@ -32,10 +32,9 @@ MonoBehaviour:
     CinemtaicView: 0
   _rarity: 1
   _stamina: 1
-  _purchaseCost: 239
-  _toExhaust: 1
+  _toExhaust: 0
   _salvageCost: 1
-  _id: 30
+  _id: 100
   _isBattleReward: 0
   _isPackReward: 0
   _cardKeywordsData:
@@ -56,6 +55,7 @@ MonoBehaviour:
   _perLevelUpgrades:
   - _description:
     - 7 Defense 1 Stamina  Exhaust
+    _purchaseCost: 72
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -109,8 +109,22 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
   - _description:
     - 10 Defense 1 Stamina  Exhaust
+    _purchaseCost: 88
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -164,4 +178,17 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
   _cardsFusesFrom: 

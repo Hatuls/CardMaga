@@ -1,22 +1,22 @@
-﻿using UnityEngine;
+﻿using Collections;
 using Sirenix.OdinInspector;
 using System;
-using Collections;
+using UnityEngine;
 
 namespace Battles
 {
     [CreateAssetMenu(fileName = "CharacterSO", menuName = "ScriptableObjects/Characters/CharacterSO")]
-    public  class CharacterSO : ScriptableObject
+    public class CharacterSO : ScriptableObject
     {
         [Serializable]
         public class CardInfo
         {
-            public CardInfo(Cards.CardSO card , byte level)
+            public CardInfo(Cards.CardSO card, byte level)
             {
                 _cardSO = card;
                 _level = level;
             }
-            
+
             [SerializeField]
             private Cards.CardSO _cardSO;
             public Cards.CardSO Card { get => _cardSO; }
@@ -39,7 +39,7 @@ namespace Battles
             public Combo.ComboSO ComboRecipe { get => _comboRecipe; }
             [SerializeField]
             private byte _level;
-            public byte Level { get=> _level; }
+            public byte Level { get => _level; }
         }
 
         [SerializeField]
@@ -47,19 +47,19 @@ namespace Battles
 
         [SerializeField]
         private int _id;
-        public int ID { get=> _id; private set=> _id = value; }
+        public int ID { get => _id; private set => _id = value; }
 
         [SerializeField] byte _unlockAtLevel;
         public byte UnlockAtLevel => _unlockAtLevel;
 
         [SerializeField]
         private string _characterName;
-        public string CharacterName { get=> _characterName; private set=> _characterName=value; }
+        public string CharacterName { get => _characterName; private set => _characterName = value; }
 
         [SerializeField]
         [PreviewField(75f)]
         private GameObject _characterGO;
-        public GameObject CharacterAvatar { get=> _characterGO; private set=> _characterGO= value; }
+        public GameObject CharacterAvatar { get => _characterGO; private set => _characterGO = value; }
 
         [SerializeField]
         private Sprite _characterSprite;
@@ -68,7 +68,7 @@ namespace Battles
         [SerializeField]
 
         private CharacterTypeEnum _characterType;
-        public CharacterTypeEnum CharacterType { get => _characterType; private set=> _characterType=value; }
+        public CharacterTypeEnum CharacterType { get => _characterType; private set => _characterType = value; }
 
 
         [SerializeField]
@@ -77,8 +77,8 @@ namespace Battles
 
         [SerializeField]
         private CharacterDifficultyEnum _characterDifficultyEnum;
-        public CharacterDifficultyEnum CharacterDiffciulty { get => _characterDifficultyEnum; private set=> _characterDifficultyEnum=value; }
-    
+        public CharacterDifficultyEnum CharacterDiffciulty { get => _characterDifficultyEnum; private set => _characterDifficultyEnum = value; }
+
         [SerializeField]
         private RecipeInfo[] _combos;
         public RecipeInfo[] Combos => _combos;
@@ -89,36 +89,50 @@ namespace Battles
 
         [SerializeField]
         private RewardTypeEnum _rewardType;
-        public RewardTypeEnum RewardType { get=> _rewardType; private set=> _rewardType= value; }
+        public RewardTypeEnum RewardType { get => _rewardType; private set => _rewardType = value; }
 
 
-        public ref Characters.Stats.CharacterStats CharacterStats { get =>ref _characterStats; }
+        public ref Characters.Stats.CharacterStats CharacterStats { get => ref _characterStats; }
 
-        public bool Init(ushort id , string[] row, CardsCollectionSO cardCollection, ComboCollectionSO recipeCollections)
+        public AudioSelection PunchSounds;
+        public AudioSelection KickSounds;
+        public AudioSelection HitSounds;
+        public AudioSelection KOSounds;
+        public AudioSelection VictorySound;
+        public AudioSelection ComboSound;
+        public AudioSelection TauntSounds;
+
+
+
+
+#if UNITY_EDITOR
+        public bool Init(ushort id, string[] row, CardsCollectionSO cardCollection, ComboCollectionSO recipeCollections)
         {
             ID = id;
 
 
             //CharacterType
-            const byte CharacterTypeIndex = 1;
-            const byte CharacterEnumIndex = 2;
-            const byte CharacterDifficultyIndex = 3;
-            const byte CharacterNameIndex = 4;
-            const byte CharacterModelIndex = 5;
-            const byte CharacterUnlockLevel = 6;
-            const byte CharacterMaxHpIndex =7;
-            const byte CharacterDefenseIndex = 8;
-            const byte CharacterStaminaIndex = 9;
-            const byte CharacterCardDrawIndex = 10;
-            const byte CharacterGoldIndex =11;
-            const byte CharacterStrengthPointIndex = 12;
-            const byte CharacterDexterityPointIndex = 13;
-            const byte CharacterDeckIndex = 14;
-            const byte CharacterRecipeIndex = 15;
-            const byte RewardTypeIndex = 16;
+            const int CharacterTypeIndex = 1;
+            const int CharacterEnumIndex = 2;
+            const int CharacterDifficultyIndex = 3;
+            const int CharacterNameIndex = 4;
+            const int CharacterModelIndex = 5;
+            const int CharacterUnlockLevel = 6;
+            const int CharacterMaxHpIndex = 7;
+            const int CharacterDefenseIndex = 8;
+            const int CharacterStaminaIndex = 9;
+            const int CharacterCardDrawIndex = 10;
+            const int CharacterGoldIndex = 11;
+            const int CharacterStrengthPointIndex = 12;
+            const int CharacterDexterityPointIndex = 13;
+            const int CharacterDeckIndex = 14;
+            const int CharacterRecipeIndex = 15;
+            const int RewardTypeIndex = 16;
 
 
-            if (Enum.TryParse<CharacterTypeEnum>(row[CharacterTypeIndex].Replace(' ','_'), out CharacterTypeEnum cte))
+
+
+            if (Enum.TryParse<CharacterTypeEnum>(row[CharacterTypeIndex].Replace(' ', '_'), out CharacterTypeEnum cte))
             {
                 CharacterType = cte;
                 if (int.TryParse(row[CharacterEnumIndex], out int ce))
@@ -152,7 +166,7 @@ namespace Battles
                                     Dexterity = int.Parse(row[CharacterDexterityPointIndex]),
                                 };
 
-                                ushort _iD = 0; 
+                                ushort _iD = 0;
                                 byte _lEVEL = 0;
 
                                 const int iD = 0, Level = 1;
@@ -166,13 +180,15 @@ namespace Battles
                                     if (ushort.TryParse(data[iD], out ushort rID))
                                     {
                                         _iD = rID;
-                                    }else
+                                    }
+                                    else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid ID! ({data[iD]})");
 
                                     if (byte.TryParse(data[Level], out byte lvl))
                                     {
                                         _lEVEL = lvl;
-                                    }else
+                                    }
+                                    else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
                                     _deck[i] = new CardInfo(cardCollection.GetCard(_iD), _lEVEL);
 
@@ -186,7 +202,7 @@ namespace Battles
                                 {
                                     string[] data = Recipe[i].Split('^');
 
-                                    if (ushort.TryParse(data[iD] , out ushort rID))
+                                    if (ushort.TryParse(data[iD], out ushort rID))
                                     {
                                         _iD = rID;
                                     }
@@ -194,13 +210,13 @@ namespace Battles
                                         throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid ID! ({data[iD]})");
 
 
-                                    if (byte.TryParse(data[Level],out byte lvl))
+                                    if (byte.TryParse(data[Level], out byte lvl))
                                     {
                                         _lEVEL = lvl;
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid level ({data[Level]}) for recipe id: {_id}");
-                                    
+
 
 
                                     _combos[i] = new RecipeInfo(recipeCollections.GetCombo(_iD), _lEVEL);
@@ -220,7 +236,7 @@ namespace Battles
                                 if (byte.TryParse(row[CharacterUnlockLevel], out byte level))
                                     _unlockAtLevel = level;
 
-
+                                LoadSounds(row);
 
                                 return true;
                             }
@@ -240,41 +256,94 @@ namespace Battles
                 Debug.LogError($"Coulmne B: ID= {ID} Character type is not a  ENUM!! - {row[CharacterTypeIndex]}");
 
 
+
+
+
             return false;
         }
+
+
+        private void LoadSounds(string[] row)
+        {
+            string folderPath = string.Concat("Audio/Characters/", _characterName, "/");
+
+            string path = string.Concat(folderPath, "Punch");
+            PunchSounds = CreateAudioSelection(path);
+
+            path = string.Concat(folderPath, "Kick");
+            KickSounds = CreateAudioSelection(path);
+
+            path = string.Concat(folderPath, "Get Hit");
+            HitSounds = CreateAudioSelection(path);
+
+            path = string.Concat(folderPath, "KO");
+            KOSounds = CreateAudioSelection(path);
+
+            path = string.Concat(folderPath, "Victory");
+            VictorySound = CreateAudioSelection(path);
+
+            path = string.Concat(folderPath, "Combo");
+            ComboSound = CreateAudioSelection(path);
+
+            path = string.Concat(folderPath, "Taunts");
+            TauntSounds = CreateAudioSelection(path);
+
+            AudioSelection CreateAudioSelection(string urlPath)
+            {
+                SoundEventSO[] soundEvents = Resources.LoadAll<SoundEventSO>(urlPath);
+                if (soundEvents != null && soundEvents.Length >0)
+                {
+                    return new AudioSelection(soundEvents[0]);
+
+                }
+                else
+                    throw new Exception($"Character: {_characterName} Does Not have Sounds!\nPlease Check Path: Resources/{urlPath}");
+            }
+        }
+
+#endif
     }
-
-
-
 
 
     public enum CharacterTypeEnum
     {
-        None=0,
-        Player =1,
-        Tutorial =2,
-        Basic_Enemy =3,
-        Elite_Enemy =4,
-        Boss_Enemy =5,
+        None = 0,
+        Player = 1,
+        Tutorial = 2,
+        Basic_Enemy = 3,
+        Elite_Enemy = 4,
+        Boss_Enemy = 5,
     }
 
     public enum CharacterDifficultyEnum
     {
         None = 0,
         Player = 1,
-        Tutorial =2,
-        Easy =3,
-        Medium =4,
-        Hard =5,
+        Tutorial = 2,
+        Easy = 3,
+        Medium = 4,
+        Hard = 5,
     }
 
 
-     [System.Flags]
-     public enum RewardTypeEnum
+    [System.Flags]
+    public enum RewardTypeEnum
     {
         None = 0,
-        Gold= 1 <<0,
-        CardReward= 2<<1,
-        Recipe= 3<<2,
+        Gold = 1 << 0,
+        CardReward = 2 << 1,
+        Recipe = 3 << 2,
     }
+    [Serializable]
+    public class AudioSelection
+    {
+        [SerializeField]
+        SoundEventSO _soundEvent;
+        public AudioSelection(SoundEventSO audioSounds)
+        {
+            _soundEvent = audioSounds;
+        }
+        public SoundEventSO Sounds=> _soundEvent; 
+    }
+
 }

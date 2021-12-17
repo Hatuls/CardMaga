@@ -97,6 +97,7 @@ namespace UI.Meta.Workshop
             {
                 OnSuccessfullPurchase?.Invoke();
                 _lastPack = packRewardSO;
+                AnalyticsHandler.SendEvent(string.Concat(_lastPack.PackName, " Purchased"));
                 _animator.SetTrigger("Pop");
                 _recievePack.Open(packRewardSO);
             }

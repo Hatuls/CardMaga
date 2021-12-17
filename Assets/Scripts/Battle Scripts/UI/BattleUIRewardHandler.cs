@@ -82,7 +82,7 @@ namespace Rewards.Battles
         {
             if (BattleReward == null)
                 throw new System.Exception("Need To Show Battle Reward but battle reward is null");
-            else if (BattleData.Opponent.CharacterData.Info.CharacterType == CharacterTypeEnum.Boss_Enemy)
+            else if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Boss_Enemy)
                 _battleRewardHandler.FinishBoss();
 
 

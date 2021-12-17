@@ -200,11 +200,11 @@ namespace Map.UI
         [SerializeField] ushort _MaxHPAddition;
 
         public byte StaminaShard => _staminaShardAmount;
-        public ushort HPHeal => (ushort)(Battles.BattleData.Player.CharacterData.CharacterStats.MaxHealth * HPPrecentage / 100);
+        public ushort HPHeal => (ushort)(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.MaxHealth * HPPrecentage / 100);
         public ushort MaxHPAddition => _MaxHPAddition;
         public void AddHealth()
         {
-            var stats = Battles.BattleData.Player.CharacterData.CharacterStats;
+            var stats = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats;
             int currentHP = stats.Health;
             int maxHealth = stats.MaxHealth;
             int amount = HPHeal;
@@ -215,33 +215,34 @@ namespace Map.UI
             else
                 currentHP += amount;
 
-            Battles.BattleData.Player.CharacterData.CharacterStats.Health = currentHP;
-            UpperInfoUIHandler.Instance.UpdateUpperInfoHandler(ref Battles.BattleData.Player.CharacterData.CharacterStats);
+            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Health = currentHP;
+            UpperInfoUIHandler.Instance.UpdateUpperInfoHandler(ref Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats);
         }
 
         public void AddMaxHealth()
         {
-            var stats = Battles.BattleData.Player.CharacterData.CharacterStats;
+            var stats = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats;
             int maxHealth = stats.MaxHealth;
             int currentHP = stats.Health;
 
             maxHealth += _MaxHPAddition;
             currentHP += _MaxHPAddition;
 
-            Battles.BattleData.Player.CharacterData.CharacterStats.MaxHealth = maxHealth;
-            Battles.BattleData.Player.CharacterData.CharacterStats.Health = currentHP;
-            UpperInfoUIHandler.Instance.UpdateUpperInfoHandler(ref Battles.BattleData.Player.CharacterData.CharacterStats);
+            var player = Account.AccountManager.Instance.BattleData.Player;
+           player.CharacterData.CharacterStats.MaxHealth = maxHealth;
+            player.CharacterData.CharacterStats.Health = currentHP;
+            UpperInfoUIHandler.Instance.UpdateUpperInfoHandler(ref player.CharacterData.CharacterStats);
         }
 
         internal void AddStaminaShard()
         {
-            Battles.BattleData.Player.CharacterData.CharacterStats.StaminaShard += _staminaShardAmount;
-            Debug.Log("Added Stamina Shard From Rest Area\nCurrent Amount: " + Battles.BattleData.Player.CharacterData.CharacterStats.StaminaShard);
+            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.StaminaShard += _staminaShardAmount;
+            Debug.Log("Added Stamina Shard From Rest Area\nCurrent Amount: " + Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.StaminaShard);
         }
 
         public void RemoveCard(ushort instanceID)
         {
-            Battles.BattleData.Player.RemoveCardFromDeck(instanceID);
+            Account.AccountManager.Instance.BattleData.Player.RemoveCardFromDeck(instanceID);
         }
     }
 }

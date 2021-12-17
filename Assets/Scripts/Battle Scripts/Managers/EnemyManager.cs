@@ -14,6 +14,7 @@ namespace Battles
         [Tooltip("Player Stats: ")]
 
         [SerializeField] private  Character _myCharacter;
+        [SerializeField] AnimationBodyPartSoundsHandler _animationSoundHandler;
         [Space]
 
         int _cardAction;
@@ -40,9 +41,10 @@ namespace Battles
  
         public void AssignCharacterData(Character character)
         {
-            Instantiate(character.CharacterData.Info.CharacterAvatar, _enemyAnimatorController.transform);
+            Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
             _myCharacter = character;
             var characterdata = character.CharacterData;
+            _animationSoundHandler.CurrentCharacter = characterdata.CharacterSO;
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new Cards.Card[deckLength];
             System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
@@ -83,13 +85,13 @@ namespace Battles
 
             var staminaHandler = Characters.Stats.StaminaHandler.Instance;
 
-           var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
 
 
             int indexCheck = -1;
             bool noMoreCardsAvailable = false;
             do
             {
+           var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
                 do
                 {
                     yield return null;
@@ -101,11 +103,11 @@ namespace Battles
                     }
 
                     enemyAction = handCards[indexCheck];
-
-                    if (staminaHandler.IsEnoughStamina(false, enemyAction))
+            
+                    if (enemyAction!= null && staminaHandler.IsEnoughStamina(false, enemyAction))
                         DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, enemyAction);
-
-                } while (!CardExecutionManager.Instance.TryExecuteCard(false, enemyAction));
+             
+                } while (enemyAction == null || !CardExecutionManager.Instance.TryExecuteCard(false, enemyAction));
 
                 if (noMoreCardsAvailable == false)
                 {

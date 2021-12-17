@@ -5,8 +5,7 @@ namespace Account.GeneralData
     [System.Serializable]
     public class AccountGeneralData : ILoadFirstTime
     {
-
-
+        [SerializeField] bool _isFirstTime = false;
         public AccountGeneralData()
         {
 
@@ -29,11 +28,14 @@ namespace Account.GeneralData
         public AccountLevelData AccountLevelData { get => _accountLevelData; private set => _accountLevelData = value; }
         public AccountResourcesData AccountResourcesData { get => _accountResourcesData; private set => _accountResourcesData = value; }
         public AccountEnergyData AccountEnergyData { get => _accountEnergyData; private set => _accountEnergyData = value; }
+        public bool IsFirstTime { get => _isFirstTime; set => _isFirstTime = value; }
+
 
         public async Task NewLoad()
         {
             //_accountInfoData = new AccountInfoData(TimeManager.Instance.GetCurrentTime(),);
-
+      
+            IsFirstTime = false;
 
 
             _accountEnergyData = new AccountEnergyData();

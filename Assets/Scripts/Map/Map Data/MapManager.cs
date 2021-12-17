@@ -8,7 +8,7 @@ namespace Map
 
     public class MapsTemplateContainer
     {
-       public  Map[] maps;
+          public  Map[] maps;
         public MapsTemplateContainer()
         {
             Debug.Log("Loading Maps From Resources");
@@ -50,8 +50,7 @@ namespace Map
         private static MapManager _instance;
         public static MapManager Instance => _instance;
 
-        Map _currentMap;
-        public Map CurrentMap => _currentMap;
+        public Map CurrentMap { get => Account.AccountManager.Instance.BattleData.Map; set => Account.AccountManager.Instance.BattleData.Map = value; }
         [SerializeField]
         MapView _mapView;
         [SerializeField]
@@ -59,17 +58,19 @@ namespace Map
         [SerializeField]
         MapConfig _mapCFG;
 
-        [SerializeField]
-        MapData _mapTracker;
+        //[SerializeField]
+        //MapData _mapTracker;
         [SerializeField]
         SoundEventSO _soundSO;
         [SerializeField] string _saveMapCFGName;
+       static string _folderPath = "Map/";
+       static string _fileName = "Map";
+        static SaveManager.FileStreamType saveType = SaveManager.FileStreamType.FileStream;
 #if UNITY_EDITOR
-        public SaveManager.FileStreamType saveType;
         [Sirenix.OdinInspector.Button("Save Map Config")]
         public void SaveMapConfig()
         {
-            SaveManager.SaveFile(_currentMap, _saveMapCFGName, saveType, false, "txt", "Resources/MapCFG/");
+            SaveManager.SaveFile(CurrentMap, _saveMapCFGName, saveType, false, "txt", "Resources/MapCFG/");
         }
 #endif
 
@@ -77,9 +78,9 @@ namespace Map
         public void LoadMapConfig()
         {
          var txt =  Resources.Load<TextAsset>("MapCFG/"+_saveMapCFGName);
-            _currentMap = JsonUtilityHandler.LoadFromJson<Map>(txt.text);
+            CurrentMap = JsonUtilityHandler.LoadFromJson<Map>(txt.text);
       
-            _mapView.ShowMap(_currentMap);
+            _mapView.ShowMap(CurrentMap);
         }
 
 
@@ -100,36 +101,36 @@ namespace Map
         }
 
         [Sirenix.OdinInspector.Button()]
-        public void ResetSavedMap() => PlayerPrefs.DeleteKey("Map");
+        public static void ResetSavedMap() => Account.AccountManager.Instance.BattleData.Map = null; //PlayerPrefs.DeleteKey("Map");
 
         [Sirenix.OdinInspector.Button()]
         public void GenerateMap() => GenerateNewMap();
 
         private  void GenerateNewMap()
         {
-            _currentMap = MapGenerator.GetMap(_mapCFG);
+            CurrentMap = MapGenerator.GetMap(_mapCFG);
  
-            Debug.Log(_currentMap.ToJson());
+            Debug.Log(CurrentMap.ToJson());
         
 
-            _mapView.ShowMap(_currentMap);
+            _mapView.ShowMap(CurrentMap);
         }
 
         public async void SaveMap()
         {
-            if (_currentMap == null) return;
+            if (CurrentMap == null) return;
 
-            SaveManager.SaveFile(_currentMap, "Map");
+            Account.AccountManager.Instance.SaveAccount();
             await Task.Yield();
         }
  
         private  void StartMap()
         {
 
+            Debug.Log("Map!");
+                          Map map = Account.AccountManager.Instance.BattleData.Map;
 
-            Map  map = SaveManager.Load<Map>("Map", SaveManager.FileStreamType.PlayerPref);
-
-            if (map!= null)
+            if (map!= null && map.configName != "" && map.configName != null)
             {
                if (map.nodes == null || map.nodes.Count ==0)
                {
@@ -145,7 +146,7 @@ namespace Map
                 }
                 else
                 {
-                    _currentMap = map;
+                    CurrentMap = map;
                     // player has not reached the boss yet, load the current map
                     _mapView.ShowMap(map);
                 }
@@ -156,8 +157,8 @@ namespace Map
                 var maps = Factory.GameFactory.Instance.MapsTemplate.maps;
                 for (int i = 0; i < maps.Length; i++)
                     maps[i].path.Clear();
-                _currentMap = maps[Random.Range(0, maps.Length)];
-                _mapView.ShowMap(_currentMap);
+                CurrentMap = maps[Random.Range(0, maps.Length)];
+                _mapView.ShowMap(CurrentMap);
             }
             //if (map != null)
             //{
@@ -196,9 +197,7 @@ namespace Map
         private void OnApplicationQuit()
         {
              SaveMap();
-#if UNITY_EDITOR
-            ResetSavedMap();
-#endif
+
         }
     }
 

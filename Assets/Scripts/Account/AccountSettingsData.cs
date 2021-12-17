@@ -15,11 +15,19 @@ namespace Account.GeneralData
         bool _camShake;
 
         public bool CamShake { get => _camShake; set => _camShake = value; }
-        public bool MasterVolume { get => _masterVolume; set => _masterVolume = value; }
-        public bool SFXEffect { get => _vfxVolume; set => _vfxVolume = value; }
+        public bool MasterVolume { get => _masterVolume; set {
+                _masterVolume = value;
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Music Volume", _masterVolume ? 1 : 0);
+            }
+        }
+        public bool SFXEffect { get => _vfxVolume; set { 
+                _vfxVolume = value;
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("SFX Volume", _vfxVolume ? 1 : 0);
+            } 
+        }
 
 
-
+     
 
  
         public async Task NewLoad()

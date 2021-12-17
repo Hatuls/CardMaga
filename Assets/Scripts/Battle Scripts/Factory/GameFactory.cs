@@ -87,10 +87,11 @@ namespace Factory
                 BattleRewardCollection = battleRewardCollectionSO;
             }
 
-            public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum,ActsEnum act)
-           => BattleRewardCollection.GetReward(characterTypeEnum, act);
+            public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum,ActsEnum act, IEnumerable<Combo.Combo> workOnCombo)
+           => BattleRewardCollection.GetReward(characterTypeEnum, act, workOnCombo);
 
-
+            public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
+                => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
         }
         public class CharacterFactory
         {

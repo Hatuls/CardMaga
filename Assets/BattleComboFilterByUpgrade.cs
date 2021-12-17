@@ -9,7 +9,7 @@ public class BattleComboFilterByUpgrade : SortAbst<Combo.Combo>
     [SerializeField]
     public override IEnumerable<Combo.Combo> Sort()
     {
-        var deck = BattleData.Player.CharacterData.ComboRecipe;
+        var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe;
         var sortedDeck = deck.Where(x => x.Level < (x.ComboSO.CraftedCard.CardsMaxLevel - 1));
         return sortedDeck;
     }

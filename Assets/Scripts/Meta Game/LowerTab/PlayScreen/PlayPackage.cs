@@ -16,13 +16,14 @@ namespace UI.Meta.PlayScreen
 
         public void SendPackage()
         {
+            var battleData = Account.AccountManager.Instance.BattleData;
             Debug.Log($"Sending Package of Character {CharacterData.CharacterEnum} with the Chosen Deck {Deck.DeckName}");
-            Battles.BattleData.Player = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(_characterData, _characterData.Decks[0]);
-            Battles.BattleData.PlayerWon = false;
-            Battles.BattleData.IsFinishedPlaying = false;
-            Battles.BattleData.MapRewards = new Battles.MapRewards();
-            if (PlayerPrefs.HasKey("Map"))
-                PlayerPrefs.DeleteKey("Map");
+            battleData.Player = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(_characterData, _characterData.Decks[0]);
+            battleData.PlayerWon = false;
+            battleData.IsFinishedPlaying = false;
+            battleData.MapRewards = new Battles.MapRewards();
+
+            Map.MapManager.ResetSavedMap();
         }
     }
 }
