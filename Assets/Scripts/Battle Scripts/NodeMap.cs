@@ -52,7 +52,7 @@ namespace Map
           
             _boxCollider.enabled = state;
         }
-        private void OnMouseExit()
+        private void OnMouseDown()
         {
   
       //     if(toRecieveInputs)

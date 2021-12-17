@@ -61,6 +61,7 @@ namespace Battles.UI.CardUIAttributes
         }
         public override void OnStateEnter()
         {
+            AnalyticsHandler.SendEvent("Zooming Card");
             GameBattleDescriptionUI.Instance.CloseCardUIInfo();
             CardUIHandler.Instance.ToZoomCardUI();
             reference.CardTranslations?.MoveCard(false, UIManager.MiddleScreenPosition, reference.Settings.GetCardScaleDelay);

@@ -57,7 +57,7 @@ public class CardUIInteractionHandle : MonoBehaviour
 public static class DismentalHandler
 {
     static DismentalCostsSO _dismentalCostsSO = Resources.Load<DismentalCostsSO>("MetaGameData/DismentalCostSO");
-
+    
     public static bool DismentalCard(Cards.Card card)
     {
         if (card == null)
@@ -65,12 +65,11 @@ public static class DismentalHandler
         var account = Account.AccountManager.Instance;
         if (account.AccountCards.RemoveCard(card.CardCoreInfo.InstanceID))
         {
+            AnalyticsHandler.SendEvent("Dismentaling Card");
             account.AccountGeneralData.AccountResourcesData.Chips.AddValue(_dismentalCostsSO.GetCardDismentalCost(card));
 
-            Debug.Log("DismentalCard Successfull!");
             return true;
         }
-            Debug.Log("DismentalCard was unSuccessfull!");
         return false;
     }
 }

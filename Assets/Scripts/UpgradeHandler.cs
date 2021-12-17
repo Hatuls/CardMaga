@@ -25,6 +25,13 @@
             if (gold >= Cost)
             {
                 combo.LevelUp();
+
+                AnalyticsHandler.SendEvent("Combo Upgraded", new System.Collections.Generic.Dictionary<string, object>()
+                    {
+                        {"Card", combo.ComboSO.ComboName},
+                        {"Level", combo.Level},
+                    });
+
                 battleData.CharacterData.CharacterStats.Gold -= Cost;
                 return true;
             }
@@ -40,6 +47,12 @@
                 ushort Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
                 if (chips.Value >= Cost)
                 {
+
+                    AnalyticsHandler.SendEvent("Card Upgraded", new System.Collections.Generic.Dictionary<string, object>()
+                    {
+                        {"Card", card.CardSO.CardName}, 
+                        {"Level", card.CardLevel}, 
+                    });
                     account.AccountCards.UpgradeCard(card.CardInstanceID);
                     chips.ReduceValue(Cost);
                     return true;
@@ -52,6 +65,12 @@
                 ushort Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
                 if (gold >= Cost)
                 {
+
+                    AnalyticsHandler.SendEvent("Card Upgraded", new System.Collections.Generic.Dictionary<string, object>()
+                    {
+                        {"Card", card.CardSO.CardName},
+                        {"Level", card.CardLevel},
+                    });
                     account.RemoveCardFromDeck(card.CardInstanceID);
                     account.AddCardToDeck(card.CardSO, (byte)(card.CardLevel + 1));
                     account.CharacterData.CharacterStats.Gold -= Cost;
