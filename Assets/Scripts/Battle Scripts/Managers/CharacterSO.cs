@@ -276,27 +276,27 @@ namespace Battles
 
 
             string fileName = row[IndexSoundOnAttack];
-            string path = string.Concat(folderPath, "SoundOnAttack", fileName);
+            string path = string.Concat(folderPath, fileName);
             SoundOnAttack = Resources.Load< SoundEventWithParamsSO>(path);
 
             fileName = row[IndexDamageSound];
-            path = string.Concat(folderPath, "Get Hit", fileName);
+            path = string.Concat(folderPath, fileName);
             GetHitSounds = Resources.Load<SoundEventWithParamsSO>(path);
 
             fileName = row[IndexDeathSound];
-            path = string.Concat(folderPath, "KO", fileName);
+            path = string.Concat(folderPath, fileName);
             DeathSounds = Resources.Load<SoundEventSO>(path);
 
             fileName = row[IndexVictorySound];
-            path = string.Concat(folderPath, "Victory", fileName);
+            path = string.Concat(folderPath, fileName);
             VictorySound = Resources.Load<SoundEventSO>(path);
 
             fileName = row[IndexComboSound];
-            path = string.Concat(folderPath, "Combo", fileName);
+            path = string.Concat(folderPath, fileName);
             ComboSounds = Resources.Load<SoundEventSO>(path);
 
             fileName = row[IndexTauntSound];
-            path = string.Concat(folderPath, "Taunts", fileName);
+            path = string.Concat(folderPath,  fileName);
             TauntSounds = Resources.Load<SoundEventSO>(path);
 
 
