@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField]
     SoundEventSO _backgroundMusic;
+    FmodData backgroundFmod;
 
     private void Awake()
     {
@@ -35,11 +36,7 @@ public class AudioManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
     }
 
-    private void Start()
-    {
-        SceneHandler.onFinishLoadingScene += SceneParameter;
-        _backgroundMusic.PlaySound();
-    }
+   
     private void OnDisable()
     {
         
@@ -47,6 +44,17 @@ public class AudioManager : MonoBehaviour
     }
     private void FmodInit()
     {
+        SceneHandler.onFinishLoadingScene += SceneParameter;
+
+        string path = string.Concat(FmodEventString, _backgroundMusic.EventPathName);
+        EventDescription eventDescription;
+        RuntimeManager.StudioSystem.getEvent(path, out eventDescription);
+        if (eventDescription.isValid())
+        {
+            EventInstance _eventInstance = RuntimeManager.CreateInstance(path);
+            backgroundFmod = new FmodData(_backgroundMusic, _eventInstance, eventDescription);
+            backgroundFmod.PlaySound(0);
+        }
         _fmodLibrary.Clear();
     }
 
@@ -113,10 +121,8 @@ public class AudioManager : MonoBehaviour
         if (_fmodLibrary.Count > 0)
         {
             foreach (var fmodData in _fmodLibrary)
-            {
                 fmodData.StopSound(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-
-            }
+            
             _fmodLibrary.Clear();
         }
     }
@@ -129,10 +135,10 @@ public class AudioManager : MonoBehaviour
             case SceneHandler.ScenesEnum.LoadingScene:
             case SceneHandler.ScenesEnum.MainMenuScene:
             case SceneHandler.ScenesEnum.MapScene:
-                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter",  0 ,true );
+               // FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter",  0  );
                 break;
             case SceneHandler.ScenesEnum.GameBattleScene:
-                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter",2, true );
+              //  FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter",2 );
                 break;
             default:
                 break;
