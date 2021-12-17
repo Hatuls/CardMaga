@@ -69,10 +69,7 @@ namespace Cards
 
 
 
-        [TabGroup("CardData/Info", "Data")]
-        [SerializeField]
-        private bool _toExhaust;
-        public bool ToExhaust { get=> _toExhaust; set=> _toExhaust=value; }
+
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much coins the card cost")]

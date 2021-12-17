@@ -71,8 +71,8 @@ public class EndRunScreen : MonoBehaviour, IObserver
     {
         var data = Account.AccountManager.Instance.BattleData;
         CameraMovement.ResetCameraMovementLocation();
-        SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
-        ReturnLoadingScene.GoToScene = SceneHandler.ScenesEnum.MapScene;
+        ReturnLoadingScene.GoToScene = SceneHandler.ScenesEnum.MainMenuScene;
+        SceneHandler.LoadScene(ReturnLoadingScene.GoToScene);
         var accountData = Account.AccountManager.Instance.AccountGeneralData;
         accountData.AccountResourcesData.Diamonds.AddValue(data.MapRewards.Diamonds);
         accountData.AccountLevelData.Exp.AddValue(data.MapRewards.EXP);

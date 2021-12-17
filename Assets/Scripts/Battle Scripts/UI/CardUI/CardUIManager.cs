@@ -376,7 +376,6 @@ namespace Battles.UI
                     OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition, _OriginalCard);
                     int index = _handUI.GetCardIndex(_selectedCardUI);
                 }
-                succeded = true;
      
             }
             else
