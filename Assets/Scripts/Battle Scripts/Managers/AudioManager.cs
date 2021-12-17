@@ -36,10 +36,10 @@ public class AudioManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
     }
 
-   
+
     private void OnDisable()
     {
-        
+
         SceneHandler.onFinishLoadingScene -= SceneParameter;
     }
     private void FmodInit()
@@ -123,7 +123,7 @@ public class AudioManager : MonoBehaviour
         {
             foreach (var fmodData in _fmodLibrary)
                 fmodData.StopSound(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            
+
             _fmodLibrary.Clear();
         }
     }
@@ -136,10 +136,10 @@ public class AudioManager : MonoBehaviour
             case SceneHandler.ScenesEnum.LoadingScene:
             case SceneHandler.ScenesEnum.MainMenuScene:
             case SceneHandler.ScenesEnum.MapScene:
-               // FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter",  0  );
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
                 break;
             case SceneHandler.ScenesEnum.GameBattleScene:
-              //  FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter",2 );
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 1);
                 break;
             default:
                 break;
