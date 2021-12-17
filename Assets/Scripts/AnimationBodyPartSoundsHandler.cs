@@ -21,12 +21,12 @@ public class AnimationBodyPartSoundsHandler : MonoBehaviour
     public void PlayBlockDamage()
         => OnBlockDamage.PlaySound();
 
-    public void PlayVoiceSound(float param)=> CurrentCharacter.
-    public void PlayComboSound() => CurrentCharacter.ComboSound.Sounds.PlaySound();
-    public void PlayVictorySound() => CurrentCharacter.VictorySound.Sounds.PlaySound();
-    public void PlayHitSound() => CurrentCharacter.GetHitSounds.Sounds.PlaySound();
-    public void PlayKOSound() => CurrentCharacter.DeathSounds.Sounds.PlaySound();
-    public void PlayTauntSound() => CurrentCharacter.TauntSounds.Sounds.PlaySound();
+    public void PlayVoiceSound(float param) => CurrentCharacter.SoundOnAttack.PlaySound(param);
+    public void PlayHitSound(float param) => CurrentCharacter.GetHitSounds.PlaySound(param);
+    public void PlayComboSound() => CurrentCharacter.ComboSounds.PlaySound();
+    public void PlayVictorySound() => CurrentCharacter.VictorySound.PlaySound();
+    public void PlayKOSound() => CurrentCharacter.DeathSounds.PlaySound();
+    public void PlayTauntSound() => CurrentCharacter.TauntSounds.PlaySound();
 
     
 }
