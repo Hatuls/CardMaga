@@ -235,8 +235,6 @@ public class CSVToCardSO : CSVAbst
 
         //Purchase Cost
   
-        //ToExhaust
-        card.ToExhaust = cardSO[IsExhausted] == "0" ? false : true;
 
 
         // id fuses from
@@ -261,9 +259,14 @@ public class CSVToCardSO : CSVAbst
         if (cost == 0)
             Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
+        //ToExhaust
+        if (card.CardName == "Patch")
+        {
+            Debug.Log("!");
+        }
         //Upgrades
         List<PerLevelUpgrade> _PerLevelUpgrade = new List<Cards.PerLevelUpgrade>();
-        _PerLevelUpgrade.Add(new PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType), cardSO[CardDescription], cost));
+        _PerLevelUpgrade.Add(new PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType, IsExhausted), cardSO[CardDescription], cost));
         string firstCardId = cardSO[UpgradeToCardID];
         do
         {
@@ -273,11 +276,12 @@ public class CSVToCardSO : CSVAbst
 
                 if (getRow.Length == 0)
                     Debug.LogError($"ID {myUpgradeVersionID} has no data in it!");
+
                  cost = ushort.TryParse(getRow[PurchaseCost], out ushort s) ? s : (ushort)0;
                 if (cost == 0)
                     Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
-                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType), getRow[CardDescription], cost));
+                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType,IsExhausted), getRow[CardDescription], cost));
                 firstCardId = getRow[UpgradeToCardID];
             }
             else
@@ -314,12 +318,12 @@ public class CSVToCardSO : CSVAbst
         }
         return null;
     }
-    private static Cards.PerLevelUpgrade.Upgrade[] GetCardsUpgrade(Cards.CardSO card, string[] getRow, int StaminaCost, int BodyPart, int CardType)
+    private static Cards.PerLevelUpgrade.Upgrade[] GetCardsUpgrade(Cards.CardSO card, string[] getRow, int StaminaCost, int BodyPart, int CardType, int toExhaust)
     {
         List<Cards.PerLevelUpgrade.Upgrade> upgrades = new List<Cards.PerLevelUpgrade.Upgrade>();
 
         var keywords = GetKeywordsData(getRow);
-
+        int Exhaust = getRow[toExhaust] == "0" ? 0 : 1;
         var stamina = int.TryParse(getRow[StaminaCost], out int sCost) ? sCost : -1;
 
         upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(new Cards.CardTypeData()
@@ -333,7 +337,7 @@ public class CSVToCardSO : CSVAbst
         for (int j = 0; j < keywords.Length; j++)
             upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(keywords[j]));
 
-
+        upgrades.Add(new PerLevelUpgrade.Upgrade(LevelUpgradeEnum.ToRemoveExhaust, Exhaust));
 
 
         return upgrades.ToArray();

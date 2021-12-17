@@ -87,7 +87,7 @@ public class AudioManager : MonoBehaviour
             fmod.PlaySound();
         }
         else
-            Debug.LogError($"Not A Valid Event Name!!!!\nInputString:{soundEvent.EventPathName}");
+            Debug.LogWarning($"Not A Valid Sound Event Name!\nInputString: {soundEvent.EventPathName}");
 
     }
     public void StopAllSounds()

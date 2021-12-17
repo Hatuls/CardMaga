@@ -36,8 +36,8 @@ namespace Battles.UI
         {
             if (playerMaxHealth == 0)
             {
-                playerMaxHealth = Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
                 await System.Threading.Tasks.Task.Yield();
+                playerMaxHealth = Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
             }
 
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Hp Parameter", val / playerMaxHealth);
