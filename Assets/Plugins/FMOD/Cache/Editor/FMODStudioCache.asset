@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9222282953955188117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Elite Enemy Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &-9201158935373042635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Chiara Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &-9098258872927732094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,7 +81,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 637753766889784960
+  lastModified: 637753803456437576
   FileSizes: []
   Exists: 1
 --- !u!114 &-9030411570938581220
@@ -124,7 +168,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Charcter.bank
   Name: Charcter
   StudioPath: bank:/Charcter
-  lastModified: 637753766889575028
+  lastModified: 637753803724154549
   FileSizes: []
   Exists: 1
 --- !u!114 &-8404039857350974139
@@ -172,6 +216,52 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-7946195951373960891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss Enemy Death
+  m_EditorClassIdentifier: 
+  Path: event:/Boss Enemy Death
+  guid: 8c2971671b7d2e478fde936cb30f4d32
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1018
+--- !u!114 &-7866844432467022323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Basic Enemy Death
+  m_EditorClassIdentifier: 
+  Path: event:/Basic Enemy Death
+  guid: 37606eadd7e53943b696f90739d9518d
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1462
 --- !u!114 &-7587990422092130141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,7 +507,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Cards.bank
   Name: Cards
   StudioPath: bank:/Cards
-  lastModified: 637753766889565022
+  lastModified: 637753803455053331
   FileSizes: []
   Exists: 1
 --- !u!114 &-6481497482048938626
@@ -503,6 +593,29 @@ MonoBehaviour:
   guid: 6674bb0be6618648b56dc9c65df37f8d
   Banks:
   - {fileID: 4900234745712976723}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
+--- !u!114 &-6106995107519736429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elite Enemy Combo
+  m_EditorClassIdentifier: 
+  Path: event:/Elite Enemy Combo
+  guid: db404c918560784983ef5d13da496f08
+  Banks:
+  - {fileID: -8711991910856702805}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -647,6 +760,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-5250215370822126929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Chiara Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &-4950223952947283474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,6 +917,30 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-4377378872145814134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss Enemy Damage
+  m_EditorClassIdentifier: 
+  Path: event:/Boss Enemy Damage
+  guid: e89a93cbbba1b742b3a7f6cfca1de36c
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -366290510374218314}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1018
 --- !u!114 &-4222529823715538807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -851,6 +1010,30 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1777
+--- !u!114 &-4111516937075902099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Chiara Hit
+  m_EditorClassIdentifier: 
+  Path: event:/Chiara Hit
+  guid: 7080f94ad7676142936c541b2fc61ad0
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -5250215370822126929}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 548
 --- !u!114 &-4074123413698982771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -874,6 +1057,53 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-4065625798172348190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Chiara Damage
+  m_EditorClassIdentifier: 
+  Path: event:/Chiara Damage
+  guid: 896183a161919f47a543547c3fe3afd1
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -9201158935373042635}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1175
+--- !u!114 &-4021390827843618117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Chiara Death
+  m_EditorClassIdentifier: 
+  Path: event:/Chiara Death
+  guid: 4b1e88b7c6a2bf4f9ef9ee49b3a49c9e
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1567
 --- !u!114 &-3899488527798921202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -897,6 +1127,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1436
+--- !u!114 &-3884360970257316994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elite Enemy Death
+  m_EditorClassIdentifier: 
+  Path: event:/Elite Enemy Death
+  guid: 43121d3db9fa384eae1ed4a213248268
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1462
 --- !u!114 &-3844408920134183854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,7 +1210,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 637753766889814956
+  lastModified: 637753803456627758
   FileSizes: []
   Exists: 1
 --- !u!114 &-3534417880823398568
@@ -1142,6 +1395,30 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-2677368933237525328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Basic Enemy Damage
+  m_EditorClassIdentifier: 
+  Path: event:/Basic Enemy Damage
+  guid: 04319b135684244abeb645b64bbff00a
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -79425342242717156}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1306
 --- !u!114 &-2547547008545536868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1157,10 +1434,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637753766889645004
+  lastModified: 637753803724154549
   FileSizes:
   - Name: 
-    Value: 4714
+    Value: 5682
   Exists: 1
 --- !u!114 &-2345133213414529412
 MonoBehaviour:
@@ -1208,6 +1485,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 548
+--- !u!114 &-1924806897598705136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Boss Enemy Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &-1879955148609574348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1276,6 +1575,30 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 0
+--- !u!114 &-1707434013040115635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss Enemy Hit
+  m_EditorClassIdentifier: 
+  Path: event:/Boss Enemy Hit
+  guid: 1e4ee0938c3bc34c9d8b88f65ccb9d74
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -1924806897598705136}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1227
 --- !u!114 &-1387311468191698300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1318,7 +1641,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: 1536529258124431157}
+  - {fileID: 5967562303242378330}
   MinDistance: 0
   MaxDistance: 0
   Length: 164411
@@ -1344,6 +1667,29 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 1
+--- !u!114 &-1054832295536417097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elite Enemy Taunt
+  m_EditorClassIdentifier: 
+  Path: event:/Elite Enemy Taunt
+  guid: 64931b660b93e745bd21a35607479e37
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1724
 --- !u!114 &-964451261337529232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1460,6 +1806,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-366290510374218314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Boss Enemy Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &-185076072790047089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1505,6 +1873,28 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 0
+--- !u!114 &-79425342242717156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Basic Enemy Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &-65356331114390154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1629,6 +2019,27 @@ MonoBehaviour:
   - {fileID: 6246076397448776799}
   - {fileID: -4074123413698982771}
   - {fileID: -1233456880984390470}
+  - {fileID: -2677368933237525328}
+  - {fileID: -1707434013040115635}
+  - {fileID: 7349679373622397472}
+  - {fileID: 7020409266135729401}
+  - {fileID: -7866844432467022323}
+  - {fileID: 77250985755816875}
+  - {fileID: -3884360970257316994}
+  - {fileID: -4021390827843618117}
+  - {fileID: 2781661602675608570}
+  - {fileID: -1054832295536417097}
+  - {fileID: -4111516937075902099}
+  - {fileID: 2329911693666392308}
+  - {fileID: 5963541639887203452}
+  - {fileID: -4065625798172348190}
+  - {fileID: -7946195951373960891}
+  - {fileID: 4851171045515113970}
+  - {fileID: 1486965721575299657}
+  - {fileID: 8803673563261690048}
+  - {fileID: -6106995107519736429}
+  - {fileID: 2179926143945641990}
+  - {fileID: -4377378872145814134}
   EditorParameters:
   - {fileID: 3763575438556416422}
   - {fileID: -7587990422092130141}
@@ -1638,8 +2049,32 @@ MonoBehaviour:
   - {fileID: 6261680935149705412}
   StringsBanks:
   - {fileID: -2547547008545536868}
-  stringsBankWriteTime: 637753766889645004
+  stringsBankWriteTime: 637753803724154549
   cacheVersion: 8
+--- !u!114 &77250985755816875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elite Enemy Hit
+  m_EditorClassIdentifier: 
+  Path: event:/Elite Enemy Hit
+  guid: 3aadb66da40aab499b268c51b97ba937
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -9222282953955188117}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1018
 --- !u!114 &155003110630867126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,6 +2181,28 @@ MonoBehaviour:
   Name: Health
   Min: 0
   Max: 90
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &748624982887113000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Basic Enemy Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
+  Min: 0
+  Max: 2
   Default: 0
   ID:
     data1: 0
@@ -1913,6 +2370,30 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 1
+--- !u!114 &1486965721575299657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Elite Enemy Damage
+  m_EditorClassIdentifier: 
+  Path: event:/Elite Enemy Damage
+  guid: b4c0d28d15f41e488c312fc95073c22a
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 8892794348562352094}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1227
 --- !u!114 &1536529258124431157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1934,7 +2415,7 @@ MonoBehaviour:
     data2: 0
   Type: 0
   IsGlobal: 1
-  Exists: 1
+  Exists: 0
 --- !u!114 &1565469518311213042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2069,6 +2550,53 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 1
+--- !u!114 &2179926143945641990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Chiara Taunt
+  m_EditorClassIdentifier: 
+  Path: event:/Chiara Taunt
+  guid: e5ed129cf5292a4782a4e023a74e596a
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1959
+--- !u!114 &2329911693666392308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Basic Enemy Hit
+  m_EditorClassIdentifier: 
+  Path: event:/Basic Enemy Hit
+  guid: 736b68fca97cbd40a8c265d250526575
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 748624982887113000}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 966
 --- !u!114 &2505619457983214748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2085,6 +2613,29 @@ MonoBehaviour:
   guid: d632b74b36f03d41aa808dd76688d426
   Banks:
   - {fileID: 4900234745712976723}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
+--- !u!114 &2781661602675608570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Basic Enemy Combo
+  m_EditorClassIdentifier: 
+  Path: event:/Basic Enemy Combo
+  guid: 5f7567618ca9cb42bc84897295766ba9
+  Banks:
+  - {fileID: -8711991910856702805}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2266,7 +2817,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Combat Mechanics.bank
   Name: Combat Mechanics
   StudioPath: bank:/Combat Mechanics
-  lastModified: 637753766889595021
+  lastModified: 637753803455764030
   FileSizes: []
   Exists: 1
 --- !u!114 &3752031081919505218
@@ -2405,6 +2956,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 2170
+--- !u!114 &4851171045515113970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss Enemy Taunt
+  m_EditorClassIdentifier: 
+  Path: event:/Boss Enemy Taunt
+  guid: 934b2c8115cec840937dc13e18c59356
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1724
 --- !u!114 &4900234745712976723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2420,7 +2994,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Keyword.bank
   Name: Keyword
   StudioPath: bank:/Keyword
-  lastModified: 637753766889605019
+  lastModified: 637753803456044570
   FileSizes: []
   Exists: 1
 --- !u!114 &5141714070682492402
@@ -2538,6 +3112,51 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 0
+--- !u!114 &5963541639887203452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Chiara Combo
+  m_EditorClassIdentifier: 
+  Path: event:/Chiara Combo
+  guid: 7eeb2011c6c97e4190bcfad66b6e119a
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 783
+--- !u!114 &5967562303242378330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Background Music/Scene Parameter
+  m_EditorClassIdentifier: 
+  Name: Scene Parameter
+  Min: 0
+  Max: 4
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 1
+  Exists: 1
 --- !u!114 &6064695916542493045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2645,7 +3264,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637753766889635018
+  lastModified: 637753803456236625
   FileSizes: []
   Exists: 1
 --- !u!114 &6328568179628352553
@@ -2777,7 +3396,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop/Loot.bank
   Name: Loot
   StudioPath: bank:/Loot
-  lastModified: 637753766889625011
+  lastModified: 637753803456206758
   FileSizes: []
   Exists: 1
 --- !u!114 &6954445076900877199
@@ -2803,6 +3422,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 257
+--- !u!114 &7020409266135729401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Boss Enemy Combo
+  m_EditorClassIdentifier: 
+  Path: event:/Boss Enemy Combo
+  guid: 348e18071861c448a1f98ec3040ab2b2
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
 --- !u!114 &7089424135039797558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2849,6 +3491,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &7349679373622397472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Basic Enemy Taunt
+  m_EditorClassIdentifier: 
+  Path: event:/Basic Enemy Taunt
+  guid: 29c5b082cd0f1940a887b160102ff4f7
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1802
 --- !u!114 &7408307503061928862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2895,6 +3560,51 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1787
+--- !u!114 &8803673563261690048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Chiara Victory
+  m_EditorClassIdentifier: 
+  Path: event:/Chiara Victory
+  guid: c03e8ed38afc444eaca10e8ec120e23d
+  Banks:
+  - {fileID: -8711991910856702805}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 783
+--- !u!114 &8892794348562352094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Elite Enemy Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &9187914550884042535
 MonoBehaviour:
   m_ObjectHideFlags: 0
