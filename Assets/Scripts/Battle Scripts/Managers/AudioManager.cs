@@ -17,6 +17,10 @@ public class AudioManager : MonoBehaviour
             return _instance;
         }
     }
+
+    [SerializeField]
+    SoundEventSO _backgroundMusic;
+
     private void Awake()
     {
         if (_instance == null)
@@ -31,6 +35,16 @@ public class AudioManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
     }
 
+    private void Start()
+    {
+        SceneHandler.onFinishLoadingScene += SceneParameter;
+        _backgroundMusic.PlaySound();
+    }
+    private void OnDisable()
+    {
+        
+        SceneHandler.onFinishLoadingScene -= SceneParameter;
+    }
     private void FmodInit()
     {
         _fmodLibrary.Clear();
@@ -107,7 +121,23 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-
+    private void SceneParameter(SceneHandler.ScenesEnum scene)
+    {
+        switch (scene)
+        {
+            case SceneHandler.ScenesEnum.NetworkScene:
+            case SceneHandler.ScenesEnum.LoadingScene:
+            case SceneHandler.ScenesEnum.MainMenuScene:
+            case SceneHandler.ScenesEnum.MapScene:
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter",  0 ,true );
+                break;
+            case SceneHandler.ScenesEnum.GameBattleScene:
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter",2, true );
+                break;
+            default:
+                break;
+        }
+    }
     public class FmodData
     {
         public EventInstance _eventInstance;
