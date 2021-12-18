@@ -38,7 +38,7 @@ namespace Map
         {
             Instance = this;
         }
-
+       
         public void SelectNode(NodeMap mapNode)
         {
             if (Locked) return;
@@ -77,6 +77,9 @@ namespace Map
 
         private void Start()
         {
+            if (_actDiffucltys == null|| _actDiffucltys.Length ==0 )
+                _actDiffucltys = Resources.LoadAll<ActDifficultySO>("Maps/Acts Diffuclty");
+            
             Instance = this;
             view.SetAttainableNodes();
         }
