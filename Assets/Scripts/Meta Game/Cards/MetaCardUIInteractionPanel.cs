@@ -6,12 +6,6 @@ using UnityEngine.UI;
 
 namespace UI.Meta.Laboratory
 {
-    //public abstract class MetaCardUIOpenerAbst : MonoBehaviour, IOnMetaCardUIClicked
-    //{
-    //    public abstract void OpenScreen(MetaCardUIHandler metaCardUIHandler);
-
-    //}
-
 
     public class MetaCardUIInteractionPanel : MonoBehaviour
     {
@@ -48,16 +42,7 @@ namespace UI.Meta.Laboratory
 
         public CardUIInteractionBuyButtom BuyBtn { get => _buyBtn; }
 
-        [Flags]
-        public enum MetaCardUiInteractionEnum
-        {
-            None = 0,
-            Info = 1 << 0,
-            Remove = 1 << 1,
-            Use = 1 << 2,
-            Dismental = 1 << 3,
-            Buy = 1 << 4,
-        }
+ 
         public void ResetEnum()
         {
             _state = MetaCardUiInteractionEnum.None;
@@ -169,4 +154,15 @@ namespace UI.Meta.Laboratory
      //       ClosePanel();
         }
     }
+}
+[Flags]
+public enum MetaCardUiInteractionEnum
+{
+    None = 0,
+    Info = 1 << 0,
+    Remove = 1 << 1,
+    Use = 1 << 2,
+    Dismental = 1 << 3,
+    Buy = 1 << 4,
+    Upgrade = 1 << 5,
 }
