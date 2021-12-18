@@ -1,14 +1,14 @@
 ﻿using Battles;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using static Map.ActDifficultySO;
 
 namespace Collections
 {
     [CreateAssetMenu(fileName = "CharacterCollection", menuName = "ScriptableObjects/Collection")]
-    public class CharacterCollectionSO :ScriptableObject , IScriptableObjectCollection
+    public class CharacterCollectionSO : ScriptableObject, IScriptableObjectCollection
     {
         [SerializeField]
         private CharacterSO[] _charactersSO;
@@ -34,10 +34,13 @@ namespace Collections
 
         public CharacterSO[] GetCharactersSO(CharacterTypeEnum type, NodeLevel NodeLevelsRange)
         {
+            int rightIndex = type == CharacterTypeEnum.Elite_Enemy ? 1 : 0;
+            var range = NodeLevelsRange.MinMaxCharacters[rightIndex];
+
             return GetCharactersSO(type).Where(
                 diffuclty =>
-                (diffuclty.CharacterDiffciulty >= NodeLevelsRange.MinDiffculty &&
-                diffuclty.CharacterDiffciulty <= NodeLevelsRange.MaxDiffculty)
+                (diffuclty.CharacterDiffciulty >= range.MinDiffculty &&
+                diffuclty.CharacterDiffciulty <= range.MaxDiffculty)
                 ).ToArray();
         }
         public CharacterSO[] GetCharactersSO(CharacterTypeEnum type) => _charactersSO.Where(character => (character.CharacterType == type)).ToArray();

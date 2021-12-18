@@ -3,6 +3,7 @@ using UnityEngine;
 using Battles.Deck;
 using Characters.Stats;
 using Characters;
+using TMPro;
 
 namespace Battles
 {
@@ -20,6 +21,7 @@ namespace Battles
         int _cardAction;
         [SerializeField] Cards.Card enemyAction;
         [SerializeField]  AnimatorController _enemyAnimatorController;
+        [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
          public Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
         private Cards.Card[] _deck;
@@ -45,6 +47,7 @@ namespace Battles
             _myCharacter = character;
             var characterdata = character.CharacterData;
             _animationSoundHandler.CurrentCharacter = characterdata.CharacterSO;
+            _enemyNameText.text = characterdata.CharacterSO.CharacterName;
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new Cards.Card[deckLength];
             System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);

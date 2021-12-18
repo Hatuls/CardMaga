@@ -14,7 +14,6 @@ namespace Map
         {
             get
             {
-                Debug.LogError($"Index : " + index + "Length :" + _nodeLevels.Length);
                 return _nodeLevels[index];
 
             }
@@ -26,19 +25,33 @@ namespace Map
         public class NodeLevel
         {
             [SerializeField]
-            byte _minDiffculty;
-            [SerializeField]
-            byte _maxDiffculty;
-
-            public NodeLevel(byte maxDiffculty, byte minDiffculty)
+            MinMaxRatio[] _minMaxCharacters;
+            public NodeLevel(params MinMaxRatio[] minMaxRatios)
             {
-                _maxDiffculty = maxDiffculty;
-                _minDiffculty = minDiffculty;
+                _minMaxCharacters = minMaxRatios;
 
             }
 
-            public byte MinDiffculty { get => _minDiffculty; }
-            public byte MaxDiffculty { get => _maxDiffculty; }
+            public MinMaxRatio[] MinMaxCharacters { get => _minMaxCharacters; }
+
+            [System.Serializable]
+            public class MinMaxRatio
+            {
+
+                [SerializeField]
+                byte _minDiffculty;
+
+                public MinMaxRatio(byte minDiffculty, byte maxDiffculty)
+                {
+                    _minDiffculty = minDiffculty;
+                    _maxDiffculty = maxDiffculty;
+                }
+
+                [SerializeField]
+                byte _maxDiffculty;
+                public byte MinDiffculty { get => _minDiffculty; }
+                public byte MaxDiffculty { get => _maxDiffculty; }
+            }
         }
 
 
@@ -57,16 +70,24 @@ namespace Map
             _nodeLevels = new NodeLevel[MaxFloor];
             for (int i = 0; i < MaxFloor; i++)
             {
-                string[] minMaxString = row[i + Floor].Split('^');
 
-                if (byte.TryParse(minMaxString[0], out byte min) == false)
-                    throw new System.Exception($"ActDiffucltySO: Min value is not a valid number\n Act: {_act}\nValue: {minMaxString[0]}");
+                string[] basicBoss = row[i + Floor].Split('&');
+                int count = basicBoss.Length == 0 ? 1 : basicBoss.Length;
 
-                if (byte.TryParse(minMaxString[1], out byte max) == false)
-                    throw new System.Exception($"ActDiffucltySO: Max value is not a valid number\n Act: {_act}\nValue: {minMaxString[1]}");
+                NodeLevel.MinMaxRatio[] ratio = new NodeLevel.MinMaxRatio[count];
+                for (int j = 0; j < count; j++)
+                {
+                    string[] minMaxString = basicBoss[j].Split('^');
 
+                    if (byte.TryParse(minMaxString[0], out byte min) == false)
+                        throw new System.Exception($"ActDiffucltySO: Min value is not a valid number\n Act: {_act}\nValue: {minMaxString[0]}");
 
-                _nodeLevels[i] = new NodeLevel(max, min);
+                    if (byte.TryParse(minMaxString[1], out byte max) == false)
+                        throw new System.Exception($"ActDiffucltySO: Max value is not a valid number\n Act: {_act}\nValue: {minMaxString[1]}\nCoulmne: {i+1}");
+                    ratio[j] = new NodeLevel.MinMaxRatio(min, max);
+                }
+
+                _nodeLevels[i] = new NodeLevel(ratio);
             }
         }
 #endif
