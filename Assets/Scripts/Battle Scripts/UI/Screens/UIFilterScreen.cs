@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Map.UI
 {
-    public abstract class UIFilterScreen<T, U> : MonoBehaviour where T :  MonoBehaviour where U : class 
+    public abstract class UIFilterScreen<T, U> : MonoBehaviour where T : MonoBehaviour where U : class
     {
         [SerializeField]
         protected GameObject _cardUIPrefab;
         [SerializeField]
         protected List<T> _collection = new List<T>();
+
         [SerializeField]
-        UnityEvent OnBeforeSorting;
-        public IReadOnlyList<T> Collection=>_collection;
+        UnityEvent OnOneFrameAfterSorting;
+        public IReadOnlyList<T> Collection => _collection;
         ISort<U> _lastSort;
         protected abstract void OnActivate(IEnumerable<U> sortedDeck, int i);
         protected abstract void CreatePool();
@@ -32,7 +34,7 @@ namespace Map.UI
             _lastSort = sortMethod;
             CreatePool();
             int length = _collection.Count;
-            var sortedDeck =sortMethod.Sort();
+            var sortedDeck = sortMethod.Sort();
 
             int sortedDeckLength = sortedDeck.Count();
 
@@ -42,21 +44,23 @@ namespace Map.UI
             {
                 if (i < sortedDeckLength && sortedDeck.ElementAt(i) != null)
                 {
-        
-                        _collection[i].gameObject.SetActive(true);
+
+                    _collection[i].gameObject.SetActive(true);
                     OnActivate(sortedDeck, i);
                 }
                 else
                 {
-              
-                        _collection[i].gameObject.SetActive(false);
+
+                    _collection[i].gameObject.SetActive(false);
                 }
             }
-            OnBeforeSorting?.Invoke();
+            WaitOneFrame();
         }
-
-     
-
+     private async void WaitOneFrame()
+        {
+            OnOneFrameAfterSorting?.Invoke();
+            await System.Threading.Tasks.Task.Yield();
+        }
     }
 }
 

@@ -93,9 +93,9 @@ namespace UI.Meta.Laboratory
                 deck[i].ToOpenInteractionPanel = !_toOpenInteractionPanel;
                 if (_toOpenInteractionPanel)
                 {
-                    metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Use, SelectCardUI);
-                    metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
-                    metacardInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Dismental, _cardUIInteractionHandle.OpenDismentalScreen);
+                    metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Use, SelectCardUI);
+                    metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
+                    metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Dismental, _cardUIInteractionHandle.OpenDismentalScreen);
                 }
 
                 else
@@ -105,7 +105,7 @@ namespace UI.Meta.Laboratory
             }
             _selectedCardUI.ResetAll();
             if (_toOpenInteractionPanel)
-                _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Remove, RemoveCardUI);
+                _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Remove, RemoveCardUI);
             else
             { _selectedCardUI.OnCardUIClicked += RemoveCardUI;_selectedCardUI.ToOpenInteractionPanel = true; }
         }
