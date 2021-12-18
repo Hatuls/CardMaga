@@ -7,7 +7,7 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000001C75F368628 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000002A25D17B618 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -18,11 +18,75 @@
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
-[LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
-[LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
-[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
-[LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
-[LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
-[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] SystemI::createSound                     : filename = Assets/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000002A3188D2AB8 : node = 000002A2770532C0
+[LOG] SystemI::createSound                     : add node to async list : head = 000002A267E58BC8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000002A3188D2AB8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2061408
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 5120
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000002A2770533D0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Combat Music 1 NEW', format=5, channels=2, frequency=48000, lengthbytes=1545472, lengthpcm=5667526, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.933319.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000002A3188D2AB8
+[LOG] SystemI::createSound                     : filename = Assets/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000002A2724E0EE8 : node = 000002A27799D360
+[LOG] SystemI::createSound                     : add node to async list : head = 000002A267E58BC8.  list count = 0
+[LOG] SystemI::createSound                     : filename = Assets/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000002A2724E0EE8
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSound                     :     setdata soundi = 000002A2724E1C68 : node = 000002A27799D9A0
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSound                     :     add node to async list : head = 000002A267E58BC8.  list count = 0
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2061408
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 5120
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000002A27799D470
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 662
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Combat Music 1 NEW', format=5, channels=2, frequency=48000, lengthbytes=1545472, lengthpcm=5667526, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.933319.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000002A2724E0EE8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000002A2724E1C68
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 2061408
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 5120
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000002A27799DAB0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 662
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Combat Music 1 NEW', format=5, channels=2, frequency=48000, lengthbytes=1545472, lengthpcm=5667526, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.933319.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000002A2724E1C68
+[LOG] SoundI::release                          : Combat Music 1 NEW (000002A3188D2AB8)
+[LOG] SoundI::release                          :     Combat Music 1 NEW (000002A16BDC9B18)
+[LOG] SoundI::release                          :     Combat Music 1 NEW (000002A27DF1E348)
+[LOG] SoundI::release                          : Menu V2 (000002A273957978)
+[LOG] SoundI::release                          :     Menu V2 (000002A16BDC92F8)
+[LOG] SoundI::release                          :     Menu V2 (000002A267E337B8)
+[LOG] SoundI::release                          : Combat Music 1 NEW (000002A2724E1C68)
+[LOG] SoundI::release                          :     Combat Music 1 NEW (000002A16BDCB858)
+[LOG] SoundI::release                          :     Combat Music 1 NEW (000002A27DF20A18)
+[LOG] SoundI::release                          : Combat Music 1 NEW (000002A2724E0EE8)
+[LOG] SoundI::release                          :     Combat Music 1 NEW (000002A16BDC9FF8)
+[LOG] SoundI::release                          :     Combat Music 1 NEW (000002A27DF1F5D8)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::close                           : Closed.
