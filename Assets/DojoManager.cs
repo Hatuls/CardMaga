@@ -116,7 +116,7 @@ public class DojoManager : MonoBehaviour, IObserver
             var metaCard = _metaCardUIs[i].MetaCardUIInteraction;
             metaCard.ResetEnum();
             metaCard.ClosePanel();
-            metaCard.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Buy, BuyCard);
+            metaCard.SetClickFunctionality(MetaCardUiInteractionEnum.Buy, BuyCard);
             metaCard.BuyBtn.SetText(cards[i].CardSO.GetCostPerUpgrade(cards[i].CardLevel).ToString());
             metaCard.OpenInteractionPanel();
             _metaCardUIs[i].CardUI.DisplayCard(cards[i]);
