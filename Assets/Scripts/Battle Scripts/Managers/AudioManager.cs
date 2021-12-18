@@ -148,7 +148,21 @@ public class AudioManager : MonoBehaviour
                 FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
                 break;
             case SceneHandler.ScenesEnum.GameBattleScene:
-                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 1);
+                switch (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType)
+                {
+                    case Battles.CharacterTypeEnum.Elite_Enemy:
+                        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);
+                        break;
+                    case Battles.CharacterTypeEnum.Boss_Enemy:
+                        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 3);
+                        break;
+
+                    default:
+                    case Battles.CharacterTypeEnum.Tutorial:
+                    case Battles.CharacterTypeEnum.Basic_Enemy:
+                        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 1);
+                        break;
+                }
                 break;
             default:
                 break;
