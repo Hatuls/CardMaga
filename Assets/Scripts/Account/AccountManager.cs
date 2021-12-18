@@ -111,6 +111,7 @@ namespace Account
                 {
                     Debug.Log("Loading Data From " + saveType);
                     Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
+                    _accountData.AccountSettingsData.Refresh();
                 }
             }
             else

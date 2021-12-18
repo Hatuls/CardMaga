@@ -11,6 +11,7 @@ public class SceneHandler
     static System.Action onLoaderCallback;
     static AsyncOperation _loadingAsyncOperation;
     public static System.Action<ScenesEnum> onFinishLoadingScene;
+    public static System.Action<ScenesEnum> onStartLoadingScene;
     public static System.Action OnSceneChange;
     public SceneHandler(LoadingManager sceneLoaderCallback)
     {
@@ -45,6 +46,7 @@ public class SceneHandler
 
         LoadingComplete = false;
         CurrentScene = ScenesEnum.LoadingScene;
+        onStartLoadingScene?.Invoke(sceneEnum);
         SceneManager.LoadScene((int)ScenesEnum.LoadingScene, LoadSceneMode.Additive);
 
         onLoaderCallback = () =>

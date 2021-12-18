@@ -1,6 +1,6 @@
 ﻿
 using UnityEngine;
-
+using static Map.ActDifficultySO;
 
 namespace Map
 {
@@ -10,13 +10,17 @@ namespace Map
         [SerializeField] SceneLoaderCallback _sceneLoader;
         public override NodeType PointType =>      NodeType.Boss_Enemy;
 
+        public override void ActivatePoint(NodeLevel level)
+        {
+            var characterFactory = Factory.GameFactory.Instance.CharacterFactoryHandler;
+            var enemySO = characterFactory.GetRandomCharacterSO(Battles.CharacterTypeEnum.Boss_Enemy, level);
+            var enemy = characterFactory.CreateCharacter(enemySO);
+            SinglePlayerHandler.Instance.RegisterOpponent(enemy);
+            ActivatePoint();
+        }
         public override void ActivatePoint()
         {
             OnEnterNode.PlaySound();
-            var characterFactory = Factory.GameFactory.Instance.CharacterFactoryHandler;
-            var enemySO = characterFactory.GetRandomCharacterSO(Battles.CharacterTypeEnum.Boss_Enemy);
-            var enemy = characterFactory.CreateCharacter(enemySO);
-            SinglePlayerHandler.Instance.RegisterOpponent(enemy);
             SinglePlayerHandler.Instance.Battle();
         }
     }

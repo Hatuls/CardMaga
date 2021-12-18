@@ -76,8 +76,8 @@ namespace Battles
         public CharacterEnum CharacterEnum => _characterEnum;
 
         [SerializeField]
-        private CharacterDifficultyEnum _characterDifficultyEnum;
-        public CharacterDifficultyEnum CharacterDiffciulty { get => _characterDifficultyEnum; private set => _characterDifficultyEnum = value; }
+        private short _characterDifficulty;
+        public short CharacterDiffciulty { get => _characterDifficulty; private set => _characterDifficulty = value; }
 
         [SerializeField]
         private RecipeInfo[] _combos;
@@ -137,7 +137,7 @@ namespace Battles
                 {
                     _characterEnum = (CharacterEnum)ce;
 
-                    if (Enum.TryParse<CharacterDifficultyEnum>(row[CharacterDifficultyIndex], out CharacterDifficultyEnum cde))
+                    if (short.TryParse(row[CharacterDifficultyIndex], out short cde))
                     {
                         CharacterDiffciulty = cde;
 
@@ -245,7 +245,7 @@ namespace Battles
                             Debug.LogError($"Coulmne E: ID= {ID} Name is Empty!");
                     }
                     else
-                        Debug.LogError($"Coulmne D: ID= {ID} Character Difficulty is not valid ENUM! - {row[CharacterDifficultyIndex]} ");
+                        Debug.LogError($"Coulmne D: ID= {ID} Character Difficulty is not valid number! - {row[CharacterDifficultyIndex]} ");
                 }
                 else
                     Debug.LogError($"Coulmne C: ID={ID} Character enum is not valid! - {row[CharacterEnumIndex]}");
@@ -314,16 +314,6 @@ namespace Battles
         Basic_Enemy = 3,
         Elite_Enemy = 4,
         Boss_Enemy = 5,
-    }
-
-    public enum CharacterDifficultyEnum
-    {
-        None = 0,
-        Player = 1,
-        Tutorial = 2,
-        Easy = 3,
-        Medium = 4,
-        Hard = 5,
     }
 
 

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static Map.ActDifficultySO;
 
 namespace Factory
 {
@@ -107,9 +108,9 @@ namespace Factory
              => CharacterCollection.GetCharacterSO(characterEnum);
 
 
-            public CharacterSO GetRandomCharacterSO(CharacterTypeEnum character)
+            public CharacterSO GetRandomCharacterSO(CharacterTypeEnum character, NodeLevel NodeLevelsRange)
             {
-                var collection = CharacterCollection.GetCharactersSO(character);
+                var collection = CharacterCollection.GetCharactersSO(character, NodeLevelsRange);
                 int collecitonLength = collection.Length;
 
                 if (collecitonLength == 0)

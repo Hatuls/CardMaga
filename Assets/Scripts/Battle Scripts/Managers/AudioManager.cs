@@ -40,11 +40,11 @@ public class AudioManager : MonoBehaviour
     private void OnDisable()
     {
 
-        SceneHandler.onFinishLoadingScene -= SceneParameter;
+        SceneHandler.onStartLoadingScene -= SceneParameter;
     }
     private void FmodInit()
     {
-        SceneHandler.onFinishLoadingScene += SceneParameter;
+        SceneHandler.onStartLoadingScene += SceneParameter;
 
         PlayBackGround();
         _fmodLibrary.Clear();
