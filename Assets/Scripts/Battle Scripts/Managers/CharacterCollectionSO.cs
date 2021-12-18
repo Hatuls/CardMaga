@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using static Map.ActDifficultySO;
 
 namespace Collections
 {
@@ -31,10 +32,15 @@ namespace Collections
             throw new Exception($"Could not find the character type: {type}\nin the character collections");
         }
 
-        public CharacterSO[] GetCharactersSO(CharacterTypeEnum type)
-        => _charactersSO.Where(character => character.CharacterType == type).ToArray();
-
-        
+        public CharacterSO[] GetCharactersSO(CharacterTypeEnum type, NodeLevel NodeLevelsRange)
+        {
+            return GetCharactersSO(type).Where(
+                diffuclty =>
+                (diffuclty.CharacterDiffciulty >= NodeLevelsRange.MinDiffculty &&
+                diffuclty.CharacterDiffciulty <= NodeLevelsRange.MaxDiffculty)
+                ).ToArray();
+        }
+        public CharacterSO[] GetCharactersSO(CharacterTypeEnum type) => _charactersSO.Where(character => (character.CharacterType == type)).ToArray();
 
         public CharacterSO GetCharacterSO(CharacterEnum characterEnum)
         {

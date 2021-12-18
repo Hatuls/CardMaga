@@ -1,6 +1,8 @@
 ﻿
 using Collections;
+using Map;
 using Rewards;
+using System;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -17,6 +19,7 @@ public class CSVManager
     public static BattleRewardCollectionSO _battleRewards;
     public static CardUpgradeCostSO _upgradeCardCostSO;
     public static DismentalCostsSO _dismentalCardCostSO;
+    public static ActDifficultySO[] actDifficultySOs;
 #endif
 
 
@@ -32,10 +35,13 @@ public class CSVManager
     const string _driveURLOfBattleRewardSO = "39048757";
     #endregion
 
+
+    #region Meta CSV
     const string _driveMetaURL = "https://docs.google.com/spreadsheets/d/11FQ280bkkd9J-UZpHKlLdKnLdoULX4MI3md1trWPArI/export?format=csv&gid=";
     const string _driveURLOfPackRewards = "463836199";
     const string _driveURLOfDismentalAndUpgrades = "26424949";
-
+    const string _driveURLOfDiffculty = "1834560392";
+    #endregion
 
     #endregion
     [MenuItem("Google Drive/Update All ScriptableObjects!")]
@@ -64,13 +70,15 @@ public class CSVManager
     {
         CSVAbst[] metacsv = new CSVAbst[] {
          new CSVToPackReward(),
-         new CSVToUpgradeAndDismental()
+         new CSVToUpgradeAndDismental(),
+         new CSVToActDiffuclty(),
         };
 
         string[] metaurls = new string[]
         {
         _driveURLOfPackRewards,
-        _driveURLOfDismentalAndUpgrades
+        _driveURLOfDismentalAndUpgrades,
+        _driveURLOfDiffculty,
         };
 
         await StartLoading(_driveMetaURL, metaurls, metacsv);
@@ -121,42 +129,39 @@ public abstract class CSVAbst
 }
 
 
-public class SceneHelper
+public class CSVToActDiffuclty : CSVAbst
 {
-    static string NetworkSceneName = "NetworkScene";
-    static string LoadingSceneName = "LoadingScene";
-    static string BattleSceneName = "Game Battle Scene";
-    static string MainMenuSceneName = "Main Menu Scene";
-    static string MapSceneName = "Map Scene";
+    public static bool taskFinished = false;
+    public async override Task StartCSV(string data)
+    {
+        taskFinished = false;
 
+        WebRequests.Get(data, (x) => Debug.LogError($"Error On Loading ActDiffculty {x} "), OnCompleteDownloadingActDiffucltyCSV);
 
-    [MenuItem("Scenes/Network Scene")]
-    private static void NetworkScene()
-    {
-        LoadScene(NetworkSceneName);
-    }
-    [MenuItem("Scenes/Battle Scene")]
-    private static void BattleScene()
-    {
-        LoadScene(BattleSceneName);
-    }
-    [MenuItem("Scenes/Map Scene")]
-    private static void MapScene()
-    { LoadScene(MapSceneName); }
-    [MenuItem("Scenes/Main Menu Scene")]
-    private static void MainMenuScene()
-    {
-        LoadScene(MainMenuSceneName);
+        do
+        {
+            await Task.Yield();
+        } while (!taskFinished);
+        Debug.Log("Finished Loading Diffulty Acts SO");
     }
 
-    [MenuItem("Scenes/Loading Scene Scene")]
-    private static void LoadingScene()
+    private void OnCompleteDownloadingActDiffucltyCSV(string csv)
     {
-        LoadScene(LoadingSceneName); }
-    private static void LoadScene(string sceneName)
-    {
-        UnityEditor.SceneManagement.EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-        UnityEditor.SceneManagement.EditorSceneManager.OpenScene(string.Concat(Application.dataPath, "/Scenes/GameScene/", sceneName, ".unity"), UnityEditor.SceneManagement.OpenSceneMode.Single);
 
+        string[] rows = csv.Replace("\r", "").Split('\n');
+        int amountOfActs = rows.Length - 1;
+        CSVManager.actDifficultySOs = new ActDifficultySO[amountOfActs];
+
+        
+        for (int i = 1; i <= amountOfActs; i++)
+        {
+            CSVManager.actDifficultySOs[i-1] = ScriptableObject.CreateInstance<ActDifficultySO>();
+            string[] row = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
+            CSVManager.actDifficultySOs[i - 1].Init(row);
+            AssetDatabase.CreateAsset(CSVManager.actDifficultySOs[i - 1], $"Assets/Resources/Maps/Acts Diffuclty/{CSVManager.actDifficultySOs[i - 1].Act}Difficulty.asset");
+        }
+
+        AssetDatabase.SaveAssets();
+        taskFinished = true;
     }
 }

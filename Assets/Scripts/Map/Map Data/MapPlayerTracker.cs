@@ -20,6 +20,17 @@ namespace Map
         ActsEnum _currentAct = ActsEnum.ActOne;
         [SerializeField] CameraMovement _cameraMovement;
 
+        [SerializeField]
+        ActDifficultySO[] _actDiffucltys;
+        ActDifficultySO this[ActsEnum _currentAct]
+            => _actDiffucltys.FirstOrDefault(x => x.Act== _currentAct);
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.Button()]
+        private void LoadActDiffucltys()
+        => _actDiffucltys = Resources.LoadAll<ActDifficultySO>("Maps/Acts Diffuclty");
+
+#endif
+
         public bool Locked { get; set; }
         public ActsEnum CurrentAct { get => _currentAct; set => _currentAct = value; }
 
@@ -84,8 +95,30 @@ namespace Map
                 {"Location:" ,mapNode.NodeData.Position },
 
             });
+
+            switch (mapNode.NodeData.NodeTypeEnum)
+            {
+  
+                case NodeType.Basic_Enemy:
+                case NodeType.Boss_Enemy:
+                  case NodeType.Elite_Enemy:
+                    var nodeData = mapNode.NodeData;
+                    Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(nodeData.NodeTypeEnum).ActivatePoint(Instance[Instance._currentAct][nodeData.point.y]);
+                    break;     
+
+
+                case NodeType.Chest:
+                case NodeType.QuestionMark:
+                case NodeType.Rest_Area:
+                case NodeType.Dojo:
+                    Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(mapNode.NodeData.NodeTypeEnum).ActivatePoint();
+                    break;
+          
+                default:
+                    Debug.LogError(mapNode.NodeData.NodeTypeEnum + "Is Not Valid Node Point!");
+                    break;
+            }
             
-            Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(mapNode.NodeData.NodeTypeEnum).ActivatePoint();
             Instance._cameraMovement.LastVisitedNodeY = mapNode.transform.position.y;
 
         }

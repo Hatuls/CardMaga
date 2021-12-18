@@ -37,5 +37,11 @@ namespace Account.GeneralData
             MasterVolume = true;
             CamShake = true;
         }
+
+        internal void Refresh()
+        {
+            SFXEffect = SFXEffect;
+            MasterVolume = MasterVolume;
+        }
     }
 }

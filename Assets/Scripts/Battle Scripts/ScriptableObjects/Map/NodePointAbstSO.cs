@@ -1,6 +1,6 @@
 ﻿
 using UnityEngine;
-
+using static Map.ActDifficultySO;
 
 namespace Map
 {
@@ -17,7 +17,8 @@ namespace Map
         private Sprite _icon;
         [Sirenix.OdinInspector.ShowInInspector]
         public abstract NodeType PointType {get;}
-        public string Name; 
+        public string Name;
+        public virtual void ActivatePoint(NodeLevel act) { }
         public abstract void ActivatePoint();
         public Sprite Icon => _icon;
         public Sprite BackGroundImage =>_backGroundImage;
