@@ -2,7 +2,6 @@
 using Battles.UI;
 using Characters.Stats;
 using Keywords;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -106,34 +105,44 @@ namespace Battles
             if (BattleManager.isGameEnded)
                 return;
 
-
-
             var currentCard = card;
 
             if (currentCard == null)
                 throw new System.Exception($"Cannot Execute Card that is null!!!!");
-            switch (currentCard.CardSO.CardType.CardType)
+
+
+            if (card.CardSO.AnimationBundle._attackAnimation == string.Empty)
             {
-                case Cards.CardTypeEnum.Utility:
-                case Cards.CardTypeEnum.Defend:
-                    ExecuteUtilityAndDefendCard(isPlayer, currentCard);
-
-                    break;
-
-                case Cards.CardTypeEnum.Attack:
-                    //    _playerAnimator.SetAnimationQueue(card);
-                    AddToQueue(card);
-                    break;
-
-
-                default:
-                    Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
-                    break;
+                ExecuteInstantly(isPlayer, currentCard);
             }
+            else
+            {
+                AddToQueue(card);
+            }
+            //switch (currentCard.CardSO.CardType.CardType)
+            //{
+            //    case Cards.CardTypeEnum.Utility:
+            //    case Cards.CardTypeEnum.Defend:
+
+
+
+
+            //        break;
+
+            //    case Cards.CardTypeEnum.Attack:
+            //        //    _playerAnimator.SetAnimationQueue(card);
+
+            //        break;
+
+
+            //    default:
+            //        Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
+            //        break;
+            //}
 
         }
 
-        private void ExecuteUtilityAndDefendCard(bool isPlayer, Cards.Card currentCard)
+        private void ExecuteInstantly(bool isPlayer, Cards.Card currentCard)
         {
             switch (currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
             {
