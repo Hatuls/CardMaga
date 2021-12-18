@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using Rewards;
+﻿using Rewards;
+using UnityEngine;
 namespace Map
 {
+    [CreateAssetMenu(fileName = "Act Difficulty SO", menuName = "ScriptableObjects/Map/Act Difficulty")]
     public class ActDifficultySO : ScriptableObject
     {
         [SerializeField]
@@ -9,9 +10,16 @@ namespace Map
         public ActsEnum Act { get => _act; private set => _act = value; }
         [SerializeField]
         NodeLevel[] _nodeLevels;
-      public NodeLevel this[int index]
-        => _nodeLevels[index];
-        
+        public NodeLevel this[int index]
+        {
+            get
+            {
+                Debug.LogError($"Index : " + index + "Length :" + _nodeLevels.Length);
+                return _nodeLevels[index];
+
+            }
+        }
+
 
 
         [System.Serializable]
@@ -26,16 +34,16 @@ namespace Map
             {
                 _maxDiffculty = maxDiffculty;
                 _minDiffculty = minDiffculty;
-            
+
             }
 
-            public byte MinDiffculty { get => _minDiffculty;}
-            public byte MaxDiffculty { get => _maxDiffculty;}
+            public byte MinDiffculty { get => _minDiffculty; }
+            public byte MaxDiffculty { get => _maxDiffculty; }
         }
 
 
 #if UNITY_EDITOR
-public void Init(string[] row)
+        public void Init(string[] row)
         {
             const int ActEnumIndex = 0;
             const int Floor = 1;
