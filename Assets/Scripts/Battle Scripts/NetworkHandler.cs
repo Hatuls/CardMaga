@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using UnityEngine.Networking;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using Account;
+using System.Collections;
 using TMPro;
-using Account;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class NetworkHandler : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class NetworkHandler : MonoBehaviour
     [SerializeField] TextMeshProUGUI _status;
     [SerializeField] TextMeshProUGUI _myVersion;
     [SerializeField] TextMeshProUGUI _webVersion;
-
+    [SerializeField] GameObject _btnLogin;
     string path = "https://drive.google.com/uc?export=download&id=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
 
     GameVersion _gv;
@@ -22,22 +21,22 @@ public class NetworkHandler : MonoBehaviour
         _myVersion.enabled = false;
         _webVersion.enabled = false;
         _status.enabled = false;
-   
-        
+
+
     }
     private void Start()
     {
         CheckVersionEvent += Init;
+        AnalyticsHandler.SendEvent(Application.version);
     }
     private void OnDestroy()
     {
         CheckVersionEvent -= Init;
     }
-    public void Init()
+    public async void Init()
     {
         _myVersion.enabled = true;
         _myVersion.text = "My Version is : " + PlayerPrefs.GetString(Version);
-
 
         WebRequests.Get(
             path,
@@ -48,11 +47,14 @@ public class NetworkHandler : MonoBehaviour
                 //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
                 _gv = JsonUtility.FromJson<GameVersion>(text);
                 CheckVersion(_gv);
-
             }
             );
 
-      //  _continueBtn.enabled = true;
+        for (int i = 0; i < 500; i++)
+            await System.Threading.Tasks.Task.Yield();
+        if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.NetworkScene)
+            _btnLogin.SetActive(true);
+        //  _continueBtn.enabled = true;
     }
     [Sirenix.OdinInspector.Button]
 
@@ -64,13 +66,13 @@ public class NetworkHandler : MonoBehaviour
     private void CheckVersion(GameVersion currentVersion)
     {
         _webVersion.enabled = true;
-        _webVersion.text ="Version in the Web : " + currentVersion.Version;
+        _webVersion.text = "Version in the Web : " + currentVersion.Version;
         _status.enabled = true;
         if (PlayerPrefs.GetString(Version) == currentVersion.Version)
         {
-    
-           _status.text ="Status: Up to date!";
-         //   _continueBtn.enabled = true;
+
+            _status.text = "Status: Up to date!";
+            //   _continueBtn.enabled = true;
         }
         else
         {
@@ -92,16 +94,16 @@ public class NetworkHandler : MonoBehaviour
 
 public static class JsonUtilityHandler
 {
-    public static string ConvertObjectToJson (object data) 
+    public static string ConvertObjectToJson(object data)
     => JsonUtility.ToJson(data);
-    
+
     public static void LoadOverrideFromJson(string json, object data)
     => JsonUtility.FromJsonOverwrite(json, data);
-    
-    public static T LoadFromJson<T>(string json) 
-    =>JsonUtility.FromJson<T>(json);
 
-} 
+    public static T LoadFromJson<T>(string json)
+    => JsonUtility.FromJson<T>(json);
+
+}
 public static class WebRequests
 {
     private class WebRequestMonoBehaviour : MonoBehaviour { }
