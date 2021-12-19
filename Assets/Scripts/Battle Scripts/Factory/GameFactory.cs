@@ -9,7 +9,6 @@ using Rewards;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using static Map.ActDifficultySO;
 
 namespace Factory
