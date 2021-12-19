@@ -109,7 +109,6 @@ namespace Battles
             if (isPlayerDied)
             {
                 PlayerDied();
-
             }
             else
             {
@@ -138,11 +137,10 @@ namespace Battles
         public static void DeathAnimationFinished(bool isPlayer)
         {
 
-            if (isPlayer)
-                Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
+            if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
+                    Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
-            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
-
+                SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
         }
 
 
@@ -167,7 +165,7 @@ namespace Battles
             var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(battleData.Opponent.CharacterData.CharacterSO.CharacterType, battleData.CurrentAct);
             battleData.MapRewards.Diamonds += reward.DiamondsReward;
             battleData.MapRewards.EXP += reward.EXPReward;
-        
+
         }
 
         private static void PlayerDied()

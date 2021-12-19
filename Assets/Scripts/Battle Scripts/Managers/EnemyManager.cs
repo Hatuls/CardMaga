@@ -47,7 +47,7 @@ namespace Battles
             _myCharacter = character;
             var characterdata = character.CharacterData;
             _animationSoundHandler.CurrentCharacter = characterdata.CharacterSO;
-            _enemyNameText.text = characterdata.CharacterSO.CharacterName;
+     
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new Cards.Card[deckLength];
             System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
@@ -56,6 +56,13 @@ namespace Battles
             DeckManager.Instance.InitDeck(false, _deck);
 
             EnemyAnimatorController.ResetAnimator();
+
+
+#if UNITY_EDITOR
+            _enemyNameText.gameObject.SetActive(true);
+            _enemyNameText.text = characterdata.CharacterSO.CharacterName;
+#endif
+
         }
         public void UpdateStatsUI()
         {

@@ -48,6 +48,19 @@ public class  UshortEvent : UnityEvent<ushort> { }
         public PlayPackage playPackage => _playpackage;
         #endregion
         #region Public Methods
+        private void Start()
+        {
+            if (Account.AccountManager.Instance.IsDoneTutorial)
+            {
+                var account = Account.AccountManager.Instance;
+                _playpackage.CharacterData = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara);
+                _playpackage.Deck = _playpackage.CharacterData.GetDeckAt(0);
+                _playpackage.SendPackage();
+                account.BattleData.Opponent = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(Battles.CharacterTypeEnum.Tutorial);
+                _sceneLoad.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
+                account.IsDoneTutorial = false;
+            }
+        }
         public void ResetPlayScreen()
         {
             BGPanelSetActiveState(true);
