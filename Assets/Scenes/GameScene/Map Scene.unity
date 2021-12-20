@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2339,6 +2339,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -70.69069
       objectReference: {fileID: 0}
+    - target: {fileID: 5964867504906770435, guid: f0faa8b9cb6b97745ad83714501325cd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5368586503020326318}
+    - target: {fileID: 5964867504906770435, guid: f0faa8b9cb6b97745ad83714501325cd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSwitch
+      objectReference: {fileID: 0}
     - target: {fileID: 6296313022683993667, guid: f0faa8b9cb6b97745ad83714501325cd,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2831,3 +2841,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0faa8b9cb6b97745ad83714501325cd, type: 3}
+--- !u!1 &5368586503020326316 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4222102695608392718, guid: f0faa8b9cb6b97745ad83714501325cd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5368586503020326315}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5368586503020326317 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5721074586999773446, guid: f0faa8b9cb6b97745ad83714501325cd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5368586503020326315}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5368586503020326318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5368586503020326316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c7b42ea9b50654fac2020b4176a757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onButtonSwitchObject: {fileID: 5368586503020326317}
