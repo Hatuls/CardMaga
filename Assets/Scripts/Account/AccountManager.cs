@@ -53,13 +53,15 @@ namespace Account
         #region Fields
         [SerializeField]
 
-        private RewardGift _rewardGift ;
-            
+        private RewardGift _rewardGift;
+
         //[HideInInspector]
 
         [SerializeField]
         private AccountData _accountData;
-
+        [SerializeField]
+        bool _needToDoTutorial = true;
+        public bool IsDoneTutorial { get => _needToDoTutorial; set => _needToDoTutorial = value; }
         SaveManager.FileStreamType saveType = SaveManager.FileStreamType.FileStream;
         string path = "Account/";
 
@@ -86,7 +88,7 @@ namespace Account
         {
             ReturnLoadingScene.GoToScene = _accountData.CurrentScene;
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
-            
+
         }
 
         private void UpdateLastScene(SceneHandler.ScenesEnum scene)
@@ -101,18 +103,7 @@ namespace Account
         {
             if (SaveManager.CheckFileExists(AccountData.SaveName, saveType, true, path))
             {
-                _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, saveType, "txt", true, path);
-                if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value == 0)
-                {
-                    await CreateNewAccount();
-
-                }
-                else
-                {
-                    Debug.Log("Loading Data From " + saveType);
-                    Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
-                    _accountData.AccountSettingsData.Refresh();
-                }
+                await LoadAccount();
             }
             else
             {
@@ -124,6 +115,25 @@ namespace Account
             EnterMainMenu();
         }
 
+        private async Task LoadAccount()
+        {
+            _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, saveType, "txt", true, path);
+            if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value == 0)
+            {
+                await CreateNewAccount();
+                Debug.LogWarning("Account manager loaded but has max energy value equal to zero\n check loading process");
+            }
+            else
+            {
+                Debug.Log("Loading Data From " + saveType);
+                Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
+                _accountData.AccountSettingsData.Refresh();
+            }
+
+            if (PlayerPrefs.HasKey("Tutorial"))
+                _needToDoTutorial = bool.Parse(PlayerPrefs.GetString("Tutorial"));
+        }
+
         private void RewardLoad()
         {
             if (SaveManager.CheckFileExists("Reward", saveType))
@@ -131,11 +141,6 @@ namespace Account
         }
 
         public void ResetAccount() => _ = CreateNewAccount();
-        private async Task CreateNewAccount()
-        {
-            _accountData = new AccountData();
-            await _accountData.NewLoad();
-        }
 
         public void DownloadDataFromServer()
         {
@@ -182,7 +187,18 @@ namespace Account
             SaveManager.SaveFile(_accountData, AccountData.SaveName, saveType, true, "txt", path);
             SaveManager.SaveFile(RewardGift, "Reward", saveType);
 
+            PlayerPrefs.SetString("Tutorial", string.Concat(_needToDoTutorial));
+            PlayerPrefs.Save();
         }
+
+        private async Task CreateNewAccount()
+        {
+            _accountData = new AccountData();
+            await _accountData.NewLoad();
+            _needToDoTutorial = true;
+        }
+
+
         private void OnDestroy()
         {
             if (Application.isPlaying)

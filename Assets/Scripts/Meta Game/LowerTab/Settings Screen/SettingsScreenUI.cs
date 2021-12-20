@@ -48,7 +48,6 @@ namespace UI.Meta.Settings
         public override void Open()
         {
             SetSettings();
-           
                 _parent.SetActive(true);
             for (int i = 0; i < settingsGOToWhenClicked.Length; i++)
             {

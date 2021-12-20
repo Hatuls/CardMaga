@@ -62,6 +62,7 @@ namespace Rewards
             public ushort RandomizeAmount(ActsEnum _actType)
             {
                 int index = (int)_actType;
+             
                 return (ushort)Random.Range(_minValue[index], _maxValue[index]);
             }
         }
@@ -71,7 +72,7 @@ namespace Rewards
             for (int i = 0; i < _rewardTypes.Count; i++)
             {
                 if (_rewardTypes[i].CurrencyType == currencyEnum)
-                    return _rewardTypes[i].RandomizeAmount(_actType);
+                    return _rewardTypes[i].RandomizeAmount((_characterDifficultyEnum == CharacterTypeEnum.Tutorial)? ActsEnum.None: _actType);
             }
             throw new System.Exception($"BattleRewardSO: CurrencyEnum is not a valid type {currencyEnum}!");
         }

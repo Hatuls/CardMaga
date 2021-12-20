@@ -21,12 +21,50 @@ public class AnimationBodyPartSoundsHandler : MonoBehaviour
     public void PlayBlockDamage()
         => OnBlockDamage.PlaySound();
 
-    public void PlayVoiceSound(float param) => CurrentCharacter.SoundOnAttack.PlaySound(param);
-    public void PlayHitSound(float param) => CurrentCharacter.GetHitSounds.PlaySound(param);
-    public void PlayComboSound() => CurrentCharacter.ComboSounds.PlaySound();
-    public void PlayVictorySound() => CurrentCharacter.VictorySound.PlaySound();
-    public void PlayKOSound() => CurrentCharacter.DeathSounds.PlaySound();
-    public void PlayTauntSound() => CurrentCharacter.TauntSounds.PlaySound();
+    public void PlayHitSound(float param)
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have GetHitSounds!");
+        else
+            CurrentCharacter.GetHitSounds.PlaySound(param); 
+    }
+    public void PlayVoiceSound(float param)
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have SoundOnAttack!");
+        else
+
+            CurrentCharacter.SoundOnAttack.PlaySound(param); 
+    }
+    public void PlayComboSound()
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have ComboSounds!");
+        else
+            CurrentCharacter.ComboSounds.PlaySound();
+    }
+    public void PlayVictorySound()
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have VictorySound!");
+        else
+            CurrentCharacter.VictorySound.PlaySound(); 
+    }
+
+    public void PlayKOSound()
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have DeathSounds!");
+        else
+            CurrentCharacter.DeathSounds.PlaySound();
+    }
+    public void PlayTauntSound()
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have TauntSounds!");
+        else
+            CurrentCharacter.TauntSounds.PlaySound();
+    }
 
     
 }
