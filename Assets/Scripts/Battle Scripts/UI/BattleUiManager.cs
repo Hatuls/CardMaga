@@ -33,7 +33,7 @@ namespace Battles.UI
         {
             if ((Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
             {
-                _tutorialManager.StartTutorial();
+             //   _tutorialManager.StartTutorial();
             }           
         }
 

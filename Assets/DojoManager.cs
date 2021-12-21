@@ -159,7 +159,19 @@ public class DojoManager : MonoBehaviour, IObserver
     {
 
         var card = cardUI.RecieveCardReference();
-        if (Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold >= card.CardSO.GetCostPerUpgrade(card.CardLevel))
+        var player = Account.AccountManager.Instance.BattleData.Player.CharacterData;
+        bool alreadyBought = false;
+        for (int i = 0; i < player.CharacterDeck.Length; i++)
+        {
+            if (player.CharacterDeck[i].CardInstanceID == card.CardInstanceID)
+            {
+                alreadyBought = true;
+                break;
+            }
+        }
+
+
+        if (!alreadyBought && player.CharacterStats.Gold >= card.CardSO.GetCostPerUpgrade(card.CardLevel))
         {
             //card added
             Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.GetCostPerUpgrade(card.CardLevel);
