@@ -140,9 +140,10 @@ namespace Battles
             if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
                     Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
-                SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
-        }
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
 
+            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
+        }
 
         private static void EnemyDied()
         {
@@ -153,8 +154,9 @@ namespace Battles
             AnalyticsHandler.SendEvent("Player Won Enemy", new System.Collections.Generic.Dictionary<string, object>() {
                 { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
                 {"Difficulty",  battleData.Opponent.CharacterData.CharacterSO.CharacterDiffciulty },
-                {"Character Type", battleData.Opponent.CharacterData.CharacterSO.CharacterType }
-            });
+                {"Character Type", battleData.Opponent.CharacterData.CharacterSO.CharacterType },
+                {"Turns Count", TurnHandler.TurnCount }
+            }) ;
             AddRewards();
             Instance.OnPlayerVictory?.Invoke();
         }

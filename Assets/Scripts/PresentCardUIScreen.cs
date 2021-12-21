@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UI.Meta.Laboratory;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 namespace UI
 {
     public class PresentCardUIScreen : MonoBehaviour
@@ -24,7 +24,7 @@ namespace UI
         [SerializeField]
         UnityEvent OnCloseEvent;
 
-        public void OpenCardUIInfo(CardUI cardUI, PointerEventData data)
+        public void OpenCardUIInfo(CardUI cardUI)
         {
 
             Cards.Card card = cardUI.GFX.GetCardReference;
@@ -80,16 +80,26 @@ namespace UI
             }
         }
 
-        internal void SubScribe(bool toAssign, CardUI[] _cards)
+        internal void SubScribe(bool toAssign, MetaCardUIHandler[] _cards)
         {
             if (toAssign)
             {
                 for (int i = 0; i < _cards.Length; i++)
-                    _cards[i].Inputs.OnPointerClickEvent += OpenCardUIInfo;
+                {
+
+                    _cards[i].OnCardUIClicked += OpenCardUIInfo;
+                    _cards[i].ToOnlyClickCardUIBehaviour = true;
+                }
             }
             else
+            {
+
                 for (int i = 0; i < _cards.Length; i++)
-                    _cards[i].Inputs.OnPointerClickEvent -= OpenCardUIInfo;
+                {
+                    _cards[i].OnCardUIClicked -= OpenCardUIInfo;
+                    _cards[i].ToOnlyClickCardUIBehaviour = false;
+                }
+            }
         }
 
         private void CreateKeywordInfo()

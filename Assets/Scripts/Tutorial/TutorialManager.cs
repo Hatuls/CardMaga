@@ -7,13 +7,17 @@ namespace Tutorial
         Card = 0,
         Combo = 1,
     }
+
+
+
+
     public class TutorialManager : MonoBehaviour
     {
         [SerializeField]
-        CardTutorial _cardTutorial;
+        TutorialPage _cardTutorial;
         [SerializeField]
-        ComboTutorial _comboTutorial;
-        TutorialAbst _currentTutorial;
+        TutorialPage _comboTutorial;
+        TutorialPage _currentTutorial;
 
         int _currentPage = 0;
 
@@ -25,6 +29,19 @@ namespace Tutorial
         GameObject _goToRightBtn;
         [SerializeField]
         TutorialType _currentTutorialEnum = TutorialType.Card;
+
+
+        private void Start()
+        {
+            if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
+            {
+
+            }
+        }
+
+
+
+
         public void StartTutorial()
         {
             _currentTutorialEnum = TutorialType.Card;

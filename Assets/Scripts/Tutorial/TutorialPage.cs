@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
-public abstract class TutorialAbst : MonoBehaviour
+public  class TutorialPage    : MonoBehaviour
 {
     [SerializeField]
     GameObject[] _pages;
+    [SerializeField]
+    GameObject _exitBtn;
     public int PageLength => _pages.Length;
     public virtual void StartTutorial()
     {

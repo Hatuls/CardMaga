@@ -3,6 +3,7 @@ using Battles;
 using Battles.UI;
 using System.Collections.Generic;
 using UI;
+using UI.Meta.Laboratory;
 using UnityEngine;
 using UnityEngine.EventSystems;
 namespace Map.UI
@@ -18,7 +19,7 @@ namespace Map.UI
 
 
         [SerializeField]
-        List<CardUI> _deckCardsUI;
+        List<MetaCardUIHandler> _deckCardsUI;
         CardUI _holdingCard;
 
         [SerializeField] RestAreaUI _restAreaUI;
@@ -29,7 +30,7 @@ namespace Map.UI
         {
             int length = _deckCardsUI.Count;
             for (int i = 0; i < length; i++)
-                _deckCardsUI[i].Inputs.OnPointerClickEvent -= SelectedCard;
+                _deckCardsUI[i].OnCardUIClicked -= SelectedCard;
 
         }
 
@@ -50,7 +51,10 @@ namespace Map.UI
 
            int length = _deckCardsUI.Count;
             for (int i = 0; i < length; i++)
-                _deckCardsUI[i].Inputs.OnPointerClickEvent += SelectedCard;
+            {
+                _deckCardsUI[i].OnCardUIClicked += SelectedCard;
+                _deckCardsUI[i].ToOnlyClickCardUIBehaviour = true;
+            }
 
             ShowAllCards();
         }
@@ -59,7 +63,7 @@ namespace Map.UI
             var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
             while (deck.Length > _deckCardsUI.Count)
             {
-                var card = Instantiate(_cardUIPrefab, this.transform).GetComponent<CardUI>();
+                var card = Instantiate(_cardUIPrefab, this.transform).GetComponent<MetaCardUIHandler>();
                 _deckCardsUI.Add(card);
             }
 
@@ -78,7 +82,7 @@ namespace Map.UI
                         _deckCardsUI[i].gameObject.SetActive(true);
 
            
-                    _deckCardsUI[i].GFX.SetCardReference(deck[i]);
+                    _deckCardsUI[i].CardUI.DisplayCard(deck[i]);
                 }
                 else
                 {
@@ -88,13 +92,12 @@ namespace Map.UI
             }
         }
 
-        private void SelectedCard(CardUI card, PointerEventData data)
+        private void SelectedCard(CardUI card)
         {
             _acceptBtn.SetActive(true);
             _holdingCard = card;
-            card.GFX.GlowCard(true);
-            card.CardAnimator.PlayNoticeAnimation();
-            _presentCardUIScreen.OpenCardUIInfo(card, data);
+
+            _presentCardUIScreen.OpenCardUIInfo(card);
 
         }
 
