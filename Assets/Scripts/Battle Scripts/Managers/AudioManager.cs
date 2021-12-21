@@ -41,6 +41,7 @@ public class AudioManager : MonoBehaviour
     {
 
         SceneHandler.onStartLoadingScene -= SceneParameter;
+        StopAllSounds();
     }
     private void FmodInit()
     {
@@ -131,7 +132,10 @@ public class AudioManager : MonoBehaviour
         if (_fmodLibrary.Count > 0)
         {
             foreach (var fmodData in _fmodLibrary)
+            {
                 fmodData.StopSound(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                fmodData.Release();
+            }
 
             _fmodLibrary.Clear();
         }
@@ -210,8 +214,9 @@ public class AudioManager : MonoBehaviour
         public void StopSound(FMOD.Studio.STOP_MODE mode)
             => _eventInstance.stop(mode);
 
+        public void Release() => _eventInstance.release();
         ~FmodData()
-            => _eventInstance.release();
+            => Release();
     }
 }
 
