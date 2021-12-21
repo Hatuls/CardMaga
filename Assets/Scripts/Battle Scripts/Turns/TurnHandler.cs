@@ -4,13 +4,16 @@ using System.Collections.Generic;
 using Keywords;
 using Characters.Stats;
 using Battles.UI;
-
+using System;
 
 namespace Battles.Turns
 {
 
     public static class TurnHandler
     {
+        public static Action<int> OnTurnCountChange;
+        private static int _turnCount = 0;
+        private static TurnState _currectState;
 
 
         private static Dictionary<TurnState, Turn> _turnDict = new Dictionary<TurnState, Turn>()
@@ -26,9 +29,14 @@ namespace Battles.Turns
                  { TurnState.NotInBattle, null },
                 };
 
-
-
-        private static TurnState _currectState;
+        public static int TurnCount
+        {
+            get => _turnCount;
+            set
+            {
+                _turnCount = value; OnTurnCountChange?.Invoke(_turnCount);
+            }
+        }
         public static TurnState CurrentState
         {
 
@@ -64,6 +72,7 @@ namespace Battles.Turns
         }
         public static IEnumerator TurnCycle()
         {
+    
             TurnState turn = TurnState.NotInBattle;
             CurrentState = TurnState.Startbattle;
             do
@@ -148,7 +157,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
-   
+            TurnHandler.TurnCount = 0;
             base.PlayTurn();
             yield return null;
             MoveToNextTurnState();
@@ -252,6 +261,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
+            TurnHandler.TurnCount ++;
             bool isPlayerTurn = true;
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
@@ -300,6 +310,7 @@ namespace Battles.Turns
         public override IEnumerator PlayTurn()
         {
             base.PlayTurn();
+            AnalyticsHandler.SendEvent(string.Concat("Turn ", TurnHandler.TurnCount));
             yield return null;
         }
 

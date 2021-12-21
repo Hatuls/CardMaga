@@ -112,23 +112,19 @@ namespace Account
             RewardLoad();
 
             OnFinishLoading?.Invoke();
-            EnterMainMenu();
+
+            if (!_needToDoTutorial)
+                EnterMainMenu();
+            else SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
         }
 
         private async Task LoadAccount()
         {
             _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, saveType, "txt", true, path);
-            if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value == 0)
-            {
-                await CreateNewAccount();
-                Debug.LogWarning("Account manager loaded but has max energy value equal to zero\n check loading process");
-            }
-            else
-            {
-                Debug.Log("Loading Data From " + saveType);
-                Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
-                _accountData.AccountSettingsData.Refresh();
-            }
+            Debug.Log("Loading Data From " + saveType);
+            Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
+            _accountData.AccountSettingsData.Refresh();
+
 
             if (PlayerPrefs.HasKey("Tutorial"))
                 _needToDoTutorial = bool.Parse(PlayerPrefs.GetString("Tutorial"));
@@ -142,9 +138,7 @@ namespace Account
 
         public void ResetAccount() => _ = CreateNewAccount();
 
-        public void DownloadDataFromServer()
-        {
-        }
+
         #endregion
 
 #if UNITY_EDITOR
@@ -196,6 +190,7 @@ namespace Account
             _accountData = new AccountData();
             await _accountData.NewLoad();
             _needToDoTutorial = true;
+            SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
         }
 
 
@@ -254,7 +249,6 @@ namespace Account
             await AccountCharacters.NewLoad();
             _battleData = new BattleData();
             _battleData.ResetData();
-
         }
     }
     [System.Serializable]
