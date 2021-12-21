@@ -14,9 +14,9 @@ namespace Map.UI
         [SerializeField] CanvasGroup _canvasGroup;
         [SerializeField] ObserverSO observerSO;
         [SerializeField]
-        ComboUIFilterScreen _comboUIFilter;
+        MetaComboUIFilterScreen _comboUIFilter;
         [SerializeField]
-        CardUIFilterScreen _cardUIFilter;
+        MetaCardUIFilterScreen _cardUIFilter;
 
         [SerializeField]
         ShowAllCards _sort;
@@ -108,8 +108,9 @@ namespace Map.UI
         }
         private void TurnComboCollection(bool toActivate)
         {
+            
             if (toActivate)
-                _comboUIFilter.ShowAllCombos();
+                _comboUIFilter.ShowAll();
             _comboSelectionPanel.SetActive(toActivate);
             _comboPanel.SetActive(toActivate);
         }
