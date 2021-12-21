@@ -19,13 +19,21 @@ namespace UI
         CardUI _cardUI;
         [SerializeField]
         Combo.Combo _combo;
-        
 
+        [SerializeField]
+        Image _innerImage;
+        [SerializeField]
+        Image _outerImage;
+        [SerializeField]
+        Image _decorImage;
+
+        [SerializeField]
+        ComboIconCollection _gotoIconCollection;
         [SerializeField]
         ComboRecipeEvent _event;
 
         [BoxGroup("References")]
-
+        
 
         [BoxGroup("References")]
         [SerializeField]
@@ -71,22 +79,21 @@ namespace UI
             _combo = combo;
          
             var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(combo.ComboSO.CraftedCard, combo.Level);
-            _cardUI.GFX.SetCardReference(craftedCard);
+            _cardUI.DisplayCard(craftedCard);
             ActivatedPlaceHolders(ComboRecipe);
             SetVisual(ComboRecipe);
-        }
-      //  public void InitRecipe(ComboSO relicSO)
-      //  {
 
-      //var combo =      Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(relicSO, 0);
-      //      if (ComboRecipe != relicSO)
-      //      {
-      //          _combo  = combo;
-      //          _cardUI.GFX.SetCardReference(relicSO.CraftedCard);
-      //          ActivatedPlaceHolders(relicSO);
-      //          SetVisual(relicSO);
-      //      }
-      //  }
+
+        }
+        public void AssignComboCrafting()
+        {
+            var setOfImage = _gotoIconCollection.GetInnerImage(_combo.ComboSO.GoToDeckAfterCrafting);
+            _innerImage.sprite = setOfImage.Icon;
+            _innerImage.color = setOfImage.GetColor(_combo.ComboSO.CraftedCard.CardTypeEnum);
+                //_decorImage.sprite = _gotoIconCollection.GetDecorImage().Icon;
+                _backgroundImage.sprite = _gotoIconCollection.GetBackGroundImage().Icon;
+
+        }
         private void ActivatedPlaceHolders(ComboSO relicSO)
         {
 
@@ -124,8 +131,6 @@ namespace UI
                 
                 else
                     _placeHolderSlotUIs[i].ResetSlotUI();
-                
-         
             }
         }
     }
