@@ -29,4 +29,26 @@ public class MetaComboUIFilterScreen : UIFilterScreen<ComboRecipeUI, Combo.Combo
         _collection[i].InitRecipe(sortedCombo.ElementAt(i));
         _collection[i].transform.localScale = Vector3.one * _comboSize;
     }
+  public void ShowAll()
+    {
+        CreatePool();
+        int length = _collection.Count;
+        var combos = toUseAccountData ? Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(Account.AccountManager.Instance.AccountCombos.ComboList.ToArray()) :
+                 Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe;
+        for (int i = 0; i < length; i++)
+        {
+            if (i < combos.Length)
+            {
+                if (_collection[i].gameObject.activeSelf == false)
+                    _collection[i].gameObject.SetActive(true);
+
+                _collection[i].InitRecipe(combos[i]);
+            }
+            else
+            {
+                if (_collection[i].gameObject.activeSelf == true)
+                    _collection[i].gameObject.SetActive(false);
+            }
+        }
+    }
 }
