@@ -26,6 +26,9 @@ namespace Map.UI
 
         [SerializeField]
         PresentCardUIScreen _presentCardUIScreen;
+
+        [SerializeField]
+        Transform _container;
         public void OnDisable()
         {
             int length = _deckCardsUI.Count;
@@ -63,7 +66,7 @@ namespace Map.UI
             var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
             while (deck.Length > _deckCardsUI.Count)
             {
-                var card = Instantiate(_cardUIPrefab, this.transform).GetComponent<MetaCardUIHandler>();
+                var card = Instantiate(_cardUIPrefab, _container ?? this.transform).GetComponent<MetaCardUIHandler>();
                 _deckCardsUI.Add(card);
             }
 
