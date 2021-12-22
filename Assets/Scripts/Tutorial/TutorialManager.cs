@@ -59,6 +59,13 @@ namespace Tutorial
             }
 
         }
+        public void OpenTutorial(int tutorial)
+        {
+            ResetAllPages();
+            _container.SetActive(true);
+            _currentTutorial = _tutorials[tutorial];
+            StartTutorial(_currentTutorial);
+        }
         private void StartTutorial(TutorialPage currentTutorial)
         {
             _exitBtn.SetActive(false);
