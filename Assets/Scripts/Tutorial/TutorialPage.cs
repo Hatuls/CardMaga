@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+﻿using Unity.Events;
+using UnityEngine;
 using UnityEngine.Events;
-
+[System.Serializable]
+public class IntSerializedEvent : UnityEvent<int> { }
 public class TutorialPage : MonoBehaviour
 {
     [SerializeField]
     GameObject[] _pages;
 
-    [SerializeField] UnityEvent<int> OnPageChanged;
+    [SerializeField] IntSerializedEvent OnPageChanged;
     [SerializeField] UnityEvent OnFinalPage;
     
     public int PageLength => _pages.Length;
@@ -36,7 +38,7 @@ public class TutorialPage : MonoBehaviour
         {
             OnPageChanged?.Invoke(_currentPage);
             OpenPage(_currentPage);
-            if (_currentPage == _pages.Length)
+            if (_currentPage == _pages.Length-1)
                 OnFinalPage?.Invoke();
         }
     }
