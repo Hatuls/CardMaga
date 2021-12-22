@@ -18,6 +18,8 @@ namespace Map.UI
         [SerializeField]
         MetaCardUIFilterScreen _cardUIFilter;
 
+        [SerializeField] GameObject _container;
+        [SerializeField] GameObject _btnContainer;
         [SerializeField]
         ShowAllCards _sort;
 
@@ -43,6 +45,8 @@ namespace Map.UI
             observerSO.Notify(this);
             _canvasGroup.blocksRaycasts = true;
             OpenScreenMode();
+            _container?.SetActive(true);
+            _btnContainer?.SetActive(true);
             _mainPanel.SetActive(true);
         }
         private void OpenScreenMode()
@@ -90,6 +94,8 @@ namespace Map.UI
 
         public void Close()
         {
+            _container?.SetActive(false);
+            _btnContainer?.SetActive(false);
             observerSO.Notify(null);
             _canvasGroup.blocksRaycasts = false;
             _mainPanel.SetActive(false);
