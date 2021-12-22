@@ -10,7 +10,7 @@ public class ComboIconCollection : ScriptableObject
     ColorPerType _backgroundImage;
     [SerializeField]
     ColorPerType _decorImage;
-    [InfoBox("0 - AutoActivateIcon\n1 - Added To Hand Icon\n2 - Added To Hand\n3 - go to Disposal")]
+    [InfoBox("0 - AutoActivate\n1 - Hand\n2 - Draw Pile\n3 - Discard Pile")]
     [SerializeField]
     ColorPerType[] _gotoIcons;
 
