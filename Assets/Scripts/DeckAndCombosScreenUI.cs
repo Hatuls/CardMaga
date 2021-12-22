@@ -118,6 +118,7 @@ namespace Map.UI
             if (toActivate)
                 _comboUIFilter.ShowAll();
             _comboSelectionPanel.SetActive(toActivate);
+     
             _comboPanel.SetActive(toActivate);
         }
         private void TurnCardCollection(bool toActivate)
@@ -129,7 +130,10 @@ namespace Map.UI
             _cardPanel.SetActive(toActivate);
 
             if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.GameBattleScene)
+            {
                 _deckCardsSelectionPanel.SetActive(toActivate);
+                _cardTypeSelectionPanel.SetActive(false);
+            }
             else
                 _cardTypeSelectionPanel.SetActive(toActivate);
         }
