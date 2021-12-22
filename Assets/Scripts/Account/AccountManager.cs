@@ -256,6 +256,6 @@ namespace Account
     {
         public bool NeedToBeRewarded { get => _needToBeRewarded; set => _needToBeRewarded = value; }
 
-        [SerializeField] bool _needToBeRewarded = true;
+        [SerializeField] bool _needToBeRewarded = false;
     }
 }
