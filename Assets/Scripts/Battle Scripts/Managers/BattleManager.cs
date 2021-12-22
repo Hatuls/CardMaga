@@ -107,13 +107,11 @@ namespace Battles
 
 
             if (isPlayerDied)
-            {
                 PlayerDied();
-            }
             else
-            {
                 EnemyDied();
-            }
+
+            UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
             Account.AccountManager.Instance.BattleData.PlayerWon = !isPlayerDied;
             UpdateStats();
 
@@ -121,7 +119,6 @@ namespace Battles
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
-            //   BattleRewardHandler.Instance.FinishMatch(!isPlayerDied);
         }
 
         private static void UpdateStats()
@@ -149,7 +146,6 @@ namespace Battles
         {
             PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
-            UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
             var battleData = Account.AccountManager.Instance.BattleData;
             AnalyticsHandler.SendEvent("Player Won Enemy", new System.Collections.Generic.Dictionary<string, object>() {
                 { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
@@ -175,6 +171,7 @@ namespace Battles
             var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.EnemyAnimatorController.CharacterWon();
+
             AnalyticsHandler.SendEvent("Enemy Defeated Player", new System.Collections.Generic.Dictionary<string, object>() {
                 { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
                 {"Difficulty",  battleData.Opponent.CharacterData.CharacterSO.CharacterDiffciulty },

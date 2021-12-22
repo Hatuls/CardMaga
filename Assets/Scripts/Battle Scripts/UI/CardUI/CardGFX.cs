@@ -81,9 +81,9 @@ namespace Battles.UI.CardUIAttributes
 
         public void GlowCard(bool toGlow)
         {
-            if (_rectTransform != null && _glowBackground?.gameObject.activeSelf != toGlow)
+         //   if (_rectTransform != null && _glowBackground?.gameObject.activeSelf != toGlow)
             {
-                _glowBackground?.gameObject.SetActive(toGlow);
+              //  _glowBackground?.gameObject.SetActive(toGlow);
             }
         }
         private void SetCardDescriptionText(in string cardDescription)
