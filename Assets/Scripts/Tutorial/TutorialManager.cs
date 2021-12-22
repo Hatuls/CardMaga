@@ -20,7 +20,8 @@ namespace Tutorial
         [SerializeField]
         int _currentPage = 0;
         [SerializeField]
-        int _currentTutorial = 0;
+        [HideInInspector]
+        TutorialPage _currentTutorial;
         [SerializeField]
         GameObject _exitBtn;
         [SerializeField]
@@ -39,31 +40,48 @@ namespace Tutorial
         }
         private void OnDestroy()
         {
-
             TurnHandler.OnTurnCountChange -= TurnCounter;
         }
-
+        private void ResetAllPages()
+        {
+            for (int i = 0; i < _tutorials.Length; i++)
+                            _tutorials[i].EndTutorial();
+            
+        }
         private void TurnCounter(int count)
         {
-            if (count == 0)
+            if (count == 1|| count ==2)
             {
-                _currentTutorial = count;
-                StatTutorial(_tutorials[_currentTutorial]);
+                ResetAllPages();
+                _container.SetActive(true);
+                _currentTutorial = _tutorials[count-1];
+                StartTutorial(_currentTutorial);
             }
 
         }
-        private void StatTutorial(TutorialPage currentTutorial)
+        private void StartTutorial(TutorialPage currentTutorial)
         {
+            _exitBtn.SetActive(false);
             _currentPage = 0;
             currentTutorial.StartTutorial();
         }
-        public void CloseTutorial() => _container.SetActive(false);
-
 
         public void ArrowsActivation(int currentPage)
         {
             _goToLeftBtn.SetActive(currentPage != 0);
-            _goToRightBtn.SetActive(_tutorials[_currentTutorial].PageLength - 1 != currentPage);
+            _goToRightBtn.SetActive(_currentTutorial.PageLength - 1 != currentPage);
+        }
+        public void MovePagesWithArrows(int goToPage)
+        {
+            _currentPage += goToPage;
+            _currentTutorial.SetPages(_currentPage);
+
+        }
+        public void ShowCloseButton() => _exitBtn.SetActive(true);
+        public void CloseTutorial()
+        {
+            _currentTutorial.EndTutorial();
+            _container.SetActive(false);
         }
     }
 }
