@@ -43,9 +43,10 @@ public class NetworkHandler : MonoBehaviour
             null,
             (string text) =>
             {
+                _gv = JsonUtility.FromJson<GameVersion>(text);
+                DefaultVersion._gameVersion = _gv;
                 InitAccount();
                 //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
-                _gv = JsonUtility.FromJson<GameVersion>(text);
                 CheckVersion(_gv);
             }
             );
@@ -84,13 +85,22 @@ public class NetworkHandler : MonoBehaviour
 
 
 
-    [System.Serializable]
-    class GameVersion
-    {
-        public string Version;
-    }
 }
-
+[System.Serializable]
+public class GameVersion
+{
+    public string Version;
+    public int EnergyToPlay = 5;
+    public int MaxEnergy = 30;
+    public int Chips = 0;
+    public int Diamonds = 0;
+    public int EXP = 0;
+    public int Level = 1;
+}
+public static class DefaultVersion
+{
+    public static GameVersion _gameVersion;
+}
 
 public static class JsonUtilityHandler
 {
