@@ -10,6 +10,7 @@ public class LoreHandler : MonoBehaviour
     GameObject[] _panelsToActivate;
     int _currentPage = -1;
     PlayPackage _playpackage = new PlayPackage();
+    [SerializeField] Animator _anim;
     private void Start()
     {
         OpenNextPanel();
@@ -27,7 +28,11 @@ public class LoreHandler : MonoBehaviour
         _currentPage++;
 
         if (_currentPage < _panelsToActivate.Length)
+        {
             _panelsToActivate[_currentPage].SetActive(true);
+            if (_currentPage== 1)
+            _anim.SetTrigger("Move");
+        }
         else
             StartTutorialBattle();
     }
