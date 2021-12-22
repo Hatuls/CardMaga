@@ -86,7 +86,7 @@ namespace Combo
 
                 var battledata = Account.AccountManager.Instance.BattleData;
                 var sounds = (isPlayer) ? battledata.Player.CharacterData.CharacterSO.ComboSounds : battledata.Opponent.CharacterData.CharacterSO.ComboSounds;
-                sounds.PlaySound();
+                sounds?.PlaySound();
             }
 
            // CreateCard();
