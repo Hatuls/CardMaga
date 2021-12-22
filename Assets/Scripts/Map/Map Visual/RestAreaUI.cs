@@ -34,7 +34,7 @@ namespace Map.UI
         [SerializeField] TextMeshProUGUI _bottomOptionRightText;
 
         const string HealOptionText = "Heal ";
-        const string StaminaShardText = "Add StaminaShard";
+        const string StaminaShardText = "Add Stamina Shard";
         const string MaxHpAdditonText = " Max HP";
         const string RemoveCardText ="Remove Card";
 
