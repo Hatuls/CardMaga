@@ -3,10 +3,10 @@
     public class EnergyHandler : ResourceHandler<ushort>
     {
         #region Fields
-        ushort _amountToStartPlay = 5;
+     
         #endregion
         #region Properties
-        public ushort AmountToStartPlay => _amountToStartPlay;
+        public ushort AmountToStartPlay => (ushort)DefaultVersion._gameVersion.EnergyToPlay;
         #endregion
         public override void AddAmount(ushort amount)
         {
