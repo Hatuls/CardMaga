@@ -49,16 +49,21 @@ public class EndRunScreen : MonoBehaviour, IObserver
         var PlayerData = Account.AccountManager.Instance.BattleData;
         var map = PlayerData.Map;
         string floor = "Floor ";
-        Dictionary<string, object> data = new Dictionary<string, object>();
+        Dictionary<string, object> data = new Dictionary<string, object>(map.path.Count);
+        var fireBaseParameters = new Firebase.Analytics.Parameter[data.Count];
 
         data.Add("Map:", map.configName);
         for (int i = 0; i < map.path.Count; i++)
         {
             var Node = map.GetNode(map.path[i]);
-            data.Add(string.Concat(floor, i), Node.NodeTypeEnum.ToString());
+            string name = string.Concat(floor, i);
+            var nodeType = Node.NodeTypeEnum.ToString();
+            data.Add(name, nodeType);
+            fireBaseParameters[i] = new Firebase.Analytics.Parameter(name, nodeType);
         }
-
+       
         AnalyticsHandler.SendEvent("Road Path", data);
+        FireBaseHandler.SendEvent("Road Path", fireBaseParameters);
     }
     public void SetTexts()
     {
@@ -80,6 +85,6 @@ public class EndRunScreen : MonoBehaviour, IObserver
 
     public void OnNotify(IObserver Myself)
     {
-        throw new NotImplementedException();
+     //   throw new NotImplementedException();
     }
 }

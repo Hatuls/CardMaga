@@ -13,6 +13,7 @@ public class LoreHandler : MonoBehaviour
     [SerializeField] Animator _anim;
     private void Start()
     {
+        _currentPage = -1;
         OpenNextPanel();
     }
 

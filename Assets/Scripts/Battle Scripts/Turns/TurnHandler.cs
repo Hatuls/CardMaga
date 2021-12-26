@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using Battles.UI;
+using Characters.Stats;
+using Keywords;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Keywords;
-using Characters.Stats;
-using Battles.UI;
-using System;
+using UnityEngine;
 
 namespace Battles.Turns
 {
@@ -72,7 +72,7 @@ namespace Battles.Turns
         }
         public static IEnumerator TurnCycle()
         {
-    
+
             TurnState turn = TurnState.NotInBattle;
             CurrentState = TurnState.Startbattle;
             do
@@ -94,14 +94,14 @@ namespace Battles.Turns
 
         internal static void CheckPlayerTurnForAvailableAction()
         {
-            if (CurrentState != TurnState.PlayerTurn && BattleManager.isGameEnded == false )
+            if (CurrentState != TurnState.PlayerTurn && BattleManager.isGameEnded == false)
                 return;
 
             bool noMoreActionAvailable = StaminaHandler.Instance.PlayerStamina.HasStamina == false && CardExecutionManager.CardsQueue.Count == 0;
 
             if (noMoreActionAvailable)
             {
-          
+
                 EndTurnButton.FinishTurn();
             }
         }
@@ -209,7 +209,7 @@ namespace Battles.Turns
 
             if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
                 yield return EnemyManager.Instance.PlayEnemyTurn();
-      
+
             MoveToNextTurnState();
         }
 
@@ -229,7 +229,7 @@ namespace Battles.Turns
              * Remove The Player Defense
              */
             GameEventsInvoker.Instance.OnEndTurn?.Invoke();
-          // CardUIManager.Instance.RemoveHands();
+            // CardUIManager.Instance.RemoveHands();
             CardExecutionManager.Instance.ResetExecution();
             base.PlayTurn();
 
@@ -239,7 +239,7 @@ namespace Battles.Turns
 
             base.PlayTurn();
             yield return KeywordManager.Instance.OnEndTurnKeywords(false);
-          
+
             CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Shield).Reset();
 
             Managers.PlayerManager.Instance.OnEndTurn();
@@ -261,7 +261,7 @@ namespace Battles.Turns
 
         public override IEnumerator PlayTurn()
         {
-            TurnHandler.TurnCount ++;
+            TurnHandler.TurnCount++;
             bool isPlayerTurn = true;
             base.PlayTurn();
             yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
@@ -310,15 +310,21 @@ namespace Battles.Turns
         public override IEnumerator PlayTurn()
         {
             base.PlayTurn();
-            AnalyticsHandler.SendEvent(string.Concat("Turn ", TurnHandler.TurnCount));
+            SendAnalyticData();
             yield return null;
         }
 
+        private static void SendAnalyticData()
+        {
+             string turnCount = string.Concat("Finished Battle At Turn ", TurnHandler.TurnCount);
+            AnalyticsHandler.SendEvent(turnCount);
+            FireBaseHandler.SendEvent(turnCount);
+        }
     }
     public class EndPlayerTurn : Turn
     {
         public EndPlayerTurn() : base()
-        { 
+        {
         }
 
         public override TurnState GetNextTurn => TurnState.StartEnemyTurn;
@@ -345,7 +351,7 @@ namespace Battles.Turns
 
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
-            yield return null; 
+            yield return null;
             CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(KeywordTypeEnum.Shield).Reset();
 
             Managers.PlayerManager.Instance.OnEndTurn();
