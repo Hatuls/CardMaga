@@ -148,12 +148,14 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             var battleData = Account.AccountManager.Instance.BattleData;
+            var characterSO = battleData.Opponent.CharacterData.CharacterSO;
             AnalyticsHandler.SendEvent("Player Won Enemy", new System.Collections.Generic.Dictionary<string, object>() {
-                { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
-                {"Difficulty",  battleData.Opponent.CharacterData.CharacterSO.CharacterDiffciulty },
-                {"Character Type", battleData.Opponent.CharacterData.CharacterSO.CharacterType },
+                { "Opponent",  characterSO.CharacterEnum.ToString() },
+                {"Difficulty",  characterSO.CharacterDiffciulty },
+                {"Character Type", characterSO.CharacterType },
                 {"Turns Count", TurnHandler.TurnCount }
-            }) ;
+            });
+
             AddRewards();
             Instance.OnPlayerVictory?.Invoke();
         }
