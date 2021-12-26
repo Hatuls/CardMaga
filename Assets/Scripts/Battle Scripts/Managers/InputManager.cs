@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public class InputManager :MonoBehaviour
+public class InputManager : MonoBehaviour
 {
     private static InputManager _instance;
     public static InputManager Instance
@@ -17,7 +17,7 @@ public class InputManager :MonoBehaviour
     }
     #region  Init
     private void Awake()
-    {  
+    {
         if (_instance == null)
         {
             _instance = this;
@@ -25,8 +25,8 @@ public class InputManager :MonoBehaviour
             SceneHandler.onFinishLoadingScene += OnSceneLoad;
         }
         else if (_instance != this)
-            Destroy(this.gameObject);  
-        
+            Destroy(this.gameObject);
+
         DontDestroyOnLoad(this);
     }
 
@@ -44,11 +44,11 @@ public class InputManager :MonoBehaviour
     #endregion
 
     #region Fields
-   public static Touch? PlayerTouch { get; set; }
+    public static Touch? PlayerTouch { get; set; }
     [SerializeField] bool toUseRayCastHit = false;
-   [Sirenix.OdinInspector.ShowInInspector]
+    [Sirenix.OdinInspector.ShowInInspector]
     ITouchable _object;
-    public enum InputState { Touch=1,Mouse=2,None = 0}
+    public enum InputState { Touch = 1, Mouse = 2, None = 0 }
     public static InputState inputState;
     public ITouchable TouchableObject
     {
@@ -57,7 +57,7 @@ public class InputManager :MonoBehaviour
         {
             if (_object != value)
             {
-               // _object?.ResetTouch();
+                // _object?.ResetTouch();
                 _object = value;
             }
         }
@@ -74,16 +74,16 @@ public class InputManager :MonoBehaviour
     #region Properties
     public bool LockScreen
     {
-        set 
+        set
         {
             if (value != _isScreenLocked)
                 _isScreenLocked = value;
         }
     }
 
-    public RectTransform Rect 
+    public RectTransform Rect
         => _object == null ? null : _object.Rect;
-    public bool IsInteractable 
+    public bool IsInteractable
         => _object == null ? false : _object.IsInteractable;
 
     #endregion
@@ -99,8 +99,8 @@ public class InputManager :MonoBehaviour
     }
     private void Update()
     {
-      
-        if (_isScreenLocked == false &&!Battles.BattleManager.isGameEnded )
+
+        if (_isScreenLocked == false && !Battles.BattleManager.isGameEnded)
         {
             TouchDetector();
             MouseDetector();
@@ -111,40 +111,40 @@ public class InputManager :MonoBehaviour
         {
             Application.Quit();
         }
-  
+
     }
 
     private void MouseDetector()
     {
         if (Input.GetMouseButtonDown(0))
         {
-         
+
             inputState = InputState.Mouse;
-            
-       
-        //    _firstTouchLocation = Input.mousePosition;
+
+
+            //    _firstTouchLocation = Input.mousePosition;
 
 
 
-        //   if(ShootRaycast2D(ref _firstTouchLocation))
-        //    {
-        //        OnStateEnter(_firstTouchLocation);
-        //    }
-        //    _touchPosOnScreen = _firstTouchLocation;
-        //}
-        //else if (Input.GetMouseButtonUp(0))
-        //{
+            //   if(ShootRaycast2D(ref _firstTouchLocation))
+            //    {
+            //        OnStateEnter(_firstTouchLocation);
+            //    }
+            //    _touchPosOnScreen = _firstTouchLocation;
+            //}
+            //else if (Input.GetMouseButtonUp(0))
+            //{
 
-        //    OnStateExit(_touchPosOnScreen);
-        // }
-        //else if (Input.GetMouseButton(0))
-        //{
-        //   if (_object != null)
-        //    {
-        //        _touchPosOnScreen = Input.mousePosition;
-        //        OnTick(_touchPosOnScreen, _firstTouchLocation);
-        //    }
-                
+            //    OnStateExit(_touchPosOnScreen);
+            // }
+            //else if (Input.GetMouseButton(0))
+            //{
+            //   if (_object != null)
+            //    {
+            //        _touchPosOnScreen = Input.mousePosition;
+            //        OnTick(_touchPosOnScreen, _firstTouchLocation);
+            //    }
+
 
         }
     }
@@ -157,7 +157,7 @@ public class InputManager :MonoBehaviour
         if (_raycastHit.collider)
         {
             AssignObjectFromTouch(_raycastHit.collider.GetComponent<IInputAbleObject>()?.GetTouchAbleInput);
-           // Debug.Log("DetectInput");
+            // Debug.Log("DetectInput");
             //    RectTransformUtility.ScreenPointToLocalPointInRectangle(_object.Rect.parent.GetComponent<RectTransform>(), position, _main.renderMode == RenderMode.ScreenSpaceOverlay ? null : Camera.main, out position);
             return true;
         }
@@ -167,16 +167,16 @@ public class InputManager :MonoBehaviour
 
 
     #region Private Functions
-    private void TouchDetector() 
+    private void TouchDetector()
     {
         if (Input.touchCount > 0)
         {
             inputState = InputState.Touch;
             PlayerTouch = Input.GetTouch(0);
-          
+
             if (PlayerTouch == null)
                 return;
-            
+
             _touchPosOnScreen = PlayerTouch.Value.position;
             //_touchPosOnScreen = CameraController.Instance.GetTouchPositionOnUIScreen(_playerTouch.Value.position);
             if (toUseRayCastHit)
@@ -207,14 +207,14 @@ public class InputManager :MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(_touchPosOnScreen, 100*Vector3.forward);
+        Gizmos.DrawRay(_touchPosOnScreen, 100 * Vector3.forward);
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(_firstTouchLocation, 100*Vector3.forward);
+        Gizmos.DrawRay(_firstTouchLocation, 100 * Vector3.forward);
     }
     #endregion
 
     #region Public Functions
-  
+
 
     #region Assign and Remove
     public void AssignObjectFromTouch(ITouchable objectTouched, Vector2 screenPos)
@@ -222,15 +222,15 @@ public class InputManager :MonoBehaviour
         _firstTouchLocation = screenPos;
         AssignObjectFromTouch(objectTouched);
     }
-    public void AssignObjectFromTouch( ITouchable objectTouched)
+    public void AssignObjectFromTouch(ITouchable objectTouched)
     {
 
-        if ( objectTouched == null || TouchableObject == objectTouched || !objectTouched.IsInteractable)
+        if (objectTouched == null || TouchableObject == objectTouched || !objectTouched.IsInteractable)
             return;
 
         // Debug.Log("Object Recieved Input "+ objectTouched?.ToString());
-            ResetTouch();
-            TouchableObject = objectTouched;
+        ResetTouch();
+        TouchableObject = objectTouched;
     }
     public void RemoveObjectFromTouch()
         => ResetTouch();
@@ -245,6 +245,16 @@ public class InputManager :MonoBehaviour
     #endregion
     #endregion
 }
+
+
+public static class GameObjectExtentionMethod
+{
+    public static void SwitchActiveState(this GameObject go)
+    => go.SetActive(!go.activeSelf);
+    public static void Destroy(this GameObject go) => GameObject.Destroy(go);
+
+}
+
 
 
 public interface IInputAbleObject

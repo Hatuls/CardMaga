@@ -136,7 +136,7 @@ namespace Battles
         {
 
             if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
-                    Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
+                Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
 
@@ -148,12 +148,8 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             var battleData = Account.AccountManager.Instance.BattleData;
-            AnalyticsHandler.SendEvent("Player Won Enemy", new System.Collections.Generic.Dictionary<string, object>() {
-                { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
-                {"Difficulty",  battleData.Opponent.CharacterData.CharacterSO.CharacterDiffciulty },
-                {"Character Type", battleData.Opponent.CharacterData.CharacterSO.CharacterType },
-                {"Turns Count", TurnHandler.TurnCount }
-            }) ;
+
+            SendAnalyticWhenGameEnded("Player Defeated Enemy", battleData);
             AddRewards();
             Instance.OnPlayerVictory?.Invoke();
         }
@@ -173,14 +169,9 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.EnemyAnimatorController.CharacterWon();
 
-            AnalyticsHandler.SendEvent("Enemy Defeated Player", new System.Collections.Generic.Dictionary<string, object>() {
-                { "Opponent",  battleData.Opponent.CharacterData.CharacterSO.CharacterEnum.ToString() },
-                {"Difficulty",  battleData.Opponent.CharacterData.CharacterSO.CharacterDiffciulty },
-                {"Character Type", battleData.Opponent.CharacterData.CharacterSO.CharacterType }
-            });
+            SendAnalyticWhenGameEnded("Enemy Defeated Player", battleData);
             Instance.OnPlayerDefeat?.Invoke();
         }
-
 
 
         private void OnDestroy()
@@ -188,7 +179,33 @@ namespace Battles
             if (EndTurnButton._OnFinishTurnPress != null)
                 EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
         }
+        #region Analytics
+    
+        private static void SendAnalyticWhenGameEnded(string eventName,BattleData battleData)
+        {
+            var characterSO = battleData.Opponent.CharacterData.CharacterSO;
+  
+            string characterEnum = "Opponent";
+            string characterDifficulty = "Difficulty";
+            string characterType = "Character Type";
+            string TurnCount = "Turns Count";
 
+            AnalyticsHandler.SendEvent(eventName, new System.Collections.Generic.Dictionary<string, object>() {
+                  { characterEnum,  characterSO.CharacterEnum.ToString()  },
+                  {characterDifficulty,    characterSO.CharacterDiffciulty},
+                  {characterType,characterSO.CharacterType.ToString() },
+                  {TurnCount, TurnHandler.TurnCount }
+            });
+
+            FireBaseHandler.SendEvent(eventName, new Firebase.Analytics.Parameter[4] {
+               new Firebase.Analytics.Parameter(characterEnum, characterSO.CharacterEnum.ToString() ),
+               new Firebase.Analytics.Parameter(characterDifficulty,    characterSO.CharacterDiffciulty),
+               new Firebase.Analytics.Parameter(characterType,characterSO.CharacterType.ToString() ),
+               new Firebase.Analytics.Parameter(TurnCount,TurnHandler.TurnCount ),
+            });
+        }
+
+        #endregion
 
         #region Editor Section
         [Button]
