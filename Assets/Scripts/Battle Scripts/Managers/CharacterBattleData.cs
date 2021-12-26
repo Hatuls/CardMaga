@@ -46,7 +46,10 @@ namespace Characters
             _characterDeck = factory.CardFactoryHandler.CreateDeck(_deck);
             _comboRecipe = factory.ComboFactoryHandler.CreateCombo(data.CharacterCombos);
         }
+        public CharacterBattleData()
+        {
 
+        }
 
 
     }
