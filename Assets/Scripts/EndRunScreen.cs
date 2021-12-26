@@ -1,5 +1,4 @@
 ﻿using DesignPattern;
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -50,20 +49,21 @@ public class EndRunScreen : MonoBehaviour, IObserver
         var map = PlayerData.Map;
         string floor = "Floor ";
         Dictionary<string, object> data = new Dictionary<string, object>(map.path.Count);
-        var fireBaseParameters = new Firebase.Analytics.Parameter[data.Count];
+        var fireBaseParameters = new List<Firebase.Analytics.Parameter>(data.Count);
 
         data.Add("Map:", map.configName);
+        fireBaseParameters.Add(new Firebase.Analytics.Parameter("Map", map.configName));
         for (int i = 0; i < map.path.Count; i++)
         {
             var Node = map.GetNode(map.path[i]);
             string name = string.Concat(floor, i);
             var nodeType = Node.NodeTypeEnum.ToString();
             data.Add(name, nodeType);
-            fireBaseParameters[i] = new Firebase.Analytics.Parameter(name, nodeType);
+            fireBaseParameters.Add(new Firebase.Analytics.Parameter(name, nodeType));
         }
-       
+
         AnalyticsHandler.SendEvent("Road Path", data);
-        FireBaseHandler.SendEvent("Road Path", fireBaseParameters);
+        FireBaseHandler.SendEvent("Road Path", fireBaseParameters.ToArray());
     }
     public void SetTexts()
     {
@@ -85,6 +85,6 @@ public class EndRunScreen : MonoBehaviour, IObserver
 
     public void OnNotify(IObserver Myself)
     {
-     //   throw new NotImplementedException();
+        //   throw new NotImplementedException();
     }
 }
