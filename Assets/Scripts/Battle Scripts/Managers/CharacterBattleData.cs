@@ -24,7 +24,6 @@ namespace Characters
 
         public Combo.Combo[] ComboRecipe { get => _comboRecipe; internal set => _comboRecipe = value; }
 
-        [Sirenix.OdinInspector.ShowInInspector]
         public CharacterSO CharacterSO { get => _characterSO; private set => _characterSO = value; }
 
         public CharacterBattleData(CharacterSO characterSO)
@@ -47,7 +46,10 @@ namespace Characters
             _characterDeck = factory.CardFactoryHandler.CreateDeck(_deck);
             _comboRecipe = factory.ComboFactoryHandler.CreateCombo(data.CharacterCombos);
         }
+        public CharacterBattleData()
+        {
 
+        }
 
 
     }

@@ -7,6 +7,7 @@ using ThreadsHandler;
 using System.Linq;
 using Unity.Events;
 using Battles.UI;
+using Managers;
 
 namespace Combo
 {
@@ -82,6 +83,10 @@ namespace Combo
                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
                         break;
                 }
+
+                var battledata = Account.AccountManager.Instance.BattleData;
+                var sounds = (isPlayer) ? battledata.Player.CharacterData.CharacterSO.ComboSounds : battledata.Opponent.CharacterData.CharacterSO.ComboSounds;
+                sounds?.PlaySound();
             }
 
            // CreateCard();

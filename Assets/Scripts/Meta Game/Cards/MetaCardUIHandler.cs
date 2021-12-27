@@ -32,12 +32,12 @@ namespace UI.Meta.Laboratory
         private MetaCardUIInteractionPanel _metaCardUIInteraction;
         public MetaCardUIInteractionPanel MetaCardUIInteraction => _metaCardUIInteraction;
         public CardUI CardUI => _cardUI;
-        public bool ToOpenInteractionPanel { get => _cardIsWaitingForInput; set => _cardIsWaitingForInput = value; }
+        public bool ToOnlyClickCardUIBehaviour { get => _cardIsWaitingForInput; set => _cardIsWaitingForInput = value; }
 
 
         public void OnClick()
         {
-            if (ToOpenInteractionPanel)
+            if (ToOnlyClickCardUIBehaviour)
                 OnCardUIClicked?.Invoke(this.CardUI);
             else
                 OnCardClicked?.Invoke();

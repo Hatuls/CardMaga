@@ -35,8 +35,9 @@ namespace Account.GeneralData
 
         public async Task NewLoad()
         {
-            _chips = new UshortStat(5);
-            _diamonds = new UshortStat(40);
+
+            _chips = new UshortStat((ushort)DefaultVersion._gameVersion.Chips);
+            _diamonds = new UshortStat((ushort)DefaultVersion._gameVersion.Diamonds);
             _gold = new UshortStat(0);
         }
     }

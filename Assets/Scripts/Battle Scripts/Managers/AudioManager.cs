@@ -41,6 +41,7 @@ public class AudioManager : MonoBehaviour
     {
 
         SceneHandler.onStartLoadingScene -= SceneParameter;
+        StopAllSounds();
     }
     private void FmodInit()
     {
@@ -131,7 +132,10 @@ public class AudioManager : MonoBehaviour
         if (_fmodLibrary.Count > 0)
         {
             foreach (var fmodData in _fmodLibrary)
+            {
                 fmodData.StopSound(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                fmodData.Release();
+            }
 
             _fmodLibrary.Clear();
         }
@@ -145,16 +149,16 @@ public class AudioManager : MonoBehaviour
             case SceneHandler.ScenesEnum.LoadingScene:
             case SceneHandler.ScenesEnum.MainMenuScene:
             case SceneHandler.ScenesEnum.MapScene:
-                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
+                RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
                 break;
             case SceneHandler.ScenesEnum.GameBattleScene:
                 switch (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType)
                 {
                     case Battles.CharacterTypeEnum.Elite_Enemy:
-                        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);
-                        break;
                     case Battles.CharacterTypeEnum.Boss_Enemy:
-                        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 3);
+                        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);
+                    //    break;
+                  //      RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 3);
                         break;
 
                     default:
@@ -210,8 +214,9 @@ public class AudioManager : MonoBehaviour
         public void StopSound(FMOD.Studio.STOP_MODE mode)
             => _eventInstance.stop(mode);
 
+        public void Release() => _eventInstance.release();
         ~FmodData()
-            => _eventInstance.release();
+            => Release();
     }
 }
 

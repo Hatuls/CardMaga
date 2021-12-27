@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Battles.Turns;
+using UnityEngine;
 
 namespace Tutorial
 {
@@ -7,16 +8,20 @@ namespace Tutorial
         Card = 0,
         Combo = 1,
     }
+
+
+
+
     public class TutorialManager : MonoBehaviour
     {
         [SerializeField]
-        CardTutorial _cardTutorial;
+        TutorialPage[] _tutorials;
+
         [SerializeField]
-        ComboTutorial _comboTutorial;
-        TutorialAbst _currentTutorial;
-
         int _currentPage = 0;
-
+        [SerializeField]
+        [HideInInspector]
+        TutorialPage _currentTutorial;
         [SerializeField]
         GameObject _exitBtn;
         [SerializeField]
@@ -24,80 +29,67 @@ namespace Tutorial
         [SerializeField]
         GameObject _goToRightBtn;
         [SerializeField]
-        TutorialType _currentTutorialEnum = TutorialType.Card;
-        public void StartTutorial()
+        GameObject _container;
+
+        private void Awake()
         {
-            _currentTutorialEnum = TutorialType.Card;
-            StartTutorial(_currentTutorialEnum);
-            _exitBtn.SetActive(false);
-
-            _goToLeftBtn.SetActive(false);
-
-            _cardTutorial.gameObject.SetActive(true);
-            gameObject.SetActive(true);
+            if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
+            {
+                TurnHandler.OnTurnCountChange += TurnCounter;
+            }
+        }
+        private void OnDestroy()
+        {
+            TurnHandler.OnTurnCountChange -= TurnCounter;
+        }
+        private void ResetAllPages()
+        {
+            for (int i = 0; i < _tutorials.Length; i++)
+                            _tutorials[i].EndTutorial();
+            
+        }
+        private void TurnCounter(int count)
+        {
+            if (count == 1|| count ==2)
+            {
+                ResetAllPages();
+                _container.SetActive(true);
+                _currentTutorial = _tutorials[count-1];
+                StartTutorial(_currentTutorial);
+            }
 
         }
-        private void StartTutorial(TutorialType type)
+        public void OpenTutorial(int tutorial)
         {
+            ResetAllPages();
+            _container.SetActive(true);
+            _currentTutorial = _tutorials[tutorial];
+            StartTutorial(_currentTutorial);
+        }
+        private void StartTutorial(TutorialPage currentTutorial)
+        {
+            _exitBtn.SetActive(false);
             _currentPage = 0;
-            switch (type)
-            {
-                case TutorialType.Card:
-                    _comboTutorial.gameObject.SetActive(false);
-                    _comboTutorial.ResetPages();
-                    _currentTutorial = _cardTutorial;
-                    _cardTutorial.StartTutorial();
-
-                    break;
-                case TutorialType.Combo:
-                    _cardTutorial.gameObject.SetActive(false);
-                    _cardTutorial.ResetPages();
-                    _currentTutorial = _comboTutorial;
-                    _comboTutorial.StartTutorial();
-                    break;
-                default:
-                    break;
-            }
+            currentTutorial.StartTutorial();
         }
 
-        public void ChangePage(int value)
+        public void ArrowsActivation(int currentPage)
         {
-            _exitBtn.SetActive(false);
-            _currentPage += value;
-            _goToLeftBtn.SetActive(true);
-            _goToRightBtn.SetActive(true);
-
-
-            if (_currentPage <= 0 && _currentTutorialEnum == TutorialType.Card)
-            {
-                _goToLeftBtn.SetActive(false);
-                _currentPage = 0;
-
-            }
-            else if (_currentPage < 0 && _currentTutorialEnum == TutorialType.Combo)
-            {
-                _currentTutorialEnum = TutorialType.Card;
-                StartTutorial(_currentTutorialEnum);
-                _currentPage = _currentTutorial.PageLength - 1;
-
-            }
-            else if (_currentPage == _currentTutorial.PageLength && _currentTutorialEnum == TutorialType.Card)
-            {
-                _currentTutorialEnum = TutorialType.Combo;
-                StartTutorial(_currentTutorialEnum);
-                return;
-            }
-            else if (_currentPage >= _currentTutorial.PageLength && _currentTutorialEnum == TutorialType.Combo)
-            {
-                _goToRightBtn.SetActive(false);
-                _exitBtn.SetActive(true);
-                return;
-            }
-
-
-            _currentTutorial.SetPages(_currentPage);
+            _goToLeftBtn.SetActive(currentPage != 0);
+            _goToRightBtn.SetActive(_currentTutorial.PageLength - 1 != currentPage);
         }
-        public void CloseTutorial() => gameObject.SetActive(false);
+        public void MovePagesWithArrows(int goToPage)
+        {
+            _currentPage += goToPage;
+            _currentTutorial.SetPages(_currentPage);
+
+        }
+        public void ShowCloseButton() => _exitBtn.SetActive(true);
+        public void CloseTutorial()
+        {
+            _currentTutorial.EndTutorial();
+            _container.SetActive(false);
+        }
     }
 }
 

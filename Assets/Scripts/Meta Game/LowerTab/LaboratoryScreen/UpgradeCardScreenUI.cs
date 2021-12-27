@@ -90,7 +90,7 @@ namespace UI.Meta.Laboratory
             {
                 var metacardInteraction = deck[i].MetaCardUIInteraction;
                 metacardInteraction.ResetInteraction();
-                deck[i].ToOpenInteractionPanel = !_toOpenInteractionPanel;
+                deck[i].ToOnlyClickCardUIBehaviour = !_toOpenInteractionPanel;
                 if (_toOpenInteractionPanel)
                 {
                     metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Use, SelectCardUI);
@@ -107,7 +107,7 @@ namespace UI.Meta.Laboratory
             if (_toOpenInteractionPanel)
                 _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Remove, RemoveCardUI);
             else
-            { _selectedCardUI.OnCardUIClicked += RemoveCardUI;_selectedCardUI.ToOpenInteractionPanel = true; }
+            { _selectedCardUI.OnCardUIClicked += RemoveCardUI;_selectedCardUI.ToOnlyClickCardUIBehaviour = true; }
         }
 
         public void ResetScreen()

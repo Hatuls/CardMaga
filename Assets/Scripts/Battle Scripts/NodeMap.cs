@@ -112,15 +112,11 @@ namespace Map
         public void OnNotify(IObserver Myself)
         {
             if (Myself == null)
-            {
                 toRecieveInputs = true;
 
-            }
             else
-            {
-
                 toRecieveInputs = false;
-            }
+            
             SetTrigger(toRecieveInputs);
         }
     }

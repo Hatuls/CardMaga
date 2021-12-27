@@ -7,7 +7,7 @@ public class SceneHandler
     public static SceneHandler Instance => _instance;
 
     public static bool LoadingComplete;
-    public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1,MainMenuScene=2, MapScene = 3, GameBattleScene = 4 }
+    public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1,MainMenuScene=2, MapScene = 3, GameBattleScene = 4 , LoreScene =5}
     static System.Action onLoaderCallback;
     static AsyncOperation _loadingAsyncOperation;
     public static System.Action<ScenesEnum> onFinishLoadingScene;
@@ -39,7 +39,12 @@ public class SceneHandler
         }
     }
 
-    
+    public static void LoadSceneWithNoLoadingScreen(ScenesEnum scene)
+    {
+        CurrentScene = scene;
+        onStartLoadingScene?.Invoke(CurrentScene);
+        SceneManager.LoadScene((int)scene, LoadSceneMode.Single);
+    }
     public static void LoadScene(ScenesEnum sceneEnum)
     {
 

@@ -23,7 +23,7 @@ namespace Map
         [SerializeField]
         ActDifficultySO[] _actDiffucltys;
         ActDifficultySO this[ActsEnum _currentAct]
-            => _actDiffucltys.FirstOrDefault(x => x.Act== _currentAct);
+            => _actDiffucltys.FirstOrDefault(x => x.Act == _currentAct);
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button()]
         private void LoadActDiffucltys()
@@ -38,7 +38,7 @@ namespace Map
         {
             Instance = this;
         }
-       
+
         public void SelectNode(NodeMap mapNode)
         {
             if (Locked) return;
@@ -77,9 +77,9 @@ namespace Map
 
         private void Start()
         {
-            if (_actDiffucltys == null|| _actDiffucltys.Length ==0 )
+            if (_actDiffucltys == null || _actDiffucltys.Length == 0)
                 _actDiffucltys = Resources.LoadAll<ActDifficultySO>("Maps/Acts Diffuclty");
-            
+
             Instance = this;
             view.SetAttainableNodes();
         }
@@ -92,22 +92,17 @@ namespace Map
             // or show appropriate GUI over the map: 
             // if you choose to show GUI in some of these cases, do not forget to set "Locked" in MapPlayerTracker back to false
 
-            AnalyticsHandler.SendEvent("Entering Node", new System.Collections.Generic.Dictionary<string, object> {
-                { "Map:", Instance.mapManager.CurrentMap.configName },
-                {"Node:" ,mapNode.NodeData.NodeTypeEnum.ToString() },
-                {"Location:" ,mapNode.NodeData.Position },
-
-            });
+            SendDataAnalytic(mapNode);
 
             switch (mapNode.NodeData.NodeTypeEnum)
             {
-  
+
                 case NodeType.Basic_Enemy:
                 case NodeType.Boss_Enemy:
-                  case NodeType.Elite_Enemy:
+                case NodeType.Elite_Enemy:
                     var nodeData = mapNode.NodeData;
                     Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(nodeData.NodeTypeEnum).ActivatePoint(Instance[Instance._currentAct][nodeData.point.y]);
-                    break;     
+                    break;
 
 
                 case NodeType.Chest:
@@ -116,14 +111,34 @@ namespace Map
                 case NodeType.Dojo:
                     Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(mapNode.NodeData.NodeTypeEnum).ActivatePoint();
                     break;
-          
+
                 default:
                     Debug.LogError(mapNode.NodeData.NodeTypeEnum + "Is Not Valid Node Point!");
                     break;
             }
-            
+
             Instance._cameraMovement.LastVisitedNodeY = mapNode.transform.position.y;
 
+        }
+
+        private static void SendDataAnalytic(NodeMap mapNode)
+        {
+            var configName = Instance.mapManager.CurrentMap.configName;
+            var nodeType = mapNode.NodeData.NodeTypeEnum.ToString();
+            var position = mapNode.NodeData.point.ToString();
+
+
+            AnalyticsHandler.SendEvent("Entering Node", new System.Collections.Generic.Dictionary<string, object> {
+                { "Map:", configName },
+                {"Node:" ,nodeType },
+                {"Location:" ,position },
+            });
+
+            FireBaseHandler.SendEvent("Entering Node",
+                new Firebase.Analytics.Parameter("Map", configName),
+                new Firebase.Analytics.Parameter("Node", nodeType),
+                new Firebase.Analytics.Parameter("Location", position)
+                );
         }
 
         private void PlayWarningThatNodeCannotBeAccessed()
@@ -133,7 +148,7 @@ namespace Map
 
         public void OnNotify(IObserver Myself)
         {
-            throw new NotImplementedException();
+          //  throw new NotImplementedException();
         }
     }
 

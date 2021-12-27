@@ -1,9 +1,7 @@
-﻿using TMPro;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Battles;
-using System.Threading.Tasks;
 
 namespace UI.Meta.Settings
 {
@@ -39,6 +37,7 @@ namespace UI.Meta.Settings
         {
             if (_parent.activeSelf)
                 _parent.SetActive(false);
+
             for (int i = 0; i < settingsGOToWhenClicked.Length; i++)
             {
                 settingsGOToWhenClicked[i].SetActive(false);
@@ -48,11 +47,21 @@ namespace UI.Meta.Settings
         public override void Open()
         {
             SetSettings();
+            if (!_parent.activeSelf)
                 _parent.SetActive(true);
+
             for (int i = 0; i < settingsGOToWhenClicked.Length; i++)
             {
                 settingsGOToWhenClicked[i].SetActive(true);
             }
+        }
+        public void SwitchState()
+        {
+            _parent.SwitchActiveState();
+            if (_parent.activeSelf)
+                Open();
+            else
+                Close();
         }
         private void SetSettings()
         {
@@ -113,10 +122,10 @@ namespace UI.Meta.Settings
         {
             ResetDelay();
         }
-       private async Task ResetDelay()
+        private async Task ResetDelay()
         {
-            PlayerPrefs.DeleteAll();
-          
+            Account.AccountManager.Instance.ResetAccount();
+
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.NetworkScene);
             await Task.Delay(1000);
             NetworkHandler.CheckVersionEvent?.Invoke();

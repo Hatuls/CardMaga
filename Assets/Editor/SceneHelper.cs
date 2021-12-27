@@ -8,6 +8,7 @@ public class SceneHelper
     static string BattleSceneName = "Game Battle Scene";
     static string MainMenuSceneName = "Main Menu Scene";
     static string MapSceneName = "Map Scene";
+    static string LoreSceneName = "Lore Scene";
 
 
     [MenuItem("Scenes/Network Scene")]
@@ -29,14 +30,20 @@ public class SceneHelper
         LoadScene(MainMenuSceneName);
     }
 
-    [MenuItem("Scenes/Loading Scene Scene")]
+    [MenuItem("Scenes/Loading Scene")]
     private static void LoadingScene()
     {
-        LoadScene(LoadingSceneName); }
+        LoadScene(LoadingSceneName); 
+    }
+    [MenuItem("Scenes/Lore Scene")]
+    private static void LoreScene()
+    {
+        LoadScene(LoreSceneName);
+    }
     private static void LoadScene(string sceneName)
     {
-        UnityEditor.SceneManagement.EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-        UnityEditor.SceneManagement.EditorSceneManager.OpenScene(string.Concat(Application.dataPath, "/Scenes/GameScene/", sceneName, ".unity"), UnityEditor.SceneManagement.OpenSceneMode.Single);
+        if (UnityEditor.SceneManagement.EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            UnityEditor.SceneManagement.EditorSceneManager.OpenScene(string.Concat(Application.dataPath, "/Scenes/GameScene/", sceneName, ".unity"), UnityEditor.SceneManagement.OpenSceneMode.Single);
 
     }
 }

@@ -174,11 +174,19 @@ public static class DismentalHandler
         var account = Account.AccountManager.Instance;
         if (account.AccountCards.RemoveCard(card.CardCoreInfo.InstanceID))
         {
-            AnalyticsHandler.SendEvent("Dismentaling Card");
+            SendAnalyticEvents(card);
             account.AccountGeneralData.AccountResourcesData.Chips.AddValue(_dismentalCostsSO.GetCardDismentalCost(card));
 
             return true;
         }
         return false;
+    }
+
+    private static void SendAnalyticEvents(Cards.Card card)
+    {
+        const string EventName = "Dismentaling Card";
+         string cardName = card.CardSO.CardName;
+        AnalyticsHandler.SendEvent(string.Concat(EventName, cardName));
+        FireBaseHandler.SendEvent(EventName, new Firebase.Analytics.Parameter("Card Name", cardName));
     }
 }
