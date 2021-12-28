@@ -52,6 +52,7 @@ namespace Map.UI
             if (!gameObject.activeSelf)
                 SetActivePanel(true);
 
+            ShowAllCards();
            int length = _deckCardsUI.Count;
             for (int i = 0; i < length; i++)
             {
@@ -59,7 +60,6 @@ namespace Map.UI
                 _deckCardsUI[i].ToOnlyClickCardUIBehaviour = true;
             }
 
-            ShowAllCards();
         }
         private void CreateCards()
         {
