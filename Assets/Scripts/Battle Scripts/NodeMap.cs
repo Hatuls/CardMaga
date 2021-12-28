@@ -40,23 +40,39 @@ namespace Map
         }
         private void OnEnable()
         {
-         //   _observer.Subscribe(this);
+            //   _observer.Subscribe(this);
         }
         bool toRecieveInputs = true;
         private void OnDisable()
         {
-          //  _observer.UnSubscribe(this);
+            //  _observer.UnSubscribe(this);
         }
         private void SetTrigger(bool state)
         {
-
             _boxCollider.enabled = state;
         }
+        bool _isHoldingDown;
         private void OnMouseDown()
         {
-            if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-                MapPlayerTracker.Instance.SelectNode(this);
+            if (!_isHoldingDown && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                _isHoldingDown = true;
+            }
+
         }
+        private void OnMouseUp()
+        {
+            if (_isHoldingDown && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                MapPlayerTracker.Instance.SelectNode(this);
+            }
+            _isHoldingDown = false;
+        }
+
+
+
+
+
         public void PointSelected()
         {
             if (NodeData.IsOpen)
@@ -116,7 +132,7 @@ namespace Map
 
             else
                 toRecieveInputs = false;
-            
+
             SetTrigger(toRecieveInputs);
         }
     }
