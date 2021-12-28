@@ -30,23 +30,16 @@ namespace Rewards.Battles
                 return;
             }
             _observerSO.Notify(this);
-            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(opponentType, _mapTracker.CurrentAct);
+            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(opponentType, _mapTracker.CurrentAct,data.Player.CharacterData.ComboRecipe);
             if (rewardBundle == null)
                 throw new Exception("Reward Bundle is null!");
 
 
-            RecieveEXPAndDiamonds(rewardBundle);
 
             _battleUIRewardHandler.OpenRewardScreen(rewardBundle);
         }
 
-        private void RecieveEXPAndDiamonds(BattleReward battleReward)
-        {
-            var data = Account.AccountManager.Instance.BattleData.MapRewards;
-           data.Diamonds += battleReward.DiamondsReward;
-            data.EXP += battleReward.EXPReward;
-        }
-
+    
         public void ReturnToMainMenu()
         {
 

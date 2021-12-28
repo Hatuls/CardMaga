@@ -1,9 +1,9 @@
 ﻿
-using UnityEngine;
 using Battles.Deck;
+using Battles.UI.CardUIAttributes;
 using Cards;
 using System;
-using Battles.UI.CardUIAttributes;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Battles.UI
@@ -30,7 +30,7 @@ namespace Battles.UI
         [Tooltip("Exhaust Card position")]
         [SerializeField] RectTransform _exhaustDeckPosition;
 
-  
+
         [SerializeField] RectTransform _craftingBtnPosition;
 
 
@@ -45,7 +45,7 @@ namespace Battles.UI
         private HandUI _handUI;
         private CardUI _zoomedCard;
         private CardUI _holdingCardUI;
-       // private CardUITransition[] _transitions;
+        // private CardUITransition[] _transitions;
 
 
         [SerializeField]
@@ -79,8 +79,8 @@ namespace Battles.UI
         {
             if (_enemyCardUI.gameObject.activeSelf == false)
                 ActivateEnemyCardUI(true);
-            AssignDataToCardUI(_enemyCardUI,card);
-    
+            AssignDataToCardUI(_enemyCardUI, card);
+
         }
 
         public void ActivateEnemyCardUI(bool state)
@@ -98,7 +98,7 @@ namespace Battles.UI
         internal void CraftCardUI(Card addedCard, DeckEnum toDeck)
         {
             if (toDeck == DeckEnum.Hand)
-             AssignDataToCardUI(_handUI.CurrentlyHolding, addedCard);
+                AssignDataToCardUI(_handUI.CurrentlyHolding, addedCard);
 
         }
 
@@ -150,14 +150,14 @@ namespace Battles.UI
                             cardsDrawn += "Card at index " + i + " Is null!\n";
                     }
                     Debug.LogError($"Drawn Card is null!!\n {cardsDrawn} ,\n");
-                  //  card.gameObject.SetActive(false);
+                    //  card.gameObject.SetActive(false);
                     continue;
                 }
 
                 if (card != null)
                 {
                     var InHandInputState = card.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
-                    if (InHandInputState.HasValue ==  false)
+                    if (InHandInputState.HasValue == false)
                     {
                         if (card.gameObject.activeSelf == false)
                             card.gameObject.SetActive(true);
@@ -168,9 +168,9 @@ namespace Battles.UI
 
                         OnDrawCard?.Invoke();
 
-                     //  var cardRefenrec = card.GFX.GetCardReference;
-                     //  if (cardRefenrec ==null|| cardData[i].CardSO != cardRefenrec.CardSO && cardRefenrec.CardLevel != cardData[i].CardLevel)
-                           AssignDataToCardUI(card, cardData[i]);
+                        //  var cardRefenrec = card.GFX.GetCardReference;
+                        //  if (cardRefenrec ==null|| cardData[i].CardSO != cardRefenrec.CardSO && cardRefenrec.CardLevel != cardData[i].CardLevel)
+                        AssignDataToCardUI(card, cardData[i]);
 
                     }
                 }
@@ -183,7 +183,7 @@ namespace Battles.UI
         {
             _handUI.DiscardHand();
             OnPlayerRemoveHand?.Invoke();
-      
+
 
         }
         public override void Init()
@@ -196,14 +196,14 @@ namespace Battles.UI
         }
 
 
-   
+
 
 
         public void ExecuteCardUI(CardUI card)
         {
             if (card == null)
                 return;
-   
+
         }
 
 
@@ -236,7 +236,7 @@ namespace Battles.UI
         {
             CardUIHandler.Instance._selectedCardUI.gameObject.SetActive(false);
         }
-      
+
     }
 
 
@@ -252,7 +252,7 @@ namespace Battles.UI
     {
         public static Action<Vector2, CardUI> OnExecuteCardUI;
         public static CardUIHandler Instance;
-      public  CardUI _selectedCardUI;
+        public CardUI _selectedCardUI;
         CardUISO _cardUISettings;
         CardUI _OriginalCard;
         HandUI _handUI;
@@ -268,15 +268,16 @@ namespace Battles.UI
             EndTurnButton._OnFinishTurnPress += OnFinishTurn;
         }
 
-        ~CardUIHandler() { 
-            EndTurnButton._OnFinishTurnPress -= OnFinishTurn; 
-   
+        ~CardUIHandler()
+        {
+            EndTurnButton._OnFinishTurnPress -= OnFinishTurn;
+
         }
 
         private void OnFinishTurn()
         {
             CardUITouchedReleased(false, null);
-            
+
         }
         internal void CardUITouched(CardUI cardReference)
         {
@@ -285,7 +286,7 @@ namespace Battles.UI
 
 
 
-            DeckManager.Instance.TransferCard(true, DeckEnum.Hand,DeckEnum.Selected, cardReference.GFX.GetCardReference);
+            DeckManager.Instance.TransferCard(true, DeckEnum.Hand, DeckEnum.Selected, cardReference.GFX.GetCardReference);
             _handUI.ReplaceCard(_selectedCardUI, cardReference);
 
             _selectedCardUI.gameObject.SetActive(true);
@@ -296,29 +297,29 @@ namespace Battles.UI
 
 
         }
-        internal void CardUITouchedReleased(bool ExecuteSucceded,CardUI cardReference)
+        internal void CardUITouchedReleased(bool ExecuteSucceded, CardUI cardReference)
         {
-         
+
             var card = _selectedCardUI;
             if (card == null)
                 return;
 
             card?.GFX.GlowCard(false);
 
-                if (ExecuteSucceded==false)
-                    DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
+            if (ExecuteSucceded == false)
+                DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
 
             InputManager.Instance.RemoveObjectFromTouch();
             card.CardAnimator.ResetAllAnimations();
             cardReference?.CardAnimator.ResetAllAnimations();
-            card.CardTranslations.SetScale(Vector2.one,0);
-            cardReference?.CardTranslations.SetScale(Vector2.one,0);
+            card.CardTranslations.SetScale(Vector2.one, 0);
+            cardReference?.CardTranslations.SetScale(Vector2.one, 0);
             _handUI.LockCardsInput(false);
             cardReference?.GFX.GlowCard(false);
             card.gameObject.SetActive(false);
             card.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.None);
             // card.CardTranslations.CancelAllTweens();
-       //     _selectedCardUI = null;
+            //     _selectedCardUI = null;
 
         }
 
@@ -356,23 +357,34 @@ namespace Battles.UI
         {
             if (BattleManager.isGameEnded)
                 return false;
-
+            bool succeded = false;
             var card = DeckManager.Instance.GetCardFromDeck(true, 0, DeckEnum.Selected);
-            if (card == null)
+            if (card != null)
+            {
+
+                 succeded = CardExecutionManager.Instance.TryExecuteCard(true, card);
+                if (succeded)
+                {
+                    //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
+#if !UNITY_EDITOR
+                    AnalyticsHandler.SendEvent("Card Played", new System.Collections.Generic.Dictionary<string, object>()
+                    {
+                        {"Card", card.CardSO.CardName},
+                        {"Level", card.CardLevel},
+                    });
+#endif
+                    OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition, _OriginalCard);
+                    int index = _handUI.GetCardIndex(_selectedCardUI);
+                }
+     
+            }
+            else
             {
                 OnFinishTurn();
                 Debug.LogError("CardUIHandler - Selected Card  is null !");
-
             }
-            bool succeded = CardExecutionManager.Instance.TryExecuteCard(true, card);
-            if (succeded )
-            {
-                //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
-                OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition, _OriginalCard);
-                int index = _handUI.GetCardIndex(_selectedCardUI);
-             }
-            return succeded;
-           
+          
+           return succeded;
         }
 
     }
@@ -398,7 +410,7 @@ namespace Battles.UI
     //    protected CardUIManager _cardUIManager;
     //    protected SoundsEvent _soundEvent;
     //    protected CardUISO _cardSettings;
-      
+
     //    public CardUITransition(CardUIManager cuim,CardUISO so, SoundsEvent soundEvent)
     //    {
     //        _cardUIManager = cuim;

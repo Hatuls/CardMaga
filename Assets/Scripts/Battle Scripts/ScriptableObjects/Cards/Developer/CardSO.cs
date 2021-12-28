@@ -66,17 +66,10 @@ namespace Cards
         private byte _stamina;
         public byte StaminaCost { get=> _stamina; set=> _stamina=value; }
 
-        [TabGroup("CardData/Info", "Data")]
-        [SerializeField]
-        private ushort _purchaseCost;
-        public ushort PurchaseCost { get=> _purchaseCost; set=> _purchaseCost=value; }
 
 
 
-        [TabGroup("CardData/Info", "Data")]
-        [SerializeField]
-        private bool _toExhaust;
-        public bool ToExhaust { get=> _toExhaust; set=> _toExhaust=value; }
+
 
         [TabGroup("CardData/Info", "Data")]
         [Tooltip("How much coins the card cost")]
@@ -136,7 +129,10 @@ namespace Cards
             throw new System.Exception($"CardSO: ID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
         }
 
-
+        public ushort GetCostPerUpgrade(byte level)
+        {
+            return GetLevelUpgrade(level).PurchaseCost;
+        }
 
         public KeywordData[] KeywordsCombin(byte lvl)
         {

@@ -3,6 +3,7 @@ using UnityEngine;
 using Battles.Deck;
 using Characters.Stats;
 using Characters;
+using TMPro;
 
 namespace Battles
 {
@@ -14,11 +15,13 @@ namespace Battles
         [Tooltip("Player Stats: ")]
 
         [SerializeField] private  Character _myCharacter;
+        [SerializeField] AnimationBodyPartSoundsHandler _animationSoundHandler;
         [Space]
 
         int _cardAction;
         [SerializeField] Cards.Card enemyAction;
         [SerializeField]  AnimatorController _enemyAnimatorController;
+        [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
          public Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
         private Cards.Card[] _deck;
@@ -43,6 +46,8 @@ namespace Battles
             Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
             _myCharacter = character;
             var characterdata = character.CharacterData;
+            _animationSoundHandler.CurrentCharacter = characterdata.CharacterSO;
+     
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new Cards.Card[deckLength];
             System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
@@ -51,6 +56,13 @@ namespace Battles
             DeckManager.Instance.InitDeck(false, _deck);
 
             EnemyAnimatorController.ResetAnimator();
+
+
+#if UNITY_EDITOR
+            _enemyNameText.gameObject.SetActive(true);
+            _enemyNameText.text = characterdata.CharacterSO.CharacterName;
+#endif
+
         }
         public void UpdateStatsUI()
         {

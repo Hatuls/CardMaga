@@ -14,10 +14,12 @@ namespace Map.UI
         [SerializeField] CanvasGroup _canvasGroup;
         [SerializeField] ObserverSO observerSO;
         [SerializeField]
-        ComboUIFilterScreen _comboUIFilter;
+        MetaComboUIFilterScreen _comboUIFilter;
         [SerializeField]
-        CardUIFilterScreen _cardUIFilter;
+        MetaCardUIFilterScreen _cardUIFilter;
 
+        [SerializeField] GameObject _container;
+        [SerializeField] GameObject _btnContainer;
         [SerializeField]
         ShowAllCards _sort;
 
@@ -43,6 +45,8 @@ namespace Map.UI
             observerSO.Notify(this);
             _canvasGroup.blocksRaycasts = true;
             OpenScreenMode();
+            _container?.SetActive(true);
+            _btnContainer?.SetActive(true);
             _mainPanel.SetActive(true);
         }
         private void OpenScreenMode()
@@ -90,6 +94,8 @@ namespace Map.UI
 
         public void Close()
         {
+            _container?.SetActive(false);
+            _btnContainer?.SetActive(false);
             observerSO.Notify(null);
             _canvasGroup.blocksRaycasts = false;
             _mainPanel.SetActive(false);
@@ -108,9 +114,11 @@ namespace Map.UI
         }
         private void TurnComboCollection(bool toActivate)
         {
+            
             if (toActivate)
-                _comboUIFilter.ShowAllCombos();
+                _comboUIFilter.ShowAll();
             _comboSelectionPanel.SetActive(toActivate);
+     
             _comboPanel.SetActive(toActivate);
         }
         private void TurnCardCollection(bool toActivate)
@@ -122,7 +130,10 @@ namespace Map.UI
             _cardPanel.SetActive(toActivate);
 
             if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.GameBattleScene)
+            {
                 _deckCardsSelectionPanel.SetActive(toActivate);
+                _cardTypeSelectionPanel.SetActive(false);
+            }
             else
                 _cardTypeSelectionPanel.SetActive(toActivate);
         }

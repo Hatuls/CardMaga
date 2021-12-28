@@ -1,4 +1,5 @@
 ﻿
+using Rewards;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Map

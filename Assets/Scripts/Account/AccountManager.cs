@@ -51,10 +51,17 @@ namespace Account
         #endregion
 
         #region Fields
-        [HideInInspector]
+        [SerializeField]
+
+        private RewardGift _rewardGift;
+
+        //[HideInInspector]
+
         [SerializeField]
         private AccountData _accountData;
-
+        [SerializeField]
+        bool _needToDoTutorial = true;
+        public bool IsDoneTutorial { get => _needToDoTutorial; set => _needToDoTutorial = value; }
         SaveManager.FileStreamType saveType = SaveManager.FileStreamType.FileStream;
         string path = "Account/";
 
@@ -66,6 +73,8 @@ namespace Account
         public AccountSettingsData AccountSettingsData => _accountData.AccountSettingsData;
         public AccountGeneralData AccountGeneralData => _accountData.AccountGeneralData;
         public BattleData BattleData => _accountData.BattleData;
+        public SceneHandler.ScenesEnum CurrentScene => _accountData.CurrentScene;
+        public RewardGift RewardGift { get => _rewardGift; }
 
         #endregion
         #region Private Methods
@@ -75,18 +84,11 @@ namespace Account
             SceneHandler.onFinishLoadingScene += UpdateLastScene;
         }
 
-        public void LoadLastScene()
+        public void EnterMainMenu()
         {
-            switch (_accountData.CurrentScene)
-            {
-                case SceneHandler.ScenesEnum.MapScene:
-                case SceneHandler.ScenesEnum.GameBattleScene:
-                    SceneHandler.LoadScene(_accountData.CurrentScene);
-                    break;
-                default:
-                    SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
-                    break;
-            }
+            ReturnLoadingScene.GoToScene = _accountData.CurrentScene;
+            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+
         }
 
         private void UpdateLastScene(SceneHandler.ScenesEnum scene)
@@ -101,36 +103,42 @@ namespace Account
         {
             if (SaveManager.CheckFileExists(AccountData.SaveName, saveType, true, path))
             {
-                _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, saveType, "txt", true, path);
-                if (_accountData.AccountGeneralData.AccountEnergyData.MaxEnergy.Value == 0)
-                {
-                    await CreateNewAccount();
-
-                }
-                else
-                {
-                    Debug.Log("Loading Data From " + saveType);
-                    Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
-                }
+                await LoadAccount();
             }
             else
             {
                 await CreateNewAccount();
             }
+            RewardLoad();
 
             OnFinishLoading?.Invoke();
-            LoadLastScene();
-        }
-        public void ResetAccount() => _ = CreateNewAccount();
-        private async Task CreateNewAccount()
-        {
-            _accountData = new AccountData();
-            await _accountData.NewLoad();
+
+            if (!_needToDoTutorial)
+                EnterMainMenu();
+            else SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
         }
 
-        public void DownloadDataFromServer()
+        private async Task LoadAccount()
         {
+            _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, saveType, "txt", true, path);
+            Debug.Log("Loading Data From " + saveType);
+            Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
+            _accountData.AccountSettingsData.Refresh();
+
+
+            if (PlayerPrefs.HasKey("Tutorial"))
+                _needToDoTutorial = bool.Parse(PlayerPrefs.GetString("Tutorial"));
         }
+
+        private void RewardLoad()
+        {
+            if (SaveManager.CheckFileExists("Reward", saveType))
+                _rewardGift = SaveManager.Load<RewardGift>("Reward", saveType);
+        }
+
+        public void ResetAccount() => _ = CreateNewAccount();
+
+
         #endregion
 
 #if UNITY_EDITOR
@@ -138,7 +146,7 @@ namespace Account
         private void AddDiamonds() => _accountData.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(10);
 
         [Sirenix.OdinInspector.Button]
-        private void AddGold() => _accountData.AccountGeneralData.AccountResourcesData.Gold.AddValue(10);
+        private void AddGold() => _accountData.BattleData.Player.CharacterData.CharacterStats.Gold += 100;
 
         [Sirenix.OdinInspector.Button]
         private void AddEnergy() => _accountData.AccountGeneralData.AccountEnergyData.Energy.AddValue(10);
@@ -168,7 +176,24 @@ namespace Account
             SceneHandler.onFinishLoadingScene -= UpdateLastScene;
             Debug.Log("Saving Account Data");
         }
-        public void SaveAccount() => SaveManager.SaveFile(_accountData, AccountData.SaveName, saveType, true, "txt", path);
+        public void SaveAccount()
+        {
+            SaveManager.SaveFile(_accountData, AccountData.SaveName, saveType, true, "txt", path);
+            SaveManager.SaveFile(RewardGift, "Reward", saveType);
+
+            PlayerPrefs.SetString("Tutorial", string.Concat(_needToDoTutorial));
+            PlayerPrefs.Save();
+        }
+
+        private async Task CreateNewAccount()
+        {
+            _accountData = new AccountData();
+            await _accountData.NewLoad();
+            _needToDoTutorial = true;
+            SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
+        }
+
+
         private void OnDestroy()
         {
             if (Application.isPlaying)
@@ -184,6 +209,9 @@ namespace Account
     public class AccountData : ILoadFirstTime
     {
         public static string SaveName = "AccountData";
+
+
+
         [SerializeField] AccountGeneralData _accountGeneralData;
 
         [SerializeField] AccountCards _accountCards;
@@ -221,7 +249,13 @@ namespace Account
             await AccountCharacters.NewLoad();
             _battleData = new BattleData();
             _battleData.ResetData();
-
         }
+    }
+    [System.Serializable]
+    public class RewardGift
+    {
+        public bool NeedToBeRewarded { get => _needToBeRewarded; set => _needToBeRewarded = value; }
+
+        [SerializeField] bool _needToBeRewarded = false;
     }
 }

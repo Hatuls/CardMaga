@@ -32,8 +32,6 @@ MonoBehaviour:
     CinemtaicView: 0
   _rarity: 2
   _stamina: 1
-  _purchaseCost: 55
-  _toExhaust: 1
   _salvageCost: 1
   _id: 10
   _isBattleReward: 1
@@ -49,6 +47,7 @@ MonoBehaviour:
   _perLevelUpgrades:
   - _description:
     - 3 Heal  Exhaust
+    _purchaseCost: 55
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -89,8 +88,22 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
   - _description:
     - '3 Heal '
+    _purchaseCost: 79
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -123,6 +136,19 @@ MonoBehaviour:
         _keywordBase: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349, type: 2}
         _target: 1
         _amountToApply: 3
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -133,6 +159,7 @@ MonoBehaviour:
       _amount: 0
   - _description:
     - '5 Heal '
+    _purchaseCost: 132
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -165,6 +192,19 @@ MonoBehaviour:
         _keywordBase: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349, type: 2}
         _target: 1
         _amountToApply: 5
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
         _animationIndex: 0
         _conditions:
           _comboCondition: []

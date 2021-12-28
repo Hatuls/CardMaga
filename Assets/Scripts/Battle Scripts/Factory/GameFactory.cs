@@ -9,7 +9,7 @@ using Rewards;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using static Map.ActDifficultySO;
 
 namespace Factory
 {
@@ -87,10 +87,11 @@ namespace Factory
                 BattleRewardCollection = battleRewardCollectionSO;
             }
 
-            public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum,ActsEnum act)
-           => BattleRewardCollection.GetReward(characterTypeEnum, act);
+            public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum,ActsEnum act, IEnumerable<Combo.Combo> workOnCombo)
+           => BattleRewardCollection.GetReward(characterTypeEnum, act, workOnCombo);
 
-
+            public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
+                => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
         }
         public class CharacterFactory
         {
@@ -106,9 +107,9 @@ namespace Factory
              => CharacterCollection.GetCharacterSO(characterEnum);
 
 
-            public CharacterSO GetRandomCharacterSO(CharacterTypeEnum character)
+            public CharacterSO GetRandomCharacterSO(CharacterTypeEnum character, NodeLevel NodeLevelsRange)
             {
-                var collection = CharacterCollection.GetCharactersSO(character);
+                var collection = CharacterCollection.GetCharactersSO(character, NodeLevelsRange);
                 int collecitonLength = collection.Length;
 
                 if (collecitonLength == 0)

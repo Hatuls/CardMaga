@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Map
 {
-    public class MapPlayerTracker : MonoBehaviour , IObserver
+    public class MapPlayerTracker : MonoBehaviour, IObserver
     {
         public bool lockAfterSelecting = false;
-       // public float enterNodeDelay = 1f;
+        // public float enterNodeDelay = 1f;
         public MapManager mapManager;
         public MapView view;
 
@@ -17,8 +17,19 @@ namespace Map
 
         [SerializeField] ObserverSO _observerSO;
         [SerializeField]
-        ActsEnum _currentAct= ActsEnum.ActOne;
+        ActsEnum _currentAct = ActsEnum.ActOne;
         [SerializeField] CameraMovement _cameraMovement;
+
+        [SerializeField]
+        ActDifficultySO[] _actDiffucltys;
+        ActDifficultySO this[ActsEnum _currentAct]
+            => _actDiffucltys.FirstOrDefault(x => x.Act == _currentAct);
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.Button()]
+        private void LoadActDiffucltys()
+        => _actDiffucltys = Resources.LoadAll<ActDifficultySO>("Maps/Acts Diffuclty");
+
+#endif
 
         public bool Locked { get; set; }
         public ActsEnum CurrentAct { get => _currentAct; set => _currentAct = value; }
@@ -27,13 +38,13 @@ namespace Map
         {
             Instance = this;
         }
-   
+
         public void SelectNode(NodeMap mapNode)
         {
             if (Locked) return;
 
             // Debug.Log("Selected node: " + mapNode.Node.point);
-           // _observerSO.Notify(this);
+            // _observerSO.Notify(this);
             if (mapManager.CurrentMap.path.Count == 0)
             {
                 // player has not selected the node yet, he can select any of the nodes with y = 0
@@ -59,13 +70,16 @@ namespace Map
             Locked = lockAfterSelecting;
             mapManager.CurrentMap.path.Add(mapNode.NodeData.point);
             mapManager.SaveMap();
-  
+
             //    view.SetLineColors();
             EnterNode(mapNode);
         }
 
         private void Start()
         {
+            if (_actDiffucltys == null || _actDiffucltys.Length == 0)
+                _actDiffucltys = Resources.LoadAll<ActDifficultySO>("Maps/Acts Diffuclty");
+
             Instance = this;
             view.SetAttainableNodes();
         }
@@ -78,10 +92,53 @@ namespace Map
             // or show appropriate GUI over the map: 
             // if you choose to show GUI in some of these cases, do not forget to set "Locked" in MapPlayerTracker back to false
 
+            SendDataAnalytic(mapNode);
 
-            Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(mapNode.NodeData.NodeTypeEnum).ActivatePoint();
+            switch (mapNode.NodeData.NodeTypeEnum)
+            {
+
+                case NodeType.Basic_Enemy:
+                case NodeType.Boss_Enemy:
+                case NodeType.Elite_Enemy:
+                    var nodeData = mapNode.NodeData;
+                    Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(nodeData.NodeTypeEnum).ActivatePoint(Instance[Instance._currentAct][nodeData.point.y]);
+                    break;
+
+
+                case NodeType.Chest:
+                case NodeType.QuestionMark:
+                case NodeType.Rest_Area:
+                case NodeType.Dojo:
+                    Factory.GameFactory.Instance.EventPointFactoryHandler.GetEventPoint(mapNode.NodeData.NodeTypeEnum).ActivatePoint();
+                    break;
+
+                default:
+                    Debug.LogError(mapNode.NodeData.NodeTypeEnum + "Is Not Valid Node Point!");
+                    break;
+            }
+
             Instance._cameraMovement.LastVisitedNodeY = mapNode.transform.position.y;
 
+        }
+
+        private static void SendDataAnalytic(NodeMap mapNode)
+        {
+            var configName = Instance.mapManager.CurrentMap.configName;
+            var nodeType = mapNode.NodeData.NodeTypeEnum.ToString();
+            var position = mapNode.NodeData.point.ToString();
+
+
+            AnalyticsHandler.SendEvent("Entering Node", new System.Collections.Generic.Dictionary<string, object> {
+                { "Map:", configName },
+                {"Node:" ,nodeType },
+                {"Location:" ,position },
+            });
+
+            FireBaseHandler.SendEvent("Entering Node",
+                new Firebase.Analytics.Parameter("Map", configName),
+                new Firebase.Analytics.Parameter("Node", nodeType),
+                new Firebase.Analytics.Parameter("Location", position)
+                );
         }
 
         private void PlayWarningThatNodeCannotBeAccessed()
@@ -91,7 +148,7 @@ namespace Map
 
         public void OnNotify(IObserver Myself)
         {
-            throw new NotImplementedException();
+          //  throw new NotImplementedException();
         }
     }
 

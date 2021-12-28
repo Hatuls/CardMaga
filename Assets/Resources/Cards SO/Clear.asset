@@ -32,8 +32,6 @@ MonoBehaviour:
     CinemtaicView: 0
   _rarity: 1
   _stamina: 1
-  _purchaseCost: 40
-  _toExhaust: 0
   _salvageCost: 1
   _id: 230
   _isBattleReward: 1
@@ -49,6 +47,7 @@ MonoBehaviour:
   _perLevelUpgrades:
   - _description:
     - '1 Clear '
+    _purchaseCost: 40
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -89,8 +88,22 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
   - _description:
     - '1 Clear 1 Stamina '
+    _purchaseCost: 100
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -136,6 +149,19 @@ MonoBehaviour:
         _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
         _target: 1
         _amountToApply: 1
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
         _animationIndex: 0
         _conditions:
           _comboCondition: []

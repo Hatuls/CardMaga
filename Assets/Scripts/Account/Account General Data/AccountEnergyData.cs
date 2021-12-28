@@ -18,9 +18,9 @@ namespace Account.GeneralData
 
         public async Task NewLoad()
         {
-            const int maxEnergy = 30;
+   
             const int energy = 999;
-            MaxEnergy = new MaxEnergyStat(maxEnergy);
+            MaxEnergy = new MaxEnergyStat((ushort)DefaultVersion._gameVersion.MaxEnergy);
             Energy = new EnergyStat(energy);
 
             Energy.MaxEnergy = MaxEnergy;

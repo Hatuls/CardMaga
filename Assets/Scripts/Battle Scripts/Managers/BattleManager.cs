@@ -26,7 +26,7 @@ namespace Battles
         public override void Init()
         {
             ResetBattle();
-            SceneHandler.onFinishLoadingScene += OnLoadScene;
+
         }
 
         private void ResetBattle()
@@ -45,7 +45,7 @@ namespace Battles
             var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.AssignCharacterData(battleData.Player);
             EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
-            
+
             if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
                 throw new Exception("Battle data was not work correctly!");
 
@@ -53,11 +53,10 @@ namespace Battles
             EnemyManager.Instance.UpdateStatsUI();
             Combo.ComboManager.Instance.Init();
             Keywords.KeywordManager.Instance.Init();
-       
-
 
             if (EndTurnButton._OnFinishTurnPress != null)
                 EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
+
             EndTurnButton._OnFinishTurnPress += TurnHandler.OnFinishTurn;
 
             StaminaHandler.Instance.InitStaminaHandler();
@@ -85,7 +84,7 @@ namespace Battles
             Instance.StopAllCoroutines();
             Instance._turnCycles = TurnHandler.TurnCycle();
             Account.AccountManager.Instance.BattleData.PlayerWon = false;
-            Instance. OnBattleStarts?.Invoke();
+            Instance.OnBattleStarts?.Invoke();
             StartGameTurns();
 
 
@@ -108,14 +107,12 @@ namespace Battles
 
 
             if (isPlayerDied)
-            {
                 PlayerDied();
-
-            }
             else
-            {
                 EnemyDied();
-            }
+
+            UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
+
             Account.AccountManager.Instance.BattleData.PlayerWon = !isPlayerDied;
             UpdateStats();
 
@@ -123,57 +120,58 @@ namespace Battles
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
-            //   BattleRewardHandler.Instance.FinishMatch(!isPlayerDied);
         }
 
         private static void UpdateStats()
         {
-            var x = Account.AccountManager.Instance.BattleData.Player;
+            var playerDAta = Account.AccountManager.Instance.BattleData.Player;
             var playerBattleStats = CharacterStatsManager.GetCharacterStatsHandler(true);
 
-            x.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
+            playerDAta.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
 
-            Account.AccountManager.Instance.BattleData.Player = x;
+            Account.AccountManager.Instance.BattleData.Player = playerDAta;
         }
 
         public static void DeathAnimationFinished(bool isPlayer)
         {
 
-            if (isPlayer)
+            if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
                 Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
+
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
-
         }
-
 
         private static void EnemyDied()
         {
             PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
-            UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(false), "K.O.");
+            var battleData = Account.AccountManager.Instance.BattleData;
+
+            SendAnalyticWhenGameEnded("Player Defeated Enemy", battleData);
+            AddRewards();
             Instance.OnPlayerVictory?.Invoke();
+        }
+
+        private static void AddRewards()
+        {
+            var battleData = Account.AccountManager.Instance.BattleData;
+            var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(battleData.Opponent.CharacterData.CharacterSO.CharacterType, battleData.CurrentAct);
+            battleData.MapRewards.Diamonds += reward.DiamondsReward;
+            battleData.MapRewards.EXP += reward.EXPReward;
+
         }
 
         private static void PlayerDied()
         {
+            var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.EnemyAnimatorController.CharacterWon();
+
+            SendAnalyticWhenGameEnded("Enemy Defeated Player", battleData);
             Instance.OnPlayerDefeat?.Invoke();
         }
-
-
-        private void OnLoadScene(SceneHandler.ScenesEnum scenesEnum)
-        {
-            
-        }
-
-
-
-
-
-
-
 
 
         private void OnDestroy()
@@ -181,7 +179,33 @@ namespace Battles
             if (EndTurnButton._OnFinishTurnPress != null)
                 EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
         }
+        #region Analytics
+    
+        private static void SendAnalyticWhenGameEnded(string eventName,BattleData battleData)
+        {
+            var characterSO = battleData.Opponent.CharacterData.CharacterSO;
+  
+            string characterEnum = "Opponent";
+            string characterDifficulty = "Difficulty";
+            string characterType = "Character Type";
+            string TurnCount = "Turns Count";
 
+            AnalyticsHandler.SendEvent(eventName, new System.Collections.Generic.Dictionary<string, object>() {
+                  { characterEnum,  characterSO.CharacterEnum.ToString()  },
+                  {characterDifficulty,    characterSO.CharacterDiffciulty},
+                  {characterType,characterSO.CharacterType.ToString() },
+                  {TurnCount, TurnHandler.TurnCount }
+            });
+
+            FireBaseHandler.SendEvent(eventName, new Firebase.Analytics.Parameter[4] {
+               new Firebase.Analytics.Parameter(characterEnum, characterSO.CharacterEnum.ToString() ),
+               new Firebase.Analytics.Parameter(characterDifficulty,    characterSO.CharacterDiffciulty),
+               new Firebase.Analytics.Parameter(characterType,characterSO.CharacterType.ToString() ),
+               new Firebase.Analytics.Parameter(TurnCount,TurnHandler.TurnCount ),
+            });
+        }
+
+        #endregion
 
         #region Editor Section
         [Button]

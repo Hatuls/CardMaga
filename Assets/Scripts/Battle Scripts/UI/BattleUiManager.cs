@@ -8,9 +8,10 @@ namespace Battles.UI
     {
         #region Fields
 
-    
 
 
+        [SerializeField]
+        Tutorial.TutorialManager _tutorialManager;
         #endregion
 
 
@@ -30,7 +31,10 @@ namespace Battles.UI
      
         public override void Init()
         {
-           
+            if ((Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
+            {
+             //   _tutorialManager.StartTutorial();
+            }           
         }
 
         public static System.Action<bool, int, KeywordTypeEnum> _buffEvent;
@@ -44,6 +48,7 @@ namespace Battles.UI
                 //    _textEvent?.Raise(TextType.NormalDMG, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
                     StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
                     StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, Amount);
+               
                     break;
 
                 case KeywordTypeEnum.Shield:

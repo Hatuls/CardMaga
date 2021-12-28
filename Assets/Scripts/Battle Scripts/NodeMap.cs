@@ -1,18 +1,18 @@
 ﻿
-using UnityEngine;
-using Sirenix.OdinInspector;
 using DesignPattern;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Map
 {
-    public class NodeMap : MonoBehaviour , IObserver
+    public class NodeMap : MonoBehaviour, IObserver
     {
         [SerializeField]
         Animator _animator;
         int IsAttentableHash = Animator.StringToHash("IsAttenable");
 
         [ShowInInspector]
-         public Node NodeData { get; private set; }
+        public Node NodeData { get; private set; }
 
         [ShowInInspector]
         public NodePointAbstSO BluePrintNode { get; private set; }
@@ -25,7 +25,7 @@ namespace Map
         [SerializeField]
         Vector3 _startSize;
         [SerializeField]
-        float _scaleWhenAttendable =1.1f;
+        float _scaleWhenAttendable = 1.1f;
 
         [SerializeField]
         float _bossScale = 1.5f;
@@ -40,30 +40,29 @@ namespace Map
         }
         private void OnEnable()
         {
-            _observer.Subscribe(this);
+         //   _observer.Subscribe(this);
         }
         bool toRecieveInputs = true;
         private void OnDisable()
         {
-            _observer.UnSubscribe(this);
+          //  _observer.UnSubscribe(this);
         }
         private void SetTrigger(bool state)
         {
-          
+
             _boxCollider.enabled = state;
         }
-
-        private void OnMouseUp()
+        private void OnMouseDown()
         {
-      //     if(toRecieveInputs)
-            MapPlayerTracker.Instance.SelectNode(this);
+            if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                MapPlayerTracker.Instance.SelectNode(this);
         }
         public void PointSelected()
         {
             if (NodeData.IsOpen)
             {
                 Debug.Log($"Point Was Selected:\nFloor: {NodeData.point.y}\nEvent is: {NodeData.NodeTypeEnum}");
-   
+
             }
         }
         public void PointLockState(bool state)
@@ -76,9 +75,10 @@ namespace Map
         {
             NodeData = data;
             BluePrintNode = bluePrint;
-          //  _sr.color = bluePrint.PointColor;
+            //  _sr.color = bluePrint.PointColor;
             _sr.sprite = bluePrint.Icon;
-            _backgroundImg.color =Color.cyan;
+            _backgroundImg.sprite = bluePrint.BackGroundImage;
+            //_backgroundImg.color =Color.cyan;
 
             SetState(NodeStates.Locked);
 
@@ -112,23 +112,19 @@ namespace Map
         public void OnNotify(IObserver Myself)
         {
             if (Myself == null)
-            {
                 toRecieveInputs = true;
-              
-            }
-            else
-            {
 
+            else
                 toRecieveInputs = false;
-            }
-                SetTrigger(toRecieveInputs);
+            
+            SetTrigger(toRecieveInputs);
         }
     }
 
     public enum NodeStates
     {
-       Locked,
-       Visited,
-       Attainable,
+        Locked,
+        Visited,
+        Attainable,
     }
 }

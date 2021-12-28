@@ -73,9 +73,7 @@ namespace Cards
         }
         public void InitCard(CardSO _card, byte cardsLevel)
         {
-            toExhaust = _card.ToExhaust;
-
-
+    
 
             var levelUpgrade = _card.GetLevelUpgrade(cardsLevel);
             List<KeywordData> keywordsList = new List<KeywordData>(1);

@@ -270,10 +270,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Log In
+  m_text: Play Offline
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4658c00f99c6ec84bbe6768daeb210a5, type: 2}
+  m_sharedMaterial: {fileID: -8166392530040144765, guid: 4658c00f99c6ec84bbe6768daeb210a5,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -297,10 +298,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 130.8
-  m_fontSizeBase: 24
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 130.8
   m_fontStyle: 0
@@ -714,7 +715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1010702393
 RectTransform:
   m_ObjectHideFlags: 0
@@ -733,7 +734,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -1080.9}
-  m_SizeDelta: {x: 500, y: 500}
+  m_SizeDelta: {x: 530.2857, y: 174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1010702394
 MonoBehaviour:
@@ -789,6 +790,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: d4fb31686c9c01d4791fa364a8aeab6a, type: 2}
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1010702395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,7 +820,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b8b5139b0e4c18c4d82fd298dcd890de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7f76661cdf97c3f41b2a5fc6ca40509f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1128,7 +1140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' Alpha Version: 0.87'
+  m_text: ' Alpha Version: 0.943'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1212,6 +1224,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8221349149739431730, guid: 43e94f501aa3a4647a4cebaca82f2744,
+        type: 3}
+      propertyPath: _rewardGift._needToBeRewarded
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8221349149739431731, guid: 43e94f501aa3a4647a4cebaca82f2744,
         type: 3}
       propertyPath: m_Name
@@ -1473,35 +1490,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2146092116 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8208855464077702302, guid: 65db74842749b834a9bb939536e13292,
-    type: 3}
-  m_PrefabInstance: {fileID: 2911634782783250455}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2146092117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2146092116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: event:/Coin Loot
-  PlayEvent: 0
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!1001 &2487554869362688913
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1514,6 +1502,11 @@ PrefabInstance:
       propertyPath: _status
       value: 
       objectReference: {fileID: 956251810}
+    - target: {fileID: 2487554869898229084, guid: 9bc1709efffa4824bafcb768090e506e,
+        type: 3}
+      propertyPath: _btnLogin
+      value: 
+      objectReference: {fileID: 1010702392}
     - target: {fileID: 2487554869898229084, guid: 9bc1709efffa4824bafcb768090e506e,
         type: 3}
       propertyPath: _myVersion
@@ -1663,6 +1656,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6265372290552281725, guid: 65db74842749b834a9bb939536e13292,
+        type: 3}
+      propertyPath: _backgroundMusic
+      value: 
+      objectReference: {fileID: 11400000, guid: fc318df082d428b4a84e34fa09d714b8,
+        type: 2}
     - target: {fileID: 8208855464077702302, guid: 65db74842749b834a9bb939536e13292,
         type: 3}
       propertyPath: m_IsActive

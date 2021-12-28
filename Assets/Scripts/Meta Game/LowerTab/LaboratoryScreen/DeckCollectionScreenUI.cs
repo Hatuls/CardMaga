@@ -68,7 +68,7 @@ namespace UI.Meta.Laboratory
             DisableInteractions();
             _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference);
             SetCardsToWaitForInputState(true);
-            _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Remove, RemoveSelectedCardUI);
+            _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Remove, RemoveSelectedCardUI);
             _selectedCardUIContainer.SetActive(true);
        
         }
@@ -77,7 +77,7 @@ namespace UI.Meta.Laboratory
             var collection = _deckScreen.Collection;
             for (int i = 0; i < collection.Count; i++)
             {
-                collection[i].ToOpenInteractionPanel = state;
+                collection[i].ToOnlyClickCardUIBehaviour = state;
 
                 if (state)
                     collection[i].OnCardUIClicked += (SwitchCards);
@@ -160,7 +160,7 @@ namespace UI.Meta.Laboratory
                 var metaCardUI = deck[i].MetaCardUIInteraction;
                 metaCardUI.ResetEnum();
                 metaCardUI.ClosePanel();
-                metaCardUI.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
+                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
             }
             deck = _allCardsScreen.Collection;
 
@@ -169,8 +169,8 @@ namespace UI.Meta.Laboratory
                 var metaCardUI = deck[i].MetaCardUIInteraction;
                 metaCardUI.ResetEnum();
                 metaCardUI.ClosePanel();
-                metaCardUI.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
-                metaCardUI.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Use, CardSelected);
+                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
+                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Use, CardSelected);
             }
         }
         #endregion

@@ -2,7 +2,7 @@
 using Cards;
 using Rewards.Battles;
 using TMPro;
-
+using UI.Meta.Laboratory;
 using UnityEngine;
 namespace UI
 {
@@ -10,7 +10,7 @@ namespace UI
 public class SelectCardRewardScreen : MonoBehaviour
 {
     [SerializeField]
-    CardUI[] _cards;
+    MetaCardUIHandler[] _cards;
     [SerializeField]
     BattleRewardHandler _battleRewardHandler;
     [SerializeField]
@@ -29,7 +29,7 @@ public class SelectCardRewardScreen : MonoBehaviour
 
        
         for (int i = 0; i < cards.Length; i++)
-            _cards[i].GFX.SetCardReference(cards[i]);
+            _cards[i].CardUI.DisplayCard(cards[i]);
 
         _money = money;
             _moneyText.text = string.Concat("Do you want to get ", money, " credits INSTEAD of choosing a card?");
@@ -62,7 +62,7 @@ public class SelectCardRewardScreen : MonoBehaviour
     }
     public void SelectCardUI(int i)
     {
-        _battleRewardHandler.AddCard(_cards[i].GFX.GetCardReference);
+        _battleRewardHandler.AddCard(_cards[i].CardUI.RecieveCardReference());
         gameObject.SetActive(false);
 
         _battleUIRewardHandler.ReturnFromCardsSelection();

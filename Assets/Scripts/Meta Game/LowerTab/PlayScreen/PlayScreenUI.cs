@@ -48,6 +48,7 @@ public class  UshortEvent : UnityEvent<ushort> { }
         public PlayPackage playPackage => _playpackage;
         #endregion
         #region Public Methods
+
         public void ResetPlayScreen()
         {
             BGPanelSetActiveState(true);
@@ -80,7 +81,7 @@ public class  UshortEvent : UnityEvent<ushort> { }
         public void OnPlayClicked()
         {
               EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
-
+        
             if (energyHandler.HasAmount(energyHandler.AmountToStartPlay))
             {
                 OnSuccessfullPlayClick?.Invoke(_energyCost);

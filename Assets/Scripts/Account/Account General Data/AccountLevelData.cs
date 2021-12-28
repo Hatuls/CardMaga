@@ -31,8 +31,8 @@ namespace Account.GeneralData
         public async Task NewLoad()
         {
             _maxEXP = new MaxEXPStat(10);
-            _level = new LevelStat(1, _maxEXP);
-            _exp = new EXPStat(0, _level, _maxEXP);
+            _level = new LevelStat((ushort)DefaultVersion._gameVersion.Level, _maxEXP);
+            _exp = new EXPStat((ushort)DefaultVersion._gameVersion.EXP, _level, _maxEXP);
         }
     }
     [Serializable]

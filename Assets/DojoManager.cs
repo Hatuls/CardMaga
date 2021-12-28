@@ -7,6 +7,7 @@ using UI.Meta.Laboratory;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using System.Collections.Generic;
 
 public class DojoManager : MonoBehaviour, IObserver
 {
@@ -115,16 +116,16 @@ public class DojoManager : MonoBehaviour, IObserver
             var metaCard = _metaCardUIs[i].MetaCardUIInteraction;
             metaCard.ResetEnum();
             metaCard.ClosePanel();
-            metaCard.SetClickFunctionality(MetaCardUIInteractionPanel.MetaCardUiInteractionEnum.Buy, BuyCard);
-            metaCard.BuyBtn.SetText(cards[i].CardSO.PurchaseCost.ToString());
+            metaCard.SetClickFunctionality(MetaCardUiInteractionEnum.Buy, BuyCard);
+            metaCard.BuyBtn.SetText(cards[i].CardSO.GetCostPerUpgrade(cards[i].CardLevel).ToString());
             metaCard.OpenInteractionPanel();
             _metaCardUIs[i].CardUI.DisplayCard(cards[i]);
         }
     }
-    private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward)
+    private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward, IEnumerable<Combo.Combo> workOnCombo)
     {
         int amountOfCombos = _comboUI.Length;
-        var combos = battleReward.GetRewardCombos(Rewards.ActsEnum.ActOne, (byte)amountOfCombos);
+        var combos = battleReward.GetRewardCombos(Rewards.ActsEnum.ActOne, (byte)amountOfCombos,workOnCombo);
         var comboFactory = Factory.GameFactory.Instance.ComboFactoryHandler;
         for (byte i = 0; i < amountOfCombos; i++)
         {
@@ -150,7 +151,7 @@ public class DojoManager : MonoBehaviour, IObserver
         };
         var battleRewards = Factory.GameFactory.Instance.RewardFactoryHandler.BattleRewardCollection;
         AssignCards(battleRewards);
-        AssingCombos(battleRewards);
+        AssingCombos(battleRewards, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
     }
     #endregion
 
@@ -158,10 +159,22 @@ public class DojoManager : MonoBehaviour, IObserver
     {
 
         var card = cardUI.RecieveCardReference();
-        if (Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold >= card.CardSO.PurchaseCost)
+        var player = Account.AccountManager.Instance.BattleData.Player.CharacterData;
+        bool alreadyBought = false;
+        for (int i = 0; i < player.CharacterDeck.Length; i++)
+        {
+            if (player.CharacterDeck[i].CardInstanceID == card.CardInstanceID)
+            {
+                alreadyBought = true;
+                break;
+            }
+        }
+
+
+        if (!alreadyBought && player.CharacterStats.Gold >= card.CardSO.GetCostPerUpgrade(card.CardLevel))
         {
             //card added
-            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.PurchaseCost;
+            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.GetCostPerUpgrade(card.CardLevel);
             _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
             Account.AccountManager.Instance.BattleData.Player.AddCardToDeck(card);
             for (int i = 0; i < _metaCardUIs.Length; i++)
@@ -184,7 +197,7 @@ public class DojoManager : MonoBehaviour, IObserver
     }
     private void BuyCombo(Combo.Combo combo)
     {
-        int cost = combo.ComboSO.Cost;
+        int cost = combo.ComboSO.CraftedCard.GetCostPerUpgrade(combo.Level);
         var battledata = Account.AccountManager.Instance.BattleData.Player;
         if (battledata.CharacterData.CharacterStats.Gold >= cost)
         {

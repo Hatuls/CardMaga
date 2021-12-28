@@ -97,11 +97,18 @@ namespace UI.Meta.Workshop
             {
                 OnSuccessfullPurchase?.Invoke();
                 _lastPack = packRewardSO;
+                SendAnalyticEvent();
                 _animator.SetTrigger("Pop");
                 _recievePack.Open(packRewardSO);
             }
             else
                 OnUnSuccessfullPurchase?.Invoke();
+        }
+
+        private void SendAnalyticEvent()
+        {
+            AnalyticsHandler.SendEvent(string.Concat(_lastPack.PackName, " Purchased"));
+            FireBaseHandler.SendEvent(string.Concat(_lastPack.PackName, " Purchased"));
         }
 
         public void RePurchasePack()
