@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameBattleDescriptionUI : MonoBehaviour
 {
     public static GameBattleDescriptionUI Instance;
+
     [SerializeField]
     List<KeywordInfoUI> _keywordsInfo;
     [SerializeField]
@@ -24,7 +24,8 @@ public class GameBattleDescriptionUI : MonoBehaviour
     [SerializeField] GameObject _keywordinfoPrefab;
     void Start()
     {
-
+        BuffIconInteraction.OnRelease += CloseCardUIInfo;
+        BuffIconInteraction.OnBuffIconHold += ShowKeyword;
         Instance = this;
         CloseCardUIInfo();
     }
@@ -77,16 +78,13 @@ public class GameBattleDescriptionUI : MonoBehaviour
                 list.Add(keywordType);
         }
 
-        while (_keywordsInfo.Count < list.Count)
-            CreateKeywordInfo();
-
         _keywordsInfo.ForEach(x => x.gameObject.SetActive(false));
 
         for (int i = 0; i <= list.Count; i++)
         {
             if (i == list.Count)
                 break;
-            AssignKeywords(keywords, list[i], i);
+            AssignKeywords(keywords, list[i]);
 
         }
 
@@ -97,26 +95,34 @@ public class GameBattleDescriptionUI : MonoBehaviour
                 lastKeyword.gameObject.SetActive(true);
             lastKeyword.SetKeywordName("Exhaust");
             lastKeyword.SetKeywordDescription("Removed until out of combat.");
-
         }
     }
 
-  
+    private KeywordInfoUI GetEmptyKeywordInfoUI()
+    {
+        for (int i = 0; i < _keywordsInfo.Count; i++)
+        {
+            if (_keywordsInfo[i].gameObject.activeSelf == false)
+                return _keywordsInfo[i];
+        }
+        return CreateKeywordInfo();
+    }
 
-    private void CreateKeywordInfo()
+    private KeywordInfoUI CreateKeywordInfo()
     {
         var keyword = Instantiate(_keywordinfoPrefab, _keywordsContainer.transform).GetComponent<KeywordInfoUI>();
         _keywordsInfo.Add(keyword);
+        return keyword;
     }
 
-    private async void AssignKeywords(Keywords.KeywordData[] keywords, Keywords.KeywordTypeEnum keywordTypeEnum, int i)
+    private async void AssignKeywords(Keywords.KeywordData[] keywords, Keywords.KeywordTypeEnum keywordTypeEnum)
     {
 
         List<Keywords.KeywordData> listCache = new List<Keywords.KeywordData>();
         listCache = keywords.Where((x) => x.KeywordSO.GetKeywordType == keywordTypeEnum).ToList();
 
-
-        _keywordsInfo[i].SetKeywordName(keywordTypeEnum.ToString());
+        var keywordInfo = GetEmptyKeywordInfoUI();
+        keywordInfo.SetKeywordName(keywordTypeEnum.ToString());
         //find the keyword Description and insert int with the corrent amount
 
         int amount = 0;
@@ -126,17 +132,33 @@ public class GameBattleDescriptionUI : MonoBehaviour
         {
             if (listCache[j].KeywordSO.IgnoreInfoAmount)
                 break;
-            
+
             // amount += listCache[j].GetAmountToApply;
             amount += listCache[j].GetAmountToApply;
         }
 
-        _keywordsInfo[i].SetKeywordDescription(listCache[0].KeywordSO.GetDescription(amount));
-        await Task.Yield();
-        if (!_keywordsInfo[i].gameObject.activeSelf)
-            _keywordsInfo[i].gameObject.SetActive(true);
+        keywordInfo.SetKeywordDescription(listCache[0].KeywordSO.GetDescription(amount));
+        //  await Task.Yield();
+        if (!keywordInfo.gameObject.activeSelf)
+            keywordInfo.gameObject.SetActive(true);
     }
+    public void ShowKeyword(Keywords.KeywordTypeEnum keywordTypeEnum)
+    {
+        /* 
+         * set the container to true!
+         * need to get empty keywordInfo
+         * get from the keyword enum the keyword so
+        *  get keyword description from SO
+        *  set the keywordinfo description
+        *  set the keywordinfo active state to true
+         */
+        _keywordsContainer.SetActive(true);
+        var keywordSO = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(keywordTypeEnum);
+        var keywordInfo = GetEmptyKeywordInfoUI();
+        keywordInfo.SetKeywordDescription(keywordSO.GetDescription(0));
+        keywordInfo.gameObject.SetActive(true);
 
+    }
     internal void CheckCardUI(CardUI card)
     {
         if (card == null)
@@ -144,6 +166,12 @@ public class GameBattleDescriptionUI : MonoBehaviour
 
         _zoomingCard = card;
         toStartCounting = true;
+    }
+
+    private void OnDestroy()
+    {
+        BuffIconInteraction.OnRelease -= CloseCardUIInfo;
+        BuffIconInteraction.OnBuffIconHold -= ShowKeyword;
     }
 }
 
