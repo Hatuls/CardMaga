@@ -45,7 +45,7 @@ namespace Characters.Stats
         public class CharacterStamina
         {
             public int Stamina { get; set; }
-            public int StartStamina { get; private set; }
+            public int StartStamina { get; set; }
             public int StaminaShards { get;private set; }
             public int StaminaAddition { get; set; }
 
@@ -114,6 +114,7 @@ namespace Characters.Stats
         {
             var character = GetCharacterStamina(isPlayer);
             character.AddStaminaAddition (Amount);
+           // character.StartStamina += Amount;
         }
         public void AddStamina(bool isPlayer, int amount)
         {
@@ -122,6 +123,8 @@ namespace Characters.Stats
             if(isPlayer)
             _staminaUI?.SetText(character.Stamina);
         }
+
+   
         #endregion
     }
 
