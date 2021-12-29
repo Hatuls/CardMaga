@@ -31,10 +31,12 @@ public class BuffIcon : MonoBehaviour
     UnityEvent OnGainArmor;
 
     #endregion
-    #region Properties
-    public KeywordTypeEnum GetSetName { get => _name; set => _name = value; }
-    #endregion
 
+
+    #region Properties
+    public KeywordTypeEnum KeywordType { get => _name; set => _name = value; }
+    #endregion
+ 
     public virtual void InitIconData(Cards.Card card)
     {
         var art = Factory.GameFactory.Instance.ArtBlackBoard;
@@ -83,7 +85,7 @@ public class BuffIcon : MonoBehaviour
     }
     public void ResetEnumType()
     {
-        GetSetName = KeywordTypeEnum.None;
+        KeywordType = KeywordTypeEnum.None;
         TweenExitEntrance(false);
     }
 
@@ -143,4 +145,8 @@ public class BuffIcon : MonoBehaviour
             LeanTween.scale(_rectTransform, Vector3.zero, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType).setOnComplete(() => gameObject.SetActive(false));
         }
     }
+
+
+
+  
 }

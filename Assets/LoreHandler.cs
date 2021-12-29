@@ -23,6 +23,8 @@ public class LoreHandler : MonoBehaviour
     }
     private void OpenPanel()
     {
+        if (_currentPage >= _panelsToActivate.Length)
+            return;
         if (_currentPage >= 0)
             _panelsToActivate[_currentPage].SetActive(false);
         
