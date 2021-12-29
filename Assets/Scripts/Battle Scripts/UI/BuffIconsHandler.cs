@@ -94,7 +94,7 @@ public class BuffIconsHandler : MonoBehaviour
             return;
         }
         var buffSlot = GetFreeSlot();
-        buffSlot.GetSetName = icon;
+        buffSlot.KeywordType = icon;
         buffSlot.InitIconData(_buffCollection.GetIconData(icon), amount, icon);
     }
 
@@ -109,7 +109,7 @@ public class BuffIconsHandler : MonoBehaviour
         {
             for (int i = 0; i < _buffSlots.Length; i++)
             {
-                if (_buffSlots[i].GetSetName == icon)
+                if (_buffSlots[i].KeywordType == icon)
                 {
                     _buffSlots[i].ResetEnumType();
                     OrderArray();
@@ -124,7 +124,7 @@ public class BuffIconsHandler : MonoBehaviour
         {
             for (int i = 0; i < _buffSlots.Length; i++)
             {
-                if (_buffSlots[i].GetSetName == icon)
+                if (_buffSlots[i].KeywordType == icon)
                 {
                     return true;
                 }
@@ -166,7 +166,7 @@ public class BuffIconsHandler : MonoBehaviour
         {
             for (int i = 0; i < _buffSlots.Length; i++)
             {
-                if (_buffSlots[i].GetSetName == icon)
+                if (_buffSlots[i].KeywordType == icon)
                 {
                     return _buffSlots[i];
                 }
