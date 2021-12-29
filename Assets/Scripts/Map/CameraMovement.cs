@@ -74,6 +74,9 @@ public class CameraMovement : MonoBehaviour, IObserver
     bool flag;
     void MoveCam()
     {
+        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (Input.GetMouseButtonUp(0))
         {
             _raycastObserver.Notify(null);
