@@ -101,7 +101,7 @@ public class GameVersion
 }
 public static class DefaultVersion
 {
-    public static GameVersion _gameVersion;
+    public static GameVersion _gameVersion= new GameVersion();
 }
 
 public static class JsonUtilityHandler

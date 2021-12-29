@@ -180,12 +180,6 @@ namespace Battles
                     break;
 
 
-                case KeywordTypeEnum.Stamina:
-                case KeywordTypeEnum.Attack:
-                case KeywordTypeEnum.Bleed:
-                case KeywordTypeEnum.MaxHealth:
-                default:
-                    break;
             }
 
             ExecuteCard(currentCard);
