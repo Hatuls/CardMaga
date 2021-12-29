@@ -1,8 +1,9 @@
 ﻿
 using DesignPattern;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 namespace Map
 {
     public class NodeMap : MonoBehaviour, IObserver
@@ -54,7 +55,7 @@ namespace Map
         bool _isHoldingDown;
         private void OnMouseDown()
         {
-            if (!_isHoldingDown && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            if (!_isHoldingDown && !EventSystem.current.IsPointerOverGameObject())
             {
                 _isHoldingDown = true;
             }
@@ -69,7 +70,15 @@ namespace Map
             _isHoldingDown = false;
         }
 
-
+        private bool IsPointerOverUIObject()
+        {
+            //  PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            //  eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            //  List<RaycastResult> results = new List<RaycastResult>();
+            //  EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+            //  return results.Count > 0;
+            return true;
+        }
 
 
 
