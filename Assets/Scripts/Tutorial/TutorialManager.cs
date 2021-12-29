@@ -22,12 +22,7 @@ namespace Tutorial
         [SerializeField]
         [HideInInspector]
         TutorialPage _currentTutorial;
-        [SerializeField]
-        GameObject _exitBtn;
-        [SerializeField]
-        GameObject _goToLeftBtn;
-        [SerializeField]
-        GameObject _goToRightBtn;
+ 
         [SerializeField]
         GameObject _container;
 
@@ -68,23 +63,18 @@ namespace Tutorial
         }
         private void StartTutorial(TutorialPage currentTutorial)
         {
-            _exitBtn.SetActive(false);
             _currentPage = 0;
             currentTutorial.StartTutorial();
         }
 
-        public void ArrowsActivation(int currentPage)
-        {
-            _goToLeftBtn.SetActive(currentPage != 0);
-            _goToRightBtn.SetActive(_currentTutorial.PageLength - 1 != currentPage);
-        }
+   
         public void MovePagesWithArrows(int goToPage)
         {
             _currentPage += goToPage;
             _currentTutorial.SetPages(_currentPage);
 
         }
-        public void ShowCloseButton() => _exitBtn.SetActive(true);
+
         public void CloseTutorial()
         {
             _currentTutorial.EndTutorial();
