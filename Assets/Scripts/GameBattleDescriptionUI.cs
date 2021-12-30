@@ -63,6 +63,10 @@ public class GameBattleDescriptionUI : MonoBehaviour
         _timer = 0;
         _zoomingCard = null;
         _keywordsContainer.SetActive(false);
+        _keywordsInfo.ForEach(x => { 
+            if (x.gameObject.activeSelf)
+                x.gameObject.SetActive(false); 
+        });
     }
     private void SortKeywords(Cards.Card card)
     {
