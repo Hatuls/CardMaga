@@ -22,9 +22,23 @@ public class BuffIconInteraction : MonoBehaviour
 
     #region Interaction
 
-    public void OnBuffFinishInteraction() => OnRelease?.Invoke();
-    public void OnBuffInteraction() => OnBuffIconHold?.Invoke(_buffIcon.KeywordType);
-
+    bool _flag = false;
+    public void OnBuffFinishInteraction()
+    {
+        if (_flag)
+        {
+            _flag = false;
+            OnRelease?.Invoke();
+        }
+    }
+    public void OnBuffInteraction()
+    {
+        if (!_flag)
+        {
+            _flag = true;
+            OnBuffIconHold?.Invoke(_buffIcon.KeywordType);
+        }
+    }
 
     #endregion
 }
