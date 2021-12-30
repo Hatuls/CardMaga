@@ -7,7 +7,7 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0000027B2FF9E4F8 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000027B2FF9BF48 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -18,3 +18,52 @@
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 145760
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13600
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000E5BCCAF3E8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFBA33660E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFBA33660B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFBA33661B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFBA3366270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000027A43E5CC48
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='UI Clicked 8 Dramatic', format=5, channels=2, frequency=48000, lengthbytes=13280, lengthpcm=90279, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.290741.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 145760
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13600
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000E5BCCAF3E8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFBA33660E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFBA33660B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFBA33661B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFBA3366270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000027AA1216808
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Dramatic Hit', format=5, channels=2, frequency=48000, lengthbytes=13952, lengthpcm=90279, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.159515.
+[LOG] SoundI::release                          : Menu V2 (0000027A8F44A6F8)
+[LOG] SoundI::release                          :     Menu V2 (0000027A6D6EAE88)
+[LOG] SoundI::release                          :     Menu V2 (0000027AA28A9938)
+[LOG] SoundI::release                          :  (0000027AA26D4A48)
+[LOG] SoundI::release                          :     UI Clicked 8 Dramatic (0000027A46309CE8)
+[LOG] SoundI::release                          :  (0000027A9C88EFC8)
+[LOG] SoundI::release                          :     Dramatic Hit (0000027A46309E88)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::close                           : Closed.
