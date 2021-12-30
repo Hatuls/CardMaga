@@ -13,10 +13,6 @@ namespace Map.UI
     {
         [SerializeField]
         GameObject _cardUIPrefab;      
-        
-        [SerializeField]
-        GameObject _acceptBtn;
-
 
         [SerializeField]
         List<MetaCardUIHandler> _deckCardsUI;
@@ -42,9 +38,6 @@ namespace Map.UI
         internal void OpenRemoveCardScreen()
         {
             _holdingCard = null;
-
-            if (_acceptBtn.activeSelf)
-                _acceptBtn.SetActive(false);
 
             if (_presentCardUIScreen.gameObject.activeSelf)
                 _presentCardUIScreen.gameObject.SetActive(false);
@@ -97,7 +90,6 @@ namespace Map.UI
 
         private void SelectedCard(CardUI card)
         {
-            _acceptBtn.SetActive(true);
             _holdingCard = card;
 
             _presentCardUIScreen.OpenCardUIInfo(card);
@@ -117,15 +109,9 @@ namespace Map.UI
 
         public void Cancel()
         {
-            if (_acceptBtn.activeSelf)
-            {
-                _acceptBtn.SetActive(false);
-                _holdingCard = null;        
-                if (_presentCardUIScreen.gameObject.activeSelf)
-                _presentCardUIScreen.gameObject.SetActive(false);
-                return;
-            }
-
+            _holdingCard = null;        
+            if (_presentCardUIScreen.gameObject.activeSelf)
+            _presentCardUIScreen.gameObject.SetActive(false);
 
             if (gameObject.activeSelf)
                 SetActivePanel(false);
