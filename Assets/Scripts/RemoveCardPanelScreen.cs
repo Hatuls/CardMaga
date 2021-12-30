@@ -109,14 +109,18 @@ namespace Map.UI
 
         public void Cancel()
         {
-            _holdingCard = null;        
-            if (_presentCardUIScreen.gameObject.activeSelf)
-            _presentCardUIScreen.gameObject.SetActive(false);
 
             if (gameObject.activeSelf)
                 SetActivePanel(false);
 
             _restAreaUI.CancelRemoveCardUI();
+        }
+
+        public void ReturnToRemovalSelection()
+        {
+            _holdingCard = null;
+            if (_presentCardUIScreen.gameObject.activeSelf)
+                _presentCardUIScreen.gameObject.SetActive(false);
         }
     }
 }
