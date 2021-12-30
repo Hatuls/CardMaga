@@ -156,9 +156,10 @@ public class GameBattleDescriptionUI : MonoBehaviour
         *  set the keywordinfo description
         *  set the keywordinfo active state to true
          */
+    
         _keywordsContainer.SetActive(true);
         var keywordSO = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(keywordTypeEnum);
-        var keywordInfo = GetEmptyKeywordInfoUI();
+        KeywordInfoUI keywordInfo = GetEmptyKeywordInfoUI();
         keywordInfo.SetKeywordDescription(keywordSO.GetDescription(0));
         keywordInfo.gameObject.SetActive(true);
 
