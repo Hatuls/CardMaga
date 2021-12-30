@@ -161,6 +161,7 @@ public class GameBattleDescriptionUI : MonoBehaviour
         var keywordSO = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(keywordTypeEnum);
         KeywordInfoUI keywordInfo = GetEmptyKeywordInfoUI();
         keywordInfo.SetKeywordDescription(keywordSO.GetDescription(0));
+        keywordInfo.SetKeywordName(keywordTypeEnum.ToString());
         keywordInfo.gameObject.SetActive(true);
 
     }
