@@ -128,7 +128,7 @@ namespace Map
             var position = mapNode.NodeData.point.ToString();
 
 
-            AnalyticsHandler.SendEvent("entering_node", new System.Collections.Generic.Dictionary<string, object> {
+            UnityAnalyticHandler.SendEvent("entering_node", new System.Collections.Generic.Dictionary<string, object> {
                 {"map", configName },
                 {"node" ,nodeType },
                 {"location" ,position },

@@ -27,7 +27,7 @@ public class NetworkHandler : MonoBehaviour
         CheckVersionEvent += Init;
 
         FireBaseHandler.Init();
-        AnalyticsHandler.SendEvent(Application.version);
+        UnityAnalyticHandler.SendEvent(Application.version);
 
     }
     private void OnDestroy()

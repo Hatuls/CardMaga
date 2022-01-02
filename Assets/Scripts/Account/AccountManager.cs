@@ -115,7 +115,17 @@ namespace Account
 
             if (!_needToDoTutorial)
                 EnterMainMenu();
-            else SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
+            else
+                EnterTutorial(); 
+        }
+
+        private static void EnterTutorial()
+        {
+            const string eventName = "start_tutorial";
+            UnityAnalyticHandler.SendEvent(eventName);
+            FireBaseHandler.SendEvent(eventName);
+
+            SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
         }
 
         private async Task LoadAccount()
