@@ -1,5 +1,5 @@
 ﻿using UnityEngine.Analytics;
-public static class AnalyticsHandler
+public static class UnityAnalyticHandler
 {
     public static void SendEvent(string EventName)
     {

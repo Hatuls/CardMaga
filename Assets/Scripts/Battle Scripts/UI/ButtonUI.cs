@@ -1,24 +1,35 @@
-﻿using Unity.Events;
-using UnityEngine.UI;
-using UnityEngine;
-
+﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 
-[RequireComponent(typeof(Button))]
-public  class ButtonUI : MonoBehaviour
+public class ButtonUI : MonoBehaviour
 {
 
     [SerializeField] UnityEvent _onBtnPressed;
+    [SerializeField] private Button btn;
 
-
-     private void OnEnable()
+    protected Button Btn
     {
-        GetComponent<Button>().onClick.AddListener(ButtonPressed);
+        get
+        {
+            if (btn == null)
+            {
+                btn = GetComponent<Button>();
+            }
+            return btn;
+        }
+        private set => btn = value;
+    }
+
+
+    private void OnEnable()
+    {
+        Btn.onClick.AddListener(ButtonPressed);
     }
     private void OnDisable()
     {
-       GetComponent<Button>().onClick.RemoveListener(ButtonPressed);
+        Btn.onClick.RemoveListener(ButtonPressed);
     }
 
     public virtual void ButtonPressed()

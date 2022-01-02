@@ -190,7 +190,7 @@ namespace Battles
             string characterType = "character_type";
             string TurnCount = "turns_count";
 
-            AnalyticsHandler.SendEvent(eventName, new System.Collections.Generic.Dictionary<string, object>() {
+            UnityAnalyticHandler.SendEvent(eventName, new System.Collections.Generic.Dictionary<string, object>() {
                   { characterEnum,  characterSO.CharacterEnum.ToString()  },
                   {characterDifficulty,    characterSO.CharacterDiffciulty},
                   {characterType,characterSO.CharacterType.ToString() },

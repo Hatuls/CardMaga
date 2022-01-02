@@ -78,6 +78,7 @@ namespace UI
 
             }
         }
+        public void CloseComboUIScreen() => gameObject.SetActive(false);
         private async void AssignKeywords(Keywords.KeywordData[] keywords, Keywords.KeywordTypeEnum keywordTypeEnum, int i)
         {
 

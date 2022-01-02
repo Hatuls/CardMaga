@@ -62,7 +62,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
             fireBaseParameters.Add(new Firebase.Analytics.Parameter(name.Replace(' ', '_'), nodeType));
         }
 
-        AnalyticsHandler.SendEvent("road_path", data);
+        UnityAnalyticHandler.SendEvent("road_path", data);
         FireBaseHandler.SendEvent("road_path", fireBaseParameters.ToArray());
     }
     public void SetTexts()
