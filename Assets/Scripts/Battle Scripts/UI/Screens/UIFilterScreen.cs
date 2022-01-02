@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace Map.UI
 {
@@ -15,7 +14,7 @@ namespace Map.UI
         protected List<T> _collection = new List<T>();
 
         [SerializeField]
-        UnityEvent OnOneFrameAfterSorting;
+        UnityEvent OnUIFinishSorting;
         public IReadOnlyList<T> Collection => _collection;
         ISort<U> _lastSort;
         protected abstract void OnActivate(IEnumerable<U> sortedDeck, int i);
@@ -54,13 +53,10 @@ namespace Map.UI
                     _collection[i].gameObject.SetActive(false);
                 }
             }
-            WaitOneFrame();
+            OnUIFinishSorting?.Invoke();
+
         }
-     private async void WaitOneFrame()
-        {
-            OnOneFrameAfterSorting?.Invoke();
-            await System.Threading.Tasks.Task.Yield();
-        }
+
     }
 }
 

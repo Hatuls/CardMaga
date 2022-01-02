@@ -13,10 +13,6 @@ namespace Map.UI
     {
         [SerializeField]
         GameObject _cardUIPrefab;      
-        
-        [SerializeField]
-        GameObject _acceptBtn;
-
 
         [SerializeField]
         List<MetaCardUIHandler> _deckCardsUI;
@@ -43,15 +39,13 @@ namespace Map.UI
         {
             _holdingCard = null;
 
-            if (_acceptBtn.activeSelf)
-                _acceptBtn.SetActive(false);
-
             if (_presentCardUIScreen.gameObject.activeSelf)
                 _presentCardUIScreen.gameObject.SetActive(false);
 
             if (!gameObject.activeSelf)
                 SetActivePanel(true);
 
+            ShowAllCards();
            int length = _deckCardsUI.Count;
             for (int i = 0; i < length; i++)
             {
@@ -59,7 +53,6 @@ namespace Map.UI
                 _deckCardsUI[i].ToOnlyClickCardUIBehaviour = true;
             }
 
-            ShowAllCards();
         }
         private void CreateCards()
         {
@@ -97,7 +90,6 @@ namespace Map.UI
 
         private void SelectedCard(CardUI card)
         {
-            _acceptBtn.SetActive(true);
             _holdingCard = card;
 
             _presentCardUIScreen.OpenCardUIInfo(card);
@@ -117,20 +109,18 @@ namespace Map.UI
 
         public void Cancel()
         {
-            if (_acceptBtn.activeSelf)
-            {
-                _acceptBtn.SetActive(false);
-                _holdingCard = null;        
-                if (_presentCardUIScreen.gameObject.activeSelf)
-                _presentCardUIScreen.gameObject.SetActive(false);
-                return;
-            }
-
 
             if (gameObject.activeSelf)
                 SetActivePanel(false);
 
             _restAreaUI.CancelRemoveCardUI();
+        }
+
+        public void ReturnToRemovalSelection()
+        {
+            _holdingCard = null;
+            if (_presentCardUIScreen.gameObject.activeSelf)
+                _presentCardUIScreen.gameObject.SetActive(false);
         }
     }
 }
