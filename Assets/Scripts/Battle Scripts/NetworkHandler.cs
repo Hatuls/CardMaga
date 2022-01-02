@@ -16,10 +16,10 @@ public class NetworkHandler : MonoBehaviour
 
     private void Awake()
     {
-        _myVersion.enabled = false;
         _webVersion.enabled = false;
         _status.enabled = false;
 
+        _myVersion.text =string.Concat("Alpha Version: ", Application.version);
 
     }
     private void Start()
@@ -36,9 +36,6 @@ public class NetworkHandler : MonoBehaviour
     }
     public async void Init()
     {
-        _myVersion.enabled = true;
-        _myVersion.text = "My Version is : " + PlayerPrefs.GetString(Version);
-
         WebRequests.Get(
             path,
             null,
