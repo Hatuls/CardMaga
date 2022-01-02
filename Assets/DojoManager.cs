@@ -67,6 +67,12 @@ public class DojoManager : MonoBehaviour, IObserver
     [TabGroup("Dojo/Component", "Others")]
     MoneyIcon _moneyIcon;
 
+    [SerializeField]
+    [TabGroup("Dojo/Component", "Others")]
+    PresentCardUIScreen _presentCardUI;
+    [SerializeField]
+    [TabGroup("Dojo/Component", "Others")]
+    PresetComboUIScreen _presentComboUIScreen;
 
     [SerializeField]
     TextMeshProUGUI[] _comboBtnTexts;
@@ -107,7 +113,17 @@ public class DojoManager : MonoBehaviour, IObserver
         _upgradeScrollContainer.SetActive(true);
 
     }
+    private void RemoveCardsSubscribtion()
+    {
+        for (int i = 0; i < _metaCardUIs.Length; i++)
+        {
+            int index = i;
+            _metaCardUIs[index].OnCardUIClicked -= _presentCardUI.OpenCardUIInfo;
+        }
 
+        for (int i = 0; i < _comboUI.Length; i++)
+            _comboUI[i].RemoveFunctionality(_presentComboUIScreen.OpenComboUIscreen);
+    }
     #region Assign Values
     private void AssignCards(Rewards.BattleRewardCollectionSO battleReward)
     {
@@ -116,16 +132,16 @@ public class DojoManager : MonoBehaviour, IObserver
 
         for (byte i = 0; i < amountOfCards; i++)
         {
-            // var metaCard = _metaCardUIs[i].MetaCardUIInteraction;
-            //  metaCard.ResetEnum();
-            //  metaCard.ClosePanel();
-            //  metaCard.SetClickFunctionality(MetaCardUiInteractionEnum.Buy, BuyCard);
-            //  metaCard.BuyBtn.SetText(cards[i].CardSO.GetCostPerUpgrade(cards[i].CardLevel).ToString());
-            // metaCard.OpenInteractionPanel();
             int index = i;
-            _metaCardUIs[i].CardUI.DisplayCard(cards[i]);
-            _cardPurchaseBtns[i].onClick.AddListener(() => TryBuyCard(index));
-            _cardBtnTexts[i].text = cards[i].CardSO.GetCostPerUpgrade(cards[i].CardLevel).ToString();
+            var metaCard = _metaCardUIs[i].MetaCardUIInteraction;
+            metaCard.ResetEnum();
+            _metaCardUIs[index].ToOnlyClickCardUIBehaviour = true;
+            _metaCardUIs[index].OnCardUIClicked += _presentCardUI.OpenCardUIInfo;
+            metaCard.ClosePanel();
+
+            _metaCardUIs[index].CardUI.DisplayCard(cards[index]);
+            _cardPurchaseBtns[index].onClick.AddListener(() => TryBuyCard(index));
+            _cardBtnTexts[index].text = cards[index].CardSO.GetCostPerUpgrade(cards[index].CardLevel).ToString();
         }
     }
     private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward, IEnumerable<Combo.Combo> workOnCombo)
@@ -139,9 +155,10 @@ public class DojoManager : MonoBehaviour, IObserver
             {
                 _comboBtnTexts[i].text = combos[i].ComboSO.Cost.ToString();
                 _comboUI[i].gameObject.SetActive(true);
-                 _comboUI[i].InitRecipe(comboFactory.CreateCombo(combos[i].ComboSO, 0));
+                _comboUI[i].InitRecipe(comboFactory.CreateCombo(combos[i].ComboSO, 0));
+                _comboUI[i].RegisterClick(_presentComboUIScreen.OpenComboUIscreen);
                 int index = i;
-                _comboPurchaseBtns[i].onClick.AddListener(()=>TryBuyCombo(index));
+                _comboPurchaseBtns[i].onClick.AddListener(() => TryBuyCombo(index));
             }
             else
             {
@@ -180,50 +197,12 @@ public class DojoManager : MonoBehaviour, IObserver
             UnSuccessfullPurchaseSound.PlaySound();
         }
     }
-    //private void BuyCard(CardUI cardUI)
-    //{
 
-    //    var card = cardUI.RecieveCardReference();
-    //    var player = Account.AccountManager.Instance.BattleData.Player.CharacterData;
-    //    bool alreadyBought = false;
-    //    for (int i = 0; i < player.CharacterDeck.Length; i++)
-    //    {
-    //        if (player.CharacterDeck[i].CardInstanceID == card.CardInstanceID)
-    //        {
-    //            alreadyBought = true;
-    //            break;
-    //        }
-    //    }
-
-
-    //    if (!alreadyBought && player.CharacterStats.Gold >= card.CardSO.GetCostPerUpgrade(card.CardLevel))
-    //    {
-    //        //card added
-    //        Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.GetCostPerUpgrade(card.CardLevel);
-    //        _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
-    //        Account.AccountManager.Instance.BattleData.Player.AddCardToDeck(card);
-    //        for (int i = 0; i < _metaCardUIs.Length; i++)
-    //        {
-    //            if (_metaCardUIs[i].CardUI.RecieveCardReference().CardInstanceID == card.CardInstanceID)
-    //            {
-    //                var metaCardInteraction = _metaCardUIs[i].MetaCardUIInteraction;
-    //                metaCardInteraction.ResetEnum();
-    //                metaCardInteraction.BuyBtn.SetText(_soldtext);
-    //                break;
-    //            }
-    //        }
-    //        SuccessfullPurchaseSound.PlaySound();
-    //    }
-    //    else
-    //    {
-    //        // not enough gold
-    //        UnSuccessfullPurchaseSound.PlaySound();
-    //    }
-   // }
     public void ExitDojo()
     {
         CloseUpgradeScreen();
         ClosePanels();
+        RemoveCardsSubscribtion();
         _observer.Notify(null);
         Map.MapView.Instance.SetAttainableNodes();
     }

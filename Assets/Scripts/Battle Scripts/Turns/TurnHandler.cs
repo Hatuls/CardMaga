@@ -317,7 +317,7 @@ namespace Battles.Turns
         private static void SendAnalyticData()
         {
              string turnCount = string.Concat("Finished Battle At Turn ", TurnHandler.TurnCount);
-            AnalyticsHandler.SendEvent(turnCount);
+            UnityAnalyticHandler.SendEvent(turnCount);
             FireBaseHandler.SendEvent(turnCount);
         }
     }

@@ -85,7 +85,7 @@ namespace Meta
         #region Analytics Events
         private static void SendInMapUpgradeCardAnalyticEvent(Card card)
         {
-            AnalyticsHandler.SendEvent("card_upgraded_in_dojo", new System.Collections.Generic.Dictionary<string, object>()
+            UnityAnalyticHandler.SendEvent("card_upgraded_in_dojo", new System.Collections.Generic.Dictionary<string, object>()
                     {
                         {"card", card.CardSO.CardName.Replace(' ', '_')},
                         {"level", card.CardLevel},
@@ -98,7 +98,7 @@ namespace Meta
         }
         private static void SendMetaGameUpgradeCardAnalyticEvent(Card card)
         {
-            AnalyticsHandler.SendEvent("card_upgraded_in_meta_game", new System.Collections.Generic.Dictionary<string, object>()
+            UnityAnalyticHandler.SendEvent("card_upgraded_in_meta_game", new System.Collections.Generic.Dictionary<string, object>()
                     {
                         {"card", card.CardSO.CardName.Replace(' ', '_')},
                         {"level", card.CardLevel},
@@ -112,7 +112,7 @@ namespace Meta
 
         private static void SendComboDataAnalyticEvent(Combo.Combo combo)
         {
-            AnalyticsHandler.SendEvent("combo_upgraded_in_dojo", new System.Collections.Generic.Dictionary<string, object>()
+            UnityAnalyticHandler.SendEvent("combo_upgraded_in_dojo", new System.Collections.Generic.Dictionary<string, object>()
                     {
                         {"combo_name", combo.ComboSO.ComboName.Replace(' ', '_')},
                         {"combo_level", combo.Level},

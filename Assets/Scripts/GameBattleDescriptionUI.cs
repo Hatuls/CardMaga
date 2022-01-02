@@ -39,7 +39,7 @@ public class GameBattleDescriptionUI : MonoBehaviour
             {
                 ShowDescription(_zoomingCard);
                 _timer = 0;
-                AnalyticsHandler.SendEvent("Looking At Cards Keywords In Battle");
+                UnityAnalyticHandler.SendEvent("Looking At Cards Keywords In Battle");
                 toStartCounting = false;
                 return;
             }
