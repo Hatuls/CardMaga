@@ -26,10 +26,9 @@ public class NetworkHandler : MonoBehaviour
     {
         CheckVersionEvent += Init;
 
-#if !UNITY_EDITOR
         FireBaseHandler.Init();
         AnalyticsHandler.SendEvent(Application.version);
-#endif
+
     }
     private void OnDestroy()
     {
@@ -57,7 +56,6 @@ public class NetworkHandler : MonoBehaviour
             await System.Threading.Tasks.Task.Yield();
         if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.NetworkScene)
             _btnLogin.SetActive(true);
-        //  _continueBtn.enabled = true;
     }
     [Sirenix.OdinInspector.Button]
 
@@ -82,11 +80,7 @@ public class NetworkHandler : MonoBehaviour
             _status.text = "Status: Not Up to date!";
             PlayerPrefs.SetString(Version, currentVersion.Version);
         }
-
     }
-
-
-
 }
 [System.Serializable]
 public class GameVersion
