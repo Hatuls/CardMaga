@@ -47,23 +47,23 @@ public class EndRunScreen : MonoBehaviour, IObserver
     {
         var PlayerData = Account.AccountManager.Instance.BattleData;
         var map = PlayerData.Map;
-        string floor = "Floor ";
+        string floor = "floor_";
         Dictionary<string, object> data = new Dictionary<string, object>(map.path.Count);
         var fireBaseParameters = new List<Firebase.Analytics.Parameter>(data.Count);
 
-        data.Add("Map:", map.configName);
-        fireBaseParameters.Add(new Firebase.Analytics.Parameter("Map", map.configName));
+        data.Add("map:", map.configName);
+        fireBaseParameters.Add(new Firebase.Analytics.Parameter("map", map.configName));
         for (int i = 0; i < map.path.Count; i++)
         {
             var Node = map.GetNode(map.path[i]);
             string name = string.Concat(floor, i);
             var nodeType = Node.NodeTypeEnum.ToString();
             data.Add(name, nodeType);
-            fireBaseParameters.Add(new Firebase.Analytics.Parameter(name, nodeType));
+            fireBaseParameters.Add(new Firebase.Analytics.Parameter(name.Replace(' ', '_'), nodeType));
         }
 
-        AnalyticsHandler.SendEvent("Road Path", data);
-        FireBaseHandler.SendEvent("Road Path", fireBaseParameters.ToArray());
+        UnityAnalyticHandler.SendEvent("road_path", data);
+        FireBaseHandler.SendEvent("road_path", fireBaseParameters.ToArray());
     }
     public void SetTexts()
     {

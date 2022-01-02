@@ -55,7 +55,7 @@ namespace Map
         bool _isHoldingDown;
         private void OnMouseDown()
         {
-            if (!_isHoldingDown && !EventSystem.current.IsPointerOverGameObject())
+            if (!_isHoldingDown && !EventSystem.current.IsPointerOverGameObject()  && !IsPointerOverUIObject())
             {
                 _isHoldingDown = true;
             }
@@ -63,21 +63,19 @@ namespace Map
         }
         private void OnMouseUp()
         {
-            if (_isHoldingDown && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            if (_isHoldingDown && !EventSystem.current.IsPointerOverGameObject() && !IsPointerOverUIObject())
             {
                 MapPlayerTracker.Instance.SelectNode(this);
             }
             _isHoldingDown = false;
         }
-
         private bool IsPointerOverUIObject()
         {
-            //  PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-            //  eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            //  List<RaycastResult> results = new List<RaycastResult>();
-            //  EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-            //  return results.Count > 0;
-            return true;
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+            return results.Count > 0;
         }
 
 

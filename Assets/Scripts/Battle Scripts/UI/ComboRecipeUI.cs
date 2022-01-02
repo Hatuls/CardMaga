@@ -72,6 +72,8 @@ namespace UI
         }
         public void ResetClick() { _event.RemoveAllListeners(); }
         public void RegisterClick(UnityAction<ComboRecipeUI> combo) => _event.AddListener(combo);
+        public void RemoveAllFunctionality() => _event.RemoveAllListeners();
+        public void RemoveFunctionality(UnityAction<ComboRecipeUI> combo) => _event.RemoveListener(combo);
         public void OnClick()
             => _event?.Invoke(this);
         public void InitRecipe(Combo.Combo combo)

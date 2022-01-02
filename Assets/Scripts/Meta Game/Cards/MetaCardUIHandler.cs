@@ -22,8 +22,7 @@ namespace UI.Meta.Laboratory
         CardUI _cardUI;
         [SerializeField]
         public UnityEvent OnCardClicked;
-      //  [SerializeField]
-      //  public CardUIEvent OnCardUIClicked;
+
         public Action<CardUI> OnCardUIClicked;
 
 
@@ -47,47 +46,7 @@ namespace UI.Meta.Laboratory
             OnCardClicked?.RemoveAllListeners();
             OnCardUIClicked = null;
         }
-        //public void OnSelected()
-        //{
-        //    OnSelectEvent?.Invoke(CardUI);
-        //    OnCloseMetaCardUIOptionPanel?.Invoke();
-
-        //}
-
-        //public void OnInfo()
-        //{
-        //    OnInfoEvent?.Invoke(CardUI);
-        //    OnCloseMetaCardUIOptionPanel?.Invoke();
-
-        //}
-        //public void OnRemove()
-        //{
-        //    OnRemoveEvent?.Invoke(CardUI);
-        //    OnCloseMetaCardUIOptionPanel?.Invoke();
-        //}
-        //public void OnDismental()
-        //{
-        //    OnDismentalEvent?.Invoke(CardUI);
-        //    OnCloseMetaCardUIOptionPanel?.Invoke();
-
-        //}
-
-        //public void OnCardClicked()
-        //{
-        //    Debug.Log("Changeing Drop List State");
-        //    if (_dropList.activeSelf)
-        //    {
-        //        CloseDropList();
-        //    }
-        //    else
-        //    {
-        //        OnCloseMetaCardUIOptionPanel?.Invoke();
-        //    //    _onMetaCardUIClicked?.OpenScreen(this);
-        //        _dropList.SetActive(true);
-        //    }
-        //}
-
-
+     
 
     }
 }

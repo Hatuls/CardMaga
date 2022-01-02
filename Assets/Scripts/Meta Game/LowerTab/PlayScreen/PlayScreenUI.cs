@@ -1,11 +1,12 @@
 ﻿using Account.GeneralData;
 using Meta.Resources;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace UI.Meta.PlayScreen
 {
-  [System.Serializable]
+    [System.Serializable]
 public class  UshortEvent : UnityEvent<ushort> { }
     public class PlayScreenUI : TabAbst
     {
@@ -36,6 +37,8 @@ public class  UshortEvent : UnityEvent<ushort> { }
         [SerializeField] ushort _energyCost = 5;
         [SerializeField]
         SceneLoaderCallback _sceneLoad;
+        [SerializeField]
+        PlayButtonUI _playBtn;
         #endregion
 
         [SerializeField]
@@ -87,11 +90,19 @@ public class  UshortEvent : UnityEvent<ushort> { }
                 OnSuccessfullPlayClick?.Invoke(_energyCost);
                 energyHandler.ReduceAmount(_energyCost);
                 StartGameDelay();
+                SentAnalyticEvent();
             }
             else
             {
                 OnUnSuccessfullPlayClick.Invoke();
             }
+        }
+
+        private void SentAnalyticEvent()
+        {
+            const string eventName = "pressed_play_button";
+            UnityAnalyticHandler.SendEvent(eventName);
+            FireBaseHandler.SendEvent(eventName);
         }
 
         private async void StartGameDelay()
@@ -113,11 +124,12 @@ public class  UshortEvent : UnityEvent<ushort> { }
             BGPanelSetActiveState(true);
             gameObject.SetActive(true);
             OnSuccessfullPlayClick.AddListener(ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy).ReduceAmount);
-        
+            _playBtn.FinishedCycle();
         }
 
         public override void Close()
         {
+            _playBtn.ResetAnimation();
             BGPanelSetActiveState(false);
             gameObject.SetActive(false);
             OnSuccessfullPlayClick.RemoveListener(ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy).ReduceAmount);

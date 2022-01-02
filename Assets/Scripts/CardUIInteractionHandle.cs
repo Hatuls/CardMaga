@@ -184,9 +184,9 @@ public static class DismentalHandler
 
     private static void SendAnalyticEvents(Cards.Card card)
     {
-        const string EventName = "Dismentaling Card";
+        const string EventName = "dismentaling_card";
          string cardName = card.CardSO.CardName;
-        AnalyticsHandler.SendEvent(string.Concat(EventName, cardName));
-        FireBaseHandler.SendEvent(EventName, new Firebase.Analytics.Parameter("Card Name", cardName));
+        UnityAnalyticHandler.SendEvent(string.Concat(EventName, cardName));
+        FireBaseHandler.SendEvent(EventName, new Firebase.Analytics.Parameter("card_name", cardName));
     }
 }
