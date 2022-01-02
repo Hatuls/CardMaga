@@ -1,6 +1,4 @@
-﻿
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ReturnLoadingScene : MonoBehaviour
 {
@@ -9,13 +7,23 @@ public class ReturnLoadingScene : MonoBehaviour
     [SerializeField] GameObject _mainPanel;
     private void Start()
     {
-        //if (_mainPanel.activeInHierarchy)
-            Close();
+
+        Close();
+        var battledata = Account.AccountManager.Instance.BattleData;
         switch (GoToScene)
         {
             case SceneHandler.ScenesEnum.MapScene:
+                if (battledata.Map != null &&
+                    battledata.Player != null &&
+                    battledata.Player.CharacterData != null)
+                    OpenPanel();
+                break;
             case SceneHandler.ScenesEnum.GameBattleScene:
-                OpenPanel();
+                if (battledata.Player != null &&
+                    battledata.Player.CharacterData != null && 
+                    battledata.Opponent != null &&
+                    battledata.Opponent.CharacterData != null)
+                    OpenPanel();
                 break;
             default:
                 break;
