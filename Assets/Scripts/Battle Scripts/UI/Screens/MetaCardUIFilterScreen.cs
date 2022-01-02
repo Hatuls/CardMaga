@@ -12,13 +12,12 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
     [SerializeField]
     Transform _container;
     [SerializeField] float _metaCardSize = 1f;
-    [SerializeField] bool toUseAccountInfo;
-
+    [SerializeField] CollectionEnum _collectionType;
+    [SerializeField] enum CollectionEnum { AccountCardsCollection, RunCardsCollection }
     protected override void CreatePool()
     {
-        var deckCount = toUseAccountInfo ?
-            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck.Length:
-            Account.AccountManager.Instance.AccountCards.CardList.Count ;
+        int deckCount = GetCollectionLength();
+
 
         while (deckCount > _collection.Count)
         {
@@ -27,6 +26,21 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
 
             _collection.Add(card);
         }
+    }
+
+    private int GetCollectionLength()
+    {
+        switch (_collectionType)
+        {
+            case CollectionEnum.AccountCardsCollection:
+                return Account.AccountManager.Instance.AccountCards.CardList.Count;
+            case CollectionEnum.RunCardsCollection:
+                return Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck.Length;
+            default:
+                Debug.LogError($"CollectionEnum Was not set {_collectionType}");
+                return 0;
+        }
+
     }
 
     protected override void OnActivate(IEnumerable<Card> sortedDeck, int i)

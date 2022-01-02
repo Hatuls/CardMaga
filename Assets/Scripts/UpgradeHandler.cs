@@ -85,41 +85,41 @@ namespace Meta
         #region Analytics Events
         private static void SendInMapUpgradeCardAnalyticEvent(Card card)
         {
-            AnalyticsHandler.SendEvent("Card Upgraded In Map", new System.Collections.Generic.Dictionary<string, object>()
+            AnalyticsHandler.SendEvent("card_upgraded_in_dojo", new System.Collections.Generic.Dictionary<string, object>()
                     {
-                        {"Card", card.CardSO.CardName},
-                        {"Level", card.CardLevel},
+                        {"card", card.CardSO.CardName.Replace(' ', '_')},
+                        {"level", card.CardLevel},
                     });
             FireBaseHandler.SendEvent(
-                "Card Upgraded In Map",
-                new Firebase.Analytics.Parameter("Card Name", card.CardSO.CardName),
-                new Firebase.Analytics.Parameter("Card Level From", card.CardLevel)
+                "card_upgraded_in_map",
+                new Firebase.Analytics.Parameter("card_name", card.CardSO.CardName.Replace(' ', '_')),
+                new Firebase.Analytics.Parameter("card_level", card.CardLevel)
                 );
         }
         private static void SendMetaGameUpgradeCardAnalyticEvent(Card card)
         {
-            AnalyticsHandler.SendEvent("Card Upgraded In Meta Game", new System.Collections.Generic.Dictionary<string, object>()
+            AnalyticsHandler.SendEvent("card_upgraded_in_meta_game", new System.Collections.Generic.Dictionary<string, object>()
                     {
-                        {"Card", card.CardSO.CardName},
-                        {"Level", card.CardLevel},
+                        {"card", card.CardSO.CardName.Replace(' ', '_')},
+                        {"level", card.CardLevel},
                     });
             FireBaseHandler.SendEvent(
-                "Card Upgraded In Meta Game",
-                new Firebase.Analytics.Parameter("Card Name", card.CardSO.CardName),
-                new Firebase.Analytics.Parameter("Card Level From", card.CardLevel)
+                "card_upgraded_in_meta_game",
+                new Firebase.Analytics.Parameter("card_name", card.CardSO.CardName.Replace(' ', '_')),
+                new Firebase.Analytics.Parameter("card_level", card.CardLevel)
                 );
         }
 
         private static void SendComboDataAnalyticEvent(Combo.Combo combo)
         {
-            AnalyticsHandler.SendEvent("Combo Upgraded In Map", new System.Collections.Generic.Dictionary<string, object>()
+            AnalyticsHandler.SendEvent("combo_upgraded_in_dojo", new System.Collections.Generic.Dictionary<string, object>()
                     {
-                        {"Combo", combo.ComboSO.ComboName},
-                        {"From Level", combo.Level},
+                        {"combo_name", combo.ComboSO.ComboName.Replace(' ', '_')},
+                        {"combo_level", combo.Level},
                     });
-            FireBaseHandler.SendEvent("Combo Upgraded In Map",
-                new Firebase.Analytics.Parameter("Combo Name", combo.ComboSO.ComboName),
-                new Firebase.Analytics.Parameter("From Level", combo.Level)
+            FireBaseHandler.SendEvent("combo_upgraded_in_dojo",
+                new Firebase.Analytics.Parameter("combo_name", combo.ComboSO.ComboName.Replace(' ', '_')),
+                new Firebase.Analytics.Parameter("combo_level", combo.Level)
                 );
         }
 

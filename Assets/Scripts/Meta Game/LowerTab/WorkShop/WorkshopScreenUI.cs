@@ -107,8 +107,8 @@ namespace UI.Meta.Workshop
 
         private void SendAnalyticEvent()
         {
-            AnalyticsHandler.SendEvent(string.Concat(_lastPack.PackName, " Purchased"));
-            FireBaseHandler.SendEvent(string.Concat(_lastPack.PackName, " Purchased"));
+            AnalyticsHandler.SendEvent(string.Concat(_lastPack.PackName, "_purchased"));
+            FireBaseHandler.SendEvent(string.Concat(_lastPack.PackName, "_purchased"));
         }
 
         public void RePurchasePack()
