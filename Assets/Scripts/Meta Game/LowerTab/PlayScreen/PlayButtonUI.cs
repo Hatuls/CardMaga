@@ -37,7 +37,8 @@ namespace UI.Meta.PlayScreen
         }
 
         public void ResetAnimation()
-        {
+        { 
+
             _animator.ResetTrigger(_shineAnimationHash);
         }
     }
