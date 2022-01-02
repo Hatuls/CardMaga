@@ -74,6 +74,7 @@ public class CameraMovement : MonoBehaviour, IObserver
     bool flag;
     void MoveCam()
     {
+
         if (Input.GetMouseButtonUp(0))
         {
             _raycastObserver.Notify(null);

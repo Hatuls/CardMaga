@@ -1,8 +1,9 @@
 ﻿
 using DesignPattern;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 namespace Map
 {
     public class NodeMap : MonoBehaviour, IObserver
@@ -40,23 +41,47 @@ namespace Map
         }
         private void OnEnable()
         {
-         //   _observer.Subscribe(this);
+            //   _observer.Subscribe(this);
         }
         bool toRecieveInputs = true;
         private void OnDisable()
         {
-          //  _observer.UnSubscribe(this);
+            //  _observer.UnSubscribe(this);
         }
         private void SetTrigger(bool state)
         {
-
             _boxCollider.enabled = state;
         }
+        bool _isHoldingDown;
         private void OnMouseDown()
         {
-            if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-                MapPlayerTracker.Instance.SelectNode(this);
+            if (!_isHoldingDown && !EventSystem.current.IsPointerOverGameObject())
+            {
+                _isHoldingDown = true;
+            }
+
         }
+        private void OnMouseUp()
+        {
+            if (_isHoldingDown && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                MapPlayerTracker.Instance.SelectNode(this);
+            }
+            _isHoldingDown = false;
+        }
+
+        private bool IsPointerOverUIObject()
+        {
+            //  PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            //  eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            //  List<RaycastResult> results = new List<RaycastResult>();
+            //  EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+            //  return results.Count > 0;
+            return true;
+        }
+
+
+
         public void PointSelected()
         {
             if (NodeData.IsOpen)
@@ -116,7 +141,7 @@ namespace Map
 
             else
                 toRecieveInputs = false;
-            
+
             SetTrigger(toRecieveInputs);
         }
     }

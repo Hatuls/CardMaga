@@ -18,9 +18,11 @@ namespace Characters.Stats
 
             if (Amount >= _maxShardSize)
             {
-                StaminaHandler.Instance.AddStamina(isPlayer, 1);
+                StaminaHandler.Instance.AddStartStamina(isPlayer, 1);
                 CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(KeywordTypeEnum.Stamina).Add(1);
+                int remain = Amount - _maxShardSize;
                 Reset();
+                Add(remain);
             }
         }
         public override void Reduce(int value)
