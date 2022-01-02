@@ -149,7 +149,7 @@ namespace Battles
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             var battleData = Account.AccountManager.Instance.BattleData;
 
-            SendAnalyticWhenGameEnded("Player Defeated Enemy", battleData);
+            SendAnalyticWhenGameEnded("player_won", battleData);
             AddRewards();
             Instance.OnPlayerVictory?.Invoke();
         }
@@ -169,7 +169,7 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.EnemyAnimatorController.CharacterWon();
 
-            SendAnalyticWhenGameEnded("Enemy Defeated Player", battleData);
+            SendAnalyticWhenGameEnded("player_defeated", battleData);
             Instance.OnPlayerDefeat?.Invoke();
         }
 
@@ -185,10 +185,10 @@ namespace Battles
         {
             var characterSO = battleData.Opponent.CharacterData.CharacterSO;
   
-            string characterEnum = "Opponent";
-            string characterDifficulty = "Difficulty";
-            string characterType = "Character Type";
-            string TurnCount = "Turns Count";
+            string characterEnum = "opponent";
+            string characterDifficulty = "difficulty";
+            string characterType = "character_type";
+            string TurnCount = "turns_count";
 
             AnalyticsHandler.SendEvent(eventName, new System.Collections.Generic.Dictionary<string, object>() {
                   { characterEnum,  characterSO.CharacterEnum.ToString()  },

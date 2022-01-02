@@ -1,13 +1,13 @@
-﻿using Battles;
-using Battles.UI;
-using Sirenix.OdinInspector;
+﻿using Battles.UI;
 using DesignPattern;
+using Sirenix.OdinInspector;
+using System.Collections.Generic;
+using TMPro;
 using UI;
 using UI.Meta.Laboratory;
 using UnityEngine;
 using UnityEngine.Events;
-using TMPro;
-using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class DojoManager : MonoBehaviour, IObserver
 {
@@ -37,7 +37,7 @@ public class DojoManager : MonoBehaviour, IObserver
     [TabGroup("Dojo/Component", "Panels")]
     [SerializeField]
     GameObject _upgradeScrollContainer;
- 
+
 
     [TabGroup("Dojo/Component", "Panels")]
     [SerializeField]
@@ -50,7 +50,7 @@ public class DojoManager : MonoBehaviour, IObserver
 
     [TabGroup("Dojo/Component", "Others")]
     [SerializeField]
-    ObserverSO _observer; 
+    ObserverSO _observer;
     [TabGroup("Dojo/Component", "Others")]
     [SerializeField]
     string _soldtext = "Sold";
@@ -62,19 +62,22 @@ public class DojoManager : MonoBehaviour, IObserver
     SoundEventSO UnSuccessfullPurchaseSound;
     [TabGroup("Dojo/Component", "Others")]
     [SerializeField]
-    MapUpgradesCollection _upgradeHandler;  
+    MapUpgradesCollection _upgradeHandler;
     [SerializeField]
     [TabGroup("Dojo/Component", "Others")]
     MoneyIcon _moneyIcon;
 
 
     [SerializeField]
-    TextMeshProUGUI[] _comboTexts;
- 
+    TextMeshProUGUI[] _comboBtnTexts;
+    [SerializeField]
+    Button[] _comboPurchaseBtns;
 
     [SerializeField]
-    GameObject[] _comboPurchaseBtns;
- 
+    TextMeshProUGUI[] _cardBtnTexts;
+    [SerializeField]
+    Button[] _cardPurchaseBtns;
+
     private void Start()
     {
         _instance = this;
@@ -102,7 +105,7 @@ public class DojoManager : MonoBehaviour, IObserver
         OnOpeningUpgradePanel?.Invoke();
         _upgradeHandler.Open();
         _upgradeScrollContainer.SetActive(true);
-      
+
     }
 
     #region Assign Values
@@ -113,107 +116,110 @@ public class DojoManager : MonoBehaviour, IObserver
 
         for (byte i = 0; i < amountOfCards; i++)
         {
-            var metaCard = _metaCardUIs[i].MetaCardUIInteraction;
-            metaCard.ResetEnum();
-            metaCard.ClosePanel();
-            metaCard.SetClickFunctionality(MetaCardUiInteractionEnum.Buy, BuyCard);
-            metaCard.BuyBtn.SetText(cards[i].CardSO.GetCostPerUpgrade(cards[i].CardLevel).ToString());
-            metaCard.OpenInteractionPanel();
+            // var metaCard = _metaCardUIs[i].MetaCardUIInteraction;
+            //  metaCard.ResetEnum();
+            //  metaCard.ClosePanel();
+            //  metaCard.SetClickFunctionality(MetaCardUiInteractionEnum.Buy, BuyCard);
+            //  metaCard.BuyBtn.SetText(cards[i].CardSO.GetCostPerUpgrade(cards[i].CardLevel).ToString());
+            // metaCard.OpenInteractionPanel();
+            int index = i;
             _metaCardUIs[i].CardUI.DisplayCard(cards[i]);
+            _cardPurchaseBtns[i].onClick.AddListener(() => TryBuyCard(index));
+            _cardBtnTexts[i].text = cards[i].CardSO.GetCostPerUpgrade(cards[i].CardLevel).ToString();
         }
     }
     private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward, IEnumerable<Combo.Combo> workOnCombo)
     {
         int amountOfCombos = _comboUI.Length;
-        var combos = battleReward.GetRewardCombos(Rewards.ActsEnum.ActOne, (byte)amountOfCombos,workOnCombo);
+        var combos = battleReward.GetRewardCombos(Rewards.ActsEnum.ActOne, (byte)amountOfCombos, workOnCombo);
         var comboFactory = Factory.GameFactory.Instance.ComboFactoryHandler;
         for (byte i = 0; i < amountOfCombos; i++)
         {
             if (combos[i] != null)
             {
-                _comboTexts[i].text = combos[i].ComboSO.Cost.ToString();
+                _comboBtnTexts[i].text = combos[i].ComboSO.Cost.ToString();
                 _comboUI[i].gameObject.SetActive(true);
-            _comboUI[i].InitRecipe(comboFactory.CreateCombo(combos[i].ComboSO, 0));
+                 _comboUI[i].InitRecipe(comboFactory.CreateCombo(combos[i].ComboSO, 0));
+                int index = i;
+                _comboPurchaseBtns[i].onClick.AddListener(()=>TryBuyCombo(index));
             }
             else
             {
                 _comboUI[i].gameObject.SetActive(false);
-               
             }
             _comboPurchaseBtns[i].gameObject.SetActive(combos[i] != null);
         }
     }
     private void AssignDojosValues()
     {
-        isPurchaseable = new bool[2]
-        {
-            true,true
-        };
         var battleRewards = Factory.GameFactory.Instance.RewardFactoryHandler.BattleRewardCollection;
         AssignCards(battleRewards);
         AssingCombos(battleRewards, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
     }
     #endregion
-
-    private void BuyCard(CardUI cardUI)
+    public void TryBuyCard(int index)
     {
-
-        var card = cardUI.RecieveCardReference();
-        var player = Account.AccountManager.Instance.BattleData.Player.CharacterData;
-        bool alreadyBought = false;
-        for (int i = 0; i < player.CharacterDeck.Length; i++)
-        {
-            if (player.CharacterDeck[i].CardInstanceID == card.CardInstanceID)
-            {
-                alreadyBought = true;
-                break;
-            }
-        }
-
-
-        if (!alreadyBought && player.CharacterStats.Gold >= card.CardSO.GetCostPerUpgrade(card.CardLevel))
-        {
-            //card added
-            Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.GetCostPerUpgrade(card.CardLevel);
-            _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
-            Account.AccountManager.Instance.BattleData.Player.AddCardToDeck(card);
-            for (int i = 0; i < _metaCardUIs.Length; i++)
-            {
-                if (_metaCardUIs[i].CardUI.RecieveCardReference().CardInstanceID == card.CardInstanceID)
-                {
-                    var metaCardInteraction = _metaCardUIs[i].MetaCardUIInteraction;
-                    metaCardInteraction.ResetEnum();
-                    metaCardInteraction.BuyBtn.SetText(_soldtext);
-                    break;
-                }
-            }
-            SuccessfullPurchaseSound.PlaySound();
-        }
-        else
-        {
-            // not enough gold
-            UnSuccessfullPurchaseSound.PlaySound();
-        }
-    }
-    private void BuyCombo(Combo.Combo combo)
-    {
-        int cost = combo.ComboSO.CraftedCard.GetCostPerUpgrade(combo.Level);
         var battledata = Account.AccountManager.Instance.BattleData.Player;
-        if (battledata.CharacterData.CharacterStats.Gold >= cost)
+        var card = _metaCardUIs[index].CardUI.RecieveCardReference();
+        int cost = card.CardSO.GetCostPerUpgrade(card.CardLevel);
+
+        if (battledata.CharacterData.CharacterStats.Gold >= cost)// && isPurchaseable[index])
         {
+            // isPurchaseable[index] = false;
             //card added
             battledata.CharacterData.CharacterStats.Gold -= cost;
-            battledata.AddComboRecipe(combo);
-            _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
+            _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
+            battledata.AddCardToDeck(card);
+            _cardPurchaseBtns[index].onClick.RemoveAllListeners();
+            _cardBtnTexts[index].text = "Sold";
             SuccessfullPurchaseSound.PlaySound();
         }
         else
         {
-            UnSuccessfullPurchaseSound.PlaySound();
             // not enough gold
+            UnSuccessfullPurchaseSound.PlaySound();
         }
     }
+    //private void BuyCard(CardUI cardUI)
+    //{
 
+    //    var card = cardUI.RecieveCardReference();
+    //    var player = Account.AccountManager.Instance.BattleData.Player.CharacterData;
+    //    bool alreadyBought = false;
+    //    for (int i = 0; i < player.CharacterDeck.Length; i++)
+    //    {
+    //        if (player.CharacterDeck[i].CardInstanceID == card.CardInstanceID)
+    //        {
+    //            alreadyBought = true;
+    //            break;
+    //        }
+    //    }
+
+
+    //    if (!alreadyBought && player.CharacterStats.Gold >= card.CardSO.GetCostPerUpgrade(card.CardLevel))
+    //    {
+    //        //card added
+    //        Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold -= card.CardSO.GetCostPerUpgrade(card.CardLevel);
+    //        _moneyIcon.SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
+    //        Account.AccountManager.Instance.BattleData.Player.AddCardToDeck(card);
+    //        for (int i = 0; i < _metaCardUIs.Length; i++)
+    //        {
+    //            if (_metaCardUIs[i].CardUI.RecieveCardReference().CardInstanceID == card.CardInstanceID)
+    //            {
+    //                var metaCardInteraction = _metaCardUIs[i].MetaCardUIInteraction;
+    //                metaCardInteraction.ResetEnum();
+    //                metaCardInteraction.BuyBtn.SetText(_soldtext);
+    //                break;
+    //            }
+    //        }
+    //        SuccessfullPurchaseSound.PlaySound();
+    //    }
+    //    else
+    //    {
+    //        // not enough gold
+    //        UnSuccessfullPurchaseSound.PlaySound();
+    //    }
+   // }
     public void ExitDojo()
     {
         CloseUpgradeScreen();
@@ -231,52 +237,33 @@ public class DojoManager : MonoBehaviour, IObserver
         _presentComboPanel.SetActive(false);
         _presentCardPanel.SetActive(false);
     }
-    
+
     public void OnNotify(IObserver Myself)
     {
-      
+
     }
-    bool[] isPurchaseable;
+
     public void TryBuyCombo(int index)
     {
-       
-       var battledata = Account.AccountManager.Instance.BattleData.Player;
-        if (index == 0 )
-        {
-            if (battledata.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost && isPurchaseable[index])
-            {
-                isPurchaseable[index] = false;
-                //card added
-                battledata.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
-                _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
-                battledata.AddComboRecipe(_comboUI[index].Combo);
-                _comboTexts[index].text = "Sold";
-                SuccessfullPurchaseSound.PlaySound();
-            }
-            else
-            {
-                // not enough gold
-                UnSuccessfullPurchaseSound.PlaySound();
-            }
 
-        }
-        else if (index == 1)
+        var battledata = Account.AccountManager.Instance.BattleData.Player;
+
+        if (battledata.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost)
         {
-            if (battledata.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost && isPurchaseable[index])
-            {
-                isPurchaseable[index] = false;
-                //card added
-                battledata.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
-                _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
-                battledata.AddComboRecipe(_comboUI[index].Combo);
-                _comboTexts[index].text = "Sold";
-                SuccessfullPurchaseSound.PlaySound();
-            }
-            else
-            {
-                // not enough gold
-                UnSuccessfullPurchaseSound.PlaySound();
-            }
+
+            _comboPurchaseBtns[index].onClick.RemoveAllListeners();
+            //card added
+            battledata.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
+            _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
+            battledata.AddComboRecipe(_comboUI[index].Combo);
+            _comboBtnTexts[index].text = "Sold";
+            SuccessfullPurchaseSound.PlaySound();
         }
+        else
+        {
+            // not enough gold
+            UnSuccessfullPurchaseSound.PlaySound();
+        }
+
     }
 }

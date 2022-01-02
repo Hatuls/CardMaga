@@ -128,16 +128,16 @@ namespace Map
             var position = mapNode.NodeData.point.ToString();
 
 
-            AnalyticsHandler.SendEvent("Entering Node", new System.Collections.Generic.Dictionary<string, object> {
-                { "Map:", configName },
-                {"Node:" ,nodeType },
-                {"Location:" ,position },
+            AnalyticsHandler.SendEvent("entering_node", new System.Collections.Generic.Dictionary<string, object> {
+                {"map", configName },
+                {"node" ,nodeType },
+                {"location" ,position },
             });
 
-            FireBaseHandler.SendEvent("Entering Node",
-                new Firebase.Analytics.Parameter("Map", configName),
-                new Firebase.Analytics.Parameter("Node", nodeType),
-                new Firebase.Analytics.Parameter("Location", position)
+            FireBaseHandler.SendEvent("entering_node",
+                new Firebase.Analytics.Parameter("map", configName),
+                new Firebase.Analytics.Parameter("node", nodeType),
+                new Firebase.Analytics.Parameter("location", position)
                 );
         }
 
