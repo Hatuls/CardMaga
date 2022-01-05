@@ -23,7 +23,10 @@ public class DismentalScreen : MonoBehaviour
         costText.text = _amount.ToString();
         gameObject.SetActive(true);
     }
-
+    public void Close()
+    {
+        gameObject.SetActive(false);
+    }
     public void DismentalCard()
     {
       if(DismentalHandler.DismentalCard(_cardUI.GFX.GetCardReference))
