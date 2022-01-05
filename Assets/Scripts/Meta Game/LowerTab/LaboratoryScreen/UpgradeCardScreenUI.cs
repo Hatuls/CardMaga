@@ -55,6 +55,18 @@ namespace UI.Meta.Laboratory
         UnityEvent OnSuccessfullUpgrade;
         [SerializeField]
         UnityEvent OnUnSuccessfullUpgrade;
+
+        [SerializeField]
+        InfoSettings _upgradedVersionSettings;
+        //[SerializeField]
+       // InfoSettings _selectionSettings;
+        [SerializeField]
+        InfoSettings _deckSettings;
+
+
+
+
+
         public override void Open()
         {
             OnOpenUpgradeScreen();
@@ -94,7 +106,7 @@ namespace UI.Meta.Laboratory
                 if (_toOpenInteractionPanel)
                 {
                     metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Use, SelectCardUI);
-                    metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
+                    metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Info, (card) => _cardUIInteractionHandle.Open(card,_deckSettings));
                     metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Dismental, _cardUIInteractionHandle.OpenDismentalScreen);
                 }
 
@@ -107,7 +119,12 @@ namespace UI.Meta.Laboratory
             if (_toOpenInteractionPanel)
                 _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Remove, RemoveCardUI);
             else
-            { _selectedCardUI.OnCardUIClicked += RemoveCardUI;_selectedCardUI.ToOnlyClickCardUIBehaviour = true; }
+            { 
+                _selectedCardUI.OnCardUIClicked += RemoveCardUI;
+                _selectedCardUI.ToOnlyClickCardUIBehaviour = true;
+            }
+
+            _upgradedVersion.MetaCardUIInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Info,(card)=> _cardUIInteractionHandle.Open(card, _upgradedVersionSettings));
         }
 
         public void ResetScreen()

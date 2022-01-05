@@ -1,12 +1,18 @@
 ﻿using Battles.UI;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
-
+using System.Linq;
 namespace UI.Meta.Laboratory
 {
     public class DeckCollectionScreenUI : TabAbst
     {
         #region Fields
+        [SerializeField]
+        DismentalScreen _dismentalScreen;
+
+        [SerializeField]
+        UpgradeCardScreenUI _upgradeScreen;
 
         [SerializeField]
         MetaCardUIFilterScreen _deckScreen;
@@ -148,32 +154,61 @@ namespace UI.Meta.Laboratory
         }
         #endregion
 
-
-
+        [SerializeField]
+        InfoSettings _deckSettings;
+        [SerializeField]
+        InfoSettings _cardCollectionSettingsInDeckScreen;
         #region States
         #region Default Settings
         private void DefaultSettings()
         {
+            
             var deck = _deckScreen.Collection;
             for (int i = 0; i < deck.Count; i++)
             {
                 var metaCardUI = deck[i].MetaCardUIInteraction;
                 metaCardUI.ResetEnum();
                 metaCardUI.ClosePanel();
-                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
+                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Info,(card) => _cardUIInteractionHandle.Open(card, _deckSettings));
             }
-            deck = _allCardsScreen.Collection;
-
-            for (int i = 0; i < deck.Count; i++)
+            var remainDeck = _allCardsScreen.OnlyActiveCollection;
+            
+            int remain = remainDeck.Count();
+            for (int i = 0; i < remain; i++)
             {
-                var metaCardUI = deck[i].MetaCardUIInteraction;
+                var metaCardUI = remainDeck.ElementAt(i).MetaCardUIInteraction;
                 metaCardUI.ResetEnum();
                 metaCardUI.ClosePanel();
-                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Info, _cardUIInteractionHandle.Open);
-                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Use, CardSelected);
+                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Info,(card) =>  _cardUIInteractionHandle.Open(card, _cardCollectionSettingsInDeckScreen));
+                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Use, CardSelected); 
+                metaCardUI.SetClickFunctionality(MetaCardUiInteractionEnum.Dismental, card => _dismentalScreen.Open(card));
             }
         }
         #endregion
         #endregion
     }
+
+    [Serializable]
+    public class InfoSettings : IInfoSettings<CardUI>
+    {
+        public Action<CardUI> OnSelectUse;
+        [SerializeField]
+        private bool canUse;
+        [SerializeField]
+        private bool canUpgrade;
+        [SerializeField]
+        private bool canDismental;
+
+        public bool CanUse { get => canUse; set => canUse = value; }
+        public bool CanUpgrade { get => canUpgrade; set => canUpgrade = value; }
+        public bool CanDismental { get => canDismental; set => canDismental = value; }
+
+
+        public void OnUse(CardUI card)
+        {
+            OnSelectUse?.Invoke(card);
+        }
+    }
+
 }
+

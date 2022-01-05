@@ -14,6 +14,7 @@ namespace Map.UI
         {
             var account = Account.AccountManager.Instance.AccountCharacters;
             var currentDeck = account.GetCharacterData(account.SelectedCharacter).GetDeckAt(deckIndex);
+           int i = currentDeck.Cards.Length;
             return Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(currentDeck);
         }
 

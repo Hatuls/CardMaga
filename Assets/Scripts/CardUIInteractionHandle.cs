@@ -1,5 +1,6 @@
 ﻿using Battles.UI;
 using System;
+using UI.Meta.Laboratory;
 using UnityEngine;
 
 public class CardUIInteractionHandle : MonoBehaviour
@@ -48,10 +49,10 @@ public class CardUIInteractionHandle : MonoBehaviour
 
         // UI.Meta.Laboratory.MetaCardUIHandler.OnInfoEvent -= Open;
     }
-    public void Open(CardUI card)
+    public void Open(CardUI card , IInfoSettings<CardUI> infoSettings)
     {
         _card = card;
-        OpenInfoScreen();
+        OpenInfoScreen(infoSettings);
     }
     public void SetClickFunctionality(MetaCardUiInteractionEnum metaCardUiInteractionEnum, Action<CardUI> action = null)
     {
@@ -82,6 +83,10 @@ public class CardUIInteractionHandle : MonoBehaviour
         _state &= ~MetaCardUiInteractionEnum.None;
         _state |= metaCardUiInteractionEnum;
     }
+    private void OnDisable()
+    {
+        ResetEnum();
+    }
     public void ResetInteraction()
     {
         OnDismentalEvent = null;
@@ -97,15 +102,16 @@ public class CardUIInteractionHandle : MonoBehaviour
          => _container.SetActive(false);
     public void OpenInteractionPanel()
     {
+        const int _minDeckLength = 8;
         if (_state != MetaCardUiInteractionEnum.None && !_container.activeSelf)
         {
 
             bool toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Use);
             _useBtnGO?.SetActive(toOpen);
             toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Upgrade);
-            _upgradeBtn?.SetActive(toOpen);
+            _upgradeBtn?.SetActive(toOpen && _card?.RecieveCardReference().CardsAtMaxLevel == false);
             toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Dismental);
-            _dismentalBtnGO?.SetActive(toOpen);
+            _dismentalBtnGO?.SetActive(toOpen && Account.AccountManager.Instance.AccountCards.CardList.Count > _minDeckLength);
             _container.SetActive(true);
         }
         else
@@ -135,11 +141,11 @@ public class CardUIInteractionHandle : MonoBehaviour
 
 
 
-    public void OpenInfoScreen()
+    public void OpenInfoScreen(IInfoSettings<CardUI> infoSettings)
     {
         _parent.SetActive(true);
         _dismentalScreen.gameObject.SetActive(false);
-        _cardUIInfoScreen.OpenInfoScreen(_card);
+        _cardUIInfoScreen.OpenInfoScreen(_card, infoSettings);
         _cardUIInfoScreen.gameObject.SetActive(true);
 
     }

@@ -10,7 +10,7 @@ namespace Cards
 
     public enum BodyPartEnum { None = 0, Empty = 1, Head = 2, Elbow = 3, Hand = 4, Knee = 5, Leg = 6, Joker = 7 };
     [Serializable]
-    public class Card
+    public class Card : IEquatable<Card>
     {
         #region Fields
         [SerializeField]
@@ -37,6 +37,7 @@ namespace Cards
         public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
         public ushort CardInstanceID => _cardCoreInfo.InstanceID;
         public byte CardLevel => _cardCoreInfo.Level;
+        public bool CardsAtMaxLevel { get => _cardSO.CardsMaxLevel-1 == CardLevel; }
         public byte StaminaCost { get => staminaCost; private set => staminaCost = value; }
 
         public CardSO CardSO
@@ -121,8 +122,10 @@ namespace Cards
             return amount;
         }
 
-
-
+        public bool Equals(Card other)
+        {
+            return _cardCoreInfo == other._cardCoreInfo;
+        }
     }
     #endregion
 

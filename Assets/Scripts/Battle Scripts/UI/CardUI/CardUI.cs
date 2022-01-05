@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 namespace Battles.UI
 {
     //[Serializable]
-    public class CardUI : MonoBehaviour, IInputAbleObject
+    public class CardUI : MonoBehaviour, IInputAbleObject, IEquatable<CardUI>
     {
         #region Fields
         [SerializeField]
@@ -101,6 +101,9 @@ namespace Battles.UI
                ((Card & CardUISettings.With_Animations) == CardUISettings.With_Animations))
                 GetComponent<Animator>().enabled = true;
         }
+
+        public bool Equals(CardUI other)
+        => other.RecieveCardReference() == _cardGFX.GetCardReference;
 
         #region Properties
         public  CardGFX GFX =>  _cardGFX;

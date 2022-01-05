@@ -16,6 +16,7 @@ namespace Map.UI
         [SerializeField]
         UnityEvent OnUIFinishSorting;
         public IReadOnlyList<T> Collection => _collection;
+        public IReadOnlyList<T> OnlyActiveCollection => _collection.Where((x)=> x.gameObject.activeSelf).ToList();
         ISort<U> _lastSort;
         protected abstract void OnActivate(IEnumerable<U> sortedDeck, int i);
         protected abstract void CreatePool();
