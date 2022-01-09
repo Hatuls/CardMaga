@@ -82,7 +82,11 @@ namespace Battles
             //ThreadsHandler.ThreadHandler.StartThread(new ThreadsHandler.ThreadList(ThreadsHandler.ThreadHandler.GetNewID,))
 
         }
-
+        public void EnemyWon()
+        {
+            _enemyAnimatorController.CharacterWon();
+            _myCharacter.CharacterData.CharacterSO.VictorySound.PlaySound();
+        }
 
         public void OnEndTurn()
         {

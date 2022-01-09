@@ -60,6 +60,9 @@ public class CameraController : MonoSingleton<CameraController>
     }
     public void MoveCameraAnglePos(int index)
     {
+        if (Battles.BattleManager.isGameEnded)
+            return;
+
         if ((int)_cameraAngleLookAt != index)
         {
             StopCoroutine(CameraTransition(index));

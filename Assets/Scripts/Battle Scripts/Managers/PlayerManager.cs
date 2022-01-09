@@ -17,7 +17,7 @@ namespace Managers
 
         [SerializeField] CharacterSO.RecipeInfo[] _recipes;
 
-        [SerializeField]   AnimatorController _playerAnimatorController;
+        [SerializeField] AnimatorController _playerAnimatorController;
         [SerializeField] AnimationBodyPartSoundsHandler _soundAnimation;
         #endregion
         public ref CharacterStats GetCharacterStats => ref _character.CharacterData.CharacterStats;
@@ -27,7 +27,8 @@ namespace Managers
 
         public AnimatorController PlayerAnimatorController
         {
-            get {
+            get
+            {
                 if (_playerAnimatorController == null)
                 {
                     var animators = FindObjectsOfType<AnimatorController>();
@@ -43,11 +44,11 @@ namespace Managers
                             }
                         }
                     }
-  
+
                 }
                 return _playerAnimatorController;
-            } 
-        
+            }
+
         }
         public override void Init()
         {
@@ -56,7 +57,7 @@ namespace Managers
         public void AssignCharacterData(Character characterData)
         {
             Instantiate(characterData.CharacterData.CharacterSO.CharacterAvatar, _playerAnimatorController.transform);
-           Debug.LogWarning("<a>Spawning " + Counter++ +" </a>");
+            Debug.LogWarning("<a>Spawning " + Counter++ + " </a>");
             _character = characterData;
             var data = characterData.CharacterData;
             _soundAnimation.CurrentCharacter = data.CharacterSO;
@@ -71,22 +72,26 @@ namespace Managers
             Battles.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
             PlayerAnimatorController.ResetAnimator();
         }
-         public void UpdateStatsUI()
+        public void UpdateStatsUI()
         {
-
-            Battles.UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(true, GetCharacterStats.MaxHealth);
-            Battles.UI.StatsUIManager.GetInstance.InitHealthBar(true, GetCharacterStats.Health);
-            Battles.UI.StatsUIManager.GetInstance.UpdateShieldBar(true, GetCharacterStats.Shield);
+            var statsui = Battles.UI.StatsUIManager.GetInstance;
+            statsui.UpdateMaxHealthBar(true, GetCharacterStats.MaxHealth);
+            statsui.InitHealthBar(true, GetCharacterStats.Health);
+            statsui.UpdateShieldBar(true, GetCharacterStats.Shield);
         }
 
-       
-        public void OnEndTurn() 
+
+        public void OnEndTurn()
             => _playerAnimatorController.ResetLayerWeight();
 
+        public void PlayerWin()
+        {
+            _playerAnimatorController.CharacterWon();
+            _character.CharacterData.CharacterSO.VictorySound.PlaySound();
+        }
 
 
-     
- public void RestartBattle()
+        public void RestartBattle()
         {
             throw new System.NotImplementedException();
         }
