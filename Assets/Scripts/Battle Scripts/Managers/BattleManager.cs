@@ -20,7 +20,7 @@ namespace Battles
         public UnityEvent OnPlayerDefeat;
         public UnityEvent OnPlayerVictory;
         public UnityEvent OnBattleStarts;
-
+        [SerializeField] CameraController _cameraController;
         IEnumerator _turnCycles;
 
         public override void Init()
@@ -118,6 +118,7 @@ namespace Battles
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
+
             isGameEnded = true;
             Instance.StopCoroutine(Instance._turnCycles);
         }
@@ -145,12 +146,13 @@ namespace Battles
 
         private static void EnemyDied()
         {
-            PlayerManager.Instance.PlayerAnimatorController.CharacterWon();
+            PlayerManager.Instance.PlayerWin();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             var battleData = Account.AccountManager.Instance.BattleData;
 
             SendAnalyticWhenGameEnded("player_won", battleData);
             AddRewards();
+            Instance._cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
             Instance.OnPlayerVictory?.Invoke();
         }
 
@@ -161,15 +163,15 @@ namespace Battles
             var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(characterTypeEnum, battleData.CurrentAct);
             battleData[characterTypeEnum].Diamonds += reward.DiamondsReward;
             battleData[characterTypeEnum].EXP += reward.EXPReward;
-
         }
 
         private static void PlayerDied()
         {
             var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
-            EnemyManager.EnemyAnimatorController.CharacterWon();
+            EnemyManager.Instance.EnemyWon();
 
+            Instance._cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
             SendAnalyticWhenGameEnded("player_defeated", battleData);
             Instance.OnPlayerDefeat?.Invoke();
         }

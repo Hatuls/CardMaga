@@ -59,15 +59,18 @@ public class AnimatorController : MonoBehaviour
 
     private void Update()
     {
-        if (_isPlayer)
-        {
-            if (IsMyTurn)
-                transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
-            else
-                transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
-        }
-        if(!_toLockAtPlace)
-        transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
+        RotateModel();
+
+        if (!_toLockAtPlace)
+            transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
+    }
+
+    private void RotateModel()
+    {
+        if (IsMyTurn)
+            transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
+        else
+            transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + (_isPlayer ? Vector3.left : Vector3.right), transform.position));
     }
     #endregion
 
@@ -133,6 +136,7 @@ public class AnimatorController : MonoBehaviour
         _animator.SetBool("IsDead", true);
         //      _animator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
         _toLockAtPlace = true;
+
     }
 
 
@@ -259,15 +263,10 @@ public class AnimatorController : MonoBehaviour
     {
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
-        //if (Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(!_isPlayer).GetStats(Keywords.KeywordTypeEnum.Shield).Amount > 0)
-        //    _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString(), true);
-
-        //else
-        //    _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString(), true);
 
         if (Battles.CardExecutionManager.Instance.CanDefendIncomingAttack(!_isPlayer))
             _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString(), true);
-       else
+        else
             _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString(), true);
     }
 
@@ -311,7 +310,8 @@ public class AnimatorController : MonoBehaviour
     private void OnFinishAnimation()
     {
         Battles.CardExecutionManager.FinishedAnimation = true;
-        SetCamera(CameraController.CameraAngleLookAt.Both);
+
+            SetCamera(CameraController.CameraAngleLookAt.Both);
         //ReturnToIdle();
         ResetBothRotaionAndPosition();
         //  isFirst = true;
