@@ -157,9 +157,10 @@ namespace Battles
         private static void AddRewards()
         {
             var battleData = Account.AccountManager.Instance.BattleData;
-            var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(battleData.Opponent.CharacterData.CharacterSO.CharacterType, battleData.CurrentAct);
-            battleData.MapRewards.Diamonds += reward.DiamondsReward;
-            battleData.MapRewards.EXP += reward.EXPReward;
+            var characterTypeEnum = battleData.Opponent.CharacterData.CharacterSO.CharacterType;
+            var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(characterTypeEnum, battleData.CurrentAct);
+            battleData[characterTypeEnum].Diamonds += reward.DiamondsReward;
+            battleData[characterTypeEnum].EXP += reward.EXPReward;
 
         }
 

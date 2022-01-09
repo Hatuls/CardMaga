@@ -75,7 +75,7 @@ namespace Account
         public BattleData BattleData => _accountData.BattleData;
         public SceneHandler.ScenesEnum CurrentScene => _accountData.CurrentScene;
         public RewardGift RewardGift { get => _rewardGift; }
-
+       
         #endregion
         #region Private Methods
         private void Start()

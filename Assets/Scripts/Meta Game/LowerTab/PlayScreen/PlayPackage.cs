@@ -21,7 +21,7 @@ namespace UI.Meta.PlayScreen
             battleData.Player = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(_characterData, _characterData.Decks[0]);
             battleData.PlayerWon = false;
             battleData.IsFinishedPlaying = false;
-            battleData.MapRewards = new Battles.MapRewards();
+            battleData.ResetMapRewards();
 
             Map.MapManager.ResetSavedMap();
         }
