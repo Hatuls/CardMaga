@@ -5,7 +5,6 @@ using UnityEngine;
 public class MapLine : MonoBehaviour
 {
     [SerializeField] Material _nyanMat;
-    [SerializeField] Material _redMat;
     [SerializeField] LineRenderer _lineRenderer;
     [SerializeField] Gradient _notAttainableColor;
     [SerializeField] Gradient _attainableColor;

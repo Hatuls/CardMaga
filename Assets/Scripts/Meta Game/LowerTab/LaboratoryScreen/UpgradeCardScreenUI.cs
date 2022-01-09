@@ -58,8 +58,8 @@ namespace UI.Meta.Laboratory
 
         [SerializeField]
         InfoSettings _upgradedVersionSettings;
-        //[SerializeField]
-       // InfoSettings _selectionSettings;
+        [SerializeField]
+        CardUI _currentCardGO;
         [SerializeField]
         InfoSettings _deckSettings;
 
@@ -106,7 +106,7 @@ namespace UI.Meta.Laboratory
                 if (_toOpenInteractionPanel)
                 {
                     metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Use, SelectCardUI);
-                    metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Info, (card) => _cardUIInteractionHandle.Open(card,_deckSettings));
+                    metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Info, (card) => _cardUIInteractionHandle.Open(card, _deckSettings));
                     metacardInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Dismental, _cardUIInteractionHandle.OpenDismentalScreen);
                 }
 
@@ -119,12 +119,12 @@ namespace UI.Meta.Laboratory
             if (_toOpenInteractionPanel)
                 _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Remove, RemoveCardUI);
             else
-            { 
+            {
                 _selectedCardUI.OnCardUIClicked += RemoveCardUI;
                 _selectedCardUI.ToOnlyClickCardUIBehaviour = true;
             }
 
-            _upgradedVersion.MetaCardUIInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Info,(card)=> _cardUIInteractionHandle.Open(card, _upgradedVersionSettings));
+            _upgradedVersion.MetaCardUIInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Info, (card) => _cardUIInteractionHandle.Open(card, _upgradedVersionSettings));
         }
 
         public void ResetScreen()
@@ -132,14 +132,23 @@ namespace UI.Meta.Laboratory
             ActivateGameObject(_upgradeBtn, false);
             ActivateGameObject(_selectedCardUI.gameObject, false);
             ActivateGameObject(_upgradedVersion.gameObject, false);
+            if (_currentCardGO != null)
+            {
+                _currentCardGO.gameObject.SetActive(true);
+                _currentCardGO = null;
+            }
+
             _instructionText.text = defaultText;
         }
 
         public void SelectCardUI(CardUI card)
         {
             if (card == null)
-                throw new System.Exception($"UpgradeUIScreen : Card Is Null!");
-
+            {
+                Debug.LogWarning($"UpgradeUIScreen : Card Is Null!");
+                return;
+            }
+            _currentCardGO = card;
             _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference);
             ActivateGameObject(_selectedCardUI.gameObject, true);
 
@@ -149,15 +158,16 @@ namespace UI.Meta.Laboratory
             {
                 SetCostText();
                 _upgradedVersion.CardUI.GFX.SetCardReference(upgradedVersion);
+                ActivateGameObject(_currentCardGO.gameObject, false);
             }
             else
             {
                 _instructionText.text = defaultText;
                 ActivateGameObject(_upgradeBtn, false);
             }
-
-
             ActivateGameObject(_upgradedVersion.gameObject, upgradedVersion != null);
+
+
         }
         public void RemoveCardUI(CardUI card) { ResetScreen(); }
         private void SetCostText()
@@ -176,13 +186,27 @@ namespace UI.Meta.Laboratory
         {
             if (!_selectedCardUI.gameObject.activeSelf || !_upgradedVersion.gameObject.activeSelf)
                 return;
-            if (UpgradeHandler.TryUpgradeCard(_upgradeCostSO, _selectedCardUI.CardUI.GFX.GetCardReference, _resourceType))
+            var currentCard = _selectedCardUI.CardUI.RecieveCardReference();
+
+            if (UpgradeHandler.TryUpgradeCard(_upgradeCostSO, currentCard, _resourceType))
             {
-                ResetScreen();
+
+                if (currentCard.CardsAtMaxLevel == false)
+                {
+                    //  ResetScreen();
+                    SelectCardUI(_currentCardGO);
+                    _currentCardGO.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _currentCardGO = null;
+                    ResetScreen();
+                    ActivateGameObject(_upgradeBtn, false);
+
+                }
                 _collectionFilterHandler.Refresh();
 
                 Debug.Log(" Succeed");
-                ActivateGameObject(_upgradeBtn, false);
                 OnSuccessfullUpgrade?.Invoke();
             }
             else
@@ -193,6 +217,8 @@ namespace UI.Meta.Laboratory
             }
 
         }
-
+        public CardUI SelectCardFromInfoPanel(CardUI card)
+               => _collectionFilterHandler.GetCardFromInstanceID(
+                   card.RecieveCardReference().CardInstanceID).CardUI;
     }
 }

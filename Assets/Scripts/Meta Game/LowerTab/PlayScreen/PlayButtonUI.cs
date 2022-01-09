@@ -7,35 +7,19 @@ namespace UI.Meta.PlayScreen
         
         [SerializeField]
         Animator _animator;
-        [SerializeField]
-        float _cycleDuration = 1f;
-        float _counter;
+   
         int _shineAnimationHash = Animator.StringToHash("ToShine");
+        int _clickAnimationHash = Animator.StringToHash("OnClick");
         private void Start()
         {
             FinishedCycle();
-        }
-        private void Update()
-        {
-            CycleCounter();
-        }
-
-        private void CycleCounter()
-        {
-            if (_counter >= _cycleDuration)
-            {
-                FinishedCycle();
-                _counter = 0;
-            }
-            else
-                _counter += Time.deltaTime;
         }
 
         public void FinishedCycle()
         {
             _animator.SetTrigger(_shineAnimationHash);
         }
-
+        public void OnClickAnimation() => _animator.SetTrigger(_clickAnimationHash);
         public void ResetAnimation()
         { 
 

@@ -76,7 +76,8 @@ public class CardUIInfoScreen : MonoBehaviour
         void OnUpgradeClick()
         {
             _deckButtonInLab.ButtonPressed();
-            _upgradeCardScreenUI.SelectCardUI(_cardUI);
+
+            _upgradeCardScreenUI.SelectCardUI(_upgradeCardScreenUI.SelectCardFromInfoPanel(_cardUI));
             _onClickSound.PlaySound();
             Close();
         }
