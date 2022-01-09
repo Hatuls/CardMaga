@@ -144,7 +144,10 @@ namespace UI.Meta.Laboratory
         public void SelectCardUI(CardUI card)
         {
             if (card == null)
-                throw new System.Exception($"UpgradeUIScreen : Card Is Null!");
+            {
+                Debug.LogWarning($"UpgradeUIScreen : Card Is Null!");
+                return;
+            }
             _currentCardGO = card;
             _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference);
             ActivateGameObject(_selectedCardUI.gameObject, true);
@@ -190,7 +193,7 @@ namespace UI.Meta.Laboratory
 
                 if (currentCard.CardsAtMaxLevel == false)
                 {
-                  //  ResetScreen();
+                    //  ResetScreen();
                     SelectCardUI(_currentCardGO);
                     _currentCardGO.gameObject.SetActive(false);
                 }
@@ -214,6 +217,8 @@ namespace UI.Meta.Laboratory
             }
 
         }
-
+        public CardUI SelectCardFromInfoPanel(CardUI card)
+               => _collectionFilterHandler.GetCardFromInstanceID(
+                   card.RecieveCardReference().CardInstanceID).CardUI;
     }
 }

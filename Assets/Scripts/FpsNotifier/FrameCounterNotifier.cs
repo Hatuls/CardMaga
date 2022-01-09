@@ -5,7 +5,9 @@ namespace UI
 
     public class FrameCounterNotifier : MonoBehaviour
     {
-        int _frameCounter;
+        [SerializeField]
+        float _frameCounter;
+
         [SerializeReference]
         INotifier[] _notifiers;
         // Update is called once per frame
@@ -19,13 +21,28 @@ namespace UI
 
             for (int i = 0; i < _notifiers.Length; i++)
             {
-                CheckFrameCycle(_notifiers[i]);
+                if (_notifiers[i].TimeBasedCounter == false)
+                  CheckFrameCycle(_notifiers[i]);
+                else
+                    CheckTimerCycle(_notifiers[i]);
+                
             }
+        }
+
+        private void CheckTimerCycle(INotifier notifier)
+        {
+            if (notifier.Timer >= notifier.TimerCycle)
+            {
+                notifier.Notify();
+                notifier.Timer = 0;
+            }
+            else
+                notifier.Timer += Time.deltaTime;
         }
 
         private void FrameCounter()
         {
-            _frameCounter = (_frameCounter < 0) ? 1 : _frameCounter++;
+            _frameCounter = (_frameCounter < 0) ? 1 : _frameCounter + 1;
         }
 
         private void CheckFrameCycle(INotifier notifer)
@@ -39,6 +56,9 @@ namespace UI
 
     public interface INotifier
     {
+        bool TimeBasedCounter { get; }
+        float Timer { get; set; }
+        float TimerCycle { get; }
         int FrameCycle { get; }
         void Notify();
     }
@@ -47,10 +67,24 @@ namespace UI
     [Serializable]
     public class EventNotifier : INotifier
     {
-        [Range(0, byte.MaxValue)]
+        [SerializeField]
+        bool toUseTime;
+        [Range(0, ushort.MaxValue)]
         [SerializeField]
         int _frameCycle;
+        [Range(0, byte.MaxValue)]
+        [SerializeField]
+        float _timerCycle;
+
+
         public int FrameCycle => _frameCycle;
+        float _currentTimer;
+        public float Timer { get => _currentTimer;set=> _currentTimer = value; }
+
+        public float TimerCycle => _timerCycle;
+
+        public bool TimeBasedCounter => toUseTime;
+
         [SerializeField]
         UnityEngine.Events.UnityEvent _onFrameCycle;
         public void Notify()
@@ -58,13 +92,28 @@ namespace UI
             _onFrameCycle?.Invoke();
         }
     }
-
+    [Serializable]
     public abstract class AnimationNotifier : INotifier
+
     {
-        [Range(0, byte.MaxValue)]
+        [SerializeField]
+        private bool toUseTime;
+
+        [Range(0, ushort.MaxValue)]
         [SerializeField]
         int _frameCycle;
+        [Range(0, byte.MaxValue)]
+        [SerializeField]
+        float _timeCycle;
+
+        float _timeCounter =0;
         public int FrameCycle => _frameCycle;
+
+        public bool TimeBasedCounter { get => toUseTime; }
+        public float Timer { get => _timeCounter; set => _timeCounter = value; }
+
+        public float TimerCycle => _timeCycle;
+
         [SerializeField]
         protected Animator _animator;
 

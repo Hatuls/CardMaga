@@ -14,6 +14,9 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
     [SerializeField] float _metaCardSize = 1f;
     [SerializeField] CollectionEnum _collectionType;
     [SerializeField] enum CollectionEnum { AccountCardsCollection, RunCardsCollection , DeckCollection }
+
+    public MetaCardUIHandler GetCardFromInstanceID(int id)
+        => _collection.First(x => x.CardUI.GFX.GetCardReference.CardInstanceID == id);
     protected override void CreatePool()
     {
         int deckCount = GetCollectionLength();

@@ -12,7 +12,7 @@ public class SceneHelper
 
 
     [MenuItem("Scenes/Network Scene")]
-    private static void NetworkScene()
+    public static void NetworkScene()
     {
         LoadScene(NetworkSceneName);
     }
