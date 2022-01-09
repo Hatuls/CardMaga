@@ -38,9 +38,9 @@ public class TutorialPage : MonoBehaviour
         {
             OnPageChanged?.Invoke(_currentPage);
             OpenPage(_currentPage);
-            if (_currentPage == _pages.Length-1)
+      
+        }else
                 OnFinalPage?.Invoke();
-        }
     }
     private void OpenPage(int page) => _pages[page].SetActive(true);
 }
