@@ -35,7 +35,7 @@ public class AnimatorController : MonoBehaviour
 
     [SerializeField] bool _isPlayer;
 
-
+    bool _toLockAtPlace;
     bool _isAnimationPlaying;
     [SerializeField] Vector3 startPos;
     #endregion
@@ -66,7 +66,7 @@ public class AnimatorController : MonoBehaviour
             else
                 transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
         }
-
+        if(!_toLockAtPlace)
         transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
     }
     #endregion
@@ -84,6 +84,7 @@ public class AnimatorController : MonoBehaviour
         _animationQueue.Clear();
         _currentAnimation = null;
         ReturnToIdle();
+        _toLockAtPlace = false;
     }
 
     public void ResetToStartingPosition()
@@ -131,6 +132,7 @@ public class AnimatorController : MonoBehaviour
     {
         _animator.SetBool("IsDead", true);
         //      _animator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
+        _toLockAtPlace = true;
     }
 
 
