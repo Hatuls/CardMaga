@@ -7,17 +7,19 @@ namespace Battles.UI
 
     public class UIBar : MonoBehaviour
     {
-       
+
         [SerializeField] BarUISettings _barUISettings;
         [SerializeField] TextMeshProUGUI _maxValueText;
         [SerializeField] TextMeshProUGUI _currentValueText;
         [SerializeField] Slider _slider;
+        [SerializeField] Color _clr;
+        [SerializeField] bool _toUseColor = true;
         [SerializeField] Gradient _gradient;
         [SerializeField] Image _fill;
         public void SetValueBar(int value)
         {
-          //  _slider.value = value;
-            LeanTween.value(this.gameObject,SliderValue, _slider.value, value, _barUISettings.DelayTime).setEase(_barUISettings.DelayTimeLeanTweenEase);
+            //  _slider.value = value;
+            LeanTween.value(this.gameObject, SliderValue, _slider.value, value, _barUISettings.DelayTime).setEase(_barUISettings.DelayTimeLeanTweenEase);
             SetTextsAndColor(value);
         }
 
@@ -26,7 +28,7 @@ namespace Battles.UI
             if (_currentValueText != null)
                 _currentValueText.text = value.ToString();
 
-            SetGradientColor();
+            SetColor();
         }
         public void InitValueBar(int value)
         {
@@ -38,11 +40,14 @@ namespace Battles.UI
         {
             _slider.maxValue = maxValue;
             if (_maxValueText != null)
-            _maxValueText.text = string.Concat(" / " + maxValue);
-            SetGradientColor();
+                _maxValueText.text = string.Concat(" / " + maxValue);
+            SetColor();
         }
 
-        public void SetGradientColor()  => _fill.color = _gradient.Evaluate(_slider.normalizedValue);
+        public void SetColor()
+        {
+            _fill.color = _toUseColor ? _clr:_gradient.Evaluate(_slider.normalizedValue);
+        }
     }
 
 }

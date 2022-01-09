@@ -1,6 +1,7 @@
 ﻿
 using Characters;
 using Rewards;
+using System;
 using UnityEngine;
 namespace Battles
 {
@@ -8,7 +9,7 @@ namespace Battles
     public class BattleData
     {
         [SerializeField]
-        private MapRewards _mapRewards = null;
+        private MapRewards[] _mapRewards = null;
         [SerializeField]
         private Character _player = null;
         [SerializeField]
@@ -23,14 +24,50 @@ namespace Battles
         [SerializeField]
         ActsEnum _currentAct;
 
+
+        public MapRewards this[CharacterTypeEnum characterTypeEnum]
+        {
+            get
+            {
+
+                if (_mapRewards == null)
+                    ResetMapRewards();
+                
+
+                const int offsetToZero = 2;
+                int index = (int)characterTypeEnum - offsetToZero;
+                return _mapRewards[index];
+            }
+        }
+
+        public void ResetMapRewards()
+        {
+            const int characters = 4;
+            _mapRewards = new MapRewards[characters];
+        }
+
         public Map.Map Map { get => _map; set => _map = value; }
-        public MapRewards MapRewards { get => _mapRewards; set => _mapRewards = value; }
         public Character Player { get => _player; set => _player = value; }
         public Character Opponent { get => _opponent; set => _opponent = value; }
         public bool PlayerWon { get => _playerWon; set => _playerWon = value; }
         public bool IsFinishedPlaying { get => _isFinishedPlaying; set => _isFinishedPlaying = value; }
         public ActsEnum CurrentAct { get => _currentAct; set => _currentAct = value; }
+        public ushort GetAllDiamonds()
+        => GetAllFromMapRewards((x) => x.Diamonds);
+        public ushort GetAllExp()
+            => GetAllFromMapRewards(x => x.EXP);
+        public ushort GetAllGold()
+        => GetAllFromMapRewards(x => x.Gold);
+        public ushort GetAllCredits()
+            => GetAllFromMapRewards(x => x.Credits);
+        private ushort GetAllFromMapRewards(Func<MapRewards, ushort> operation)
+        {
+            ushort value = 0;
+            for (int i = 0; i < _mapRewards.Length; i++)
+                value += operation.Invoke(_mapRewards[i]);
 
+            return value;
+        }
         public void ResetData()
         {
             _mapRewards = null;

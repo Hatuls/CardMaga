@@ -8,8 +8,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
 
     [SerializeField]
     TextMeshProUGUI _title;
-    [SerializeField]
-    TextMeshProUGUI _diamondText;
+
     [SerializeField]
     TextMeshProUGUI _expText;
     [SerializeField]
@@ -20,28 +19,70 @@ public class EndRunScreen : MonoBehaviour, IObserver
     const string _winTitle = "Loot Gained";
     const string _loseTitle = "Loot Gained";
 
+    [SerializeField]
+    DiamondRewardUI _totalReward;
+    [SerializeField]
+    DiamondRewardUI _tutorialReward;
+    [SerializeField] DiamondRewardUI[] _defaultRewards;
+
+    [SerializeField]
+    GameObject _tutorialRewardContainer;
+    [SerializeField]
+    GameObject _defaultRewardContainer;
+
+    [SerializeField]
+    SequanceHandler _tutorialSequence;
+    [SerializeField]
+    SequanceHandler _defaultSequence;
 
     // Start is called before the first frame update
     void Start()
     {
         if (Account.AccountManager.Instance.BattleData.IsFinishedPlaying)
         {
+            _defaultRewardContainer.SetActive(false);
+            _tutorialRewardContainer.SetActive(false);
             FinishGame();
         }
-        //else
-        //{
-        //    _observerSO.Notify(null);
-        //    if (_endScreen.activeSelf)
-        //        _endScreen.SetActive(false);
-        //}
+
     }
 
     public void FinishGame()
     {
+        _defaultSequence.StopSequence();
+        _tutorialSequence.StopSequence();
         _observerSO.Notify(this);
         SendData();
+        ActivateContainer();
         _endScreen.SetActive(true);
         SetTexts();
+        ActivateAnimationSequence();
+    }
+
+    private void ActivateAnimationSequence()
+    {
+        if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
+        {
+            _tutorialSequence.StartSequance();
+        }
+        else
+        {
+            _defaultSequence.StartSequance();
+        }
+    }
+
+    private void ActivateContainer()
+    {
+
+
+        if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
+        {
+            _tutorialRewardContainer.SetActive(true);
+        }
+        else
+        {
+            _defaultRewardContainer.SetActive(true);
+        }
     }
     private void SendData()
     {
@@ -67,9 +108,23 @@ public class EndRunScreen : MonoBehaviour, IObserver
     }
     public void SetTexts()
     {
-        var rewards = Account.AccountManager.Instance.BattleData.MapRewards;
-        _expText.text = rewards.EXP.ToString();
-        _diamondText.text = rewards.Diamonds.ToString();
+        var battledata = Account.AccountManager.Instance.BattleData;
+        if (battledata.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
+        {
+            _totalReward.SetText(battledata[Battles.CharacterTypeEnum.Tutorial].Diamonds.ToString());
+        }
+        else
+        {
+            const int offset = 2;
+            for (int i = 0; i < _defaultRewards.Length; i++)
+            {
+                _defaultRewards[i].SetText(battledata[(Battles.CharacterTypeEnum)(i + offset)].Diamonds.ToString());
+            }
+           
+        }
+        _totalReward.SetText(battledata.GetAllDiamonds().ToString());
+        _expText.text = battledata.GetAllExp().ToString();
+
     }
 
     public void ReturnToMainMenu()
@@ -79,8 +134,8 @@ public class EndRunScreen : MonoBehaviour, IObserver
         ReturnLoadingScene.GoToScene = SceneHandler.ScenesEnum.MainMenuScene;
         SceneHandler.LoadScene(ReturnLoadingScene.GoToScene);
         var accountData = Account.AccountManager.Instance.AccountGeneralData;
-        accountData.AccountResourcesData.Diamonds.AddValue(data.MapRewards.Diamonds);
-        accountData.AccountLevelData.Exp.AddValue(data.MapRewards.EXP);
+        accountData.AccountResourcesData.Diamonds.AddValue(data.GetAllDiamonds());
+        accountData.AccountLevelData.Exp.AddValue(data.GetAllExp());
     }
 
     public void OnNotify(IObserver Myself)
