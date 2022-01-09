@@ -31,6 +31,21 @@ namespace Map
         [SerializeField]
         float _bossScale = 1.5f;
 
+        [Tooltip("0 - Normal\n1 - Gray Scale")]
+        [Range(0, 1)]
+        [SerializeField]
+        float _lockGrayScale;
+
+        [Tooltip("0 - Normal\n1 - Gray Scale")]
+        [Range(0, 1)]
+        [SerializeField]
+        float _attainableGrayScale;
+
+        [Tooltip("0 - Normal\n1 - Gray Scale")]
+        [Range(0, 1)]
+        [SerializeField]
+        float _visitedGrayScale;
+
 
         [SerializeField] ObserverSO _observer;
         [SerializeField] BoxCollider2D _boxCollider;
@@ -116,11 +131,17 @@ namespace Map
             switch (state)
             {
                 case NodeStates.Locked:
+                    transform.localScale = _startSize;
+                    _animator.SetBool(IsAttentableHash, false);
+                    SetGrayScale(_lockGrayScale);
+                    break;
                 case NodeStates.Visited:
                     transform.localScale = _startSize;
                     _animator.SetBool(IsAttentableHash, false);
+                    SetGrayScale(_visitedGrayScale);
                     break;
                 case NodeStates.Attainable:
+                    SetGrayScale(_attainableGrayScale);
                     transform.localScale = _startSize * _scaleWhenAttendable;
                     _animator.SetBool(IsAttentableHash, true);
                     break;
@@ -131,7 +152,11 @@ namespace Map
             if (NodeData.NodeTypeEnum == NodeType.Boss_Enemy)
                 transform.localScale = Vector3.one * _bossScale;
         }
-
+        private void SetGrayScale(float scale)
+        {
+            _backgroundImg.material.SetFloat("_EffectAmount", scale);
+            _sr.material.SetFloat("_EffectAmount", scale);
+        }
         public void OnNotify(IObserver Myself)
         {
             if (Myself == null)
