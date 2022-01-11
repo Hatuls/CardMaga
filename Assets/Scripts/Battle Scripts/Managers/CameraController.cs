@@ -7,7 +7,7 @@ using UnityEngine.Playables;
 [RequireComponent(typeof(IntListener))]
 public class CameraController : MonoSingleton<CameraController>
 {
-    public enum CameraAngleLookAt { Player = 0  ,Both =1, Enemy = 2 }
+    public enum CameraAngleLookAt { Player = 0, Both = 1, Enemy = 2 }
 
 
 
@@ -34,7 +34,7 @@ public class CameraController : MonoSingleton<CameraController>
     {
         get
         {
-            if (_cineMachineTrackedDolly== null)
+            if (_cineMachineTrackedDolly == null)
                 _cineMachineTrackedDolly = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
 
             return _cineMachineTrackedDolly;
@@ -44,19 +44,9 @@ public class CameraController : MonoSingleton<CameraController>
     private void Start()
     {
         _cameraAngleLookAt = CameraAngleLookAt.Both;
-        StartIntro();
+
         GetAngleTrackedDolly.m_PathPosition = (int)_cameraAngleLookAt;
-        return;
-        //MoveCameraAngle.SetActive(false);
-        //ShakeAtEnemy.SetActive(false);
-        //ShakeAtMiddle.SetActive(false);
-        //ShakeAtPlayer.SetActive(false);
-
-        //IntroCinematic.SetActive(true);
-
-        //wait till animation ends
-        //IntroCinematic.SetActive(false);
-        //MoveCameraAngle set to 1 (middle position)
+        LoadingProgressBar.OnFinishLoadingScene += StartIntro;
     }
     public void MoveCameraAnglePos(int index)
     {
@@ -75,10 +65,10 @@ public class CameraController : MonoSingleton<CameraController>
     IEnumerator CameraTransition(int point)
     {
 
-    
-        float lerpTime = point == 1 ?  _returnSpeed : _goToSpeed;
-      
-        for (float i = 0; i <= lerpTime;i += Time.deltaTime)
+
+        float lerpTime = point == 1 ? _returnSpeed : _goToSpeed;
+
+        for (float i = 0; i <= lerpTime; i += Time.deltaTime)
         {
             GetAngleTrackedDolly.m_PathPosition = Mathf.Lerp(
                 (float)_cameraAngleLookAt,
@@ -88,10 +78,11 @@ public class CameraController : MonoSingleton<CameraController>
 
         }
         _cameraAngleLookAt = (CameraAngleLookAt)point;
-       
+
     }
     public void StartIntro()
     {
+        LoadingProgressBar.OnFinishLoadingScene -= StartIntro;
         IntroDirector.Play();
     }
     public void Shake(int moveCameraAngleIndex)
@@ -107,30 +98,4 @@ public class CameraController : MonoSingleton<CameraController>
         //_camera = Camera.main;
         //startPos = transform.position;
     }
-
-    //public static void ShakeCamera()
-    //{
-    //    float rotation;
-    //    do
-    //    {
-    //        rotation = UnityEngine.Random.Range(-4f, 4f);
-    //    } while (Mathf.Abs(rotation) < 2.5f);
-
-
-    //    LeanTween.rotateZ(Instance.gameObject,
-    //        rotation,
-    //        0.5f)
-    //        .setEase(Instance.GetRandomCameraShakeCurve()).
-    //        setOnComplete(() => LeanTween.rotateZ(Instance.gameObject, 0, 0.2f).setEase(Instance.GetRandomCameraShakeCurve()));
-    //}
-
-    //private LeanTweenType GetRandomCameraShakeCurve()
-    //{
-    //    if (_cameraShakes == null || _cameraShakes.Length == 0)
-    //        return LeanTweenType.easeInSine;
-
-    //    return _cameraShakes[UnityEngine.Random.Range(0, _cameraShakes.Length)];
-    //}
-
-    //void ZoomOnObject(in Transform target,in float howMuchZoom) {  }
 }

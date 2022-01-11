@@ -115,7 +115,7 @@ namespace UI.Meta.Settings
             Close();
             Battles.BattleManager.BattleEnded(true);
             Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
-            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
+            
         }
 
         public void ResetAccountSettings()
