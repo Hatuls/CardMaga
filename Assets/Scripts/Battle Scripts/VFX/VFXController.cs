@@ -11,38 +11,25 @@ public class VFXController : MonoBehaviour
 
 
     #region Animation Event Callbacks
-    private void SendParticle(BodyPartEnum bodyPartEnum, ParticleEffectsEnum particleEffectsEnum)
-        => VFXManager.Instance.PlayParticle(_isPlayer, bodyPartEnum, particleEffectsEnum);
-    public void ApplyRightArmParticle(ParticleEffectsEnum particleEffectsEnum)
-        => SendParticle(BodyPartEnum.RightArm, particleEffectsEnum);
+    public void ApplyHeadVFX()
+        => CreateVFX(BodyPartEnum.Head);
+    public void ApplyPivotBottomVFX()
+        => CreateVFX(BodyPartEnum.BottomBody);
+    public void ApplyChestVFX()
+        => CreateVFX(BodyPartEnum.Chest);
+    public void ApplyLeftLegVFX()
+        => CreateVFX(BodyPartEnum.LeftLeg);
+    public void ApplyRightLegVFX()
+        => CreateVFX(BodyPartEnum.RightLeg);
+    public void ApplyLeftArmVFX()
+        => CreateVFX(BodyPartEnum.LeftArm);
+    public void ApplyRightArmVFX()
+        => CreateVFX(BodyPartEnum.RightArm);
 
-    public void ApplyLeftArmParticle(ParticleEffectsEnum particleEffectsEnum)
-        => SendParticle(BodyPartEnum.LeftArm, particleEffectsEnum);
-    public void ApplyHeadParticle(ParticleEffectsEnum particleEffectsEnum)
-        => SendParticle(BodyPartEnum.Head, particleEffectsEnum);
-
-    public void ApplyLeftLegParticle(ParticleEffectsEnum particleEffectsEnum)
-       => SendParticle(BodyPartEnum.LeftLeg, particleEffectsEnum);
-    public void ApplyRightLegParticle(ParticleEffectsEnum particleEffectsEnum)
-          => SendParticle(BodyPartEnum.RightLeg, particleEffectsEnum);
-    public void ApplyBottomBodyParticle(ParticleEffectsEnum particleEffectsEnum)
-              => SendParticle(BodyPartEnum.BottomBody, particleEffectsEnum);
-    public void ApplyChestBodyParticle(ParticleEffectsEnum particleEffectsEnum)
-        => SendParticle(BodyPartEnum.Chest, particleEffectsEnum);
-    #endregion
-
-    #region Particle Effect function
-    internal void ActivateParticle(BodyPartEnum part, ParticalEffectBase particalEffectBase)
+    private void CreateVFX(BodyPartEnum bodyPartEnum,VFXSO vfx)
     {
-        if (particalEffectBase == null)
-            Debug.LogError("Particle is null");
-
-        particalEffectBase.SetParticalPosition(_avatarHandler.GetBodyPart(part));
-        particalEffectBase.PlayParticle();
+        VFXManager.Instance.PlayParticle(_isPlayer, bodyPartEnum,);
     }
-
-
-
     #endregion
 
 }
