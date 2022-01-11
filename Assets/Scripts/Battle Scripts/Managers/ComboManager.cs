@@ -15,15 +15,14 @@ namespace Combo
     {
 
         #region Fields
-        [SerializeField] string SuccessfullForgeOfComboNameEvent;
         [SerializeField] Combo _cardRecipeDetected;
+        [SerializeField] VFXSO _comboVFX;
         PlayerCraftingSlots _playerCraftingSlots;
         PlayerCraftingSlots _enemyCraftingSlots;
         static byte threadId;
 
         #endregion
         #region Events
-        [SerializeField] StringEvent _playSound;
         [SerializeField] VoidEvent _successCrafting;
         #endregion
 
@@ -55,7 +54,6 @@ namespace Combo
                 var factory = Factory.GameFactory.Instance.CardFactoryHandler;
                 var craftedCard = factory.CreateCard(_cardRecipeDetected.ComboSO.CraftedCard,_cardRecipeDetected.Level);
 
-                _playSound?.Raise(SuccessfullForgeOfComboNameEvent);
                 _successCrafting?.Raise();
 
                 switch (_cardRecipeDetected.ComboSO.GoToDeckAfterCrafting)
@@ -123,7 +121,7 @@ namespace Combo
                 FoundCombo = true;
                 _craftingUIHandler.MarkSlotsDetected();
                 Instance.TryForge(isPlayer);
-                VFXManager.Instance.PlayParticle(isPlayer, BodyPartEnum.BottomBody, ParticleEffectsEnum.Crafting);
+                VFXManager.Instance.PlayParticle(isPlayer, BodyPartEnum.BottomBody,Instance._comboVFX);
                 DeckManager.GetCraftingSlots(isPlayer).ResetDeck();
                 Instance. _cardRecipeDetected = null;
             }

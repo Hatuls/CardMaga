@@ -1,35 +1,120 @@
-﻿using UnityEngine;
-
+﻿using Keywords;
+using System.Collections.Generic;
+using UnityEngine;
 public class VFXController : MonoBehaviour
 {
 
     [SerializeField] bool _isPlayer;
-
+    [SerializeField] VFXSO _defensingVFX;
+    [SerializeField] VFXSO _recieivingDamageVFX;
 
     [SerializeField] AvatarHandler _avatarHandler;
-    public AvatarHandler AvatarHandler { set => _avatarHandler = value; }
+    public AvatarHandler AvatarHandler { get => _avatarHandler;  set => _avatarHandler = value; }
+    List<KeywordData> keywordDatas = new List<KeywordData>();
 
+    private Queue<VFXSO> VFXQueue = new Queue<VFXSO>();
+    private void Start()
+    {
+        Battles.CardExecutionManager.OnSortingKeywords += RecieveSortingKeywordsData;
+        Battles.CardExecutionManager.OnAnimationIndexChange += SortVFXFromListByAnimationIndex;
+    }
+    private void OnDisable()
+    {
+        Battles.CardExecutionManager.OnAnimationIndexChange -= SortVFXFromListByAnimationIndex;
+        Battles.CardExecutionManager.OnSortingKeywords -= RecieveSortingKeywordsData;
+    }
+    public void RegisterVFXQueue(KeywordSO keyword)
+        => VFXQueue.Enqueue(keyword.GetVFX());
+
+    private VFXSO DeQueue() => VFXQueue.Dequeue();
+
+    public void ActivateParticle(BodyPartEnum bodyPart, ParticleSystemVFX vfx)
+        => ActivateParticle(_avatarHandler.GetBodyPart(bodyPart), vfx.VFXID);
+    public void ActivateParticle(Transform part, VFXSO vfx)
+    {
+        Instantiate(vfx.VFXPrefab).GetComponent<VFXBase>().StartVFX(vfx, part);
+    }
+
+    private void RecieveSortingKeywordsData(List<KeywordData> keywords)
+    {
+        if (_isPlayer == Battles.Turns.TurnHandler.IsPlayerTurn)
+        {
+            keywordDatas.AddRange(keywords);
+          
+        }
+    }
+    private void SortVFXFromListByAnimationIndex(int index)
+    {
+        for (int i = 0; i < keywordDatas.Count; i++)
+        {
+            if (keywordDatas[i].AnimationIndex == index)
+            {
+                RegisterVFXQueue(keywordDatas[i].KeywordSO);
+                keywordDatas.RemoveAt(i);
+                i--;
+            }
+        }
+
+    }
 
     #region Animation Event Callbacks
-    public void ApplyHeadVFX()
+    #region Attack
+    public void ApplyAttackHeadVFX()
         => CreateVFX(BodyPartEnum.Head);
-    public void ApplyPivotBottomVFX()
+    public void ApplyAttackPivotBottomVFX()
         => CreateVFX(BodyPartEnum.BottomBody);
-    public void ApplyChestVFX()
+    public void ApplyAttackChestVFX()
         => CreateVFX(BodyPartEnum.Chest);
-    public void ApplyLeftLegVFX()
+    public void ApplyAttackLeftLegVFX()
         => CreateVFX(BodyPartEnum.LeftLeg);
-    public void ApplyRightLegVFX()
+    public void ApplyAttackRightLegVFX()
         => CreateVFX(BodyPartEnum.RightLeg);
-    public void ApplyLeftArmVFX()
+    public void ApplyAttackLeftArmVFX()
         => CreateVFX(BodyPartEnum.LeftArm);
-    public void ApplyRightArmVFX()
+    public void ApplyAttackRightArmVFX()
         => CreateVFX(BodyPartEnum.RightArm);
 
-    private void CreateVFX(BodyPartEnum bodyPartEnum,VFXSO vfx)
+    private void CreateVFX(BodyPartEnum bodyPartEnum)
     {
-        VFXManager.Instance.PlayParticle(_isPlayer, bodyPartEnum,);
+        if (VFXQueue.Count > 0)
+            VFXManager.Instance.PlayParticle(_avatarHandler.GetBodyPart(bodyPartEnum), DeQueue());
     }
+    #endregion
+
+    #region Defense
+
+    public void ApplyDefenseHeadVFX()
+     => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.Head), _defensingVFX);
+    public void ApplyDefensePivotBottomVFX()
+        => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.BottomBody), _defensingVFX);
+    public void ApplyDefenseChestVFX()
+        => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.Chest), _defensingVFX);
+    public void ApplyDefenseLeftLegVFX()
+         => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftLeg), _defensingVFX);
+    public void ApplyDefenseRightLegVFX()
+          => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightLeg), _defensingVFX);
+    public void ApplyDefenseLeftArmVFX()
+       => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftArm), _defensingVFX);
+    public void ApplyDefenseRightArmVFX()
+          => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightArm), _defensingVFX);
+    #endregion
+
+    #region Hit VFX 
+    public void ApplyRecieveDamageHeadVFX()
+ => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.Head), _recieivingDamageVFX);
+    public void ApplyRecieveDamagePivotBottomVFX()
+        => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.BottomBody), _recieivingDamageVFX);
+    public void ApplyRecieveDamageChestVFX()
+        => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.Chest), _recieivingDamageVFX);
+    public void ApplyRecieveDamageLeftLegVFX()
+         => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftLeg), _recieivingDamageVFX);
+    public void ApplyRecieveDamageRightLegVFX()
+          => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightLeg), _recieivingDamageVFX);
+    public void ApplyRecieveDamageLeftArmVFX()
+       => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftArm), _recieivingDamageVFX);
+    public void ApplyRecieveDamageRightArmVFX()
+          => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightArm), _recieivingDamageVFX);
+    #endregion
     #endregion
 
 }
@@ -44,6 +129,5 @@ public enum BodyPartEnum
     RightLeg = 5,
     BottomBody = 6,
     Chest = 7,
-    Joker = 8,
 };
 

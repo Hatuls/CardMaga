@@ -6,12 +6,18 @@ public class VFXSO : ScriptableObject , IStayOnTarget
 {
     [PreviewField(100f)]
     [SerializeField] GameObject _vfxPrefab;
-
     public GameObject VFXPrefab => _vfxPrefab;
 
-    public bool StayOnTarget => throw new System.NotImplementedException();
 
-    public float DelayUntillDetach => throw new System.NotImplementedException();
+    [SerializeField]
+    bool _stayOnTarget;
+
+    [InfoBox("Instuctions:\n-1 will mean no delay\n")]
+    [SerializeField]
+    float _delayUntillDetach;
+    public bool StayOnTarget => _stayOnTarget;
+
+    public float DelayUntillDetach => _delayUntillDetach;
 
 
 }
