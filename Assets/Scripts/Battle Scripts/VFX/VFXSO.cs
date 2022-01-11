@@ -8,7 +8,8 @@ public class VFXSO : ScriptableObject , IStayOnTarget
     [SerializeField] GameObject _vfxPrefab;
     public GameObject VFXPrefab => _vfxPrefab;
 
-
+    [SerializeField]
+    bool toUseTransformRotation;
     [SerializeField]
     bool _stayOnTarget;
 
@@ -19,5 +20,5 @@ public class VFXSO : ScriptableObject , IStayOnTarget
 
     public float DelayUntillDetach => _delayUntillDetach;
 
-
+    public bool ToUseBodyRotation { get => toUseTransformRotation;  }
 }

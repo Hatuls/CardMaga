@@ -23,7 +23,11 @@ public abstract class VFXBase : MonoBehaviour
     {
         _stayOnTarget = stayOnTarget;
         transform.SetParent(GetTransform);
-        transform.SetPositionAndRotation(GetTransform.position, GetTransform.rotation);
+
+  
+            transform.SetPositionAndRotation(GetTransform.position, stayOnTarget.ToUseBodyRotation ? GetTransform.rotation : Quaternion.identity);
+  
+
         coroutine = StartCoroutine(OnDelayCounter(stayOnTarget, () => { if (stayOnTarget.StayOnTarget == true) transform.SetParent(null); }));
     }
     protected IEnumerator OnDelayCounter(IStayOnTarget stayOnTarget, System.Action OnFinish = null)
@@ -49,6 +53,7 @@ public interface IVFXPackage
 }
 public interface IStayOnTarget
 {
+    bool ToUseBodyRotation { get; }
     bool StayOnTarget { get; }
     float DelayUntillDetach { get; }
 }
