@@ -1,13 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
+
 public class SceneHandler
 {
     private static SceneHandler _instance;
     public static SceneHandler Instance => _instance;
 
     public static bool LoadingComplete;
-    public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1,MainMenuScene=2, MapScene = 3, GameBattleScene = 4 , LoreScene =5}
+    public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1, MainMenuScene = 2, MapScene = 3, GameBattleScene = 4, LoreScene = 5 }
     static System.Action onLoaderCallback;
     static AsyncOperation _loadingAsyncOperation;
     public static System.Action<ScenesEnum> onFinishLoadingScene;
@@ -25,7 +28,7 @@ public class SceneHandler
     public static LoadingManager SceneLoaderCallback
     { get; set; }
 
-
+    private static ScenesEnum _previousScene;
     private static ScenesEnum _currentScene = ScenesEnum.NetworkScene;
     public static ScenesEnum CurrentScene
     {
@@ -50,9 +53,11 @@ public class SceneHandler
 
 
         LoadingComplete = false;
+        _previousScene = CurrentScene;
         CurrentScene = ScenesEnum.LoadingScene;
         onStartLoadingScene?.Invoke(sceneEnum);
         SceneManager.LoadScene((int)ScenesEnum.LoadingScene, LoadSceneMode.Additive);
+
 
         onLoaderCallback = () =>
         {
@@ -61,16 +66,16 @@ public class SceneHandler
     }
 
     static IEnumerator LoadSceneAsync(ScenesEnum sceneEnum)
-    { 
+    {
         yield return null;
-        _loadingAsyncOperation = SceneManager.LoadSceneAsync((int)sceneEnum, LoadSceneMode.Single);
+        _loadingAsyncOperation = SceneManager.LoadSceneAsync((int)sceneEnum, LoadSceneMode.Additive);
         Debug.Log("Loading Async the scene " + sceneEnum.ToString());
-        while (!_loadingAsyncOperation.isDone) 
-        yield return null;
+        while (!_loadingAsyncOperation.isDone)
+            yield return null;
 
         Debug.Log("Finished Loading Asyncly the scene " + sceneEnum.ToString());
-    //    Debug.Log(SceneManager.sceneCount);
-    //    SceneManager.SetActiveScene(SceneManager.GetSceneAt((int)sceneEnum));
+        //    Debug.Log(SceneManager.sceneCount);
+        //    SceneManager.SetActiveScene(SceneManager.GetSceneAt((int)sceneEnum));
         Debug.Log("Set Active Scene " + sceneEnum.ToString());
         yield return null;
         LoadingComplete = true;
@@ -78,12 +83,26 @@ public class SceneHandler
         onFinishLoadingScene?.Invoke(sceneEnum);
         OnSceneChange?.Invoke();
     }
-    public static void UnloadScene(ScenesEnum scene) {
-        int sceneIndex = (int)scene;
-        if (SceneManager.GetActiveScene().buildIndex == sceneIndex)
+    public static async void UnloadPreviousScene(CancellationToken token, System.Action OnUnloadComplete = null)
+    {
+        await UnloadScene(_previousScene, token, async () => await UnloadScene(ScenesEnum.LoadingScene, token, OnUnloadComplete));
+    }
+    public async static Task UnloadScene(ScenesEnum scene, CancellationToken token, System.Action OnUnloadComplete = null)
+    {
+        await UnloadScene((int)scene, token, OnUnloadComplete);
+    }
+    public static async Task UnloadScene(int sceneIndex, CancellationToken token, System.Action OnUnloadComplete = null)
+    {
+        var operation = SceneManager.UnloadSceneAsync(sceneIndex);
+
+        while (!operation.isDone)
         {
-            SceneManager.UnloadSceneAsync(sceneIndex);
+            await Task.Yield();
+            if (token.IsCancellationRequested)
+                break;
         }
+
+        OnUnloadComplete?.Invoke();
     }
     public static void LoaderCallback()
     {

@@ -38,13 +38,21 @@ public class EndRunScreen : MonoBehaviour, IObserver
     // Start is called before the first frame update
     void Start()
     {
+        LoadingProgressBar.OnFinishLoadingScene += OnFinishGame;
+    }
+    private void OnDestroy()
+    {
+        LoadingProgressBar.OnFinishLoadingScene -= OnFinishGame;
+    }
+    private void OnFinishGame()
+    {
         if (Account.AccountManager.Instance.BattleData.IsFinishedPlaying)
         {
+        LoadingProgressBar.OnFinishLoadingScene -= OnFinishGame;
             _defaultRewardContainer.SetActive(false);
             _tutorialRewardContainer.SetActive(false);
             FinishGame();
         }
-
     }
 
     public void FinishGame()
@@ -120,7 +128,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
             {
                 _defaultRewards[i].SetText(battledata[(Battles.CharacterTypeEnum)(i + offset)].Diamonds.ToString());
             }
-           
+
         }
         _totalReward.SetText(battledata.GetAllDiamonds().ToString());
         _expText.text = battledata.GetAllExp().ToString();

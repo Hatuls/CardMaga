@@ -27,8 +27,8 @@ namespace Map
         [SerializeField] float _xOffset;
         [SerializeField] float _yOffset;
 
-        private GameObject firstParent;
-        private GameObject mapParent;
+        [SerializeField]
+        private GameObject _mapContainer;
 
         // List<LineConnectionPrefabs> _lineConnections = new List<LineConnectionPrefabs>();
         List<NodeMap> _nodeMaps = new List<NodeMap>();
@@ -53,8 +53,6 @@ namespace Map
             }
 
             ClearMap();
-
-            CreateMapParent();
 
 
             CreateNodes(map.nodes);
@@ -81,7 +79,7 @@ namespace Map
                 for (int j = 0; j < pointConnectedAmount; j++)
                 {
                     p = connectedAmount[j];
-                    MapLine mapLine = Instantiate(_linePrefab, mapParent.transform)
+                    MapLine mapLine = Instantiate(_linePrefab, _mapContainer.transform)
                              .GetComponent<MapLine>();
                     var Node = map.GetNode(p);
 
@@ -132,17 +130,7 @@ namespace Map
 
             NodeMap GetNode(Point p) => _nodeMaps.FirstOrDefault(n => n.NodeData.point.Equals(p));
         }
-        private void CreateMapParent()
-        {
-            if (firstParent == null)
-            {
 
-                firstParent = new GameObject("OuterMapParent");
-                mapParent = new GameObject("MapParentWithAScroll");
-                mapParent.transform.SetParent(firstParent.transform);
-            }
-
-        }
 
         private void CreateNodes(List<Node> nodes)
         {
@@ -156,7 +144,7 @@ namespace Map
 
         private NodeMap CreateMapNode(Node node, Factory.GameFactory.EventPointFactory eventFactoryRef)
         {
-            var mapNodeObject = Instantiate(_nodePrefab, mapParent.transform);
+            var mapNodeObject = Instantiate(_nodePrefab, _mapContainer.transform);
             var mapNode = mapNodeObject.GetComponent<NodeMap>();
             var blueprint = eventFactoryRef.GetEventPoint(node.NodeTypeEnum);
             mapNode.SetUp(node, blueprint);
