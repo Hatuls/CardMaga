@@ -1,83 +1,55 @@
 ﻿
-using UnityEngine;
+using System;
 using System.Collections.Generic;
-
-
-public enum ParticleEffectsEnum
-{
-    None = 0,
-    Crafting = 1,
-    Shield = 2,
-    Bleeding = 3,
-    Heal = 4,
-    Strength = 5,
-    RecieveDamage = 6,
-    Blocking = 7,
-    Attack = 8,
-    PushKick = 9
-
-
-}
+using UnityEngine;
 
 public class VFXManager : MonoSingleton<VFXManager>
 {
 
-    [SerializeField]VFXController _playerVFX, _enemyVFX;
+    [SerializeField] VFXController _playerVFX, _enemyVFX;
 
-    [SerializeField] List<ParticalEffectBase> _VFXLIST = new List<ParticalEffectBase>();
-    
+    [SerializeField] List<ParticleSystemVFX> _VFXLIST;
+
 
     public override void Init()
     {
-
+        _VFXLIST = new List<ParticleSystemVFX>();
     }
-
-    public void PlayParticle(bool isOnPlayer, BodyPartEnum part, ParticleEffectsEnum effect)
+    
+    public void PlayParticle(bool isOnPlayer, BodyPartEnum bodyPartEnum, VFXSO vfx)
     {
-        if (effect == ParticleEffectsEnum.None)
+        if (vfx == null)
             return;
 
         var controller = isOnPlayer ? _playerVFX : _enemyVFX;
+        PlayParticle(controller.AvatarHandler.GetBodyPart(bodyPartEnum),vfx);
+    }
+    public void PlayParticle(Transform transform, VFXSO vfx)
+    {
+        if (vfx == null)
+            return;
 
-        if (_VFXLIST == null || _VFXLIST.Count == 0)
-            Debug.LogError("VFX MANAGER VFX List is not set");
-        foreach (var item in _VFXLIST)
-        {
-            if (item.GetParticalEffect == effect)
-            {
-                if (item != null)
-                    controller.ActivateParticle(part, item);
-                else
-                    Debug.Log($"Could not find Partical Effect Base from {part.ToString()} the effect should have been {effect.ToString()}");
+        ParticleSystemVFX vfxGO = RecieveFirstOfVFX(vfx);
 
-            }
-       
-        }
-
-     
-
-
+        vfxGO.StartVFX(vfx, transform);
     }
 
-    public static ParticleEffectsEnum KeywordToParticle(Keywords.KeywordTypeEnum keywordTypeEnum)
+    private ParticleSystemVFX RecieveFirstOfVFX(VFXSO vfx)
     {
-        switch (keywordTypeEnum)
+        for (int i = 0; i < _VFXLIST.Count; i++)
         {
-            case Keywords.KeywordTypeEnum.Attack:
-                return ParticleEffectsEnum.Attack;
-            case Keywords.KeywordTypeEnum.Shield:
-                return ParticleEffectsEnum.Shield;
-            case Keywords.KeywordTypeEnum.Heal:
-                return ParticleEffectsEnum.Heal;
-            case Keywords.KeywordTypeEnum.Strength:
-                return ParticleEffectsEnum.Strength;
-            case Keywords.KeywordTypeEnum.Bleed:
-                return ParticleEffectsEnum.Bleeding;
-            case Keywords.KeywordTypeEnum.MaxHealth:
-                return ParticleEffectsEnum.Heal;
-            default:
-                break;
+            if (_VFXLIST[i].VFXID == vfx && !_VFXLIST[i].IsPlaying)
+                return _VFXLIST[i];
         }
-        return ParticleEffectsEnum.None;
+        return CreateVFX(vfx); ;
+    }
+
+    private ParticleSystemVFX CreateVFX(VFXSO vfx)
+    {
+        ParticleSystemVFX vfxBase = Instantiate(vfx.VFXPrefab).GetComponent<ParticleSystemVFX>();
+        _VFXLIST.Add(vfxBase);
+        return vfxBase;
     }
 }
+
+

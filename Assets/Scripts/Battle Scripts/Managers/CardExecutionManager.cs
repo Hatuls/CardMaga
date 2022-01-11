@@ -8,6 +8,9 @@ using UnityEngine.Events;
 
 namespace Battles
 {
+    [System.Serializable]
+    public class CardEvent : UnityEvent<Cards.Card> { }
+    [System.Serializable]
     public class CardExecutionManager : MonoSingleton<CardExecutionManager>
     {
         [SerializeField]
@@ -20,6 +23,9 @@ namespace Battles
         [Sirenix.OdinInspector.ShowInInspector]
         static Queue<Cards.Card> _cardsQueue = new Queue<Cards.Card>();
         public static Queue<Cards.Card> CardsQueue => _cardsQueue;
+
+        public static int CurrentKeywordIndex { get => currentKeywordIndex; }
+
         static List<KeywordData> _keywordData = new List<KeywordData>();
         [SerializeField] StaminaUI _staminaBtn;
         static int currentKeywordIndex;
@@ -28,6 +34,8 @@ namespace Battles
 
         [SerializeField] UnityEvent OnSuccessfullExecution;
         [SerializeField] UnityEvent OnFailedToExecute;
+        public static System.Action<List<KeywordData>> OnSortingKeywords;
+        public static System.Action<int> OnAnimationIndexChange;
         public void ResetExecution()
         {
             //_keywordData.Clear();
@@ -111,90 +119,28 @@ namespace Battles
                 throw new System.Exception($"Cannot Execute Card that is null!!!!");
 
 
-            if (card.CardSO.AnimationBundle._attackAnimation == string.Empty)
-            {
-                ExecuteInstantly(isPlayer, currentCard);
-            }
-            else
-            {
-                AddToQueue(card);
-            }
-            //switch (currentCard.CardSO.CardType.CardType)
-            //{
-            //    case Cards.CardTypeEnum.Utility:
-            //    case Cards.CardTypeEnum.Defend:
+            AddToQueue(card);
 
-
-
-
-            //        break;
-
-            //    case Cards.CardTypeEnum.Attack:
-            //        //    _playerAnimator.SetAnimationQueue(card);
-
-            //        break;
-
-
-            //    default:
-            //        Debug.LogError($" Card Type is Not Valid -  {currentCard.CardSO.CardType.CardType}");
-            //        break;
-            //}
 
         }
 
-        private void ExecuteInstantly(bool isPlayer, Cards.Card currentCard)
+        private void ExecuteInstantly()
         {
-            switch (currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-            {
-                case KeywordTypeEnum.Shield:
 
-                    VFXManager.Instance.PlayParticle(
-                    isPlayer,
-                    BodyPartEnum.Chest,
-                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                    );
-
-
-
-                    break;
-
-                case KeywordTypeEnum.Strength:
-
-
-                    VFXManager.Instance.PlayParticle(
-                    isPlayer,
-                    BodyPartEnum.BottomBody,
-                    VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                    );
-
-                    break;
-
-
-                case KeywordTypeEnum.Heal:
-                    VFXManager.Instance.PlayParticle(
-                                        isPlayer,
-                                        BodyPartEnum.BottomBody,
-                                        VFXManager.KeywordToParticle(currentCard.CardSO.CardSOKeywords[0].KeywordSO.GetKeywordType)
-                                        );
-
-                    break;
-
-
-            }
-
-            ExecuteCard(currentCard);
+            OnKeywordEvent();
+            _cardsQueue.Dequeue();
         }
 
-        public void ExecuteCard(Cards.Card current)
-        {
-            if (current == null || current.CardKeywords == null || current.CardKeywords.Length == 0 || BattleManager.isGameEnded)
-                return;
+        //public void ExecuteCard(Cards.Card current)
+        //{
+        //    if (current == null || current.CardKeywords == null || current.CardKeywords.Length == 0 || BattleManager.isGameEnded)
+        //        return;
 
-            bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
+        //    bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
 
-            for (int j = 0; j < current.CardKeywords.Length; j++)
-                KeywordManager.Instance.ActivateKeyword(currentTurn, current.CardKeywords[j]);
-        }
+        //    for (int j = 0; j < current.CardKeywords.Length; j++)
+        //        KeywordManager.Instance.ActivateKeyword(currentTurn, current.CardKeywords[j]);
+        //}
 
         // need to register the players cards into a queue and tell the animation to play the animation
         // when this card is activate need to sort the cards keywords in a list by their indexes
@@ -206,59 +152,45 @@ namespace Battles
         {
             if (BattleManager.isGameEnded)
                 return;
-
-            _cardsQueue.Enqueue(card);
+            EnqueueCard(card);
             bool firstCard = _cardsQueue.Count == 1;
             Debug.Log($"<a>Register card queue has {_cardsQueue.Count} cards in it\nIs First Card {firstCard}</a>");
+
             if (firstCard)
             {
                 ActivateCard();
             }
 
         }
+
+        private void EnqueueCard(Cards.Card card)
+        {
+            _cardsQueue.Enqueue(card);
+
+        }
+
         public void ActivateCard()
         {
             // play the card animation
             if (_cardsQueue.Count == 0 || BattleManager.isGameEnded)
                 return;
             Debug.Log("<a>Activating Card</a>");
-            // sort his keyowrds
-
-            {
-                //ThreadsHandler.ThreadHandler.StartThread(
-                //    new ThreadsHandler.ThreadList(
-                //        ThreadsHandler.ThreadHandler.GetNewID,
-                //        () => SortKeywords(),
-                //       () =>
-                //       {
-                //           if (_cardsQueue.Count == 0)
-                //               return;
-                //           var State = Turns.TurnHandler.CurrentState;
-                //           if (State == Turns.TurnState.PlayerTurn || State == Turns.TurnState.StartPlayerTurn || State == Turns.TurnState.EndPlayerTurn)
-                //               _playerAnimator.SetAnimationQueue(_cardsQueue.Peek());
-                //           else if (State == Turns.TurnState.EnemyTurn || State == Turns.TurnState.StartEnemyTurn || State == Turns.TurnState.EndEnemyTurn)
-                //               _enemyAnimator.SetAnimationQueue(_cardsQueue.Peek());
-                //           else
-                //               Debug.LogError("Current turn is not a turn that a card could be played!");
-
-                //           // reset Index
-                //           currentKeywordIndex = 0;
-                //       }
-                //     )
-                //    );
-            }
 
             SortKeywords();
-
+            var card = _cardsQueue.Peek();
             currentKeywordIndex = 0;
-
-            if (Turns.TurnHandler.IsPlayerTurn)
-                _playerAnimatorController.PlayCrossAnimation();
+            OnAnimationIndexChange?.Invoke(currentKeywordIndex);
+            if (card.CardSO.AnimationBundle._attackAnimation == string.Empty)
+            {
+                ExecuteInstantly();
+            }
             else
-                _enemyAnimatorController.PlayCrossAnimation();
-
-            // reset Index
-
+            {
+                if (Turns.TurnHandler.IsPlayerTurn)
+                    _playerAnimatorController.PlayCrossAnimation();
+                else
+                    _enemyAnimatorController.PlayCrossAnimation();
+            }
 
         }
 
@@ -266,7 +198,7 @@ namespace Battles
         {
             for (int i = 0; i < _keywordData.Count; i++)
             {
-                if (currentKeywordIndex == _keywordData[i].AnimationIndex)
+                if (CurrentKeywordIndex == _keywordData[i].AnimationIndex)
                 {
                     if (_keywordData[i].KeywordSO.GetKeywordType == KeywordTypeEnum.Attack)
                     {
@@ -291,14 +223,16 @@ namespace Battles
                 //   Debug.Log($"<a>sorting keywords {_cardsQueue.Count} cards left to be executed </a>");
 
                 for (int i = 0; i < currentCard.Length; i++)
+                {
                     _keywordData.Add(currentCard[i]);
 
+                }
                 _keywordData.Sort();
-                //    Debug.Log($"<a>{_keywordData.Count} keys were added</a>");
+
+                OnSortingKeywords?.Invoke(_keywordData);
             }
 
         }
-
         public void CardFinishExecuting()
         {
             if (_cardsQueue.Count > 0)
@@ -322,7 +256,7 @@ namespace Battles
 
             for (int i = 0; i < _keywordData.Count; i++)
             {
-                if (currentKeywordIndex == _keywordData[i].AnimationIndex)
+                if (CurrentKeywordIndex == _keywordData[i].AnimationIndex)
                 {
                     var keyword = _keywordData[i];
                     //remove from the list
@@ -334,6 +268,7 @@ namespace Battles
                 }
             }
             currentKeywordIndex++;
+            OnAnimationIndexChange?.Invoke(currentKeywordIndex);
         }
     }
 }

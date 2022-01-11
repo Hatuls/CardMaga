@@ -29,6 +29,8 @@ namespace Keywords
 
         [SerializeField] SoundEventSO _soundEvent;
 
+        [SerializeField]
+        private VFXSO _vfx;
         #endregion
 
         #region Properties
@@ -42,6 +44,7 @@ namespace Keywords
         public string KeywordName => _keyword.ToString();
 
         public bool IgnoreInfoAmount => _ignoreInfoAmmount;
+        public VFXSO GetVFX() => _vfx;
         public string GetDescription(params int[] amount)
         {
             if (IgnoreInfoAmount)
@@ -64,7 +67,7 @@ namespace Keywords
 
 
 #if UNITY_EDITOR
-    
+
         public bool Init(string[] Data)
         {
 
@@ -76,7 +79,7 @@ namespace Keywords
             const int IgnoreInfoAmountIndex = 5;
             const int DescriptionIndex = 6;
             const int VFXIndex = 7;
-   
+
 
             if (int.TryParse(Data[IDIndex], out int keywordID))
             {
@@ -110,8 +113,10 @@ namespace Keywords
                 throw new System.Exception($"KeywordsSO:\nID: {_iD}\n Ignore info amount on keyword is not a valid number!");
 
             _descriptions = Data[DescriptionIndex].Replace('^', ',').Split('#');
-      
-            //resource.load<~VFX>(Data[VFXIndex]);
+            if (Data[VFXIndex].Length > 1)
+            {
+                _vfx = Resources.Load<VFXSO>("VFX/Keywords VFX/" + Data[VFXIndex]);
+            }
             return true;
         }
 
