@@ -11,15 +11,17 @@ namespace Account.GeneralData
         EXPStat _exp;
         [SerializeField]
         MaxEXPStat _maxEXP;
-        public UintStat MaxEXP => _maxEXP;
-        public UintStat Exp => _exp;
+        public MaxEXPStat MaxEXP => _maxEXP;
+        public EXPStat Exp => _exp;
 
         [SerializeField]
         LevelStat _level;
-        public UshortStat Level => _level;
+        public LevelStat Level => _level;
         public AccountLevelData()
         {
-
+            _maxEXP = new MaxEXPStat(10);
+            _level = new LevelStat((ushort)DefaultVersion._gameVersion.Level, _maxEXP);
+            _exp = new EXPStat((ushort)DefaultVersion._gameVersion.EXP, _level, _maxEXP);
         }
         public AccountLevelData(uint exp = 0, uint maxExp = 10, ushort lvl = 1)
         {
@@ -34,15 +36,25 @@ namespace Account.GeneralData
             _level = new LevelStat((ushort)DefaultVersion._gameVersion.Level, _maxEXP);
             _exp = new EXPStat((ushort)DefaultVersion._gameVersion.EXP, _level, _maxEXP);
         }
+
+        public bool IsCorrupted()
+        {
+            bool isCorrupted = false;
+            isCorrupted |= _level.Value <= 0;
+            isCorrupted |= _maxEXP.Value <= 0;
+            return isCorrupted;
+        }
     }
+
+
     [Serializable]
     public class EXPStat : UintStat
     {
         public static Action<int, int> OnGainEXP;
         [SerializeField]
-        UshortStat _level;
+        LevelStat _level;
         [SerializeField]
-        UintStat _maxExp;
+        MaxEXPStat _maxExp;
 
         public override bool AddValue(uint value)
         {
@@ -63,7 +75,7 @@ namespace Account.GeneralData
             }
             return true;
         }
-        public EXPStat(uint val, UshortStat level, UintStat maxExp) : base(val)
+        public EXPStat(uint val, LevelStat level, MaxEXPStat maxExp) : base(val)
         {
             _level = level;
             _maxExp = maxExp;
@@ -74,14 +86,14 @@ namespace Account.GeneralData
     {
         public static Action<int> OnLevelUp;
         [SerializeField]
-        private UintStat _maxExp;
+        private MaxEXPStat _maxExp;
         public override bool AddValue(ushort value)
         {
             OnLevelUp?.Invoke(_value + value);
             _maxExp.AddValue((uint)(_value + value) * 10);
             return base.AddValue(value);
         }
-        public LevelStat(ushort val, UintStat maxExp) : base(val)
+        public LevelStat(ushort val, MaxEXPStat maxExp) : base(val)
         {
             this._maxExp = maxExp;
         }

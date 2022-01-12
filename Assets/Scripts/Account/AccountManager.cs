@@ -16,6 +16,7 @@ namespace Account
 {
     public interface ILoadFirstTime
     {
+        bool IsCorrupted();
         Task NewLoad();
     }
     public class AccountManager : MonoBehaviour
@@ -131,6 +132,12 @@ namespace Account
         private async Task LoadAccount()
         {
             _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, saveType, "txt", true, path);
+            if (_accountData.IsCorrupted())
+            {
+                Debug.LogWarning("Save File Is Corrupted!\nCreating New Account!");
+                await CreateNewAccount();
+                return;
+            }
             Debug.Log("Loading Data From " + saveType);
             Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
             _accountData.AccountSettingsData.Refresh();
@@ -142,7 +149,7 @@ namespace Account
 
         private void RewardLoad()
         {
-            if (SaveManager.CheckFileExists("Reward", saveType))
+            if (SaveManager.CheckFileExists("Reward2", saveType))
                 _rewardGift = SaveManager.Load<RewardGift>("Reward", saveType);
         }
 
@@ -163,26 +170,28 @@ namespace Account
         [Sirenix.OdinInspector.Button]
         private void ResetAccountSave() => SaveManager.DeleteFile(AccountData.SaveName, "txt", saveType, path, true);// PlayerPrefs.DeleteKey(AccountData.SaveName);
 
-        [Sirenix.OdinInspector.Button]
-        private void AddEXP() => _accountData.AccountGeneralData.AccountLevelData.Exp.AddValue(5);
+    //    [Sirenix.OdinInspector.Button]
+ //       private void AddEXP() => _accountData.AccountGeneralData.AccountLevelData.Exp.AddValue(5);
 #endif
 
         private void OnDisable()
         {
-            SaveAccount();
+            if (!_accountData.IsCorrupted())
+                SaveAccount();
         }
 
 
         void OnApplicationPause(bool pauseStatus)
         {
-            if (pauseStatus)
+            if (pauseStatus && (!_accountData.IsCorrupted()))
                 SaveAccount();
         }
 
 
         private void OnApplicationQuit()
         {
-            SaveAccount();
+            if (!_accountData.IsCorrupted())
+                    SaveAccount();
             SceneHandler.onFinishLoadingScene -= UpdateLastScene;
             Debug.Log("Saving Account Data");
         }
@@ -211,7 +220,8 @@ namespace Account
         {
             if (Application.isPlaying)
             {
-                SaveAccount();
+                if (!_accountData.IsCorrupted())
+                    SaveAccount();
                 Debug.Log("Saving Account Data");
             }
         }
@@ -263,6 +273,18 @@ namespace Account
             _battleData = new BattleData();
             _battleData.ResetData();
             await Task.Yield();
+        }
+
+        public bool IsCorrupted()
+        {
+            bool isCorrupted = false;
+            isCorrupted |= AccountSettingsData.IsCorrupted();
+            isCorrupted |= AccountGeneralData.IsCorrupted();
+            isCorrupted |= AccountCards.IsCorrupted();
+            isCorrupted |= AccountCombos.IsCorrupted();
+            isCorrupted |= AccountCharacters.IsCorrupted();
+
+            return isCorrupted;
         }
     }
     [System.Serializable]

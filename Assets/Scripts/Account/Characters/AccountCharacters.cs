@@ -71,6 +71,10 @@ namespace Account.GeneralData
 
             }
         }
+
+        public bool IsCorrupted(){
+            return _characterDatas.Length == 0;
+        }
         #endregion
     }
 }
