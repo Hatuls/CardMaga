@@ -12,13 +12,15 @@ public class VFXSO : ScriptableObject , IStayOnTarget
     bool toUseTransformRotation;
     [SerializeField]
     bool _stayOnTarget;
+    [SerializeField]
+    bool _isFromAnimation;
 
     [InfoBox("Instuctions:\n-1 will mean no delay\n")]
     [SerializeField]
     float _delayUntillDetach;
     public bool StayOnTarget => _stayOnTarget;
-
+    public bool IsFromAnimation => _isFromAnimation;
     public float DelayUntillDetach => _delayUntillDetach;
 
-    public bool ToUseBodyRotation { get => toUseTransformRotation;  }
+    public bool ToUseBodyRotation => toUseTransformRotation;  
 }

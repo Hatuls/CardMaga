@@ -84,8 +84,13 @@ public class VFXController : MonoBehaviour
 
     private void CreateVFX(BodyPartEnum bodyPartEnum)
     {
+
         if (VFXQueue.Count > 0)
-            VFXManager.Instance.PlayParticle(_avatarHandler.GetBodyPart(bodyPartEnum), DeQueue());
+        {
+            var vfx = DeQueue();
+            if (vfx.IsFromAnimation)
+                VFXManager.Instance.PlayParticle(_avatarHandler.GetBodyPart(bodyPartEnum), vfx);
+        }
     }
     #endregion
 
