@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -115,20 +114,19 @@ namespace UI.Meta.Settings
             Close();
             Battles.BattleManager.BattleEnded(true);
             Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
-            
+
         }
 
         public void ResetAccountSettings()
         {
             ResetDelay();
         }
-        private async Task ResetDelay()
+        private void ResetDelay()
         {
             Account.AccountManager.Instance.ResetAccount();
 
             SceneHandler.LoadScene(SceneHandler.ScenesEnum.NetworkScene);
-            await Task.Delay(1000);
-            NetworkHandler.CheckVersionEvent?.Invoke();
+
         }
     }
 }

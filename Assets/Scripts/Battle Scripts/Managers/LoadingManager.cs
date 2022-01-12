@@ -21,16 +21,15 @@ public class LoadingManager : MonoSingleton<LoadingManager>
             Destroy(this.gameObject);
         else
         {
-
-            // DontDestroyOnLoad(this.gameObject);
-            if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.NetworkScene)
-                Init();
+            Init();
         }
     }
     public override void Init()
     {
+        if (_sceneHandler != null)
+            return;
         _sceneHandler = new SceneHandler(this);
-        NetworkHandler.CheckVersionEvent?.Invoke();
+
     }
     public void LoadScene(SceneHandler.ScenesEnum scenesEnum)
     {
