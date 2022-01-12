@@ -44,6 +44,5 @@ public interface IVFXPackage
 public interface IStayOnTarget
 {
     bool ToUseBodyRotation { get; }
-    bool StayOnTarget { get; }
     bool IsFromAnimation { get; }
 }
