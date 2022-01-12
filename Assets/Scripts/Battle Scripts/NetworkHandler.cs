@@ -54,7 +54,7 @@ public class NetworkHandler : MonoBehaviour
     {
         for (int i = 0; i < 500; i++)
             await Task.Yield();
-        if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.NetworkScene)
+        if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.NetworkScene && Application.isPlaying)
             _btnLogin.SetActive(true);
     }
 

@@ -64,6 +64,8 @@ namespace UI.Meta.Workshop
         GameObject[] ContrainersToActivate;
         public override void Open()
         {
+            if (PackUI.OnPackRewardClicked != null)
+                 PackUI.OnPackRewardClicked -= PurchasePack;
             PackUI.OnPackRewardClicked += PurchasePack;
             InitRewardScreen();
             for (int i = 0; i < ContrainersToActivate.Length; i++)

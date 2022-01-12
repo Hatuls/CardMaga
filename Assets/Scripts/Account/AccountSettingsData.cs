@@ -27,10 +27,12 @@ namespace Account.GeneralData
             } 
         }
 
+        public bool IsCorrupted()
+        {
+            // cannot be checked by the parameters
+            return false;
+        }
 
-     
-
- 
         public async Task NewLoad()
         {
             SFXEffect = true;

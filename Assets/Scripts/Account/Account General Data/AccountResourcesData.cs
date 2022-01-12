@@ -40,5 +40,11 @@ namespace Account.GeneralData
             _diamonds = new UshortStat((ushort)DefaultVersion._gameVersion.Diamonds);
             _gold = new UshortStat(0);
         }
+
+        public bool IsCorrupted()
+        {
+            return _diamonds.Value == 0 && _chips.Value == 0 && _gold.Value == 0;
+
+        }
     }
 }

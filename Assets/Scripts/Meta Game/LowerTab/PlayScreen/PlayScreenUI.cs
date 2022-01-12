@@ -123,6 +123,7 @@ public class  UshortEvent : UnityEvent<ushort> { }
         {
             BGPanelSetActiveState(true);
             gameObject.SetActive(true);
+            OnSuccessfullPlayClick.RemoveAllListeners();
             OnSuccessfullPlayClick.AddListener(ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy).ReduceAmount);
             _playBtn.FinishedCycle();
         }
