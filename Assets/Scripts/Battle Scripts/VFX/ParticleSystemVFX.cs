@@ -19,6 +19,5 @@ public class ParticleSystemVFX : VFXBase
     }
 
     public void Detach() => transform.SetParent(null);
-    public void GoToContainer() => transform.SetParent(VFXManager.Instance.transform);
 
 }
