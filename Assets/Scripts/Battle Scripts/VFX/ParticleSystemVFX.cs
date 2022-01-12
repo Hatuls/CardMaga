@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using TokenFactory;
 public class ParticleSystemVFX : VFXBase
 {
     [SerializeField]

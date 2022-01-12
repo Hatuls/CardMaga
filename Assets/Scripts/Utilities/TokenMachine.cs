@@ -113,6 +113,7 @@ namespace TokenFactory
             return t;
         }
 
+    }
         public sealed class Token : IDisposable
         {
             private Action<Token> OnRelease;
@@ -127,5 +128,4 @@ namespace TokenFactory
 
             ~Token() => Dispose();
         }
-    }
 }

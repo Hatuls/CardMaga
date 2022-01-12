@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+using TokenFactory;
 public abstract class VFXBase : MonoBehaviour
 {
     IStayOnTarget _stayOnTarget;
     public IStayOnTarget StayOnTarget => _stayOnTarget;
     Coroutine coroutine;
+    
     public virtual void Cancel()
     {
         if (coroutine != null)
