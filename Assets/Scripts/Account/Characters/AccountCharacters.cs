@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -64,14 +63,12 @@ namespace Account.GeneralData
             var characters = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.Player);
             int length = characters.Length;
             _characterDatas = new CharacterData[0];
-                SelectedCharacter = CharacterEnum.Chiara;
+            SelectedCharacter = CharacterEnum.Chiara;
 
             for (int i = 0; i < length; i++)
             {
-                if (characters[i].UnlockAtLevel <= currentLevel)
-                {
-                    AddChatacterToDictionary(characters[i].CharacterEnum);
-                }
+                AddChatacterToDictionary(characters[i].CharacterEnum);
+
             }
         }
         #endregion

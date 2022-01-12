@@ -197,9 +197,12 @@ namespace Account
 
         private async Task CreateNewAccount()
         {
-            _accountData = new AccountData();
+            if (SaveManager.CheckFileExists(AccountData.SaveName, saveType, true, "txt", path))
+                SaveManager.DeleteFile(AccountData.SaveName, "txt", saveType, path, true);
+                _accountData = new AccountData();
             await _accountData.NewLoad();
             _needToDoTutorial = true;
+            await Task.Yield();
             SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
         }
 
@@ -259,6 +262,7 @@ namespace Account
             await AccountCharacters.NewLoad();
             _battleData = new BattleData();
             _battleData.ResetData();
+            await Task.Yield();
         }
     }
     [System.Serializable]
