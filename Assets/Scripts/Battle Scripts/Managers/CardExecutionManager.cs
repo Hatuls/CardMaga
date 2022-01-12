@@ -36,6 +36,7 @@ namespace Battles
         [SerializeField] UnityEvent OnFailedToExecute;
         public static System.Action<List<KeywordData>> OnSortingKeywords;
         public static System.Action<int> OnAnimationIndexChange;
+        public static System.Action OnInsantExecute;
         public void ResetExecution()
         {
             //_keywordData.Clear();
@@ -128,6 +129,7 @@ namespace Battles
         {
 
             OnKeywordEvent();
+            OnInsantExecute?.Invoke();
             _cardsQueue.Dequeue();
         }
 
@@ -142,11 +144,7 @@ namespace Battles
         //        KeywordManager.Instance.ActivateKeyword(currentTurn, current.CardKeywords[j]);
         //}
 
-        // need to register the players cards into a queue and tell the animation to play the animation
-        // when this card is activate need to sort the cards keywords in a list by their indexes
-        // when animation is finished to tell the queue to pop up the next card and play it
-        // each animation has animation keys to notify which index is currently playing
-        // when the animation event fire his index -> the list execute the keyword and move to the next index
+
 
         public void AddToQueue(Cards.Card card)
         {

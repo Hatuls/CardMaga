@@ -9,6 +9,10 @@ public class VFXSO : ScriptableObject , IStayOnTarget
     public GameObject VFXPrefab => _vfxPrefab;
 
     [SerializeField]
+    BodyPartEnum _defaultBodyPart;
+
+
+    [SerializeField]
     bool toUseTransformRotation;
     [SerializeField]
     bool _stayOnTarget;
@@ -22,5 +26,7 @@ public class VFXSO : ScriptableObject , IStayOnTarget
     public bool IsFromAnimation => _isFromAnimation;
     public float DelayUntillDetach => _delayUntillDetach;
 
-    public bool ToUseBodyRotation => toUseTransformRotation;  
+    public bool ToUseBodyRotation => toUseTransformRotation;
+
+    public BodyPartEnum DefaultBodyPart => _defaultBodyPart;
 }

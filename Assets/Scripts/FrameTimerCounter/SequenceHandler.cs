@@ -5,7 +5,7 @@ using UnityEngine.Events;
 #if UNITY_EDITOR
 using System.Linq;
 #endif
-public class SequanceHandler : MonoBehaviour
+public class SequenceHandler : MonoBehaviour
 {
     [SerializeReference]
     ISequenceHandler[] _sequanceList;

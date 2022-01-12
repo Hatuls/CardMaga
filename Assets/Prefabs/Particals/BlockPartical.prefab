@@ -4730,6 +4730,7 @@ GameObject:
   - component: {fileID: 6792263422843581947}
   - component: {fileID: 1306465827767509181}
   - component: {fileID: -4773393376520764148}
+  - component: {fileID: -15065088565207171}
   m_Layer: 0
   m_Name: BlockPartical
   m_TagString: Untagged
@@ -4766,7 +4767,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -9486,5 +9487,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba02a1305229a834cb1737d9f68bb199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sequanceHandler: {fileID: 0}
   _particleSystem: {fileID: 6792263422843581947}
   _vfxID: {fileID: 11400000, guid: 61a613e6b5e554e43a302f504bfb0484, type: 2}
+--- !u!114 &-15065088565207171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988069961852461950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b99c63c7b28d548a2d6983a5f73ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sequanceList: []
+  references:
+    version: 1

@@ -1,16 +1,17 @@
-﻿using System.Collections;
+﻿
 using UnityEngine;
-using TokenFactory;
+
 public abstract class VFXBase : MonoBehaviour
 {
     IStayOnTarget _stayOnTarget;
     public IStayOnTarget StayOnTarget => _stayOnTarget;
-    Coroutine coroutine;
+    protected Coroutine coroutine;
+    [SerializeField] SequenceHandler sequanceHandler;
     
     public virtual void Cancel()
     {
-        if (coroutine != null)
-            StopCoroutine(coroutine);
+        sequanceHandler.StopSequence();
+;
     }
     public void DestroyVFX() => Destroy(this);
     public abstract bool IsPlaying { get;}
@@ -18,33 +19,16 @@ public abstract class VFXBase : MonoBehaviour
     {
         _stayOnTarget = stayOnTarget;
         transform.position = position;
-        coroutine = StartCoroutine(OnDelayCounter(stayOnTarget));
+        sequanceHandler.StartSequance();
     }
-    public virtual void StartVFX(IStayOnTarget stayOnTarget, Transform GetTransform)
+    public virtual void StartVFX(IStayOnTarget stayOnTarget, Transform GetTransform, System.Action OnFinishDuration = null)
     {
         _stayOnTarget = stayOnTarget;
         transform.SetParent(GetTransform);
-
-  
-            transform.SetPositionAndRotation(GetTransform.position, stayOnTarget.ToUseBodyRotation ? GetTransform.rotation : Quaternion.identity);
-  
-
-        coroutine = StartCoroutine(OnDelayCounter(stayOnTarget, () => { if (stayOnTarget.StayOnTarget == true) transform.SetParent(null); }));
+        transform.SetPositionAndRotation(GetTransform.position, stayOnTarget.ToUseBodyRotation ? GetTransform.rotation : Quaternion.identity);
+        sequanceHandler.StartSequance();
     }
-    protected IEnumerator OnDelayCounter(IStayOnTarget stayOnTarget, System.Action OnFinish = null)
-    {
-        if (stayOnTarget.DelayUntillDetach < 0)
-        {
-            float counter = 0;
-            while (counter <= stayOnTarget.DelayUntillDetach)
-            {
-                yield return null;
-                counter += Time.deltaTime;
-            }
-
-        }
-        OnFinish?.Invoke();
-    }
+ 
 }
 public interface IVFXPackage
 {
@@ -52,10 +36,14 @@ public interface IVFXPackage
     void Cancel();
     void StartVFX();
 }
+
+
+
+
+
 public interface IStayOnTarget
 {
     bool ToUseBodyRotation { get; }
     bool StayOnTarget { get; }
     bool IsFromAnimation { get; }
-    float DelayUntillDetach { get; }
 }

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using TokenFactory;
+
 public class ParticleSystemVFX : VFXBase
 {
     [SerializeField]
@@ -9,11 +9,16 @@ public class ParticleSystemVFX : VFXBase
 
 
     public VFXSO VFXID => _vfxID;
-    public override bool IsPlaying => _particleSystem.isPlaying&& _particleSystem.IsAlive();
-   
-    public override void StartVFX(IStayOnTarget stayOnTarget, Transform GetTransform)
+    [Sirenix.OdinInspector.ShowInInspector]
+    public override bool IsPlaying => _particleSystem.isPlaying && _particleSystem.IsAlive();
+
+    public override void StartVFX(IStayOnTarget stayOnTarget, Transform GetTransform, System.Action action = null)
     {
-        base.StartVFX(stayOnTarget, GetTransform);
+        base.StartVFX(stayOnTarget, GetTransform, action);
         _particleSystem?.Play();
     }
+
+    public void Detach() => transform.SetParent(null);
+    public void GoToContainer() => transform.SetParent(VFXManager.Instance.transform);
+
 }

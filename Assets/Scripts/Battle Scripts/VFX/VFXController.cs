@@ -17,24 +17,31 @@ public class VFXController : MonoBehaviour
     {
         Battles.CardExecutionManager.OnSortingKeywords += RecieveSortingKeywordsData;
         Battles.CardExecutionManager.OnAnimationIndexChange += SortVFXFromListByAnimationIndex;
+        Battles.CardExecutionManager.OnInsantExecute += ExecuteAllKeywords;
     }
     private void OnDisable()
     {
+        Battles.CardExecutionManager.OnInsantExecute -= ExecuteAllKeywords;
         Battles.CardExecutionManager.OnAnimationIndexChange -= SortVFXFromListByAnimationIndex;
         Battles.CardExecutionManager.OnSortingKeywords -= RecieveSortingKeywordsData;
     }
     public void RegisterVFXQueue(KeywordSO keyword)
-        => VFXQueue.Enqueue(keyword.GetVFX());
+    {
+        var vfx = keyword.GetVFX();
+        if (vfx)
+            VFXQueue.Enqueue(vfx);
+    }
 
     private VFXSO DeQueue() => VFXQueue.Dequeue();
 
-    public void ActivateParticle(BodyPartEnum bodyPart, ParticleSystemVFX vfx)
-        => ActivateParticle(_avatarHandler.GetBodyPart(bodyPart), vfx.VFXID);
-    public void ActivateParticle(Transform part, VFXSO vfx)
+    private void ExecuteAllKeywords()
     {
-        Instantiate(vfx.VFXPrefab).GetComponent<VFXBase>().StartVFX(vfx, part);
-    }
 
+        while (VFXQueue.Count > 0)
+        {
+            CreateVFX(VFXQueue.Peek().DefaultBodyPart);
+        };
+    }
     private void RecieveSortingKeywordsData(List<KeywordData> keywords)
     {
         if (_isPlayer == Battles.Turns.TurnHandler.IsPlayerTurn)
@@ -56,42 +63,68 @@ public class VFXController : MonoBehaviour
         }
 
     }
-
-    #region Animation Event Callbacks
-    #region Attack
-    public void ApplyAttackHeadVFX()
-        => CreateVFX(BodyPartEnum.Head);
-    public void ApplyAttackPivotBottomVFX()
-        => CreateVFX(BodyPartEnum.BottomBody);
-    public void ApplyAttackChestVFX()
-        => CreateVFX(BodyPartEnum.Chest);
-    public void ApplyAttackLeftLegVFX()
-        => CreateVFX(BodyPartEnum.LeftLeg);
-    public void ApplyAttackRightLegVFX()
-        => CreateVFX(BodyPartEnum.RightLeg);
-    public void ApplyAttackLeftArmVFX()
-        => CreateVFX(BodyPartEnum.LeftArm);
-    public void ApplyAttackRightArmVFX()
-        => CreateVFX(BodyPartEnum.RightArm);
-    public void ApplyRightKneeArmVFX()
-     => CreateVFX(BodyPartEnum.RightKnee);
-    public void ApplyLeftKneeArmVFX()
-       => CreateVFX(BodyPartEnum.LeftKnee);
-    public void ApplyRightElbowArmVFX()
- => CreateVFX(BodyPartEnum.RightElbow);
-    public void ApplyLeftElbowArmVFX()
-       => CreateVFX(BodyPartEnum.LeftElbow);
-
+    private void CreateVFXFromAnimation(BodyPartEnum bodyPartEnum)
+    {
+        if (VFXQueue.Count == 0)
+            return;
+        if (VFXQueue.Peek().IsFromAnimation)
+            CreateVFX(bodyPartEnum);
+        else
+            VFXQueue.Dequeue();
+    }
     private void CreateVFX(BodyPartEnum bodyPartEnum)
     {
 
         if (VFXQueue.Count > 0)
         {
             var vfx = DeQueue();
-            if (vfx.IsFromAnimation)
-                VFXManager.Instance.PlayParticle(_avatarHandler.GetBodyPart(bodyPartEnum), vfx);
+
+            ActivateParticle(_avatarHandler.GetBodyPart(bodyPartEnum), vfx);
         }
     }
+
+    private void ActivateParticle(Transform transform, VFXSO vfx)
+        => VFXManager.Instance.PlayParticle(transform, vfx);
+    #region Animation Event Callbacks
+    #region Attack
+    public void ApplyAttackHeadVFX()
+    {
+        CreateVFXFromAnimation(BodyPartEnum.Head);
+    }
+    public void ApplyAttackPivotBottomVFX()
+    {
+        CreateVFXFromAnimation(BodyPartEnum.BottomBody);
+    }
+    public void ApplyAttackChestVFX()
+    {
+        CreateVFXFromAnimation(BodyPartEnum.Chest);
+    }
+    public void ApplyAttackLeftLegVFX()
+    {
+        CreateVFXFromAnimation(BodyPartEnum.LeftLeg);
+    }
+    public void ApplyAttackRightLegVFX()
+    {
+        CreateVFXFromAnimation(BodyPartEnum.RightLeg);
+    }
+    public void ApplyAttackLeftArmVFX()
+    {
+        CreateVFXFromAnimation(BodyPartEnum.LeftArm);
+    }
+    public void ApplyAttackRightArmVFX()
+    {
+        CreateVFXFromAnimation(BodyPartEnum.RightArm);
+    }
+    public void ApplyRightKneeArmVFX()
+    { CreateVFXFromAnimation(BodyPartEnum.RightKnee); }
+    public void ApplyLeftKneeArmVFX()
+    { CreateVFXFromAnimation(BodyPartEnum.LeftKnee); }
+    public void ApplyRightElbowArmVFX()
+    { CreateVFXFromAnimation(BodyPartEnum.RightElbow); }
+    public void ApplyLeftElbowArmVFX()
+    { CreateVFXFromAnimation(BodyPartEnum.LeftElbow); }
+
+   
     #endregion
 
     #region Defense
