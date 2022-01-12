@@ -68,6 +68,14 @@ namespace Account.GeneralData
 
 
         }
+
+        public bool IsCorrupted()
+        {
+            const int _firstDeckAmount = 8;
+            return _cardList.Count < _firstDeckAmount;
+        }
+
+  
         #endregion
     }
 }

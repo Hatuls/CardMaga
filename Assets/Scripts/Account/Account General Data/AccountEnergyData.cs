@@ -11,6 +11,10 @@ namespace Account.GeneralData
         public MaxEnergyStat MaxEnergy;
    
         public EnergyStat Energy;
+
+        public bool IsCorrupted()
+            => Energy.Value <= 0&& MaxEnergy.Value<=0;
+        
         #endregion
 
         #region Properties

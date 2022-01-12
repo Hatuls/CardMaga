@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Account.GeneralData
 {
     [Serializable]
-    public class AccountCombos:ILoadFirstTime
+    public class AccountCombos : ILoadFirstTime
     {
         #region Fields
         [SerializeField]
@@ -39,6 +39,13 @@ namespace Account.GeneralData
 
         public async Task NewLoad()
         {
+        }
+
+        public bool IsCorrupted()
+        {
+            // not implemented yet
+            // need to impelement later
+            return false;
         }
         #endregion
     }

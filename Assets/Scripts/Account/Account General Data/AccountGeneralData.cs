@@ -45,6 +45,14 @@ namespace Account.GeneralData
             _accountResourcesData = new AccountResourcesData();
             await _accountResourcesData.NewLoad();
         }
+
+        public bool IsCorrupted()
+        {
+            bool corrupted = false;
+            //corrupted |= _accountEnergyData.IsCorrupted();
+            //corrupted |= _accountLevelData.IsCorrupted();
+            return corrupted;
+        }
         #endregion
     }
 }
