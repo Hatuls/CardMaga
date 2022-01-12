@@ -10,10 +10,12 @@ public class TutorialPage : MonoBehaviour
 
     [SerializeField] IntSerializedEvent OnPageChanged;
     [SerializeField] UnityEvent OnFinalPage;
+    [SerializeField] UnityEvent OnStartPage;
     
     public int PageLength => _pages.Length;
     public void StartTutorial()
     {
+        OnStartPage?.Invoke();
         gameObject.SetActive(true);
         SetPages(0);
     }
