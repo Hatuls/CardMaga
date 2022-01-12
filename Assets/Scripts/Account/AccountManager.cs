@@ -99,7 +99,7 @@ namespace Account
         }
         #endregion
         #region Public Methods
-        public async void Init()
+        public async Task Init()
         {
             if (SaveManager.CheckFileExists(AccountData.SaveName, saveType, true, path))
             {
@@ -113,10 +113,10 @@ namespace Account
 
             OnFinishLoading?.Invoke();
 
-            if (!_needToDoTutorial)
-                EnterMainMenu();
-            else
+            if (_needToDoTutorial)
                 EnterTutorial(); 
+            else
+                EnterMainMenu();
         }
 
         private static void EnterTutorial()
