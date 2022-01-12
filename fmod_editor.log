@@ -7,7 +7,7 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000002086D0414C8 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000002086D03D5F8 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -18,9 +18,48 @@
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] SoundI::release                          : Menu V2 (000002080BECE008)
-[LOG] SoundI::release                          :     Menu V2 (00000207D9455128)
-[LOG] SoundI::release                          :     Menu V2 (0000020799C4C0F8)
+[LOG] SystemI::createSound                     : filename = Assets/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000002086C7D09C8 : node = 00000207FCC0EE90
+[LOG] SystemI::createSound                     : add node to async list : head = 0000020808C2DCE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000002086C7D09C8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 6309792
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 18624
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000207FCC0EFA0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Music 3 - V1', format=5, channels=2, frequency=48000, lengthbytes=1678368, lengthpcm=6368444, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.366272.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000002086C7D09C8
+[LOG] SoundI::release                          : Menu V2 (00000207AE129E18)
+[LOG] SoundI::release                          :     Menu V2 (00000207D94552C8)
+[LOG] SoundI::release                          :     Menu V2 (00000207FC339CA8)
+[LOG] SystemI::createSound                     : filename = Assets/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 0000020808C96CB8 : node = 00000205E335F4B0
+[LOG] SystemI::createSound                     : add node to async list : head = 0000020808C2DCE8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 0000020808C96CB8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 6309792
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 18624
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000205E335F5C0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 1638
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Music 3 - V1', format=5, channels=2, frequency=48000, lengthbytes=1678368, lengthpcm=6368444, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.366272.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 0000020808C96CB8
+[LOG] SoundI::release                          : Music 3 - V1 (000002086C7D09C8)
+[LOG] SoundI::release                          :     Music 3 - V1 (00000207D94579C8)
+[LOG] SoundI::release                          :     Music 3 - V1 (00000207AE129758)
+[LOG] SoundI::release                          : Music 3 - V1 (0000020808C96CB8)
+[LOG] SoundI::release                          :     Music 3 - V1 (00000207D91FE878)
+[LOG] SoundI::release                          :     Music 3 - V1 (00000207AE129E18)
 [LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
