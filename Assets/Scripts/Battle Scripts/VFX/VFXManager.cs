@@ -1,5 +1,5 @@
 ﻿
-using System;
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ public class VFXManager : MonoSingleton<VFXManager>
     [SerializeField] VFXController _playerVFX, _enemyVFX;
 
     [SerializeField] List<ParticleSystemVFX> _VFXLIST;
-
+    
 
     public override void Init()
     {

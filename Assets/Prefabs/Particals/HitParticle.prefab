@@ -9506,6 +9506,7 @@ GameObject:
   - component: {fileID: 6792263422843581947}
   - component: {fileID: 1306465827767509181}
   - component: {fileID: 697197520399240847}
+  - component: {fileID: -9173951174862049375}
   m_Layer: 0
   m_Name: HitParticle
   m_TagString: Untagged
@@ -14264,8 +14265,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba02a1305229a834cb1737d9f68bb199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sequanceHandler: {fileID: 0}
   _particleSystem: {fileID: 6792263422843581947}
   _vfxID: {fileID: 11400000, guid: e4b4d24c7b29dcd49b161555a4cc10f0, type: 2}
+--- !u!114 &-9173951174862049375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6988069961852461950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b99c63c7b28d548a2d6983a5f73ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sequanceList: []
+  references:
+    version: 1
 --- !u!1 &8813219216953303244
 GameObject:
   m_ObjectHideFlags: 0

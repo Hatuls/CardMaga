@@ -9457,6 +9457,7 @@ GameObject:
   - component: {fileID: 6206544812468791490}
   - component: {fileID: 325339423512179729}
   - component: {fileID: -8444425437372273290}
+  - component: {fileID: 2420592956331255269}
   m_Layer: 0
   m_Name: DexterityPartical
   m_TagString: Untagged
@@ -9558,7 +9559,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -14214,5 +14215,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba02a1305229a834cb1737d9f68bb199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sequanceHandler: {fileID: 0}
   _particleSystem: {fileID: 325339423512179729}
   _vfxID: {fileID: 11400000, guid: ac56bbe45d94b274e8f5aa8cc23a12bc, type: 2}
+--- !u!114 &2420592956331255269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6107879658907685914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b99c63c7b28d548a2d6983a5f73ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sequanceList: []
+  references:
+    version: 1

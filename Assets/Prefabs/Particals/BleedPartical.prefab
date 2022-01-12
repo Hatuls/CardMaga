@@ -4824,6 +4824,8 @@ GameObject:
   - component: {fileID: 7512957303348518999}
   - component: {fileID: 7512957303348518996}
   - component: {fileID: -5075339259117847099}
+  - component: {fileID: -3568177671692519261}
+  - component: {fileID: 4754953924732137233}
   m_Layer: 0
   m_Name: BleedPartical
   m_TagString: Untagged
@@ -9580,5 +9582,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba02a1305229a834cb1737d9f68bb199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sequanceHandler: {fileID: 0}
   _particleSystem: {fileID: 7512957303348518999}
   _vfxID: {fileID: 11400000, guid: e47f905957c4f37439f11d4624849aa9, type: 2}
+--- !u!114 &-3568177671692519261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7512957303348518997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b99c63c7b28d548a2d6983a5f73ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sequanceList: []
+  references:
+    version: 1
+--- !u!114 &4754953924732137233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7512957303348518997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b99c63c7b28d548a2d6983a5f73ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sequanceList: []
+  references:
+    version: 1

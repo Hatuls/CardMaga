@@ -31,9 +31,9 @@ public class EndRunScreen : MonoBehaviour, IObserver
     GameObject _defaultRewardContainer;
 
     [SerializeField]
-    SequanceHandler _tutorialSequence;
+    SequenceHandler _tutorialSequence;
     [SerializeField]
-    SequanceHandler _defaultSequence;
+    SequenceHandler _defaultSequence;
 
     // Start is called before the first frame update
     void Start()
