@@ -63,7 +63,8 @@ public class NetworkHandler : MonoBehaviour
     public async void InitAccount()
     {
         await gameFactoryTerminal.Init();
-       await AccountManager.Instance.Init();
+        await Task.Yield();
+        await AccountManager.Instance.Init();
     }
 
     private void CheckVersion(GameVersion currentVersion)
