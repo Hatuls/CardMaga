@@ -1,21 +1,23 @@
 ﻿using Account;
+using Factory;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
 public class NetworkHandler : MonoBehaviour
 {
-    public static System.Action CheckVersionEvent;
     const string Version = "Version";
     [SerializeField] TextMeshProUGUI _status;
     [SerializeField] TextMeshProUGUI _myVersion;
     [SerializeField] TextMeshProUGUI _webVersion;
     [SerializeField] GameObject _btnLogin;
+    [SerializeField] GameFactoryTerminal gameFactoryTerminal;
     string path = "https://drive.google.com/uc?export=download&id=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
 
     GameVersion _gv;
 
     private void Awake()
-    {
+    { 
         _webVersion.enabled = false;
         _status.enabled = false;
 
@@ -24,17 +26,13 @@ public class NetworkHandler : MonoBehaviour
     }
     private void Start()
     {
-        CheckVersionEvent += Init;
-
+        Init();
         FireBaseHandler.Init();
         UnityAnalyticHandler.SendEvent(Application.version);
 
     }
-    private void OnDestroy()
-    {
-        CheckVersionEvent -= Init;
-    }
-    public async void Init()
+ 
+    public void Init()
     {
         WebRequests.Get(
             path,
@@ -49,16 +47,23 @@ public class NetworkHandler : MonoBehaviour
             }
             );
 
+         OfflineButton();
+    }
+
+    private async Task OfflineButton()
+    {
         for (int i = 0; i < 500; i++)
-            await System.Threading.Tasks.Task.Yield();
+            await Task.Yield();
         if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.NetworkScene)
             _btnLogin.SetActive(true);
     }
+
     [Sirenix.OdinInspector.Button]
 
-    public void InitAccount()
+    public async void InitAccount()
     {
-        AccountManager.Instance.Init();
+        await gameFactoryTerminal.Init();
+       await AccountManager.Instance.Init();
     }
 
     private void CheckVersion(GameVersion currentVersion)

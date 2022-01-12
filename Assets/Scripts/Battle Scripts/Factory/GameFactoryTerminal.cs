@@ -1,4 +1,5 @@
 ﻿using Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Factory
@@ -14,8 +15,9 @@ namespace Factory
         [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
         [SerializeField] EventPointCollectionSO _eventPoints;
         [SerializeField] Art.ArtSO _art;
-        static bool flag;
-        private void Awake()
+        public static bool flag;
+    
+        public async Task Init()
         {
             if (!flag)
             {
@@ -71,7 +73,7 @@ namespace Factory
                         throw new System.Exception("ArtSO Was Not Assigned!");
                 }
 
-               new GameFactory(_art, _cards, _combos, _characters, _rewards, _eventPoints, _keywords);
+                new GameFactory(_art, _cards, _combos, _characters, _rewards, _eventPoints, _keywords);
             }
 
             Destroy(this.gameObject);
