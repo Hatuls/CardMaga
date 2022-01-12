@@ -9,7 +9,7 @@ public class VFXController : MonoBehaviour
     [SerializeField] VFXSO _recieivingDamageVFX;
 
     [SerializeField] AvatarHandler _avatarHandler;
-    public AvatarHandler AvatarHandler { get => _avatarHandler;  set => _avatarHandler = value; }
+    public AvatarHandler AvatarHandler { get => _avatarHandler; set => _avatarHandler = value; }
     List<KeywordData> keywordDatas = new List<KeywordData>();
 
     private Queue<VFXSO> VFXQueue = new Queue<VFXSO>();
@@ -40,7 +40,7 @@ public class VFXController : MonoBehaviour
         if (_isPlayer == Battles.Turns.TurnHandler.IsPlayerTurn)
         {
             keywordDatas.AddRange(keywords);
-          
+
         }
     }
     private void SortVFXFromListByAnimationIndex(int index)
@@ -73,6 +73,14 @@ public class VFXController : MonoBehaviour
         => CreateVFX(BodyPartEnum.LeftArm);
     public void ApplyAttackRightArmVFX()
         => CreateVFX(BodyPartEnum.RightArm);
+    public void ApplyRightKneeArmVFX()
+     => CreateVFX(BodyPartEnum.RightKnee);
+    public void ApplyLeftKneeArmVFX()
+       => CreateVFX(BodyPartEnum.LeftKnee);
+    public void ApplyRightElbowArmVFX()
+ => CreateVFX(BodyPartEnum.RightElbow);
+    public void ApplyLeftElbowArmVFX()
+       => CreateVFX(BodyPartEnum.LeftElbow);
 
     private void CreateVFX(BodyPartEnum bodyPartEnum)
     {
@@ -97,6 +105,15 @@ public class VFXController : MonoBehaviour
        => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftArm), _defensingVFX);
     public void ApplyDefenseRightArmVFX()
           => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightArm), _defensingVFX);
+
+    public void ApplyDefenseRightKneeArmVFX()
+ => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightKnee), _defensingVFX);
+    public void ApplyDefenseLeftKneeArmVFX()
+=> ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftKnee), _defensingVFX);
+    public void ApplyDefenseRightElbowArmVFX()
+=> ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightElbow), _defensingVFX);
+    public void ApplyDefenseLeftElbowArmVFX()
+=> ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftElbow), _defensingVFX);
     #endregion
 
     #region Hit VFX 
@@ -114,6 +131,16 @@ public class VFXController : MonoBehaviour
        => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftArm), _recieivingDamageVFX);
     public void ApplyRecieveDamageRightArmVFX()
           => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightArm), _recieivingDamageVFX);
+
+
+    public void ApplyRecieveDamageRightKneeArmVFX()
+ => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightKnee), _recieivingDamageVFX);
+    public void ApplyRecieveDamageLeftKneeArmVFX()
+=> ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftKnee), _recieivingDamageVFX);
+    public void ApplyRecieveDamageRightElbowArmVFX()
+=> ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightElbow), _recieivingDamageVFX);
+    public void ApplyRecieveDamageLeftElbowArmVFX()
+=> ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftElbow), _recieivingDamageVFX);
     #endregion
     #endregion
 
@@ -129,5 +156,9 @@ public enum BodyPartEnum
     RightLeg = 5,
     BottomBody = 6,
     Chest = 7,
+    LeftKnee = 8,
+    RightKnee = 9,
+    LeftElbow = 10,
+    RightElbow = 11,
 };
 
