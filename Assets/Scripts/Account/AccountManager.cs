@@ -149,7 +149,7 @@ namespace Account
 
         private void RewardLoad()
         {
-            if (SaveManager.CheckFileExists("Reward", saveType))
+            if (SaveManager.CheckFileExists("Reward2", saveType))
                 _rewardGift = SaveManager.Load<RewardGift>("Reward", saveType);
         }
 
