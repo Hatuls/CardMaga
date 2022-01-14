@@ -151,18 +151,18 @@ namespace UI.Meta.Laboratory
                 Debug.LogWarning($"UpgradeUIScreen : Card Is Null!");
                 return;
             }
-
-            _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference);
+            var selectedCardUI = _selectedCardUI.CardUI;
+            selectedCardUI.GFX.SetCardReference(card.GFX.GetCardReference);
             ActivateGameObject(_selectedCardUI.gameObject, true);
 
-            var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(_selectedCardUI.CardUI.GFX.GetCardReference);
+            var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(selectedCardUI.GFX.GetCardReference);
             _sortByNotSelected.ID = null;
             _upgradeSequence.StartSequance();
             if (upgradedVersion != null)
             {
                 SetCostText();
                 _upgradedVersion.CardUI.GFX.SetCardReference(upgradedVersion);
-                _sortByNotSelected.ID = card.RecieveCardReference().CardInstanceID;
+                _sortByNotSelected.ID = selectedCardUI.RecieveCardReference().CardInstanceID;
                 _upgradeSequence.StartSequance();
             }
             else
