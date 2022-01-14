@@ -153,8 +153,11 @@ namespace Account
                 _rewardGift = SaveManager.Load<RewardGift>("Reward", saveType);
         }
 
-        public void ResetAccount() => _ = CreateNewAccount();
-
+        public void ResetAccount()
+        {
+            _ = CreateNewAccount();
+            UI.Meta.Laboratory.LaboratoryScreenUI.ResetTutorialFirstTime();
+        }
 
         #endregion
 
@@ -168,10 +171,13 @@ namespace Account
         [Sirenix.OdinInspector.Button]
         private void AddEnergy() => _accountData.AccountGeneralData.AccountEnergyData.Energy.AddValue(10);
         [Sirenix.OdinInspector.Button]
-        private void ResetAccountSave() => SaveManager.DeleteFile(AccountData.SaveName, "txt", saveType, path, true);// PlayerPrefs.DeleteKey(AccountData.SaveName);
-
-    //    [Sirenix.OdinInspector.Button]
- //       private void AddEXP() => _accountData.AccountGeneralData.AccountLevelData.Exp.AddValue(5);
+        private void ResetAccountSave()
+        {
+            SaveManager.DeleteFile(AccountData.SaveName, "txt", saveType, path, true);// PlayerPrefs.DeleteKey(AccountData.SaveName);
+            UI.Meta.Laboratory.LaboratoryScreenUI.ResetTutorialFirstTime();
+        }
+        //    [Sirenix.OdinInspector.Button]
+        //       private void AddEXP() => _accountData.AccountGeneralData.AccountLevelData.Exp.AddValue(5);
 #endif
 
         private void OnDisable()
@@ -213,6 +219,7 @@ namespace Account
             _needToDoTutorial = true;
             await Task.Yield();
             SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
+            
         }
 
 
