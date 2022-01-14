@@ -32,7 +32,7 @@ public class DeckTrackerFromDeckPanel : MonoBehaviour
 
     public void RegisterDeck()
     {
-        int length = _getDeckLength.GetDeckLength(_deckCollection.Collection) ;
+        int length = _getDeckLength.GetDeckLength((IReadOnlyList<MetaCardUIHandler>)_deckCollection.Collection) ;
         var characterSO = Account.AccountManager.Instance.AccountCharacters.GetCharacterData(_currentCharacter);
         var deck = characterSO.GetDeckAt(_currentIndex);
         Account.GeneralData.CardCoreInfo[] cards = new Account.GeneralData.CardCoreInfo[deck.Cards.Length];
