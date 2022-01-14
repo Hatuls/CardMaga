@@ -7,7 +7,7 @@ public class VFXManager : MonoSingleton<VFXManager>
 {
 
     [SerializeField] VFXController _playerVFX, _enemyVFX;
-
+    
     [SerializeField] List<ParticleSystemVFX> _VFXLIST;
     
 
@@ -16,22 +16,23 @@ public class VFXManager : MonoSingleton<VFXManager>
         _VFXLIST = new List<ParticleSystemVFX>();
     }
     
-    public void PlayParticle(bool isOnPlayer, BodyPartEnum bodyPartEnum, VFXSO vfx)
+    public (ParticleSystemVFX,VFXController) RecieveParticleSystemVFX(bool isOnPlayer, VFXSO vfx)
     {
         if (vfx == null)
-            return;
+            return (null,null);
 
         var controller = isOnPlayer ? _playerVFX : _enemyVFX;
-        PlayParticle(controller.AvatarHandler.GetBodyPart(bodyPartEnum),vfx);
+        return  ( RecieveParticleSystemVFX(vfx) , controller);
     }
-    public void PlayParticle(Transform transform, VFXSO vfx)
+    public ParticleSystemVFX RecieveParticleSystemVFX( VFXSO vfx)
     {
         if (vfx == null)
-            return;
+            return null;
 
         ParticleSystemVFX vfxGO = RecieveFirstOfVFX(vfx);
 
-        vfxGO.StartVFX(vfx, transform);
+ 
+        return vfxGO;
     }
 
     private ParticleSystemVFX RecieveFirstOfVFX(VFXSO vfx)
