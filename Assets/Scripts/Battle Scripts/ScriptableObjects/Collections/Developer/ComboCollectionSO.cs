@@ -82,7 +82,10 @@ namespace Collections
         #region properties
         public Combo.ComboSO[] GetComboSO => _allComboSO;
 
-
+        public Combo.ComboSO[] GetComboSOFromIDs(IEnumerable<ushort> ids)
+        {
+          return  ids.Select(x => GetCombo(x)).ToArray();
+        }
         public Combo.ComboSO GetCombo(ushort ID)
         {
             if (_comboDict == null)
