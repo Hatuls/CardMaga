@@ -123,10 +123,11 @@ public class EndRunScreen : MonoBehaviour, IObserver
         }
         else
         {
-            const int offset = 2;
+            const int offset = 3;
             for (int i = 0; i < _defaultRewards.Length; i++)
             {
-                _defaultRewards[i].SetText(battledata[(Battles.CharacterTypeEnum)(i + offset)].Diamonds.ToString());
+                var character = (Battles.CharacterTypeEnum)(i + offset);
+                _defaultRewards[i].SetText(battledata[character].Diamonds.ToString());
             }
 
         }

@@ -118,6 +118,7 @@ namespace UI.Meta.Laboratory
 
                 else
                 {
+                    deck[i].OnCardUIClicked -= SelectCardUI;
                     deck[i].OnCardUIClicked += SelectCardUI;
                 }
             }
@@ -145,7 +146,6 @@ namespace UI.Meta.Laboratory
 
         public void SelectCardUI(CardUI card)
         {
-            Debug.LogWarning("!");
             if (card == null)
             {
                 Debug.LogWarning($"UpgradeUIScreen : Card Is Null!");
