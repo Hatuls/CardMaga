@@ -156,21 +156,21 @@ namespace UI.Meta.Laboratory
             ActivateGameObject(_selectedCardUI.gameObject, true);
 
             var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(_selectedCardUI.CardUI.GFX.GetCardReference);
-
+            _sortByNotSelected.ID = null;
+            _upgradeSequence.StartSequance();
             if (upgradedVersion != null)
             {
                 SetCostText();
                 _upgradedVersion.CardUI.GFX.SetCardReference(upgradedVersion);
                 _sortByNotSelected.ID = card.RecieveCardReference().CardInstanceID;
+                _upgradeSequence.StartSequance();
             }
             else
             {
-                _sortByNotSelected.ID = null;
                 _instructionText.text = defaultText;
                 ActivateGameObject(_upgradeBtn, false);
             }
             ActivateGameObject(_upgradedVersion.gameObject, upgradedVersion != null);
-            _upgradeSequence.StartSequance();
 
 
         }
@@ -197,8 +197,8 @@ namespace UI.Meta.Laboratory
             {
                 if (currentCard.CardsAtMaxLevel == false)
                 {
-                  //  ResetScreen();
-                        SelectCardUI(_selectedCardUI.CardUI);
+                    //  ResetScreen();
+                    SelectCardUI(_selectedCardUI.CardUI);
                     //   _currentCardGO.gameObject.SetActive(false);
                 }
                 else
@@ -209,7 +209,7 @@ namespace UI.Meta.Laboratory
                 }
                 Debug.Log(" Succeed");
                 OnSuccessfullUpgrade?.Invoke();
-                 
+
             }
             else
             {
