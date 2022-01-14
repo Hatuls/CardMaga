@@ -1,5 +1,6 @@
 ﻿using Battles.UI;
 using Meta;
+using Rei.Utilities;
 using Rewards;
 
 using TMPro;
@@ -58,13 +59,14 @@ namespace UI.Meta.Laboratory
 
         [SerializeField]
         InfoSettings _upgradedVersionSettings;
-        [SerializeField]
-        CardUI _currentCardGO;
+
         [SerializeField]
         InfoSettings _deckSettings;
 
+        [SerializeField]
+        SequenceHandler _upgradeSequence;
 
-
+        [SerializeField] SortByNotSelected _sortByNotSelected;
 
 
         public override void Open()
@@ -132,12 +134,8 @@ namespace UI.Meta.Laboratory
             ActivateGameObject(_upgradeBtn, false);
             ActivateGameObject(_selectedCardUI.gameObject, false);
             ActivateGameObject(_upgradedVersion.gameObject, false);
-            if (_currentCardGO != null)
-            {
-                _currentCardGO.gameObject.SetActive(true);
-                _currentCardGO = null;
-            }
-
+            _sortByNotSelected.ID = null;
+            _upgradeSequence.StartSequance();
             _instructionText.text = defaultText;
         }
 
@@ -148,7 +146,7 @@ namespace UI.Meta.Laboratory
                 Debug.LogWarning($"UpgradeUIScreen : Card Is Null!");
                 return;
             }
-            _currentCardGO = card;
+
             _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference);
             ActivateGameObject(_selectedCardUI.gameObject, true);
 
@@ -158,14 +156,16 @@ namespace UI.Meta.Laboratory
             {
                 SetCostText();
                 _upgradedVersion.CardUI.GFX.SetCardReference(upgradedVersion);
-                ActivateGameObject(_currentCardGO.gameObject, false);
+                _sortByNotSelected.ID = card.RecieveCardReference().CardInstanceID;
             }
             else
             {
+                _sortByNotSelected.ID = null;
                 _instructionText.text = defaultText;
                 ActivateGameObject(_upgradeBtn, false);
             }
             ActivateGameObject(_upgradedVersion.gameObject, upgradedVersion != null);
+            _upgradeSequence.StartSequance();
 
 
         }
@@ -190,24 +190,21 @@ namespace UI.Meta.Laboratory
 
             if (UpgradeHandler.TryUpgradeCard(_upgradeCostSO, currentCard, _resourceType))
             {
-
                 if (currentCard.CardsAtMaxLevel == false)
                 {
-                    //  ResetScreen();
-                    SelectCardUI(_currentCardGO);
-                    _currentCardGO.gameObject.SetActive(false);
+                  //  ResetScreen();
+                        SelectCardUI(_selectedCardUI.CardUI);
+                    //   _currentCardGO.gameObject.SetActive(false);
                 }
                 else
                 {
-                    _currentCardGO = null;
                     ResetScreen();
                     ActivateGameObject(_upgradeBtn, false);
 
                 }
-                _collectionFilterHandler.Refresh();
-
                 Debug.Log(" Succeed");
                 OnSuccessfullUpgrade?.Invoke();
+                 
             }
             else
             {

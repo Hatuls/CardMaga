@@ -62,6 +62,7 @@ namespace UI.Meta.Laboratory
 
         [SerializeField]
         LabPanelsEnum _labPanelsEnum;
+        [SerializeField] bool isOpeningLastPanel = false;
         #endregion
         public override void Close()
         {
@@ -103,6 +104,7 @@ namespace UI.Meta.Laboratory
 
         private void OpenDeckPanel()
         {
+            if(isOpeningLastPanel)
             LabPanelsEnum = LabPanelsEnum.Deck;
             CloseUpgradePanel();
             CloseFusePanel();
@@ -113,7 +115,8 @@ namespace UI.Meta.Laboratory
         }
         private void OpenUpgradePanel()
         {
-            LabPanelsEnum = LabPanelsEnum.Upgrade;
+            if (isOpeningLastPanel)
+                LabPanelsEnum = LabPanelsEnum.Upgrade;
             CloseDeckPanel();
             CloseFusePanel();
             _upgradePanelTitle.gameObject.SetActive(true);
@@ -122,7 +125,8 @@ namespace UI.Meta.Laboratory
         }
         private void OpenFusePanel()
         {
-            LabPanelsEnum = LabPanelsEnum.Fuse;
+            if (isOpeningLastPanel)
+                LabPanelsEnum = LabPanelsEnum.Fuse;
             CloseDeckPanel();
             CloseUpgradePanel();
             _fusePanelTitle.gameObject.SetActive(true);
