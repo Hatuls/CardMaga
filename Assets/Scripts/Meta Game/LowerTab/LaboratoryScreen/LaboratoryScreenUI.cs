@@ -63,7 +63,28 @@ namespace UI.Meta.Laboratory
         [SerializeField]
         LabPanelsEnum _labPanelsEnum;
         [SerializeField] bool isOpeningLastPanel = false;
-        #endregion
+         TutorialChecker isFirstTimeOpeningLab;
+        [SerializeField] GameObject _tutorialAnimation ;
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.Button()]
+        private void ResetTutorialFirstTime()
+        {
+            if (SaveManager.CheckFileExists("LabFirstTime", SaveManager.FileStreamType.FileStream))
+            {
+                SaveManager.DeleteFile("LabFirstTime", ".txt", SaveManager.FileStreamType.FileStream,"",true);
+            }
+        }
+#endif
+#endregion
+        private void Start()
+        {
+            isFirstTimeOpeningLab = SaveManager.Load<TutorialChecker>("LabFirstTime", SaveManager.FileStreamType.FileStream);
+            if (isFirstTimeOpeningLab == null)
+            {
+                isFirstTimeOpeningLab = new TutorialChecker();
+                isFirstTimeOpeningLab.IsFirstTime = true;
+            }
+        }
         public override void Close()
         {
             for (int i = 0; i < _gameObjectsToActivateOnLabratortyScreen.Length; i++)
@@ -78,6 +99,12 @@ namespace UI.Meta.Laboratory
             for (int i = 0; i < _gameObjectsToActivateOnLabratortyScreen.Length; i++)
                 _gameObjectsToActivateOnLabratortyScreen[i].SetActive(true);
 
+            if (isFirstTimeOpeningLab.IsFirstTime)
+            {
+                isFirstTimeOpeningLab.IsFirstTime = false;
+                SaveManager.SaveFile(isFirstTimeOpeningLab, "LabFirstTime", SaveManager.FileStreamType.FileStream);
+                _tutorialAnimation.SetActive(true);
+            }
         }
 
 
@@ -152,5 +179,10 @@ namespace UI.Meta.Laboratory
             _fusePanel.gameObject.SetActive(false);
         }
         #endregion
+    }
+    [Serializable]
+    public class TutorialChecker
+    {
+        public bool IsFirstTime;
     }
 }
