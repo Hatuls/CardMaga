@@ -18,6 +18,7 @@ public class SequenceHandler : MonoBehaviour
     }
     public void StartSequance()
     {
+        if(gameObject.activeSelf)
         _coroutine = StartCoroutine(StartSequanceEnumerator());
     }
 
