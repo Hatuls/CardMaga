@@ -65,16 +65,15 @@ namespace UI.Meta.Laboratory
         [SerializeField] bool isOpeningLastPanel = false;
          TutorialChecker isFirstTimeOpeningLab;
         [SerializeField] GameObject _tutorialAnimation ;
-#if UNITY_EDITOR
-        [Sirenix.OdinInspector.Button()]
-        private void ResetTutorialFirstTime()
+
+        public static void ResetTutorialFirstTime()
         {
             if (SaveManager.CheckFileExists("LabFirstTime", SaveManager.FileStreamType.FileStream))
             {
-                SaveManager.DeleteFile("LabFirstTime", ".txt", SaveManager.FileStreamType.FileStream,"",true);
+                SaveManager.DeleteFile("LabFirstTime", "txt", SaveManager.FileStreamType.FileStream,"",true);
             }
         }
-#endif
+
 #endregion
         private void Start()
         {
