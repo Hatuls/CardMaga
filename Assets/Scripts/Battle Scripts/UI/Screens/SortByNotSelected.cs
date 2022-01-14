@@ -9,19 +9,19 @@ namespace Rei.Utilities
     public class SortByNotSelected : SortAbst<Card>
     {
         [SerializeField]
-
+        bool toUseAccoundCards;
+        [SerializeField]
         MetaCardUIFilterScreen filterHandler;
-
+        
         public ushort? ID { get; set; }
 
 
         public override IEnumerable<Card> Sort()
         {
-            var accountCards = Account.AccountManager.Instance.AccountCards.CardList;
+            var accountCards = toUseAccoundCards ? Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(Account.AccountManager.Instance.AccountCards.CardList.ToArray()) :
+                Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
 
-            var cards = Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(accountCards.ToArray());
-
-            var sortedDeck = cards.Where(x => x.CardLevel < x.CardSO.CardsMaxLevel - 1);
+            var sortedDeck = accountCards.Where(x => x.CardLevel < x.CardSO.CardsMaxLevel - 1);
 
             if (ID == null)
                 return sortedDeck;

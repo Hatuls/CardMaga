@@ -72,10 +72,9 @@ namespace Meta
             ushort Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
             if (gold >= Cost)
             {
+                
                 SendInMapUpgradeCardAnalyticEvent(card);
-
-                player.RemoveCardFromDeck(card.CardInstanceID);
-                player.AddCardToDeck(card.CardSO, (byte)(card.CardLevel + 1));
+                card.CardCoreInfo.Level ++;
                 player.CharacterData.CharacterStats.Gold -= Cost;
                 return true;
             }

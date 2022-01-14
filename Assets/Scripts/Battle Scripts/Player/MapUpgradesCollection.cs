@@ -54,7 +54,6 @@ public class MapUpgradesCollection : MonoBehaviour
 
     public void Open()
     {
-        _upgradeCardScreen.OnOpenUpgradeScreen();
         _upgradeComboScreen.OnOpenUpgradeScreen();
         _upgradeButtons.gameObject.SetActive(true);
         _upgradeCardsTitle.SetActive(true);
