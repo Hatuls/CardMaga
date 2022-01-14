@@ -230,13 +230,13 @@ public class DojoManager : MonoBehaviour, IObserver
         if (battledata.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost)
         {
 
-            _comboPurchaseBtns[index].onClick.RemoveAllListeners();
             //card added
             battledata.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
             _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
             battledata.AddComboRecipe(_comboUI[index].Combo);
             _comboBtnTexts[index].text = "Sold";
             SuccessfullPurchaseSound.PlaySound();
+            _comboPurchaseBtns[index].onClick.RemoveAllListeners();
         }
         else
         {
