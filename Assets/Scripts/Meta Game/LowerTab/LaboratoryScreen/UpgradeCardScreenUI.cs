@@ -6,6 +6,7 @@ using Rewards;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace UI.Meta.Laboratory
 {
@@ -45,7 +46,9 @@ namespace UI.Meta.Laboratory
         string defaultText = "Choose Card:";
         [SerializeField]
         string costText = "Upgrade Cost: ";
-
+        [SerializeField] Image _btnImage;
+        [SerializeField] Sprite OnImage;
+        [SerializeField] Sprite OffImage;
 
         [SerializeField]
         ResourceEnum _resourceType = ResourceEnum.Chips;
@@ -71,11 +74,13 @@ namespace UI.Meta.Laboratory
 
         public override void Open()
         {
+            _btnImage.sprite = OnImage;
             OnOpenUpgradeScreen();
             gameObject.SetActive(true);
         }
         public override void Close()
         {
+            _btnImage.sprite = OffImage;
             CloseUpgradeScreen();
             gameObject.SetActive(false);
         }

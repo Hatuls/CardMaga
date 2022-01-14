@@ -139,11 +139,11 @@ public class CardUIInteractionHandle : MonoBehaviour
         Close();
     }
 
-
+    
 
     public void OpenInfoScreen(IInfoSettings<CardUI> infoSettings)
     {
-        _parent.SetActive(true);
+      //  _parent.SetActive(true);
         _dismentalScreen.gameObject.SetActive(false);
         _cardUIInfoScreen.OpenInfoScreen(_card, infoSettings);
         _cardUIInfoScreen.gameObject.SetActive(true);
@@ -154,7 +154,7 @@ public class CardUIInteractionHandle : MonoBehaviour
     {
         _dismentalScreen.gameObject.SetActive(false);
         _cardUIInfoScreen.gameObject.SetActive(false);
-        _parent.SetActive(false);
+       // _parent.SetActive(false);
     }
     public void OpenDismentalScreen(CardUI card)
     {

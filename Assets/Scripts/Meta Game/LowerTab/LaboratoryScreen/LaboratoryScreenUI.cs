@@ -136,15 +136,18 @@ namespace UI.Meta.Laboratory
         {
             _deckPanelTitle.gameObject.SetActive(false);
             _deckPanel.gameObject.SetActive(false);
-
+            _deckCollectionScreenUI.Close();
         }
         private void CloseUpgradePanel()
         {
+            _upgradeScreenUI.Close();
             _upgradePanelTitle.gameObject.SetActive(false);
             _upgradePanel.gameObject.SetActive(false);
+            
         }
         private void CloseFusePanel()
         {
+            
             _fusePanelTitle.gameObject.SetActive(false);
             _fusePanel.gameObject.SetActive(false);
         }
