@@ -17,15 +17,16 @@ namespace Rei.Utilities
 
         public override IEnumerable<Card> Sort()
         {
-            var collection = filterHandler.Collection.Where(x=>x.gameObject.activeSelf);
-           var cardCollectionInstance = collection.Select(x => x.CardUI.RecieveCardReference());
+            var accountCards = Account.AccountManager.Instance.AccountCards.CardList;
+
+            var cards = Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(accountCards.ToArray());
+
+            var sortedDeck = cards.Where(x => x.CardLevel < x.CardSO.CardsMaxLevel - 1);
+
             if (ID == null)
-                return cardCollectionInstance;
+                return sortedDeck;
 
-
-
-
-            return cardCollectionInstance.Where(x => x.CardInstanceID != ID);
+            return sortedDeck.Where(x => x.CardInstanceID != ID);
         }
 
         public override void SortRequest()
