@@ -1,13 +1,11 @@
 ﻿using Battles.Deck;
-using UnityEngine;
+using Battles.UI;
 using Cards;
 using System.Collections.Generic;
-using Collections;
-using ThreadsHandler;
 using System.Linq;
+using ThreadsHandler;
 using Unity.Events;
-using Battles.UI;
-using Managers;
+using UnityEngine;
 
 namespace Combo
 {
@@ -36,7 +34,7 @@ namespace Combo
             }
         }
 
-        public  static bool FoundCombo { get; internal set; }
+        public static bool FoundCombo { get; internal set; }
 
 
         #endregion
@@ -45,14 +43,14 @@ namespace Combo
         {
             threadId = ThreadHandler.GetNewID;
         }
-        
+
         public void TryForge(bool isPlayer)
         {
 
             if (_cardRecipeDetected != null && _cardRecipeDetected.ComboSO != null)
             {
                 var factory = Factory.GameFactory.Instance.CardFactoryHandler;
-                var craftedCard = factory.CreateCard(_cardRecipeDetected.ComboSO.CraftedCard,_cardRecipeDetected.Level);
+                var craftedCard = factory.CreateCard(_cardRecipeDetected.ComboSO.CraftedCard, _cardRecipeDetected.Level);
 
                 _successCrafting?.Raise();
 
@@ -71,10 +69,10 @@ namespace Combo
                         break;
 
                     case DeckEnum.AutoActivate:
-           
+
                         Battles.CardExecutionManager.Instance.RegisterCard(craftedCard, isPlayer);
-                      //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
-                        DeckManager.GetCraftingSlots(isPlayer).AddCard(craftedCard,false);
+                        //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
+                        DeckManager.GetCraftingSlots(isPlayer).AddCard(craftedCard, false);
                         DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
                     default:
@@ -87,7 +85,7 @@ namespace Combo
                 sounds?.PlaySound();
             }
 
-           // CreateCard();
+            // CreateCard();
 
             // get the crafting deck
 
@@ -121,13 +119,14 @@ namespace Combo
                 FoundCombo = true;
                 _craftingUIHandler.MarkSlotsDetected();
                 Instance.TryForge(isPlayer);
-                VFXManager.Instance.PlayParticle(isPlayer, BodyPartEnum.BottomBody,Instance._comboVFX);
+                var tuffle = VFXManager.Instance.RecieveParticleSystemVFX(isPlayer, Instance._comboVFX);
+                tuffle.Item1.StartVFX(Instance._comboVFX, tuffle.Item2.AvatarHandler.GetBodyPart(BodyPartEnum.BottomBody));
                 DeckManager.GetCraftingSlots(isPlayer).ResetDeck();
-                Instance. _cardRecipeDetected = null;
+                Instance._cardRecipeDetected = null;
             }
 
         }
-  
+
         static void DetectRecipe()
         {
             bool isPlayer = Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn;
@@ -136,7 +135,7 @@ namespace Combo
 
             System.Array.Copy(DeckManager.GetCraftingSlots(isPlayer).GetDeck, craftingSlots, DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length);
 
-          //  System.Array.Reverse(craftingSlots);
+            //  System.Array.Reverse(craftingSlots);
 
             // checking how many of them are not null
             int amountCache = 0;
@@ -145,14 +144,14 @@ namespace Combo
                 if (craftingSlots[i] != null)
                     amountCache++;
             }
-        
+
             List<CardTypeData> craftingItems = new List<CardTypeData>(amountCache);
 
             for (int i = 0; i < craftingSlots.Length; i++)
             {
                 if (craftingSlots[i] != null)
-       
-                 craftingItems.Add(craftingSlots[i].CardSO.CardType);
+
+                    craftingItems.Add(craftingSlots[i].CardSO.CardType);
 
             }
             if (amountCache > 1)
@@ -163,9 +162,9 @@ namespace Combo
         }
         static void CheckRecipe(CardTypeData[] craftingItems, bool isPlayer)
         {
-           // need to make algorithem better!!! 
+            // need to make algorithem better!!! 
             var recipes = isPlayer ? Managers.PlayerManager.Instance.Recipes : Battles.EnemyManager.Instance.Recipes;
-           
+
 
             CardTypeData[] cardTypeDatas;
             for (int i = 0; i < recipes.Length; i++)
@@ -183,7 +182,7 @@ namespace Combo
                     Instance.CardRecipeDetected = recipes[i];
                     return;
                 }
-              
+
             }
             Instance.CardRecipeDetected = null;
         }

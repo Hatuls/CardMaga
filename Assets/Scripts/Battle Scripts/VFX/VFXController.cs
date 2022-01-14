@@ -84,7 +84,7 @@ public class VFXController : MonoBehaviour
     }
 
     private void ActivateParticle(Transform transform, VFXSO vfx)
-        => VFXManager.Instance.PlayParticle(transform, vfx);
+        => VFXManager.Instance.RecieveParticleSystemVFX(transform, vfx).Item1.StartVFX(vfx,transform);
     #region Animation Event Callbacks
     #region Attack
     public void ApplyAttackHeadVFX()
