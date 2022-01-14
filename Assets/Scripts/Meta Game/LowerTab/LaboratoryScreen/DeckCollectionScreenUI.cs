@@ -3,6 +3,8 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
+using UnityEngine.UI;
+
 namespace UI.Meta.Laboratory
 {
     public class DeckCollectionScreenUI : TabAbst
@@ -27,6 +29,11 @@ namespace UI.Meta.Laboratory
         GameObject _selectedCardUIContainer;
         [SerializeField]
         MetaCardUIHandler _selectedCardUI;
+
+        [SerializeField] Image _btnImg;
+        [SerializeField] Sprite ImageOn;
+        [SerializeField] Sprite ImageOff;
+
         #endregion
         #region Public Methods
 
@@ -54,12 +61,13 @@ namespace UI.Meta.Laboratory
         {
             DisableInteractions();
             ResetToDefault();
+            _btnImg.sprite = ImageOn;
             gameObject.SetActive(true);
-
         }
 
         private void ResetToDefault()
         {
+         
             OnOpenDeckScreen?.Invoke();
             DefaultSettings();
             _selectedCardUI.OnCardClicked.RemoveAllListeners();
@@ -149,7 +157,7 @@ namespace UI.Meta.Laboratory
             _deckScreen.gameObject.SetActive(false);
             _allCardsScreen.gameObject.SetActive(true);
             DisableInteractions();
-
+            _btnImg.sprite = ImageOff;
             gameObject.SetActive(false);
         }
         #endregion
@@ -174,6 +182,7 @@ namespace UI.Meta.Laboratory
             var remainDeck = _allCardsScreen.OnlyActiveCollection;
             
             int remain = remainDeck.Count();
+            _cardCollectionSettingsInDeckScreen.OnSelectUse = CardSelected;
             for (int i = 0; i < remain; i++)
             {
                 var metaCardUI = remainDeck.ElementAt(i).MetaCardUIInteraction;
