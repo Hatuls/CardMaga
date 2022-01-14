@@ -66,8 +66,7 @@ namespace UI.Meta.Laboratory
         [SerializeField]
         InfoSettings _deckSettings;
 
-        [SerializeField]
-        SequenceHandler _upgradeSequence;
+  
 
         [SerializeField] SortByNotSelected _sortByNotSelected;
 
@@ -140,12 +139,13 @@ namespace UI.Meta.Laboratory
             ActivateGameObject(_selectedCardUI.gameObject, false);
             ActivateGameObject(_upgradedVersion.gameObject, false);
             _sortByNotSelected.ID = null;
-            _upgradeSequence.StartSequance();
+            _sortByNotSelected.SortRequest();
             _instructionText.text = defaultText;
         }
 
         public void SelectCardUI(CardUI card)
         {
+            Debug.LogWarning("!");
             if (card == null)
             {
                 Debug.LogWarning($"UpgradeUIScreen : Card Is Null!");
@@ -157,13 +157,13 @@ namespace UI.Meta.Laboratory
 
             var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(selectedCardUI.GFX.GetCardReference);
             _sortByNotSelected.ID = null;
-            _upgradeSequence.StartSequance();
+            _sortByNotSelected.SortRequest();
             if (upgradedVersion != null)
             {
                 SetCostText();
                 _upgradedVersion.CardUI.GFX.SetCardReference(upgradedVersion);
                 _sortByNotSelected.ID = selectedCardUI.RecieveCardReference().CardInstanceID;
-                _upgradeSequence.StartSequance();
+                _sortByNotSelected.SortRequest();
             }
             else
             {
