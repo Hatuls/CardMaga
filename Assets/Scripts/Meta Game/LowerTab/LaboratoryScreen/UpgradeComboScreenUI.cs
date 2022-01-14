@@ -1,5 +1,6 @@
 ﻿using Battles.UI;
 using Meta;
+using Rei.Utilities;
 using Rewards;
 
 using TMPro;
@@ -46,6 +47,7 @@ namespace UI.Meta.Laboratory
         [SerializeField]
         UnityEvent OnUnSuccessfullUpgrade;
 
+        [SerializeField] SortByNotSelectedCombo _comboSort;
 
         public override void Open()
         {
@@ -99,13 +101,16 @@ namespace UI.Meta.Laboratory
             _selectedComboUI.InitRecipe(combo.Combo);
             ActivateGameObject(_selectedComboUI.gameObject, true);
 
-            var upgradedVersion = UpgradeHandler.GetUpgradedComboVersion(combo.Combo);
+            var upgradedVersion = UpgradeHandler.GetUpgradedComboVersion(_selectedComboUI.Combo);
+            _comboSort.ID = null;
+            _comboSort.SortRequest();
 
             if (upgradedVersion != null)
             {
                 SetCostText();
-
                 _upgradedComboUI.InitRecipe(upgradedVersion);
+                _comboSort.ID =_selectedComboUI.Combo.ComboSO.ID ;
+                _comboSort.SortRequest(); 
             }
             else
             {
@@ -135,20 +140,26 @@ namespace UI.Meta.Laboratory
                 return;
             if (UpgradeHandler.TryUpgradeCombo(_upgradeCostSO, _selectedComboUI.Combo, _resourceType))
             {
-                ResetScreen();
-                _collectionFilterHandler.Refresh();
+                if (_selectedComboUI.Combo.Level == _selectedComboUI.ComboRecipe.CraftedCard.CardsMaxLevel-1)
+                {
+                    ResetScreen();
+                    ActivateGameObject(_upgradeBtn, false);
+                }
+                else
+                {
 
+                SelectCombo(_selectedComboUI);
                 Debug.Log(" Succeed");
-                ActivateGameObject(_upgradeBtn, false);
                 OnSuccessfullUpgrade?.Invoke();
+                }
             }
             else
             {
                 OnUnSuccessfullUpgrade?.Invoke();
-
+                _comboSort.ID = null;
+            _comboSort.SortRequest();
                 Debug.Log("Didnt upgrade");
             }
-
         }
 
     }
