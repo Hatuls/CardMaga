@@ -88,7 +88,7 @@ public class  UshortEvent : UnityEvent<ushort> { }
             if (energyHandler.HasAmount(energyHandler.AmountToStartPlay))
             {
                 OnSuccessfullPlayClick?.Invoke(_energyCost);
-                energyHandler.ReduceAmount(_energyCost);
+               // energyHandler.ReduceAmount(_energyCost); 
                 StartGameDelay();
                 SentAnalyticEvent();
             }
