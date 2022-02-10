@@ -152,23 +152,28 @@ public class AudioManager : MonoBehaviour
                 RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
                 break;
             case SceneHandler.ScenesEnum.GameBattleScene:
-                switch (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType)
-                {
-                    case Battles.CharacterTypeEnum.Elite_Enemy:
-                    case Battles.CharacterTypeEnum.Boss_Enemy:
-                        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);
-                    //    break;
-                  //      RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 3);
-                        break;
-
-                    default:
-                    case Battles.CharacterTypeEnum.Tutorial:
-                    case Battles.CharacterTypeEnum.Basic_Enemy:
-                        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 1);
-                        break;
-                }
+                BattleMusicParameter();
                 break;
             default:
+                break;
+        }
+    }
+
+    private void BattleMusicParameter()
+    {
+        switch (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType)
+        {
+            case Battles.CharacterTypeEnum.Elite_Enemy:
+                RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);
+                break;
+            case Battles.CharacterTypeEnum.Boss_Enemy:
+                RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 3);
+                break;
+
+            default:
+            case Battles.CharacterTypeEnum.Tutorial:
+            case Battles.CharacterTypeEnum.Basic_Enemy:
+                RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 1);
                 break;
         }
     }
