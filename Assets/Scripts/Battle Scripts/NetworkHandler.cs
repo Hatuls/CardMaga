@@ -12,16 +12,16 @@ public class NetworkHandler : MonoBehaviour
     [SerializeField] TextMeshProUGUI _webVersion;
     [SerializeField] GameObject _btnLogin;
     [SerializeField] GameFactoryTerminal gameFactoryTerminal;
-    string path = "https://drive.google.com/uc?export=download&id=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
+    private string path = "https://drive.google.com/uc?export=download&id=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
 
     GameVersion _gv;
 
     private void Awake()
-    { 
+    {
         _webVersion.enabled = false;
         _status.enabled = false;
 
-        _myVersion.text =string.Concat("Alpha Version: ", Application.version);
+        _myVersion.text = string.Concat("Alpha Version: ", Application.version);
 
     }
     private void Start()
@@ -31,7 +31,7 @@ public class NetworkHandler : MonoBehaviour
         UnityAnalyticHandler.SendEvent(Application.version);
 
     }
- 
+
     public void Init()
     {
         WebRequests.Get(
@@ -47,7 +47,7 @@ public class NetworkHandler : MonoBehaviour
             }
             );
 
-         OfflineButton();
+        OfflineButton();
     }
 
     private async Task OfflineButton()
@@ -98,7 +98,7 @@ public class GameVersion
 }
 public static class DefaultVersion
 {
-    public static GameVersion _gameVersion= new GameVersion();
+    public static GameVersion _gameVersion = new GameVersion();
 }
 
 public static class JsonUtilityHandler

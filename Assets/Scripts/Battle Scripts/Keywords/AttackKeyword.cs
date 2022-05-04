@@ -23,6 +23,8 @@ namespace Keywords
                 var recieverVulnerable = reciver.GetStats(KeywordTypeEnum.Vulnerable).Amount;
                 var applierStrength = applier.GetStats(KeywordTypeEnum.Strength).Amount;
                 var applierWeakend = applier.GetStats(KeywordTypeEnum.Weak).Amount;
+
+
                 finalDamage = data.GetAmountToApply + applierStrength + recieverVulnerable - applierWeakend;
                 if (finalDamage < 0)
                     finalDamage = 0;

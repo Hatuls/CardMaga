@@ -1,8 +1,8 @@
 ﻿
-using System.Collections.Generic;
-using System.Collections;
-using UnityEngine;
 using Characters.Stats;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Keywords
@@ -31,7 +31,7 @@ namespace Keywords
             InitParams();
         }
 
-  
+
         public void ActivateKeyword(bool isPlayerTurn, KeywordData keyword)
         {
             if (Battles.BattleManager.isGameEnded)
@@ -77,22 +77,22 @@ namespace Keywords
         public IEnumerator OnStartTurnKeywords(bool isPlayer)
         {
             var characterStats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer);
-            Debug.Log("Activating Keywords Effect on " + (isPlayer? "Player":"Enemy") + " that are activated on the start of the turn");
+            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the start of the turn");
 
-           
+
 
             characterStats.ApplyBleed();
             yield return new WaitForSeconds(0.2f);
             characterStats.ApplyHealRegeneration();
 
 
-          //  yield return Battles.Turns.Turn.WaitOneSecond;
+            //  yield return Battles.Turns.Turn.WaitOneSecond;
         }
 
 
         public IEnumerator OnEndTurnKeywords(bool isPlayer)
         {
-          
+
             Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the end of the turn");
             var characterStats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer);
             var vulnrable = characterStats.GetStats(KeywordTypeEnum.Vulnerable);
@@ -104,7 +104,7 @@ namespace Keywords
                 Weak.Reduce(1);
 
             yield return null;
-        
+
 
         }
         #endregion
@@ -139,7 +139,7 @@ namespace Keywords
                 {KeywordTypeEnum.RageShard, new RageShardKeyword() },
                 {KeywordTypeEnum.StaminaShards, new StaminaShardKeyword() },
                 {KeywordTypeEnum.StunShard, new StunShardKeyword() },
-                    {KeywordTypeEnum.Double, new DoubleKeyword() }
+                {KeywordTypeEnum.Double, new DoubleKeyword() }
             };
             }
             if (_keywordDict == null)
@@ -151,40 +151,40 @@ namespace Keywords
 
     public enum KeywordTypeEnum
     {
-        None =0,
+        None = 0,
         Attack = 1,
-        Shield= 2,
-        Heal = 3 ,
-        Strength =4,
+        Shield = 2,
+        Heal = 3,
+        Strength = 4,
         Bleed = 5,
         MaxHealth = 6,
-        Interupt =7,
+        Interupt = 7,
         Weak = 8,
         Vulnerable = 9,
         Fatigue = 10,
         Regeneration = 11,
-        Dexterity =12,
+        Dexterity = 12,
         Draw = 13,
         MaxStamina = 14,
-        LifeSteal =15,
-        Remove =16,
+        LifeSteal = 15,
+        Remove = 16,
         Counter = 17,
-        Coins=18,
+        Coins = 18,
         StaminaShards = 19,
         Discard = 20,
         Double = 21,
         Stamina = 22,
-        Fast =23,
+        Fast = 23,
         Freeze = 24,
         Burn = 25,
         Lock = 26,
         Empower = 27,
         Reinforce = 28,
-                Clear = 29,
-                Find  =30,
+        Clear = 29,
+        Find = 30,
         Shuffle = 31,
         Push = 32,
-        Stun =33,
+        Stun = 33,
         StunShard = 34,
         RageShard = 35,
         Rage = 36,
@@ -194,7 +194,7 @@ namespace Keywords
         SpiritLoss = 40,
         Brused = 41,
         Frail = 42,
-        Confuse =43,
+        Confuse = 43,
         Deny = 44,
         Intimidate = 45,
         Taunt = 46,
