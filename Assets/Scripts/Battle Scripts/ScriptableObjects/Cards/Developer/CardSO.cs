@@ -174,6 +174,7 @@ namespace Cards
         ConditionReduction=3,
         ToRemoveExhaust = 4,
         BodyPart = 5,
+       
     }
 
     public enum RarityEnum
