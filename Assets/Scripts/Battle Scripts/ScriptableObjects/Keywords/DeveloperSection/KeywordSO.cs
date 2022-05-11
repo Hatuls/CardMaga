@@ -29,8 +29,7 @@ namespace Keywords
 
         [SerializeField] SoundEventSO _soundEvent;
 
-        [SerializeField]
-        private VFXSO _vfx;
+        [SerializeField] private VFXSO _vfx;
         #endregion
 
         #region Properties
