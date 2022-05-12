@@ -139,7 +139,8 @@ namespace Keywords
                 {KeywordTypeEnum.RageShard, new RageShardKeyword() },
                 {KeywordTypeEnum.StaminaShards, new StaminaShardKeyword() },
                 {KeywordTypeEnum.StunShard, new StunShardKeyword() },
-                {KeywordTypeEnum.Double, new DoubleKeyword() }
+                {KeywordTypeEnum.Double, new DoubleKeyword() },
+                {KeywordTypeEnum.Fatigue, new  FatigueKeyword()}
             };
             }
             if (_keywordDict == null)

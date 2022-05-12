@@ -49,9 +49,13 @@ namespace Characters.Stats
             public int StaminaShards { get;private set; }
             public int StaminaAddition { get; set; }
 
-         
-            
-            public void StartTurn() => Stamina = StartStamina + StaminaAddition;
+
+
+            public void StartTurn()
+            {
+                Stamina = StartStamina + StaminaAddition;
+                ResetStaminaAddition();
+            }
 
             public void AddStaminaAddition(int addition)
             => StaminaAddition += addition;
@@ -72,7 +76,7 @@ namespace Characters.Stats
 
         #endregion
 
-        private CharacterStamina GetCharacterStamina(bool playersStamina)
+        public CharacterStamina GetCharacterStamina(bool playersStamina)
            => playersStamina ? PlayerStamina : OpponentStamina;
 
 
@@ -110,6 +114,16 @@ namespace Characters.Stats
             if(isPlayer)
             _staminaUI?.SetText(character.Stamina);
         }
+        
+        public  void ReduceStamina(bool isPlayer ,int amount)
+        {
+            var character = GetCharacterStamina(isPlayer);
+            character.Stamina -= amount;
+
+            if(isPlayer)
+                _staminaUI?.SetText(character.Stamina);
+        }
+        
         public void AddStartStamina(bool isPlayer,int Amount)
         {
             var character = GetCharacterStamina(isPlayer);
@@ -123,6 +137,8 @@ namespace Characters.Stats
             if(isPlayer)
             _staminaUI?.SetText(character.Stamina);
         }
+        
+        
 
    
         #endregion

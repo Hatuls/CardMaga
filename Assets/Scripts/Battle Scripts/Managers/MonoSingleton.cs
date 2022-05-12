@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Keywords;
+using UnityEngine;
 public interface ISingleton {
     void Init();
 }
@@ -16,7 +17,6 @@ public abstract class MonoSingleton<T> : MonoBehaviour , ISingleton where T : Co
             else if (Instance != this as T)
                 Destroy(this);
         }
-    
     }
 
 
