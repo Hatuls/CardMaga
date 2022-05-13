@@ -11,12 +11,12 @@ public class FatigueKeyword : KeywordAbst
     {
         if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
         {
-            StaminaHandler.Instance.GetCharacterStamina(currentPlayer).AddStaminaAddition(data.GetAmountToApply);
+            StaminaHandler.Instance.GetCharacterStamina(currentPlayer).AddStaminaAddition(-data.GetAmountToApply);
         }
 
         if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
         {
-            StaminaHandler.Instance.GetCharacterStamina(!currentPlayer).AddStaminaAddition(data.GetAmountToApply);
+            StaminaHandler.Instance.GetCharacterStamina(!currentPlayer).AddStaminaAddition(-data.GetAmountToApply);
         }
     }
 
