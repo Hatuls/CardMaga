@@ -4,16 +4,9 @@ using UnityEngine;
 
 public class BattleInputDiscardState : BaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void OnEnterState()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log("Enter Discard State");
     }
 
     public override StateIdentificationSO OnHoldState()

@@ -4,16 +4,24 @@ using UnityEngine;
 
 public abstract class BaseState : MonoBehaviour , IState
 {
-    public StateIdentificationSO StateID { get; }
+    [SerializeField] protected StateIdentificationSO _stateID;
+
+    [SerializeField] protected BaseCondition[] _conditions;
+    public  StateIdentificationSO StateID
+    {
+        get { return _stateID; }
+    }
     
-    public BaseCondition[] Conditions { get; }
+    public BaseCondition[] Conditions
+    {
+        get { return _conditions; }
+    }
 
     public virtual void OnEnterState(){}
-    
+
 
     public virtual void OnExitState()
     {
-        throw new System.NotImplementedException();
     }
 
     public abstract StateIdentificationSO OnHoldState();

@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class BattleInputState : BaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private BattleInputStateMachine _battleInputStateMachine;
+    
+    public override void OnEnterState()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _battleInputStateMachine.TryChangeState(_battleInputStateMachine.FirstState);
     }
 
     public override StateIdentificationSO OnHoldState()

@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class BattleInputDefaultState : BaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void OnEnterState()
     {
-        
+        Debug.Log("Enter Default State");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     public override StateIdentificationSO OnHoldState()
     {
         return StateID;
