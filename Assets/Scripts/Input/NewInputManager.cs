@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-using UnityEngine;
-
+﻿
 public class NewInputManager : BaseStateMachine
 {
+    public void Update()
+    {
+        if (_currentState == null)
+        {
+            return;
+        }
+        
+        TryChangeState(_currentState.OnHoldState());
+    }
 }

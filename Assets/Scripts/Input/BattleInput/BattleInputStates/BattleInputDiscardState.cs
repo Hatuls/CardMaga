@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BattleInputDiscardState : BaseState
 {
     public override void OnEnterState()
     {
+        base.OnEnterState();
         Debug.Log("Enter Discard State");
     }
 
     public override StateIdentificationSO OnHoldState()
     {
-        return StateID;
+        return base.CheckStateCondition();
     }
 }

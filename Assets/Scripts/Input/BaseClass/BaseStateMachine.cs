@@ -7,15 +7,17 @@ using UnityEngine.Serialization;
 
 public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
 {
+    
+
     protected BaseState _currentState;
 
     protected Dictionary<StateIdentificationSO, BaseState> _inputStateDict;
 
-    [SerializeField] private List<BaseState> States;
+    [FormerlySerializedAs("States")] [SerializeField] private List<BaseState> _states;
 
     public StateIdentificationSO FirstState;
 
-    public  IState CurrentState
+    public  BaseState CurrentState
     {
         get { return _currentState; }
     }
@@ -23,27 +25,22 @@ public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
     private void Awake()
     {
         InitStateMachine();
-        TryChangeState(FirstState);
     }
-
-    public void Update()
-    {
-        if (_currentState == null)
-        {
-            return;
-        }
-        
-        TryChangeState(_currentState.OnHoldState());
-    }
-
+    
     protected virtual void InitStateMachine()
     {
         _inputStateDict = new Dictionary<StateIdentificationSO, BaseState>();
 
-        for (int i = 0; i < States.Count; i++)
+        for (int i = 0; i < _states.Count; i++)
         {
-            _inputStateDict.Add(States[i].StateID,States[i]);
+            for (int j = 0; j < _states[i].Conditions.Length; j++)
+            {
+                
+            }
+            _inputStateDict.Add(_states[i].StateID,_states[i]);
         }
+        
+        TryChangeState(FirstState);
     }
     
     public virtual void TryChangeState(StateIdentificationSO stateID)//need work

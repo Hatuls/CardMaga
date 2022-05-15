@@ -8,11 +8,12 @@ public class BattleInputState : BaseState
     
     public override void OnEnterState()
     {
-        _battleInputStateMachine.TryChangeState(_battleInputStateMachine.FirstState);
+       
     }
 
     public override StateIdentificationSO OnHoldState()
     {
-        return StateID;
+        _battleInputStateMachine.TryChangeState(_battleInputStateMachine.CurrentState.OnHoldState());
+        return base.CheckStateCondition();
     }
 }

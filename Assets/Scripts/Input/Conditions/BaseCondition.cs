@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public abstract class BaseCondition : MonoBehaviour
 {
+    //public event Action<StateIdentificationSO> OnConditionMat; 
+    
     [SerializeField] private StateIdentificationSO _nextState;
 
     public  StateIdentificationSO NextState
@@ -13,7 +14,12 @@ public abstract class BaseCondition : MonoBehaviour
 
     public abstract bool CheckCondition();
 
-    public virtual void InitCondition(){}
+
+
+    public virtual void InitCondition()
+    {
+        
+    }
     
     
 }

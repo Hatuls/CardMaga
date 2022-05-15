@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IStateMachine
 {
-    IState CurrentState { get; }
+    BaseState CurrentState { get; }
 
     void TryChangeState(StateIdentificationSO stateID);
     
