@@ -9,6 +9,7 @@ public abstract class BaseState : MonoBehaviour , IState
     [SerializeField] protected BaseCondition[] _conditions;
 
     [SerializeField] protected List<TouchableItem> _touchableItems;
+    
     public  StateIdentificationSO StateID
     {
         get { return _stateID; }
@@ -59,5 +60,22 @@ public abstract class BaseState : MonoBehaviour , IState
             }
         }
         return StateID;
+    }
+
+    public void AddTouchableItem(TouchableItem touchableItem)
+    {
+        if (_touchableItems.Contains(touchableItem))
+            return;
+        
+        _touchableItems.Add(touchableItem);
+    }
+    
+    public void RemoveTouchableItem(TouchableItem touchableItem)
+    {
+        if (!_touchableItems.Contains(touchableItem))
+            return;
+
+        _touchableItems.Remove(touchableItem);
+
     }
 }
