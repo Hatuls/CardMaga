@@ -1,19 +1,24 @@
-﻿using Art;
-using Battles;
+﻿using Battles;
 using Battles.UI;
+using CardMaga.LoadingScene;
 using Managers;
+using ReiTools.TokenMachine;
 using UnityEngine;
 
-public class GameManager : MonoSingleton<GameManager>
+public class BattleSceneManager : MonoSingleton<BattleSceneManager>
 {
     ISingleton[] _singletons;
     //[SerializeField]
     //int _maxFPS = 30;
 
-    private void Start()
+    public override void Awake()
     {
-        Init();
+        base.Awake();
+        LoadingSceneManager.OnSceneLoaded += Init(IRecieveOnlyTokenMachine token);
+       
     }
+
+
 
     private void Update()
     {
@@ -25,7 +30,7 @@ public class GameManager : MonoSingleton<GameManager>
             Init();
         }
     }
-    public override void Init()
+    public override void Init(IRecieveOnlyTokenMachine token)
     {
 
         const byte amount = 12;
