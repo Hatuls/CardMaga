@@ -35,9 +35,8 @@ public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
         {
             for (int j = 0; j < _states[i].Conditions.Length; j++)
             {
-                
+                _inputStateDict.Add(_states[i].StateID,_states[i]);
             }
-            _inputStateDict.Add(_states[i].StateID,_states[i]);
         }
         
         TryChangeState(FirstState);
