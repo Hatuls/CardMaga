@@ -1,6 +1,7 @@
 ﻿using Battles;
 using Characters;
 using Characters.Stats;
+using ReiTools.TokenMachine;
 using UnityEngine;
 
 
@@ -20,6 +21,7 @@ namespace Managers
         [SerializeField] AnimatorController _playerAnimatorController;
         [SerializeField] AnimationBodyPartSoundsHandler _soundAnimation;
         #endregion
+        static int Counter = 0;
         public ref CharacterStats GetCharacterStats => ref _character.CharacterData.CharacterStats;
         Cards.Card[] _playerDeck;
         public Cards.Card[] Deck => _playerDeck;
@@ -50,10 +52,9 @@ namespace Managers
             }
 
         }
-        public override void Init()
+        public override void Init(IRecieveOnlyTokenMachine token)
         {
         }
-        static int Counter = 0;
         public void AssignCharacterData(Character characterData)
         {
             Instantiate(characterData.CharacterData.CharacterSO.CharacterAvatar, _playerAnimatorController.transform);
@@ -100,6 +101,21 @@ namespace Managers
         {
             throw new System.NotImplementedException();
         }
+
+
+
+
+        #region Monobehaviour Callbacks 
+        public override void Awake()
+        {
+            base.Awake();
+            BattleSceneManager.OnBattleSceneLoaded += Init;
+        }
+        public void OnDestroy()
+        {
+            BattleSceneManager.OnBattleSceneLoaded -= Init;
+        }
+        #endregion
     }
 
 }

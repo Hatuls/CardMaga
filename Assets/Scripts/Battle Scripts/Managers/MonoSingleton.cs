@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-public interface ISingleton {
-    void Init();
-}
-public abstract class MonoSingleton<T> : MonoBehaviour , ISingleton where T : Component
+﻿using ReiTools.TokenMachine;
+using UnityEngine;
+
+public abstract class MonoSingleton<T> : MonoBehaviour , ITokenInitialized where T : Component
 {
     private static T _instance;
     public static T Instance => _instance;
@@ -22,5 +21,12 @@ public abstract class MonoSingleton<T> : MonoBehaviour , ISingleton where T : Co
 
 
 
-    public abstract void Init();
+    public abstract void Init(IRecieveOnlyTokenMachine token);
+
+
+
+}
+public interface ITokenInitialized 
+{
+    void Init(IRecieveOnlyTokenMachine tokenMachine); 
 }

@@ -53,7 +53,7 @@ public class SinglePlayerHandler : MonoBehaviour
             StartNewRun();
   
         Debug.Log($"Start battle!\n{Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterSO.CharacterName} VS {Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterName}");
-        _sceneloaderEvent.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
+    //    _sceneloaderEvent.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
     }
 
 

@@ -4,6 +4,7 @@ using Unity.Events;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using ReiTools.TokenMachine;
 using static SceneHandler;
 
 public class LoadingManager : MonoSingleton<LoadingManager>
@@ -21,49 +22,47 @@ public class LoadingManager : MonoSingleton<LoadingManager>
             Destroy(this.gameObject);
         else
         {
-            Init();
+          //  Init();
         }
     }
-    public override void Init()
+    public override void Init(IRecieveOnlyTokenMachine token)
     {
-        if (_sceneHandler != null)
-            return;
-        _sceneHandler = new SceneHandler(this);
+
 
     }
     public void LoadScene(SceneHandler.ScenesEnum scenesEnum)
     {
 
-        SceneHandler.LoadScene(scenesEnum);
+      
     }
 
 
     public async void LoadScene2(SceneHandler.ScenesEnum s)
     {
-     await   RemoveSceneAsync(
-         SceneHandler.CurrentScene,
-         ()=> _ = AddSceneAsync(s, () => Debug.Log("FinishedLoading")));
+     //await   RemoveSceneAsync(
+     //    SceneHandler.CurrentScene,
+     //    ()=> _ = AddSceneAsync(s, () => Debug.Log("FinishedLoading")));
 
     }
     private async Task RemoveSceneAsync(ScenesEnum scene, Action OnFinished = null)
     {
-        var operation = SceneManager.UnloadSceneAsync((int)scene);
-        do
-        {
-            await Task.Yield();
-        } while (operation.isDone == false);
-        OnFinished?.Invoke();
+        //var operation = SceneManager.UnloadSceneAsync((int)scene);
+        //do
+        //{
+        //    await Task.Yield();
+        //} while (operation.isDone == false);
+        //OnFinished?.Invoke();
      
     }
 
     private async Task AddSceneAsync(ScenesEnum scene, Action OnFinished = null)
     {
-        var operation = SceneManager.LoadSceneAsync((int)scene);
-        do
-        {
-            await Task.Yield();
-        } while (operation.isDone == false);
-        OnFinished?.Invoke();
+        //var operation = SceneManager.LoadSceneAsync((int)scene);
+        //do
+        //{
+        //    await Task.Yield();
+        //} while (operation.isDone == false);
+        //OnFinished?.Invoke();
 
     }
 }

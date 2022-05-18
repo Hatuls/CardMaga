@@ -1,25 +1,38 @@
 ﻿
 
+using ReiTools.TokenMachine;
+
 namespace Managers
 {
 
     public class CardManager : MonoSingleton<CardManager>
     {
         #region Fields
-     
-        #endregion
-        public override void Init()
-        {
 
+        #endregion
+        #region MonoBehaviour Callbacks
+        public override void Awake()
+        {
+            base.Awake();
+            BattleSceneManager.OnBattleSceneLoaded += Init;
         }
 
+      
 
+        public void OnDestroy()
+        {
+            BattleSceneManager.OnBattleSceneLoaded -= Init;
+        }
+        #endregion
 
-
+  public override void Init(IRecieveOnlyTokenMachine token)
+        {
+            CardManager.Instance.ResetCards();
+        }
 
         internal void ResetCards()
         {
-            Init();
+           
         }
     }
 }

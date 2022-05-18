@@ -9,6 +9,9 @@ namespace CardMaga.Managers.GameManager
         private LoadingSceneManager _loader;
 
 
-      
+        private void Start()
+        {
+            _loader.UnLoadAndThenLoad(null, 1);
+        }
     }
 }

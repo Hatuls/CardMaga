@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
         {
             _instance = this;
             Init();
-            SceneHandler.onFinishLoadingScene += OnSceneLoad;
+           // SceneHandler.onFinishLoadingScene += OnSceneLoad;
         }
         else if (_instance != this)
             Destroy(this.gameObject);
@@ -33,7 +33,7 @@ public class InputManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        SceneHandler.onFinishLoadingScene -= OnSceneLoad;
+   //     SceneHandler.onFinishLoadingScene -= OnSceneLoad;
     }
     void Init()
     {

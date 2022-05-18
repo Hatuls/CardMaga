@@ -78,7 +78,7 @@ public class  UshortEvent : UnityEvent<ushort> { }
         public void ConfirmPlayPackage()
         {
             _playpackage.SendPackage();
-            _sceneLoad.LoadScene(SceneHandler.ScenesEnum.MapScene);
+         //   _sceneLoad.LoadScene(SceneHandler.ScenesEnum.MapScene);
         }
 
         public void OnPlayClicked()

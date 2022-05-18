@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using ReiTools.TokenMachine;
+using TMPro;
 using UnityEngine;
 
 namespace Battles.UI
@@ -22,7 +23,7 @@ namespace Battles.UI
 
         public CraftingUIHandler GetCharacterUIHandler(bool players)
         {
-            Init();
+      //      Init();
             return players ? _playerCraftingUIHandler : _opponentCraftingUIHandler;
         }
 
@@ -34,8 +35,11 @@ namespace Battles.UI
         }
 
 
-        public override void Init()
+        public override void Init(IRecieveOnlyTokenMachine token)
         {
+            using (token.GetToken())
+            {
+
             if (_playerCraftingUIHandler == null)
             {
                 _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _fadeOutCraftingSlots, _playersfirstSlotTransform, moveLeanTweenTime, true );
@@ -47,5 +51,18 @@ namespace Battles.UI
                 _opponentCraftingUIHandler.ResetAllSlots();
             }
         }
-}
+            }
+
+        #region Monobehaviour Callbacks 
+        public override void Awake()
+        {
+            base.Awake();
+            BattleSceneManager.OnBattleSceneLoaded += Init;
+        }
+        public void OnDestroy()
+        {
+            BattleSceneManager.OnBattleSceneLoaded -= Init;
+        }
+        #endregion
+    }
 }

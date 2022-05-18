@@ -74,7 +74,7 @@ namespace Account
         public AccountSettingsData AccountSettingsData => _accountData.AccountSettingsData;
         public AccountGeneralData AccountGeneralData => _accountData.AccountGeneralData;
         public BattleData BattleData => _accountData.BattleData;
-        public SceneHandler.ScenesEnum CurrentScene => _accountData.CurrentScene;
+
         public RewardGift RewardGift { get => _rewardGift; }
        
         #endregion
@@ -82,13 +82,13 @@ namespace Account
         private void Start()
         {
 
-            SceneHandler.onFinishLoadingScene += UpdateLastScene;
+         //   SceneHandler.onFinishLoadingScene += UpdateLastScene;
         }
 
         public void EnterMainMenu()
         {
             ReturnLoadingScene.GoToScene = _accountData.CurrentScene;
-            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+           // SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
 
         }
 
@@ -126,7 +126,7 @@ namespace Account
             UnityAnalyticHandler.SendEvent(eventName);
             FireBaseHandler.SendEvent(eventName);
 
-            SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
+          //  SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
         }
 
         private async Task LoadAccount()
@@ -198,7 +198,7 @@ namespace Account
         {
             if (!_accountData.IsCorrupted())
                     SaveAccount();
-            SceneHandler.onFinishLoadingScene -= UpdateLastScene;
+     //       SceneHandler.onFinishLoadingScene -= UpdateLastScene;
             Debug.Log("Saving Account Data");
         }
         public void SaveAccount()
@@ -218,7 +218,7 @@ namespace Account
             await _accountData.NewLoad();
             _needToDoTutorial = true;
             await Task.Yield();
-            SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
+  //          SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
             
         }
 

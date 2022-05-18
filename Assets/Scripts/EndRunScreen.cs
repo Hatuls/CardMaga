@@ -36,19 +36,19 @@ public class EndRunScreen : MonoBehaviour, IObserver
     SequenceHandler _defaultSequence;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        LoadingProgressBar.OnFinishLoadingScene += OnFinishGame;
-    }
-    private void OnDestroy()
-    {
-        LoadingProgressBar.OnFinishLoadingScene -= OnFinishGame;
-    }
+    //void Start()
+    //{
+    //    LoadingProgressBar.OnFinishLoadingScene += OnFinishGame;
+    //}
+    //private void OnDestroy()
+    //{
+    //    LoadingProgressBar.OnFinishLoadingScene -= OnFinishGame;
+    //}
     private void OnFinishGame()
     {
         if (Account.AccountManager.Instance.BattleData.IsFinishedPlaying)
         {
-        LoadingProgressBar.OnFinishLoadingScene -= OnFinishGame;
+    //    LoadingProgressBar.OnFinishLoadingScene -= OnFinishGame;
             _defaultRewardContainer.SetActive(false);
             _tutorialRewardContainer.SetActive(false);
             FinishGame();
@@ -141,7 +141,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
         var data = Account.AccountManager.Instance.BattleData;
         CameraMovement.ResetCameraMovementLocation();
         ReturnLoadingScene.GoToScene = SceneHandler.ScenesEnum.MainMenuScene;
-        SceneHandler.LoadScene(ReturnLoadingScene.GoToScene);
+     //   SceneHandler.LoadScene(ReturnLoadingScene.GoToScene);
         var accountData = Account.AccountManager.Instance.AccountGeneralData;
         accountData.AccountResourcesData.Diamonds.AddValue(data.GetAllDiamonds());
         accountData.AccountLevelData.Exp.AddValue(data.GetAllExp());

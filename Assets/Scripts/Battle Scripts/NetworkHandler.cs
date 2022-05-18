@@ -1,5 +1,8 @@
 ﻿using Account;
+using CardMaga.LoadingScene;
 using Factory;
+using ReiTools.TokenMachine;
+using System;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -15,49 +18,41 @@ public class NetworkHandler : MonoBehaviour
     private string path = "https://drive.google.com/uc?export=download&id=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
 
     GameVersion _gv;
-
+    IDisposable _token;
     private void Awake()
     {
+
+        LoadingSceneManager.OnSceneLoaded += Init;
         _webVersion.enabled = false;
         _status.enabled = false;
 
         _myVersion.text = string.Concat("Alpha Version: ", Application.version);
 
     }
-    private void Start()
+    private void OnDestroy()
     {
-        Init();
+        LoadingSceneManager.OnSceneLoaded -= Init;
+    }
+    public void Init(IRecieveOnlyTokenMachine token)
+    {
+        _token = token.GetToken();
         FireBaseHandler.Init();
         UnityAnalyticHandler.SendEvent(Application.version);
-
-    }
-
-    public void Init()
-    {
         WebRequests.Get(
             path,
-            null,
-            (string text) =>
-            {
-                _gv = JsonUtility.FromJson<GameVersion>(text);
-                DefaultVersion._gameVersion = _gv;
-                InitAccount();
-                //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
-                CheckVersion(_gv);
-            }
+            (x)=> _token?.Dispose(),
+           OnGameVersionRecieved
             );
-
-        OfflineButton();
     }
-
-    private async Task OfflineButton()
+    private void OnGameVersionRecieved(string data)
     {
-        for (int i = 0; i < 500; i++)
-            await Task.Yield();
-        if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.NetworkScene && Application.isPlaying)
-            _btnLogin.SetActive(true);
+        _gv = JsonUtility.FromJson<GameVersion>(data);
+        DefaultVersion._gameVersion = _gv;
+        InitAccount();
+        //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
+        CheckVersion(_gv);
+        _token.Dispose();
     }
-
     [Sirenix.OdinInspector.Button]
 
     public async void InitAccount()

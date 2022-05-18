@@ -125,7 +125,7 @@ namespace UI.Meta.Settings
         {
             Account.AccountManager.Instance.ResetAccount();
 
-            SceneHandler.LoadScene(SceneHandler.ScenesEnum.NetworkScene);
+          //  SceneHandler.LoadScene(SceneHandler.ScenesEnum.NetworkScene);
 
         }
     }

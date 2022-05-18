@@ -17,6 +17,7 @@ namespace CardMaga.LoadingScene
         /// Notify the listeners on that wi
         /// </summary>
         public static Action<IRecieveOnlyTokenMachine> OnSceneLoaded = null;
+        public static Action<IRecieveOnlyTokenMachine> OnMiddleSceneTransition = null;
         public static Action<LoadingSceneManager> OnScenesEnter = null;
         public static Action<float> OnSceneProgress = null;
         private static TokenMachine _sceneTransitionTokenMachine;
@@ -37,7 +38,7 @@ namespace CardMaga.LoadingScene
             _beforeSceneUnloading = new TokenMachine(StartOperation);
 
             //starting the operation
-            using (IDisposable token = _sceneTransitionTokenMachine.GetToken())
+            using (IDisposable token = _beforeSceneUnloading.GetToken())
             {
                 OnBeforeSceneUnLoading?.Invoke(_beforeSceneUnloading); // Notify others
             } //<- automatically will end the operation 
@@ -53,7 +54,7 @@ namespace CardMaga.LoadingScene
                 IDisposable taskCompleted = null;
                 _sceneTransitionTokenMachine = new TokenMachine(
                     //  Will release the token after the scenes that were suppose to be unloaded were unloaded successfully
-                    () => UnloadScenes(() => taskCompleted?.Dispose(), _currentlyActiveScenes.ToArray()),
+                    () => UnloadScenes(null, _currentlyActiveScenes.ToArray()),
 
                     //Notify new scene's monobehaviour scripts that the scene was activated
                     () => LoadScenes(
@@ -66,8 +67,8 @@ namespace CardMaga.LoadingScene
                     );
 
                 //Start the whole operation ^
-                taskCompleted = _sceneTransitionTokenMachine.GetToken();
-
+                using (_sceneTransitionTokenMachine.GetToken())
+                    OnMiddleSceneTransition?.Invoke(_sceneTransitionTokenMachine);
             }
 
         }
@@ -121,6 +122,7 @@ namespace CardMaga.LoadingScene
                 }
             }
             OnScenesEnter?.Invoke(this);
+            OnSceneLoaded?.Invoke(_afterSceneLoading);
             OnComplete?.Invoke();
         }
 

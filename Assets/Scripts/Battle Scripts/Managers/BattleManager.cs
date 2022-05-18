@@ -3,6 +3,7 @@ using Battles.UI;
 using Characters;
 using Characters.Stats;
 using Managers;
+using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -23,9 +24,13 @@ namespace Battles
         [SerializeField] CameraController _cameraController;
         IEnumerator _turnCycles;
 
-        public override void Init()
+        public override void Init(IRecieveOnlyTokenMachine token)
         {
+            using (token.GetToken())
+            {
             ResetBattle();
+               AudioManager.Instance. BattleMusicParameter();
+            }
 
         }
 
@@ -51,9 +56,7 @@ namespace Battles
 
             PlayerManager.Instance.UpdateStatsUI();
             EnemyManager.Instance.UpdateStatsUI();
-            Combo.ComboManager.Instance.Init();
-            Keywords.KeywordManager.Instance.Init();
-
+   
             if (EndTurnButton._OnFinishTurnPress != null)
                 EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
 
@@ -65,16 +68,8 @@ namespace Battles
         {
             AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
-
-            CardManager.Instance.ResetCards();
-            Deck.DeckManager.Instance.ResetDecks();
-            UI.CardUIManager.Instance.Init();
-            UI.CraftingUIManager.Instance.Init();
-            VFXManager.Instance.Init();
-
-
-
-
+   
+    
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
         }
@@ -141,7 +136,7 @@ namespace Battles
 
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
 
-            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
+          //  SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
         }
 
         private static void EnemyDied()

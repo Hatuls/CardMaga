@@ -28,7 +28,7 @@ public class ReturnLoadingScene : MonoBehaviour
                     battledata.Player.CharacterData != null &&
                     battledata.Map != null)
                 {
-                    SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
+           //         SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
                     Close();
                 }
 
@@ -44,7 +44,7 @@ public class ReturnLoadingScene : MonoBehaviour
     }
     public void SwitchScene()
     {
-        SceneHandler.LoadScene(GoToScene);
+        //SceneHandler.LoadScene(GoToScene);
         Close();
     }
     public void Close()

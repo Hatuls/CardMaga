@@ -1,5 +1,6 @@
 ﻿
 using Characters.Stats;
+using ReiTools.TokenMachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,9 +27,13 @@ namespace Keywords
         #region public Functions
 
 
-        public override void Init()
+        public override void Init(IRecieveOnlyTokenMachine token)
         {
+            using (token.GetToken())
+            {
             InitParams();
+
+            }
         }
 
 
@@ -147,6 +152,18 @@ namespace Keywords
         }
         #endregion
 
+
+        #region Monobehaviour Callbacks 
+        public override void Awake()
+        {
+            base.Awake();
+            BattleSceneManager.OnBattleSceneLoaded += Init;
+        }
+        public void OnDestroy()
+        {
+            BattleSceneManager.OnBattleSceneLoaded -= Init;
+        }
+        #endregion
     }
 
     public enum KeywordTypeEnum

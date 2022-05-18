@@ -3,6 +3,7 @@ using Cinemachine;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
+using ReiTools.TokenMachine;
 
 [RequireComponent(typeof(IntListener))]
 public class CameraController : MonoSingleton<CameraController>
@@ -46,7 +47,7 @@ public class CameraController : MonoSingleton<CameraController>
         _cameraAngleLookAt = CameraAngleLookAt.Both;
 
         GetAngleTrackedDolly.m_PathPosition = (int)_cameraAngleLookAt;
-        LoadingProgressBar.OnFinishLoadingScene += StartIntro;
+
     }
     public void MoveCameraAnglePos(int index)
     {
@@ -82,7 +83,7 @@ public class CameraController : MonoSingleton<CameraController>
     }
     public void StartIntro()
     {
-        LoadingProgressBar.OnFinishLoadingScene -= StartIntro;
+      
         IntroDirector.Play();
     }
     public void Shake(int moveCameraAngleIndex)
@@ -93,9 +94,24 @@ public class CameraController : MonoSingleton<CameraController>
     }
     //Vector3 startPos;
     //public Camera GetCamera => _camera;
-    public override void Init()
+    public override void Init(IRecieveOnlyTokenMachine token)
     {
         //_camera = Camera.main;
         //startPos = transform.position;
     }
+
+
+
+    #region Monobehaviour Callbacks 
+    public override void Awake()
+    {
+        base.Awake();
+        BattleSceneManager.OnBattleSceneLoaded += Init;
+    }
+    public void OnDestroy()
+    {
+        BattleSceneManager.OnBattleSceneLoaded -= Init;
+
+    }
+    #endregion
 }
