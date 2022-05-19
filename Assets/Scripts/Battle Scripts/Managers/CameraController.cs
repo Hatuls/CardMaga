@@ -94,7 +94,7 @@ public class CameraController : MonoSingleton<CameraController>
     }
     //Vector3 startPos;
     //public Camera GetCamera => _camera;
-    public override void Init(IRecieveOnlyTokenMachine token)
+    public override void Init(ITokenReciever token)
     {
         //_camera = Camera.main;
         //startPos = transform.position;

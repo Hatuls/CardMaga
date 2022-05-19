@@ -16,7 +16,7 @@ public class GameEventsInvoker : MonoSingleton<GameEventsInvoker>
 
     public UnityEvent OnRecieveDamage;
 
-    public override void Init(IRecieveOnlyTokenMachine token)
+    public override void Init(ITokenReciever token)
     {
     
     }

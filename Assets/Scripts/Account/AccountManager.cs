@@ -17,7 +17,7 @@ namespace Account
     public interface ILoadFirstTime
     {
         bool IsCorrupted();
-        Task NewLoad();
+        void NewLoad();
     }
     public class AccountManager : MonoBehaviour
     {
@@ -100,15 +100,15 @@ namespace Account
         }
         #endregion
         #region Public Methods
-        public async Task Init()
+        public void  Init()
         {
             if (SaveManager.CheckFileExists(AccountData.SaveName, saveType, true, path))
             {
-                await LoadAccount();
+                 LoadAccount();
             }
             else
             {
-                await CreateNewAccount();
+                 CreateNewAccount();
             }
             RewardLoad();
 
@@ -129,13 +129,13 @@ namespace Account
           //  SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
         }
 
-        private async Task LoadAccount()
+        private void  LoadAccount()
         {
             _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, saveType, "txt", true, path);
             if (_accountData.IsCorrupted())
             {
                 Debug.LogWarning("Save File Is Corrupted!\nCreating New Account!");
-                await CreateNewAccount();
+                 CreateNewAccount();
                 return;
             }
             Debug.Log("Loading Data From " + saveType);
@@ -155,7 +155,7 @@ namespace Account
 
         public void ResetAccount()
         {
-            _ = CreateNewAccount();
+             CreateNewAccount();
             UI.Meta.Laboratory.LaboratoryScreenUI.ResetTutorialFirstTime();
         }
 
@@ -210,15 +210,14 @@ namespace Account
             PlayerPrefs.Save();
         }
 
-        private async Task CreateNewAccount()
+        private void CreateNewAccount()
         {
             if (SaveManager.CheckFileExists(AccountData.SaveName, saveType, true, "txt", path))
                 SaveManager.DeleteFile(AccountData.SaveName, "txt", saveType, path, true);
                 _accountData = new AccountData();
-            await _accountData.NewLoad();
+             _accountData.NewLoad();
             _needToDoTutorial = true;
-            await Task.Yield();
-  //          SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
+         
             
         }
 
@@ -265,21 +264,21 @@ namespace Account
         [SerializeField]
         SceneHandler.ScenesEnum _lastScene;
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
             AccountSettingsData = new AccountSettingsData();
-            await AccountSettingsData.NewLoad();
+             AccountSettingsData.NewLoad();
             AccountGeneralData = new AccountGeneralData();
-            await AccountGeneralData.NewLoad();
+             AccountGeneralData.NewLoad();
             AccountCards = new AccountCards();
-            await AccountCards.NewLoad();
+             AccountCards.NewLoad();
             AccountCombos = new AccountCombos();
-            await AccountCombos.NewLoad();
+             AccountCombos.NewLoad();
             AccountCharacters = new AccountCharacters();
-            await AccountCharacters.NewLoad();
+             AccountCharacters.NewLoad();
             _battleData = new BattleData();
             _battleData.ResetData();
-            await Task.Yield();
+
         }
 
         public bool IsCorrupted()

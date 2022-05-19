@@ -57,7 +57,7 @@ namespace Account.GeneralData
             throw new NotImplementedException();
         }
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
             int currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
             var characters = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.Player);

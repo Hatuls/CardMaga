@@ -21,12 +21,12 @@ public abstract class MonoSingleton<T> : MonoBehaviour , ITokenInitialized where
 
 
 
-    public abstract void Init(IRecieveOnlyTokenMachine token);
+    public abstract void Init(ITokenReciever token);
 
 
 
 }
 public interface ITokenInitialized 
 {
-    void Init(IRecieveOnlyTokenMachine tokenMachine); 
+    void Init(ITokenReciever tokenMachine); 
 }

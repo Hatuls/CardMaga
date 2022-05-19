@@ -11,48 +11,55 @@ public class BattleSceneManager : MonoSingleton<BattleSceneManager>
     ITokenInitialized[] _singletons;
     //[SerializeField]
     //int _maxFPS = 30;
-    public static event Action<IRecieveOnlyTokenMachine> OnBattleSceneLoaded;
+    private TokenMachine _firstLoadTokenMachine;
+    private IDisposable _blackPanelToken;
+    public static event Action<ITokenReciever> OnBattleSceneLoaded;
+    public static event Action OnStartGame;
     public override void Awake()
     {
+
         base.Awake();
-        LoadingSceneManager.OnSceneLoaded += Init;
-       
+        LoadingSceneManager.OnScenesEnter += BattleSceneLoaded;
+        BlackScreenPanel.OnFinishFadeIn += StartGame;
     }
 
     private void OnDestroy()
     {
-        LoadingSceneManager.OnSceneLoaded -= Init;
+        BlackScreenPanel.OnFinishFadeIn -= StartGame;
+        LoadingSceneManager.OnScenesEnter -= BattleSceneLoaded;
+
     }
 
 
+    private void BattleSceneLoaded(LoadingSceneManager sceneManager)
+    {
+
+        _firstLoadTokenMachine = new TokenMachine(
+            () =>{
+                _blackPanelToken = BlackScreenPanel.GetToken();
+            });
+
+        using(_firstLoadTokenMachine.GetToken())
+        OnBattleSceneLoaded.Invoke(_firstLoadTokenMachine);
+    }
     private void Update()
     {
         //  Application.targetFrameRate = _maxFPS;
         ThreadsHandler.ThreadHandler.TickThread();
     }
-    public override void Init(IRecieveOnlyTokenMachine token)
-    {
-        OnBattleSceneLoaded?.Invoke(token);
-
-
-        //const byte amount = 12;
-        //_singletons = new ISingleton[amount]
-        //{
-        //    VFXManager.Instance,
-        //    CardExecutionManager.Instance,
-        //    BattleUiManager.Instance,
-        //    CardManager.Instance,
-        //    CameraController.Instance,
-        //    PlayerManager.Instance,
-        //    EnemyManager.Instance,
-        //    Combo.ComboManager.Instance,
-        //    Keywords.KeywordManager.Instance,
-        //    Battles.Deck.DeckManager.Instance,
-        //    CardUIManager.Instance,
-        //    BattleManager.Instance,
-        //};
-
-       
-    }
+ 
   
+    public void StartGame()
+    {
+        OnStartGame?.Invoke();
+    }
+    public void EndGame()
+    {
+        _blackPanelToken?.Dispose();
+    }
+
+    public override void Init(ITokenReciever token)
+    {
+      
+    }
 }

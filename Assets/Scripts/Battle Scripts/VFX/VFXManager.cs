@@ -12,7 +12,7 @@ public class VFXManager : MonoSingleton<VFXManager>
     [SerializeField] List<ParticleSystemVFX> _VFXLIST;
     
 
-    public override void Init(IRecieveOnlyTokenMachine token)
+    public override void Init(ITokenReciever token)
     {
         using(token.GetToken())
         _VFXLIST = new List<ParticleSystemVFX>();

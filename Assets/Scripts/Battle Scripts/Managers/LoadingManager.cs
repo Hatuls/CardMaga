@@ -25,7 +25,7 @@ public class LoadingManager : MonoSingleton<LoadingManager>
           //  Init();
         }
     }
-    public override void Init(IRecieveOnlyTokenMachine token)
+    public override void Init(ITokenReciever token)
     {
 
 

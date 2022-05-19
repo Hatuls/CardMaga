@@ -25,7 +25,7 @@ namespace Managers
         }
         #endregion
 
-  public override void Init(IRecieveOnlyTokenMachine token)
+  public override void Init(ITokenReciever token)
         {
             CardManager.Instance.ResetCards();
         }

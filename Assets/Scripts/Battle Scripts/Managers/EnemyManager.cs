@@ -30,7 +30,7 @@ namespace Battles
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
         #region Public Methods
-        public override void Init(IRecieveOnlyTokenMachine token)
+        public override void Init(ITokenReciever token)
         {
         
         }

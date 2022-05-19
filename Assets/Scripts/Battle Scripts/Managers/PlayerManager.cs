@@ -52,7 +52,7 @@ namespace Managers
             }
 
         }
-        public override void Init(IRecieveOnlyTokenMachine token)
+        public override void Init(ITokenReciever token)
         {
         }
         public void AssignCharacterData(Character characterData)

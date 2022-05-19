@@ -10,30 +10,21 @@ using UnityEngine;
 public class NetworkHandler : MonoBehaviour
 {
     const string Version = "Version";
-    [SerializeField] TextMeshProUGUI _status;
     [SerializeField] TextMeshProUGUI _myVersion;
-    [SerializeField] TextMeshProUGUI _webVersion;
+
     [SerializeField] GameObject _btnLogin;
-    [SerializeField] GameFactoryTerminal gameFactoryTerminal;
+    
     private string path = "https://drive.google.com/uc?export=download&id=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
 
     GameVersion _gv;
     IDisposable _token;
     private void Awake()
     {
-
-        LoadingSceneManager.OnSceneLoaded += Init;
-        _webVersion.enabled = false;
-        _status.enabled = false;
-
         _myVersion.text = string.Concat("Alpha Version: ", Application.version);
 
     }
-    private void OnDestroy()
-    {
-        LoadingSceneManager.OnSceneLoaded -= Init;
-    }
-    public void Init(IRecieveOnlyTokenMachine token)
+
+    public void Init(ITokenReciever token)
     {
         _token = token.GetToken();
         FireBaseHandler.Init();
@@ -48,34 +39,22 @@ public class NetworkHandler : MonoBehaviour
     {
         _gv = JsonUtility.FromJson<GameVersion>(data);
         DefaultVersion._gameVersion = _gv;
-        InitAccount();
-        //JsonUtilityHandler.LoadOverrideFromJson(text,_gv);
+
         CheckVersion(_gv);
-        _token.Dispose();
+        _token?.Dispose();
     }
-    [Sirenix.OdinInspector.Button]
-
-    public async void InitAccount()
-    {
-        await gameFactoryTerminal.Init();
-        await Task.Yield();
-        await AccountManager.Instance.Init();
-    }
-
+  
     private void CheckVersion(GameVersion currentVersion)
     {
-        _webVersion.enabled = true;
-        _webVersion.text = "Version in the Web : " + currentVersion.Version;
-        _status.enabled = true;
+     
         if (PlayerPrefs.GetString(Version) == currentVersion.Version)
         {
 
-            _status.text = "Status: Up to date!";
-            //   _continueBtn.enabled = true;
+         
         }
         else
         {
-            _status.text = "Status: Not Up to date!";
+
             PlayerPrefs.SetString(Version, currentVersion.Version);
         }
     }

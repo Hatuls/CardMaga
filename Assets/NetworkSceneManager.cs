@@ -1,16 +1,60 @@
-﻿using ReiTools.TokenMachine;
+﻿using CardMaga.LoadingScene;
+using ReiTools.TokenMachine;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkSceneManager : MonoBehaviour
+public class NetworkSceneManager : MonoBehaviour, ISceneManager
 {
-    TokenFactory.TokenMachine _tokenMachine;
+    public static event Action<ITokenReciever> OnNetworkSceneLoaded;
+    public UnityTokenMachineEvent OnNetworkSceneLoadedEvent;
 
-    public static event Action<IRecieveOnlyTokenMachine> 
-    private void Awake()
+    private IDisposable _blackPanelToken;
+    private  TokenMachine _networkSceneTokenMachine;
+    private LoadingSceneManager _loadingSceneManager;
+
+    public  ITokenReciever ScenesTokenMachine => _networkSceneTokenMachine;
+
+
+    public void OnEnable()
     {
-        _tokenMachine = new TokenFactory.TokenMachine()
+        LoadingSceneManager.OnScenesEnter += OnSceneLoaded;
+    }
+    public void OnDisable()
+    {
+        LoadingSceneManager.OnScenesEnter -= OnSceneLoaded;
+    }
+    public void OnSceneLoaded(LoadingSceneManager manager)
+    {
+        _networkSceneTokenMachine = new TokenMachine(SceneEntered, null);
+        _loadingSceneManager = manager;
+
+        using (_networkSceneTokenMachine.GetToken())
+        {
+            OnNetworkSceneLoaded?.Invoke(ScenesTokenMachine);
+            OnNetworkSceneLoadedEvent?.Invoke(ScenesTokenMachine);
+        }
+    }
+
+    public void SceneEntered()
+    {
+        _blackPanelToken = BlackScreenPanel.GetToken();
+    }
+
+    public void SceneExit()
+    {
+        _blackPanelToken.Dispose();
+        _loadingSceneManager.UnloadScenes(
+          () => _loadingSceneManager.LoadScenes(null, 3)
+            );
     }
 }
+
+public interface ISceneManager
+{
+
+    ITokenReciever ScenesTokenMachine { get; }
+    void OnSceneLoaded(LoadingSceneManager manager);
+    void SceneEntered();
+    void SceneExit();
+}
+

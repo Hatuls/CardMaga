@@ -1,4 +1,6 @@
 ﻿using CardMaga.LoadingScene;
+using ReiTools.TokenMachine;
+using System;
 using UnityEngine;
 namespace CardMaga.Managers.GameManager
 {
@@ -7,11 +9,19 @@ namespace CardMaga.Managers.GameManager
     {
         [SerializeField]
         private LoadingSceneManager _loader;
+        TokenMachine _tokenMachine;
 
+        public static event Action<ITokenReciever> OnEnteringTheGame;
 
         private void Start()
         {
-            _loader.UnLoadAndThenLoad(null, 1);
+            _tokenMachine = new TokenMachine( OnFirstEnterTheGame);
+            using (_tokenMachine.GetToken())
+            OnEnteringTheGame?.Invoke(_tokenMachine);
+        }
+        private void OnFirstEnterTheGame()
+        {
+            _loader.LoadScenes(null, 1);
         }
     }
 }

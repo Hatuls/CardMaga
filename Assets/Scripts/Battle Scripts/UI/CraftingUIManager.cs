@@ -35,7 +35,7 @@ namespace Battles.UI
         }
 
 
-        public override void Init(IRecieveOnlyTokenMachine token)
+        public override void Init(ITokenReciever token)
         {
             using (token.GetToken())
             {

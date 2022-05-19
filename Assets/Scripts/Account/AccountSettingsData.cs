@@ -33,7 +33,7 @@ namespace Account.GeneralData
             return false;
         }
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
             SFXEffect = true;
             MasterVolume = true;

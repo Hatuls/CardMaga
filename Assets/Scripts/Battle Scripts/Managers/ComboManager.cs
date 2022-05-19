@@ -40,7 +40,7 @@ namespace Combo
 
         #endregion
 
-        public override void Init(IRecieveOnlyTokenMachine token)
+        public override void Init(ITokenReciever token)
         {
             threadId = ThreadHandler.GetNewID;
         }

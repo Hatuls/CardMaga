@@ -11,6 +11,9 @@ public class BlackScreenPanel : MonoBehaviour
     public enum FillOption { Alpha, FillTransition }
 
 
+
+    public static event Action OnFinishFadeIn, OnFinishFadeOut;
+
     private const int MAX_VALUE = 1, MIN_VALUE = 0;
 
     [SerializeField, Tooltip("Duration to become black")]
@@ -25,39 +28,26 @@ public class BlackScreenPanel : MonoBehaviour
 
 
     [SerializeField]
-    Canvas _canvas;
-    Camera _cam;
-    [SerializeField]
     private Image _img;
 
+    private static TokenMachine _blackPannelTokenMachine;
     private Tween _fadeInTween, _fadeOutTween;
-    public void OnEnable()
+
+
+    public static IDisposable GetToken()=> _blackPannelTokenMachine.GetToken();
+
+  
+  
+    
+    public void FadeIn()
+=> StartCoroutine(FadeInCoroutine());
+
+    public void FadeOut( )
+=> StartCoroutine(FadeOutCoroutine());
+
+    private IEnumerator FadeInCoroutine()
     {
-        LoadingSceneManager.OnBeforeSceneUnLoading += FadeIn;
-        LoadingSceneManager.OnSceneLoaded += FadeOut;
 
-
-    }
-    public void OnDisable()
-    {
-        LoadingSceneManager.OnBeforeSceneUnLoading -= FadeIn;
-        LoadingSceneManager.OnSceneLoaded -= FadeOut;
-
-    }
-    public void FadeIn(IRecieveOnlyTokenMachine tokenMachine)
-=> StartCoroutine(FadeInCoroutine(tokenMachine));
-
-    public void FadeOut(IRecieveOnlyTokenMachine tokenMachine)
-=> StartCoroutine(FadeOutCoroutine(tokenMachine));
-
-    private IEnumerator FadeInCoroutine(IRecieveOnlyTokenMachine tokenMachine)
-    {
-        IDisposable token = tokenMachine.GetToken();
-        //_canvas.enabled = false;
-        //_canvas.worldCamera = Camera.main;
-        //_canvas.enabled = true;
-        //yield return null;
-       
         yield return null;
         switch (_img.type)
         {
@@ -74,16 +64,10 @@ public class BlackScreenPanel : MonoBehaviour
         }
 
 
-        _fadeInTween.OnComplete(token.Dispose);
+        _fadeInTween.OnComplete(()=>OnFinishFadeIn?.Invoke());
     }
-    private IEnumerator FadeOutCoroutine(IRecieveOnlyTokenMachine tokenMachine)
+    private IEnumerator FadeOutCoroutine()
     {
-        IDisposable token = tokenMachine.GetToken();
-
-        //_canvas.enabled = false;
-        //_canvas.worldCamera = Camera.main;
-        //_canvas.enabled = true;
-        //yield return null;
         yield return null;
         switch (_img.type)
         {
@@ -99,11 +83,14 @@ public class BlackScreenPanel : MonoBehaviour
                 throw new Exception("Fade In Onption is not implemented");
         }
 
-        _fadeOutTween.OnComplete(token.Dispose);
+        _fadeOutTween.OnComplete(()=>OnFinishFadeOut?.Invoke());
     }
 
 
-
+    public void Awake()
+    {
+        _blackPannelTokenMachine = new TokenMachine(FadeOut,FadeIn);
+    }
     public void OnDestroy()
     {
         if (_fadeOutTween != null) _fadeOutTween.Kill();
