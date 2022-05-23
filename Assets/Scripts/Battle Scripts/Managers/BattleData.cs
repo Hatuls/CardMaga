@@ -52,6 +52,8 @@ namespace Battles
         public bool PlayerWon { get => _playerWon; set => _playerWon = value; }
         public bool IsFinishedPlaying { get => _isFinishedPlaying; set => _isFinishedPlaying = value; }
         public ActsEnum CurrentAct { get => _currentAct; set => _currentAct = value; }
+
+
         public ushort GetAllDiamonds()
         => GetAllFromMapRewards((x) => x.Diamonds);
         public ushort GetAllExp()

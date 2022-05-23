@@ -75,7 +75,7 @@ namespace Managers
         }
         public void UpdateStatsUI()
         {
-            var statsui = Battles.UI.StatsUIManager.GetInstance;
+            var statsui = Battles.UI.StatsUIManager.Instance;
             statsui.UpdateMaxHealthBar(true, GetCharacterStats.MaxHealth);
             statsui.InitHealthBar(true, GetCharacterStats.Health);
             statsui.UpdateShieldBar(true, GetCharacterStats.Shield);

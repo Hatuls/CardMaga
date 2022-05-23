@@ -67,9 +67,9 @@ namespace Battles
         }
         public void UpdateStatsUI()
         {
-            UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(false, GetCharacterStats.MaxHealth);
-            UI.StatsUIManager.GetInstance.InitHealthBar(false, GetCharacterStats.Health);
-            UI.StatsUIManager.GetInstance.UpdateShieldBar(false, GetCharacterStats.Shield);
+            UI.StatsUIManager.Instance.UpdateMaxHealthBar(false, GetCharacterStats.MaxHealth);
+            UI.StatsUIManager.Instance.InitHealthBar(false, GetCharacterStats.Health);
+            UI.StatsUIManager.Instance.UpdateShieldBar(false, GetCharacterStats.Shield);
         }
 
         public void OnEndBattle()

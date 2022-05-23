@@ -218,7 +218,9 @@ namespace Keywords
         Disable = 47,
         Limit = 48,
         BloodLoss = 49,
-
+        Sacrifice = 50,
+        Shield_Bash = 51,
+        Permanent_Defense =52,
     };
 
 }

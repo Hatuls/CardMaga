@@ -2,10 +2,35 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+#if UNITY_EDITOR
+using System.Linq;
+#endif
 public class OperationManager : MonoBehaviour, IOperationBehaviour
 {
- 
+    #region Editor
+#if UNITY_EDITOR
+    [SerializeField, Tooltip("Optional")]
+    private int _order;
+    public int Order => _order;
+
+    [Sirenix.OdinInspector.Button()]
+    private void AssignOperationInChildren()
+    {
+        var operationsArray = GetComponentsInChildren<BaseOperation>();
+
+        if (operationsArray.Length == 0)
+        {
+            Debug.LogWarning($"OperationManager: Could not find BaseOperations in children");
+            return;
+        }
+      
+        _operations.Clear();
+        _operations.AddRange(operationsArray);
+        _operations.OrderBy(x => x.Order);
+    }
+#endif
+    #endregion
+
     [SerializeField]
     private List<BaseOperation> _operations;
     private OperationEnumerable _operationsEnumerable;
@@ -42,17 +67,27 @@ public interface IOperationBehaviour
     event Action OnCompleted;
     void Init(ITokenReciever tokenReciever);
     void StartOperation();
-
     void Completed();
+
+#if UNITY_EDITOR
+    int Order { get; }
+#endif
 
 }
 
 public abstract class BaseOperation : MonoBehaviour, IOperationBehaviour
 {
 
-    protected IDisposable _token = null;
-    public virtual event Action OnCompleted;
+#if UNITY_EDITOR
+    [SerializeField]
+    private int _order;
+    public int Order => _order;
+#endif
 
+
+    protected IDisposable _token = null;
+
+    public virtual event Action OnCompleted;
     public abstract void Completed();
     public abstract void Init(ITokenReciever tokenReciever);
     public abstract void StartOperation();

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4199875948908254166}
   - component: {fileID: 1734002088733487569}
   m_Layer: 0
-  m_Name: Scene Terminal
+  m_Name: Scene Handler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,9 +56,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d34bff8606c884e9db0b706533994d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnAfterSceneEntered:
+  OnBeforeSceneShown:
     m_PersistentCalls:
       m_Calls: []
   OnBeforeSceneUnloaded:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSceneStart:
     m_PersistentCalls:
       m_Calls: []

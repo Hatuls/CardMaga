@@ -29,26 +29,48 @@ public class EndRunScreen : MonoBehaviour, IObserver
     GameObject _tutorialRewardContainer;
     [SerializeField]
     GameObject _defaultRewardContainer;
+    [SerializeField]
+    GameObject _endBtn;
 
     [SerializeField]
-    SequenceHandler _tutorialSequence;
+    OperationManager _tutorialSequence;
     [SerializeField]
-    SequenceHandler _defaultSequence;
+    OperationManager _defaultSequence;
 
-    // Start is called before the first frame update
-    //void Start()
-    //{
-    //    LoadingProgressBar.OnFinishLoadingScene += OnFinishGame;
-    //}
-    //private void OnDestroy()
-    //{
-    //    LoadingProgressBar.OnFinishLoadingScene -= OnFinishGame;
-    //}
+    [SerializeField,Tooltip("The scene that will be moved to when pressing on the end button")]
+    private SceneIdentificationSO _scene;
+
+    private ISceneHandler _sceneHandler;
+    #region Monobehaviour Callbacks
+    private void Awake()
+    {
+        SceneHandler.OnSceneHandlerActivated += Inject;
+        _defaultSequence.OnCompleted += ActivateEndButtom;
+        _tutorialSequence.OnCompleted += ActivateEndButtom;
+    }
+    void Start()
+    {
+        _endBtn.SetActive(false);
+        OnFinishGame();
+    }
+    private void OnDestroy()
+    {
+        _tutorialSequence.OnCompleted -= ActivateEndButtom;
+        _defaultSequence.OnCompleted -= ActivateEndButtom;
+        SceneHandler.OnSceneHandlerActivated -= Inject;
+    }
+    #endregion
+
+    private void Inject(ISceneHandler sh)
+        => _sceneHandler = sh;
+
+
+    // maybe remove will need to see
     private void OnFinishGame()
     {
         if (Account.AccountManager.Instance.BattleData.IsFinishedPlaying)
         {
-    //    LoadingProgressBar.OnFinishLoadingScene -= OnFinishGame;
+
             _defaultRewardContainer.SetActive(false);
             _tutorialRewardContainer.SetActive(false);
             FinishGame();
@@ -57,8 +79,6 @@ public class EndRunScreen : MonoBehaviour, IObserver
 
     public void FinishGame()
     {
-        _defaultSequence.StopSequence();
-        _tutorialSequence.StopSequence();
         _observerSO.Notify(this);
         SendData();
         ActivateContainer();
@@ -71,18 +91,16 @@ public class EndRunScreen : MonoBehaviour, IObserver
     {
         if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
         {
-            _tutorialSequence.StartSequance();
+            _tutorialSequence.StartOperation();
         }
         else
         {
-            _defaultSequence.StartSequance();
+            _defaultSequence.StartOperation();
         }
     }
 
     private void ActivateContainer()
     {
-
-
         if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
         {
             _tutorialRewardContainer.SetActive(true);
@@ -92,6 +110,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
             _defaultRewardContainer.SetActive(true);
         }
     }
+    private void ActivateEndButtom() => _endBtn.SetActive(true);
     private void SendData()
     {
         var PlayerData = Account.AccountManager.Instance.BattleData;
@@ -140,11 +159,10 @@ public class EndRunScreen : MonoBehaviour, IObserver
     {
         var data = Account.AccountManager.Instance.BattleData;
         CameraMovement.ResetCameraMovementLocation();
-        ReturnLoadingScene.GoToScene = ScenesEnum.MainMenuScene;
-     //   SceneHandler.LoadScene(ReturnLoadingScene.GoToScene);
         var accountData = Account.AccountManager.Instance.AccountGeneralData;
         accountData.AccountResourcesData.Diamonds.AddValue(data.GetAllDiamonds());
         accountData.AccountLevelData.Exp.AddValue(data.GetAllExp());
+        _sceneHandler.MoveToScene(_scene);
     }
 
     public void OnNotify(IObserver Myself)

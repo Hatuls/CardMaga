@@ -15,10 +15,12 @@ public class OperationEnumerable : IEnumerator<IOperationBehaviour>, IOperationB
     object IEnumerator.Current => Current;
 
 
+    public int Order { get; private set; }
 
-    public OperationEnumerable(IReadOnlyList<IOperationBehaviour> list)
+    public OperationEnumerable(IReadOnlyList<IOperationBehaviour> list,int order = 0)
     {
         WaveOperations = list;
+        Order = order;
     }
 
     #region IOperationBehaviour Implementation

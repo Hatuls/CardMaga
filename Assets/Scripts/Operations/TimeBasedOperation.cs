@@ -6,12 +6,15 @@ using UnityEngine.Events;
 
 public class TimeBasedOperation : BaseOperation
 {
-    [SerializeField,EventsGroup]
+    [SerializeField, EventsGroup]
     private UnityTokenMachineEvent OnOperationStarting;
-    [SerializeField,EventsGroup]
+    [SerializeField, EventsGroup]
     UnityEvent OnOperationFinished;
-    [SerializeField]
-    private float _delayTime;
+
+    [SerializeField,Range(0f,10f), Tooltip("The delay before the operation will be executed")]
+    private float _delayBeforeOperation =0f;
+    [SerializeField,Range(0f,10f), Tooltip("The delay after the operation was executed\nNote: Will not have effect if the operation that will take the token wont release it before this delay")]
+    private float _delayAfterOperation = 0f;
 
     public override event Action OnCompleted;
     protected TokenMachine _timeBasedTokenMachine;
@@ -36,8 +39,13 @@ public class TimeBasedOperation : BaseOperation
     {
         using (_timeBasedTokenMachine.GetToken())
         {
+            if (_delayBeforeOperation > 0)
+                yield return new WaitForSeconds(_delayBeforeOperation);
+
             OnOperationStarting.Invoke(_timeBasedTokenMachine);
-            yield return new WaitForSeconds(_delayTime);
+
+            if (_delayAfterOperation > 0)
+                yield return new WaitForSeconds(_delayAfterOperation);
         }
     }
 }

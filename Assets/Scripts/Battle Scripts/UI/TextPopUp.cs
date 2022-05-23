@@ -32,9 +32,9 @@ namespace Battles.UI
         {
             color = clr;
             textMesh.SetText(txt);
-            moveYSpeed= TextPopUpHandler.GetInstance.GetTextSettings.GetTextMoveY;
-            disappearSpeed = TextPopUpHandler.GetInstance.GetTextSettings.GetTextDisappearSpeed;
-            disappearTimer = TextPopUpHandler.GetInstance.GetTextSettings.GetTextDisappearTime;
+            moveYSpeed= TextPopUpHandler.Instance.GetTextSettings.GetTextMoveY;
+            disappearSpeed = TextPopUpHandler.Instance.GetTextSettings.GetTextDisappearSpeed;
+            disappearTimer = TextPopUpHandler.Instance.GetTextSettings.GetTextDisappearTime;
             StartCoroutine(TextAnimations());
         }
         private IEnumerator TextAnimations()
