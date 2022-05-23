@@ -9,6 +9,9 @@ namespace CardMaga.Managers.GameManager
     {
         [SerializeField]
         private LoadingSceneManager _loader;
+
+        [SerializeField]
+        private SceneIdentificationSO _firstScene;
         TokenMachine _tokenMachine;
 
         public static event Action<ITokenReciever> OnEnteringTheGame;
@@ -21,7 +24,7 @@ namespace CardMaga.Managers.GameManager
         }
         private void OnFirstEnterTheGame()
         {
-            _loader.LoadScenes(null, 1);
+            _loader.LoadScenes(null, _firstScene.SceneBuildIndex);
         }
     }
 }

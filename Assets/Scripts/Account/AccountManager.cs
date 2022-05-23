@@ -21,7 +21,7 @@ namespace Account
     }
     public class AccountManager : MonoBehaviour
     {
-        [SerializeField] UnityEvent OnFinishLoading;
+     
         #region Singleton
         private static AccountManager _instance;
         public static AccountManager Instance
@@ -79,11 +79,6 @@ namespace Account
        
         #endregion
         #region Private Methods
-        private void Start()
-        {
-
-         //   SceneHandler.onFinishLoadingScene += UpdateLastScene;
-        }
 
         public void EnterMainMenu()
         {
@@ -92,7 +87,7 @@ namespace Account
 
         }
 
-        private void UpdateLastScene(SceneHandler.ScenesEnum scene)
+        private void UpdateLastScene(ScenesEnum scene)
         {
             _accountData.CurrentScene = scene;
 
@@ -112,7 +107,6 @@ namespace Account
             }
             RewardLoad();
 
-            OnFinishLoading?.Invoke();
 
             if (_needToDoTutorial)
                 EnterTutorial(); 
@@ -161,6 +155,8 @@ namespace Account
 
         #endregion
 
+
+        #region Editor
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]
         private void AddDiamonds() => _accountData.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(10);
@@ -179,6 +175,7 @@ namespace Account
         //    [Sirenix.OdinInspector.Button]
         //       private void AddEXP() => _accountData.AccountGeneralData.AccountLevelData.Exp.AddValue(5);
 #endif
+        #endregion
 
         private void OnDisable()
         {
@@ -259,10 +256,10 @@ namespace Account
         public AccountSettingsData AccountSettingsData { get => _accountSettingsData; private set => _accountSettingsData = value; }
         public AccountGeneralData AccountGeneralData { get => _accountGeneralData; private set => _accountGeneralData = value; }
         public BattleData BattleData { get => _battleData; set => _battleData = value; }
-        public SceneHandler.ScenesEnum CurrentScene { get => _lastScene; set => _lastScene = value; }
+        public ScenesEnum CurrentScene { get => _lastScene; set => _lastScene = value; }
 
         [SerializeField]
-        SceneHandler.ScenesEnum _lastScene;
+        ScenesEnum _lastScene;
 
         public void NewLoad()
         {

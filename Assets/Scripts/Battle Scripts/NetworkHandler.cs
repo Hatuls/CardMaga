@@ -85,5 +85,6 @@ public static class JsonUtilityHandler
 
     public static T LoadFromJson<T>(string json)
     => JsonUtility.FromJson<T>(json);
-
+    public static string ToJson(this object data)
+  => JsonUtility.ToJson(data);
 }

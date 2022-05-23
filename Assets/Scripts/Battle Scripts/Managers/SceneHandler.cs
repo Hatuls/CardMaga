@@ -1,125 +1,151 @@
-﻿using System.Collections;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using CardMaga.LoadingScene;
+using ReiTools.TokenMachine;
+using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class SceneHandler
+public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1, MainMenuScene = 2, MapScene = 3, GameBattleScene = 4, LoreScene = 5 }
+
+public interface ISceneHandler
 {
-   // private static SceneHandler _instance;
-   // public static SceneHandler Instance => _instance;
+    LoadingSceneManager LoadingSceneManager { get; }
+    /// <summary>
+    /// Will Unload the current active scenes and then load the new one
+    ///   /// Note: Always better to use the SceneIdentificationSO
+    /// </summary>
+    /// <param name="scenesIndex"></param>
+    void MoveToScene(int sceneIndex);
+    /// <summary>
+    /// Will Unload the current active scenes and then load the new one
+    /// </summary>
+    /// <param name="sceneIdentificationSO"></param>
+    void MoveToScene(SceneIdentificationSO sceneIdentificationSO);
+    /// <summary>
+    /// Will Unload the current active scenes and then load the new ones
+    /// Note: Always better to use the SceneIdentificationSO
+    /// </summary>
+    /// <param name="scenesIndex"></param>
+    void MoveToScene(params int[] scenesIndex);
 
-   // public static bool LoadingComplete;
-    public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1, MainMenuScene = 2, MapScene = 3, GameBattleScene = 4, LoreScene = 5 }
-   // static System.Action onLoaderCallback;
-   // static AsyncOperation _loadingAsyncOperation;
-   // public static System.Action<ScenesEnum> onFinishLoadingScene;
-   // public static System.Action<ScenesEnum> onStartLoadingScene;
-   // public static System.Action OnSceneChange;
-   // public SceneHandler(LoadingManager sceneLoaderCallback)
-   // {
-   //     SceneLoaderCallback = sceneLoaderCallback;
-   //     _instance = this;
-   // }
+    /// <summary>
+    /// Will Unload the current active scenes and then load the new ones
+    /// </summary>
+    /// <param name="scenes"></param>
+    void MoveToScene(params SceneIdentificationSO[] scenes);
+}
 
-   // /// <summary>
-   // /// Scene gameobject that callbacks on finish loading scene
-   // /// </summary>
-   // public static LoadingManager SceneLoaderCallback
-   // { get; set; }
+public class SceneHandler : MonoBehaviour, ISceneHandler
+{
 
-   // private static ScenesEnum _previousScene;
-   // private static ScenesEnum _currentScene = ScenesEnum.NetworkScene;
-   // public static ScenesEnum CurrentScene
-   // {
-   //     get => _currentScene;
-   //     private set
-   //     {
-   //         if (_currentScene != value)
-   //         {
-   //             _currentScene = value;
-   //         }
-   //     }
-   // }
+    public static event Action OnSceneStart;
+    public static event Action<ISceneHandler> OnSceneHandlerActivated;
+    public static event Action<ITokenReciever> OnBeforeSceneShown;
+    public static event Action<ITokenReciever> OnBeforeSceneUnloaded;
 
-   // public static void LoadSceneWithNoLoadingScreen(ScenesEnum scene)
-   // {
-   //     CurrentScene = scene;
-   //     onStartLoadingScene?.Invoke(CurrentScene);
-   //     SceneManager.LoadScene((int)scene, LoadSceneMode.Single);
-   // }
-   // public static void LoadScene(ScenesEnum sceneEnum)
-   // {
+    private IDisposable _blackPanelToken;
+
+    private LoadingSceneManager _loadingSceneManager;
 
 
-   //     LoadingComplete = false;
-   //     _previousScene = CurrentScene;
-   //     CurrentScene = ScenesEnum.LoadingScene;
-   //     onStartLoadingScene?.Invoke(sceneEnum);
-   //     SceneManager.LoadScene((int)ScenesEnum.LoadingScene, LoadSceneMode.Additive);
+    public LoadingSceneManager LoadingSceneManager => _loadingSceneManager;
 
 
-   //     onLoaderCallback = () =>
-   //     {
-   //         SceneLoaderCallback.StartCoroutine(LoadSceneAsync(sceneEnum));
-   //     };
-   // }
+    #region Monobehaviour Callbacks
+    public void Awake()
+    {
+        LoadingSceneManager.OnIjectingLoadingSceneManager += SceneLoaded;
+    }
+    public void OnDisable()
+    {
+        LoadingSceneManager.OnIjectingLoadingSceneManager -= SceneLoaded;
+    }
+    #endregion
 
-   // static IEnumerator LoadSceneAsync(ScenesEnum sceneEnum)
-   // {
-   //     yield return null;
-   //     _loadingAsyncOperation = SceneManager.LoadSceneAsync((int)sceneEnum, LoadSceneMode.Additive);
-   //     Debug.Log("Loading Async the scene " + sceneEnum.ToString());
-   //     while (!_loadingAsyncOperation.isDone)
-   //         yield return null;
 
-   //     Debug.Log("Finished Loading Asyncly the scene " + sceneEnum.ToString());
-   //     //    Debug.Log(SceneManager.sceneCount);
-   //     //    SceneManager.SetActiveScene(SceneManager.GetSceneAt((int)sceneEnum));
-   //     Debug.Log("Set Active Scene " + sceneEnum.ToString());
-   //     yield return null;
-   //     LoadingComplete = true;
-   //     CurrentScene = sceneEnum;
-   //     onFinishLoadingScene?.Invoke(sceneEnum);
-   //     OnSceneChange?.Invoke();
-   // }
-   // public static async void UnloadPreviousScene(CancellationToken token, System.Action OnUnloadComplete = null)
-   // {
-   //     await UnloadScene(_previousScene, token, async () => await UnloadScene(ScenesEnum.LoadingScene, token, OnUnloadComplete));
-   // }
-   // public async static Task UnloadScene(ScenesEnum scene, CancellationToken token, System.Action OnUnloadComplete = null)
-   // {
-   //     await UnloadScene((int)scene, token, OnUnloadComplete);
-   // }
-   // public static async Task UnloadScene(int sceneIndex, CancellationToken token, System.Action OnUnloadComplete = null)
-   // {
-   //     var operation = SceneManager.UnloadSceneAsync(sceneIndex);
+    /// <summary>
+    /// Called when the scene is loaded
+    /// </summary>
+    /// <param name="manager"></param>
+    public void SceneLoaded(LoadingSceneManager manager)
+    {
+        // creating a token machine
+        TokenMachine sceneTokenMachine = new TokenMachine(RemoveBlackPanel);
+        // saving the loading manager
+        _loadingSceneManager = manager;
 
-   //     while (!operation.isDone)
-   //     {
-   //         await Task.Yield();
-   //         if (token.IsCancellationRequested)
-   //             break;
-   //     }
+        using (sceneTokenMachine.GetToken())// starting the token machine
+        {
+            OnSceneHandlerActivated?.Invoke(this);
+            OnBeforeSceneShown?.Invoke(sceneTokenMachine); // notifiyng all who need to do preperation 
+        }
+        // register to when panel finished fading out
+        BlackScreenPanel.OnFinishFadeOut += BlackScreenFinished;
 
-   //     OnUnloadComplete?.Invoke();
-   // }
-   // public static void LoaderCallback()
-   // {
-   //     if (onLoaderCallback != null)
-   //     {
-   //         onLoaderCallback.Invoke();
-   //         onLoaderCallback = null;
-   //     }
-   // }
 
-   // /// <summary>
-   // /// Return the progress of loading the scene
-   // /// 1 is done 
-   // /// 0 is started
-   // /// </summary>
-   // /// <returns>The Progress Of Loading The Next Scene</returns>
-   // public static float LoadingProgress()
-   //=> _loadingAsyncOperation != null ? _loadingAsyncOperation.progress : 1f;
+        void BlackScreenFinished()
+        {
+            BlackScreenPanel.OnFinishFadeOut -= BlackScreenFinished;
+
+            OnSceneStart?.Invoke(); // notifiyng that the game should start now
+        }
+    }
+
+
+
+
+    public void MoveToScene(params int[] scenesIndex)
+    {
+
+        BlackScreenPanel.OnFinishFadeIn += SceneTransition;
+
+        // notify about unloading
+        CurrentSceneIsUnloaded();
+
+        void SceneTransition()
+        {
+            BlackScreenPanel.OnFinishFadeIn -= SceneTransition;
+            // unload current scenes and start loading the new ones
+            _loadingSceneManager.UnloadAndThenLoad(null, scenesIndex);
+
+
+        }
+    }
+
+    public void MoveToScene(int sceneIndex)
+   => MoveToScene(new int[1] { sceneIndex });
+
+    public void MoveToScene(params SceneIdentificationSO[] scenes)
+    {
+        int[] scenesIndex = new int[scenes.Length];
+
+        for (int i = 0; i < scenes.Length; i++)
+            scenesIndex[i] = scenes[i].SceneBuildIndex;
+
+        MoveToScene(scenesIndex);
+    }
+
+    public void MoveToScene(SceneIdentificationSO sceneIdentificationSO)
+        => MoveToScene(sceneIdentificationSO.SceneBuildIndex);
+
+    // Maybe add function to load scenes to this current scene
+
+
+
+    #region Private Functions
+
+    private void RemoveBlackPanel()
+    {
+        _blackPanelToken = BlackScreenPanel.GetToken();
+    }
+
+    private void CurrentSceneIsUnloaded()
+    {
+        TokenMachine t = new TokenMachine(_blackPanelToken.Dispose);
+
+        using (t.GetToken())
+        {
+            OnBeforeSceneUnloaded?.Invoke(t);
+        }
+    }
+    #endregion
 
 }

@@ -2,7 +2,7 @@
 
 public class ReturnLoadingScene : MonoBehaviour
 {
-    public static SceneHandler.ScenesEnum GoToScene;
+    public static ScenesEnum GoToScene;
 
     [SerializeField] GameObject _mainPanel;
     private void Start()
@@ -12,13 +12,13 @@ public class ReturnLoadingScene : MonoBehaviour
         var battledata = Account.AccountManager.Instance.BattleData;
         switch (GoToScene)
         {
-            case SceneHandler.ScenesEnum.MapScene:
+            case ScenesEnum.MapScene:
                 if (battledata.Map != null &&
                     battledata.Player != null &&
                     battledata.Player.CharacterData != null)
                     OpenPanel();
                 break;
-            case SceneHandler.ScenesEnum.GameBattleScene:
+            case ScenesEnum.GameBattleScene:
                 if (battledata.Player != null &&
                     battledata.Player.CharacterData != null &&
                     battledata.Opponent != null &&

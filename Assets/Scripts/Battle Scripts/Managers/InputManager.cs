@@ -93,7 +93,7 @@ public class InputManager : MonoBehaviour
 
     #region Monobehaiviour CallBacks
 
-    private void OnSceneLoad(SceneHandler.ScenesEnum scene)
+    private void OnSceneLoad(ScenesEnum scene)
     {
         ResetTouch();
     }

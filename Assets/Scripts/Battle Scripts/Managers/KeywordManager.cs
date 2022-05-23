@@ -157,11 +157,11 @@ namespace Keywords
         public override void Awake()
         {
             base.Awake();
-            BattleSceneManager.OnBattleSceneLoaded += Init;
+            SceneHandler.OnBeforeSceneShown += Init;
         }
         public void OnDestroy()
         {
-            BattleSceneManager.OnBattleSceneLoaded -= Init;
+            SceneHandler.OnBeforeSceneShown -= Init;
         }
         #endregion
     }

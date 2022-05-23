@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using ReiTools.TokenMachine;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,8 +10,8 @@ public class LevelLoader : MonoBehaviour
 {
 
     [SerializeField]
-    LoadingDetails[] _loadingDetails;
-    int _current;
+    private LoadingDetails[] _loadingDetails;
+    private int _current;
 
     [SerializeField]
     AnimationCurve _progressCurve;
@@ -20,7 +22,8 @@ public class LevelLoader : MonoBehaviour
     TextMeshProUGUI _text, _loadingText;
     [SerializeField]
     UnityEvent OnLoadingBarCompleted;
-
+    [SerializeField]
+    OperationManager _loadingOperation;
     public void Awake()
     {
         ResetSlider();
@@ -29,9 +32,16 @@ public class LevelLoader : MonoBehaviour
     public void ResetSlider()
     {
         _current = 0;
-        _text.text = "0.0%";
+        _text.text = "Loading...";
+        _loadingText.text = "0.0%";
         _slider.value = 0;
+    }
 
+    public void StartLoading()
+    {
+        TokenMachine t = new TokenMachine(() => OnLoadingBarCompleted?.Invoke());
+        _loadingOperation.Init(t);
+        _loadingOperation.StartOperation();
     }
 
     public void MoveNext()
@@ -42,8 +52,8 @@ public class LevelLoader : MonoBehaviour
             Tween t = _slider.DOValue(current.ProgressTo, current.Duration).SetEase(_progressCurve);
             _text.text = current.Text;
 
-            if (_current == _loadingDetails.Length - 1)
-                t.OnComplete(() => OnLoadingBarCompleted?.Invoke());
+
+
             _current++;
         }
     }

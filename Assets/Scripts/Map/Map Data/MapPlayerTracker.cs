@@ -37,6 +37,7 @@ namespace Map
         private void Awake()
         {
             Instance = this;
+            SceneHandler.OnSceneStart += view.SetAttainableNodes;
         }
 
         public void SelectNode(NodeMap mapNode)
@@ -81,9 +82,9 @@ namespace Map
                 _actDiffucltys = Resources.LoadAll<ActDifficultySO>("Maps/Acts Diffuclty");
 
             Instance = this;
-            view.SetAttainableNodes();
+  
         }
-
+        
         private static void EnterNode(NodeMap mapNode)
         {
             // we have access to blueprint name here as well
@@ -150,8 +151,13 @@ namespace Map
         {
           //  throw new NotImplementedException();
         }
-    }
 
+        private void OnDestroy()
+        {
+            SceneHandler.OnSceneStart -= view.SetAttainableNodes;
+        }
+
+    }
 
     //[Serializable]
     //public class ActsData

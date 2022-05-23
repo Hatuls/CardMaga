@@ -24,8 +24,9 @@ public class OperationManager : MonoBehaviour, IOperationBehaviour
     {
         _operationsEnumerable = new OperationEnumerable(_operations);
         _operationsEnumerable.Init(tokenReciever);
+
+        _disposable = tokenReciever?.GetToken();
         _operationsEnumerable.OnCompleted += Completed;
-        StartOperation();
     }
 
 

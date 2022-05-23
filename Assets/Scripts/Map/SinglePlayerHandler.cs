@@ -8,21 +8,40 @@ public class SinglePlayerHandler : MonoBehaviour
 {
     private static SinglePlayerHandler _instance;
     public static SinglePlayerHandler Instance => _instance;
- [SerializeField] SceneLoaderCallback _sceneloaderEvent;
+    [SerializeField]
+    private SceneIdentificationSO _battleScene;
 
+    private ISceneHandler _sceneHandler;
+
+
+    #region MonoBehaviour Callbacks
     public void Awake()
     {
         if (_instance == null)
+        {
             _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+            SceneHandler.OnSceneHandlerActivated += this.RecieveSceneHandler;
+        }
         else if (_instance != this)
             Destroy(this.gameObject);
 
-        DontDestroyOnLoad(this.gameObject);
+
+    }
+
+    private void OnDestroy()
+    {
+            SceneHandler.OnSceneHandlerActivated -= this.RecieveSceneHandler;
+        
     }
     private void Start()
     {
         if (Account.AccountManager.Instance.BattleData.Player == null)
-            StartNewRun();    }
+            StartNewRun(); 
+    }
+
+    #endregion
+    private void RecieveSceneHandler(ISceneHandler sh) => _sceneHandler = sh;
     public static void RegisterPlayerCharacterDataForNewRun(Character playerCharacter) => Account.AccountManager.Instance.BattleData.Player = playerCharacter;
     public void StartNewRun(Character playerLoadOut = null)
     {
@@ -41,7 +60,9 @@ public class SinglePlayerHandler : MonoBehaviour
 
     public void RegisterOpponent(Character opponent)
     {
+#if UNITY_EDITOR
         Debug.Log($"Registering Opponent: {opponent.CharacterData.CharacterSO.CharacterName}\nDifficulty: {opponent.CharacterData.CharacterSO.CharacterDiffciulty}");
+#endif
         Account.AccountManager.Instance.BattleData.Opponent = opponent;
     }
 
@@ -51,9 +72,10 @@ public class SinglePlayerHandler : MonoBehaviour
 
         if (Account.AccountManager.Instance.BattleData.Player == null)
             StartNewRun();
-  
+#if UNITY_EDITOR
         Debug.Log($"Start battle!\n{Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterSO.CharacterName} VS {Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterName}");
-    //    _sceneloaderEvent.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
+#endif
+        _sceneHandler.MoveToScene(_battleScene);
     }
 
 
