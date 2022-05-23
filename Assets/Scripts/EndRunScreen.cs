@@ -1,11 +1,13 @@
 ﻿using DesignPattern;
+using ReiTools.TokenMachine;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 public class EndRunScreen : MonoBehaviour, IObserver
 {
     public static bool _firstTime = true;
-
+    public static event Action OnFinishGame;
     [SerializeField]
     TextMeshProUGUI _title;
 
@@ -30,7 +32,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
     [SerializeField]
     GameObject _defaultRewardContainer;
     [SerializeField]
-    GameObject _endBtn;
+    GameObject _returnButton;
 
     [SerializeField]
     OperationManager _tutorialSequence;
@@ -45,18 +47,15 @@ public class EndRunScreen : MonoBehaviour, IObserver
     private void Awake()
     {
         SceneHandler.OnSceneHandlerActivated += Inject;
-        _defaultSequence.OnCompleted += ActivateEndButtom;
-        _tutorialSequence.OnCompleted += ActivateEndButtom;
+
     }
     void Start()
     {
-        _endBtn.SetActive(false);
-        OnFinishGame();
+        _returnButton.SetActive(false);
+        CheckIfFinishGame();
     }
     private void OnDestroy()
     {
-        _tutorialSequence.OnCompleted -= ActivateEndButtom;
-        _defaultSequence.OnCompleted -= ActivateEndButtom;
         SceneHandler.OnSceneHandlerActivated -= Inject;
     }
     #endregion
@@ -66,11 +65,10 @@ public class EndRunScreen : MonoBehaviour, IObserver
 
 
     // maybe remove will need to see
-    private void OnFinishGame()
+    private void CheckIfFinishGame()
     {
         if (Account.AccountManager.Instance.BattleData.IsFinishedPlaying)
         {
-
             _defaultRewardContainer.SetActive(false);
             _tutorialRewardContainer.SetActive(false);
             FinishGame();
@@ -79,6 +77,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
 
     public void FinishGame()
     {
+        OnFinishGame?.Invoke();
         _observerSO.Notify(this);
         SendData();
         ActivateContainer();
@@ -89,19 +88,26 @@ public class EndRunScreen : MonoBehaviour, IObserver
 
     private void ActivateAnimationSequence()
     {
-        if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
+        var opponentSO = Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO;
+
+        TokenMachine t = new TokenMachine(ActivateReturnButton);
+        if (opponentSO!= null && opponentSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
         {
+            _tutorialSequence.Init(t);
             _tutorialSequence.StartOperation();
         }
         else
         {
+            _defaultSequence.Init(t);
             _defaultSequence.StartOperation();
         }
     }
 
     private void ActivateContainer()
     {
-        if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
+        var opponent = Account.AccountManager.Instance.BattleData.Opponent;
+        var charaterData = opponent.CharacterData.CharacterSO;
+        if (charaterData != null && charaterData.CharacterType == Battles.CharacterTypeEnum.Tutorial)
         {
             _tutorialRewardContainer.SetActive(true);
         }
@@ -110,7 +116,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
             _defaultRewardContainer.SetActive(true);
         }
     }
-    private void ActivateEndButtom() => _endBtn.SetActive(true);
+    private void ActivateReturnButton() => _returnButton.SetActive(true);
     private void SendData()
     {
         var PlayerData = Account.AccountManager.Instance.BattleData;
@@ -136,7 +142,8 @@ public class EndRunScreen : MonoBehaviour, IObserver
     public void SetTexts()
     {
         var battledata = Account.AccountManager.Instance.BattleData;
-        if (battledata.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
+        var opponentSO = battledata.Opponent.CharacterData.CharacterSO;
+        if (opponentSO!= null && opponentSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
         {
             _totalReward.SetText(battledata[Battles.CharacterTypeEnum.Tutorial].Diamonds.ToString());
         }
@@ -146,7 +153,7 @@ public class EndRunScreen : MonoBehaviour, IObserver
             for (int i = 0; i < _defaultRewards.Length; i++)
             {
                 var character = (Battles.CharacterTypeEnum)(i + offset);
-                _defaultRewards[i].SetText(battledata[character].Diamonds.ToString());
+                _defaultRewards[i].SetText(battledata[character]?.Diamonds.ToString() ?? "0" );
             }
 
         }

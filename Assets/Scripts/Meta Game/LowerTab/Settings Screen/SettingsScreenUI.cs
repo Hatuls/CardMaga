@@ -52,9 +52,11 @@ namespace UI.Meta.Settings
         private void Awake()
         {
             SceneHandler.OnSceneHandlerActivated += Inject;
+            EndRunScreen.OnFinishGame += Close;
         }
         private void OnDestroy()
         {
+            EndRunScreen.OnFinishGame -= Close;
            
             SceneHandler.OnSceneHandlerActivated -= Inject;
         }

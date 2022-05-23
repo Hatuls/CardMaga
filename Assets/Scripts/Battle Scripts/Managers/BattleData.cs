@@ -30,10 +30,9 @@ namespace Battles
             get
             {
 
-                if (_mapRewards == null)
+                if (_mapRewards == null || _mapRewards.Length == 0)
                     ResetMapRewards();
                 
-
                 const int offsetToZero = 2;
                 int index = (int)characterTypeEnum - offsetToZero;
                 return _mapRewards[index];
@@ -44,6 +43,8 @@ namespace Battles
         {
             const int characters = 4;
             _mapRewards = new MapRewards[characters];
+            for (int i = 0; i < characters; i++)
+                _mapRewards[i] = new MapRewards();
         }
 
         public Map.Map Map { get => _map; set => _map = value; }
@@ -75,9 +76,9 @@ namespace Battles
             _mapRewards = null;
             _player = null;
             _opponent = null;
+            _map = null;
             _isFinishedPlaying = false;
             _playerWon = false;
-            _map = null;
             _currentAct = ActsEnum.ActOne;
         }
     }
@@ -90,6 +91,8 @@ namespace Battles
         [SerializeField] private ushort _exp;
         [SerializeField] private ushort _credits;
         [SerializeField] private ushort _gold;
+
+        
 
         public ushort Diamonds { get => _diamonds; set => _diamonds = value; }
         public ushort EXP { get => _exp; set => _exp = value; }

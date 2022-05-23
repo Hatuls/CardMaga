@@ -214,8 +214,6 @@ namespace Account
                 _accountData = new AccountData();
              _accountData.NewLoad();
             _needToDoTutorial = true;
-         
-            
         }
 
 
