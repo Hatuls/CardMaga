@@ -843,6 +843,7 @@ GameObject:
   - component: {fileID: 970111637}
   - component: {fileID: 970111640}
   - component: {fileID: 970111639}
+  - component: {fileID: 970111641}
   - component: {fileID: 970111638}
   m_Layer: 5
   m_Name: Image
@@ -911,6 +912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df532cfeacafea949baf2b1382b7beff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _holdDelaySce: 0.5
   _isTouchable: 0
 --- !u!222 &970111640
 CanvasRenderer:
@@ -920,6 +922,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970111636}
   m_CullTransparentMesh: 0
+--- !u!114 &970111641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970111636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8587ba40ab87da4c98cf533de3effea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 970111637}
+  _resetParameters:
+    name: 
+    Id: 0
+    _dis: {x: 0, y: 0}
+    timeToTransition: 1
+    Ease: 0
+  Motions:
+  - name: HoldMove
+    Id: 0
+    _dis: {x: 0, y: 0}
+    timeToTransition: 1
+    Ease: 1
+  - name: HolsSize
+    Id: 0
+    _dis: {x: 350, y: 350}
+    timeToTransition: 1
+    Ease: 0
 --- !u!114 &1020969931 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1020969931, guid: e73c981cd4217474294ea49923871016,
