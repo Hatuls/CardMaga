@@ -7,8 +7,6 @@ using UnityEngine.Serialization;
 
 public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
 {
-    
-
     protected BaseState _currentState;
 
     protected Dictionary<StateIdentificationSO, BaseState> _inputStateDict;

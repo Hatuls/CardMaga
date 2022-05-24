@@ -10,7 +10,6 @@ public class BattleInputDefaultState : BaseState
     
     public override StateIdentificationSO OnHoldState()
     {
-        
         return base.CheckStateCondition();
     }
 }
