@@ -11,7 +11,7 @@ public abstract class Locomotion : MonoBehaviour
 
    [SerializeField] private UIMotion _resetParameters;
       
-   public UIMotion[] Motions;
+   public LocoMotionSO[] Motions;
    
 
    private void Start()
