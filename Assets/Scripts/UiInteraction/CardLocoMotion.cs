@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class Test : LocoMotion
+public class CardLocoMotion : LocoMotion
 {
 }
