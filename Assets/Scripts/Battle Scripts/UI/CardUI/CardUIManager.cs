@@ -2,6 +2,7 @@
 using Battles.Deck;
 using Battles.UI.CardUIAttributes;
 using Cards;
+using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -88,8 +89,17 @@ namespace Battles.UI
 
         #endregion
 
-        #region MonoBehaiviour callbacks
-
+ 
+        #region Monobehaviour Callbacks 
+        public override void Awake()
+        {
+            base.Awake();
+            SceneHandler.OnBeforeSceneShown += Init;
+        }
+        public void OnDestroy()
+        {
+            SceneHandler.OnBeforeSceneShown -= Init;
+        }
 
         #endregion
 
@@ -186,13 +196,14 @@ namespace Battles.UI
 
 
         }
-        public override void Init()
+        public override void Init(ITokenReciever token)
         {
+            using (token.GetToken())
+            {
             _handUI = new HandUI(_handCards, GetHandMiddlePosition.transform.localPosition, _cardUISettings);
 
-
-
             InitCardUI();
+            }
         }
 
 
@@ -236,6 +247,8 @@ namespace Battles.UI
         {
             CardUIHandler.Instance._selectedCardUI.gameObject.SetActive(false);
         }
+
+
 
     }
 

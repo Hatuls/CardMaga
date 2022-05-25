@@ -1,11 +1,13 @@
 ﻿using Cards;
 using Rei.Utilities;
+using System;
 using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
 
 public class AnimatorController : MonoBehaviour
 {
+    public static event Action<bool> OnDeathAnimationFinished;
     #region Events
 
     [SerializeField] VoidEvent _movedToNextAnimation;
@@ -148,7 +150,7 @@ public class AnimatorController : MonoBehaviour
 
     public void DeathAnimationCompleted()
     {
-        Battles.BattleManager.DeathAnimationFinished(_isPlayer);
+        OnDeathAnimationFinished?.Invoke(_isPlayer);
     }
 
 

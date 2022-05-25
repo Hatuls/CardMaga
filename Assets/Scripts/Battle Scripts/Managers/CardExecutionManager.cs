@@ -2,6 +2,7 @@
 using Battles.UI;
 using Characters.Stats;
 using Keywords;
+using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -45,11 +46,14 @@ namespace Battles
             StopAllCoroutines();
         }
 
-        public override void Init()
+        public override void Init(ITokenReciever token)
         {
-            FinishedAnimation = true;
+            using (token.GetToken())
+            {
+                FinishedAnimation = true;
             _cardsQueue.Clear();
             _keywordData.Clear();
+            }
         }
         public bool TryExecuteCard(bool isPlayer, Cards.Card card)
         {
@@ -133,17 +137,7 @@ namespace Battles
             _cardsQueue.Dequeue();
         }
 
-        //public void ExecuteCard(Cards.Card current)
-        //{
-        //    if (current == null || current.CardKeywords == null || current.CardKeywords.Length == 0 || BattleManager.isGameEnded)
-        //        return;
-
-        //    bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
-
-        //    for (int j = 0; j < current.CardKeywords.Length; j++)
-        //        KeywordManager.Instance.ActivateKeyword(currentTurn, current.CardKeywords[j]);
-        //}
-
+      
 
 
         public void AddToQueue(Cards.Card card)
@@ -268,5 +262,17 @@ namespace Battles
             currentKeywordIndex++;
             OnAnimationIndexChange?.Invoke(currentKeywordIndex);
         }
+
+        #region Monobehaviour Callbacks 
+        public override void Awake()
+        {
+            base.Awake();
+            SceneHandler.OnBeforeSceneShown += Init;
+        }
+        public void OnDestroy()
+        {
+            SceneHandler.OnBeforeSceneShown -= Init;
+        }
+        #endregion
     }
 }

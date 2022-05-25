@@ -8,8 +8,8 @@ namespace UI.Meta.PlayScreen
         [SerializeField]
         Animator _animator;
    
-        int _shineAnimationHash = Animator.StringToHash("ToShine");
-        int _clickAnimationHash = Animator.StringToHash("OnClick");
+       private readonly int _shineAnimationHash = Animator.StringToHash("ToShine");
+       private readonly int _clickAnimationHash = Animator.StringToHash("OnClick");
         private void Start()
         {
             FinishedCycle();

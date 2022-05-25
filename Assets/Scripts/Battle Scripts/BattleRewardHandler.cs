@@ -44,7 +44,7 @@ namespace Rewards.Battles
         {
 
             Account.AccountManager.Instance.BattleData.Player = null;
-            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
+        //    SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
         }
         public void AddCard(Cards.Card cardToAdd)
         {

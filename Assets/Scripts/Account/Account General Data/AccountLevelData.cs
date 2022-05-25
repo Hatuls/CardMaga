@@ -30,7 +30,7 @@ namespace Account.GeneralData
             _exp = new EXPStat(exp, _level, _maxEXP);
         }
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
             _maxEXP = new MaxEXPStat(10);
             _level = new LevelStat((ushort)DefaultVersion._gameVersion.Level, _maxEXP);

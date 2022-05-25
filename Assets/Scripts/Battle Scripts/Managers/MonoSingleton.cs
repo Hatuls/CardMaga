@@ -1,9 +1,9 @@
-﻿using Keywords;
+
+﻿using ReiTools.TokenMachine;
 using UnityEngine;
-public interface ISingleton {
-    void Init();
-}
-public abstract class MonoSingleton<T> : MonoBehaviour , ISingleton where T : Component
+
+public abstract class MonoSingleton<T> : MonoBehaviour , ITokenInitialized where T : Component
+
 {
     private static T _instance;
     public static T Instance => _instance;
@@ -22,5 +22,12 @@ public abstract class MonoSingleton<T> : MonoBehaviour , ISingleton where T : Co
 
 
 
-    public abstract void Init();
+    public abstract void Init(ITokenReciever token);
+
+
+
+}
+public interface ITokenInitialized 
+{
+    void Init(ITokenReciever tokenMachine); 
 }

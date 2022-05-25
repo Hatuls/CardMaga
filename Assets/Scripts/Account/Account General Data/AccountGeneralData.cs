@@ -31,7 +31,7 @@ namespace Account.GeneralData
         public bool IsFirstTime { get => _isFirstTime; set => _isFirstTime = value; }
 
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
             //_accountInfoData = new AccountInfoData(TimeManager.Instance.GetCurrentTime(),);
       
@@ -39,11 +39,11 @@ namespace Account.GeneralData
 
 
             _accountEnergyData = new AccountEnergyData();
-           await _accountEnergyData.NewLoad();
+            _accountEnergyData.NewLoad();
             _accountLevelData = new AccountLevelData();
-            await _accountLevelData.NewLoad();
+             _accountLevelData.NewLoad();
             _accountResourcesData = new AccountResourcesData();
-            await _accountResourcesData.NewLoad();
+             _accountResourcesData.NewLoad();
         }
 
         public bool IsCorrupted()

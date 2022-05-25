@@ -33,7 +33,7 @@ namespace Account.GeneralData
             _gold = new UshortStat((ushort)gold);
         }
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
 
             _chips = new UshortStat((ushort)DefaultVersion._gameVersion.Chips);
