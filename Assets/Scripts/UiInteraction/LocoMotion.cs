@@ -10,7 +10,7 @@ public abstract class LocoMotion : MonoBehaviour
    [SerializeField] protected RectTransform rectTransform;
 
    [SerializeField] private LocoMotionSO _resetParameters;
-      
-   public LocoMotionSO[] Motions;
+   
+   [SerializeField] private LocoMotionSO[] _motions;
    
 }

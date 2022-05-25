@@ -12,11 +12,9 @@ public class LocoMotioneEditor : Editor
         base.OnInspectorGUI();
 
         LocoMotionSO script = (LocoMotionSO)target;
-
-        GUIContent arrayLabel = new GUIContent("MovePos");
-        //script._index = EditorGUILayout.Popup(script._index, script.Direction.ToArray().ToString());
         
-        if (GUILayout.Button("Update RectTransform")){}
+        //if (GUILayout.Button("Update RectTransform"))
+           // script.UpdateRectTransform();
             
 
     }

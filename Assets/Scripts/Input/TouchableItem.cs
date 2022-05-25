@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 
 
-public abstract class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHandler
+public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHandler
 {
     [SerializeField] private float _holdDelaySce = .5f;
     
