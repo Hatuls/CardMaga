@@ -95,8 +95,8 @@ namespace Battles.UI.CardUIAttributes
         }
         private void OnPointerClick(CardUI card, PointerEventData data)
         {
-            if (card != CardReference || SceneHandler.CurrentScene != SceneHandler.ScenesEnum.GameBattleScene)
-                return;
+            //if (card != CardReference || SceneHandler.CurrentScene != SceneHandler.ScenesEnum.GameBattleScene)
+            //    return;
 
             InputManager.Instance.AssignObjectFromTouch(CurrentState);
         }

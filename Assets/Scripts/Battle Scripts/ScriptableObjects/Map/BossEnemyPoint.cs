@@ -7,7 +7,7 @@ namespace Map
     [CreateAssetMenu(fileName = "Boss Enemy", menuName = "ScriptableObjects/Map/Points/Boss Enemy")]
     public class BossEnemyPoint : NodePointAbstSO
     {
-        [SerializeField] SceneLoaderCallback _sceneLoader;
+        [SerializeField] SceneIdentificationSO _sceneLoader;
         public override NodeType PointType =>      NodeType.Boss_Enemy;
 
         public override void ActivatePoint(NodeLevel level)

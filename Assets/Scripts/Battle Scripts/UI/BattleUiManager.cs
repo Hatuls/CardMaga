@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Keywords;
+using ReiTools.TokenMachine;
 using Unity.Events;
-using Keywords;
+using UnityEngine;
+
 namespace Battles.UI
 {
-    public class UpdateUiStats : UnityEngine.Events.UnityEvent<bool,int, KeywordTypeEnum> { }
+    public class UpdateUiStats : UnityEngine.Events.UnityEvent<bool, int, KeywordTypeEnum> { }
     public class BattleUiManager : MonoSingleton<BattleUiManager>
     {
         #region Fields
@@ -18,26 +20,41 @@ namespace Battles.UI
         #region Events
         [SerializeField] TextPopUpEvent _textEvent;
         [SerializeField] VoidEvent _endTurn;
- 
+
+        public static System.Action<bool, int, KeywordTypeEnum> _buffEvent;
         #endregion
 
-
-        public void EndTurn() {
+        #region MonoBehaviour Callbacks
+        public override void Awake()
+        {
+            base.Awake();
+            SceneHandler.OnBeforeSceneShown += Init;
+        }
+        public void OnDestroy()
+        {
+            SceneHandler.OnBeforeSceneShown -= Init;
+        }
+        #endregion
+        public void EndTurn()
+        {
 
             _endTurn?.Raise();
         }
 
-   
-     
-        public override void Init()
+
+
+        public override void Init(ITokenReciever token)
         {
-            if ((Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
+            using (token.GetToken())
             {
-             //   _tutorialManager.StartTutorial();
-            }           
+
+                if ((Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
+                {
+                    //   _tutorialManager.StartTutorial();
+                }
+            }
         }
 
-        public static System.Action<bool, int, KeywordTypeEnum> _buffEvent;
 
         public void UpdateUiStats(bool isPlayer, int Amount, KeywordTypeEnum actionTypeEnum)
         {
@@ -45,21 +62,21 @@ namespace Battles.UI
             {
                 case KeywordTypeEnum.Attack:
 
-                //    _textEvent?.Raise(TextType.NormalDMG, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
-                    StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
-                    StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, Amount);
-               
+                    //    _textEvent?.Raise(TextType.NormalDMG, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
+                    StatsUIManager.Instance.UpdateHealthBar(isPlayer, Amount);
+                    StatsUIManager.Instance.UpdateShieldBar(isPlayer, Amount);
+
                     break;
 
                 case KeywordTypeEnum.Shield:
-        
-                 //   _textEvent?.Raise(TextType.Shield, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
-                    StatsUIManager.GetInstance.UpdateShieldBar(isPlayer, Amount);
+
+                    //   _textEvent?.Raise(TextType.Shield, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
+                    StatsUIManager.Instance.UpdateShieldBar(isPlayer, Amount);
 
                     break;
 
                 case KeywordTypeEnum.Heal:
-                    StatsUIManager.GetInstance.UpdateHealthBar(isPlayer, Amount);
+                    StatsUIManager.Instance.UpdateHealthBar(isPlayer, Amount);
                     break;
                 case KeywordTypeEnum.Burn:
                 case KeywordTypeEnum.Protected:
@@ -75,11 +92,11 @@ namespace Battles.UI
                 case KeywordTypeEnum.Stun:
                 case KeywordTypeEnum.RageShard:
                 case KeywordTypeEnum.ProtectionShard:
-                    _buffEvent.Invoke(isPlayer,Amount ,actionTypeEnum );
+                    _buffEvent.Invoke(isPlayer, Amount, actionTypeEnum);
                     break;
 
                 case KeywordTypeEnum.MaxHealth:
-                    StatsUIManager.GetInstance.UpdateMaxHealthBar(isPlayer, Amount);
+                    StatsUIManager.Instance.UpdateMaxHealthBar(isPlayer, Amount);
                     break;
                 default:
                     break;

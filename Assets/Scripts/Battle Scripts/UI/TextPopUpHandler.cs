@@ -5,7 +5,7 @@ namespace Battles.UI
     public class TextPopUpHandler : MonoBehaviour
     {
         private static TextPopUpHandler _Instance;
-        public static TextPopUpHandler GetInstance => _Instance;
+        public static TextPopUpHandler Instance => _Instance;
 
         [SerializeField] RectTransform[] PosOnCanvas;
 
