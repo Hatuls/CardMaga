@@ -1,6 +1,7 @@
 ﻿using Battles.Deck;
 using Battles.UI;
 using Cards;
+using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using System.Linq;
 using ThreadsHandler;
@@ -39,7 +40,7 @@ namespace Combo
 
         #endregion
 
-        public override void Init()
+        public override void Init(ITokenReciever token)
         {
             threadId = ThreadHandler.GetNewID;
         }

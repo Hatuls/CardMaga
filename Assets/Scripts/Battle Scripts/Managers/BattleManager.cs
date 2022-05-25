@@ -3,9 +3,11 @@ using Battles.UI;
 using Characters;
 using Characters.Stats;
 using Managers;
+using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
+using UI.Meta.Settings;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,19 +15,38 @@ namespace Battles
 {
     public class BattleManager : MonoSingleton<BattleManager>
     {
-
+        public static event Action OnGameEnded;
         public static bool isGameEnded;
-        public static Action OnGameEnded;
-        [SerializeField] Unity.Events.StringEvent _playSound;
-        public UnityEvent OnPlayerDefeat;
-        public UnityEvent OnPlayerVictory;
-        public UnityEvent OnBattleStarts;
-        [SerializeField] CameraController _cameraController;
-        IEnumerator _turnCycles;
 
-        public override void Init()
+        [SerializeField, EventsGroup]
+        private Unity.Events.StringEvent _playSound;
+        [SerializeField, EventsGroup]
+        private UnityEvent OnPlayerDefeat;
+        [SerializeField, EventsGroup]
+        private UnityEvent OnPlayerVictory;
+        [SerializeField, EventsGroup]
+        private UnityEvent OnBattleStarts;
+
+        [SerializeField]
+        private CameraController _cameraController;
+
+        [SerializeField]
+        private SceneIdentificationSO _mapScene;
+
+
+        private IEnumerator _turnCycles;
+        private ISceneHandler _sceneHandler;
+
+
+
+
+        public override void Init(ITokenReciever token)
         {
-            ResetBattle();
+            using (token.GetToken())
+            {
+                ResetBattle();
+                AudioManager.Instance.BattleMusicParameter();
+            }
 
         }
 
@@ -36,7 +57,7 @@ namespace Battles
 
             ResetParams();
             AssignParams();
-            StartBattle();
+
         }
 
         private void AssignParams()
@@ -51,9 +72,9 @@ namespace Battles
 
             PlayerManager.Instance.UpdateStatsUI();
             EnemyManager.Instance.UpdateStatsUI();
-            Combo.ComboManager.Instance.Init();
-            Keywords.KeywordManager.Instance.Init();
 
+
+            // remove this later
             if (EndTurnButton._OnFinishTurnPress != null)
                 EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
 
@@ -66,42 +87,32 @@ namespace Battles
             AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
 
-            CardManager.Instance.ResetCards();
-            Deck.DeckManager.Instance.ResetDecks();
-            UI.CardUIManager.Instance.Init();
-            UI.CraftingUIManager.Instance.Init();
-            VFXManager.Instance.Init();
-
-
-
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
         }
 
-        public static void StartBattle()
+        public void StartBattle()
         {
-            Instance.StopAllCoroutines();
-            Instance._turnCycles = TurnHandler.TurnCycle();
+            StopAllCoroutines();
+            _turnCycles = TurnHandler.TurnCycle();
             Account.AccountManager.Instance.BattleData.PlayerWon = false;
-            Instance.OnBattleStarts?.Invoke();
+            OnBattleStarts?.Invoke();
             StartGameTurns();
-
-
         }
 
 
-        private static void StartGameTurns()
-            => Instance.StartCoroutine(Instance._turnCycles);
+        private void StartGameTurns()
+            => StartCoroutine(_turnCycles);
 
 
 
-        public static void BattleEnded(bool isPlayerDied)
+        public void BattleEnded(bool isPlayerDied)
         {
             if (isGameEnded == true)
                 return;
             OnGameEnded?.Invoke();
-            UI.StatsUIManager.GetInstance.UpdateHealthBar(isPlayerDied, 0);
+            UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
             CardUIManager.Instance.ResetCardUIManager();
 
@@ -111,7 +122,7 @@ namespace Battles
             else
                 EnemyDied();
 
-            UI.TextPopUpHandler.GetInstance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
+            TextPopUpHandler.Instance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
 
             Account.AccountManager.Instance.BattleData.PlayerWon = !isPlayerDied;
             UpdateStats();
@@ -120,7 +131,7 @@ namespace Battles
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
 
             isGameEnded = true;
-            Instance.StopCoroutine(Instance._turnCycles);
+            StopCoroutine(Instance._turnCycles);
         }
 
         private static void UpdateStats()
@@ -133,7 +144,7 @@ namespace Battles
             Account.AccountManager.Instance.BattleData.Player = playerDAta;
         }
 
-        public static void DeathAnimationFinished(bool isPlayer)
+        public void DeathAnimationFinished(bool isPlayer)
         {
 
             if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
@@ -141,10 +152,10 @@ namespace Battles
 
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
 
-            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MapScene);
+            _sceneHandler.MoveToScene(_mapScene);
         }
 
-        private static void EnemyDied()
+        private void EnemyDied()
         {
             PlayerManager.Instance.PlayerWin();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
@@ -152,11 +163,11 @@ namespace Battles
 
             SendAnalyticWhenGameEnded("player_won", battleData);
             AddRewards();
-            Instance._cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
-            Instance.OnPlayerVictory?.Invoke();
+            _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
+            OnPlayerVictory?.Invoke();
         }
 
-        private static void AddRewards()
+        private void AddRewards()
         {
             var battleData = Account.AccountManager.Instance.BattleData;
             var characterTypeEnum = battleData.Opponent.CharacterData.CharacterSO.CharacterType;
@@ -165,29 +176,51 @@ namespace Battles
             battleData[characterTypeEnum].EXP += reward.EXPReward;
         }
 
-        private static void PlayerDied()
+        private void PlayerDied()
         {
             var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.Instance.EnemyWon();
 
-            Instance._cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
+            _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
             SendAnalyticWhenGameEnded("player_defeated", battleData);
-            Instance.OnPlayerDefeat?.Invoke();
+            OnPlayerDefeat?.Invoke();
         }
 
 
+        private void Inject(ISceneHandler sh)
+            => _sceneHandler = sh;
+
+        #region MonoBehaviour Callbacks
         private void OnDestroy()
         {
             if (EndTurnButton._OnFinishTurnPress != null)
                 EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
+
+            AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
+            SceneHandler.OnBeforeSceneShown -= Init;
+            SceneHandler.OnSceneHandlerActivated -= Inject;
+            SceneHandler.OnSceneStart -= StartBattle;
+            HealthStat.OnCharacterDeath -= BattleEnded;
+            SettingsScreenUI.OnAbandon -= BattleEnded;
         }
+        public override void Awake()
+        {
+            SettingsScreenUI.OnAbandon += BattleEnded;
+            SceneHandler.OnSceneHandlerActivated += Inject;
+            SceneHandler.OnBeforeSceneShown += Init;
+            HealthStat.OnCharacterDeath += BattleEnded;
+            SceneHandler.OnSceneStart += StartBattle;
+            AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
+            base.Awake();
+        }
+        #endregion
         #region Analytics
-    
-        private static void SendAnalyticWhenGameEnded(string eventName,BattleData battleData)
+
+        private static void SendAnalyticWhenGameEnded(string eventName, BattleData battleData)
         {
             var characterSO = battleData.Opponent.CharacterData.CharacterSO;
-  
+
             string characterEnum = "opponent";
             string characterDifficulty = "difficulty";
             string characterType = "character_type";
@@ -211,6 +244,7 @@ namespace Battles
         #endregion
 
         #region Editor Section
+#if UNITY_EDITOR
         [Button]
         public void KillEnemy()
         => CharacterStatsManager.GetCharacterStatsHandler(false)?.RecieveDamage(1000000);
@@ -218,6 +252,7 @@ namespace Battles
         [Button]
         public void KillPlayer()
            => CharacterStatsManager.GetCharacterStatsHandler(true)?.RecieveDamage(1000000);
+#endif
         #endregion
     }
 

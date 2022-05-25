@@ -9,7 +9,7 @@ namespace Battles.UI
         [SerializeField] BuffIconsHandler _playerBuffIconHandler;
         [SerializeField] BuffIconsHandler _opponentBuffIconHandler;
         private static StatsUIManager _instance;
-        public static StatsUIManager GetInstance
+        public static StatsUIManager Instance
         {
             get
             {

@@ -37,7 +37,7 @@ namespace Account.GeneralData
             throw new NotImplementedException();
         }
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
         }
 

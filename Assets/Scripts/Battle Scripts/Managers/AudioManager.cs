@@ -1,5 +1,6 @@
 ﻿
 
+using CardMaga.LoadingScene;
 using FMOD.Studio;
 using FMODUnity;
 using System.Collections.Generic;
@@ -40,12 +41,12 @@ public class AudioManager : MonoBehaviour
     private void OnDisable()
     {
 
-        SceneHandler.onStartLoadingScene -= SceneParameter;
         StopAllSounds();
+      
     }
     private void FmodInit()
     {
-        SceneHandler.onStartLoadingScene += SceneParameter;
+       // LoadingSceneManager.OnScenesEnter += SceneParameter;
 
         PlayBackGround();
         _fmodLibrary.Clear();
@@ -141,25 +142,27 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void SceneParameter(SceneHandler.ScenesEnum scene)
-    {
-        switch (scene)
-        {
-            case SceneHandler.ScenesEnum.NetworkScene:
-            case SceneHandler.ScenesEnum.LoadingScene:
-            case SceneHandler.ScenesEnum.MainMenuScene:
-            case SceneHandler.ScenesEnum.MapScene:
-                RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
-                break;
-            case SceneHandler.ScenesEnum.GameBattleScene:
-                BattleMusicParameter();
-                break;
-            default:
-                break;
-        }
-    }
+    //private void SceneParameter(SceneHandler.ScenesEnum scene)
+    //{
+    //    switch (scene)
+    //    {
+    //        case SceneHandler.ScenesEnum.NetworkScene:
+    //        case SceneHandler.ScenesEnum.LoadingScene:
+    //        case SceneHandler.ScenesEnum.MainMenuScene:
+    //        case SceneHandler.ScenesEnum.MapScene:
+    //            RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
+    //            break;
+    //        case SceneHandler.ScenesEnum.GameBattleScene:
+    //            BattleMusicParameter();
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
 
-    private void BattleMusicParameter()
+  
+
+    public void BattleMusicParameter()
     {
         switch (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType)
         {

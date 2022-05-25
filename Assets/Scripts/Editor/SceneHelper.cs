@@ -9,8 +9,12 @@ public class SceneHelper
     static string MainMenuSceneName = "Main Menu Scene";
     static string MapSceneName = "Map Scene";
     static string LoreSceneName = "Lore Scene";
+    static string PersistentSceneName = "PersistentScene";
 
 
+    [MenuItem("Scenes/Persistent Scene")]
+    public static void PersistentScene()=>
+        LoadScene(PersistentSceneName);
     [MenuItem("Scenes/Network Scene")]
     public static void NetworkScene()
     {

@@ -14,13 +14,13 @@ namespace Account.GeneralData
 
         public bool IsCorrupted()
             => Energy.Value <= 0&& MaxEnergy.Value<=0;
-        
+
         #endregion
 
         #region Properties
 
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
    
             const int energy = 999;

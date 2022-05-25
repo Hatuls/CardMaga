@@ -48,7 +48,7 @@ namespace Account.GeneralData
             }
         }
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
             var factory = Factory.GameFactory.Instance;
             var currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
