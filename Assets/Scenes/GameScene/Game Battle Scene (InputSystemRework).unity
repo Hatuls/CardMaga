@@ -842,6 +842,9 @@ GameObject:
   m_Component:
   - component: {fileID: 970111637}
   - component: {fileID: 970111640}
+  - component: {fileID: 970111643}
+  - component: {fileID: 970111642}
+  - component: {fileID: 970111644}
   - component: {fileID: 970111639}
   - component: {fileID: 970111641}
   - component: {fileID: 970111638}
@@ -868,7 +871,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -124.91766, y: 386.2245}
+  m_AnchoredPosition: {x: -25, y: -787}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &970111638
@@ -909,11 +912,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 970111636}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df532cfeacafea949baf2b1382b7beff, type: 3}
+  m_Script: {fileID: 11500000, guid: d148a8a06c0b03b4a81bc8569b714c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _holdDelaySce: 0.5
-  _isTouchable: 0
+  _touchableItem: {fileID: 970111643}
+  _cardUINew: {fileID: 970111642}
 --- !u!222 &970111640
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -935,14 +938,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 970111637}
-  _resetParameters:
-    name: 
-    Id: 0
-    _dis: {x: 0, y: 0}
-    timeToTransition: 1
-    Ease: 0
-  Motions:
-  - {fileID: 11400000, guid: 8cabfc347f3a83e49b32bfd7851d0360, type: 2}
+  _resetParameters: {fileID: 0}
+  _motions:
+  - {fileID: 0}
+--- !u!114 &970111642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970111636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe77164d60e3fc40adae958856a405e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateMachine: {fileID: 970111644}
+  _input: {fileID: 970111639}
+  _locoMotion: {fileID: 970111641}
+--- !u!114 &970111643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970111636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b35f82cf945474cb329df821b0dea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _holdDelaySce: 0.5
+  _isTouchable: 0
+--- !u!114 &970111644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970111636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b0ffac0e1303234daf2007b30e5cf12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1020969931 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1020969931, guid: e73c981cd4217474294ea49923871016,
@@ -1343,7 +1382,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _touchableItems.Array.data[0]
       value: 
-      objectReference: {fileID: 970111639}
+      objectReference: {fileID: 0}
     - target: {fileID: 6077778713689495001, guid: d81a62df059f09d4e99f507176f05115,
         type: 3}
       propertyPath: m_RootOrder
@@ -2468,6 +2507,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MainCanvasPortrait
+      objectReference: {fileID: 0}
+    - target: {fileID: 4132734533112501223, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_TagString
+      value: LocoMotioneRectTransform
       objectReference: {fileID: 0}
     - target: {fileID: 4218104132630893736, guid: e73c981cd4217474294ea49923871016,
         type: 3}

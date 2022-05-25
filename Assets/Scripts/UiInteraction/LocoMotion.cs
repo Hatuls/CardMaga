@@ -11,6 +11,24 @@ public abstract class LocoMotion : MonoBehaviour
 
    [SerializeField] private LocoMotionSO _resetParameters;
    
-   [SerializeField] private LocoMotionSO[] _motions;
+   [SerializeField] protected List<RectTransform> _motions;
+   
+   public void UpdateRectTransform()
+   {
+      GameObject[] temp = GameObject.FindGameObjectsWithTag("LocoMotioneRectTransform");
+        
+      for (int i = 0; i < temp.Length; i++)
+      {
+         RectTransform tempRect = temp[i].GetComponent<RectTransform>();
+            
+         if (!_motions.Contains(tempRect))
+         {
+            _motions.Add(tempRect);
+            Debug.Log(_motions[i]);
+         }
+      }
+
+      Debug.Log(this.name + " RectTransforms update completed");
+   }
    
 }
