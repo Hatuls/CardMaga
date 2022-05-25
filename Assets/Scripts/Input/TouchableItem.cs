@@ -11,12 +11,12 @@ public abstract class TouchableItem : MonoBehaviour , IPointerDownHandler , IPoi
     [HideInInspector] public bool _isTouchable = false;
     private bool _isHold = false;
     
-    public event Action<PointerEventData> OnClick;
-    public event Action<PointerEventData> OnBeginHold;
-    public event Action<PointerEventData> OnEndHold;
-    public event Action<PointerEventData> OnHold;
-    public event Action<PointerEventData> OnPointDown;
-    public event Action<PointerEventData> OnPoinrUp;
+    public event Action OnClick;
+    public event Action OnBeginHold;
+    public event Action OnEndHold;
+    public event Action OnHold;
+    public event Action OnPointDown;
+    public event Action OnPoinrUp;
 
 
     
@@ -30,12 +30,12 @@ public abstract class TouchableItem : MonoBehaviour , IPointerDownHandler , IPoi
     private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
     {
         yield return null; 
-        OnBeginHold?.Invoke(eventData);
+        OnBeginHold?.Invoke();
         
         while (_isHold)
         {
             yield return null;
-            OnHold?.Invoke(eventData);
+            OnHold?.Invoke();
         }
        
     }
@@ -44,7 +44,7 @@ public abstract class TouchableItem : MonoBehaviour , IPointerDownHandler , IPoi
     public void OnPointerDown(PointerEventData eventData)
     { 
         StartCoroutine(HoldDelay(eventData));
-        OnPointDown?.Invoke(eventData);
+        OnPointDown?.Invoke();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -61,14 +61,14 @@ public abstract class TouchableItem : MonoBehaviour , IPointerDownHandler , IPoi
     {
         _isHold = false;
         StopAllCoroutines();
-        OnEndHold?.Invoke(eventData);
-        OnPoinrUp?.Invoke(eventData);
+        OnEndHold?.Invoke();
+        OnPoinrUp?.Invoke();
     }
 
     private void ProcessTouch(PointerEventData eventData)
     {
         StopAllCoroutines();
-        OnClick?.Invoke(eventData);
-        OnPoinrUp?.Invoke(eventData);
+        OnClick?.Invoke();
+        OnPoinrUp?.Invoke();
     }
 }

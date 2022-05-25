@@ -8,12 +8,12 @@ public class Item : MonoBehaviour
     [SerializeField] private TouchableItem input;
     void Start()
     {
-        input.OnClick += OnClick;
-        input.OnPoinrUp += OnUp;
-        input.OnHold += OnHold;
-        input.OnBeginHold += OnStartHold;
-        input.OnEndHold += OnEndHold;
-        input.OnPointDown += OnDown;
+        // input.OnClick += OnClick;
+        // input.OnPoinrUp += OnUp;
+        // input.OnHold += OnHold;
+        // input.OnBeginHold += OnStartHold;
+        // input.OnEndHold += OnEndHold;
+        // input.OnPointDown += OnDown;
     }
 
     private void OnClick(PointerEventData eventData)
