@@ -28,7 +28,7 @@ public class PlayButtonEditor : EditorWindow
             }
             else
             {
-			SceneHelper.NetworkScene();
+			SceneHelper.PersistentScene();
 				EditorApplication.EnterPlaymode();
             }
 		}
