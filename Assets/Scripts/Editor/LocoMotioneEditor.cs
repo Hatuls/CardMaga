@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(LocoMotion))]
+[CustomEditor(typeof(LocoMotionUI))]
 public class LocoMotioneEditor : Editor
 {
     
@@ -11,10 +11,10 @@ public class LocoMotioneEditor : Editor
     {
         base.OnInspectorGUI();
 
-        LocoMotion script = (LocoMotion)target;
+        LocoMotionUI script = (LocoMotionUI)target;
         
-        if (GUILayout.Button("Update RectTransform"))
-           script.UpdateRectTransform();
+        //if (GUILayout.Button("Update RectTransform"))
+          // script.UpdateRectTransform();
             
 
     }

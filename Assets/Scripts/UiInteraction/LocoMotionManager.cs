@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class LocoMotionManager : MonoBehaviour
 {
-    public event Action<LocoMotion> OnStartMotion;
+    public event Action<LocoMotionUI> OnStartMotion;
 }
