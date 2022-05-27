@@ -3,7 +3,7 @@ using Rei.Utilities;
 using System.Collections.Generic;
 
 using UnityEngine;
-namespace Map.UI
+namespace CardMaga.UI
 {
     public class SortByCharacterDeck : SortAbst<Card>
     {

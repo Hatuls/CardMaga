@@ -2,7 +2,7 @@
 using Rewards;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Map
+namespace CardMaga
 {
     [CreateAssetMenu(fileName = "Map Config", menuName = "ScriptableObjects/Map/Map Config")]
     public class MapConfig : ScriptableObject

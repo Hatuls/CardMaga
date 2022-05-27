@@ -6,7 +6,7 @@ using UI;
 using UI.Meta.Laboratory;
 using UnityEngine;
 using UnityEngine.EventSystems;
-namespace Map.UI
+namespace CardMaga.UI
 {
 
     public class RemoveCardPanelScreen : MonoBehaviour

@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-namespace Map
+namespace CardMaga.Map
 {
     public class MapPlayerTracker : MonoBehaviour, IObserver
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Map.UI
+namespace CardMaga.UI
 {
     public abstract class UIFilterScreen<T, U> : MonoBehaviour where T : MonoBehaviour where U : class
     {

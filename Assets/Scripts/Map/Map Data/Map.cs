@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Map
+namespace CardMaga.Map
 {
     [System.Serializable]
     public class Map 

@@ -23,7 +23,7 @@ namespace UI.Meta.PlayScreen
             battleData.IsFinishedPlaying = false;
             battleData.ResetMapRewards();
 
-            Map.MapManager.ResetSavedMap();
+            CardMaga.Map.MapManager.ResetSavedMap();
         }
     }
 }

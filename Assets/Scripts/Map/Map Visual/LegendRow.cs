@@ -1,4 +1,4 @@
-﻿using Map;
+﻿using CardMaga;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

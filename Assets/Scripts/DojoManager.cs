@@ -204,7 +204,7 @@ public class DojoManager : MonoBehaviour, IObserver
         ClosePanels();
         RemoveCardsSubscribtion();
         _observer.Notify(null);
-        Map.MapView.Instance.SetAttainableNodes();
+        CardMaga.Map.MapView.Instance.SetAttainableNodes();
     }
     public void OpenDojoPanel()
     {

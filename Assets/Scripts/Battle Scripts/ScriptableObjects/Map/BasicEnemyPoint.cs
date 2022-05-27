@@ -1,8 +1,8 @@
 ﻿
 using UnityEngine;
-using static Map.ActDifficultySO;
+using static CardMaga.ActDifficultySO;
 
-namespace Map
+namespace CardMaga
 {
     [CreateAssetMenu(fileName = "Basic Enemy", menuName = "ScriptableObjects/Map/Points/Basic Enemy")]
     public class BasicEnemyPoint : NodePointAbstSO

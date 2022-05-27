@@ -4,12 +4,12 @@ using Cards;
 using Characters;
 using Collections;
 using Combo;
-using Map;
+using CardMaga;
 using Rewards;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Map.ActDifficultySO;
+using static CardMaga.ActDifficultySO;
 
 namespace Factory
 {

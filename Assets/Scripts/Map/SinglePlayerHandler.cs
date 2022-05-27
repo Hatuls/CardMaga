@@ -1,7 +1,7 @@
 ﻿
 using Battles;
 using Characters;
-using Map.UI;
+using CardMaga.UI;
 using UnityEngine;
 
 public class SinglePlayerHandler : MonoBehaviour

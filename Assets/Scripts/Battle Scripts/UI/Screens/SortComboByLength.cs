@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-namespace Map.UI
+namespace CardMaga.UI
 {
     public class SortComboByLength : SortAbst<Combo.Combo>
     {

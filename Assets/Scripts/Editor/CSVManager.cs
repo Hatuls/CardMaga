@@ -1,6 +1,6 @@
 ﻿
 using Collections;
-using Map;
+using CardMaga;
 using Rewards;
 using System;
 using System.Threading.Tasks;

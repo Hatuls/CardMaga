@@ -1,6 +1,6 @@
 ﻿using DesignPattern;
 using UnityEngine;
-namespace Map.UI
+namespace CardMaga.UI
 {
 
     public class DeckAndCombosScreenUI : MonoBehaviour, IObserver

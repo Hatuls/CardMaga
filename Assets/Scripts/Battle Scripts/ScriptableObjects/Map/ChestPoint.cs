@@ -6,7 +6,7 @@ using System;
 using UnityEngine;
 
 
-namespace Map
+namespace CardMaga.Map
 {
     [CreateAssetMenu (fileName = "Chest", menuName = "ScriptableObjects/Map/Points/Chest")]
     public class ChestPoint : NodePointAbstSO , IObserver

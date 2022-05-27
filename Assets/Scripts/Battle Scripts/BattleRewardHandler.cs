@@ -2,7 +2,9 @@
 using DesignPattern;
 using System;
 using UnityEngine;
-using Map;
+using CardMaga;
+using CardMaga.Map;
+
 namespace Rewards.Battles
 {
 

@@ -26,7 +26,7 @@ public class OperationManager : MonoBehaviour, IOperationBehaviour
       
         _operations.Clear();
         _operations.AddRange(operationsArray);
-        _operations.OrderBy(x => x.Order);
+        _operations =  _operations.OrderBy(x => x.Order).ToList();
     }
 #endif
     #endregion

@@ -1,4 +1,4 @@
-﻿using Map.UI;
+﻿using CardMaga.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UI;

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace Map
+namespace CardMaga
 {
     [CreateAssetMenu(fileName = "Elite Enemy", menuName = "ScriptableObjects/Map/Points/Elite Enemy")]
     public class EliteEnemyPoint : NodePointAbstSO

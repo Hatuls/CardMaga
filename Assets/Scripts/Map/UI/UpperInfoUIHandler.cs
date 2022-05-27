@@ -2,7 +2,7 @@
 using Battles.UI;
 using DesignPattern;
 using UnityEngine;
-namespace Map.UI
+namespace CardMaga.UI
 {
 
 public class UpperInfoUIHandler : MonoBehaviour 

@@ -1,25 +1,58 @@
-﻿using PlayFab.ClientModels;
-using System.Collections;
+﻿using CardMaga.LoadingScene;
+using PlayFab;
+using PlayFab.ClientModels;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayfabManager : MonoBehaviour
+namespace CardMaga.Playfab
 {
-    private string _playfabID;
-    public string PlayfabID { get => _playfabID;private set => _playfabID = value; }
-    private void Awake()
+
+    public class PlayfabManager : MonoBehaviour
     {
-        PlayfabLogin.OnLoginSuccessfull += SuccessFullLogin;
+        public static Action<PlayfabManager> OnSceneEnter;
+        public PlayfabLogin PlayFabLogin { get; private set; }
+
+
+
+
+
+        private void Awake()
+        {
+            PlayFabLogin = new PlayfabLogin();
+            LoadingSceneManager.OnLoadScenesComplete += Notify;
+        }
+        private void OnDestroy()
+        {
+            LoadingSceneManager.OnLoadScenesComplete -= Notify;
+        }
+
+
+
+
+        #region Recieve From Server
+        public void GetUserData(Action<GetUserDataResult> onUserDataRecieved, Action<PlayFabError> OnRequestFailed)
+        =>  PlayFabClientAPI.GetUserData(new GetUserDataRequest(), onUserDataRecieved, OnRequestFailed);
+        public void GetTitleData(Action<GetTitleDataResult> onTitleDataRecieved, Action<PlayFabError> OnRequestFailed)
+            => PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(), onTitleDataRecieved, OnRequestFailed);
+        #endregion
+
+        #region Send Data To Server
+        public void SendUserData(Dictionary<string, string> data, Action<UpdateUserDataResult> onDataSendSuccessfully, Action<PlayFabError> OnRequestFailed)
+        {
+            var request = new UpdateUserDataRequest
+            {
+                Data = data
+            };
+
+            PlayFabClientAPI.UpdateUserData(request, onDataSendSuccessfully, OnRequestFailed);
+        }
+  
+        #endregion
+
+        private void Notify()
+            => OnSceneEnter?.Invoke(this);
     }
-    private void OnDestroy()
-    {
-        PlayfabLogin.OnLoginSuccessfull -= SuccessFullLogin;
-        
-    }
-    private void SuccessFullLogin(LoginResult loginResult )
-    {
-        var tokenEntityID = loginResult.EntityToken.Entity.Id;
-        var entitiyType = loginResult.EntityToken.Entity.Type;
-        PlayfabID = loginResult.PlayFabId;
-    }
+
+
 }

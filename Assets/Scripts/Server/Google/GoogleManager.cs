@@ -1,25 +1,27 @@
-﻿using GooglePlayGames;
+﻿using CardMaga.Playfab;
+using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-using PlayFab;
-using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class GoogleManager : MonoBehaviour
 {
     [SerializeField]
-    private UnityEvent OnSuccessfullLogin;
-    [SerializeField]
-    private TextMeshProUGUI _txt;
-    public void OnSignInButtonClicked()
+    private PlayfabManager _pfManager;
+
+    //[SerializeField]
+    //private TextMeshProUGUI _txt;
+
+
+
+    public void TrySignInWithGoogle()
     {
-        _txt.text = "Activate Google";
-        //Debug.Log("Authenticate!");
-        //Social.localUser;
-             
+ //       _txt.text = "Activate Google";
+
+
         try
         {
+            //Creating Config
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
             .AddOauthScope("profile")
             .RequestServerAuthCode(false)
@@ -33,87 +35,33 @@ public class GoogleManager : MonoBehaviour
             PlayGamesPlatform.Activate();
 
 
-            Social.localUser.Authenticate((bool success) => {
+            Social.localUser.Authenticate((bool success) =>
+            {
 
                 if (success)
                 {
-
-                    _txt.text = "Google Signed In";
-                    var serverAuthCode = PlayGamesPlatform.Instance.GetServerAuthCode();
-                    Debug.Log("Server Auth Code: " + serverAuthCode);
-
-                    PlayFabClientAPI.LoginWithGoogleAccount(new LoginWithGoogleAccountRequest()
-                    {
-                        TitleId = PlayFabSettings.TitleId,
-                        ServerAuthCode = serverAuthCode,
-                        CreateAccount = true
-                    }, SuccessfullLogin, FailedLogin);
+                //    _txt.text = "Google Signed In";
+                    // get server authentication string
+                    string serverAuthCode = PlayGamesPlatform.Instance.GetServerAuthCode();
+                    // login with playfab through google
+                    _pfManager.PlayFabLogin.LoginWithGoogleAccount(serverAuthCode);
                 }
                 else
                 {
-                    _txt.text = "Google Failed to Authorize your login";
+               //     _txt.text = "Google Failed to Authorize your login";
                 }
 
             });
         }
         catch (System.Exception m)
         {
-           
-        _txt.text = m.Message;
-            throw;
+
+     //       _txt.text = m.Message;
+            throw m;
         }
-        //   PlayGamesPlatform.Activate();
-        _txt.text = "Authenticated";
-        //    PlayGamesPlatform.Instance.Authenticate(Social.localUser, AuthenticateLogin);
-    }
-    //private void AuthenticateLogin(bool success, string info)
-    //{
-    //    if (success)
-    //    {
-
-    //        Debug.Log("Google Signed In");
-    //        PlayGamesPlatform.Instance.RequestServerSideAccess(false,
-    //            (serverAuthCode) =>
-    //            {
-    //                Debug.Log("Server Auth Code: " + serverAuthCode);
-    //                PlayFabClientAPI.LoginWithGoogleAccount(
-    //                    new LoginWithGoogleAccountRequest()
-    //                    {
-    //                        TitleId = PlayFabSettings.TitleId,
-    //                        ServerAuthCode = serverAuthCode,
-    //                        CreateAccount = true
-    //                    },
-    //                    SuccessfullLogin,
-    //                    FailedLogin
-    //                    );
-    //            });
-    //        _txt.text = "Google Sign in!";
-    //    }
-    //    else
-    //    {
-
-
-
-
-    //        Debug.LogError("Google Failed to Authorize your login - " + info);
-    //        _txt.text = "Google Failed to Authorize your login - " + info;
-
-    //    }
-    //}
-
-  
-
-    private void FailedLogin(PlayFabError error)
-    {
-        Debug.LogError("ERROR: " + error.ErrorMessage);
-        _txt.text = "ERROR: " + error.ErrorMessage;
+     //   _txt.text = "Authenticated";
     }
 
-    private void SuccessfullLogin(LoginResult loginResult)
-    {
-        Debug.Log("Success! We Logged in!");
-        _txt.text = "Success! We Logged In!";
-        OnSuccessfullLogin?.Invoke();
-    }
+
 
 }

@@ -1,4 +1,5 @@
-﻿using ReiTools.TokenMachine;
+﻿using CardMaga.Tools.Json;
+using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Map
+namespace CardMaga.Map
 {
 
     public class MapsLoader

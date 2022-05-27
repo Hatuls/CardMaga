@@ -4,7 +4,7 @@ using Rei.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-namespace Map.UI
+namespace CardMaga.UI
 {
     [System.Serializable]
     public class SortComboEvent : UnityEvent<ISort<Combo.Combo>> { }

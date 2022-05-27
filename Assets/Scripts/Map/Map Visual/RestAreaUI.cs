@@ -1,10 +1,11 @@
 ﻿using Battles.UI;
+using CardMaga.Map;
 using DesignPattern;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-namespace Map.UI
+namespace CardMaga.UI
 {
 
 

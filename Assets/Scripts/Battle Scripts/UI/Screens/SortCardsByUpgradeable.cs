@@ -3,7 +3,7 @@ using Rei.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-namespace Map.UI
+namespace CardMaga.UI
 {
     public class SortCardsByUpgradeable : SortAbst<Card>
     {

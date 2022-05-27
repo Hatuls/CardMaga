@@ -3,9 +3,10 @@ using Characters;
 using Rewards;
 using System;
 using UnityEngine;
+using CardMaga.Map;
 namespace Battles
 {
-    [System.Serializable]
+    [Serializable]
     public class BattleData
     {
         [SerializeField]
@@ -19,7 +20,7 @@ namespace Battles
         [SerializeField]
         private bool _playerWon = false;
         [SerializeField]
-        Map.Map _map;
+       Map _map;
 
         [SerializeField]
         ActsEnum _currentAct;
@@ -47,7 +48,7 @@ namespace Battles
                 _mapRewards[i] = new MapRewards();
         }
 
-        public Map.Map Map { get => _map; set => _map = value; }
+        public CardMaga.Map.Map Map { get => _map; set => _map = value; }
         public Character Player { get => _player; set => _player = value; }
         public Character Opponent { get => _opponent; set => _opponent = value; }
         public bool PlayerWon { get => _playerWon; set => _playerWon = value; }
