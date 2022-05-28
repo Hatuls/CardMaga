@@ -8,6 +8,19 @@ public class CardUIInputHandler : MonoBehaviour
     [SerializeField] private TouchableItem _touchableItem;
     [SerializeField] private CardUINew _cardUINew;
 
+    private State currentState;
+
+    public State CurrentState
+    {
+        get { return currentState; }
+    }
+
+    public enum State
+    {
+        Lock,
+        UnLock
+    };
+
     public static event Action<CardUINew> OnClick;
     public static event Action<CardUINew> OnBeginHold;
     public static event Action<CardUINew> OnEndHold;
@@ -23,6 +36,9 @@ public class CardUIInputHandler : MonoBehaviour
         _touchableItem.OnEndHold += OnEndHoldFun;
         _touchableItem.OnPoinrUp += OnPoinrUpFun;
         _touchableItem.OnPointDown += OnPointDownFun;
+        
+        currentState = State.Lock;
+        ChangeState(currentState);
     }
 
     private void OnClickFun()
@@ -59,5 +75,53 @@ public class CardUIInputHandler : MonoBehaviour
     {
         Debug.Log(gameObject.name + " PointUp");
         OnPoinrUp?.Invoke(_cardUINew);
+    }
+
+    private void ChangeState(State state)
+    {
+        switch (state)
+        {
+            case State.Lock:
+                _touchableItem._isTouchable = false;
+                break;
+            case State.UnLock:
+                _touchableItem._isTouchable = true;
+                break;
+            default:
+                Debug.LogError(name + " State Not Set");
+                break;
+        }
+
+        Debug.Log(name + " is touchable set to " + _touchableItem._isTouchable);
+    }
+    
+    [ContextMenu("ToggleState")]
+    public void ToggleState()
+    {
+        if (currentState == State.Lock)
+        {
+            currentState = State.UnLock;
+        }
+
+        else if (currentState == State.UnLock)
+        {
+            currentState = State.Lock;
+        }
+        
+        ChangeState(currentState);
+    }
+
+    public void ForceChangeState(bool isTouchable)
+    {
+        if (isTouchable)
+        {
+            currentState = State.UnLock;
+        }
+        else
+        {
+            currentState = State.Lock;
+        }
+        
+        ChangeState(currentState);
     }
 }

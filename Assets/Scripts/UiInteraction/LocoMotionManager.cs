@@ -7,3 +7,4 @@ public class LocoMotionManager : MonoBehaviour
 {
     public event Action<LocoMotionUI> OnStartMotion;
 }
+

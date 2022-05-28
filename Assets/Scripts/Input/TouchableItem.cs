@@ -42,19 +42,25 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
     
     
     public void OnPointerDown(PointerEventData eventData)
-    { 
-        StartCoroutine(HoldDelay(eventData));
-        OnPointDown?.Invoke();
+    {
+        if (_isTouchable)
+        {
+            StartCoroutine(HoldDelay(eventData));
+            OnPointDown?.Invoke();
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (_isHold)
+        if (_isTouchable)
         {
-            EndHold(eventData);
-            return;
+            if (_isHold)
+            {
+                EndHold(eventData);
+                return;
+            }
+            ProcessTouch(eventData);
         }
-        ProcessTouch(eventData);
     }
 
     private void EndHold(PointerEventData eventData)
