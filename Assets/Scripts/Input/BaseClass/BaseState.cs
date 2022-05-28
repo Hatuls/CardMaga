@@ -28,7 +28,7 @@ public abstract class BaseState : MonoBehaviour , IState
         {
             for (int i = 0; i < _touchableItems.Count; i++)
             {
-                _touchableItems[i]._isTouchable = true;
+                _touchableItems[i].IsTouchable = true;
             }
         }
     }
@@ -40,7 +40,7 @@ public abstract class BaseState : MonoBehaviour , IState
         {
             for (int i = 0; i < _touchableItems.Count; i++)
             {
-                _touchableItems[i]._isTouchable = false;
+                _touchableItems[i].IsTouchable = false;
             }
         }
     }

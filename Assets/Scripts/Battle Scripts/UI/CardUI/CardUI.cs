@@ -7,33 +7,24 @@ using UnityEngine.EventSystems;
 namespace Battles.UI
 {
     //[Serializable]
-    public class CardUI : MonoBehaviour, IInputAbleObject, IEquatable<CardUI>
+    public class CardUI : MonoBehaviour, IEquatable<CardUI>
     {
         #region Fields
         [SerializeField]
         CardUISO _settings;
         public CardUISO Settings { get => _settings; }
-
-        [SerializeField]
-        EventTrigger _eventTrigger;
-        [SerializeField]
-        CardStateMachine _cardStateMachine;
-
-
-        [SerializeField]
-        internal CardStateMachine.CardUIInput startState = CardStateMachine.CardUIInput.Locked;
+        
         [SerializeField]
    //     [HideInInspector]
         private CardGFX _cardGFX;
-
-
+   
         [SerializeField]
         private CanvasGroup _canvasGroup;
         private CardAnimator _cardAnimator;
         [SerializeField]
-        private CardInputs _inputs;
-
-        private CardTranslations _cardTranslations;
+        private CardUIInputHandler _inputs;
+        [SerializeField]
+        private CardLocoMotionUI _cardLocoMotionUI;
 
         #region Enum Selection
         [Flags]
@@ -66,11 +57,7 @@ namespace Battles.UI
 
         private void CardUISettingsEnum()
         {
-            //Debug.Log(Card);
-            //Debug.Log((byte)Card);
-            //Debug.Log(Card.HasFlag(CardUISettings.Default));
-            //Debug.Log(Card.HasFlag(CardUISettings.Image));
-
+            
             if ((Card & CardUISettings.Visable) != CardUISettings.Visable)
                 Card |= CardUISettings.Visable;
 
@@ -81,20 +68,7 @@ namespace Battles.UI
         #endregion
      
         #endregion
-
-
-        #region Events
-        [Space]
-        [Header("Events")]
-        [SerializeField] CardUIEvent _zoomCardEvent;
-        [SerializeField] CardUIEvent _selectCardEvent;
-        #endregion
-        private void Awake()
-        {
-            if (((Card & CardUISettings.Touchable) != CardUISettings.Touchable))
-                Destroy(GetComponent<CardStateMachine>());
-        }
-
+        
         private void Start()
         {
             if (_cardAnimator == null &&
@@ -108,26 +82,18 @@ namespace Battles.UI
         #region Properties
         public  CardGFX GFX =>  _cardGFX;
 
-        public  CardInputs Inputs
+        public  CardUIInputHandler Inputs
         {
             get
             {
-                if (_inputs == null)
-                    _inputs = gameObject.GetComponent<CardInputs>();
-                //if (_inputs == null && (Card & CardUISettings.Touchable) == CardUISettings.Touchable)
-                //    _inputs = new CardInputs( _canvasGroup, _eventTrigger, startState, this);
                 return  _inputs;
             }
         }
 
-        public  CardTranslations CardTranslations {
+        public  CardLocoMotionUI CardLocoMotionUI {
             get
             {
-                if (_cardTranslations == null &&
-                    ((Card & CardUISettings.Moveable) == CardUISettings.Moveable))
-                    _cardTranslations = new CardTranslations(_cardGFX.GetRectTransform == null ? GetComponent<RectTransform>() :_cardGFX.GetRectTransform);
-
-                return  _cardTranslations;
+                return  _cardLocoMotionUI;
             }
         }
         public CardAnimator CardAnimator
@@ -141,8 +107,6 @@ namespace Battles.UI
                 return _cardAnimator;
             }
         }
-        public CardStateMachine CardStateMachine =>_cardStateMachine;
-        public ITouchable GetTouchAbleInput => ((Card & CardUISettings.Touchable) == CardUISettings.Touchable) ? CardStateMachine.CurrentState : null;
         #endregion
 
     

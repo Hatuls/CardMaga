@@ -42,7 +42,7 @@ namespace Battles.UI
         [Tooltip("Card UI Settings")]
         [SerializeField] CardUISO _cardUISettings;
 
-        private CardUIHandler _cardUIHandler;
+       //private CardUIHandler _cardUIHandler;
         private HandUI _handUI;
         private CardUI _zoomedCard;
         private CardUI _holdingCardUI;
@@ -140,7 +140,7 @@ namespace Battles.UI
         #region Public Methods
         public void InitCardUI()
         {
-            _cardUIHandler = new CardUIHandler(_handUI, _cardsHandler, _cardUISettings);
+           // _cardUIHandler = new CardUIHandler(_handUI, _cardsHandler, _cardUISettings);
         }
 
         public void DrawCards(Card[] cardData)
@@ -166,23 +166,23 @@ namespace Battles.UI
 
                 if (card != null)
                 {
-                    var InHandInputState = card.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
-                    if (InHandInputState.HasValue == false)
-                    {
-                        if (card.gameObject.activeSelf == false)
-                            card.gameObject.SetActive(true);
-
-                        InHandInputState.HasValue = true;
-
-                        card.CardAnimator.PlayNoticeAnimation();
-
-                        OnDrawCard?.Invoke();
-
-                        //  var cardRefenrec = card.GFX.GetCardReference;
-                        //  if (cardRefenrec ==null|| cardData[i].CardSO != cardRefenrec.CardSO && cardRefenrec.CardLevel != cardData[i].CardLevel)
-                        AssignDataToCardUI(card, cardData[i]);
-
-                    }
+                    // var InHandInputState = card.CardStateMachine.GetState<HandState>(CardStateMachine.CardUIInput.Hand);
+                    // if (InHandInputState.HasValue == false)
+                    // {
+                    //     if (card.gameObject.activeSelf == false)
+                    //         card.gameObject.SetActive(true);
+                    //
+                    //     InHandInputState.HasValue = true;
+                    //
+                    //     card.CardAnimator.PlayNoticeAnimation();
+                    //
+                    //     OnDrawCard?.Invoke();
+                    //
+                    //     //  var cardRefenrec = card.GFX.GetCardReference;
+                    //     //  if (cardRefenrec ==null|| cardData[i].CardSO != cardRefenrec.CardSO && cardRefenrec.CardLevel != cardData[i].CardLevel)
+                    //     AssignDataToCardUI(card, cardData[i]);
+                    //
+                    // }
                 }
             }
 
@@ -200,7 +200,7 @@ namespace Battles.UI
         {
             using (token.GetToken())
             {
-            _handUI = new HandUI(_handCards, GetHandMiddlePosition.transform.localPosition, _cardUISettings);
+                _handUI = new HandUI(_handCards, GetHandMiddlePosition.transform.localPosition, _cardUISettings);
 
             InitCardUI();
             }
@@ -243,10 +243,10 @@ namespace Battles.UI
 
         #endregion
 
-        public void ResetCardUIManager()
-        {
-            CardUIHandler.Instance._selectedCardUI.gameObject.SetActive(false);
-        }
+        // public void ResetCardUIManager()
+        // {
+        //     CardUIHandler.Instance._selectedCardUI.gameObject.SetActive(false);
+        // }
 
 
 
@@ -261,146 +261,146 @@ namespace Battles.UI
 
 
 
-    public class CardUIHandler
-    {
-        public static Action<Vector2, CardUI> OnExecuteCardUI;
-        public static CardUIHandler Instance;
-        public CardUI _selectedCardUI;
-        CardUISO _cardUISettings;
-        CardUI _OriginalCard;
-        HandUI _handUI;
-
-
-        public CardUIHandler(HandUI hand, CardUI firstCardUI, CardUISO cardUISettings)
-        {
-            Instance = this;
-            _handUI = hand;
-            _selectedCardUI = firstCardUI;
-            this._cardUISettings = cardUISettings;
-            _selectedCardUI.gameObject.SetActive(false);
-            EndTurnButton._OnFinishTurnPress += OnFinishTurn;
-        }
-
-        ~CardUIHandler()
-        {
-            EndTurnButton._OnFinishTurnPress -= OnFinishTurn;
-
-        }
-
-        private void OnFinishTurn()
-        {
-            CardUITouchedReleased(false, null);
-
-        }
-        internal void CardUITouched(CardUI cardReference)
-        {
-            if (cardReference == _selectedCardUI || BattleManager.isGameEnded)
-                return;
-
-
-
-            DeckManager.Instance.TransferCard(true, DeckEnum.Hand, DeckEnum.Selected, cardReference.GFX.GetCardReference);
-            _handUI.ReplaceCard(_selectedCardUI, cardReference);
-
-            _selectedCardUI.gameObject.SetActive(true);
-            cardReference.GFX.GlowCard(true);
-            GameEventsInvoker.Instance.OnSelectCard?.Invoke();
-            _selectedCardUI = cardReference;
-            _handUI.LockCardsInput(true);
-
-
-        }
-        internal void CardUITouchedReleased(bool ExecuteSucceded, CardUI cardReference)
-        {
-
-            var card = _selectedCardUI;
-            if (card == null)
-                return;
-
-            card?.GFX.GlowCard(false);
-
-            if (ExecuteSucceded == false)
-                DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
-
-            InputManager.Instance.RemoveObjectFromTouch();
-            card.CardAnimator.ResetAllAnimations();
-            cardReference?.CardAnimator.ResetAllAnimations();
-            card.CardTranslations.SetScale(Vector2.one, 0);
-            cardReference?.CardTranslations.SetScale(Vector2.one, 0);
-            _handUI.LockCardsInput(false);
-            cardReference?.GFX.GlowCard(false);
-            card.gameObject.SetActive(false);
-            card.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.None);
-            // card.CardTranslations.CancelAllTweens();
-            //     _selectedCardUI = null;
-
-        }
-
-        internal void ToZoomCardUI()
-        {
-            var card = _selectedCardUI;
-            if (card == null)
-                return;
-
-            GameBattleDescriptionUI.Instance.CheckCardUI(card);
-            GameEventsInvoker.Instance.OnZoomCard?.Invoke();
-            //     card.Inputs.GetCanvasGroup.blocksRaycasts = false;
-            // card.CardTranslations?.SetPosition( Vector2.zero);
-
-            // card.CardTranslations?.MoveCard(false, Vector2.zero, _cardUISettings.GetCardScaleDelay);
-            card.CardAnimator.ScaleAnimation(true);
-            card.CardTranslations?.SetRotation(0, _cardUISettings.RotationTimer);
-            card.GFX.GlowCard(true);
-        }
-
-        internal void ToUnZoomCardUI(in Vector2 location)
-        {
-            var card = _selectedCardUI;
-            if (card == null)
-                return;
-            GameBattleDescriptionUI.Instance.CloseCardUIInfo();
-            card.GFX.GlowCard(false);
-
-            card.CardAnimator.ScaleAnimation(false);
-
-        }
-
-
-        internal bool TryExecuteCardUI(CardUI thisCardUI)
-        {
-            if (BattleManager.isGameEnded)
-                return false;
-            bool succeded = false;
-            var card = DeckManager.Instance.GetCardFromDeck(true, 0, DeckEnum.Selected);
-            if (card != null)
-            {
-
-                 succeded = CardExecutionManager.Instance.TryExecuteCard(true, card);
-                if (succeded)
-                {
-                    //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
-
-                    UnityAnalyticHandler.SendEvent("Card Played", new System.Collections.Generic.Dictionary<string, object>()
-                    {
-                        {"Card", card.CardSO.CardName},
-                        {"Level", card.CardLevel},
-                    });
-
-                    OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition, _OriginalCard);
-                    int index = _handUI.GetCardIndex(_selectedCardUI);
-                }
-     
-            }
-            else
-            {
-                OnFinishTurn();
-                Debug.LogError("CardUIHandler - Selected Card  is null !");
-            }
-          
-           return succeded;
-        }
-
-    }
+    // public class CardUIHandler
+    // {
+    //     public static Action<Vector2, CardUI> OnExecuteCardUI;
+    //     public static CardUIHandler Instance;
+    //     public CardUI _selectedCardUI;
+    //     CardUISO _cardUISettings;
+    //     CardUI _OriginalCard;
+    //     HandUI _handUI;
+    //
+    //
+    //     public CardUIHandler(HandUI hand, CardUI firstCardUI, CardUISO cardUISettings)
+    //     {
+    //         Instance = this;
+    //         _handUI = hand;
+    //         _selectedCardUI = firstCardUI;
+    //         this._cardUISettings = cardUISettings;
+    //         _selectedCardUI.gameObject.SetActive(false);
+    //         EndTurnButton._OnFinishTurnPress += OnFinishTurn;
+    //     }
+    //
+    //     ~CardUIHandler()
+    //     {
+    //         EndTurnButton._OnFinishTurnPress -= OnFinishTurn;
+    //
+    //     }
+    //
+    //     private void OnFinishTurn()
+    //     {
+    //         CardUITouchedReleased(false, null);
+    //
+    //     }
+    //     internal void CardUITouched(CardUI cardReference)
+    //     {
+    //         if (cardReference == _selectedCardUI || BattleManager.isGameEnded)
+    //             return;
+    //
+    //
+    //
+    //         DeckManager.Instance.TransferCard(true, DeckEnum.Hand, DeckEnum.Selected, cardReference.GFX.GetCardReference);
+    //         _handUI.ReplaceCard(_selectedCardUI, cardReference);
+    //
+    //         _selectedCardUI.gameObject.SetActive(true);
+    //         cardReference.GFX.GlowCard(true);
+    //         GameEventsInvoker.Instance.OnSelectCard?.Invoke();
+    //         _selectedCardUI = cardReference;
+    //         _handUI.LockCardsInput(true);
+    //
+    //
+    //     }
+    //     internal void CardUITouchedReleased(bool ExecuteSucceded, CardUI cardReference)
+    //     {
+    //
+    //         var card = _selectedCardUI;
+    //         if (card == null)
+    //             return;
+    //
+    //         card?.GFX.GlowCard(false);
+    //
+    //         if (ExecuteSucceded == false)
+    //             DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
+    //
+    //         InputManager.Instance.RemoveObjectFromTouch();
+    //         card.CardAnimator.ResetAllAnimations();
+    //         cardReference?.CardAnimator.ResetAllAnimations();
+    //         card.CardLocoMotionUI.SetScale(Vector2.one, 0);
+    //         cardReference?.CardLocoMotionUI.SetScale(Vector2.one, 0);
+    //         _handUI.LockCardsInput(false);
+    //         cardReference?.GFX.GlowCard(false);
+    //         card.gameObject.SetActive(false);
+    //         card.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.None);
+    //         // card.CardTranslations.CancelAllTweens();
+    //         //     _selectedCardUI = null;
+    //
+    //     }
+    //
+    //     internal void ToZoomCardUI()
+    //     {
+    //         var card = _selectedCardUI;
+    //         if (card == null)
+    //             return;
+    //
+    //         GameBattleDescriptionUI.Instance.CheckCardUI(card);
+    //         GameEventsInvoker.Instance.OnZoomCard?.Invoke();
+    //         //     card.Inputs.GetCanvasGroup.blocksRaycasts = false;
+    //         // card.CardTranslations?.SetPosition( Vector2.zero);
+    //
+    //         // card.CardTranslations?.MoveCard(false, Vector2.zero, _cardUISettings.GetCardScaleDelay);
+    //         card.CardAnimator.ScaleAnimation(true);
+    //         card.CardLocoMotionUI?.SetRotation(0, _cardUISettings.RotationTimer);
+    //         card.GFX.GlowCard(true);
+    //     }
+    //
+    //     internal void ToUnZoomCardUI(in Vector2 location)
+    //     {
+    //         var card = _selectedCardUI;
+    //         if (card == null)
+    //             return;
+    //         GameBattleDescriptionUI.Instance.CloseCardUIInfo();
+    //         card.GFX.GlowCard(false);
+    //
+    //         card.CardAnimator.ScaleAnimation(false);
+    //
+    //     }
+    //
+    //
+    //     internal bool TryExecuteCardUI(CardUI thisCardUI)
+    //     {
+    //         if (BattleManager.isGameEnded)
+    //             return false;
+    //         bool succeded = false;
+    //         var card = DeckManager.Instance.GetCardFromDeck(true, 0, DeckEnum.Selected);
+    //         if (card != null)
+    //         {
+    //
+    //              succeded = CardExecutionManager.Instance.TryExecuteCard(true, card);
+    //             if (succeded)
+    //             {
+    //                 //              _OriginalCard.Inputs.InHandInputState.HasValue = false;
+    //
+    //                 UnityAnalyticHandler.SendEvent("Card Played", new System.Collections.Generic.Dictionary<string, object>()
+    //                 {
+    //                     {"Card", card.CardSO.CardName},
+    //                     {"Level", card.CardLevel},
+    //                 });
+    //
+    //                 OnExecuteCardUI?.Invoke(_selectedCardUI.transform.localPosition, _OriginalCard);
+    //                 int index = _handUI.GetCardIndex(_selectedCardUI);
+    //             }
+    //  
+    //         }
+    //         else
+    //         {
+    //             OnFinishTurn();
+    //             Debug.LogError("CardUIHandler - Selected Card  is null !");
+    //         }
+    //       
+    //        return succeded;
+    //     }
+    //
+    // }
 
 
 

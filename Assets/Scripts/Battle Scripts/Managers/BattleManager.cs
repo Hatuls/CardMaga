@@ -114,7 +114,7 @@ namespace Battles
             OnGameEnded?.Invoke();
             UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
-            CardUIManager.Instance.ResetCardUIManager();
+            //CardUIManager.Instance.ResetCardUIManager();
 
 
             if (isPlayerDied)

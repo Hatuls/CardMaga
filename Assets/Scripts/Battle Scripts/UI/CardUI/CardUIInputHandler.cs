@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Battles.UI;
 using UnityEngine;
 
 public class CardUIInputHandler : MonoBehaviour
 {
     [SerializeField] private TouchableItem _touchableItem;
-    [SerializeField] private CardUINew _cardUINew;
+    [SerializeField] private CardUI _cardUI;
 
-    private State currentState;
+    private State _currentState;
 
     public State CurrentState
     {
-        get { return currentState; }
+        get { return _currentState; }
     }
 
     public enum State
@@ -21,12 +22,12 @@ public class CardUIInputHandler : MonoBehaviour
         UnLock
     };
 
-    public static event Action<CardUINew> OnClick;
-    public static event Action<CardUINew> OnBeginHold;
-    public static event Action<CardUINew> OnEndHold;
-    public static event Action<CardUINew> OnHold;
-    public static event Action<CardUINew> OnPointDown;
-    public static event Action<CardUINew> OnPoinrUp;
+    public static event Action<CardUI> OnClick;
+    public static event Action<CardUI> OnBeginHold;
+    public static event Action<CardUI> OnEndHold;
+    public static event Action<CardUI> OnHold;
+    public static event Action<CardUI> OnPointDown;
+    public static event Action<CardUI> OnPointUp;
 
     private void Awake()
     {
@@ -34,94 +35,91 @@ public class CardUIInputHandler : MonoBehaviour
         _touchableItem.OnHold += OnHoldFun;
         _touchableItem.OnBeginHold += OnBeginHoldFun;
         _touchableItem.OnEndHold += OnEndHoldFun;
-        _touchableItem.OnPoinrUp += OnPoinrUpFun;
+        _touchableItem.OnPointUp += OnPointUpFun;
         _touchableItem.OnPointDown += OnPointDownFun;
         
-        currentState = State.Lock;
-        ChangeState(currentState);
+        ChangeState(State.Lock);
     }
 
     private void OnClickFun()
     {
         Debug.Log(gameObject.name + " Click");
-        OnClick?.Invoke(_cardUINew);
+        OnClick?.Invoke(_cardUI);
     }
     
     private void OnBeginHoldFun()
     {
         Debug.Log(gameObject.name + " BeginHold");
-        OnBeginHold?.Invoke(_cardUINew);
+        OnBeginHold?.Invoke(_cardUI);
     }
     
     private void OnEndHoldFun()
     {
         Debug.Log(gameObject.name + " EndHold");
-        OnEndHold?.Invoke(_cardUINew);
+        OnEndHold?.Invoke(_cardUI);
     }
     
     private void OnHoldFun()
     {
         Debug.Log(gameObject.name + " Hold");
-        OnHold?.Invoke(_cardUINew);
+        OnHold?.Invoke(_cardUI);
     }
     
     private void OnPointDownFun()
     {
         Debug.Log(gameObject.name + " PointDown");
-        OnPointDown?.Invoke(_cardUINew);
+        OnPointDown?.Invoke(_cardUI);
     }
     
-    private void OnPoinrUpFun()
+    private void OnPointUpFun()
     {
         Debug.Log(gameObject.name + " PointUp");
-        OnPoinrUp?.Invoke(_cardUINew);
+        OnPointUp?.Invoke(_cardUI);
     }
 
     private void ChangeState(State state)
     {
-        switch (state)
+        _currentState = state;
+        
+        switch (_currentState)
         {
             case State.Lock:
-                _touchableItem._isTouchable = false;
+                _touchableItem.IsTouchable = false;
                 break;
             case State.UnLock:
-                _touchableItem._isTouchable = true;
+                _touchableItem.IsTouchable = true;
                 break;
             default:
                 Debug.LogError(name + " State Not Set");
                 break;
         }
 
-        Debug.Log(name + " is touchable set to " + _touchableItem._isTouchable);
+        Debug.Log(name + " is touchable set to " + _touchableItem.IsTouchable);
     }
     
     [ContextMenu("ToggleState")]
     public void ToggleState()
     {
-        if (currentState == State.Lock)
+        if (_currentState == State.Lock)
         {
-            currentState = State.UnLock;
+            ChangeState(State.UnLock);
         }
 
-        else if (currentState == State.UnLock)
+        else if (_currentState == State.UnLock)
         {
-            currentState = State.Lock;
+            ChangeState(State.Lock);
         }
-        
-        ChangeState(currentState);
     }
 
     public void ForceChangeState(bool isTouchable)
     {
         if (isTouchable)
         {
-            currentState = State.UnLock;
+            ChangeState(State.UnLock);
         }
         else
         {
-            currentState = State.Lock;
+            ChangeState(State.Lock);
         }
-        
-        ChangeState(currentState);
     }
 }

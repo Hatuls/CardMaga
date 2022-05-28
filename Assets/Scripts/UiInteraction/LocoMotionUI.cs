@@ -5,54 +5,42 @@ using UnityEngine;
 using DG.Tweening;
 
 
-public class LocoMotionUI : MonoBehaviour
+public class LocoMotionUI : MotionAbst
 {
-   [SerializeField] private RectTransform _rectTransform;
-
-   private Tween _tween;
-
-   private void Awake()
+   public override void Transition(RectTransform rectTransform, TransitionsSO pram, Action onComplete = null )
    {
-      if (_rectTransform == null)
-      {
-         Debug.LogError(name + " rectTransform is null");
-      }
-   }
-
-   public void Move(RectTransform moveTo, LocoMotionSO movePram, Action onComplete = null)
-   {
-      Move(moveTo.anchoredPosition,movePram, onComplete);
+      Transition(rectTransform.anchoredPosition,pram, onComplete);
    }
    
-   public void Move(Vector2 moveTo, LocoMotionSO movePram, Action onComplete = null)
+   public override void Transition(Vector2 vector2, TransitionsSO pram, Action onComplete = null)
    {
-     Move(moveTo,movePram.TimeToTransition,movePram.AnimationCurve,onComplete);
+     Transition(vector2,pram.LocoMotionSo.TimeToTransition,pram.LocoMotionSo.AnimationCurveX,pram.LocoMotionSo.AnimationCurveY,onComplete);
    }
    
-   public void Move(Vector2 moveTo,float timeToTransition, AnimationCurve animationCurve = null, Action onComplete = null)
+   public override void Transition(Vector2 vector2,float timeToTransition, AnimationCurve animationCurveX = null,AnimationCurve animationCurveY = null, Action onComplete = null)
    {
       if (timeToTransition == 0)
       {
-         _rectTransform.anchoredPosition = moveTo;
+         rectTransform.anchoredPosition = vector2;
          
          onComplete?.Invoke();
          return;
       }
-      _tween = _rectTransform.DOAnchorPos(moveTo, timeToTransition);
       
-      if (animationCurve != null)
+      _sequence = DOTween.Sequence();
+      
+      _sequence.Join(TweenX = rectTransform.DOAnchorPosX(vector2.x, timeToTransition));
+      _sequence.Join(TweenY = rectTransform.DOAnchorPosY(vector2.y, timeToTransition));
+
+      if (animationCurveX != null && animationCurveY != null)
       {
-         _tween.SetEase(animationCurve);
+         TweenX.SetEase(animationCurveX);
+         TweenY.SetEase(animationCurveY);
       }
 
       if (onComplete != null)
       {
-         _tween.OnComplete(() => onComplete?.Invoke());
+         _sequence.OnComplete(() => onComplete?.Invoke());
       }
-   }
-
-   private void OnDisable()
-   {
-      _tween.Kill();
    }
 }

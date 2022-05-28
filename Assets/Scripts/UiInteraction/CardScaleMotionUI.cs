@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
-public class CardLocoMotionUI : LocoMotionUI
+public class CardScaleMotionUI : ScaleMotionUI
 {
     [SerializeField] private Vector2 _vector2 = new Vector2(0, 0);
     [SerializeField] private TransitionsSO _motion;

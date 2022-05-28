@@ -85,7 +85,7 @@ namespace UI.Meta.Settings
         }
         public void SwitchState()
         {
-            _parent.SwitchActiveState();
+            //_parent.SwitchActiveState();
             if (_parent.activeSelf)
                 Open();
             else

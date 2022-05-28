@@ -842,9 +842,8 @@ GameObject:
   m_Component:
   - component: {fileID: 970111637}
   - component: {fileID: 970111640}
-  - component: {fileID: 970111643}
   - component: {fileID: 970111642}
-  - component: {fileID: 970111644}
+  - component: {fileID: 970111643}
   - component: {fileID: 970111639}
   - component: {fileID: 970111641}
   - component: {fileID: 970111638}
@@ -871,7 +870,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -25, y: -787}
+  m_AnchoredPosition: {x: -477, y: -1158}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &970111638
@@ -916,7 +915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _touchableItem: {fileID: 970111643}
-  _cardUINew: {fileID: 970111642}
+  _cardUI: {fileID: 0}
 --- !u!222 &970111640
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -937,10 +936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8587ba40ab87da4c98cf533de3effea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTransform: {fileID: 970111637}
-  _resetParameters: {fileID: 0}
-  _motions:
-  - {fileID: 0}
+  _rectTransform: {fileID: 970111637}
+  _vector2: {x: 0, y: 0}
+  _motion: {fileID: 11400000, guid: 8cabfc347f3a83e49b32bfd7851d0360, type: 2}
 --- !u!114 &970111642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,12 +948,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 970111636}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe77164d60e3fc40adae958856a405e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ae0e234010e98e4abd0a162839bfbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stateMachine: {fileID: 970111644}
-  _input: {fileID: 970111639}
-  _locoMotion: {fileID: 970111641}
+  _settings: {fileID: 11400000, guid: 7d40fd7a3665f1f4fa5c8520c5b10430, type: 2}
+  _cardGFX:
+    _art: {fileID: 0}
+    _titleText: {fileID: 0}
+    _descriptionTxt: {fileID: 0}
+    _staminaText: {fileID: 0}
+    _cardUILevelHandler:
+      _cardsLevels: []
+    _cardFrameIMG: {fileID: 0}
+    _innerCardImage: {fileID: 0}
+    _glowBackground: {fileID: 0}
+    _rarityImage: {fileID: 0}
+    _rectTransform: {fileID: 0}
+    _canvasGroup: {fileID: 0}
+    _bodyPartGFX: {fileID: 0}
+  _canvasGroup: {fileID: 0}
+  _inputs: {fileID: 970111639}
+  _cardLocoMotionUI: {fileID: 970111641}
+  Card: 1
 --- !u!114 &970111643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -969,19 +983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _holdDelaySce: 0.5
-  _isTouchable: 0
---- !u!114 &970111644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 970111636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b0ffac0e1303234daf2007b30e5cf12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  IsTouchable: 0
 --- !u!114 &1020969931 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1020969931, guid: e73c981cd4217474294ea49923871016,
@@ -3182,37 +3184,37 @@ PrefabInstance:
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.07108444
+      value: -0.25820228
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.6909753
+      value: 0.07894037
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9993909
+      value: 0.99957216
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.03489948
+      value: -0.029233329
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.00095208094
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.00026090315
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}

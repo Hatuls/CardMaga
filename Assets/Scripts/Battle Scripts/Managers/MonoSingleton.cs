@@ -1,5 +1,5 @@
 
-﻿using ReiTools.TokenMachine;
+ using ReiTools.TokenMachine;
 using UnityEngine;
 
 public abstract class MonoSingleton<T> : MonoBehaviour , ITokenInitialized where T : Component

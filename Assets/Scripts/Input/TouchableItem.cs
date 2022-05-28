@@ -2,13 +2,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
+using UnityEngine.Serialization;
 
 
 public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHandler
 {
     [SerializeField] private float _holdDelaySce = .5f;
     
-    [HideInInspector] public bool _isTouchable = false;
+    [FormerlySerializedAs("_isTouchable")] [HideInInspector] public bool IsTouchable = false;
     private bool _isHold = false;
     
     public event Action OnClick;
@@ -16,7 +17,7 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
     public event Action OnEndHold;
     public event Action OnHold;
     public event Action OnPointDown;
-    public event Action OnPoinrUp;
+    public event Action OnPointUp;
 
 
     
@@ -43,7 +44,7 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
     
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (_isTouchable)
+        if (IsTouchable)
         {
             StartCoroutine(HoldDelay(eventData));
             OnPointDown?.Invoke();
@@ -52,7 +53,7 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (_isTouchable)
+        if (IsTouchable)
         {
             if (_isHold)
             {
@@ -68,13 +69,13 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
         _isHold = false;
         StopAllCoroutines();
         OnEndHold?.Invoke();
-        OnPoinrUp?.Invoke();
+        OnPointUp?.Invoke();
     }
 
     private void ProcessTouch(PointerEventData eventData)
     {
         StopAllCoroutines();
         OnClick?.Invoke();
-        OnPoinrUp?.Invoke();
+        OnPointUp?.Invoke();
     }
 }
