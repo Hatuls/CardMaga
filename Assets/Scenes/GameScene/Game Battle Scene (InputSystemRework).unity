@@ -843,6 +843,7 @@ GameObject:
   - component: {fileID: 970111637}
   - component: {fileID: 970111640}
   - component: {fileID: 970111642}
+  - component: {fileID: 970111645}
   - component: {fileID: 970111643}
   - component: {fileID: 970111639}
   - component: {fileID: 970111641}
@@ -870,7 +871,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -477, y: -1158}
+  m_AnchoredPosition: {x: 40, y: -823}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &970111638
@@ -936,9 +937,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8587ba40ab87da4c98cf533de3effea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rectTransform: {fileID: 970111637}
+  rectTransform: {fileID: 970111637}
   _vector2: {x: 0, y: 0}
-  _motion: {fileID: 11400000, guid: 8cabfc347f3a83e49b32bfd7851d0360, type: 2}
+  _motion: {fileID: 11400000, guid: 22af5ab5341b80342be98ff9d93e3d5b, type: 2}
 --- !u!114 &970111642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -984,6 +985,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _holdDelaySce: 0.5
   IsTouchable: 0
+--- !u!114 &970111645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970111636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0311906be1834b248ba2e072da709e86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 970111637}
+  _vector2: {x: 3, y: 3}
+  _motion: {fileID: 11400000, guid: 22af5ab5341b80342be98ff9d93e3d5b, type: 2}
 --- !u!114 &1020969931 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1020969931, guid: e73c981cd4217474294ea49923871016,
