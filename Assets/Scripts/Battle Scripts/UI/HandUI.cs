@@ -7,18 +7,16 @@ namespace Battles.UI
     {
 
         public CardUI CurrentlyHolding { get; private set; }
-        CardUISO _cardUISO;
         CardUI[] _handCards;
 
         Vector2 _middleHandPos;
         public static HandUI Instance;
 
-        public HandUI(CardUI[] handCards, Vector2 middlePos, CardUISO cardUISO)
+        public HandUI(CardUI[] handCards, Vector2 middlePos)
         {
             Instance = this;
             _handCards = handCards;
             _middleHandPos = middlePos;
-            _cardUISO = cardUISO;
             AlignCards();
             CurrentlyHolding = null;
             BattleManager.OnGameEnded += LockCards;

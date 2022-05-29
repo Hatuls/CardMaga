@@ -10,7 +10,7 @@ namespace Battles.UI.CardUIAttributes
     public enum CardUILevelState { Off = 0 , On =1, Missing = 2};
     [System.Serializable]
 
-    public class CardGFX
+    public class CardGFX 
     {
 
 
@@ -61,13 +61,7 @@ namespace Battles.UI.CardUIAttributes
 
         public RectTransform GetRectTransform =>  _rectTransform;
         #endregion
-
-
-        #region constructor
-
-        public CardGFX(){}
-        #endregion
-
+        
         #region Methods
         private void SetNameText(in string cardName)
         {
@@ -122,7 +116,7 @@ namespace Battles.UI.CardUIAttributes
             {
                 Debug.LogError("Card Data is NULL!");
             }
-           _cardReferenceInHandDeck = cardData;
+            _cardReferenceInHandDeck = cardData;
             SetCardReference( cardData.CardSO, cardData.CardLevel);
         }
 

@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "ScaleParametersSO", menuName = "ScriptableObjects/Transitions/scale/ScaleParametersSO")]
-public class ScaleSO : ScriptableObject
+public class ScaleSO : ScriptableObject , ITransitionable
 {
     [Header("Scale Parameters")] 
     

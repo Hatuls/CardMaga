@@ -23,10 +23,10 @@ public abstract class MotionAbst : MonoBehaviour
     }
 
 
-    public abstract void Transition(RectTransform rectTransform, TransitionsSO pram, Action onComplete = null);
+    public abstract void Transition(RectTransform rectTransform, ITransitionable pram, Action onComplete = null);
 
 
-    public abstract void Transition(Vector2 vector2, TransitionsSO pram, Action onComplete = null);
+    public abstract void Transition(Vector2 vector2, ITransitionable pram, Action onComplete = null);
 
 
     public abstract void Transition(Vector2 vector2, float timeToTransition, AnimationCurve animationCurveX = null,

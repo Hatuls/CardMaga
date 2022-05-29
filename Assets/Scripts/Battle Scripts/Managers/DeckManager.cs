@@ -39,12 +39,10 @@ namespace Battles.Deck
         #region Public Functions
         public override void Init(ITokenReciever token)
         {
-
             ResetDecks();
         }
         public void ResetDecks()
         {
-
             _OpponentDecks?.Clear();
             _OpponentDecks = null;
             _playerDecks?.Clear();

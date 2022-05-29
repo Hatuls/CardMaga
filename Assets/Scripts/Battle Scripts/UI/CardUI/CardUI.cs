@@ -7,15 +7,10 @@ using UnityEngine.EventSystems;
 namespace Battles.UI
 {
     //[Serializable]
-    public class CardUI : MonoBehaviour, IEquatable<CardUI>
+    public class CardUI : MonoBehaviour, IEquatable<CardUI> , IPoolable<CardUI>
     {
         #region Fields
-        [SerializeField]
-        CardUISO _settings;
-        public CardUISO Settings { get => _settings; }
-        
-        [SerializeField]
-   //     [HideInInspector]
+        //[SerializeField] 
         private CardGFX _cardGFX;
    
         [SerializeField]
@@ -109,7 +104,21 @@ namespace Battles.UI
         }
         #endregion
 
-    
+        #region Ipoolable Implementation
+
+        public void Dispose()
+        {
+            gameObject.SetActive(false);
+        }
+        public event Action<CardUI> OnDisposed;
+        
+        public void Init()
+        {
+            gameObject.SetActive(true);
+        }
+
+        #endregion
+      
     }
 
    

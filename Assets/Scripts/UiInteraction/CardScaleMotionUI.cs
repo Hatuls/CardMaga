@@ -9,6 +9,6 @@ public class CardScaleMotionUI : ScaleMotionUI
     [ContextMenu("Move")]
     private void MoveTo()
     {
-        Transition(_vector2,_motion);
+        Transition(_vector2,_motion.ScaleSo);
     }
 }

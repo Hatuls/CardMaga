@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class ScaleMotionUI : MotionAbst
 {
-    public override void Transition(RectTransform rectTransform, TransitionsSO pram, Action onComplete = null)
+    public override void Transition(RectTransform rectTransform, ITransitionable pram, Action onComplete = null)
     {
         Transition(rectTransform.anchoredPosition,pram,onComplete);
     }
 
-    public override void Transition(Vector2 vector2, TransitionsSO pram, Action onComplete = null)
+    public override void Transition(Vector2 vector2, ITransitionable pram, Action onComplete = null)
     {
-        Transition(vector2,pram.ScaleSo.TimeToTransition,pram.ScaleSo.AnimationCurveX,pram.ScaleSo.AnimationCurveY,onComplete);
+        Transition(vector2,pram.TimeToTransition,pram.AnimationCurveX,pram.AnimationCurveY,onComplete);
     }
 
     public override void Transition(Vector2 vector2, float timeToTransition, AnimationCurve animationCurveX = null,

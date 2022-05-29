@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using DG.Tweening;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "MoveParametersSO", menuName = "ScriptableObjects/Transitions/LocoMotion/MoveParametersSO")]
-public class LocoMotionSO : ScriptableObject
+public class LocoMotionSO : ScriptableObject ,ITransitionable
 {
     [Header("Motion Parameters")] 
     

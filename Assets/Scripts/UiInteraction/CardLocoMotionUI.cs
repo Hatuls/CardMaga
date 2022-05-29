@@ -10,6 +10,6 @@ public class CardLocoMotionUI : LocoMotionUI
     [ContextMenu("Move")]
     private void MoveTo()
     {
-        Transition(_vector2,_motion);
+        Transition(_vector2,_motion.LocoMotionSo);
     }
 }
