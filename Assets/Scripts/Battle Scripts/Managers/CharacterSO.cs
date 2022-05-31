@@ -165,7 +165,7 @@ namespace Battles
                                 };
 
                                 ushort _iD = 0;
-                                byte _lEVEL = 0;
+                                byte _level = 0;
 
                                 const int iD = 0, Level = 1;
                                 //deck cards
@@ -184,11 +184,11 @@ namespace Battles
 
                                     if (byte.TryParse(data[Level], out byte lvl))
                                     {
-                                        _lEVEL = lvl;
+                                        _level = lvl;
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
-                                    _deck[i] = new CardInfo(cardCollection.GetCard(_iD), _lEVEL);
+                                    _deck[i] = new CardInfo(cardCollection.GetCard(_iD), _level);
 
                                 }
 
@@ -210,14 +210,14 @@ namespace Battles
 
                                     if (byte.TryParse(data[Level], out byte lvl))
                                     {
-                                        _lEVEL = lvl;
+                                        _level = lvl;
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid level ({data[Level]}) for recipe id: {_id}");
 
 
 
-                                    _combos[i] = new RecipeInfo(recipeCollections.GetCombo(_iD), _lEVEL);
+                                    _combos[i] = new RecipeInfo(recipeCollections.GetCombo(_iD), _level);
 
 
                                     if (_combos[i].ComboRecipe == null)

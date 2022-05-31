@@ -67,7 +67,7 @@ public class VersionHander : MonoBehaviour
 
         WebRequests.Get(
             path,
-            x=> Debug.Log(x),
+           Debug.Log,
            OnGameVersionRecieved
             );
     }
