@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
         {
             _instance = this;
             Init();
-            SceneHandler.onFinishLoadingScene += OnSceneLoad;
+           // SceneHandler.onFinishLoadingScene += OnSceneLoad;
         }
         else if (_instance != this)
             Destroy(this.gameObject);
@@ -33,7 +33,7 @@ public class InputManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        SceneHandler.onFinishLoadingScene -= OnSceneLoad;
+   //     SceneHandler.onFinishLoadingScene -= OnSceneLoad;
     }
     void Init()
     {
@@ -93,7 +93,7 @@ public class InputManager : MonoBehaviour
 
     #region Monobehaiviour CallBacks
 
-    private void OnSceneLoad(SceneHandler.ScenesEnum scene)
+    private void OnSceneLoad(ScenesEnum scene)
     {
         ResetTouch();
     }

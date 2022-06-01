@@ -1,5 +1,6 @@
 ﻿
 using Characters.Stats;
+using ReiTools.TokenMachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,9 +27,13 @@ namespace Keywords
         #region public Functions
 
 
-        public override void Init()
+        public override void Init(ITokenReciever token)
         {
+            using (token.GetToken())
+            {
             InitParams();
+
+            }
         }
 
 
@@ -147,6 +152,18 @@ namespace Keywords
         }
         #endregion
 
+
+        #region Monobehaviour Callbacks 
+        public override void Awake()
+        {
+            base.Awake();
+            SceneHandler.OnBeforeSceneShown += Init;
+        }
+        public void OnDestroy()
+        {
+            SceneHandler.OnBeforeSceneShown -= Init;
+        }
+        #endregion
     }
 
     public enum KeywordTypeEnum
@@ -201,7 +218,9 @@ namespace Keywords
         Disable = 47,
         Limit = 48,
         BloodLoss = 49,
-
+        Sacrifice = 50,
+        Shield_Bash = 51,
+        Permanent_Defense =52,
     };
 
 }

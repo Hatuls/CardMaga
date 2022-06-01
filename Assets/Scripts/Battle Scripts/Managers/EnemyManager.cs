@@ -4,6 +4,7 @@ using Battles.Deck;
 using Characters.Stats;
 using Characters;
 using TMPro;
+using ReiTools.TokenMachine;
 
 namespace Battles
 {
@@ -29,7 +30,7 @@ namespace Battles
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
         #region Public Methods
-        public override void Init()
+        public override void Init(ITokenReciever token)
         {
         
         }
@@ -66,9 +67,9 @@ namespace Battles
         }
         public void UpdateStatsUI()
         {
-            UI.StatsUIManager.GetInstance.UpdateMaxHealthBar(false, GetCharacterStats.MaxHealth);
-            UI.StatsUIManager.GetInstance.InitHealthBar(false, GetCharacterStats.Health);
-            UI.StatsUIManager.GetInstance.UpdateShieldBar(false, GetCharacterStats.Shield);
+            UI.StatsUIManager.Instance.UpdateMaxHealthBar(false, GetCharacterStats.MaxHealth);
+            UI.StatsUIManager.Instance.InitHealthBar(false, GetCharacterStats.Health);
+            UI.StatsUIManager.Instance.UpdateShieldBar(false, GetCharacterStats.Shield);
         }
 
         public void OnEndBattle()
@@ -146,7 +147,19 @@ namespace Battles
 
         #endregion
 
+
+        #region Monobehaviour Callbacks 
+        public override void Awake()
+        {
+            base.Awake();
+            SceneHandler.OnBeforeSceneShown += Init;
+        }
+        public void OnDestroy()
+        {
+            SceneHandler.OnBeforeSceneShown -= Init;
+        }
+        #endregion
     }
 
- 
+
 }

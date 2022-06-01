@@ -1,4 +1,5 @@
 ﻿using Keywords;
+using ReiTools.TokenMachine;
 using UnityEngine.Events;
 
 public class GameEventsInvoker : MonoSingleton<GameEventsInvoker>
@@ -15,7 +16,7 @@ public class GameEventsInvoker : MonoSingleton<GameEventsInvoker>
 
     public UnityEvent OnRecieveDamage;
 
-    public override void Init()
+    public override void Init(ITokenReciever token)
     {
     
     }

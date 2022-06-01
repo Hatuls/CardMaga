@@ -1,8 +1,10 @@
 ﻿using Keywords;
+using System;
 namespace Characters.Stats
 {
     public class HealthStat : StatAbst
     {
+        public static event Action<bool> OnCharacterDeath;
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Heal;
         MaxHealthStat _maxHealthStats;
         public HealthStat(MaxHealthStat maxHealth, bool isPlayer, int amount) : base(isPlayer, amount)
@@ -33,7 +35,7 @@ namespace Characters.Stats
 
             if (Amount <= 0)
             {
-                Battles.BattleManager.BattleEnded(isPlayer);
+                OnCharacterDeath?.Invoke(isPlayer);
             }
 
         }

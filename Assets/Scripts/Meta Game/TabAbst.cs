@@ -5,10 +5,10 @@ namespace UI
 {
     public abstract class TabAbst : MonoBehaviour, IOpenCloseUIHandler
     {
-        [SerializeField]
-        UnityEvent OnOpen;
-        [SerializeField]
-        UnityEvent OnClose;
+        [SerializeField,EventsGroup]
+       protected UnityEvent OnOpen;
+        [SerializeField,EventsGroup]
+        protected UnityEvent OnClose;
         public abstract void Open();
         public abstract void Close();
 

@@ -48,7 +48,7 @@ public class CSVToKeywordsSO :CSVAbst
                     }
                 }
                 else
-                    throw new System.Exception($"Sound Name Is Not Valid!\nKeyword ID: {id}");
+                    throw new System.Exception($"Sound Name Is Not Valid (\"{line[SoundIndex]}\")!\nKeyword ID: {id}");
 
 
 

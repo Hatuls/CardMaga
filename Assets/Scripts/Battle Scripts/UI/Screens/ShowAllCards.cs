@@ -17,12 +17,12 @@ namespace Map.UI
         public override IEnumerable<Card> Sort()
         {
 
-            if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.MainMenuScene)
-                return Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(Account.AccountManager.Instance.AccountCards.CardList.ToArray());
-            else
-            {
+        //    if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.MainMenuScene)
+        //        return Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck//(Account.AccountManager.Instance.AccountCards.CardList.ToArray());
+        //    else
+        //    {
                 return Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
-            }
+        //    }
 
 
         }

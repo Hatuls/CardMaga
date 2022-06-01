@@ -1,5 +1,6 @@
 ﻿using Battles.UI;
 using Cards;
+using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
@@ -36,10 +37,10 @@ namespace Battles.Deck
         #region Functions
 
         #region Public Functions
-        public override void Init()
+        public override void Init(ITokenReciever token)
         {
 
-
+            ResetDecks();
         }
         public void ResetDecks()
         {
@@ -338,6 +339,18 @@ namespace Battles.Deck
         #endregion
 
 
+        #endregion
+
+        #region Monobehaviour Callbacks 
+        public override void Awake()
+        {
+            base.Awake();
+            SceneHandler.OnBeforeSceneShown += Init;
+        }
+        public void OnDestroy()
+        {
+            SceneHandler.OnBeforeSceneShown -= Init;
+        }
         #endregion
     }
 }

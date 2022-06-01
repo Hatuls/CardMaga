@@ -1,17 +1,44 @@
 ﻿using Account.GeneralData;
 using Meta.Resources;
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace UI.Meta.PlayScreen
 {
     [System.Serializable]
-public class  UshortEvent : UnityEvent<ushort> { }
+    public class UshortEvent : UnityEvent<ushort> { }
     public class PlayScreenUI : TabAbst
     {
-        #region Singleton
+
+
+
+        #region Fields
         private static PlayScreenUI _instance;
+
+        [SerializeField]
+        private float _delayBeforeStart = 1;
+        [SerializeField]
+        private GameObject _backgroundPanel;
+        PlayPackage _playpackage = new PlayPackage();
+        [SerializeField]
+        private ushort _energyCost = 5;
+        [SerializeField]
+        private SceneIdentificationSO _sceneLoad;
+        [SerializeField]
+        private PlayButtonUI _playBtn;
+        private ISceneHandler _sceneManager;
+        [SerializeField]
+        private SceneIdentificationSO _mapScene;
+        #endregion
+
+        [SerializeField, EventsGroup]
+        UshortEvent OnSuccessfullPlayClick;
+        [SerializeField, EventsGroup]
+        UnityEvent OnUnSuccessfullPlayClick;
+
+
+        #region Properties
         public static PlayScreenUI Instance
         {
             get
@@ -22,35 +49,11 @@ public class  UshortEvent : UnityEvent<ushort> { }
                 return _instance;
             }
         }
-        private void Awake()
-        {
-            _instance = this;
-        }
-        #endregion
-        #region Fields
-
-        [SerializeField]
-        int _delayBeforeStart = 1000;
-        [SerializeField]
-        GameObject _backgroundPanel;
-        PlayPackage _playpackage = new PlayPackage();
-        [SerializeField] ushort _energyCost = 5;
-        [SerializeField]
-        SceneLoaderCallback _sceneLoad;
-        [SerializeField]
-        PlayButtonUI _playBtn;
-        #endregion
-
-        [SerializeField]
-        UshortEvent OnSuccessfullPlayClick;
-        [SerializeField]
-        UnityEvent OnUnSuccessfullPlayClick;
-
-        #region Properties
 
         public PlayPackage playPackage => _playpackage;
         #endregion
         #region Public Methods
+
 
         public void ResetPlayScreen()
         {
@@ -78,26 +81,30 @@ public class  UshortEvent : UnityEvent<ushort> { }
         public void ConfirmPlayPackage()
         {
             _playpackage.SendPackage();
-            _sceneLoad.LoadScene(SceneHandler.ScenesEnum.MapScene);
         }
 
         public void OnPlayClicked()
         {
-              EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
-        
+            EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
+
             if (energyHandler.HasAmount(energyHandler.AmountToStartPlay))
             {
                 OnSuccessfullPlayClick?.Invoke(_energyCost);
-               // energyHandler.ReduceAmount(_energyCost); 
-                StartGameDelay();
-                SentAnalyticEvent();
+                // energyHandler.ReduceAmount(_energyCost); 
+                StartCoroutine(StartGameDelay());
+
             }
             else
             {
                 OnUnSuccessfullPlayClick.Invoke();
             }
         }
+        #endregion
+        #region Private Methods
 
+
+        private void Inject(ISceneHandler sceneHandler)
+            => _sceneManager = sceneHandler;
         private void SentAnalyticEvent()
         {
             const string eventName = "pressed_play_button";
@@ -105,19 +112,27 @@ public class  UshortEvent : UnityEvent<ushort> { }
             FireBaseHandler.SendEvent(eventName);
         }
 
-        private async void StartGameDelay()
+        private IEnumerator StartGameDelay()
         {
-            await System.Threading.Tasks.Task.Delay(_delayBeforeStart);
-            StartGame();
+            GatherCharacterDataForRun();
+            SentAnalyticEvent();
+            yield return new WaitForSeconds(_delayBeforeStart);
+            GatherCharacterDataForRun();
+            ConfirmPlayPackage();
+   
+            _sceneManager.MoveToScene(_mapScene);
         }
-        private void StartGame()
+        private void GatherCharacterDataForRun()
         {
             var account = Account.AccountManager.Instance;
             _playpackage.CharacterData = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara);
             _playpackage.Deck = _playpackage.CharacterData.GetDeckAt(0);
-            ConfirmPlayPackage();
-      
         }
+
+
+        #endregion
+
+
         #region Tab Implementation
         public override void Open()
         {
@@ -136,6 +151,19 @@ public class  UshortEvent : UnityEvent<ushort> { }
             OnSuccessfullPlayClick.RemoveListener(ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy).ReduceAmount);
         }
         #endregion
-        #endregion
+
+        #region Monobehaviour Callbacks
+        private void Awake()
+        {
+            _instance = this;
+            SceneHandler.OnSceneHandlerActivated += Inject;
+        }
+        private void OnDestroy()
+        {
+        SceneHandler.OnSceneHandlerActivated -= Inject;
+            
+        }
     }
+    #endregion
 }
+

@@ -129,12 +129,12 @@ namespace Map.UI
             _cardTypeSelectionPanel.SetActive(toActivate);
             _cardPanel.SetActive(toActivate);
 
-            if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.GameBattleScene)
-            {
-                _deckCardsSelectionPanel.SetActive(toActivate);
-                _cardTypeSelectionPanel.SetActive(false);
-            }
-            else
+            //if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.GameBattleScene)
+            //{
+            //    _deckCardsSelectionPanel.SetActive(toActivate);
+            //    _cardTypeSelectionPanel.SetActive(false);
+            //}
+            //else
                 _cardTypeSelectionPanel.SetActive(toActivate);
         }
 

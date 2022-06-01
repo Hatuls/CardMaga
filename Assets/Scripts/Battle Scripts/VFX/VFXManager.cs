@@ -1,5 +1,6 @@
 ﻿
 
+using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,8 +12,9 @@ public class VFXManager : MonoSingleton<VFXManager>
     [SerializeField] List<ParticleSystemVFX> _VFXLIST;
     
 
-    public override void Init()
+    public override void Init(ITokenReciever token)
     {
+        using(token.GetToken())
         _VFXLIST = new List<ParticleSystemVFX>();
     }
     
@@ -50,6 +52,17 @@ public class VFXManager : MonoSingleton<VFXManager>
         ParticleSystemVFX vfxBase = Instantiate(vfx.VFXPrefab).GetComponent<ParticleSystemVFX>();
         _VFXLIST.Add(vfxBase);
         return vfxBase;
+    }
+
+
+    public override void Awake()
+    {
+        base.Awake();
+        SceneHandler.OnBeforeSceneShown += Init;
+    }
+    public  void OnDestroy()
+    {
+        SceneHandler.OnBeforeSceneShown -= Init;
     }
 }
 
