@@ -54,7 +54,7 @@ public class VersionHander : MonoBehaviour
     public void Init(ITokenReciever token)
     {
 
-        FireBaseHandler.Init();
+        FireBaseHandler.Init(token);
         UnityAnalyticHandler.SendEvent(Application.version);
 
         _token = token.GetToken();
@@ -110,7 +110,7 @@ public class VersionHander : MonoBehaviour
             _versionUI.SetActive(true);
         }
     }
-    public void VersionMatch()
+    private void VersionMatch()
     {
         _token?.Dispose();
     }

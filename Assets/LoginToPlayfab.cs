@@ -40,7 +40,7 @@ public class LoginToPlayfab : MonoBehaviour
 
     public void TaskCompleted(LoginResult result)
     {
-        Debug.Log("Finished Log in - Continue To main menu");
+        Debug.Log("Finished Log in!");
         _token.Dispose();
     }
 
