@@ -15,6 +15,7 @@ namespace Battles.UI
 
         [SerializeField] private DeckManager _deckManager;
         [SerializeField] private PoolObject<CardUI> _cardPool;
+        [SerializeField] private RectTransform _middleHandPos;
         
         private List<CardUI> _handCards;
         private HandUI _handUI;
@@ -38,7 +39,7 @@ namespace Battles.UI
         private CardUI _enemyCardUI;
         internal void UpdateHand()
         {
-            DrawCards(DeckManager.Instance.GetCardsFromDeck(true, DeckEnum.Hand));
+            GetCardsUI(DeckManager.Instance.GetCardsFromDeck(true, DeckEnum.Hand));
         }
 
         internal void PlayEnemyCard(Card card)
@@ -70,12 +71,12 @@ namespace Battles.UI
 
         #region Private Methods
 
-        internal void CraftCardUI(Card addedCard, DeckEnum toDeck)
-        {
-            if (toDeck == DeckEnum.Hand)
-                AssignDataToCardUI(_handUI.CurrentlyHolding, addedCard);
-
-        }
+        // internal void CraftCardUI(Card addedCard, DeckEnum toDeck)
+        // {
+        //     if (toDeck == DeckEnum.Hand)
+        //         AssignDataToCardUI(_handUI.CurrentlyHolding, addedCard);
+        //
+        // }
 
         public void AssignDataToCardUI(CardUI card, Cards.Card cardData)
         {
@@ -87,8 +88,29 @@ namespace Battles.UI
 
         #region Public Methods
 
-        public void DrawCards(Card[] cardData)
+        public CardUI[] GetCardsUI(params Card[] cardData)
         {
+            if (cardData == null)
+            {
+                throw new Exception(name + " CardData is null");
+            }
+
+            List<CardUI> tempCardUI = new List<CardUI>();
+            
+            for (int i = 0; i < cardData.Length; i++)
+            {
+                if (cardData[i] == null)
+                {
+                    Debug.LogError(name + " CardData in index " + i + " in null");
+                }
+                
+                CardUI cache = _cardPool.Pull();
+                
+                AssignDataToCardUI(cache,cardData[i]);
+                
+                tempCardUI.Add(cache);
+            }
+            
             for (int i = 0; i < cardData.Length; i++)
             {
                 var card = _handUI.GetHandCardUIFromIndex(i);
@@ -107,21 +129,22 @@ namespace Battles.UI
                 }
             }
 
+            return tempCardUI.ToArray();
+
         }
-
-
+        
+        
         public void RemoveHands()
         {
             _handUI.DiscardHand();
             OnPlayerRemoveHand?.Invoke();
-
-
         }
+        
         public override void Init(ITokenReciever token)
         {
             using (token.GetToken())
             {
-              // _handUI = new HandUI(_handCards, GetHandMiddlePosition.transform.localPosition);
+               //_handUI = new HandUI(_middleHandPos.rect.position);
             }
         }
 
@@ -129,11 +152,11 @@ namespace Battles.UI
         {
             if (card == null)
                 return;
-
         }
         
         public void LockHandCards(bool value)
-      => _handUI.LockCardsInput(value);
+      => _handUI.LockCards(value);
+        
         #endregion
     }
 }

@@ -55,8 +55,6 @@ namespace Battles.UI
             
             if ((Card & CardUISettings.Visable) != CardUISettings.Visable)
                 Card |= CardUISettings.Visable;
-
-
         }
 
 
@@ -108,15 +106,11 @@ namespace Battles.UI
 
         public void Dispose()
         {
+            OnDisposed?.Invoke(this);
             gameObject.SetActive(false);
         }
         public event Action<CardUI> OnDisposed;
         
-        public void Init()
-        {
-            gameObject.SetActive(true);
-        }
-
         #endregion
       
     }
@@ -124,7 +118,7 @@ namespace Battles.UI
    
    
 public static class CardUIHelper {
-        public static void DisplayCard(this CardUI cardUI, Cards.Card card) => cardUI.GFX.SetCardReference(card);
+        public static void AssignData(this CardUI cardUI, Cards.Card card) => cardUI.GFX.SetCardReference(card);
         public static Cards.Card RecieveCardReference(this CardUI cardui) => cardui.GFX.GetCardReference;
     }
 }

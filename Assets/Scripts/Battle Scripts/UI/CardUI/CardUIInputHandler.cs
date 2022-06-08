@@ -1,33 +1,19 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Battles.UI;
 using UnityEngine;
 
 public class CardUIInputHandler : MonoBehaviour
 {
-    [SerializeField] private TouchableItem _touchableItem;
-    [SerializeField] private CardUI _cardUI;
-
-    private State _currentState;
-
-    public State CurrentState
-    {
-        get { return _currentState; }
-    }
-
     public enum State
     {
         Lock,
         UnLock
-    };
+    }
 
-    public static event Action<CardUI> OnClick;
-    public static event Action<CardUI> OnBeginHold;
-    public static event Action<CardUI> OnEndHold;
-    public static event Action<CardUI> OnHold;
-    public static event Action<CardUI> OnPointDown;
-    public static event Action<CardUI> OnPointUp;
+    [SerializeField] private TouchableItem _touchableItem;
+    [SerializeField] private CardUI _cardUI;
+
+    public State CurrentState { get; private set; }
 
     private void Awake()
     {
@@ -37,40 +23,47 @@ public class CardUIInputHandler : MonoBehaviour
         _touchableItem.OnEndHold += OnEndHoldFun;
         _touchableItem.OnPointUp += OnPointUpFun;
         _touchableItem.OnPointDown += OnPointDownFun;
-        
+
         ChangeState(State.Lock);
     }
+
+    public static event Action<CardUI> OnClick;
+    public static event Action<CardUI> OnBeginHold;
+    public static event Action<CardUI> OnEndHold;
+    public static event Action<CardUI> OnHold;
+    public static event Action<CardUI> OnPointDown;
+    public static event Action<CardUI> OnPointUp;
 
     private void OnClickFun()
     {
         Debug.Log(gameObject.name + " Click");
         OnClick?.Invoke(_cardUI);
     }
-    
+
     private void OnBeginHoldFun()
     {
         Debug.Log(gameObject.name + " BeginHold");
         OnBeginHold?.Invoke(_cardUI);
     }
-    
+
     private void OnEndHoldFun()
     {
         Debug.Log(gameObject.name + " EndHold");
         OnEndHold?.Invoke(_cardUI);
     }
-    
+
     private void OnHoldFun()
     {
         Debug.Log(gameObject.name + " Hold");
         OnHold?.Invoke(_cardUI);
     }
-    
+
     private void OnPointDownFun()
     {
         Debug.Log(gameObject.name + " PointDown");
         OnPointDown?.Invoke(_cardUI);
     }
-    
+
     private void OnPointUpFun()
     {
         Debug.Log(gameObject.name + " PointUp");
@@ -79,9 +72,9 @@ public class CardUIInputHandler : MonoBehaviour
 
     private void ChangeState(State state)
     {
-        _currentState = state;
-        
-        switch (_currentState)
+        CurrentState = state;
+
+        switch (CurrentState)
         {
             case State.Lock:
                 _touchableItem.IsTouchable = false;
@@ -96,30 +89,21 @@ public class CardUIInputHandler : MonoBehaviour
 
         Debug.Log(name + " is touchable set to " + _touchableItem.IsTouchable);
     }
-    
+
     [ContextMenu("ToggleState")]
     public void ToggleState()
     {
-        if (_currentState == State.Lock)
-        {
+        if (CurrentState == State.Lock)
             ChangeState(State.UnLock);
-        }
 
-        else if (_currentState == State.UnLock)
-        {
-            ChangeState(State.Lock);
-        }
+        else if (CurrentState == State.UnLock) ChangeState(State.Lock);
     }
 
     public void ForceChangeState(bool isTouchable)
     {
         if (isTouchable)
-        {
             ChangeState(State.UnLock);
-        }
         else
-        {
             ChangeState(State.Lock);
-        }
     }
 }
