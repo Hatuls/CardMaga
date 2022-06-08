@@ -1,4 +1,5 @@
-﻿using Battles.UI;
+﻿using System;
+using Battles.UI;
 using Cards;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace Battles.Deck
 {
     public class DeckManager : MonoSingleton<DeckManager>
     {
+        public static event Action<Card[]> OnDrawCards; 
         #region Fields
 
         #region Public Fields
@@ -147,7 +149,7 @@ namespace Battles.Deck
 
             }
             if (isPlayersDeck)
-                CardUIManager.Instance.DrawCards(toDeck.GetDeck);
+                OnDrawCards?.Invoke(toDeck.GetDeck);
 
 
         }

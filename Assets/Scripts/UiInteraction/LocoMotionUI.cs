@@ -7,12 +7,12 @@ using DG.Tweening;
 
 public class LocoMotionUI : MotionAbst
 {
-   public override void Transition(RectTransform rectTransform, ITransitionable pram, Action onComplete = null )
+   public override void Transition(RectTransform rectTransform, ITransitionable pram = null, Action onComplete = null )
    {
       Transition(rectTransform.anchoredPosition,pram, onComplete);
    }
    
-   public override void Transition(Vector2 vector2, ITransitionable pram, Action onComplete = null)
+   public override void Transition(Vector2 vector2, ITransitionable pram = null, Action onComplete = null)
    {
      Transition(vector2,pram.TimeToTransition,pram.AnimationCurveX,pram.AnimationCurveY,onComplete);
    }

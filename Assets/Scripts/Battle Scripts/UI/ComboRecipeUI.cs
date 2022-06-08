@@ -81,7 +81,7 @@ namespace UI
             _combo = combo;
          
             var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(combo.ComboSO.CraftedCard, combo.Level);
-            _cardUI.DisplayCard(craftedCard);
+            _cardUI.AssignData(craftedCard);
             ActivatedPlaceHolders(ComboRecipe);
             SetVisual(ComboRecipe);
             AssignComboCrafting();
@@ -121,7 +121,6 @@ namespace UI
         }
         private void SetVisual(ComboSO relic)
         {
-         
             for (int i = 0; i < _placeHolderSlotUIs.Length; i++)
             {
                 if (!_placeHolderSlotUIs[i].gameObject.activeSelf)

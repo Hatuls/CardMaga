@@ -14,14 +14,12 @@ namespace Battles.UI
         #region Field
 
         [SerializeField] private DeckManager _deckManager;
-        [SerializeField] private PoolObject<CardUI> _cardPool;
         [SerializeField] private RectTransform _middleHandPos;
+        [SerializeField] private CardUIPool _cardPool;
         
         private List<CardUI> _handCards;
         private HandUI _handUI;
         
-        
-
         [SerializeField]
         Art.ArtSO _artSO;
         #endregion
@@ -104,7 +102,7 @@ namespace Battles.UI
                     Debug.LogError(name + " CardData in index " + i + " in null");
                 }
                 
-                CardUI cache = _cardPool.Pull();
+                //CardUI cache = _cardPool.Pull();
                 
                 AssignDataToCardUI(cache,cardData[i]);
                 
@@ -153,10 +151,7 @@ namespace Battles.UI
             if (card == null)
                 return;
         }
-        
-        public void LockHandCards(bool value)
-      => _handUI.LockCards(value);
-        
+
         #endregion
     }
 }

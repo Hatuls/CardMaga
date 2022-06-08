@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using Battles.UI;
 using UnityEngine;
+using Object = System.Object;
 
 [Serializable]
-public class PoolObject<T> : IPoolObject<T> where T : MonoBehaviour, IPoolable<T>
+public class PoolObject<T> : MonoBehaviour, IPoolObject<T> where T : MonoBehaviour, IPoolable<T>
 {
     [SerializeField]
-    private T _prefabOfType;
+    protected T _prefabOfType;
 
     private Stack<T> _poolToType = new Stack<T>();
 
     private List<T> _totalPoolType = new List<T>();
-    public T Draw()
+    public T Pull()
     {
         T cache = null;
 
@@ -54,7 +56,7 @@ public class PoolObject<T> : IPoolObject<T> where T : MonoBehaviour, IPoolable<T
 
 public interface IPoolObject<T> where T : MonoBehaviour, IPoolable<T>
 {
-    T Draw();
+    T Pull();
     void ResetPool();
 }
 

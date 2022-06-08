@@ -6,11 +6,9 @@ using UnityEngine.EventSystems;
 
 namespace Battles.UI
 {
-    //[Serializable]
     public class CardUI : MonoBehaviour, IEquatable<CardUI> , IPoolable<CardUI>
     {
         #region Fields
-        //[SerializeField] 
         private CardGFX _cardGFX;
    
         [SerializeField]
@@ -52,7 +50,6 @@ namespace Battles.UI
 
         private void CardUISettingsEnum()
         {
-            
             if ((Card & CardUISettings.Visable) != CardUISettings.Visable)
                 Card |= CardUISettings.Visable;
         }
@@ -70,7 +67,10 @@ namespace Battles.UI
         }
 
         public bool Equals(CardUI other)
-        => other.RecieveCardReference() == _cardGFX.GetCardReference;
+        {
+            return true;
+            //other?.RecieveCardReference() == _cardGFX.GetCardReference;
+        }
 
         #region Properties
         public  CardGFX GFX =>  _cardGFX;
@@ -110,19 +110,20 @@ namespace Battles.UI
             gameObject.SetActive(false);
         }
         public event Action<CardUI> OnDisposed;
-        
+        public void Init()
+        {
+            
+        }
+
         #endregion
       
     }
-
-   
-   
+    
 public static class CardUIHelper {
         public static void AssignData(this CardUI cardUI, Cards.Card card) => cardUI.GFX.SetCardReference(card);
         public static Cards.Card RecieveCardReference(this CardUI cardui) => cardui.GFX.GetCardReference;
     }
 }
-
 
 public class CardAnimator
 {
@@ -141,10 +142,7 @@ public class CardAnimator
     {
         _animator.SetTrigger((value) ? AnimatorParameters.ZoomOutAnimation :  AnimatorParameters.ZoomInAnimation);
     }
-
-
-
-
+    
     public static class AnimatorParameters
     {
         public static int ZoomInAnimation = Animator.StringToHash("ToZoomIn");
@@ -156,8 +154,7 @@ public class CardAnimator
     {
         _animator.SetTrigger(AnimatorParameters.NoticeAnimation);
     }
-
-
+    
     internal void ResetAllAnimations()
     {
         _animator.SetTrigger(AnimatorParameters.ResetAllAnimation);

@@ -1,5 +1,4 @@
-﻿
-using Battles;
+﻿using Battles;
 using Battles.UI;
 using System.Collections.Generic;
 using UI;
@@ -78,7 +77,7 @@ namespace Map.UI
                         _deckCardsUI[i].gameObject.SetActive(true);
 
            
-                    _deckCardsUI[i].CardUI.DisplayCard(deck[i]);
+                    _deckCardsUI[i].CardUI.AssignData(deck[i]);
                 }
                 else
                 {

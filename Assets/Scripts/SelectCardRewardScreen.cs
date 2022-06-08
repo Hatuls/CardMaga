@@ -29,7 +29,7 @@ public class SelectCardRewardScreen : MonoBehaviour
 
        
         for (int i = 0; i < cards.Length; i++)
-            _cards[i].CardUI.DisplayCard(cards[i]);
+            _cards[i].CardUI.AssignData(cards[i]);
 
         _money = money;
             _moneyText.text = string.Concat("Do you want to get ", money, " credits INSTEAD of choosing a card?");

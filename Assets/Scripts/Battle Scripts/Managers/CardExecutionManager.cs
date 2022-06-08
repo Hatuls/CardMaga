@@ -78,7 +78,7 @@ namespace Battles
             if (isPlayer)
             {
 
-                CardUIManager.Instance.LockHandCards(false);
+                //CardUIManager.Instance.LockHandCards(false);
             }
             else
                 CardUIManager.Instance.PlayEnemyCard(card);

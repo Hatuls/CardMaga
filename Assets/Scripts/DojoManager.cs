@@ -139,7 +139,7 @@ public class DojoManager : MonoBehaviour, IObserver
             _metaCardUIs[index].OnCardUIClicked += _presentCardUI.OpenCardUIInfo;
             metaCard.ClosePanel();
 
-            _metaCardUIs[index].CardUI.DisplayCard(cards[index]);
+            _metaCardUIs[index].CardUI.AssignData(cards[index]);
             _cardPurchaseBtns[index].onClick.AddListener(() => TryBuyCard(index));
             _cardBtnTexts[index].text = cards[index].CardSO.GetCostPerUpgrade(cards[index].CardLevel).ToString();
         }

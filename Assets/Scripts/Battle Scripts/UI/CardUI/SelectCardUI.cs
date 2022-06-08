@@ -9,7 +9,6 @@ public class SelectCardUI : MonoBehaviour
     [SerializeField] private CardUIManager _cardUIManager;
     private CardUI _selectCard;
     
-    
     public void SetSelectCardUI(CardUI cardUI)
     {
         _selectCard.AssignData(cardUI.RecieveCardReference());
