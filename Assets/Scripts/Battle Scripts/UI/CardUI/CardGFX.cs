@@ -13,8 +13,6 @@ namespace Battles.UI.CardUIAttributes
     public class CardGFX 
     {
 
-
-
         #region Fields
         [SerializeField]
         ArtSO _art;

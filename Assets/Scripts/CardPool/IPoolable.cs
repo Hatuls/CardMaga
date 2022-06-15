@@ -12,7 +12,7 @@ public class PoolObject<T> : MonoBehaviour, IPoolObject<T> where T : MonoBehavio
 
     private Stack<T> _poolToType = new Stack<T>();
 
-    private List<T> _totalPoolType = new List<T>();
+    [SerializeField] private List<T> _totalPoolType = new List<T>();
     public T Pull()
     {
         T cache = null;

@@ -13,8 +13,8 @@ namespace Battles.UI
     {
         #region Field
 
-        [SerializeField] private DeckManager _deckManager;
-        [SerializeField] private RectTransform _middleHandPos;
+       // [SerializeField] private DeckManager _deckManager;
+        //[SerializeField] private RectTransform _middleHandPos;
         [SerializeField] private CardUIPool _cardPool;
         
         private List<CardUI> _handCards;
@@ -102,30 +102,30 @@ namespace Battles.UI
                     Debug.LogError(name + " CardData in index " + i + " in null");
                 }
                 
-                //CardUI cache = _cardPool.Pull();
+                CardUI cache = _cardPool.Pull();
                 
                 AssignDataToCardUI(cache,cardData[i]);
                 
                 tempCardUI.Add(cache);
             }
             
-            for (int i = 0; i < cardData.Length; i++)
-            {
-                var card = _handUI.GetHandCardUIFromIndex(i);
-
-                if (cardData[i] == null)
-                {
-                    string cardsDrawn = "";
-                    for (int j = 0; j < cardData.Length; j++)
-                    {
-                        if (cardData[j] != null)
-                            cardsDrawn += cardData[j].ToString() + " " + cardData[j].CardSO.CardName + "\n";
-                        else
-                            cardsDrawn += "Card at index " + i + " Is null!\n";
-                    }
-                    Debug.LogError($"Drawn Card is null!!\n {cardsDrawn} ,\n");
-                }
-            }
+            // for (int i = 0; i < cardData.Length; i++)
+            // {
+            //     var card = _handUI.GetHandCardUIFromIndex(i);
+            //
+            //     if (cardData[i] == null)
+            //     {
+            //         string cardsDrawn = "";
+            //         for (int j = 0; j < cardData.Length; j++)
+            //         {
+            //             if (cardData[j] != null)
+            //                 cardsDrawn += cardData[j].ToString() + " " + cardData[j].CardSO.CardName + "\n";
+            //             else
+            //                 cardsDrawn += "Card at index " + i + " Is null!\n";
+            //         }
+            //         Debug.LogError($"Drawn Card is null!!\n {cardsDrawn} ,\n");
+            //     }
+            // }
 
             return tempCardUI.ToArray();
 

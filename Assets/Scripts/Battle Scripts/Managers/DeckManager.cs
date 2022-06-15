@@ -41,7 +41,7 @@ namespace Battles.Deck
         #region Public Functions
         public override void Init(ITokenReciever token)
         {
-            ResetDecks();
+           // ResetDecks();
         }
         public void ResetDecks()
         {

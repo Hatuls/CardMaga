@@ -9,7 +9,7 @@ namespace Battles.UI
     public class CardUI : MonoBehaviour, IEquatable<CardUI> , IPoolable<CardUI>
     {
         #region Fields
-        private CardGFX _cardGFX;
+        [SerializeField] private CardGFX _cardGFX;
    
         [SerializeField]
         private CanvasGroup _canvasGroup;
@@ -112,7 +112,7 @@ namespace Battles.UI
         public event Action<CardUI> OnDisposed;
         public void Init()
         {
-            
+            gameObject.SetActive(true);
         }
 
         #endregion

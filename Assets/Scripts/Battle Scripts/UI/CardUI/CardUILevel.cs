@@ -25,7 +25,6 @@ namespace Battles.UI.CardUIAttributes
                 case CardUILevelState.Missing:
                     _innerLevel.sprite = _artBank.MissingImage;
                     break;
-                
             }
         }
     }
