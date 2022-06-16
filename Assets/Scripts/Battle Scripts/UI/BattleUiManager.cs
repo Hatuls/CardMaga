@@ -18,7 +18,6 @@ namespace Battles.UI
 
 
         #region Events
-        [SerializeField] TextPopUpEvent _textEvent;
         [SerializeField] VoidEvent _endTurn;
 
         public static System.Action<bool, int, KeywordTypeEnum> _buffEvent;

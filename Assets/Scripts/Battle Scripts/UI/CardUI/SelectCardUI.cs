@@ -12,7 +12,7 @@ public class SelectCardUI : MonoBehaviour
     public void SetSelectCardUI(CardUI cardUI)
     {
         _selectCard.AssignData(cardUI.RecieveCardReference());
-        _selectCard.CardLocoMotionUI.Transition(cardUI.transform.position);
+        _selectCard.CardTransitionManager.Transition(cardUI.transform.position);
         _selectCard.GFX.SetActive(true);
     }
 

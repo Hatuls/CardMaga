@@ -17,7 +17,7 @@ namespace Battles.UI
         [SerializeField]
         private CardUIInputHandler _inputs;
         [SerializeField]
-        private CardLocoMotionUI _cardLocoMotionUI;
+        private RectTransitionManager _cardTransitionManager;
 
         #region Enum Selection
         [Flags]
@@ -83,10 +83,10 @@ namespace Battles.UI
             }
         }
 
-        public  CardLocoMotionUI CardLocoMotionUI {
+        public  RectTransitionManager CardTransitionManager {
             get
             {
-                return  _cardLocoMotionUI;
+                return  _cardTransitionManager;
             }
         }
         public CardAnimator CardAnimator

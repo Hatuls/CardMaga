@@ -122,8 +122,6 @@ namespace Battles
             else
                 EnemyDied();
 
-            TextPopUpHandler.Instance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
-
             Account.AccountManager.Instance.BattleData.PlayerWon = !isPlayerDied;
             UpdateStats();
 

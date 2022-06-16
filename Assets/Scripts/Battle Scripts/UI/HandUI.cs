@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Battles.Deck;
 using Battles.UI.CardUIAttributes;
 using Cards;
+using DG.Tweening;
 using FMOD;
 using UnityEngine;
 using UnityEngine.XR.WSA.Sharing;
@@ -20,8 +21,12 @@ namespace Battles.UI
         [SerializeField] private RectTransform _drawPos;
         [SerializeField] private CardUIManager _cardUIManager;
         [SerializeField] private float _spaceBetweenCard;
-        [SerializeField] private LocoMotionSO _drawTransition;
+        [SerializeField] private TransitionPackSO _drawTransition;
+        [SerializeField] private TransitionPackSO _discardTransition;
+
         [SerializeField] private float _delayBetweenCardDrawn;
+        
+        [SerializeField] private Canvas canvasTest;
     
         private List<CardSlot> _cardSlots;
 
@@ -65,18 +70,11 @@ namespace Battles.UI
 
         private void SetCardAtDrawPos(params CardUI[] cards)
         {
+         
             for (int i = 0; i < cards.Length; i++)
             {
-                cards[i].CardLocoMotionUI.Transition(_drawPos.transform.position);
+                cards[i].CardTransitionManager.Transition(_drawPos);
             }           
-            Debug.Log("LocalPos: " + _drawPos.transform.localPosition);
-            Debug.Log("Pos" + _drawPos.transform.position);
-            Debug.Log("RectPos: " + _drawPos.rect.position);
-            Debug.Log("AnchrPos: " + _drawPos.anchoredPosition);
-            Debug.Log("CamPos: " + Camera.main.ScreenToWorldPoint(_drawPos.transform.position));
-            Debug.Log("CamLocalPos: " + Camera.main.ScreenToWorldPoint(_drawPos.transform.localPosition));
-            Debug.Log("CamRectPos: " + Camera.main.ScreenToWorldPoint(_drawPos.rect.position));
-            Debug.Log("CamAnchrPos: " + Camera.main.ScreenToWorldPoint(_drawPos.anchoredPosition));
         }
         
         private IEnumerator MoveCardsToHandPos(IReadOnlyList<CardSlot> cardSlots,Action onComplete = null)
@@ -84,7 +82,7 @@ namespace Battles.UI
             for (int i = 0; i < cardSlots.Count; i++)
             {
                 cardSlots[i].CardUI.Init();
-                cardSlots[i].CardUI.CardLocoMotionUI.Transition(cardSlots[i].CardPos,_drawTransition);
+                //cardSlots[i].CardUI.CardLocoMotionUI.Transition(cardSlots[i].CardPos,_drawTransition);
                 yield return _waitForCardDrawnDelay;
             }
             onComplete?.Invoke();
@@ -128,7 +126,7 @@ namespace Battles.UI
         
         private Vector2 CalculateCardPosition(int index)
         {
-            Vector2 startPos = _middleHandPos.GetLocalPosition();
+            Vector2 startPos = _middleHandPos.position;
 
             Vector2 destination = startPos + Vector2.right * index * _spaceBetweenCard;
 

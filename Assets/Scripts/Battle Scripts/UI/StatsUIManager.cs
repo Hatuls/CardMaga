@@ -51,7 +51,6 @@ namespace Battles.UI
         public void UpdateShieldBar(bool isPlayer, int shield)
         {
             (isPlayer ? _playerBuffIconHandler : _opponentBuffIconHandler)?.UpdateArmour(shield);
-
         }
 
     }

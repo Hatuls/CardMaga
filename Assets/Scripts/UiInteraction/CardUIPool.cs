@@ -10,7 +10,7 @@ public class CardUIPool : MonoBehaviour
     [SerializeField]
     protected GameObject _prefabOfType;
 
-    [SerializeField] private RectTransform _spawnPos;
+    [SerializeField] private RectTransform _parent;
 
     private Stack<CardUI> _poolToType = new Stack<CardUI>();
 
@@ -29,7 +29,7 @@ public class CardUIPool : MonoBehaviour
 
     private CardUI GenerateNewOfType()
     {
-        CardUI cache = MonoBehaviour.Instantiate(_prefabOfType,_spawnPos).GetComponent<CardUI>();
+        CardUI cache = MonoBehaviour.Instantiate(_prefabOfType,_parent).GetComponent<CardUI>();
         cache.OnDisposed += AddToQueue;
         _totalPoolType.Add(cache);
         return cache;
