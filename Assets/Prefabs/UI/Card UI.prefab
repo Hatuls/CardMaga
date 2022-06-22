@@ -701,8 +701,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2213801214290407149}
   - component: {fileID: 7857753551886203321}
-  - component: {fileID: 5703102064819507616}
-  - component: {fileID: 3619468597790823475}
+  - component: {fileID: 1028420704563339371}
+  - component: {fileID: 6910529875417312520}
+  - component: {fileID: 4820772200743704073}
   - component: {fileID: 3318038313717640659}
   - component: {fileID: 6774362276483852640}
   - component: {fileID: 1614665514081002800}
@@ -777,10 +778,10 @@ MonoBehaviour:
     _canvasGroup: {fileID: 3318038313717640659}
     _bodyPartGFX: {fileID: 2067367578948034379}
   _canvasGroup: {fileID: 3318038313717640659}
-  _inputs: {fileID: 0}
-  _cardLocoMotionUI: {fileID: 5703102064819507616}
+  _inputs: {fileID: 6910529875417312520}
+  _cardTransitionManager: {fileID: 1028420704563339371}
   Card: 0
---- !u!114 &5703102064819507616
+--- !u!114 &1028420704563339371
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -789,11 +790,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6415996358653658824}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8587ba40ab87da4c98cf533de3effea, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ca1087e97f88f84a8de9d6b907ff1de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTransform: {fileID: 2213801214290407149}
---- !u!114 &3619468597790823475
+  _rectTransform: {fileID: 2213801214290407149}
+--- !u!114 &6910529875417312520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -802,10 +803,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 6415996358653658824}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0311906be1834b248ba2e072da709e86, type: 3}
+  m_Script: {fileID: 11500000, guid: d148a8a06c0b03b4a81bc8569b714c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTransform: {fileID: 2213801214290407149}
+  _touchableItem: {fileID: 4820772200743704073}
+  _cardUI: {fileID: 0}
+--- !u!114 &4820772200743704073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415996358653658824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b35f82cf945474cb329df821b0dea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _holdDelaySce: 0.5
+  IsTouchable: 0
 --- !u!225 &3318038313717640659
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -70,10 +70,11 @@ namespace Battles.UI
 
         private void SetCardAtDrawPos(params CardUI[] cards)
         {
-         
             for (int i = 0; i < cards.Length; i++)
             {
-                cards[i].CardTransitionManager.Transition(_drawPos);
+                cards[i].CardTransitionManager.SetPosition(_drawPos);
+                cards[i].CardTransitionManager.SetScale(0.1f);
+                
             }           
         }
         
@@ -82,7 +83,7 @@ namespace Battles.UI
             for (int i = 0; i < cardSlots.Count; i++)
             {
                 cardSlots[i].CardUI.Init();
-                //cardSlots[i].CardUI.CardLocoMotionUI.Transition(cardSlots[i].CardPos,_drawTransition);
+                cardSlots[i].CardUI.CardTransitionManager.Transition(cardSlots[i].CardPos,_drawTransition);
                 yield return _waitForCardDrawnDelay;
             }
             onComplete?.Invoke();

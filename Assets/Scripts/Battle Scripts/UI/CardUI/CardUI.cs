@@ -10,7 +10,6 @@ namespace Battles.UI
     {
         #region Fields
         [SerializeField] private CardGFX _cardGFX;
-   
         [SerializeField]
         private CanvasGroup _canvasGroup;
         private CardAnimator _cardAnimator;

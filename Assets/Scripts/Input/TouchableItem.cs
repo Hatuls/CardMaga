@@ -9,17 +9,33 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
 {
     [SerializeField] private float _holdDelaySce = .5f;
     
-    [FormerlySerializedAs("_isTouchable")] [HideInInspector] public bool IsTouchable = false;
+    private bool _isTouchable = false;
     private bool _isHold = false;
+
+
+    public enum State
+    {
+        Lock,
+        UnLock
+    }
     
-    public event Action OnClick;
-    public event Action OnBeginHold;
-    public event Action OnEndHold;
-    public event Action OnHold;
-    public event Action OnPointDown;
-    public event Action OnPointUp;
+
+    public State CurrentState { get; private set; }
+
+    
+    protected event Action OnClick;
+    protected event Action OnBeginHold;
+    protected event Action OnEndHold;
+    protected event Action OnHold;
+    protected event Action OnPointDown;
+    protected event Action OnPointUp;
 
 
+
+    protected void SetLockTouch(bool isLock)
+    {
+        _isTouchable = !isLock;
+    }
     
     private IEnumerator HoldDelay(PointerEventData eventData)
     {
@@ -44,7 +60,7 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
     
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (IsTouchable)
+        if (_isTouchable)
         {
             StartCoroutine(HoldDelay(eventData));
             OnPointDown?.Invoke();
@@ -53,7 +69,7 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (IsTouchable)
+        if (_isTouchable)
         {
             if (_isHold)
             {
@@ -77,5 +93,42 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
         StopAllCoroutines();
         OnClick?.Invoke();
         OnPointUp?.Invoke();
+    }
+    
+    private void ChangeState(State state)
+    {
+        CurrentState = state;
+
+        switch (CurrentState)
+        {
+            case State.Lock:
+                SetLockTouch(true);
+                break;
+            case State.UnLock:
+                SetLockTouch(false);
+                break;
+            default:
+                Debug.LogError(name + " State Not Set");
+                break;
+        }
+
+        Debug.Log(name + " is touchable set to " + _isTouchable);
+    }
+
+    [ContextMenu("ToggleState")]
+    public void ToggleState()
+    {
+        if (CurrentState == State.Lock)
+            ChangeState(State.UnLock);
+
+        else if (CurrentState == State.UnLock) ChangeState(State.Lock);
+    }
+
+    public void ForceChangeState(bool isTouchable)
+    {
+        if (isTouchable)
+            ChangeState(State.UnLock);
+        else
+            ChangeState(State.Lock);
     }
 }

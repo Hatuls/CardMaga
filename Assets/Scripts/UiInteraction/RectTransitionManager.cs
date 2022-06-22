@@ -11,12 +11,34 @@ public  class RectTransitionManager : MonoBehaviour
     public void Transition(RectTransform destination, TransitionPackSO transitionPackSo)
     {
         _rectTransform.Move(destination, transitionPackSo.Movement);
-        _rectTransform.Scale(transitionPackSo.Scale);
+        _rectTransform.Scale(1f,transitionPackSo.Scale);//test need work
+        _rectTransform.Rotate(destination, transitionPackSo.Rotation);
+    }
+    
+    public void Transition(Vector2 destination, TransitionPackSO transitionPackSo)
+    {
         _rectTransform.Move(destination, transitionPackSo.Movement);
+        _rectTransform.Scale(1f,transitionPackSo.Scale);//test need work
+        //_rectTransform.Rotate(destination, transitionPackSo.Rotation);
     }
 
-
+    public void SetPosition(RectTransform destination, Action onComplete = null)
+    {
+        Vector2 worldPos =  destination.transform.TransformPoint(destination.rect.center);
+        _rectTransform.Move(worldPos, 0,null,null,onComplete);
+    }
+    
+    public void SetScale(float scale, Action onComplete = null)
+    {
+        _rectTransform.Scale(scale, 0,null,onComplete);
+    }
+    
     public void Move(RectTransform destination, ITransitionReciever transition,Action onComplete = null)
+    {
+        _rectTransform.Move(destination, transition.Movement, onComplete);
+    }
+    
+    public void Move(Vector2 destination, ITransitionReciever transition,Action onComplete = null)
     {
         _rectTransform.Move(destination, transition.Movement, onComplete);
     }
@@ -132,27 +154,23 @@ public static class ScaleHelper
         return rect.Scale(scaleMultiplier, param?.TimeToTransition ?? 0, param?.AnimationCurveX,
             onComplete);
     }
+    
 // Fix it WIP
     public static Tween Scale(this RectTransform rect, float scaleMultiplier, float timeToTransition,
         AnimationCurve animationCurveX = null, Action onComplete = null)
     {
-        Vector2 scale = new Vector2(rect.rect.width * scaleMultiplier, rect.rect.height * scaleMultiplier);
         if (timeToTransition == 0)
         {
-            rect.sizeDelta = scale;
+            rect.localScale *= scaleMultiplier;
 
             onComplete?.Invoke();
             return null;
         }
-
- 
+        
         Tween TweenX;
-     
-
-        TweenX = rect.DOSizeDelta(scale, timeToTransition);
         
+        TweenX = rect.DOScale(Vector3.one * scaleMultiplier, timeToTransition);
         
-
         if (animationCurveX != null) TweenX.SetEase(animationCurveX);
 
 
