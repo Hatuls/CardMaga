@@ -11,17 +11,14 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
     
     private bool _isTouchable = false;
     private bool _isHold = false;
-
-
+    
     public enum State
     {
         Lock,
         UnLock
     }
     
-
     public State CurrentState { get; private set; }
-
     
     protected event Action OnClick;
     protected event Action OnBeginHold;
@@ -56,8 +53,7 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
         }
        
     }
-    
-    
+
     public void OnPointerDown(PointerEventData eventData)
     {
         if (_isTouchable)
