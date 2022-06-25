@@ -58,10 +58,16 @@ namespace CardMaga.Playfab
                 AndroidDevice = SystemInfo.deviceModel,
                 CreateAccount = true,
                 AuthenticationContext = loginResult?.AuthenticationContext ?? null
+                ,
+                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
+                {
+                    GetPlayerProfile = true,
+                    GetUserData = true
+                }
             },
              SuccessfullLogin,
              FailedLogin
-        );
+        ) ;
         }
 
 
@@ -80,7 +86,7 @@ namespace CardMaga.Playfab
             Debug.Log("Success! We Logged in!");
             PlayerLoginResult = loginResult;
             SaveLoginResult();
-
+            Account.AccountManager.Instance.OnLogin(loginResult);
             OnSuccessfullLogin?.Invoke(PlayerLoginResult);
 
         }

@@ -64,7 +64,7 @@ namespace UI.Meta.PlayScreen
         {
             _backgroundPanel.SetActive(isOn);
         }
-        public void CharacterChoosen(CharacterData character)
+        public void CharacterChoosen(Character character)
         {
             _playpackage.CharacterData = character;
 

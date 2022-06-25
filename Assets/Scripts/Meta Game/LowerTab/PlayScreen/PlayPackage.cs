@@ -6,11 +6,11 @@ namespace UI.Meta.PlayScreen
     public class PlayPackage
     {
         #region Fields
-        CharacterData _characterData;
+        Character _characterData;
         AccountDeck _deck;
         #endregion
         #region Properties
-        public CharacterData CharacterData { get => _characterData; set => _characterData = value; }
+        public Character CharacterData { get => _characterData; set => _characterData = value; }
         public AccountDeck Deck { get => _deck; set => _deck = value; } 
         #endregion
 

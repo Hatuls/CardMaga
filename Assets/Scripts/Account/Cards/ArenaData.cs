@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 namespace Account.GeneralData
@@ -7,12 +6,14 @@ namespace Account.GeneralData
     [Serializable]
     public class ArenaData
     {
-        private int homeArena;
-        private int characterID;
-        private int skin;
-        private DeckData deck;
-        private int loses;
-        private int wins;
+        [NonSerialized]
+        public const string PlayFabKeyName = "ArenaData";
+        [SerializeField] private int homeArena;
+        [SerializeField] private int characterID;
+        [SerializeField] private int skin;
+        [SerializeField] private DeckData deck;
+        [SerializeField] private int loses;
+        [SerializeField] private int wins;
 
         public int HomeArena { get => homeArena; set => homeArena = value; }
         public int CharacterID { get => characterID; set => characterID = value; }
@@ -20,17 +21,37 @@ namespace Account.GeneralData
         public DeckData Deck { get => deck; set => deck = value; }
         public int Loses { get => loses; set => loses = value; }
         public int Wins { get => wins; set => wins = value; }
+
+        internal bool IsValid()
+        {
+            // Will need to do valid checks
+            return true;
+        }
     }
     [Serializable]
     public class AccountResources
     {
-        private int _gold;
-        private int _diamonds;
-        private int _tickets;
+
+        [NonSerialized] public const string PlayFabKeyName = "ResourcesData";
+        [SerializeField] private int _gold;
+        [SerializeField] private int _diamonds;
+        [SerializeField] private int _tickets;
 
         public int Gold { get => _gold; set => _gold = value; }
         public int Diamonds { get => _diamonds; set => _diamonds = value; }
         public int Tickets { get => _tickets; set => _tickets = value; }
+
+        public AccountResources()
+        {
+            _gold = 0;
+            _diamonds = 0;
+            _tickets = 0;
+        }
+
+        internal bool IsValid()
+        {
+            return _gold >= 0 && _diamonds >= 0 && _tickets >= 0;
+        }
     }
     //[Serializable]
     //public class AccountCards : ILoadFirstTime

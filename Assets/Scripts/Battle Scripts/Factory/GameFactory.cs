@@ -24,6 +24,7 @@ namespace Factory
             {
                 if (_instance == null)
                 {
+                    //throw new Exception("Factory is null!");
                     CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
                     ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
                     CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
@@ -165,19 +166,19 @@ namespace Factory
                 return collection[UnityEngine.Random.Range(0, collecitonLength)];
             }
 
-            public Character CreateCharacter(CharacterSO characterSO) => new Character(characterSO);
+            public Characters.Character CreateCharacter(CharacterSO characterSO) => new Characters.Character(characterSO);
 
   
 
-            public Character CreateCharacter(CharacterData data, AccountDeck _deck)
-                => new Character(data, _deck);
-            internal Character CreateCharacter(CharacterTypeEnum character)
+            public Characters.Character CreateCharacter(Account.GeneralData.Character data, AccountDeck _deck)
+                => new Characters.Character(data, _deck);
+            internal Characters.Character CreateCharacter(CharacterTypeEnum character)
             {
                 var characterSO = CharacterCollection.CharactersSO;
                 for (int i = 0; i < characterSO.Length; i++)
                 {
                     if (characterSO[i].CharacterType == character)
-                        return new Character(characterSO[i]);
+                        return new Characters.Character(characterSO[i]);
                 }
                 throw new Exception($"Could not create Character class because {characterSO} was not found in the SO !");
             }

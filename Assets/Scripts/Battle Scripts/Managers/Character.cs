@@ -13,7 +13,7 @@ namespace Characters
         [SerializeField]
         CharacterBattleData _characterData;
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
-        public Character(CharacterData data, AccountDeck _deck)
+        public Character(Account.GeneralData.Character data, AccountDeck _deck)
         {
             if (data == null)
                 throw new Exception($"Character: CharacterData is null!");

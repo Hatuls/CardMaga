@@ -1,5 +1,6 @@
 ﻿using Account.GeneralData;
-using Battles;
+using PlayFab;
+using PlayFab.ClientModels;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
@@ -36,17 +37,44 @@ namespace Account
             }
         }
         #endregion
-        private AccountData _accountData = new AccountData();
+        [NonSerialized]
+        private AccountData _accountData;
+        public LoginResult LoginResult { get; private set; }
+ 
+        private IDisposable _loginDisposable;
+
         public AccountData Data => _accountData;
+
         private void Awake()
         {
             _instance = this;
         }
-        internal void Init(ITokenReciever tokenReciever)
+
+    
+        private void OnError(PlayFabError playFabError)
         {
-//PlayFab.PlayFabClientAPI.GetUserData(new PlayFab.ClientModels.GetUserDataRequest())          
+            _loginDisposable.Dispose();
+        }
 
+        public void SendAccountData(ITokenReciever tokenReciever = null)
+        {
+            PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
 
+            if (tokenReciever != null)
+                _loginDisposable = tokenReciever.GetToken();
+        }
+
+        private void OnDataRecieved(UpdateUserDataResult obj)
+        {
+            _loginDisposable.Dispose();
+        }
+
+    
+        public void OnLogin(LoginResult loginResult)
+        {
+            LoginResult = loginResult;
+            _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
+            _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New Player";
         }
     }
 
@@ -55,83 +83,134 @@ namespace Account
     {
         [SerializeField] private string _displayName = "New Player";
         [SerializeField] private AccountGeneralData _accountGeneralData;
-        [SerializeField] private List<CharacterData> _characterData;
+        [SerializeField] private CharactersData _charactersData;
 
         [SerializeField] private LevelData _accountLevel;
-        [SerializeField] private AccountResources accountResources;
+        [SerializeField] private AccountResources _accountResources;
 
         [SerializeField] private ArenaData _arenaData;
 
+        public bool IsFirstTimeUser { get; private set; }
         public string DisplayName { get => _displayName; set => _displayName = value; }
-        public void AddCharacter(CharacterSO newCharacter)
-        {
-            if (_characterData.Find(x => x.Id == newCharacter.ID) == null)
-                _characterData.Add(new CharacterData(newCharacter));
-        }
+        public AccountGeneralData AccountGeneralData { get => _accountGeneralData;}
+
+        //public void AddCharacter(CharacterSO newCharacter)
+        //{
+        //    if (_characterData.Find(x => x.Id == newCharacter.ID) == null)
+        //        _characterData.Add(new Character(newCharacter));
+        //}
+
+
+        #region Constructors
         public AccountData()
         {
-            _characterData = new List<CharacterData>();
-            _accountGeneralData = new AccountGeneralData();
+            CreateNewArenaData();
+            CreateNewResourcesData();
+            CreateNewLevelData();
+            CreateNewCharacterData();
+            CreateNewGeneralData();
+            IsFirstTimeUser = true;
+        }
+
+        public AccountData(Dictionary<string, UserDataRecord> data)
+        {
+            UserDataRecord result;
+
+            // Account General Data
+            if (data.TryGetValue(AccountGeneralData.PlayFabKeyName, out result))
+            {
+                _accountGeneralData = JsonUtility.FromJson<AccountGeneralData>(result.Value);
+                if(_accountGeneralData == null || !_accountGeneralData.IsValid())
+                CreateNewGeneralData();
+            }
+            else
+                CreateNewGeneralData();
+
+            if (data.TryGetValue(ArenaData.PlayFabKeyName, out result))
+            {
+                _arenaData = JsonUtility.FromJson<ArenaData>(result.Value);
+                if(_arenaData == null || !_arenaData.IsValid())
+                CreateNewArenaData();
+            }
+            else
+                CreateNewArenaData();
+
+            // Characters & Deck
+            if (data.TryGetValue(CharactersData.PlayFabKeyName, out result))
+            {
+                _charactersData = JsonUtility.FromJson<CharactersData>(result.Value);
+
+                if (_charactersData  == null || !_charactersData.IsValid())
+                CreateNewCharacterData();
+            }
+            else
+                CreateNewCharacterData();
+
+            // Levels
+            if (data.TryGetValue(LevelData.PlayFabKeyName, out result))
+            {
+                _accountLevel = JsonUtility.FromJson<LevelData>(result.Value);
+                if(_accountLevel == null || !_accountLevel.IsValid())
+                    CreateNewLevelData();
+            }
+            else
+                CreateNewLevelData();
+
+            // Resources
+            if (data.TryGetValue(AccountResources.PlayFabKeyName, out result))
+            {
+                _accountResources = JsonUtility.FromJson<AccountResources>(result.Value);
+                if(_accountResources  == null ||!_accountResources.IsValid())
+                CreateNewResourcesData();
+            }
+            else
+                CreateNewResourcesData();
+
+            IsFirstTimeUser = false;
+        }
+        #endregion
+        
+        public UpdateUserDataRequest GetUpdateRequest()
+        {
+            return new UpdateUserDataRequest()
+            {
+                Data = new Dictionary<string, string>()
+                {
+                    { AccountGeneralData.PlayFabKeyName, JsonUtility.ToJson(_accountGeneralData) },
+                    { CharactersData.PlayFabKeyName, JsonUtility.ToJson(_charactersData) },
+                    { LevelData.PlayFabKeyName, JsonUtility.ToJson(_accountLevel) },
+                    { AccountResources.PlayFabKeyName, JsonUtility.ToJson(_accountResources) },
+                    { ArenaData.PlayFabKeyName, JsonUtility.ToJson(_arenaData) },
+                }
+            };
+        } 
+        #region Create Account Data
+        private void CreateNewArenaData()
+        {
+            _arenaData = new ArenaData();
+        }
+        private void CreateNewResourcesData()
+        {
+            _accountResources = new AccountResources();
+        }
+        private void CreateNewLevelData()
+        {
             _accountLevel = new LevelData();
         }
+        private void CreateNewCharacterData()
+        {
+
+            _charactersData = new CharactersData();
+            Battles.CharacterSO firstCharacter = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
+            _charactersData.AddCharacter(new Character(firstCharacter));
+        }
+        private void CreateNewGeneralData()
+        {
+            _accountGeneralData = new AccountGeneralData();
+
+        }
+        #endregion
     }
-    //    [SerializeField] AccountCards _accountCards;
-
-    //    [SerializeField] AccountCombos _accountCombos;
-
-    //    [SerializeField] AccountSettingsData _accountSettingsData;
-
-    //    [SerializeField] AccountCharacters _accountCharacters;
-
-    //    [SerializeField] BattleData _battleData;
-
-    //    public AccountCharacters AccountCharacters { get => _accountCharacters; private set => _accountCharacters = value; }
-    //    public AccountCards AccountCards { get => _accountCards; private set => _accountCards = value; }
-    //    public AccountCombos AccountCombos { get => _accountCombos; private set => _accountCombos = value; }
-    //    public AccountSettingsData AccountSettingsData { get => _accountSettingsData; private set => _accountSettingsData = value; }
-    //    public AccountGeneralData AccountGeneralData { get => _accountGeneralData; private set => _accountGeneralData = value; }
-    //    public BattleData BattleData { get => _battleData; set => _battleData = value; }
-    //    public ScenesEnum CurrentScene { get => _lastScene; set => _lastScene = value; }
-
-    //    [SerializeField]
-    //    ScenesEnum _lastScene;
-
-    //    public void NewLoad()
-    //    {
-    //        AccountSettingsData = new AccountSettingsData();
-    //         AccountSettingsData.NewLoad();
-    //        AccountGeneralData = new AccountGeneralData();
-    //         AccountGeneralData.NewLoad();
-    //        AccountCards = new AccountCards();
-    //         AccountCards.NewLoad();
-    //        AccountCombos = new AccountCombos();
-    //         AccountCombos.NewLoad();
-    //        AccountCharacters = new AccountCharacters();
-    //         AccountCharacters.NewLoad();
-    //        _battleData = new BattleData();
-    //        _battleData.ResetData();
-
-    //    }
-
-    //    public bool IsCorrupted()
-    //    {
-    //        bool isCorrupted = false;
-    //        isCorrupted |= AccountSettingsData.IsCorrupted();
-    //        isCorrupted |= AccountGeneralData.IsCorrupted();
-    //        isCorrupted |= AccountCards.IsCorrupted();
-    //        isCorrupted |= AccountCombos.IsCorrupted();
-    //        isCorrupted |= AccountCharacters.IsCorrupted();
-
-    //        return isCorrupted;
-    //    }
-    //}
-    //[System.Serializable]
-    //public class RewardGift
-    //{
-    //    public bool NeedToBeRewarded { get => _needToBeRewarded; set => _needToBeRewarded = value; }
-
-    //    [SerializeField] bool _needToBeRewarded = false;
-    //}
 }
 
 

@@ -11,7 +11,8 @@ public class VersionHander : MonoBehaviour
     public static event Action<PlayFabError> OnTitleDataRecievedFailed;
     public static event Action<PlayFabError> OnFailedToUpdateUsersVersion;
     public static event Action OnTitleCorruptedData;
-    const string Version = "GeneralInfo";
+    const string Version = "Version";
+    const string ServerVersion = "ServerVersion";
 
 
     private CardMaga.General.GameVersion _serverVersion = null;
@@ -53,7 +54,6 @@ public class VersionHander : MonoBehaviour
 
     public void Init(ITokenReciever token)
     {
-
         FireBaseHandler.Init(token);
         UnityAnalyticHandler.SendEvent(Application.version);
 
@@ -62,14 +62,7 @@ public class VersionHander : MonoBehaviour
         if (!_ignoreServerVersion)
             RequestVersions();
         else
-            VersionMatch();
-
-
-        WebRequests.Get(
-            path,
-           Debug.Log,
-           OnGameVersionRecieved
-            );
+            VersionMatch(null);
     }
 
 
@@ -80,7 +73,7 @@ public class VersionHander : MonoBehaviour
 
     private void GetServerVersion(GetTitleDataResult obj)
     {
-        if (obj != null && obj.Data != null && obj.Data.TryGetValue(Version, out string serverVersion))
+        if (obj != null && obj.Data != null && obj.Data.TryGetValue(ServerVersion, out string serverVersion))
         {
             _serverVersion = JsonUtilityHandler.LoadFromJson<CardMaga.General.GameVersion>(serverVersion);
             CheckVersion();
@@ -96,56 +89,26 @@ public class VersionHander : MonoBehaviour
         else if (_serverVersion.Version == Application.version)
         {
             // Updating the version in the player
+
+       
             _playfabManager.SendUserData(
                 new System.Collections.Generic.Dictionary<string, string>
                 {
                     { Version, Application.version }
                 },
-                (result) => Debug.Log("Updated user's Version"),
-                 OnFailedToUpdateUsersVersion);
-            VersionMatch();
+                VersionMatch,
+                OnFailedToUpdateUsersVersion);
+     
         }
         else
         {
             _versionUI.SetActive(true);
         }
     }
-    private void VersionMatch()
+    private void VersionMatch(UpdateUserDataResult result)
     {
         _token?.Dispose();
-    }
-
-    /// <summary>
-    /// delete this
-    /// </summary>
-    /// <param name="data"></param>
-    private void OnGameVersionRecieved(string data)
-    {
-        _gv = JsonUtility.FromJson<GameVersion>(data);
-        DefaultVersion._gameVersion = _gv;
-
-        CheckVersion(_gv);
-
-    }
-
-
-    /// <summary>
-    /// delete this
-    /// </summary>
-    /// <param name="currentVersion"></param>
-    private void CheckVersion(GameVersion currentVersion)
-    {
-
-        if (PlayerPrefs.GetString(Version) == currentVersion.Version)
-        {
-
-
-        }
-        else
-        {
-
-            PlayerPrefs.SetString(Version, currentVersion.Version);
-        }
+        Debug.Log("Updated user's Version");
     }
 
     public void QuitApp()
@@ -164,7 +127,7 @@ namespace CardMaga.General
     }
 }
 
-[System.Serializable]
+[Serializable]
 /// delete this and move this to playfab server
 public class GameVersion
 {
@@ -194,7 +157,7 @@ namespace CardMaga.Tools.Json
         public static T LoadFromJson<T>(string json)
         => JsonUtility.FromJson<T>(json);
         public static string ToJson(this object data)
-      => JsonUtility.ToJson(data);
+         => JsonUtility.ToJson(data);
     }
 
 }

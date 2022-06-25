@@ -1,22 +1,43 @@
 ﻿using Battles;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 namespace Account.GeneralData
 {
     [Serializable]
-    public class CharacterData
+    public class CharactersData 
     {
-        private int _id;
-        private int _currentSkin;
-        private int _exp;
-        private int _skillPoint;
-        private int _rank;
-        private int _deckAmount = 1;
+        [NonSerialized]
+        public const string PlayFabKeyName = "CharactersData";
+        [SerializeField]
+        private List<Character> _characters = new List<Character>();
+    
+        public void AddCharacter(Character character)
+        {
+            if (!_characters.Contains(character))
+            {
+                _characters.Add(character);
+            }
+        }
+        public bool IsValid()
+       => _characters.Count > 0;
 
-        private List<int> _availableSkins = new List<int>();
-        private List<DeckData> _deck = new List<DeckData>();
+       
+    }
+    [Serializable]
+    public class Character
+    {
+       [SerializeField]   private int _id;
+       [SerializeField]   private int _currentSkin;
+       [SerializeField]   private int _exp;
+       [SerializeField]   private int _skillPoint;
+       [SerializeField]   private int _rank;
+        [SerializeField] private int _deckAmount = 1;
 
-        public CharacterData(CharacterSO newCharacter)
+    [SerializeField]      private List<int> _availableSkins = new List<int>();
+        [SerializeField] private List<DeckData> _deck = new List<DeckData>();
+
+        public Character(CharacterSO newCharacter)
         {
             _id = newCharacter.ID;
             _currentSkin = 0;
@@ -163,13 +184,13 @@ namespace Account.GeneralData
         //  #endregion
     }
 
-  
+  [Serializable]
     public class DeckData
     {
-        private int _id;
-        private string _name;
-        private CardInstanceID.CardCore[] _cards;
-        private Combo.Combo[] _combos;
+        [SerializeField]  private int _id;
+        [SerializeField]  private string _name;
+        [SerializeField]  private CardInstanceID.CardCore[] _cards;
+        [SerializeField] private Combo.Combo[] _combos;
 
         public DeckData(int id, string name, CardInstanceID.CardCore[] cards, Combo.Combo[] combos)
         {

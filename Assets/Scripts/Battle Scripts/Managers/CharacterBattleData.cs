@@ -36,7 +36,7 @@ namespace Characters
             //_characterStats = CharacterSO.CharacterStats;
         }
         // Need To be Re-Done
-        public CharacterBattleData(CharacterData data, AccountDeck _deck)
+        public CharacterBattleData(Account.GeneralData.Character data, AccountDeck _deck)
         {
             //if (data == null)
             //    throw new Exception($"CharacterBattleData : Did not constructed because CharacterData is null!");
