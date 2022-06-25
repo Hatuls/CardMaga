@@ -20,12 +20,12 @@ namespace CardMaga.Map
         public override void ActivatePoint()
         {
             _observerSO.Notify(this);
-            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(_rarityBasedOn, Rewards.ActsEnum.ActOne, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
-            if (rewardBundle == null)
-                throw new Exception("Reward Bundle is null!");
+          //  var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(_rarityBasedOn, Rewards.ActsEnum.ActOne, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
+          //  if (rewardBundle == null)
+         //       throw new Exception("Reward Bundle is null!");
 
             OnEnterNode.PlaySound();
-            BattleUIRewardHandler.Instance.OpenChestScreen(rewardBundle);
+       //     BattleUIRewardHandler.Instance.OpenChestScreen(rewardBundle);
             MapPlayerTracker.Instance.view.SetAttainableNodes();
             MapView.Instance.ShowMap(MapManager.Instance.CurrentMap);
         }

@@ -7,16 +7,16 @@ namespace Account.GeneralData
     {
         #region Fields
         [SerializeField]
-        ushort _id;
+        int _id;
         [SerializeField]
-        byte _level;
+        int _level;
         #endregion
         #region Properties
-        public ushort ID => _id;
-        public byte Level => _level;
+        public int ID => _id;
+        public int Level => _level;
         #endregion
         #region Public Methods
-        public CombosAccountInfo(ushort id, byte level)
+        public CombosAccountInfo(int id, int level)
         {
             _id = id;
             _level = level;

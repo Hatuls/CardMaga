@@ -35,14 +35,15 @@ namespace UI.Meta.PlayScreen
                 _comboUI[i].gameObject.SetActive(false);
             }
         }
+        // Need To be Re-Done
         private void ShowCombos(CharacterData character)
         {
-            var factorycomboCollection = Factory.GameFactory.Instance.ComboFactoryHandler.ComboCollection;
-            for (int i = 0; i < character.CharacterCombos.Length; i++)
-            {
-                _comboUI[i].gameObject.SetActive(true);
-                _comboUI[i].Init(factorycomboCollection.GetCombo(character.CharacterCombos[i].ID), character.CharacterCombos[i].Level, _artSO);
-            }
+            //var factorycomboCollection = Factory.GameFactory.Instance.ComboFactoryHandler;
+            //for (int i = 0; i < character.CharacterCombos.Length; i++)
+            //{
+            //    _comboUI[i].gameObject.SetActive(true);
+            //    _comboUI[i].Init(factorycomboCollection.GetComboSO(character.CharacterCombos[i].ID), character.CharacterCombos[i].Level, _artSO);
+          //  }
         }
         #endregion
     }

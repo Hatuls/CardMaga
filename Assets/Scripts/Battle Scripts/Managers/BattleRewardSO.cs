@@ -102,6 +102,7 @@ namespace Rewards
             ushort Diamonds = RandomAmount(ResourceEnum.Diamonds, act);
             return new RunReward(EXP, Diamonds);
         }
+        //refactor this method
         public Card[] GenerateCardsRewards(ActsEnum actsEnum, byte CardAmount = 3)
         {
             var actCardChance = _cardChances.First(x => x.ActEnum == actsEnum);
@@ -168,7 +169,7 @@ namespace Rewards
                         break;
                     }
                 }
-                var card = cardFactoryHandler.CardCollection.GetCard(CardId);
+                var card = cardFactoryHandler.GetCard(CardId);
 
                 rewardCards[i] = cardFactoryHandler.CreateCard(card, (card.CardsMaxLevel < (byte)index) ? (byte)(card.CardsMaxLevel - 1) : (byte)index);
 
@@ -179,7 +180,7 @@ namespace Rewards
 
             return rewardCards;
         }
-
+        //refactor this method
         public Combo.Combo[] GenerateComboReward(ActsEnum actsEnum, IEnumerable<Combo.Combo> workOnCombo, byte amount = 1)
         {
             // roll combos from rarity 
@@ -194,10 +195,10 @@ namespace Rewards
             var comboFactoryHandler = Factory.GameFactory.Instance.ComboFactoryHandler;
             var comboCollection = comboFactoryHandler.ComboCollection;
 
-            var comboIDs = workOnCombo.Select(x => new { ID = x.ComboSO.ID });
+            var comboIDs = workOnCombo.Select(x => new { ID = x.ID });
 
             Combo.Combo[] combo = new Combo.Combo[amount];
-            List<ushort> allPossibleCombosIDFromChances = new List<ushort>();
+            List<int> allPossibleCombosIDFromChances = new List<int>();
             byte[] chances = new byte[comboChances.Length];
             for (int j = 0; j < chances.Length; j++)
             {
@@ -208,13 +209,13 @@ namespace Rewards
                     allPossibleCombosIDFromChances.AddRange(ids);
                 }
             }
-            allPossibleCombosIDFromChances = allPossibleCombosIDFromChances.Except(workOnCombo.Select(x => x.ComboSO.ID)).ToList();
+            allPossibleCombosIDFromChances = allPossibleCombosIDFromChances.Except(workOnCombo.Select(x => x.ID)).ToList();
 
             if (allPossibleCombosIDFromChances.Count == 0)
                 return combo;
 
             var factory = Factory.GameFactory.Instance.ComboFactoryHandler;
-            var possibleCombos = factory.ComboCollection.GetComboSOFromIDs(allPossibleCombosIDFromChances).ToList();
+            var possibleCombos = factory.GetComboSOFromIDs(allPossibleCombosIDFromChances).ToList();
 
             for (int i = 0; i < amount; i++)
             {

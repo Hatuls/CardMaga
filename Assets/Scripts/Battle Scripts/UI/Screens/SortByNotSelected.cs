@@ -13,20 +13,21 @@ namespace Rei.Utilities
         [SerializeField]
         MetaCardUIFilterScreen filterHandler;
         
-        public ushort? ID { get; set; }
+        public int? ID { get; set; }
 
-
+        // need to be re done
         public override IEnumerable<Card> Sort()
         {
-            var accountCards = toUseAccoundCards ? Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(Account.AccountManager.Instance.AccountCards.CardList.ToArray()) :
-                Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
+            //var accountCards = toUseAccoundCards ? Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(Account.AccountManager.Instance.AccountCards.CardList.ToArray()) :
+            //    Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
 
-            var sortedDeck = accountCards.Where(x => x.CardLevel < x.CardSO.CardsMaxLevel - 1);
+            //var sortedDeck = accountCards.Where(x => x.CardLevel < x.CardSO.CardsMaxLevel - 1);
 
-            if (ID == null)
-                return sortedDeck;
+            //if (ID == null)
+            //    return sortedDeck;
 
-            return sortedDeck.Where(x => x.CardInstanceID != ID);
+            //return sortedDeck.Where(x => x.CardInstanceID != ID);
+            return null;
         }
 
         public override void SortRequest()

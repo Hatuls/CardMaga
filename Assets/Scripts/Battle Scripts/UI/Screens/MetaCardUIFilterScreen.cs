@@ -33,20 +33,20 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
 
     private int GetCollectionLength()
     {
-        switch (_collectionType)
-        {
-            case CollectionEnum.AccountCardsCollection:
-                return Account.AccountManager.Instance.AccountCards.CardList.Count;
-            case CollectionEnum.RunCardsCollection:
-                return Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck.Length;
-            case CollectionEnum.DeckCollection:
-                const int deckLength = 8;
-                return deckLength;
-            default:
-                Debug.LogError($"CollectionEnum Was not set {_collectionType}");
-                return 0;
-        }
-
+        //switch (_collectionType)
+        //{
+        //    case CollectionEnum.AccountCardsCollection:
+        //        return Account.AccountManager.Instance.AccountCards.CardList.Count;
+        //    case CollectionEnum.RunCardsCollection:
+        //        return Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck.Length;
+        //    case CollectionEnum.DeckCollection:
+        //        const int deckLength = 8;
+        //        return deckLength;
+        //    default:
+        //        Debug.LogError($"CollectionEnum Was not set {_collectionType}");
+        //        return 0;
+        //}
+        return 0;
     }
 
     protected override void OnActivate(IEnumerable<Card> sortedDeck, int i)

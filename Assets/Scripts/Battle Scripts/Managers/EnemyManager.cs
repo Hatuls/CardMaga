@@ -29,6 +29,9 @@ namespace Battles
         public Cards.Card[] Deck => _deck;
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
+
+        [SerializeField,Sirenix.OdinInspector.MinMaxSlider(0,10f)]
+        private Vector2 _delayTime;
         #region Public Methods
         public override void Init(ITokenReciever token)
         {
@@ -106,7 +109,8 @@ namespace Battles
             bool noMoreCardsAvailable = false;
             do
             {
-           var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
+                var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
+                bool isCardExecuted = false;
                 do
                 {
                     yield return null;
@@ -121,8 +125,15 @@ namespace Battles
             
                     if (enemyAction!= null && staminaHandler.IsEnoughStamina(false, enemyAction))
                         DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, enemyAction);
-             
-                } while (enemyAction == null || !CardExecutionManager.Instance.TryExecuteCard(false, enemyAction));
+                    isCardExecuted = CardExecutionManager.Instance.CanPlayCard(false, enemyAction);
+         
+                } while (enemyAction == null || !isCardExecuted);
+
+                if (isCardExecuted)
+                {
+                    yield return new WaitForSeconds(Random.Range(_delayTime.x,_delayTime.y));
+                    CardExecutionManager.Instance.TryExecuteCard(false, enemyAction);
+                }
 
                 if (noMoreCardsAvailable == false)
                 {

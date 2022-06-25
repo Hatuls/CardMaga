@@ -224,9 +224,9 @@ namespace Rewards
     public class PackReward
     {
         public ResourceStock Reward { get; private set; }
-        public CardCoreInfo RewardCard { get; private set; }
+        public CardInstanceID RewardCard { get; private set; }
 
-        public PackReward(CardCoreInfo rewardCard, ResourceStock reward = null)
+        public PackReward(CardInstanceID rewardCard, ResourceStock reward = null)
         {
             Reward = reward;
             RewardCard = rewardCard;

@@ -49,7 +49,7 @@ namespace Cards
         public CardTypeEnum CardTypeEnum => CardType.CardType;
 
 
-        public string CardDescription(byte level)
+        public string CardDescription(int level)
         {
             string description = string.Empty;
             int length = PerLevelUpgrade[level].Description.Length;
@@ -120,7 +120,7 @@ namespace Cards
 
 
         #region Methods
-        public PerLevelUpgrade GetLevelUpgrade(byte level)
+        public PerLevelUpgrade GetLevelUpgrade(int level)
         {
 
             if (level >=0 && level< PerLevelUpgrade.Length)
@@ -129,12 +129,12 @@ namespace Cards
             throw new System.Exception($"CardSO: ID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
         }
 
-        public ushort GetCostPerUpgrade(byte level)
+        public ushort GetCostPerUpgrade(int level)
         {
             return GetLevelUpgrade(level).PurchaseCost;
         }
 
-        public KeywordData[] KeywordsCombin(byte lvl)
+        public KeywordData[] KeywordsCombin(int lvl)
         {
             var combines = GetLevelUpgrade(lvl);
 

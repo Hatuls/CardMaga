@@ -109,7 +109,7 @@ namespace UI.Meta.Laboratory
             {
                 SetCostText();
                 _upgradedComboUI.InitRecipe(upgradedVersion);
-                _comboSort.ID =_selectedComboUI.Combo.ComboSO.ID ;
+                _comboSort.ID =_selectedComboUI.Combo.ID ;
                 _comboSort.SortRequest(); 
             }
             else

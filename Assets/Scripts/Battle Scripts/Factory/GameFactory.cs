@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static CardMaga.ActDifficultySO;
+using System.Linq;
 
 namespace Factory
 {
@@ -96,20 +97,66 @@ namespace Factory
         public class CharacterFactory
         {
             public CharacterCollectionSO CharacterCollection { get; private set; }
+            private Dictionary<int, CharacterSO> _charactersDictionary;
+            public IReadOnlyDictionary<int, CharacterSO> CharactersDictionary => _charactersDictionary;
             public CharacterFactory(CharacterCollectionSO characterCollection)
             {
                 CharacterCollection = characterCollection;
+                var collection = CharacterCollection.CharactersSO;
+                int length = collection.Length;
+
+                _charactersDictionary = new Dictionary<int, CharacterSO>(length);
+
+                for (int i = 0; i < length; i++)
+                    _charactersDictionary.Add(collection[i].ID, collection[i]);
+            }
+            public CharacterSO GetCharacterSO(CharacterTypeEnum type)
+            {
+                var _charactersSO = CharacterCollection.CharactersSO;
+                int length = _charactersSO.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    if (_charactersSO[i].CharacterType == type)
+                        return _charactersSO[i];
+                }
+
+                throw new Exception($"Could not find the character type: {type}\nin the character collections");
             }
 
-            public CharacterSO GetCharacterSO(CharacterTypeEnum character)
-            => CharacterCollection.GetCharacterSO(character);
-            internal CharacterSO GetCharacterSO(CharacterEnum characterEnum)
-             => CharacterCollection.GetCharacterSO(characterEnum);
+            public CharacterSO[] GetCharactersSO(CharacterTypeEnum type, NodeLevel NodeLevelsRange)
+            {
+                int rightIndex = type == CharacterTypeEnum.Elite_Enemy ? 1 : 0;
+                var range = NodeLevelsRange.MinMaxCharacters[rightIndex];
 
+                return GetCharactersSO(type).Where(
+                    diffuclty =>
+                    (diffuclty.CharacterDiffciulty >= range.MinDiffculty &&
+                    diffuclty.CharacterDiffciulty <= range.MaxDiffculty)
+                    ).ToArray();
+            }
+            public CharacterSO[] GetCharactersSO(CharacterTypeEnum type) => CharacterCollection.CharactersSO.Where(character => (character.CharacterType == type)).ToArray();
+
+            public CharacterSO GetCharacterSO(CharacterEnum characterEnum)
+            {
+                if (characterEnum != CharacterEnum.Enemy)
+                {
+                    var _charactersSO = CharacterCollection.CharactersSO;
+                    var length = _charactersSO.Length;
+                    for (int i = 0; i < length; i++)
+                    {
+                        if (_charactersSO[i].CharacterEnum == characterEnum)
+                            return _charactersSO[i];
+                    }
+                }
+                throw new Exception($"Character Collection: tried to get CharacterSO from character collection through the parameter CharacterEnum: <a>{characterEnum}</a>\n check if such characterSO exist in resource folder or in the collection!");
+
+            }
+      
+         
 
             public CharacterSO GetRandomCharacterSO(CharacterTypeEnum character, NodeLevel NodeLevelsRange)
             {
-                var collection = CharacterCollection.GetCharactersSO(character, NodeLevelsRange);
+                var collection = GetCharactersSO(character, NodeLevelsRange);
                 int collecitonLength = collection.Length;
 
                 if (collecitonLength == 0)
@@ -120,24 +167,7 @@ namespace Factory
 
             public Character CreateCharacter(CharacterSO characterSO) => new Character(characterSO);
 
-            public CharacterSO[] GetCharactersSO(CharacterTypeEnum characterType)
-            {
-
-                List<CharacterSO> characterFound = new List<CharacterSO>();
-                CharacterSO[] characterSOs = CharacterCollection.CharactersSO;
-                for (int i = 0; i < characterSOs.Length; i++)
-                {
-                    if (characterSOs[i].CharacterType == characterType)
-                    {
-                        characterFound.Add(characterSOs[i]);
-                    }
-                }
-                if (characterFound.Count == 0)
-                {
-                    throw new Exception($"GameFactory did not find a character from {characterType}");
-                }
-                return characterFound.ToArray();
-            }
+  
 
             public Character CreateCharacter(CharacterData data, AccountDeck _deck)
                 => new Character(data, _deck);
@@ -155,32 +185,37 @@ namespace Factory
         public class ComboFactory
         {
             public ComboCollectionSO ComboCollection { get; private set; }
-
+            private Dictionary<int, ComboSO> _comboDictionary;
             public ComboFactory(ComboCollectionSO comboCollection)
             {
                 ComboCollection = comboCollection;
-                comboCollection.AssignDictionary();
+
+                var combos =  ComboCollection.AllCombos;
+                int combosLength = combos.Length;
+
+                _comboDictionary = new Dictionary<int, ComboSO>(combosLength);
+
+                for (int i = 0; i < combosLength; i++)
+                    _comboDictionary.Add(combos[i].ID, combos[i]);
+
             }
-            public Combo.Combo[] CreateCombo(CharacterSO.RecipeInfo[] recipeInfos)
+            public Combo.Combo[] CreateCombos(ComboSO[] combosSO)
             {
-                if (recipeInfos != null)
+                if (combosSO != null)
                 {
-                    Combo.Combo[] combos = new Combo.Combo[recipeInfos.Length];
-                    for (int i = 0; i < recipeInfos.Length; i++)
-                        combos[i] = CreateCombo(recipeInfos[i]);
+                    Combo.Combo[] combos = new Combo.Combo[combosSO.Length];
+                    for (int i = 0; i < combosSO.Length; i++)
+                        combos[i] = CreateCombo(combosSO[i]);
 
                     return combos;
                 }
                 return null;
             }
 
-            public Combo.Combo CreateCombo(CharacterSO.RecipeInfo recipe)
-            => new Combo.Combo(recipe);
-
-            public Combo.Combo CreateCombo(ComboSO comboSO, byte level = 0)
+            public Combo.Combo CreateCombo(ComboSO comboSO, int level = 0)
                => new Combo.Combo(comboSO, level);
 
-            internal Combo.Combo[] CreateCombo(CombosAccountInfo[] characterCombos)
+            public Combo.Combo[] CreateCombo(CombosAccountInfo[] characterCombos)
             {
                 if (characterCombos == null)
                     throw new Exception("Combo Factory: characterCombos is null!");
@@ -193,39 +228,65 @@ namespace Factory
                 }
                 return combos;
             }
-
+            public ComboSO[] GetComboSOFromIDs(IEnumerable<int> ids)
+            {
+                return ids.Select(x => GetComboSO(x)).ToArray();
+            }
+            public ComboSO GetComboSO(int id)
+            {
+                if (_comboDictionary.TryGetValue(id, out var combo))
+                    return combo;
+                throw new Exception("ComboFactory: Combo ID Is not valid in the dictionary!");
+            }
             private Combo.Combo CreateCombo(CombosAccountInfo combosAccountInfo)
             {
                 if (combosAccountInfo == null)
                     throw new Exception("Combo Factory: CombosAccountInfo is null!");
 
-                return new Combo.Combo(ComboCollection.GetCombo(combosAccountInfo.ID), combosAccountInfo.Level);
+                return new Combo.Combo(GetComboSO(combosAccountInfo.ID), combosAccountInfo.Level);
             }
         }
         public class CardFactory
         {
-            static List<ushort> _battleCardIdList;
-            static ushort _battleID;
+            static List<int> _battleCardIdList;
+            static int _battleID;
             public CardsCollectionSO CardCollection { get; private set; }
+            private Dictionary<int, CardSO> _cardCollectionDictionary;
+       
+
             public CardFactory(CardsCollectionSO cards)
             {
                 CardCollection = cards;
-                cards.AssignDictionary();
+                var allCards = CardCollection.GetAllCards;
+                int length = allCards.Length;
+                _cardCollectionDictionary = new Dictionary<int, CardSO>(length);
+
+                for (int i = 0; i < length; i++)
+                    _cardCollectionDictionary.Add(allCards[i].ID, allCards[i]);
+                
                 Reset();
             }
 
             ~CardFactory()
             {
+                _cardCollectionDictionary.Clear();
                 _battleCardIdList?.Clear();
-
                 _battleID = 1;
             }
-            public static ushort GetInstanceID
+
+            public CardSO GetCard(int ID)
             {
-                get
-                {
+
+                if (_cardCollectionDictionary.TryGetValue(ID, out CardSO card))
+                    return card;
+
+                throw new System.Exception($"Card SO Could not been found from ID \nID is {ID}\nCheck Collection For card SO");
+            }
+            public static int GenerateCardInstanceID()
+            {
+         
                     if (_battleCardIdList == null)
-                        _battleCardIdList = new List<ushort>();
+                        _battleCardIdList = new List<int>();
 
                     while (_battleCardIdList.Contains(_battleID))
                         ++_battleID;
@@ -233,10 +294,10 @@ namespace Factory
                     _battleCardIdList.Add(_battleID);
 
                     return _battleID;
-                }
+                
             }
 
-            public Card[] CreateDeck(CharacterSO.CardInfo[] cardsInfo)
+            public Card[] CreateDeck(CardInstanceID.CardCore[] cardsInfo)
             {
                 if (cardsInfo != null && cardsInfo.Length != 0)
                 {
@@ -245,7 +306,7 @@ namespace Factory
                     for (int i = 0; i < cards.Length; i++)
                     {
                         if (cardsInfo[i] != null)
-                            cards[i] = CreateCard(cardsInfo[i].Card, cardsInfo[i].Level);
+                            cards[i] = CreateCard(cardsInfo[i].CardSO(), cardsInfo[i].Level);
                     }
                     return cards;
                 }
@@ -255,29 +316,29 @@ namespace Factory
             public void Reset()
             {
                 if (_battleCardIdList == null)
-                    _battleCardIdList = new List<ushort>();
+                    _battleCardIdList = new List<int>();
 
                     _battleCardIdList.Clear();
             }
-            public void RegisterAccountLoadedCardsInstanceID(List<CardCoreInfo> accountsCards)
+            public void RegisterAccountLoadedCardsInstanceID(List<CardInstanceID> accountsCards)
             {
                 for (int i = 0; i < accountsCards.Count; i++)
                     _battleCardIdList.Add(accountsCards[i].InstanceID);
             }
-            public CardCoreInfo CreateCardCoreInfo(CardSO cardSO, byte level = 0)
-                => CreateCardCoreInfo(cardSO.ID, level);
-            public CardCoreInfo CreateCardCoreInfo(ushort cardSOID, byte level = 0)
-            => new CardCoreInfo(cardSOID, GetInstanceID, level);
-            public Card CreateCard(CardCoreInfo _data)
+            public CardInstanceID CreateCardCoreInfo(CardSO cardSO, int level = 0, int exp = 0)
+                => CreateCardCoreInfo(cardSO.ID, level, exp);
+            public CardInstanceID CreateCardCoreInfo(int cardSOID, int level = 0,int exp = 0)
+            => new CardInstanceID(cardSOID, GenerateCardInstanceID(), level,exp);
+            public Card CreateCard(CardInstanceID _data)
             {
                 if (_data == null)
                     throw new Exception($"CardFactory: CardCoreInfo is null!");
                 return new Card(_data);
             }
-            public Card CreateCard(ushort CardSOID, byte level = 0)
-             => CreateCard(CardCollection.GetCard(CardSOID), level);
+            public Card CreateCard(int CardSOID, int level = 0)
+             => CreateCard(GetCard(CardSOID), level);
 
-            public Card CreateCard(CardSO cardSO, byte level = 0)
+            public Card CreateCard(CardSO cardSO, int level = 0)
             {
 
                 if (cardSO != null && (level >= 0 && level <= cardSO.CardsMaxLevel))
@@ -287,7 +348,7 @@ namespace Factory
                 throw new Exception($" card was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
 
             }
-            public Card[] CreateDeck(CardCoreInfo[] cards)
+            public Card[] CreateDeck(CardInstanceID[] cards)
             {
                 Card[] c = new Card[cards.Length];
                 for (int i = 0; i < c.Length; i++)
@@ -317,7 +378,7 @@ namespace Factory
                     cards[i] = CreateCard(cardContainer);
 
                     if (cards[i] == null)
-                        throw new Exception($"Card Factory: Card Was Not Created From:\n ID: {cardContainer.CardID}\nLevel: {cardContainer.Level}");
+                        throw new Exception($"Card Factory: Card Was Not Created From:\n ID: {cardContainer.ID}\nLevel: {cardContainer.Level}");
 
                 }
 

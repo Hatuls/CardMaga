@@ -95,7 +95,7 @@ namespace Battles.UI.CardUIAttributes
             }
             _descriptionTxt.text = cardDescription;
         }
-        internal void SetCardReference(CardSO cardData,byte lvl = 0)
+        internal void SetCardReference(CardSO cardData,int lvl = 0)
         {
             if (cardData == null)
                 return;

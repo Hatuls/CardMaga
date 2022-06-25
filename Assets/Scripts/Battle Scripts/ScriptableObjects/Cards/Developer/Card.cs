@@ -16,7 +16,7 @@ namespace Cards
         [SerializeField]
         private CardSO _cardSO;
         [SerializeField]
-        private CardCoreInfo _cardCoreInfo;
+        private CardInstanceID _cardCoreInfo;
         [SerializeField]
         private bool toExhaust = false;
 
@@ -28,17 +28,18 @@ namespace Cards
         private KeywordData[] _cardKeyword;
 
         [SerializeField]
-        private byte staminaCost;
+        private int staminaCost;
         #endregion
 
         #region Properties
 
         public bool IsExhausted { get => toExhaust; }
         public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
-        public ushort CardInstanceID => _cardCoreInfo.InstanceID;
-        public byte CardLevel => _cardCoreInfo.Level;
+        public int CardInstanceID => _cardCoreInfo.InstanceID;
+        public int CardLevel => _cardCoreInfo.Level;
+        public int CardEXP => _cardCoreInfo.Exp;
         public bool CardsAtMaxLevel { get => _cardSO.CardsMaxLevel-1 == CardLevel; }
-        public byte StaminaCost { get => staminaCost; private set => staminaCost = value; }
+        public int StaminaCost { get => staminaCost; private set => staminaCost = value; }
 
         public CardSO CardSO
         {
@@ -57,7 +58,7 @@ namespace Cards
             }
         }
 
-        public CardCoreInfo CardCoreInfo { get => _cardCoreInfo; }
+        public CardInstanceID CardCoreInfo { get => _cardCoreInfo; }
 
 
         #endregion
@@ -65,14 +66,14 @@ namespace Cards
 
         #region Functions
 
-        public Card(CardCoreInfo cardAccountInfo)
+        public Card(CardInstanceID cardAccountInfo)
         {
             if (cardAccountInfo == null)
                 throw new Exception($"Card: Card Info is null!");
             _cardCoreInfo = cardAccountInfo;
-            InitCard(Factory.GameFactory.Instance.CardFactoryHandler.CardCollection.GetCard(_cardCoreInfo.CardID), _cardCoreInfo.Level);
+            InitCard(Factory.GameFactory.Instance.CardFactoryHandler.GetCard(_cardCoreInfo.ID), _cardCoreInfo.Level);
         }
-        public void InitCard(CardSO _card, byte cardsLevel)
+        public void InitCard(CardSO _card, int cardsLevel)
         {
     
 

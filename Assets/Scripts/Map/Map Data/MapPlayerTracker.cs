@@ -65,15 +65,15 @@ namespace CardMaga.Map
                     PlayWarningThatNodeCannotBeAccessed();
             }
         }
-
+        // Need To be Re-Done
         private void SendPlayerToNode(NodeMap mapNode)
         {
-            Locked = lockAfterSelecting;
-            mapManager.CurrentMap.path.Add(mapNode.NodeData.point);
-            mapManager.SaveMap();
+            //Locked = lockAfterSelecting;
+            //mapManager.CurrentMap.path.Add(mapNode.NodeData.point);
+            //mapManager.SaveMap();
 
-            //    view.SetLineColors();
-            EnterNode(mapNode);
+            ////    view.SetLineColors();
+            //EnterNode(mapNode);
         }
 
         private void Start()

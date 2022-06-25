@@ -20,7 +20,7 @@ namespace Battles
         [SerializeField]
         private bool _playerWon = false;
         [SerializeField]
-       Map _map;
+        private Map _map;
 
         [SerializeField]
         ActsEnum _currentAct;

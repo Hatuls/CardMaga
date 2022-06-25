@@ -319,7 +319,7 @@ namespace Battles.UI
 
             card?.GFX.GlowCard(false);
 
-            if (ExecuteSucceded == false)
+            if (ExecuteSucceded == false)   
                 DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectedCardUI.GFX.GetCardReference);
 
             InputManager.Instance.RemoveObjectFromTouch();
@@ -331,6 +331,8 @@ namespace Battles.UI
             cardReference?.GFX.GlowCard(false);
             card.gameObject.SetActive(false);
             card.CardStateMachine.MoveToState(CardStateMachine.CardUIInput.None);
+
+            if (ExecuteSucceded) DeckManager.Instance.DrawHand(true, 1);
             // card.CardTranslations.CancelAllTweens();
             //     _selectedCardUI = null;
 

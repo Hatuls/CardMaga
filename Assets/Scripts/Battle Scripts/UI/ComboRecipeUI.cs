@@ -61,7 +61,7 @@ namespace UI
         byte activePlaceHolders = 0;
 
         public CardUI CardUI { get => _cardUI; set => _cardUI = value; }
-        public ComboSO ComboRecipe { get => _combo.ComboSO; }
+        public ComboSO ComboRecipe { get => _combo.ComboSO(); }
         public Combo.Combo Combo { get => _combo; set => _combo = value; }
     
 
@@ -80,7 +80,7 @@ namespace UI
         {
             _combo = combo;
          
-            var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(combo.ComboSO.CraftedCard, combo.Level);
+            var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(combo.ComboSO().CraftedCard, combo.Level);
             _cardUI.DisplayCard(craftedCard);
             ActivatedPlaceHolders(ComboRecipe);
             SetVisual(ComboRecipe);
@@ -89,7 +89,7 @@ namespace UI
         }
         public void AssignComboCrafting()
         {
-            var setOfImage = _gotoIconCollection.GetInnerImage(_combo.ComboSO.GoToDeckAfterCrafting);
+            var setOfImage = _gotoIconCollection.GetInnerImage(_combo.ComboSO().GoToDeckAfterCrafting);
             _innerImage.sprite = setOfImage.Icon;
             //  _innerImage.color = setOfImage.GetColor(_combo.ComboSO.CraftedCard.CardTypeEnum);
             //_decorImage.sprite = _gotoIconCollection.GetDecorImage().Icon;
