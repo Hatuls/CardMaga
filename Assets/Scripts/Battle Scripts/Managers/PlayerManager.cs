@@ -16,7 +16,7 @@ namespace Managers
 
         [SerializeField] Character _character;
 
-        [SerializeField] CharacterSO.RecipeInfo[] _recipes;
+        [SerializeField] Combo.Combo _recipes;
 
         [SerializeField] AnimatorController _playerAnimatorController;
         [SerializeField] AnimationBodyPartSoundsHandler _soundAnimation;

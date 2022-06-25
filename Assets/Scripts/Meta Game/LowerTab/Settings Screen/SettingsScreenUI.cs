@@ -96,53 +96,54 @@ namespace UI.Meta.Settings
             SetVFXSettings();
             SetMasterVolumeSettings();
         }
-
+        // Need To be Re-Done
         private void SetMasterVolumeSettings()
         {
-            if (Account.AccountManager.Instance.AccountSettingsData.MasterVolume)
-            {
-                _masterVolumeBtnImage.color = _onColor;
-                _masterVolumeBtnText.text = OnTxt;
-            }
-            else
+            //if (Account.AccountManager.Instance.AccountSettingsData.MasterVolume)
+            //{
+            //    _masterVolumeBtnImage.color = _onColor;
+            //    _masterVolumeBtnText.text = OnTxt;
+            //}
+            //else
             {
                 _masterVolumeBtnImage.color = _offColor;
                 _masterVolumeBtnText.text = OnTxt;
             }
         }
-
+        // Need To be Re-Done
         private void SetVFXSettings()
         {
-            if (Account.AccountManager.Instance.AccountSettingsData.SFXEffect)
-            {
-                _sfxBtnText.text = OnTxt;
-                _sfxBtnImage.color = _onColor;
-            }
-            else
+            //if (Account.AccountManager.Instance.AccountSettingsData.SFXEffect)
+            //{
+            //    _sfxBtnText.text = OnTxt;
+            //    _sfxBtnImage.color = _onColor;
+            //}
+            //else
             {
                 _sfxBtnText.text = OffTxt;
                 _sfxBtnImage.color = _offColor;
             }
         }
-
+        // Need To be Re-Done
         public void SwitchVFX()
         {
-            var settings = Account.AccountManager.Instance.AccountSettingsData;
-            settings.SFXEffect = !settings.SFXEffect;
+            //var settings = Account.AccountManager.Instance.AccountSettingsData;
+            //settings.SFXEffect = !settings.SFXEffect;
             SetSettings();
         }
-
+        // Need To be Re-Done
         public void SwitchMasterVolumeSound()
         {
-            var settings = Account.AccountManager.Instance.AccountSettingsData;
-            settings.MasterVolume = !settings.MasterVolume;
+            //var settings = Account.AccountManager.Instance.AccountSettingsData;
+            //settings.MasterVolume = !settings.MasterVolume;
             SetSettings();
         }
+        // Need To be Re-Done
         public void AbandonQuestInGame()
         {
             Close();
             OnAbandon?.Invoke(true);
-            Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
+           // Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
         }
 
@@ -150,9 +151,10 @@ namespace UI.Meta.Settings
         {
             ResetDelay();
         }
+        // Need To be Re-Done
         private void ResetDelay()
         {
-            Account.AccountManager.Instance.ResetAccount();
+         //   Account.AccountManager.Instance.ResetAccount();
 
             _sceneHandler.MoveToScene(_networkScene);
         }

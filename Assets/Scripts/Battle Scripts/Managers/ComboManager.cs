@@ -47,24 +47,24 @@ namespace Combo
 
         public void TryForge(bool isPlayer)
         {
-
-            if (_cardRecipeDetected != null && _cardRecipeDetected.ComboSO != null)
+            var ComboSO = _cardRecipeDetected.ComboSO();
+            if (_cardRecipeDetected != null && ComboSO != null)
             {
                 var factory = Factory.GameFactory.Instance.CardFactoryHandler;
-                var craftedCard = factory.CreateCard(_cardRecipeDetected.ComboSO.CraftedCard, _cardRecipeDetected.Level);
+                var craftedCard = factory.CreateCard(ComboSO.CraftedCard.ID, _cardRecipeDetected.Level);
 
                 _successCrafting?.Raise();
 
-                switch (_cardRecipeDetected.ComboSO.GoToDeckAfterCrafting)
+                switch (ComboSO.GoToDeckAfterCrafting)
                 {
                     case DeckEnum.Hand:
-                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting);
+                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, ComboSO.GoToDeckAfterCrafting);
 
                         CardUIManager.Instance.UpdateHand();
                         break;
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Disposal:
-                        var gotolocation = _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting;
+                        var gotolocation = ComboSO.GoToDeckAfterCrafting;
                         DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, gotolocation);
                         DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
@@ -77,13 +77,13 @@ namespace Combo
                         DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
                     default:
-                        Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
+                        Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO().GoToDeckAfterCrafting.ToString());
                         break;
                 }
-
-                var battledata = Account.AccountManager.Instance.BattleData;
-                var sounds = (isPlayer) ? battledata.Player.CharacterData.CharacterSO.ComboSounds : battledata.Opponent.CharacterData.CharacterSO.ComboSounds;
-                sounds?.PlaySound();
+                // Need To be Re-Done
+                //var battledata = Account.AccountManager.Instance.BattleData;
+                //var sounds = (isPlayer) ? battledata.Player.CharacterData.CharacterSO.ComboSounds : battledata.Opponent.CharacterData.CharacterSO.ComboSounds;
+                //sounds?.PlaySound();
             }
 
             // CreateCard();
@@ -109,7 +109,7 @@ namespace Combo
 
             var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
 
-            if (Instance._cardRecipeDetected == null || Instance._cardRecipeDetected.ComboSO == null)
+            if (Instance._cardRecipeDetected == null || Instance._cardRecipeDetected.ComboSO() == null)
             {
                 FoundCombo = false;
                 _craftingUIHandler.ResetSlotsDetection();
@@ -170,7 +170,7 @@ namespace Combo
             CardTypeData[] cardTypeDatas;
             for (int i = 0; i < recipes.Length; i++)
             {
-                var comboSO = recipes[i].ComboSO;
+                var comboSO = recipes[i].ComboSO();
                 cardTypeDatas = new CardTypeData[comboSO.ComboSequance.Length];
 
                 for (int j = 0; j < comboSO.ComboSequance.Length; j++)

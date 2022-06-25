@@ -20,13 +20,13 @@ namespace Combo
         [SerializeField]
         private Sprite _img;
         public Sprite Image { get=> _img; set=> _img=value; }
-
+        
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(130)]
         [SerializeField]
-        private ushort _id;
-        public ushort ID { get => _id; set=> _id = value; }
+        private int _id;
+        public int ID { get => _id; set=> _id = value; }
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(130)]

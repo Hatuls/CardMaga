@@ -1,23 +1,23 @@
 ﻿namespace Meta.Resources
 {
-    public class GoldHandler : ResourceHandler<uint>
+    public class GoldHandler : ResourceHandler<int>
     {
-        public override void AddAmount(uint amount)
+        public override void AddAmount(int amount)
         {
             throw new System.NotImplementedException();
         }
 
-        public override bool HasAmount(uint amount)
+        public override bool HasAmount(int amount)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void ReduceAmount(uint amount)
+        public override void ReduceAmount(int amount)
         {
             throw new System.NotImplementedException();
         }
 
-        public override ushort Stat(uint amount)
+        public override int Stat(int amount)
         {
             throw new System.NotImplementedException();
         }

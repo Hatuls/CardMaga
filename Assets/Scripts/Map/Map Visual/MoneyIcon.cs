@@ -10,5 +10,6 @@ public class MoneyIcon : MonoBehaviour
 
 
     public void SetMoneyText(int amount ) => _moneyTxt.text = amount.ToString();
-    public void UpdateMoneyText() => SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
+    // Need To be Re-Done
+    // public void UpdateMoneyText() => SetMoneyText(Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats.Gold);
 }

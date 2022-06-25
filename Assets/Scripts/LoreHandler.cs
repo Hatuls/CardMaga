@@ -39,17 +39,17 @@ public class LoreHandler : MonoBehaviour
         else
             StartTutorialBattle();
     }
-
+    // Need To be Re-Done
     private void StartTutorialBattle()
     {
        
-            var account = Account.AccountManager.Instance;
-            _playpackage.CharacterData = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara);
-            _playpackage.Deck = _playpackage.CharacterData.GetDeckAt(0);
-            _playpackage.SendPackage();
-            account.BattleData.Opponent = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(Battles.CharacterTypeEnum.Tutorial);
-          //  SceneHandler.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
-            account.IsDoneTutorial = false;
+          //  var account = Account.AccountManager.Instance;
+          //  _playpackage.CharacterData = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara);
+          //  _playpackage.Deck = _playpackage.CharacterData.GetDeckAt(0);
+          //  _playpackage.SendPackage();
+          //  account.BattleData.Opponent = Factory.GameFactory.Instance.CharacterFactoryHandler.CreateCharacter(Battles.CharacterTypeEnum.Tutorial);
+          ////  SceneHandler.LoadScene(SceneHandler.ScenesEnum.GameBattleScene);
+          //  account.IsDoneTutorial = false;
         
     }
 }

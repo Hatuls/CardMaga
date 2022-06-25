@@ -59,16 +59,16 @@ namespace Battles
             AssignParams();
 
         }
-
+        // Need To be Re-Done
         private void AssignParams()
         {
 
-            var battleData = Account.AccountManager.Instance.BattleData;
-            PlayerManager.Instance.AssignCharacterData(battleData.Player);
-            EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
+          //  var battleData = Account.AccountManager.Instance.BattleData;
+          //  PlayerManager.Instance.AssignCharacterData(battleData.Player);
+          //  EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
 
-            if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
-                throw new Exception("Battle data was not work correctly!");
+          //  if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
+          //      throw new Exception("Battle data was not work correctly!");
 
             PlayerManager.Instance.UpdateStatsUI();
             EnemyManager.Instance.UpdateStatsUI();
@@ -91,13 +91,17 @@ namespace Battles
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
         }
-
+        // Need To be Re-Done
         public void StartBattle()
         {
             StopAllCoroutines();
+
             _turnCycles = TurnHandler.TurnCycle();
-            Account.AccountManager.Instance.BattleData.PlayerWon = false;
+
+           // Account.AccountManager.Instance.BattleData.PlayerWon = false;
+
             OnBattleStarts?.Invoke();
+
             StartGameTurns();
         }
 
@@ -106,7 +110,7 @@ namespace Battles
             => StartCoroutine(_turnCycles);
 
 
-
+        // Need To be Re-Done
         public void BattleEnded(bool isPlayerDied)
         {
             if (isGameEnded == true)
@@ -124,7 +128,7 @@ namespace Battles
 
             TextPopUpHandler.Instance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
 
-            Account.AccountManager.Instance.BattleData.PlayerWon = !isPlayerDied;
+            //Account.AccountManager.Instance.BattleData.PlayerWon = !isPlayerDied;
             UpdateStats();
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
@@ -133,57 +137,57 @@ namespace Battles
             isGameEnded = true;
             StopCoroutine(Instance._turnCycles);
         }
-
+        // Need To be Re-Done
         private static void UpdateStats()
         {
-            var playerDAta = Account.AccountManager.Instance.BattleData.Player;
-            var playerBattleStats = CharacterStatsManager.GetCharacterStatsHandler(true);
-
-            playerDAta.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
-
-            Account.AccountManager.Instance.BattleData.Player = playerDAta;
+          //  var playerDAta = Account.AccountManager.Instance.BattleData.Player;
+          //  var playerBattleStats = CharacterStatsManager.GetCharacterStatsHandler(true);
+          //
+          //  playerDAta.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
+          //
+          //  Account.AccountManager.Instance.BattleData.Player = playerDAta;
         }
-
+        // Need To be Re-Done
         public void DeathAnimationFinished(bool isPlayer)
         {
 
-            if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
-                Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
-
-            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
-
-            _sceneHandler.MoveToScene(_mapScene);
+        //   if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
+        //       Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
+        //
+        //   FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
+        //
+        //   _sceneHandler.MoveToScene(_mapScene);
         }
-
+        // Need To be Re-Done
         private void EnemyDied()
         {
-            PlayerManager.Instance.PlayerWin();
-            EnemyManager.EnemyAnimatorController.CharacterIsDead();
-            var battleData = Account.AccountManager.Instance.BattleData;
-
-            SendAnalyticWhenGameEnded("player_won", battleData);
-            AddRewards();
-            _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
-            OnPlayerVictory?.Invoke();
+        //    PlayerManager.Instance.PlayerWin();
+        //    EnemyManager.EnemyAnimatorController.CharacterIsDead();
+        //    var battleData = Account.AccountManager.Instance.BattleData;
+        //
+        //    SendAnalyticWhenGameEnded("player_won", battleData);
+        //    AddRewards();
+        //    _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
+        //    OnPlayerVictory?.Invoke();
         }
-
+        // Need To be Re-Done
         private void AddRewards()
         {
-            var battleData = Account.AccountManager.Instance.BattleData;
-            var characterTypeEnum = battleData.Opponent.CharacterData.CharacterSO.CharacterType;
-            var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(characterTypeEnum, battleData.CurrentAct);
-            battleData[characterTypeEnum].Diamonds += reward.DiamondsReward;
-            battleData[characterTypeEnum].EXP += reward.EXPReward;
+          //  var battleData = Account.AccountManager.Instance.BattleData;
+          //  var characterTypeEnum = battleData.Opponent.CharacterData.CharacterSO.CharacterType;
+          //  var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(characterTypeEnum, battleData.CurrentAct);
+          //  battleData[characterTypeEnum].Diamonds += reward.DiamondsReward;
+          //  battleData[characterTypeEnum].EXP += reward.EXPReward;
         }
-
+        // Need To be Re-Done
         private void PlayerDied()
         {
-            var battleData = Account.AccountManager.Instance.BattleData;
+          //  var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.Instance.EnemyWon();
 
             _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
-            SendAnalyticWhenGameEnded("player_defeated", battleData);
+        //    SendAnalyticWhenGameEnded("player_defeated", battleData);
             OnPlayerDefeat?.Invoke();
         }
 

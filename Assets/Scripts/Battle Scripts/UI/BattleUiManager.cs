@@ -42,13 +42,13 @@ namespace Battles.UI
         }
 
 
-
+        // Need To be Re-Done
         public override void Init(ITokenReciever token)
         {
             using (token.GetToken())
             {
 
-                if ((Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
+               // if ((Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
                 {
                     //   _tutorialManager.StartTutorial();
                 }

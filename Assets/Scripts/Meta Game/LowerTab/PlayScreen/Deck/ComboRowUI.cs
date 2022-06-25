@@ -17,7 +17,7 @@ namespace UI.Meta.PlayScreen
         BodyPartGFX[] _comboRecipe;
         #endregion
         #region Public Methods
-        public void Init(Combo.ComboSO combo, byte comboLevel, ArtSO artSO)
+        public void Init(Combo.ComboSO combo, int comboLevel, ArtSO artSO)
         {
             ResetComboRecipeSlots();
             _comboName.text = combo.ComboName;

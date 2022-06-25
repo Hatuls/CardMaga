@@ -10,13 +10,15 @@ namespace CardMaga.UI
             
         public override IEnumerable<Card> Sort()
         {
-            var accountCards = Account.AccountManager.Instance.AccountCards.CardList;
+            //var accountCards = Account.AccountManager.Instance.AccountCards.CardList;
 
-            var cards = Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(accountCards.ToArray());
+            //var cards = Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(accountCards.ToArray());
 
-            var sortedDeck = cards.Where(x => x.CardLevel < x.CardSO.CardsMaxLevel-1);
+            //var sortedDeck = cards.Where(x => x.CardLevel < x.CardSO.CardsMaxLevel-1);
 
-            return sortedDeck;
+            //return sortedDeck;
+
+            return null;
         }
 
         public override void SortRequest()

@@ -55,11 +55,13 @@ namespace Battles
             _keywordData.Clear();
             }
         }
+        public bool CanPlayCard(bool isPlayer, Cards.Card card)
+       => card == null ? false : StaminaHandler.Instance.IsEnoughStamina(isPlayer, card);
         public bool TryExecuteCard(bool isPlayer, Cards.Card card)
         {
             if (card == null)
                 throw new System.Exception("Card cannot be executed card is null\n Player " + isPlayer + " Tried to play a null Card");
-            if (StaminaHandler.Instance.IsEnoughStamina(isPlayer, card) == false)
+            if (CanPlayCard ( isPlayer,card) == false)
             {
                 // not enough stamina 
                 if (isPlayer)

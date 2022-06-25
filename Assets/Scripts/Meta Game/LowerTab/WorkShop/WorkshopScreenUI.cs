@@ -90,20 +90,21 @@ namespace UI.Meta.Workshop
         UnityEvent OnSuccessfullPurchase;
         [SerializeField]
         UnityEvent OnUnSuccessfullPurchase;
+        // Need To be Re-Done
         public void PurchasePack(PackRewardSO packRewardSO)
         {
             var diamondCost = packRewardSO.PurchaseCosts;
             ushort price = diamondCost[0].Price;
             _animator.Play("Default");
-            if (Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.ReduceValue(price))
-            {
-                OnSuccessfullPurchase?.Invoke();
-                _lastPack = packRewardSO;
-                SendAnalyticEvent();
-                _animator.SetTrigger("Pop");
-                _recievePack.Open(packRewardSO);
-            }
-            else
+            //if (Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.ReduceValue(price))
+            //{
+            //    OnSuccessfullPurchase?.Invoke();
+            //    _lastPack = packRewardSO;
+            //    SendAnalyticEvent();
+            //    _animator.SetTrigger("Pop");
+            //    _recievePack.Open(packRewardSO);
+            //}
+            //else
                 OnUnSuccessfullPurchase?.Invoke();
         }
 

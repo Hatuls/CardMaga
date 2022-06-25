@@ -78,16 +78,17 @@ namespace Rewards.Battles
         {
             Instance = this;
         }
+        // Need To be Re-Done
         public void Init()
         {
-            if (BattleReward == null)
-                throw new System.Exception("Need To Show Battle Reward but battle reward is null");
-            else if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Boss_Enemy)
-                _battleRewardHandler.FinishBoss();
+            //if (BattleReward == null)
+            //    throw new System.Exception("Need To Show Battle Reward but battle reward is null");
+            //else if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Boss_Enemy)
+            //    _battleRewardHandler.FinishBoss();
 
 
-            ResetRewardUI();
-            _moneyTxt.text = string.Concat(BattleReward.CreditReward);
+            //ResetRewardUI();
+            //_moneyTxt.text = string.Concat(BattleReward.CreditReward);
         }
 
         private void ResetRewardUI()

@@ -6,13 +6,13 @@ using System.Linq;
 using Cards;
 
 public class BattleDeckFilterByUpgrade : SortAbst<Card>
-{
-    [SerializeField]
+{    // Need To be Re-Done
     public override IEnumerable<Card> Sort()
     {
-        var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
-        var sortedDeck =deck.Where(x => x.CardLevel < (x.CardSO.CardsMaxLevel - 1)); 
-        return sortedDeck;
+        //var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
+        //var sortedDeck =deck.Where(x => x.CardLevel < (x.CardSO.CardsMaxLevel - 1)); 
+        //return sortedDeck;
+        return null;
     }
 
 

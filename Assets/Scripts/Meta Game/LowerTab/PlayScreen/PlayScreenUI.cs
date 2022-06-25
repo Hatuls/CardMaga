@@ -85,7 +85,7 @@ namespace UI.Meta.PlayScreen
 
         public void OnPlayClicked()
         {
-            EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<ushort>(ResourceType.Energy);
+            EnergyHandler energyHandler = (EnergyHandler)ResourceManager.Instance.GetResourceHandler<int>(ResourceType.Energy);
 
             if (energyHandler.HasAmount(energyHandler.AmountToStartPlay))
             {
@@ -122,11 +122,12 @@ namespace UI.Meta.PlayScreen
    
             _sceneManager.MoveToScene(_mapScene);
         }
+        // Need To be Re-Done
         private void GatherCharacterDataForRun()
         {
-            var account = Account.AccountManager.Instance;
-            _playpackage.CharacterData = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara);
-            _playpackage.Deck = _playpackage.CharacterData.GetDeckAt(0);
+            //var account = Account.AccountManager.Instance;
+            //_playpackage.CharacterData = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara);
+            //_playpackage.Deck = _playpackage.CharacterData.GetDeckAt(0);
         }
 
 

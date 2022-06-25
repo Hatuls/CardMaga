@@ -25,26 +25,26 @@ namespace Characters
         public Combo.Combo[] ComboRecipe { get => _comboRecipe; internal set => _comboRecipe = value; }
 
         public CharacterSO CharacterSO { get => _characterSO; private set => _characterSO = value; }
-
+        // Need To be Re-Done
         public CharacterBattleData(CharacterSO characterSO)
         {
-            CharacterSO = characterSO;
-            var factory = Factory.GameFactory.Instance;
-            _characterDeck = factory.CardFactoryHandler.CreateDeck(CharacterSO.Deck);
-            _comboRecipe = factory.ComboFactoryHandler.CreateCombo(CharacterSO.Combos);
+            //CharacterSO = characterSO;
+            //var factory = Factory.GameFactory.Instance;
+            //_characterDeck = factory.CardFactoryHandler.CreateDeck(CharacterSO.Deck);
+            //_comboRecipe = factory.ComboFactoryHandler.CreateCombos(CharacterSO.Combos);
 
-            _characterStats = CharacterSO.CharacterStats;
+            //_characterStats = CharacterSO.CharacterStats;
         }
-
+        // Need To be Re-Done
         public CharacterBattleData(CharacterData data, AccountDeck _deck)
         {
-            if (data == null)
-                throw new Exception($"CharacterBattleData : Did not constructed because CharacterData is null!");
-            var factory = Factory.GameFactory.Instance;
-            _characterStats = data.Stats;
-            CharacterSO = factory.CharacterFactoryHandler.GetCharacterSO(data.CharacterEnum);
-            _characterDeck = factory.CardFactoryHandler.CreateDeck(_deck);
-            _comboRecipe = factory.ComboFactoryHandler.CreateCombo(data.CharacterCombos);
+            //if (data == null)
+            //    throw new Exception($"CharacterBattleData : Did not constructed because CharacterData is null!");
+            //var factory = Factory.GameFactory.Instance;
+            //_characterStats = data.Stats;
+            //CharacterSO = factory.CharacterFactoryHandler.GetCharacterSO(data.CharacterEnum);
+            //_characterDeck = factory.CardFactoryHandler.CreateDeck(_deck);
+            //_comboRecipe = factory.ComboFactoryHandler.CreateCombo(data.CharacterCombos);
         }
         public CharacterBattleData()
         {
