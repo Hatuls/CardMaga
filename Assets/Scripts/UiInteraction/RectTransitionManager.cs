@@ -3,11 +3,15 @@ using DG.Tweening;
 using UnityEngine;
 
 
-public  class RectTransitionManager : MonoBehaviour
+public class RectTransitionManager
 {
-    [SerializeField]
     private RectTransform _rectTransform;
 
+    public RectTransitionManager(RectTransform rectTransform)
+    {
+        _rectTransform = rectTransform;
+    }
+    
     public void Transition(RectTransform destination, TransitionPackSO transitionPackSo)
     {
         _rectTransform.Move(destination, transitionPackSo.Movement);

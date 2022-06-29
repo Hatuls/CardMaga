@@ -10,15 +10,15 @@ namespace Battles.UI
     public class HandUI : MonoBehaviour
     {
         public static event Action OnCardDrawnAndAlign;
+        [SerializeField] private CardTransitions _transitions;
         [SerializeField] private BattleInputDefaultState _battleInput;
-        [SerializeField] private SelectCardUI _selectCard;
         [SerializeField] private RectTransform _middleHandPos;
         [SerializeField] private RectTransform _discardPos;
         [SerializeField] private RectTransform _drawPos;
         [SerializeField] private CardUIManager _cardUIManager;
         [SerializeField] private float _spaceBetweenCard;
-        [SerializeField] private TransitionPackSO _drawTransition;
-        [SerializeField] private TransitionPackSO _discardTransition;
+
+        private SelectCardUI _selectCard;
 
         [SerializeField] private float _delayBetweenCardDrawn;
         
@@ -37,6 +37,7 @@ namespace Battles.UI
             DeckManager.OnDrawCards += DrawCards;
             _cardSlots = new List<CardSlot>();
             _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
+            _selectCard = new SelectCardUI();
         }
 
         private void OnDestroy()
@@ -52,6 +53,7 @@ namespace Battles.UI
             for (int i = 0; i < _handCards.Count; i++)
             {
                 _cardSlots.Add( new CardSlot(CalculateCardPosition(i),_handCards[i]));
+                _handCards[i].SetCardHandPos(CalculateCardPosition(i));
             }
         }
 
@@ -61,8 +63,18 @@ namespace Battles.UI
             AddCardToTheInputState(_handCards.ToArray());//need Work!!!
             AlignCards();
             SetCardAtDrawPos(_handCards.ToArray());
-            
-            StartCoroutine(MoveCardsToHandPos(_cardSlots));
+            AddINputEvents();
+            StartCoroutine(MoveCardsToHandPos(_cardSlots,OnCardDrawnAndAlign));
+            InputReciever.OnTouchDetectd += GetMousePos;
+        }
+
+        private void AddINputEvents()
+        {
+            for (int i = 0; i < _handCards.Count; i++)
+            {
+                _handCards[i].Inputs.OnPointDown += SetSelectCard;
+                _handCards[i].Inputs.OnEndHold += RelaseCard;
+            }
         }
 
         private void AddCardToTheInputState(CardUI[] cardsUI)
@@ -88,11 +100,10 @@ namespace Battles.UI
             for (int i = 0; i < cardSlots.Count; i++)
             {
                 cardSlots[i].CardUI.Init();
-                cardSlots[i].CardUI.CardTransitionManager.Transition(cardSlots[i].CardPos,_drawTransition);
+                cardSlots[i].CardUI.CardTransitionManager.Transition(cardSlots[i].CardPos,_transitions.TransitionPackSos[1]);
                 yield return _waitForCardDrawnDelay;
             }
             onComplete?.Invoke();
-            OnCardDrawnAndAlign?.Invoke();
         }
         
         public CardUI GetHandCardUIFromIndex(int index)
@@ -129,6 +140,30 @@ namespace Battles.UI
         internal void DiscardHand()
         {
             
+        }
+
+        private void FollowHand()
+        {
+            
+        }
+
+        private void RelaseCard(CardUI cardUI)
+        {
+            if (_selectCard.Card == cardUI)
+            {
+                _selectCard.Card.CardTransitionManager.Move(_selectCard.Card.HandPos,_transitions.TransitionPackSos[0]);
+            }
+        }
+
+        private void GetMousePos(Vector2 mousePos)
+        {
+            Debug.Log(mousePos);
+            _selectCard.Card.CardTransitionManager.Move(mousePos,_transitions.TransitionPackSos[0]);
+        }
+
+        private void SetSelectCard(CardUI cardUI)
+        {
+            _selectCard.SetSelectCardUI(cardUI);
         }
         
         private Vector2 CalculateCardPosition(int index)

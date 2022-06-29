@@ -9,70 +9,46 @@ namespace Battles.UI
     public class CardUI : MonoBehaviour, IEquatable<CardUI> , IPoolable<CardUI>
     {
         #region Fields
+
+        [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private CardGFX _cardGFX;
-        [SerializeField]
-        private CanvasGroup _canvasGroup;
+        [SerializeField] private CanvasGroup _canvasGroup;
         private CardAnimator _cardAnimator;
-        [SerializeField]
-        private CardUIInputHandler _inputs;
-        [SerializeField]
+        
+        [SerializeField] private CardUIInputHandler _inputs;
         private RectTransitionManager _cardTransitionManager;
+        private Vector2 _cardHandPos;
 
         #region Enum Selection
-        [Flags]
-        private enum CardUISettings
-        {
-            [HideInInspector]
-            None = 0,
-
-            Visable = 1 << 0,
-
-            Touchable = 1 << 1,
-
-            Moveable = 1 << 2,
-
-            With_Animations = 1<<3
-                /*
-                 *  0000 0
-                 *  0001 2^0
-                 *  0010 2^1
-                 *  0100 2^2
-                 *  1000 2^3
-                 */
-               
-        };
-        [SerializeField]
+        
         [Sirenix.OdinInspector.OnValueChanged("CardUISettingsEnum")]
         [Sirenix.OdinInspector.EnumToggleButtons]
-
-        private CardUISettings Card;
         
-
-        private void CardUISettingsEnum()
-        {
-            if ((Card & CardUISettings.Visable) != CardUISettings.Visable)
-                Card |= CardUISettings.Visable;
-        }
-
-
+        
         #endregion
      
         #endregion
         
-        private void Start()
+        private void Awake()
         {
-            if (_cardAnimator == null &&
-               ((Card & CardUISettings.With_Animations) == CardUISettings.With_Animations))
-                GetComponent<Animator>().enabled = true;
+            _cardTransitionManager = new RectTransitionManager(_rectTransform);
         }
 
+        public void SetCardHandPos(Vector2 handPos)
+        {
+            _cardHandPos = handPos;
+        }
+        
         public bool Equals(CardUI other)
         {
             return true;
             //other?.RecieveCardReference() == _cardGFX.GetCardReference;
         }
 
-        #region Properties
+        public Vector2 HandPos
+        {
+            get { return _cardHandPos; }
+        }
         public  CardGFX GFX =>  _cardGFX;
 
         public  CardUIInputHandler Inputs
@@ -89,18 +65,6 @@ namespace Battles.UI
                 return  _cardTransitionManager;
             }
         }
-        public CardAnimator CardAnimator
-        {
-            get
-            {
-                if (_cardAnimator == null &&
-               ((Card & CardUISettings.With_Animations) == CardUISettings.With_Animations))
-                    _cardAnimator = new CardAnimator(_cardGFX.GetRectTransform);
-
-                return _cardAnimator;
-            }
-        }
-        #endregion
 
         #region Ipoolable Implementation
 

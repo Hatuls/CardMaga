@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CardUIInputHandler : TouchableItem
 {
+    private CardUI _cardUIRef;
     private void Awake()
     {
         base.OnClick += OnClickFun;//need fix
@@ -13,49 +14,51 @@ public class CardUIInputHandler : TouchableItem
         base.OnPointUp += OnPointUpFun;
         base.OnPointDown += OnPointDownFun;
 
+        _cardUIRef = GetComponent<CardUI>();
+        
         ForceChangeState(false);
     }
 
-    public event Action OnClick;
-    public event Action OnBeginHold;
-    public event Action OnEndHold;
-    public event Action OnHold;
-    public event Action OnPointDown;
-    public event Action OnPointUp;
+    public event Action<CardUI> OnClick;
+    public event Action<CardUI> OnBeginHold;
+    public event Action<CardUI> OnEndHold;
+    public event Action<CardUI> OnHold;
+    public event Action<CardUI> OnPointDown;
+    public event Action<CardUI> OnPointUp;
 
     private void OnClickFun()
     {
         Debug.Log(gameObject.name + " Click");
-        OnClick?.Invoke();
+        OnClick?.Invoke(_cardUIRef);
     }
 
     private void OnBeginHoldFun()
     {
         Debug.Log(gameObject.name + " BeginHold");
-        OnBeginHold?.Invoke();
+        OnBeginHold?.Invoke(_cardUIRef);
     }
 
     private void OnEndHoldFun()
     {
         Debug.Log(gameObject.name + " EndHold");
-        OnEndHold?.Invoke();
+        OnEndHold?.Invoke(_cardUIRef);
     }
 
     private void OnHoldFun()
     {
         Debug.Log(gameObject.name + " Hold");
-        OnHold?.Invoke();
+        OnHold?.Invoke(_cardUIRef);
     }
 
     private void OnPointDownFun()
     {
         Debug.Log(gameObject.name + " PointDown");
-        OnPointDown?.Invoke();
+        OnPointDown?.Invoke(_cardUIRef);
     }
 
     private void OnPointUpFun()
     {
         Debug.Log(gameObject.name + " PointUp");
-        OnPointUp?.Invoke();
+        OnPointUp?.Invoke(_cardUIRef);
     }
 }

@@ -4,25 +4,26 @@ using System.Collections.Generic;
 using Battles.UI;
 using UnityEngine;
 
-public class SelectCardUI : MonoBehaviour
+public class SelectCardUI
 {
-    [SerializeField] private CardUIManager _cardUIManager;
     private CardUI _selectCard;
+
+    public CardUI Card
+    {
+        get { return _selectCard; }
+    }
     
     public void SetSelectCardUI(CardUI cardUI)
     {
-        _selectCard.AssignData(cardUI.RecieveCardReference());
-        //_selectCard.CardTransitionManager.Transition(cardUI.transform.position);
-        _selectCard.GFX.SetActive(true);
+        _selectCard = cardUI;
+        Debug.Log("Card Select is " + _selectCard);
     }
-
+    
     public void DisposeCard(Action onDispose = null)
     {
         if (onDispose != null)
         {
             onDispose?.Invoke();
         }
-        
-        _selectCard.GFX.SetActive(false);
     }
 }
