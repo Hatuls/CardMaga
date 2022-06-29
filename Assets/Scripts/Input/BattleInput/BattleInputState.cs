@@ -8,7 +8,7 @@ public class BattleInputState : BaseState
     
     public override void OnEnterState()
     {
-       
+       _battleInputStateMachine.InitStateMachine();
     }
 
     public override StateIdentificationSO OnHoldState()

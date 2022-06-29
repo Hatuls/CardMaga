@@ -6,12 +6,12 @@ public class CardUIInputHandler : TouchableItem
 {
     private void Awake()
     {
-        OnClick += OnClickFun;
-        OnHold += OnHoldFun;
-        OnBeginHold += OnBeginHoldFun;
-        OnEndHold += OnEndHoldFun;
-        OnPointUp += OnPointUpFun;
-        OnPointDown += OnPointDownFun;
+        base.OnClick += OnClickFun;//need fix
+        base.OnHold += OnHoldFun;
+        base.OnBeginHold += OnBeginHoldFun;
+        base.OnEndHold += OnEndHoldFun;
+        base.OnPointUp += OnPointUpFun;
+        base.OnPointDown += OnPointDownFun;
 
         ForceChangeState(false);
     }

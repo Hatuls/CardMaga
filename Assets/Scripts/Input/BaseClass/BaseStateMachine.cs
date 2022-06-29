@@ -19,22 +19,15 @@ public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
     {
         get { return _currentState; }
     }
-
-    private void Awake()
-    {
-        InitStateMachine();
-    }
     
-    protected virtual void InitStateMachine()
+    
+    public void InitStateMachine()
     {
         _inputStateDict = new Dictionary<StateIdentificationSO, BaseState>();
 
         for (int i = 0; i < _states.Count; i++)
         {
-            for (int j = 0; j < _states[i].Conditions.Length; j++)
-            {
-                _inputStateDict.Add(_states[i].StateID,_states[i]);
-            }
+            _inputStateDict.Add(_states[i].StateID,_states[i]);
         }
         
         TryChangeState(FirstState);

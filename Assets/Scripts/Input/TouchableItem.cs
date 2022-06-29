@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.ComponentModel;
+using Sirenix.OdinInspector;
+using Unity.Collections;
 using UnityEngine.Serialization;
 
 
@@ -17,7 +20,7 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
         Lock,
         UnLock
     }
-    
+    [ShowInInspector,Sirenix.OdinInspector.ReadOnly]
     public State CurrentState { get; private set; }
     
     protected event Action OnClick;
@@ -26,13 +29,7 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
     protected event Action OnHold;
     protected event Action OnPointDown;
     protected event Action OnPointUp;
-
-
-
-    protected void SetLockTouch(bool isLock)
-    {
-        _isTouchable = !isLock;
-    }
+    
     
     private IEnumerator HoldDelay(PointerEventData eventData)
     {
@@ -98,10 +95,10 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
         switch (CurrentState)
         {
             case State.Lock:
-                SetLockTouch(true);
+                _isTouchable = false;
                 break;
             case State.UnLock:
-                SetLockTouch(false);
+                _isTouchable = true;
                 break;
             default:
                 Debug.LogError(name + " State Not Set");

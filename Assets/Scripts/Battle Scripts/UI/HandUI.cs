@@ -2,19 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using Battles.Deck;
-using Battles.UI.CardUIAttributes;
 using Cards;
-using DG.Tweening;
-using FMOD;
 using UnityEngine;
-using UnityEngine.XR.WSA.Sharing;
-using Debug = UnityEngine.Debug;
 
 namespace Battles.UI
 {
-
     public class HandUI : MonoBehaviour
     {
+        public static event Action OnCardDrawnAndAlign;
+        [SerializeField] private BattleInputDefaultState _battleInput;
         [SerializeField] private SelectCardUI _selectCard;
         [SerializeField] private RectTransform _middleHandPos;
         [SerializeField] private RectTransform _discardPos;
@@ -62,10 +58,19 @@ namespace Battles.UI
         public void DrawCards(params Card[] cards)
         {
             _handCards.AddRange(_cardUIManager.GetCardsUI(cards));
+            AddCardToTheInputState(_handCards.ToArray());//need Work!!!
             AlignCards();
             SetCardAtDrawPos(_handCards.ToArray());
             
             StartCoroutine(MoveCardsToHandPos(_cardSlots));
+        }
+
+        private void AddCardToTheInputState(CardUI[] cardsUI)
+        {
+            for (int i = 0; i < cardsUI.Length; i++)
+            {
+                _battleInput.AddTouchableItem(cardsUI[i].GetComponent<CardUIInputHandler>());
+            }
         }
 
         private void SetCardAtDrawPos(params CardUI[] cards)
@@ -87,6 +92,7 @@ namespace Battles.UI
                 yield return _waitForCardDrawnDelay;
             }
             onComplete?.Invoke();
+            OnCardDrawnAndAlign?.Invoke();
         }
         
         public CardUI GetHandCardUIFromIndex(int index)

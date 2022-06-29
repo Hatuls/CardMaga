@@ -46,6 +46,7 @@ namespace Battles.UI
         [Sirenix.OdinInspector.EnumToggleButtons]
 
         private CardUISettings Card;
+        
 
         private void CardUISettingsEnum()
         {

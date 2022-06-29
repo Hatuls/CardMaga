@@ -33,6 +33,27 @@ public abstract class BaseState : MonoBehaviour , IState
         }
     }
 
+    protected void LockTouchableItems()
+    {
+        if (_touchableItems.Count > 0)
+        {
+            for (int i = 0; i < _touchableItems.Count; i++)
+            {
+                _touchableItems[i].ForceChangeState(false);
+            }
+        }
+    }
+    protected void UnLockTouchableItems()
+    {
+        if (_touchableItems.Count > 0)
+        {
+            for (int i = 0; i < _touchableItems.Count; i++)
+            {
+                _touchableItems[i].ForceChangeState(true);
+            }
+        }
+    }
+
 
     public virtual void OnExitState()
     {

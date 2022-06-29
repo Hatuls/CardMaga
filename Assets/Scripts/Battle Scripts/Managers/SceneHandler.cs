@@ -37,9 +37,11 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
 {
 
     public static event Action OnSceneStart;
+    public static event Action OnSceneLateStart;
     public static event Action<ISceneHandler> OnSceneHandlerActivated;
     public static event Action<ITokenReciever> OnBeforeSceneShown;
     public static event Action<ITokenReciever> OnBeforeSceneUnloaded;
+    
 
     private IDisposable _blackPanelToken;
 
@@ -86,6 +88,7 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
             BlackScreenPanel.OnFinishFadeOut -= BlackScreenFinished;
 
             OnSceneStart?.Invoke(); // notifiyng that the game should start now
+            OnSceneLateStart?.Invoke();
         }
     }
 
