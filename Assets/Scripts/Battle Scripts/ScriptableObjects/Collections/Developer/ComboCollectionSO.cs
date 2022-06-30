@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Cards;
 using System.Linq;
-
+using Battle.Combo;
 namespace Collections
 {
     [CreateAssetMenu(fileName = "ComboCollectionSO", menuName = "ScriptableObjects/Collections/ComboCollectionSO")]
@@ -10,7 +10,7 @@ namespace Collections
     {
         #region Fields
         [Tooltip("List of all relics in game")]
-        [SerializeField] Combo.ComboSO[] _allComboSO;
+        [SerializeField] ComboSO[] _allComboSO;
 
         [SerializeField]
         RarityCombos[] _rarity;
@@ -38,7 +38,7 @@ namespace Collections
 
 
         #region properties
-        public Combo.ComboSO[] AllCombos => _allComboSO;
+        public ComboSO[] AllCombos => _allComboSO;
 
 
 
@@ -48,9 +48,9 @@ namespace Collections
 
         #endregion
 
-        public void Init(Combo.ComboSO[] combos, Combo.ComboSO[] rewardedCombos )
+        public void Init(ComboSO[] combos, ComboSO[] rewardedCombos )
         {
-            _allComboSO = new Combo.ComboSO[combos.Length];
+            _allComboSO = new ComboSO[combos.Length];
           System.Array.Copy(combos,_allComboSO,combos.Length);
 
             _rarity = new RarityCombos[5];
@@ -72,7 +72,7 @@ namespace Collections
             }
             throw new System.Exception("Rarity was Not Valid or Rarity Cards variable was not start up correctly");
         }
-        int[] GetRewardIDs(IEnumerable<Combo.ComboSO> combos)
+        int[] GetRewardIDs(IEnumerable<ComboSO> combos)
         {
             List<int> _list = new List<int>(combos.Count());
 

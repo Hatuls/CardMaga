@@ -1,12 +1,14 @@
 ﻿using Managers;
 using UnityEngine;
-using Battles.Deck;
+using Battle.Deck;
 using Characters.Stats;
 using Characters;
 using TMPro;
 using ReiTools.TokenMachine;
+using Battle.Combo;
+using Battle.Characters;
 
-namespace Battles
+namespace Battle
 {
     public class EnemyManager : MonoSingleton<EnemyManager> , IBattleHandler
     {
@@ -24,7 +26,7 @@ namespace Battles
         [SerializeField]  AnimatorController _enemyAnimatorController;
         [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
-         public Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
+         public Battle.Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
         private Cards.Card[] _deck;
         public Cards.Card[] Deck => _deck;
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
@@ -101,7 +103,7 @@ namespace Battles
         {
             Debug.Log("Enemy Attack!");
 
-            var staminaHandler = Characters.Stats.StaminaHandler.Instance;
+            var staminaHandler = StaminaHandler.Instance;
 
 
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using Unity.Events;
 using UnityEngine;
-using Battles.UI.CardUIAttributes;
+using Battle.UI.CardUIAttributes;
 using UnityEngine.EventSystems;
 
-namespace Battles.UI
+namespace Battle.UI
 {
     //[Serializable]
     public class CardUI : MonoBehaviour, IInputAbleObject, IEquatable<CardUI>

@@ -1,4 +1,4 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using Cards;
 using System.Collections.Generic;
 using System.Linq;

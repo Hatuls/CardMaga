@@ -38,10 +38,10 @@ namespace Keywords
 
                 var target = data.GetTarget;
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                    Battles.Deck.DeckManager.Instance.ResetDeck(currentPlayer, Battles.Deck.DeckEnum.Disposal);
+                    Battle.Deck.DeckManager.Instance.ResetDeck(currentPlayer, Battle.Deck.DeckEnum.Disposal);
 
                 if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                    Battles.Deck.DeckManager.Instance.ResetDeck(!currentPlayer, Battles.Deck.DeckEnum.Disposal);
+                    Battle.Deck.DeckManager.Instance.ResetDeck(!currentPlayer, Battle.Deck.DeckEnum.Disposal);
             }
             else
             {

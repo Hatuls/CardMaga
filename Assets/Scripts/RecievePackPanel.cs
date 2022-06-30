@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Battles.UI;
+using Battle.UI;
 using Rewards;
 
 public class RecievePackPanel : MonoBehaviour

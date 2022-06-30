@@ -11,6 +11,7 @@ public class SceneHandlerTerminal : MonoBehaviour
     UnityEvent OnSceneStart;
     private void SceneLoaded(ITokenReciever tokenReciever)
         => OnBeforeSceneShown?.Invoke(tokenReciever);
+
     private void SceneStarts( )
         => OnSceneStart?.Invoke();
     private void SceneUnLoaded(ITokenReciever tokenReciever)

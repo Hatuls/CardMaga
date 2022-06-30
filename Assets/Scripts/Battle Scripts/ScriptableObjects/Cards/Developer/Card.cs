@@ -65,7 +65,10 @@ namespace Cards
 
 
         #region Functions
+        public Card()
+        {
 
+        }
         public Card(CardInstanceID cardAccountInfo)
         {
             if (cardAccountInfo == null)

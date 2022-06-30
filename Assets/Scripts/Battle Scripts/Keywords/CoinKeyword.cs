@@ -41,14 +41,14 @@ namespace Keywords
             await System.Threading.Tasks.Task.Yield();
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
-                var cards = Battles.Deck.DeckManager.GetCraftingSlots(currentPlayer);
-                Battles.Deck.DeckManager.AddToCraftingSlot(currentPlayer, cards.LastCardEntered);
+                var cards = Battle.Deck.DeckManager.GetCraftingSlots(currentPlayer);
+                Battle.Deck.DeckManager.AddToCraftingSlot(currentPlayer, cards.LastCardEntered);
             }
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
-                var cards = Battles.Deck.DeckManager.GetCraftingSlots(!currentPlayer);
-                Battles.Deck.DeckManager.AddToCraftingSlot(!currentPlayer, cards.LastCardEntered);
+                var cards = Battle.Deck.DeckManager.GetCraftingSlots(!currentPlayer);
+                Battle.Deck.DeckManager.AddToCraftingSlot(!currentPlayer, cards.LastCardEntered);
 
             }
         }

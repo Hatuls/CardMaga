@@ -1,4 +1,5 @@
-﻿using Collections;
+﻿using Battle.Combo;
+using Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -9,11 +10,14 @@ using UnityEngine;
 public class CSVTORecipeSO : CSVAbst
 {
 
-    static List<Combo.ComboSO> _rewardedCombos;
+
+
+    static List<ComboSO> _rewardedCombos;
+
     static bool isCompleted;
     public async  override Task StartCSV(string data)
     {
-        _rewardedCombos = new List<Combo.ComboSO>();
+        _rewardedCombos = new List<ComboSO>();
         isCompleted = false;
         WebRequests.Get(data, (x) => Debug.LogError($"Error On Loading Recipes {x} "), OnCompleteDownloadingRecipeCSV);
         while (isCompleted == false)
@@ -34,7 +38,7 @@ public class CSVTORecipeSO : CSVAbst
 
         CSVManager._comboCollection = ScriptableObject.CreateInstance<ComboCollectionSO>();
 
-        List<Combo.ComboSO> combosRecipe = new List<Combo.ComboSO>();
+        List<ComboSO> combosRecipe = new List<ComboSO>();
         const int frameRate = 5;
         for (int i = 1; i < rows.Length; i++)
         {
@@ -63,7 +67,7 @@ public class CSVTORecipeSO : CSVAbst
     }
 
 
-    private static Combo.ComboSO CreateComboRecipe(string[] row, CardsCollectionSO cardCollection)
+    private static ComboSO CreateComboRecipe(string[] row, CardsCollectionSO cardCollection)
     {
         const int ID = 0;
         const int RecipeCardName = 1; // <- return ID
@@ -76,7 +80,7 @@ public class CSVTORecipeSO : CSVAbst
         if (row[ID] == "-")
             return null;
 
-        Combo.ComboSO recipe = ScriptableObject.CreateInstance<Combo.ComboSO>();
+        ComboSO recipe = ScriptableObject.CreateInstance<ComboSO>();
         recipe.ID = ushort.Parse(row[ID]);
 
 
@@ -107,7 +111,7 @@ public class CSVTORecipeSO : CSVAbst
         }
         //desination
         if (int.TryParse(row[GoesToWhenCrafted], out int locationInt))
-            recipe.GoToDeckAfterCrafting = (Battles.Deck.DeckEnum)locationInt;
+            recipe.GoToDeckAfterCrafting = (Battle.Deck.DeckEnum)locationInt;
         else
         {
             Debug.LogError($"Coulmne C Row {row[ID]} - Goes to when crafted is not a valid int!");
@@ -141,12 +145,12 @@ public class CSVTORecipeSO : CSVAbst
             const int cardTypeIndex = 1;
 
             string[] bodyPartsAndType = row[BodyPartsAndType].Split('&');
-            recipe.ComboSequance = new Cards.CardTypeData[bodyPartAmount];
+            recipe.ComboSequence = new Cards.CardTypeData[bodyPartAmount];
             for (int i = 0; i < bodyPartAmount; i++)
             {
                 string[] bodyPartAndTypeSeperation = bodyPartsAndType[i].Split('^');
 
-                recipe.ComboSequance[i] = new Cards.CardTypeData()
+                recipe.ComboSequence[i] = new Cards.CardTypeData()
                 {
                     BodyPart = int.TryParse(bodyPartAndTypeSeperation[bodyPartIndex], out int b) ? (Cards.BodyPartEnum)b : Cards.BodyPartEnum.None,
                     CardType = int.TryParse(bodyPartAndTypeSeperation[cardTypeIndex], out int t) ? (Cards.CardTypeEnum)t : Cards.CardTypeEnum.None,

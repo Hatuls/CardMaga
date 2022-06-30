@@ -1,7 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-namespace Battles.UI
+namespace Battle.UI
 {
     [RequireComponent(typeof(Slider))]
 

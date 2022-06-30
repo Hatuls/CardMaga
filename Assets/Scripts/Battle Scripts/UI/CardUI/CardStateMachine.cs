@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
     public class CardStateMachine : MonoBehaviour, ITouchable
     {

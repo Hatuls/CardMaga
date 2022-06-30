@@ -164,11 +164,11 @@ public class AnimatorController : MonoBehaviour
 
     public bool CheckIfMyTurn()
     {
-        return (Battles.Turns.TurnHandler.IsPlayerTurn == _isPlayer);
+        return (Battle.Turns.TurnHandler.IsPlayerTurn == _isPlayer);
     }
     public void PlayCrossAnimation()
     {
-        var cardQueue = Battles.CardExecutionManager.CardsQueue;
+        var cardQueue = Battle.CardExecutionManager.CardsQueue;
 
         if (cardQueue == null)
             throw new System.Exception("Cannot Play animation from card\n CardExecutionManager.CardsQueue is null!!");
@@ -216,14 +216,14 @@ public class AnimatorController : MonoBehaviour
     {
 
         transform.SetPositionAndRotation(startPos, ToolClass.RotateToLookTowards(targetToLookAt, transform));
-        if (Battles.Turns.TurnHandler.IsPlayerTurn != _isPlayer)
+        if (Battle.Turns.TurnHandler.IsPlayerTurn != _isPlayer)
         {
 
             _previousAnimation = null;
             return;
         }
 
-        var cardQueue = Battles.CardExecutionManager.CardsQueue;
+        var cardQueue = Battle.CardExecutionManager.CardsQueue;
         if (cardQueue.Count == 0)
         {
             OnFinishAnimation();
@@ -231,8 +231,8 @@ public class AnimatorController : MonoBehaviour
         }
 
 
-        if (Battles.CardExecutionManager.FinishedAnimation)
-            Battles.CardExecutionManager.FinishedAnimation = false;
+        if (Battle.CardExecutionManager.FinishedAnimation)
+            Battle.CardExecutionManager.FinishedAnimation = false;
         else
             return;
 
@@ -242,7 +242,7 @@ public class AnimatorController : MonoBehaviour
 
         if (cardQueue.Count != 0)
         {
-            Battles.CardExecutionManager.Instance.CardFinishExecuting();
+            Battle.CardExecutionManager.Instance.CardFinishExecuting();
         }
         else
         {
@@ -266,7 +266,7 @@ public class AnimatorController : MonoBehaviour
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
 
-        if (Battles.CardExecutionManager.Instance.CanDefendIncomingAttack(!_isPlayer))
+        if (Battle.CardExecutionManager.Instance.CanDefendIncomingAttack(!_isPlayer))
             _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString(), true);
         else
             _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString(), true);
@@ -311,7 +311,7 @@ public class AnimatorController : MonoBehaviour
     #region Private
     private void OnFinishAnimation()
     {
-        Battles.CardExecutionManager.FinishedAnimation = true;
+        Battle.CardExecutionManager.FinishedAnimation = true;
 
             SetCamera(CameraController.CameraAngleLookAt.Both);
         //ReturnToIdle();

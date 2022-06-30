@@ -1,5 +1,6 @@
 ﻿
-using Combo;
+using Battle;
+using Battle.Combo;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -32,9 +33,9 @@ public class ComboRecipeDisplayer : MonoBehaviour, IPointerClickHandler
         _currentPage = 1;
 
         var recipes = Managers.PlayerManager.Instance.Recipes;
-        Combo.ComboSO[] playerRecipe = new Combo.ComboSO[recipes.Length];
+        ComboSO[] playerRecipe = new ComboSO[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
-            playerRecipe[i] = recipes[i].ComboSO();
+            playerRecipe[i] = recipes[i].ComboSO;
 
         if (playerRecipe.Length < comboRecipeUIs.Length)
         {
@@ -53,11 +54,11 @@ public class ComboRecipeDisplayer : MonoBehaviour, IPointerClickHandler
             page = 1;
 
         var recipes = Managers.PlayerManager.Instance.Recipes;
-        Combo.Combo[] playerRecipe = new Combo.Combo[recipes.Length];
+        Combo[] playerRecipe = new Combo[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
         {
             playerRecipe[i] = recipes[i];
-            Debug.LogWarning($"Recipe { playerRecipe[i].ComboSO().ComboName}"); ;
+            Debug.LogWarning($"Recipe { playerRecipe[i].ComboSO.ComboName}"); ;
 
         }
 

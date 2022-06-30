@@ -1,6 +1,6 @@
 ﻿
 using UnityEngine;
-namespace Battles.UI
+namespace Battle.UI
 {
     public class TextPopUpHandler : MonoBehaviour
     {

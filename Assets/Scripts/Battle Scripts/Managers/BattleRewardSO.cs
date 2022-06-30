@@ -1,4 +1,4 @@
-﻿using Battles;
+﻿using Battle;
 using Cards;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,11 +77,11 @@ namespace Rewards
             throw new System.Exception($"BattleRewardSO: CurrencyEnum is not a valid type {currencyEnum}!");
         }
 
-        public BattleReward CreateReward(ActsEnum actsEnum, IEnumerable<Combo.Combo> workOnCombo)
+        public BattleReward CreateReward(ActsEnum actsEnum, IEnumerable<Battle.Combo.Combo> workOnCombo)
         {
             Card[] rewardCards = GenerateCardsRewards(actsEnum);
 
-            Combo.Combo[] combo = null;
+            Battle.Combo.Combo[] combo = null;
             if (_characterDifficultyEnum >= CharacterTypeEnum.Elite_Enemy)
             {
                 combo = GenerateComboReward(actsEnum, workOnCombo);
@@ -181,7 +181,7 @@ namespace Rewards
             return rewardCards;
         }
         //refactor this method
-        public Combo.Combo[] GenerateComboReward(ActsEnum actsEnum, IEnumerable<Combo.Combo> workOnCombo, byte amount = 1)
+        public Battle.Combo.Combo[] GenerateComboReward(ActsEnum actsEnum, IEnumerable<Battle.Combo.Combo> workOnCombo, byte amount = 1)
         {
             // roll combos from rarity 
             // check if the combo is optional to be reward based on interface
@@ -197,7 +197,7 @@ namespace Rewards
 
             var comboIDs = workOnCombo.Select(x => new { ID = x.ID });
 
-            Combo.Combo[] combo = new Combo.Combo[amount];
+            Battle.Combo.Combo[] combo = new Battle.Combo.Combo[amount];
             List<int> allPossibleCombosIDFromChances = new List<int>();
             byte[] chances = new byte[comboChances.Length];
             for (int j = 0; j < chances.Length; j++)
@@ -220,7 +220,7 @@ namespace Rewards
             for (int i = 0; i < amount; i++)
             {
 
-                IEnumerable<Combo.ComboSO> combosFromThisRarity;
+                IEnumerable<Battle.Combo.ComboSO> combosFromThisRarity;
                 do
                 {
                     RarityEnum rarity = GetRandomRarity();

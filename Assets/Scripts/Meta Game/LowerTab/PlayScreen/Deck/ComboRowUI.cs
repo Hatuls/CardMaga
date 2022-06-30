@@ -1,4 +1,5 @@
 ﻿using Art;
+using Battle.Combo;
 using TMPro;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace UI.Meta.PlayScreen
         BodyPartGFX[] _comboRecipe;
         #endregion
         #region Public Methods
-        public void Init(Combo.ComboSO combo, int comboLevel, ArtSO artSO)
+        public void Init(ComboSO combo, int comboLevel, ArtSO artSO)
         {
             ResetComboRecipeSlots();
             _comboName.text = combo.ComboName;
@@ -25,10 +26,10 @@ namespace UI.Meta.PlayScreen
             var cardTypePalette = artSO.GetPallette<CardTypePalette>();
             var iconCollection = artSO.IconCollection;
             _comboBodyPart.AssignBodyPart(combo.CraftedCard.CardType);
-            for (int i = 0; i < combo.ComboSequance.Length; i++)
+            for (int i = 0; i < combo.ComboSequence.Length; i++)
             {
                 _comboRecipe[i].gameObject.SetActive(true);
-                _comboRecipe[i].AssignBodyPart(combo.ComboSequance[i]);
+                _comboRecipe[i].AssignBodyPart(combo.ComboSequence[i]);
             }
         }
         private void ResetComboRecipeSlots()

@@ -1,14 +1,14 @@
-﻿using Battles;
+﻿using Battle;
 using UnityEngine;
 using Rei.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using Combo;
+using Battle.Combo;
 
-public class BattleComboFilterByUpgrade : SortAbst<Combo.Combo>
+public class BattleComboFilterByUpgrade : SortAbst<Combo>
 {
     // Need To be Re-Done
-    public override IEnumerable<Combo.Combo> Sort()
+    public override IEnumerable<Combo> Sort()
     {
         //var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe;
         //var sortedDeck = deck.Where(x => x.Level < (x.ComboSO().CraftedCard.CardsMaxLevel - 1));

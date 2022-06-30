@@ -14,7 +14,7 @@ namespace CardMaga.Map
         public override NodeType PointType =>  NodeType.Chest;
         [SerializeField] ObserverSO _observerSO;
         [SerializeField]
-        Battles.CharacterTypeEnum _rarityBasedOn = Battles.CharacterTypeEnum.Elite_Enemy;
+        Battle.CharacterTypeEnum _rarityBasedOn = Battle.CharacterTypeEnum.Elite_Enemy;
         [Button]
 
         public override void ActivatePoint()

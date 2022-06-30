@@ -1,9 +1,10 @@
-﻿using Battles;
+﻿using Battle;
+using Battle.Characters;
 using Characters;
 using Characters.Stats;
 using ReiTools.TokenMachine;
 using UnityEngine;
-
+using Battle.Combo;
 
 namespace Managers
 {
@@ -16,7 +17,7 @@ namespace Managers
 
         [SerializeField] Character _character;
 
-        [SerializeField] Combo.Combo _recipes;
+        [SerializeField] Combo _recipes;
 
         [SerializeField] AnimatorController _playerAnimatorController;
         [SerializeField] AnimationBodyPartSoundsHandler _soundAnimation;
@@ -25,7 +26,7 @@ namespace Managers
         public ref CharacterStats GetCharacterStats => ref _character.CharacterData.CharacterStats;
         Cards.Card[] _playerDeck;
         public Cards.Card[] Deck => _playerDeck;
-        public Combo.Combo[] Recipes => _character.CharacterData.ComboRecipe;
+        public Battle.Combo.Combo[] Recipes => _character.CharacterData.ComboRecipe;
 
         public AnimatorController PlayerAnimatorController
         {
@@ -70,12 +71,12 @@ namespace Managers
             System.Array.Copy(data.CharacterDeck, _playerDeck, Length);
 
             CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
-            Battles.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
+            Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
             PlayerAnimatorController.ResetAnimator();
         }
         public void UpdateStatsUI()
         {
-            var statsui = Battles.UI.StatsUIManager.Instance;
+            var statsui = Battle.UI.StatsUIManager.Instance;
             statsui.UpdateMaxHealthBar(true, GetCharacterStats.MaxHealth);
             statsui.InitHealthBar(true, GetCharacterStats.Health);
             statsui.UpdateShieldBar(true, GetCharacterStats.Shield);

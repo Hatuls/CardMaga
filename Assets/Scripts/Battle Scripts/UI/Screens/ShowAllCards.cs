@@ -1,13 +1,13 @@
-﻿using Battles;
+﻿using Battle;
 using Cards;
 using Rei.Utilities;
 using System.Collections.Generic;
-using UnityEngine;
+using Battle.Combo;
 using UnityEngine.Events;
 namespace CardMaga.UI
 {
     [System.Serializable]
-    public class SortComboEvent : UnityEvent<ISort<Combo.Combo>> { }
+    public class SortComboEvent : UnityEvent<ISort<Combo>> { }
     [System.Serializable]
     public class SortCardEvent : UnityEvent<ISort<Card>> { }
     public class ShowAllCards : SortAbst<Card>

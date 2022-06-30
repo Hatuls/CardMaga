@@ -1,6 +1,6 @@
 ﻿using Cards;
 using UnityEngine;
-namespace Battles.Deck
+namespace Battle.Deck
 {
     public class Selected : DeckAbst
     {

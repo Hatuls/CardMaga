@@ -1,5 +1,5 @@
-﻿using Battles;
-using Combo;
+﻿using Battle;
+using Battle;
 using System.Collections.Generic;
 using System.Linq;
 using UI;

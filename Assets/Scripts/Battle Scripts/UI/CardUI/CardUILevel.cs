@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
     public class CardUILevel :MonoBehaviour
     {

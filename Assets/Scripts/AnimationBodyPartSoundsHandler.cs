@@ -1,4 +1,4 @@
-﻿using Battles;
+﻿using Battle;
 using UnityEngine;
 
 public class AnimationBodyPartSoundsHandler : MonoBehaviour

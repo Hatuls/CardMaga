@@ -5,7 +5,7 @@ using Cards;
 using Art;
 using UI.Meta.PlayScreen;
 
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
     public enum CardUILevelState { Off = 0 , On =1, Missing = 2};
     [System.Serializable]

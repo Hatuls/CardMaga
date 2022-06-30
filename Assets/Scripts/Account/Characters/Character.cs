@@ -1,4 +1,4 @@
-﻿using Battles;
+﻿using Battle;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -32,10 +32,11 @@ namespace Account.GeneralData
        [SerializeField]   private int _exp;
        [SerializeField]   private int _skillPoint;
        [SerializeField]   private int _rank;
-        [SerializeField] private int _deckAmount = 1;
+       [SerializeField]   private int _deckAmount = 1;
+       [SerializeField]   private int _mainDeck;
 
-    [SerializeField]      private List<int> _availableSkins = new List<int>();
-        [SerializeField] private List<DeckData> _deck = new List<DeckData>();
+       [SerializeField]  private List<int> _availableSkins = new List<int>();
+       [SerializeField]  private List<DeckData> _deck = new List<DeckData>();
 
         public Character(CharacterSO newCharacter)
         {
@@ -46,28 +47,31 @@ namespace Account.GeneralData
             _rank = 0;
             _deckAmount = 1;
             _deck.Add(new DeckData(_deck.Count, "Default Deck", newCharacter.Deck, newCharacter.Combos));
+            _mainDeck = 0;
         }
 
         public int Id { get => _id; private set => _id = value; }
         public IReadOnlyList<int> AvailableSkins { get => _availableSkins; }
         public int CurrentSkin { get => _currentSkin; set => _currentSkin = value; }
+        public int MainDeck { get => _mainDeck; private set => _mainDeck = value; }
         public int Exp { get => _exp; set => _exp = value; }
         public int SkillPoint { get => _skillPoint; set => _skillPoint = value; }
         public IReadOnlyList<DeckData> Deck { get => _deck; }
         public int Rank { get => _rank; set => _rank = value; }
         public int DeckLimit => _deckAmount;
 
+       
 
-        public bool AddNewDeck(CardInstanceID[] deckCards,Combo.Combo[] deckCombos)
+        public bool AddNewDeck(CardInstanceID[] deckCards,ComboCore[] deckCombos)
         {
-            CardInstanceID.CardCore[] cards = new CardInstanceID.CardCore[deckCards.Length];
+            CardCore[] cards = new CardCore[deckCards.Length];
 
             for (int i = 0; i < cards.Length; i++)
                 cards[i] = deckCards[i].ToCardCore();
 
             return AddNewDeck(cards,deckCombos);
         }      
-        public bool AddNewDeck(CardInstanceID.CardCore[] deckCards,Combo.Combo[] deckCombos)
+        public bool AddNewDeck(CardCore[] deckCards,ComboCore[] deckCombos)
         {
             bool _canAddDeck = _deck.Count < _deckAmount;
             if (_canAddDeck)
@@ -189,10 +193,10 @@ namespace Account.GeneralData
     {
         [SerializeField]  private int _id;
         [SerializeField]  private string _name;
-        [SerializeField]  private CardInstanceID.CardCore[] _cards;
-        [SerializeField] private Combo.Combo[] _combos;
+        [SerializeField]  private CardCore[] _cards;
+        [SerializeField] private ComboCore[] _combos;
 
-        public DeckData(int id, string name, CardInstanceID.CardCore[] cards, Combo.Combo[] combos)
+        public DeckData(int id, string name, CardCore[] cards, ComboCore[] combos)
         {
             _id = id;
             _name = name;
@@ -202,7 +206,7 @@ namespace Account.GeneralData
 
         public int Id { get => _id; set => _id = value; }
         public string Name { get => _name; set => _name = value; }
-        public CardInstanceID.CardCore[] Cards { get => _cards; set => _cards = value; }
-        public Combo.Combo[] Combos { get => _combos; set => _combos = value; }
+        public CardCore[] Cards { get => _cards; set => _cards = value; }
+        public ComboCore[] Combos { get => _combos; set => _combos = value; }
     }
 }

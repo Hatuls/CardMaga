@@ -1,90 +1,53 @@
 ﻿
-using Characters;
-using Rewards;
+using Battle.Characters;
 using System;
 using UnityEngine;
-using CardMaga.Map;
-namespace Battles
+
+namespace Battle.Data
 {
     [Serializable]
-    public class BattleData
+    public class BattleData : MonoBehaviour
     {
-        [SerializeField]
-        private MapRewards[] _mapRewards = null;
+        private static BattleData _instance;
+    
+        public static BattleData Instance =>_instance;
         [SerializeField]
         private Character _player = null;
         [SerializeField]
         private Character _opponent = null;
-        [SerializeField]
-        private bool _isFinishedPlaying = false;
-        [SerializeField]
+        [SerializeField, Sirenix.OdinInspector.ReadOnly]
         private bool _playerWon = false;
-        [SerializeField]
-        private Map _map;
 
-        [SerializeField]
-        ActsEnum _currentAct;
-
-
-        public MapRewards this[CharacterTypeEnum characterTypeEnum]
-        {
-            get
-            {
-
-                if (_mapRewards == null || _mapRewards.Length == 0)
-                    ResetMapRewards();
-                
-                const int offsetToZero = 2;
-                int index = (int)characterTypeEnum - offsetToZero;
-                return _mapRewards[index];
-            }
-        }
-
-        public void ResetMapRewards()
-        {
-            const int characters = 4;
-            _mapRewards = new MapRewards[characters];
-            for (int i = 0; i < characters; i++)
-                _mapRewards[i] = new MapRewards();
-        }
-
-        public CardMaga.Map.Map Map { get => _map; set => _map = value; }
         public Character Player { get => _player; set => _player = value; }
         public Character Opponent { get => _opponent; set => _opponent = value; }
         public bool PlayerWon { get => _playerWon; set => _playerWon = value; }
-        public bool IsFinishedPlaying { get => _isFinishedPlaying; set => _isFinishedPlaying = value; }
-        public ActsEnum CurrentAct { get => _currentAct; set => _currentAct = value; }
 
 
-        public ushort GetAllDiamonds()
-        => GetAllFromMapRewards((x) => x.Diamonds);
-        public ushort GetAllExp()
-            => GetAllFromMapRewards(x => x.EXP);
-        public ushort GetAllGold()
-        => GetAllFromMapRewards(x => x.Gold);
-        public ushort GetAllCredits()
-            => GetAllFromMapRewards(x => x.Credits);
-        private ushort GetAllFromMapRewards(Func<MapRewards, ushort> operation)
-        {
-            ushort value = 0;
-            for (int i = 0; i < _mapRewards.Length; i++)
-                value += operation.Invoke(_mapRewards[i]);
-
-            return value;
-        }
         public void ResetData()
         {
-            _mapRewards = null;
             _player = null;
             _opponent = null;
-            _map = null;
-            _isFinishedPlaying = false;
             _playerWon = false;
-            _currentAct = ActsEnum.ActOne;
         }
+
+        public void AssginCharacter(in bool isPlayer, CharacterSO characterSO)
+            => AssginCharacter(isPlayer, new Account.GeneralData.Character(characterSO));
+        public void AssginCharacter(in bool isPlayer, Account.GeneralData.Character data)
+        {
+            if (isPlayer)
+                _player = new Character(data);
+            else
+                _opponent = new Character(data);
+        }
+
+        
+
+
     }
 
-
+    /// <summary>
+    /// Need Remake
+    /// </summary>
     [System.Serializable]
     public class MapRewards
     {
@@ -93,7 +56,7 @@ namespace Battles
         [SerializeField] private ushort _credits;
         [SerializeField] private ushort _gold;
 
-        
+
 
         public ushort Diamonds { get => _diamonds; set => _diamonds = value; }
         public ushort EXP { get => _exp; set => _exp = value; }

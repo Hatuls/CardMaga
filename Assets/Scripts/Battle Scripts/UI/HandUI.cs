@@ -1,6 +1,6 @@
-﻿using Battles.UI.CardUIAttributes;
+﻿using Battle.UI.CardUIAttributes;
 using UnityEngine;
-namespace Battles.UI
+namespace Battle.UI
 {
 
     public class HandUI

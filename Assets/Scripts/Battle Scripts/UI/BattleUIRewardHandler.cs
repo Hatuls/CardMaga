@@ -1,4 +1,4 @@
-﻿using Battles;
+﻿using Battle;
 using DesignPattern;
 using TMPro;
 using UI;

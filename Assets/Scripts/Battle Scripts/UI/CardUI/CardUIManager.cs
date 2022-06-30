@@ -1,13 +1,13 @@
 ﻿
-using Battles.Deck;
-using Battles.UI.CardUIAttributes;
+using Battle.Deck;
+using Battle.UI.CardUIAttributes;
 using Cards;
 using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Battles.UI
+namespace Battle.UI
 {
     public class CardUIManager : MonoSingleton<CardUIManager>
     {

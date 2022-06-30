@@ -1,5 +1,5 @@
-﻿using Battles;
-using Battles.UI;
+﻿using Battle;
+using Battle.UI;
 using DesignPattern;
 using UnityEngine;
 namespace CardMaga.UI

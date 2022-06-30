@@ -1,5 +1,5 @@
-﻿using Battles;
-using Battles.UI;
+﻿using Battle;
+using Battle.UI;
 using CardMaga.LoadingScene;
 using Managers;
 using ReiTools.TokenMachine;

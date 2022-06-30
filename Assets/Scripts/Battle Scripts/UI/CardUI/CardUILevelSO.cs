@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
     [CreateAssetMenu(fileName = "Card UI Level Art",menuName = "ScriptableObjects/Art/CardUI/Levels")]
     public class CardUILevelSO : ScriptableObject

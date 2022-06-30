@@ -1,8 +1,9 @@
 ﻿
-using Battles;
+using Battle;
 using Characters;
 using CardMaga.UI;
 using UnityEngine;
+using Account.GeneralData;
 
 public class SinglePlayerHandler : MonoBehaviour
 {

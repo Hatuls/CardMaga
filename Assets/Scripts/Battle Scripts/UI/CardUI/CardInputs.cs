@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
     [RequireComponent(typeof(EventTrigger))]
     public class CardInputs :MonoBehaviour,IPointerClickHandler//, IPointerEnterHandlerIBeginDragHandler,IPointerUpHandler

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UI;
 using UnityEngine;
-
-public class MetaComboUIFilterScreen : UIFilterScreen<ComboRecipeUI, Combo.Combo>
+using Battle.Combo;
+public class MetaComboUIFilterScreen : UIFilterScreen<ComboRecipeUI, Combo>
 {
     [Tooltip("True will use the accounts information\nFalse will use the info from this Run")]
     [SerializeField] bool toUseAccountData;
@@ -25,7 +25,7 @@ public class MetaComboUIFilterScreen : UIFilterScreen<ComboRecipeUI, Combo.Combo
         //}
     }
 
-    protected override void OnActivate(IEnumerable<Combo.Combo> sortedCombo, int i)
+    protected override void OnActivate(IEnumerable<Combo> sortedCombo, int i)
     {
         _collection[i].InitRecipe(sortedCombo.ElementAt(i));
         _collection[i].transform.localScale = Vector3.one * _comboSize;

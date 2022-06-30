@@ -1,9 +1,10 @@
-﻿using Battles;
+﻿using Battle;
 using DesignPattern;
 using System;
 using UnityEngine;
 using CardMaga;
 using CardMaga.Map;
+using Battle.Combo;
 
 namespace Rewards.Battles
 {
@@ -73,7 +74,7 @@ namespace Rewards.Battles
             _endRunScreen.FinishGame();
         }
         // Need To be Re-Done
-        internal void AddCombo(Combo.Combo[] rewardCombos)
+        internal void AddCombo(Combo[] rewardCombos)
         {
         //  bool recievedSuccessfully = Account.AccountManager.Instance.BattleData.Player.AddComboRecipe(rewardCombos[0]);
         }

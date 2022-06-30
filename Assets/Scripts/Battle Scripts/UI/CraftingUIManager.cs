@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Battles.UI
+namespace Battle.UI
 {
     public class CraftingUIManager : MonoSingleton<CraftingUIManager>
 {

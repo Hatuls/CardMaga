@@ -1,11 +1,11 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using Cards;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
 
-namespace Battles.Deck
+namespace Battle.Deck
 {
     public class DeckManager : MonoSingleton<DeckManager>
     {

@@ -100,7 +100,7 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
 
-        if (_isScreenLocked == false && !Battles.BattleManager.isGameEnded)
+        if (_isScreenLocked == false && !Battle.BattleManager.isGameEnded)
         {
             TouchDetector();
             MouseDetector();

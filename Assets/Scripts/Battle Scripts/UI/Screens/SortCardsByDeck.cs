@@ -1,4 +1,4 @@
-﻿using Battles.Deck;
+﻿using Battle.Deck;
 using Cards;
 using Rei.Utilities;
 using System.Collections.Generic;

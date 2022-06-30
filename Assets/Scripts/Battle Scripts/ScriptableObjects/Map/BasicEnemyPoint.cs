@@ -11,7 +11,7 @@ namespace CardMaga
         public override void ActivatePoint(NodeLevel level)
         {
             var characterFactory = Factory.GameFactory.Instance.CharacterFactoryHandler;
-           var enemySO= characterFactory.GetRandomCharacterSO(Battles.CharacterTypeEnum.Basic_Enemy, level);
+           var enemySO= characterFactory.GetRandomCharacterSO(Battle.CharacterTypeEnum.Basic_Enemy, level);
            var enemy = characterFactory.CreateCharacter(enemySO);
             SinglePlayerHandler.Instance.RegisterOpponent(enemy);
             ActivatePoint();

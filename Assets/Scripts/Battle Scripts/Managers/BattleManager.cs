@@ -1,5 +1,7 @@
-﻿using Battles.Turns;
-using Battles.UI;
+﻿using Battle.Characters;
+using Battle.Data;
+using Battle.Turns;
+using Battle.UI;
 using Characters;
 using Characters.Stats;
 using Managers;
@@ -11,7 +13,7 @@ using UI.Meta.Settings;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Battles
+namespace Battle
 {
     public class BattleManager : MonoSingleton<BattleManager>
     {
@@ -63,12 +65,12 @@ namespace Battles
         private void AssignParams()
         {
 
-          //  var battleData = Account.AccountManager.Instance.BattleData;
-          //  PlayerManager.Instance.AssignCharacterData(battleData.Player);
-          //  EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
+            var battleData = BattleData.Instance;
+            PlayerManager.Instance.AssignCharacterData(battleData.Player);
+            EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
 
-          //  if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
-          //      throw new Exception("Battle data was not work correctly!");
+            //  if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
+            //      throw new Exception("Battle data was not work correctly!");
 
             PlayerManager.Instance.UpdateStatsUI();
             EnemyManager.Instance.UpdateStatsUI();
@@ -98,7 +100,7 @@ namespace Battles
 
             _turnCycles = TurnHandler.TurnCycle();
 
-           // Account.AccountManager.Instance.BattleData.PlayerWon = false;
+            BattleData.Instance.PlayerWon = false;
 
             OnBattleStarts?.Invoke();
 
@@ -115,6 +117,7 @@ namespace Battles
         {
             if (isGameEnded == true)
                 return;
+
             OnGameEnded?.Invoke();
             UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
@@ -161,14 +164,13 @@ namespace Battles
         // Need To be Re-Done
         private void EnemyDied()
         {
-        //    PlayerManager.Instance.PlayerWin();
-        //    EnemyManager.EnemyAnimatorController.CharacterIsDead();
-        //    var battleData = Account.AccountManager.Instance.BattleData;
-        //
-        //    SendAnalyticWhenGameEnded("player_won", battleData);
-        //    AddRewards();
-        //    _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
-        //    OnPlayerVictory?.Invoke();
+            PlayerManager.Instance.PlayerWin();
+            EnemyManager.EnemyAnimatorController.CharacterIsDead();
+            BattleData.Instance.PlayerWon = true;
+           //     SendAnalyticWhenGameEnded("player_won", battleData);
+            //    AddRewards();
+            //    _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
+            //    OnPlayerVictory?.Invoke();
         }
         // Need To be Re-Done
         private void AddRewards()
@@ -185,7 +187,7 @@ namespace Battles
           //  var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.Instance.EnemyWon();
-
+            BattleData.Instance.PlayerWon = false;
             _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
         //    SendAnalyticWhenGameEnded("player_defeated", battleData);
             OnPlayerDefeat?.Invoke();

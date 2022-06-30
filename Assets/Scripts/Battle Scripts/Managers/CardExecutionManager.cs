@@ -1,5 +1,5 @@
-﻿using Battles.Deck;
-using Battles.UI;
+﻿using Battle.Deck;
+using Battle.UI;
 using Characters.Stats;
 using Keywords;
 using ReiTools.TokenMachine;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Battles
+namespace Battle
 {
     [System.Serializable]
     public class CardEvent : UnityEvent<Cards.Card> { }

@@ -7,7 +7,7 @@ namespace Account.GeneralData
 
 
     [Serializable]
-    public class CardInstanceID : IEquatable<CardInstanceID>
+    public class CardInstanceID : IEquatable<CardInstanceID>, IDisposable
     {
         #region Fields
         private CardCore _coreData;
@@ -40,45 +40,50 @@ namespace Account.GeneralData
         public CardCore ToCardCore()
           => new CardCore(this);
 
+        public void Dispose()
+        {
+            _coreData.Dispose();
+        }
 
         #endregion
-
-        [Serializable]
-        public class CardCore
-        {
-            [SerializeField] private int _iD;
-            [SerializeField] private int _level;
-            [SerializeField] private int _expierence;
-
-
-            public int ID { get => _iD; private set => _iD = value; }
-            public int Level { get => _level; private set => _level = value; }
-            public int EXP { get => _expierence; private set => _expierence = value; }
-
-            public CardCore(int iD, int level = 1, int expierence = 0)
-            {
-                EXP = expierence;
-                ID = iD;
-                Level = level;
-            }
-            public void SetLevel(int amount)
-                => _level = amount;
-            public void SetEXP(int amount)
-                            => _expierence = amount;
-            public CardCore(CardInstanceID cardInstanceID)
-            {
-                _iD = cardInstanceID.ID;
-                _level = cardInstanceID.Level;
-                _expierence = cardInstanceID.Exp;
-            }
-        }
     }
+    [Serializable]
+    public class CardCore : IDisposable
+    {
+        [SerializeField] private int _iD;
+        [SerializeField] private int _level;
+        [SerializeField] private int _expierence;
 
+        public int ID { get => _iD; private set => _iD = value; }
+        public int Level { get => _level; private set => _level = value; }
+        public int EXP { get => _expierence; private set => _expierence = value; }
+
+        public CardCore(int iD, int level = 1, int expierence = 0)
+        {
+            EXP = expierence;
+            ID = iD;
+            Level = level;
+            Factory.GameFactory.CardFactory.Register(this);
+        }
+
+        public void SetLevel(int amount)
+            => _level = amount;
+        public void SetEXP(int amount)
+            => _expierence = amount;
+
+        public void Dispose()
+        {
+            Factory.GameFactory.CardFactory.Remove(this);
+        }
+
+        public CardCore(CardInstanceID cardInstanceID) : this(cardInstanceID.ID, cardInstanceID.Level, cardInstanceID.Exp) { }
+
+    }
     public static class CardHelper
     {
         public static CardSO CardSO(this CardInstanceID card)
     => CardSO(card.ID);
-        public static CardSO CardSO(this CardInstanceID.CardCore card)
+        public static CardSO CardSO(this CardCore card)
             => CardSO(card.ID);
             public static CardSO CardSO(int id)
           => Factory.GameFactory.Instance.CardFactoryHandler.GetCard(id);

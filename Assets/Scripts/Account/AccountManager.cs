@@ -201,7 +201,7 @@ namespace Account
         {
 
             _charactersData = new CharactersData();
-            Battles.CharacterSO firstCharacter = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
+            Battle.CharacterSO firstCharacter = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
             _charactersData.AddCharacter(new Character(firstCharacter));
         }
         private void CreateNewGeneralData()

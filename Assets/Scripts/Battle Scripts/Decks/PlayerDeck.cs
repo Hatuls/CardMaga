@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Events;
 
-namespace Battles.Deck
+namespace Battle.Deck
 {
     public class PlayerDeck : DeckAbst
     {

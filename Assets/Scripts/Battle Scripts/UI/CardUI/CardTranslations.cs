@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
     public class CardTranslations
     {

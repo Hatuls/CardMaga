@@ -1,4 +1,4 @@
-﻿using Battles;
+﻿using Battle;
 using Cards;
 using Rei.Utilities;
 using System.Collections.Generic;

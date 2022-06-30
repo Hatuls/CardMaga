@@ -1,8 +1,8 @@
-﻿using Battles.Deck;
+﻿using Battle.Deck;
 using TMPro;
 using UnityEngine;
 
-namespace Battles.UI
+namespace Battle.UI
 {
     public class CraftingUIHandler
     {

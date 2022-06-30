@@ -1,4 +1,4 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using Sirenix.OdinInspector;
 using TMPro;
 using UI.Meta.Laboratory;

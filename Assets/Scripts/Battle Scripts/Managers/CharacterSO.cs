@@ -1,12 +1,12 @@
 ﻿using Account.GeneralData;
-using Cards;
 using Collections;
 using Sirenix.OdinInspector;
 using System;
 using System.Linq;
 using UnityEngine;
-
-namespace Battles
+using Battle.Combo;
+using Characters.Stats;
+namespace Battle
 {
     [CreateAssetMenu(fileName = "CharacterSO", menuName = "ScriptableObjects/Characters/CharacterSO")]
     public class CharacterSO : ScriptableObject
@@ -15,7 +15,7 @@ namespace Battles
 
       
         [SerializeField]
-        private Characters.Stats.CharacterStats _characterStats;
+        private CharacterStats _characterStats;
 
         [SerializeField]
         private int _id;
@@ -52,11 +52,11 @@ namespace Battles
         public short CharacterDiffciulty { get => _characterDifficulty; private set => _characterDifficulty = value; }
 
         [SerializeField]
-        private Combo.Combo[] _combos;
-        public Combo.Combo[] Combos => _combos;
+        private Account.GeneralData.ComboCore[] _combos;
+        public Account.GeneralData.ComboCore[] Combos => _combos;
         [SerializeField]
-        private CardInstanceID.CardCore[] _deck;
-        public CardInstanceID.CardCore[] Deck { get => _deck; }
+        private CardCore[] _deck;
+        public CardCore[] Deck { get => _deck; }
 
 
         [SerializeField]
@@ -64,7 +64,7 @@ namespace Battles
         public RewardTypeEnum RewardType { get => _rewardType; private set => _rewardType = value; }
 
 
-        public ref Characters.Stats.CharacterStats CharacterStats { get => ref _characterStats; }
+        public ref CharacterStats CharacterStats { get => ref _characterStats; }
 
         public SoundEventWithParamsSO SoundOnAttack; // parameter "Voice"
         public SoundEventWithParamsSO GetHitSounds;//Parameter "Get Hit"
@@ -123,7 +123,7 @@ namespace Battles
                             {
                                 CharacterAvatar = characterModel;
 
-                                CharacterStats = new Characters.Stats.CharacterStats()
+                                CharacterStats = new CharacterStats()
                                 {
                                     MaxHealth = int.Parse(row[CharacterMaxHpIndex]),
                                     Shield = int.Parse(row[CharacterDefenseIndex]),
@@ -142,7 +142,7 @@ namespace Battles
                                 const int iD = 0, Level = 1;
                                 //deck cards
                                 string[] Cards = row[CharacterDeckIndex].Split('&');
-                                _deck = new CardInstanceID.CardCore[Cards.Length];
+                                _deck = new CardCore[Cards.Length];
                                 for (int i = 0; i < Cards.Length; i++)
                                 {
                                     string[] data = Cards[i].Split('^');
@@ -160,13 +160,13 @@ namespace Battles
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
-                                    _deck[i] = new CardInstanceID.CardCore(cardCollection.GetAllCards.First(x=>x.ID==_iD).ID, _level,0);
+                                    _deck[i] = new CardCore(cardCollection.GetAllCards.First(x=>x.ID==_iD).ID, _level,0);
 
                                 }
 
                                 //Recipes / Combos
                                 string[] Recipe = row[CharacterRecipeIndex].Split('&');
-                                _combos = new Combo.Combo[Recipe.Length];
+                                _combos = new Account.GeneralData.ComboCore[Recipe.Length];
 
                                 for (int i = 0; i < Recipe.Length; i++)
                                 {
@@ -189,7 +189,7 @@ namespace Battles
 
 
 
-                                    _combos[i] = new Combo.Combo(recipeCollections.AllCombos.First(x=>x.ID==_iD), _level);
+                                    _combos[i] = new Account.GeneralData.ComboCore(recipeCollections.AllCombos.First(x=>x.ID==_iD), _level);
 
 
                                     if (_combos[i] == null)

@@ -1,4 +1,4 @@
-﻿using Battles.Turns;
+﻿using Battle.Turns;
 using UnityEngine;
 
 namespace Tutorial

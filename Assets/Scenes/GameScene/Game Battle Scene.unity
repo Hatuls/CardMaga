@@ -428,6 +428,366 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd6b02e4efc6224387102b17338824d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &567728194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 567728196}
+  - component: {fileID: 567728195}
+  m_Layer: 0
+  m_Name: Battle Config
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &567728195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567728194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 226026d1eedc2e547b7204b3d5fc9a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player:
+    _characterData:
+      _characterSO: {fileID: 11400000, guid: 9e4224cf02ac0604b982993ad3ee5ee4, type: 2}
+      _characterStats:
+        _maxHealth: 90
+        _health: 90
+        _defense: 0
+        _gold: 100
+        _strengthPoint: 0
+        _bleedPoints: 0
+        _cardDraw: 4
+        _startStamina: 4
+        _regenerationPoints: 0
+        _stunShards: 0
+        _staminaShard: 0
+        _protectionShard: 0
+        _rageShard: 0
+        _ragePoints: 0
+        _protectionPoints: 0
+        _weak: 0
+        _vulnerable: 0
+      _characterDeck:
+      - _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: d5cf22a2c1bb0294aa79a95711e14347, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 3
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        - _keywordBase: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9,
+            type: 2}
+          _target: 2
+          _amountToApply: 2
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 2
+      - _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 4
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 4
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: 1629aef4602ae6e43a14aa2b29fc1a1d, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 2
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+            type: 2}
+          _target: 1
+          _amountToApply: 5
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 4
+          _cardType: 2
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+            type: 2}
+          _target: 1
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: 49352767cbde48f41a3b6c7edb636601, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 1
+          _cardType: 3
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3,
+            type: 2}
+          _target: 1
+          _amountToApply: 1
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        - _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a,
+            type: 2}
+          _target: 1
+          _amountToApply: 1
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      _comboRecipe:
+      - _comboCore:
+          _id: 3
+          _level: 0
+        _comboSO: {fileID: 11400000, guid: 84b6a179313d4ba41a28764fb2a9c08b, type: 2}
+      - _comboCore:
+          _id: 2
+          _level: 0
+        _comboSO: {fileID: 11400000, guid: 4b3995914f6a203458fa68c122e5e970, type: 2}
+      - _comboCore:
+          _id: 4
+          _level: 0
+        _comboSO: {fileID: 11400000, guid: ef2321c91b667d341a934abcbb29e0a9, type: 2}
+  _opponent:
+    _characterData:
+      _characterSO: {fileID: 11400000, guid: e4495dafd1aedd642b0e66e62c4a7b34, type: 2}
+      _characterStats:
+        _maxHealth: 40
+        _health: 40
+        _defense: 0
+        _gold: 0
+        _strengthPoint: 0
+        _bleedPoints: 0
+        _cardDraw: 4
+        _startStamina: 3
+        _regenerationPoints: 0
+        _stunShards: 0
+        _staminaShard: 0
+        _protectionShard: 0
+        _rageShard: 0
+        _ragePoints: 0
+        _protectionPoints: 0
+        _weak: 0
+        _vulnerable: 0
+      _characterDeck:
+      - _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: 1629aef4602ae6e43a14aa2b29fc1a1d, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 2
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+            type: 2}
+          _target: 1
+          _amountToApply: 5
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      - _cardSO: {fileID: 11400000, guid: 1629aef4602ae6e43a14aa2b29fc1a1d, type: 2}
+        _cardCoreInfo:
+          _instanceID: 0
+        toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 2
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+            type: 2}
+          _target: 1
+          _amountToApply: 5
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        staminaCost: 1
+      _comboRecipe:
+      - _comboCore:
+          _id: 4
+          _level: 0
+        _comboSO: {fileID: 11400000, guid: ef2321c91b667d341a934abcbb29e0a9, type: 2}
+  _playerWon: 0
+--- !u!4 &567728196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567728194}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &636324505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1729,6 +2089,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 730275767975079258, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1218
+      objectReference: {fileID: 0}
     - target: {fileID: 1151540751521596180, guid: e73c981cd4217474294ea49923871016,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1759,6 +2124,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1633431959981521742, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 822
+      objectReference: {fileID: 0}
     - target: {fileID: 1938850933498161671, guid: e73c981cd4217474294ea49923871016,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1789,6 +2159,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1966724617523572516, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -925
+      objectReference: {fileID: 0}
     - target: {fileID: 1977859693003247837, guid: e73c981cd4217474294ea49923871016,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1818,6 +2193,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2070485482753898414, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -925
       objectReference: {fileID: 0}
     - target: {fileID: 2086058756751766870, guid: e73c981cd4217474294ea49923871016,
         type: 3}
@@ -1879,6 +2259,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3111661407206236223, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1171
+      objectReference: {fileID: 0}
     - target: {fileID: 3231606908199755521, guid: e73c981cd4217474294ea49923871016,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1908,6 +2293,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358708411189500220, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -426
+      objectReference: {fileID: 0}
+    - target: {fileID: 3493563014609518425, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -152
       objectReference: {fileID: 0}
     - target: {fileID: 3706872354294097593, guid: e73c981cd4217474294ea49923871016,
         type: 3}
@@ -2214,6 +2609,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4549826831004704374, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1737
+      objectReference: {fileID: 0}
     - target: {fileID: 4571315850606599507, guid: e73c981cd4217474294ea49923871016,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2273,6 +2673,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707905192545758532, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -152
       objectReference: {fileID: 0}
     - target: {fileID: 5279857095265857140, guid: e73c981cd4217474294ea49923871016,
         type: 3}
@@ -2379,6 +2784,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6204695921350636536, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -482.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6300250505432492388, guid: e73c981cd4217474294ea49923871016,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2408,6 +2818,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6340992249412162325, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -482.5
       objectReference: {fileID: 0}
     - target: {fileID: 6380820197462295588, guid: e73c981cd4217474294ea49923871016,
         type: 3}
@@ -2619,6 +3034,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7932343614743201712, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -426
+      objectReference: {fileID: 0}
     - target: {fileID: 7979795606036459810, guid: e73c981cd4217474294ea49923871016,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2678,6 +3098,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160583457525883249, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -482.5
       objectReference: {fileID: 0}
     - target: {fileID: 8544893927337012497, guid: e73c981cd4217474294ea49923871016,
         type: 3}

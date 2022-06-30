@@ -1,6 +1,6 @@
 ﻿
-using Battles;
-using Battles.UI;
+using Battle;
+using Battle.UI;
 using System.Collections.Generic;
 using UI;
 using UI.Meta.Laboratory;

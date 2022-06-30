@@ -1,5 +1,5 @@
-﻿using Battles.UI;
-using Combo;
+﻿using Battle.UI;
+using Battle.Combo;
 using DesignPattern;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
@@ -145,7 +145,7 @@ public class DojoManager : MonoBehaviour, IObserver
             _cardBtnTexts[index].text = cards[index].CardSO.GetCostPerUpgrade(cards[index].CardLevel).ToString();
         }
     }
-    private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward, IEnumerable<Combo.Combo> workOnCombo)
+    private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward, IEnumerable<Combo> workOnCombo)
     {
         int amountOfCombos = _comboUI.Length;
         var combos = battleReward.GetRewardCombos(Rewards.ActsEnum.ActOne, (byte)amountOfCombos, workOnCombo);
@@ -154,9 +154,9 @@ public class DojoManager : MonoBehaviour, IObserver
         {
             if (combos[i] != null)
             {
-                _comboBtnTexts[i].text = combos[i].ComboSO().Cost.ToString();
+                _comboBtnTexts[i].text = combos[i].ComboSO.Cost.ToString();
                 _comboUI[i].gameObject.SetActive(true);
-                _comboUI[i].InitRecipe(comboFactory.CreateCombo(combos[i].ComboSO(), 0));
+                _comboUI[i].InitRecipe(comboFactory.CreateCombo(combos[i].ComboSO, 0));
                 _comboUI[i].RegisterClick(_presentComboUIScreen.OpenComboUIscreen);
                 int index = i;
                 _comboPurchaseBtns[i].onClick.AddListener(() => TryBuyCombo(index));

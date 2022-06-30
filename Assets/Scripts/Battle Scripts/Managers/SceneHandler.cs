@@ -41,10 +41,12 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
     public static event Action<ITokenReciever> OnBeforeSceneShown;
     public static event Action<ITokenReciever> OnBeforeSceneUnloaded;
 
-    private IDisposable _blackPanelToken;
 
+    private IDisposable _blackPanelToken;
     private LoadingSceneManager _loadingSceneManager;
 
+    [SerializeField]
+    private bool _overrideLoadingSceneManager;
 
     public LoadingSceneManager LoadingSceneManager => _loadingSceneManager;
 
@@ -67,10 +69,25 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
     /// <param name="manager"></param>
     public void SceneLoaded(LoadingSceneManager manager)
     {
-        // creating a token machine
-        TokenMachine sceneTokenMachine = new TokenMachine(RemoveBlackPanel);
         // saving the loading manager
         _loadingSceneManager = manager;
+        SceneStart();
+    }
+    [Sirenix.OdinInspector.Button]
+    private void StartScene()
+    {
+        TokenMachine sceneTokenMachine = new TokenMachine(OnSceneStart);
+        using (sceneTokenMachine.GetToken())// starting the token machine
+        {
+            OnSceneHandlerActivated?.Invoke(this);
+            OnBeforeSceneShown?.Invoke(sceneTokenMachine); // notifiyng all who need to do preperation 
+        }
+    }
+    private void SceneStart()
+    {
+        
+        // creating a token machine
+        TokenMachine sceneTokenMachine = new TokenMachine(RemoveBlackPanel);
 
         using (sceneTokenMachine.GetToken())// starting the token machine
         {
@@ -88,9 +105,6 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
             OnSceneStart?.Invoke(); // notifiyng that the game should start now
         }
     }
-
-
-
 
     public void MoveToScene(params int[] scenesIndex)
     {

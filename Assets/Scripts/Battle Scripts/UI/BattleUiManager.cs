@@ -3,7 +3,7 @@ using ReiTools.TokenMachine;
 using Unity.Events;
 using UnityEngine;
 
-namespace Battles.UI
+namespace Battle.UI
 {
     public class UpdateUiStats : UnityEngine.Events.UnityEvent<bool, int, KeywordTypeEnum> { }
     public class BattleUiManager : MonoSingleton<BattleUiManager>

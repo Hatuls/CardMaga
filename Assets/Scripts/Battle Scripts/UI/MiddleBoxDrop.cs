@@ -2,7 +2,7 @@
 using UnityEngine;
 
 using UnityEngine.EventSystems;
-namespace Battles.UI
+namespace Battle.UI
 {
     [RequireComponent(typeof(EventTrigger))]
     public class MiddleBoxDrop : MonoBehaviour { 
