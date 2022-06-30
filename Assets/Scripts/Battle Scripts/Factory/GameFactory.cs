@@ -236,7 +236,7 @@ namespace Factory
         public class CardFactory
         {
             static List<CardCore> _battleCardIdList;
-            static int _battleID;
+
             public CardsCollectionSO CardCollection { get; private set; }
             private Dictionary<int, CardSO> _cardCollectionDictionary;
 
@@ -260,7 +260,7 @@ namespace Factory
             {
                 _cardCollectionDictionary.Clear();
                 _battleCardIdList?.Clear();
-                _battleID = 1;
+         
             }
 
             public CardSO GetCard(int ID)
@@ -271,9 +271,7 @@ namespace Factory
 
                 throw new System.Exception($"Card SO Could not been found from ID \nID is {ID}\nCheck Collection For card SO");
             }
-            public static int GenerateCardInstanceID()
-            => _battleID++;
-
+       
             
 
             public Card[] CreateDeck(CardCore[] cardsInfo)
@@ -297,11 +295,12 @@ namespace Factory
                 _battleCardIdList.Clear();
                 _battleCardIdList.Clear();
             }
-        
             public CardInstanceID CreateCardInstance(CardSO cardSO, int level = 0, int exp = 0)
-                => CreateCardInstance(cardSO.ID, level, exp);
+                => CreateCardInstance(cardSO.ID,level,exp);
             public CardInstanceID CreateCardInstance(int cardSOID, int level = 0, int exp = 0)
-            => new CardInstanceID(cardSOID, GenerateCardInstanceID(), level, exp);
+             => CreateCardInstance(new CardCore(cardSOID, level, exp));
+            public CardInstanceID CreateCardInstance(CardCore core)
+            => core.CreateInstance();
             public Card CreateCard(CardInstanceID _data)
             {
                 if (_data == null)
@@ -360,7 +359,7 @@ namespace Factory
 
             public static void Register(CardCore card)
             {
-                if (_battleCardIdList.Contains(card))
+                if (_battleCardIdList?.Contains(card) ?? false)
                     _battleCardIdList.Add(card);
             }
             public static void Remove(CardCore card)

@@ -130,6 +130,16 @@ namespace Cards
         {
             return _cardCoreInfo == other._cardCoreInfo;
         }
+
+
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.Button]
+        private void Refresh()
+        {
+            var newCore = new CardCore(_cardSO.ID, _cardCoreInfo?.Level ?? 0, _cardCoreInfo?.Exp ?? 0);
+            _cardCoreInfo = new CardInstanceID(newCore);
+        }
+#endif
     }
     #endregion
 

@@ -190,9 +190,12 @@ public class CSVToCardSO : CSVAbst
 
 
         const int RarityLevel = 18;
-        const int Cinematic = 19;
+        const int CameraBlendTypeIndex = 19;
+        const int CameraNameIndex = 20;
+
+
         // const int GoToDeckAfterCrafting = 20;
-        const int PurchaseCost = 20;
+        const int PurchaseCost = 21;
         const int IDThatCraftMe = 22;
         const int UpgradeToCardID = 23;
         const int IsExhausted = 24;
@@ -224,7 +227,7 @@ public class CSVToCardSO : CSVAbst
             _attackAnimation = (CheckIfEmpty(cardSO[AttackAnimation])) ? "" :  cardSO[AttackAnimation].Replace(' ', '_'),
             _shieldAnimation = (CheckIfEmpty(cardSO[ShieldAnimation])) ? "" :  cardSO[ShieldAnimation].Replace(' ', '_'),
             _getHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? "" :  cardSO[GotHitAnimation].Replace(' ', '_'),
-            CinemtaicView = int.TryParse(cardSO[Cinematic], out int cin) ? (CameraViews)cin : (CameraViews.None),
+       //     CinemtaicView = int.TryParse(cardSO[Cinematic], out int cin) ? (CameraViews)cin : (CameraViews.None),
             //IsSlowMotion = bool.Parse
             BodyPartEnum = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
         };

@@ -1,6 +1,7 @@
 ﻿using CardMaga.LoadingScene;
 using ReiTools.TokenMachine;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1, MainMenuScene = 2, MapScene = 3, GameBattleScene = 4, LoreScene = 5 }
@@ -60,7 +61,17 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
     {
         LoadingSceneManager.OnIjectingLoadingSceneManager -= SceneLoaded;
     }
-    #endregion
+
+    public IEnumerator Start()
+    {
+#if PRODUCTION_BUILD
+_overrideLoadingSceneManager = false;
+#endif
+        yield return null;
+        if (_overrideLoadingSceneManager)
+            StartScene();
+    }
+#endregion
 
 
     /// <summary>
@@ -73,7 +84,7 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
         _loadingSceneManager = manager;
         SceneStart();
     }
-    [Sirenix.OdinInspector.Button]
+    //[Sirenix.OdinInspector.Button]
     private void StartScene()
     {
         TokenMachine sceneTokenMachine = new TokenMachine(OnSceneStart);
@@ -144,7 +155,7 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
 
 
 
-    #region Private Functions
+#region Private Functions
 
     private void RemoveBlackPanel()
     {
@@ -160,6 +171,6 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
             OnBeforeSceneUnloaded?.Invoke(t);
         }
     }
-    #endregion
+#endregion
 
 }

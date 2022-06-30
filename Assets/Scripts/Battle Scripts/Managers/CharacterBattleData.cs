@@ -68,8 +68,7 @@ namespace Battle.Characters
                 Card[] cards = new Card[deck.Length];
                 for (int i = 0; i < deck.Length; i++)
                 {
-                    cards[i] = new Card();
-                    cards[i].InitCard(deck[i].CardSO(), deck[i].Level);
+                    cards[i] = new Card(deck[i].CreateInstance());
                 }
                 return cards;
             }

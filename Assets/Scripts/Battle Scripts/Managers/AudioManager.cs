@@ -15,6 +15,11 @@ public class AudioManager : MonoBehaviour
     {
         get
         {
+            if (_instance == null)
+            {
+                var go = MonoBehaviour.Instantiate(Resources.Load("Prefabs/Audio/AudioManager")) as GameObject;
+                _instance = go.GetComponent<AudioManager>();
+            }
             return _instance;
         }
     }
@@ -29,11 +34,11 @@ public class AudioManager : MonoBehaviour
         {
             _instance = this;
             FmodInit();
-
         }
         else if (_instance != this)
             Destroy(this.gameObject);
-        else
+        
+
             DontDestroyOnLoad(this.gameObject);
     }
 

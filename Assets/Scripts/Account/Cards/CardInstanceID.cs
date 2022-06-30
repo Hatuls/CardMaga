@@ -9,7 +9,10 @@ namespace Account.GeneralData
     [Serializable]
     public class CardInstanceID : IEquatable<CardInstanceID>, IDisposable
     {
+        private static int _uniqueID =0;
+        private static int UniqueID => _uniqueID++;
         #region Fields
+        [SerializeField]
         private CardCore _coreData;
         [SerializeField]
         private int _instanceID;
@@ -22,13 +25,10 @@ namespace Account.GeneralData
         public int Level { get => _coreData.Level; set => _coreData.SetLevel (value); }
         public int Exp { get => _coreData.EXP; set => _coreData.SetEXP(value); }
 
-        public CardInstanceID(CardCore card) : this(card.ID, Factory.GameFactory.CardFactory.GenerateCardInstanceID(), card.Level, card.EXP) { }
-
-        public CardInstanceID(int cardID, int cardInstanceID, int level, int EXP)
+        public CardInstanceID(CardCore card)
         {
-            _coreData = new CardCore(cardID, level, EXP);
-            _instanceID = cardInstanceID;
-
+            _coreData = card;
+            _instanceID = UniqueID;
         }
 
         public bool Equals(CardInstanceID other)
@@ -37,15 +37,16 @@ namespace Account.GeneralData
         }
 
    
-        public CardCore ToCardCore()
-          => new CardCore(this);
+        public CardCore GetCardCore()
+          => _coreData;
 
         public void Dispose()
         {
             _coreData.Dispose();
         }
-
         #endregion
+
+
     }
     [Serializable]
     public class CardCore : IDisposable
@@ -81,6 +82,8 @@ namespace Account.GeneralData
     }
     public static class CardHelper
     {
+        public static CardInstanceID CreateInstance(this CardCore core)
+        => new CardInstanceID(core);
         public static CardSO CardSO(this CardInstanceID card)
     => CardSO(card.ID);
         public static CardSO CardSO(this CardCore card)

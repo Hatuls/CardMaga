@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Cards
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
-    public class CardSO : SerializedScriptableObject
+    public class CardSO : ScriptableObject
     {
 
 

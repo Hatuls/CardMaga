@@ -49,11 +49,11 @@ namespace Battle
  
         public void AssignCharacterData(Character character)
         {
-            Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
+            SpawnModel(character);
             _myCharacter = character;
             var characterdata = character.CharacterData;
             _animationSoundHandler.CurrentCharacter = characterdata.CharacterSO;
-     
+
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new Cards.Card[deckLength];
             System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
@@ -70,6 +70,12 @@ namespace Battle
 #endif
 
         }
+
+        private void SpawnModel(Character character)
+        {
+            Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
+        }
+
         public void UpdateStatsUI()
         {
             UI.StatsUIManager.Instance.UpdateMaxHealthBar(false, GetCharacterStats.MaxHealth);

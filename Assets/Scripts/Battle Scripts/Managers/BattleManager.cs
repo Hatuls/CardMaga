@@ -47,7 +47,9 @@ namespace Battle
             using (token.GetToken())
             {
                 ResetBattle();
-                AudioManager.Instance.BattleMusicParameter();
+
+                if(AudioManager.Instance!= null)
+                   AudioManager.Instance.BattleMusicParameter();
             }
 
         }
@@ -86,6 +88,7 @@ namespace Battle
         }
         private void ResetParams()
         {
+            if (AudioManager.Instance!=null)
             AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
 

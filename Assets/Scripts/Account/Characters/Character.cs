@@ -67,7 +67,7 @@ namespace Account.GeneralData
             CardCore[] cards = new CardCore[deckCards.Length];
 
             for (int i = 0; i < cards.Length; i++)
-                cards[i] = deckCards[i].ToCardCore();
+                cards[i] = deckCards[i].GetCardCore();
 
             return AddNewDeck(cards,deckCombos);
         }      

@@ -58,9 +58,9 @@ namespace Rewards
                 resourceStock = new ResourceStock(ResourceEnum.Credits, _chipAmount[chipAmountChance]);
             }
             var handler = Factory.GameFactory.Instance.CardFactoryHandler;
-            ushort cardSO = _dropChances[cardRarity].CardsID[Random.Range(0, _dropChances[cardRarity].CardsID.Length)];
+            int cardSO = _dropChances[cardRarity].CardsID[Random.Range(0, _dropChances[cardRarity].CardsID.Length)];
 
-            return new PackReward(handler.CreateCardInstance(cardSO), resourceStock);
+            return new PackReward(handler.CreateCardInstance(handler.GetCard(cardSO)), resourceStock);
         }
 
         #region CSV

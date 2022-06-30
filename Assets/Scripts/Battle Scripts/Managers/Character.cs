@@ -15,29 +15,7 @@ namespace Battle.Characters
 
 
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
-        //public Character(Account.GeneralData.Character data, AccountDeck _deck)
-        //{
-        //    if (data == null)
-        //        throw new Exception($"Character: CharacterData is null!");
-        //    else if (_deck == null || _deck.Cards.Length == 0)
-        //        throw new Exception("AccountDeck Is null or empty!");
-
-        //    CharacterData = new CharacterBattleData(data, _deck);
-        //}
-        //public Character(CharacterSO characterSO)
-        //{
-        //    if (characterSO == null)
-        //        throw new Exception($"Character: CharactersO is null!");
-
-        //    CharacterData = new CharacterBattleData(characterSO);
-        //}
-        //public Character(CharacterBattleData data)
-        //{
-        //    if (data == null)
-        //        throw new Exception($"Character: CharacterData is null!");
-
-        //    _characterData = data;
-        //}
+     
         public Character() { }
 
         public Character(Account.GeneralData.Character data)
