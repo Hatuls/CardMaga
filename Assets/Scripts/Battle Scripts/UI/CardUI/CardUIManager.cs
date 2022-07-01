@@ -134,7 +134,7 @@ namespace Battles.UI
         
         public void RemoveHands()
         {
-            _handUI.DiscardHand();
+            //_handUI.DiscardHand();
             OnPlayerRemoveHand?.Invoke();
         }
         

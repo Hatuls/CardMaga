@@ -12,52 +12,71 @@ public class RectTransitionManager
         _rectTransform = rectTransform;
     }
     
-    public void Transition(RectTransform destination, TransitionPackSO transitionPackSo)
+    public Sequence Transition(RectTransform destination, TransitionPackSO transitionPackSo)
     {
-        _rectTransform.Move(destination, transitionPackSo.Movement);
-        _rectTransform.Scale(1f,transitionPackSo.Scale);//test need work
-        _rectTransform.Rotate(destination, transitionPackSo.Rotation);
+        Sequence temp;
+
+        return _rectTransform.Move(destination, transitionPackSo.Movement)
+            .Join(_rectTransform.Scale(1f, transitionPackSo.Scale))
+            .Join(_rectTransform.Rotate(destination, transitionPackSo.Rotation));
+        //test need work
     }
     
-    public void Transition(Vector2 destination, TransitionPackSO transitionPackSo)
+    public Sequence Transition(Vector2 destination, TransitionPackSO transitionPackSo)
     {
-        _rectTransform.Move(destination, transitionPackSo.Movement);
-        _rectTransform.Scale(1f,transitionPackSo.Scale);//test need work
+        return _rectTransform.Move(destination, transitionPackSo.Movement)
+            .Join(_rectTransform.Scale(1f, transitionPackSo.Scale)); //test need work)
         //_rectTransform.Rotate(destination, transitionPackSo.Rotation);
     }
 
-    public void SetPosition(RectTransform destination, Action onComplete = null)
+    public Sequence SetPosition(RectTransform destination, Action onComplete = null)
     {
         Vector2 worldPos =  destination.transform.TransformPoint(destination.rect.center);
-        _rectTransform.Move(worldPos, 0,null,null,onComplete);
+        return _rectTransform.Move(worldPos, 0,null,null,onComplete);
     }
     
-    public void SetScale(float scale, Action onComplete = null)
+    public Tween SetScale(float scale, Action onComplete = null)
     {
-        _rectTransform.Scale(scale, 0,null,onComplete);
+        return _rectTransform.Scale(scale, 0,null,onComplete);
     }
     
-    public void Move(RectTransform destination, ITransitionReciever transition,Action onComplete = null)
+    public Sequence Move(RectTransform destination, ITransitionReciever transition,Action onComplete = null)
     {
-        _rectTransform.Move(destination, transition.Movement, onComplete);
+        return _rectTransform.Move(destination, transition.Movement, onComplete);
     }
     
-    public void Move(Vector2 destination, ITransitionReciever transition,Action onComplete = null)
+    public Sequence Move(Vector2 destination, ITransitionReciever transition,Action onComplete = null)
     {
-        _rectTransform.Move(destination, transition.Movement, onComplete);
+        return _rectTransform.Move(destination, transition.Movement, onComplete);
     }
     
-    public void Scale(float multiply, ITransitionReciever transition,Action onComplete = null)
+    public Tween Scale(float multiply, ITransitionReciever transition,Action onComplete = null)
     {
-        _rectTransform.Scale(multiply, transition.Scale, onComplete);
+        return _rectTransform.Scale(multiply, transition.Scale, onComplete);
     }
-    public void Rotate(RectTransform destination, ITransitionReciever transition,Action onComplete = null)
+    public Tween Rotate(RectTransform destination, ITransitionReciever transition,Action onComplete = null)
     {
-        _rectTransform.Rotate(destination, transition.Rotation, onComplete);
+        return _rectTransform.Rotate(destination, transition.Rotation, onComplete);
     }
-    public void Rotate(Vector3 destination, ITransitionReciever transition,Action onComplete = null)
+    public Tween Rotate(Vector3 destination, ITransitionReciever transition,Action onComplete = null)
     {
-        _rectTransform.Rotate(destination, transition.Rotation, onComplete);
+        return _rectTransform.Rotate(destination, transition.Rotation, onComplete);
+    }
+
+    private void Kill(ref Tween tween)
+    {
+        if (tween != null)
+        {
+             tween.Kill();
+        }
+    }
+
+    private void Kill(ref Sequence sequence)
+    {
+        if (sequence != null)
+        {
+            sequence.Kill();
+        }
     }
 }
 

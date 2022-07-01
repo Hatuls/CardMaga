@@ -10,15 +10,21 @@ namespace Battles.UI
     public class HandUI : MonoBehaviour
     {
         public static event Action OnCardDrawnAndAlign;
-        [SerializeField] private CardTransitions _transitions;
+        private event Action OnCardAtDicardPosition;
+        
+        
         [SerializeField] private BattleInputDefaultState _battleInput;
+
+        [SerializeField] private TransitionPackSO _drawTransitionPackSo;
+        [SerializeField] private TransitionPackSO _discardTransitionPackSo;
         [SerializeField] private RectTransform _middleHandPos;
         [SerializeField] private RectTransform _discardPos;
         [SerializeField] private RectTransform _drawPos;
+        
         [SerializeField] private CardUIManager _cardUIManager;
         [SerializeField] private float _spaceBetweenCard;
 
-        private SelectCardUI _selectCard;
+        [SerializeField] private SelectCardUI _selectCard;
 
         [SerializeField] private float _delayBetweenCardDrawn;
         
@@ -37,13 +43,19 @@ namespace Battles.UI
             DeckManager.OnDrawCards += DrawCards;
             _cardSlots = new List<CardSlot>();
             _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
-            _selectCard = new SelectCardUI();
+            _selectCard.InitSelectCardUI();
         }
 
         private void OnDestroy()
         {
+            _selectCard.DisableSelectCardUI();
             BattleManager.OnGameEnded -= LockCards;
             DeckManager.OnDrawCards -= DrawCards;
+            
+            for (int i = 0; i < _handCards.Count; i++)
+            {
+                RemoveInputEvents(_handCards[i].Inputs);
+            }
         }
 
         public void LockCards() => LockCardsInput(true);
@@ -60,28 +72,43 @@ namespace Battles.UI
         public void DrawCards(params Card[] cards)
         {
             _handCards.AddRange(_cardUIManager.GetCardsUI(cards));
+            
             AddCardToTheInputState(_handCards.ToArray());//need Work!!!
+            
             AlignCards();
             SetCardAtDrawPos(_handCards.ToArray());
-            AddINputEvents();
-            StartCoroutine(MoveCardsToHandPos(_cardSlots,OnCardDrawnAndAlign));
-            InputReciever.OnTouchDetectd += GetMousePos;
-        }
 
-        private void AddINputEvents()
-        {
             for (int i = 0; i < _handCards.Count; i++)
             {
-                _handCards[i].Inputs.OnPointDown += SetSelectCard;
-                _handCards[i].Inputs.OnEndHold += RelaseCard;
+                AddInputEvents(_handCards[i].Inputs);
             }
+            
+            StartCoroutine(MoveCardsToHandPos(_cardSlots,OnCardDrawnAndAlign));
+        }
+
+        private void AddInputEvents(CardUIInputHandler cardUIInput)
+        {
+            cardUIInput.OnPointDown += _selectCard.SetSelectCardUI; 
+            cardUIInput.OnClick += _selectCard.ZoomCard; 
+            cardUIInput.OnPointUp += _selectCard.ReleaseCard; 
+            cardUIInput.OnHold += _selectCard.FollowHand; 
+            cardUIInput.OnEndHold += _selectCard.ResetCard;
+        }
+        
+        private void RemoveInputEvents(CardUIInputHandler cardUIInput)
+        {
+            cardUIInput.OnPointDown += _selectCard.SetSelectCardUI; 
+            cardUIInput.OnClick += _selectCard.ZoomCard; 
+            cardUIInput.OnPointUp += _selectCard.ReleaseCard; 
+            cardUIInput.OnHold += _selectCard.FollowHand; 
+            cardUIInput.OnEndHold += _selectCard.ResetCard;
         }
 
         private void AddCardToTheInputState(CardUI[] cardsUI)
         {
             for (int i = 0; i < cardsUI.Length; i++)
             {
-                _battleInput.AddTouchableItem(cardsUI[i].GetComponent<CardUIInputHandler>());
+                _battleInput.AddTouchableItem(cardsUI[i].Inputs);
             }
         }
 
@@ -91,7 +118,6 @@ namespace Battles.UI
             {
                 cards[i].CardTransitionManager.SetPosition(_drawPos);
                 cards[i].CardTransitionManager.SetScale(0.1f);
-                
             }           
         }
         
@@ -100,12 +126,31 @@ namespace Battles.UI
             for (int i = 0; i < cardSlots.Count; i++)
             {
                 cardSlots[i].CardUI.Init();
-                cardSlots[i].CardUI.CardTransitionManager.Transition(cardSlots[i].CardPos,_transitions.TransitionPackSos[1]);
+                cardSlots[i].CardUI.CardTransitionManager.Transition(cardSlots[i].CardPos,_drawTransitionPackSo);
                 yield return _waitForCardDrawnDelay;
             }
             onComplete?.Invoke();
         }
-        
+
+        [ContextMenu("Discard")]
+        private void Discard()
+        {
+            StartCoroutine(MoveCardToTheDiscardPosition());
+        }
+        private IEnumerator MoveCardToTheDiscardPosition()
+        {
+            for (int i = 0; i < _handCards.Count; i++)
+            {
+                _handCards[i].CardTransitionManager.Transition(_discardPos.transform.TransformPoint(_discardPos.rect.center), _discardTransitionPackSo);
+                yield return _waitForCardDrawnDelay;
+            }
+
+            // for (int i = 0; i < _handCards.Count; i++)
+            // {
+            //     _handCards[i].gameObject.SetActive(false);
+            // }
+        }
+
         public CardUI GetHandCardUIFromIndex(int index)
         {
             
@@ -131,41 +176,7 @@ namespace Battles.UI
                 _handCards[i].Inputs.ForceChangeState(toLock);
             }
         }
-        
-        internal void ReplaceCard(CardUI ReplacingCard, CardUI ReplacedCard)
-        {
-            
-        }
 
-        internal void DiscardHand()
-        {
-            
-        }
-
-        private void FollowHand()
-        {
-            
-        }
-
-        private void RelaseCard(CardUI cardUI)
-        {
-            if (_selectCard.Card == cardUI)
-            {
-                _selectCard.Card.CardTransitionManager.Move(_selectCard.Card.HandPos,_transitions.TransitionPackSos[0]);
-            }
-        }
-
-        private void GetMousePos(Vector2 mousePos)
-        {
-            Debug.Log(mousePos);
-            _selectCard.Card.CardTransitionManager.Move(mousePos,_transitions.TransitionPackSos[0]);
-        }
-
-        private void SetSelectCard(CardUI cardUI)
-        {
-            _selectCard.SetSelectCardUI(cardUI);
-        }
-        
         private Vector2 CalculateCardPosition(int index)
         {
             Vector2 startPos = _middleHandPos.position;

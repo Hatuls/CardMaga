@@ -328,6 +328,41 @@ MonoBehaviour:
     roll: 0
   - position: {x: -3.0828426, y: 0.9699054, z: -1.764122}
     roll: 0
+--- !u!1 &210326851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 210326852}
+  m_Layer: 0
+  m_Name: CardZoomPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &210326852
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210326851}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5702666649249262308}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &375816539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3107,8 +3142,48 @@ PrefabInstance:
       objectReference: {fileID: 713954405}
     - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
         type: 3}
+      propertyPath: _drawTransitionPackSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 0aad001d516b3514cab3d24103e7fc62,
+        type: 2}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _selectCard._zoomCard
+      value: 
+      objectReference: {fileID: 11400000, guid: a551b5cc623c9304fb2c04e985dfd214,
+        type: 2}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
       propertyPath: _delayBetweenCardDrawn
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _selectCard._followHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 01dd9ea9487741d40802708138894a98,
+        type: 2}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _discardTransitionPackSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cabfc347f3a83e49b32bfd7851d0360,
+        type: 2}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _selectCard._zoomPosition
+      value: 
+      objectReference: {fileID: 210326852}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _selectCard._resetCardPosition
+      value: 
+      objectReference: {fileID: 11400000, guid: 49f8fc99a1001a648a6ba5d95ef25618,
+        type: 2}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _selectCard._zoomScaleMultiply
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6815705370497866613, guid: e73c981cd4217474294ea49923871016,
         type: 3}
@@ -3656,6 +3731,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e85af4287e4c649448566fa0a5af3d8c, type: 3}
+--- !u!224 &5702666649249262308 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5702666648958164327, guid: e85af4287e4c649448566fa0a5af3d8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5702666649249262307}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6556397213936656816
 PrefabInstance:
   m_ObjectHideFlags: 0
