@@ -2,7 +2,6 @@
 using Battle.Data;
 using Battle.Turns;
 using Battle.UI;
-using Characters;
 using Characters.Stats;
 using Managers;
 using ReiTools.TokenMachine;
@@ -42,12 +41,13 @@ namespace Battle
 
 
 
+
+
         public override void Init(ITokenReciever token)
         {
             using (token.GetToken())
             {
                 ResetBattle();
-
                 if(AudioManager.Instance!= null)
                    AudioManager.Instance.BattleMusicParameter();
             }
