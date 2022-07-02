@@ -108,7 +108,7 @@ public class AnimatorController : MonoBehaviour
     public void OnStartAnimation(AnimatorStateInfo info)
     {
 
-        if (_currentAnimation != null && _currentAnimation.CinemtaicView == CameraViews.OverTheShoulder)
+        if (_currentAnimation != null && _currentAnimation.CameraDetails != null)
             SetCamera(_isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
 
     }
@@ -186,15 +186,15 @@ public class AnimatorController : MonoBehaviour
 
         _currentAnimation = animationBundle;
 
-        if (_currentAnimation?._attackAnimation == _previousAnimation?._attackAnimation && duplicate)
+        if (_currentAnimation?.AttackAnimation == _previousAnimation?.AttackAnimation && duplicate)
         {
-            PlayAnimation(string.Concat(_currentAnimation._attackAnimation, duplicateAnimationAddOnString));
+            PlayAnimation(string.Concat(_currentAnimation.AttackAnimation, duplicateAnimationAddOnString));
             duplicate = false;
         }
         else
         {
             duplicate = true;
-            PlayAnimation(_currentAnimation._attackAnimation.ToString());
+            PlayAnimation(_currentAnimation.AttackAnimation.ToString());
         }
 
 
@@ -267,9 +267,9 @@ public class AnimatorController : MonoBehaviour
 
 
         if (Battles.CardExecutionManager.Instance.CanDefendIncomingAttack(!_isPlayer))
-            _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString(), true);
+            _opponentController?.PlayAnimation(_currentAnimation?.ShieldAnimation.ToString(), true);
         else
-            _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString(), true);
+            _opponentController?.PlayAnimation(_currentAnimation?.GetHitAnimation.ToString(), true);
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();

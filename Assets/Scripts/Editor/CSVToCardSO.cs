@@ -182,7 +182,7 @@ public class CSVToCardSO : CSVAbst
         const int AttackAnimation = 5;
         const int ShieldAnimation = 6;
         const int GotHitAnimation = 7;
-
+        const int LeftCameraIndex = 8;
 
 
         const int CardDescription = 16;
@@ -221,10 +221,9 @@ public class CSVToCardSO : CSVAbst
         // Animations
         card.AnimationBundle = new AnimationBundle
         {
-            _attackAnimation = (CheckIfEmpty(cardSO[AttackAnimation])) ? "" :  cardSO[AttackAnimation].Replace(' ', '_'),
-            _shieldAnimation = (CheckIfEmpty(cardSO[ShieldAnimation])) ? "" :  cardSO[ShieldAnimation].Replace(' ', '_'),
-            _getHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? "" :  cardSO[GotHitAnimation].Replace(' ', '_'),
-            CinemtaicView = int.TryParse(cardSO[Cinematic], out int cin) ? (CameraViews)cin : (CameraViews.None),
+            AttackAnimation = (CheckIfEmpty(cardSO[AttackAnimation])) ? "" :  cardSO[AttackAnimation].Replace(' ', '_'),
+            ShieldAnimation = (CheckIfEmpty(cardSO[ShieldAnimation])) ? "" :  cardSO[ShieldAnimation].Replace(' ', '_'),
+            GetHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? "" :  cardSO[GotHitAnimation].Replace(' ', '_'),
             //IsSlowMotion = bool.Parse
             BodyPartEnum = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
         };
