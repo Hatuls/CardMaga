@@ -2,40 +2,42 @@
 using UnityEngine;
 
 [Serializable]
-public class Transition3DData :Transition2DData, ITransitionable3D
+public class Transition3D :Transition2D
 {
     [SerializeField] private AnimationCurve _animationCurveZ;
     public AnimationCurve AnimationCurveZ
     {
-        get { return _animationCurveZ; }
+        get;
+        set;
     }
-
-   
-}
+} 
 
 [Serializable]
-public class Transition2DData :Transition1DData, ITransitionable2D
+public class Transition2D :Transition1D
 {
   [SerializeField] private AnimationCurve _animationCurveY;
     public AnimationCurve AnimationCurveY
     {
-        get { return _animationCurveY; }
+        get;
+        set;
     }
 
    
 }
 [Serializable]
-public class Transition1DData :ITransitionable1D
+public class Transition1D
 {
     [SerializeField] private float _timeToTransition = 1.0f;
 
     [SerializeField] private AnimationCurve _animationCurveX;
     public float TimeToTransition
     {
-        get { return _timeToTransition; }
+        get;
+        set;    
     }
     public AnimationCurve AnimationCurveX
     {
-        get { return _animationCurveX; }
+        get;
+        set;
     }
 }

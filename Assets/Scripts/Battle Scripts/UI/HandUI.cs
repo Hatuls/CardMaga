@@ -208,8 +208,8 @@ namespace Battles.UI
 
 }
 
-public static class RectTransformHelper
-{
-    public static Vector2 GetLocalPosition(this RectTransform rectTransform)
-        => rectTransform.transform.localPosition;
-}
+// public static class RectTransformHelper
+// {
+//     public static Vector2 GetLocalPosition(this RectTransform rectTransform)
+//         => rectTransform.transform.localPosition;
+//}

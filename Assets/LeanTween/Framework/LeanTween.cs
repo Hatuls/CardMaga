@@ -1505,7 +1505,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a GameObject, to values are in passed in degrees</summary>
+    * <summary>Rotation a GameObject, to values are in passed in degrees</summary>
     * 
     * @method LeanTween.rotate
     * @param {GameObject} GameObject gameObject Gameobject that you wish to rotate
@@ -1520,7 +1520,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a GUI element (using an LTRect object), to a value that is in degrees</summary>
+    * <summary>Rotation a GUI element (using an LTRect object), to a value that is in degrees</summary>
     * 
     * @method LeanTween.rotate
     * @param {LTRect} ltRect:LTRect LTRect that you wish to rotate
@@ -1529,7 +1529,7 @@ public class LeanTween : MonoBehaviour {
     * @param {Array} optional:Array Object Array where you can pass <a href="#optional">optional items</a>.
     * @return {LTDescr} LTDescr an object that distinguishes the tween
     * @example 
-    * if(GUI.Button(buttonRect.rect, "Rotate"))<br />
+    * if(GUI.Button(buttonRect.rect, "Rotation"))<br />
     *   LeanTween.rotate( buttonRect4, 150.0f, 1.0f).setEase(LeanTweenType.easeOutElastic);<br />
     * GUI.matrix = Matrix4x4.identity;<br />
     */
@@ -1538,7 +1538,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a GameObject in the objects local space (on the transforms localEulerAngles object)</summary>
+    * <summary>Rotation a GameObject in the objects local space (on the transforms localEulerAngles object)</summary>
     * 
     * @method LeanTween.rotateLocal
     * @param {GameObject} gameObject:GameObject Gameobject that you wish to rotate
@@ -1551,7 +1551,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * Rotate a GameObject only on the X axis <summary>Rotate a GameObject only on the X axis</summary>
+    * Rotation a GameObject only on the X axis <summary>Rotation a GameObject only on the X axis</summary>
     * 
     * @method LeanTween.rotateX
     * @param {GameObject} GameObject Gameobject that you wish to rotate
@@ -1564,7 +1564,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a GameObject only on the Y axis</summary>
+    * <summary>Rotation a GameObject only on the Y axis</summary>
     * 
     * @method LeanTween.rotateY
     * @param {GameObject} GameObject Gameobject that you wish to rotate
@@ -1577,7 +1577,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a GameObject only on the Z axis</summary>
+    * <summary>Rotation a GameObject only on the Z axis</summary>
     * 
     * @method LeanTween.rotateZ
     * @param {GameObject} GameObject Gameobject that you wish to rotate
@@ -1590,7 +1590,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a GameObject around a certain Axis (the best method to use when you want to rotate beyond 180 degrees)</summary>
+    * <summary>Rotation a GameObject around a certain Axis (the best method to use when you want to rotate beyond 180 degrees)</summary>
     * 
     * @method LeanTween.rotateAround
     * @param {GameObject} gameObject:GameObject Gameobject that you wish to rotate
@@ -1607,7 +1607,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a GameObject around a certain Axis in Local Space (the best method to use when you want to rotate beyond 180 degrees) </summary>
+    * <summary>Rotation a GameObject around a certain Axis in Local Space (the best method to use when you want to rotate beyond 180 degrees) </summary>
     * 
     * @method LeanTween.rotateAroundLocal
     * @param {GameObject} gameObject:GameObject Gameobject that you wish to rotate
@@ -2011,7 +2011,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a RectTransform object (used in Unity GUI in 4.6+, for Buttons, Panel, Scrollbar, etc...)</summary>
+    * <summary>Rotation a RectTransform object (used in Unity GUI in 4.6+, for Buttons, Panel, Scrollbar, etc...)</summary>
     * 
     * @method LeanTween.rotate (RectTransform)
     * @param {RectTransform} rectTrans:RectTransform RectTransform that you wish to attach the tween to
@@ -2029,7 +2029,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a RectTransform object (used in Unity GUI in 4.6+, for Buttons, Panel, Scrollbar, etc...)</summary>
+    * <summary>Rotation a RectTransform object (used in Unity GUI in 4.6+, for Buttons, Panel, Scrollbar, etc...)</summary>
     * 
     * @method LeanTween.rotateAround (RectTransform)
     * @param {RectTransform} rectTrans:RectTransform RectTransform that you wish to attach the tween to
@@ -2044,7 +2044,7 @@ public class LeanTween : MonoBehaviour {
     }
 
     /**
-    * <summary>Rotate a RectTransform object around it's local axis (used in Unity GUI in 4.6+, for Buttons, Panel, Scrollbar, etc...)</summary>
+    * <summary>Rotation a RectTransform object around it's local axis (used in Unity GUI in 4.6+, for Buttons, Panel, Scrollbar, etc...)</summary>
     * 
     * @method LeanTween.rotateAroundLocal (RectTransform)
     * @param {RectTransform} rectTrans:RectTransform RectTransform that you wish to attach the tween to

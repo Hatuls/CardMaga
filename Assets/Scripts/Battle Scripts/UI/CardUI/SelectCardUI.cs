@@ -59,7 +59,7 @@ public class SelectCardUI
     {
         KillTween();
         _currentSequence = _selectCard.CardTransitionManager.Move(_zoomPosition.position, _zoomCard)
-            .Join(_selectCard.CardTransitionManager.Scale(_zoomScaleMultiply, _zoomCard)).OnComplete(KillTween);
+            .Join(_selectCard.CardTransitionManager.Scale(_zoomScaleMultiply, _zoomCard));
     }
     
     public void ResetCard(CardUI cardUI)
@@ -77,7 +77,7 @@ public class SelectCardUI
         if (cardUI == _selectCard)
         {
             KillTween();
-            _currentSequence = _selectCard.CardTransitionManager.Move(_mousePosition, _followHand).OnComplete(KillTween);
+            _currentSequence = _selectCard.CardTransitionManager.Move(_mousePosition, _followHand);
         }
     }
     

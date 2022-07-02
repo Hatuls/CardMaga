@@ -1,19 +1,25 @@
-﻿using UnityEngine;
+﻿using FMOD;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Transition SO", menuName = "ScriptableObjects/Transitions/New Transition SO")]
-public class TransitionPackSO : ScriptableObject, ITransitionReciever
+public class TransitionPackSO : ScriptableObject
 {
-    [Header("Movement:")] [SerializeField] private Transition3DData movement2DData;
-    [Header("Scale:")] [SerializeField] private Transition1DData scale2DData;
-    [Header("Rotation:")] [SerializeField] private Transition1DData rotation2DData;
-    public ITransitionable3D Movement => movement2DData;
-    public ITransitionable1D Scale => scale2DData;
-    public ITransitionable1D Rotation => rotation2DData;
-}
+    public bool HaveMovement = true; 
+    public Transition3D Movement;
 
-public interface ITransitionReciever
-{
-    ITransitionable3D Movement { get; }
-    ITransitionable1D Scale { get; }
-    ITransitionable1D Rotation { get; }
+    public enum ScaleTypeEnum
+    {
+        ByFloat,
+        ByVector
+    };
+
+    public ScaleTypeEnum ScaleType;
+    public bool HaveScale = false; 
+    public float ScaleMultiplier;
+    public Vector3 ScaleVector;
+    public Transition3D Scale;
+    
+    public bool HaveRotation = false; 
+    public Vector3 Rotate; 
+    public Transition3D Rotation;
 }
