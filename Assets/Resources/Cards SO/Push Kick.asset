@@ -12,24 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Push Kick
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _cardSprite: {fileID: 21300000, guid: c374ee9f246edb34fa0c925928c07ac2, type: 3}
   _cardName: Push Kick
   _animationBundle:
     BodyPartEnum: 6
-    _attackAnimation: FootShotgun
-    _shieldAnimation: Block_Single
-    _getHitAnimation: MidFront_Med
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: FootShotgun
+    ShieldAnimation: Block_Single
+    GetHitAnimation: MidFront_Med
     IsSlowMotion: 0
-    CinemtaicView: 1
+  cameraDetails:
+    LeftCamera:
+    - {fileID: 11400000, guid: 35d3bff3714afde4fb50ed7890d2483f, type: 2}
+    RightCamera:
+    - {fileID: 11400000, guid: 35d3bff3714afde4fb50ed7890d2483f, type: 2}
+    CinemachineBlenderSettings:
+    - {fileID: 11400000, guid: c0b98a05ad7a1df4ca1bc82133c4361e, type: 2}
   _rarity: 4
   _stamina: 2
   _salvageCost: 1

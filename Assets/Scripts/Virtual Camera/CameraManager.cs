@@ -7,9 +7,6 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private CinemachineBrain _cinemachineBrain;
 
-    [SerializeField]
-    private CameraDetails _cameraDetails;
-
     public static List<VirtualCamera> _cameras = new List<VirtualCamera>();
 
     private VirtualCamera _activeCamera = null;
@@ -57,15 +54,15 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    [Button]
-    private void Check()
-    {
-        if(CameraDetails.CheckCameraDetails(_cameraDetails))
-        {
-           TransitionCamera transitionCamera = _cameraDetails.GetTransitionCamera(true);
-           SwitchCamera(transitionCamera);
-        }
-    }
+    //[Button]
+    //private void Check()
+    //{
+    //    if(CameraDetails.CheckCameraDetails(_cameraDetails))
+    //    {
+    //       TransitionCamera transitionCamera = _cameraDetails.GetTransitionCamera(true);
+    //       SwitchCamera(transitionCamera);
+    //    }
+    //}
 
     private bool CheckTransitionCamera(TransitionCamera transitionCamera)
     {

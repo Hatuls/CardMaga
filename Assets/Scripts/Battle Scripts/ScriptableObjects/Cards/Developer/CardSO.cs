@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Cards
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
-    public class CardSO : SerializedScriptableObject
+    public class CardSO : ScriptableObject
     {
 
 
@@ -44,7 +44,7 @@ namespace Cards
         [TabGroup("CardData/Info", "Camera")]
         [SerializeField]
         private CameraDetails cameraDetails;
-        public CameraDetails CameraDetails { get => cameraDetails; private set => cameraDetails = value; }
+        public CameraDetails CameraDetails { get => cameraDetails; set => cameraDetails = value; }
 
 
         [TabGroup("CardData/Info", "Data")]
