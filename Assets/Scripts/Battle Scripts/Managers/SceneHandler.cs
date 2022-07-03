@@ -55,11 +55,11 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
     #region Monobehaviour Callbacks
     public void Awake()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager += SceneLoaded;
+        LoadingSceneManager.OnInjectingLoadingSceneManager += SceneLoaded;
     }
     public void OnDisable()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager -= SceneLoaded;
+        LoadingSceneManager.OnInjectingLoadingSceneManager -= SceneLoaded;
     }
 
     public IEnumerator Start()
@@ -125,13 +125,12 @@ _overrideLoadingSceneManager = false;
         // notify about unloading
         CurrentSceneIsUnloaded();
 
+
         void SceneTransition()
         {
             BlackScreenPanel.OnFinishFadeIn -= SceneTransition;
             // unload current scenes and start loading the new ones
             _loadingSceneManager.UnloadAndThenLoad(null, scenesIndex);
-
-
         }
     }
 

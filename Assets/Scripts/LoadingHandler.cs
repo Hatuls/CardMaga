@@ -1,18 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using CardMaga.LoadingScene;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LoadingHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private LoadingSceneManager _loadingSceneManager;
+    [SerializeField]
+    private SceneIdentificationSO[] _sceneToLoad;
 
-    // Update is called once per frame
-    void Update()
+
+    public void LoadScenesAdditive()
+   =>    
+        _loadingSceneManager.LoadScenes(null, GetScenesIndex());
+    
+    public void UnloadScenes()
     {
-        
+        _loadingSceneManager.UnloadScenes(null, GetScenesIndex());
     }
+    public void UnloadAndThenLoad()
+    =>
+        _loadingSceneManager.UnloadAndThenLoad(null, GetScenesIndex());
+    
+    private int[] GetScenesIndex()
+    {
+        int[] scenesIndex = new int[_sceneToLoad.Length];
+        for (int i = 0; i < scenesIndex.Length; i++)
+            scenesIndex[i] = _sceneToLoad[i].SceneBuildIndex;
+        return scenesIndex;
+    }
+    private void Start()
+    {
+        LoadingSceneManager.OnInjectingLoadingSceneManager += Inject;
+    }
+    private void OnDestroy()
+    {
+        LoadingSceneManager.OnInjectingLoadingSceneManager -= Inject;
+
+    }
+    private void Inject(LoadingSceneManager obj)
+   => _loadingSceneManager = obj;
 }

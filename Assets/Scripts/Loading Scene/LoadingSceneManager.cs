@@ -7,7 +7,7 @@ namespace CardMaga.LoadingScene
 {
     public class LoadingSceneManager : MonoBehaviour
     {
-        public static Action<LoadingSceneManager> OnIjectingLoadingSceneManager = null;
+        public static Action<LoadingSceneManager> OnInjectingLoadingSceneManager = null;
         public static Action<float> OnSceneProgress = null;
         public static Action OnLoadScenesComplete = null;
         private static List<int> _currentlyActiveScenes = new List<int>();
@@ -176,7 +176,7 @@ namespace CardMaga.LoadingScene
                 yield return null;
             }
             OnLoadScenesComplete?.Invoke();
-            OnIjectingLoadingSceneManager?.Invoke(this);
+            OnInjectingLoadingSceneManager?.Invoke(this);
             OnComplete?.Invoke();
         }
 

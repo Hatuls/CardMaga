@@ -1,67 +1,129 @@
-﻿using ReiTools.TokenMachine;
-using System;
-using UnityEngine;
-using PlayFab.ClientModels;
-using PlayFab;
+﻿using Account.GeneralData;
 using Battle.Data;
-
-public class LookForOpponent : MonoBehaviour
+using PlayFab;
+using PlayFab.ClientModels;
+using ReiTools.TokenMachine;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+namespace Battle.MatchMaking
 {
 
-   private IDisposable _token;
-
-    public void Init(ITokenReciever tokenReceiver)
+    public class LookForOpponent : MonoBehaviour
     {
-        _token = tokenReceiver.GetToken();
-        LookForOpponentOnServer();
-    }
-
-    private void LookForOpponentOnServer()
-    {
-        var request = new GetLeaderboardAroundPlayerRequest()
+        [Serializable]
+        public class Rootobject
         {
-             StatisticName = "Rank",
-            MaxResultsCount = 5,
-            PlayFabId = Account.AccountManager.Instance.LoginResult.PlayFabId,
+            public string CharacterData;
+            public string ArenaData;
+        }
 
-        };
-        PlayFabClientAPI.GetLeaderboardAroundPlayer(request, OnPotentialOpponentFound, OnMatchFailed);
-    }
 
-    private void OnMatchFailed(PlayFabError obj)
-    {
-        throw new Exception(obj.GenerateErrorReport());
-    }
 
-    private void OnPotentialOpponentFound(GetLeaderboardAroundPlayerResult obj)
-    {
-        string opponentID = obj.Leaderboard[0].PlayFabId;
+        [SerializeField]
+        private IDisposable _token;
+        [SerializeField]
+        GameObject _searchForOpponent;
 
-        //if (opponentID == Account.AccountManager.Instance.LoginResult.PlayFabId) // if this is me
-        //{
-        //    LookForOpponentOnServer();
-        //    return;
-        //}
-        var request = new PlayFab.ServerModels.GetUserDataRequest()
+
+
+        private void Start()
         {
-             PlayFabId  = opponentID,
-        };
-        PlayFabServerAPI.GetUserData(request, OnOpponentDataRecieved, OnMatchFailed);
+            _searchForOpponent.SetActive(false);
+        }
+
+        public void Init(ITokenReciever tokenReceiver)
+        {
+            _token = tokenReceiver.GetToken();
+ 
+            LookForOpponentOnServer();
+
+        }
+
+        private void LookForOpponentOnServer()
+        {
+            _searchForOpponent.SetActive(true);
+            var request = new GetLeaderboardAroundPlayerRequest()
+            {
+                StatisticName = "Rank",
+                MaxResultsCount = 5,
+                PlayFabId = Account.AccountManager.Instance.LoginResult.PlayFabId,
+
+            };
+
+            PlayFabClientAPI.GetLeaderboardAroundPlayer(request, OnPotentialOpponentFound, OnMatchFailed);
+        }
+
+
+
+        private void OnPotentialOpponentFound(GetLeaderboardAroundPlayerResult obj)
+        {
+            if (GetRandomOpponent(obj, out string opponentPlayfabID))
+            {
+                var request = new ExecuteCloudScriptRequest()
+                {
+                    FunctionName = "LookForOpponent",
+                    FunctionParameter = new
+                    {
+                        Opponent = opponentPlayfabID
+                    }
+                };
+
+                PlayFabClientAPI.ExecuteCloudScript(request, OnOpponentsDataReceived, OnMatchFailed);
+            }
+            else
+            {
+                // No Options found call for bot
+
+                _token.Dispose();
+            }
+        }
+
+        private bool GetRandomOpponent(GetLeaderboardAroundPlayerResult obj,out string opponentPlayfabID)
+        {
+            List<string> optionalOpponents = new List<string>();
+
+            //un comment when you have answer for no players
+           // string myPlayfabID = Account.AccountManager.Instance.LoginResult.PlayFabId;
+
+            for (int i = 0; i < obj.Leaderboard.Count; i++)
+            {
+                string player = obj.Leaderboard[i].PlayFabId;
+
+                if (player == "")
+                    continue;
+
+                //un comment when you have answer for no players
+                //    if (myPlayfabID != player)
+                optionalOpponents.Add(player);
+
+            }
+            opponentPlayfabID = optionalOpponents.Count == 0 ? "" : optionalOpponents[UnityEngine.Random.Range(0, optionalOpponents.Count)];
+            return optionalOpponents.Count != 0;
+        }
+
+        private void OnOpponentsDataReceived(ExecuteCloudScriptResult obj)
+        {
+
+            Rootobject charactersData = JsonUtility.FromJson<Rootobject>(obj.FunctionResult.ToString());
+
+            // contain info about the characters and decks
+            var opponentCharacter = JsonUtility.FromJson<CharactersData>(charactersData.CharacterData);
+
+            // Contain Info About the arena
+            var opponentArena = JsonUtility.FromJson<ArenaData>(charactersData.ArenaData);
+
+
+            RegisterOpponent(opponentCharacter.GetMainCharacter);
+            _token.Dispose();
+        }
+        private void RegisterOpponent(Character character)
+            => BattleData.Instance.AssginCharacter(false, character);
+        private void OnMatchFailed(PlayFabError obj)
+        {
+            throw new Exception(obj.GenerateErrorReport());
+        }
 
     }
 
-    private void OnOpponentDataRecieved(PlayFab.ServerModels.GetUserDataResult obj)
-    {
-           if (obj == null)
-            OnMatchFailed(null);
-
-
-        var opponent = new Account.AccountData(obj.Data);
-        var characters = opponent.CharactersData;
-        Debug.LogError(opponent.DisplayName);
-
-        var opponentCharacter = characters.Characters[characters.MainCharacter];
-
-        BattleData.Instance.AssginCharacter(false, opponentCharacter);
-    }
 }

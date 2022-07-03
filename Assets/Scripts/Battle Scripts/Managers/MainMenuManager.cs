@@ -13,11 +13,11 @@ public class MainMenuManager : MonoBehaviour
 
     private void Awake()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager += Inject;
+        LoadingSceneManager.OnInjectingLoadingSceneManager += Inject;
     }
     private void OnDestroy()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager -=Inject;
+        LoadingSceneManager.OnInjectingLoadingSceneManager -=Inject;
     }
 
 

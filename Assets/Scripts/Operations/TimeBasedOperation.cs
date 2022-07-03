@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-
+using Sirenix.OdinInspector;
 public class TimeBasedOperation : BaseOperation
 {
     [SerializeField, EventsGroup]
@@ -11,10 +11,10 @@ public class TimeBasedOperation : BaseOperation
     [SerializeField, EventsGroup]
     UnityEvent OnOperationFinished;
 
-    [SerializeField,Range(0f,10f), Tooltip("The delay before the operation will be executed")]
-    private float _delayBeforeOperation =0f;
-    [SerializeField,Range(0f,10f), Tooltip("The delay after the operation was executed\nNote: Will not have effect if the operation that will take the token wont release it before this delay")]
-    private float _delayAfterOperation = 0f;
+    [SerializeField,MinMaxSlider(0,20f), Tooltip("The delay before the operation will be executed")]
+    private Vector2 _delayBeforeOperation;
+    [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay after the operation was executed\nNote: Will not have effect if the operation that will take the token wont release it before this delay")]
+    private Vector2 _delayAfterOperation;
 
     public override event Action OnCompleted;
     public override void Completed()
@@ -38,13 +38,18 @@ public class TimeBasedOperation : BaseOperation
     {
         using (_tokenMachine.GetToken())
         {
-            if (_delayBeforeOperation > 0)
-                yield return new WaitForSeconds(_delayBeforeOperation);
+            float delayBefore = GetRandomValue(_delayBeforeOperation);
+            if (delayBefore > 0)
+                yield return new WaitForSeconds(delayBefore);
 
             OnOperationStarting.Invoke(_tokenMachine);
 
-            if (_delayAfterOperation > 0)
-                yield return new WaitForSeconds(_delayAfterOperation);
+            float delayAfter = GetRandomValue(_delayAfterOperation);
+            if (delayAfter > 0)
+                yield return new WaitForSeconds(delayAfter);
         }
     }
+
+    private static float GetRandomValue(Vector2 vector2)
+        => UnityEngine.Random.Range(vector2.x, vector2.y);
 }

@@ -37,7 +37,7 @@ namespace Account
             }
         }
         #endregion
-        [NonSerialized]
+        [NonSerialized,Sirenix.OdinInspector.ShowInInspector]
         private AccountData _accountData;
         public LoginResult LoginResult { get; private set; }
 
@@ -71,7 +71,7 @@ namespace Account
 
         private void OnDataRecieved(UpdateUserDataResult obj)
         {
-            _loginDisposable.Dispose();
+            _loginDisposable?.Dispose();
         }
 
         public void UpdateRank(Action<UpdatePlayerStatisticsResult> OnCompletedSuccessfully)
@@ -95,11 +95,15 @@ namespace Account
 
         public void OnLogin(LoginResult loginResult)
         {
-
+         
             LoginResult = loginResult;
-            _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
+            if (LoginResult.NewlyCreated)
+                _accountData = new AccountData();
+            else
+                _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
             _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New Player";
             UpdateRank(null);
+            SendAccountData();
         }
     }
 
@@ -146,16 +150,6 @@ namespace Account
             AssignValues(data);
         }
         public AccountData(Dictionary<string, UserDataRecord> data)
-        {
-            var convertedDict = new Dictionary<string, string>();
-
-            foreach (var item in data)
-                convertedDict.Add(item.Key, item.Value?.Value);
-
-            AssignValues(convertedDict);
-        }
-
-        public AccountData(Dictionary<string, PlayFab.ServerModels.UserDataRecord> data)
         {
             var convertedDict = new Dictionary<string, string>();
 
