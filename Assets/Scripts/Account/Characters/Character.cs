@@ -11,7 +11,12 @@ namespace Account.GeneralData
         public const string PlayFabKeyName = "CharactersData";
         [SerializeField]
         private List<Character> _characters = new List<Character>();
-    
+        [SerializeField]
+        private int _mainCharacter = 0;
+
+        public IReadOnlyList<Character> Characters => _characters;
+        public int MainCharacter { get => _mainCharacter; set => _mainCharacter = value; }
+        public Character GetMainCharacter => Characters[MainCharacter];
         public void AddCharacter(Character character)
         {
             if (!_characters.Contains(character))
@@ -27,13 +32,13 @@ namespace Account.GeneralData
     [Serializable]
     public class Character
     {
-       [SerializeField]   private int _id;
-       [SerializeField]   private int _currentSkin;
-       [SerializeField]   private int _exp;
-       [SerializeField]   private int _skillPoint;
-       [SerializeField]   private int _rank;
-       [SerializeField]   private int _deckAmount = 1;
-       [SerializeField]   private int _mainDeck;
+       [SerializeField]  private int _id;
+       [SerializeField]  private int _currentSkin;
+       [SerializeField]  private int _exp;
+       [SerializeField]  private int _skillPoint;
+       [SerializeField]  private int _rank;
+       [SerializeField]  private int _deckAmount = 1;
+       [SerializeField]  private int _mainDeck;
 
        [SerializeField]  private List<int> _availableSkins = new List<int>();
        [SerializeField]  private List<DeckData> _deck = new List<DeckData>();

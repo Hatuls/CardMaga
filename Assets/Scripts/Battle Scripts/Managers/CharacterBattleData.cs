@@ -28,7 +28,7 @@ namespace Battle.Characters
 
         public Battle.Combo.Combo[] ComboRecipe { get => _comboRecipe; internal set => _comboRecipe = value; }
 
-        public CharacterSO CharacterSO { get => _characterSO; private set => _characterSO = value; }
+        public CharacterSO CharacterSO { get => _characterSO; internal set => _characterSO = value; }
  
         public CharacterBattleData() { }
         public CharacterBattleData(Account.GeneralData.Character data)
@@ -37,12 +37,12 @@ namespace Battle.Characters
             var selectedDeck =  data.Deck[data.MainDeck];
 
             CharacterSO =       factory.CharacterFactoryHandler.GetCharacterSO(data.Id);
-            _characterDeck =    factory.CardFactoryHandler.CreateDeck(selectedDeck.Cards);
-            _comboRecipe =      factory.ComboFactoryHandler.CreateCombos(selectedDeck.Combos);
+            CharacterDeck =    factory.CardFactoryHandler.CreateDeck(selectedDeck.Cards);
+            ComboRecipe =      factory.ComboFactoryHandler.CreateCombos(selectedDeck.Combos);
             _characterStats =   CharacterSO.CharacterStats;
         }
 
-
+        #region Editor
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]
         /// <summary>
@@ -52,8 +52,8 @@ namespace Battle.Characters
         {
             try
             {
-                _characterDeck = CreateDeck(CharacterSO);
-                _comboRecipe = CreateCombos(CharacterSO);
+                CharacterDeck = CreateDeck(CharacterSO);
+                ComboRecipe = CreateCombos(CharacterSO);
                 _characterStats = CharacterSO.CharacterStats;
             }
             catch (Exception e)
@@ -84,6 +84,6 @@ namespace Battle.Characters
             }
         }
 #endif
-
+        #endregion
     }
 }

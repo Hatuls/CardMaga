@@ -57,10 +57,13 @@ namespace CardMaga.Playfab
                 AndroidDeviceId = SystemInfo.deviceUniqueIdentifier,
                 AndroidDevice = SystemInfo.deviceModel,
                 CreateAccount = true,
-                AuthenticationContext = loginResult?.AuthenticationContext ?? null
-                ,
+                AuthenticationContext = loginResult?.AuthenticationContext ?? null,
+               
+
+
                 InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
                 {
+                    
                     GetPlayerProfile = true,
                     GetUserData = true
                 }

@@ -17,7 +17,6 @@ public class TimeBasedOperation : BaseOperation
     private float _delayAfterOperation = 0f;
 
     public override event Action OnCompleted;
-    protected TokenMachine _timeBasedTokenMachine;
     public override void Completed()
     {
         _token?.Dispose();
@@ -28,7 +27,7 @@ public class TimeBasedOperation : BaseOperation
     public override void Init(ITokenReciever tokenReciever)
     {
         _token = tokenReciever.GetToken();
-        _timeBasedTokenMachine = new TokenMachine(Completed);
+        _tokenMachine = new TokenMachine(Completed);
     }
 
     public override void StartOperation()
@@ -37,12 +36,12 @@ public class TimeBasedOperation : BaseOperation
     }
     protected virtual IEnumerator Delay()
     {
-        using (_timeBasedTokenMachine.GetToken())
+        using (_tokenMachine.GetToken())
         {
             if (_delayBeforeOperation > 0)
                 yield return new WaitForSeconds(_delayBeforeOperation);
 
-            OnOperationStarting.Invoke(_timeBasedTokenMachine);
+            OnOperationStarting.Invoke(_tokenMachine);
 
             if (_delayAfterOperation > 0)
                 yield return new WaitForSeconds(_delayAfterOperation);

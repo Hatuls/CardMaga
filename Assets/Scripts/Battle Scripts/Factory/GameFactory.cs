@@ -209,11 +209,14 @@ namespace Factory
             {
                 if (combosSO != null)
                 {
-                    Combo[] combos = new Combo[combosSO.Length];
+                    List<Combo> combos = new List<Combo>();
                     for (int i = 0; i < combosSO.Length; i++)
-                        combos[i] = CreateCombo(combosSO[i].ComboSO());
+                    {
+                        if(combosSO[i].ID!= 0)
+                        combos.Add(CreateCombo(combosSO[i].ComboSO()));
+                    }
 
-                    return combos;
+                    return combos.ToArray();
                 }
                 return null;
             }
@@ -229,7 +232,7 @@ namespace Factory
             {
                 if (_comboDictionary.TryGetValue(id, out var combo))
                     return combo;
-                throw new Exception("ComboFactory: Combo ID Is not valid in the dictionary!");
+                throw new Exception("ComboFactory: Combo ID Is not valid in the dictionary!\nID: "+ id);
             }
       
         }

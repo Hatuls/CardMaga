@@ -428,406 +428,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd6b02e4efc6224387102b17338824d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &567728194
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 567728196}
-  - component: {fileID: 567728195}
-  m_Layer: 0
-  m_Name: Battle Config
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &567728195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567728194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 226026d1eedc2e547b7204b3d5fc9a6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _player:
-    _characterData:
-      _characterSO: {fileID: 0}
-      _characterStats:
-        _maxHealth: 90
-        _health: 90
-        _defense: 0
-        _gold: 100
-        _strengthPoint: 0
-        _bleedPoints: 0
-        _cardDraw: 4
-        _startStamina: 4
-        _regenerationPoints: 0
-        _stunShards: 0
-        _staminaShard: 0
-        _protectionShard: 0
-        _rageShard: 0
-        _ragePoints: 0
-        _protectionPoints: 0
-        _weak: 0
-        _vulnerable: 0
-      _characterDeck:
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 40
-            _level: 2
-            _expierence: 0
-          _instanceID: 0
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 30
-            _level: 0
-            _expierence: 0
-          _instanceID: 1
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 160
-            _level: 0
-            _expierence: 0
-          _instanceID: 2
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 3
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 2
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 2
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 50
-            _level: 0
-            _expierence: 0
-          _instanceID: 3
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 50
-            _level: 0
-            _expierence: 0
-          _instanceID: 4
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 70
-            _level: 0
-            _expierence: 0
-          _instanceID: 5
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 2
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 1
-          _amountToApply: 5
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 80
-            _level: 0
-            _expierence: 0
-          _instanceID: 6
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 2
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 1
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 230
-            _level: 0
-            _expierence: 0
-          _instanceID: 7
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 1
-          _cardType: 3
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 1
-          _amountToApply: 1
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        - _keywordBase: {fileID: 0}
-          _target: 1
-          _amountToApply: 1
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      _comboRecipe:
-      - _comboCore:
-          _id: 3
-          _level: 0
-        _comboSO: {fileID: 0}
-      - _comboCore:
-          _id: 2
-          _level: 0
-        _comboSO: {fileID: 0}
-      - _comboCore:
-          _id: 4
-          _level: 0
-        _comboSO: {fileID: 0}
-  _opponent:
-    _characterData:
-      _characterSO: {fileID: 0}
-      _characterStats:
-        _maxHealth: 40
-        _health: 40
-        _defense: 0
-        _gold: 0
-        _strengthPoint: 0
-        _bleedPoints: 0
-        _cardDraw: 4
-        _startStamina: 3
-        _regenerationPoints: 0
-        _stunShards: 0
-        _staminaShard: 0
-        _protectionShard: 0
-        _rageShard: 0
-        _ragePoints: 0
-        _protectionPoints: 0
-        _weak: 0
-        _vulnerable: 0
-      _characterDeck:
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 30
-            _level: 0
-            _expierence: 0
-          _instanceID: 0
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 30
-            _level: 0
-            _expierence: 0
-          _instanceID: 1
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 30
-            _level: 0
-            _expierence: 0
-          _instanceID: 2
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 30
-            _level: 0
-            _expierence: 0
-          _instanceID: 3
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 70
-            _level: 0
-            _expierence: 0
-          _instanceID: 4
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 2
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 1
-          _amountToApply: 5
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      - _cardSO: {fileID: 0}
-        _cardCoreInfo:
-          _coreData:
-            _iD: 70
-            _level: 0
-            _expierence: 0
-          _instanceID: 5
-        toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 2
-        _cardKeyword:
-        - _keywordBase: {fileID: 0}
-          _target: 1
-          _amountToApply: 5
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        staminaCost: 1
-      _comboRecipe:
-      - _comboCore:
-          _id: 4
-          _level: 0
-        _comboSO: {fileID: 0}
-  _playerWon: 0
---- !u!4 &567728196
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567728194}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &636324505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1560,7 +1160,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2063546483}
-  m_LocalRotation: {x: 0.11883397, y: 0.0009801519, z: -0.00011730662, w: 0.99291366}
+  m_LocalRotation: {x: 0.118833944, y: 0.0009801871, z: -0.00011731082, w: 0.99291366}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3223,6 +2823,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5872913d301c8a4ead39a05fa0b0bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &8812782710975464602
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8812782710460472536, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_Name
+      value: Battle Config
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1599ef7dc225d7341a06d4d84ac0d3cc, type: 3}
 --- !u!1001 &9062502925964710147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3283,37 +2952,37 @@ PrefabInstance:
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.07108444
+      value: -0.25820228
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.6909753
+      value: 0.07894037
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9993909
+      value: 0.99957216
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.03489948
+      value: -0.029233329
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.00095208094
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.00026090315
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}

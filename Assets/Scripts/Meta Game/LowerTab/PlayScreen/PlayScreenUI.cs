@@ -1,4 +1,5 @@
 ﻿using Account.GeneralData;
+using Battle.Data;
 using Meta.Resources;
 using System.Collections;
 using UnityEngine;
@@ -14,6 +15,8 @@ namespace UI.Meta.PlayScreen
 
 
         #region Fields
+        [SerializeField]
+        private BattleData _playDataPrefab; 
         private static PlayScreenUI _instance;
 
         [SerializeField]
@@ -23,13 +26,12 @@ namespace UI.Meta.PlayScreen
         PlayPackage _playpackage = new PlayPackage();
         [SerializeField]
         private ushort _energyCost = 5;
-        [SerializeField]
-        private SceneIdentificationSO _sceneLoad;
+
         [SerializeField]
         private PlayButtonUI _playBtn;
         private ISceneHandler _sceneManager;
-        [SerializeField]
-        private SceneIdentificationSO _mapScene;
+       [SerializeField]
+       private SceneIdentificationSO _lookForMatchScene;
         #endregion
 
         [SerializeField, EventsGroup]
@@ -117,17 +119,17 @@ namespace UI.Meta.PlayScreen
             GatherCharacterDataForRun();
             SentAnalyticEvent();
             yield return new WaitForSeconds(_delayBeforeStart);
-            GatherCharacterDataForRun();
+       
             ConfirmPlayPackage();
    
-            _sceneManager.MoveToScene(_mapScene);
+            _sceneManager.MoveToScene(_lookForMatchScene);
         }
         // Need To be Re-Done
         private void GatherCharacterDataForRun()
         {
-            //var account = Account.AccountManager.Instance;
-            //_playpackage.CharacterData = account.AccountCharacters.GetCharacterData(CharacterEnum.Chiara);
-            //_playpackage.Deck = _playpackage.CharacterData.GetDeckAt(0);
+            var account = Account.AccountManager.Instance;
+            var x = Instantiate(_playDataPrefab);
+            x.AssginCharacter(true,account.Data.CharactersData.GetMainCharacter);
         }
 
 

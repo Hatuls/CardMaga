@@ -40,8 +40,11 @@ namespace Account
         [NonSerialized]
         private AccountData _accountData;
         public LoginResult LoginResult { get; private set; }
- 
+
         private IDisposable _loginDisposable;
+
+        public string SessionTicket => LoginResult.SessionTicket;
+        public string EntityID => LoginResult.EntityToken.Entity.Id;
 
         public AccountData Data => _accountData;
 
@@ -50,7 +53,7 @@ namespace Account
             _instance = this;
         }
 
-    
+
         private void OnError(PlayFabError playFabError)
         {
             _loginDisposable.Dispose();
@@ -58,7 +61,9 @@ namespace Account
 
         public void SendAccountData(ITokenReciever tokenReciever = null)
         {
+           
             PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
+            //.UpdateUserData(_accountData.GetUpdateRequest(), null, OnError);
 
             if (tokenReciever != null)
                 _loginDisposable = tokenReciever.GetToken();
@@ -69,12 +74,32 @@ namespace Account
             _loginDisposable.Dispose();
         }
 
-    
+        public void UpdateRank(Action<UpdatePlayerStatisticsResult> OnCompletedSuccessfully)
+        {
+            var request = new UpdatePlayerStatisticsRequest
+            {
+                Statistics = new List<StatisticUpdate>()
+                {
+                    new StatisticUpdate
+                    {
+                        StatisticName = "Rank",
+                        Value = _accountData.AccountGeneralData.Rank
+                    }
+                }
+            };
+
+            PlayFabClientAPI.UpdatePlayerStatistics(request, OnCompletedSuccessfully, OnError);
+        }
+
+ 
+
         public void OnLogin(LoginResult loginResult)
         {
+
             LoginResult = loginResult;
             _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
             _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New Player";
+            UpdateRank(null);
         }
     }
 
@@ -92,7 +117,12 @@ namespace Account
 
         public bool IsFirstTimeUser { get; private set; }
         public string DisplayName { get => _displayName; set => _displayName = value; }
-        public AccountGeneralData AccountGeneralData { get => _accountGeneralData;}
+
+
+        public AccountGeneralData AccountGeneralData { get => _accountGeneralData; }
+        public LevelData AccountLevel { get => _accountLevel;}
+        public CharactersData CharactersData { get => _charactersData; }
+        public ArenaData ArenaData { get => _arenaData;  }
 
         //public void AddCharacter(CharacterSO newCharacter)
         //{
@@ -111,26 +141,49 @@ namespace Account
             CreateNewGeneralData();
             IsFirstTimeUser = true;
         }
-
+        public AccountData(Dictionary<string, string> data)
+        {
+            AssignValues(data);
+        }
         public AccountData(Dictionary<string, UserDataRecord> data)
         {
-            UserDataRecord result;
+            var convertedDict = new Dictionary<string, string>();
+
+            foreach (var item in data)
+                convertedDict.Add(item.Key, item.Value?.Value);
+
+            AssignValues(convertedDict);
+        }
+
+        public AccountData(Dictionary<string, PlayFab.ServerModels.UserDataRecord> data)
+        {
+            var convertedDict = new Dictionary<string, string>();
+
+            foreach (var item in data)
+                convertedDict.Add(item.Key, item.Value?.Value);
+
+            AssignValues(convertedDict);
+        }
+
+        private void AssignValues(Dictionary<string, string> data)
+        {
+            string result;
 
             // Account General Data
             if (data.TryGetValue(AccountGeneralData.PlayFabKeyName, out result))
             {
-                _accountGeneralData = JsonUtility.FromJson<AccountGeneralData>(result.Value);
-                if(_accountGeneralData == null || !_accountGeneralData.IsValid())
-                CreateNewGeneralData();
+                _accountGeneralData = JsonUtility.FromJson<AccountGeneralData>(result);
+                if (_accountGeneralData == null || !_accountGeneralData.IsValid())
+                    CreateNewGeneralData();
             }
             else
                 CreateNewGeneralData();
 
             if (data.TryGetValue(ArenaData.PlayFabKeyName, out result))
             {
-                _arenaData = JsonUtility.FromJson<ArenaData>(result.Value);
-                if(_arenaData == null || !_arenaData.IsValid())
-                CreateNewArenaData();
+                _arenaData = JsonUtility.FromJson<ArenaData>(result);
+                if (_arenaData == null || !_arenaData.IsValid())
+                    CreateNewArenaData();
             }
             else
                 CreateNewArenaData();
@@ -138,10 +191,10 @@ namespace Account
             // Characters & Deck
             if (data.TryGetValue(CharactersData.PlayFabKeyName, out result))
             {
-                _charactersData = JsonUtility.FromJson<CharactersData>(result.Value);
+               _charactersData = JsonUtility.FromJson<CharactersData>(result);
 
-                if (_charactersData  == null || !_charactersData.IsValid())
-                CreateNewCharacterData();
+                if (CharactersData == null || !CharactersData.IsValid())
+                    CreateNewCharacterData();
             }
             else
                 CreateNewCharacterData();
@@ -149,8 +202,8 @@ namespace Account
             // Levels
             if (data.TryGetValue(LevelData.PlayFabKeyName, out result))
             {
-                _accountLevel = JsonUtility.FromJson<LevelData>(result.Value);
-                if(_accountLevel == null || !_accountLevel.IsValid())
+                _accountLevel = JsonUtility.FromJson<LevelData>(result);
+                if (_accountLevel == null || !_accountLevel.IsValid())
                     CreateNewLevelData();
             }
             else
@@ -159,17 +212,18 @@ namespace Account
             // Resources
             if (data.TryGetValue(AccountResources.PlayFabKeyName, out result))
             {
-                _accountResources = JsonUtility.FromJson<AccountResources>(result.Value);
-                if(_accountResources  == null ||!_accountResources.IsValid())
-                CreateNewResourcesData();
+                _accountResources = JsonUtility.FromJson<AccountResources>(result);
+                if (_accountResources == null || !_accountResources.IsValid())
+                    CreateNewResourcesData();
             }
             else
                 CreateNewResourcesData();
 
             IsFirstTimeUser = false;
         }
+
         #endregion
-        
+
         public UpdateUserDataRequest GetUpdateRequest()
         {
             return new UpdateUserDataRequest()
@@ -177,13 +231,13 @@ namespace Account
                 Data = new Dictionary<string, string>()
                 {
                     { AccountGeneralData.PlayFabKeyName, JsonUtility.ToJson(_accountGeneralData) },
-                    { CharactersData.PlayFabKeyName, JsonUtility.ToJson(_charactersData) },
+                    { CharactersData.PlayFabKeyName, JsonUtility.ToJson(CharactersData) },
                     { LevelData.PlayFabKeyName, JsonUtility.ToJson(_accountLevel) },
                     { AccountResources.PlayFabKeyName, JsonUtility.ToJson(_accountResources) },
                     { ArenaData.PlayFabKeyName, JsonUtility.ToJson(_arenaData) },
-                }
+                }, Permission = UserDataPermission.Public
             };
-        } 
+        }
         #region Create Account Data
         private void CreateNewArenaData()
         {
@@ -199,10 +253,9 @@ namespace Account
         }
         private void CreateNewCharacterData()
         {
-
             _charactersData = new CharactersData();
             Battle.CharacterSO firstCharacter = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
-            _charactersData.AddCharacter(new Character(firstCharacter));
+            CharactersData.AddCharacter(new Character(firstCharacter));
         }
         private void CreateNewGeneralData()
         {
