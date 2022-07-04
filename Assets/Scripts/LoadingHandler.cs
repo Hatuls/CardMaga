@@ -1,6 +1,5 @@
 ﻿using CardMaga.LoadingScene;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LoadingHandler : MonoBehaviour
 {
@@ -9,25 +8,7 @@ public class LoadingHandler : MonoBehaviour
     private SceneIdentificationSO[] _sceneToLoad;
 
 
-    public void LoadScenesAdditive()
-   =>    
-        _loadingSceneManager.LoadScenes(null, GetScenesIndex());
-    
-    public void UnloadScenes()
-    {
-        _loadingSceneManager.UnloadScenes(null, GetScenesIndex());
-    }
-    public void UnloadAndThenLoad()
-    =>
-        _loadingSceneManager.UnloadAndThenLoad(null, GetScenesIndex());
-    
-    private int[] GetScenesIndex()
-    {
-        int[] scenesIndex = new int[_sceneToLoad.Length];
-        for (int i = 0; i < scenesIndex.Length; i++)
-            scenesIndex[i] = _sceneToLoad[i].SceneBuildIndex;
-        return scenesIndex;
-    }
+  
     private void Start()
     {
         LoadingSceneManager.OnInjectingLoadingSceneManager += Inject;
@@ -39,4 +20,25 @@ public class LoadingHandler : MonoBehaviour
     }
     private void Inject(LoadingSceneManager obj)
    => _loadingSceneManager = obj;
+
+
+    public void LoadScenesAdditive()
+ =>
+      _loadingSceneManager.LoadScenes(null, GetScenesIndex());
+
+    public void UnloadScenes()
+    =>
+        _loadingSceneManager.UnloadScenes(null, GetScenesIndex());
+
+    public void UnloadAndThenLoad()
+    =>
+        _loadingSceneManager.UnloadAndThenLoad(null, GetScenesIndex());
+
+    private int[] GetScenesIndex()
+    {
+        int[] scenesIndex = new int[_sceneToLoad.Length];
+        for (int i = 0; i < scenesIndex.Length; i++)
+            scenesIndex[i] = _sceneToLoad[i].SceneBuildIndex;
+        return scenesIndex;
+    }
 }
