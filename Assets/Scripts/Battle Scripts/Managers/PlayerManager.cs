@@ -5,6 +5,9 @@ using Characters.Stats;
 using ReiTools.TokenMachine;
 using UnityEngine;
 using Battle.Combo;
+using CardMaga.UI;
+using System;
+using System.Collections.Generic;
 
 namespace Managers
 {
@@ -16,8 +19,13 @@ namespace Managers
         #region Fields
 
         [SerializeField] Character _character;
-
         [SerializeField] Combo _recipes;
+
+
+        [SerializeField] MetaCardUIFilterScreen _cardUIFilter;
+        [SerializeField] MetaComboUIFilterScreen _comboUIFilter;
+        [SerializeField] CardSort[] _cardSorters;
+        [SerializeField] ComboSort[] _comboSorters;
 
         [SerializeField] AnimatorController _playerAnimatorController;
         [SerializeField] AnimationBodyPartSoundsHandler _soundAnimation;
@@ -25,8 +33,8 @@ namespace Managers
         static int Counter = 0;
         public ref CharacterStats GetCharacterStats => ref _character.CharacterData.CharacterStats;
         Cards.Card[] _playerDeck;
-        public Cards.Card[] Deck => _playerDeck;
-        public Battle.Combo.Combo[] Recipes => _character.CharacterData.ComboRecipe;
+        public IReadOnlyCollection<Cards.Card> GetDeck() => _playerDeck;
+        public Combo[] GetCombos() => _character.CharacterData.ComboRecipe;
 
         public AnimatorController PlayerAnimatorController
         {
@@ -55,11 +63,12 @@ namespace Managers
         }
         public override void Init(ITokenReciever token)
         {
+    
         }
         public void AssignCharacterData(Character characterData)
         {
             Instantiate(characterData.CharacterData.CharacterSO.CharacterAvatar, _playerAnimatorController.transform);
-            Debug.LogWarning("<a>Spawning " + Counter++ + " </a>");
+       //     Debug.LogWarning("<a>Spawning " + Counter++ + " </a>");
             _character = characterData;
             var data = characterData.CharacterData;
             _soundAnimation.CurrentCharacter = data.CharacterSO;
@@ -67,11 +76,11 @@ namespace Managers
             int Length = data.CharacterDeck.Length;
 
             _playerDeck = new Cards.Card[Length];
+            Array.Copy(data.CharacterDeck, _playerDeck, Length);
 
-            System.Array.Copy(data.CharacterDeck, _playerDeck, Length);
-
+      
             CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
-            Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
+            Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck.CloneCards());
             PlayerAnimatorController.ResetAnimator();
         }
         public void UpdateStatsUI()
@@ -110,10 +119,27 @@ namespace Managers
         public override void Awake()
         {
             base.Awake();
+            for (int i = 0; i < _cardSorters.Length; i++)
+                _cardSorters[i].OnSortingCollectionRequested += GetDeck;
+
+
+            for (int i = 0; i < _comboSorters.Length; i++)
+                _comboSorters[i].OnSortingCollectionRequested += GetCombos;
+
+            _cardUIFilter.OnCollectionNeeded += GetDeck;
+            _comboUIFilter.OnCollectionNeeded += GetCombos;
             SceneHandler.OnBeforeSceneShown += Init;
         }
         public void OnDestroy()
         {
+            _comboUIFilter.OnCollectionNeeded -= GetCombos;
+            _cardUIFilter.OnCollectionNeeded -= GetDeck;
+            for (int i = 0; i < _cardSorters.Length; i++)
+               _cardSorters[i].OnSortingCollectionRequested -= GetDeck;
+
+            for (int i = 0; i < _comboSorters.Length; i++)
+                _comboSorters[i].OnSortingCollectionRequested -= GetCombos;
+
             SceneHandler.OnBeforeSceneShown -= Init;
         }
         #endregion

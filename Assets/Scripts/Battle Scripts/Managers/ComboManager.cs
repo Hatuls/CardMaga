@@ -100,7 +100,7 @@ namespace Battle
              */
         }
 
-        public static void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId, () => DetectRecipe(), () => EndDetection()));
+        public static void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId,DetectRecipe, EndDetection));
         private static void EndDetection()
         {
             // need to change the logic!
@@ -164,7 +164,7 @@ namespace Battle
         static void CheckRecipe(CardTypeData[] craftingItems, bool isPlayer)
         {
             // need to make algorithem better!!! 
-            var recipes = isPlayer ? Managers.PlayerManager.Instance.Recipes : Battle.EnemyManager.Instance.Recipes;
+            var recipes = isPlayer ? Managers.PlayerManager.Instance.GetCombos() : Battle.EnemyManager.Instance.Recipes;
 
 
             CardTypeData[] cardTypeDatas;

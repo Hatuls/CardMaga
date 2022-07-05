@@ -49,6 +49,7 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
     [SerializeField]
     private bool _overrideLoadingSceneManager;
 
+   
     public LoadingSceneManager LoadingSceneManager => _loadingSceneManager;
 
 
@@ -82,7 +83,7 @@ _overrideLoadingSceneManager = false;
     {
         // saving the loading manager
         _loadingSceneManager = manager;
-        SceneStart();
+        StartScene();
     }
     //[Sirenix.OdinInspector.Button]
     private void StartScene()
@@ -93,45 +94,49 @@ _overrideLoadingSceneManager = false;
             OnSceneHandlerActivated?.Invoke(this);
             OnBeforeSceneShown?.Invoke(sceneTokenMachine); // notifiyng all who need to do preperation 
         }
+
     }
-    private void SceneStart()
-    {
+    //private void SceneStart()
+    //{
         
-        // creating a token machine
-        TokenMachine sceneTokenMachine = new TokenMachine(RemoveBlackPanel);
+    //    // creating a token machine
+    //    //TokenMachine sceneTokenMachine = new TokenMachine(RemoveBlackPanel);
 
-        using (sceneTokenMachine.GetToken())// starting the token machine
-        {
-            OnSceneHandlerActivated?.Invoke(this);
-            OnBeforeSceneShown?.Invoke(sceneTokenMachine); // notifiyng all who need to do preperation 
-        }
-        // register to when panel finished fading out
-        BlackScreenPanel.OnFinishFadeOut += BlackScreenFinished;
+    //  //  using (sceneTokenMachine.GetToken())// starting the token machine
+    //    {
+    //        OnSceneHandlerActivated?.Invoke(this);
+    //      //  OnBeforeSceneShown?.Invoke(sceneTokenMachine); // notifiyng all who need to do preperation 
+    //    }
+    ////    // register to when panel finished fading out
+    ////    BlackScreenPanel.OnFinishFadeOut += BlackScreenFinished;
 
 
-        void BlackScreenFinished()
-        {
-            BlackScreenPanel.OnFinishFadeOut -= BlackScreenFinished;
+    //    OnSceneStart?.Invoke(); // notifiyng that the game should start now
+    //    //void BlackScreenFinished()
+    //    //{
+    //    //    BlackScreenPanel.OnFinishFadeOut -= BlackScreenFinished;
 
-            OnSceneStart?.Invoke(); // notifiyng that the game should start now
-        }
-    }
+    //    //}
+    //}
 
     public void MoveToScene(params int[] scenesIndex)
     {
 
-        BlackScreenPanel.OnFinishFadeIn += SceneTransition;
+        //   BlackScreenPanel.OnFinishFadeIn += SceneTransition;
 
-        // notify about unloading
-        CurrentSceneIsUnloaded();
+        //// notify about unloading
+        //CurrentSceneIsUnloaded();
 
+        TokenMachine t = new TokenMachine(()=> _loadingSceneManager.UnloadAndThenLoad(null, scenesIndex));
 
-        void SceneTransition()
-        {
-            BlackScreenPanel.OnFinishFadeIn -= SceneTransition;
-            // unload current scenes and start loading the new ones
-            _loadingSceneManager.UnloadAndThenLoad(null, scenesIndex);
-        }
+           using (t.GetToken())
+           {
+               OnBeforeSceneUnloaded?.Invoke(t);
+           }
+
+        // unload current scenes and start loading the new ones
+     
+
     }
 
     public void MoveToScene(int sceneIndex)
@@ -156,20 +161,20 @@ _overrideLoadingSceneManager = false;
 
 #region Private Functions
 
-    private void RemoveBlackPanel()
-    {
-        _blackPanelToken = BlackScreenPanel.GetToken();
-    }
+    //private void RemoveBlackPanel()
+    //{
+    //    _blackPanelToken = BlackScreenPanel.GetToken();
+    //}
 
-    private void CurrentSceneIsUnloaded()
-    {
-        TokenMachine t = new TokenMachine(_blackPanelToken.Dispose);
+    //private void CurrentSceneIsUnloaded()
+    //{
+    //    TokenMachine t = new TokenMachine(_blackPanelToken.Dispose);
 
-        using (t.GetToken())
-        {
-            OnBeforeSceneUnloaded?.Invoke(t);
-        }
-    }
+    //    using (t.GetToken())
+    //    {
+    //        OnBeforeSceneUnloaded?.Invoke(t);
+    //    }
+    //}
 #endregion
 
 }

@@ -4,6 +4,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
+using Rei.Utilities;
+
 public class TimeBasedOperation : BaseOperation
 {
     [SerializeField, EventsGroup]
@@ -38,18 +40,17 @@ public class TimeBasedOperation : BaseOperation
     {
         using (_tokenMachine.GetToken())
         {
-            float delayBefore = GetRandomValue(_delayBeforeOperation);
+            float delayBefore = _delayBeforeOperation.GetRandomValue();
             if (delayBefore > 0)
                 yield return new WaitForSeconds(delayBefore);
 
             OnOperationStarting.Invoke(_tokenMachine);
 
-            float delayAfter = GetRandomValue(_delayAfterOperation);
+            float delayAfter = _delayAfterOperation.GetRandomValue();
             if (delayAfter > 0)
                 yield return new WaitForSeconds(delayAfter);
         }
     }
 
-    private static float GetRandomValue(Vector2 vector2)
-        => UnityEngine.Random.Range(vector2.x, vector2.y);
+
 }

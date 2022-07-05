@@ -129,7 +129,8 @@ namespace UI.Meta.PlayScreen
         {
             var account = Account.AccountManager.Instance;
             var x = Instantiate(_playDataPrefab);
-            x.AssginCharacter(true,account.Data.CharactersData.GetMainCharacter);
+            var opponent = account.Data.CharactersData;
+            x.AssginCharacter(true, account.Data.DisplayName, opponent.GetMainCharacter);
         }
 
 

@@ -32,7 +32,7 @@ namespace Battle
         private CameraController _cameraController;
 
         [SerializeField]
-        private SceneIdentificationSO _mapScene;
+        private SceneIdentificationSO _returnScene;
 
 
         private IEnumerator _turnCycles;
@@ -121,7 +121,6 @@ namespace Battle
             if (isGameEnded == true)
                 return;
 
-            OnGameEnded?.Invoke();
             UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
             CardUIManager.Instance.ResetCardUIManager();
@@ -134,35 +133,27 @@ namespace Battle
 
             TextPopUpHandler.Instance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
 
-            //Account.AccountManager.Instance.BattleData.PlayerWon = !isPlayerDied;
-            UpdateStats();
+            BattleData.Instance.PlayerWon = !isPlayerDied;
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
             EnemyManager.EnemyAnimatorController.ResetLayerWeight();
 
             isGameEnded = true;
             StopCoroutine(Instance._turnCycles);
+
+
+            OnGameEnded?.Invoke();
         }
-        // Need To be Re-Done
-        private static void UpdateStats()
-        {
-          //  var playerDAta = Account.AccountManager.Instance.BattleData.Player;
-          //  var playerBattleStats = CharacterStatsManager.GetCharacterStatsHandler(true);
-          //
-          //  playerDAta.CharacterData.CharacterStats.Health = playerBattleStats.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
-          //
-          //  Account.AccountManager.Instance.BattleData.Player = playerDAta;
-        }
+  
         // Need To be Re-Done
         public void DeathAnimationFinished(bool isPlayer)
         {
+            //if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
+            //    Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
-        //   if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
-        //       Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
-        //
-        //   FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
-        //
-        //   _sceneHandler.MoveToScene(_mapScene);
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
+
+            _sceneHandler.MoveToScene(_returnScene);
         }
         // Need To be Re-Done
         private void EnemyDied()
@@ -201,11 +192,16 @@ namespace Battle
             => _sceneHandler = sh;
 
         #region MonoBehaviour Callbacks
+        private void Update()
+        {
+            ThreadsHandler.ThreadHandler.TickThread();
+        }
         private void OnDestroy()
         {
             if (EndTurnButton._OnFinishTurnPress != null)
                 EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
 
+            ThreadsHandler.ThreadHandler.ResetList();
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
             SceneHandler.OnBeforeSceneShown -= Init;
             SceneHandler.OnSceneHandlerActivated -= Inject;

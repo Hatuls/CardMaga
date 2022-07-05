@@ -35,13 +35,18 @@ namespace CardMaga.Playfab
             {
                 TitleId = PlayFabSettings.TitleId,
                 ServerAuthCode = serverAuthCode,
-
+                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                {
+                    GetPlayerProfile = true,
+                    GetPlayerStatistics = true,
+                    GetUserData = true
+                },
                 CreateAccount = true,
                 AuthenticationContext = loginResult?.AuthenticationContext ?? null
             },
              SuccessfullLogin,
              FailedLogin
-             );
+             ); 
         }
 
 
@@ -59,11 +64,9 @@ namespace CardMaga.Playfab
                 CreateAccount = true,
                 AuthenticationContext = loginResult?.AuthenticationContext ?? null,
                
-
-
                 InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
                 {
-                    
+                    GetPlayerStatistics = true,
                     GetPlayerProfile = true,
                     GetUserData = true
                 }

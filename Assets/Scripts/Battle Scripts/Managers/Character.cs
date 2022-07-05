@@ -13,17 +13,20 @@ namespace Battle.Characters
         [SerializeField]
         private CharacterBattleData _characterData;
 
+        [SerializeField] 
+        private string _displayName;
 
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
-     
+        public string DisplayName { get => _displayName; }
+
         public Character() { }
 
-        public Character(Account.GeneralData.Character data)
+        public Character(string displayName,  Account.GeneralData.Character data)
         {
             if (data == null)
                 throw new Exception("Characters: Data Is Null");
-
-            _characterData= new CharacterBattleData(data);
+            _displayName = displayName;
+            _characterData = new CharacterBattleData(data);
         }
 
         public bool RemoveCombo(int comboID)

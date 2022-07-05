@@ -1,5 +1,9 @@
 ﻿
+using Account.GeneralData;
+using Battle.Data;
+using Battle.MatchMaking;
 using ReiTools.TokenMachine;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,6 +15,20 @@ public class MatchMakingManager : MonoBehaviour
     private TokenMachine _tokenMachine;
     [SerializeField, EventsGroup]
     private UnityEvent OnMatchFound;
+    private void Awake()
+    {
+        LookForOpponent.OnOpponentFound += RegisterOpponent;
+    }
+    private void OnDestroy()
+    {
+        LookForOpponent.OnOpponentFound -= RegisterOpponent;
+    }
+    private void RegisterOpponent(string name ,CharactersData obj)
+    {
+        bool isPlayer = false;
+          BattleData.Instance.AssginCharacter(isPlayer, name, obj.GetMainCharacter);
+    }
+
     public void StartLooking()
     {
         _tokenMachine = new TokenMachine(MatchFound);

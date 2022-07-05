@@ -91,17 +91,32 @@ namespace Account
             PlayFabClientAPI.UpdatePlayerStatistics(request, OnCompletedSuccessfully, OnError);
         }
 
- 
+ public void UpdatePlayName(string name)
+        {
+            {
+                PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest
+                {
+                    DisplayName = name
+                }, result =>
+                {
+                    Debug.Log("The player's display name is now: " + result.DisplayName);
+                }, OnError);
+            }
+        }
 
         public void OnLogin(LoginResult loginResult)
         {
          
             LoginResult = loginResult;
             if (LoginResult.NewlyCreated)
+            {
                 _accountData = new AccountData();
+                UpdatePlayName("New Player");
+            }
             else
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
             _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New Player";
+
             UpdateRank(null);
             SendAccountData();
         }
@@ -222,6 +237,7 @@ namespace Account
         {
             return new UpdateUserDataRequest()
             {
+                 
                 Data = new Dictionary<string, string>()
                 {
                     { AccountGeneralData.PlayFabKeyName, JsonUtility.ToJson(_accountGeneralData) },

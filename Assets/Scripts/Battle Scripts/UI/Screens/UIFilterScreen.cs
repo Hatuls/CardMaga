@@ -18,7 +18,7 @@ namespace CardMaga.UI
         public IList<T> Collection => _collection;
         public IReadOnlyList<T> OnlyActiveCollection => _collection.Where((x)=> x.gameObject.activeSelf).ToList();
         ISort<U> _lastSort;
-        protected abstract void OnActivate(IEnumerable<U> sortedDeck, int i);
+        protected abstract void OnActivate(IEnumerable<U> sortedDeck, int i); // redo
         protected abstract void CreatePool();
 
         public virtual void Refresh()
@@ -32,10 +32,10 @@ namespace CardMaga.UI
                 return;
 
             _lastSort = sortMethod;
+            // replace with pool
             CreatePool();
             int length = _collection.Count;
             var sortedDeck = sortMethod.Sort();
-
             int sortedDeckLength = sortedDeck.Count();
 
 

@@ -11,6 +11,11 @@ namespace Battle.MatchMaking
 
     public class LookForOpponent : MonoBehaviour
     {
+        public static event Action OnStartLooking;
+        public static event Action OnNoOpponentFound;
+        public static event Action<string,CharactersData> OnOpponentFound;
+
+
         [Serializable]
         public class Rootobject
         {
@@ -19,39 +24,35 @@ namespace Battle.MatchMaking
         }
 
 
-
         [SerializeField]
         private IDisposable _token;
-        [SerializeField]
-        GameObject _searchForOpponent;
 
 
+        private string _opponentDisplayName;
 
-        private void Start()
-        {
-            _searchForOpponent.SetActive(false);
-        }
+
 
         public void Init(ITokenReciever tokenReceiver)
         {
             _token = tokenReceiver.GetToken();
- 
             LookForOpponentOnServer();
-
+            OnStartLooking?.Invoke();
         }
+
+
 
         private void LookForOpponentOnServer()
         {
-            _searchForOpponent.SetActive(true);
+
             var request = new GetLeaderboardAroundPlayerRequest()
             {
                 StatisticName = "Rank",
                 MaxResultsCount = 5,
                 PlayFabId = Account.AccountManager.Instance.LoginResult.PlayFabId,
-
             };
 
             PlayFabClientAPI.GetLeaderboardAroundPlayer(request, OnPotentialOpponentFound, OnMatchFailed);
+
         }
 
 
@@ -74,31 +75,38 @@ namespace Battle.MatchMaking
             else
             {
                 // No Options found call for bot
-
+                OnNoOpponentFound?.Invoke();
                 _token.Dispose();
             }
         }
 
-        private bool GetRandomOpponent(GetLeaderboardAroundPlayerResult obj,out string opponentPlayfabID)
+        private bool GetRandomOpponent(GetLeaderboardAroundPlayerResult obj, out string opponentPlayfabID)
         {
-            List<string> optionalOpponents = new List<string>();
+            List<PlayerLeaderboardEntry> optionalOpponents = new List<PlayerLeaderboardEntry>();
 
             //un comment when you have answer for no players
-           // string myPlayfabID = Account.AccountManager.Instance.LoginResult.PlayFabId;
+            // string myPlayfabID = Account.AccountManager.Instance.LoginResult.PlayFabId;
 
             for (int i = 0; i < obj.Leaderboard.Count; i++)
             {
+
                 string player = obj.Leaderboard[i].PlayFabId;
 
                 if (player == "")
                     continue;
-
+            
                 //un comment when you have answer for no players
                 //    if (myPlayfabID != player)
-                optionalOpponents.Add(player);
+                optionalOpponents.Add(obj.Leaderboard[i]);
 
             }
-            opponentPlayfabID = optionalOpponents.Count == 0 ? "" : optionalOpponents[UnityEngine.Random.Range(0, optionalOpponents.Count)];
+
+            int rndIndexOpponent = UnityEngine.Random.Range(0, optionalOpponents.Count);
+
+            opponentPlayfabID = optionalOpponents.Count == 0 ? "" : optionalOpponents[rndIndexOpponent].PlayFabId;
+
+            _opponentDisplayName = optionalOpponents[rndIndexOpponent]?.DisplayName ?? "";
+
             return optionalOpponents.Count != 0;
         }
 
@@ -114,15 +122,17 @@ namespace Battle.MatchMaking
             var opponentArena = JsonUtility.FromJson<ArenaData>(charactersData.ArenaData);
 
 
-            RegisterOpponent(opponentCharacter.GetMainCharacter);
+            OnOpponentFound?.Invoke(_opponentDisplayName,opponentCharacter);
             _token.Dispose();
         }
-        private void RegisterOpponent(Character character)
-            => BattleData.Instance.AssginCharacter(false, character);
+      
+
+
         private void OnMatchFailed(PlayFabError obj)
         {
             throw new Exception(obj.GenerateErrorReport());
         }
+
 
     }
 

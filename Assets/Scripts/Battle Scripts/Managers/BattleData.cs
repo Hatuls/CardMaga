@@ -31,13 +31,13 @@ namespace Battle.Data
         }
 
         public void AssginCharacter(in bool isPlayer, CharacterSO characterSO)
-            => AssginCharacter(isPlayer, new Account.GeneralData.Character(characterSO));
-        public void AssginCharacter(in bool isPlayer, Account.GeneralData.Character data)
+            => AssginCharacter(isPlayer, characterSO.CharacterName, new Account.GeneralData.Character(characterSO));
+        public void AssginCharacter(in bool isPlayer,string displayName, Account.GeneralData.Character data)
         {
             if (isPlayer)
-                _player = new Character(data);
+                _player = new Character(displayName,data);
             else
-                _opponent = new Character(data);
+                _opponent = new Character(displayName, data);
         }
 
 

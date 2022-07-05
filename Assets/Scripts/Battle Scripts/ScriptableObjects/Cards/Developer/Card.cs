@@ -139,6 +139,10 @@ namespace Cards
             var newCore = new CardCore(_cardSO.ID, _cardCoreInfo?.Level ?? 0, _cardCoreInfo?.Exp ?? 0);
             _cardCoreInfo = new CardInstanceID(newCore);
         }
+
+        public Card Clone()
+       => new Card(new CardInstanceID(_cardCoreInfo.GetCardCore()));
+       
 #endif
     }
     #endregion
@@ -151,4 +155,14 @@ namespace Cards
 
  
 
-
+public static class CardHelper
+{
+    public static Cards.Card[] CloneCards(this Cards.Card[] cards)
+    {
+        Cards.Card[] newArray = new Cards.Card[cards.Length];
+        for (int i = 0; i < newArray.Length; i++)
+            newArray[i] = cards[i].Clone();
+        
+        return newArray;
+    }
+}
