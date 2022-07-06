@@ -32,7 +32,19 @@ namespace Cards
         [TabGroup("CardData/Info", "Animation")]
         [SerializeField]
         private AnimationBundle _animationBundle;
-        public AnimationBundle AnimationBundle { get=> _animationBundle; set=> _animationBundle=value; }
+        public AnimationBundle AnimationBundle 
+        {
+            get
+            {
+                _animationBundle.CameraDetails = cameraDetails;
+                return _animationBundle;
+            }
+            set => _animationBundle=value; }
+
+        [TabGroup("CardData/Info", "Camera")]
+        [SerializeField]
+        private CameraDetails cameraDetails;
+        public CameraDetails CameraDetails { get => cameraDetails; set => cameraDetails = value; }
 
 
         [TabGroup("CardData/Info", "Data")]

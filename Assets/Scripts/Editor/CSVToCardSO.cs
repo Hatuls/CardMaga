@@ -1,4 +1,5 @@
 ﻿using Cards;
+using Cinemachine;
 using Collections;
 using System;
 using System.Collections.Generic;
@@ -218,16 +219,50 @@ public class CSVToCardSO : CSVAbst
             Debug.Log($"CardID {cardSO[ID]} : Coulmne S ({RarityLevel}) Rarity is not an int!");
 
 
+        //Cameras
+        CameraDetails cameraDetails = new CameraDetails();
+        if(!CheckIfEmpty(cardSO[CameraBlendTypeIndex]))
+        {
+            CinemachineBlenderSettings blenderSettings = Resources.Load<CinemachineBlenderSettings>($"Camera/Transitions/Battle/{cardSO[CameraBlendTypeIndex]}");
+            if (blenderSettings == null)
+                throw new Exception($"CSVToCardSO: Could not find Blender settings from URL in Camera/Transitions/Battle/{cardSO[CameraBlendTypeIndex]}");
 
+            CinemachineBlenderSettings[] cinemachineBlenderSettings = new CinemachineBlenderSettings[] {blenderSettings};
+            cameraDetails.CinemachineBlenderSettings = cinemachineBlenderSettings;
+        }
 
+        List<CameraIdentification> camerasId = new List<CameraIdentification>();
+        string[] charactersCameras = cardSO[CameraNameIndex].Split('^');
+        for (int i = 0; i < charactersCameras.Length; i++)
+        {
+            string[] camerasNames = cardSO[CameraNameIndex].Split('&');
+            for (int j = 0; j < camerasNames.Length; j++)
+            {
+                if (CheckIfEmpty(camerasNames[j]))
+                    break;
+
+                CameraIdentification camID= Resources.Load<CameraIdentification>($"Camera/ID/Battle/{camerasNames[j]}");
+                if (camID == null)
+                    throw new Exception($"CSVToCardSO: Could not find Camera Identification from URL in Camera/ID/Battle/{camerasNames[j]}");
+
+                camerasId.Add(camID);
+            }
+            if(i==0)
+                cameraDetails.LeftCamera = camerasId.ToArray();
+            else
+                cameraDetails.RightCamera = camerasId.ToArray();
+            camerasId.Clear();
+        }
+        card.CameraDetails = cameraDetails;
 
         // Animations
         card.AnimationBundle = new AnimationBundle
         {
-            _attackAnimation = (CheckIfEmpty(cardSO[AttackAnimation])) ? "" :  cardSO[AttackAnimation].Replace(' ', '_'),
-            _shieldAnimation = (CheckIfEmpty(cardSO[ShieldAnimation])) ? "" :  cardSO[ShieldAnimation].Replace(' ', '_'),
-            _getHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? "" :  cardSO[GotHitAnimation].Replace(' ', '_'),
-       //     CinemtaicView = int.TryParse(cardSO[Cinematic], out int cin) ? (CameraViews)cin : (CameraViews.None),
+
+            AttackAnimation = (CheckIfEmpty(cardSO[AttackAnimation])) ? "" : cardSO[AttackAnimation].Replace(' ', '_'),
+            ShieldAnimation = (CheckIfEmpty(cardSO[ShieldAnimation])) ? "" : cardSO[ShieldAnimation].Replace(' ', '_'),
+            GetHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? "" : cardSO[GotHitAnimation].Replace(' ', '_'),
+
             //IsSlowMotion = bool.Parse
             BodyPartEnum = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
         };
@@ -237,7 +272,7 @@ public class CSVToCardSO : CSVAbst
         card.StaminaCost = byte.Parse(cardSO[StaminaCost]);
 
         //Purchase Cost
-  
+
 
 
         // id fuses from
@@ -258,11 +293,11 @@ public class CSVToCardSO : CSVAbst
 
 
 
-      ushort cost = ushort.TryParse(cardSO[PurchaseCost], out ushort pCost) ? pCost : (ushort)0;
+        ushort cost = ushort.TryParse(cardSO[PurchaseCost], out ushort pCost) ? pCost : (ushort)0;
         if (cost == 0)
             Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
-      
+
         //Upgrades
         List<PerLevelUpgrade> _PerLevelUpgrade = new List<Cards.PerLevelUpgrade>();
         _PerLevelUpgrade.Add(new PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType, IsExhausted), cardSO[CardDescription], cost));
@@ -276,11 +311,11 @@ public class CSVToCardSO : CSVAbst
                 if (getRow.Length == 0)
                     Debug.LogError($"ID {myUpgradeVersionID} has no data in it!");
 
-                 cost = ushort.TryParse(getRow[PurchaseCost], out ushort s) ? s : (ushort)0;
+                cost = ushort.TryParse(getRow[PurchaseCost], out ushort s) ? s : (ushort)0;
                 if (cost == 0)
                     Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
-                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType,IsExhausted), getRow[CardDescription], cost));
+                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType, IsExhausted), getRow[CardDescription], cost));
                 firstCardId = getRow[UpgradeToCardID];
             }
             else
@@ -307,6 +342,7 @@ public class CSVToCardSO : CSVAbst
 
         return card;
     }
+
 
     private static Sprite GetCardImageByName(string name)
     {

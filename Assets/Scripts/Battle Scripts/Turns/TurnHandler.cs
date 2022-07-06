@@ -216,6 +216,7 @@ namespace Battle.Turns
     }
     public class EndEnemyTurn : Turn
     {
+        public static event Action OnEndEnemyTurn;
         public EndEnemyTurn() : base()
         {
         }
@@ -234,7 +235,6 @@ namespace Battle.Turns
             base.PlayTurn();
 
 
-            CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
             Deck.DeckManager.Instance.OnEndTurn(false);
 
             base.PlayTurn();
@@ -242,11 +242,13 @@ namespace Battle.Turns
 
             CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Shield).Reset();
 
+            if(OnEndEnemyTurn!=null)
+            {
+            OnEndEnemyTurn.Invoke();
+            }
             Managers.PlayerManager.Instance.OnEndTurn();
             EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();
-
-
         }
 
     }
@@ -323,6 +325,7 @@ namespace Battle.Turns
     }
     public class EndPlayerTurn : Turn
     {
+        public static event Action OnEndPlayerTurn;
         public EndPlayerTurn() : base()
         {
         }
@@ -346,14 +349,14 @@ namespace Battle.Turns
             base.PlayTurn();
 
 
-            CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
-
-
-
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);
             yield return null;
             CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(KeywordTypeEnum.Shield).Reset();
 
+            if (OnEndPlayerTurn!= null)
+            {
+                OnEndPlayerTurn.Invoke();
+            }
             Managers.PlayerManager.Instance.OnEndTurn();
             EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();

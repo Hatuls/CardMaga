@@ -1,18 +1,17 @@
-﻿namespace Cards
+﻿using UnityEngine;
+
+namespace Cards
 {
     [System.Serializable]
     public class AnimationBundle
     {
         public BodyPartEnum BodyPartEnum;
+        public CameraDetails CameraDetails;
 
-        public string _attackAnimation;
-        public string _shieldAnimation;
-        public string _getHitAnimation;
+        public string AttackAnimation;
+        public string ShieldAnimation;
+        public string GetHitAnimation;
         public bool IsSlowMotion;
-
-
-        public CameraViews CinemtaicView;
- 
     }
-    public enum CameraViews { None = 0, OverTheShoulder = 1 }
+    
 }

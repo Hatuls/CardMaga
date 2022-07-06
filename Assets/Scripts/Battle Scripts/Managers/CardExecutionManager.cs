@@ -174,7 +174,7 @@ namespace Battle
             var card = _cardsQueue.Peek();
             currentKeywordIndex = 0;
             OnAnimationIndexChange?.Invoke(currentKeywordIndex);
-            if (card.CardSO.AnimationBundle._attackAnimation == string.Empty)
+            if (card.CardSO.AnimationBundle.AttackAnimation == string.Empty)
             {
                 ExecuteInstantly();
             }

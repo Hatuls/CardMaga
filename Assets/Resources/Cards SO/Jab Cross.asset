@@ -16,11 +16,21 @@ MonoBehaviour:
   _cardName: Jab Cross
   _animationBundle:
     BodyPartEnum: 4
-    _attackAnimation: OneTwo
-    _shieldAnimation: Block_Single
-    _getHitAnimation: HighFront_Stagger
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: OneTwo
+    ShieldAnimation: Block_Single
+    GetHitAnimation: HighFront_Stagger
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera:
+    - {fileID: 11400000, guid: 35d3bff3714afde4fb50ed7890d2483f, type: 2}
+    RightCamera:
+    - {fileID: 11400000, guid: 35d3bff3714afde4fb50ed7890d2483f, type: 2}
+    CinemachineBlenderSettings:
+    - {fileID: 11400000, guid: 18ed8330d0c5373419060bed5042dbbb, type: 2}
   _rarity: 1
   _stamina: 1
   _salvageCost: 1
