@@ -235,7 +235,6 @@ namespace Battle.Turns
             base.PlayTurn();
 
 
-            CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
             Deck.DeckManager.Instance.OnEndTurn(false);
 
             base.PlayTurn();
@@ -348,10 +347,6 @@ namespace Battle.Turns
             CardUIManager.Instance.RemoveHands();
             CardExecutionManager.Instance.ResetExecution();
             base.PlayTurn();
-
-
-            CameraController.Instance.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Both);
-
 
 
             yield return KeywordManager.Instance.OnEndTurnKeywords(true);

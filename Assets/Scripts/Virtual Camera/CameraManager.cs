@@ -12,6 +12,9 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private TransitionCamera _defaultCamera;
 
+    [SerializeField]
+    private TransitionCamera _eyalTestCamera;
+
     public static List<VirtualCamera> _cameras = new List<VirtualCamera>();
 
     private VirtualCamera _activeCamera = null;
@@ -101,12 +104,18 @@ public class CameraManager : MonoBehaviour
 
     #region public
 
-    [Button]
+    
     public void ReturnToDefaultCamera()
     {
         SwitchCamera(_defaultCamera);
     }
-    
+
+    [Button]
+    public void EyalThisIsForYouEmojiHeart()
+    {
+        SwitchCamera(_eyalTestCamera);
+    }
+
     public void SwitchCamera(TransitionCamera transitionCamera)
     {
         if (!CheckTransitionCamera(transitionCamera))
