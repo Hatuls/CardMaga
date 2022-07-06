@@ -17,8 +17,8 @@ namespace Battles.Deck
         #endregion
         #region Private Fields
         [Sirenix.OdinInspector.ShowInInspector]
-        private Dictionary<DeckEnum, DeckAbst> _playerDecks;
-        private Dictionary<DeckEnum, DeckAbst> _OpponentDecks;
+        private Dictionary<DeckEnum, BaseDeck> _playerDecks;
+        private Dictionary<DeckEnum, BaseDeck> _OpponentDecks;
         [SerializeField]
         StringEvent _soundEvent;
 
@@ -121,35 +121,35 @@ namespace Battles.Deck
                 return;
             }
 
-            DeckAbst fromDeck = deck[DeckEnum.PlayerDeck];
-            DeckAbst toDeck = deck[DeckEnum.Hand];
+            BaseDeck fromBaseDeck = deck[DeckEnum.PlayerDeck];
+            BaseDeck toBaseDeck = deck[DeckEnum.Hand];
             Card cardCache;
 
 
 
             for (int i = 0; i < drawAmount; i++)
             {
-                cardCache = fromDeck.GetFirstCard();
+                cardCache = fromBaseDeck.GetFirstCard();
 
                 if (cardCache == null)
                 {
                     deck[DeckEnum.Disposal].ResetDeck();
-                    cardCache = fromDeck.GetFirstCard();
+                    cardCache = fromBaseDeck.GetFirstCard();
                 }
 
                 if (cardCache != null)
                 {
 
-                    if (toDeck.AddCard(cardCache))
-                        fromDeck.DiscardCard(cardCache);
+                    if (toBaseDeck.AddCard(cardCache))
+                        fromBaseDeck.DiscardCard(cardCache);
                 }
                 else
-                    Debug.LogError($"DeckManager: {isPlayersDeck} The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card {cardCache} \n " + fromDeck.ToString());
+                    Debug.LogError($"DeckManager: {isPlayersDeck} The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card {cardCache} \n " + fromBaseDeck.ToString());
 
 
             }
             if (isPlayersDeck)
-                OnDrawCards?.Invoke(toDeck.GetDeck);
+                OnDrawCards?.Invoke(toBaseDeck.GetDeck);
 
 
         }
@@ -196,17 +196,17 @@ namespace Battles.Deck
             if (card == null && !GetDeckAbst(isPlayersDeck, from).IsTheCardInDeck(card))
                 return;
 
-            DeckAbst fromDeck = GetDeckAbst(isPlayersDeck, from);
-            DeckAbst toDeck = GetDeckAbst(isPlayersDeck, to);
+            BaseDeck fromBaseDeck = GetDeckAbst(isPlayersDeck, from);
+            BaseDeck toBaseDeck = GetDeckAbst(isPlayersDeck, to);
 
 
 
-            if (fromDeck.DiscardCard(card))
-                toDeck.AddCard(card);
+            if (fromBaseDeck.DiscardCard(card))
+                toBaseDeck.AddCard(card);
 
 
-            //fromDeck.PrintDecks(from);
-            //  toDeck.PrintDecks(to);
+            //fromBaseDeck.PrintDecks(from);
+            //  toBaseDeck.PrintDecks(to);
         }
 
         private void TransferCard(bool isPlayersDeck, DeckEnum from, DeckEnum to, int amount)
@@ -214,29 +214,29 @@ namespace Battles.Deck
             if (amount <= 0 || from == to)
                 return;
 
-            DeckAbst fromDeckCache = GetDeckAbst(isPlayersDeck, from);
-            DeckAbst toDeckCache = GetDeckAbst(isPlayersDeck, to);
+            BaseDeck fromBaseDeckCache = GetDeckAbst(isPlayersDeck, from);
+            BaseDeck toBaseDeckCache = GetDeckAbst(isPlayersDeck, to);
 
-            if (fromDeckCache.GetAmountOfFilledSlots >= amount)
+            if (fromBaseDeckCache.GetAmountOfFilledSlots >= amount)
             {
 
                 for (int i = 0; i < amount; i++)
                 {
-                    if (fromDeckCache.DiscardCard(fromDeckCache.GetFirstCard()))
-                        toDeckCache.AddCard(toDeckCache.GetFirstCard());
+                    if (fromBaseDeckCache.DiscardCard(fromBaseDeckCache.GetFirstCard()))
+                        toBaseDeckCache.AddCard(toBaseDeckCache.GetFirstCard());
                     // ui Transfer
                 }
 
             }
             else
             {
-                int remainTransfer = amount - fromDeckCache.GetAmountOfFilledSlots;
+                int remainTransfer = amount - fromBaseDeckCache.GetAmountOfFilledSlots;
 
-                for (int i = 0; i < fromDeckCache.GetAmountOfFilledSlots; i++)
+                for (int i = 0; i < fromBaseDeckCache.GetAmountOfFilledSlots; i++)
                 {
 
-                    if (fromDeckCache.DiscardCard(fromDeckCache.GetFirstCard()))
-                        toDeckCache.AddCard(toDeckCache.GetFirstCard());
+                    if (fromBaseDeckCache.DiscardCard(fromBaseDeckCache.GetFirstCard()))
+                        toBaseDeckCache.AddCard(toBaseDeckCache.GetFirstCard());
 
 
 
@@ -281,12 +281,12 @@ namespace Battles.Deck
             }
 
         }
-        private Dictionary<DeckEnum, DeckAbst> GetDeck(bool playersDeck)
+        private Dictionary<DeckEnum, BaseDeck> GetDeck(bool playersDeck)
             => playersDeck ? _playerDecks : _OpponentDecks;
-        private DeckAbst GetDeckAbst(bool isPlayersDeck, DeckEnum deckEnum)
+        private BaseDeck GetDeckAbst(bool isPlayersDeck, DeckEnum deckEnum)
         {
             var deck = GetDeck(isPlayersDeck);
-            if (deck != null && deck.TryGetValue(deckEnum, out DeckAbst deckAbst))
+            if (deck != null && deck.TryGetValue(deckEnum, out BaseDeck deckAbst))
                 return deckAbst;
 
             Debug.LogError($"DeckManager Didnt find the " + ((isPlayersDeck == true) ? "Player's" : "Enemy's") + " " + deckEnum.ToString() + " deck");
@@ -298,16 +298,16 @@ namespace Battles.Deck
             const int size = 6;
 
             if (isPlayer && _playerDecks == null)
-                _playerDecks = new Dictionary<DeckEnum, DeckAbst>(size);
+                _playerDecks = new Dictionary<DeckEnum, BaseDeck>(size);
             else if (!isPlayer && _OpponentDecks == null)
-                _OpponentDecks = new Dictionary<DeckEnum, DeckAbst>(size);
+                _OpponentDecks = new Dictionary<DeckEnum, BaseDeck>(size);
 
             var characterDeck = (isPlayer ? _playerDecks : _OpponentDecks);
             characterDeck.Clear();
 
-            characterDeck.Add(DeckEnum.PlayerDeck, new PlayerDeck(isPlayer, deck, _deckIcon,_soundEvent));
+            characterDeck.Add(DeckEnum.PlayerDeck, new PlayerBaseDeck(isPlayer, deck, _deckIcon,_soundEvent));
             characterDeck.Add(DeckEnum.Exhaust, new Exhaust(isPlayer, _playerMaxHandSize));
-            characterDeck.Add(DeckEnum.Disposal, new Disposal(isPlayer, deck.Length, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.PlayerDeck] as PlayerDeck, _disposalIcon));
+            characterDeck.Add(DeckEnum.Disposal, new Disposal(isPlayer, deck.Length, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.PlayerDeck] as PlayerBaseDeck, _disposalIcon));
             characterDeck.Add(DeckEnum.Hand, new PlayerHand(isPlayer, _playerStartingHandSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Disposal] as Disposal));
             characterDeck.Add(DeckEnum.Selected, new Selected(isPlayer, _placementSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Disposal] as Disposal, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Hand] as PlayerHand));
             characterDeck.Add(DeckEnum.CraftingSlots, new PlayerCraftingSlots(isPlayer, _craftingSlotsSize));
@@ -329,7 +329,7 @@ namespace Battles.Deck
 
                 foreach (var item in Deck)
                 {
-                    if (!(item.Value is PlayerDeck))
+                    if (!(item.Value is PlayerBaseDeck))
                         item.Value.EmptySlots();
                     else
                         Deck[DeckEnum.PlayerDeck].ResetDeck();

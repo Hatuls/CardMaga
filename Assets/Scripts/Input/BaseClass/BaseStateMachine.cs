@@ -11,13 +11,18 @@ public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
 
     protected Dictionary<StateIdentificationSO, BaseState> _inputStateDict;
 
-    [FormerlySerializedAs("States")] [SerializeField] private List<BaseState> _states;
+    [SerializeField] private List<BaseState> _states;
 
     public StateIdentificationSO FirstState;
 
     public  BaseState CurrentState
     {
         get { return _currentState; }
+    }
+
+    public List<BaseState> States
+    {
+        get { return _states; }
     }
     
     
@@ -29,7 +34,8 @@ public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
         {
             _inputStateDict.Add(_states[i].StateID,_states[i]);
         }
-        
+
+        Debug.Log(base.name + " Init");
         TryChangeState(FirstState);
     }
     

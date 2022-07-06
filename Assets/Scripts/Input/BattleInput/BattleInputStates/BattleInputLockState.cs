@@ -4,20 +4,9 @@ using UnityEngine;
 
 public class BattleInputLockState : BaseState
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public override StateIdentificationSO OnHoldState()
     {
-        throw new System.NotImplementedException();
+        return CheckStateCondition();
     }
 }

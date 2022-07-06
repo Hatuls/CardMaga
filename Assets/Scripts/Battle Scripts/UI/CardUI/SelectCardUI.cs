@@ -3,81 +3,90 @@ using System.Collections;
 using System.Collections.Generic;
 using Battles.UI;
 using DG.Tweening;
-using FMOD;
+using ReiTools.TokenMachine;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-[Serializable]
-public class SelectCardUI
+public class SelectCardUI : MonoBehaviour, ILockabel
 {
-    [SerializeField] private RectTransform _zoomPosition;
+    public event Action OnSelectCard;
+    public event Action<CardUI> OnDisposeCard;
+
+    [SerializeField] private ZoomCardUI _zoomCardUI;
     [SerializeField] private TransitionPackSO _followHand;
     [SerializeField] private TransitionPackSO _resetCardPosition;
-    [SerializeField] private TransitionPackSO _zoomCard;
-    [SerializeField] private float _zoomScaleMultiply;
+
+    private TokenMachine _selectLockTokenMachine;
 
     private Sequence _currentSequence;
     private CardUI _selectCard;
     private Vector2 _mousePosition;
-
-    public void InitSelectCardUI()
+    
+    public ITokenReciever SelectLockTokenReceiver
     {
-        InputReciever.OnTouchDetectd += GetMousePos;
+        get { return _selectLockTokenMachine; }
+    }
+    
+    public void Start()
+    {
+        _selectLockTokenMachine = new TokenMachine(UnLockInput,LockInput);
+        InputReciever.OnTouchDetected += GetMousePos;
     }
 
-    public void DisableSelectCardUI()
+    public void OnDestroy()
     {
-        InputReciever.OnTouchDetectd -= GetMousePos;
+        InputReciever.OnTouchDetected -= GetMousePos;
         KillTween();
     }
     
-    public CardUI Card
-    {
-        get { return _selectCard; }
-    }
     
     public void SetSelectCardUI(CardUI cardUI)
     {
+        OnSelectCard?.Invoke();
+        cardUI.Inputs.OnBeginHold += SetToFollowState;
+        cardUI.Inputs.OnClick += SetCardToZoomState;
+        //_selectCard.Inputs.OnBeginHold
+        //_selectCard.Inputs.OnEndHold
         _selectCard = cardUI;
-        Debug.Log("Card Select is " + _selectCard);
+        Debug.Log("Card Select is " + cardUI);
+    }
+
+    private void SetCardToZoomState(CardUI cardUI)
+    {
+        cardUI.Inputs.OnBeginHold -= SetToFollowState;
+        _zoomCardUI.SetZoomCard(cardUI);
+    }
+
+    private void SetToFollowState(CardUI cardUI)
+    {
+        cardUI = cardUI;
+        cardUI.Inputs.OnClick -= SetCardToZoomState;
+        cardUI.Inputs.OnHold += FollowHand;
+        cardUI.Inputs.OnPointUp += ReleaseCard;
     }
 
     public void ReleaseCard(CardUI cardUI)
     {
-        _selectCard = null;
-    }
-    
-    public void DisposeCard(Action onDispose = null)
-    {
-        if (onDispose != null)
-        {
-            onDispose?.Invoke();
-        }
+        cardUI.Inputs.OnBeginHold -= SetToFollowState;
+        cardUI.Inputs.OnClick -= SetCardToZoomState;
+        cardUI.Inputs.OnPointUp -= ReleaseCard;
+        ResetCard(cardUI);
+        OnDisposeCard?.Invoke(cardUI);
+        Debug.Log("Release " + cardUI.name + " Form " + name);
     }
 
-    public void ZoomCard(CardUI cardUI)
-    {
-        KillTween();
-        _currentSequence = _selectCard.CardTransitionManager.Move(_zoomPosition.position, _zoomCard)
-            .Join(_selectCard.CardTransitionManager.Scale(_zoomScaleMultiply, _zoomCard));
-    }
-    
     public void ResetCard(CardUI cardUI)
     {
-        if (_selectCard == cardUI)
-        {
-            KillTween();
-            _currentSequence = _selectCard.CardTransitionManager.Move(_selectCard.HandPos, _resetCardPosition)
-                .OnComplete(KillTween);
-        }
+        KillTween();
+        _currentSequence = cardUI.CardTransitionManager.Move(cardUI.HandPos, _resetCardPosition);
     }
-    
+
     public void FollowHand(CardUI cardUI)
     {
-        if (cardUI == _selectCard)
+        if (cardUI != null)
         {
             KillTween();
-            _currentSequence = _selectCard.CardTransitionManager.Move(_mousePosition, _followHand);
+            _currentSequence = cardUI.CardTransitionManager.Move(_mousePosition, _followHand);
         }
     }
     
@@ -92,5 +101,15 @@ public class SelectCardUI
         {
             _currentSequence.Kill();
         }
+    }
+
+    public void LockInput()
+    {
+        _selectCard.Inputs.ForceChangeState(false);
+    }
+
+    public void UnLockInput()
+    {
+        _selectCard.Inputs.ForceChangeState(true);
     }
 }

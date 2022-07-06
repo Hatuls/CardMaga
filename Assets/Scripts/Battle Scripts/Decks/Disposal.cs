@@ -2,13 +2,13 @@
 
 namespace Battles.Deck
 {
-    public class Disposal : DeckAbst
+    public class Disposal : BaseDeck
     {
-        PlayerDeck _playerDeck;
+        PlayerBaseDeck _playerBaseDeck;
         BuffIcon _disposalIcon;
-        public Disposal(bool isPlayer,int length, PlayerDeck deck, BuffIcon icon) : base(isPlayer,length)
+        public Disposal(bool isPlayer,int length, PlayerBaseDeck baseDeck, BuffIcon icon) : base(isPlayer,length)
         {
-            _playerDeck = deck;
+            _playerBaseDeck = baseDeck;
             _disposalIcon = icon;
         }
 
@@ -19,11 +19,11 @@ namespace Battles.Deck
             {
                 if (disposalDeck[i] != null)
                 {
-                    _playerDeck.AddCard(disposalDeck[i]);
+                    _playerBaseDeck.AddCard(disposalDeck[i]);
                     DiscardCard(disposalDeck[i]);
                 }
             }
-            _playerDeck.Shuffle();
+            _playerBaseDeck.Shuffle();
         }
         public override bool AddCard(Card card)
         {

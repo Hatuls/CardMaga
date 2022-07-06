@@ -7,7 +7,8 @@ public class InputReciever : MonoBehaviour
     #region Fields
 
     public static Touch? PlayerTouch { get; set; }
-    public static event Action<Vector2> OnTouchDetectd;
+    public static event Action<Vector2> OnTouchDetected;
+    public static event Action<Vector2> OnTouchEnded;
     public static event Action<Vector2> OnTouchStart;
 
     Vector2 _touchPosOnScreen;
@@ -22,7 +23,7 @@ public class InputReciever : MonoBehaviour
     private void Update()
     {
         TouchDetector(); 
-        MouseDetector();
+        //MouseDetector();
     }
 
     private void MouseDetector()
@@ -36,7 +37,13 @@ public class InputReciever : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             _touchPosOnScreen = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            OnTouchStart?.Invoke(_touchPosOnScreen);
+            OnTouchDetected?.Invoke(_touchPosOnScreen);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            _touchPosOnScreen = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            OnTouchEnded?.Invoke(_touchPosOnScreen);
         }
     }
     
@@ -53,12 +60,39 @@ public class InputReciever : MonoBehaviour
 
             if (PlayerTouch == null)
                 return;
-
+            
+            GetTouchPhase(PlayerTouch.Value);
+            
             _touchPosOnScreen = PlayerTouch.Value.position;
-            OnTouchDetectd?.Invoke(_touchPosOnScreen);
+            OnTouchDetected?.Invoke(_touchPosOnScreen);
         }
     }
 
+    private void GetTouchPhase(Touch touch)
+    {
+        switch (touch.phase)
+        {
+            case TouchPhase.Began:
+                _touchPosOnScreen = touch.position;
+                OnTouchStart?.Invoke(_touchPosOnScreen);
+                break;
+            case TouchPhase.Moved:
+                _touchPosOnScreen = touch.position;
+                OnTouchDetected?.Invoke(_touchPosOnScreen);
+                break;
+            case TouchPhase.Ended:
+                _touchPosOnScreen = touch.position;
+                OnTouchEnded?.Invoke(_touchPosOnScreen);
+                break;
+            case TouchPhase.Canceled:
+                break;
+            case TouchPhase.Stationary:
+                _touchPosOnScreen = touch.position;
+                OnTouchDetected?.Invoke(_touchPosOnScreen);
+                break;
+        }
+    }
+    
     #endregion
 
     #region Gizmos

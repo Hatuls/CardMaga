@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using Battles.Deck;
 using Cards;
 using UnityEngine;
+using ReiTools.TokenMachine;
 
 namespace Battles.UI
 {
-    public class HandUI : MonoBehaviour
+    public class HandUI : MonoBehaviour , ILockabel
     {
-        public static event Action OnCardDrawnAndAlign;
+        public  event Action OnCardDrawnAndAlign;
         private event Action OnCardAtDicardPosition;
+
+        private TokenMachine _handLockTokenMachine;
         
-        
-        [SerializeField] private BattleInputDefaultState _battleInput;
+        [SerializeField] private BaseState _battleInput;
 
         [SerializeField] private TransitionPackSO _drawTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardTransitionPackSo;
@@ -39,18 +41,19 @@ namespace Battles.UI
         private void Awake()
         {
             _handCards = new List<CardUI>();
-            BattleManager.OnGameEnded += LockCards;
+            BattleManager.OnGameEnded += LockInput;
             DeckManager.OnDrawCards += DrawCards;
+            _selectCard.OnDisposeCard += AddCardUIToHand;
             _cardSlots = new List<CardSlot>();
             _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
-            _selectCard.InitSelectCardUI();
+            _handLockTokenMachine = new TokenMachine(UnLockInput, LockInput);
         }
 
         private void OnDestroy()
         {
-            _selectCard.DisableSelectCardUI();
-            BattleManager.OnGameEnded -= LockCards;
+            BattleManager.OnGameEnded -= LockInput;
             DeckManager.OnDrawCards -= DrawCards;
+            _selectCard.OnDisposeCard -= AddCardUIToHand;
             
             for (int i = 0; i < _handCards.Count; i++)
             {
@@ -58,8 +61,11 @@ namespace Battles.UI
             }
         }
 
-        public void LockCards() => LockCardsInput(true);
-        
+        public ITokenReciever HandLockTokenReceiver
+        {
+            get { return _handLockTokenMachine; }
+        }
+
         public void AlignCards()
         {
             for (int i = 0; i < _handCards.Count; i++)
@@ -82,33 +88,44 @@ namespace Battles.UI
             {
                 AddInputEvents(_handCards[i].Inputs);
             }
-            
+
+            Debug.Log("Card Drawn");
             StartCoroutine(MoveCardsToHandPos(_cardSlots,OnCardDrawnAndAlign));
         }
 
         private void AddInputEvents(CardUIInputHandler cardUIInput)
         {
-            cardUIInput.OnPointDown += _selectCard.SetSelectCardUI; 
-            cardUIInput.OnClick += _selectCard.ZoomCard; 
-            cardUIInput.OnPointUp += _selectCard.ReleaseCard; 
-            cardUIInput.OnHold += _selectCard.FollowHand; 
-            cardUIInput.OnEndHold += _selectCard.ResetCard;
+            cardUIInput.OnPointDown += RemoveCardUIFromHand;
         }
         
         private void RemoveInputEvents(CardUIInputHandler cardUIInput)
         {
-            cardUIInput.OnPointDown += _selectCard.SetSelectCardUI; 
-            cardUIInput.OnClick += _selectCard.ZoomCard; 
-            cardUIInput.OnPointUp += _selectCard.ReleaseCard; 
-            cardUIInput.OnHold += _selectCard.FollowHand; 
-            cardUIInput.OnEndHold += _selectCard.ResetCard;
+            cardUIInput.OnPointDown -= RemoveCardUIFromHand;
+        }
+
+        private void RemoveCardUIFromHand(CardUI cardUI)
+        {
+            if (_handCards.Contains(cardUI))
+            {
+                _handCards.Remove(cardUI);
+                _selectCard.SetSelectCardUI(cardUI);
+            }
+        }
+
+        private void AddCardUIToHand(CardUI cardUI)
+        {
+            if (!_handCards.Contains(cardUI))
+            {
+                _handCards.Add(cardUI);
+                Debug.Log("Add " + cardUI.name + " To Hand");
+            }
         }
 
         private void AddCardToTheInputState(CardUI[] cardsUI)
         {
             for (int i = 0; i < cardsUI.Length; i++)
             {
-                _battleInput.AddTouchableItem(cardsUI[i].Inputs);
+                
             }
         }
 
@@ -188,6 +205,16 @@ namespace Battles.UI
             destination += Vector2.left * (xMaxDistance - offset);
             return destination;
         }
+
+        public void LockInput()
+        {
+            LockCardsInput(false);
+        }
+
+        public void UnLockInput()
+        {
+            LockCardsInput(true);
+        }
     }
 
     public class CardSlot
@@ -207,9 +234,3 @@ namespace Battles.UI
     }
 
 }
-
-// public static class RectTransformHelper
-// {
-//     public static Vector2 GetLocalPosition(this RectTransform rectTransform)
-//         => rectTransform.transform.localPosition;
-//}

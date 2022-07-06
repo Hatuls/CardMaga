@@ -85,7 +85,11 @@ public class RectTransitionManager
     #endregion
 
     #region Scale
-
+    public Tween Scale(TransitionPackSO transition,Action onComplete = null)
+    {
+        return _rectTransform.Scale(transition.ScaleMultiplier, transition.Scale, onComplete);
+    }
+    
     public Tween Scale(float multiply, TransitionPackSO transition,Action onComplete = null)
     {
         return _rectTransform.Scale(multiply, transition.Scale, onComplete);
@@ -218,9 +222,9 @@ public static class RotationHelper
         Tween Tween;
 
         Tween = rect.DORotate(destination, timeToTransition);
+        
         if (animationCurveZ != null) Tween.SetEase(animationCurveZ);
         
-
         if (onComplete != null) Tween.OnComplete(() => onComplete?.Invoke());
 
         return Tween;

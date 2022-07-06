@@ -68,5 +68,12 @@ public class TransitionPackSOEditorScript : Editor
 
         #endregion
         
+        if (GUILayout.Button("Save"))
+        {          
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+            Debug.Log(target.name + " Save");
+        }
+        
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 namespace Battles.Deck
 {
-    public class Selected : DeckAbst
+    public class Selected : BaseDeck
     {
         Disposal _disposalDeck;
         PlayerHand _playerHandDeck;

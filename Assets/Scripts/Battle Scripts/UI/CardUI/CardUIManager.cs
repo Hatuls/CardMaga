@@ -69,9 +69,9 @@ namespace Battles.UI
 
         #region Private Methods
 
-        // internal void CraftCardUI(Card addedCard, DeckEnum toDeck)
+        // internal void CraftCardUI(Card addedCard, DeckEnum toBaseDeck)
         // {
-        //     if (toDeck == DeckEnum.Hand)
+        //     if (toBaseDeck == DeckEnum.Hand)
         //         AssignDataToCardUI(_handUI.CurrentlyHolding, addedCard);
         //
         // }
@@ -128,7 +128,6 @@ namespace Battles.UI
             // }
 
             return tempCardUI.ToArray();
-
         }
         
         

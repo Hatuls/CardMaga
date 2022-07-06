@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89ee448a29d1ec645adbb301104b3a7e, type: 3}
-  m_Name: ZoomTransition
+  m_Name: ResetZoomTransition
   m_EditorClassIdentifier: 
-  HaveMovement: 1
+  HaveMovement: 0
   Movement:
     _timeToTransition: 1
     _animationCurveX:
@@ -71,10 +71,10 @@ MonoBehaviour:
       m_RotationOrder: 4
   ScaleType: 0
   HaveScale: 1
-  ScaleMultiplier: 2
+  ScaleMultiplier: 1
   ScaleVector: {x: 0, y: 0, z: 0}
   Scale:
-    _timeToTransition: 1
+    _timeToTransition: 0.2
     _animationCurveX:
       serializedVersion: 2
       m_Curve:

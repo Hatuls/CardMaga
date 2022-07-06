@@ -5,12 +5,12 @@ using Unity.Events;
 
 namespace Battles.Deck
 {
-    public class PlayerDeck : DeckAbst
+    public class PlayerBaseDeck : BaseDeck
     {
         public static Action OnShuffleDeck;
         BuffIcon _deckIcon;
         StringEvent _soundEvent;
-        public PlayerDeck(bool isPlayer, Card[] deckCards, BuffIcon DeckIcon, StringEvent soundsEvent) : base(isPlayer, deckCards)
+        public PlayerBaseDeck(bool isPlayer, Card[] deckCards, BuffIcon DeckIcon, StringEvent soundsEvent) : base(isPlayer, deckCards)
         {
             _deckIcon = DeckIcon;
         }

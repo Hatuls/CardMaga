@@ -72,7 +72,6 @@ namespace Battles.Turns
         }
         public static IEnumerator TurnCycle()
         {
-
             TurnState turn = TurnState.NotInBattle;
             CurrentState = TurnState.Startbattle;
             do

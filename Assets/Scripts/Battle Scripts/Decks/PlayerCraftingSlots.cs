@@ -1,7 +1,7 @@
 ﻿using Battles.UI;
 using Cards;
 
-public class PlayerCraftingSlots : Battles.Deck.DeckAbst
+public class PlayerCraftingSlots : Battles.Deck.BaseDeck
 {
     CraftingUIHandler _playerCraftingUIHandler;
     Card _lastCardEntered;

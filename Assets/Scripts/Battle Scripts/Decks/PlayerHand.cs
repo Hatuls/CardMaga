@@ -2,7 +2,7 @@
 
 namespace Battles.Deck
 {
-    public class PlayerHand : DeckAbst
+    public class PlayerHand : BaseDeck
     {
         Disposal _disposalDeck;
 

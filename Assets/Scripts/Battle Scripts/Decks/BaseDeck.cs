@@ -2,7 +2,7 @@
 using System;
 namespace Battles.Deck
 {
-    public abstract class DeckAbst : IDeckHandler
+    public abstract class BaseDeck : IDeckHandler
     {
         public bool isPlayer { get; private set; }
         private Card[] _deckCards;
@@ -33,13 +33,13 @@ namespace Battles.Deck
         #endregion
 
         #region Public Functions
-        public DeckAbst(bool isPlayer, Card[] deckCards)
+        public BaseDeck(bool isPlayer, Card[] deckCards)
         {
             SetDeck = deckCards;
             this.isPlayer = isPlayer;
 
         }
-        public DeckAbst(bool isPlayer,int length)
+        public BaseDeck(bool isPlayer,int length)
         {
             this.isPlayer = isPlayer;
             InitDeck(length);
@@ -214,8 +214,7 @@ namespace Battles.Deck
             return cardFound;
         }
         #endregion
-
-
+        
         #region Private Functions
         protected void OrderDeck()
         {
