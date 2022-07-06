@@ -27,6 +27,8 @@ public class AnimatorController : MonoBehaviour
     AnimationBundle _currentAnimation;
     Queue<AnimationBundle> _animationQueue = new Queue<AnimationBundle>();
 
+    public static event Action OnAnimationEnding;
+    public static event Action<TransitionCamera> OnAnimationStart;
 
     [SerializeField] float _rotationSpeed;
     [SerializeField] float _positionSpeed;
@@ -105,24 +107,25 @@ public class AnimatorController : MonoBehaviour
     }
 
 
-    public void OnStartAnimation(AnimatorStateInfo info)
+    public void StartAnimation(AnimatorStateInfo info)
     {
 
         if (_currentAnimation != null && _currentAnimation.CameraDetails != null)
-            SetCamera(_isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
+        {
+            TransitionCamera transitionCamera = _currentAnimation.CameraDetails.GetTransitionCamera(_isPlayer);
+            OnAnimationStart?.Invoke(transitionCamera);
+        }
 
     }
-    internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
+    internal void FinishAnimation(AnimatorStateInfo stateInfo)
     {
-        //if (_animationQueue.Count == 0 && _currentAnimation == null)
-        //{
-        //    SetCamera(CameraController.CameraAngleLookAt.Both);
+        if (_animationQueue.Count == 0 && _currentAnimation == null)
+                OnAnimationEnding?.Invoke();
 
+        //if (_animationQueue.Count > 0)
+        //{
+        //    TranstionToNextAnimation();
         //}
-        ////if (_animationQueue.Count > 0)
-        ////{
-        ////    TranstionToNextAnimation();
-        ////}
     }
 
     public void CharacterWon()

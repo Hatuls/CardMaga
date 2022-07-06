@@ -216,6 +216,7 @@ namespace Battles.Turns
     }
     public class EndEnemyTurn : Turn
     {
+        public static event Action OnEndEnemyTurn;
         public EndEnemyTurn() : base()
         {
         }
@@ -242,11 +243,13 @@ namespace Battles.Turns
 
             CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Shield).Reset();
 
+            if(OnEndEnemyTurn!=null)
+            {
+            OnEndEnemyTurn.Invoke();
+            }
             Managers.PlayerManager.Instance.OnEndTurn();
             EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();
-
-
         }
 
     }
@@ -323,6 +326,7 @@ namespace Battles.Turns
     }
     public class EndPlayerTurn : Turn
     {
+        public static event Action OnEndPlayerTurn;
         public EndPlayerTurn() : base()
         {
         }
@@ -354,6 +358,10 @@ namespace Battles.Turns
             yield return null;
             CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(KeywordTypeEnum.Shield).Reset();
 
+            if (OnEndPlayerTurn!= null)
+            {
+                OnEndPlayerTurn.Invoke();
+            }
             Managers.PlayerManager.Instance.OnEndTurn();
             EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();

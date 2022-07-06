@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using Battles.Turns;
+using Cinemachine;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,28 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private CinemachineBrain _cinemachineBrain;
 
+    [SerializeField]
+    private TransitionCamera _defaultCamera;
+
     public static List<VirtualCamera> _cameras = new List<VirtualCamera>();
 
     private VirtualCamera _activeCamera = null;
+
+    private void Awake()
+    {
+        EndEnemyTurn.OnEndEnemyTurn += ReturnToDefaultCamera;
+        EndPlayerTurn.OnEndPlayerTurn+= ReturnToDefaultCamera;
+        AnimatorController.OnAnimationStart += SwitchCamera;
+       // AnimatorController.OnAnimationEnding += ReturnToDefaultCamera;
+    }
+
+    private void OnDestroy()
+    {
+        EndEnemyTurn.OnEndEnemyTurn -= ReturnToDefaultCamera;
+        EndPlayerTurn.OnEndPlayerTurn -= ReturnToDefaultCamera;
+        AnimatorController.OnAnimationStart -= SwitchCamera;
+        //AnimatorController.OnAnimationEnding -= ReturnToDefaultCamera;
+    }
 
     private bool IsActiveCamera(VirtualCamera camera)
     {
@@ -54,16 +74,6 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    //[Button]
-    //private void Check()
-    //{
-    //    if(CameraDetails.CheckCameraDetails(_cameraDetails))
-    //    {
-    //       TransitionCamera transitionCamera = _cameraDetails.GetTransitionCamera(true);
-    //       SwitchCamera(transitionCamera);
-    //    }
-    //}
-
     private bool CheckTransitionCamera(TransitionCamera transitionCamera)
     {
         if (transitionCamera == null)
@@ -90,6 +100,12 @@ public class CameraManager : MonoBehaviour
 
     #region public
 
+    [Button]
+    public void ReturnToDefaultCamera()
+    {
+        SwitchCamera(_defaultCamera);
+    }
+    
     public void SwitchCamera(TransitionCamera transitionCamera)
     {
         if (!CheckTransitionCamera(transitionCamera))
