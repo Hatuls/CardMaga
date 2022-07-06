@@ -28,13 +28,13 @@ public class LoginToPlayfab : MonoBehaviour
     {
         _token = tokenMachine.GetToken();
         Debug.Log("Google Manager Start Sign In");
-        _googleManager.TrySignInWithGoogle();
+      //  _googleManager.TrySignInWithGoogle();
 //#if !UNITY_EDITOR
 //        Debug.Log("Google Manager Start Sign In");
 //        _googleManager.TrySignInWithGoogle();
 //#elif UNITY_EDITOR
 //        Debug.Log("Playfab Manager Start Sign In");
-//        _playfabManager.PlayFabLogin.LoginWithPlayfabCustomID();
+        _playfabManager.PlayFabLogin.LoginWithPlayfabCustomID();
 //#endif
 
     }
