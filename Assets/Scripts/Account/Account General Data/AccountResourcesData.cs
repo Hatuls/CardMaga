@@ -1,44 +1,43 @@
 ﻿using System;
-using System.Threading.Tasks;
 using UnityEngine;
 namespace Account.GeneralData
 {
     [Serializable]
-    public class AccountResourcesData : ILoadFirstTime 
+    public class AccountResourcesData : ILoadFirstTime
     {
         #region Fields
         [SerializeField]
-        private UshortStat _chips;
+        private IntStat _chips;
         [SerializeField]
-        private UshortStat _diamonds;
+        private IntStat _diamonds;
         [SerializeField]
-        private UshortStat _gold;
+        private IntStat _gold;
         #endregion
 
         #region Properites
-        public UshortStat Gold { get => _gold; private set => _gold = value; }
-        public UshortStat Diamonds { get => _diamonds; private set => _diamonds = value; }
-        public UshortStat Chips { get => _chips; private set => _chips = value; }
+        public IntStat Gold { get => _gold; private set => _gold = value; }
+        public IntStat Diamonds { get => _diamonds; private set => _diamonds = value; }
+        public IntStat Chips { get => _chips; private set => _chips = value; }
 
         #endregion
 
         public AccountResourcesData()
         {
-      
-        }
-        public AccountResourcesData(ushort chips = 0,uint diamonds = 0, uint gold = 0 )
-        {
-            _chips = new UshortStat(chips);
-            _diamonds = new UshortStat((ushort)diamonds);
-            _gold = new UshortStat((ushort)gold);
-        }
 
+        }
+        public AccountResourcesData(int chips = 0, int diamonds = 0, int gold = 0)
+        {
+            _chips = new TicketStat(chips);
+            _diamonds = new DiamondsStat(diamonds);
+            _gold = new GoldStat(gold);
+        }
+        //remove this
         public void NewLoad()
         {
 
-            _chips = new UshortStat((ushort)DefaultVersion._gameVersion.Chips);
-            _diamonds = new UshortStat((ushort)DefaultVersion._gameVersion.Diamonds);
-            _gold = new UshortStat(0);
+            _chips = new TicketStat(DefaultVersion._gameVersion.Chips);
+            _diamonds = new DiamondsStat(DefaultVersion._gameVersion.Diamonds);
+            _gold = new GoldStat(0);
         }
 
         public bool IsCorrupted()
@@ -46,5 +45,18 @@ namespace Account.GeneralData
             return _diamonds.Value == 0 && _chips.Value == 0 && _gold.Value == 0;
 
         }
+    }
+
+    public class DiamondsStat : IntStat
+    {
+        public DiamondsStat(int val) : base(val) { }
+    }
+    public class TicketStat : IntStat
+    {
+        public TicketStat(int val) : base(val) { }
+    }
+    public class GoldStat : IntStat
+    {
+        public GoldStat(int val) : base(val) { }
     }
 }

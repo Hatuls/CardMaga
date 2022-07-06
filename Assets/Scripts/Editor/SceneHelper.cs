@@ -10,11 +10,14 @@ public class SceneHelper
     static string MapSceneName = "Map Scene";
     static string LoreSceneName = "Lore Scene";
     static string PersistentSceneName = "PersistentScene";
+    static string MatchLookingSceneName = "Match Making Scene";
+
 
 
     [MenuItem("Scenes/Persistent Scene")]
     public static void PersistentScene()=>
         LoadScene(PersistentSceneName);
+
     [MenuItem("Scenes/Network Scene")]
     public static void NetworkScene()
     {
@@ -39,6 +42,12 @@ public class SceneHelper
     {
         LoadScene(LoadingSceneName); 
     }
+
+    [MenuItem("Scenes/Match Making Scene")]
+    public static void MatchLookingScene() =>
+    LoadScene(MatchLookingSceneName);
+
+
     [MenuItem("Scenes/Lore Scene")]
     private static void LoreScene()
     {

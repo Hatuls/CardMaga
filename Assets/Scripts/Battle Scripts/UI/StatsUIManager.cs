@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-namespace Battles.UI
+﻿using Characters.Stats;
+using UnityEngine;
+namespace Battle.UI
 {
     public class StatsUIManager : MonoBehaviour
     {
@@ -37,7 +38,7 @@ namespace Battles.UI
             if (playerMaxHealth == 0)
             {
                 await System.Threading.Tasks.Task.Yield();
-                playerMaxHealth = Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
+                playerMaxHealth = CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
             }
 
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Hp Parameter", val / playerMaxHealth);

@@ -14,7 +14,9 @@ public class GridContentSizeFitter : MonoBehaviour
     }
     int GetAmountOfActiveObjects()
     {
+#if UNITY_EDITOR
         Debug.Log($"Total children are: {_holderRect.childCount}");
+#endif
         int activeObjects = 0;
         for (int i = 0; i < _holderRect.childCount; i++)
         {
@@ -23,7 +25,9 @@ public class GridContentSizeFitter : MonoBehaviour
                 activeObjects++;
             }
         }
+#if UNITY_EDITOR
         Debug.Log($"Active children are: {activeObjects}");
+#endif
         return activeObjects;
     }
 
@@ -40,15 +44,18 @@ public class GridContentSizeFitter : MonoBehaviour
 
         int childNum = 0;
         float hightCount = Mathf.Ceil(amountOfObjects / (float)_gridLayoutGroup.constraintCount);
+#if UNITY_EDITOR
         Debug.Log($"length amount is:{ hightCount}");
-
+#endif
         for (int i = 0; i < hightCount; i++)
         {
             for (int r = 0; r < _gridLayoutGroup.constraintCount; r++)
             {
                 if(amountOfObjects == childNum)
                 {
+#if UNITY_EDITOR
                     Debug.Log("no more children to activate");
+#endif
                     continue;
                 }
                 childNum++;

@@ -3,7 +3,7 @@ using ReiTools.TokenMachine;
 using Unity.Events;
 using UnityEngine;
 
-namespace Battles.UI
+namespace Battle.UI
 {
     public class UpdateUiStats : UnityEngine.Events.UnityEvent<bool, int, KeywordTypeEnum> { }
     public class BattleUiManager : MonoSingleton<BattleUiManager>
@@ -42,13 +42,13 @@ namespace Battles.UI
         }
 
 
-
+        // Need To be Re-Done
         public override void Init(ITokenReciever token)
         {
             using (token.GetToken())
             {
 
-                if ((Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
+               // if ((Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
                 {
                     //   _tutorialManager.StartTutorial();
                 }

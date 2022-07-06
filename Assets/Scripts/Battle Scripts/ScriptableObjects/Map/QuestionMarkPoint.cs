@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace Map
+namespace CardMaga
 {
     [CreateAssetMenu(fileName = "Question Point", menuName = "ScriptableObjects/Map/Points/Question Mark")]
     public class QuestionMarkPoint : NodePointAbstSO

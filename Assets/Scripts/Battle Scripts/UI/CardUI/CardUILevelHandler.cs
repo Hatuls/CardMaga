@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Cards;
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
     [System.Serializable]
     public class CardUILevelHandler

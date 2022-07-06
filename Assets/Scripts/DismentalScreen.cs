@@ -1,4 +1,4 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using TMPro;
 using UnityEngine;
 

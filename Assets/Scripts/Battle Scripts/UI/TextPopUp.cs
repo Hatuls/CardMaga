@@ -2,7 +2,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-namespace Battles.UI
+namespace Battle.UI
 {
     public enum TextType { NormalDMG, CritDMG, Healing, Money, Shield }
     public class TextPopUp : MonoBehaviour

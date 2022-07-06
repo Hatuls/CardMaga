@@ -1,6 +1,6 @@
 ﻿using Cards;
 using System;
-namespace Battles.Deck
+namespace Battle.Deck
 {
     public abstract class DeckAbst : IDeckHandler
     {

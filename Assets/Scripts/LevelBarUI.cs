@@ -26,11 +26,12 @@ public class LevelBarUI : MonoBehaviour
         Account.GeneralData.EXPStat.OnGainEXP -= (UpdateEXP);
         Account.GeneralData.LevelStat.OnLevelUp -= (UpdateLevel);
     }
+    // Need To be Re-Done
     public void UpdateFillBar()
     {
-        var level = Account.AccountManager.Instance.AccountGeneralData.AccountLevelData;
-        _fillImage.fillAmount = (float)((float)level.Exp.Value / (float)level.MaxEXP.Value);
-        UpdateLevel(level.Level.Value);
+        //var level = Account.AccountManager.Instance.AccountGeneralData.AccountLevelData;
+        //_fillImage.fillAmount = (float)((float)level.Exp.Value / (float)level.MaxEXP.Value);
+        //UpdateLevel(level.Level.Value);
     }
     public void UpdateLevel(int value)
     {

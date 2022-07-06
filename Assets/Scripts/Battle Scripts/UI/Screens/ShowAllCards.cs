@@ -1,32 +1,35 @@
-﻿using Battles;
-using Cards;
+﻿using Cards;
 using Rei.Utilities;
 using System.Collections.Generic;
-using UnityEngine;
+using Battle.Combo;
 using UnityEngine.Events;
-namespace Map.UI
+using UnityEngine;
+
+namespace CardMaga.UI
 {
     [System.Serializable]
-    public class SortComboEvent : UnityEvent<ISort<Combo.Combo>> { }
+    public class SortComboEvent : UnityEvent<ISort<Combo>> { }
     [System.Serializable]
     public class SortCardEvent : UnityEvent<ISort<Card>> { }
-    public class ShowAllCards : SortAbst<Card>
+    public class ShowAllCards : CardSort
     {
-
-        public override void SortRequest() => _cardEvent?.Invoke(this);
         public override IEnumerable<Card> Sort()
-        {
-
-        //    if (SceneHandler.CurrentScene == SceneHandler.ScenesEnum.MainMenuScene)
-        //        return Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck//(Account.AccountManager.Instance.AccountCards.CardList.ToArray());
-        //    else
-        //    {
-                return Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
-        //    }
-
-
-        }
+         => GetCollection();
     }
 
 
+    public abstract  class CardSort : SortAbst<Card>
+    {
+        [SerializeField]
+        protected SortCardEvent _cardEvent;
+        public override void SortRequest() => _cardEvent?.Invoke(this);
+    }
+
+    public abstract class ComboSort : SortAbst<Combo>
+    {
+        [SerializeField]
+        protected SortComboEvent _comboEvent;
+        public override void SortRequest() => _comboEvent?.Invoke(this);
+
+    }
 }

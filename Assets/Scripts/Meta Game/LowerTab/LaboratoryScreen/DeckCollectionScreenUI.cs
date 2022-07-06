@@ -1,4 +1,4 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -117,37 +117,38 @@ namespace UI.Meta.Laboratory
         }
         private void RemoveSelectedCardUI(CardUI card)
          => RemoveSelectedCardUI();
+        // Need To be Re-Done
         private void SwitchCards(CardUI card)
         {
-            var coreCardInfo = _selectedCardUI.CardUI.GFX.GetCardReference.CardCoreInfo;
+            //var coreCardInfo = _selectedCardUI.CardUI.GFX.GetCardReference.CardCoreInfo;
 
-            if (coreCardInfo == null)
-                return; 
+            //if (coreCardInfo == null)
+            //    return; 
 
-            Debug.Log("Switch");
-            var account = Account.AccountManager.Instance;
-            var selectedCard = account.AccountCharacters.SelectedCharacter;
-            var deck = account.AccountCharacters.GetCharacterData(selectedCard).GetDeckAt(0);
-            ushort currentCardID = card.GFX.GetCardReference.CardCoreInfo.InstanceID;
-            int length = deck.Cards.Length;
-            var cards = deck.Cards;
-            bool _cardFound = false;
+            //Debug.Log("Switch");
+            //var account = Account.AccountManager.Instance;
+            //var selectedCard = account.AccountCharacters.SelectedCharacter;
+            //var deck = account.AccountCharacters.GetCharacterData(selectedCard).GetDeckAt(0);
+            //int currentCardID = card.GFX.GetCardReference.CardCoreInfo.InstanceID;
+            //int length = deck.Cards.Length;
+            //var cards = deck.Cards;
+            //bool _cardFound = false;
 
 
-            for (int i = 0; i < length; i++)
-            {
-                if (cards[i].InstanceID == currentCardID)
-                {
-                    cards[i] = coreCardInfo;
-                    _cardFound = true;
-                    break;
-                }
-            }
-            if (!_cardFound)
-                throw new System.Exception($"Card Was Not Found In Deck\nID: {currentCardID}");
-            _deckScreen.Refresh();
-            _allCardsScreen.Refresh();
-            ResetToDefault();
+            //for (int i = 0; i < length; i++)
+            //{
+            //    if (cards[i].InstanceID == currentCardID)
+            //    {
+            //        cards[i] = coreCardInfo;
+            //        _cardFound = true;
+            //        break;
+            //    }
+            //}
+            //if (!_cardFound)
+            //    throw new System.Exception($"Card Was Not Found In Deck\nID: {currentCardID}");
+            //_deckScreen.Refresh();
+            //_allCardsScreen.Refresh();
+            //ResetToDefault();
         }
         private void SetMainCardCollectionActiveState(bool state) => _allCardsScreen.gameObject.SetActive(state);
 

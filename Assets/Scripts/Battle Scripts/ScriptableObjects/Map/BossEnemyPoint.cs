@@ -1,8 +1,8 @@
 ﻿
 using UnityEngine;
-using static Map.ActDifficultySO;
+using static CardMaga.ActDifficultySO;
 
-namespace Map
+namespace CardMaga
 {
     [CreateAssetMenu(fileName = "Boss Enemy", menuName = "ScriptableObjects/Map/Points/Boss Enemy")]
     public class BossEnemyPoint : NodePointAbstSO
@@ -13,7 +13,7 @@ namespace Map
         public override void ActivatePoint(NodeLevel level)
         {
             var characterFactory = Factory.GameFactory.Instance.CharacterFactoryHandler;
-            var enemySO = characterFactory.GetRandomCharacterSO(Battles.CharacterTypeEnum.Boss_Enemy, level);
+            var enemySO = characterFactory.GetRandomCharacterSO(Battle.CharacterTypeEnum.Boss_Enemy, level);
             var enemy = characterFactory.CreateCharacter(enemySO);
             SinglePlayerHandler.Instance.RegisterOpponent(enemy);
             ActivatePoint();

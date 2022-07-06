@@ -14,7 +14,7 @@ namespace UI.Meta.PlayScreen
         Art.ArtSO _artSO;
         #endregion
         #region Public Method
-        public void Init(CharacterData character, Art.ArtSO artSO)
+        public void Init(Character character, Art.ArtSO artSO)
         {
             _artSO = artSO;
             gameObject.SetActive(true);
@@ -35,14 +35,15 @@ namespace UI.Meta.PlayScreen
                 _comboUI[i].gameObject.SetActive(false);
             }
         }
-        private void ShowCombos(CharacterData character)
+        // Need To be Re-Done
+        private void ShowCombos(Character character)
         {
-            var factorycomboCollection = Factory.GameFactory.Instance.ComboFactoryHandler.ComboCollection;
-            for (int i = 0; i < character.CharacterCombos.Length; i++)
-            {
-                _comboUI[i].gameObject.SetActive(true);
-                _comboUI[i].Init(factorycomboCollection.GetCombo(character.CharacterCombos[i].ID), character.CharacterCombos[i].Level, _artSO);
-            }
+            //var factorycomboCollection = Factory.GameFactory.Instance.ComboFactoryHandler;
+            //for (int i = 0; i < character.CharacterCombos.Length; i++)
+            //{
+            //    _comboUI[i].gameObject.SetActive(true);
+            //    _comboUI[i].Init(factorycomboCollection.GetComboSO(character.CharacterCombos[i].ID), character.CharacterCombos[i].Level, _artSO);
+          //  }
         }
         #endregion
     }

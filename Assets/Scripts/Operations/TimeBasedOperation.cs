@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Sirenix.OdinInspector;
+using Rei.Utilities;
 
 public class TimeBasedOperation : BaseOperation
 {
@@ -11,13 +13,12 @@ public class TimeBasedOperation : BaseOperation
     [SerializeField, EventsGroup]
     UnityEvent OnOperationFinished;
 
-    [SerializeField,Range(0f,10f), Tooltip("The delay before the operation will be executed")]
-    private float _delayBeforeOperation =0f;
-    [SerializeField,Range(0f,10f), Tooltip("The delay after the operation was executed\nNote: Will not have effect if the operation that will take the token wont release it before this delay")]
-    private float _delayAfterOperation = 0f;
+    [SerializeField,MinMaxSlider(0,20f), Tooltip("The delay before the operation will be executed")]
+    private Vector2 _delayBeforeOperation;
+    [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay after the operation was executed\nNote: Will not have effect if the operation that will take the token wont release it before this delay")]
+    private Vector2 _delayAfterOperation;
 
     public override event Action OnCompleted;
-    protected TokenMachine _timeBasedTokenMachine;
     public override void Completed()
     {
         _token?.Dispose();
@@ -28,7 +29,7 @@ public class TimeBasedOperation : BaseOperation
     public override void Init(ITokenReciever tokenReciever)
     {
         _token = tokenReciever.GetToken();
-        _timeBasedTokenMachine = new TokenMachine(Completed);
+        _tokenMachine = new TokenMachine(Completed);
     }
 
     public override void StartOperation()
@@ -37,15 +38,19 @@ public class TimeBasedOperation : BaseOperation
     }
     protected virtual IEnumerator Delay()
     {
-        using (_timeBasedTokenMachine.GetToken())
+        using (_tokenMachine.GetToken())
         {
-            if (_delayBeforeOperation > 0)
-                yield return new WaitForSeconds(_delayBeforeOperation);
+            float delayBefore = _delayBeforeOperation.GetRandomValue();
+            if (delayBefore > 0)
+                yield return new WaitForSeconds(delayBefore);
 
-            OnOperationStarting.Invoke(_timeBasedTokenMachine);
+            OnOperationStarting.Invoke(_tokenMachine);
 
-            if (_delayAfterOperation > 0)
-                yield return new WaitForSeconds(_delayAfterOperation);
+            float delayAfter = _delayAfterOperation.GetRandomValue();
+            if (delayAfter > 0)
+                yield return new WaitForSeconds(delayAfter);
         }
     }
+
+
 }

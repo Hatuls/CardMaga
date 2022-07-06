@@ -1,4 +1,4 @@
-﻿using Battles.Deck;
+﻿using Battle.Deck;
 using Sirenix.OdinInspector;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Combo Icons", menuName = "ScriptableObjects/Art/Combo/Go To After Executions Icon ")]

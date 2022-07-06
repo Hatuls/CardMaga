@@ -1,6 +1,6 @@
 ﻿using Rewards;
 using UnityEngine;
-namespace Map
+namespace CardMaga
 {
     [CreateAssetMenu(fileName = "Act Difficulty SO", menuName = "ScriptableObjects/Map/Act Difficulty")]
     public class ActDifficultySO : ScriptableObject

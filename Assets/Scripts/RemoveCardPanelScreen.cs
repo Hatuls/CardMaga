@@ -1,12 +1,12 @@
 ﻿
-using Battles;
-using Battles.UI;
+using Battle;
+using Battle.UI;
 using System.Collections.Generic;
 using UI;
 using UI.Meta.Laboratory;
 using UnityEngine;
 using UnityEngine.EventSystems;
-namespace Map.UI
+namespace CardMaga.UI
 {
 
     public class RemoveCardPanelScreen : MonoBehaviour
@@ -56,36 +56,36 @@ namespace Map.UI
         }
         private void CreateCards()
         {
-            var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
-            while (deck.Length > _deckCardsUI.Count)
-            {
-                var card = Instantiate(_cardUIPrefab, _container ?? this.transform).GetComponent<MetaCardUIHandler>();
-                _deckCardsUI.Add(card);
-            }
+            //var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
+            //while (deck.Length > _deckCardsUI.Count)
+            //{
+            //    var card = Instantiate(_cardUIPrefab, _container ?? this.transform).GetComponent<MetaCardUIHandler>();
+            //    _deckCardsUI.Add(card);
+            //}
 
         }
         private void ShowAllCards()
         {
-            CreateCards();
-            int length = _deckCardsUI.Count;
-            var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
+            //CreateCards();
+            //int length = _deckCardsUI.Count;
+            //var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
         
-            for (int i = 0; i < length; i++)
-            {
-                if (i < deck.Length)
-                {
-                    if (_deckCardsUI[i].gameObject.activeSelf == false)
-                        _deckCardsUI[i].gameObject.SetActive(true);
+            //for (int i = 0; i < length; i++)
+            //{
+            //    if (i < deck.Length)
+            //    {
+            //        if (_deckCardsUI[i].gameObject.activeSelf == false)
+            //            _deckCardsUI[i].gameObject.SetActive(true);
 
            
-                    _deckCardsUI[i].CardUI.DisplayCard(deck[i]);
-                }
-                else
-                {
-                    if (_deckCardsUI[i].gameObject.activeSelf == true)
-                        _deckCardsUI[i].gameObject.SetActive(false);
-                }
-            }
+            //        _deckCardsUI[i].CardUI.DisplayCard(deck[i]);
+            //    }
+            //    else
+            //    {
+            //        if (_deckCardsUI[i].gameObject.activeSelf == true)
+            //            _deckCardsUI[i].gameObject.SetActive(false);
+            //    }
+            //}
         }
 
         private void SelectedCard(CardUI card)

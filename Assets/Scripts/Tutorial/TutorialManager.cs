@@ -1,4 +1,4 @@
-﻿using Battles.Turns;
+﻿using Battle.Turns;
 using UnityEngine;
 
 namespace Tutorial
@@ -22,12 +22,12 @@ namespace Tutorial
         [SerializeField]
         GameObject _container;
 
-        private void Awake()
+        private void Awake()    // Need To be Re-Done
         {
-            if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
-            {
-                TurnHandler.OnTurnCountChange += TurnCounter;
-            }
+            //if (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == Battles.CharacterTypeEnum.Tutorial)
+            //{
+            //    TurnHandler.OnTurnCountChange += TurnCounter;
+            //}
         }
         private void OnDisable()
         {

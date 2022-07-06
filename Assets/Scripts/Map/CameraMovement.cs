@@ -1,6 +1,7 @@
 ﻿using DesignPattern;
-using Map;
+using CardMaga;
 using UnityEngine;
+using CardMaga.Map;
 
 public class CameraMovement : MonoBehaviour, IObserver
 {

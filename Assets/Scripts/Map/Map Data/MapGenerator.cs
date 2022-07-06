@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace Map
+namespace CardMaga.Map
 {
     public static class MapGenerator
     {

@@ -1,22 +1,14 @@
-﻿using Battles;
-using UnityEngine;
-using Rei.Utilities;
+﻿using Battle.Combo;
+using CardMaga.UI;
 using System.Collections.Generic;
 using System.Linq;
 
-public class BattleComboFilterByUpgrade : SortAbst<Combo.Combo>
+public class BattleComboFilterByUpgrade : ComboSort
 {
-    [SerializeField]
-    public override IEnumerable<Combo.Combo> Sort()
+    public override IEnumerable<Combo> Sort()
     {
-        var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe;
+        var deck = GetCollection();
         var sortedDeck = deck.Where(x => x.Level < (x.ComboSO.CraftedCard.CardsMaxLevel - 1));
         return sortedDeck;
-    }
-
-
-    public override void SortRequest()
-    {
-        _comboEvent?.Invoke(this);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using Sirenix.OdinInspector;
 using TMPro;
 using UI.Meta.Laboratory;
@@ -49,10 +49,11 @@ public class CardUIInfoScreen : MonoBehaviour
         ActivateButton(infoSettings, cardUI);
         this.gameObject.SetActive(true);
     }
+    // Need To be Re-Done
     private void ActivateButton(IInfoSettings<CardUI> infoSettings, CardUI cardUI)
     {
-        const int _deckMinLength = 8;
-        _dismentalBtn.gameObject.SetActive(infoSettings.CanDismental && Account.AccountManager.Instance.AccountCards.CardList.Count > _deckMinLength);
+        //const int _deckMinLength = 8;
+        //_dismentalBtn.gameObject.SetActive(infoSettings.CanDismental && Account.AccountManager.Instance.AccountCards.CardList.Count > _deckMinLength);
         _upgradeBtn.gameObject.SetActive(infoSettings.CanUpgrade && cardUI.RecieveCardReference().CardsAtMaxLevel == false);
         _useBtn.gameObject.SetActive(infoSettings.CanUse);
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Map
+namespace CardMaga
 {
     [Serializable]
     public class Point : IEquatable<Point>

@@ -15,15 +15,15 @@ public class VFXController : MonoBehaviour
     private Queue<VFXSO> VFXQueue = new Queue<VFXSO>();
     private void Start()
     {
-        Battles.CardExecutionManager.OnSortingKeywords += RecieveSortingKeywordsData;
-        Battles.CardExecutionManager.OnAnimationIndexChange += SortVFXFromListByAnimationIndex;
-        Battles.CardExecutionManager.OnInsantExecute += ExecuteAllKeywords;
+        Battle.CardExecutionManager.OnSortingKeywords += RecieveSortingKeywordsData;
+        Battle.CardExecutionManager.OnAnimationIndexChange += SortVFXFromListByAnimationIndex;
+        Battle.CardExecutionManager.OnInsantExecute += ExecuteAllKeywords;
     }
     private void OnDisable()
     {
-        Battles.CardExecutionManager.OnInsantExecute -= ExecuteAllKeywords;
-        Battles.CardExecutionManager.OnAnimationIndexChange -= SortVFXFromListByAnimationIndex;
-        Battles.CardExecutionManager.OnSortingKeywords -= RecieveSortingKeywordsData;
+        Battle.CardExecutionManager.OnInsantExecute -= ExecuteAllKeywords;
+        Battle.CardExecutionManager.OnAnimationIndexChange -= SortVFXFromListByAnimationIndex;
+        Battle.CardExecutionManager.OnSortingKeywords -= RecieveSortingKeywordsData;
     }
     public void RegisterVFXQueue(KeywordSO keyword)
     {
@@ -44,7 +44,7 @@ public class VFXController : MonoBehaviour
     }
     private void RecieveSortingKeywordsData(List<KeywordData> keywords)
     {
-        if (_isPlayer == Battles.Turns.TurnHandler.IsPlayerTurn)
+        if (_isPlayer == Battle.Turns.TurnHandler.IsPlayerTurn)
         {
             keywordDatas.AddRange(keywords);
 

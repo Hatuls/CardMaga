@@ -1,5 +1,5 @@
 ﻿using Cards;
-using Combo;
+using Battle.Combo;
 namespace Rewards
 {
     public class BattleReward
@@ -7,9 +7,9 @@ namespace Rewards
         public ushort CreditReward { get; private set; }
         public ushort GoldReward { get; private set; }
         public Card[] RewardCards { get; private set; }
-        public Combo.Combo[] RewardCombos { get; private set; }
+        public Combo[] RewardCombos { get; private set; }
 
-        public BattleReward(ushort Credit , ushort Gold, Card[] cards, Combo.Combo[] combos= null)
+        public BattleReward(ushort Credit , ushort Gold, Card[] cards,Combo[] combos= null)
         {
             CreditReward = Credit;
          

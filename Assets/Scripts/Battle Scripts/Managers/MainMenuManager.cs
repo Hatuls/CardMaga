@@ -1,5 +1,5 @@
-﻿using Battles;
-using Battles.UI;
+﻿using Battle;
+using Battle.UI;
 using CardMaga.LoadingScene;
 using Managers;
 using ReiTools.TokenMachine;
@@ -13,11 +13,11 @@ public class MainMenuManager : MonoBehaviour
 
     private void Awake()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager += Inject;
+        LoadingSceneManager.OnInjectingLoadingSceneManager += Inject;
     }
     private void OnDestroy()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager -=Inject;
+        LoadingSceneManager.OnInjectingLoadingSceneManager -=Inject;
     }
 
 

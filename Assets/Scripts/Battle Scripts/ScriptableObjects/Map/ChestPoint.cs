@@ -6,7 +6,7 @@ using System;
 using UnityEngine;
 
 
-namespace Map
+namespace CardMaga.Map
 {
     [CreateAssetMenu (fileName = "Chest", menuName = "ScriptableObjects/Map/Points/Chest")]
     public class ChestPoint : NodePointAbstSO , IObserver
@@ -14,18 +14,18 @@ namespace Map
         public override NodeType PointType =>  NodeType.Chest;
         [SerializeField] ObserverSO _observerSO;
         [SerializeField]
-        Battles.CharacterTypeEnum _rarityBasedOn = Battles.CharacterTypeEnum.Elite_Enemy;
+        Battle.CharacterTypeEnum _rarityBasedOn = Battle.CharacterTypeEnum.Elite_Enemy;
         [Button]
 
         public override void ActivatePoint()
         {
             _observerSO.Notify(this);
-            var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(_rarityBasedOn, Rewards.ActsEnum.ActOne, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
-            if (rewardBundle == null)
-                throw new Exception("Reward Bundle is null!");
+          //  var rewardBundle = Factory.GameFactory.Instance.RewardFactoryHandler.GetBattleRewards(_rarityBasedOn, Rewards.ActsEnum.ActOne, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
+          //  if (rewardBundle == null)
+         //       throw new Exception("Reward Bundle is null!");
 
             OnEnterNode.PlaySound();
-            BattleUIRewardHandler.Instance.OpenChestScreen(rewardBundle);
+       //     BattleUIRewardHandler.Instance.OpenChestScreen(rewardBundle);
             MapPlayerTracker.Instance.view.SetAttainableNodes();
             MapView.Instance.ShowMap(MapManager.Instance.CurrentMap);
         }

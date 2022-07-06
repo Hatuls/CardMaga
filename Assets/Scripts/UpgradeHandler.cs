@@ -1,6 +1,8 @@
 ﻿using Account;
 using Cards;
+using Battle;
 using Rewards;
+using Battle.Combo;
 
 namespace Meta
 {
@@ -13,29 +15,31 @@ namespace Meta
 
             return Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(card.CardSO, (byte)(card.CardLevel + 1));
         }
-        public static Combo.Combo GetUpgradedComboVersion(Combo.Combo combo)
+        public static Combo GetUpgradedComboVersion(Combo combo)
         {
-            if (combo.Level == combo.ComboSO.CraftedCard.CardsMaxLevel)
+            var ComboSO = combo.ComboSO;
+            if (combo.Level == ComboSO.CraftedCard.CardsMaxLevel)
                 return null;
 
-            return Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(combo.ComboSO, (byte)(combo.Level + 1));
+            return Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(ComboSO, combo.Level + 1);
         }
-        public static bool TryUpgradeCombo(CardUpgradeCostSO upgrade, Combo.Combo combo, Rewards.ResourceEnum resourceenum)
+        public static bool TryUpgradeCombo(CardUpgradeCostSO upgrade, Combo combo, ResourceEnum resourceenum)
         {
-            Characters.Character battleData = Account.AccountManager.Instance.BattleData.Player;
-            int gold = battleData.CharacterData.CharacterStats.Gold;
+            return true;
+            //Characters.Character battleData = Account.AccountManager.Instance.BattleData.Player;
+            //int gold = battleData.CharacterData.CharacterStats.Gold;
 
-            ushort Cost = upgrade.NextCardValue(combo.ComboSO.CraftedCard, combo.Level);
-            if (gold >= Cost)
-            {
-                combo.LevelUp();
+            //int Cost = upgrade.NextCardValue(combo.ComboSO().CraftedCard, combo.Level);
+            //if (gold >= Cost)
+            //{
+            //    combo.LevelUp();
 
-                SendComboDataAnalyticEvent(combo);
+            //    SendComboDataAnalyticEvent(combo);
 
-                battleData.CharacterData.CharacterStats.Gold -= Cost;
-                return true;
-            }
-            return false;
+            //    battleData.CharacterData.CharacterStats.Gold -= Cost;
+            //    return true;
+            //}
+            //return false;
         }
         public static bool TryUpgradeCard(CardUpgradeCostSO cardUpgradeCostSO, Card card, ResourceEnum resourceEnum)
         {
@@ -53,32 +57,33 @@ namespace Meta
 
         private static bool TryUpgradeInMetaGame(CardUpgradeCostSO cardUpgradeCostSO, Card card, ResourceEnum resourceEnum, AccountManager account)
         {
-            Account.GeneralData.UshortStat chips = account.AccountGeneralData.AccountResourcesData.Chips;
-            ushort Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
-            if (chips.Value >= Cost)
-            {
-                SendMetaGameUpgradeCardAnalyticEvent(card);
-                account.AccountCards.UpgradeCard(card.CardInstanceID);
-                chips.ReduceValue(Cost);
-                return true;
-            }
+           //var chips = account.AccountGeneralData.AccountResourcesData.Chips;
+           // int Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
+           // if (chips.Value >= Cost)
+           // {
+           //     SendMetaGameUpgradeCardAnalyticEvent(card);
+           //     account.AccountCards.UpgradeCard(card.CardInstanceID);
+           //     chips.ReduceValue(Cost);
+           //     return true;
+           // }
 
-            return false;
+            return true;
         }
         private static bool TryUpgradeInMap(CardUpgradeCostSO cardUpgradeCostSO, Card card, ResourceEnum resourceEnum, AccountManager account)
         {
-            var player = account.BattleData.Player;
-            int gold = player.CharacterData.CharacterStats.Gold;
-            ushort Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
-            if (gold >= Cost)
-            {
+            return true;
+            //var player = account.BattleData.Player;
+            //int gold = player.CharacterData.CharacterStats.Gold;
+            //int Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
+            //if (gold >= Cost)
+            //{
                 
-                SendInMapUpgradeCardAnalyticEvent(card);
-                card.CardCoreInfo.Level ++;
-                player.CharacterData.CharacterStats.Gold -= Cost;
-                return true;
-            }
-            return false;
+            //    SendInMapUpgradeCardAnalyticEvent(card);
+            //    card.CardCoreInfo.Level ++;
+            //    player.CharacterData.CharacterStats.Gold -= Cost;
+            //    return true;
+            //}
+            //return false;
         }
 
         #region Analytics Events
@@ -109,7 +114,7 @@ namespace Meta
                 );
         }
 
-        private static void SendComboDataAnalyticEvent(Combo.Combo combo)
+        private static void SendComboDataAnalyticEvent(Combo combo)
         {
             UnityAnalyticHandler.SendEvent("combo_upgraded_in_dojo", new System.Collections.Generic.Dictionary<string, object>()
                     {

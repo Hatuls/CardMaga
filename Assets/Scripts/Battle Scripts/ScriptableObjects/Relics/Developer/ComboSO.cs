@@ -2,7 +2,7 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 
-namespace Combo
+namespace Battle.Combo
 {
 
 
@@ -20,13 +20,13 @@ namespace Combo
         [SerializeField]
         private Sprite _img;
         public Sprite Image { get=> _img; set=> _img=value; }
-
+        
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(130)]
         [SerializeField]
-        private ushort _id;
-        public ushort ID { get => _id; set=> _id = value; }
+        private int _id;
+        public int ID { get => _id; set=> _id = value; }
 
         [TabGroup("Recipe/General Info", "Data")]
         [LabelWidth(130)]
@@ -50,15 +50,15 @@ namespace Combo
 
         [TabGroup("Recipe/General Info", "Data")]
         [SerializeField]
-        private Battles.Deck.DeckEnum _goToDeckAfterCrafting;
-        public Battles.Deck.DeckEnum GoToDeckAfterCrafting { get => _goToDeckAfterCrafting; set=> _goToDeckAfterCrafting = value; }
+        private Battle.Deck.DeckEnum _goToDeckAfterCrafting;
+        public Battle.Deck.DeckEnum GoToDeckAfterCrafting { get => _goToDeckAfterCrafting; set=> _goToDeckAfterCrafting = value; }
 
 
         [TabGroup("Recipe/General Info", "Combo")]
         [SerializeField]
         [LabelWidth(20)]
-        private Cards.CardTypeData[] _comboSequance;
-        public Cards.CardTypeData[] ComboSequance { get => _comboSequance; set=> _comboSequance =value; }
+        private Cards.CardTypeData[] _comboSequence;
+        public Cards.CardTypeData[] ComboSequence { get => _comboSequence; set=> _comboSequence =value; }
 
 
 

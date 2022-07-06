@@ -1,4 +1,4 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using System;
 using UI.Meta.Laboratory;
 using UnityEngine;
@@ -111,7 +111,7 @@ public class CardUIInteractionHandle : MonoBehaviour
             toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Upgrade);
             _upgradeBtn?.SetActive(toOpen && _card?.RecieveCardReference().CardsAtMaxLevel == false);
             toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Dismental);
-            _dismentalBtnGO?.SetActive(toOpen && Account.AccountManager.Instance.AccountCards.CardList.Count > _minDeckLength);
+        //    _dismentalBtnGO?.SetActive(toOpen && Account.AccountManager.Instance.AccountCards.CardList.Count > _minDeckLength);
             _container.SetActive(true);
         }
         else
@@ -172,19 +172,19 @@ public class CardUIInteractionHandle : MonoBehaviour
 public static class DismentalHandler
 {
     static DismentalCostsSO _dismentalCostsSO = Resources.Load<DismentalCostsSO>("MetaGameData/DismentalCostSO");
-
+    // Need To be Re-Done
     public static bool DismentalCard(Cards.Card card)
     {
-        if (card == null)
-            throw new System.Exception($"DismentalHandler: Card is null");
-        var account = Account.AccountManager.Instance;
-        if (account.AccountCards.RemoveCard(card.CardCoreInfo.InstanceID))
-        {
-            SendAnalyticEvents(card);
-            account.AccountGeneralData.AccountResourcesData.Chips.AddValue(_dismentalCostsSO.GetCardDismentalCost(card));
+        //if (card == null)
+        //    throw new System.Exception($"DismentalHandler: Card is null");
+        //var account = Account.AccountManager.Instance;
+        //if (account.AccountCards.RemoveCard(card.CardCoreInfo.InstanceID))
+        //{
+        //    SendAnalyticEvents(card);
+        //    account.AccountGeneralData.AccountResourcesData.Chips.AddValue(_dismentalCostsSO.GetCardDismentalCost(card));
 
-            return true;
-        }
+        //    return true;
+        //}
         return false;
     }
 

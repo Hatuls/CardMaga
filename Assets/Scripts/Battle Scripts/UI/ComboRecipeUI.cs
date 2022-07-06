@@ -1,11 +1,13 @@
-﻿using Battles.UI;
-using Combo;
+﻿using Battle.UI;
+using Battle;
 using Sirenix.OdinInspector;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Battle.Combo;
+
 namespace UI
 {
     
@@ -18,7 +20,7 @@ namespace UI
         [SerializeField]
         CardUI _cardUI;
         [SerializeField]
-        Combo.Combo _combo;
+        Combo _combo;
 
         [SerializeField]
         Image _innerImage;
@@ -62,7 +64,7 @@ namespace UI
 
         public CardUI CardUI { get => _cardUI; set => _cardUI = value; }
         public ComboSO ComboRecipe { get => _combo.ComboSO; }
-        public Combo.Combo Combo { get => _combo; set => _combo = value; }
+        public Combo Combo { get => _combo; set => _combo = value; }
     
 
         private void Start()
@@ -76,7 +78,7 @@ namespace UI
         public void RemoveFunctionality(UnityAction<ComboRecipeUI> combo) => _event.RemoveListener(combo);
         public void OnClick()
             => _event?.Invoke(this);
-        public void InitRecipe(Combo.Combo combo)
+        public void InitRecipe(Combo combo)
         {
             _combo = combo;
          
@@ -98,12 +100,12 @@ namespace UI
         private void ActivatedPlaceHolders(ComboSO relicSO)
         {
 
-            if (relicSO.ComboSequance.Length != activePlaceHolders)
+            if (relicSO.ComboSequence.Length != activePlaceHolders)
             {
-                int remain = relicSO.ComboSequance.Length - activePlaceHolders;
+                int remain = relicSO.ComboSequence.Length - activePlaceHolders;
                 if (remain < 0)
                 {
-                    for (int i = _placeHolderSlotUIs.Length - 1; i >= relicSO.ComboSequance.Length; i--)
+                    for (int i = _placeHolderSlotUIs.Length - 1; i >= relicSO.ComboSequence.Length; i--)
                     {
                         _placeHolderSlotUIs[i].gameObject.SetActive(false);
                         activePlaceHolders--;
@@ -127,8 +129,8 @@ namespace UI
                 if (!_placeHolderSlotUIs[i].gameObject.activeSelf)
                     _placeHolderSlotUIs[i].gameObject.SetActive(true);
 
-                if (i < relic.ComboSequance.Length)
-                    _placeHolderSlotUIs[i].InitPlaceHolder(relic.ComboSequance[i]);
+                if (i < relic.ComboSequence.Length)
+                    _placeHolderSlotUIs[i].InitPlaceHolder(relic.ComboSequence[i]);
                 
                 else
                     _placeHolderSlotUIs[i].ResetSlotUI();

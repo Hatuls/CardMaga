@@ -1,5 +1,6 @@
 ﻿using Firebase;
 using Firebase.Analytics;
+using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
 
@@ -10,8 +11,9 @@ public static class FireBaseHandler
         new Parameter("device",SystemInfo.deviceModel),
         new Parameter("currentTime", DateTime.Now.ToString())
     };
-    public static void Init()
+    public static void Init(ITokenReciever token)
     {
+    
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
@@ -33,7 +35,11 @@ public static class FireBaseHandler
     }
     public static void SendEvent(string eventName)
     {
-        FirebaseAnalytics.LogEvent(eventName);
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        {
+
+            FirebaseAnalytics.LogEvent(eventName);
+        });
     }
 
 

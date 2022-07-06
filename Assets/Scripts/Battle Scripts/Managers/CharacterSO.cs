@@ -1,49 +1,21 @@
-﻿using Collections;
+﻿using Account.GeneralData;
+using Collections;
 using Sirenix.OdinInspector;
 using System;
+using System.Linq;
 using UnityEngine;
-
-namespace Battles
+using Battle.Combo;
+using Characters.Stats;
+namespace Battle
 {
     [CreateAssetMenu(fileName = "CharacterSO", menuName = "ScriptableObjects/Characters/CharacterSO")]
     public class CharacterSO : ScriptableObject
     {
-        [Serializable]
-        public class CardInfo
-        {
-            public CardInfo(Cards.CardSO card, byte level)
-            {
-                _cardSO = card;
-                _level = level;
-            }
 
-            [SerializeField]
-            private Cards.CardSO _cardSO;
-            public Cards.CardSO Card { get => _cardSO; }
 
-            [SerializeField]
-            private byte _level;
-            public byte Level { get => _level; }
-        }
-
-        [Serializable]
-        public class RecipeInfo
-        {
-            public RecipeInfo(Combo.ComboSO comboSO, byte level)
-            {
-                _comboRecipe = comboSO;
-                _level = level;
-            }
-            [SerializeField]
-            private Combo.ComboSO _comboRecipe;
-            public Combo.ComboSO ComboRecipe { get => _comboRecipe; }
-            [SerializeField]
-            private byte _level;
-            public byte Level { get => _level; }
-        }
-
+      
         [SerializeField]
-        private Characters.Stats.CharacterStats _characterStats;
+        private CharacterStats _characterStats;
 
         [SerializeField]
         private int _id;
@@ -80,11 +52,11 @@ namespace Battles
         public short CharacterDiffciulty { get => _characterDifficulty; private set => _characterDifficulty = value; }
 
         [SerializeField]
-        private RecipeInfo[] _combos;
-        public RecipeInfo[] Combos => _combos;
+        private Account.GeneralData.ComboCore[] _combos;
+        public Account.GeneralData.ComboCore[] Combos => _combos;
         [SerializeField]
-        private CardInfo[] _deck;
-        public CardInfo[] Deck { get => _deck; }
+        private CardCore[] _deck;
+        public CardCore[] Deck { get => _deck; }
 
 
         [SerializeField]
@@ -92,7 +64,7 @@ namespace Battles
         public RewardTypeEnum RewardType { get => _rewardType; private set => _rewardType = value; }
 
 
-        public ref Characters.Stats.CharacterStats CharacterStats { get => ref _characterStats; }
+        public ref CharacterStats CharacterStats { get => ref _characterStats; }
 
         public SoundEventWithParamsSO SoundOnAttack; // parameter "Voice"
         public SoundEventWithParamsSO GetHitSounds;//Parameter "Get Hit"
@@ -151,7 +123,7 @@ namespace Battles
                             {
                                 CharacterAvatar = characterModel;
 
-                                CharacterStats = new Characters.Stats.CharacterStats()
+                                CharacterStats = new CharacterStats()
                                 {
                                     MaxHealth = int.Parse(row[CharacterMaxHpIndex]),
                                     Shield = int.Parse(row[CharacterDefenseIndex]),
@@ -164,13 +136,13 @@ namespace Battles
                                     Dexterity = int.Parse(row[CharacterDexterityPointIndex]),
                                 };
 
-                                ushort _iD = 0;
-                                byte _lEVEL = 0;
+                                int _iD = 0;
+                                int _level = 0;
 
                                 const int iD = 0, Level = 1;
                                 //deck cards
                                 string[] Cards = row[CharacterDeckIndex].Split('&');
-                                _deck = new CardInfo[Cards.Length];
+                                _deck = new CardCore[Cards.Length];
                                 for (int i = 0; i < Cards.Length; i++)
                                 {
                                     string[] data = Cards[i].Split('^');
@@ -182,25 +154,25 @@ namespace Battles
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid ID! ({data[iD]})");
 
-                                    if (byte.TryParse(data[Level], out byte lvl))
+                                    if (int.TryParse(data[Level], out int lvl))
                                     {
-                                        _lEVEL = lvl;
+                                        _level = lvl;
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
-                                    _deck[i] = new CardInfo(cardCollection.GetCard(_iD), _lEVEL);
+                                    _deck[i] = new CardCore(cardCollection.GetAllCards.First(x=>x.ID==_iD).ID, _level,0);
 
                                 }
 
                                 //Recipes / Combos
                                 string[] Recipe = row[CharacterRecipeIndex].Split('&');
-                                _combos = new RecipeInfo[Recipe.Length];
+                                _combos = new Account.GeneralData.ComboCore[Recipe.Length];
 
                                 for (int i = 0; i < Recipe.Length; i++)
                                 {
                                     string[] data = Recipe[i].Split('^');
 
-                                    if (ushort.TryParse(data[iD], out ushort rID))
+                                    if (int.TryParse(data[iD], out int rID))
                                     {
                                         _iD = rID;
                                     }
@@ -208,19 +180,19 @@ namespace Battles
                                         throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid ID! ({data[iD]})");
 
 
-                                    if (byte.TryParse(data[Level], out byte lvl))
+                                    if (int.TryParse(data[Level], out int lvl))
                                     {
-                                        _lEVEL = lvl;
+                                        _level = lvl;
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid level ({data[Level]}) for recipe id: {_id}");
 
 
 
-                                    _combos[i] = new RecipeInfo(recipeCollections.GetCombo(_iD), _lEVEL);
+                                    _combos[i] = new Account.GeneralData.ComboCore(recipeCollections.AllCombos.First(x=>x.ID==_iD), _level);
 
 
-                                    if (_combos[i].ComboRecipe == null)
+                                    if (_combos[i] == null)
                                         Debug.LogError("!");
                                 }
 

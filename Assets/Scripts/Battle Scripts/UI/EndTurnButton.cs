@@ -14,7 +14,7 @@ public class EndTurnButton : ButtonUI
     }
     public override void ButtonPressed()
     {
-        if (Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn)
+        if (Battle.Turns.TurnHandler.CurrentState == Battle.Turns.TurnState.PlayerTurn)
         {
             FinishTurn();
         }
@@ -28,7 +28,7 @@ public class EndTurnButton : ButtonUI
 
     public static void FinishTurn()
     {
-        if (Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn && Battles.BattleManager.isGameEnded == false)
+        if (Battle.Turns.TurnHandler.CurrentState == Battle.Turns.TurnState.PlayerTurn && Battle.BattleManager.isGameEnded == false)
         {
 
             _OnFinishTurnPress?.Invoke();

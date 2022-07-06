@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
 
 }

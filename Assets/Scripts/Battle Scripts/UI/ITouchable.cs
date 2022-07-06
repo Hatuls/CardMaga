@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface ITouchable
 {
-    Battles.UI.CardUIAttributes.CardStateMachine.CardUIInput State { get; }
+    Battle.UI.CardUIAttributes.CardStateMachine.CardUIInput State { get; }
 
     RectTransform Rect { get; }
     bool IsInteractable { get; }

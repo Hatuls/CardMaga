@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
     internal class ZoomState : CardUIAbstractState
     {

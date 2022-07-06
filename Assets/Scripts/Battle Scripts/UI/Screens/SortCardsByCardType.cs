@@ -1,27 +1,23 @@
-﻿using Battles;
+﻿
 using Cards;
-using Rei.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace Map.UI
+namespace CardMaga.UI
 {
-    public class SortCardsByCardType : SortAbst<Card>
+    public class SortCardsByCardType :CardSort
     {
 
         [SerializeField]
         CardTypeEnum cardTypeEnum;
+        // Need To be Re-Done
         public override IEnumerable<Card> Sort()
         {
-            var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
+            var deck = GetCollection();
             return deck.Where((x) => x.CardSO.CardTypeEnum == cardTypeEnum);
+           
         }
 
-        public override void SortRequest()
-        {
-            _cardEvent?.Invoke(this);
-        }
     }
 }

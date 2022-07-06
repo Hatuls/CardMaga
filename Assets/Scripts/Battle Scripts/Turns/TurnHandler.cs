@@ -1,4 +1,4 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using Characters.Stats;
 using Keywords;
 using System;
@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Battles.Turns
+namespace Battle.Turns
 {
 
     public static class TurnHandler

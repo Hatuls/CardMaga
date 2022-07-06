@@ -9,9 +9,9 @@
             if (data.GetTarget == TargetEnum.MySelf)
             {
                 //  Battles.Deck.DeckManager.Instance.OnEndTurn(currentPlayer);
-                Battles.Deck.DeckManager.Instance.ResetCharacterDeck(currentPlayer, Battles.Deck.DeckEnum.Hand);
-                Battles.UI.CardUIManager.Instance.RemoveHands();
-                Battles.Deck.DeckManager.Instance.DrawHand(
+                Battle.Deck.DeckManager.Instance.ResetCharacterDeck(currentPlayer, Battle.Deck.DeckEnum.Hand);
+                Battle.UI.CardUIManager.Instance.RemoveHands();
+                Battle.Deck.DeckManager.Instance.DrawHand(
                     currentPlayer,
                     Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Amount
                     );

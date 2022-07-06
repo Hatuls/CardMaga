@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace Battles.UI
+namespace Battle.UI
 {
     [CreateAssetMenu(fileName = "TextPopSettings", menuName = "ScriptableObjects/Settings")]
     public class TextPopUpSettingsSO : ScriptableObject

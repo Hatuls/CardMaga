@@ -1,24 +1,16 @@
-﻿using Rei.Utilities;
+﻿using Battle.Combo;
+using Rei.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-namespace Map.UI
+namespace CardMaga.UI
 {
-    public class SortComboByLength : SortAbst<Combo.Combo>
+    public class SortComboByLength : ComboSort
     {
         [SerializeField] int length;
-
-        [SerializeField] bool toUseAccountData;
-        public override IEnumerable<Combo.Combo> Sort()
-        {
-            var combos = toUseAccountData ? Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(Account.AccountManager.Instance.AccountCombos.ComboList.ToArray()) :
-                        Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe;
-            return combos.Where(x => x.ComboSO.ComboSequance.Length == length);
-        }
-
-        public override void SortRequest()
-        {
-            _comboEvent?.Invoke(this);
+        public override IEnumerable<Combo> Sort()
+        { 
+            return GetCollection().Where(x=>x.ComboSequence.Length == length);
         }
     }
 }

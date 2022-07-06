@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-namespace Map
+namespace CardMaga.Map
 {
     public class NodeMap : MonoBehaviour, IObserver
     {
