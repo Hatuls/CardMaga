@@ -131,6 +131,9 @@ namespace Cards
             return _cardCoreInfo == other._cardCoreInfo;
         }
 
+        public Card Clone()
+       => new Card(new CardInstanceID(_cardCoreInfo.GetCardCore()));
+
 
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]
@@ -140,9 +143,6 @@ namespace Cards
             _cardCoreInfo = new CardInstanceID(newCore);
         }
 
-        public Card Clone()
-       => new Card(new CardInstanceID(_cardCoreInfo.GetCardCore()));
-       
 #endif
     }
     #endregion

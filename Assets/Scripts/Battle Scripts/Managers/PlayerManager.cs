@@ -33,7 +33,7 @@ namespace Managers
         static int Counter = 0;
         public ref CharacterStats GetCharacterStats => ref _character.CharacterData.CharacterStats;
         Cards.Card[] _playerDeck;
-        public IReadOnlyCollection<Cards.Card> GetDeck() => _playerDeck;
+        public Cards.Card[] GetDeck() => _playerDeck;
         public Combo[] GetCombos() => _character.CharacterData.ComboRecipe;
 
         public AnimatorController PlayerAnimatorController
