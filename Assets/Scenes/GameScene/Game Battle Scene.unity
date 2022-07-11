@@ -691,6 +691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextState: {fileID: 11400000, guid: 6e310a4bed6790d4e9adce3a23f928ae, type: 2}
+  _handUI: {fileID: 4132734532372878164}
 --- !u!114 &713954407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1460,7 +1461,7 @@ MonoBehaviour:
   _stateID: {fileID: 11400000, guid: 6e310a4bed6790d4e9adce3a23f928ae, type: 2}
   _conditions:
   - {fileID: 1842452749}
-  _selectCardUI: {fileID: 4132734532372878163}
+  _handUI: {fileID: 0}
 --- !u!114 &1842452749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2066,6 +2067,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 27068996997464537, guid: e73c981cd4217474294ea49923871016,
         type: 3}
+      propertyPath: _handUI
+      value: 
+      objectReference: {fileID: 4132734532372878164}
+    - target: {fileID: 27068996997464537, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
       propertyPath: _selectCard
       value: 
       objectReference: {fileID: 4132734532372878163}
@@ -2622,6 +2628,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3994755586288925173, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _handUI
+      value: 
+      objectReference: {fileID: 4132734532372878164}
     - target: {fileID: 3994755586288925173, guid: e73c981cd4217474294ea49923871016,
         type: 3}
       propertyPath: _zoomCard
@@ -3203,6 +3214,11 @@ PrefabInstance:
       objectReference: {fileID: 4132734532372878160}
     - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
         type: 3}
+      propertyPath: _zoomCard
+      value: 
+      objectReference: {fileID: 4132734532372878165}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
       propertyPath: canvasTest
       value: 
       objectReference: {fileID: 1521607319}
@@ -3240,6 +3256,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
         type: 3}
+      propertyPath: _resetCardPosition
+      value: 
+      objectReference: {fileID: 11400000, guid: 49f8fc99a1001a648a6ba5d95ef25618,
+        type: 2}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
       propertyPath: _battleInputDefault
       value: 
       objectReference: {fileID: 713954405}
@@ -3274,9 +3296,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
         type: 3}
+      propertyPath: _reAlignTransitionPackSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 0aad001d516b3514cab3d24103e7fc62,
+        type: 2}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _resetCardPositionPackSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 49f8fc99a1001a648a6ba5d95ef25618,
+        type: 2}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
       propertyPath: _selectCard._zoomPosition
       value: 
       objectReference: {fileID: 210326852}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _tableCardSlot._middleHandPos
+      value: 
+      objectReference: {fileID: 4132734532372878161}
     - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
         type: 3}
       propertyPath: _selectCard._resetCardPosition
@@ -3287,6 +3326,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _selectCard._zoomScaleMultiply
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6717498999439463656, guid: e73c981cd4217474294ea49923871016,
+        type: 3}
+      propertyPath: _tableCardSlot._spaceBetweenCard
+      value: 340
       objectReference: {fileID: 0}
     - target: {fileID: 6815705370497866613, guid: e73c981cd4217474294ea49923871016,
         type: 3}
@@ -3618,6 +3662,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41a67a9d9c8b15a488db84ce8df29f35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4132734532372878165 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 27068996997464537, guid: e73c981cd4217474294ea49923871016,
+    type: 3}
+  m_PrefabInstance: {fileID: 4132734532372878159}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31dc56e4da66a9341b2919e23ca49fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &4163709071467768981

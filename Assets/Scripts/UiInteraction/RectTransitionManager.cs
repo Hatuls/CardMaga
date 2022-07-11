@@ -247,7 +247,6 @@ public static class ScaleHelper
             onComplete);
     }
     
-// Fix it WIP
     public static Sequence Scale(this RectTransform rect, Vector3 scaleVector, float timeToTransition,
         AnimationCurve animationCurveX = null, AnimationCurve animationCurveY = null,
     AnimationCurve animationCurveZ = null,Action onComplete = null)

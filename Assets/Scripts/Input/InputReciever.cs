@@ -16,8 +16,6 @@ public class InputReciever : MonoBehaviour
 
     #endregion
     
-
-    
     #region Monobehaiviour CallBacks
 
     private void Update()
@@ -48,8 +46,7 @@ public class InputReciever : MonoBehaviour
     }
     
     #endregion
-
-
+    
     #region Private Functions
 
     private void TouchDetector()

@@ -14,8 +14,6 @@ public class BattleInputDefaultState : BaseState
         base.OnEnterState();
         
         _handToken = _handUI.HandLockTokenReceiver.GetToken();
-        
-        //HandUI.OnCardDrawnAndAlign += UnLockTouchableItems;
     }
 
     public override void OnExitState()

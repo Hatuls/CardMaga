@@ -29,17 +29,7 @@ public abstract class BaseState : MonoBehaviour , IState
         
         Debug.Log("Enter " + base.name);
     }
-
-    protected void LockTouchableItems()
-    {
-        
-    }
-    protected void UnLockTouchableItems()
-    {
-        
-    }
-
-
+    
     public virtual void OnExitState()
     {
        

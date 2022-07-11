@@ -17,7 +17,7 @@ namespace Battles.UI
         
         [SerializeField] private CardUIInputHandler _inputs;
         private RectTransitionManager _cardTransitionManager;
-        private Vector2 _cardHandPos;
+        
 
         #region Enum Selection
         
@@ -34,21 +34,12 @@ namespace Battles.UI
             _cardTransitionManager = new RectTransitionManager(_rectTransform);
         }
 
-        public void SetCardHandPos(Vector2 handPos)
-        {
-            _cardHandPos = handPos;
-        }
         
         public bool Equals(CardUI other)
         {
-            return true;
-            //other?.RecieveCardReference() == _cardGFX.GetCardReference;
+            return other.RecieveCardReference().CardInstanceID == _cardGFX.GetCardReference.CardInstanceID;
         }
-
-        public Vector2 HandPos
-        {
-            get { return _cardHandPos; }
-        }
+        
         public  CardGFX GFX =>  _cardGFX;
 
         public  CardUIInputHandler Inputs
