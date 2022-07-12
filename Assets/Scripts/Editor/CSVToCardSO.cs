@@ -235,7 +235,7 @@ public class CSVToCardSO : CSVAbst
         string[] charactersCameras = cardSO[CameraNameIndex].Split('^');
         for (int i = 0; i < charactersCameras.Length; i++)
         {
-            string[] camerasNames = cardSO[CameraNameIndex].Split('&');
+            string[] camerasNames = charactersCameras[i].Split('&');
             for (int j = 0; j < camerasNames.Length; j++)
             {
                 if (CheckIfEmpty(camerasNames[j]))
@@ -247,10 +247,12 @@ public class CSVToCardSO : CSVAbst
 
                 camerasId.Add(camID);
             }
+
             if(i==0)
                 cameraDetails.LeftCamera = camerasId.ToArray();
             else
                 cameraDetails.RightCamera = camerasId.ToArray();
+
             camerasId.Clear();
         }
         card.CameraDetails = cameraDetails;
