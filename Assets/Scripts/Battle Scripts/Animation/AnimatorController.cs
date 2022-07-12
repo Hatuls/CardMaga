@@ -112,7 +112,7 @@ public class AnimatorController : MonoBehaviour
     public void StartAnimation(AnimatorStateInfo info)
     {
 
-        if (_currentAnimation != null && _currentAnimation.CameraDetails != null)
+        if (_currentAnimation != null && _currentAnimation.CameraDetails != null && _currentAnimation.CameraDetails.CheckCameraDetails(_isPlayer))
         {
             TransitionCamera transitionCamera = _currentAnimation.CameraDetails.GetTransitionCamera(_isPlayer);
             OnAnimationStart?.Invoke(transitionCamera);

@@ -2,6 +2,7 @@
 using Battle.Turns;
 using Cinemachine;
 using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class CameraManager : MonoBehaviour
@@ -19,22 +20,46 @@ public class CameraManager : MonoBehaviour
 
     private VirtualCamera _activeCamera = null;
 
-    private void Awake()
+
+    [SerializeField,Tooltip("The Time till the camera will return to default position"),Min(0)]
+    private float _delayTillReturn;
+    private float _counter = 0 ;
+
+
+    private bool IsDefaultCamera
     {
-        EndEnemyTurn.OnEndEnemyTurn += ReturnToDefaultCamera;
-        EndPlayerTurn.OnEndPlayerTurn+= ReturnToDefaultCamera;
-        AnimatorController.OnAnimationStart += SwitchCamera;
-       // AnimatorController.OnAnimationEnding += ReturnToDefaultCamera;
+        get
+        {
+            return _activeCamera.GetCameraID == _defaultCamera.NextCamID;
+        }
     }
 
+    private void Awake()
+    {
+        _counter = 0;
+        EndEnemyTurn.OnEndEnemyTurn += ReturnToDefaultCamera;
+        EndPlayerTurn.OnEndPlayerTurn += ReturnToDefaultCamera;
+        AnimatorController.OnAnimationStart += SwitchCamera;
+
+
+        // AnimatorController.OnAnimationEnding += ReturnToDefaultCamera;
+    }
+    private void Start()
+    {
+        if (!TryReturnVirtualCamera(_defaultCamera.NextCamID, out _activeCamera))
+            throw new System.Exception("Default Camera was not assigned!");
+    }
     private void OnDestroy()
     {
         EndEnemyTurn.OnEndEnemyTurn -= ReturnToDefaultCamera;
         EndPlayerTurn.OnEndPlayerTurn -= ReturnToDefaultCamera;
         AnimatorController.OnAnimationStart -= SwitchCamera;
+        StopCounter();
         //AnimatorController.OnAnimationEnding -= ReturnToDefaultCamera;
     }
 
+
+    #region Private
     private bool IsActiveCamera(VirtualCamera camera)
     {
         return camera == _activeCamera;
@@ -44,6 +69,7 @@ public class CameraManager : MonoBehaviour
     {
         return camera == _activeCamera.GetCameraID;
     }
+
 
     /// <summary>
     /// Translating scriptable object into virtual camera in the scene
@@ -78,6 +104,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+
     private bool CheckTransitionCamera(TransitionCamera transitionCamera)
     {
         if (transitionCamera == null)
@@ -101,12 +128,28 @@ public class CameraManager : MonoBehaviour
     }
 
 
+    private IEnumerator DelayTillReturn()
+    {
+        Debug.Log("Camera Animation Started");
+        while (_delayTillReturn >= _counter)
+        {
+            yield return null;
+            _counter += Time.deltaTime;
+        }
+        Debug.Log("Camera Animation Finished");
+        ReturnToDefaultCamera();
+    }
+
+    private void StopCounter() => StopCoroutine(DelayTillReturn());
+    #endregion
+
 
     #region public
 
-    
+
     public void ReturnToDefaultCamera()
     {
+        StopCounter();
         SwitchCamera(_defaultCamera);
     }
 
@@ -123,8 +166,15 @@ public class CameraManager : MonoBehaviour
 
         if (TryReturnVirtualCamera(transitionCamera.NextCamID, out VirtualCamera virtualCamera) && !IsActiveCamera(virtualCamera))
         {
+            ResetCameraCounter();
+            if (IsDefaultCamera)
+            {
+                StartCoroutine(DelayTillReturn());
+            }
+
             _cinemachineBrain.m_CustomBlends = transitionCamera.CustomBlend;
             SwitchPriority(virtualCamera);
+
         }
     }
 
@@ -139,4 +189,14 @@ public class CameraManager : MonoBehaviour
     }
     #endregion
 
+
+    public void ResetCameraCounter()
+    {
+        Debug.Log("Animation Reset");
+        _counter = 0;
+    }
+
+
+
+   
 }

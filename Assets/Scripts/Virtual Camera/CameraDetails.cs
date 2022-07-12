@@ -32,7 +32,32 @@ public class CameraDetails
         int blenderIndex = Random.Range(0, blenders.Length);
         return blenders[blenderIndex];
     }
+    public bool CheckCameraDetails(bool isPlayer)
+    {
+        bool isValid = true;
 
+        if (isPlayer)       //Left Camera Check
+        {
+            if (LeftCamera == null || LeftCamera.Length == 0)
+                isValid = false;
+
+        }
+        else
+        {
+            //Right Camera Check
+            if (RightCamera == null || RightCamera.Length == 0)
+                isValid = false;
+        }
+
+
+
+        //CinemachineBlenderSettings
+        if (isValid && (CinemachineBlenderSettings == null || CinemachineBlenderSettings.Length == 0))
+        {
+            isValid = false;
+        }
+        return isValid;
+    }
     static public bool CheckCameraDetails(CameraDetails cameraDetails)
     {
         bool noErrors = true;

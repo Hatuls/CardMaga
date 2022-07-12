@@ -80,7 +80,7 @@ namespace Managers
 
       
             CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
-            Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck.CloneCards());
+            Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
             PlayerAnimatorController.ResetAnimator();
         }
         public void UpdateStatsUI()

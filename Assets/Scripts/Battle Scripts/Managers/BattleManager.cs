@@ -182,7 +182,7 @@ namespace Battle
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.Instance.EnemyWon();
             BattleData.Instance.PlayerWon = false;
-            _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
+      //      _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
         //    SendAnalyticWhenGameEnded("player_defeated", battleData);
             OnPlayerDefeat?.Invoke();
         }
