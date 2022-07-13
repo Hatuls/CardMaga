@@ -1,4 +1,5 @@
 ﻿
+using Battle;
 using Battle.Turns;
 using Cinemachine;
 using Sirenix.OdinInspector;
@@ -21,16 +22,16 @@ public class CameraManager : MonoBehaviour
     private VirtualCamera _activeCamera = null;
 
 
-    [SerializeField,Tooltip("The Time till the camera will return to default position"),Min(0)]
+    [SerializeField, Tooltip("The Time till the camera will return to default position"), Min(0)]
     private float _delayTillReturn;
-    private float _counter = 0 ;
+    private float _counter = 0;
 
 
     private bool IsDefaultCamera
     {
         get
         {
-            return _activeCamera.GetCameraID == _defaultCamera.NextCamID;
+            return _activeCamera?.GetCameraID == _defaultCamera?.NextCamID;
         }
     }
 
@@ -40,10 +41,12 @@ public class CameraManager : MonoBehaviour
         EndEnemyTurn.OnEndEnemyTurn += ReturnToDefaultCamera;
         EndPlayerTurn.OnEndPlayerTurn += ReturnToDefaultCamera;
         AnimatorController.OnAnimationStart += SwitchCamera;
-
-
+       
         // AnimatorController.OnAnimationEnding += ReturnToDefaultCamera;
     }
+
+
+
     private void Start()
     {
         if (!TryReturnVirtualCamera(_defaultCamera.NextCamID, out _activeCamera))
@@ -127,13 +130,20 @@ public class CameraManager : MonoBehaviour
         return true;
     }
 
-
     private IEnumerator DelayTillReturn()
     {
+        Transform current = _cinemachineBrain.transform;
+
+
+
         Debug.Log("Camera Animation Started");
-        while (_delayTillReturn >= _counter)
+        while (_delayTillReturn > _counter)
         {
-            yield return null;
+            do
+            {
+                yield return null;
+            } while (Vector3.Distance(current.position, _activeCamera.transform.position) >= Mathf.Epsilon);
+
             _counter += Time.deltaTime;
         }
         Debug.Log("Camera Animation Finished");
@@ -164,18 +174,23 @@ public class CameraManager : MonoBehaviour
         if (!CheckTransitionCamera(transitionCamera))
             return;
 
+   
         if (TryReturnVirtualCamera(transitionCamera.NextCamID, out VirtualCamera virtualCamera) && !IsActiveCamera(virtualCamera))
         {
-            ResetCameraCounter();
+
             if (IsDefaultCamera)
-            {
-                StartCoroutine(DelayTillReturn());
-            }
+                StartTimer();
 
             _cinemachineBrain.m_CustomBlends = transitionCamera.CustomBlend;
             SwitchPriority(virtualCamera);
 
         }
+    }
+    private void StartTimer()
+    {
+
+        StartCoroutine(DelayTillReturn());
+
     }
 
     public static void Register(VirtualCamera camera)
@@ -198,5 +213,5 @@ public class CameraManager : MonoBehaviour
 
 
 
-   
+
 }

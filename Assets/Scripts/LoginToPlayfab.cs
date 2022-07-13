@@ -1,5 +1,4 @@
 ﻿using CardMaga.Playfab;
-using PlayFab;
 using PlayFab.ClientModels;
 using ReiTools.TokenMachine;
 using System;
@@ -21,17 +20,17 @@ public class LoginToPlayfab : MonoBehaviour
     }
     private void OnDestroy()
     {
-        
+
         PlayfabLogin.OnSuccessfullLogin -= TaskCompleted;
     }
     public void Init(ITokenReciever tokenMachine)
     {
         _token = tokenMachine.GetToken();
         Debug.Log("Google Manager Start Sign In");
-      //  _googleManager.TrySignInWithGoogle();
+        //_googleManager.TrySignInWithGoogle();
 //#if !UNITY_EDITOR
-//        Debug.Log("Google Manager Start Sign In");
-//        _googleManager.TrySignInWithGoogle();
+//                Debug.Log("Google Manager Start Sign In");
+//                _googleManager.TrySignInWithGoogle();
 //#elif UNITY_EDITOR
 //        Debug.Log("Playfab Manager Start Sign In");
         _playfabManager.PlayFabLogin.LoginWithPlayfabCustomID();

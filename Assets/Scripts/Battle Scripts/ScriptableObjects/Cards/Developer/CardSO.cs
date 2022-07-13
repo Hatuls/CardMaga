@@ -3,6 +3,7 @@ using Keywords;
 using Sirenix.OdinInspector;
 using System.Linq;
 using System.Collections.Generic;
+using static Cards.PerLevelUpgrade;
 
 namespace Cards
 {
@@ -61,17 +62,11 @@ namespace Cards
         public CardTypeEnum CardTypeEnum => CardType.CardType;
 
 
-        public string CardDescription(int level)
-        {
-            string description = string.Empty;
-            int length = PerLevelUpgrade[level].Description.Length;
-            var desctiption = PerLevelUpgrade[level].Description;
-            for (int i = 0; i < length; i++)
-                description += desctiption[i];
-
-            return description;
-            
-        }
+        public DescriptionInfo[] CardDescription(int level)
+           => PerLevelUpgrade[level].Description;
+      
+      
+      
 
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]

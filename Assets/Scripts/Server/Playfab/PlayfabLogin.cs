@@ -42,7 +42,7 @@ namespace CardMaga.Playfab
                     GetUserData = true
                 },
                 CreateAccount = true,
-                AuthenticationContext = loginResult?.AuthenticationContext ?? null
+             //   AuthenticationContext = loginResult?.AuthenticationContext ?? null
             },
              SuccessfullLogin,
              FailedLogin

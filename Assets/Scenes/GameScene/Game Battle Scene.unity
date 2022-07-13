@@ -361,7 +361,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CustomBlends
       value: 
-      objectReference: {fileID: 11400000, guid: 6ea92744a615efd4e89e58835e7eaa18,
+      objectReference: {fileID: 11400000, guid: 91ddd4ccb35f90248b0c825504a89778,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e7b156c630d1594eaaca490e4a2748a, type: 3}
@@ -600,7 +600,7 @@ PrefabInstance:
     - target: {fileID: 4199875948908254166, guid: edd7771b23d5ec44bafcf7ec34a4fdc7,
         type: 3}
       propertyPath: _overrideLoadingSceneManager
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4199875948908254167, guid: edd7771b23d5ec44bafcf7ec34a4fdc7,
         type: 3}
@@ -1114,22 +1114,22 @@ PrefabInstance:
     - target: {fileID: 8806748547290640658, guid: 62e6b56c5cb6a4b4b9b92ff6a9c8d7aa,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8869965
+      value: 0.8892929
       objectReference: {fileID: 0}
     - target: {fileID: 8806748547290640658, guid: 62e6b56c5cb6a4b4b9b92ff6a9c8d7aa,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.12444873
+      value: 0.1240677
       objectReference: {fileID: 0}
     - target: {fileID: 8806748547290640658, guid: 62e6b56c5cb6a4b4b9b92ff6a9c8d7aa,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.44037724
+      value: -0.4359656
       objectReference: {fileID: 0}
     - target: {fileID: 8806748547290640658, guid: 62e6b56c5cb6a4b4b9b92ff6a9c8d7aa,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.06178647
+      value: 0.060822766
       objectReference: {fileID: 0}
     - target: {fileID: 8806748547290640658, guid: 62e6b56c5cb6a4b4b9b92ff6a9c8d7aa,
         type: 3}
@@ -1236,7 +1236,7 @@ PrefabInstance:
     - target: {fileID: 5536006425360206184, guid: 95416e545fa96d54f872eda8406bc0b2,
         type: 3}
       propertyPath: _delayTillReturn
-      value: 500
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5536006425360206184, guid: 95416e545fa96d54f872eda8406bc0b2,
         type: 3}
@@ -1262,6 +1262,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95416e545fa96d54f872eda8406bc0b2, type: 3}
+--- !u!114 &2026268398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5536006425360206184, guid: 95416e545fa96d54f872eda8406bc0b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1915523038}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e955c9eb3fb634eb66159a16c97477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2026804410 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8806748546775345320, guid: 62e6b56c5cb6a4b4b9b92ff6a9c8d7aa,
@@ -1649,6 +1661,16 @@ PrefabInstance:
       propertyPath: _playerAnimatorController
       value: 
       objectReference: {fileID: 375816542}
+    - target: {fileID: 8513023217717614139, guid: 353491b6d4691024a960a6196cac83bf,
+        type: 3}
+      propertyPath: OnSuccessfullExecution.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2026268398}
+    - target: {fileID: 8513023217717614139, guid: 353491b6d4691024a960a6196cac83bf,
+        type: 3}
+      propertyPath: OnSuccessfullExecution.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetCameraCounter
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7190250571461079770, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
@@ -3147,7 +3169,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _opponent._characterData._characterSO
       value: 
-      objectReference: {fileID: 11400000, guid: 9e4224cf02ac0604b982993ad3ee5ee4,
+      objectReference: {fileID: 11400000, guid: 8ae09e6d825662442a468f93c434662f,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3157,7 +3179,7 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterStats._gold
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3172,12 +3194,12 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterStats._health
-      value: 90
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._comboRecipe.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3191,13 +3213,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._characterStats._defense
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _player._characterData._characterStats._maxHealth
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3207,17 +3234,17 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterStats._maxHealth
-      value: 90
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _player._characterData._characterStats._startStamina
-      value: 4
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterStats._startStamina
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3295,49 +3322,55 @@ PrefabInstance:
         type: 3}
       propertyPath: _opponent._characterData._comboRecipe.Array.data[1]._comboSO
       value: 
-      objectReference: {fileID: 11400000, guid: 4b3995914f6a203458fa68c122e5e970,
+      objectReference: {fileID: 11400000, guid: ef2321c91b667d341a934abcbb29e0a9,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._comboRecipe.Array.data[2]._comboSO
       value: 
-      objectReference: {fileID: 11400000, guid: ef2321c91b667d341a934abcbb29e0a9,
+      objectReference: {fileID: 11400000, guid: d456951fce9f722429d9f2da23e17e3d,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.data[3]._comboSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b3995914f6a203458fa68c122e5e970,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardSO
       value: 
-      objectReference: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d,
+      objectReference: {fileID: 11400000, guid: 4849f04354316bb4b9075db6e1240c4e,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardSO
       value: 
-      objectReference: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d,
+      objectReference: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardSO
       value: 
-      objectReference: {fileID: 11400000, guid: d5cf22a2c1bb0294aa79a95711e14347,
+      objectReference: {fileID: 11400000, guid: 9a08c11d87de95945a064fe4a6e1727b,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardSO
       value: 
-      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+      objectReference: {fileID: 11400000, guid: 43a68e4757195a4448a4ee8caf696ab4,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardSO
       value: 
-      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+      objectReference: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardSO
       value: 
-      objectReference: {fileID: 11400000, guid: 1629aef4602ae6e43a14aa2b29fc1a1d,
+      objectReference: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3349,7 +3382,13 @@ PrefabInstance:
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardSO
       value: 
-      objectReference: {fileID: 11400000, guid: 49352767cbde48f41a3b6c7edb636601,
+      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3368,22 +3407,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8].staminaCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._characterData._comboRecipe.Array.data[0]._comboCore._id
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._comboRecipe.Array.data[1]._comboCore._id
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
-        type: 3}
-      propertyPath: _opponent._characterData._comboRecipe.Array.data[2]._comboCore._id
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.data[2]._comboCore._id
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.data[3]._comboCore._id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardTypeData._cardType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
@@ -3399,6 +3463,11 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardTypeData._cardType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardTypeData._cardType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
@@ -3419,97 +3488,117 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardTypeData._bodyPart
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
-        type: 3}
-      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardTypeData._cardType
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
-        type: 3}
-      propertyPath: _player._characterData._characterDeck.Array.data[0]._cardCoreInfo._instanceID
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
-        type: 3}
-      propertyPath: _player._characterData._characterDeck.Array.data[1]._cardCoreInfo._instanceID
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
-        type: 3}
-      propertyPath: _player._characterData._characterDeck.Array.data[2]._cardCoreInfo._instanceID
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
-        type: 3}
-      propertyPath: _player._characterData._characterDeck.Array.data[3]._cardCoreInfo._instanceID
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
-        type: 3}
-      propertyPath: _player._characterData._characterDeck.Array.data[4]._cardCoreInfo._instanceID
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardCoreInfo._instanceID
-      value: 5
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardTypeData._cardType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _player._characterData._characterDeck.Array.data[6]._cardCoreInfo._instanceID
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardKeyword.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardTypeData._bodyPart
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardCoreInfo._instanceID
-      value: 7
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardTypeData._cardType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardCoreInfo._instanceID
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
-        type: 3}
-      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardCoreInfo._instanceID
+      propertyPath: _player._characterData._characterDeck.Array.data[0]._cardCoreInfo._instanceID
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardCoreInfo._instanceID
+      propertyPath: _player._characterData._characterDeck.Array.data[1]._cardCoreInfo._instanceID
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardCoreInfo._instanceID
+      propertyPath: _player._characterData._characterDeck.Array.data[2]._cardCoreInfo._instanceID
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardCoreInfo._instanceID
+      propertyPath: _player._characterData._characterDeck.Array.data[3]._cardCoreInfo._instanceID
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardCoreInfo._instanceID
+      propertyPath: _player._characterData._characterDeck.Array.data[4]._cardCoreInfo._instanceID
       value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardCoreInfo._instanceID
+      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardCoreInfo._instanceID
       value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardCoreInfo._instanceID
+      propertyPath: _player._characterData._characterDeck.Array.data[6]._cardCoreInfo._instanceID
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardCoreInfo._instanceID
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardCoreInfo._instanceID
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardCoreInfo._instanceID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardCoreInfo._instanceID
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardCoreInfo._instanceID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardCoreInfo._instanceID
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardCoreInfo._instanceID
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardCoreInfo._instanceID
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardCoreInfo._instanceID
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardCoreInfo._instanceID
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3518,18 +3607,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardCoreInfo._coreData._iD
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardCoreInfo._coreData._iD
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardCoreInfo._coreData._iD
-      value: 160
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardCoreInfo._coreData._iD
-      value: 50
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardCoreInfo._coreData._iD
-      value: 50
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardCoreInfo._coreData._iD
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3539,7 +3643,12 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardCoreInfo._coreData._iD
-      value: 230
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardCoreInfo._coreData._iD
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3548,12 +3657,57 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardCoreInfo._coreData._level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardCoreInfo._coreData._level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardCoreInfo._coreData._level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardCoreInfo._coreData._level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardCoreInfo._coreData._level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardCoreInfo._coreData._level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardKeyword.Array.data[0]._target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[1]._target
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[1]._target
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardKeyword.Array.data[0]._target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardKeyword.Array.data[0]._target
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
@@ -3564,12 +3718,17 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._target
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[1]._target
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardKeyword.Array.data[0]._target
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3641,7 +3800,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardKeyword.Array.data[0]._keywordBase
       value: 
-      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+      objectReference: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3653,8 +3812,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[1]._keywordBase
       value: 
-      objectReference: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[0]._keywordBase
@@ -3663,15 +3821,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[1]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: cba4009d141ac3047943445d753f6e8f,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardKeyword.Array.data[0]._keywordBase
       value: 
-      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+      objectReference: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardKeyword.Array.data[0]._keywordBase
       value: 
-      objectReference: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3683,18 +3847,33 @@ PrefabInstance:
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._keywordBase
       value: 
-      objectReference: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3,
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[1]._keywordBase
       value: 
-      objectReference: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a,
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardKeyword.Array.data[0]._amountToApply
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardKeyword.Array.data[0]._amountToApply
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[0]._amountToApply
-      value: 3
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -3703,23 +3882,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[0]._amountToApply
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[1]._amountToApply
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardKeyword.Array.data[0]._amountToApply
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardKeyword.Array.data[0]._amountToApply
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._amountToApply
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[1]._amountToApply
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[8]._cardKeyword.Array.data[0]._amountToApply
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}

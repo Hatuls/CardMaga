@@ -26,12 +26,11 @@ public class GoogleManager : MonoBehaviour
             .AddOauthScope("profile")
             .RequestServerAuthCode(false)
             .Build();
-            Debug.LogWarning(2);
             PlayGamesPlatform.InitializeInstance(config);
-            Debug.LogWarning(3);
+
             // recommended for debugging:
             PlayGamesPlatform.DebugLogEnabled = true;
-            Debug.LogWarning(4);
+
             // Activate the Google Play Games platform
             PlayGamesPlatform.Activate();
             Debug.LogWarning(5);

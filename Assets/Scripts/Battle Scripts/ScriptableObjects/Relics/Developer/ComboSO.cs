@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System.Collections.Generic;
 
 namespace Battle.Combo
 {
@@ -74,7 +75,7 @@ namespace Battle.Combo
         #region Properties
 
 
-        public string GetDescription => CraftedCard.CardDescription(0);
+        public Cards.DescriptionInfo[] GetDescription => CraftedCard.CardDescription(0);
 
 
         #endregion
