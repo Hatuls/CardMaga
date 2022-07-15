@@ -88,7 +88,7 @@ namespace Battle.UI.CardUIAttributes
               //  _glowBackground?.gameObject.SetActive(toGlow);
             }
         }
-        private void SetCardDescriptionText(DescriptionInfo[] cardDescription)
+        private void SetCardDescriptionText(List<string[]> cardDescription)
         {
             if (cardDescription == null)
             {
@@ -96,9 +96,9 @@ namespace Battle.UI.CardUIAttributes
                 return;
             }
             string name = string.Empty;
-            for (int i = 0; i < cardDescription.Length; i++)
-                for (int j = 0; j < cardDescription[i].Description.Length; j++)
-                    name += cardDescription[i].Description[j];
+            for (int i = 0; i < cardDescription.Count; i++)
+                for (int j = 0; j < cardDescription[i].Length; j++)
+                    name += cardDescription[i][j];
 
             _descriptionTxt.text = name;
         }

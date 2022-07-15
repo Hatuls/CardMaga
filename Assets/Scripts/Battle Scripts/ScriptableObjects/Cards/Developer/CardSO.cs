@@ -62,10 +62,17 @@ namespace Cards
         public CardTypeEnum CardTypeEnum => CardType.CardType;
 
 
-        public DescriptionInfo[] CardDescription(int level)
-           => PerLevelUpgrade[level].Description;
+        //public DescriptionInfo[] CardDescription(int level)
+        //   => PerLevelUpgrade[level].Description;
       
-      
+      public List<string[]> CardDescription(int level)
+        {
+            List<string[]> description = new List<string[]>();
+
+            for (int i = 0; i < PerLevelUpgrade[level].Description.Length; i++)
+                description.Add(PerLevelUpgrade[level].Description[i].Description);
+            return description;
+        }
       
 
         [TabGroup("CardData/Info", "Data")]

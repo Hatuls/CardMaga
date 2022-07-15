@@ -75,7 +75,8 @@ namespace Battle.Combo
         #region Properties
 
 
-        public Cards.DescriptionInfo[] GetDescription => CraftedCard.CardDescription(0);
+        public List<string[]> GetDescription => CraftedCard.CardDescription(0);
+        
 
 
         #endregion
