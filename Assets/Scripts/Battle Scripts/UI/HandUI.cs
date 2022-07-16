@@ -29,7 +29,7 @@ namespace Battles.UI
         [SerializeField] private RectTransform _drawPos;
         
         [SerializeField] private CardUIManager _cardUIManager;
-        [SerializeField] private SelectCardUI _selectCard;
+        [SerializeField] private FollowCardUI followCard;
         [SerializeField] private ZoomCardUI _zoomCard;
         [SerializeField] private TableCardSlot _tableCardSlot;
         
@@ -105,11 +105,12 @@ namespace Battles.UI
         {
             if (_tableCardSlot.ContainCardUIInSlots(cardUI))
             {
+                _tableCardSlot.RemoveCardUI(cardUI);
                 OnCardSelect?.Invoke();
+                
                 RemoveInputEvents(cardUI.Inputs);
                 cardUI.Inputs.OnClick += _zoomCard.SetZoomCard;
-                cardUI.Inputs.OnBeginHold += _selectCard.SetSelectCardUI;
-                _tableCardSlot.RemoveCardUI(cardUI);
+                cardUI.Inputs.OnBeginHold += followCard.SetSelectCardUI;
             }
         }
 

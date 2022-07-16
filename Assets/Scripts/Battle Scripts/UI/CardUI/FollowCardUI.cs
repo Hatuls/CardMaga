@@ -8,7 +8,7 @@ using ReiTools.TokenMachine;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public class SelectCardUI : MonoBehaviour
+public class FollowCardUI : MonoBehaviour
 {
 
     [SerializeField] private HandUI _handUI;
@@ -40,20 +40,24 @@ public class SelectCardUI : MonoBehaviour
             return;
 
         _selectCardUI = cardUI;
-        cardUI.Inputs.OnClick -= _zoomCardUI.SetZoomCard;
-        cardUI.Inputs.OnHold += FollowHand;
-        cardUI.Inputs.OnPointUp += ReleaseCard;
+        _selectCardUI.Inputs.OnClick -= _zoomCardUI.SetZoomCard;
+        _selectCardUI.Inputs.OnHold += FollowHand;
+        _selectCardUI.Inputs.OnPointUp += ReleaseCard;
         
-        Debug.Log("Card Select is " + cardUI);
+        Debug.Log("Card Select is " + _selectCardUI);
         
     }
 
     public void ReleaseCard(CardUI cardUI)
     {
-        cardUI.Inputs.OnHold -= FollowHand;
-        cardUI.Inputs.OnPointUp -= ReleaseCard;
+        if (!ReferenceEquals(cardUI,_selectCardUI))
+            return;
+        
+        _selectCardUI.Inputs.OnHold -= FollowHand;
+        _selectCardUI.Inputs.OnPointUp -= ReleaseCard;
+        _handUI.AddCardUIToHand(_selectCardUI);
+        
         _selectCardUI = null;
-        _handUI.AddCardUIToHand(cardUI);
         
         Debug.Log("Release " + cardUI.name + " Form " + name);
     }
