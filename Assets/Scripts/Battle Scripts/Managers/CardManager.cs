@@ -1,10 +1,7 @@
-﻿
-
-using ReiTools.TokenMachine;
+﻿using ReiTools.TokenMachine;
 
 namespace Managers
 {
-
     public class CardManager : MonoSingleton<CardManager>
     {
         #region Fields

@@ -5,24 +5,22 @@ using UnityEngine;
 
 public class MoveFromDefultStateToSelectState : BaseCondition
 {
-    [SerializeField] private HandUI _handUI;
-
-    private bool _toChangeState = false;
+    private bool _moveCondition = false;
     
     public override bool CheckCondition()
     {
-        return _toChangeState;
+        return _moveCondition;
     }
 
     public override void InitCondition()
     {
-        _toChangeState = false;
-        _handUI.OnCardSelect += ChangeState;
+        _moveCondition = false;
+        HandUI.OnCardSelect += ChangeState;
     }
 
     private void ChangeState()
     {
-        _handUI.OnCardSelect -= ChangeState;
-        _toChangeState = true;
+        HandUI.OnCardSelect -= ChangeState;
+        _moveCondition = true;
     }
 }

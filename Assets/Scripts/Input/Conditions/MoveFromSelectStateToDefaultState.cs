@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
+
 using Battles.UI;
 using UnityEngine;
 
-public class MoveFromLockStateToDefaultState : BaseCondition
+public class MoveFromSelectStateToDefaultState : BaseCondition
 {
     private bool _moveCondition = false;
     
@@ -14,12 +14,13 @@ public class MoveFromLockStateToDefaultState : BaseCondition
 
     public override void InitCondition()
     {
-        HandUI.OnCardDrawnAndAlign += ChangeState;
+        _moveCondition = false;
+        HandUI.OnCardReturnToHand += ChangeState;
     }
-
+    
     private void ChangeState()
     {
-        HandUI.OnCardDrawnAndAlign -= ChangeState;
+        HandUI.OnCardReturnToHand -= ChangeState;
         _moveCondition = true;
     }
 }

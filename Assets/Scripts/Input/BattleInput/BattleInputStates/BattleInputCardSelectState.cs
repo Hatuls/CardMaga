@@ -6,13 +6,9 @@ using UnityEngine;
 
 public class BattleInputCardSelectState : BaseState
 {
-    [SerializeField] private HandUI _handUI;
-    
-    private IDisposable _selectedToken;
-
     public override void OnEnterState()
     {
-        
+        base.OnEnterState();
     }
 
     public override void OnExitState()

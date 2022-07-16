@@ -13,9 +13,10 @@ namespace Battles.UI
 {
     public class HandUI : MonoBehaviour , ILockabel
     {
-        public  event Action OnCardDrawnAndAlign;
-        public event Action OnCardSelect;
-        private event Action OnCardAtDicardPosition;
+        public static event Action OnCardDrawnAndAlign;
+        public static event Action OnCardSelect;
+        public static event Action OnCardReturnToHand;
+        
 
         private TokenMachine _handLockTokenMachine;
         
@@ -104,11 +105,11 @@ namespace Battles.UI
         {
             if (_tableCardSlot.ContainCardUIInSlots(cardUI))
             {
+                OnCardSelect?.Invoke();
                 RemoveInputEvents(cardUI.Inputs);
                 cardUI.Inputs.OnClick += _zoomCard.SetZoomCard;
                 cardUI.Inputs.OnBeginHold += _selectCard.SetSelectCardUI;
                 _tableCardSlot.RemoveCardUI(cardUI);
-                OnCardSelect?.Invoke();
             }
         }
 
@@ -118,6 +119,7 @@ namespace Battles.UI
             {
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
                 ResetCard(cardUI);
+                OnCardReturnToHand?.Invoke();
                 Debug.Log("Add " + cardUI.name + " To Hand");
             }
         }
@@ -126,7 +128,7 @@ namespace Battles.UI
         {
             KillTween();
             cardUI.CardTransitionManager
-                .Transition(_tableCardSlot.GetCardSlotsFrom(cardUI)[0].CardPos, _resetCardPositionPackSO)
+                .Transition(_tableCardSlot.GetCardSlotFrom(cardUI).CardPos, _resetCardPositionPackSO)
                 .OnComplete(() => AddInputEvents(cardUI.Inputs));
         }
 
@@ -255,7 +257,7 @@ namespace Battles.UI
         [SerializeField] private RectTransform _middleHandPos;
         [SerializeField] private float _spaceBetweenCard;
 
-        [Sirenix.OdinInspector.ShowInInspector,ReadOnly] private List<CardSlot> _cardSlots = new List<CardSlot>();
+        [ShowInInspector,ReadOnly] private List<CardSlot> _cardSlots = new List<CardSlot>();
 
         public IReadOnlyList<CardSlot> CardSlots
         {
@@ -369,6 +371,20 @@ namespace Battles.UI
             }
 
             return cardSlots;
+        }
+        
+        public CardSlot GetCardSlotFrom(CardUI cardUI)
+        {
+            for (int i = 0; i < _cardSlots.Count; i++)
+            {
+                if (_cardSlots[i].IsContainCardUI(cardUI))
+                {
+                    return _cardSlots[i];
+                }
+            }
+
+            Debug.LogError(cardUI.name + " is not found");
+            return null;
         }
         
         

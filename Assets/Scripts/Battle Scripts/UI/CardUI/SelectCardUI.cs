@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using Battles.UI;
 using DG.Tweening;
 using ReiTools.TokenMachine;
@@ -13,6 +14,8 @@ public class SelectCardUI : MonoBehaviour
     [SerializeField] private HandUI _handUI;
     [SerializeField] private ZoomCardUI _zoomCardUI;
     [SerializeField] private TransitionPackSO _followHand;
+
+    private CardUI _selectCardUI;
     
 
     private Sequence _currentSequence;
@@ -33,6 +36,10 @@ public class SelectCardUI : MonoBehaviour
     
     public void SetSelectCardUI(CardUI cardUI)
     {
+        if (_selectCardUI != null)
+            return;
+
+        _selectCardUI = cardUI;
         cardUI.Inputs.OnClick -= _zoomCardUI.SetZoomCard;
         cardUI.Inputs.OnHold += FollowHand;
         cardUI.Inputs.OnPointUp += ReleaseCard;
@@ -45,7 +52,7 @@ public class SelectCardUI : MonoBehaviour
     {
         cardUI.Inputs.OnHold -= FollowHand;
         cardUI.Inputs.OnPointUp -= ReleaseCard;
-        
+        _selectCardUI = null;
         _handUI.AddCardUIToHand(cardUI);
         
         Debug.Log("Release " + cardUI.name + " Form " + name);

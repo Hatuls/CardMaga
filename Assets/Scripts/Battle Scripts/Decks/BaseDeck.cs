@@ -159,10 +159,11 @@ namespace Battles.Deck
                 }
             }
             amountOfEmptySlots = GetDeck.Length;
-            amountOfFilledSlots=0;
+            amountOfFilledSlots = 0;
 
             //  CountCards();
         }
+        
         public virtual void ResetDeck()
         {
             /*
@@ -287,8 +288,7 @@ namespace Battles.Deck
             CountCards();
         }
         #endregion
-
-
+        
         public override string ToString()
         {
             string ToString = base.ToString() + "\n";
