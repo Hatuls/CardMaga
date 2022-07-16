@@ -357,6 +357,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 3597226985989005940, guid: 1e7b156c630d1594eaaca490e4a2748a,
+        type: 3}
+      propertyPath: field of view
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3597226985989005940, guid: 1e7b156c630d1594eaaca490e4a2748a,
+        type: 3}
+      propertyPath: far clip plane
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3597226985989005940, guid: 1e7b156c630d1594eaaca490e4a2748a,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3597226985989005943, guid: 1e7b156c630d1594eaaca490e4a2748a,
         type: 3}
       propertyPath: m_CustomBlends
@@ -1895,6 +1910,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1169909072, guid: 367cc47e0d588a744aa582dd68b63ac1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1269784915163569142, guid: 367cc47e0d588a744aa582dd68b63ac1,
         type: 3}
       propertyPath: m_Controller
@@ -1902,9 +1921,47 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 39b219d99ae5e654bae6d08d0d4a61cf, type: 2}
     - target: {fileID: 1269784915163569143, guid: 367cc47e0d588a744aa582dd68b63ac1,
         type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269784915163569143, guid: 367cc47e0d588a744aa582dd68b63ac1,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[2].key
+      value: 
+      objectReference: {fileID: 4982482895909156372, guid: b6c2fa11e46243040a33b102dea13bc7,
+        type: 2}
+    - target: {fileID: 1269784915163569143, guid: 367cc47e0d588a744aa582dd68b63ac1,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[3].key
+      value: 
+      objectReference: {fileID: 2904753262958693573, guid: b6c2fa11e46243040a33b102dea13bc7,
+        type: 2}
+    - target: {fileID: 1269784915163569143, guid: 367cc47e0d588a744aa582dd68b63ac1,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[4].key
+      value: 
+      objectReference: {fileID: -8174913132400249349, guid: b6c2fa11e46243040a33b102dea13bc7,
+        type: 2}
+    - target: {fileID: 1269784915163569143, guid: 367cc47e0d588a744aa582dd68b63ac1,
+        type: 3}
       propertyPath: m_SceneBindings.Array.data[1].value
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1269784915163569143, guid: 367cc47e0d588a744aa582dd68b63ac1,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[2].value
+      value: 
+      objectReference: {fileID: 347140821}
+    - target: {fileID: 1269784915163569143, guid: 367cc47e0d588a744aa582dd68b63ac1,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[3].value
+      value: 
+      objectReference: {fileID: 1269784916858879586}
+    - target: {fileID: 1269784915163569143, guid: 367cc47e0d588a744aa582dd68b63ac1,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[4].value
+      value: 
+      objectReference: {fileID: 1269784916858879585}
     - target: {fileID: 1269784916147297358, guid: 367cc47e0d588a744aa582dd68b63ac1,
         type: 3}
       propertyPath: m_Controller
@@ -1914,6 +1971,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cinematics
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269784916535997113, guid: 367cc47e0d588a744aa582dd68b63ac1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1269784916535997114, guid: 367cc47e0d588a744aa582dd68b63ac1,
         type: 3}
@@ -1972,6 +2034,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 367cc47e0d588a744aa582dd68b63ac1, type: 3}
+--- !u!1 &1269784916858879585 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1269784915163569140, guid: 367cc47e0d588a744aa582dd68b63ac1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1269784916858879584}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1269784916858879586 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1269784915163569142, guid: 367cc47e0d588a744aa582dd68b63ac1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1269784916858879584}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3434621799468211172
 PrefabInstance:
   m_ObjectHideFlags: 0
