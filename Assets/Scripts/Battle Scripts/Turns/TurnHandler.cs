@@ -14,7 +14,7 @@ namespace Battle.Turns
         public static Action<int> OnTurnCountChange;
         private static int _turnCount = 0;
         private static TurnState _currectState;
-
+        public static event Action OnFinishTurn;
 
         private static Dictionary<TurnState, Turn> _turnDict = new Dictionary<TurnState, Turn>()
                 {
@@ -50,7 +50,7 @@ namespace Battle.Turns
 
             }
         }
-        public static bool FinishTurn { get; set; }
+        public static bool IsTurnFinished { get; set; }
         public static bool IsPlayerTurn
         {
             get
@@ -60,9 +60,10 @@ namespace Battle.Turns
 
             }
         }
-        public static void OnFinishTurn()
+        public static void FinishTurn()
         {
-            FinishTurn = true;
+            IsTurnFinished = true;
+            OnFinishTurn?.Invoke();
         }
         public static void MoveToNextTurn(TurnState turnState)
         {
@@ -90,7 +91,10 @@ namespace Battle.Turns
         }
 
 
+        public static void MoveNext()
+        {
 
+        }
 
         internal static void CheckPlayerTurnForAvailableAction()
         {
@@ -185,6 +189,7 @@ namespace Battle.Turns
     }
     public class EnemyTurn : Turn
     {
+        public static event Action OnStartTurn;
         public EnemyTurn() : base()
         {
         }
@@ -198,14 +203,14 @@ namespace Battle.Turns
                 isPlayerTurn,
                 CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount
                 );
-
+            OnStartTurn?.Invoke();
             StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
 
             Debug.Log("Enemy Drawing Cards!");
 
             base.PlayTurn();
             // Activate Previous Action if not null
-
+            
 
             if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
                 yield return EnemyManager.Instance.PlayEnemyTurn();
@@ -275,6 +280,7 @@ namespace Battle.Turns
     }
     public class PlayerTurn : Turn
     {
+        public static event Action OnStartTurn;
         public PlayerTurn() : base()
         {
         }
@@ -285,17 +291,18 @@ namespace Battle.Turns
         {
             base.PlayTurn();
             // unlock Player Inputs 
-            TurnHandler.FinishTurn = false;
+            TurnHandler.IsTurnFinished = false;
             bool isPlayerTurn = true;
             if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
             {
+
                 Deck.DeckManager.Instance.DrawHand(isPlayerTurn, CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount);
                 StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
-
+                OnStartTurn?.Invoke();
                 do
                 {
                     yield return null;
-                } while (!TurnHandler.FinishTurn);
+                } while (!TurnHandler.IsTurnFinished);
             }
             MoveToNextTurnState();
         }

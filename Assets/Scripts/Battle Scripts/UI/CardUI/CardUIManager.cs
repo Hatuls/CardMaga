@@ -278,19 +278,19 @@ namespace Battle.UI
             _selectedCardUI = firstCardUI;
             this._cardUISettings = cardUISettings;
             _selectedCardUI.gameObject.SetActive(false);
-            EndTurnButton._OnFinishTurnPress += OnFinishTurn;
+            Turns.TurnHandler.OnFinishTurn += OnFinishTurn;
         }
 
         ~CardUIHandler()
         {
-            EndTurnButton._OnFinishTurnPress -= OnFinishTurn;
+            Turns.TurnHandler.OnFinishTurn -= OnFinishTurn;
 
         }
 
         private void OnFinishTurn()
         {
-            CardUITouchedReleased(false, null);
 
+            CardUITouchedReleased(false, null);
         }
         internal void CardUITouched(CardUI cardReference)
         {

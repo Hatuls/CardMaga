@@ -78,11 +78,11 @@ namespace Battle
             EnemyManager.Instance.UpdateStatsUI();
 
 
-            // remove this later
-            if (EndTurnButton._OnFinishTurnPress != null)
-                EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
+            //// remove this later
+            //if (EndTurnButton._OnFinishTurnPress != null)
+            //    EndTurnButton.OnFinishTurnPress -= TurnHandler.OnFinishTurn;
 
-            EndTurnButton._OnFinishTurnPress += TurnHandler.OnFinishTurn;
+
 
             StaminaHandler.Instance.InitStaminaHandler();
         }
@@ -198,8 +198,7 @@ namespace Battle
         }
         private void OnDestroy()
         {
-            if (EndTurnButton._OnFinishTurnPress != null)
-                EndTurnButton._OnFinishTurnPress -= TurnHandler.OnFinishTurn;
+
 
             ThreadsHandler.ThreadHandler.ResetList();
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
