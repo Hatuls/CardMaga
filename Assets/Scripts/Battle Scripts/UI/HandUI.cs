@@ -142,6 +142,17 @@ namespace Battles.UI
             }
         }
 
+        public void ForceReturnCardUIToHand(CardUI cardUI)
+        {
+            if (!_tableCardSlot.ContainCardUIInSlots(cardUI))
+            {
+                _tableCardSlot.AddCardUIToCardSlot(cardUI);
+                DeckManager.Instance.TransferCard(true,DeckEnum.Selected,DeckEnum.Hand,cardUI.RecieveCardReference());
+                OnCardReturnToHand?.Invoke();
+                _isCardSelected = false;
+            }
+        }
+
         private void OnCardExecute(CardUI cardUI)
         {
             DiscardCards(cardUI);
@@ -192,6 +203,7 @@ namespace Battles.UI
         
         public void ForceDiscardCards()
         {
+            _followCard.ForceReleaseCard();
             StartCoroutine(MoveCardToTheDiscardPosition(_tableCardSlot.GetCardUIsFromTable()));
             _tableCardSlot.RemoveAllCardUI();
         }
@@ -296,8 +308,8 @@ namespace Battles.UI
     public class TableCardSlot
     {
         [SerializeField] private RectTransform _middleHandPos;
-        [SerializeField] private float _spaceBetweenCard;
-
+        [SerializeField,Range(0,25)] private float _cardPaddingPrecentage;
+        [SerializeField,Range(-10,10)] private float _cardCenterOffSetPrecentage;
         [ShowInInspector,ReadOnly] private List<CardSlot> _cardSlots = new List<CardSlot>();
 
         public IReadOnlyList<CardSlot> CardSlots
@@ -317,13 +329,29 @@ namespace Battles.UI
         private Vector2 CalculateCardPosition(int index)
         {
             Vector2 startPos = _middleHandPos.position;
+            
+            float screenWidth = Screen.width;
+            float screenBoundInPercentage = screenWidth * (_cardPaddingPrecentage / 100);
+            float spaceBetweenCard = (screenWidth - screenBoundInPercentage) / _cardSlots.Count;
+            float offSetFromCenter = (screenWidth / 2) * (_cardCenterOffSetPrecentage / 100);
+            
+            Vector2 destination = startPos + index * spaceBetweenCard * Vector2.right;
 
-            Vector2 destination = startPos + index * _spaceBetweenCard * Vector2.right;
-
-            float xMaxDistance = _cardSlots.Count * _spaceBetweenCard / 2;
-            float offset = _spaceBetweenCard / 2;
+            float xMaxDistance = _cardSlots.Count * spaceBetweenCard / 2;
+            float offset = spaceBetweenCard / 2 + offSetFromCenter;
             destination += Vector2.left * (xMaxDistance - offset);
+
+            destination += Vector2.right * _cardCenterOffSetPrecentage;
             return destination;
+        }
+
+        private float CalculateSpaceBetweenCards()
+        {
+            float screenWidth = Screen.width;
+
+            float screenBoundInPercentage = screenWidth * (_cardPaddingPrecentage / 100); 
+            
+            return (screenWidth - screenBoundInPercentage) / _cardSlots.Count;
         }
 
         public void AddCardUIToCardSlot(params CardUI[] cardUI)
