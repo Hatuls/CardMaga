@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace Battles.UI
 {
-    public class CardUI : MonoBehaviour, IEquatable<CardUI> , IPoolable<CardUI>
+    public class CardUI : MonoBehaviour, IPoolable<CardUI>
     {
         #region Fields
 
@@ -34,12 +34,6 @@ namespace Battles.UI
             _cardTransitionManager = new RectTransitionManager(_rectTransform);
         }
 
-        
-        public bool Equals(CardUI other)
-        {
-            return other.RecieveCardReference().CardInstanceID == _cardGFX.GetCardReference.CardInstanceID;
-        }
-        
         public  CardGFX GFX =>  _cardGFX;
 
         public  CardUIInputHandler Inputs
@@ -76,8 +70,14 @@ namespace Battles.UI
     
 public static class CardUIHelper {
         public static void AssignData(this CardUI cardUI, Cards.Card card) => cardUI.GFX.SetCardReference(card);
-        public static Cards.Card RecieveCardReference(this CardUI cardui) => cardui.GFX.GetCardReference;
-    }
+
+        public static Cards.Card RecieveCardReference(this CardUI cardui)
+        {
+            Debug.Log("I");
+            return cardui.GFX.GetCardReference;
+        }
+
+}
 }
 
 public class CardAnimator

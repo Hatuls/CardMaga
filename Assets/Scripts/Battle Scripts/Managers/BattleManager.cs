@@ -202,6 +202,12 @@ namespace Battles
             HealthStat.OnCharacterDeath -= BattleEnded;
             SettingsScreenUI.OnAbandon -= BattleEnded;
         }
+
+        private void Update()
+        {
+            ThreadsHandler.ThreadHandler.TickThread();
+        }
+
         public override void Awake()
         {
             SettingsScreenUI.OnAbandon += BattleEnded;

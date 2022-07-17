@@ -122,6 +122,9 @@ namespace Battles.Deck
 
             BaseDeck fromBaseDeck = deck[DeckEnum.PlayerDeck];
             BaseDeck toBaseDeck = deck[DeckEnum.Hand];
+
+            List<Card> cardsDraw = new List<Card>();
+
             Card cardCache;
             
             for (int i = 0; i < drawAmount; i++)
@@ -136,17 +139,18 @@ namespace Battles.Deck
 
                 if (cardCache != null)
                 {
-
                     if (toBaseDeck.AddCard(cardCache))
+                    {
+                        cardsDraw.Add(cardCache); 
                         fromBaseDeck.DiscardCard(cardCache);
+                    }
                 }
                 else
                     Debug.LogError($"DeckManager: {isPlayersDeck} The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card {cardCache} \n " + fromBaseDeck.ToString());
+                
             }
             if (isPlayersDeck)
-                OnDrawCards?.Invoke(toBaseDeck.GetDeck);
-
-
+                OnDrawCards?.Invoke(cardsDraw.ToArray());
         }
 
         public void OnEndTurn(bool isPlayersDeck)

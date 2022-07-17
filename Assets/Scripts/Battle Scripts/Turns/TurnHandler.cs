@@ -322,6 +322,7 @@ namespace Battles.Turns
     }
     public class EndPlayerTurn : Turn
     {
+        public static event Action OnPlayerEndTurn;
         public EndPlayerTurn() : base()
         {
         }
@@ -340,7 +341,7 @@ namespace Battles.Turns
             GameEventsInvoker.Instance.OnEndTurn?.Invoke();
             StaminaHandler.Instance.OnEndTurn(true);
             Deck.DeckManager.Instance.OnEndTurn(true);
-            CardUIManager.Instance.RemoveHands();
+            OnPlayerEndTurn?.Invoke();
             CardExecutionManager.Instance.ResetExecution();
             base.PlayTurn();
 

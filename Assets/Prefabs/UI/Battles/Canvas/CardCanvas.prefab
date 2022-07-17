@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &210326851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 210326852}
+  m_Layer: 0
+  m_Name: CardZoomPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &210326852
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210326851}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5702666648958164327}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5702666648774727302
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,6 +98,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5702666648774727301}
+  - {fileID: 210326852}
   m_Father: {fileID: 5702666649216585374}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -83,6 +119,10 @@ GameObject:
   - component: {fileID: 5702666649216585375}
   - component: {fileID: 5702666649216585368}
   - component: {fileID: 5702666649216585369}
+  - component: {fileID: 8813301573821374498}
+  - component: {fileID: 5368535060217224795}
+  - component: {fileID: 1093964942527637542}
+  - component: {fileID: 8694790356547147787}
   m_Layer: 0
   m_Name: CardCanvas
   m_TagString: Untagged
@@ -170,3 +210,79 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 823
+--- !u!114 &8813301573821374498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702666649216585370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31dc56e4da66a9341b2919e23ca49fc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _handUI: {fileID: 0}
+  _followCard: {fileID: 0}
+  _zoomPosition: {fileID: 0}
+  _zoomCard: {fileID: 11400000, guid: a551b5cc623c9304fb2c04e985dfd214, type: 2}
+  _resetZoomCard: {fileID: 11400000, guid: 59267d57b7168cb4fa9fec5a38c79d70, type: 2}
+--- !u!114 &5368535060217224795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702666649216585370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c490c4661c5c00d4db82f4add2e29d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _handUI: {fileID: 0}
+  _zoomCardUI: {fileID: 0}
+  _followHand: {fileID: 11400000, guid: 01dd9ea9487741d40802708138894a98, type: 2}
+--- !u!114 &1093964942527637542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702666649216585370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb16cf2ad3d75a84fba15c0006e32748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabOfType: {fileID: 0}
+  _parent: {fileID: 0}
+  _totalPoolType: []
+--- !u!114 &8694790356547147787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702666649216585370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41a67a9d9c8b15a488db84ce8df29f35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _drawTransitionPackSo: {fileID: 11400000, guid: 0aad001d516b3514cab3d24103e7fc62,
+    type: 2}
+  _discardTransitionPackSo: {fileID: 11400000, guid: 8cabfc347f3a83e49b32bfd7851d0360,
+    type: 2}
+  _reAlignTransitionPackSo: {fileID: 11400000, guid: 49f8fc99a1001a648a6ba5d95ef25618,
+    type: 2}
+  _resetCardPositionPackSO: {fileID: 11400000, guid: 49f8fc99a1001a648a6ba5d95ef25618,
+    type: 2}
+  _discardPos: {fileID: 0}
+  _drawPos: {fileID: 0}
+  _cardUIManager: {fileID: 0}
+  followCard: {fileID: 0}
+  _zoomCard: {fileID: 0}
+  _tableCardSlot:
+    _middleHandPos: {fileID: 0}
+    _spaceBetweenCard: 340
+  _delayBetweenCardDrawn: 0.5

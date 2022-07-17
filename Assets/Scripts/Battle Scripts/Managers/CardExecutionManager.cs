@@ -66,7 +66,6 @@ namespace Battles
                 {
                     _staminaBtn.PlayRejectAnimation();
                     OnFailedToExecute?.Invoke();
-
                 }
 
                 return false;
@@ -88,8 +87,7 @@ namespace Battles
             RegisterCard(card, isPlayer);
 
             DeckManager.AddToCraftingSlot(isPlayer, card);
-
-
+            
             return true;
         }
 

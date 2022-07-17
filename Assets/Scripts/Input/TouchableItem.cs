@@ -2,10 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
-using System.ComponentModel;
 using Sirenix.OdinInspector;
-using Unity.Collections;
-using UnityEngine.Serialization;
 
 
 public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHandler

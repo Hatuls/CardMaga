@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using Battles;
 using Battles.UI;
 using DG.Tweening;
 using ReiTools.TokenMachine;
@@ -10,13 +11,15 @@ using Debug = UnityEngine.Debug;
 
 public class FollowCardUI : MonoBehaviour
 {
+    public event Action<CardUI> OnCardExecut;
 
     [SerializeField] private HandUI _handUI;
     [SerializeField] private ZoomCardUI _zoomCardUI;
     [SerializeField] private TransitionPackSO _followHand;
+    [SerializeField] private RectTransform _executionBoundry;
 
     private CardUI _selectCardUI;
-    
+    private float _executionBoundry_Y;
 
     private Sequence _currentSequence;
     private IDisposable _token;
@@ -25,6 +28,7 @@ public class FollowCardUI : MonoBehaviour
     
     public void Start()
     {
+        _executionBoundry_Y = _executionBoundry.position.y;
         InputReciever.OnTouchDetected += GetMousePos;
     }
 
@@ -55,12 +59,21 @@ public class FollowCardUI : MonoBehaviour
         
         _selectCardUI.Inputs.OnHold -= FollowHand;
         _selectCardUI.Inputs.OnPointUp -= ReleaseCard;
-        _handUI.AddCardUIToHand(_selectCardUI);
+
+        if (cardUI.transform.position.y > _executionBoundry_Y && CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
+        {
+            OnCardExecut?.Invoke(_selectCardUI);
+        }
+        else
+        {
+            _handUI.ReturnCardUIToHand(_selectCardUI);
+        }
         
         _selectCardUI = null;
         
         Debug.Log("Release " + cardUI.name + " Form " + name);
     }
+    
 
     public void FollowHand(CardUI cardUI)
     {

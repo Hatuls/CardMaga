@@ -55,7 +55,7 @@ public class ZoomCardUI : MonoBehaviour
 
         _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
         _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
-        _handUI.AddCardUIToHand(_selectCardUI);
+        _handUI.ReturnCardUIToHand(_selectCardUI);
         
         _selectCardUI = null;
     }
