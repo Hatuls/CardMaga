@@ -23,9 +23,7 @@ namespace Battles.UI
         #endregion
         public BaseCardVisualHandler CardVisuals => _cardVisuals;
         public CardUIInputHandler Inputs => _inputs;
-
-
-
+        
         public RectTransitionManager CardTransitionManager
         {
             get

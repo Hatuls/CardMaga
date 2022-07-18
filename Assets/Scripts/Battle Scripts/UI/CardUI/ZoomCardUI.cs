@@ -1,6 +1,8 @@
-﻿using Battles.UI;
+﻿using System;
+using Battles.UI;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ZoomCardUI : MonoBehaviour
 {
@@ -10,10 +12,12 @@ public class ZoomCardUI : MonoBehaviour
     [SerializeField] private TransitionPackSO _zoomCard;
     [SerializeField] private TransitionPackSO _resetZoomCard;
 
+    private IDisposable _zoomToken;
+    
     private CardUI _selectCardUI;
     
     private Sequence _currentSequence;
-
+    
     public void SetZoomCard(CardUI cardUI)
     {
         if (_selectCardUI != null)
@@ -22,9 +26,14 @@ public class ZoomCardUI : MonoBehaviour
         _selectCardUI = cardUI;
         _selectCardUI.Inputs.OnBeginHold -= _followCard.SetSelectCardUI;
         _selectCardUI.Inputs.OnClick -= SetZoomCard;
+        MoveToZoomPosition(_selectCardUI);
+    }
+
+    private void InitZoom()
+    {
+        _zoomToken = _selectCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         _selectCardUI.Inputs.OnBeginHold += SetToFollow;
         _selectCardUI.Inputs.OnClick += ReturnCardToHand;
-        ZoomCard(_selectCardUI);
     }
 
     private void SetToFollow(CardUI cardUI)
@@ -34,17 +43,20 @@ public class ZoomCardUI : MonoBehaviour
 
         _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
         _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
-        _selectCardUI.CardTransitionManager.Scale(_resetZoomCard);
+        
+        if (_zoomToken != null)
+            _zoomToken.Dispose();
+        
         _followCard.SetSelectCardUI(_selectCardUI);
         _selectCardUI = null;
     }
     
-    private void ZoomCard(CardUI cardUI)
+    private void MoveToZoomPosition(CardUI cardUI)
     {
         if (_selectCardUI != null)
         {
             KillTween();
-            _currentSequence = cardUI.CardTransitionManager.Transition(_zoomPosition, _zoomCard);
+            _currentSequence = cardUI.CardTransitionManager.Transition(_zoomPosition, _zoomCard,InitZoom);
         }
     }
 
@@ -55,6 +67,9 @@ public class ZoomCardUI : MonoBehaviour
 
         _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
         _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
+
+        _zoomToken.Dispose();
+        
         _handUI.ReturnCardUIToHand(_selectCardUI);
         
         _selectCardUI = null;

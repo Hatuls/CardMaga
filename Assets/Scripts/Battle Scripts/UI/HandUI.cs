@@ -58,15 +58,18 @@ namespace Battles.UI
 
             EndPlayerTurn.OnPlayerEndTurn += ForceDiscardCards;
             BattleManager.OnGameEnded += LockInput;
+            BattleManager.OnGameEnded += ForceDiscardCards;
             DeckManager.OnDrawCards += DrawCardsFromDeck;
             _followCard.OnCardExecut += OnCardExecute;
         }
 
         private void OnDestroy()
         {
+            BattleManager.OnGameEnded -= ForceDiscardCards;
             BattleManager.OnGameEnded -= LockInput;
             DeckManager.OnDrawCards -= DrawCardsFromDeck;
             _followCard.OnCardExecut -= OnCardExecute;
+            EndPlayerTurn.OnPlayerEndTurn -= ForceDiscardCards;
 
             for (int i = 0; i < _tableCardSlot.CardSlots.Count; i++)
             {
@@ -147,7 +150,7 @@ namespace Battles.UI
             if (!_tableCardSlot.ContainCardUIInSlots(cardUI))
             {
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
-                DeckManager.Instance.TransferCard(true,DeckEnum.Selected,DeckEnum.Hand,cardUI.RecieveCardReference());
+                DeckManager.Instance.TransferCard(true,DeckEnum.Selected,DeckEnum.Hand,cardUI.CardData);
                 OnCardReturnToHand?.Invoke();
                 _isCardSelected = false;
             }

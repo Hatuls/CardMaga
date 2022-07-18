@@ -21,15 +21,15 @@ public class RectTransitionManager
     
     public Sequence Transition(Vector2 destination, TransitionPackSO transitionPackSo,Action onComplete = null)
     {
-        Sequence temp = _rectTransform.Move(destination, transitionPackSo.Movement,onComplete);
+        Sequence temp = _rectTransform.Move(destination, transitionPackSo.Movement);
         
         switch (transitionPackSo.ScaleType)
         {
             case TransitionPackSO.ScaleTypeEnum.ByFloat:
-                temp.Join(_rectTransform.Scale(transitionPackSo.ScaleMultiplier, transitionPackSo.Scale,onComplete));
+                temp.Join(_rectTransform.Scale(transitionPackSo.ScaleMultiplier, transitionPackSo.Scale));
                 break;
             case TransitionPackSO.ScaleTypeEnum.ByVector:
-                temp.Join(_rectTransform.Scale(transitionPackSo.ScaleVector, transitionPackSo.Scale,onComplete));
+                temp.Join(_rectTransform.Scale(transitionPackSo.ScaleVector, transitionPackSo.Scale));
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -37,8 +37,11 @@ public class RectTransitionManager
 
         if (transitionPackSo.HaveRotation)
         {
-            temp.Join(_rectTransform.Rotate(transitionPackSo.Rotate, transitionPackSo.Rotation,onComplete));
+            temp.Join(_rectTransform.Rotate(transitionPackSo.Rotate, transitionPackSo.Rotation));
         }
+
+        if (onComplete != null)
+            temp.OnComplete(onComplete.Invoke);
         
         return temp;
     }

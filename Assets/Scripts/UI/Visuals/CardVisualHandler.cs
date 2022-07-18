@@ -32,6 +32,10 @@ namespace CardMaga.UI
 
 
         public CanvasGroup CanvasGroup { get => _canvasGroup; }
+        public override CardZoomHandler CardZoomHandler
+        {
+            get => _cardZoomHandler;
+        }
 #if UNITY_EDITOR
         [Header("Test")]
         [SerializeField] Cards.Card _card;
@@ -98,7 +102,7 @@ namespace CardMaga.UI
 
     public abstract class BaseCardVisualHandler : MonoBehaviour
     {
-        // will need remake
+        public abstract CardZoomHandler CardZoomHandler { get; }
         public abstract void SetCardVisuals(Cards.Card card);
     }
 }

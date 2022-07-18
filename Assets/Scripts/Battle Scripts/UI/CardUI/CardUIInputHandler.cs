@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class CardUIInputHandler : TouchableItem
 {
-    private CardUI _cardUIRef;
+    [SerializeField] private CardUI _cardUIRef;
     private void Awake()
     {
-        base.OnClick += OnClickFun;//need fix
-        base.OnHold += OnHoldFun;
-        base.OnBeginHold += OnBeginHoldFun;
-        base.OnEndHold += OnEndHoldFun;
-        base.OnPointUp += OnPointUpFun;
-        base.OnPointDown += OnPointDownFun;
+        base.OnClick += Click;//need fix
+        base.OnHold += Hold;
+        base.OnBeginHold += BeginHold;
+        base.OnEndHold += EndHold;
+        base.OnPointUp += PointUp;
+        base.OnPointDown += PointDown;
 
-        _cardUIRef = GetComponent<CardUI>();
-        
         ForceChangeState(false);
     }
 
@@ -26,39 +24,39 @@ public class CardUIInputHandler : TouchableItem
     public event Action<CardUI> OnPointDown;
     public event Action<CardUI> OnPointUp;
 
-    private void OnClickFun()
+    private void Click()
     {
-        Debug.Log(gameObject.name + " Click");
+        //Debug.Log(gameObject.name + " Click");
         OnClick?.Invoke(_cardUIRef);
     }
 
-    private void OnBeginHoldFun()
+    private void BeginHold()
     {
-        Debug.Log(gameObject.name + " BeginHold");
+        //Debug.Log(gameObject.name + " BeginHold");
         OnBeginHold?.Invoke(_cardUIRef);
     }
 
-    private void OnEndHoldFun()
+    private void EndHold()
     {
-        Debug.Log(gameObject.name + " EndHold");
+        //Debug.Log(gameObject.name + " EndHold");
         OnEndHold?.Invoke(_cardUIRef);
     }
 
-    private void OnHoldFun()
+    private void Hold()
     {
-        Debug.Log(gameObject.name + " Hold");
+        //Debug.Log(gameObject.name + " Hold");
         OnHold?.Invoke(_cardUIRef);
     }
 
-    private void OnPointDownFun()
+    private void PointDown()
     {
-        Debug.Log(gameObject.name + " PointDown");
+        //Debug.Log(gameObject.name + " PointDown");
         OnPointDown?.Invoke(_cardUIRef);
     }
 
-    private void OnPointUpFun()
+    private void PointUp()
     {
-        Debug.Log(gameObject.name + " PointUp");
+        //Debug.Log(gameObject.name + " PointUp");
         OnPointUp?.Invoke(_cardUIRef);
     }
 }
