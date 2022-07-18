@@ -73,6 +73,14 @@ public class FollowCardUI : MonoBehaviour
         
         Debug.Log("Release " + cardUI.name + " Form " + name);
     }
+
+    public void ForceReleaseCard()
+    {
+        if (_selectCardUI == null)
+            return;
+        
+        _handUI.ForceReturnCardUIToHand(_selectCardUI);
+    }
     
 
     public void FollowHand(CardUI cardUI)
