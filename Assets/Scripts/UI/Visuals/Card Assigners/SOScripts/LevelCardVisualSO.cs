@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [CreateAssetMenu(fileName = "Level Card SO", menuName = "ScriptableObjects/UI/Visuals/Level SO")]
     public class LevelCardVisualSO : ScriptableObject

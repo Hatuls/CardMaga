@@ -139,7 +139,7 @@ public class DojoManager : MonoBehaviour, IObserver
             _metaCardUIs[index].OnCardUIClicked += _presentCardUI.OpenCardUIInfo;
             metaCard.ClosePanel();
 
-            _metaCardUIs[index].CardUI.AssignData(cards[index]);
+            _metaCardUIs[index].CardUI.AssignCard(cards[index]);
             _cardPurchaseBtns[index].onClick.AddListener(() => TryBuyCard(index));
             _cardBtnTexts[index].text = cards[index].CardSO.GetCostPerUpgrade(cards[index].CardLevel).ToString();
         }
@@ -177,7 +177,7 @@ public class DojoManager : MonoBehaviour, IObserver
     public void TryBuyCard(int index)
     {
         var battledata = Account.AccountManager.Instance.BattleData.Player;
-        var card = _metaCardUIs[index].CardUI.RecieveCardReference();
+        var card = _metaCardUIs[index].CardUI.CardData;
         int cost = card.CardSO.GetCostPerUpgrade(card.CardLevel);
 
         if (battledata.CharacterData.CharacterStats.Gold >= cost)// && isPurchaseable[index])

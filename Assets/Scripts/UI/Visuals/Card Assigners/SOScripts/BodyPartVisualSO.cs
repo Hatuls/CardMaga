@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     public class BodyPartVisualSO : ScriptableObject
     {

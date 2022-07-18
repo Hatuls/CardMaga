@@ -126,7 +126,7 @@ namespace UI.Meta.Laboratory
         {
             _instructionText.text = costText;
             ActivateGameObject(_upgradeBtn, true);
-            _costText.text = _upgradeCostSO.NextCardValue(_selectedComboUI.CardUI.GFX.GetCardReference, _resourceType).ToString();
+            _costText.text = _upgradeCostSO.NextCardValue(_selectedComboUI.CardUI.CardData, _resourceType).ToString();
         }
         private void ActivateGameObject(GameObject go, bool state)
         {

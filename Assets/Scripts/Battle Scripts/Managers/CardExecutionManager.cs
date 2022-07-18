@@ -93,7 +93,7 @@ namespace Battles
 
         public bool TryExecuteCard(CardUI cardUI)
         {
-            Cards.Card card = cardUI.GFX.GetCardReference;
+            Cards.Card card = cardUI.CardData;
             bool isExecuted = TryExecuteCard(true, card);
             if (isExecuted)
             {

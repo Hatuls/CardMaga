@@ -152,17 +152,17 @@ namespace UI.Meta.Laboratory
                 return;
             }
             var selectedCardUI = _selectedCardUI.CardUI;
-            selectedCardUI.GFX.SetCardReference(card.GFX.GetCardReference);
+            selectedCardUI.AssignCard(card.CardData);
             ActivateGameObject(_selectedCardUI.gameObject, true);
 
-            var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(selectedCardUI.GFX.GetCardReference);
+            var upgradedVersion = UpgradeHandler.GetUpgradedCardVersion(selectedCardUI.CardData);
             _sortByNotSelected.ID = null;
             _sortByNotSelected.SortRequest();
             if (upgradedVersion != null)
             {
                 SetCostText();
-                _upgradedVersion.CardUI.GFX.SetCardReference(upgradedVersion);
-                _sortByNotSelected.ID = selectedCardUI.RecieveCardReference().CardInstanceID;
+                _upgradedVersion.CardUI.AssignCard(upgradedVersion);
+                _sortByNotSelected.ID = selectedCardUI.CardData.CardInstanceID;
                 _sortByNotSelected.SortRequest();
             }
             else
@@ -179,7 +179,7 @@ namespace UI.Meta.Laboratory
         {
             _instructionText.text = costText;
             ActivateGameObject(_upgradeBtn, true);
-            _costText.text = _upgradeCostSO.NextCardValue(_selectedCardUI.CardUI.GFX.GetCardReference, _resourceType).ToString();
+            _costText.text = _upgradeCostSO.NextCardValue(_selectedCardUI.CardUI.CardData, _resourceType).ToString();
         }
         private void ActivateGameObject(GameObject go, bool state)
         {
@@ -191,7 +191,7 @@ namespace UI.Meta.Laboratory
         {
             if (!_selectedCardUI.gameObject.activeSelf || !_upgradedVersion.gameObject.activeSelf)
                 return;
-            var currentCard = _selectedCardUI.CardUI.RecieveCardReference();
+            var currentCard = _selectedCardUI.CardUI.CardData;
 
             if (UpgradeHandler.TryUpgradeCard(_upgradeCostSO, currentCard, _resourceType))
             {
@@ -221,6 +221,6 @@ namespace UI.Meta.Laboratory
         }
         public CardUI SelectCardFromInfoPanel(CardUI card)
                => _collectionFilterHandler.GetCardFromInstanceID(
-                   card.RecieveCardReference().CardInstanceID).CardUI;
+                   card.CardData.CardInstanceID).CardUI;
     }
 }

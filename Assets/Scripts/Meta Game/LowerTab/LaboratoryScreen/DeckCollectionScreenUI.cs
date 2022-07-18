@@ -80,7 +80,7 @@ namespace UI.Meta.Laboratory
         {
             SetMainCardCollectionActiveState(false);
             DisableInteractions();
-            _selectedCardUI.CardUI.GFX.SetCardReference(card.GFX.GetCardReference);
+            _selectedCardUI.CardUI.AssignCard(card.CardData);
             SetCardsToWaitForInputState(true);
             _selectedCardUI.MetaCardUIInteraction.SetClickFunctionality(MetaCardUiInteractionEnum.Remove, RemoveSelectedCardUI);
             _selectedCardUIContainer.SetActive(true);
@@ -119,7 +119,7 @@ namespace UI.Meta.Laboratory
          => RemoveSelectedCardUI();
         private void SwitchCards(CardUI card)
         {
-            var coreCardInfo = _selectedCardUI.CardUI.GFX.GetCardReference.CardCoreInfo;
+            var coreCardInfo = _selectedCardUI.CardUI.CardData.CardCoreInfo;
 
             if (coreCardInfo == null)
                 return; 
@@ -128,7 +128,7 @@ namespace UI.Meta.Laboratory
             var account = Account.AccountManager.Instance;
             var selectedCard = account.AccountCharacters.SelectedCharacter;
             var deck = account.AccountCharacters.GetCharacterData(selectedCard).GetDeckAt(0);
-            ushort currentCardID = card.GFX.GetCardReference.CardCoreInfo.InstanceID;
+            ushort currentCardID = card.CardData.CardCoreInfo.InstanceID;
             int length = deck.Cards.Length;
             var cards = deck.Cards;
             bool _cardFound = false;

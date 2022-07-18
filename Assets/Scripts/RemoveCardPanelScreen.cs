@@ -77,7 +77,7 @@ namespace Map.UI
                         _deckCardsUI[i].gameObject.SetActive(true);
 
            
-                    _deckCardsUI[i].CardUI.AssignData(deck[i]);
+                    _deckCardsUI[i].CardUI.AssignCard(deck[i]);
                 }
                 else
                 {

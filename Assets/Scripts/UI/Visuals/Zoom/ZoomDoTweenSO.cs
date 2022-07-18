@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [CreateAssetMenu(fileName = "Zoom DoTween SO", menuName = "ScriptableObjects/UI/Visuals/ZoomDoTweenSO")]
 

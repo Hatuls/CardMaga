@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [Serializable]
     public class CardBodyPartVisualAssigner : BaseVisualAssigner
@@ -62,7 +60,7 @@ namespace UI.Visuals
             AssignSprite(_bGImages[cardType], sprite);
 
             //Set Card Inner BG sprites and color
-            sprite =  GetSpriteToAssign(cardType, cardType, _bodyPartCardVisualSO.BodyPartsInnerBG);
+            sprite = GetSpriteToAssign(cardType, cardType, _bodyPartCardVisualSO.BodyPartsInnerBG);
             AssignSprite(_innerBGImages[cardType], sprite);
             var color = GetColorToAssign(cardType, _bodyPartCardVisualSO.BaseSO.InnerBGColor);
             AssignColor(_innerBGImages[cardType], color);

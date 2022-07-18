@@ -13,10 +13,10 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
     Transform _container;
     [SerializeField] float _metaCardSize = 1f;
     [SerializeField] CollectionEnum _collectionType;
-    [SerializeField] enum CollectionEnum { AccountCardsCollection, RunCardsCollection , DeckCollection }
+    [SerializeField] enum CollectionEnum { AccountCardsCollection, RunCardsCollection, DeckCollection }
 
     public MetaCardUIHandler GetCardFromInstanceID(int id)
-        => _collection.First(x => x.CardUI.GFX.GetCardReference.CardInstanceID == id);
+        => _collection.First(x => x.CardUI.CardData.CardInstanceID == id);
     protected override void CreatePool()
     {
         int deckCount = GetCollectionLength();
@@ -51,9 +51,7 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
 
     protected override void OnActivate(IEnumerable<Card> sortedDeck, int i)
     {
-        _collection[i].CardUI.GFX.SetCardReference(
-            sortedDeck.ElementAt(i)
-            );
+        _collection[i].CardUI.AssignCard(sortedDeck.ElementAt(i));
         _collection[i].transform.localScale = Vector3.one * _metaCardSize;
 
     }

@@ -81,7 +81,7 @@ namespace UI
             _combo = combo;
          
             var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(combo.ComboSO.CraftedCard, combo.Level);
-            _cardUI.AssignData(craftedCard);
+            _cardUI.AssignCard(craftedCard);
             ActivatedPlaceHolders(ComboRecipe);
             SetVisual(ComboRecipe);
             AssignComboCrafting();

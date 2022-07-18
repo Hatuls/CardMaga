@@ -1,15 +1,20 @@
-﻿using Sirenix.OdinInspector;
+﻿using CardMaga.UI.Text;
+using CardMaga.UI.Visuals;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using UI.Visuals;
-using UI.Text;
-using System.Collections.Generic;
 
-namespace UI
+namespace CardMaga.UI
 {
-    public class CardVisualHandler : MonoBehaviour
+    public class CardVisualHandler : BaseCardVisualHandler
     {
+
+        [Header("General")]
+        [SerializeField] CanvasGroup _canvasGroup;
+
+
         [Header("Zoom")]
         [SerializeField] CardZoomHandler _cardZoomHandler;
+
         [Header("Visuals")]
         [SerializeField] CardBodyPartVisualAssigner _cardBodyPartVisualAssigner;
         [SerializeField] CardTypeVisualAssigner _cardTypeVisualAssigner;
@@ -19,17 +24,26 @@ namespace UI
         [SerializeField] CardLevelVisualAssigner _cardLevelVisualAssigner;
         [SerializeField] CardImageVisualAssigner _cardImageVisualAssigner;
         [SerializeField] CardGlowVisualAssigner _cardGlowVisualAssigner;
+
         [Header("Texts")]
         [SerializeField] CardNameTextAssigner _cardNameTextAssigner;
         [SerializeField] CardStaminaTextAssigner _cardStaminaTextAssigner;
         [SerializeField] CardDescriptionAssigner _cardDescriptionAssigner;
+
+
+        public CanvasGroup CanvasGroup { get => _canvasGroup; }
+#if UNITY_EDITOR
         [Header("Test")]
         [SerializeField] Cards.Card _card;
+
+
+
         [Button]
         void OnTryCard()
         {
             SetCardVisuals(_card);
         }
+#endif
         public void Start()
         {
             //Visuals
@@ -59,7 +73,7 @@ namespace UI
         {
             _cardGlowVisualAssigner.SetGlow(false);
         }
-        public void SetCardVisuals(Cards.Card card)
+        public override void SetCardVisuals(Cards.Card card)
         {
             var cardTypeEnum = card.CardSO.CardTypeEnum;
             var cardLevel = card.CardLevel;
@@ -80,5 +94,11 @@ namespace UI
             cardLevel -= 1;//level 1 is level 0 on card
             //_cardDescriptionAssigner.SetCardKeywords(card.CardSO.CardDescription(cardLevel));
         }
+    }
+
+    public abstract class BaseCardVisualHandler : MonoBehaviour
+    {
+        // will need remake
+        public abstract void SetCardVisuals(Cards.Card card);
     }
 }

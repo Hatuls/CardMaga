@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [CreateAssetMenu(fileName = "Body Parts Combo SO", menuName = "ScriptableObjects/UI/Visuals/Body Part Combo Visual SO")]
-    public class BodyPartComboVisualSO :BodyPartVisualSO
+    public class BodyPartComboVisualSO : BodyPartVisualSO
     {
         //any addition specific for Combos will be implemented here
     }

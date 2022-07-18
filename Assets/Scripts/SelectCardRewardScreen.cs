@@ -29,7 +29,7 @@ public class SelectCardRewardScreen : MonoBehaviour
 
        
         for (int i = 0; i < cards.Length; i++)
-            _cards[i].CardUI.AssignData(cards[i]);
+            _cards[i].CardUI.AssignCard(cards[i]);
 
         _money = money;
             _moneyText.text = string.Concat("Do you want to get ", money, " credits INSTEAD of choosing a card?");
@@ -38,7 +38,7 @@ public class SelectCardRewardScreen : MonoBehaviour
     }
     public void CollectSelectedCardUI()
     {
-        _battleRewardHandler.AddCard(_presentCardUIScreen.CardUI.GFX.GetCardReference);
+        _battleRewardHandler.AddCard(_presentCardUIScreen.CardUI.CardData);
         gameObject.SetActive(false);
 
         _battleUIRewardHandler.ReturnFromCardsSelection();
@@ -62,7 +62,7 @@ public class SelectCardRewardScreen : MonoBehaviour
     }
     public void SelectCardUI(int i)
     {
-        _battleRewardHandler.AddCard(_cards[i].CardUI.RecieveCardReference());
+        _battleRewardHandler.AddCard(_cards[i].CardUI.CardData);
         gameObject.SetActive(false);
 
         _battleUIRewardHandler.ReturnFromCardsSelection();

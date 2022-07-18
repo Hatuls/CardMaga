@@ -109,7 +109,7 @@ public class CardUIInteractionHandle : MonoBehaviour
             bool toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Use);
             _useBtnGO?.SetActive(toOpen);
             toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Upgrade);
-            _upgradeBtn?.SetActive(toOpen && _card?.RecieveCardReference().CardsAtMaxLevel == false);
+            _upgradeBtn?.SetActive(toOpen && _card?.CardData.CardsAtMaxLevel == false);
             toOpen = _state.HasFlag(MetaCardUiInteractionEnum.Dismental);
             _dismentalBtnGO?.SetActive(toOpen && Account.AccountManager.Instance.AccountCards.CardList.Count > _minDeckLength);
             _container.SetActive(true);

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [CreateAssetMenu(fileName = "Body Parts Base SO", menuName = "ScriptableObjects/UI/Visuals/Body Part base Visual SO")]
     public class BodyPartBaseVisualSO : ScriptableObject

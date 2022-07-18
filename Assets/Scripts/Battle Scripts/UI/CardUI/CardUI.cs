@@ -1,8 +1,7 @@
-﻿using System;
-using Unity.Events;
+﻿using CardMaga.UI;
+using Cards;
+using System;
 using UnityEngine;
-using Battles.UI.CardUIAttributes;
-using UnityEngine.EventSystems;
 
 namespace Battles.UI
 {
@@ -11,44 +10,39 @@ namespace Battles.UI
         #region Fields
 
         [SerializeField] private RectTransform _rectTransform;
-        [SerializeField] private CardGFX _cardGFX;
-        [SerializeField] private CanvasGroup _canvasGroup;
-        private CardAnimator _cardAnimator;
-        
+        [SerializeField] private BaseCardVisualHandler _cardVisuals;
+
         [SerializeField] private CardUIInputHandler _inputs;
+
+
         private RectTransitionManager _cardTransitionManager;
-        
+        private CardAnimator _cardAnimator;
+        private Card _cardData;
 
-        #region Enum Selection
-        
-        [Sirenix.OdinInspector.OnValueChanged("CardUISettingsEnum")]
-        [Sirenix.OdinInspector.EnumToggleButtons]
-        
-        
+
         #endregion
-     
-        #endregion
-        
-        private void Awake()
-        {
-            _cardTransitionManager = new RectTransitionManager(_rectTransform);
-        }
+        public BaseCardVisualHandler CardVisuals => _cardVisuals;
+        public CardUIInputHandler Inputs => _inputs;
 
-        public  CardGFX GFX =>  _cardGFX;
 
-        public  CardUIInputHandler Inputs
+
+        public RectTransitionManager CardTransitionManager
         {
             get
             {
-                return  _inputs;
+                if (_cardTransitionManager == null)
+                    _cardTransitionManager = new RectTransitionManager(_rectTransform);
+                return _cardTransitionManager;
             }
         }
 
-        public  RectTransitionManager CardTransitionManager {
-            get
-            {
-                return  _cardTransitionManager;
-            }
+        public Card CardData { get => _cardData; private set => _cardData = value; }
+
+
+        public void AssignCard(Card card)
+        {
+            CardData = card;
+            CardVisuals.SetCardVisuals(card);
         }
 
         #region Ipoolable Implementation
@@ -65,19 +59,8 @@ namespace Battles.UI
         }
 
         #endregion
-      
+
     }
-    
-public static class CardUIHelper {
-        public static void AssignData(this CardUI cardUI, Cards.Card card) => cardUI.GFX.SetCardReference(card);
-
-        public static Cards.Card RecieveCardReference(this CardUI cardui)
-        {
-            Debug.Log("I");
-            return cardui.GFX.GetCardReference;
-        }
-
-}
 }
 
 public class CardAnimator
@@ -95,9 +78,9 @@ public class CardAnimator
 
     public void ScaleAnimation(bool value)
     {
-        _animator.SetTrigger((value) ? AnimatorParameters.ZoomOutAnimation :  AnimatorParameters.ZoomInAnimation);
+        _animator.SetTrigger((value) ? AnimatorParameters.ZoomOutAnimation : AnimatorParameters.ZoomInAnimation);
     }
-    
+
     public static class AnimatorParameters
     {
         public static int ZoomInAnimation = Animator.StringToHash("ToZoomIn");
@@ -109,7 +92,7 @@ public class CardAnimator
     {
         _animator.SetTrigger(AnimatorParameters.NoticeAnimation);
     }
-    
+
     internal void ResetAllAnimations()
     {
         _animator.SetTrigger(AnimatorParameters.ResetAllAnimation);

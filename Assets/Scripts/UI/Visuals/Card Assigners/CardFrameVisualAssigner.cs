@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
     public class CardFrameVisualAssigner : BaseVisualAssigner

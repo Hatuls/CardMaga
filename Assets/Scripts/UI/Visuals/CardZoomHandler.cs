@@ -1,18 +1,21 @@
-﻿using DG.Tweening;
+﻿using CardMaga.UI.Visuals;
+using DG.Tweening;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace CardMaga.UI
 {
     public class CardZoomHandler : MonoBehaviour
     {
-        [SerializeField] Visuals.ZoomPositionsSO _zoomPositionsSO;
-        [SerializeField] Visuals.ZoomDoTweenSO _zoomDoTweenSO;
-        float _startPos;
-        float _endPos;
+        public event Action OnZoomInCompleted;
+        public event Action OnZoomOutCompleted;
+
+        [SerializeField] ZoomPositionsSO _zoomPositionsSO;
+        [SerializeField] ZoomDoTweenSO _zoomDoTweenSO;
+
         [Tooltip("Attack, Defense, Utility")]
         [SerializeField] RectTransform _bottomPart;
         [SerializeField] Image _cardGlow;
@@ -20,10 +23,11 @@ namespace UI
         [SerializeField] RectTransform _cardVisualMainObject;
         [SerializeField] RectTransform _cardName;
         [SerializeField] CanvasGroup _description;
-        Sequence _zoomSequence;
 
-        public event Action OnZoomInCompleted;
-        public event Action OnZoomOutCompleted;
+        Sequence _zoomSequence;
+        float _startPos;
+        float _endPos;
+
         TokenMachine _zoomTokenMachine;
         public ITokenReciever ZoomTokenMachine => _zoomTokenMachine;
         private void Start()
@@ -44,6 +48,7 @@ namespace UI
         {
             ForceReset();
         }
+        [Button]
         public void ForceReset()
         {
             //Forcefully Kill the tween and reset all of the parts to it's place imideatly
@@ -78,7 +83,7 @@ namespace UI
                 _zoomSequence.Kill();
 
         }
-        [Button("Zoom In")]
+   //     [Button("Zoom In")]
         private void ZoomIn()
         {
             KillTween();
@@ -104,7 +109,7 @@ namespace UI
             if(OnZoomInCompleted != null)
                 _zoomSequence.OnComplete(OnZoomInCompleted.Invoke);
         }
-        [Button("Zoom Out")]
+  //      [Button("Zoom Out")]
         private void ZoomOut()
         {
             KillTween();

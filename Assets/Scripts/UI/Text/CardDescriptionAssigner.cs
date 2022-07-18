@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
-namespace UI.Text
+namespace CardMaga.UI.Text
 {
     [System.Serializable]
     public class CardDescriptionAssigner : BaseTextAssigner
@@ -16,7 +15,7 @@ namespace UI.Text
         {
             if (_keywordsDescription == null)
                 throw new System.Exception("CardDescriptionAssigner has no keywordsObjects");
-            if (_rows == null || _rows.Length <2)
+            if (_rows == null || _rows.Length < 2)
                 throw new System.Exception("CardDescriptionAssigner has no rows");
         }
         public void SetCardKeywords(List<string[]> keywords)
@@ -33,7 +32,7 @@ namespace UI.Text
             switch (keywordsAmount)
             {
                 case 1:
-                    _keywordsDescription[0].alignment =TextAlignmentOptions.Center;
+                    _keywordsDescription[0].alignment = TextAlignmentOptions.Center;
                     break;
                 case 2:
                     _keywordsDescription[0].alignment = TextAlignmentOptions.Center;
@@ -77,12 +76,12 @@ namespace UI.Text
                 _rows[1].SetActive(true);
             }
         }
-        private string SetKeywordDescription(Color color,string[] keyword)
+        private string SetKeywordDescription(Color color, string[] keyword)
         {
             string hexaCode = GetHexaCodeFromColor(color);
             string completedString;
             //try parse index
-            if (!int.TryParse(keyword[0],out int value))
+            if (!int.TryParse(keyword[0], out int value))
             {
                 completedString = "<color=#" + hexaCode + ">" + keyword[0];
             }

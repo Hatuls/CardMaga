@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UI.Text
+namespace CardMaga.UI.Text
 {
     [System.Serializable]
     public abstract class BaseTextAssigner

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
     public abstract class BaseVisualAssigner
@@ -50,17 +50,11 @@ namespace UI.Visuals
         }
         public virtual Color GetColorAlpha(Color baseColor, int imageIndex, int colorIndex)
         {
-            if (colorIndex == 0)
-            {
-                //image need to be with 0 opacity
-                var color = new Color(baseColor.r, baseColor.g, baseColor.b, 0);
-                return color;
-            }
-            else
-            {
-                var color = new Color(baseColor.r, baseColor.g, baseColor.b, 1);
-                return color;
-            }
+            Color color = baseColor;
+
+            // first index meaning there should be alpha
+            color.a = (colorIndex == 0) ? 0 : 1;
+            return color;
         }
         public virtual void AssignSprite(Image image, Sprite sprite)
         {

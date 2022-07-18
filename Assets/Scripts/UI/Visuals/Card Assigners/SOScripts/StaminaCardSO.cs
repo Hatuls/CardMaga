@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [CreateAssetMenu(fileName = "Stamin Card SO", menuName = "ScriptableObjects/UI/Visuals/Stamina Card Visual SO")]
     public class StaminaCardSO : ScriptableObject

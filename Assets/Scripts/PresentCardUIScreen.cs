@@ -27,8 +27,8 @@ namespace UI
         public void OpenCardUIInfo(CardUI cardUI)
         {
 
-            Cards.Card card = cardUI.GFX.GetCardReference;
-            _cardUI.GFX.SetCardReference(card);
+            Cards.Card card = cardUI.CardData;
+            _cardUI.AssignCard(card);
             for (int i = 0; i < _keywordsInfo.Count; i++)
             {
                 if (_keywordsInfo[i].gameObject.activeSelf)

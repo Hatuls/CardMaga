@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [CreateAssetMenu(fileName = "Type Card SO", menuName = "ScriptableObjects/UI/Visuals/Type Card Visual SO")]
     public class TypeCardVisualSO : ScriptableObject

@@ -31,7 +31,7 @@ namespace UI
         public void OpenComboUIscreen(ComboRecipeUI combo)
         {
             _comboScreen.InitRecipe(combo.Combo);
-            Cards.Card card = combo.CardUI.GFX.GetCardReference;
+            Cards.Card card = combo.CardUI.CardData;
    
             for (int i = 0; i < _keywordsInfo.Count; i++)
             {

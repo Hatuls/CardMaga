@@ -54,7 +54,7 @@ public class GameBattleDescriptionUI : MonoBehaviour
                 _keywordsInfo[i].gameObject.SetActive(false);
         }
         _keywordsContainer.SetActive(true);
-        SortKeywords(card.GFX.GetCardReference);
+        SortKeywords(card.CardData);
     }
 
     public void CloseCardUIInfo()

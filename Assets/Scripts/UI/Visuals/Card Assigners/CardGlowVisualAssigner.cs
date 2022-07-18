@@ -1,12 +1,12 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
     public class CardGlowVisualAssigner :BaseVisualAssigner
     {
-        [SerializeField] GlowCardSO GlowCardSO;
+        [SerializeField] GlowCardSO _glowCardSO;
         [SerializeField] Image _glowImage;
         public override void Init()
         {
@@ -17,8 +17,8 @@ namespace UI.Visuals
         private void SetGlow()
         {
             //assign sprite
-            _glowImage.sprite = GlowCardSO._glowSprite;
-            _glowImage.color = GlowCardSO._glowColor;
+            _glowImage.sprite = _glowCardSO.GlowSprite;
+            _glowImage.color = _glowCardSO.GlowColor;
         }
         public void SetGlow(bool toActivate)
         {

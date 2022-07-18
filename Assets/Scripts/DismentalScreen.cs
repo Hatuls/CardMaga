@@ -17,8 +17,8 @@ public class DismentalScreen : MonoBehaviour
     ushort _amount;
     public void Open(CardUI card)
     {
-        var refcard = card.GFX.GetCardReference;
-        _cardUI.GFX.SetCardReference(refcard);
+        var refcard = card.CardData;
+        _cardUI.AssignCard(refcard);
         _amount = _dismental.GetCardDismentalCost(refcard);
         costText.text = _amount.ToString();
         gameObject.SetActive(true);
@@ -29,7 +29,7 @@ public class DismentalScreen : MonoBehaviour
     }
     public void DismentalCard()
     {
-      if(DismentalHandler.DismentalCard(_cardUI.GFX.GetCardReference))
+      if(DismentalHandler.DismentalCard(_cardUI.CardData))
         {
 
             OnDismentalSuccess?.Invoke();

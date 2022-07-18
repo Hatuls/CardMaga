@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
     public class CardImageVisualAssigner : BaseVisualAssigner

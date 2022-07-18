@@ -41,11 +41,11 @@ public class CardUIInfoScreen : MonoBehaviour
     ButtonUI _deckButtonInLab;
     public void OpenInfoScreen(CardUI cardUI, IInfoSettings<CardUI> infoSettings)
     {
-        var card = cardUI.GFX.GetCardReference;
+        var card = cardUI.CardData;
         _levelText.text = card.CardLevel.ToString();
         _bodyPartText.text = card.CardSO.BodyPartEnum.ToString();
         _rarityText.text = card.CardSO.Rarity.ToString();
-        _cardUI.GFX.SetCardReference(card);
+        _cardUI.AssignCard(card);
         ActivateButton(infoSettings, cardUI);
         this.gameObject.SetActive(true);
     }
@@ -53,7 +53,7 @@ public class CardUIInfoScreen : MonoBehaviour
     {
         const int _deckMinLength = 8;
         _dismentalBtn.gameObject.SetActive(infoSettings.CanDismental && Account.AccountManager.Instance.AccountCards.CardList.Count > _deckMinLength);
-        _upgradeBtn.gameObject.SetActive(infoSettings.CanUpgrade && cardUI.RecieveCardReference().CardsAtMaxLevel == false);
+        _upgradeBtn.gameObject.SetActive(infoSettings.CanUpgrade && cardUI.CardData.CardsAtMaxLevel == false);
         _useBtn.gameObject.SetActive(infoSettings.CanUse);
 
         if (_useBtn.gameObject.activeSelf)

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
-namespace UI.Text
+namespace CardMaga.UI.Text
 {
     [System.Serializable]
     public class CardStaminaTextAssigner : BaseTextAssigner

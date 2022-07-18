@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UI.Text
+namespace CardMaga.UI.Text
 {
     [CreateAssetMenu(fileName = "Description Color SO", menuName = "ScriptableObjects/UI/Visuals/DescriptionColorSO")]
 

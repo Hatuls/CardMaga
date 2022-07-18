@@ -2,7 +2,8 @@
 using System;
 using UnityEngine.UI;
 
-namespace UI.Visuals
+
+namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
     public class CardLevelVisualAssigner : BaseVisualAssigner
@@ -76,7 +77,7 @@ namespace UI.Visuals
         public void SetLevel(int cardRarityNum, int cardLevelNum, int LevelTypeNum)
         {
             var cardRarity = cardRarityNum - 1;
-            var cardLevel = cardLevelNum - 1;
+            var cardLevel = cardLevelNum;
             var levelType = LevelTypeNum - 1;
             //setActive relevent Objects
             SetActiveObject(cardRarity);

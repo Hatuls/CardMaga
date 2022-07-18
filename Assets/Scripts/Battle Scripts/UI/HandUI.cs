@@ -122,7 +122,7 @@ namespace Battles.UI
                 _tableCardSlot.RemoveCardUI(cardUI);
                 OnCardSelect?.Invoke();
                 _isCardSelected = true;
-                DeckManager.Instance.TransferCard(true,DeckEnum.Hand,DeckEnum.Selected,cardUI.RecieveCardReference());
+                DeckManager.Instance.TransferCard(true,DeckEnum.Hand,DeckEnum.Selected,cardUI.CardData);
                 RemoveInputEvents(cardUI.Inputs);
                 cardUI.Inputs.OnClick += _zoomCard.SetZoomCard;
                 cardUI.Inputs.OnBeginHold += _followCard.SetSelectCardUI;
@@ -134,7 +134,7 @@ namespace Battles.UI
             if (!_tableCardSlot.ContainCardUIInSlots(cardUI))
             {
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
-                DeckManager.Instance.TransferCard(true,DeckEnum.Selected,DeckEnum.Hand,cardUI.RecieveCardReference());
+                DeckManager.Instance.TransferCard(true,DeckEnum.Selected,DeckEnum.Hand,cardUI.CardData);
                 ResetCard(cardUI);
                 OnCardReturnToHand?.Invoke();
                 _isCardSelected = false;
@@ -283,7 +283,7 @@ namespace Battles.UI
             if (ReferenceEquals(cardUI, null) || !IsHaveValue)
                 return false;
             
-            if (cardUI.RecieveCardReference().CardInstanceID == CardUI.RecieveCardReference().CardInstanceID)
+            if (cardUI.CardData.CardInstanceID == CardUI.CardData.CardInstanceID)
             {
                 return true;
             }

@@ -34,7 +34,7 @@ public class RecievePackPanel : MonoBehaviour
         _pack = pack.CreatePackReward();
         var card = factory.CardFactoryHandler.CreateCard(_pack.RewardCard);
         _titleText.text = card.CardSO.Rarity.ToString();
-        _currentCard.GFX.SetCardReference(card);
+        _currentCard.AssignCard(card);
 
         SetOpenCost(pack.PurchaseCosts[0].Price);
 
@@ -64,7 +64,7 @@ public class RecievePackPanel : MonoBehaviour
     }
     private void RecieveCard()
     {
-        Account.AccountManager.Instance.AccountCards.AddCard(_currentCard.GFX.GetCardReference.CardCoreInfo);
+        Account.AccountManager.Instance.AccountCards.AddCard(_currentCard.CardData.CardCoreInfo);
     }
     public void RecievePack()
     {

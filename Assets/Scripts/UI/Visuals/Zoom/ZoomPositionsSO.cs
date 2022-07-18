@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UI.Visuals
+namespace CardMaga.UI.Visuals
 {
     [CreateAssetMenu(fileName = "Zoom Positions SO", menuName = "ScriptableObjects/UI/Visuals/ZoomPositionsSO")]
     public class ZoomPositionsSO : ScriptableObject

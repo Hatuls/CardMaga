@@ -38,7 +38,7 @@ public class DeckTrackerFromDeckPanel : MonoBehaviour
         Account.GeneralData.CardCoreInfo[] cards = new Account.GeneralData.CardCoreInfo[deck.Cards.Length];
         for (int i = 0; i < length; i++)
         {
-            var currentCard = _deckCollection.Collection[i].CardUI.GFX.GetCardReference;
+            var currentCard = _deckCollection.Collection[i].CardUI.CardData;
             if (currentCard == null)
                 throw new System.Exception($"DeckTrackerFromDeckPanel: Card From Deck Collection is null!");
             cards[i] = new Account.GeneralData.CardCoreInfo(currentCard.CardSO.ID, currentCard.CardInstanceID, currentCard.CardLevel);
