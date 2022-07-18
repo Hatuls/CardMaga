@@ -421,6 +421,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4405328268795982148, guid: 8dc4e00dfaa6753418c1d5056be43434,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4405328268795982148, guid: 8dc4e00dfaa6753418c1d5056be43434,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4405328268795982148, guid: 8dc4e00dfaa6753418c1d5056be43434,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -829,6 +839,7 @@ GameObject:
   - component: {fileID: 713954405}
   - component: {fileID: 713954407}
   - component: {fileID: 713954406}
+  - component: {fileID: 713954408}
   m_Layer: 0
   m_Name: DefaultState
   m_TagString: Untagged
@@ -890,6 +901,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a23025e5e6030f94d880aef9374cc97e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nextState: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228, type: 2}
+--- !u!114 &713954408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713954403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e61ed0d2141fc44ae2931d9dbd5124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nextState: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228, type: 2}
@@ -1266,6 +1290,7 @@ GameObject:
   - component: {fileID: 1141383942}
   - component: {fileID: 1141383941}
   - component: {fileID: 1141383943}
+  - component: {fileID: 1141383944}
   m_Layer: 0
   m_Name: LockState
   m_TagString: Untagged
@@ -1315,6 +1340,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextState: {fileID: 11400000, guid: 62aec6e87bf5bdb47ba4bc9fa9f2faa4, type: 2}
+--- !u!114 &1141383944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141383940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e61ed0d2141fc44ae2931d9dbd5124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nextState: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228, type: 2}
 --- !u!1 &1252507791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,6 +1730,7 @@ GameObject:
   - component: {fileID: 1842452747}
   - component: {fileID: 1842452748}
   - component: {fileID: 1842452749}
+  - component: {fileID: 1842452750}
   m_Layer: 0
   m_Name: CardSelectState
   m_TagString: Untagged
@@ -1741,6 +1780,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextState: {fileID: 11400000, guid: 62aec6e87bf5bdb47ba4bc9fa9f2faa4, type: 2}
+--- !u!114 &1842452750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842452746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e61ed0d2141fc44ae2931d9dbd5124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nextState: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228, type: 2}
 --- !u!1 &2047980410 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7522867382549449781, guid: 6ab7dfb0a63afbe4ba9ea0436fee396f,

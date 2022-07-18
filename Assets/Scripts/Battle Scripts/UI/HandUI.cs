@@ -15,6 +15,7 @@ namespace Battles.UI
     public class HandUI : MonoBehaviour , ILockabel
     {
         public static event Action OnCardDrawnAndAlign;
+        public static event Action OnDiscardAllCards;
         public static event Action OnCardSelect;
         public static event Action OnCardReturnToHand;
         
@@ -199,15 +200,17 @@ namespace Battles.UI
             onComplete?.Invoke();
         }
 
-        public void DiscardCards(params CardUI[] cardUI)
+        private void DiscardCards(params CardUI[] cardUI)
         {
             StartCoroutine(MoveCardToTheDiscardPosition(cardUI));
         }
         
-        public void ForceDiscardCards()
+        private void ForceDiscardCards()
         {
+            OnDiscardAllCards?.Invoke();
+            _zoomCard.ForceReleaseCard();
             _followCard.ForceReleaseCard();
-            StartCoroutine(MoveCardToTheDiscardPosition(_tableCardSlot.GetCardUIsFromTable()));
+            DiscardCards(_tableCardSlot.GetCardUIsFromTable());
             _tableCardSlot.RemoveAllCardUI();
         }
 
@@ -215,13 +218,8 @@ namespace Battles.UI
         {
             for (int i = 0; i < cardUI.Length; i++)
             {
-                cardUI[i].CardTransitionManager.Transition(_discardPos, _discardTransitionPackSo);
+                cardUI[i].CardTransitionManager.Transition(_discardPos, _discardTransitionPackSo,cardUI[i].Dispose);
                 yield return _waitForCardDiscardDelay;
-            }
-
-            for (int i = 0; i < cardUI.Length; i++)
-            {
-                cardUI[i].Dispose();
             }
         }
         

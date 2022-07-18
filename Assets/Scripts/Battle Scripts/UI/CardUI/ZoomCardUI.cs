@@ -74,6 +74,20 @@ public class ZoomCardUI : MonoBehaviour
         
         _selectCardUI = null;
     }
+
+    public void ForceReleaseCard()
+    {
+        if (_selectCardUI == null)
+            return;
+            
+        _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
+        _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
+        _zoomToken.Dispose();
+        
+        _handUI.ForceReturnCardUIToHand(_selectCardUI);
+        
+        _selectCardUI = null;
+    }
     
     private void KillTween()
     {

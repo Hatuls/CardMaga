@@ -79,7 +79,10 @@ public class FollowCardUI : MonoBehaviour
         if (_selectCardUI == null)
             return;
         
+        _selectCardUI.Inputs.OnHold -= FollowHand;
+        _selectCardUI.Inputs.OnPointUp -= ReleaseCard;
         _handUI.ForceReturnCardUIToHand(_selectCardUI);
+        _selectCardUI = null;
     }
     
 
