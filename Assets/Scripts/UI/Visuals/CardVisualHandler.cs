@@ -95,9 +95,7 @@ namespace CardMaga.UI
             //Texts
             _cardNameTextAssigner.SetCardName(card.CardSO.CardName);
             _cardStaminaTextAssigner.SetStaminaCost(card.CardSO.StaminaCost.ToString());
-
-            cardLevel -= 1;//level 1 is level 0 on card
-            //_cardDescriptionAssigner.SetCardKeywords(card.CardSO.CardDescription(cardLevel));
+            _cardDescriptionAssigner.SetCardKeywords(card.CardSO.CardDescription(cardLevel));
         }
     }
 
