@@ -1,20 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IState
+﻿public interface IState
 {
-   StateIdentificationSO StateID { get; }
-   
-   BaseCondition[] Conditions { get; }
+    StateIdentificationSO StateID { get; }
 
-   void OnEnterState();
-   
-   void OnExitState();
+    BaseCondition[] Conditions { get; }
 
-   StateIdentificationSO OnHoldState();
+    void OnEnterState();
 
-   StateIdentificationSO CheckStateCondition();
-   
-   
+    void OnExitState();
+
+    StateIdentificationSO OnHoldState();
+
+    StateIdentificationSO CheckStateCondition();
 }

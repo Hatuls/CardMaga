@@ -1,5 +1,3 @@
-﻿
-public class BattleInputStateMachine : BaseStateMachine
+﻿public class BattleInputStateMachine : BaseStateMachine
 {
-    
 }

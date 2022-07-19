@@ -1,52 +1,25 @@
 ﻿using System;
-using UnityEngine;
-using UnityEngine.EventSystems;
 using System.Collections;
 using Sirenix.OdinInspector;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
-
-public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHandler
+public class TouchableItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] private float _holdDelaySce = .5f;
-    
-    private bool _isTouchable = false;
-    private bool _isHold = false;
-    
     public enum State
     {
         Lock,
         UnLock
     }
-    [ShowInInspector,Sirenix.OdinInspector.ReadOnly]
-    public State CurrentState { get; private set; }
-    
-    protected event Action OnClick;
-    protected event Action OnBeginHold;
-    protected event Action OnEndHold;
-    protected event Action OnHold;
-    protected event Action OnPointDown;
-    protected event Action OnPointUp;
-    
-    
-    private IEnumerator HoldDelay(PointerEventData eventData)
-    {
-        yield return new WaitForSeconds(_holdDelaySce);
-        _isHold = true; 
-        StartCoroutine(ProcessHoldTouchCoroutine(eventData));
-    }
 
-    private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
-    {
-        yield return null; 
-        OnBeginHold?.Invoke();
-        
-        while (_isHold)
-        {
-            yield return null;
-            OnHold?.Invoke();
-        }
-       
-    }
+    [SerializeField] private float _holdDelaySce = .5f;
+
+    [SerializeField] [ReadOnly] private State _currentState;
+    private bool _isHold;
+
+    private bool _isTouchable;
+
+    public State CurrentState => _currentState;
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -66,7 +39,35 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
                 EndHold(eventData);
                 return;
             }
+
             ProcessTouch(eventData);
+        }
+    }
+
+    protected event Action OnClick;
+    protected event Action OnBeginHold;
+    protected event Action OnEndHold;
+    protected event Action OnHold;
+    protected event Action OnPointDown;
+    protected event Action OnPointUp;
+
+
+    private IEnumerator HoldDelay(PointerEventData eventData)
+    {
+        yield return new WaitForSeconds(_holdDelaySce);
+        _isHold = true;
+        StartCoroutine(ProcessHoldTouchCoroutine(eventData));
+    }
+
+    private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
+    {
+        yield return null;
+        OnBeginHold?.Invoke();
+
+        while (_isHold)
+        {
+            yield return null;
+            OnHold?.Invoke();
         }
     }
 
@@ -84,12 +85,12 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
         OnClick?.Invoke();
         OnPointUp?.Invoke();
     }
-    
+
     private void ChangeState(State state)
     {
-        CurrentState = state;
+        _currentState = state;
 
-        switch (CurrentState)
+        switch (_currentState)
         {
             case State.Lock:
                 _isTouchable = false;
@@ -108,10 +109,10 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
     [ContextMenu("ToggleState")]
     public void ToggleState()
     {
-        if (CurrentState == State.Lock)
+        if (_currentState == State.Lock)
             ChangeState(State.UnLock);
 
-        else if (CurrentState == State.UnLock) ChangeState(State.Lock);
+        else if (_currentState == State.UnLock) ChangeState(State.Lock);
     }
 
     public void ForceChangeState(bool isTouchable)

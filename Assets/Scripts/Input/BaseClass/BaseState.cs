@@ -1,73 +1,42 @@
-﻿using ReiTools.TokenMachine;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class BaseState : MonoBehaviour , IState
+public abstract class BaseState : MonoBehaviour, IState
 {
     [SerializeField] protected StateIdentificationSO _stateID;
 
     [SerializeField] protected BaseCondition[] _conditions;
 
+    public StateIdentificationSO StateID => _stateID;
 
-    public  StateIdentificationSO StateID
-    {
-        get { return _stateID; }
-    }
-    
-    public BaseCondition[] Conditions
-    {
-        get { return _conditions; }
-    }
-
-   
+    public BaseCondition[] Conditions => _conditions;
 
     public virtual void OnEnterState()
     {
-        for (int i = 0; i < _conditions.Length; i++)
-        {
-            _conditions[i].InitCondition();
-        }
-        
-        Debug.Log("Enter " + base.name);
+        for (var i = 0; i < _conditions.Length; i++) _conditions[i].InitCondition();
     }
-    
+
     public virtual void OnExitState()
     {
-       
     }
 
     public virtual StateIdentificationSO OnHoldState()
     {
         return CheckStateCondition();
     }
-    
-    
+
 
     public virtual StateIdentificationSO CheckStateCondition()
     {
-        for (int i = 0; i < Conditions.Length; i++)
-        {
+        for (var i = 0; i < Conditions.Length; i++)
             if (Conditions[i].CheckCondition())
             {
+#if UNITY_EDITOR
                 Debug.Log("Move State from: " + name + " To: " + Conditions[i].NextState);
+#endif
                 OnExitState();
                 return Conditions[i].NextState;
             }
-        }
-        return StateID;
-    }
 
-    public void AddTouchableItem(TouchableItem touchableItem)
-    {
-        
-    }
-    
-    public void AddTouchableItem(TouchableItem[] touchableItem)
-    {
-        
-    }
-    
-    public void RemoveTouchableItem(TouchableItem touchableItem)
-    {
-        
+        return StateID;
     }
 }

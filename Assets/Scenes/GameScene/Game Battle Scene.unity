@@ -1096,7 +1096,6 @@ GameObject:
   - component: {fileID: 713954405}
   - component: {fileID: 713954407}
   - component: {fileID: 713954406}
-  - component: {fileID: 713954408}
   m_Layer: 0
   m_Name: DefaultState
   m_TagString: Untagged
@@ -1134,6 +1133,7 @@ MonoBehaviour:
   _conditions:
   - {fileID: 713954406}
   - {fileID: 713954407}
+  - {fileID: 1842452750}
   _handUI: {fileID: 5702666649249262310}
 --- !u!114 &713954406
 MonoBehaviour:
@@ -1158,19 +1158,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a23025e5e6030f94d880aef9374cc97e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _nextState: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228, type: 2}
---- !u!114 &713954408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 713954403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2e61ed0d2141fc44ae2931d9dbd5124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nextState: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228, type: 2}
@@ -1269,6 +1256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9749ec2d28a21aa44a29e5d54d987b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentState: {fileID: 0}
   _states:
   - {fileID: 713954405}
   - {fileID: 1842452748}
@@ -1504,7 +1492,6 @@ GameObject:
   - component: {fileID: 1141383942}
   - component: {fileID: 1141383941}
   - component: {fileID: 1141383943}
-  - component: {fileID: 1141383944}
   m_Layer: 0
   m_Name: LockState
   m_TagString: Untagged
@@ -1554,6 +1541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextState: {fileID: 11400000, guid: 62aec6e87bf5bdb47ba4bc9fa9f2faa4, type: 2}
+<<<<<<< HEAD
 --- !u!114 &1141383944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1593,6 +1581,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 >>>>>>> WithOutMapScene
+=======
+>>>>>>> NewZoomAndInput
 --- !u!1 &1252507791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1996,6 +1986,7 @@ MonoBehaviour:
   _stateID: {fileID: 11400000, guid: 6e310a4bed6790d4e9adce3a23f928ae, type: 2}
   _conditions:
   - {fileID: 1842452749}
+  - {fileID: 1842452750}
 --- !u!114 &1842452749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5740,7 +5731,48 @@ PrefabInstance:
       propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardKeyword.Array.size
       value: 1
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+=======
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8b5819f4e3960254aaace11f0af55582, type: 3}
+--- !u!1 &6556397213936656817 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5739347651795598662, guid: 8b5819f4e3960254aaace11f0af55582,
+    type: 3}
+  m_PrefabInstance: {fileID: 6556397213936656816}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6556397213936656818 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8613289048833321231, guid: 8b5819f4e3960254aaace11f0af55582,
+    type: 3}
+  m_PrefabInstance: {fileID: 6556397213936656816}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6556397213936656819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6556397213936656817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 830399ec445d1bd4db2aa83d169b6f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentState: {fileID: 0}
+  _states:
+  - {fileID: 111312653}
+  FirstState: {fileID: 11400000, guid: 763e0b0ab3196dd43884eff6f02fd0b6, type: 2}
+--- !u!1001 &7232930485872532778
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 482083833}
+    m_Modifications:
+    - target: {fileID: 7232930487089467440, guid: 62a884f9b894e6e47921f0b9562f017f,
+>>>>>>> NewZoomAndInput
         type: 3}
       propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardTypeData._bodyPart
       value: 4

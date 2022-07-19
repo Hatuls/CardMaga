@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Battles.UI;
-using UnityEngine;
-
-public class BattleInputCardSelectState : BaseState
+﻿public class BattleInputCardSelectState : BaseState
 {
     public override void OnEnterState()
     {
@@ -13,7 +7,6 @@ public class BattleInputCardSelectState : BaseState
 
     public override void OnExitState()
     {
-        
     }
 
     public override StateIdentificationSO OnHoldState()

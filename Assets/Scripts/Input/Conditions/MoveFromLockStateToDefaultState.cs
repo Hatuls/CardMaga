@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Battles.UI;
-using UnityEngine;
+﻿using Battles.UI;
 
 public class MoveFromLockStateToDefaultState : BaseCondition
 {
-    private bool _moveCondition = false;
-    
+    private bool _moveCondition;
+
     public override bool CheckCondition()
     {
         return _moveCondition;
@@ -14,6 +11,7 @@ public class MoveFromLockStateToDefaultState : BaseCondition
 
     public override void InitCondition()
     {
+        _moveCondition = false;
         HandUI.OnCardDrawnAndAlign += ChangeState;
     }
 

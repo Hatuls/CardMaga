@@ -1,65 +1,39 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-
-public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
+public abstract class BaseStateMachine : MonoBehaviour, IStateMachine
 {
-    protected BaseState _currentState;
-
-    protected Dictionary<StateIdentificationSO, BaseState> _inputStateDict;
+    [SerializeField] [ReadOnly] protected BaseState _currentState;
 
     [SerializeField] private List<BaseState> _states;
 
     public StateIdentificationSO FirstState;
 
-    public  BaseState CurrentState
-    {
-        get { return _currentState; }
-    }
+    protected Dictionary<StateIdentificationSO, BaseState> _inputStateDict;
 
-    public List<BaseState> States
-    {
-        get { return _states; }
-    }
-    
-    
-    public void InitStateMachine()
-    {
-        _inputStateDict = new Dictionary<StateIdentificationSO, BaseState>();
+    public List<BaseState> States => _states;
 
-        for (int i = 0; i < _states.Count; i++)
-        {
-            _inputStateDict.Add(_states[i].StateID,_states[i]);
-        }
+    public BaseState CurrentState => _currentState;
 
-        Debug.Log(base.name + " Init");
-        TryChangeState(FirstState);
-    }
-    
-    public virtual void TryChangeState(StateIdentificationSO stateID)//need work
+    public virtual void TryChangeState(StateIdentificationSO stateID) //need work
     {
         BaseState newState;
 
         if (!_inputStateDict.TryGetValue(stateID, out newState))
         {
             Debug.LogError("State " + stateID + "not found");
-            return;   
+            return;
         }
 
         if (_currentState != null)
         {
-            if (_currentState == newState)
-            {
-                return;
-            }
+            if (_currentState == newState) return;
             _currentState.OnExitState();
         }
-        
+
         _currentState = newState;
-        
+
         _currentState.OnEnterState();
     }
 
@@ -71,17 +45,24 @@ public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
         if (!_inputStateDict.TryGetValue(stateID, out newState))
         {
             Debug.LogError("State " + stateID + "not found");
-            return;   
+            return;
         }
 
-        if (_currentState != null)
-        {
-            _currentState.OnExitState();
-        }
-        
+        if (_currentState != null) _currentState.OnExitState();
+
         _currentState = newState;
-        
+
         _currentState.OnEnterState();
     }
 
+
+    public void InitStateMachine()
+    {
+        _inputStateDict = new Dictionary<StateIdentificationSO, BaseState>();
+
+        for (var i = 0; i < _states.Count; i++) _inputStateDict.Add(_states[i].StateID, _states[i]);
+
+        Debug.Log(name + " Init");
+        TryChangeState(FirstState);
+    }
 }
