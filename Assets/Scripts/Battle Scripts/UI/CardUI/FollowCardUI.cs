@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class FollowCardUI : MonoBehaviour
 {
+    public event Action<CardUI> OnCardExecute;
+    
     [SerializeField] private HandUI _handUI;
     [SerializeField] private ZoomCardUI _zoomCardUI;
     [SerializeField] private TransitionPackSO _followHand;
@@ -32,7 +34,6 @@ public class FollowCardUI : MonoBehaviour
         KillTween();
     }
 
-    public event Action<CardUI> OnCardExecute;
 
     public void SetSelectCardUI(CardUI cardUI)
     {

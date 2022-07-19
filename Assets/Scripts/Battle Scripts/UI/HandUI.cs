@@ -57,7 +57,7 @@ namespace CardMaga.UI
             BattleManager.OnGameEnded += LockInput;
             BattleManager.OnGameEnded += ForceDiscardCards;
             DeckManager.OnDrawCards += DrawCardsFromDeck;
-            _followCard.OnCardExecute += OnCardExecute;
+            _followCard.OnCardExecute += DiscardCard;
         }
 
         private void OnDestroy()
@@ -65,7 +65,7 @@ namespace CardMaga.UI
             BattleManager.OnGameEnded -= ForceDiscardCards;
             BattleManager.OnGameEnded -= LockInput;
             DeckManager.OnDrawCards -= DrawCardsFromDeck;
-            _followCard.OnCardExecute -= OnCardExecute;
+            _followCard.OnCardExecute -= DiscardCard;
             EndPlayerTurn.OnPlayerEndTurn -= ForceDiscardCards;
 
             for (var i = 0; i < _tableCardSlot.CardSlots.Count; i++)
@@ -94,9 +94,14 @@ namespace CardMaga.UI
         private void DrawCardsFromDeck(params CardData[] cards)
         {
             CardUI[] _handCards;
-            
+
             _handCards = _cardUIManager.GetCardsUI(cards);
 
+            if (_handCards.Length > 4)
+            {
+                Debug.LogError("More than 4 card drawn");
+            }
+            
             AddCards(_handCards);
             SetCardAtDrawPos(_handCards);
             ReAlignCardUI(_tableCardSlot.GetCardSlotsExceptFrom(_handCards));
@@ -163,13 +168,19 @@ namespace CardMaga.UI
 
         public void ForceReturnCardUIToHand(CardUI cardUI)
         {
+            if (cardUI == null)
+                return;
+
             _tableCardSlot.AddCardUIToCardSlot(cardUI);
             DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, cardUI.CardData); 
             _isCardSelected = false;
         }
 
-        private void OnCardExecute(CardUI cardUI)
+        private void DiscardCard(CardUI cardUI)
         {
+            if (cardUI == null)
+                return;
+            
             DiscardCards(cardUI);
             _isCardSelected = false; 
             OnCardReturnToHand?.Invoke();

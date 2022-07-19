@@ -27,10 +27,7 @@ namespace Battle
         private UnityEvent OnPlayerVictory;
         [SerializeField, EventsGroup]
         private UnityEvent OnBattleStarts;
-
-        [SerializeField]
-        private CameraController _cameraController;
-
+        
         [SerializeField]
         private SceneIdentificationSO _returnScene;
 
@@ -132,7 +129,7 @@ namespace Battle
                 EnemyDied();
 
 
-            TextPopUpHandler.Instance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
+            //TextPopUpHandler.Instance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
 
             BattleData.Instance.PlayerWon = !isPlayerDied;
 
