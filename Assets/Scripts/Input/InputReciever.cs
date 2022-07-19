@@ -32,7 +32,7 @@ public class InputReciever : MonoBehaviour
     #endregion
 
     #region Private Functions
-    
+
     private void MouseDetector()
     {
         if (Input.GetMouseButtonDown(0))
@@ -53,7 +53,7 @@ public class InputReciever : MonoBehaviour
             OnTouchEnded?.Invoke(_touchPosOnScreen);
         }
     }
-    
+
     private void TouchDetector()
     {
         if (Input.touchCount > 0)

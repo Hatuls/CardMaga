@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Battles.UI;
-using UnityEngine;
+﻿using Battles.UI;
 
 public class MoveFromDefultStateToSelectState : BaseCondition
 {
-    private bool _moveCondition = false;
-    
+    private bool _moveCondition;
+
     public override bool CheckCondition()
     {
         return _moveCondition;

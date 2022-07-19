@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Battles.UI;
-using UnityEngine;
+﻿using Battles.UI;
 
 public class ForceMoveToLockState : BaseCondition
 {
-    private bool _moveCondition = false;
+    private bool _moveCondition;
 
     public override bool CheckCondition()
     {
@@ -17,7 +14,7 @@ public class ForceMoveToLockState : BaseCondition
         _moveCondition = false;
         HandUI.OnDiscardAllCards += ChangeState;
     }
-    
+
     private void ChangeState()
     {
         HandUI.OnDiscardAllCards -= ChangeState;

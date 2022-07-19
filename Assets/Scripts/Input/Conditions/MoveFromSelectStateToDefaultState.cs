@@ -2,8 +2,8 @@
 
 public class MoveFromSelectStateToDefaultState : BaseCondition
 {
-    private bool _moveCondition = false;
-    
+    private bool _moveCondition;
+
     public override bool CheckCondition()
     {
         return _moveCondition;
@@ -14,7 +14,7 @@ public class MoveFromSelectStateToDefaultState : BaseCondition
         _moveCondition = false;
         HandUI.OnCardReturnToHand += ChangeState;
     }
-    
+
     private void ChangeState()
     {
         HandUI.OnCardReturnToHand -= ChangeState;

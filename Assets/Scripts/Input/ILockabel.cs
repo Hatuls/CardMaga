@@ -1,6 +1,4 @@
-﻿using ReiTools.TokenMachine;
-
-public interface ILockabel
+﻿public interface ILockabel
 {
     void LockInput();
     void UnLockInput();

@@ -286,7 +286,7 @@ namespace Battles.UI
         [SerializeField] private RectTransform _middleHandPos;
         [SerializeField] [Range(0, 25)] private float _cardPaddingPrecentage;
         [SerializeField] [Range(-10, 10)] private float _cardCenterOffSetPrecentage;
-        [ShowInInspector] [ReadOnly] private List<CardSlot> _cardSlots = new();
+        [ShowInInspector] [ReadOnly] private List<CardSlot> _cardSlots = new List<CardSlot>();
 
         public IReadOnlyList<CardSlot> CardSlots => _cardSlots;
 

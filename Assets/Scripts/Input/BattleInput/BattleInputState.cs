@@ -3,10 +3,10 @@
 public class BattleInputState : BaseState
 {
     [SerializeField] private BattleInputStateMachine _battleInputStateMachine;
-    
+
     public override void OnEnterState()
     {
-       _battleInputStateMachine.InitStateMachine();
+        _battleInputStateMachine.InitStateMachine();
     }
 
     public override StateIdentificationSO OnHoldState()
