@@ -1,5 +1,4 @@
-﻿using Battles.UI;
-using CardMaga.UI;
+﻿using CardMaga.UI;
 
 namespace CardMaga.Input
 {
