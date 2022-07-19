@@ -1,31 +1,25 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using Battles;
 using Battles.UI;
 using DG.Tweening;
-using ReiTools.TokenMachine;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 public class FollowCardUI : MonoBehaviour
 {
-    public event Action<CardUI> OnCardExecut;
-
     [SerializeField] private HandUI _handUI;
     [SerializeField] private ZoomCardUI _zoomCardUI;
     [SerializeField] private TransitionPackSO _followHand;
     [SerializeField] private RectTransform _executionBoundry;
 
-    private CardUI _selectCardUI;
+    private Sequence _currentSequence;
     private float _executionBoundry_Y;
 
-    private Sequence _currentSequence;
-    private IDisposable _token;
-    
     private Vector2 _mousePosition;
-    
+
+    private CardUI _selectCardUI;
+    private IDisposable _token;
+
     public void Start()
     {
         _executionBoundry_Y = _executionBoundry.position.y;
@@ -37,7 +31,9 @@ public class FollowCardUI : MonoBehaviour
         InputReciever.OnTouchDetected -= GetMousePos;
         KillTween();
     }
-    
+
+    public event Action<CardUI> OnCardExecut;
+
     public void SetSelectCardUI(CardUI cardUI)
     {
         if (_selectCardUI != null)
@@ -49,23 +45,20 @@ public class FollowCardUI : MonoBehaviour
         _selectCardUI.Inputs.OnPointUp += ReleaseCard;
     }
 
-    public void ReleaseCard(CardUI cardUI)
+    private void ReleaseCard(CardUI cardUI)
     {
-        if (!ReferenceEquals(cardUI,_selectCardUI))
+        if (!ReferenceEquals(cardUI, _selectCardUI))
             return;
-        
+
         _selectCardUI.Inputs.OnHold -= FollowHand;
         _selectCardUI.Inputs.OnPointUp -= ReleaseCard;
 
-        if (cardUI.transform.position.y > _executionBoundry_Y && CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
-        {
+        if (cardUI.transform.position.y > _executionBoundry_Y &&
+            CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
             OnCardExecut?.Invoke(_selectCardUI);
-        }
         else
-        {
             _handUI.ReturnCardUIToHand(_selectCardUI);
-        }
-        
+
         _selectCardUI = null;
     }
 
@@ -73,20 +66,20 @@ public class FollowCardUI : MonoBehaviour
     {
         if (_selectCardUI == null)
             return;
-        
+
         _selectCardUI.Inputs.OnHold -= FollowHand;
         _selectCardUI.Inputs.OnPointUp -= ReleaseCard;
         _handUI.ForceReturnCardUIToHand(_selectCardUI);
         _selectCardUI = null;
     }
-    
 
-    public void FollowHand(CardUI cardUI)
+
+    private void FollowHand(CardUI cardUI)
     {
-        KillTween(); 
+        KillTween();
         _currentSequence = cardUI.CardTransitionManager.Move(_mousePosition, _followHand);
     }
-    
+
     private void GetMousePos(Vector2 mousePos)
     {
         _mousePosition = mousePos;
@@ -94,9 +87,6 @@ public class FollowCardUI : MonoBehaviour
 
     private void KillTween()
     {
-        if (_currentSequence != null)
-        {
-            _currentSequence.Kill();
-        }
+        if (_currentSequence != null) _currentSequence.Kill();
     }
 }

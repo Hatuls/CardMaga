@@ -2,7 +2,6 @@
 using Battles.UI;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class ZoomCardUI : MonoBehaviour
 {
@@ -12,12 +11,12 @@ public class ZoomCardUI : MonoBehaviour
     [SerializeField] private TransitionPackSO _zoomCard;
     [SerializeField] private TransitionPackSO _resetZoomCard;
 
-    private IDisposable _zoomToken;
-    
-    private CardUI _selectCardUI;
-    
     private Sequence _currentSequence;
-    
+
+    private CardUI _selectCardUI;
+
+    private IDisposable _zoomToken;
+
     public void SetZoomCard(CardUI cardUI)
     {
         if (_selectCardUI != null)
@@ -38,40 +37,40 @@ public class ZoomCardUI : MonoBehaviour
 
     private void SetToFollow(CardUI cardUI)
     {
-        if (!ReferenceEquals(cardUI,_selectCardUI))
+        if (!ReferenceEquals(cardUI, _selectCardUI))
             return;
 
         _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
         _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
-        
+
         if (_zoomToken != null)
             _zoomToken.Dispose();
-        
+
         _followCard.SetSelectCardUI(_selectCardUI);
         _selectCardUI = null;
     }
-    
+
     private void MoveToZoomPosition(CardUI cardUI)
     {
         if (_selectCardUI != null)
         {
             KillTween();
-            _currentSequence = cardUI.CardTransitionManager.Transition(_zoomPosition, _zoomCard,InitZoom);
+            _currentSequence = cardUI.CardTransitionManager.Transition(_zoomPosition, _zoomCard, InitZoom);
         }
     }
 
     private void ReturnCardToHand(CardUI cardUI)
     {
-        if (!ReferenceEquals(cardUI,_selectCardUI))
+        if (!ReferenceEquals(cardUI, _selectCardUI))
             return;
 
         _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
         _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
 
         _zoomToken.Dispose();
-        
+
         _handUI.ReturnCardUIToHand(_selectCardUI);
-        
+
         _selectCardUI = null;
     }
 
@@ -79,21 +78,18 @@ public class ZoomCardUI : MonoBehaviour
     {
         if (_selectCardUI == null)
             return;
-            
+
         _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
         _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
         _zoomToken.Dispose();
-        
+
         _handUI.ForceReturnCardUIToHand(_selectCardUI);
-        
+
         _selectCardUI = null;
     }
-    
+
     private void KillTween()
     {
-        if (_currentSequence != null)
-        {
-            _currentSequence.Kill();
-        }
+        if (_currentSequence != null) _currentSequence.Kill();
     }
 }
