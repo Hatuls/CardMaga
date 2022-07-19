@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using CardMaga.Card;
+
 namespace Cards
 {
     public class CardTypeComparer : IEqualityComparer<CardTypeData>

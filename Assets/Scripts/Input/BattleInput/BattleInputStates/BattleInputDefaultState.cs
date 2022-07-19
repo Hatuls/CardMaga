@@ -1,28 +1,32 @@
 ﻿using System;
-using Battles.UI;
+using CardMaga.UI;
 using UnityEngine;
-
-public class BattleInputDefaultState : BaseState
+namespace CardMaga.Input
 {
-    [SerializeField] private HandUI _handUI;
-
-    private IDisposable _handToken;
 
 
-    public override void OnEnterState()
+    public class BattleInputDefaultState : BaseState
     {
-        base.OnEnterState();
+        [SerializeField] private HandUI _handUI;
 
-        _handToken = _handUI.HandLockTokenReceiver.GetToken();
-    }
+        private IDisposable _handToken;
 
-    public override void OnExitState()
-    {
-        _handToken.Dispose();
-    }
 
-    public override StateIdentificationSO OnHoldState()
-    {
-        return base.CheckStateCondition();
+        public override void OnEnterState()
+        {
+            base.OnEnterState();
+
+            _handToken = _handUI.HandLockTokenReceiver.GetToken();
+        }
+
+        public override void OnExitState()
+        {
+            _handToken.Dispose();
+        }
+
+        public override StateIdentificationSO OnHoldState()
+        {
+            return base.CheckStateCondition();
+        }
     }
 }

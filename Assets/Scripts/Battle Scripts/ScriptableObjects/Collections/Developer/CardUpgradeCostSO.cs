@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿using CardMaga.Card;
 using Rewards;
 using UnityEngine;
 
@@ -8,7 +8,7 @@ public class CardUpgradeCostSO : ScriptableObject
     ushort[] _upgradecostInMainMenu;
     [SerializeField]
     Collections.CardsCollectionSO.RarityCards[] _rarityCards;
-    public int NextCardValue(Card card, ResourceEnum resourceType)
+    public int NextCardValue(CardData card, ResourceEnum resourceType)
     {
         if (resourceType == ResourceEnum.Chips)
             return _upgradecostInMainMenu[card.CardLevel];
@@ -55,7 +55,7 @@ public class CardUpgradeCostSO : ScriptableObject
                 else
                     throw new System.Exception($"Reward Gold is not a valid number - " + seperations[j]);
             }
-            _rarityCards[i] = new Collections.CardsCollectionSO.RarityCards(costs, (Cards.RarityEnum)(i + 1));
+            _rarityCards[i] = new Collections.CardsCollectionSO.RarityCards(costs, (RarityEnum)(i + 1));
         }
 
         //Main Menu upgrades

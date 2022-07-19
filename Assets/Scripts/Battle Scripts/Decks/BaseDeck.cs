@@ -1,11 +1,11 @@
-﻿using Cards;
+﻿using CardMaga.Card;
 using System;
 namespace Battle.Deck
 {
     public abstract class BaseDeck : IDeckHandler
     {
         public bool isPlayer { get; private set; }
-        private Card[] _deckCards;
+        private CardData[] _deckCards;
 
         private int amountOfEmptySlots;
         private int amountOfFilledSlots;
@@ -13,10 +13,10 @@ namespace Battle.Deck
         #region Properties
         public int GetAmountOfEmptySlots { get { return amountOfEmptySlots; } }
         public  int GetAmountOfFilledSlots =>  amountOfFilledSlots;
-        public ref Card[] GetDeck
+        public ref CardData[] GetDeck
             => ref _deckCards; 
         
-        public Card[] SetDeck
+        public CardData[] SetDeck
         {
             
             set
@@ -33,7 +33,7 @@ namespace Battle.Deck
         #endregion
 
         #region Public Functions
-        public BaseDeck(bool isPlayer, Card[] deckCards)
+        public BaseDeck(bool isPlayer, CardData[] deckCards)
         {
             SetDeck = deckCards;
             this.isPlayer = isPlayer;
@@ -49,7 +49,7 @@ namespace Battle.Deck
         {
             // assign new deck in the legnth we want
 
-            SetDeck = new Card[length];
+            SetDeck = new CardData[length];
         }
 
         protected void CountCards()
@@ -74,7 +74,7 @@ namespace Battle.Deck
                     amountOfFilledSlots++;
             }
         }
-        public virtual Card GetFirstCard()
+        public virtual CardData GetFirstCard()
         {
             // return the Card from the first slot in the array
 
@@ -84,7 +84,7 @@ namespace Battle.Deck
 
             return null;
         }
-        public virtual bool AddCard(Card card)
+        public virtual bool AddCard(CardData card)
         {
             //  add card to the deck
             // if its not assigned then create a deck of 5 cards
@@ -109,7 +109,7 @@ namespace Battle.Deck
             return false;
         }
         public virtual bool ExpandingDeckPolicy() => true;
-        public virtual bool DiscardCard(in Card card)
+        public virtual bool DiscardCard(in CardData card)
         {
             /*
              * check if the deck and card is valids
@@ -191,7 +191,7 @@ namespace Battle.Deck
             }
             UnityEngine.Debug.Log(deck.ToString() + "Amount OF ACTUALLY CARDS IN DECK : " + counter);
         }
-        public bool IsTheCardInDeck(in Card card)
+        public bool IsTheCardInDeck(in CardData card)
          {
             /*
              *Check if specific card is in the deck
@@ -320,9 +320,9 @@ namespace Battle.Deck
     };
     public interface IDeckHandler {
       
-        bool DiscardCard(in Card card);
+        bool DiscardCard(in CardData card);
         void ResetDeck();
-        bool AddCard(Card card);
+        bool AddCard(CardData card);
         void InitDeck(int length);
     }
 }

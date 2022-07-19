@@ -1,4 +1,5 @@
-﻿using Battle.UI;
+﻿using CardMaga.Card;
+using CardMaga.UI.Card;
 using System;
 using UI.Meta.Laboratory;
 using UnityEngine;
@@ -173,7 +174,7 @@ public static class DismentalHandler
 {
     static DismentalCostsSO _dismentalCostsSO = Resources.Load<DismentalCostsSO>("MetaGameData/DismentalCostSO");
     // Need To be Re-Done
-    public static bool DismentalCard(Cards.Card card)
+    public static bool DismentalCard(CardData card)
     {
         //if (card == null)
         //    throw new System.Exception($"DismentalHandler: Card is null");
@@ -188,7 +189,7 @@ public static class DismentalHandler
         return false;
     }
 
-    private static void SendAnalyticEvents(Cards.Card card)
+    private static void SendAnalyticEvents(CardData card)
     {
         const string EventName = "dismentaling_card";
          string cardName = card.CardSO.CardName;

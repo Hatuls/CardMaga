@@ -1,4 +1,4 @@
-﻿using Battles.UI;
+﻿using CardMaga.UI;
 
 public class MoveFromDefultStateToSelectState : BaseCondition
 {

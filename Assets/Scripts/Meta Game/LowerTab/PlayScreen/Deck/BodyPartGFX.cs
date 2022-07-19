@@ -1,4 +1,5 @@
 ﻿using Art;
+using CardMaga.Card;
 using Cards;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,7 +44,7 @@ namespace UI.Meta.PlayScreen
 
             if (_decorImage != null)
                 _decorImage.color = artPalett.GetDecorationColorFromEnum(cardTypeData.CardType);
-            _bodyPartImage.gameObject.SetActive(cardTypeData.BodyPart != Cards.BodyPartEnum.Empty);
+            _bodyPartImage.gameObject.SetActive(cardTypeData.BodyPart != CardMaga.Card.BodyPartEnum.Empty);
         }
         #endregion
     }

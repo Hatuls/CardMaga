@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
+using CardMaga.Card;
 
 [CreateAssetMenu(fileName = "Card UI Paletta", menuName = "ScriptableObjects/Art/UI/Card UI")]
 
@@ -68,7 +69,7 @@ public class CardUIPaletteSO : ScriptableObject
     #endregion
 
     #region Functions
-    public ColorUI GetCardColorType(Cards.CardTypeEnum cardType)
+    public ColorUI GetCardColorType(CardTypeEnum cardType)
     {
         if (_colorPalettes == null || _colorPalettes.Length != 3)
         {
@@ -78,11 +79,11 @@ public class CardUIPaletteSO : ScriptableObject
         switch (cardType)
         {
             default:
-            case Cards.CardTypeEnum.Attack:
+            case CardTypeEnum.Attack:
                 return _colorPalettes[0];
-            case Cards.CardTypeEnum.Defend:
+            case CardTypeEnum.Defend:
                 return _colorPalettes[1];
-            case Cards.CardTypeEnum.Utility:
+            case CardTypeEnum.Utility:
                 return _colorPalettes[2];
         }
     }

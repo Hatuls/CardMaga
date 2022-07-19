@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-﻿using Battles;
-using Battles.UI;
-=======
-﻿
-using Battle;
-using Battle.UI;
->>>>>>> WithOutMapScene
+
 using System.Collections.Generic;
 using UI;
 using UI.Meta.Laboratory;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using CardMaga.UI.Card;
 namespace CardMaga.UI
 {
 
@@ -83,16 +76,7 @@ namespace CardMaga.UI
             //            _deckCardsUI[i].gameObject.SetActive(true);
 
            
-<<<<<<< HEAD
-                    _deckCardsUI[i].CardUI.AssignCard(deck[i]);
-                }
-                else
-                {
-                    if (_deckCardsUI[i].gameObject.activeSelf == true)
-                        _deckCardsUI[i].gameObject.SetActive(false);
-                }
-            }
-=======
+
             //        _deckCardsUI[i].CardUI.DisplayCard(deck[i]);
             //    }
             //    else
@@ -101,7 +85,6 @@ namespace CardMaga.UI
             //            _deckCardsUI[i].gameObject.SetActive(false);
             //    }
             //}
->>>>>>> WithOutMapScene
         }
 
         private void SelectedCard(CardUI card)

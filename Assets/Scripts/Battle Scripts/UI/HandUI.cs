@@ -1,22 +1,21 @@
-<<<<<<< HEAD
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Battles.Deck;
-using Battles.Turns;
-using Cards;
+
+using Battle;
+using Battle.Deck;
+using Battle.Turns;
+using Battle.UI;
+using CardMaga.Card;
+using CardMaga.Input;
+using CardMaga.UI.Card;
 using DG.Tweening;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace Battles.UI
-=======
-﻿using Battle.UI.CardUIAttributes;
-using UnityEngine;
-namespace Battle.UI
->>>>>>> WithOutMapScene
+namespace CardMaga.UI
 {
     public class HandUI : MonoBehaviour, ILockabel
     {
@@ -58,7 +57,7 @@ namespace Battle.UI
             BattleManager.OnGameEnded += LockInput;
             BattleManager.OnGameEnded += ForceDiscardCards;
             DeckManager.OnDrawCards += DrawCardsFromDeck;
-            _followCard.OnCardExecut += OnCardExecute;
+            _followCard.OnCardExecute += OnCardExecute;
         }
 
         private void OnDestroy()
@@ -66,7 +65,7 @@ namespace Battle.UI
             BattleManager.OnGameEnded -= ForceDiscardCards;
             BattleManager.OnGameEnded -= LockInput;
             DeckManager.OnDrawCards -= DrawCardsFromDeck;
-            _followCard.OnCardExecut -= OnCardExecute;
+            _followCard.OnCardExecute -= OnCardExecute;
             EndPlayerTurn.OnPlayerEndTurn -= ForceDiscardCards;
 
             for (var i = 0; i < _tableCardSlot.CardSlots.Count; i++)
@@ -92,7 +91,7 @@ namespace Battle.UI
         public static event Action OnCardSelect;
         public static event Action OnCardReturnToHand;
 
-        private void DrawCardsFromDeck(params Card[] cards)
+        private void DrawCardsFromDeck(params CardData[] cards)
         {
             CardUI[] _handCards;
 
@@ -399,12 +398,12 @@ namespace Battle.UI
             var cardSlots = new List<CardSlot>();
 
             for (var i = 0; i < cardUIs.Length; i++)
-            for (var j = 0; j < _cardSlots.Count; j++)
-                if (_cardSlots[j].IsContainCardUI(cardUIs[i]))
-                {
-                    cardSlots.Add(_cardSlots[j]);
-                    break;
-                }
+                for (var j = 0; j < _cardSlots.Count; j++)
+                    if (_cardSlots[j].IsContainCardUI(cardUIs[i]))
+                    {
+                        cardSlots.Add(_cardSlots[j]);
+                        break;
+                    }
 
             return cardSlots;
         }

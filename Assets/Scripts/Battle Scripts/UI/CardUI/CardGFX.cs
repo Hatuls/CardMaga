@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Cards;
 using Art;
 using UI.Meta.PlayScreen;
 using System.Collections.Generic;
 using static Cards.PerLevelUpgrade;
+using CardMaga.Card;
 
 namespace Battle.UI.CardUIAttributes
 {
@@ -47,7 +47,7 @@ namespace Battle.UI.CardUIAttributes
 
         [SerializeField] RectTransform _rectTransform;
 
-        Card _cardReferenceInHandDeck;
+        CardData _cardReferenceInHandDeck;
 
         [SerializeField] CanvasGroup _canvasGroup;
 
@@ -57,7 +57,7 @@ namespace Battle.UI.CardUIAttributes
         #endregion
 
         #region Properties
-        public  Card GetCardReference { get => _cardReferenceInHandDeck; }
+        public  CardData GetCardReference { get => _cardReferenceInHandDeck; }
 
         public RectTransform GetRectTransform =>  _rectTransform;
         #endregion
@@ -115,7 +115,7 @@ namespace Battle.UI.CardUIAttributes
 
         }
     
-        internal void SetCardReference(Card cardData)
+        internal void SetCardReference(CardData cardData)
         {
             if (cardData == null)
             {

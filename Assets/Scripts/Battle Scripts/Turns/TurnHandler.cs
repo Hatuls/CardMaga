@@ -362,10 +362,7 @@ namespace Battle.Turns
             yield return null;
             CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(KeywordTypeEnum.Shield).Reset();
 
-            if (OnEndPlayerTurn!= null)
-            {
-                OnEndPlayerTurn.Invoke();
-            }
+      
             Managers.PlayerManager.Instance.OnEndTurn();
             EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();

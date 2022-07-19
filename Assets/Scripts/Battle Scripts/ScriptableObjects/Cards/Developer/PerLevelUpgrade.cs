@@ -1,4 +1,5 @@
-﻿using Keywords;
+﻿using CardMaga.Card;
+using Keywords;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardMaga.Card;
+using System;
 using UnityEngine;
 
 namespace Cards.Meta
@@ -14,7 +15,7 @@ namespace Cards.Meta
         {
 
         }
-        public ushort GetDismantleCost(Cards.Card card)
+        public ushort GetDismantleCost(CardData card)
         {
             throw new NotImplementedException();
         }

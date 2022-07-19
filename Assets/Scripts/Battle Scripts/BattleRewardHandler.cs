@@ -5,6 +5,7 @@ using UnityEngine;
 using CardMaga;
 using CardMaga.Map;
 using Battle.Combo;
+using CardMaga.Card;
 
 namespace Rewards.Battles
 {
@@ -54,7 +55,7 @@ namespace Rewards.Battles
         //    SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
         }
         // Need To be Re-Done
-        public void AddCard(Cards.Card cardToAdd)
+        public void AddCard(CardData cardToAdd)
         {
          //   Account.AccountManager.Instance.BattleData.Player.AddCardToDeck(cardToAdd);
         }

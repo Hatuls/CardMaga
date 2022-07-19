@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿
 using Rei.Utilities;
 using System.Collections.Generic;
 using Battle.Combo;
@@ -10,15 +10,15 @@ namespace CardMaga.UI
     [System.Serializable]
     public class SortComboEvent : UnityEvent<ISort<Combo>> { }
     [System.Serializable]
-    public class SortCardEvent : UnityEvent<ISort<Card>> { }
+    public class SortCardEvent : UnityEvent<ISort<CardMaga.Card.CardData>> { }
     public class ShowAllCards : CardSort
     {
-        public override IEnumerable<Card> Sort()
+        public override IEnumerable<CardMaga.Card.CardData> Sort()
          => GetCollection();
     }
 
 
-    public abstract  class CardSort : SortAbst<Card>
+    public abstract  class CardSort : SortAbst<CardMaga.Card.CardData>
     {
         [SerializeField]
         protected SortCardEvent _cardEvent;

@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Cards
+namespace CardMaga.Card
 {
     [Serializable]
     public class CardTypeData

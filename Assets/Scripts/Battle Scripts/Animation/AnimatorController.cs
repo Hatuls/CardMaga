@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿
 using Rei.Utilities;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using Unity.Events;
 using UnityEngine;
 using Battle;
 using Battle.Turns;
+using CardMaga.Animation;
 
 public class AnimatorController : MonoBehaviour
 {

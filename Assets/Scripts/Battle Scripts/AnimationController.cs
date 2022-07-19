@@ -1,6 +1,6 @@
 ﻿
-using Cards;
-using Rei.Utilities;
+using CardMaga.Animation;
+using CardMaga.Card;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ public class AnimationController : MonoBehaviour
     Queue<AnimationBundle> _animationQueue = new Queue<AnimationBundle>();
     [SerializeField] Vector3 startPos;
     bool IsMyTurn;
-    public void SetAnimationQueue(Card card)
+    public void SetAnimationQueue(CardData card)
     {
         // When we finish the planning turn we get the cards and start the animation 
         if (card == null)
@@ -42,7 +42,7 @@ public class AnimationController : MonoBehaviour
     {
         string name = _animationQueue.Dequeue().AttackAnimation.ToString();
         if (_animationQueue.Count == 0)
-            name ="Idle_1";
+            name = "Idle_1";
 
         _animationController.CrossFadeQueued(name, 1f, QueueMode.CompleteOthers);
 

@@ -1,4 +1,5 @@
 ﻿using Battle.Deck;
+using CardMaga.Card;
 using Sirenix.OdinInspector;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Combo Icons", menuName = "ScriptableObjects/Art/Combo/Go To After Executions Icon ")]
@@ -44,15 +45,15 @@ public class ColorPerType
     private Color[] _colorVariations = new Color[3];
 
 
-    public Color GetColor(Cards.CardTypeEnum cardType)
+    public Color GetColor(CardTypeEnum cardType)
     {
         switch (cardType)
         {
-            case Cards.CardTypeEnum.Utility:
+            case CardTypeEnum.Utility:
                 return _colorVariations[0];
-            case Cards.CardTypeEnum.Defend:
+            case CardTypeEnum.Defend:
                 return _colorVariations[1];
-            case Cards.CardTypeEnum.Attack:
+            case CardTypeEnum.Attack:
                 return _colorVariations[2];
             default:
                 throw new System.Exception($"Card Type is Not Valid!");

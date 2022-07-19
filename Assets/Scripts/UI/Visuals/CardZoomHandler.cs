@@ -1,4 +1,5 @@
-﻿using CardMaga.UI.Visuals;
+﻿using CardMaga.Card;
+using CardMaga.UI.Visuals;
 using DG.Tweening;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
@@ -70,7 +71,7 @@ namespace CardMaga.UI
             //scale card
             _cardVisualMainObject.localScale = Vector3.one;
         }
-        public void SetCardType(Cards.CardTypeEnum type)
+        public void SetCardType(CardTypeEnum type)
         {
             int cardType = (int)type - 1;
             _startPos = _zoomPositionsSO.YStartPosition[cardType];

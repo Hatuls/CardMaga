@@ -1,4 +1,4 @@
-﻿using Battle.UI;
+﻿using CardMaga.UI.Card;
 using System;
 using TMPro;
 using UnityEngine;

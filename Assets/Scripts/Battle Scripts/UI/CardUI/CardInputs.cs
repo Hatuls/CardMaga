@@ -1,4 +1,5 @@
-﻿using DesignPattern;
+﻿using CardMaga.UI.Card;
+using DesignPattern;
 using Unity.Events;
 using UnityEngine;
 using UnityEngine.Events;

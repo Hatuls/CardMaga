@@ -1,14 +1,14 @@
 ﻿using Account;
-using Cards;
 using Battle;
 using Rewards;
 using Battle.Combo;
+using CardMaga.Card;
 
 namespace Meta
 {
     public static class UpgradeHandler
     {
-        public static Cards.Card GetUpgradedCardVersion(Cards.Card card)
+        public static CardData GetUpgradedCardVersion(CardData card)
         {
             if (card.CardLevel == card.CardSO.CardsMaxLevel)
                 return null;
@@ -41,7 +41,7 @@ namespace Meta
             //}
             //return false;
         }
-        public static bool TryUpgradeCard(CardUpgradeCostSO cardUpgradeCostSO, Card card, ResourceEnum resourceEnum)
+        public static bool TryUpgradeCard(CardUpgradeCostSO cardUpgradeCostSO, CardData card, ResourceEnum resourceEnum)
         {
             AccountManager account = AccountManager.Instance;
             if (resourceEnum == ResourceEnum.Chips)
@@ -55,7 +55,7 @@ namespace Meta
             return false;
         }
 
-        private static bool TryUpgradeInMetaGame(CardUpgradeCostSO cardUpgradeCostSO, Card card, ResourceEnum resourceEnum, AccountManager account)
+        private static bool TryUpgradeInMetaGame(CardUpgradeCostSO cardUpgradeCostSO, CardData card, ResourceEnum resourceEnum, AccountManager account)
         {
            //var chips = account.AccountGeneralData.AccountResourcesData.Chips;
            // int Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
@@ -69,7 +69,7 @@ namespace Meta
 
             return true;
         }
-        private static bool TryUpgradeInMap(CardUpgradeCostSO cardUpgradeCostSO, Card card, ResourceEnum resourceEnum, AccountManager account)
+        private static bool TryUpgradeInMap(CardUpgradeCostSO cardUpgradeCostSO, CardData card, ResourceEnum resourceEnum, AccountManager account)
         {
             return true;
             //var player = account.BattleData.Player;
@@ -87,7 +87,7 @@ namespace Meta
         }
 
         #region Analytics Events
-        private static void SendInMapUpgradeCardAnalyticEvent(Card card)
+        private static void SendInMapUpgradeCardAnalyticEvent(CardData card)
         {
             UnityAnalyticHandler.SendEvent("card_upgraded_in_dojo", new System.Collections.Generic.Dictionary<string, object>()
                     {
@@ -100,7 +100,7 @@ namespace Meta
                 new Firebase.Analytics.Parameter("card_level", card.CardLevel)
                 );
         }
-        private static void SendMetaGameUpgradeCardAnalyticEvent(Card card)
+        private static void SendMetaGameUpgradeCardAnalyticEvent(CardData card)
         {
             UnityAnalyticHandler.SendEvent("card_upgraded_in_meta_game", new System.Collections.Generic.Dictionary<string, object>()
                     {

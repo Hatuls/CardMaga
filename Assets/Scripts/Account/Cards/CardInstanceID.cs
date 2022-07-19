@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿using CardMaga.Card;
 using System;
 using UnityEngine;
 namespace Account.GeneralData

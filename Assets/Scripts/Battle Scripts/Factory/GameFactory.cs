@@ -1,7 +1,6 @@
 ﻿using Account.GeneralData;
 using Battle;
 using CardMaga;
-using Cards;
 using Collections;
 using Battle.Combo;
 using Rewards;
@@ -10,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static CardMaga.ActDifficultySO;
+using CardMaga.Card;
 
 namespace Factory
 {
@@ -277,11 +277,11 @@ namespace Factory
        
             
 
-            public Card[] CreateDeck(CardCore[] cardsInfo)
+            public CardData[] CreateDeck(CardCore[] cardsInfo)
             {
                 if (cardsInfo != null && cardsInfo.Length != 0)
                 {
-                    Card[] cards = new Card[cardsInfo.Length];
+                    CardData[] cards = new CardData[cardsInfo.Length];
 
                     for (int i = 0; i < cards.Length; i++)
                     {
@@ -304,16 +304,16 @@ namespace Factory
              => CreateCardInstance(new CardCore(cardSOID, level, exp));
             public CardInstanceID CreateCardInstance(CardCore core)
             => core.CreateInstance();
-            public Card CreateCard(CardInstanceID _data)
+            public CardData CreateCard(CardInstanceID _data)
             {
                 if (_data == null)
                     throw new Exception($"CardFactory: CardCoreInfo is null!");
-                return new Card(_data);
+                return new CardData(_data);
             }
-            public Card CreateCard(int CardSOID, int level = 0)
+            public CardData CreateCard(int CardSOID, int level = 0)
              => CreateCard(GetCard(CardSOID), level);
 
-            public Card CreateCard(CardSO cardSO, int level = 0)
+            public CardData CreateCard(CardSO cardSO, int level = 0)
             {
 
                 if (cardSO != null && (level >= 0 && level <= cardSO.CardsMaxLevel))
@@ -323,9 +323,9 @@ namespace Factory
                 throw new Exception($" card was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
 
             }
-            public Card[] CreateDeck(CardInstanceID[] cards)
+            public CardData[] CreateDeck(CardInstanceID[] cards)
             {
-                Card[] c = new Card[cards.Length];
+                CardData[] c = new CardData[cards.Length];
                 for (int i = 0; i < c.Length; i++)
                 {
                     c[i] = CreateCard(cards[i]);
@@ -334,14 +334,14 @@ namespace Factory
                 return c;
             }
 
-            internal Card[] CreateDeck(AccountDeck deck)
+            internal CardData[] CreateDeck(AccountDeck deck)
             {
                 if (deck == null)
                     throw new Exception("Card Factory: AccountDeck is null!");
 
                 int length = deck.Cards.Length;
                 var cardsDataHolder = deck.Cards;
-                Card[] cards = new Card[length];
+                CardData[] cards = new CardData[length];
 
                 for (int i = 0; i < length; i++)
                 {

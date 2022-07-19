@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿using CardMaga.Card;
 using UnityEngine;
 
 public class DismentalCostsSO : ScriptableObject
@@ -8,7 +8,7 @@ public class DismentalCostsSO : ScriptableObject
 
     public RarirtyLevelCosts[] DismentalCosts { get => _dismentalCosts; }
 
-    public ushort GetCardDismentalCost(Card card)
+    public ushort GetCardDismentalCost(CardData card)
     {
         for (int i = 0; i < _dismentalCosts.Length; i++)
         {

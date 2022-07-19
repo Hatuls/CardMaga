@@ -1,7 +1,5 @@
-﻿using Cards;
-using Rei.Utilities;
+﻿
 using System.Collections.Generic;
-
 using UnityEngine;
 namespace CardMaga.UI
 {
@@ -10,7 +8,7 @@ namespace CardMaga.UI
         [SerializeField]
         int deckIndex;
         // Need To be Re-Done
-        public override IEnumerable<Card> Sort()
+        public override IEnumerable<CardMaga.Card.CardData> Sort()
         {
             var deck = GetCollection();
             // var account = Account.AccountManager.Instance.AccountCharacters;

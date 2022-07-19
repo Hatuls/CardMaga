@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿using CardMaga.Card;
 using UnityEngine;
 namespace Battle.Deck
 {
@@ -37,7 +37,7 @@ namespace Battle.Deck
             }
         }
       
-        public bool DiscardCard(in Card card, DeckEnum? discardTo = null)
+        public bool DiscardCard(in CardData card, DeckEnum? discardTo = null)
         {
 
             if (card == null)
@@ -62,7 +62,7 @@ namespace Battle.Deck
 
             return true;
         }
-        public override bool AddCard(Card card)
+        public override bool AddCard(CardData card)
         {
             if (card == null)
                 return false;

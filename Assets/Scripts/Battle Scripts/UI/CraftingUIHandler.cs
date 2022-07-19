@@ -1,4 +1,5 @@
 ﻿using Battle.Deck;
+using CardMaga.Card;
 using TMPro;
 using UnityEngine;
 
@@ -86,7 +87,7 @@ namespace Battle.UI
             }
             _CraftingSlotsUIArr[index].ResetSlotUI();
         }
-        public void ChangeSlotsPos(Cards.Card[] cards , Cards.Card removedCard)
+        public void ChangeSlotsPos(CardData[] cards , CardData removedCard)
         {
  
             _fadingOut.InitPlaceHolder(removedCard?.CardSO?.CardType);
@@ -104,7 +105,7 @@ namespace Battle.UI
         public RectTransform GetRectTransform(int index)
         => index == 0 ? _firstSlotTransform : _CraftingSlotsUIArr[index -1].RectTransform;
   
-        public void PlaceOnPlaceHolder(int index, Cards.Card cardCache)
+        public void PlaceOnPlaceHolder(int index, CardData cardCache)
         {
             if (cardCache == null )
             {

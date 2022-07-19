@@ -1,4 +1,5 @@
-﻿using CardMaga.UI.Text;
+﻿using CardMaga.Card;
+using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -38,7 +39,7 @@ namespace CardMaga.UI
         }
 #if UNITY_EDITOR
         [Header("Test")]
-        [SerializeField] Cards.Card _card;
+        [SerializeField] CardMaga.Card.CardData _card;
 
 
 
@@ -65,7 +66,7 @@ namespace CardMaga.UI
             _cardDescriptionAssigner.Init();
 
             //ResetCard
-            _cardZoomHandler.SetCardType(Cards.CardTypeEnum.Attack);
+            _cardZoomHandler.SetCardType(CardTypeEnum.Attack);
         }
         [Button]
         public void ActivateGlow()
@@ -77,7 +78,7 @@ namespace CardMaga.UI
         {
             _cardGlowVisualAssigner.SetGlow(false);
         }
-        public override void SetCardVisuals(Cards.Card card)
+        public override void SetCardVisuals(CardMaga.Card.CardData card)
         {
             var cardTypeEnum = card.CardSO.CardTypeEnum;
             var cardLevel = card.CardLevel;
@@ -103,6 +104,6 @@ namespace CardMaga.UI
     public abstract class BaseCardVisualHandler : MonoBehaviour
     {
         public abstract CardZoomHandler CardZoomHandler { get; }
-        public abstract void SetCardVisuals(Cards.Card card);
+        public abstract void SetCardVisuals(CardMaga.Card.CardData card);
     }
 }

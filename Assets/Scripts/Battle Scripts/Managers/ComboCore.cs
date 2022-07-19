@@ -1,4 +1,5 @@
 ﻿using Battle.Combo;
+using CardMaga.Card;
 using System;
 using UnityEngine;
 
@@ -66,9 +67,9 @@ namespace Battle.Combo
 
         public int ID => _comboCore.ID;
         public int Level => _comboCore.Level;
-        public Cards.CardTypeData[] ComboSequence => _comboSO.ComboSequence;
+        public CardTypeData[] ComboSequence => _comboSO.ComboSequence;
         public ComboSO ComboSO { get => _comboSO; private set => _comboSO = value; }
-        public Cards.CardSO CraftedCard => _comboSO.CraftedCard;
+        public CardSO CraftedCard => _comboSO.CraftedCard;
         public Battle.Deck.DeckEnum GoToDeckAfterCrafting => _comboSO.GoToDeckAfterCrafting;
         public Account.GeneralData.ComboCore ComboCore => _comboCore;
     }

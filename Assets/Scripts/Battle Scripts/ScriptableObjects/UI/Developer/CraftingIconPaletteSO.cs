@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
+using CardMaga.Card;
 
 [CreateAssetMenu(fileName = "Crafting_Icon_Paletta", menuName = "ScriptableObjects/Art/UI/Crafting Icon")]
 
@@ -50,7 +51,7 @@ public class CraftingIconPaletteSO : ScriptableObject
     #endregion
 
     #region Functions
-    public ColorUI GetCardColorType(Cards.CardTypeEnum cardType)
+    public ColorUI GetCardColorType(CardTypeEnum cardType)
     {
         if (_colorPalettes == null || _colorPalettes.Length != 3)
         {
@@ -60,11 +61,11 @@ public class CraftingIconPaletteSO : ScriptableObject
         switch (cardType)
         {
             default:
-            case Cards.CardTypeEnum.Attack:
+            case CardTypeEnum.Attack:
                 return _colorPalettes[0];
-            case Cards.CardTypeEnum.Defend:
+            case CardTypeEnum.Defend:
                 return _colorPalettes[1];
-            case Cards.CardTypeEnum.Utility:
+            case CardTypeEnum.Utility:
                 return _colorPalettes[2];
         }
     }

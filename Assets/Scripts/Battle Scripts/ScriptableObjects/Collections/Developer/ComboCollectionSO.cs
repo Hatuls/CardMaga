@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Cards;
 using System.Linq;
 using Battle.Combo;
+using CardMaga.Card;
+
 namespace Collections
 {
     [CreateAssetMenu(fileName = "ComboCollectionSO", menuName = "ScriptableObjects/Collections/ComboCollectionSO")]

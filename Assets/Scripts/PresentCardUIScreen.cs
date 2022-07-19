@@ -1,4 +1,5 @@
-﻿using Battle.UI;
+﻿using CardMaga.Card;
+using CardMaga.UI.Card;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace UI
         public void OpenCardUIInfo(CardUI cardUI)
         {
 
-            Cards.Card card = cardUI.CardData;
+            CardData card = cardUI.CardData;
             _cardUI.AssignCard(card);
             for (int i = 0; i < _keywordsInfo.Count; i++)
             {
@@ -42,7 +43,7 @@ namespace UI
             OnCloseEvent?.Invoke();
             _gameObject.SetActive(false);
         }
-        private void SortKeywords(Cards.Card card)
+        private void SortKeywords(CardData card)
         {
             var keywords = card.CardKeywords;
             List<Keywords.KeywordTypeEnum> list = new List<Keywords.KeywordTypeEnum>();

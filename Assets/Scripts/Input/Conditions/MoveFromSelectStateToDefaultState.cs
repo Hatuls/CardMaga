@@ -1,23 +1,27 @@
-﻿using Battles.UI;
+﻿using CardMaga.UI;
 
-public class MoveFromSelectStateToDefaultState : BaseCondition
+namespace CardMaga.Input
 {
-    private bool _moveCondition;
 
-    public override bool CheckCondition()
+    public class MoveFromSelectStateToDefaultState : BaseCondition
     {
-        return _moveCondition;
-    }
+        private bool _moveCondition;
 
-    public override void InitCondition()
-    {
-        _moveCondition = false;
-        HandUI.OnCardReturnToHand += ChangeState;
-    }
+        public override bool CheckCondition()
+        {
+            return _moveCondition;
+        }
 
-    private void ChangeState()
-    {
-        HandUI.OnCardReturnToHand -= ChangeState;
-        _moveCondition = true;
+        public override void InitCondition()
+        {
+            _moveCondition = false;
+            HandUI.OnCardReturnToHand += ChangeState;
+        }
+
+        private void ChangeState()
+        {
+            HandUI.OnCardReturnToHand -= ChangeState;
+            _moveCondition = true;
+        }
     }
 }

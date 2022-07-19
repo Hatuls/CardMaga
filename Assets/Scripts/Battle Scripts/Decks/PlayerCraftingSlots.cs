@@ -1,21 +1,22 @@
-﻿using Battle.UI;
-using Cards;
+﻿using Battle.Deck;
+using Battle.UI;
+using CardMaga.Card;
 
-public class PlayerCraftingSlots : Battles.Deck.BaseDeck
+public class PlayerCraftingSlots : BaseDeck
     {
     CraftingUIHandler _playerCraftingUIHandler;
-    Card _lastCardEntered;
-    public Card LastCardEntered => _lastCardEntered;
+    CardData _lastCardEntered;
+    public CardData LastCardEntered => _lastCardEntered;
     public PlayerCraftingSlots(bool isPlayer, int cardsLength) : base(isPlayer, cardsLength)
     {
         _playerCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
     }
 
-    private bool AddCardToEmptySlot(Card card)
+    private bool AddCardToEmptySlot(CardData card)
     {
         _lastCardEntered = card;
         var bodypartEnum = card.BodyPartEnum;
-        if (bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None)
+        if (bodypartEnum == CardMaga.Card.BodyPartEnum.Empty || bodypartEnum == CardMaga.Card.BodyPartEnum.None)
             return true;
 
         bool foundEmptySlots = false;
@@ -31,16 +32,16 @@ public class PlayerCraftingSlots : Battles.Deck.BaseDeck
         }
         return foundEmptySlots;
     }
-    public override bool AddCard(Card card)
+    public override bool AddCard(CardData card)
     {
         _lastCardEntered = card;
         var bodypartEnum = card.BodyPartEnum;
-        if (!(bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None))
+        if (!(bodypartEnum == CardMaga.Card.BodyPartEnum.Empty || bodypartEnum == CardMaga.Card.BodyPartEnum.None))
         {
 
             if (AddCardToEmptySlot(card) == false)
             {
-                Card removingCard = GetDeck[0];
+                CardData removingCard = GetDeck[0];
 
                 for (int i = 1; i < GetDeck.Length; i++)
                     GetDeck[i - 1] = GetDeck[i];
@@ -56,7 +57,7 @@ public class PlayerCraftingSlots : Battles.Deck.BaseDeck
 
     public void PushSlots()
     {
-        Card removingCard = GetDeck[0];
+        CardData removingCard = GetDeck[0];
 
         for (int i = 1; i < GetDeck.Length; i++)
             GetDeck[i - 1] = GetDeck[i];
@@ -65,14 +66,14 @@ public class PlayerCraftingSlots : Battles.Deck.BaseDeck
         _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
         CountCards();
     }
-    public void AddCard(Card card, bool toDetect)
+    public void AddCard(CardData card, bool toDetect)
     {
         _lastCardEntered = card;
         var bodypartEnum = card.BodyPartEnum;
-        if (bodypartEnum == Cards.BodyPartEnum.Empty || bodypartEnum == Cards.BodyPartEnum.None)
+        if (bodypartEnum == CardMaga.Card.BodyPartEnum.Empty || bodypartEnum == CardMaga.Card.BodyPartEnum.None)
             return;
 
-        Card lastCardInDeck = null;
+        CardData lastCardInDeck = null;
 
         for (int i = GetDeck.Length - 1; i >= 1; i--)
         {

@@ -1,4 +1,4 @@
-﻿using Battle.UI;
+﻿using CardMaga.UI.Card;
 using Meta;
 using Rei.Utilities;
 using Rewards;

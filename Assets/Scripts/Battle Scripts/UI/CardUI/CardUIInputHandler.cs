@@ -1,62 +1,15 @@
-﻿using System;
-using Battles.UI;
-using UnityEngine;
-
-public class CardUIInputHandler : TouchableItem
+﻿using CardMaga.UI.Card;
+namespace CardMaga.Input
 {
-    [SerializeField] private CardUI _cardUIRef;
-    private void Awake()
+
+    public class CardUIInputHandler : TouchableItem<CardUI>
     {
-        base.OnClick += Click;//need fix
-        base.OnHold += Hold;
-        base.OnBeginHold += BeginHold;
-        base.OnEndHold += EndHold;
-        base.OnPointUp += PointUp;
-        base.OnPointDown += PointDown;
 
-        ForceChangeState(false);
-    }
+        private void Awake()
+        {
 
-    public event Action<CardUI> OnClick;
-    public event Action<CardUI> OnBeginHold;
-    public event Action<CardUI> OnEndHold;
-    public event Action<CardUI> OnHold;
-    public event Action<CardUI> OnPointDown;
-    public event Action<CardUI> OnPointUp;
+            ForceChangeState(false);
+        }
 
-    private void Click()
-    {
-        //Debug.Log(gameObject.name + " Click");
-        OnClick?.Invoke(_cardUIRef);
-    }
-
-    private void BeginHold()
-    {
-        //Debug.Log(gameObject.name + " BeginHold");
-        OnBeginHold?.Invoke(_cardUIRef);
-    }
-
-    private void EndHold()
-    {
-        //Debug.Log(gameObject.name + " EndHold");
-        OnEndHold?.Invoke(_cardUIRef);
-    }
-
-    private void Hold()
-    {
-        //Debug.Log(gameObject.name + " Hold");
-        OnHold?.Invoke(_cardUIRef);
-    }
-
-    private void PointDown()
-    {
-        //Debug.Log(gameObject.name + " PointDown");
-        OnPointDown?.Invoke(_cardUIRef);
-    }
-
-    private void PointUp()
-    {
-        //Debug.Log(gameObject.name + " PointUp");
-        OnPointUp?.Invoke(_cardUIRef);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿using CardMaga.Card;
 
 namespace Battle.Deck
 {
@@ -25,7 +25,7 @@ namespace Battle.Deck
             }
             _playerBaseDeck.Shuffle();
         }
-        public override bool AddCard(Card card)
+        public override bool AddCard(CardData card)
         {
             if (CheckDuplicate(card))
                 return false;
@@ -36,7 +36,7 @@ namespace Battle.Deck
                 _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
             return added;
         }
-        public override bool DiscardCard(in Card card)
+        public override bool DiscardCard(in CardData card)
         {
            bool succeed =  base.DiscardCard(card);
             if (isPlayer)
@@ -44,7 +44,7 @@ namespace Battle.Deck
             return succeed;
         }
 
-        private bool CheckDuplicate(Card card)
+        private bool CheckDuplicate(CardData card)
         {
             if (card == null)
                 return false;

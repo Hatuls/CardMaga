@@ -1,5 +1,6 @@
 ﻿
-using Cards;
+using CardMaga.Card;
+
 namespace Characters.Stats
 {
     public class StaminaHandler
@@ -103,10 +104,10 @@ namespace Characters.Stats
             if (isPlayer)
                 _staminaUI?.SetText(charactersStamina.Stamina);
         }
-        public bool IsEnoughStamina(bool isPlayer,Card card)
+        public bool IsEnoughStamina(bool isPlayer,CardData card)
          =>  GetCharacterStamina(isPlayer).Stamina >= card.StaminaCost;
         public bool HasStamina(bool isPlayer) => GetCharacterStamina(isPlayer).Stamina > 0;
-        public  void ReduceStamina(bool isPlayer ,Card card)
+        public  void ReduceStamina(bool isPlayer ,CardData card)
         {
             var character = GetCharacterStamina(isPlayer);
             character.Stamina -= card.StaminaCost;

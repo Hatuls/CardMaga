@@ -1,4 +1,5 @@
 ﻿using Battle.Combo;
+using CardMaga.Card;
 using Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -145,15 +146,15 @@ public class CSVTORecipeSO : CSVAbst
             const int cardTypeIndex = 1;
 
             string[] bodyPartsAndType = row[BodyPartsAndType].Split('&');
-            recipe.ComboSequence = new Cards.CardTypeData[bodyPartAmount];
+            recipe.ComboSequence = new CardTypeData[bodyPartAmount];
             for (int i = 0; i < bodyPartAmount; i++)
             {
                 string[] bodyPartAndTypeSeperation = bodyPartsAndType[i].Split('^');
 
-                recipe.ComboSequence[i] = new Cards.CardTypeData()
+                recipe.ComboSequence[i] = new CardTypeData()
                 {
-                    BodyPart = int.TryParse(bodyPartAndTypeSeperation[bodyPartIndex], out int b) ? (Cards.BodyPartEnum)b : Cards.BodyPartEnum.None,
-                    CardType = int.TryParse(bodyPartAndTypeSeperation[cardTypeIndex], out int t) ? (Cards.CardTypeEnum)t : Cards.CardTypeEnum.None,
+                    BodyPart = int.TryParse(bodyPartAndTypeSeperation[bodyPartIndex], out int b) ? (CardMaga.Card.BodyPartEnum)b : CardMaga.Card.BodyPartEnum.None,
+                    CardType = int.TryParse(bodyPartAndTypeSeperation[cardTypeIndex], out int t) ? (CardTypeEnum)t : CardTypeEnum.None,
                 };
             }
         }

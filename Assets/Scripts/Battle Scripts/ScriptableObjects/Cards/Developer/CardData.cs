@@ -1,16 +1,18 @@
 ﻿using Account.GeneralData;
+using CardMaga.Card;
+using Cards;
 using Keywords;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Cards
+namespace CardMaga.Card
 {
     public enum CardTypeEnum { Utility = 3, Defend = 2, Attack = 1, None = 0, };
 
 
     public enum BodyPartEnum { None = 0, Empty = 1, Head = 2, Elbow = 3, Hand = 4, Knee = 5, Leg = 6, Joker = 7 };
     [Serializable]
-    public class Card : IEquatable<Card>
+    public class CardData : IEquatable<CardData>
     {
         #region Fields
         [SerializeField]
@@ -38,7 +40,7 @@ namespace Cards
         public int CardInstanceID => _cardCoreInfo.InstanceID;
         public int CardLevel => _cardCoreInfo.Level;
         public int CardEXP => _cardCoreInfo.Exp;
-        public bool CardsAtMaxLevel { get => _cardSO.CardsMaxLevel-1 == CardLevel; }
+        public bool CardsAtMaxLevel { get => _cardSO.CardsMaxLevel - 1 == CardLevel; }
         public int StaminaCost { get => staminaCost; private set => staminaCost = value; }
 
         public CardSO CardSO
@@ -65,11 +67,11 @@ namespace Cards
 
 
         #region Functions
-        public Card()
+        public CardData()
         {
 
         }
-        public Card(CardInstanceID cardAccountInfo)
+        public CardData(CardInstanceID cardAccountInfo)
         {
             if (cardAccountInfo == null)
                 throw new Exception($"Card: Card Info is null!");
@@ -78,7 +80,7 @@ namespace Cards
         }
         public void InitCard(CardSO _card, int cardsLevel)
         {
-    
+
 
             var levelUpgrade = _card.GetLevelUpgrade(cardsLevel);
             List<KeywordData> keywordsList = new List<KeywordData>(1);
@@ -109,7 +111,7 @@ namespace Cards
                 }
             }
             _cardKeyword = keywordsList.ToArray();
-            this._cardSO = _card;
+            _cardSO = _card;
         }
 
         public int GetKeywordAmount(KeywordTypeEnum keyword)
@@ -126,13 +128,13 @@ namespace Cards
             return amount;
         }
 
-        public bool Equals(Card other)
+        public bool Equals(CardData other)
         {
             return _cardCoreInfo == other._cardCoreInfo;
         }
 
-        public Card Clone()
-       => new Card(new CardInstanceID(_cardCoreInfo.GetCardCore()));
+        public CardData Clone()
+       => new CardData(new CardInstanceID(_cardCoreInfo.GetCardCore()));
 
 
 #if UNITY_EDITOR
@@ -153,16 +155,16 @@ namespace Cards
 }
 
 
- 
+
 
 public static class CardHelper
 {
-    public static Cards.Card[] CloneCards(this Cards.Card[] cards)
+    public static CardData[] CloneCards(this CardData[] cards)
     {
-        Cards.Card[] newArray = new Cards.Card[cards.Length];
+        CardData[] newArray = new CardData[cards.Length];
         for (int i = 0; i < newArray.Length; i++)
             newArray[i] = cards[i].Clone();
-        
+
         return newArray;
     }
 }

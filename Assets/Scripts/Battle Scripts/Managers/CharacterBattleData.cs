@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using Account.GeneralData;
 using Characters.Stats;
-using Cards;
+using CardMaga.Card;
 
 namespace Battle.Characters
 {
@@ -18,8 +18,8 @@ namespace Battle.Characters
         public ref CharacterStats CharacterStats { get => ref _characterStats; }
 
         [SerializeField]
-        private Cards.Card[] _characterDeck;
-        public Cards.Card[] CharacterDeck { get => _characterDeck; internal set => _characterDeck = value; }
+        private CardData[] _characterDeck;
+        public CardData[] CharacterDeck { get => _characterDeck; internal set => _characterDeck = value; }
 
         [SerializeField]
         private Battle.Combo.Combo[] _comboRecipe;
@@ -62,13 +62,13 @@ namespace Battle.Characters
             }
 
 
-             Card[] CreateDeck(CharacterSO characterSO)
+             CardData[] CreateDeck(CharacterSO characterSO)
             {
                 var deck = characterSO.Deck;
-                Card[] cards = new Card[deck.Length];
+                CardData[] cards = new CardData[deck.Length];
                 for (int i = 0; i < deck.Length; i++)
                 {
-                    cards[i] = new Card(deck[i].CreateInstance());
+                    cards[i] = new CardData(deck[i].CreateInstance());
                 }
                 return cards;
             }

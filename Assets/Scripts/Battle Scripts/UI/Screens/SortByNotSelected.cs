@@ -1,12 +1,12 @@
 ﻿using Battle.UI;
-using Cards;
+using CardMaga.Card;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Rei.Utilities
 {
-    public class SortByNotSelected : SortAbst<Card>
+    public class SortByNotSelected : SortAbst<CardData>
     {
         [SerializeField]
         bool toUseAccoundCards;
@@ -16,7 +16,7 @@ namespace Rei.Utilities
         public int? ID { get; set; }
 
         // need to be re done
-        public override IEnumerable<Card> Sort()
+        public override IEnumerable<CardData> Sort()
         {
             //var accountCards = toUseAccoundCards ? Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(Account.AccountManager.Instance.AccountCards.CardList.ToArray()) :
             //    Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;

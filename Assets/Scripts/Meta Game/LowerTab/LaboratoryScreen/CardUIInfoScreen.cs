@@ -1,6 +1,7 @@
-﻿using Battle.UI;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
+using CardMaga.UI.Card;
+using CardMaga.Card;
 
 namespace UI.Meta.Laboratory
 {
@@ -14,15 +15,15 @@ namespace UI.Meta.Laboratory
         TextMeshProUGUI _upgradeText;
         #endregion
         #region Public Methods
-        public void InitPanel(Cards.Card card)
+        public void InitPanel(CardData card)
         {
 
         }
-        public void Upgrade(Cards.Card card)
+        public void Upgrade(CardData card)
         {
 
         }
-        public void Use(Cards.Card card)
+        public void Use(CardData card)
         {
 
         }

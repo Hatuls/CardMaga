@@ -1,5 +1,5 @@
-﻿using Battle.UI;
-using CardMaga.Map;
+﻿using CardMaga.Map;
+using CardMaga.UI.Card;
 using DesignPattern;
 using System;
 using TMPro;

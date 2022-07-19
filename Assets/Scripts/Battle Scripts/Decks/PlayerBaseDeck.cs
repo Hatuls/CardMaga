@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿using CardMaga.Card;
 using System;
 using System.Collections.Generic;
 using Unity.Events;
@@ -10,11 +10,11 @@ namespace Battle.Deck
         public static Action OnShuffleDeck;
         BuffIcon _deckIcon;
         StringEvent _soundEvent;
-        public PlayerBaseDeck(bool isPlayer, Card[] deckCards, BuffIcon DeckIcon, StringEvent soundsEvent) : base(isPlayer, deckCards)
+        public PlayerBaseDeck(bool isPlayer, CardData[] deckCards, BuffIcon DeckIcon, StringEvent soundsEvent) : base(isPlayer, deckCards)
         {
             _deckIcon = DeckIcon;
         }
-        public override bool AddCard(Card card)
+        public override bool AddCard(CardData card)
         {
          bool added =   base.AddCard(card);
 
@@ -24,7 +24,7 @@ namespace Battle.Deck
         }
 
 
-        public override Card GetFirstCard()
+        public override CardData GetFirstCard()
         {
             var card = base.GetFirstCard();
             if (card ==  null)
@@ -50,7 +50,7 @@ namespace Battle.Deck
 
             CountCards();
         }
-        public override bool DiscardCard(in Card card)
+        public override bool DiscardCard(in CardData card)
         {
             bool succeed = base.DiscardCard(card);
 
@@ -62,7 +62,7 @@ namespace Battle.Deck
         {
 
             OrderDeck();
-            var list = new List<Card>(GetAmountOfFilledSlots);
+            var list = new List<CardData>(GetAmountOfFilledSlots);
             for (int i = 0; i < GetAmountOfFilledSlots; i++)
             {
                 list.Add(GetDeck[i]);

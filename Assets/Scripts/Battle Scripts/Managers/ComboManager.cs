@@ -8,6 +8,8 @@ using ThreadsHandler;
 using Unity.Events;
 using UnityEngine;
 using Battle.Combo;
+using CardMaga.Card;
+
 namespace Battle
 {
     public class ComboManager : MonoSingleton<ComboManager>
@@ -132,7 +134,7 @@ namespace Battle
         {
             bool isPlayer = Battle.Turns.TurnHandler.CurrentState == Battle.Turns.TurnState.PlayerTurn;
             //coping the relevant crafting slots from the deck manager
-            Card[] craftingSlots = new Card[DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length];
+            CardData[] craftingSlots = new CardData[DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length];
 
             System.Array.Copy(DeckManager.GetCraftingSlots(isPlayer).GetDeck, craftingSlots, DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length);
 

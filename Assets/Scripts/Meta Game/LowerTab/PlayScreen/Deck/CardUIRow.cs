@@ -1,4 +1,5 @@
 ﻿using Art;
+using CardMaga.Card;
 using TMPro;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace UI.Meta.PlayScreen
         BodyPartGFX _bodyPartGFX;
         #endregion
         #region Public Methods
-        public void Init(Cards.CardSO card,int cardLevel, ArtSO artSO)
+        public void Init(CardSO card,int cardLevel, ArtSO artSO)
         {
 
             _cardName.text = card.CardName;

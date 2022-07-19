@@ -1,6 +1,10 @@
 ﻿using Battles.UI;
+using CardMaga.UI;
 
-public class MoveFromLockStateToDefaultState : BaseCondition
+namespace CardMaga.Input
+{
+
+    public class MoveFromLockStateToDefaultState : BaseCondition
 {
     private bool _moveCondition;
 
@@ -20,4 +24,5 @@ public class MoveFromLockStateToDefaultState : BaseCondition
         HandUI.OnCardDrawnAndAlign -= ChangeState;
         _moveCondition = true;
     }
+}
 }

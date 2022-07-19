@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CardMaga.UI.Card;
+using UnityEngine;
 
 namespace Battle.UI.CardUIAttributes
 {
@@ -29,7 +30,7 @@ namespace Battle.UI.CardUIAttributes
                 case TouchPhase.Began:
                 case TouchPhase.Moved:
                 case TouchPhase.Stationary:
-                        reference.CardTranslations?.MoveCard(false, UIManager.MiddleScreenPosition, reference.Settings.GetCardScaleDelay);
+                 //       reference.CardTranslations?.MoveCard(false, UIManager.MiddleScreenPosition, reference.Settings.GetCardScaleDelay);
                   
                     if (Vector2.Distance(CardStateMachine.TouchPos, touchPos.position) > StationaryOffset)
                     {
@@ -48,13 +49,13 @@ namespace Battle.UI.CardUIAttributes
                     if (HoldState.IsAboveTheTouchLine(touchPos.position))
                     {
                         Debug.LogWarning("<a>Above The Line!</a>");
-                        CardUIHandler.Instance.CardUITouchedReleased(CardUIHandler.Instance.TryExecuteCardUI(_cardStateMachine.CardReference), _cardStateMachine.CardReference);
+                     //   CardUIHandler.Instance.CardUITouchedReleased(CardUIHandler.Instance.TryExecuteCardUI(_cardStateMachine.CardReference), _cardStateMachine.CardReference);
                     }
 
 
          
                     OnStateExit();
-                    CardUIHandler.Instance.CardUITouchedReleased(false,_cardStateMachine.CardReference);
+                 //   CardUIHandler.Instance.CardUITouchedReleased(false,_cardStateMachine.CardReference);
 
                     break;
             }
@@ -63,14 +64,14 @@ namespace Battle.UI.CardUIAttributes
         {
             UnityAnalyticHandler.SendEvent("Zooming Card");
             GameBattleDescriptionUI.Instance.CloseCardUIInfo();
-            CardUIHandler.Instance.ToZoomCardUI();
-            reference.CardTranslations?.MoveCard(false, UIManager.MiddleScreenPosition, reference.Settings.GetCardScaleDelay);
+         //   CardUIHandler.Instance.ToZoomCardUI();
+        //    reference.CardTranslations?.MoveCard(false, UIManager.MiddleScreenPosition, reference.Settings.GetCardScaleDelay);
         }
         public override void OnStateExit()
         {
         
-            CardUIHandler.Instance.ToUnZoomCardUI(location);
-            reference.CardTranslations?.MoveCard(false,InputManager.PlayerTouch.Value.position, reference.Settings.GetCardScaleDelay);
+         //   CardUIHandler.Instance.ToUnZoomCardUI(location);
+        //    reference.CardTranslations?.MoveCard(false,InputManager.PlayerTouch.Value.position, reference.Settings.GetCardScaleDelay);
        
         }
     }

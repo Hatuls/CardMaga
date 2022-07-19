@@ -1,14 +1,8 @@
-﻿using CardMaga.UI;
-using Cards;
-using System;
+﻿using System;
 using UnityEngine;
-<<<<<<< HEAD
-=======
-using Battle.UI.CardUIAttributes;
-using UnityEngine.EventSystems;
->>>>>>> WithOutMapScene
+using CardMaga.Input;
 
-namespace Battle.UI
+namespace CardMaga.UI.Card
 {
     public class CardUI : MonoBehaviour, IPoolable<CardUI>
     {
@@ -22,13 +16,13 @@ namespace Battle.UI
 
         private RectTransitionManager _cardTransitionManager;
         private CardAnimator _cardAnimator;
-        private Card _cardData;
+        private CardMaga.Card.CardData _cardData;
 
 
         #endregion
         public BaseCardVisualHandler CardVisuals => _cardVisuals;
         public CardUIInputHandler Inputs => _inputs;
-        
+        public RectTransform RectTransform => _rectTransform;
         public RectTransitionManager CardTransitionManager
         {
             get
@@ -39,10 +33,10 @@ namespace Battle.UI
             }
         }
 
-        public Card CardData { get => _cardData; private set => _cardData = value; }
+        public CardMaga.Card.CardData CardData { get => _cardData; private set => _cardData = value; }
 
 
-        public void AssignCard(Card card)
+        public void AssignCard(CardMaga.Card.CardData card)
         {
             CardData = card;
             CardVisuals.SetCardVisuals(card);
@@ -81,7 +75,7 @@ public class CardAnimator
 
     public void ScaleAnimation(bool value)
     {
-        _animator.SetTrigger((value) ? AnimatorParameters.ZoomOutAnimation : AnimatorParameters.ZoomInAnimation);
+        _animator.SetTrigger(value ? AnimatorParameters.ZoomOutAnimation : AnimatorParameters.ZoomInAnimation);
     }
 
     public static class AnimatorParameters

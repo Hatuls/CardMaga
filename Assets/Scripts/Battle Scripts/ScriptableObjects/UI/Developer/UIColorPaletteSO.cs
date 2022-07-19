@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CardMaga.Card;
+using UnityEngine;
 [CreateAssetMenu(fileName = "UIColorPalette", menuName = "ScriptableObjects/Art/UI/UIColorPalette")]
 public class UIColorPaletteSO : ScriptableObject
 {
@@ -37,7 +38,7 @@ public class UIColorPaletteSO : ScriptableObject
     public Color GetBackgroundColor => _backgroundColor;
     public Color GetDefaultSlotColor => _defaultSlotColor;
     #endregion
-    public ColorUI GetCardColorType(Cards.CardTypeEnum cardType)
+    public ColorUI GetCardColorType(CardTypeEnum cardType)
     {
         if(_colorPalettes == null|| _colorPalettes.Length != 3)
         {
@@ -47,11 +48,11 @@ public class UIColorPaletteSO : ScriptableObject
         switch (cardType)
         {
             default:
-            case Cards.CardTypeEnum.Attack:
+            case CardTypeEnum.Attack:
                 return _colorPalettes[0];
-            case Cards.CardTypeEnum.Defend:
+            case CardTypeEnum.Defend:
                 return _colorPalettes[1];
-            case Cards.CardTypeEnum.Utility:
+            case CardTypeEnum.Utility:
                 return _colorPalettes[2];
         }
     }

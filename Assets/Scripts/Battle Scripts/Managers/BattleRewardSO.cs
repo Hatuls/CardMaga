@@ -1,5 +1,5 @@
 ﻿using Battle;
-using Cards;
+using CardMaga.Card;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -79,7 +79,7 @@ namespace Rewards
 
         public BattleReward CreateReward(ActsEnum actsEnum, IEnumerable<Battle.Combo.Combo> workOnCombo)
         {
-            Card[] rewardCards = GenerateCardsRewards(actsEnum);
+            CardData[] rewardCards = GenerateCardsRewards(actsEnum);
 
             Battle.Combo.Combo[] combo = null;
             if (_characterDifficultyEnum >= CharacterTypeEnum.Elite_Enemy)
@@ -103,11 +103,11 @@ namespace Rewards
             return new RunReward(EXP, Diamonds);
         }
         //refactor this method
-        public Card[] GenerateCardsRewards(ActsEnum actsEnum, byte CardAmount = 3)
+        public CardData[] GenerateCardsRewards(ActsEnum actsEnum, byte CardAmount = 3)
         {
             var actCardChance = _cardChances.First(x => x.ActEnum == actsEnum);
 
-            Card[] rewardCards = new Card[CardAmount];
+            CardData[] rewardCards = new CardData[CardAmount];
 
             byte random;
             var cardFactoryHandler = Factory.GameFactory.Instance.CardFactoryHandler;

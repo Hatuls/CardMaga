@@ -1,5 +1,7 @@
 ﻿using Battle.Deck;
 using Battle.UI;
+using CardMaga.Card;
+using CardMaga.UI.Card;
 using Characters.Stats;
 using Keywords;
 using ReiTools.TokenMachine;
@@ -10,7 +12,7 @@ using UnityEngine.Events;
 namespace Battle
 {
     [System.Serializable]
-    public class CardEvent : UnityEvent<Cards.Card> { }
+    public class CardEvent : UnityEvent<CardData> { }
     [System.Serializable]
     public class CardExecutionManager : MonoSingleton<CardExecutionManager>
     {
@@ -22,8 +24,8 @@ namespace Battle
 
         [SerializeField] Unity.Events.StringEvent _playSound;
         [Sirenix.OdinInspector.ShowInInspector]
-        static Queue<Cards.Card> _cardsQueue = new Queue<Cards.Card>();
-        public static Queue<Cards.Card> CardsQueue => _cardsQueue;
+        static Queue<CardData> _cardsQueue = new Queue<CardData>();
+        public static Queue<CardData> CardsQueue => _cardsQueue;
 
         public static int CurrentKeywordIndex { get => currentKeywordIndex; }
 
@@ -55,9 +57,9 @@ namespace Battle
             _keywordData.Clear();
             }
         }
-        public bool CanPlayCard(bool isPlayer, Cards.Card card)
+        public bool CanPlayCard(bool isPlayer, CardData card)
        => card == null ? false : StaminaHandler.Instance.IsEnoughStamina(isPlayer, card);
-        public bool TryExecuteCard(bool isPlayer, Cards.Card card)
+        public bool TryExecuteCard(bool isPlayer, CardData card)
         {
             if (card == null)
                 throw new System.Exception("Card cannot be executed card is null\n Player " + isPlayer + " Tried to play a null Card");
@@ -95,7 +97,7 @@ namespace Battle
 
         public bool TryExecuteCard(CardUI cardUI)
         {
-            Cards.Card card = cardUI.CardData;
+            CardData card = cardUI.CardData;
             bool isExecuted = TryExecuteCard(true, card);
             if (isExecuted)
             {
@@ -105,14 +107,14 @@ namespace Battle
             return isExecuted;
         }
 
-        public void ExecuteCraftedCard(bool isPlayer, Cards.Card card)
+        public void ExecuteCraftedCard(bool isPlayer, CardData card)
         {
             DeckManager.AddToCraftingSlot(isPlayer, card);
             RegisterCard(card);
 
         }
 
-        public void RegisterCard(Cards.Card card, bool isPlayer = true)
+        public void RegisterCard(CardData card, bool isPlayer = true)
         {
 
             if (BattleManager.isGameEnded)
@@ -140,7 +142,7 @@ namespace Battle
       
 
 
-        public void AddToQueue(Cards.Card card)
+        public void AddToQueue(CardData card)
         {
             if (BattleManager.isGameEnded)
                 return;
@@ -155,7 +157,7 @@ namespace Battle
 
         }
 
-        private void EnqueueCard(Cards.Card card)
+        private void EnqueueCard(CardData card)
         {
             _cardsQueue.Enqueue(card);
 

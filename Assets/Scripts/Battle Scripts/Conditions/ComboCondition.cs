@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using Conditions;
-using Cards;
+
 [System.Serializable]
 public class ComboCondition : ConditionAbst
 {
     #region Fields
     [Tooltip("What Are the Combo Body Parts Order?")]
-    [SerializeField] Cards.BodyPartEnum[] _bodyPartEnum;
+    [SerializeField] CardMaga.Card.BodyPartEnum[] _bodyPartEnum;
     #endregion
     #region Properties
-    public Cards.BodyPartEnum[] GetBodyPartEnum => _bodyPartEnum;
+    public CardMaga.Card.BodyPartEnum[] GetBodyPartEnum => _bodyPartEnum;
     #endregion
     public override bool IsConditionMet()
     {

@@ -9,6 +9,7 @@ using UI.Meta.Laboratory;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using CardMaga.Card;
 
 public class DojoManager : MonoBehaviour, IObserver
 {
@@ -129,7 +130,7 @@ public class DojoManager : MonoBehaviour, IObserver
     private void AssignCards(Rewards.BattleRewardCollectionSO battleReward)
     {
         int amountOfCards = _metaCardUIs.Length;
-        Cards.Card[] cards = battleReward.GetRewardCards(Rewards.ActsEnum.ActOne, (byte)amountOfCards);
+        CardData[] cards = battleReward.GetRewardCards(Rewards.ActsEnum.ActOne, (byte)amountOfCards);
 
         for (byte i = 0; i < amountOfCards; i++)
         {
@@ -179,49 +180,27 @@ public class DojoManager : MonoBehaviour, IObserver
     // Need To be Re-Done
     public void TryBuyCard(int index)
     {
-<<<<<<< HEAD
-        var battledata = Account.AccountManager.Instance.BattleData.Player;
-        var card = _metaCardUIs[index].CardUI.CardData;
-        int cost = card.CardSO.GetCostPerUpgrade(card.CardLevel);
 
-        if (battledata.CharacterData.CharacterStats.Gold >= cost)// && isPurchaseable[index])
-        {
-            // isPurchaseable[index] = false;
-            //card added
-            battledata.CharacterData.CharacterStats.Gold -= cost;
-            _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
-            battledata.AddCardToDeck(card);
-            _cardPurchaseBtns[index].onClick.RemoveAllListeners();
-            _cardBtnTexts[index].text = "Sold";
-            SuccessfullPurchaseSound.PlaySound();
-        }
-        else
-        {
-            // not enough gold
-            UnSuccessfullPurchaseSound.PlaySound();
-        }
-=======
-   //    var battledata = Account.AccountManager.Instance.BattleData.Player;
-    //   var card = _metaCardUIs[index].CardUI.RecieveCardReference();
-    //   int cost = card.CardSO.GetCostPerUpgrade(card.CardLevel);
-    //
-    //   if (battledata.CharacterData.CharacterStats.Gold >= cost)// && isPurchaseable[index])
-    //   {
-    //       // isPurchaseable[index] = false;
-    //       //card added
-    //       battledata.CharacterData.CharacterStats.Gold -= cost;
-    //       _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
-    //       battledata.AddCardToDeck(card);
-    //       _cardPurchaseBtns[index].onClick.RemoveAllListeners();
-    //       _cardBtnTexts[index].text = "Sold";
-    //       SuccessfullPurchaseSound.PlaySound();
-    //   }
-    //   else
-    //   {
-    //       // not enough gold
-    //       UnSuccessfullPurchaseSound.PlaySound();
-    //   }
->>>>>>> WithOutMapScene
+        //    var battledata = Account.AccountManager.Instance.BattleData.Player;
+        //   var card = _metaCardUIs[index].CardUI.RecieveCardReference();
+        //   int cost = card.CardSO.GetCostPerUpgrade(card.CardLevel);
+        //
+        //   if (battledata.CharacterData.CharacterStats.Gold >= cost)// && isPurchaseable[index])
+        //   {
+        //       // isPurchaseable[index] = false;
+        //       //card added
+        //       battledata.CharacterData.CharacterStats.Gold -= cost;
+        //       _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
+        //       battledata.AddCardToDeck(card);
+        //       _cardPurchaseBtns[index].onClick.RemoveAllListeners();
+        //       _cardBtnTexts[index].text = "Sold";
+        //       SuccessfullPurchaseSound.PlaySound();
+        //   }
+        //   else
+        //   {
+        //       // not enough gold
+        //       UnSuccessfullPurchaseSound.PlaySound();
+        //   }
     }
 
     public void ExitDojo()

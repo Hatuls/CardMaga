@@ -1,5 +1,6 @@
 ﻿using Account.GeneralData;
 using Battle;
+using CardMaga.Card;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -47,8 +48,8 @@ namespace Battle.Characters
         public bool RemoveCardFromDeck(int InstanceID)
         {
             var deckList = _characterData.CharacterDeck.ToList();
-        
-            Cards.Card card = deckList.Find((x) => x.CardInstanceID == InstanceID);
+
+            CardData card = deckList.Find((x) => x.CardInstanceID == InstanceID);
            
             bool check = deckList.Remove(card);
             if (check)
@@ -56,7 +57,7 @@ namespace Battle.Characters
             return check;
         }
         public bool AddCardToDeck(CardCore card) => AddCardToDeck(card.CardSO(), card.Level);
-        public bool AddCardToDeck(Cards.CardSO card, int level = 0)
+        public bool AddCardToDeck(CardSO card, int level = 0)
         {
             if (card == null)
                 throw new Exception("Cannot add card to deck the card you tried to add is null!");
@@ -65,7 +66,7 @@ namespace Battle.Characters
 
             return AddCardToDeck(cardCreated);
         }
-        public bool AddCardToDeck(Cards.Card card)
+        public bool AddCardToDeck(CardData card)
         {
             if (card == null)
                 throw new Exception("Character Class : Card is null");

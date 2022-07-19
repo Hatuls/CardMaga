@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Art;
+using CardMaga.Card;
+
 public class CraftingSlotUI : MonoBehaviour
 {
     //icon moves to new icon position
@@ -44,9 +46,9 @@ public class CraftingSlotUI : MonoBehaviour
         originalPos = _rectTransform.localPosition;
     }
     public void PlayAnimation(int animation) => _anim.CrossFade(animation, crossFadeAnimationTime);
-    public void InitPlaceHolder(Cards.CardTypeData cardType)
+    public void InitPlaceHolder(CardTypeData cardType)
     {
-        if (cardType == null  || cardType.BodyPart == Cards.BodyPartEnum.Empty)
+        if (cardType == null  || cardType.BodyPart == CardMaga.Card.BodyPartEnum.Empty)
         {
             ResetSlotUI();
 
@@ -58,10 +60,10 @@ public class CraftingSlotUI : MonoBehaviour
                         Factory.GameFactory.Instance.ArtBlackBoard.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardType.BodyPart)                     
                       );
 
-        _iconImage.gameObject.SetActive(cardType != null && cardType.BodyPart != Cards.BodyPartEnum.Empty);
+        _iconImage.gameObject.SetActive(cardType != null && cardType.BodyPart != CardMaga.Card.BodyPartEnum.Empty);
 
     }
-    public void InitPlaceHolder(Cards.CardTypeEnum cardType, Sprite icon )
+    public void InitPlaceHolder(CardTypeEnum cardType, Sprite icon )
     {
         SetIconImage(icon);
         SetColors(cardType);
@@ -93,7 +95,7 @@ public class CraftingSlotUI : MonoBehaviour
 
         _iconImage.sprite = null;
     }
-    void SetColors(Cards.CardTypeEnum cardType)
+    void SetColors(CardTypeEnum cardType)
     {
         var artBoard = Factory.GameFactory.Instance.ArtBlackBoard;
        

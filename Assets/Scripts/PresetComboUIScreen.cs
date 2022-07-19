@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CardMaga.Card;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace UI
         public void OpenComboUIscreen(ComboRecipeUI combo)
         {
             _comboScreen.InitRecipe(combo.Combo);
-            Cards.Card card = combo.CardUI.CardData;
+            CardData card = combo.CardUI.CardData;
    
             for (int i = 0; i < _keywordsInfo.Count; i++)
             {
@@ -41,7 +42,7 @@ namespace UI
             SortKeywords(card);
             _gameObject.SetActive(true);
         }
-        private void SortKeywords(Cards.Card card)
+        private void SortKeywords(CardData card)
         {
             var keywords = card.CardKeywords;
             List<Keywords.KeywordTypeEnum> list = new List<Keywords.KeywordTypeEnum>();

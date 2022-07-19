@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CardMaga.UI.Card;
+using UnityEngine;
 
 namespace Battle.UI.CardUIAttributes
 {
@@ -12,11 +13,11 @@ namespace Battle.UI.CardUIAttributes
         private const float StationaryOffset = 30f;
         float scaleTimeOffset = 0.35f;
         float currentTime = 0;
-        public HoldState(CardUI card, CardStateMachine cardStateMachine) : base(card.GFX.GetRectTransform, cardStateMachine)
+        public HoldState(CardUI card, CardStateMachine cardStateMachine) : base(card.RectTransform, cardStateMachine)
         {
-            alpha = card.Settings.AlphaWhenHold;
-            _translation = cardStateMachine.CardReference.CardTranslations;
-            _cardUIFollowUP = card.Settings.GetCardFollowDelay;
+           // alpha = card.Settings.AlphaWhenHold;
+           // _translation = cardStateMachine.CardReference.CardTranslations;
+           // _cardUIFollowUP = card.Settings.GetCardFollowDelay;
         }
 
         public override CardStateMachine.CardUIInput State => CardStateMachine.CardUIInput.Hold;
@@ -64,10 +65,10 @@ namespace Battle.UI.CardUIAttributes
                     if (IsAboveTheTouchLine(touchPos.position))
                     {
                         Debug.LogWarning("<a>Above The Line!</a>");
-                        succed = CardUIHandler.Instance.TryExecuteCardUI(_cardStateMachine.CardReference);
+               //         succed = CardUIHandler.Instance.TryExecuteCardUI(_cardStateMachine.CardReference);
                     }
 
-                    CardUIHandler.Instance.CardUITouchedReleased(succed, _cardStateMachine.CardReference);
+                    //CardUIHandler.Instance.CardUITouchedReleased(succed, _cardStateMachine.CardReference);
                     break;
                 default:
                     break;
@@ -84,8 +85,8 @@ namespace Battle.UI.CardUIAttributes
         public override void OnStateExit()
         {
             currentTime = 0;
-            _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = 1f;
+         //   _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = 1f;
         }
-        public static bool IsAboveTheTouchLine(in Vector2 touchPos) => (touchPos.y >= CardUIManager.Instance.GetInputHandLine);
+        public static bool IsAboveTheTouchLine(in Vector2 touchPos) => (touchPos.y >= 1);// CardUIManager.Instance.GetInputHandLine);
     }
 }

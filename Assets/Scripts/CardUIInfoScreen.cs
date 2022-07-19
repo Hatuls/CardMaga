@@ -1,4 +1,4 @@
-﻿using Battle.UI;
+﻿using CardMaga.UI.Card;
 using Sirenix.OdinInspector;
 using TMPro;
 using UI.Meta.Laboratory;
@@ -55,7 +55,7 @@ public class CardUIInfoScreen : MonoBehaviour
 
         //const int _deckMinLength = 8;
         //_dismentalBtn.gameObject.SetActive(infoSettings.CanDismental && Account.AccountManager.Instance.AccountCards.CardList.Count > _deckMinLength);
-        _upgradeBtn.gameObject.SetActive(infoSettings.CanUpgrade && cardUI.RecieveCardReference().CardsAtMaxLevel == false);
+        _upgradeBtn.gameObject.SetActive(infoSettings.CanUpgrade && cardUI.CardData.CardsAtMaxLevel == false);
 
         _useBtn.gameObject.SetActive(infoSettings.CanUse);
 

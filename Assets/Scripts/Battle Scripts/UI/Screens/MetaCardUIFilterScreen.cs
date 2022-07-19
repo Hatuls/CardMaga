@@ -1,22 +1,17 @@
-﻿using Cards;
-using CardMaga.UI;
+﻿using CardMaga.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UI.Meta.Laboratory;
 using UnityEngine;
 using System;
+using CardMaga.Card;
 
-public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
+public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, CardData>
 {
-    public event Func<IReadOnlyCollection<Card>> OnCollectionNeeded;
+    public event Func<IReadOnlyCollection<CardData>> OnCollectionNeeded;
     [SerializeField]
     Transform _container;
     [SerializeField] float _metaCardSize = 1f;
-<<<<<<< HEAD
-    [SerializeField] CollectionEnum _collectionType;
-    [SerializeField] enum CollectionEnum { AccountCardsCollection, RunCardsCollection, DeckCollection }
-=======
->>>>>>> WithOutMapScene
 
     public MetaCardUIHandler GetCardFromInstanceID(int id)
         => _collection.First(x => x.CardUI.CardData.CardInstanceID == id);
@@ -36,7 +31,7 @@ public class MetaCardUIFilterScreen : UIFilterScreen<MetaCardUIHandler, Card>
 
 
 
-    protected override void OnActivate(IEnumerable<Card> sortedDeck, int i)
+    protected override void OnActivate(IEnumerable<CardData> sortedDeck, int i)
     {
         _collection[i].CardUI.AssignCard(sortedDeck.ElementAt(i));
         _collection[i].transform.localScale = Vector3.one * _metaCardSize;

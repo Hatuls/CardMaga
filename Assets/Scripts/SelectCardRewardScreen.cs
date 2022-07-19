@@ -1,5 +1,5 @@
 ﻿using Battle.UI;
-using Cards;
+using CardMaga.Card;
 using Rewards.Battles;
 using TMPro;
 using UI.Meta.Laboratory;
@@ -7,7 +7,7 @@ using UnityEngine;
 namespace UI
 {
 
-public class SelectCardRewardScreen : MonoBehaviour
+    public class SelectCardRewardScreen : MonoBehaviour
 {
     [SerializeField]
     MetaCardUIHandler[] _cards;
@@ -22,7 +22,7 @@ public class SelectCardRewardScreen : MonoBehaviour
     PresentCardUIScreen _presentCardUIScreen;
 
 
-    public void AssignRewardCardScreen(Card[] cards, ushort money)
+    public void AssignRewardCardScreen(CardData[] cards, ushort money)
     {
         if (_cards.Length != cards.Length)
             throw new System.Exception($"SelectCardRewardScreen: Rewarded Cards Is bigger Than Given Option\nBattle Reward Cards: {cards.Length}\nCard UI Length: {_cards.Length}");

@@ -1,5 +1,6 @@
 ﻿using Battle;
 using Battle.Combo;
+using CardMaga.Card;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Rewards
@@ -15,7 +16,7 @@ namespace Rewards
         {
             return BattleReward(characterTypeEnum).CreateReward(act,workOnCombo);
         }
-        public Cards.Card[] GetRewardCards(ActsEnum act, byte amount)
+        public CardData[] GetRewardCards(ActsEnum act, byte amount)
         {
             return BattleReward(CharacterTypeEnum.Elite_Enemy).GenerateCardsRewards(act, amount);
         }

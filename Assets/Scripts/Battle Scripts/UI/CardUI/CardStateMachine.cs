@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CardMaga.UI.Card;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -40,8 +41,8 @@ namespace Battle.UI.CardUIAttributes
                     _currentState.OnStateExit();
 
                 _currentState = value;
-                if (CardReference!= null)
-                   CardReference.startState = (_currentState != null) ? _currentState.State : CardUIInput.None;
+                //if (CardReference!= null)
+                //   CardReference.startState = (_currentState != null) ? _currentState.State : CardUIInput.None;
 
                 if (_currentState != null)
                     _currentState.OnStateEnter();
@@ -75,15 +76,15 @@ namespace Battle.UI.CardUIAttributes
         public void OnEnable()
         {
             var @event = CardReference.Inputs;
-            @event.OnPointerClickEvent += OnPointerClick;
-            @event.OnBeginDragEvent += OnBeginDrag;
+            //@event.OnPointerClickEvent += OnPointerClick;
+            //@event.OnBeginDragEvent += OnBeginDrag;
         }
 
         private void OnDisable()
         {
             var @event = CardReference.Inputs;
-            @event.OnPointerClickEvent -= OnPointerClick;
-            @event.OnBeginDragEvent -= OnBeginDrag;
+            //@event.OnPointerClickEvent -= OnPointerClick;
+            //@event.OnBeginDragEvent -= OnBeginDrag;
         }
 
         private void OnBeginDrag(CardUI card, PointerEventData data)
@@ -196,7 +197,7 @@ namespace Battle.UI.CardUIAttributes
                     Debug.Log("CardUI - State Hand - Began Touch ");
                     CardStateMachine.TouchPos = touchPos.position;
                     var card = _cardStateMachine.CardReference;
-                    CardUIHandler.Instance.CardUITouched(card);
+                  //  CardUIHandler.Instance.CardUITouched(card);
                     //   currentTime += Time.deltaTime;      
                     _cardStateMachine.MoveToState(CardStateMachine.CardUIInput.Hold);
                     break;
@@ -205,7 +206,7 @@ namespace Battle.UI.CardUIAttributes
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
                     Debug.Log("CardUI - State Hand -  End Touch");
-                    CardUIHandler.Instance.CardUITouchedReleased(false, _cardStateMachine.CardReference);
+                 //   CardUIHandler.Instance.CardUITouchedReleased(false, _cardStateMachine.CardReference);
                     break;
                 default:
                     break;
@@ -219,7 +220,7 @@ namespace Battle.UI.CardUIAttributes
         }
         public override void OnStateEnter()
         {
-            _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = 1f;
+         //  _cardStateMachine.CardReference.Inputs.GetCanvasGroup.alpha = 1f;
         }
     }
 

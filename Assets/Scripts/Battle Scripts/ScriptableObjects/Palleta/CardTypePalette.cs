@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using CardMaga.Card;
+using Sirenix.OdinInspector;
 using UnityEngine;
 namespace Art
 {
@@ -65,41 +66,41 @@ namespace Art
 
 
 
-        public Color GetIconBodyPartColorFromEnum(Cards.CardTypeEnum cardTypeEnum)
+        public Color GetIconBodyPartColorFromEnum(CardTypeEnum cardTypeEnum)
         {
             switch (cardTypeEnum)
             {
-                case Cards.CardTypeEnum.Utility:
+                case CardTypeEnum.Utility:
                     return UtilityIconBodyPartColor;
-                case Cards.CardTypeEnum.Defend:
+                case CardTypeEnum.Defend:
                     return DefenseIconBodyPartColor;
-                case Cards.CardTypeEnum.Attack:
+                case CardTypeEnum.Attack:
                     return AttackIconBodyPartColor;
             }
             return Color.black;
         }
-        public Color GetDecorationColorFromEnum(Cards.CardTypeEnum cardTypeEnum)
+        public Color GetDecorationColorFromEnum(CardTypeEnum cardTypeEnum)
         {
             switch (cardTypeEnum)
             {
-                case Cards.CardTypeEnum.Utility:
+                case CardTypeEnum.Utility:
                     return UtilityIconDecorationColor;
-                case Cards.CardTypeEnum.Defend:
+                case CardTypeEnum.Defend:
                     return DefenseIconDecorationColor;
-                case Cards.CardTypeEnum.Attack:
+                case CardTypeEnum.Attack:
                     return AttackIconDecorationColor;
             }
             return Color.black;
         }
-        public Color GetBackgroundColorFromEnum(Cards.CardTypeEnum cardTypeEnum)
+        public Color GetBackgroundColorFromEnum(CardTypeEnum cardTypeEnum)
         {
             switch (cardTypeEnum)
             {
-                case Cards.CardTypeEnum.Utility:
+                case CardTypeEnum.Utility:
                     return UtilityIconBackgroundColor;
-                case Cards.CardTypeEnum.Defend:
+                case CardTypeEnum.Defend:
                     return DefenseIconBackgroundColor;
-                case Cards.CardTypeEnum.Attack:
+                case CardTypeEnum.Attack:
                     return AttackIconBackgroundColor;
             }
             return Color.black;

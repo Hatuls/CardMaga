@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardMaga.Card;
+using System;
 
 namespace Cards.Meta
 {
@@ -12,15 +13,15 @@ namespace Cards.Meta
         {
 
         }
-        public ushort GetUpgradeCost(Card card)
+        public ushort GetUpgradeCost(CardData card)
         {
             throw new NotImplementedException();
         }
-        public bool CanBeUpgrade(Card card)
+        public bool CanBeUpgrade(CardData card)
         {
             throw new NotImplementedException();
         }
-        public void LevelUpCard(Card card)
+        public void LevelUpCard(CardData card)
         {
 
         }

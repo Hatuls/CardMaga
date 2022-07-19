@@ -7,6 +7,7 @@ using TMPro;
 using ReiTools.TokenMachine;
 using Battle.Combo;
 using Battle.Characters;
+using CardMaga.Card;
 
 namespace Battle
 {
@@ -22,13 +23,13 @@ namespace Battle
         [Space]
 
         int _cardAction;
-        [SerializeField] Cards.Card enemyAction;
+        [SerializeField] CardData enemyAction;
         [SerializeField]  AnimatorController _enemyAnimatorController;
         [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
          public Battle.Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
-        private Cards.Card[] _deck;
-        public Cards.Card[] Deck => _deck;
+        private CardData[] _deck;
+        public CardData[] Deck => _deck;
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
 
@@ -55,7 +56,7 @@ namespace Battle
             _animationSoundHandler.CurrentCharacter = characterdata.CharacterSO;
 
             int deckLength = characterdata.CharacterDeck.Length;
-            _deck = new Cards.Card[deckLength];
+            _deck = new CardData[deckLength];
             System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
 
             CharacterStatsManager.RegisterCharacterStats(false, ref characterdata.CharacterStats);

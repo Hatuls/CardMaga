@@ -1,17 +1,16 @@
 
-﻿using System;
-using Battles.UI;
-using Cards;
+using System;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
+using CardMaga.Card;
 
 namespace Battle.Deck
 {
     public class DeckManager : MonoSingleton<DeckManager>
     {
-        public static event Action<Card[]> OnDrawCards; 
+        public static event Action<CardData[]> OnDrawCards; 
         #region Fields
 
         #region Public Fields
@@ -54,7 +53,7 @@ namespace Battle.Deck
 
         }
 
-        public Card[] GetCardsFromDeck(bool isPlayersDeck, DeckEnum from)
+        public CardData[] GetCardsFromDeck(bool isPlayersDeck, DeckEnum from)
         {
             var cache = GetBaseDeck(isPlayersDeck, from);
             if (cache == null)
@@ -76,7 +75,7 @@ namespace Battle.Deck
             return r;
         }
         
-        public Card GetCardFromDeck(bool isPlayersDeck, int index, DeckEnum from)
+        public CardData GetCardFromDeck(bool isPlayersDeck, int index, DeckEnum from)
         {
 
             var cache = GetBaseDeck(isPlayersDeck, from);
@@ -88,7 +87,7 @@ namespace Battle.Deck
 
             return null;
         }
-        public void AddCardToDeck(bool isPlayersDeck, Card addedCard, DeckEnum toDeck)
+        public void AddCardToDeck(bool isPlayersDeck, CardData addedCard, DeckEnum toDeck)
         {
             if (addedCard == null || toDeck == DeckEnum.Selected)
                 return;
@@ -124,9 +123,9 @@ namespace Battle.Deck
             BaseDeck fromBaseDeck = deck[DeckEnum.PlayerDeck];
             BaseDeck toBaseDeck = deck[DeckEnum.Hand];
 
-            List<Card> cardsDraw = new List<Card>();
+            List<CardData> cardsDraw = new List<CardData>();
 
-            Card cardCache;
+            CardData cardCache;
             
             for (int i = 0; i < drawAmount; i++)
             {
@@ -164,7 +163,7 @@ namespace Battle.Deck
         public void ResetCharacterDeck(bool isPlayer, DeckEnum deck)
             => GetBaseDeck(isPlayer, deck).ResetDeck();
         
-        public static void AddToCraftingSlot(bool toPlayerCraftingSlots, Card card)
+        public static void AddToCraftingSlot(bool toPlayerCraftingSlots, CardData card)
             => Instance.GetBaseDeck(toPlayerCraftingSlots, DeckEnum.CraftingSlots).AddCard(card);
         
         public void ResetDeck(bool isPlayers, DeckEnum resetDeck)
@@ -172,7 +171,7 @@ namespace Battle.Deck
             GetDeck(isPlayers)[resetDeck].ResetDeck();
         }
 
-        public void ReplaceCard(bool isPlayer, DeckEnum firstDeck, Card firstCard, DeckEnum secondDeck, Card secondCard)
+        public void ReplaceCard(bool isPlayer, DeckEnum firstDeck, CardData firstCard, DeckEnum secondDeck, CardData secondCard)
         {
             if (firstDeck == DeckEnum.Hand)
             {
@@ -189,7 +188,7 @@ namespace Battle.Deck
         #endregion
 
         #region Private Functions   
-        public void TransferCard(bool isPlayersDeck, DeckEnum from, DeckEnum to, Card card)
+        public void TransferCard(bool isPlayersDeck, DeckEnum from, DeckEnum to, CardData card)
         {
 
             if (card == null && !GetBaseDeck(isPlayersDeck, from).IsTheCardInDeck(card))
@@ -293,7 +292,7 @@ namespace Battle.Deck
             return null;
         }
 
-        public void InitDeck(bool isPlayer, Card[] deck)
+        public void InitDeck(bool isPlayer, CardData[] deck)
         {
             const int size = 6;
 

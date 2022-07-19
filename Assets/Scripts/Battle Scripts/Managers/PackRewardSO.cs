@@ -1,5 +1,5 @@
 ﻿using Account.GeneralData;
-using Cards;
+using CardMaga.Card;
 using Collections;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;

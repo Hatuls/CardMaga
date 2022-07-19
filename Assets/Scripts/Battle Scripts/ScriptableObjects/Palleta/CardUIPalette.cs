@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿using CardMaga.Card;
 using Sirenix.OdinInspector;
 using UnityEngine;
 namespace Art
@@ -13,19 +13,19 @@ namespace Art
         [TabGroup("Card UI/Colors", "BackGround Sprite")]
         [InfoBox("0 - Background")]
         [SerializeField] Sprite[] _frames;
-        public Sprite GetCardUIImage(Cards.CardTypeEnum cardType)
+        public Sprite GetCardUIImage(CardTypeEnum cardType)
         {
             switch (cardType)
             {
-                case Cards.CardTypeEnum.Utility:
+                case CardTypeEnum.Utility:
                     return _frames[0];
 
-                case Cards.CardTypeEnum.Defend:
+                case CardTypeEnum.Defend:
                     return _frames[1];
-                case Cards.CardTypeEnum.Attack:
+                case CardTypeEnum.Attack:
                     return _frames[2];
 
-                case Cards.CardTypeEnum.None:
+                case CardTypeEnum.None:
                 default:
                     throw new System.Exception("CardUIPallete: Cannot Return Sprite Based on the cardtypeEnum " + cardType);
 

@@ -1,5 +1,4 @@
-﻿using Battle.UI;
-using Battle;
+﻿using Battle;
 using Sirenix.OdinInspector;
 using System;
 using TMPro;
@@ -7,10 +6,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Battle.Combo;
+using CardMaga.UI.Card;
 
 namespace UI
 {
-    
+
     [System.Serializable]
     public class ComboRecipeEvent : UnityEvent<ComboRecipeUI> { }
     public class ComboRecipeUI : MonoBehaviour

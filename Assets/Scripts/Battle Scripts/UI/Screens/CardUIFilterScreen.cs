@@ -1,11 +1,12 @@
 ﻿using Battle;
-using Battle.UI;
-using Cards;
 using CardMaga.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-public class CardUIFilterScreen : UIFilterScreen<CardUI, Card>
+using CardMaga.UI.Card;
+using CardMaga.Card;
+
+public class CardUIFilterScreen : UIFilterScreen<CardUI, CardData>
 {
     [SerializeReference]
     
@@ -22,7 +23,7 @@ public class CardUIFilterScreen : UIFilterScreen<CardUI, Card>
         //}
     }
 
-    protected override void OnActivate(IEnumerable<Card> sortedDeck, int i)
+    protected override void OnActivate(IEnumerable<CardData> sortedDeck, int i)
     {
         _collection[i].AssignCard(sortedDeck.ElementAt(i));
         _collection[i].transform.localScale = Vector3.one * _cardsSize;

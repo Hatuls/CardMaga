@@ -2,10 +2,11 @@
 using Keywords;
 using Sirenix.OdinInspector;
 using System.Linq;
+using Cards;
 using System.Collections.Generic;
-using static Cards.PerLevelUpgrade;
+using CardMaga.Animation;
 
-namespace Cards
+namespace CardMaga.Card
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
     public class CardSO : ScriptableObject
@@ -22,25 +23,26 @@ namespace Cards
         [PreviewField(100, Alignment = ObjectFieldAlignment.Right)]
         [SerializeField]
         private Sprite _cardSprite;
-        public Sprite CardSprite { get=> _cardSprite; set=> _cardSprite=value; }
+        public Sprite CardSprite { get => _cardSprite; set => _cardSprite = value; }
 
         [VerticalGroup("CardData/Info/Display/Coulmn 2")]
         [LabelWidth(90f)]
         [SerializeField]
         private string _cardName;
-        public string CardName { get=> _cardName; set=> _cardName=value; }
+        public string CardName { get => _cardName; set => _cardName = value; }
 
         [TabGroup("CardData/Info", "Animation")]
         [SerializeField]
         private AnimationBundle _animationBundle;
-        public AnimationBundle AnimationBundle 
+        public AnimationBundle AnimationBundle
         {
             get
             {
                 _animationBundle.CameraDetails = cameraDetails;
                 return _animationBundle;
             }
-            set => _animationBundle=value; }
+            set => _animationBundle = value;
+        }
 
         [TabGroup("CardData/Info", "Camera")]
         [SerializeField]
@@ -51,7 +53,7 @@ namespace Cards
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]
         private RarityEnum _rarity;
-        public RarityEnum Rarity { get=> _rarity; set=> _rarity=value; }
+        public RarityEnum Rarity { get => _rarity; set => _rarity = value; }
 
         [TabGroup("CardData/Info", "Data")]
 
@@ -64,8 +66,8 @@ namespace Cards
 
         //public DescriptionInfo[] CardDescription(int level)
         //   => PerLevelUpgrade[level].Description;
-      
-      public List<string[]> CardDescription(int level)
+
+        public List<string[]> CardDescription(int level)
         {
             List<string[]> description = new List<string[]>();
 
@@ -73,12 +75,12 @@ namespace Cards
                 description.Add(PerLevelUpgrade[level].Description[i].Description);
             return description;
         }
-      
+
 
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]
         private byte _stamina;
-        public byte StaminaCost { get=> _stamina; set=> _stamina=value; }
+        public byte StaminaCost { get => _stamina; set => _stamina = value; }
 
 
 
@@ -101,21 +103,21 @@ namespace Cards
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]
         bool _isPackReward;
-        
+
         [TabGroup("CardData/Info", "Keywords")]
         [SerializeField]
         private KeywordData[] _cardKeywordsData;
-        public KeywordData[] CardSOKeywords { get=> _cardKeywordsData; set=> _cardKeywordsData=value; }
+        public KeywordData[] CardSOKeywords { get => _cardKeywordsData; set => _cardKeywordsData = value; }
 
         [TabGroup("CardData/Info", "Levels")]
         [SerializeField]
         private PerLevelUpgrade[] _perLevelUpgrades;
-        public PerLevelUpgrade[] PerLevelUpgrade { get=> _perLevelUpgrades; set=> _perLevelUpgrades=value; }
+        public PerLevelUpgrade[] PerLevelUpgrade { get => _perLevelUpgrades; set => _perLevelUpgrades = value; }
 
         [TabGroup("CardData/Info", "Crafting")]
         [SerializeField]
         private ushort[] _cardsFusesFrom;
-        public ushort[] CardsFusesFrom { get=> _cardsFusesFrom; set=> _cardsFusesFrom=value; }
+        public ushort[] CardsFusesFrom { get => _cardsFusesFrom; set => _cardsFusesFrom = value; }
 
         #endregion
 
@@ -125,10 +127,10 @@ namespace Cards
 
 
         [ShowInInspector]
-        public byte CardsMaxLevel => PerLevelUpgrade == null ? (byte)0 : (byte)(PerLevelUpgrade.Length);
+        public byte CardsMaxLevel => PerLevelUpgrade == null ? (byte)0 : (byte)PerLevelUpgrade.Length;
 
         public bool IsBattleReward { get => _isBattleReward; set => _isBattleReward = value; }
-        public bool IsPackReward { get => _isPackReward;  set => _isPackReward = value; }
+        public bool IsPackReward { get => _isPackReward; set => _isPackReward = value; }
 
         #endregion
 
@@ -137,8 +139,8 @@ namespace Cards
         public PerLevelUpgrade GetLevelUpgrade(int level)
         {
 
-            if (level >=0 && level< PerLevelUpgrade.Length)
-              return PerLevelUpgrade[level];
+            if (level >= 0 && level < PerLevelUpgrade.Length)
+                return PerLevelUpgrade[level];
 
             throw new System.Exception($"CardSO: ID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
         }
@@ -166,14 +168,14 @@ namespace Cards
                         TargetEnum.None,
                         keywordsAddition
                         .Where(x => x.KeywordSO.GetKeywordType == item.KeywordSO.GetKeywordType)
-                        .Sum(x => x.GetAmountToApply),0));
+                        .Sum(x => x.GetAmountToApply), 0));
                 }
             }
 
 
 
 
-            return _keywords.ToArray() ;
+            return _keywords.ToArray();
         }
 
         #endregion
@@ -182,13 +184,13 @@ namespace Cards
 
     public enum LevelUpgradeEnum
     {
-        None=0,
-        Stamina=1,
-        KeywordAddition=2,
-        ConditionReduction=3,
+        None = 0,
+        Stamina = 1,
+        KeywordAddition = 2,
+        ConditionReduction = 3,
         ToRemoveExhaust = 4,
         BodyPart = 5,
-       
+
     }
 
     public enum RarityEnum
@@ -196,8 +198,8 @@ namespace Cards
         None = 0,
         Common = 1,
         Uncommon = 2,
-        Rare= 3,
-        Epic=4,
-        LegendREI=5
+        Rare = 3,
+        Epic = 4,
+        LegendREI = 5
     };
 }

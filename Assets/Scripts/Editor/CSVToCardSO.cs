@@ -1,4 +1,6 @@
-﻿using Cards;
+﻿using CardMaga.Animation;
+using CardMaga.Card;
+using Cards;
 using Cinemachine;
 using Collections;
 using System;
@@ -39,7 +41,7 @@ public class CSVToCardSO : CSVAbst
         CSVManager._cardCollection = ScriptableObject.CreateInstance<CardsCollectionSO>();
 
 
-        List<Cards.CardSO> cardList = new List<Cards.CardSO>();
+        List<CardSO> cardList = new List<CardSO>();
 
 
 
@@ -174,7 +176,7 @@ public class CSVToCardSO : CSVAbst
 
 
         // create card
-        Cards.CardSO card = ScriptableObject.CreateInstance<Cards.CardSO>();
+        CardSO card = ScriptableObject.CreateInstance<CardSO>();
 
         // add indexes with name to the fields params
         const int CardName = 2;
@@ -214,7 +216,7 @@ public class CSVToCardSO : CSVAbst
 
         //Rarity
         if (int.TryParse(cardSO[RarityLevel], out int RarityInt))
-            card.Rarity = (Cards.RarityEnum)RarityInt;
+            card.Rarity = (RarityEnum)RarityInt;
         else
             Debug.Log($"CardID {cardSO[ID]} : Coulmne S ({RarityLevel}) Rarity is not an int!");
 
@@ -266,7 +268,7 @@ public class CSVToCardSO : CSVAbst
             GetHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? "" : cardSO[GotHitAnimation].Replace(' ', '_'),
 
             //IsSlowMotion = bool.Parse
-            BodyPartEnum = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
+            BodyPartEnum = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (CardMaga.Card.BodyPartEnum)bodyPartIndex : CardMaga.Card.BodyPartEnum.None,
         };
 
 
@@ -400,7 +402,7 @@ public class CSVToCardSO : CSVAbst
         }
         return null;
     }
-    private static Cards.PerLevelUpgrade.Upgrade[] GetCardsUpgrade(Cards.CardSO card, string[] getRow, int StaminaCost, int BodyPart, int CardType, int toExhaust)
+    private static Cards.PerLevelUpgrade.Upgrade[] GetCardsUpgrade(CardSO card, string[] getRow, int StaminaCost, int BodyPart, int CardType, int toExhaust)
     {
         List<Cards.PerLevelUpgrade.Upgrade> upgrades = new List<Cards.PerLevelUpgrade.Upgrade>();
 
@@ -408,13 +410,13 @@ public class CSVToCardSO : CSVAbst
         int Exhaust = getRow[toExhaust] == "0" ? 0 : 1;
         var stamina = int.TryParse(getRow[StaminaCost], out int sCost) ? sCost : -1;
 
-        upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(new Cards.CardTypeData()
+        upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(new CardTypeData()
         {
-            BodyPart = int.TryParse(getRow[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
-            CardType = int.TryParse(getRow[CardType], out int cardTypeIndex) ? (Cards.CardTypeEnum)cardTypeIndex : Cards.CardTypeEnum.None,
+            BodyPart = int.TryParse(getRow[BodyPart], out int bodyPartIndex) ? (CardMaga.Card.BodyPartEnum)bodyPartIndex : CardMaga.Card.BodyPartEnum.None,
+            CardType = int.TryParse(getRow[CardType], out int cardTypeIndex) ? (CardTypeEnum)cardTypeIndex : CardTypeEnum.None,
         }));
 
-        upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(Cards.LevelUpgradeEnum.Stamina, stamina));
+        upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(LevelUpgradeEnum.Stamina, stamina));
 
         for (int j = 0; j < keywords.Length; j++)
             upgrades.Add(new Cards.PerLevelUpgrade.Upgrade(keywords[j]));

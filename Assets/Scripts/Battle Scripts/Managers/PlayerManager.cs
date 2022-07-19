@@ -8,6 +8,7 @@ using Battle.Combo;
 using CardMaga.UI;
 using System;
 using System.Collections.Generic;
+using CardMaga.Card;
 
 namespace Managers
 {
@@ -32,8 +33,8 @@ namespace Managers
         #endregion
         static int Counter = 0;
         public ref CharacterStats GetCharacterStats => ref _character.CharacterData.CharacterStats;
-        Cards.Card[] _playerDeck;
-        public Cards.Card[] GetDeck() => _playerDeck;
+        CardData[] _playerDeck;
+        public CardData[] GetDeck() => _playerDeck;
         public Combo[] GetCombos() => _character.CharacterData.ComboRecipe;
 
         public AnimatorController PlayerAnimatorController
@@ -75,7 +76,7 @@ namespace Managers
 
             int Length = data.CharacterDeck.Length;
 
-            _playerDeck = new Cards.Card[Length];
+            _playerDeck = new CardData[Length];
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
 
       

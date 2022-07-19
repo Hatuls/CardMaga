@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using Cards;
+using CardMaga.Card;
+
 namespace Battle.UI.CardUIAttributes
 {
     [System.Serializable]
@@ -7,7 +8,7 @@ namespace Battle.UI.CardUIAttributes
     {
         [SerializeField] CardUILevel[] _cardsLevels;
 
-        public void SetLevels(Card card)
+        public void SetLevels(CardData card)
             => SetLevels(card.CardLevel, card.CardSO.Rarity);
 
         public void SetLevels(int level, RarityEnum rarity, bool toShowMissingLevels = false)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardMaga.Card;
+using System;
 namespace Cards.Meta
 {
     public class DismantleCardHandler
@@ -11,11 +12,11 @@ namespace Cards.Meta
         {
 
         }
-        public ushort GetDismanteCost(Card card)
+        public ushort GetDismanteCost(CardData card)
         {
             throw new NotImplementedException();
         }
-        public bool CanBeDismantled(Card card)
+        public bool CanBeDismantled(CardData card)
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
-using Battle.UI;
+using CardMaga.UI.Card;
 
 namespace UI.Meta.Laboratory
 {

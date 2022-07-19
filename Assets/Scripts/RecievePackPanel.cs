@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Battle.UI;
 using Rewards;
+using CardMaga.UI.Card;
 
 public class RecievePackPanel : MonoBehaviour
 {
@@ -65,11 +65,9 @@ public class RecievePackPanel : MonoBehaviour
     // Need To be Re-Done
     private void RecieveCard()
     {
-<<<<<<< HEAD
-        Account.AccountManager.Instance.AccountCards.AddCard(_currentCard.CardData.CardCoreInfo);
-=======
+
         //   Account.AccountManager.Instance.AccountCards.AddCard(_currentCard.GFX.GetCardReference.CardCoreInfo);
->>>>>>> WithOutMapScene
+
     }
     public void RecievePack()
     {

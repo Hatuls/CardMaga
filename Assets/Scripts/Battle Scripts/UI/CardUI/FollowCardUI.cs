@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Net.NetworkInformation;
-using Battles;
-using Battles.UI;
+using Battle;
+using CardMaga.UI;
+using CardMaga.UI.Card;
 using DG.Tweening;
 using UnityEngine;
 
@@ -32,7 +32,7 @@ public class FollowCardUI : MonoBehaviour
         KillTween();
     }
 
-    public event Action<CardUI> OnCardExecut;
+    public event Action<CardUI> OnCardExecute;
 
     public void SetSelectCardUI(CardUI cardUI)
     {
@@ -55,7 +55,7 @@ public class FollowCardUI : MonoBehaviour
 
         if (cardUI.transform.position.y > _executionBoundry_Y &&
             CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
-            OnCardExecut?.Invoke(_selectCardUI);
+            OnCardExecute?.Invoke(_selectCardUI);
         else
             _handUI.ReturnCardUIToHand(_selectCardUI);
 

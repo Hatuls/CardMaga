@@ -39,7 +39,6 @@ public class CameraManager : MonoBehaviour
     {
         _counter = 0;
         EndEnemyTurn.OnEndEnemyTurn += ReturnToDefaultCamera;
-        EndPlayerTurn.OnEndPlayerTurn += ReturnToDefaultCamera;
         AnimatorController.OnAnimationStart += SwitchCamera;
        
         // AnimatorController.OnAnimationEnding += ReturnToDefaultCamera;
@@ -55,7 +54,6 @@ public class CameraManager : MonoBehaviour
     private void OnDestroy()
     {
         EndEnemyTurn.OnEndEnemyTurn -= ReturnToDefaultCamera;
-        EndPlayerTurn.OnEndPlayerTurn -= ReturnToDefaultCamera;
         AnimatorController.OnAnimationStart -= SwitchCamera;
         StopCounter();
         //AnimatorController.OnAnimationEnding -= ReturnToDefaultCamera;

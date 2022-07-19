@@ -1,5 +1,4 @@
-﻿using Cards;
-
+﻿using CardMaga.Card;
 using System.Collections.Generic;
 using UnityEngine;
 

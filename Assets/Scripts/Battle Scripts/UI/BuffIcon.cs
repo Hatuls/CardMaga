@@ -1,4 +1,5 @@
 ﻿using Art;
+using CardMaga.Card;
 using Keywords;
 using TMPro;
 using UnityEngine;
@@ -37,7 +38,7 @@ public class BuffIcon : MonoBehaviour
     public KeywordTypeEnum KeywordType { get => _name; set => _name = value; }
     #endregion
  
-    public virtual void InitIconData(Cards.Card card)
+    public virtual void InitIconData(CardData card)
     {
         var art = Factory.GameFactory.Instance.ArtBlackBoard;
         var _cardTypePalette = art.GetPallette<CardTypePalette>();

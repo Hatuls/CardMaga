@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
+using CardMaga.Card;
 
 namespace Battle.Combo
 {
@@ -39,7 +40,7 @@ namespace Battle.Combo
         [TabGroup("Recipe/General Info", "Data")]
         [ShowInInspector]
         [LabelWidth(130)]
-        public Cards.RarityEnum GetRarityEnum => CraftedCard== null ? Cards.RarityEnum.None : CraftedCard.Rarity;
+        public RarityEnum GetRarityEnum => CraftedCard== null ? RarityEnum.None : CraftedCard.Rarity;
 
 
         [TabGroup("Recipe/General Info", "Data")]
@@ -58,15 +59,15 @@ namespace Battle.Combo
         [TabGroup("Recipe/General Info", "Combo")]
         [SerializeField]
         [LabelWidth(20)]
-        private Cards.CardTypeData[] _comboSequence;
-        public Cards.CardTypeData[] ComboSequence { get => _comboSequence; set=> _comboSequence =value; }
+        private CardTypeData[] _comboSequence;
+        public CardTypeData[] ComboSequence { get => _comboSequence; set=> _comboSequence =value; }
 
 
 
         [TabGroup("Recipe/General Info", "Data")]
         [SerializeField]
-        private Cards.CardSO _craftedCard;
-        public Cards.CardSO CraftedCard { get => _craftedCard; set=> _craftedCard =value; }
+        private CardSO _craftedCard;
+        public CardSO CraftedCard { get => _craftedCard; set=> _craftedCard =value; }
 
 
 

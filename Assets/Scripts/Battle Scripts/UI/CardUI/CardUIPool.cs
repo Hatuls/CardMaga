@@ -1,56 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using Battles.UI;
 using UnityEngine;
-using Object = System.Object;
-
-[Serializable]
-public class CardUIPool : MonoBehaviour
+namespace CardMaga.UI.Card
 {
-    [SerializeField]
-    protected GameObject _prefabOfType;
 
-    [SerializeField] private RectTransform _parent;
-
-    private Stack<CardUI> _poolToType = new Stack<CardUI>();
-
-    [SerializeField] private List<CardUI> _totalPoolType = new List<CardUI>();
-    public CardUI Pull()
+    [Serializable]
+    public class CardUIPool : MonoBehaviour
     {
-        CardUI cache = null;
+        [SerializeField]
+        protected GameObject _prefabOfType;
 
-        if (_poolToType.Count > 0)
-            cache = _poolToType.Pop();
-        else
-            cache = GenerateNewOfType();
+        [SerializeField] private RectTransform _parent;
 
-        return cache;
-    }
+        private Stack<CardUI> _poolToType = new Stack<CardUI>();
 
-    private CardUI GenerateNewOfType()
-    {
-        CardUI cache = MonoBehaviour.Instantiate(_prefabOfType,_parent).GetComponent<CardUI>();
-        cache.OnDisposed += AddToQueue;
-        _totalPoolType.Add(cache);
-        return cache;
-    }
+        [SerializeField] private List<CardUI> _totalPoolType = new List<CardUI>();
+        public CardUI Pull()
+        {
+            CardUI cache = null;
 
-    private void AddToQueue(CardUI type)
-    {
-        _poolToType.Push(type);
-        type.gameObject.SetActive(false);
-    }
-    public void ResetPool()
-    {
-        for (int i = 0; i < _totalPoolType.Count; i++)
-            _totalPoolType[i].Dispose();
-    }
+            if (_poolToType.Count > 0)
+                cache = _poolToType.Pop();
+            else
+                cache = GenerateNewOfType();
 
-    private void OnDestroy()
-    {
+            return cache;
+        }
+
+        private CardUI GenerateNewOfType()
+        {
+            CardUI cache = MonoBehaviour.Instantiate(_prefabOfType, _parent).GetComponent<CardUI>();
+            cache.OnDisposed += AddToQueue;
+            _totalPoolType.Add(cache);
+            return cache;
+        }
+
+        private void AddToQueue(CardUI type)
+        {
+            _poolToType.Push(type);
+            type.gameObject.SetActive(false);
+        }
+        public void ResetPool()
         {
             for (int i = 0; i < _totalPoolType.Count; i++)
-                _totalPoolType[i].OnDisposed -= AddToQueue;
+                _totalPoolType[i].Dispose();
+        }
+
+        private void OnDestroy()
+        {
+            {
+                for (int i = 0; i < _totalPoolType.Count; i++)
+                    _totalPoolType[i].OnDisposed -= AddToQueue;
+            }
         }
     }
+
 }

@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿
 
-namespace Cards
+namespace CardMaga.Animation
 {
     [System.Serializable]
     public class AnimationBundle
     {
-        public BodyPartEnum BodyPartEnum;
+        public Card.BodyPartEnum BodyPartEnum;
         public CameraDetails CameraDetails;
 
         public string AttackAnimation;

@@ -1,4 +1,5 @@
-﻿using Battle.UI;
+﻿using CardMaga.Card;
+using CardMaga.UI.Card;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +69,7 @@ public class GameBattleDescriptionUI : MonoBehaviour
                 x.gameObject.SetActive(false); 
         });
     }
-    private void SortKeywords(Cards.Card card)
+    private void SortKeywords(CardData card)
     {
         var keywords = card.CardKeywords;
         List<Keywords.KeywordTypeEnum> list = new List<Keywords.KeywordTypeEnum>();

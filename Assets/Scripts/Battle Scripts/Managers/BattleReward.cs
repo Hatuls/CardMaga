@@ -1,15 +1,16 @@
-﻿using Cards;
-using Battle.Combo;
+﻿using Battle.Combo;
+using CardMaga.Card;
+
 namespace Rewards
 {
     public class BattleReward
     {
         public ushort CreditReward { get; private set; }
         public ushort GoldReward { get; private set; }
-        public Card[] RewardCards { get; private set; }
+        public CardData[] RewardCards { get; private set; }
         public Combo[] RewardCombos { get; private set; }
 
-        public BattleReward(ushort Credit , ushort Gold, Card[] cards,Combo[] combos= null)
+        public BattleReward(ushort Credit , ushort Gold, CardData[] cards,Combo[] combos= null)
         {
             CreditReward = Credit;
          

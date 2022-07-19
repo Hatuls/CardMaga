@@ -1,4 +1,4 @@
-﻿using Cards;
+﻿using CardMaga.Card;
 
 namespace Battle.Deck
 {
@@ -24,7 +24,7 @@ namespace Battle.Deck
             }
             CountCards();
         }
-        public override Card GetFirstCard()
+        public override CardData GetFirstCard()
         {
             var deck = GetDeck;
             if (deck != null && deck.Length > 0)
@@ -37,7 +37,7 @@ namespace Battle.Deck
             }
             return null;
         }
-        public override bool AddCard(Card card)
+        public override bool AddCard(CardData card)
         {
             bool added = false;
             var deck = GetDeck;
@@ -55,7 +55,7 @@ namespace Battle.Deck
                 CountCards();
             return added;
         }
-        public override bool DiscardCard(in Card card)
+        public override bool DiscardCard(in CardData card)
         {
             bool found = false;
             if (GetDeck != null && card != null && GetDeck.Length > 0)

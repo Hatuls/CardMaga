@@ -1,9 +1,9 @@
-﻿using Battle.UI;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 using UnityEngine.UI;
+using CardMaga.UI.Card;
 
 namespace UI.Meta.Laboratory
 {
@@ -120,25 +120,11 @@ namespace UI.Meta.Laboratory
         // Need To be Re-Done
         private void SwitchCards(CardUI card)
         {
-<<<<<<< HEAD
+
             var coreCardInfo = _selectedCardUI.CardUI.CardData.CardCoreInfo;
-=======
-            //var coreCardInfo = _selectedCardUI.CardUI.GFX.GetCardReference.CardCoreInfo;
->>>>>>> WithOutMapScene
 
-            //if (coreCardInfo == null)
-            //    return; 
 
-<<<<<<< HEAD
-            Debug.Log("Switch");
-            var account = Account.AccountManager.Instance;
-            var selectedCard = account.AccountCharacters.SelectedCharacter;
-            var deck = account.AccountCharacters.GetCharacterData(selectedCard).GetDeckAt(0);
-            ushort currentCardID = card.CardData.CardCoreInfo.InstanceID;
-            int length = deck.Cards.Length;
-            var cards = deck.Cards;
-            bool _cardFound = false;
-=======
+
             //Debug.Log("Switch");
             //var account = Account.AccountManager.Instance;
             //var selectedCard = account.AccountCharacters.SelectedCharacter;
@@ -147,7 +133,7 @@ namespace UI.Meta.Laboratory
             //int length = deck.Cards.Length;
             //var cards = deck.Cards;
             //bool _cardFound = false;
->>>>>>> WithOutMapScene
+
 
 
             //for (int i = 0; i < length; i++)
