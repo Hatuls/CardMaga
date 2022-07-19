@@ -1,7 +1,6 @@
 ﻿using Battle.Turns;
 using ReiTools.TokenMachine;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -36,6 +35,9 @@ public class TurnCounter : MonoBehaviour
     public void StartTime()
     {
         ResetTimer();
+        if (_coroutineTimer != null)
+            return;
+        
         _coroutineTimer = StartCoroutine(Count());
         _timerText.gameObject.SetActive(true);
     }
@@ -46,7 +48,7 @@ public class TurnCounter : MonoBehaviour
         {
             if (!_toStopTimer)
             {
-            _counter-= Time.deltaTime;
+                _counter-= Time.deltaTime;
                 AssignTime(_counter);
             }
             yield return null;
@@ -62,7 +64,10 @@ public class TurnCounter : MonoBehaviour
     }
     private void FinishCounting()
     {
-        StopCoroutine(_coroutineTimer);
+        if (_coroutineTimer != null)
+            StopCoroutine(_coroutineTimer);
+        
+        _coroutineTimer = null;
         _timerText.gameObject.SetActive(false);
     }
     private void ContinueTimer() => _toStopTimer = false;
