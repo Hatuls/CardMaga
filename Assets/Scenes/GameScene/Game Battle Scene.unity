@@ -727,6 +727,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scene Handler
       objectReference: {fileID: 0}
+    - target: {fileID: 4199875948908254166, guid: edd7771b23d5ec44bafcf7ec34a4fdc7,
+        type: 3}
+      propertyPath: _overrideLoadingSceneManager
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4199875948908254167, guid: edd7771b23d5ec44bafcf7ec34a4fdc7,
         type: 3}
       propertyPath: m_RootOrder
@@ -827,6 +832,579 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &713699384
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8812782710460472536, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_Name
+      value: Battle Config
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e4224cf02ac0604b982993ad3ee5ee4,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e4224cf02ac0604b982993ad3ee5ee4,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterStats._gold
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterStats._health
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterStats._maxHealth
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterStats._startStamina
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._comboRecipe.Array.data[0]._comboSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 84b6a179313d4ba41a28764fb2a9c08b,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._comboRecipe.Array.data[1]._comboSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b3995914f6a203458fa68c122e5e970,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._comboRecipe.Array.data[2]._comboSO
+      value: 
+      objectReference: {fileID: 11400000, guid: ef2321c91b667d341a934abcbb29e0a9,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[0]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[1]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[2]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: d5cf22a2c1bb0294aa79a95711e14347,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[3]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[4]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 1629aef4602ae6e43a14aa2b29fc1a1d,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[6]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 49352767cbde48f41a3b6c7edb636601,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.data[0]._comboSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 84b6a179313d4ba41a28764fb2a9c08b,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.data[1]._comboSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b3995914f6a203458fa68c122e5e970,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.data[2]._comboSO
+      value: 
+      objectReference: {fileID: 11400000, guid: ef2321c91b667d341a934abcbb29e0a9,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: d5cf22a2c1bb0294aa79a95711e14347,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 1629aef4602ae6e43a14aa2b29fc1a1d,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 49352767cbde48f41a3b6c7edb636601,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2].staminaCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6].staminaCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7].staminaCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.data[0]._comboCore._id
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.data[1]._comboCore._id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.data[2]._comboCore._id
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardTypeData._cardType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardKeyword.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardTypeData._cardType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardTypeData._bodyPart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardTypeData._cardType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardCoreInfo._instanceID
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardCoreInfo._instanceID
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardCoreInfo._instanceID
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardCoreInfo._instanceID
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardCoreInfo._instanceID
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardCoreInfo._instanceID
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardCoreInfo._instanceID
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardCoreInfo._instanceID
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[0]._cardCoreInfo._coreData._iD
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardCoreInfo._coreData._iD
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardCoreInfo._coreData._iD
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardCoreInfo._coreData._iD
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardCoreInfo._coreData._iD
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardCoreInfo._coreData._iD
+      value: 230
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[0]._cardCoreInfo._coreData._level
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[1]._target
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardKeyword.Array.data[0]._target
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardKeyword.Array.data[0]._target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[1]._target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[0]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[1]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[1]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[4]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[6]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[1]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[1]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[5]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: f4de2c0f80b727b4fa768f7d9bba09e3,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[1]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[0]._amountToApply
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[1]._amountToApply
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[4]._cardKeyword.Array.data[0]._amountToApply
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[6]._cardKeyword.Array.data[0]._amountToApply
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._amountToApply
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[1]._amountToApply
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1599ef7dc225d7341a06d4d84ac0d3cc, type: 3}
 --- !u!1 &713954403
 GameObject:
   m_ObjectHideFlags: 0
@@ -1798,7 +2376,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2063546483}
-  m_LocalRotation: {x: 0.11883397, y: 0.0009801519, z: -0.00011730662, w: 0.99291366}
+  m_LocalRotation: {x: 0.118833944, y: 0.0009801871, z: -0.00011731082, w: 0.99291366}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3424,17 +4002,17 @@ PrefabInstance:
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.029233307
+      value: -0.029233329
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00095204683
+      value: 0.00095208094
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00026089378
+      value: -0.00026090315
       objectReference: {fileID: 0}
     - target: {fileID: 9062502925368104154, guid: 72a3419e40d63ff4cb91ab7ea0ad9023,
         type: 3}
