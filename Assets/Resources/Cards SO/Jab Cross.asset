@@ -12,24 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Jab Cross
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _cardSprite: {fileID: 21300000, guid: a96e960299fcf8d40b5cd3d833049bc4, type: 3}
   _cardName: Jab Cross
   _animationBundle:
     BodyPartEnum: 4
-    _attackAnimation: OneTwo
-    _shieldAnimation: Block_Single
-    _getHitAnimation: HighFront_Stagger
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: OneTwo
+    ShieldAnimation: Block_Single
+    GetHitAnimation: HighFront_Stagger
     IsSlowMotion: 0
-    CinemtaicView: 1
+  cameraDetails:
+    LeftCamera:
+    - {fileID: 11400000, guid: 45ded80e230e315498a92d9511dd152c, type: 2}
+    RightCamera:
+    - {fileID: 11400000, guid: 35d3bff3714afde4fb50ed7890d2483f, type: 2}
+    CinemachineBlenderSettings:
+    - {fileID: 11400000, guid: 18ed8330d0c5373419060bed5042dbbb, type: 2}
   _rarity: 1
   _stamina: 1
   _salvageCost: 1
@@ -67,7 +68,14 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 6 Attack 2 Bleed  Exhaust
+    - Description:
+      - 6
+      - Attack
+    - Description:
+      - 2
+      - Bleed
+    - Description:
+      - Exhaust
     _purchaseCost: 56
     _upgradesPerLevel:
     - _upgradeType: 5
@@ -162,7 +170,14 @@ MonoBehaviour:
         _cardType: 0
       _amount: 1
   - _description:
-    - 8 Attack 4 Bleed  Exhaust
+    - Description:
+      - 8
+      - Attack
+    - Description:
+      - 4
+      - Bleed
+    - Description:
+      - Exhaust
     _purchaseCost: 105
     _upgradesPerLevel:
     - _upgradeType: 5

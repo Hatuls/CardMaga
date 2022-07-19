@@ -9,10 +9,10 @@
             data.KeywordSO.SoundEventSO.PlaySound();
             var target = data.GetTarget;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                Battles.Deck.DeckManager.GetCraftingSlots(currentPlayer).ResetDeck();
+                Battle.Deck.DeckManager.GetCraftingSlots(currentPlayer).ResetDeck();
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                Battles.Deck.DeckManager.GetCraftingSlots(!currentPlayer).ResetDeck();
+                Battle.Deck.DeckManager.GetCraftingSlots(!currentPlayer).ResetDeck();
         }
     }
 }

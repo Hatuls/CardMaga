@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Battle.Turns;
+using UnityEngine;
 
 public class EndTurnButton : ButtonUI
 {
-    public static System.Action _OnFinishTurnPress;
 
     private static EndTurnButton _instance;
     [SerializeField]
@@ -12,9 +12,10 @@ public class EndTurnButton : ButtonUI
     {
         _instance = this;
     }
+
     public override void ButtonPressed()
     {
-        if (Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn)
+        if (Battle.Turns.TurnHandler.CurrentState == Battle.Turns.TurnState.PlayerTurn)
         {
             FinishTurn();
         }
@@ -28,10 +29,10 @@ public class EndTurnButton : ButtonUI
 
     public static void FinishTurn()
     {
-        if (Battles.Turns.TurnHandler.CurrentState == Battles.Turns.TurnState.PlayerTurn && Battles.BattleManager.isGameEnded == false)
+        if (Battle.Turns.TurnHandler.CurrentState == Battle.Turns.TurnState.PlayerTurn && Battle.BattleManager.isGameEnded == false)
         {
 
-            _OnFinishTurnPress?.Invoke();
+            TurnHandler.FinishTurn();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Cards;
+using Cinemachine;
 using Collections;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ public class CSVToCardSO : CSVAbst
             if (row[0] == "-")
                 break;
 
-            var cardCache = CreateCard(row);
+            CardSO cardCache = CreateCard(row);
 
 
 
@@ -102,7 +103,7 @@ public class CSVToCardSO : CSVAbst
                     }
 
                 }
-               
+
             }
         }
 
@@ -190,9 +191,12 @@ public class CSVToCardSO : CSVAbst
 
 
         const int RarityLevel = 18;
-        const int Cinematic = 19;
+        const int CameraBlendTypeIndex = 19;
+        const int CameraNameIndex = 20;
+
+
         // const int GoToDeckAfterCrafting = 20;
-        const int PurchaseCost = 20;
+        const int PurchaseCost = 21;
         const int IDThatCraftMe = 22;
         const int UpgradeToCardID = 23;
         const int IsExhausted = 24;
@@ -215,16 +219,52 @@ public class CSVToCardSO : CSVAbst
             Debug.Log($"CardID {cardSO[ID]} : Coulmne S ({RarityLevel}) Rarity is not an int!");
 
 
+        //Cameras
+        CameraDetails cameraDetails = new CameraDetails();
+        if (!CheckIfEmpty(cardSO[CameraBlendTypeIndex]))
+        {
+            CinemachineBlenderSettings blenderSettings = Resources.Load<CinemachineBlenderSettings>($"Camera/Transitions/Battle/{cardSO[CameraBlendTypeIndex]}");
+            if (blenderSettings == null)
+                throw new Exception($"CSVToCardSO: Could not find Blender settings from URL in Camera/Transitions/Battle/{cardSO[CameraBlendTypeIndex]}");
 
+            CinemachineBlenderSettings[] cinemachineBlenderSettings = new CinemachineBlenderSettings[] { blenderSettings };
+            cameraDetails.CinemachineBlenderSettings = cinemachineBlenderSettings;
+        }
 
+        List<CameraIdentification> camerasId = new List<CameraIdentification>();
+        string[] charactersCameras = cardSO[CameraNameIndex].Split('^');
+        for (int i = 0; i < charactersCameras.Length; i++)
+        {
+            string[] camerasNames = charactersCameras[i].Split('&');
+            for (int j = 0; j < camerasNames.Length; j++)
+            {
+                if (CheckIfEmpty(camerasNames[j]))
+                    break;
+
+                CameraIdentification camID = Resources.Load<CameraIdentification>($"Camera/ID/Battle/{camerasNames[j]}");
+                if (camID == null)
+                    throw new Exception($"CSVToCardSO: Could not find Camera Identification from URL in Camera/ID/Battle/{camerasNames[j]}");
+
+                camerasId.Add(camID);
+            }
+
+            if (i == 0)
+                cameraDetails.LeftCamera = camerasId.ToArray();
+            else
+                cameraDetails.RightCamera = camerasId.ToArray();
+
+            camerasId.Clear();
+        }
+        card.CameraDetails = cameraDetails;
 
         // Animations
         card.AnimationBundle = new AnimationBundle
         {
-            _attackAnimation = (CheckIfEmpty(cardSO[AttackAnimation])) ? "" :  cardSO[AttackAnimation].Replace(' ', '_'),
-            _shieldAnimation = (CheckIfEmpty(cardSO[ShieldAnimation])) ? "" :  cardSO[ShieldAnimation].Replace(' ', '_'),
-            _getHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? "" :  cardSO[GotHitAnimation].Replace(' ', '_'),
-            CinemtaicView = int.TryParse(cardSO[Cinematic], out int cin) ? (CameraViews)cin : (CameraViews.None),
+
+            AttackAnimation = (CheckIfEmpty(cardSO[AttackAnimation])) ? "" : cardSO[AttackAnimation].Replace(' ', '_'),
+            ShieldAnimation = (CheckIfEmpty(cardSO[ShieldAnimation])) ? "" : cardSO[ShieldAnimation].Replace(' ', '_'),
+            GetHitAnimation = (CheckIfEmpty(cardSO[GotHitAnimation])) ? "" : cardSO[GotHitAnimation].Replace(' ', '_'),
+
             //IsSlowMotion = bool.Parse
             BodyPartEnum = int.TryParse(cardSO[BodyPart], out int bodyPartIndex) ? (Cards.BodyPartEnum)bodyPartIndex : Cards.BodyPartEnum.None,
         };
@@ -234,7 +274,7 @@ public class CSVToCardSO : CSVAbst
         card.StaminaCost = byte.Parse(cardSO[StaminaCost]);
 
         //Purchase Cost
-  
+
 
 
         // id fuses from
@@ -255,17 +295,23 @@ public class CSVToCardSO : CSVAbst
 
 
 
-      ushort cost = ushort.TryParse(cardSO[PurchaseCost], out ushort pCost) ? pCost : (ushort)0;
+        ushort cost = ushort.TryParse(cardSO[PurchaseCost], out ushort pCost) ? pCost : (ushort)0;
         if (cost == 0)
             Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
-      
+
+        //Description
+      List<string[]> description = GetDescription(cardSO[CardDescription]);
+
         //Upgrades
         List<PerLevelUpgrade> _PerLevelUpgrade = new List<Cards.PerLevelUpgrade>();
-        _PerLevelUpgrade.Add(new PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType, IsExhausted), cardSO[CardDescription], cost));
+        _PerLevelUpgrade.Add(new PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType, IsExhausted), description, cost));
         string firstCardId = cardSO[UpgradeToCardID];
+
+
         do
         {
+          
             if (int.TryParse(firstCardId, out int myUpgradeVersionID))
             {
                 string[] getRow = GetRowFromCSVByID(myUpgradeVersionID);
@@ -273,11 +319,14 @@ public class CSVToCardSO : CSVAbst
                 if (getRow.Length == 0)
                     Debug.LogError($"ID {myUpgradeVersionID} has no data in it!");
 
-                 cost = ushort.TryParse(getRow[PurchaseCost], out ushort s) ? s : (ushort)0;
+                cost = ushort.TryParse(getRow[PurchaseCost], out ushort s) ? s : (ushort)0;
                 if (cost == 0)
                     Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
-                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType,IsExhausted), getRow[CardDescription], cost));
+
+                description = GetDescription(getRow[CardDescription]);
+
+                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType, IsExhausted), description, cost));
                 firstCardId = getRow[UpgradeToCardID];
             }
             else
@@ -304,6 +353,43 @@ public class CSVToCardSO : CSVAbst
 
         return card;
     }
+
+
+    private static List<string[]> GetDescription(string description)
+    {
+        //Sequence Example:
+        //15^Stun Shard & 4^Some Keyword&
+
+
+        // 15^Stun Shard & 4^Some Keyword
+        description = description.Remove(description.Length - 1, 1);
+        string[] keyword = description.Split('&');
+        //15 ^ Stun Shard
+        //4 ^ Some Keyword
+
+        int firstCut = keyword.Length;
+        List<string[]> finalDescription = new List<string[]>();
+
+        for (int i = 0; i<firstCut; i++)
+        {
+            string[] numberAndText = keyword[i].Split('^');
+            //15
+            //Stun Keyword
+
+            //4
+            //Some Keyword
+
+
+            finalDescription.Add(new string[numberAndText.Length]);
+
+            for (int j = 0; j < numberAndText.Length; j++)
+               finalDescription[i][j] = numberAndText[j];
+        }
+
+        return finalDescription;
+    }
+
+
 
     private static Sprite GetCardImageByName(string name)
     {

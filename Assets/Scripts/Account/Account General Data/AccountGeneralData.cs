@@ -1,58 +1,61 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using UnityEngine;
 namespace Account.GeneralData
 {
-    [System.Serializable]
-    public class AccountGeneralData : ILoadFirstTime
+
+    [Serializable]
+    public enum AccountType
     {
-        [SerializeField] bool _isFirstTime = false;
+        Normal = 0,
+        Payed = 1,
+        Tester = 2,
+        Admin = 3,
+    }
+
+    [Serializable]
+    public class AccountGeneralData
+    {
+        [NonSerialized]
+        public const string PlayFabKeyName = "GeneralData";
+
+        [SerializeField] private int _rank = 0;
+        [SerializeField] private bool _isFinishedTutorial = false;
+        [SerializeField] private AccountType _accountType;
+
+        public int Rank { get => _rank; set => _rank = value; }
+        public bool IsFinishedTutorial { get => _isFinishedTutorial; set => _isFinishedTutorial = value; }
+        public AccountType AccountType { get => _accountType; set => _accountType = value; }
         public AccountGeneralData()
         {
+            _isFinishedTutorial = false;
+            _rank = 0;
+            _accountType = AccountType.Normal;
 
         }
 
-        #region Fields
-        [SerializeField]
-        private AccountInfoData _accountInfoData;
-        [SerializeField]
-        private AccountLevelData _accountLevelData;
-        [SerializeField]
-        private AccountResourcesData _accountResourcesData;
-        [SerializeField]
-        private AccountEnergyData _accountEnergyData;
-        #endregion
-
-
-        #region Properties
-        public AccountInfoData AccountInfoData { get => _accountInfoData; private set => _accountInfoData = value; }
-        public AccountLevelData AccountLevelData { get => _accountLevelData; private set => _accountLevelData = value; }
-        public AccountResourcesData AccountResourcesData { get => _accountResourcesData; private set => _accountResourcesData = value; }
-        public AccountEnergyData AccountEnergyData { get => _accountEnergyData; private set => _accountEnergyData = value; }
-        public bool IsFirstTime { get => _isFirstTime; set => _isFirstTime = value; }
-
-
-        public void NewLoad()
+        internal bool IsValid()
         {
-            //_accountInfoData = new AccountInfoData(TimeManager.Instance.GetCurrentTime(),);
-      
-            IsFirstTime = false;
-
-
-            _accountEnergyData = new AccountEnergyData();
-            _accountEnergyData.NewLoad();
-            _accountLevelData = new AccountLevelData();
-             _accountLevelData.NewLoad();
-            _accountResourcesData = new AccountResourcesData();
-             _accountResourcesData.NewLoad();
+            return true;
         }
+    }
+    [Serializable]
+    public class LevelData
+    {
+        [NonSerialized]
+        public const string PlayFabKeyName = "LevelData";
+        [SerializeField] private int _level;
+        [SerializeField] private int _exp;
 
-        public bool IsCorrupted()
+        public int Level { get => _level; set => _level = value; }
+        public int Exp { get => _exp; set => _exp = value; }
+
+        public LevelData()
         {
-            bool corrupted = false;
-            //corrupted |= _accountEnergyData.IsCorrupted();
-            //corrupted |= _accountLevelData.IsCorrupted();
-            return corrupted;
+            _level = 1;
+            _exp = 0;
         }
-        #endregion
+
+        internal bool IsValid()
+        => _level >= 0 && _exp >= 0;
     }
 }

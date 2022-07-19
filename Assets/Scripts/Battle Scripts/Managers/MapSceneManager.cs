@@ -6,7 +6,7 @@ public class MapSceneManager : MonoBehaviour
     LoadingSceneManager _loadingManager;
     private void Awake()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager += Inject;
+        LoadingSceneManager.OnInjectingLoadingSceneManager += Inject;
     }
 
     private void Inject(LoadingSceneManager obj)
@@ -14,7 +14,7 @@ public class MapSceneManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager -= Inject;
+        LoadingSceneManager.OnInjectingLoadingSceneManager -= Inject;
 
     }
 

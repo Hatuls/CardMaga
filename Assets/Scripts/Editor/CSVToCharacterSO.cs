@@ -25,11 +25,11 @@ public class CSVToCharacterSO : CSVAbst
 
         if (CSVManager._cardCollection == null || CSVManager._cardCollection.GetAllCards.Length == 0)
             Debug.LogError("Card Collection Is empty make sure you have cards in the Card Collection SO at \"Resources\\Collection SO\\CardCollection\"");
-        if (CSVManager._comboCollection == null || CSVManager._comboCollection.GetComboSO.Length == 0)
+        if (CSVManager._comboCollection == null || CSVManager._comboCollection.AllCombos.Length == 0)
             Debug.LogError("Card Collection Is empty make sure you have combos in the recipe Collection SO at \"Resources\\Collection SO\\RecipeCollection\"");
 
         CSVManager._characterCollection = ScriptableObject.CreateInstance<CharacterCollectionSO>();
-        List<Battles.CharacterSO> charactersList = new List<Battles.CharacterSO>();
+        List<Battle.CharacterSO> charactersList = new List<Battle.CharacterSO>();
 
         for (int i = 2; i < rows.Length; i++)
         {
@@ -58,12 +58,12 @@ public class CSVToCharacterSO : CSVAbst
     }
 
 
-    private static Battles.CharacterSO CreateCharacter(string[] line, CardsCollectionSO cardCollections, ComboCollectionSO recipeCollection)
+    private static Battle.CharacterSO CreateCharacter(string[] line, CardsCollectionSO cardCollections, ComboCollectionSO recipeCollection)
     {
         const int ID = 0;
         if (ushort.TryParse(line[ID], out ushort characterID))
         {
-            var character = ScriptableObject.CreateInstance<Battles.CharacterSO>();
+            var character = ScriptableObject.CreateInstance<Battle.CharacterSO>();
             if (character.Init(characterID, line, cardCollections, recipeCollection))
             {
                 AssetDatabase.CreateAsset(character, $"Assets/Resources/Character SO/{character.CharacterName}.asset");

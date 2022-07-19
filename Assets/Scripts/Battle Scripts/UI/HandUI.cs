@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,11 @@ using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 
 namespace Battles.UI
+=======
+﻿using Battle.UI.CardUIAttributes;
+using UnityEngine;
+namespace Battle.UI
+>>>>>>> WithOutMapScene
 {
     public class HandUI : MonoBehaviour , ILockabel
     {

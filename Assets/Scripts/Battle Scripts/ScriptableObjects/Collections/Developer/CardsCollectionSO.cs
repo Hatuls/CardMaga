@@ -9,13 +9,11 @@ namespace Collections
 
 
     [CreateAssetMenu(fileName = ("CardsCollections"), menuName = ("ScriptableObjects/Collections/CardsCollections"))]
-    public class CardsCollectionSO : ScriptableObject, IScriptableObjectCollection
-    {
+    public class CardsCollectionSO : ScriptableObject    {
         [SerializeField]
         CardSO[] _cardCollection;
 
-        private Dictionary<ushort, CardSO> _cardDict;
-
+     
         /*
          * 0 common
          * 1 uncommon
@@ -76,46 +74,8 @@ namespace Collections
         }
 
 
-        public CardSO GetCard(ushort ID)
-        {
-            if (_cardDict == null)
-                AssignDictionary();
-
-            if (_cardDict.TryGetValue(ID, out CardSO card))
-                return card;
-            
-            throw new System.Exception($"Card SO Could not been found from ID \nID is {ID}\nCheck Collection For card SO");
-        }
-
-
-        public async void AssignDictionary()
-        {
-            Debug.Log("<a>Started  Assiging Card Dictionary!!!</a>");
-
-            const int Module = 50;
-            int length = _cardCollection.Length;
-            _cardDict = new Dictionary<ushort, CardSO>(length);
-
-            for (int i = 0; i < length; i++)
-            {
-                var cardSO = _cardCollection[i];
-
-                if (!_cardDict.ContainsKey(cardSO.ID))
-                    _cardDict.Add(cardSO.ID, cardSO);
-                else
-                    throw new System.Exception($"Card CollectionSO : could not assign dictionary right\n there is 2 - cardSO {cardSO.CardName} with the same ID: {cardSO.ID}");
-
-                if (i % Module == 0 && i > 0)
-                    await System.Threading.Tasks.Task.Yield();
-                
-            }
-
-            Debug.Log("<a>Finished Assiging Card Dictionary!!!</a>");
-        }
+       
     }
 
-    public interface IScriptableObjectCollection
-    {
-        void AssignDictionary();
-    }
+  
 }

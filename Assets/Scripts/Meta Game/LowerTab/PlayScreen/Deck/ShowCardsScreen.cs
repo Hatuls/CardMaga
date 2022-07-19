@@ -40,11 +40,11 @@ namespace UI.Meta.PlayScreen
         #endregion
         private void ShowCards(AccountDeck deck)
         {
-            var factoryCardCollection = Factory.GameFactory.Instance.CardFactoryHandler.CardCollection;
+            var factoryCardCollection = Factory.GameFactory.Instance.CardFactoryHandler;
             for (int i = 0; i < deck.Cards.Length; i++)
             {
                 _cards[i].gameObject.SetActive(true);
-                _cards[i].Init(factoryCardCollection.GetCard(deck.Cards[i].CardID), deck.Cards[i].Level, _artSO);
+                _cards[i].Init(factoryCardCollection.GetCard(deck.Cards[i].ID), deck.Cards[i].Level, _artSO);
             }
         }
     }

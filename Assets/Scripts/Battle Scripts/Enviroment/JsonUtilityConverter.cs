@@ -1,9 +1,14 @@
-﻿using System.Xml;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace Rei.Utilities
 {
+    public static class VectorHelper
+    {
+        public static float GetRandomValue(this Vector2 vector2)
+            => Random.Range(vector2.x, vector2.y);
+    }
+
     public static class JsonUtilityConverter
     {
 
@@ -14,7 +19,8 @@ namespace Rei.Utilities
                 throw new System.Exception($"JsonConverter : object parameter is null!");
 
             var jsonString = JsonUtility.ToJson(data);
-
+            if (print)
+                Debug.Log(jsonString);
             return jsonString;
         }
 

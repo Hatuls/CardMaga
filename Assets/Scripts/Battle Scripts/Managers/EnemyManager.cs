@@ -1,12 +1,14 @@
 ﻿using Managers;
 using UnityEngine;
-using Battles.Deck;
+using Battle.Deck;
 using Characters.Stats;
 using Characters;
 using TMPro;
 using ReiTools.TokenMachine;
+using Battle.Combo;
+using Battle.Characters;
 
-namespace Battles
+namespace Battle
 {
     public class EnemyManager : MonoSingleton<EnemyManager> , IBattleHandler
     {
@@ -24,11 +26,14 @@ namespace Battles
         [SerializeField]  AnimatorController _enemyAnimatorController;
         [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
-         public Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
+         public Battle.Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
         private Cards.Card[] _deck;
         public Cards.Card[] Deck => _deck;
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
+
+        [SerializeField,Sirenix.OdinInspector.MinMaxSlider(0,10f)]
+        private Vector2 _delayTime;
         #region Public Methods
         public override void Init(ITokenReciever token)
         {
@@ -44,11 +49,11 @@ namespace Battles
  
         public void AssignCharacterData(Character character)
         {
-            Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
+            SpawnModel(character);
             _myCharacter = character;
             var characterdata = character.CharacterData;
             _animationSoundHandler.CurrentCharacter = characterdata.CharacterSO;
-     
+
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new Cards.Card[deckLength];
             System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
@@ -65,6 +70,12 @@ namespace Battles
 #endif
 
         }
+
+        private void SpawnModel(Character character)
+        {
+            Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
+        }
+
         public void UpdateStatsUI()
         {
             UI.StatsUIManager.Instance.UpdateMaxHealthBar(false, GetCharacterStats.MaxHealth);
@@ -98,7 +109,7 @@ namespace Battles
         {
             Debug.Log("Enemy Attack!");
 
-            var staminaHandler = Characters.Stats.StaminaHandler.Instance;
+            var staminaHandler = StaminaHandler.Instance;
 
 
 
@@ -106,7 +117,8 @@ namespace Battles
             bool noMoreCardsAvailable = false;
             do
             {
-           var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
+                var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
+                bool isCardExecuted = false;
                 do
                 {
                     yield return null;
@@ -121,8 +133,15 @@ namespace Battles
             
                     if (enemyAction!= null && staminaHandler.IsEnoughStamina(false, enemyAction))
                         DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, enemyAction);
-             
-                } while (enemyAction == null || !CardExecutionManager.Instance.TryExecuteCard(false, enemyAction));
+                    isCardExecuted = CardExecutionManager.Instance.CanPlayCard(false, enemyAction);
+         
+                } while (enemyAction == null || !isCardExecuted);
+
+                if (isCardExecuted)
+                {
+                    yield return new WaitForSeconds(Random.Range(_delayTime.x,_delayTime.y));
+                    CardExecutionManager.Instance.TryExecuteCard(false, enemyAction);
+                }
 
                 if (noMoreCardsAvailable == false)
                 {

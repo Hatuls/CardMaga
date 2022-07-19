@@ -12,24 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Iron Skin
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _cardSprite: {fileID: 21300000, guid: d1c1381940a3c5147922b2ace21b88b0, type: 3}
   _cardName: Iron Skin
   _animationBundle:
     BodyPartEnum: 2
-    _attackAnimation: EyeLasers
-    _shieldAnimation: 
-    _getHitAnimation: 
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: EyeLasers
+    ShieldAnimation: 
+    GetHitAnimation: 
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 3
   _stamina: 2
   _salvageCost: 1
@@ -60,7 +58,17 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 7 Defense 2 Stamina 2 Dexterity  Exhaust
+    - Description:
+      - 7
+      - Defense
+    - Description:
+      - 2
+      - Stamina
+    - Description:
+      - 2
+      - Dexterity
+    - Description:
+      - Exhaust
     _purchaseCost: 119
     _upgradesPerLevel:
     - _upgradeType: 5
@@ -142,7 +150,17 @@ MonoBehaviour:
         _cardType: 0
       _amount: 1
   - _description:
-    - 10 Defense 2 Stamina 3 Dexterity  Exhaust
+    - Description:
+      - 10
+      - Defense
+    - Description:
+      - 2
+      - Stamina
+    - Description:
+      - 3
+      - Dexterity
+    - Description:
+      - Exhaust
     _purchaseCost: 150
     _upgradesPerLevel:
     - _upgradeType: 5
@@ -224,7 +242,17 @@ MonoBehaviour:
         _cardType: 0
       _amount: 1
   - _description:
-    - 10 Defense 2 Stamina 5 Dexterity  Exhaust
+    - Description:
+      - 10
+      - Defense
+    - Description:
+      - 2
+      - Stamina
+    - Description:
+      - 5
+      - Dexterity
+    - Description:
+      - Exhaust
     _purchaseCost: 186
     _upgradesPerLevel:
     - _upgradeType: 5
@@ -306,7 +334,17 @@ MonoBehaviour:
         _cardType: 0
       _amount: 1
   - _description:
-    - 15 Defense 2 Stamina 7 Dexterity  Exhaust
+    - Description:
+      - 15
+      - Defense
+    - Description:
+      - 2
+      - Stamina
+    - Description:
+      - 7
+      - Dexterity
+    - Description:
+      - Exhaust
     _purchaseCost: 243
     _upgradesPerLevel:
     - _upgradeType: 5

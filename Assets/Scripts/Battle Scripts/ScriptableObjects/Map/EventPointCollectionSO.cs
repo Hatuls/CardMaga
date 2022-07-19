@@ -1,5 +1,5 @@
 ﻿
-using Map;
+using CardMaga;
 using UnityEngine;
 
 

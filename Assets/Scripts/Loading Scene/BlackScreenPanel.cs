@@ -12,7 +12,7 @@ public class BlackScreenPanel : MonoBehaviour
 
 
 
-    public static event Action OnFinishFadeIn, OnFinishFadeOut;
+    public event Action OnFinishFadeIn, OnFinishFadeOut;
 
     private const int MAX_VALUE = 1, MIN_VALUE = 0;
 

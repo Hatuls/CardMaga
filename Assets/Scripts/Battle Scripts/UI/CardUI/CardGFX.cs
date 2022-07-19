@@ -4,8 +4,10 @@ using UnityEngine.UI;
 using Cards;
 using Art;
 using UI.Meta.PlayScreen;
+using System.Collections.Generic;
+using static Cards.PerLevelUpgrade;
 
-namespace Battles.UI.CardUIAttributes
+namespace Battle.UI.CardUIAttributes
 {
     public enum CardUILevelState { Off = 0 , On =1, Missing = 2};
     [System.Serializable]
@@ -78,16 +80,21 @@ namespace Battles.UI.CardUIAttributes
               //  _glowBackground?.gameObject.SetActive(toGlow);
             }
         }
-        private void SetCardDescriptionText(in string cardDescription)
+        private void SetCardDescriptionText(List<string[]> cardDescription)
         {
             if (cardDescription == null)
             {
                 //  Debug.LogError("No Description For Card");
                 return;
             }
-            _descriptionTxt.text = cardDescription;
+            string name = string.Empty;
+            for (int i = 0; i < cardDescription.Count; i++)
+                for (int j = 0; j < cardDescription[i].Length; j++)
+                    name += cardDescription[i][j];
+
+            _descriptionTxt.text = name;
         }
-        internal void SetCardReference(CardSO cardData,byte lvl = 0)
+        internal void SetCardReference(CardSO cardData,int lvl = 0)
         {
             if (cardData == null)
                 return;

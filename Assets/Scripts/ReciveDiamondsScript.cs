@@ -9,23 +9,23 @@ public class ReciveDiamondsScript : MonoBehaviour
     TextMeshProUGUI _diamondAmountText;
     [SerializeField]
     GameObject _rewardPanel;
-    public void Start()
+    public void Start()    // Need To be Re-Done
     {
-        if(Account.AccountManager.Instance.RewardGift.NeedToBeRewarded)
-        {
-            _rewardPanel.SetActive(true);
-            UpdateText();
-        }
+        //if(Account.AccountManager.Instance.RewardGift.NeedToBeRewarded)
+        //{
+        //    _rewardPanel.SetActive(true);
+        //    UpdateText();
+        //}
     }
     private void UpdateText()
     {
         _diamondAmountText.text = _diamondAmount.ToString();
-    }
+    }    // Need To be Re-Done
     public void OnReciveRewards()
     {
         Debug.Log("Reciving Rewards");
-        Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(_diamondAmount);
-        Account.AccountManager.Instance.RewardGift.NeedToBeRewarded = false;
+        //Account.AccountManager.Instance.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(_diamondAmount);
+        //Account.AccountManager.Instance.RewardGift.NeedToBeRewarded = false;
         _rewardPanel.SetActive(false);
     }
 

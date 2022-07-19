@@ -1,47 +1,40 @@
 ﻿using Account.GeneralData;
-using Battles;
+using Battle;
 using System;
 using System.Linq;
 using UnityEngine;
 
 
-namespace Characters
+namespace Battle.Characters
 {
     [Serializable]
     public class Character
     {
         [SerializeField]
-        CharacterBattleData _characterData;
+        private CharacterBattleData _characterData;
+
+        [SerializeField] 
+        private string _displayName;
+
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
-        public Character(CharacterData data, AccountDeck _deck)
+        public string DisplayName { get => _displayName; }
+
+        public Character() { }
+
+        public Character(string displayName,  Account.GeneralData.Character data)
         {
             if (data == null)
-                throw new Exception($"Character: CharacterData is null!");
-            else if (_deck == null || _deck.Cards.Length == 0)
-                throw new Exception("AccountDeck Is null or empty!");
-
-            CharacterData = new CharacterBattleData(data, _deck);
+                throw new Exception("Characters: Data Is Null");
+            _displayName = displayName;
+            _characterData = new CharacterBattleData(data);
         }
-        public Character(CharacterSO characterSO)
-        {
-            if (characterSO == null)
-                throw new Exception($"Character: CharactersO is null!");
 
-            CharacterData = new CharacterBattleData(characterSO);
-        }
-        public Character(CharacterBattleData data)
-        {
-            if (data == null)
-                throw new Exception($"Character: CharacterData is null!");
-
-            _characterData = data;
-        }
-        public bool RemoveCombo(ushort comboID)
+        public bool RemoveCombo(int comboID)
         {
             var combo = _characterData.ComboRecipe.ToList();
             for (int i = 0; i < combo.Count; i++)
             {
-                if (combo[i].ComboSO.ID == comboID)
+                if (combo[i].ID == comboID)
                 {
                     combo.RemoveAt(i);
                     _characterData.ComboRecipe = combo.ToArray();
@@ -51,7 +44,7 @@ namespace Characters
        
             return false;
         }
-        public bool RemoveCardFromDeck(ushort InstanceID)
+        public bool RemoveCardFromDeck(int InstanceID)
         {
             var deckList = _characterData.CharacterDeck.ToList();
         
@@ -62,8 +55,8 @@ namespace Characters
                 _characterData.CharacterDeck = deckList.ToArray();
             return check;
         }
-        public bool AddCardToDeck(CharacterSO.CardInfo card) => AddCardToDeck(card.Card, card.Level);
-        public bool AddCardToDeck(Cards.CardSO card, byte level = 0)
+        public bool AddCardToDeck(CardCore card) => AddCardToDeck(card.CardSO(), card.Level);
+        public bool AddCardToDeck(Cards.CardSO card, int level = 0)
         {
             if (card == null)
                 throw new Exception("Cannot add card to deck the card you tried to add is null!");
@@ -87,13 +80,13 @@ namespace Characters
         }
 
 
-        public bool AddComboRecipe(Combo.Combo combo)
+        public bool AddComboRecipe(Battle.Combo.Combo combo)
         {
             bool hasThisCombo = false;
             var comboRecipe = _characterData.ComboRecipe;
             for (int i = 0; i < comboRecipe.Length; i++)
             {
-                hasThisCombo = comboRecipe[i].ComboSO.ID == combo.ComboSO.ID;
+                hasThisCombo = comboRecipe[i].ID == combo.ID;
 
                 if (hasThisCombo)
                 {
@@ -118,39 +111,6 @@ namespace Characters
 
             return hasThisCombo;
         }
-
-
-        public bool AddComboRecipe(CharacterSO.RecipeInfo recipeInfo)
-        {
-            bool hasThisCombo = false;
-            var comboRecipe = _characterData.ComboRecipe;
-            for (int i = 0; i < comboRecipe.Length; i++)
-            {
-                hasThisCombo = comboRecipe[i].ComboSO.ID == recipeInfo.ComboRecipe.ID;
-
-                if (hasThisCombo)
-                {
-                    if (recipeInfo.Level > comboRecipe[i].Level)
-                        comboRecipe[i] = Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(recipeInfo);
-
-                    break;
-                }
-
-            }
-
-            if (hasThisCombo == false)
-            {
-                Array.Resize(ref comboRecipe, comboRecipe.Length + 1);
-                comboRecipe[comboRecipe.Length - 1] = Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(recipeInfo);
-
-                hasThisCombo = true;
-            }
-            _characterData.ComboRecipe = comboRecipe;
-
-            return hasThisCombo;
-        }
-
-
 
     }
 }

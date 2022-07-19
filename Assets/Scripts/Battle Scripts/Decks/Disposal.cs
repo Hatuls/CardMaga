@@ -1,6 +1,6 @@
 ﻿using Cards;
 
-namespace Battles.Deck
+namespace Battle.Deck
 {
     public class Disposal : BaseDeck
     {

@@ -39,7 +39,7 @@ namespace Keywords
 
         public void ActivateKeyword(bool isPlayerTurn, KeywordData keyword)
         {
-            if (Battles.BattleManager.isGameEnded)
+            if (Battle.BattleManager.isGameEnded)
                 return;
 
             if (keyword == null)

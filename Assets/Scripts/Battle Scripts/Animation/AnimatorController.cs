@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
+using Battle;
+using Battle.Turns;
 
 public class AnimatorController : MonoBehaviour
 {
@@ -27,6 +29,8 @@ public class AnimatorController : MonoBehaviour
     AnimationBundle _currentAnimation;
     Queue<AnimationBundle> _animationQueue = new Queue<AnimationBundle>();
 
+    public static event Action OnAnimationEnding;
+    public static event Action<TransitionCamera> OnAnimationStart;
 
     [SerializeField] float _rotationSpeed;
     [SerializeField] float _positionSpeed;
@@ -105,24 +109,25 @@ public class AnimatorController : MonoBehaviour
     }
 
 
-    public void OnStartAnimation(AnimatorStateInfo info)
+    public void StartAnimation(AnimatorStateInfo info)
     {
 
-        if (_currentAnimation != null && _currentAnimation.CinemtaicView == CameraViews.OverTheShoulder)
-            SetCamera(_isPlayer ? CameraController.CameraAngleLookAt.Enemy : CameraController.CameraAngleLookAt.Player);
+        if (_currentAnimation != null && _currentAnimation.CameraDetails != null && _currentAnimation.CameraDetails.CheckCameraDetails(_isPlayer))
+        {
+            TransitionCamera transitionCamera = _currentAnimation.CameraDetails.GetTransitionCamera(_isPlayer);
+            OnAnimationStart?.Invoke(transitionCamera);
+        }
 
     }
-    internal void OnFinishAnimation(AnimatorStateInfo stateInfo)
+    internal void FinishAnimation(AnimatorStateInfo stateInfo)
     {
-        //if (_animationQueue.Count == 0 && _currentAnimation == null)
-        //{
-        //    SetCamera(CameraController.CameraAngleLookAt.Both);
+        if (_animationQueue.Count == 0 && _currentAnimation == null)
+                OnAnimationEnding?.Invoke();
 
+        //if (_animationQueue.Count > 0)
+        //{
+        //    TranstionToNextAnimation();
         //}
-        ////if (_animationQueue.Count > 0)
-        ////{
-        ////    TranstionToNextAnimation();
-        ////}
     }
 
     public void CharacterWon()
@@ -164,11 +169,11 @@ public class AnimatorController : MonoBehaviour
 
     public bool CheckIfMyTurn()
     {
-        return (Battles.Turns.TurnHandler.IsPlayerTurn == _isPlayer);
+        return (TurnHandler.IsPlayerTurn == _isPlayer);
     }
     public void PlayCrossAnimation()
     {
-        var cardQueue = Battles.CardExecutionManager.CardsQueue;
+        var cardQueue = CardExecutionManager.CardsQueue;
 
         if (cardQueue == null)
             throw new System.Exception("Cannot Play animation from card\n CardExecutionManager.CardsQueue is null!!");
@@ -186,15 +191,15 @@ public class AnimatorController : MonoBehaviour
 
         _currentAnimation = animationBundle;
 
-        if (_currentAnimation?._attackAnimation == _previousAnimation?._attackAnimation && duplicate)
+        if (_currentAnimation?.AttackAnimation == _previousAnimation?.AttackAnimation && duplicate)
         {
-            PlayAnimation(string.Concat(_currentAnimation._attackAnimation, duplicateAnimationAddOnString));
+            PlayAnimation(string.Concat(_currentAnimation.AttackAnimation, duplicateAnimationAddOnString));
             duplicate = false;
         }
         else
         {
             duplicate = true;
-            PlayAnimation(_currentAnimation._attackAnimation.ToString());
+            PlayAnimation(_currentAnimation.AttackAnimation.ToString());
         }
 
 
@@ -216,14 +221,14 @@ public class AnimatorController : MonoBehaviour
     {
 
         transform.SetPositionAndRotation(startPos, ToolClass.RotateToLookTowards(targetToLookAt, transform));
-        if (Battles.Turns.TurnHandler.IsPlayerTurn != _isPlayer)
+        if (TurnHandler.IsPlayerTurn != _isPlayer)
         {
 
             _previousAnimation = null;
             return;
         }
 
-        var cardQueue = Battles.CardExecutionManager.CardsQueue;
+        var cardQueue = CardExecutionManager.CardsQueue;
         if (cardQueue.Count == 0)
         {
             OnFinishAnimation();
@@ -231,8 +236,8 @@ public class AnimatorController : MonoBehaviour
         }
 
 
-        if (Battles.CardExecutionManager.FinishedAnimation)
-            Battles.CardExecutionManager.FinishedAnimation = false;
+        if (CardExecutionManager.FinishedAnimation)
+            CardExecutionManager.FinishedAnimation = false;
         else
             return;
 
@@ -242,7 +247,7 @@ public class AnimatorController : MonoBehaviour
 
         if (cardQueue.Count != 0)
         {
-            Battles.CardExecutionManager.Instance.CardFinishExecuting();
+            CardExecutionManager.Instance.CardFinishExecuting();
         }
         else
         {
@@ -266,10 +271,10 @@ public class AnimatorController : MonoBehaviour
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
 
-        if (Battles.CardExecutionManager.Instance.CanDefendIncomingAttack(!_isPlayer))
-            _opponentController?.PlayAnimation(_currentAnimation?._shieldAnimation.ToString(), true);
+        if (CardExecutionManager.Instance.CanDefendIncomingAttack(!_isPlayer))
+            _opponentController?.PlayAnimation(_currentAnimation?.ShieldAnimation.ToString(), true);
         else
-            _opponentController?.PlayAnimation(_currentAnimation?._getHitAnimation.ToString(), true);
+            _opponentController?.PlayAnimation(_currentAnimation?.GetHitAnimation.ToString(), true);
     }
 
     public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();
@@ -311,7 +316,7 @@ public class AnimatorController : MonoBehaviour
     #region Private
     private void OnFinishAnimation()
     {
-        Battles.CardExecutionManager.FinishedAnimation = true;
+        CardExecutionManager.FinishedAnimation = true;
 
             SetCamera(CameraController.CameraAngleLookAt.Both);
         //ReturnToIdle();

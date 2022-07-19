@@ -1,8 +1,8 @@
 ﻿
 using UnityEngine;
-using static Map.ActDifficultySO;
+using static CardMaga.ActDifficultySO;
 
-namespace Map
+namespace CardMaga
 {
     [CreateAssetMenu(fileName = "Basic Enemy", menuName = "ScriptableObjects/Map/Points/Basic Enemy")]
     public class BasicEnemyPoint : NodePointAbstSO
@@ -11,7 +11,7 @@ namespace Map
         public override void ActivatePoint(NodeLevel level)
         {
             var characterFactory = Factory.GameFactory.Instance.CharacterFactoryHandler;
-           var enemySO= characterFactory.GetRandomCharacterSO(Battles.CharacterTypeEnum.Basic_Enemy, level);
+           var enemySO= characterFactory.GetRandomCharacterSO(Battle.CharacterTypeEnum.Basic_Enemy, level);
            var enemy = characterFactory.CreateCharacter(enemySO);
             SinglePlayerHandler.Instance.RegisterOpponent(enemy);
             ActivatePoint();

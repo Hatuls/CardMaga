@@ -29,21 +29,23 @@ public class DeckTrackerFromDeckPanel : MonoBehaviour
                 RegisterDeck();
         }
     }
-
+    // Need To be Re-Done
     public void RegisterDeck()
     {
-        int length = _getDeckLength.GetDeckLength((IReadOnlyList<MetaCardUIHandler>)_deckCollection.Collection) ;
-        var characterSO = Account.AccountManager.Instance.AccountCharacters.GetCharacterData(_currentCharacter);
-        var deck = characterSO.GetDeckAt(_currentIndex);
-        Account.GeneralData.CardCoreInfo[] cards = new Account.GeneralData.CardCoreInfo[deck.Cards.Length];
-        for (int i = 0; i < length; i++)
-        {
-            var currentCard = _deckCollection.Collection[i].CardUI.CardData;
-            if (currentCard == null)
-                throw new System.Exception($"DeckTrackerFromDeckPanel: Card From Deck Collection is null!");
-            cards[i] = new Account.GeneralData.CardCoreInfo(currentCard.CardSO.ID, currentCard.CardInstanceID, currentCard.CardLevel);
-        }
-        deck.Cards = cards;
+
+        //int length = _getDeckLength.GetDeckLength((IReadOnlyList<MetaCardUIHandler>)_deckCollection.Collection) ;
+        //var characterSO = Account.AccountManager.Instance.AccountCharacters.GetCharacterData(_currentCharacter);
+        //var deck = characterSO.GetDeckAt(_currentIndex);
+        //Account.GeneralData.CardInstanceID[] cards = new Account.GeneralData.CardInstanceID[deck.Cards.Length];
+        //for (int i = 0; i < length; i++)
+        //{
+        //    var currentCard = _deckCollection.Collection[i].CardUI.GFX.GetCardReference;
+        //    if (currentCard == null)
+        //        throw new System.Exception($"DeckTrackerFromDeckPanel: Card From Deck Collection is null!");
+        //    cards[i] = new Account.GeneralData.CardInstanceID(currentCard.CardSO.ID, currentCard.CardInstanceID, currentCard.CardLevel, currentCard.CardEXP);
+        //}
+        //deck.Cards = cards;
+
     }
 
  

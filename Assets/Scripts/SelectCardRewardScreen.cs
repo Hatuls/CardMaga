@@ -1,4 +1,4 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using Cards;
 using Rewards.Battles;
 using TMPro;

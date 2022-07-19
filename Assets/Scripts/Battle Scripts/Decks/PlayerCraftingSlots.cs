@@ -1,8 +1,8 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
 using Cards;
 
 public class PlayerCraftingSlots : Battles.Deck.BaseDeck
-{
+    {
     CraftingUIHandler _playerCraftingUIHandler;
     Card _lastCardEntered;
     public Card LastCardEntered => _lastCardEntered;
@@ -50,7 +50,7 @@ public class PlayerCraftingSlots : Battles.Deck.BaseDeck
             }
         }
         CountCards();
-        Combo.ComboManager.StartDetection();
+        Battle.ComboManager.StartDetection();
         return true;
     }
 
@@ -87,7 +87,7 @@ public class PlayerCraftingSlots : Battles.Deck.BaseDeck
         CountCards();
 
         if (toDetect)
-            Combo.ComboManager.StartDetection();
+            Battle.ComboManager.StartDetection();
     }
     public override void ResetDeck()
     {

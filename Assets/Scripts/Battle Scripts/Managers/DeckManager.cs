@@ -1,3 +1,4 @@
+
 ﻿using System;
 using Battles.UI;
 using Cards;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
 
-namespace Battles.Deck
+namespace Battle.Deck
 {
     public class DeckManager : MonoSingleton<DeckManager>
     {

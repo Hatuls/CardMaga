@@ -12,24 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Nose Bleed
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _cardSprite: {fileID: 21300000, guid: ab9be6c0ebbb1304d93297212ad9f2b0, type: 3}
   _cardName: Nose Bleed
   _animationBundle:
     BodyPartEnum: 4
-    _attackAnimation: Elbow_R
-    _shieldAnimation: Block_Single
-    _getHitAnimation: HighUpper_Weak
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: Elbow_R
+    ShieldAnimation: Block_Single
+    GetHitAnimation: HighUpper_Weak
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 3
   _stamina: 2
   _salvageCost: 1
@@ -53,7 +51,12 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - '4 Attack 2 Bleed '
+    - Description:
+      - 4
+      - Attack
+    - Description:
+      - 2
+      - Bleed
     _purchaseCost: 75
     _upgradesPerLevel:
     - _upgradeType: 5
@@ -122,7 +125,12 @@ MonoBehaviour:
         _cardType: 0
       _amount: 0
   - _description:
-    - '6 Attack 2 Bleed '
+    - Description:
+      - 6
+      - Attack
+    - Description:
+      - 2
+      - Bleed
     _purchaseCost: 93
     _upgradesPerLevel:
     - _upgradeType: 5
@@ -191,7 +199,12 @@ MonoBehaviour:
         _cardType: 0
       _amount: 0
   - _description:
-    - '6 Attack 3 Bleed '
+    - Description:
+      - 6
+      - Attack
+    - Description:
+      - 3
+      - Bleed
     _purchaseCost: 133
     _upgradesPerLevel:
     - _upgradeType: 5
@@ -260,7 +273,12 @@ MonoBehaviour:
         _cardType: 0
       _amount: 0
   - _description:
-    - '9 Attack 3 Bleed '
+    - Description:
+      - 9
+      - Attack
+    - Description:
+      - 3
+      - Bleed
     _purchaseCost: 159
     _upgradesPerLevel:
     - _upgradeType: 5

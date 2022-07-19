@@ -14,7 +14,7 @@ namespace Managers
             SceneHandler.OnBeforeSceneShown += Init;
         }
 
-      
+
 
         public void OnDestroy()
         {
@@ -22,14 +22,17 @@ namespace Managers
         }
         #endregion
 
-  public override void Init(ITokenReciever token)
+        public override void Init(ITokenReciever token)
         {
             CardManager.Instance.ResetCards();
         }
 
         internal void ResetCards()
         {
-           
+
         }
+
+
+
     }
 }

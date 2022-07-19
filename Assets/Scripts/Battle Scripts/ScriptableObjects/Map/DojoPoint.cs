@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace Map
+namespace CardMaga
 {
     [CreateAssetMenu(fileName = "Dojo Point", menuName = "ScriptableObjects/Map/Points/Dojo")]
     public class DojoPoint : NodePointAbstSO

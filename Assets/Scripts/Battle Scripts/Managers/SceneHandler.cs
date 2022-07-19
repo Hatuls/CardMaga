@@ -1,6 +1,7 @@
 ﻿using CardMaga.LoadingScene;
 using ReiTools.TokenMachine;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public enum ScenesEnum { NetworkScene = 0, LoadingScene = 1, MainMenuScene = 2, MapScene = 3, GameBattleScene = 4, LoreScene = 5 }
@@ -43,24 +44,37 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
     public static event Action<ITokenReciever> OnBeforeSceneUnloaded;
     
 
-    private IDisposable _blackPanelToken;
 
+    private IDisposable _blackPanelToken;
     private LoadingSceneManager _loadingSceneManager;
 
+    [SerializeField]
+    private bool _overrideLoadingSceneManager;
 
+   
     public LoadingSceneManager LoadingSceneManager => _loadingSceneManager;
 
 
     #region Monobehaviour Callbacks
     public void Awake()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager += SceneLoaded;
+        LoadingSceneManager.OnInjectingLoadingSceneManager += SceneLoaded;
     }
     public void OnDisable()
     {
-        LoadingSceneManager.OnIjectingLoadingSceneManager -= SceneLoaded;
+        LoadingSceneManager.OnInjectingLoadingSceneManager -= SceneLoaded;
     }
-    #endregion
+
+    public IEnumerator Start()
+    {
+#if PRODUCTION_BUILD
+_overrideLoadingSceneManager = false;
+#endif
+        yield return null;
+        if (_overrideLoadingSceneManager)
+            StartScene();
+    }
+#endregion
 
 
     /// <summary>
@@ -69,48 +83,61 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
     /// <param name="manager"></param>
     public void SceneLoaded(LoadingSceneManager manager)
     {
-        // creating a token machine
-        TokenMachine sceneTokenMachine = new TokenMachine(RemoveBlackPanel);
         // saving the loading manager
         _loadingSceneManager = manager;
-
+        StartScene();
+    }
+    //[Sirenix.OdinInspector.Button]
+    private void StartScene()
+    {
+        TokenMachine sceneTokenMachine = new TokenMachine(OnSceneStart);
         using (sceneTokenMachine.GetToken())// starting the token machine
         {
             OnSceneHandlerActivated?.Invoke(this);
             OnBeforeSceneShown?.Invoke(sceneTokenMachine); // notifiyng all who need to do preperation 
         }
-        // register to when panel finished fading out
-        BlackScreenPanel.OnFinishFadeOut += BlackScreenFinished;
-
-
-        void BlackScreenFinished()
-        {
-            BlackScreenPanel.OnFinishFadeOut -= BlackScreenFinished;
-
-            OnSceneStart?.Invoke(); // notifiyng that the game should start now
-            OnSceneLateStart?.Invoke();
-        }
     }
+    //private void SceneStart()
+    //{
+        
+    //    // creating a token machine
+    //    //TokenMachine sceneTokenMachine = new TokenMachine(RemoveBlackPanel);
+
+    //  //  using (sceneTokenMachine.GetToken())// starting the token machine
+    //    {
+    //        OnSceneHandlerActivated?.Invoke(this);
+    //      //  OnBeforeSceneShown?.Invoke(sceneTokenMachine); // notifiyng all who need to do preperation 
+    //    }
+    ////    // register to when panel finished fading out
+    ////    BlackScreenPanel.OnFinishFadeOut += BlackScreenFinished;
 
 
+    //    OnSceneStart?.Invoke(); // notifiyng that the game should start now
+    //    //void BlackScreenFinished()
+    //    //{
+    //    //    BlackScreenPanel.OnFinishFadeOut -= BlackScreenFinished;
 
+    //    //}
+    //}
 
     public void MoveToScene(params int[] scenesIndex)
     {
 
-        BlackScreenPanel.OnFinishFadeIn += SceneTransition;
+        //   BlackScreenPanel.OnFinishFadeIn += SceneTransition;
 
-        // notify about unloading
-        CurrentSceneIsUnloaded();
+        //// notify about unloading
+        //CurrentSceneIsUnloaded();
 
-        void SceneTransition()
-        {
-            BlackScreenPanel.OnFinishFadeIn -= SceneTransition;
-            // unload current scenes and start loading the new ones
-            _loadingSceneManager.UnloadAndThenLoad(null, scenesIndex);
+        TokenMachine t = new TokenMachine(()=> _loadingSceneManager.UnloadAndThenLoad(null, scenesIndex));
 
+           using (t.GetToken())
+           {
+               OnBeforeSceneUnloaded?.Invoke(t);
+           }
 
-        }
+        // unload current scenes and start loading the new ones
+     
+
     }
 
     public void MoveToScene(int sceneIndex)
@@ -133,22 +160,22 @@ public class SceneHandler : MonoBehaviour, ISceneHandler
 
 
 
-    #region Private Functions
+#region Private Functions
 
-    private void RemoveBlackPanel()
-    {
-        _blackPanelToken = BlackScreenPanel.GetToken();
-    }
+    //private void RemoveBlackPanel()
+    //{
+    //    _blackPanelToken = BlackScreenPanel.GetToken();
+    //}
 
-    private void CurrentSceneIsUnloaded()
-    {
-        TokenMachine t = new TokenMachine(_blackPanelToken.Dispose);
+    //private void CurrentSceneIsUnloaded()
+    //{
+    //    TokenMachine t = new TokenMachine(_blackPanelToken.Dispose);
 
-        using (t.GetToken())
-        {
-            OnBeforeSceneUnloaded?.Invoke(t);
-        }
-    }
-    #endregion
+    //    using (t.GetToken())
+    //    {
+    //        OnBeforeSceneUnloaded?.Invoke(t);
+    //    }
+    //}
+#endregion
 
 }

@@ -1,4 +1,5 @@
-﻿using Battles.UI;
+﻿using Battle.UI;
+using Battle.Combo;
 using DesignPattern;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
@@ -144,7 +145,7 @@ public class DojoManager : MonoBehaviour, IObserver
             _cardBtnTexts[index].text = cards[index].CardSO.GetCostPerUpgrade(cards[index].CardLevel).ToString();
         }
     }
-    private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward, IEnumerable<Combo.Combo> workOnCombo)
+    private void AssingCombos(Rewards.BattleRewardCollectionSO battleReward, IEnumerable<Combo> workOnCombo)
     {
         int amountOfCombos = _comboUI.Length;
         var combos = battleReward.GetRewardCombos(Rewards.ActsEnum.ActOne, (byte)amountOfCombos, workOnCombo);
@@ -167,15 +168,18 @@ public class DojoManager : MonoBehaviour, IObserver
             _comboPurchaseBtns[i].gameObject.SetActive(combos[i] != null);
         }
     }
+    // Need To be Re-Done
     private void AssignDojosValues()
     {
         var battleRewards = Factory.GameFactory.Instance.RewardFactoryHandler.BattleRewardCollection;
         AssignCards(battleRewards);
-        AssingCombos(battleRewards, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
+     //   AssingCombos(battleRewards, Account.AccountManager.Instance.BattleData.Player.CharacterData.ComboRecipe);
     }
     #endregion
+    // Need To be Re-Done
     public void TryBuyCard(int index)
     {
+<<<<<<< HEAD
         var battledata = Account.AccountManager.Instance.BattleData.Player;
         var card = _metaCardUIs[index].CardUI.CardData;
         int cost = card.CardSO.GetCostPerUpgrade(card.CardLevel);
@@ -196,6 +200,28 @@ public class DojoManager : MonoBehaviour, IObserver
             // not enough gold
             UnSuccessfullPurchaseSound.PlaySound();
         }
+=======
+   //    var battledata = Account.AccountManager.Instance.BattleData.Player;
+    //   var card = _metaCardUIs[index].CardUI.RecieveCardReference();
+    //   int cost = card.CardSO.GetCostPerUpgrade(card.CardLevel);
+    //
+    //   if (battledata.CharacterData.CharacterStats.Gold >= cost)// && isPurchaseable[index])
+    //   {
+    //       // isPurchaseable[index] = false;
+    //       //card added
+    //       battledata.CharacterData.CharacterStats.Gold -= cost;
+    //       _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
+    //       battledata.AddCardToDeck(card);
+    //       _cardPurchaseBtns[index].onClick.RemoveAllListeners();
+    //       _cardBtnTexts[index].text = "Sold";
+    //       SuccessfullPurchaseSound.PlaySound();
+    //   }
+    //   else
+    //   {
+    //       // not enough gold
+    //       UnSuccessfullPurchaseSound.PlaySound();
+    //   }
+>>>>>>> WithOutMapScene
     }
 
     public void ExitDojo()
@@ -204,7 +230,7 @@ public class DojoManager : MonoBehaviour, IObserver
         ClosePanels();
         RemoveCardsSubscribtion();
         _observer.Notify(null);
-        Map.MapView.Instance.SetAttainableNodes();
+        CardMaga.Map.MapView.Instance.SetAttainableNodes();
     }
     public void OpenDojoPanel()
     {
@@ -221,28 +247,28 @@ public class DojoManager : MonoBehaviour, IObserver
     {
 
     }
-
+    // Need To be Re-Done
     public void TryBuyCombo(int index)
     {
 
-        var battledata = Account.AccountManager.Instance.BattleData.Player;
-
-        if (battledata.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost)
-        {
-
-            //card added
-            battledata.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
-            _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
-            battledata.AddComboRecipe(_comboUI[index].Combo);
-            _comboBtnTexts[index].text = "Sold";
-            SuccessfullPurchaseSound.PlaySound();
-            _comboPurchaseBtns[index].onClick.RemoveAllListeners();
-        }
-        else
-        {
-            // not enough gold
-            UnSuccessfullPurchaseSound.PlaySound();
-        }
-
+    //    var battledata = Account.AccountManager.Instance.BattleData.Player;
+    //
+    //    if (battledata.CharacterData.CharacterStats.Gold >= _comboUI[index].ComboRecipe.Cost)
+    //    {
+    //
+    //        //card added
+    //        battledata.CharacterData.CharacterStats.Gold -= _comboUI[index].ComboRecipe.Cost;
+    //        _moneyIcon.SetMoneyText(battledata.CharacterData.CharacterStats.Gold);
+    //        battledata.AddComboRecipe(_comboUI[index].Combo);
+    //        _comboBtnTexts[index].text = "Sold";
+    //        SuccessfullPurchaseSound.PlaySound();
+    //        _comboPurchaseBtns[index].onClick.RemoveAllListeners();
+    //    }
+    //    else
+    //    {
+    //        // not enough gold
+    //        UnSuccessfullPurchaseSound.PlaySound();
+    //    }
+    //
     }
 }

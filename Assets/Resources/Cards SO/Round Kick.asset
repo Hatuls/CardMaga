@@ -12,24 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Round Kick
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _cardSprite: {fileID: 21300000, guid: 6bd92bc0cf52bd64890b3cce92b649d3, type: 3}
   _cardName: Round Kick
   _animationBundle:
     BodyPartEnum: 6
-    _attackAnimation: RoundhouseKickRight
-    _shieldAnimation: MidBlock_R_Single
-    _getHitAnimation: HighLeft_Med
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: RoundhouseKickRight
+    ShieldAnimation: MidBlock_R_Single
+    GetHitAnimation: HighLeft_Med
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 2
   _stamina: 2
   _salvageCost: 1
@@ -46,7 +44,9 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - '9 Attack '
+    - Description:
+      - 9
+      - Attack
     _purchaseCost: 87
     _upgradesPerLevel:
     - _upgradeType: 5
@@ -102,7 +102,12 @@ MonoBehaviour:
         _cardType: 0
       _amount: 0
   - _description:
-    - '9 Attack 1 Bleed '
+    - Description:
+      - 9
+      - Attack
+    - Description:
+      - 1
+      - Bleed
     _purchaseCost: 102
     _upgradesPerLevel:
     - _upgradeType: 5
@@ -171,7 +176,12 @@ MonoBehaviour:
         _cardType: 0
       _amount: 0
   - _description:
-    - '9 Attack 3 Bleed '
+    - Description:
+      - 9
+      - Attack
+    - Description:
+      - 3
+      - Bleed
     _purchaseCost: 174
     _upgradesPerLevel:
     - _upgradeType: 5

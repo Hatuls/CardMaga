@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
-using Battles.UI;
+using Battle.UI;
 
 namespace UI.Meta.Laboratory
 {

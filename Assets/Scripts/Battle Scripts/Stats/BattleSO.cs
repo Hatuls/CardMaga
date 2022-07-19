@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-namespace Battles
+namespace Battle
 {
     [CreateAssetMenu(fileName = "Battle SO" , menuName = "ScriptableObjects/Battles/Battle Data SO")]
     public class BattleSO : ScriptableObject

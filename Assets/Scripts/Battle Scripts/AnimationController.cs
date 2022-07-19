@@ -40,7 +40,7 @@ public class AnimationController : MonoBehaviour
     }
     public void TranstionToNextAnimation()
     {
-        string name = _animationQueue.Dequeue()._attackAnimation.ToString();
+        string name = _animationQueue.Dequeue().AttackAnimation.ToString();
         if (_animationQueue.Count == 0)
             name ="Idle_1";
 

@@ -1,4 +1,5 @@
-﻿using Battles;
+﻿using Battle;
+using Battle.Combo;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Rewards
@@ -10,7 +11,7 @@ namespace Rewards
         BattleRewardSO[] _reward;
         public void Init(BattleRewardSO[] rewardSOs)
             => _reward = rewardSOs;
-        public BattleReward GetReward(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Combo.Combo> workOnCombo)
+        public BattleReward GetReward(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Combo> workOnCombo)
         {
             return BattleReward(characterTypeEnum).CreateReward(act,workOnCombo);
         }
@@ -20,7 +21,7 @@ namespace Rewards
         }
         public RunReward GetRunReward(CharacterTypeEnum characterType, ActsEnum act)
             => BattleReward(characterType).CreateRunReward(act);
-        public Combo.Combo[] GetRewardCombos(ActsEnum act, byte amount, IEnumerable<Combo.Combo> workOnCombo)
+        public Combo[] GetRewardCombos(ActsEnum act, byte amount, IEnumerable<Combo> workOnCombo)
         {
             return BattleReward(CharacterTypeEnum.Elite_Enemy).GenerateComboReward(act,workOnCombo, amount);
         }

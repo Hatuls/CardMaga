@@ -3,11 +3,12 @@ using Keywords;
 using Sirenix.OdinInspector;
 using System.Linq;
 using System.Collections.Generic;
+using static Cards.PerLevelUpgrade;
 
 namespace Cards
 {
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
-    public class CardSO : SerializedScriptableObject
+    public class CardSO : ScriptableObject
     {
 
 
@@ -32,7 +33,19 @@ namespace Cards
         [TabGroup("CardData/Info", "Animation")]
         [SerializeField]
         private AnimationBundle _animationBundle;
-        public AnimationBundle AnimationBundle { get=> _animationBundle; set=> _animationBundle=value; }
+        public AnimationBundle AnimationBundle 
+        {
+            get
+            {
+                _animationBundle.CameraDetails = cameraDetails;
+                return _animationBundle;
+            }
+            set => _animationBundle=value; }
+
+        [TabGroup("CardData/Info", "Camera")]
+        [SerializeField]
+        private CameraDetails cameraDetails;
+        public CameraDetails CameraDetails { get => cameraDetails; set => cameraDetails = value; }
 
 
         [TabGroup("CardData/Info", "Data")]
@@ -49,17 +62,18 @@ namespace Cards
         public CardTypeEnum CardTypeEnum => CardType.CardType;
 
 
-        public string CardDescription(byte level)
+        //public DescriptionInfo[] CardDescription(int level)
+        //   => PerLevelUpgrade[level].Description;
+      
+      public List<string[]> CardDescription(int level)
         {
-            string description = string.Empty;
-            int length = PerLevelUpgrade[level].Description.Length;
-            var desctiption = PerLevelUpgrade[level].Description;
-            for (int i = 0; i < length; i++)
-                description += desctiption[i];
+            List<string[]> description = new List<string[]>();
 
+            for (int i = 0; i < PerLevelUpgrade[level].Description.Length; i++)
+                description.Add(PerLevelUpgrade[level].Description[i].Description);
             return description;
-            
         }
+      
 
         [TabGroup("CardData/Info", "Data")]
         [SerializeField]
@@ -120,7 +134,7 @@ namespace Cards
 
 
         #region Methods
-        public PerLevelUpgrade GetLevelUpgrade(byte level)
+        public PerLevelUpgrade GetLevelUpgrade(int level)
         {
 
             if (level >=0 && level< PerLevelUpgrade.Length)
@@ -129,12 +143,12 @@ namespace Cards
             throw new System.Exception($"CardSO: ID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
         }
 
-        public ushort GetCostPerUpgrade(byte level)
+        public ushort GetCostPerUpgrade(int level)
         {
             return GetLevelUpgrade(level).PurchaseCost;
         }
 
-        public KeywordData[] KeywordsCombin(byte lvl)
+        public KeywordData[] KeywordsCombin(int lvl)
         {
             var combines = GetLevelUpgrade(lvl);
 

@@ -1,8 +1,8 @@
 ﻿
 using UnityEngine;
-using static Map.ActDifficultySO;
+using static CardMaga.ActDifficultySO;
 
-namespace Map
+namespace CardMaga
 {
     public abstract class NodePointAbstSO : ScriptableObject
     {

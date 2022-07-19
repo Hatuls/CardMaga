@@ -1,9 +1,9 @@
 ﻿
-using Map.UI;
+using CardMaga.UI;
 using UnityEngine;
 
 
-namespace Map
+namespace CardMaga
 {
     [CreateAssetMenu (fileName = "Rest Area Point", menuName = "ScriptableObjects/Map/Points/Rest Area")]
     public class RestAreaPoint : NodePointAbstSO

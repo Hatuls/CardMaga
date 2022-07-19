@@ -2,8 +2,13 @@
 using Cards;
 using System;
 using UnityEngine;
+<<<<<<< HEAD
+=======
+using Battle.UI.CardUIAttributes;
+using UnityEngine.EventSystems;
+>>>>>>> WithOutMapScene
 
-namespace Battles.UI
+namespace Battle.UI
 {
     public class CardUI : MonoBehaviour, IPoolable<CardUI>
     {

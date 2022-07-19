@@ -1,4 +1,6 @@
 ﻿
+using Battle;
+using Battle.Combo;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -30,8 +32,8 @@ public class ComboRecipeDisplayer : MonoBehaviour, IPointerClickHandler
     {
         _currentPage = 1;
 
-        var recipes = Managers.PlayerManager.Instance.Recipes;
-        Combo.ComboSO[] playerRecipe = new Combo.ComboSO[recipes.Length];
+        var recipes = Managers.PlayerManager.Instance.GetCombos();
+        ComboSO[] playerRecipe = new ComboSO[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
             playerRecipe[i] = recipes[i].ComboSO;
 
@@ -51,8 +53,8 @@ public class ComboRecipeDisplayer : MonoBehaviour, IPointerClickHandler
         if (page <= 0)
             page = 1;
 
-        var recipes = Managers.PlayerManager.Instance.Recipes;
-        Combo.Combo[] playerRecipe = new Combo.Combo[recipes.Length];
+        var recipes = Managers.PlayerManager.Instance.GetCombos();
+        Combo[] playerRecipe = new Combo[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
         {
             playerRecipe[i] = recipes[i];
@@ -80,7 +82,7 @@ public class ComboRecipeDisplayer : MonoBehaviour, IPointerClickHandler
     }
     public void PageRight()
     {
-        var recipes = Managers.PlayerManager.Instance.Recipes;
+        var recipes = Managers.PlayerManager.Instance.GetCombos();
         if(recipes.Length > comboRecipeUIs.Length * _currentPage)
         {
             _currentPage++;

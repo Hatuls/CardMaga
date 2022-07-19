@@ -15,6 +15,11 @@ public class AudioManager : MonoBehaviour
     {
         get
         {
+            if (_instance == null)
+            {
+                var go = MonoBehaviour.Instantiate(Resources.Load("Prefabs/Audio/AudioManager")) as GameObject;
+                _instance = go.GetComponent<AudioManager>();
+            }
             return _instance;
         }
     }
@@ -29,11 +34,11 @@ public class AudioManager : MonoBehaviour
         {
             _instance = this;
             FmodInit();
-
         }
         else if (_instance != this)
             Destroy(this.gameObject);
-        else
+        
+
             DontDestroyOnLoad(this.gameObject);
     }
 
@@ -161,24 +166,24 @@ public class AudioManager : MonoBehaviour
     //}
 
   
-
+    // Need To be Re-Done
     public void BattleMusicParameter()
     {
-        switch (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType)
-        {
-            case Battles.CharacterTypeEnum.Elite_Enemy:
-                RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);
-                break;
-            case Battles.CharacterTypeEnum.Boss_Enemy:
-                RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 3);
-                break;
+        //switch (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType)
+        //{
+        //    case Battles.CharacterTypeEnum.Elite_Enemy:
+        //        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);
+        //        break;
+        //    case Battles.CharacterTypeEnum.Boss_Enemy:
+        //        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 3);
+        //        break;
 
-            default:
-            case Battles.CharacterTypeEnum.Tutorial:
-            case Battles.CharacterTypeEnum.Basic_Enemy:
-                RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 1);
-                break;
-        }
+        //    default:
+        //    case Battles.CharacterTypeEnum.Tutorial:
+        //    case Battles.CharacterTypeEnum.Basic_Enemy:
+        //        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 1);
+        //        break;
+        //}
     }
     public class FmodData
     {

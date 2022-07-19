@@ -8,7 +8,7 @@ public class CardUpgradeCostSO : ScriptableObject
     ushort[] _upgradecostInMainMenu;
     [SerializeField]
     Collections.CardsCollectionSO.RarityCards[] _rarityCards;
-    public ushort NextCardValue(Cards.Card card, ResourceEnum resourceType)
+    public int NextCardValue(Card card, ResourceEnum resourceType)
     {
         if (resourceType == ResourceEnum.Chips)
             return _upgradecostInMainMenu[card.CardLevel];
@@ -19,7 +19,7 @@ public class CardUpgradeCostSO : ScriptableObject
         throw new System.Exception($"CardUpgradeCostSO : Rarity was not valid!");
     }
 
-    public ushort NextCardValue(CardSO card, byte level)
+    public ushort NextCardValue(CardSO card, int level)
     {
 
         for (int i = 0; i < _rarityCards.Length; i++)

@@ -1,4 +1,5 @@
 ﻿using Keywords;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 namespace Cards
@@ -6,16 +7,23 @@ namespace Cards
     [System.Serializable]
     public class PerLevelUpgrade
     {
-        public PerLevelUpgrade(Upgrade[] upgrades, string info, ushort costOfUpgrade)
+        public PerLevelUpgrade(Upgrade[] upgrades, List<string[]> info, ushort costOfUpgrade)
         {
             _upgradesPerLevel = upgrades;
             _upgradesPerLevel.OrderBy(x => x.UpgradeType).Select(x => x.KeywordUpgrade).OrderBy(x => x.KeywordSO.GetKeywordType);
-            _description = info.Split('#');
+         
             _purchaseCost = costOfUpgrade;
+
+            _description = new DescriptionInfo[info.Count];
+
+            for (int i = 0; i < info.Count; i++)
+                _description[i]= new DescriptionInfo { Description = info[i] };
         }
+
+
         [SerializeField]
-        private string[] _description;
-        public string[] Description => _description;
+        private DescriptionInfo[] _description;
+        public DescriptionInfo[] Description => _description ;
         [SerializeField]
         private ushort _purchaseCost;
         public ushort PurchaseCost { get => _purchaseCost; set => _purchaseCost = value; }
@@ -52,6 +60,18 @@ namespace Cards
             public KeywordData KeywordUpgrade => _keywordUpgrade;
             public CardTypeData CardTypeData => _cardTypeData;
             public int Amount => _amount;
+
+
+
+            
         }
+
+   
+    }
+
+    [System.Serializable]
+    public class DescriptionInfo
+    {
+        public string[] Description;
     }
 }

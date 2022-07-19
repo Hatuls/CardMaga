@@ -1,8 +1,8 @@
-﻿using Battles;
-using Battles.UI;
+﻿using Battle;
+using Battle.UI;
 using DesignPattern;
 using UnityEngine;
-namespace Map.UI
+namespace CardMaga.UI
 {
 
 public class UpperInfoUIHandler : MonoBehaviour 
@@ -28,7 +28,7 @@ public class UpperInfoUIHandler : MonoBehaviour
 
     private void Start()
     {
-        UpdateUpperInfoHandler(ref Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats);
+       // UpdateUpperInfoHandler(ref Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterStats);
         _dropList.SetActive(false);
     }
     public void UpdateUpperInfoHandler(ref Characters.Stats.CharacterStats stats)
