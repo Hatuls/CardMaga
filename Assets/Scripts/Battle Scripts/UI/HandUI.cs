@@ -19,6 +19,11 @@ namespace CardMaga.UI
 {
     public class HandUI : MonoBehaviour, ILockabel
     {
+        public static event Action OnCardDrawnAndAlign;
+        public static event Action OnDiscardAllCards;
+        public static event Action OnCardSelect;
+        public static event Action OnCardReturnToHand;
+        
         [SerializeField] [Tooltip("BlaBla")] private TransitionPackSO _drawTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardTransitionPackSo;
         [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
@@ -54,7 +59,6 @@ namespace CardMaga.UI
             _handLockTokenMachine = new TokenMachine(UnLockInput, LockInput);
 
             EndPlayerTurn.OnPlayerEndTurn += ForceDiscardCards;
-            BattleManager.OnGameEnded += LockInput;
             BattleManager.OnGameEnded += ForceDiscardCards;
             DeckManager.OnDrawCards += DrawCardsFromDeck;
             _followCard.OnCardExecute += DiscardCard;
@@ -63,7 +67,6 @@ namespace CardMaga.UI
         private void OnDestroy()
         {
             BattleManager.OnGameEnded -= ForceDiscardCards;
-            BattleManager.OnGameEnded -= LockInput;
             DeckManager.OnDrawCards -= DrawCardsFromDeck;
             _followCard.OnCardExecute -= DiscardCard;
             EndPlayerTurn.OnPlayerEndTurn -= ForceDiscardCards;
@@ -86,21 +89,11 @@ namespace CardMaga.UI
             LockCardsInput(true);
         }
 
-        public static event Action OnCardDrawnAndAlign;
-        public static event Action OnDiscardAllCards;
-        public static event Action OnCardSelect;
-        public static event Action OnCardReturnToHand;
-
         private void DrawCardsFromDeck(params CardData[] cards)
         {
             CardUI[] _handCards;
 
             _handCards = _cardUIManager.GetCardsUI(cards);
-
-            if (_handCards.Length > 4)
-            {
-                Debug.LogError("More than 4 card drawn");
-            }
             
             AddCards(_handCards);
             SetCardAtDrawPos(_handCards);
@@ -156,7 +149,7 @@ namespace CardMaga.UI
 
         public void ReturnCardUIToHand(CardUI cardUI)
         {
-            if (!_tableCardSlot.ContainCardUIInSlots(cardUI))
+            if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI))
             {
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
                 DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, cardUI.CardData);
@@ -181,6 +174,7 @@ namespace CardMaga.UI
             if (cardUI == null)
                 return;
             
+            RemoveInputEvents(cardUI.Inputs);
             DiscardCards(cardUI);
             _isCardSelected = false; 
             OnCardReturnToHand?.Invoke();
@@ -189,7 +183,7 @@ namespace CardMaga.UI
         private void ResetCard(CardUI cardUI)
         {
             KillTween();
-            cardUI.CardTransitionManager
+            Sequence temp = cardUI.CardTransitionManager
                 .Transition(_tableCardSlot.GetCardSlotFrom(cardUI).CardPos, _resetCardPositionPackSO)
                 .OnComplete(() => AddInputEvents(cardUI.Inputs));
         }
@@ -247,9 +241,14 @@ namespace CardMaga.UI
         {
             for (var i = 0; i < cardUI.Length; i++)
             {
-                cardUI[i].CardTransitionManager.Transition(_discardPos, _discardTransitionPackSo, cardUI[i].Dispose);
+                cardUI[i].CardTransitionManager.Transition(_discardPos, _discardTransitionPackSo);
                 yield return _waitForCardDiscardDelay;
             }
+
+            for (int i = 0; i < cardUI.Length; i++)
+            {
+                cardUI[i].Dispose();
+            } 
         }
 
         /// <summary>
@@ -283,7 +282,7 @@ namespace CardMaga.UI
             set => _cardPos = value;
         }
 
-        public bool IsHaveValue => !ReferenceEquals(CardUI, null);
+        public bool IsHaveValue => !ReferenceEquals(CardUI, null) || _cardUI != null;
 
         public CardUI CardUI
         {
@@ -303,10 +302,10 @@ namespace CardMaga.UI
 
         public bool IsContainCardUI(CardUI cardUI)
         {
-            if (ReferenceEquals(cardUI, null) || !IsHaveValue)
+            if (ReferenceEquals(cardUI, null) || !IsHaveValue || cardUI == null)
                 return false;
 
-            if (cardUI.CardData.CardInstanceID == CardUI.CardData.CardInstanceID) 
+            if (cardUI.CardData.CardInstanceID == _cardUI.CardData.CardInstanceID) 
                 return true;
 
             return false;
@@ -364,11 +363,9 @@ namespace CardMaga.UI
             for (var i = 0; i < cardUI.Length; i++) //loop over all the received CardUIs and Assign to  cardslot 
             {
                 if (!isNoMoreSpace)
-                    for (var j = 0;
-                         j < _cardSlots.Count;
-                         j++) //loop over all the cardslot and check if there is a available slot
+                    for (var j = 0; j < _cardSlots.Count; j++) //loop over all the cardslot and check if there is a available slot
                     {
-                        if (!_cardSlots[j].IsHaveValue)
+                        if (!_cardSlots[j].IsHaveValue && !ContainCardUIInSlots(_cardSlots[j].CardUI))
                         {
                             _cardSlots[j].AssignCardUI(cardUI[i]);
                             break;

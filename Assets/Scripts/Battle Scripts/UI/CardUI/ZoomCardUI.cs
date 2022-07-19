@@ -32,6 +32,9 @@ namespace CardMaga.UI.Card
 
         private void InitZoom()
         {
+            if (_selectCardUI == null)
+                return;
+            
             _zoomToken = _selectCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
             _selectCardUI.Inputs.OnBeginHold += SetToFollow;
             _selectCardUI.Inputs.OnClick += ReturnCardToHand;

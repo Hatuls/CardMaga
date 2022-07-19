@@ -33,7 +33,6 @@ public abstract class BaseState : MonoBehaviour, IState
 #if UNITY_EDITOR
                 Debug.Log("Move State from: " + name + " To: " + Conditions[i].NextState);
 #endif
-                OnExitState();
                 return Conditions[i].NextState;
             }
 

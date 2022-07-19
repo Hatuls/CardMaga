@@ -41,6 +41,7 @@ public class FollowCardUI : MonoBehaviour
             return;
 
         _selectCardUI = cardUI;
+        Debug.Log("Card Set To follow" + _selectCardUI);
         _selectCardUI.Inputs.OnClick -= _zoomCardUI.SetZoomCard;
         _selectCardUI.Inputs.OnHold += FollowHand;
         _selectCardUI.Inputs.OnPointUp += ReleaseCard;
@@ -56,7 +57,10 @@ public class FollowCardUI : MonoBehaviour
 
         if (cardUI.transform.position.y > _executionBoundry_Y &&
             CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
+        {
+            _selectCardUI.Inputs.ForceChangeState(false);
             OnCardExecute?.Invoke(_selectCardUI);
+        }
         else
             _handUI.ReturnCardUIToHand(_selectCardUI);
 

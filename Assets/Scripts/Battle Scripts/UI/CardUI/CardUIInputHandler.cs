@@ -3,7 +3,7 @@ namespace CardMaga.Input
 {
     public class CardUIInputHandler : TouchableItem<CardUI>
     {
-        private void Awake()
+        private void OnEnable()
         {
             ForceChangeState(false);
         }

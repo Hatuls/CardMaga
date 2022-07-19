@@ -1,17 +1,15 @@
 ﻿using System;
 using CardMaga.UI;
 using UnityEngine;
+
 namespace CardMaga.Input
 {
-
-
     public class BattleInputDefaultState : BaseState
     {
         [SerializeField] private HandUI _handUI;
 
         private IDisposable _handToken;
-
-
+        
         public override void OnEnterState()
         {
             base.OnEnterState();
@@ -22,11 +20,6 @@ namespace CardMaga.Input
         public override void OnExitState()
         {
             _handToken.Dispose();
-        }
-
-        public override StateIdentificationSO OnHoldState()
-        {
-            return base.CheckStateCondition();
         }
     }
 }
