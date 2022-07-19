@@ -127,14 +127,14 @@ namespace Managers
             for (int i = 0; i < _comboSorters.Length; i++)
                 _comboSorters[i].OnSortingCollectionRequested += GetCombos;
 
-            _cardUIFilter.OnCollectionNeeded += GetDeck;
-            _comboUIFilter.OnCollectionNeeded += GetCombos;
+       //     _cardUIFilter.OnCollectionNeeded += GetDeck;
+       //     _comboUIFilter.OnCollectionNeeded += GetCombos;
             SceneHandler.OnBeforeSceneShown += Init;
         }
         public void OnDestroy()
         {
-            _comboUIFilter.OnCollectionNeeded -= GetCombos;
-            _cardUIFilter.OnCollectionNeeded -= GetDeck;
+            //_comboUIFilter.OnCollectionNeeded -= GetCombos;
+            //_cardUIFilter.OnCollectionNeeded -= GetDeck;
             for (int i = 0; i < _cardSorters.Length; i++)
                _cardSorters[i].OnSortingCollectionRequested -= GetDeck;
 
