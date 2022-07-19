@@ -142,7 +142,6 @@ namespace Battles.UI
                 ResetCard(cardUI);
                 OnCardReturnToHand?.Invoke();
                 _isCardSelected = false;
-                Debug.Log("Add " + cardUI.name + " To Hand");
             }
         }
 
@@ -152,7 +151,6 @@ namespace Battles.UI
             {
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
                 DeckManager.Instance.TransferCard(true,DeckEnum.Selected,DeckEnum.Hand,cardUI.CardData);
-                OnCardReturnToHand?.Invoke();
                 _isCardSelected = false;
             }
         }
@@ -207,9 +205,9 @@ namespace Battles.UI
         
         private void ForceDiscardCards()
         {
-            OnDiscardAllCards?.Invoke();
             _zoomCard.ForceReleaseCard();
             _followCard.ForceReleaseCard();
+            OnDiscardAllCards?.Invoke();
             DiscardCards(_tableCardSlot.GetCardUIsFromTable());
             _tableCardSlot.RemoveAllCardUI();
         }

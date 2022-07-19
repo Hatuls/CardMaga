@@ -14,6 +14,7 @@ public class MoveFromLockStateToDefaultState : BaseCondition
 
     public override void InitCondition()
     {
+        _moveCondition = false;
         HandUI.OnCardDrawnAndAlign += ChangeState;
     }
 

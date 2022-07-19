@@ -1,4 +1,5 @@
 ﻿using ReiTools.TokenMachine;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public abstract class BaseState : MonoBehaviour , IState
@@ -6,7 +7,6 @@ public abstract class BaseState : MonoBehaviour , IState
     [SerializeField] protected StateIdentificationSO _stateID;
 
     [SerializeField] protected BaseCondition[] _conditions;
-
 
     public  StateIdentificationSO StateID
     {
@@ -17,17 +17,13 @@ public abstract class BaseState : MonoBehaviour , IState
     {
         get { return _conditions; }
     }
-
-   
-
+    
     public virtual void OnEnterState()
     {
         for (int i = 0; i < _conditions.Length; i++)
         {
             _conditions[i].InitCondition();
         }
-        
-        Debug.Log("Enter " + base.name);
     }
     
     public virtual void OnExitState()
@@ -48,26 +44,13 @@ public abstract class BaseState : MonoBehaviour , IState
         {
             if (Conditions[i].CheckCondition())
             {
+#if UNITY_EDITOR
                 Debug.Log("Move State from: " + name + " To: " + Conditions[i].NextState);
+#endif
                 OnExitState();
                 return Conditions[i].NextState;
             }
         }
         return StateID;
-    }
-
-    public void AddTouchableItem(TouchableItem touchableItem)
-    {
-        
-    }
-    
-    public void AddTouchableItem(TouchableItem[] touchableItem)
-    {
-        
-    }
-    
-    public void RemoveTouchableItem(TouchableItem touchableItem)
-    {
-        
     }
 }

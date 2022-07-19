@@ -1,7 +1,4 @@
-﻿
-
-using Battles.UI;
-using UnityEngine;
+﻿using Battles.UI;
 
 public class MoveFromSelectStateToDefaultState : BaseCondition
 {

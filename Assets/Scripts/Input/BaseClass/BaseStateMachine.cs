@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 
 public abstract class BaseStateMachine : MonoBehaviour , IStateMachine
 {
-    protected BaseState _currentState;
+    [SerializeField,ReadOnly] protected BaseState _currentState;
 
     protected Dictionary<StateIdentificationSO, BaseState> _inputStateDict;
 

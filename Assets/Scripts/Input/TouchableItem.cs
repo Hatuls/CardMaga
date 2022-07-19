@@ -8,6 +8,8 @@ using Sirenix.OdinInspector;
 public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHandler
 {
     [SerializeField] private float _holdDelaySce = .5f;
+
+    [SerializeField,ReadOnly] private State _currentState;
     
     private bool _isTouchable = false;
     private bool _isHold = false;
@@ -17,8 +19,11 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
         Lock,
         UnLock
     }
-    [ShowInInspector,Sirenix.OdinInspector.ReadOnly]
-    public State CurrentState { get; private set; }
+    
+    public State CurrentState
+    {
+        get => _currentState;
+    }
     
     protected event Action OnClick;
     protected event Action OnBeginHold;
@@ -87,9 +92,9 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
     
     private void ChangeState(State state)
     {
-        CurrentState = state;
+        _currentState = state;
 
-        switch (CurrentState)
+        switch (_currentState)
         {
             case State.Lock:
                 _isTouchable = false;
@@ -108,10 +113,10 @@ public class TouchableItem : MonoBehaviour , IPointerDownHandler , IPointerUpHan
     [ContextMenu("ToggleState")]
     public void ToggleState()
     {
-        if (CurrentState == State.Lock)
+        if (_currentState == State.Lock)
             ChangeState(State.UnLock);
 
-        else if (CurrentState == State.UnLock) ChangeState(State.Lock);
+        else if (_currentState == State.UnLock) ChangeState(State.Lock);
     }
 
     public void ForceChangeState(bool isTouchable)

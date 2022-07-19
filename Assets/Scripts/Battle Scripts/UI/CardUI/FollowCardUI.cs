@@ -47,9 +47,6 @@ public class FollowCardUI : MonoBehaviour
         _selectCardUI.Inputs.OnClick -= _zoomCardUI.SetZoomCard;
         _selectCardUI.Inputs.OnHold += FollowHand;
         _selectCardUI.Inputs.OnPointUp += ReleaseCard;
-        
-        Debug.Log("Card Select is " + _selectCardUI);
-        
     }
 
     public void ReleaseCard(CardUI cardUI)
@@ -70,8 +67,6 @@ public class FollowCardUI : MonoBehaviour
         }
         
         _selectCardUI = null;
-        
-        Debug.Log("Release " + cardUI.name + " Form " + name);
     }
 
     public void ForceReleaseCard()
