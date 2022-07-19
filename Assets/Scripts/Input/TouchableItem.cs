@@ -136,9 +136,9 @@ namespace CardMaga.Input
             UnLock
         }
 
-        [SerializeField] private float _holdDelaySce = .5f;
-        [SerializeField] T _touchableItem;
-        [SerializeField] [ReadOnly] private State _currentState;
+        [SerializeField,Tooltip("The Touchable Item")] T _touchableItem;
+        [SerializeField,Tooltip("The delay between moving from point down to hold")] private float _holdDelay = .5f;
+        [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
         private bool _isHold;
 
         private bool _isTouchable;
@@ -178,7 +178,7 @@ namespace CardMaga.Input
 
         private IEnumerator HoldDelay(PointerEventData eventData)
         {
-            yield return new WaitForSeconds(_holdDelaySce);
+            yield return new WaitForSeconds(_holdDelay);
             _isHold = true;
             StartCoroutine(ProcessHoldTouchCoroutine(eventData));
         }

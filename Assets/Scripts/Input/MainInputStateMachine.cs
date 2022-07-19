@@ -2,7 +2,7 @@
 {
     private void Awake()
     {
-        SceneHandler.OnSceneLateStart += InitStateMachine;
+        SceneHandler.OnSceneStart += InitStateMachine;
     }
 
     public void Update()
@@ -15,6 +15,6 @@
 
     private void OnDestroy()
     {
-        SceneHandler.OnSceneLateStart -= InitStateMachine;
+        SceneHandler.OnSceneStart -= InitStateMachine;
     }
 }
