@@ -1,20 +1,11 @@
 ﻿using CardMaga.UI;
+using UnityEngine;
 
 public class MoveFromDefultStateToSelectState : BaseCondition
 {
+    [SerializeField] private HandUI _handUI;
     public override bool CheckCondition()
     {
-        return _moveCondition;
-    }
-    
-    public override void InitCondition()
-    {
-        HandUI.OnInputCardSelect += ChangeState;
-    }
-
-    private void ChangeState()
-    {
-        HandUI.OnInputCardSelect -= ChangeState;
-        _moveCondition = true;
+        return _handUI.IsCardSelect;
     }
 }

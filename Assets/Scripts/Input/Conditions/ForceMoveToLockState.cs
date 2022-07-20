@@ -1,4 +1,5 @@
-﻿using Battles.UI;
+﻿using Battle;
+using Battle.Turns;
 using CardMaga.UI;
 
 public class ForceMoveToLockState : BaseCondition
@@ -10,12 +11,14 @@ public class ForceMoveToLockState : BaseCondition
 
     public override void InitCondition()
     {
-        HandUI.OnDiscardAllCards += ChangeState;
+        EndPlayerTurn.OnPlayerEndTurn += ChangeState;
+        BattleManager.OnGameEnded += ChangeState;
     }
 
     private void ChangeState()
     {
-        HandUI.OnDiscardAllCards -= ChangeState;
+        EndPlayerTurn.OnPlayerEndTurn -= ChangeState;
+        BattleManager.OnGameEnded -= ChangeState;
         _moveCondition = true;
     }
 }

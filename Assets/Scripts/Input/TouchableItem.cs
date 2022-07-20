@@ -3,11 +3,20 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 namespace CardMaga.Input
 {
 
     public class TouchableItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
+        
+        protected event Action OnClick;
+        protected event Action OnBeginHold;
+        protected event Action OnEndHold;
+        protected event Action OnHold;
+        protected event Action OnPointDown;
+        protected event Action OnPointUp;
+        
         public enum State
         {
             Lock,
@@ -45,15 +54,7 @@ namespace CardMaga.Input
                 ProcessTouch(eventData);
             }
         }
-
-        protected event Action OnClick;
-        protected event Action OnBeginHold;
-        protected event Action OnEndHold;
-        protected event Action OnHold;
-        protected event Action OnPointDown;
-        protected event Action OnPointUp;
-
-
+        
         private IEnumerator HoldDelay(PointerEventData eventData)
         {
             yield return new WaitForSeconds(_holdDelaySce);
@@ -130,6 +131,14 @@ namespace CardMaga.Input
     public class TouchableItem<T> : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         where T : MonoBehaviour
     {
+        
+        public virtual event Action<T> OnClick;
+        public virtual event Action<T> OnBeginHold;
+        public virtual event Action<T> OnEndHold;
+        public virtual event Action<T> OnHold;
+        public virtual event Action<T> OnPointDown;
+        public virtual event Action<T> OnPointUp;
+        
         public enum State
         {
             Lock,
@@ -147,35 +156,27 @@ namespace CardMaga.Input
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (_isTouchable)
-            {
-                StartCoroutine(HoldDelay(eventData));
-                OnPointDown?.Invoke(_touchableItem);
-            }
+            if (!_isTouchable)
+                return;
+            
+            StartCoroutine(HoldDelay(eventData)); 
+            OnPointDown?.Invoke(_touchableItem);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (_isTouchable)
-            {
-                if (_isHold)
-                {
-                    EndHold(eventData);
-                    return;
-                }
-
-                ProcessTouch(eventData);
+            if (!_isTouchable)
+                return;
+            
+            if (_isHold)
+            { 
+                EndHold(eventData);
+                return;
             }
+
+            ProcessTouch(eventData);
         }
-
-        public virtual event Action<T> OnClick;
-        public virtual event Action<T> OnBeginHold;
-        public virtual event Action<T> OnEndHold;
-        public virtual event Action<T> OnHold;
-        public virtual event Action<T> OnPointDown;
-        public virtual event Action<T> OnPointUp;
-
-
+        
         private IEnumerator HoldDelay(PointerEventData eventData)
         {
             yield return new WaitForSeconds(_holdDelay);

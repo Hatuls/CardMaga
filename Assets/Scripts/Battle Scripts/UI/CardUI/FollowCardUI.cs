@@ -41,6 +41,7 @@ public class FollowCardUI : MonoBehaviour
             return;
 
         _selectCardUI = cardUI;
+        Debug.Log("I");
         Debug.Log("Card Set To follow" + _selectCardUI);
         _selectCardUI.Inputs.OnClick -= _zoomCardUI.SetZoomCard;
         _selectCardUI.Inputs.OnHold += FollowHand;
