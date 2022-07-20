@@ -9,9 +9,10 @@ using CardMaga.UI.Card;
 
 public class GlowManager : MonoBehaviour
 {
-
+    IGetCardsUI cardUI;
     private void Awake()
     {
+        cardUI = GetComponent<IGetCardsUI>();
         HandUI.OnCardsAddToHand += CheckCardToGlow;
         HandUI.OnCardsExecuteGetCards += CheckCardGlowAfterExecute;
         HandUI.OnCardSelect += DeactiveDeckCards;
@@ -44,18 +45,22 @@ public class GlowManager : MonoBehaviour
         }
     }
 
-    public void DeactiveDeckCards(CardUI cards)
+    public void ActiveDeckCardsGlow(CardUI selectedCard)
     {
-        if (StaminaHandler.Instance.IsEnoughStamina(true, cards.CardData))
-            cards.CardVisuals.ActivateGlow();
-
-        else
-            cards.CardVisuals.DeactivateGlow();
-
+        for (int i = 0; i < cardUI.CardsUI.Count; i++)
+        {
+            if(selectedCard!=cardUI.CardsUI[i])
+                cardUI.CardsUI[i].CardVisuals.DeactivateGlow();
+        }
     }
 
-    public void ActiveDeckCardsGlow(CardUI cards)
+    public void DeactiveDeckCards(CardUI selectedCard)
     {
+        for (int i = 0; i < cardUI.CardsUI.Count; i++)
+        {
+            if (StaminaHandler.Instance.IsEnoughStamina(true, cardUI.CardsUI[i].CardData))
+                cardUI.CardsUI[i].CardVisuals.ActivateGlow();
+        }
     }
 
     private void OnDestroy()
