@@ -8,7 +8,6 @@ namespace CardMaga.Input
         [SerializeField] private HandUI _handUI;
         public override bool CheckCondition()
         {
-            Debug.Log(!_handUI.IsCardSelect);
             return !_handUI.IsCardSelect;
         }
     }

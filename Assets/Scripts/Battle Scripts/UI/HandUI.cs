@@ -108,6 +108,9 @@ namespace CardMaga.UI
 
         private void DrawCardsFromDeck(params CardData[] cards)
         {
+            _zoomCard.ForceReleaseCard();
+            _followCard.ForceReleaseCard();
+            
             CardUI[] _handCards;
 
             _handCards = _cardUIManager.GetCardsUI(cards);
@@ -221,7 +224,7 @@ namespace CardMaga.UI
         private void ReAlignCardUI(IReadOnlyList<CardSlot> cardSlots)
         {
             for (var i = 0; i < cardSlots.Count; i++)
-                cardSlots[i]?.CardUI.CardTransitionManager.Transition(cardSlots[i].CardPos, _reAlignTransitionPackSo);
+                cardSlots[i].CardUI.CardTransitionManager.Transition(cardSlots[i].CardPos, _reAlignTransitionPackSo);
         }
 
         private IEnumerator MoveCardsToHandPos(IReadOnlyList<CardSlot> cardSlots, Action onComplete = null)
