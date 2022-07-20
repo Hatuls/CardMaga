@@ -5,8 +5,6 @@ namespace CardMaga.Input
 
     public class MoveFromSelectStateToDefaultState : BaseCondition
     {
-        private bool _moveCondition;
-
         public override bool CheckCondition()
         {
             return _moveCondition;
@@ -14,13 +12,12 @@ namespace CardMaga.Input
 
         public override void InitCondition()
         {
-            _moveCondition = false;
-            HandUI.OnCardReturnToHand += ChangeState;
+            HandUI.OnInputCardReturnToHand += ChangeState;
         }
 
         private void ChangeState()
         {
-            HandUI.OnCardReturnToHand -= ChangeState;
+            HandUI.OnInputCardReturnToHand -= ChangeState;
             _moveCondition = true;
         }
     }

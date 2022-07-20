@@ -21,9 +21,13 @@ namespace CardMaga.UI
     {
         public static event Action OnCardDrawnAndAlign;
         public static event Action OnDiscardAllCards;
-        public static event Action OnCardSelect;
-        public static event Action OnCardReturnToHand;
-        
+        public static event Action OnInputCardSelect;
+        public static event Action OnInputCardReturnToHand;
+        public static event Action<CardUI> OnCardSelect; 
+        public static event Action<CardUI> OnCardReturnToHand;
+        public static event Action<IReadOnlyList<CardUI>> OnCardsAddToHand; //when new cards are added to the hand, passing the cards
+        public static event Action<IReadOnlyList<CardUI>> OnCardsExecuteGetCards;//when card execute, and passes all the cards that are in the hand
+
         [SerializeField] [Tooltip("BlaBla")] private TransitionPackSO _drawTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardTransitionPackSo;
         [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
@@ -94,7 +98,7 @@ namespace CardMaga.UI
             CardUI[] _handCards;
 
             _handCards = _cardUIManager.GetCardsUI(cards);
-            
+            OnCardsAddToHand?.Invoke(_handCards);
             AddCards(_handCards);
             SetCardAtDrawPos(_handCards);
             ReAlignCardUI(_tableCardSlot.GetCardSlotsExceptFrom(_handCards));
@@ -105,7 +109,10 @@ namespace CardMaga.UI
         {
             _tableCardSlot.AddCardUIToCardSlot(cards);
 
-            for (var i = 0; i < cards.Length; i++) AddInputEvents(cards[i].Inputs);
+            for (var i = 0; i < cards.Length; i++)
+            {
+                AddInputEvents(cards[i].Inputs);
+            }
         }
 
         private void AddInputEvents(CardUIInputHandler cardUIInput)
@@ -135,6 +142,7 @@ namespace CardMaga.UI
             }
         }
         
+        
         private void RemoveCardUI(CardUI cardUI)
         {
             if (_isCardSelected)
@@ -144,7 +152,8 @@ namespace CardMaga.UI
             cardUI.Inputs.OnBeginHold -= RemoveCardUI;
             _tableCardSlot.RemoveCardUI(cardUI);
             _isCardSelected = true;
-            OnCardSelect?.Invoke();
+            OnCardSelect?.Invoke(cardUI);
+            OnInputCardSelect?.Invoke();
         }
 
         public void ReturnCardUIToHand(CardUI cardUI)
@@ -154,7 +163,8 @@ namespace CardMaga.UI
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
                 DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, cardUI.CardData);
                 ResetCard(cardUI);
-                OnCardReturnToHand?.Invoke();
+                OnCardReturnToHand?.Invoke(cardUI);
+                OnInputCardReturnToHand?.Invoke();
                 _isCardSelected = false;
             }
         }
@@ -177,7 +187,9 @@ namespace CardMaga.UI
             RemoveInputEvents(cardUI.Inputs);
             DiscardCards(cardUI);
             _isCardSelected = false; 
-            OnCardReturnToHand?.Invoke();
+            OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
+            OnCardReturnToHand?.Invoke(cardUI);
+            OnInputCardReturnToHand?.Invoke();
         }
 
         private void ResetCard(CardUI cardUI)

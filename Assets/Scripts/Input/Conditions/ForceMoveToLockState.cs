@@ -3,8 +3,6 @@ using CardMaga.UI;
 
 public class ForceMoveToLockState : BaseCondition
 {
-    private bool _moveCondition;
-
     public override bool CheckCondition()
     {
         return _moveCondition;
@@ -12,7 +10,6 @@ public class ForceMoveToLockState : BaseCondition
 
     public override void InitCondition()
     {
-        _moveCondition = false;
         HandUI.OnDiscardAllCards += ChangeState;
     }
 
