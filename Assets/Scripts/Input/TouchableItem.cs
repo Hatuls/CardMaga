@@ -161,6 +161,7 @@ namespace CardMaga.Input
             
             StartCoroutine(HoldDelay(eventData)); 
             OnPointDown?.Invoke(_touchableItem);
+            Debug.Log( base.name + "OnPointDown");
         }
 
         public void OnPointerUp(PointerEventData eventData)
@@ -188,11 +189,12 @@ namespace CardMaga.Input
         {
             yield return null;
             OnBeginHold?.Invoke(_touchableItem);
-
+            Debug.Log(base.name + "OnBeginHold");
             while (_isHold)
             {
                 yield return null;
                 OnHold?.Invoke(_touchableItem);
+                Debug.Log(base.name + "OnHold");
             }
         }
 
@@ -201,14 +203,18 @@ namespace CardMaga.Input
             _isHold = false;
             StopAllCoroutines();
             OnEndHold?.Invoke(_touchableItem);
+            Debug.Log(base.name + "OnEndHold");
             OnPointUp?.Invoke(_touchableItem);
+            Debug.Log(base.name + "OnPointUp");
         }
 
         private void ProcessTouch(PointerEventData eventData)
         {
             StopAllCoroutines();
             OnClick?.Invoke(_touchableItem);
+            Debug.Log(base.name + "OnClick");
             OnPointUp?.Invoke(_touchableItem);
+            Debug.Log(base.name + "OnPointUp");
         }
 
         private void ChangeState(State state)
