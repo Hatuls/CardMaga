@@ -45,8 +45,8 @@ namespace CardMaga.UI.Card
             if (!ReferenceEquals(cardUI, _selectCardUI))
                 return;
 
-            _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
             _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
+            _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
 
             if (_zoomToken != null)
                 _zoomToken.Dispose();

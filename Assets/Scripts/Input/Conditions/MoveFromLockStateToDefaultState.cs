@@ -1,11 +1,9 @@
 ﻿using CardMaga.UI;
 
 namespace CardMaga.Input
-{
-
+{ 
     public class MoveFromLockStateToDefaultState : BaseCondition
 {
-    private bool _moveCondition;
 
     public override bool CheckCondition()
     {
@@ -14,7 +12,6 @@ namespace CardMaga.Input
 
     public override void InitCondition()
     {
-        _moveCondition = false;
         HandUI.OnCardDrawnAndAlign += ChangeState;
     }
 

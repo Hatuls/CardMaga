@@ -19,6 +19,7 @@ namespace CardMaga.Input
 
         public override void OnExitState()
         {
+            base.OnExitState();
             _handToken.Dispose();
         }
     }

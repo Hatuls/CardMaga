@@ -548,7 +548,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CustomBlends
       value: 
-      objectReference: {fileID: 11400000, guid: 91ddd4ccb35f90248b0c825504a89778,
+      objectReference: {fileID: 11400000, guid: 18ed8330d0c5373419060bed5042dbbb,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e7b156c630d1594eaaca490e4a2748a, type: 3}
@@ -977,7 +977,7 @@ PrefabInstance:
     - target: {fileID: 4199875948908254166, guid: edd7771b23d5ec44bafcf7ec34a4fdc7,
         type: 3}
       propertyPath: _overrideLoadingSceneManager
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4199875948908254167, guid: edd7771b23d5ec44bafcf7ec34a4fdc7,
         type: 3}
@@ -1671,7 +1671,6 @@ GameObject:
   m_Component:
   - component: {fileID: 713954404}
   - component: {fileID: 713954405}
-  - component: {fileID: 713954407}
   - component: {fileID: 713954406}
   m_Layer: 0
   m_Name: DefaultState
@@ -1709,8 +1708,6 @@ MonoBehaviour:
   _stateID: {fileID: 11400000, guid: 62aec6e87bf5bdb47ba4bc9fa9f2faa4, type: 2}
   _conditions:
   - {fileID: 713954406}
-  - {fileID: 713954407}
-  - {fileID: 1842452750}
   _handUI: {fileID: 5702666649249262310}
 --- !u!114 &713954406
 MonoBehaviour:
@@ -1725,19 +1722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextState: {fileID: 11400000, guid: 6e310a4bed6790d4e9adce3a23f928ae, type: 2}
---- !u!114 &713954407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 713954403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a23025e5e6030f94d880aef9374cc97e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _nextState: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228, type: 2}
+  _handUI: {fileID: 5702666649249262310}
 --- !u!1 &723770073
 GameObject:
   m_ObjectHideFlags: 0
@@ -2431,7 +2416,6 @@ GameObject:
   - component: {fileID: 1842452747}
   - component: {fileID: 1842452748}
   - component: {fileID: 1842452749}
-  - component: {fileID: 1842452750}
   m_Layer: 0
   m_Name: CardSelectState
   m_TagString: Untagged
@@ -2468,7 +2452,6 @@ MonoBehaviour:
   _stateID: {fileID: 11400000, guid: 6e310a4bed6790d4e9adce3a23f928ae, type: 2}
   _conditions:
   - {fileID: 1842452749}
-  - {fileID: 1842452750}
 --- !u!114 &1842452749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2482,19 +2465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextState: {fileID: 11400000, guid: 62aec6e87bf5bdb47ba4bc9fa9f2faa4, type: 2}
---- !u!114 &1842452750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1842452746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2e61ed0d2141fc44ae2931d9dbd5124, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _nextState: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228, type: 2}
+  _handUI: {fileID: 5702666649249262310}
 --- !u!1001 &1896016499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3574,6 +3545,12 @@ PrefabInstance:
       objectReference: {fileID: 5702666649249262309}
     - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
         type: 3}
+      propertyPath: _lockState
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228,
+        type: 2}
+    - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
       propertyPath: followCard
       value: 
       objectReference: {fileID: 5702666649249262308}
@@ -3597,6 +3574,11 @@ PrefabInstance:
       propertyPath: _delayBetweenCardDrawn
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: _battleInputStateMachine
+      value: 
+      objectReference: {fileID: 732788130}
     - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
         type: 3}
       propertyPath: _delayBetweenCardDiscard
@@ -3930,6 +3912,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 482083833}
     m_Modifications:
+    - target: {fileID: 1099762860285308980, guid: 035bde59489541e49ac2c55212d431f0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2469504551532316773, guid: 035bde59489541e49ac2c55212d431f0,
         type: 3}
       propertyPath: _timeTillEndTurn

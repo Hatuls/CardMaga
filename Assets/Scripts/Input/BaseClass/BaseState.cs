@@ -17,6 +17,7 @@ public abstract class BaseState : MonoBehaviour, IState
 
     public virtual void OnExitState()
     {
+        for (var i = 0; i < _conditions.Length; i++) _conditions[i].ResetCondition();
     }
 
     public virtual StateIdentificationSO OnHoldState()

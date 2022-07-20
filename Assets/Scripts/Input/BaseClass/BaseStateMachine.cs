@@ -28,7 +28,9 @@ public abstract class BaseStateMachine : MonoBehaviour, IStateMachine
 
         if (_currentState != null)
         {
-            if (_currentState == newState) return;
+            if (_currentState == newState) 
+                return;
+            
             _currentState.OnExitState();
         }
 
