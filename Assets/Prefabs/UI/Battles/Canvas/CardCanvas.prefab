@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 5368535060217224795}
   - component: {fileID: 1093964942527637542}
   - component: {fileID: 8694790356547147787}
+  - component: {fileID: 75628927896100837}
   m_Layer: 0
   m_Name: CardCanvas
   m_TagString: Untagged
@@ -361,6 +362,8 @@ MonoBehaviour:
     type: 2}
   _resetCardPositionPackSO: {fileID: 11400000, guid: 49f8fc99a1001a648a6ba5d95ef25618,
     type: 2}
+  _battleInputStateMachine: {fileID: 0}
+  _lockState: {fileID: 0}
   _discardPos: {fileID: 0}
   _drawPos: {fileID: 0}
   _cardUIManager: {fileID: 0}
@@ -368,9 +371,23 @@ MonoBehaviour:
   _zoomCard: {fileID: 8813301573821374498}
   _tableCardSlot:
     _middleHandPos: {fileID: 0}
-    _spaceBetweenCard: 340
+    _cardPaddingPrecentage: 0
+    _cardCenterOffSetPrecentage: 0
+    _cardSlots: []
   _delayBetweenCardDrawn: 0.5
   _delayBetweenCardDiscard: 0.1
+--- !u!114 &75628927896100837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702666649216585370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff1ed58d7af3a745b085f83de146a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5702666648274996587
 PrefabInstance:
   m_ObjectHideFlags: 0
