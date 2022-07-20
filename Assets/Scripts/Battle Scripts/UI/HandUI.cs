@@ -145,21 +145,21 @@ namespace CardMaga.UI
 
             if (_tableCardSlot.ContainCardUIInSlots(cardUI))
             {
-                _isCardSelected = true;
                 RemoveInputEvents(cardUI.Inputs);
                 cardUI.transform.SetAsLastSibling();
                 DeckManager.Instance.TransferCard(true, DeckEnum.Hand, DeckEnum.Selected, cardUI.CardData);
-                cardUI.Inputs.OnClick += RemoveCardUI;
-                cardUI.Inputs.OnBeginHold += RemoveCardUI;
+                
                 cardUI.Inputs.OnClick += _zoomCard.SetZoomCard;
                 cardUI.Inputs.OnBeginHold += _followCard.SetSelectCardUI;
+                _tableCardSlot.RemoveCardUI(cardUI);
+                _isCardSelected = true;
+                OnCardSelect?.Invoke(cardUI);
+                OnInputCardSelect?.Invoke();
             }
         }
         
         private void RemoveCardUI(CardUI cardUI)
         {
-            cardUI.Inputs.OnClick -= RemoveCardUI;
-            cardUI.Inputs.OnBeginHold -= RemoveCardUI;
             _tableCardSlot.RemoveCardUI(cardUI);
             OnCardSelect?.Invoke(cardUI);
             OnInputCardSelect?.Invoke();
@@ -388,11 +388,15 @@ namespace CardMaga.UI
                             break;
                         }
 
-                        if (j == _cardSlots.Count - 1) // did not find a empty cardslot 
-                            isNoMoreSpace = true;
+                        //if (j == _cardSlots.Count - 1) // did not find a empty cardslot 
+                            //isNoMoreSpace = true;
                     }
 
-                if (isNoMoreSpace) AddCardSlot(cardUI[i]); //create a new cardslot and assign a cardui to it
+                if (isNoMoreSpace)
+                {
+                    AddCardSlot(cardUI[i]); //create a new cardslot and assign a cardui to it
+                }
+                    
             }
 
             AlignCardsSlots();

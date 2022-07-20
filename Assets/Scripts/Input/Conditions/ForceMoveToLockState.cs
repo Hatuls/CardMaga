@@ -1,6 +1,5 @@
 ﻿using Battle;
 using Battle.Turns;
-using CardMaga.UI;
 
 public class ForceMoveToLockState : BaseCondition
 {
