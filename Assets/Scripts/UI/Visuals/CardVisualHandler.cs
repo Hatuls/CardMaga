@@ -69,12 +69,12 @@ namespace CardMaga.UI
             _cardZoomHandler.SetCardType(CardTypeEnum.Attack);
         }
         [Button]
-        public void ActivateGlow()
+        public override void ActivateGlow()
         {
             _cardGlowVisualAssigner.SetGlow(true);
         }
         [Button]
-        public void DeactivateGlow()
+        public override void DeactivateGlow()
         {
             _cardGlowVisualAssigner.SetGlow(false);
         }
@@ -103,5 +103,12 @@ namespace CardMaga.UI
     {
         public abstract CardZoomHandler CardZoomHandler { get; }
         public abstract void SetCardVisuals(CardMaga.Card.CardData card);
+
+        public virtual void ActivateGlow()
+        {
+        }
+        public virtual void DeactivateGlow()
+        {
+        }
     }
 }
