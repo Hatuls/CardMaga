@@ -60,7 +60,7 @@ namespace CardMaga.UI
             get => _isCardSelected;
         }
 
-        public IReadOnlyList<CardUI> CardUI
+        public IReadOnlyList<CardUI> CardUIs
         {
             get => _tableCardSlot.GetCardUIsFromTable();
         }
