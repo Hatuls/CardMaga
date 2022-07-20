@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace CardMaga.UI
 {
-    public class HandUI : MonoBehaviour, ILockabel
+    public class HandUI : MonoBehaviour, ILockabel , IGetCardsUI
     {
         public static event Action OnCardDrawnAndAlign;
         public static event Action OnDiscardAllCards;
@@ -32,6 +32,9 @@ namespace CardMaga.UI
         [SerializeField] private TransitionPackSO _discardTransitionPackSo;
         [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
         [SerializeField] private TransitionPackSO _resetCardPositionPackSO;
+
+        [SerializeField] private BaseStateMachine _battleInputStateMachine;
+        [SerializeField] private StateIdentificationSO _lockState;
 
         [SerializeField] private RectTransform _discardPos;
         [SerializeField] private RectTransform _drawPos;
@@ -60,7 +63,7 @@ namespace CardMaga.UI
             get => _isCardSelected;
         }
 
-        public IReadOnlyList<CardUI> CardUIs
+        public IReadOnlyList<CardUI> CardsUI
         {
             get => _tableCardSlot.GetCardUIsFromTable();
         }
@@ -111,7 +114,7 @@ namespace CardMaga.UI
             OnCardsAddToHand?.Invoke(_handCards);
             AddCards(_handCards);
             SetCardAtDrawPos(_handCards);
-            //ReAlignCardUI(_tableCardSlot.GetCardSlotsExceptFrom(_handCards));
+            ReAlignCardUI(_tableCardSlot.GetCardSlotsExceptFrom(_handCards));
             StartCoroutine(MoveCardsToHandPos(_tableCardSlot.GetCardSlotsFrom(_handCards), OnCardDrawnAndAlign));
         }
 
@@ -251,7 +254,8 @@ namespace CardMaga.UI
                 RemoveInputEvents(tempCardUis[i].Inputs); 
             }
             
-            OnDiscardAllCards?.Invoke();
+            _battleInputStateMachine.ForceChangeState(_lockState);
+            //OnDiscardAllCards?.Invoke();
             DiscardCards(tempCardUis);
         }
 
@@ -259,14 +263,9 @@ namespace CardMaga.UI
         {
             for (var i = 0; i < cardUI.Length; i++)
             {
-                cardUI[i].CardTransitionManager.Transition(_discardPos, _discardTransitionPackSo);
+                cardUI[i].CardTransitionManager.Transition(_discardPos, _discardTransitionPackSo,cardUI[i].Dispose);
                 yield return _waitForCardDiscardDelay;
             }
-
-            for (int i = 0; i < cardUI.Length; i++)
-            {
-                cardUI[i].Dispose();
-            } 
         }
 
         /// <summary>
@@ -519,5 +518,10 @@ namespace CardMaga.UI
         public void ClearCardSlot()
         {
         }
+    }
+
+    public interface IGetCardsUI
+    {
+        public IReadOnlyList<CardUI> CardsUI { get; }
     }
 }
