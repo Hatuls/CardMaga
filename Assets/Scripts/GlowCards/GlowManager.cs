@@ -15,8 +15,8 @@ public class GlowManager : MonoBehaviour
         cardUI = GetComponent<IGetCardsUI>();
         HandUI.OnCardsAddToHand += CheckCardToGlow;
         HandUI.OnCardsExecuteGetCards += CheckCardGlowAfterExecute;
-        HandUI.OnCardSelect += DeactiveDeckCards;
         HandUI.OnCardSelect += ActiveDeckCardsGlow;
+        HandUI.OnCardReturnToHand += DeactiveDeckCards;
     }
 
     public void CheckCardToGlow(IReadOnlyList<CardUI> cards)
@@ -56,18 +56,22 @@ public class GlowManager : MonoBehaviour
 
     public void DeactiveDeckCards(CardUI selectedCard)
     {
+        if (StaminaHandler.Instance.IsEnoughStamina(true, selectedCard.CardData))
+            selectedCard.CardVisuals.ActivateGlow();
+            
         for (int i = 0; i < cardUI.CardsUI.Count; i++)
         {
             if (StaminaHandler.Instance.IsEnoughStamina(true, cardUI.CardsUI[i].CardData))
                 cardUI.CardsUI[i].CardVisuals.ActivateGlow();
         }
+
     }
 
     private void OnDestroy()
     {
         HandUI.OnCardsAddToHand -= CheckCardToGlow;
         HandUI.OnCardsExecuteGetCards -= CheckCardGlowAfterExecute;
-        HandUI.OnCardSelect -= DeactiveDeckCards;
         HandUI.OnCardSelect -= ActiveDeckCardsGlow;
+        HandUI.OnCardSelect -= DeactiveDeckCards;
     }
 }
