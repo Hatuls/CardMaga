@@ -522,6 +522,6 @@ namespace CardMaga.UI
 
     public interface IGetCardsUI
     {
-        public IReadOnlyList<CardUI> CardsUI { get; }
+        IReadOnlyList<CardUI> CardsUI { get; }
     }
 }
