@@ -61,8 +61,7 @@ namespace Battle
                 {
                     case DeckEnum.Hand:
                         DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, ComboSO.GoToDeckAfterCrafting);
-
-                        CardUIManager.Instance.UpdateHand();
+                        DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Disposal:

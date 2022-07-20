@@ -41,9 +41,9 @@ namespace Battle.UI
 
         [SerializeField]
         private CardUI _enemyCardUI;
-        internal void UpdateHand()
+        internal void UpdateHand(bool isPlayer)
         {
-            GetCardsUI(DeckManager.Instance.GetCardsFromDeck(true, DeckEnum.Hand));
+            GetCardsUI(DeckManager.Instance.GetCardsFromDeck(isPlayer, DeckEnum.Hand));
         }
 
         internal void PlayEnemyCard(CardData card)

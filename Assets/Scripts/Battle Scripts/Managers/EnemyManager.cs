@@ -27,7 +27,7 @@ namespace Battle
         [SerializeField]  AnimatorController _enemyAnimatorController;
         [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
-         public Battle.Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
+        public Battle.Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
         private CardData[] _deck;
         public CardData[] Deck => _deck;
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
@@ -111,9 +111,7 @@ namespace Battle
             Debug.Log("Enemy Attack!");
 
             var staminaHandler = StaminaHandler.Instance;
-
-
-
+            
             int indexCheck = -1;
             bool noMoreCardsAvailable = false;
             do
@@ -166,8 +164,7 @@ namespace Battle
 
 
         #endregion
-
-
+        
         #region Monobehaviour Callbacks 
         public override void Awake()
         {
