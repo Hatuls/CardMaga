@@ -1,30 +1,27 @@
-﻿using Managers;
-using UnityEngine;
+﻿using Battle.Characters;
 using Battle.Deck;
-using Characters.Stats;
-using Characters;
-using TMPro;
-using ReiTools.TokenMachine;
-using Battle.Combo;
-using Battle.Characters;
 using CardMaga.Card;
+using Characters.Stats;
+using ReiTools.TokenMachine;
+using TMPro;
+using UnityEngine;
 
 namespace Battle
 {
-    public class EnemyManager : MonoSingleton<EnemyManager> , IBattleHandler
+    public class EnemyManager : MonoSingleton<EnemyManager>, IBattleHandler
     {
         #region Fields
-     //   [UnityEngine.SerializeField] Opponents EnemyAI;
+        //   [UnityEngine.SerializeField] Opponents EnemyAI;
 
         [Tooltip("Player Stats: ")]
 
-        [SerializeField] private  Character _myCharacter;
+        [SerializeField] private Character _myCharacter;
         [SerializeField] AnimationBodyPartSoundsHandler _animationSoundHandler;
         [Space]
 
         int _cardAction;
         [SerializeField] CardData enemyAction;
-        [SerializeField]  AnimatorController _enemyAnimatorController;
+        [SerializeField] AnimatorController _enemyAnimatorController;
         [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
         public Battle.Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
@@ -33,12 +30,12 @@ namespace Battle
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
         public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
 
-        [SerializeField,Sirenix.OdinInspector.MinMaxSlider(0,10f)]
+        [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f)]
         private Vector2 _delayTime;
         #region Public Methods
         public override void Init(ITokenReciever token)
         {
-        
+
         }
 
 
@@ -47,7 +44,7 @@ namespace Battle
 
         }
 
- 
+
         public void AssignCharacterData(Character character)
         {
             SpawnModel(character);
@@ -104,14 +101,14 @@ namespace Battle
         public void OnEndTurn()
         {
             _enemyAnimatorController.ResetLayerWeight();
- 
+
         }
         public System.Collections.IEnumerator PlayEnemyTurn()
         {
             Debug.Log("Enemy Attack!");
 
             var staminaHandler = StaminaHandler.Instance;
-            
+
             int indexCheck = -1;
             bool noMoreCardsAvailable = false;
             do
@@ -121,7 +118,7 @@ namespace Battle
                 do
                 {
                     yield return null;
-                    indexCheck++;   
+                    indexCheck++;
                     if (indexCheck >= handCards.Length)
                     {
                         noMoreCardsAvailable = true;
@@ -129,16 +126,16 @@ namespace Battle
                     }
 
                     enemyAction = handCards[indexCheck];
-            
-                    if (enemyAction!= null && staminaHandler.IsEnoughStamina(false, enemyAction))
+
+                    if (enemyAction != null && staminaHandler.IsEnoughStamina(false, enemyAction))
                         DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, enemyAction);
                     isCardExecuted = CardExecutionManager.Instance.CanPlayCard(false, enemyAction);
-         
+
                 } while (enemyAction == null || !isCardExecuted);
 
                 if (isCardExecuted)
                 {
-                    yield return new WaitForSeconds(Random.Range(_delayTime.x,_delayTime.y));
+                    yield return new WaitForSeconds(Random.Range(_delayTime.x, _delayTime.y));
                     CardExecutionManager.Instance.TryExecuteCard(false, enemyAction);
                 }
 
@@ -147,8 +144,8 @@ namespace Battle
                     //if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
                     //    yield return new WaitForSeconds(.3f);
                     //else
-                 
-                      yield return Turns.Turn.WaitOneSecond;
+
+                    yield return Turns.Turn.WaitOneSecond;
                 }
 
                 indexCheck = -1;
@@ -156,7 +153,7 @@ namespace Battle
 
 
 
-            yield return new WaitUntil(() => EnemyAnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count ==0);
+            yield return new WaitUntil(() => EnemyAnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count == 0);
             UI.CardUIManager.Instance.ActivateEnemyCardUI(false);
             yield return Turns.Turn.WaitOneSecond;
             EnemyAnimatorController.ResetToStartingPosition();
@@ -164,7 +161,7 @@ namespace Battle
 
 
         #endregion
-        
+
         #region Monobehaviour Callbacks 
         public override void Awake()
         {

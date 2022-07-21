@@ -203,6 +203,7 @@ public class CSVToCardSO : CSVAbst
         const int UpgradeToCardID = 23;
         const int IsExhausted = 24;
         const int IsRewardType = 25;
+        const int CardValueIndex = 27;
 
         card.ID = ushort.Parse(cardSO[ID]);
 
@@ -349,6 +350,9 @@ public class CSVToCardSO : CSVAbst
             card.IsPackReward = isPackReward == 1;
         else
             throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[1]}");
+
+        if (!int.TryParse(cardSO[CardValueIndex], out card.CardValue))
+            throw new Exception($"CardSO : ID {card.ID} doesnt have a valid value?");
 
 
         AssetDatabase.CreateAsset(card, $"Assets/Resources/Cards SO/{card.CardName}.asset");
