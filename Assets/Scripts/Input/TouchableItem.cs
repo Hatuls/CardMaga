@@ -1,6 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using System;
 using System.Collections;
+using PlayFab.MultiplayerModels;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -147,9 +148,10 @@ namespace CardMaga.Input
 
         [SerializeField,Tooltip("The Touchable Item")] T _touchableItem;
         [SerializeField,Tooltip("The delay between moving from point down to hold")] private float _holdDelay = .5f;
+        [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
-        private bool _isHold;
 
+        private bool _isHold;
         private bool _isTouchable;
 
         public State CurrentState => _currentState;
@@ -159,7 +161,7 @@ namespace CardMaga.Input
             if (!_isTouchable)
                 return;
             
-            StartCoroutine(HoldDelay(eventData)); 
+            StartCoroutine(HoldCheck(eventData)); 
             OnPointDown?.Invoke(_touchableItem);
             Debug.Log( base.name + "OnPointDown");
         }
@@ -174,15 +176,48 @@ namespace CardMaga.Input
                 EndHold(eventData);
                 return;
             }
-
+            StopAllCoroutines();
             ProcessTouch(eventData);
+        }
+
+        private IEnumerator HoldCheck(PointerEventData eventData)
+        {
+            StartCoroutine(HoldDistance(eventData));
+            StartCoroutine(HoldDelay(eventData));
+
+            while (true)
+            {
+                if (_isHold)
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(ProcessHoldTouchCoroutine(eventData));
+                    yield break;
+                }
+                yield return null;
+            }
         }
         
         private IEnumerator HoldDelay(PointerEventData eventData)
         {
             yield return new WaitForSeconds(_holdDelay);
             _isHold = true;
-            StartCoroutine(ProcessHoldTouchCoroutine(eventData));
+        }
+
+        private IEnumerator HoldDistance(PointerEventData eventData)
+        {
+            Vector2 startPosition = InputReciever.TouchPosOnScreen;
+            while (!_isHold)
+            {
+                Vector2 currentTouchPosition = InputReciever.TouchPosOnScreen;
+                
+                if (Vector2.Distance(startPosition,currentTouchPosition) > _holdDistance)
+                {
+                    _isHold = true;
+                    yield break;
+                }
+                
+                yield return null;
+            }
         }
 
         private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
@@ -190,6 +225,7 @@ namespace CardMaga.Input
             yield return null;
             OnBeginHold?.Invoke(_touchableItem);
             Debug.Log(base.name + "OnBeginHold");
+            
             while (_isHold)
             {
                 yield return null;
@@ -252,6 +288,11 @@ namespace CardMaga.Input
                 ChangeState(State.UnLock);
             else
                 ChangeState(State.Lock);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawWireSphere(transform.position,_holdDistance);
         }
     }
 }
