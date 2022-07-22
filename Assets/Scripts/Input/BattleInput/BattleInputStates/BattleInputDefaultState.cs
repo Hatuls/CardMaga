@@ -13,14 +13,13 @@ namespace CardMaga.Input
         public override void OnEnterState()
         {
             base.OnEnterState();
-
             _handToken = _handUI.HandLockTokenReceiver.GetToken();
         }
 
         public override void OnExitState()
         {
-            base.OnExitState();
             _handToken.Dispose();
+            base.OnExitState();
         }
     }
 }

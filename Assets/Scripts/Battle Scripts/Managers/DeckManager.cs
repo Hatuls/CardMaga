@@ -95,6 +95,7 @@ namespace Battle.Deck
             GetBaseDeck(isPlayersDeck, toDeck).AddCard(addedCard);
 
         }
+
         public void DrawHand(bool isPlayersDeck, int drawAmount)
         {
             if (BattleManager.isGameEnded)
@@ -184,10 +185,7 @@ namespace Battle.Deck
                 TransferCard(isPlayer, firstDeck, secondDeck, firstCard);
             }
         }
-
-        #endregion
-
-        #region Private Functions   
+        
         public void TransferCard(bool isPlayersDeck, DeckEnum from, DeckEnum to, CardData card)
         {
 
@@ -207,6 +205,20 @@ namespace Battle.Deck
             //  toBaseDeck.PrintDecks(to);
         }
 
+        public void AddCardOnTopOfDeck(bool isPlayersDeck, DeckEnum deck, CardData card)
+        {
+            if (card == null && !GetBaseDeck(isPlayersDeck, deck).IsTheCardInDeck(card))
+                return;
+
+            BaseDeck baseDeck = GetBaseDeck(isPlayersDeck,deck);
+            
+            baseDeck.AddCardAtFirstPosition(card);
+        }
+
+        #endregion
+
+        #region Private Functions   
+       
         private void TransferCard(bool isPlayersDeck, DeckEnum from, DeckEnum to, int amount)
         {
             if (amount <= 0 || from == to)

@@ -151,9 +151,10 @@ namespace CardMaga.Input
         [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
 
+        private Vector2 _startPosition;
+        
         private bool _isHold;
         private bool _isTouchable;
-
         public State CurrentState => _currentState;
 
         public void OnPointerDown(PointerEventData eventData)
@@ -161,6 +162,7 @@ namespace CardMaga.Input
             if (!_isTouchable)
                 return;
             
+            _isHold = false;
             StartCoroutine(HoldCheck(eventData)); 
             OnPointDown?.Invoke(_touchableItem);
             Debug.Log( base.name + "OnPointDown");
@@ -171,12 +173,14 @@ namespace CardMaga.Input
             if (!_isTouchable)
                 return;
             
+            StopAllCoroutines();
+            
             if (_isHold)
             { 
                 EndHold(eventData);
                 return;
             }
-            StopAllCoroutines();
+            
             ProcessTouch(eventData);
         }
 
@@ -200,18 +204,23 @@ namespace CardMaga.Input
         private IEnumerator HoldDelay(PointerEventData eventData)
         {
             yield return new WaitForSeconds(_holdDelay);
+            Debug.Log("From dely");
             _isHold = true;
         }
 
         private IEnumerator HoldDistance(PointerEventData eventData)
         {
-            Vector2 startPosition = InputReciever.TouchPosOnScreen;
+            _startPosition = transform.position;
+            
+            yield return null;
+            
             while (!_isHold)
             {
                 Vector2 currentTouchPosition = InputReciever.TouchPosOnScreen;
                 
-                if (Vector2.Distance(startPosition,currentTouchPosition) > _holdDistance)
+                if (Vector2.Distance(_startPosition,currentTouchPosition) > _holdDistance)
                 {
+                    Debug.Log("FromDis");
                     _isHold = true;
                     yield break;
                 }
@@ -222,22 +231,27 @@ namespace CardMaga.Input
 
         private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
         {
-            yield return null;
             OnBeginHold?.Invoke(_touchableItem);
             Debug.Log(base.name + "OnBeginHold");
             
+            int count = 0;
             while (_isHold)
             {
-                yield return null;
                 OnHold?.Invoke(_touchableItem);
-                Debug.Log(base.name + "OnHold");
+                
+                if (count % 10 == 0)
+                {
+                    Debug.Log(base.name + "OnHold");
+                }
+                count++;
+                
+                yield return null;
             }
         }
 
         private void EndHold(PointerEventData eventData)
         {
             _isHold = false;
-            StopAllCoroutines();
             OnEndHold?.Invoke(_touchableItem);
             Debug.Log(base.name + "OnEndHold");
             OnPointUp?.Invoke(_touchableItem);
@@ -246,7 +260,6 @@ namespace CardMaga.Input
 
         private void ProcessTouch(PointerEventData eventData)
         {
-            StopAllCoroutines();
             OnClick?.Invoke(_touchableItem);
             Debug.Log(base.name + "OnClick");
             OnPointUp?.Invoke(_touchableItem);

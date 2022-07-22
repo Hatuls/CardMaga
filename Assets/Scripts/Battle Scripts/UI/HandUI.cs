@@ -148,8 +148,6 @@ namespace CardMaga.UI
             {
                 RemoveInputEvents(cardUI.Inputs);
                 cardUI.transform.SetAsLastSibling();
-                DeckManager.Instance.TransferCard(true, DeckEnum.Hand, DeckEnum.Selected, cardUI.CardData);
-                
                 cardUI.Inputs.OnClick += _zoomCard.SetZoomCard;
                 cardUI.Inputs.OnBeginHold += _followCard.SetSelectCardUI;
                 _tableCardSlot.RemoveCardUI(cardUI);
@@ -163,7 +161,6 @@ namespace CardMaga.UI
             if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
-                DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, cardUI.CardData);
                 ResetCard(cardUI);
                 OnCardReturnToHand?.Invoke(cardUI);
                 _isCardSelected = false;
@@ -189,7 +186,7 @@ namespace CardMaga.UI
             MoveCardToDiscardAfterExecute(cardUI);
             _isCardSelected = false; 
             OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
-            OnCardReturnToHand?.Invoke(cardUI);
+            //OnCardReturnToHand?.Invoke(cardUI);
         }
 
         private void ResetCard(CardUI cardUI)
@@ -237,16 +234,16 @@ namespace CardMaga.UI
         {
             _zoomCard.ForceReleaseCard();
             _followCard.ForceReleaseCard();
+            _battleInputStateMachine.ForceChangeState(_lockState);
             
             CardUI[] tempCardUis = _tableCardSlot.GetCardUIsFromTable();
-            _tableCardSlot.RemoveAllCardUI();
             
             for (int i = 0; i < tempCardUis.Length; i++)
             {
                 RemoveInputEvents(tempCardUis[i].Inputs); 
             }
             
-            _battleInputStateMachine.ForceChangeState(_lockState);
+            _tableCardSlot.RemoveAllCardUI();
             //OnDiscardAllCards?.Invoke();
             DiscardCards(tempCardUis);
         }
