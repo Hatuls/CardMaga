@@ -1,19 +1,34 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using DG.Tweening;
 using System;
 using System.Collections;
+using Sirenix.OdinInspector;
 
 namespace CardMaga.UI.Bars
 {
     public class HealthBarUI : BaseBarUI
     {
-        //So with all the dotween curves
-        //So with the colors
-        //Init Health Bar
-        //Change health bar
-        //Change inner bar
+        [Header("Testing")]
+        public int MaxHealthTest;
+        public int CurrentHealthTest;
+        [Button]
+        public void TestInit()
+        {
+            InitHealthBar(CurrentHealthTest, MaxHealthTest);
+        }
+        [Button]
+        public void TestTransition()
+        {
+            ChangeHealth(CurrentHealthTest);
+        }
+        [Button]
+        public void TestMaxHealthChange()
+        {
+            ChangeMaxHealth(MaxHealthTest);
+        }
+
+        [Header("Fields")]
         [SerializeField] HealthBarSO _healthBarSO;
         [SerializeField] Slider _healthBarSlider;
         [SerializeField] Slider _healthBarInnerSlider;
@@ -21,8 +36,9 @@ namespace CardMaga.UI.Bars
         [SerializeField] Image _healthInnerImage;
         [SerializeField] TextMeshProUGUI _currentHealthText;
         [SerializeField] TextMeshProUGUI _maxHealthText;
-        float _counter;
+        public float _counter = 0;
         int _currentHealth;
+        int _maxHealth;
         private void Awake()
         {
             if (_healthBarSlider == null)
@@ -45,69 +61,106 @@ namespace CardMaga.UI.Bars
         }
         public void InitHealthBar(int currentHealth, int maxHealth)
         {
-            InitText(currentHealth, maxHealth);
+            _maxHealth = maxHealth;
+            _currentHealth = currentHealth;
+            SetText(_currentHealth, _maxHealth);
             //Set max health
-            SetMaxValue(_healthBarSlider,maxHealth);
-            SetMaxValue(_healthBarInnerSlider,maxHealth);
+            SetMaxValue(_healthBarSlider, _maxHealth);
+            SetMaxValue(_healthBarInnerSlider, _maxHealth);
             //Reset Sliders to 0
             ResetSliderFill(_healthBarSlider);
             ResetSliderFill(_healthBarInnerSlider);
             //move slider at start of game from 0 to current health;
-            DoMoveSlider(_healthBarSlider,currentHealth,_healthBarSO.HealthStartLength,_healthBarSO.HealthStartCurve);
-            DoMoveSlider(_healthBarInnerSlider,currentHealth,_healthBarSO.HealthStartLength,_healthBarSO.HealthStartCurve);
+            DoMoveSlider(_healthBarSlider, _currentHealth, _healthBarSO.HealthStartLength,_healthBarSO.HealthStartCurve);
+            DoMoveSlider(_healthBarInnerSlider, _currentHealth, _healthBarSO.HealthStartLength,_healthBarSO.HealthStartCurve);
         }
-        private void InitText(int currentHealth, int maxHealth)
+        private void SetText(int currentHealth, int maxHealth)
         {
-            _maxHealthText.text = maxHealth.ToString();
-            _currentHealthText.text = currentHealth.ToString();
+            if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+            _maxHealthText.text = string.Concat("/" + maxHealth);
+            _currentHealthText.text = string.Concat(currentHealth);
+        }
+        private void SetText(int currentHealth)
+        {
+            _currentHealthText.text = string.Concat(currentHealth);
         }
         public void ChangeHealth(int currentHealth)
         {
             _currentHealth = currentHealth;
+            SetText(_currentHealth);
+            if (_currentHealth == _healthBarSlider.value)
+            {
+                Debug.LogWarning("Health is the same but you called for Change Health method");
+                return;
+            }
             if (_currentHealth < _healthBarSlider.value)
             {
                 Debug.Log("Lowering Health");
-                _healthInnerImage.color = _healthBarSO.FillDownColor;
-                DoMoveSlider(_healthBarSlider, _currentHealth, _healthBarSO.HealthTransitionLength,_healthBarSO.ChangeHealthCurve);
-
+                StartHealthChange(_healthBarSlider, _healthBarSO.FillDownColor, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
             }
             else if (_currentHealth > _healthBarSlider.value)
             {
                 Debug.Log("Increacing Health");
-                _healthInnerImage.color = _healthBarSO.FillUpColor;
-                DoMoveSlider(_healthBarInnerSlider, _currentHealth, _healthBarSO.HealthTransitionLength,_healthBarSO.ChangeHealthCurve);
+                StartHealthChange(_healthBarInnerSlider, _healthBarSO.FillUpColor, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
+            }
+        }
+        public void ChangeMaxHealth(int maxHealth)
+        {
+            if (_maxHealth == maxHealth)
+            {
+                Debug.LogWarning("Max Health is the same but you called for Max Change Health method");
+                return;
+            }
+            if (_maxHealth < maxHealth)
+            {
+                var healthDelta = maxHealth - _maxHealth;
+                ChangeHealth(_currentHealth += healthDelta);
+                Debug.Log("max health was Increaced");
             }
             else
             {
-                Debug.Log("Health stayes the same, No need for change");
+                Debug.Log("max health was reduced");
             }
-            //Check amount of health, if it went down from the last time we checked we lowering the health slider to the 
-            //Recive change
-            //if we lower health
-            //set color to lowered down health
-            //change the health bar with transition to the current health
-            //start delay for the fill
-            //when the timer stops make a transition of the fill to the current health
-            //if the health is increacing
-            //change the fill above the health
-            //change the color of the fill to increaced up health
-            //create a delay, when the timer stopes increace the health to the fill amount
+            _maxHealth = maxHealth;
+            SetMaxValue(_healthBarInnerSlider, _maxHealth);
+            SetMaxValue(_healthBarSlider, _maxHealth);
+            SetText(_currentHealth,_maxHealth);
+        }
+        private void StartHealthChange(Slider slider,Color color,float transitionLength,AnimationCurve animCurve)
+        {
+            _healthInnerImage.color = color;
+            DoMoveSlider(slider, _currentHealth, transitionLength, animCurve);
+            ResetCounter();
+            StartCoroutine(StartTimer());
         }
         private void CompleteBarsTransition()
         {
-            if (_currentHealth < _healthBarSlider.value)
+            if (_currentHealth > _healthBarSlider.value)
             {
-                //health was Increaced
+                //Need to change health bar to fill bar
+                Debug.Log("Health Was Increaced Completeing transition");
+                DoMoveSlider(_healthBarSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
             }
             else if (_currentHealth == _healthBarSlider.value)
             {
-                //health was decreaced
+                //Need to change fill to match the health
+                Debug.Log("Health Was Decreaced Completeing transition");
+                DoMoveSlider(_healthBarInnerSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
+            }
+            else
+            {
+                Debug.LogWarning("Current health is lower than the slider, we have a problem");
             }
         }
         IEnumerator StartTimer()
         {
-            while (_healthBarSO.DelayTillReturn < _counter)
+            Debug.Log("Started Timer");
+            while (_healthBarSO.DelayTillReturn > _counter)
             {
+                Debug.Log($"Health Bar counter: {_counter}");
                 _counter += Time.deltaTime;
                 yield return null;
             }
@@ -117,6 +170,14 @@ namespace CardMaga.UI.Bars
         {
             _counter = 0;
         }
+        public void CompleteCounter()
+        {
+            _counter = _healthBarSO.DelayTillReturn;
+        }
         private void StopCounter() => StopCoroutine(StartTimer());
+        private void OnDestroy()
+        {
+            StopCounter();
+        }
     }
 }
