@@ -75,7 +75,7 @@ namespace CardMaga.UI
             EndPlayerTurn.OnPlayerEndTurn += ForceDiscardCards;
             BattleManager.OnGameEnded += ForceDiscardCards;
             DeckManager.OnDrawCards += DrawCardsFromDeck;
-            _followCard.OnCardExecute += DiscardCard;
+            FollowCardUI.OnCardExecute += DiscardCard;
             _isCardSelected = false;
         }
 
@@ -83,7 +83,7 @@ namespace CardMaga.UI
         {
             BattleManager.OnGameEnded -= ForceDiscardCards;
             DeckManager.OnDrawCards -= DrawCardsFromDeck;
-            _followCard.OnCardExecute -= DiscardCard;
+            FollowCardUI.OnCardExecute -= DiscardCard;
             EndPlayerTurn.OnPlayerEndTurn -= ForceDiscardCards;
 
             for (var i = 0; i < _tableCardSlot.CardSlots.Count; i++)

@@ -21,10 +21,10 @@ public class RectTransitionManager
     public Sequence Transition(Vector2 destination, TransitionPackSO transitionPackSo, Action onComplete = null)
     {
         Sequence sequence = DOTween.Sequence();
-        
+
         if (transitionPackSo.HaveMovement)
             sequence.Join(_rectTransform.Move(destination, transitionPackSo.Movement));
-        
+
         if (transitionPackSo.HaveScale)
         {
             switch (transitionPackSo.ScaleType)
@@ -37,7 +37,7 @@ public class RectTransitionManager
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }   
+            }
         }
 
         if (transitionPackSo.HaveRotation)
@@ -93,7 +93,15 @@ public class RectTransitionManager
 
     public Tween Scale(TransitionPackSO transition, Action onComplete = null)
     {
-        return _rectTransform.Scale(transition.ScaleMultiplier, transition.Scale, onComplete);
+        switch (transition.ScaleType)
+        {
+            case TransitionPackSO.ScaleTypeEnum.ByFloat:
+                return _rectTransform.Scale(transition.ScaleMultiplier, transition.Scale, onComplete);
+            case TransitionPackSO.ScaleTypeEnum.ByVector:
+                return _rectTransform.Scale(transition.ScaleVector, transition.Scale, onComplete);
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public Tween Scale(float multiply, TransitionPackSO transition, Action onComplete = null)

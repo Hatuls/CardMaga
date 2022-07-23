@@ -5,7 +5,7 @@ using CardMaga.Card;
 using CardMaga.UI.Card;
 using CardMaga.UI.Visuals;
 using UnityEngine;
-using UnityEngine.UI;
+using DG.Tweening;
 
 
 namespace CardMaga.UI.Carfting
@@ -20,6 +20,10 @@ namespace CardMaga.UI.Carfting
         [SerializeField] private BodyPartBaseVisualSO _baseVisual;
         [SerializeField] private CraftingSlotDefaultSO _defaultCraftingSlotData;
         [SerializeField] private CanvasGroup _loaderCanvasGroup;
+        [SerializeField] private RectTransform _slotsGroup;
+
+        [Header("Animation Parameters")] [SerializeField]
+        private float _xMovement;
 
         #endregion
 
@@ -31,10 +35,17 @@ namespace CardMaga.UI.Carfting
             }
 
             HandUI.OnCardSelect += LoadCraftingSlot;
+            HandUI.OnCardReturnToHand += StopLoading;
         }
-        
+
+        private void OnDestroy()
+        {
+            HandUI.OnCardSelect -= LoadCraftingSlot;
+            HandUI.OnCardReturnToHand -= StopLoading;
+        }
+
         [Sirenix.OdinInspector.Button]
-        private void Test()
+        public void Test()
         {
             LoadCraftingSlot(_card);
         }
@@ -54,32 +65,45 @@ namespace CardMaga.UI.Carfting
 
         public void LoadCraftingSlot(CardUI cardTypeDataUI)
         {
-            CraftingSlotData craftingSlotData = AssignCraftingSlotData(cardTypeDataUI.CardData.CardTypeData);
-            
-            _craftingSlot[0].AssignSlotData(craftingSlotData);
-            
-            
-        }
-
-        private IEnumerator LoaderAlpha()
-        {
-            while (true)
-            {
-                
-                yield return null;
-            }
+            LoadCraftingSlot(cardTypeDataUI.CardData.CardTypeData);
         }
         
         public void LoadCraftingSlot(CardTypeData cardTypeData)
         {
             CraftingSlotData craftingSlotData = AssignCraftingSlotData(cardTypeData);
-            
+            LoadCraftingSlot(craftingSlotData);
+        }
+
+        private void LoadCraftingSlot(CraftingSlotData craftingSlotData)
+        {
             _craftingSlot[0].AssignSlotData(craftingSlotData);
+            StartCoroutine(LoaderAlpha());
         }
         
+        private IEnumerator LoaderAlpha()
+        {
+            float screenHeight = Screen.height;
+            
+            while (true)
+            {
+                float value = InputReciever.TouchPosOnScreen.y / screenHeight;
+                Debug.Log(InputReciever.TouchPosOnScreen);
+                _loaderCanvasGroup.alpha = value;
+                _slotsGroup.localPosition = new Vector3(Mathf.Lerp(0, _xMovement, value), 0, 0);
+                yield return null;
+            }
+        }
 
+        public void StopLoading(CardUI cardUI)
+        {
+            _craftingSlot[0].RestCraftingSlot();
+            StopAllCoroutines();
+        }
+        
         private void AddCraftingSlot(CraftingSlotData craftingSlotData)
         {
+            _loaderCanvasGroup.DOFade(1, 1);
+            
             for (int i = 0; i < _craftingSlot.Length; i++)
             {
                 if (_craftingSlot[i].TryGetCardTypeData(out CraftingSlotData prevCraftingSlotData))
