@@ -93,7 +93,7 @@ namespace UI
         {
             var setOfImage = _gotoIconCollection.GetInnerImage(_combo.ComboSO.GoToDeckAfterCrafting);
             _innerImage.sprite = setOfImage.Icon;
-            //  _innerImage.color = setOfImage.GetColor(_combo.ComboSO.CraftedCard.CardTypeEnum);
+            //  _innerImage.color = setOfImage.GetMainColor(_combo.ComboSO.CraftedCard.CardTypeEnum);
             //_decorImage.sprite = _gotoIconCollection.GetDecorImage().Icon;
             _outerImage.sprite = _gotoIconCollection.GetBackGroundImage().Icon;
         }

@@ -295,8 +295,8 @@ namespace Battle.Turns
             if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
             {
 
-                Deck.DeckManager.Instance.DrawHand(isPlayerTurn, CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount);
                 StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
+                Deck.DeckManager.Instance.DrawHand(isPlayerTurn, CharacterStatsManager.GetCharacterStatsHandler(isPlayerTurn).GetStats(KeywordTypeEnum.Draw).Amount);
                 OnStartTurn?.Invoke();
                 do
                 {

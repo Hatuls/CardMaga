@@ -1,9 +1,11 @@
-﻿using Battle.Deck;
+﻿using System;
+using Battle.Deck;
 using Battle.UI;
 using CardMaga.Card;
 
 public class PlayerCraftingSlots : BaseDeck
-    {
+{
+    public static event Action<CardTypeData> onCardExe;
     CraftingUIHandler _playerCraftingUIHandler;
     CardData _lastCardEntered;
     public CardData LastCardEntered => _lastCardEntered;
@@ -35,8 +37,8 @@ public class PlayerCraftingSlots : BaseDeck
     public override bool AddCard(CardData card)
     {
         _lastCardEntered = card;
-        var bodypartEnum = card.BodyPartEnum;
-        if (!(bodypartEnum == CardMaga.Card.BodyPartEnum.Empty || bodypartEnum == CardMaga.Card.BodyPartEnum.None))
+        var cardBodyPartEnum = card.BodyPartEnum;
+        if (!(cardBodyPartEnum == CardMaga.Card.BodyPartEnum.Empty || cardBodyPartEnum == CardMaga.Card.BodyPartEnum.None))
         {
 
             if (AddCardToEmptySlot(card) == false)
@@ -47,7 +49,8 @@ public class PlayerCraftingSlots : BaseDeck
                     GetDeck[i - 1] = GetDeck[i];
 
                 GetDeck[GetDeck.Length - 1] = card;
-                _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
+                onCardExe?.Invoke(card.CardTypeData);
+                //_playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
             }
         }
         CountCards();

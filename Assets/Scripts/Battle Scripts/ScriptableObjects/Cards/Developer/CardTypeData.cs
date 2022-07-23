@@ -1,13 +1,10 @@
-﻿
-using System;
+﻿using System;
 
 namespace CardMaga.Card
 {
     [Serializable]
     public class CardTypeData
     {
-
-
         [UnityEngine.SerializeField]
         private BodyPartEnum _bodyPart;
         public BodyPartEnum BodyPart { get => _bodyPart; set => _bodyPart = value; }
@@ -15,8 +12,6 @@ namespace CardMaga.Card
         [UnityEngine.SerializeField]
         private CardTypeEnum _cardType;
         public CardTypeEnum CardType { get => _cardType; set => _cardType = value; }
-
-
 
     }
 }
