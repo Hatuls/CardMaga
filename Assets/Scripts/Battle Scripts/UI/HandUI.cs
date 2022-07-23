@@ -192,7 +192,8 @@ namespace CardMaga.UI
         {
             if (cardUI == null)
                 return;
-            
+
+            cardUI.CardVisuals.SetExecutedCardVisuals();
             RemoveInputEvents(cardUI.Inputs);
             DiscardCards(cardUI);
             _isCardSelected = false; 
