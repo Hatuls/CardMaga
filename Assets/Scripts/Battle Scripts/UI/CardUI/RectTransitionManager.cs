@@ -20,27 +20,33 @@ public class RectTransitionManager
 
     public Sequence Transition(Vector2 destination, TransitionPackSO transitionPackSo, Action onComplete = null)
     {
-        var temp = _rectTransform.Move(destination, transitionPackSo.Movement);
-
-        switch (transitionPackSo.ScaleType)
+        Sequence sequence = DOTween.Sequence();
+        
+        if (transitionPackSo.HaveMovement)
+            sequence.Join(_rectTransform.Move(destination, transitionPackSo.Movement));
+        
+        if (transitionPackSo.HaveScale)
         {
-            case TransitionPackSO.ScaleTypeEnum.ByFloat:
-                temp.Join(_rectTransform.Scale(transitionPackSo.ScaleMultiplier, transitionPackSo.Scale));
-                break;
-            case TransitionPackSO.ScaleTypeEnum.ByVector:
-                temp.Join(_rectTransform.Scale(transitionPackSo.ScaleVector, transitionPackSo.Scale));
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            switch (transitionPackSo.ScaleType)
+            {
+                case TransitionPackSO.ScaleTypeEnum.ByFloat:
+                    sequence.Join(_rectTransform.Scale(transitionPackSo.ScaleMultiplier, transitionPackSo.Scale));
+                    break;
+                case TransitionPackSO.ScaleTypeEnum.ByVector:
+                    sequence.Join(_rectTransform.Scale(transitionPackSo.ScaleVector, transitionPackSo.Scale));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }   
         }
 
         if (transitionPackSo.HaveRotation)
-            temp.Join(_rectTransform.Rotate(transitionPackSo.Rotate, transitionPackSo.Rotation));
+            sequence.Join(_rectTransform.Rotate(transitionPackSo.Rotate, transitionPackSo.Rotation));
 
         if (onComplete != null)
-            temp.OnComplete(onComplete.Invoke);
+            sequence.OnComplete(onComplete.Invoke);
 
-        return temp;
+        return sequence;
     }
 
     #endregion
