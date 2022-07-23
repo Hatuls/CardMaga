@@ -4,17 +4,14 @@ using Cards;
 using Managers;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 namespace CardMaga.AI
 {
-    [CreateAssetMenu(fileName = "Can Complete Combo", menuName = "ScriptableObjects/AI/Logic/Combo Craft")]
-    public class CanCraftComboLogic : BaseDecisionLogic
+    public class CanCraftComboNode : BaseNode<AICard>
     {
-        [SerializeField]
-        private bool _isPlayer;
-        public override NodeState Evaluate(Node currentNode, AICard basedEvaluationObject)
+        public bool IsPlayer { get; set; }
+        public override NodeState Evaluate(AICard basedEvaluationObject)
         {
-            var deck = DeckManager.GetCraftingSlots(_isPlayer);
+            var deck = DeckManager.GetCraftingSlots(IsPlayer);
 
             CardData[] craftingSlots = new CardData[deck.GetDeck.Length + 1];
 
@@ -27,7 +24,7 @@ namespace CardMaga.AI
             if (GetCraftingSlotsFilled() > 1)
                 CheckRecipe();
 
-            return currentNode.NodeState;
+            return NodeState;
 
 
             int GetCraftingSlotsFilled()
@@ -51,7 +48,7 @@ namespace CardMaga.AI
             void CheckRecipe()
             {
                 // need to make algorithem better!!! 
-                var recipes = _isPlayer ? PlayerManager.Instance.GetCombos() : Battle.EnemyManager.Instance.Recipes;
+                var recipes = IsPlayer ? PlayerManager.Instance.GetCombos() : Battle.EnemyManager.Instance.Recipes;
 
                 var comparer = new CardTypeComparer();
                 CardTypeData[] cardTypeDatas;
@@ -66,14 +63,12 @@ namespace CardMaga.AI
 
                     if (craftingItems.SequenceEqual(cardTypeDatas, comparer))
                     {
-                        currentNode.NodeState = NodeState.Success;
+                        NodeState = NodeState.Success;
                         return;
                     }
 
                 }
-                currentNode.NodeState = NodeState.Failure;
-
-
+                NodeState = NodeState.Failure;
             }
         }
     }

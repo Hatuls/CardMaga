@@ -1,9 +1,6 @@
-﻿using UnityEngine;
-
-namespace CardMaga.AI
+﻿namespace CardMaga.AI
 {
-    [CreateAssetMenu(fileName = "Invert Logic", menuName = "ScriptableObjects/AI/Logic/Invert", order = -99999)]
-    public class InvertLogic : BaseDecisionLogic
+    public class InvertNode<T> : BaseNode<T>
     {
         /// <summary>
         /// Work as an INVERT Logic
@@ -11,13 +8,12 @@ namespace CardMaga.AI
         /// <param name="currentNode"></param>
         /// <param name="basedEvaluationObject"></param>
         /// <returns></returns>
-        public override NodeState Evaluate(Node currentNode, AICard basedEvaluationObject)
+        public override NodeState Evaluate(T basedEvaluationObject)
         {
             NodeState result = NodeState.Failure;
-            var children = currentNode.Children;
-            for (int i = 0; i < children.Length; i++)
+            for (int i = 0; i < Children.Length; i++)
             {
-                 result = children[i].Evaluate(basedEvaluationObject);
+                result = Children[i].Evaluate(basedEvaluationObject);
                 switch (result)
                 {
                     case NodeState.Success:

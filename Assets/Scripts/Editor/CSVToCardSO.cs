@@ -203,7 +203,7 @@ public class CSVToCardSO : CSVAbst
         const int UpgradeToCardID = 23;
         const int IsExhausted = 24;
         const int IsRewardType = 25;
-        const int CardValueIndex = 27;
+        const int CardValueIndex = 26;
 
         card.ID = ushort.Parse(cardSO[ID]);
 
@@ -302,13 +302,15 @@ public class CSVToCardSO : CSVAbst
         if (cost == 0)
             Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
-
+        //Upgrade Value
+        if (!int.TryParse(cardSO[CardValueIndex], out int cardValue))
+            Debug.LogError($"CSVTOCARDSO: Card ID - {card.ID} : Card Value is not valid!\nInput: {cardSO[CardValueIndex]}");
         //Description
       List<string[]> description = GetDescription(cardSO[CardDescription]);
 
         //Upgrades
         List<PerLevelUpgrade> _PerLevelUpgrade = new List<Cards.PerLevelUpgrade>();
-        _PerLevelUpgrade.Add(new PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType, IsExhausted), description, cost));
+        _PerLevelUpgrade.Add(new PerLevelUpgrade(GetCardsUpgrade(card, cardSO, StaminaCost, BodyPart, CardType, IsExhausted), description, cost, cardValue));
         string firstCardId = cardSO[UpgradeToCardID];
 
 
@@ -326,10 +328,12 @@ public class CSVToCardSO : CSVAbst
                 if (cost == 0)
                     Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
-
                 description = GetDescription(getRow[CardDescription]);
 
-                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType, IsExhausted), description, cost));
+                if (!int.TryParse(getRow[CardValueIndex], out cardValue))
+                    Debug.LogError($"CSVTOCARDSO: Card ID - {myUpgradeVersionID} : Card Value is not valid!\nInput: {getRow[CardValueIndex]}");
+
+                _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType, IsExhausted), description, cost, cardValue));
                 firstCardId = getRow[UpgradeToCardID];
             }
             else
@@ -351,8 +355,6 @@ public class CSVToCardSO : CSVAbst
         else
             throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[1]}");
 
-        if (!int.TryParse(cardSO[CardValueIndex], out card.CardValue))
-            throw new Exception($"CardSO : ID {card.ID} doesnt have a valid value?");
 
 
         AssetDatabase.CreateAsset(card, $"Assets/Resources/Cards SO/{card.CardName}.asset");

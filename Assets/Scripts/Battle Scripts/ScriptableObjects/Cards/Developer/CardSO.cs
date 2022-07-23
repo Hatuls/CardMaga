@@ -118,10 +118,11 @@ namespace CardMaga.Card
         [SerializeField]
         private ushort[] _cardsFusesFrom;
 
-        public int CardValue;
 
         public ushort[] CardsFusesFrom { get => _cardsFusesFrom; set => _cardsFusesFrom = value; }
 
+        public int GetCardValue(int level)
+            => _perLevelUpgrades[level].CardValue;
         #endregion
 
         #region Properties

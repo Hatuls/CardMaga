@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-namespace CardMaga.AI
+﻿namespace CardMaga.AI
 {
 
     /// <summary>
@@ -7,12 +6,9 @@ namespace CardMaga.AI
     /// other name is Selector
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [CreateAssetMenu(fileName = "OR Logic",menuName = "ScriptableObjects/AI/Logic/OR", order = -99999)] 
-    
-    public class ORLogic : BaseDecisionLogic
+
+    public class ORNode<T> : BaseNode<T>
     {
-
-
         /// <summary>
         /// Work as an OR Logic
         /// </summary>
@@ -20,18 +16,18 @@ namespace CardMaga.AI
         /// <param name="basedEvaluationObject"></param>
         /// <returns></returns>
        // [Header("Works as an OR logic statement\nWill return success only if one of the children will return success")]
-        public override NodeState Evaluate(Node currentNode, AICard basedEvaluationObject)
+        public override NodeState Evaluate(T basedEvaluationObject)
         {
-            Node[] children = currentNode.Children;
-            for (int i = 0; i < children.Length; i++)
+
+            for (int i = 0; i < Children.Length; i++)
             {
-                NodeState result = children[i].Evaluate(basedEvaluationObject);
+                NodeState result = Children[i].Evaluate(basedEvaluationObject);
                 switch (result)
                 {
                     case NodeState.Success:
                     case NodeState.Running:
-                        currentNode.NodeState = result;
-                        return currentNode.NodeState;
+                        NodeState = result;
+                        return NodeState;
 
                     case NodeState.Failure:
                     default:
@@ -39,11 +35,8 @@ namespace CardMaga.AI
                 }
 
             }
-            currentNode.NodeState = NodeState.Failure;
-            return currentNode.NodeState;
+            NodeState = NodeState.Failure;
+            return NodeState;
         }
-
-
     }
-    
 }

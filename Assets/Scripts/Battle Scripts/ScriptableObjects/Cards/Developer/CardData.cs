@@ -62,7 +62,24 @@ namespace CardMaga.Card
 
         public CardInstanceID CardCoreInfo { get => _cardCoreInfo; }
 
-
+        public bool TryGetKeyword(KeywordTypeEnum keyword,out int amount)
+        {
+            amount = 0;
+            var keywords = CardKeywords;
+            KeywordData current;
+            bool found = false;
+            for (int i = 0; i < keywords.Length; i++)
+            {
+                current = keywords[i];
+               bool result = current.KeywordSO.GetKeywordType == keyword;
+                if (result)
+                {
+                    amount += current.GetAmountToApply;
+                    found |= result;
+                }
+            }
+            return found;
+        }
         #endregion
 
 
