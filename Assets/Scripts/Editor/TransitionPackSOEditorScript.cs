@@ -15,6 +15,9 @@ public class TransitionPackSOEditorScript : Editor
         if (obj.HaveMovement)
         {
             EditorGUILayout.Space();
+            obj.MoveOffSet =
+                EditorGUILayout.Vector3Field("Move Off Set:", obj.MoveOffSet);
+            EditorGUILayout.Space();
             obj.Movement.TimeToTransition =
                 EditorGUILayout.FloatField("Time To Transition:", obj.Movement.TimeToTransition);
             EditorGUILayout.Space();

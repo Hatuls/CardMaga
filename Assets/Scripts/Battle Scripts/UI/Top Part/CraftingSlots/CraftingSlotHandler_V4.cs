@@ -87,9 +87,9 @@ namespace CardMaga.UI.Carfting
             while (true)
             {
                 float value = InputReciever.TouchPosOnScreen.y / screenHeight;
-                Debug.Log(InputReciever.TouchPosOnScreen);
+                
                 _loaderCanvasGroup.alpha = value;
-                _slotsGroup.localPosition = new Vector3(Mathf.Lerp(0, _xMovement, value), 0, 0);
+                _slotsGroup.anchoredPosition = new Vector3(Mathf.Lerp(0, _xMovement, value), 0,0);
                 yield return null;
             }
         }
