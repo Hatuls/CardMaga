@@ -12,5 +12,6 @@ namespace CardMaga.Card
         [UnityEngine.SerializeField]
         private CardTypeEnum _cardType;
         public CardTypeEnum CardType { get => _cardType; set => _cardType = value; }
+
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class FollowCardUI : MonoBehaviour
 {
-    public event Action<CardUI> OnCardExecute;
+    public static event Action<CardUI> OnCardExecute;
     
     [SerializeField] private HandUI _handUI;
     [SerializeField] private ZoomCardUI _zoomCardUI;
