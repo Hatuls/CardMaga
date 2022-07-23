@@ -6,6 +6,7 @@ public class TransitionPackSO : ScriptableObject
 {
     public bool HaveMovement = true; 
     public Transition3D Movement;
+    public Vector3 MoveOffSet;
 
     public enum ScaleTypeEnum
     {

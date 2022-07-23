@@ -12,7 +12,13 @@ public class RectTransitionManager
     }
 
     #region Transitions
-
+    
+    public Sequence Transition(TransitionPackSO transitionPackSo, Action onComplete = null)
+    {
+        Vector3 destination = (Vector3)_rectTransform.GetWordPosition() + transitionPackSo.MoveOffSet;
+        return Transition(destination, transitionPackSo, onComplete);
+    }
+    
     public Sequence Transition(RectTransform destination, TransitionPackSO transitionPackSo, Action onComplete = null)
     {
         return Transition(destination.GetWordPosition(), transitionPackSo, onComplete);
