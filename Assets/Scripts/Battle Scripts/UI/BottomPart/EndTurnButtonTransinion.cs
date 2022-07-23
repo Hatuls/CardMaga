@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class EndTurnButtonTransinion: MonoBehaviour
 {
     [Header("Fields")]
-    [SerializeField] TransitionPackSO _endTurnTransitionPackSO;
+    [SerializeField] TransitionPackSO _transitionPackSO;
     
     //Transform of the UI.
     [SerializeField] RectTransform _currentRectTransform;
@@ -17,16 +18,23 @@ public class EndTurnButtonTransinion: MonoBehaviour
     void Start()
     {
         endTurnTransitionManager = new RectTransitionManager(_currentRectTransform);
-        if (_endTurnTransitionPackSO != null)
+        if (_transitionPackSO != null)
         {
             endTurnTransitionManager = new RectTransitionManager(_currentRectTransform);
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    [Button]
+    public void Scale()
     {
-        endTurnTransitionManager.Transition(_destinationRectTransform, _endTurnTransitionPackSO);
-        endTurnTransitionManager.Scale(_endTurnTransitionPackSO);
+        endTurnTransitionManager.Scale(_transitionPackSO);
     }
+
+    [Button]
+    public void Transition()
+    {
+        endTurnTransitionManager.Transition(_destinationRectTransform, _transitionPackSO);
+
+    }
+
 }
