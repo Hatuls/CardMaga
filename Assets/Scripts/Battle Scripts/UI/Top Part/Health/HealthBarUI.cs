@@ -117,7 +117,7 @@ namespace CardMaga.UI.Bars
             if (_maxHealth < maxHealth)
             {
                 var healthDelta = maxHealth - _maxHealth;
-                ChangeHealth(_currentHealth += healthDelta);
+                //ChangeHealth(_currentHealth += healthDelta);
                 Debug.Log("max health was Increaced");
             }
             else
