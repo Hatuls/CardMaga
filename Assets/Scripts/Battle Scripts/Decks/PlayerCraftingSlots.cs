@@ -35,8 +35,8 @@ public class PlayerCraftingSlots : BaseDeck
     public override bool AddCard(CardData card)
     {
         _lastCardEntered = card;
-        var bodypartEnum = card.BodyPartEnum;
-        if (!(bodypartEnum == CardMaga.Card.BodyPartEnum.Empty || bodypartEnum == CardMaga.Card.BodyPartEnum.None))
+        var cardBodyPartEnum = card.BodyPartEnum;
+        if (!(cardBodyPartEnum == CardMaga.Card.BodyPartEnum.Empty || cardBodyPartEnum == CardMaga.Card.BodyPartEnum.None))
         {
 
             if (AddCardToEmptySlot(card) == false)

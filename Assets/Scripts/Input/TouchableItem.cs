@@ -1,6 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using System;
 using System.Collections;
+using PlayFab.MultiplayerModels;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -147,11 +148,13 @@ namespace CardMaga.Input
 
         [SerializeField,Tooltip("The Touchable Item")] T _touchableItem;
         [SerializeField,Tooltip("The delay between moving from point down to hold")] private float _holdDelay = .5f;
+        [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
+
+        private Vector2 _startPosition;
+        
         private bool _isHold;
-
         private bool _isTouchable;
-
         public State CurrentState => _currentState;
 
         public void OnPointerDown(PointerEventData eventData)
@@ -159,7 +162,8 @@ namespace CardMaga.Input
             if (!_isTouchable)
                 return;
             
-            StartCoroutine(HoldDelay(eventData)); 
+            _isHold = false;
+            StartCoroutine(HoldCheck(eventData)); 
             OnPointDown?.Invoke(_touchableItem);
             Debug.Log( base.name + "OnPointDown");
         }
@@ -169,39 +173,85 @@ namespace CardMaga.Input
             if (!_isTouchable)
                 return;
             
+            StopAllCoroutines();
+            
             if (_isHold)
             { 
                 EndHold(eventData);
                 return;
             }
-
+            
             ProcessTouch(eventData);
+        }
+
+        private IEnumerator HoldCheck(PointerEventData eventData)
+        {
+            StartCoroutine(HoldDistance(eventData));
+            StartCoroutine(HoldDelay(eventData));
+
+            while (true)
+            {
+                if (_isHold)
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(ProcessHoldTouchCoroutine(eventData));
+                    yield break;
+                }
+                yield return null;
+            }
         }
         
         private IEnumerator HoldDelay(PointerEventData eventData)
         {
             yield return new WaitForSeconds(_holdDelay);
+            Debug.Log("From dely");
             _isHold = true;
-            StartCoroutine(ProcessHoldTouchCoroutine(eventData));
+        }
+
+        private IEnumerator HoldDistance(PointerEventData eventData)
+        {
+            _startPosition = transform.position;
+            
+            yield return null;
+            
+            while (!_isHold)
+            {
+                Vector2 currentTouchPosition = InputReciever.TouchPosOnScreen;
+                
+                if (Vector2.Distance(_startPosition,currentTouchPosition) > _holdDistance)
+                {
+                    Debug.Log("FromDis");
+                    _isHold = true;
+                    yield break;
+                }
+                
+                yield return null;
+            }
         }
 
         private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
         {
-            yield return null;
             OnBeginHold?.Invoke(_touchableItem);
             Debug.Log(base.name + "OnBeginHold");
+            
+            int count = 0;
             while (_isHold)
             {
-                yield return null;
                 OnHold?.Invoke(_touchableItem);
-                Debug.Log(base.name + "OnHold");
+                
+                if (count % 10 == 0)
+                {
+                    Debug.Log(base.name + "OnHold");
+                }
+                count++;
+                
+                yield return null;
             }
         }
 
         private void EndHold(PointerEventData eventData)
         {
             _isHold = false;
-            StopAllCoroutines();
             OnEndHold?.Invoke(_touchableItem);
             Debug.Log(base.name + "OnEndHold");
             OnPointUp?.Invoke(_touchableItem);
@@ -210,7 +260,6 @@ namespace CardMaga.Input
 
         private void ProcessTouch(PointerEventData eventData)
         {
-            StopAllCoroutines();
             OnClick?.Invoke(_touchableItem);
             Debug.Log(base.name + "OnClick");
             OnPointUp?.Invoke(_touchableItem);
@@ -252,6 +301,11 @@ namespace CardMaga.Input
                 ChangeState(State.UnLock);
             else
                 ChangeState(State.Lock);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawWireSphere(transform.position,_holdDistance);
         }
     }
 }
