@@ -10,9 +10,18 @@ public class InputReciever : MonoBehaviour
     public static event Action<Vector2> OnTouchEnded;
     public static event Action<Vector2> OnTouchStart;
 
-    private Vector2 _touchPosOnScreen;
+    private static Vector2 _touchPosOnScreen;
     private Vector2 _firstTouchLocation;
     private Camera _camera;
+
+    #endregion
+
+    #region Prop
+
+    public static Vector2 TouchPosOnScreen
+    {
+        get => _touchPosOnScreen;
+    }
 
     #endregion
 

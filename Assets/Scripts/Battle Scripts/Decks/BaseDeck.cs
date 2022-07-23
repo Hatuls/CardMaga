@@ -287,6 +287,18 @@ namespace Battle.Deck
             Array.Resize(ref GetDeck, GetDeck.Length + 5);
             CountCards();
         }
+
+        public void AddCardAtFirstPosition(CardData card)
+        {
+            CardData[] cardDatas = new CardData[GetDeck.Length + 1];
+            Array.Copy(GetDeck,cardDatas,1);
+
+            GetDeck = cardDatas;
+            GetDeck[0] = card;
+            
+            OrderDeck();
+            CountCards();
+        }
         #endregion
         
         public override string ToString()
