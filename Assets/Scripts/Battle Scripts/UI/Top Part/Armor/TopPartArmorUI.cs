@@ -1,11 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using Sirenix.OdinInspector;
+using System;
 namespace CardMaga.UI.Visuals
 {
     public class TopPartArmorUI : MonoBehaviour
     {
+        [Header("Testing")]
+        public int Amount;
+        [Button]
+        public void TestArmorChange()
+        {
+            SetArmor(Amount);
+        }
+
+        [Header("Fields")]
         [SerializeField] TransitionPackSO _gainArmorTransitionSO;
         [SerializeField] TransitionPackSO _reduceArmorTransitionSO;
         [SerializeField] TransitionPackSO _breakArmorTransitionSO;
@@ -23,12 +33,20 @@ namespace CardMaga.UI.Visuals
 
         private void Awake()
         {
-            
+            if (_armorImage == null)
+                throw new Exception("TopPartArmorUI has no ArmorImageIsNull");
+            if (_breakArmorImage)
+                Debug.LogWarning("TopPartArmorUI has no BreakArmorImage");
+            if (_armorAmountText == null)
+                throw new Exception("TopPartArmorUI has no armor text");
         }
         private void Start()
         {
             _armorManager = new RectTransitionManager(_armorImage.rectTransform);
-            _breakArmorManager = new RectTransitionManager(_breakArmorImage.rectTransform);
+            if (_breakArmorImage != null)
+            {
+                _breakArmorManager = new RectTransitionManager(_breakArmorImage.rectTransform);
+            }
         }
         public void SetArmor(int amount)
         {
@@ -71,6 +89,7 @@ namespace CardMaga.UI.Visuals
             }
             _currentArmor = amount;
             SetText(_currentArmor);
+            GainArmorAnimation();
         }
         private void ReduceArmor(int amount)
         {
