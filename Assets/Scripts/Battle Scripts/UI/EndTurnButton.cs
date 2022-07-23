@@ -1,10 +1,10 @@
 ﻿using Battle.Turns;
 using UnityEngine;
 
-public class EndTurnButton : ButtonUI
+public class EndTurnButtonTransition : ButtonUI
 {
 
-    private static EndTurnButton _instance;
+    private static EndTurnButtonTransition _instance;
     [SerializeField]
     SoundEventSO OnRejectSound;
 
