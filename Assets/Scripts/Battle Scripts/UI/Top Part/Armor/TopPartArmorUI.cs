@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using Sirenix.OdinInspector;
 using System;
@@ -20,8 +19,8 @@ namespace CardMaga.UI.Visuals
         [SerializeField] TransitionPackSO _reduceArmorTransitionSO;
         [SerializeField] TransitionPackSO _breakArmorTransitionSO;
         [SerializeField] TextMeshProUGUI _armorAmountText;
-        [SerializeField] Image _armorImage;
-        [SerializeField] Image _breakArmorImage;
+        [SerializeField] RectTransform _scalerRectTransform;
+        [SerializeField] RectTransform _breakArmorRectTransform;
 
         RectTransitionManager _armorManager;
         RectTransitionManager _breakArmorManager;
@@ -33,19 +32,19 @@ namespace CardMaga.UI.Visuals
 
         private void Awake()
         {
-            if (_armorImage == null)
+            if (_scalerRectTransform == null)
                 throw new Exception("TopPartArmorUI has no ArmorImageIsNull");
-            if (_breakArmorImage)
+            if (_breakArmorRectTransform)
                 Debug.LogWarning("TopPartArmorUI has no BreakArmorImage");
             if (_armorAmountText == null)
                 throw new Exception("TopPartArmorUI has no armor text");
         }
         private void Start()
         {
-            _armorManager = new RectTransitionManager(_armorImage.rectTransform);
-            if (_breakArmorImage != null)
+            _armorManager = new RectTransitionManager(_scalerRectTransform);
+            if (_breakArmorRectTransform != null)
             {
-                _breakArmorManager = new RectTransitionManager(_breakArmorImage.rectTransform);
+                _breakArmorManager = new RectTransitionManager(_breakArmorRectTransform);
             }
         }
         public void SetArmor(int amount)
@@ -54,9 +53,13 @@ namespace CardMaga.UI.Visuals
             {
                 GainArmor(amount);
             }
-            else
+            else if(amount < _currentArmor)
             {
                 ReduceArmor(amount);
+            }
+            else
+            {
+                Debug.LogWarning("Armor did not change but you called Set Armor");
             }
         }
         public void ResetArmor()
@@ -93,8 +96,7 @@ namespace CardMaga.UI.Visuals
         }
         private void ReduceArmor(int amount)
         {
-            var armorDelta = _currentArmor - amount;
-            if (armorDelta <= 0)
+            if (amount <= 0)
             {
                 _currentArmor = 0;
                 //we have 0 or less armor
@@ -103,17 +105,18 @@ namespace CardMaga.UI.Visuals
             }
             else
             {
-                _currentArmor = armorDelta;
+                _currentArmor = amount;
             }
+            SetText(_currentArmor);
             ReduceArmorAnimation();
         }
         private void ReduceArmorAnimation()
         {
-            _armorManager.Transition(_armorImage.transform.position, _reduceArmorTransitionSO);
+            _armorManager.Transition(_reduceArmorTransitionSO);
         }
         private void GainArmorAnimation()
         {
-            _armorManager.Transition(_armorImage.transform.position, _gainArmorTransitionSO);
+            _armorManager.Transition(_gainArmorTransitionSO);
         }
         private void SetText(int amount)
         {
