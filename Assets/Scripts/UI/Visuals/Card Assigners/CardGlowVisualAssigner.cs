@@ -1,5 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using DG.Tweening;
 
 namespace CardMaga.UI.Visuals
 {
@@ -8,6 +9,7 @@ namespace CardMaga.UI.Visuals
     {
         [SerializeField] GlowCardSO _glowCardSO;
         [SerializeField] Image _glowImage;
+
         public override void Init()
         {
             if (_glowImage == null)
@@ -23,6 +25,16 @@ namespace CardMaga.UI.Visuals
         public void SetGlow(bool toActivate)
         {
             _glowImage.gameObject.SetActive(toActivate);
+        }
+
+        public void DiscardGlowAlpha()
+        {
+            _glowImage.DOFade(_glowCardSO.DiscardAplha, _glowCardSO.DiscardAplhaDuration);
+        }
+
+        public void ResetGlowAlpha()
+        {
+            _glowImage.color =  GetColorAlpha(_glowImage.color, _glowCardSO.DefaultAplha);
         }
     }
 }

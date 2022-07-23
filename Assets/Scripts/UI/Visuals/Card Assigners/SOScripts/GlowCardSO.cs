@@ -8,5 +8,8 @@ namespace CardMaga.UI.Visuals
     {
         public Color GlowColor;
         public Sprite GlowSprite;
+        public float DefaultAplha;
+        public float DiscardAplha;
+        public float DiscardAplhaDuration;
     }
 }
