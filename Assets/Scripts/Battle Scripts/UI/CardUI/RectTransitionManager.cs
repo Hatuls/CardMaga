@@ -2,39 +2,44 @@
 using DG.Tweening;
 using UnityEngine;
 
-public static class RectTransitionManager
+public class RectTransitionManager
 {
-    #region PublicFunction
-    
-    #region Transitions
-    
-    public static Sequence Transition(this RectTransform rectTransform ,TransitionPackSO transitionPackSo, Action onComplete = null)
+    private readonly RectTransform _rectTransform;
+
+    public RectTransitionManager(RectTransform rectTransform)
     {
-        Vector3 destination = (Vector3)rectTransform.GetWordPosition() + transitionPackSo.MoveOffSet;
-        return rectTransform.Transition(destination, transitionPackSo, onComplete);
-    }
-    
-    public static Sequence Transition(this RectTransform rectTransform , RectTransform destination, TransitionPackSO transitionPackSo, Action onComplete = null)
-    {
-        return rectTransform.Transition(destination.GetWordPosition(), transitionPackSo, onComplete);
+        _rectTransform = rectTransform;
     }
 
-    public static Sequence Transition(this RectTransform rectTransform ,Vector2 destination, TransitionPackSO transitionPackSo, Action onComplete = null)
+    #region Transitions
+    
+    public Sequence Transition(TransitionPackSO transitionPackSo, Action onComplete = null)
+    {
+        Vector3 destination = (Vector3)_rectTransform.GetWordPosition() + transitionPackSo.MoveOffSet;
+        return Transition(destination, transitionPackSo, onComplete);
+    }
+    
+    public Sequence Transition(RectTransform destination, TransitionPackSO transitionPackSo, Action onComplete = null)
+    {
+        return Transition(destination.GetWordPosition(), transitionPackSo, onComplete);
+    }
+
+    public Sequence Transition(Vector2 destination, TransitionPackSO transitionPackSo, Action onComplete = null)
     {
         Sequence sequence = DOTween.Sequence();
 
         if (transitionPackSo.HaveMovement)
-            sequence.Join(rectTransform.Move(destination, transitionPackSo.Movement));
+            sequence.Join(_rectTransform.Move(destination, transitionPackSo.Movement));
 
         if (transitionPackSo.HaveScale)
         {
             switch (transitionPackSo.ScaleType)
             {
                 case TransitionPackSO.ScaleTypeEnum.ByFloat:
-                    sequence.Join(rectTransform.Scale(transitionPackSo.ScaleMultiplier, transitionPackSo.Scale));
+                    sequence.Join(_rectTransform.Scale(transitionPackSo.ScaleMultiplier, transitionPackSo.Scale));
                     break;
                 case TransitionPackSO.ScaleTypeEnum.ByVector:
-                    sequence.Join(rectTransform.Scale(transitionPackSo.ScaleVector, transitionPackSo.Scale));
+                    sequence.Join(_rectTransform.Scale(transitionPackSo.ScaleVector, transitionPackSo.Scale));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -42,7 +47,7 @@ public static class RectTransitionManager
         }
 
         if (transitionPackSo.HaveRotation)
-            sequence.Join(rectTransform.Rotate(transitionPackSo.Rotate, transitionPackSo.Rotation));
+            sequence.Join(_rectTransform.Rotate(transitionPackSo.Rotate, transitionPackSo.Rotation));
 
         if (onComplete != null)
             sequence.OnComplete(onComplete.Invoke);
@@ -54,102 +59,109 @@ public static class RectTransitionManager
 
     #region SetPositionAndScale
 
-    public static Sequence SetPosition(this RectTransform rectTransform ,RectTransform destination, Action onComplete = null)
+    public Sequence SetPosition(RectTransform destination, Action onComplete = null)
     {
-        return rectTransform.Move(destination.GetWordPosition(), 0, null, null, null, onComplete);
+        return _rectTransform.Move(destination.GetWordPosition(), 0, null, null, null, onComplete);
     }
 
-    public static Sequence SetPosition(this RectTransform rectTransform ,Vector3 destination, Action onComplete = null)
+    public Sequence SetPosition(Vector3 destination, Action onComplete = null)
     {
-        return rectTransform.Move(destination, 0, null, null, null, onComplete);
+        return _rectTransform.Move(destination, 0, null, null, null, onComplete);
     }
-    
-    public static Tween SetScale(this RectTransform rectTransform ,TransitionPackSO transitionPackSo, Action onComplete = null)
+
+    public Tween SetScale(float scale, Action onComplete = null)
     {
-        return rectTransform.Scale(transitionPackSo, onComplete);
+        return _rectTransform.Scale(scale, 0, null, onComplete);
     }
-    
-    public static Tween SetScale(this RectTransform rectTransform ,float scale, Action onComplete = null)
+
+    public Tween SetScale(Vector3 scale, Action onComplete = null)
     {
-        return rectTransform.Scale(scale, 0, null, onComplete);
+        return _rectTransform.Scale(scale, null, onComplete);
     }
 
     #endregion
 
     #region Move
-    
-    public static Sequence Move(this RectTransform rectTransform, TransitionPackSO transitionPackSo, Action onComplete = null)
+
+    public Sequence Move(RectTransform destination, TransitionPackSO transition, Action onComplete = null)
     {
-        Vector3 destination = (Vector3)rectTransform.GetWordPosition() + transitionPackSo.MoveOffSet;
-        return rectTransform.Move(destination, transitionPackSo, onComplete);
-    }
-    
-    public static Sequence Move(this RectTransform rectTransform,RectTransform destination, TransitionPackSO transitionPackSo, Action onComplete = null)
-    {
-        return rectTransform.Move(destination.GetWordPosition(), transitionPackSo, onComplete);
+        return Move(destination.GetWordPosition(), transition, onComplete);
     }
 
-    public static Sequence Move(this RectTransform rectTransform,Vector2 destination, TransitionPackSO transitionPackSo, Action onComplete = null)
+    public Sequence Move(Vector2 destination, TransitionPackSO transition, Action onComplete = null)
     {
-        return rectTransform.Move(destination, transitionPackSo.Movement, onComplete);
+        return _rectTransform.Move(destination, transition.Movement, onComplete);
     }
 
     #endregion
 
     #region Scale
 
-    public static Tween Scale(this RectTransform rectTransform,TransitionPackSO transitionPackSo, Action onComplete = null)
+    public Tween Scale(TransitionPackSO transition, Action onComplete = null)
     {
-        switch (transitionPackSo.ScaleType)
+        switch (transition.ScaleType)
         {
             case TransitionPackSO.ScaleTypeEnum.ByFloat:
-                return rectTransform.Scale(transitionPackSo.ScaleMultiplier, transitionPackSo.Scale, onComplete);
+                return _rectTransform.Scale(transition.ScaleMultiplier, transition.Scale, onComplete);
             case TransitionPackSO.ScaleTypeEnum.ByVector:
-                return rectTransform.Scale(transitionPackSo.ScaleVector, transitionPackSo.Scale, onComplete);
+                return _rectTransform.Scale(transition.ScaleVector, transition.Scale, onComplete);
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    public static Tween Scale(this RectTransform rectTransform,float multiply, TransitionPackSO transitionPackSo, Action onComplete = null)
+    public Tween Scale(float multiply, TransitionPackSO transition, Action onComplete = null)
     {
-        return rectTransform.Scale(multiply, transitionPackSo.Scale, onComplete);
+        return _rectTransform.Scale(multiply, transition.Scale, onComplete);
     }
 
-    public static Tween Scale(this RectTransform rectTransform,Vector3 scaleVector, TransitionPackSO transitionPackSo, Action onComplete = null)
+    public Tween Scale(Vector3 scaleVector, TransitionPackSO transition, Action onComplete = null)
     {
-        return rectTransform.Scale(scaleVector, transitionPackSo.Scale, onComplete);
+        return _rectTransform.Scale(scaleVector, transition.Scale, onComplete);
     }
 
     #endregion
 
     #region Rotation
 
-    public static Tween Rotate(this RectTransform rectTransform,TransitionPackSO transitionPackSo, Action onComplete = null)
+    public Tween Rotate(TransitionPackSO transition, Action onComplete = null)
     {
-        return rectTransform.Rotate(transitionPackSo.Rotate, transitionPackSo, onComplete);
+        return Rotate(transition.Rotate, transition, onComplete);
     }
 
-    public static Tween Rotate(this RectTransform rectTransform,Vector3 destination, TransitionPackSO transitionPackSo, Action onComplete = null)
+    public Tween Rotate(Vector3 destination, TransitionPackSO transition, Action onComplete = null)
     {
-        return rectTransform.Rotate(destination, transitionPackSo.Rotation, onComplete);
+        return _rectTransform.Rotate(destination, transition.Rotation, onComplete);
     }
 
     #endregion
 
+    #region TweenManagnent
+
+    private void Kill(ref Tween tween)
+    {
+        if (tween != null) tween.Kill();
+    }
+
+    private void Kill(ref Sequence sequence)
+    {
+        if (sequence != null) sequence.Kill();
+    }
+
     #endregion
+}
 
-    #region PrivateFunction
+#region HelperClass
 
-    #region Move
-
-    private static Sequence Move(this RectTransform rect, RectTransform destination, Transition3D param,
+public static class MoveHelper
+{
+    public static Sequence Move(this RectTransform rect, RectTransform destination, Transition3D param,
         Action onComplete = null)
     {
         return rect.Move(destination.GetWordPosition(), param, onComplete);
     }
 
-    private static Sequence Move(this RectTransform rect, Vector3 destination, Transition3D param,
+    public static Sequence Move(this RectTransform rect, Vector3 destination, Transition3D param,
         Action onComplete = null)
     {
         return rect.Move(destination, param?.TimeToTransition ?? 0, param?.AnimationCurveX, param?.AnimationCurveY,
@@ -157,7 +169,7 @@ public static class RectTransitionManager
             onComplete);
     }
 
-    private static Sequence Move(this RectTransform rect, Vector3 destination, float timeToTransition,
+    public static Sequence Move(this RectTransform rect, Vector3 destination, float timeToTransition,
         AnimationCurve animationCurveX = null,
         AnimationCurve animationCurveY = null, AnimationCurve animationCurveZ = null, Action onComplete = null)
     {
@@ -169,115 +181,36 @@ public static class RectTransitionManager
             return null;
         }
 
-        var sequence = DOTween.Sequence();
+        var _sequence = DOTween.Sequence();
 
-        Tween tweenX;
-        Tween tweenY;
-        Tween tweenZ = null;
+        Tween TweenX;
+        Tween TweenY;
+        Tween TweenZ = null;
 
-        sequence.Join(tweenX = rect.DOMoveX(destination.x, timeToTransition));
-        sequence.Join(tweenY = rect.DOMoveY(destination.y, timeToTransition));
+        _sequence.Join(TweenX = rect.DOMoveX(destination.x, timeToTransition));
+        _sequence.Join(TweenY = rect.DOMoveY(destination.y, timeToTransition));
 
-        if (destination.z != 0) sequence.Join(tweenZ = rect.DOMoveZ(destination.z, timeToTransition));
+        if (destination.z != 0) _sequence.Join(TweenZ = rect.DOMoveZ(destination.z, timeToTransition));
 
 
-        if (animationCurveX != null) tweenX.SetEase(animationCurveX);
+        if (animationCurveX != null) TweenX.SetEase(animationCurveX);
 
-        if (animationCurveY != null) tweenY.SetEase(animationCurveY);
+        if (animationCurveY != null) TweenY.SetEase(animationCurveY);
 
-        if (tweenZ != null)
+        if (TweenZ != null)
             if (animationCurveZ != null)
-                tweenZ.SetEase(animationCurveZ);
+                TweenZ.SetEase(animationCurveZ);
 
 
-        if (onComplete != null) sequence.OnComplete(() => onComplete?.Invoke());
+        if (onComplete != null) _sequence.OnComplete(() => onComplete?.Invoke());
 
-        return sequence;
+        return _sequence;
     }
+}
 
-    #endregion
-
-    #region Scale
-
-    private static Tween Scale(this RectTransform rect, float scaleMultiplier, Transition3D param = null,
-        Action onComplete = null)
-    {
-        return rect.Scale(scaleMultiplier, param?.TimeToTransition ?? 0, param?.AnimationCurveX,
-            onComplete);
-    }
-
-    private static Sequence Scale(this RectTransform rect, Vector3 scaleVector, Transition3D param,
-        Action onComplete = null)
-    {
-        return rect.Scale(scaleVector, param?.TimeToTransition ?? 0, param?.AnimationCurveX, param?.AnimationCurveY,
-            param?.AnimationCurveZ,
-            onComplete);
-    }
-
-    private static Sequence Scale(this RectTransform rect, Vector3 scaleVector, float timeToTransition,
-        AnimationCurve animationCurveX = null, AnimationCurve animationCurveY = null,
-        AnimationCurve animationCurveZ = null, Action onComplete = null)
-    {
-        if (timeToTransition == 0)
-        {
-            rect.localScale = scaleVector;
-
-            onComplete?.Invoke();
-            return null;
-        }
-
-        var sequence = DOTween.Sequence();
-
-        Tween tweenX;
-        Tween tweenY;
-        Tween tweenZ = null;
-
-
-        sequence.Join(tweenX = rect.DOScaleX(scaleVector.x, timeToTransition));
-        sequence.Join(tweenY = rect.DOScaleY(scaleVector.y, timeToTransition));
-
-        if (scaleVector.z != 0) sequence.Join(tweenZ = rect.DOScaleZ(scaleVector.z, timeToTransition));
-
-        if (animationCurveX != null) tweenX.SetEase(animationCurveX);
-
-        if (animationCurveY != null) tweenY.SetEase(animationCurveY);
-
-        if (tweenZ != null)
-            if (animationCurveZ != null)
-                tweenZ.SetEase(animationCurveZ);
-
-
-        if (onComplete != null) tweenX.OnComplete(() => onComplete?.Invoke());
-
-        return sequence;
-    }
-
-    private static Tween Scale(this RectTransform rect, float scaleMultiplier, float timeToTransition,
-        AnimationCurve animationCurveX = null, Action onComplete = null)
-    {
-        if (timeToTransition == 0)
-        {
-            rect.localScale *= scaleMultiplier;
-
-            onComplete?.Invoke();
-            return null;
-        }
-
-        Tween tweenX = rect.DOScale(Vector3.one * scaleMultiplier, timeToTransition);
-
-        if (animationCurveX != null) tweenX.SetEase(animationCurveX);
-
-
-        if (onComplete != null) tweenX.OnComplete(() => onComplete?.Invoke());
-
-        return tweenX;
-    }
-
-    #endregion
-
-    #region Rotate
-
-    private static Tween Rotate(this RectTransform rect, Vector3 destination, Transition3D param,
+public static class RotationHelper
+{
+    public static Tween Rotate(this RectTransform rect, Vector3 destination, Transition3D param,
         Action onComplete = null)
     {
         return rect.Rotate(destination, param?.TimeToTransition ?? 0, param?.AnimationCurveX, param?.AnimationCurveY,
@@ -285,7 +218,7 @@ public static class RectTransitionManager
         ;
     }
 
-    private static Tween Rotate(this RectTransform rect, Vector3 destination, float timeToTransition,
+    public static Tween Rotate(this RectTransform rect, Vector3 destination, float timeToTransition,
         AnimationCurve animationCurveX = null, AnimationCurve animationCurveY = null,
         AnimationCurve animationCurveZ = null, Action onComplete = null)
     {
@@ -298,35 +231,96 @@ public static class RectTransitionManager
         }
 
 
-        Tween tween = rect.DORotate(destination, timeToTransition);
+        Tween Tween;
 
-        if (animationCurveZ != null) tween.SetEase(animationCurveZ);
+        Tween = rect.DORotate(destination, timeToTransition);
 
-        if (onComplete != null) tween.OnComplete(() => onComplete?.Invoke());
+        if (animationCurveZ != null) Tween.SetEase(animationCurveZ);
 
-        return tween;
+        if (onComplete != null) Tween.OnComplete(() => onComplete?.Invoke());
+
+        return Tween;
     }
-
-    #endregion
-
-    #endregion   
-
-    #region TweenManagnent
-
-    private static void Kill(ref Tween tween)
-    {
-        if (tween != null) tween.Kill();
-    }
-
-    private static void Kill(ref Sequence sequence)
-    {
-        if (sequence != null) sequence.Kill();
-    }
-
-    #endregion
 }
 
-#region HelperClass
+public static class ScaleHelper
+{
+    public static Tween Scale(this RectTransform rect, float scaleMultiplier, Transition3D param,
+        Action onComplete = null)
+    {
+        return rect.Scale(scaleMultiplier, param?.TimeToTransition ?? 0, param?.AnimationCurveX,
+            onComplete);
+    }
+
+    public static Sequence Scale(this RectTransform rect, Vector3 scaleVector, Transition3D param,
+        Action onComplete = null)
+    {
+        return rect.Scale(scaleVector, param?.TimeToTransition ?? 0, param?.AnimationCurveX, param?.AnimationCurveY,
+            param?.AnimationCurveZ,
+            onComplete);
+    }
+
+    public static Sequence Scale(this RectTransform rect, Vector3 scaleVector, float timeToTransition,
+        AnimationCurve animationCurveX = null, AnimationCurve animationCurveY = null,
+        AnimationCurve animationCurveZ = null, Action onComplete = null)
+    {
+        if (timeToTransition == 0)
+        {
+            rect.localScale = scaleVector;
+
+            onComplete?.Invoke();
+            return null;
+        }
+
+        var _sequence = DOTween.Sequence();
+
+        Tween TweenX;
+        Tween TweenY;
+        Tween TweenZ = null;
+
+
+        _sequence.Join(TweenX = rect.DOScaleX(scaleVector.x, timeToTransition));
+        _sequence.Join(TweenY = rect.DOScaleY(scaleVector.y, timeToTransition));
+
+        if (scaleVector.z != 0) _sequence.Join(TweenZ = rect.DOScaleZ(scaleVector.z, timeToTransition));
+
+        if (animationCurveX != null) TweenX.SetEase(animationCurveX);
+
+        if (animationCurveY != null) TweenY.SetEase(animationCurveY);
+
+        if (TweenZ != null)
+            if (animationCurveZ != null)
+                TweenZ.SetEase(animationCurveZ);
+
+
+        if (onComplete != null) TweenX.OnComplete(() => onComplete?.Invoke());
+
+        return _sequence;
+    }
+
+    public static Tween Scale(this RectTransform rect, float scaleMultiplier, float timeToTransition,
+        AnimationCurve animationCurveX = null, Action onComplete = null)
+    {
+        if (timeToTransition == 0)
+        {
+            rect.localScale *= scaleMultiplier;
+
+            onComplete?.Invoke();
+            return null;
+        }
+
+        Tween TweenX;
+
+        TweenX = rect.DOScale(Vector3.one * scaleMultiplier, timeToTransition);
+
+        if (animationCurveX != null) TweenX.SetEase(animationCurveX);
+
+
+        if (onComplete != null) TweenX.OnComplete(() => onComplete?.Invoke());
+
+        return TweenX;
+    }
+}
 
 public static class RectTransformHelper
 {

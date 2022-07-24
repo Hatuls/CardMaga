@@ -1,32 +1,32 @@
-﻿using Account.GeneralData;
+﻿
+using Account.GeneralData;
 using Battle.Data;
 using Battle.MatchMaking;
 using ReiTools.TokenMachine;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class MatchMakingManager : MonoBehaviour
 {
-    [SerializeField] private OperationManager _lookForMatchOperation;
 
-    [SerializeField] [EventsGroup] private UnityEvent OnMatchFound;
 
+    [SerializeField] OperationManager _lookForMatchOperation;
     private TokenMachine _tokenMachine;
-
+    [SerializeField, EventsGroup]
+    private UnityEvent OnMatchFound;
     private void Awake()
     {
         LookForOpponent.OnOpponentFound += RegisterOpponent;
     }
-
     private void OnDestroy()
     {
         LookForOpponent.OnOpponentFound -= RegisterOpponent;
     }
-
-    private void RegisterOpponent(string name, CharactersData obj)
+    private void RegisterOpponent(string name ,CharactersData obj)
     {
-        var isPlayer = false;
-        BattleData.Instance.AssginCharacter(isPlayer, name, obj.GetMainCharacter);
+        bool isPlayer = false;
+          BattleData.Instance.AssginCharacter(isPlayer, name, obj.GetMainCharacter);
     }
 
     public void StartLooking()
@@ -36,8 +36,5 @@ public class MatchMakingManager : MonoBehaviour
         _lookForMatchOperation.StartOperation();
     }
 
-    private void MatchFound()
-    {
-        OnMatchFound?.Invoke();
-    }
+    private void MatchFound() => OnMatchFound?.Invoke();
 }

@@ -60,7 +60,7 @@ namespace CardMaga.UI.Card
             if (_selectCardUI != null)
             {
                 KillTween();
-                _currentSequence = cardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
+                _currentSequence = cardUI.CardTransitionManager.Transition(_zoomPosition, _zoomCard, InitZoom);
             }
         }
 

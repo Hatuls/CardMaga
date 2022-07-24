@@ -1,24 +1,16 @@
-using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 namespace PlayFab.PfEditor
 {
     //[InitializeOnLoad]
-    public class SubMenuComponent : Editor
+    public class SubMenuComponent : UnityEditor.Editor
     {
-        private GUIStyle bgStyle;
-        private GUIStyle defaultStyle;
 
-        private readonly Dictionary<string, MenuItemContainer> items = new Dictionary<string, MenuItemContainer>();
-        private GUIStyle selectedStyle;
-
-        public SubMenuComponent()
-        {
-            if (!PlayFabEditor.IsEventHandlerRegistered(StateUpdateHandler))
-                PlayFabEditor.EdExStateUpdate += StateUpdateHandler;
-        }
+        Dictionary<string, MenuItemContainer> items = new Dictionary<string, MenuItemContainer>();
+        GUIStyle selectedStyle;
+        GUIStyle defaultStyle;
+        GUIStyle bgStyle;
 
         public void DrawMenu()
         {
@@ -35,21 +27,23 @@ namespace PlayFab.PfEditor
                     var size = styleToUse.CalcSize(content);
 
                     if (GUILayout.Button(item.Value.displayName, styleToUse, GUILayout.Width(size.x + 1)))
+                    {
                         OnMenuItemClicked(item.Key);
+                    }
                 }
             }
         }
 
-        public void RegisterMenuItem(string n, Action m)
+        public void RegisterMenuItem(string n, System.Action m)
         {
             if (!items.ContainsKey(n))
             {
                 var selectState = false;
                 var activeSubmenu = PlayFabEditorPrefsSO.Instance.curSubMenuIdx;
-                if ((items.Count == 0 && activeSubmenu == 0) || activeSubmenu == items.Count)
+                if (items.Count == 0 && activeSubmenu == 0 || activeSubmenu == items.Count)
                     selectState = true;
 
-                items.Add(n, new MenuItemContainer {displayName = n, method = m, isSelected = selectState});
+                items.Add(n, new MenuItemContainer() { displayName = n, method = m, isSelected = selectState });
             }
         }
 
@@ -60,15 +54,29 @@ namespace PlayFab.PfEditor
 
             DeselectAll();
             items[key].isSelected = true;
-            if (items[key].method != null) items[key].method.Invoke();
+            if (items[key].method != null)
+            {
+                items[key].method.Invoke();
+            }
         }
 
         private void DeselectAll()
         {
-            foreach (var item in items) item.Value.isSelected = false;
+            foreach (var item in items)
+            {
+                item.Value.isSelected = false;
+            }
         }
 
-        private void StateUpdateHandler(PlayFabEditor.EdExStates state, string status, string json)
+        public SubMenuComponent()
+        {
+            if (!PlayFabEditor.IsEventHandlerRegistered(StateUpdateHandler))
+            {
+                PlayFabEditor.EdExStateUpdate += StateUpdateHandler;
+            }
+        }
+
+        void StateUpdateHandler(PlayFabEditor.EdExStates state, string status, string json)
         {
             switch (state)
             {
@@ -80,7 +88,6 @@ namespace PlayFab.PfEditor
                             each.Value.isSelected = true; // Select the first
                             break;
                         }
-
                     break;
             }
         }
@@ -89,7 +96,7 @@ namespace PlayFab.PfEditor
     public class MenuItemContainer
     {
         public string displayName;
+        public System.Action method;
         public bool isSelected;
-        public Action method;
     }
 }

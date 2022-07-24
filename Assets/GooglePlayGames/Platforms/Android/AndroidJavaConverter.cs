@@ -14,20 +14,22 @@
 //  limitations under the License.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using GooglePlayGames.BasicApi;
-using UnityEngine;
-using UnityEngine.SocialPlatforms;
-
 #if UNITY_ANDROID
 namespace GooglePlayGames.Android
 {
+    using GooglePlayGames.BasicApi;
+    using GooglePlayGames.BasicApi.SavedGame;
+    using OurUtils;
+    using UnityEngine;
+    using UnityEngine.SocialPlatforms;
+    using System;
+    using System.Collections.Generic;
+
     internal class AndroidJavaConverter
     {
-        internal static DateTime ToDateTime(long milliseconds)
+        internal static System.DateTime ToDateTime(long milliseconds)
         {
-            var result = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            System.DateTime result = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             return result.AddMilliseconds(milliseconds);
         }
 
@@ -52,7 +54,7 @@ namespace GooglePlayGames.Android
             switch (collection)
             {
                 case LeaderboardCollection.Social:
-                    return 3 /* COLLECTION_FRIENDS */;
+                  return 3 /* COLLECTION_FRIENDS */;
                 case LeaderboardCollection.Public:
                 default:
                     return 0 /* COLLECTION_PUBLIC */;
@@ -75,35 +77,45 @@ namespace GooglePlayGames.Android
 
         internal static Player ToPlayer(AndroidJavaObject player)
         {
-            if (player == null) return null;
+            if (player == null)
+            {
+                return null;
+            }
 
-            var displayName = player.Call<string>("getDisplayName");
-            var playerId = player.Call<string>("getPlayerId");
-            var avatarUrl = player.Call<string>("getIconImageUrl");
+            string displayName = player.Call<String>("getDisplayName");
+            string playerId = player.Call<String>("getPlayerId");
+            string avatarUrl = player.Call<String>("getIconImageUrl");
             return new Player(displayName, playerId, avatarUrl);
         }
 
-        internal static PlayerProfile ToPlayerProfile(AndroidJavaObject player)
-        {
-            if (player == null) return null;
+        internal static PlayerProfile ToPlayerProfile(AndroidJavaObject player) {
+          if (player == null) {
+            return null;
+          }
 
-            var displayName = player.Call<string>("getDisplayName");
-            var playerId = player.Call<string>("getPlayerId");
-            var avatarUrl = player.Call<string>("getIconImageUrl");
-            var isFriend =
-                player.Call<AndroidJavaObject>("getRelationshipInfo").Call<int>("getFriendStatus") ==
-                4 /* PlayerFriendStatus.Friend*/;
-            return new PlayerProfile(displayName, playerId, avatarUrl, isFriend);
+          string displayName = player.Call<String>("getDisplayName");
+          string playerId = player.Call<String>("getPlayerId");
+          string avatarUrl = player.Call<String>("getIconImageUrl");
+          bool isFriend =
+              player.Call<AndroidJavaObject>("getRelationshipInfo").Call<int>("getFriendStatus") ==
+              4 /* PlayerFriendStatus.Friend*/;
+          return new PlayerProfile(displayName, playerId, avatarUrl, isFriend);
         }
 
         internal static List<string> ToStringList(AndroidJavaObject stringList)
         {
-            if (stringList == null) return new List<string>();
+            if (stringList == null)
+            {
+                return new List<string>();
+            }
 
-            var size = stringList.Call<int>("size");
-            var converted = new List<string>(size);
+            int size = stringList.Call<int>("size");
+            List<string> converted = new List<string>(size);
 
-            for (var i = 0; i < size; i++) converted.Add(stringList.Call<string>("get", i));
+            for (int i = 0; i < size; i++)
+            {
+                converted.Add(stringList.Call<string>("get", i));
+            }
 
             return converted;
         }
@@ -111,14 +123,16 @@ namespace GooglePlayGames.Android
         // from C#: List<string> to Java: ArrayList<String>
         internal static AndroidJavaObject ToJavaStringList(List<string> list)
         {
-            var converted = new AndroidJavaObject("java.util.ArrayList");
-            for (var i = 0; i < list.Count; i++) converted.Call<bool>("add", list[i]);
+            AndroidJavaObject converted = new AndroidJavaObject("java.util.ArrayList");
+            for (int i = 0; i < list.Count; i++)
+            {
+                converted.Call<bool>("add", list[i]);
+            }
 
             return converted;
         }
 
-        internal static FriendsListVisibilityStatus ToFriendsListVisibilityStatus(int playerListVisibility)
-        {
+        internal static FriendsListVisibilityStatus ToFriendsListVisibilityStatus(int playerListVisibility) {
             switch (playerListVisibility)
             {
                 case /* FriendsListVisibilityStatus.UNKNOWN */ 0:
@@ -134,18 +148,17 @@ namespace GooglePlayGames.Android
             }
         }
 
-        internal static IUserProfile[] playersBufferToArray(AndroidJavaObject playersBuffer)
-        {
-            var count = playersBuffer.Call<int>("getCount");
-            var users = new IUserProfile[count];
-            for (var i = 0; i < count; ++i)
-                using (var player = playersBuffer.Call<AndroidJavaObject>("get", i))
-                {
-                    users[i] = ToPlayerProfile(player);
-                }
+        internal static IUserProfile[] playersBufferToArray(AndroidJavaObject playersBuffer) {
+          int count = playersBuffer.Call<int>("getCount");
+          IUserProfile[] users = new IUserProfile[count];
+          for (int i = 0; i < count; ++i) {
+            using (var player = playersBuffer.Call<AndroidJavaObject>("get", i)) {
+              users[i] = AndroidJavaConverter.ToPlayerProfile(player);
+            }
+          }
 
-            playersBuffer.Call("release");
-            return users;
+          playersBuffer.Call("release");
+          return users;
         }
     }
 }

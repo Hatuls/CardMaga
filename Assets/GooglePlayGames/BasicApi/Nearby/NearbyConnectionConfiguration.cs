@@ -14,31 +14,41 @@
 //    limitations under the License.
 // </copyright>
 
-using System;
-using GooglePlayGames.OurUtils;
-
-namespace GooglePlayGames.BasicApi.Nearby;
-
-public enum InitializationStatus
+namespace GooglePlayGames.BasicApi.Nearby
 {
-    Success,
-    VersionUpdateRequired,
-    InternalError
-}
+    using System;
+    using GooglePlayGames.OurUtils;
 
-public struct NearbyConnectionConfiguration
-{
-    public const int MaxUnreliableMessagePayloadLength = 1168;
-    public const int MaxReliableMessagePayloadLength = 4096;
-
-    public NearbyConnectionConfiguration(Action<InitializationStatus> callback,
-        long localClientId)
+    public enum InitializationStatus
     {
-        InitializationCallback = Misc.CheckNotNull(callback);
-        LocalClientId = localClientId;
+        Success,
+        VersionUpdateRequired,
+        InternalError
     }
 
-    public long LocalClientId { get; }
+    public struct NearbyConnectionConfiguration
+    {
+        public const int MaxUnreliableMessagePayloadLength = 1168;
+        public const int MaxReliableMessagePayloadLength = 4096;
 
-    public Action<InitializationStatus> InitializationCallback { get; }
+        private readonly Action<InitializationStatus> mInitializationCallback;
+        private readonly long mLocalClientId;
+
+        public NearbyConnectionConfiguration(Action<InitializationStatus> callback,
+            long localClientId)
+        {
+            this.mInitializationCallback = Misc.CheckNotNull(callback);
+            this.mLocalClientId = localClientId;
+        }
+
+        public long LocalClientId
+        {
+            get { return mLocalClientId; }
+        }
+
+        public Action<InitializationStatus> InitializationCallback
+        {
+            get { return mInitializationCallback; }
+        }
+    }
 }

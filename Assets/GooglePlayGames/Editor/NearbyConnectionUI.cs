@@ -14,17 +14,34 @@
 //    limitations under the License.
 // </copyright>
 
-using Google;
-using UnityEditor;
-using UnityEngine;
-
 #if UNITY_ANDROID
 
 namespace GooglePlayGames.Editor
 {
+    using UnityEngine;
+    using UnityEditor;
+
     public class NearbyConnectionUI : EditorWindow
     {
         private string mNearbyServiceId = string.Empty;
+
+        [MenuItem("Window/Google Play Games/Setup/Nearby Connections setup...", false, 3)]
+        public static void MenuItemNearbySetup()
+        {
+            EditorWindow window = EditorWindow.GetWindow(
+                typeof(NearbyConnectionUI), true, GPGSStrings.NearbyConnections.Title);
+            window.minSize = new Vector2(400, 200);
+        }
+
+        [MenuItem("Window/Google Play Games/Setup/Nearby Connections setup...", true)]
+        public static bool EnableNearbyMenuItem()
+        {
+#if UNITY_ANDROID
+            return true;
+#else
+            return false;
+#endif
+        }
 
         public void OnEnable()
         {
@@ -49,33 +66,20 @@ namespace GooglePlayGames.Editor
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(GPGSStrings.Setup.SetupButton,
-                    GUILayout.Width(100)))
+                GUILayout.Width(100)))
+            {
                 DoSetup();
+            }
 
-            if (GUILayout.Button("Cancel", GUILayout.Width(100))) Close();
+            if (GUILayout.Button("Cancel", GUILayout.Width(100)))
+            {
+                this.Close();
+            }
 
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             GUILayout.Space(20);
             GUILayout.EndVertical();
-        }
-
-        [MenuItem("Window/Google Play Games/Setup/Nearby Connections setup...", false, 3)]
-        public static void MenuItemNearbySetup()
-        {
-            var window = GetWindow(
-                typeof(NearbyConnectionUI), true, GPGSStrings.NearbyConnections.Title);
-            window.minSize = new Vector2(400, 200);
-        }
-
-        [MenuItem("Window/Google Play Games/Setup/Nearby Connections setup...", true)]
-        public static bool EnableNearbyMenuItem()
-        {
-#if UNITY_ANDROID
-            return true;
-#else
-            return false;
-#endif
         }
 
         private void DoSetup()
@@ -84,7 +88,7 @@ namespace GooglePlayGames.Editor
             {
                 EditorUtility.DisplayDialog(GPGSStrings.Success,
                     GPGSStrings.NearbyConnections.SetupComplete, GPGSStrings.Ok);
-                Close();
+                this.Close();
             }
         }
 
@@ -97,11 +101,11 @@ namespace GooglePlayGames.Editor
             if (!GPGSUtil.LooksLikeValidServiceId(nearbyServiceId))
             {
                 if (EditorUtility.DisplayDialog(
-                        "Remove Nearby connection permissions?  ",
-                        "The service Id is invalid.  It must follow package naming rules.  " +
-                        "Do you want to remove the AndroidManifest entries for Nearby connections?",
-                        "Yes",
-                        "No"))
+                    "Remove Nearby connection permissions?  ",
+                    "The service Id is invalid.  It must follow package naming rules.  " +
+                    "Do you want to remove the AndroidManifest entries for Nearby connections?",
+                    "Yes",
+                    "No"))
                 {
                     GPGSProjectSettings.Instance.Set(GPGSUtil.SERVICEIDKEY, null);
                     GPGSProjectSettings.Instance.Save();
@@ -130,13 +134,13 @@ namespace GooglePlayGames.Editor
                 GPGSProjectSettings.Instance.Save();
 
                 // Resolve the dependencies
-                VersionHandler.VerboseLoggingEnabled = true;
-                VersionHandler.UpdateVersionedAssets(true);
-                VersionHandler.Enabled = true;
+                Google.VersionHandler.VerboseLoggingEnabled = true;
+                Google.VersionHandler.UpdateVersionedAssets(forceUpdate: true);
+                Google.VersionHandler.Enabled = true;
                 AssetDatabase.Refresh();
 
-                VersionHandler.InvokeStaticMethod(
-                    VersionHandler.FindClass(
+                Google.VersionHandler.InvokeStaticMethod(
+                    Google.VersionHandler.FindClass(
                         "Google.JarResolver",
                         "GooglePlayServices.PlayServicesResolver"),
                     "MenuResolve", null);

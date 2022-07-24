@@ -14,65 +14,94 @@
 //    limitations under the License.
 // </copyright>
 
-using System;
-using UnityEngine;
-
-namespace GooglePlayGames.OurUtils;
-
-public static class Misc
+namespace GooglePlayGames.OurUtils
 {
-    public static bool BuffersAreIdentical(byte[] a, byte[] b)
+    using System;
+    using UnityEngine;
+
+    public static class Misc
     {
-        if (a == b)
-            // not only identical but the very same!
-            return true;
+        public static bool BuffersAreIdentical(byte[] a, byte[] b)
+        {
+            if (a == b)
+            {
+                // not only identical but the very same!
+                return true;
+            }
 
-        if (a == null || b == null)
-            // one of them is null, the other one isn't
-            return false;
-
-        if (a.Length != b.Length) return false;
-
-        for (var i = 0; i < a.Length; i++)
-            if (a[i] != b[i])
+            if (a == null || b == null)
+            {
+                // one of them is null, the other one isn't
                 return false;
+            }
 
-        return true;
-    }
+            if (a.Length != b.Length)
+            {
+                return false;
+            }
 
-    public static byte[] GetSubsetBytes(byte[] array, int offset, int length)
-    {
-        if (array == null) throw new ArgumentNullException("array");
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (a[i] != b[i])
+                {
+                    return false;
+                }
+            }
 
-        if (offset < 0 || offset >= array.Length) throw new ArgumentOutOfRangeException("offset");
+            return true;
+        }
 
-        if (length < 0 || array.Length - offset < length) throw new ArgumentOutOfRangeException("length");
+        public static byte[] GetSubsetBytes(byte[] array, int offset, int length)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
 
-        if (offset == 0 && length == array.Length) return array;
+            if (offset < 0 || offset >= array.Length)
+            {
+                throw new ArgumentOutOfRangeException("offset");
+            }
 
-        var piece = new byte[length];
-        Array.Copy(array, offset, piece, 0, length);
-        return piece;
-    }
+            if (length < 0 || (array.Length - offset) < length)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
 
-    public static T CheckNotNull<T>(T value)
-    {
-        if (value == null) throw new ArgumentNullException();
+            if (offset == 0 && length == array.Length)
+            {
+                return array;
+            }
 
-        return value;
-    }
+            byte[] piece = new byte[length];
+            Array.Copy(array, offset, piece, 0, length);
+            return piece;
+        }
 
-    public static T CheckNotNull<T>(T value, string paramName)
-    {
-        if (value == null) throw new ArgumentNullException(paramName);
+        public static T CheckNotNull<T>(T value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException();
+            }
 
-        return value;
-    }
+            return value;
+        }
 
-    public static bool IsApiException(AndroidJavaObject exception)
-    {
-        var exceptionClassName = exception.Call<AndroidJavaObject>("getClass")
-            .Call<string>("getName");
-        return exceptionClassName == "com.google.android.gms.common.api.ApiException";
+        public static T CheckNotNull<T>(T value, string paramName)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(paramName);
+            }
+
+            return value;
+        }
+
+        public static bool IsApiException(AndroidJavaObject exception) {
+            var exceptionClassName = exception.Call<AndroidJavaObject>("getClass")
+                .Call<String>("getName");
+            return exceptionClassName == "com.google.android.gms.common.api.ApiException";
+        }
     }
 }

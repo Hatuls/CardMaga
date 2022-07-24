@@ -193,7 +193,7 @@ namespace CardMaga.UI
         private void ResetCard(CardUI cardUI)
         {
             KillTween();
-            Sequence temp = cardUI.RectTransform
+            Sequence temp = cardUI.CardTransitionManager
                 .Transition(_tableCardSlot.GetCardSlotFrom(cardUI).CardPos, _resetCardPositionPackSO)
                 .OnComplete(() => AddInputEvents(cardUI.Inputs));
         }
@@ -202,15 +202,15 @@ namespace CardMaga.UI
         {
             for (var i = 0; i < cards.Length; i++)
             {
-                cards[i].RectTransform.SetPosition(_drawPos);
-                cards[i].RectTransform.SetScale(0.1f);
+                cards[i].CardTransitionManager.SetPosition(_drawPos);
+                cards[i].CardTransitionManager.SetScale(0.1f);
             }
         }
 
         private void ReAlignCardUI(IReadOnlyList<CardSlot> cardSlots)
         {
             for (var i = 0; i < cardSlots.Count; i++)
-                cardSlots[i].CardUI.RectTransform.Transition(cardSlots[i].CardPos, _reAlignTransitionPackSo);
+                cardSlots[i].CardUI.CardTransitionManager.Transition(cardSlots[i].CardPos, _reAlignTransitionPackSo);
         }
 
         private IEnumerator MoveCardsToHandPos(IReadOnlyList<CardSlot> cardSlots, Action onComplete = null)
@@ -219,7 +219,7 @@ namespace CardMaga.UI
             {
                 cardSlots[i].CardUI.Init();
                 cardSlots[i].CardUI.transform.SetAsLastSibling();
-                cardSlots[i].CardUI.RectTransform.Transition(cardSlots[i].CardPos, _drawTransitionPackSo);
+                cardSlots[i].CardUI.CardTransitionManager.Transition(cardSlots[i].CardPos, _drawTransitionPackSo);
                 yield return _waitForCardDrawnDelay;
             }
 
@@ -253,14 +253,14 @@ namespace CardMaga.UI
         {
             for (var i = 0; i < cardUI.Length; i++)
             {
-                cardUI[i].RectTransform.Transition(_discardPos, _discardTransitionPackSo,cardUI[i].Dispose);
+                cardUI[i].CardTransitionManager.Transition(_discardPos, _discardTransitionPackSo,cardUI[i].Dispose);
                 yield return _waitForCardDiscardDelay;
             }
         }
 
         private void MoveCardToDiscardAfterExecute(CardUI cardUI)
         {
-            cardUI.RectTransform.Transition(_discardPos, _discardTransitionPackSo, cardUI.Dispose);
+            cardUI.CardTransitionManager.Transition(_discardPos, _discardTransitionPackSo, cardUI.Dispose);
         }
 
         /// <summary>

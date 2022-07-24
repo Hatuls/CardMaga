@@ -14,47 +14,48 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames.BasicApi.Events;
-
-public enum EventVisibility
+namespace GooglePlayGames.BasicApi.Events
 {
-    Hidden = 1,
-    Revealed = 2
-}
-
-/// <summary>
-///     Data object representing an Event. <see cref="Native.PInvoke.EventManager" /> for more.
-/// </summary>
-public interface IEvent
-{
-    /// <summary>
-    ///     The ID of the event.
-    /// </summary>
-    string Id { get; }
+    public enum EventVisibility
+    {
+        Hidden = 1,
+        Revealed = 2,
+    }
 
     /// <summary>
-    ///     The name of the event.
+    /// Data object representing an Event. <see cref="Native.PInvoke.EventManager"/> for more.
     /// </summary>
-    string Name { get; }
+    public interface IEvent
+    {
+        /// <summary>
+        /// The ID of the event.
+        /// </summary>
+        string Id { get; }
 
-    /// <summary>
-    ///     The description of the event.
-    /// </summary>
-    string Description { get; }
+        /// <summary>
+        /// The name of the event.
+        /// </summary>
+        string Name { get; }
 
-    /// <summary>
-    ///     The URL of the image for the event. Empty if there is no image for this event.
-    /// </summary>
-    /// <value>The image URL.</value>
-    string ImageUrl { get; }
+        /// <summary>
+        /// The description of the event.
+        /// </summary>
+        string Description { get; }
 
-    /// <summary>
-    ///     The current count for this event.
-    /// </summary>
-    ulong CurrentCount { get; }
+        /// <summary>
+        /// The URL of the image for the event. Empty if there is no image for this event.
+        /// </summary>
+        /// <value>The image URL.</value>
+        string ImageUrl { get; }
 
-    /// <summary>
-    ///     The visibility of the event.
-    /// </summary>
-    EventVisibility Visibility { get; }
+        /// <summary>
+        /// The current count for this event.
+        /// </summary>
+        ulong CurrentCount { get; }
+
+        /// <summary>
+        /// The visibility of the event.
+        /// </summary>
+        EventVisibility Visibility { get; }
+    }
 }

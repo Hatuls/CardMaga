@@ -14,14 +14,12 @@
 //    limitations under the License.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using GooglePlayGames.OurUtils;
-
 #if UNITY_ANDROID
 
 namespace GooglePlayGames.BasicApi.Nearby
 {
+    using UnityEngine;
+
     public class DummyNearbyConnectionClient : INearbyConnectionClient
     {
         public int MaxUnreliableMessagePayloadLength()
@@ -34,79 +32,69 @@ namespace GooglePlayGames.BasicApi.Nearby
             return NearbyConnectionConfiguration.MaxReliableMessagePayloadLength;
         }
 
-        public void SendReliable(List<string> recipientEndpointIds, byte[] payload)
+        public void SendReliable(System.Collections.Generic.List<string> recipientEndpointIds, byte[] payload)
         {
-            Logger.d("SendReliable called from dummy implementation");
+            OurUtils.Logger.d("SendReliable called from dummy implementation");
         }
 
-        public void SendUnreliable(List<string> recipientEndpointIds, byte[] payload)
+        public void SendUnreliable(System.Collections.Generic.List<string> recipientEndpointIds, byte[] payload)
         {
-            Logger.d("SendUnreliable called from dummy implementation");
+            OurUtils.Logger.d("SendUnreliable called from dummy implementation");
         }
 
-        public void StartAdvertising(string name, List<string> appIdentifiers,
-            TimeSpan? advertisingDuration, Action<AdvertisingResult> resultCallback,
-            Action<ConnectionRequest> connectionRequestCallback)
+        public void StartAdvertising(string name, System.Collections.Generic.List<string> appIdentifiers,
+            System.TimeSpan? advertisingDuration, System.Action<AdvertisingResult> resultCallback,
+            System.Action<ConnectionRequest> connectionRequestCallback)
         {
-            var obj = new AdvertisingResult(ResponseStatus.LicenseCheckFailed, string.Empty);
+            AdvertisingResult obj = new AdvertisingResult(ResponseStatus.LicenseCheckFailed, string.Empty);
             resultCallback.Invoke(obj);
         }
 
         public void StopAdvertising()
         {
-            Logger.d("StopAvertising in dummy implementation called");
+            OurUtils.Logger.d("StopAvertising in dummy implementation called");
         }
 
         public void SendConnectionRequest(string name, string remoteEndpointId, byte[] payload,
-            Action<ConnectionResponse> responseCallback, IMessageListener listener)
+            System.Action<ConnectionResponse> responseCallback, IMessageListener listener)
         {
-            Logger.d("SendConnectionRequest called from dummy implementation");
+            OurUtils.Logger.d("SendConnectionRequest called from dummy implementation");
 
             if (responseCallback != null)
             {
-                var obj = ConnectionResponse.Rejected(0, string.Empty);
+                ConnectionResponse obj = ConnectionResponse.Rejected(0, string.Empty);
                 responseCallback.Invoke(obj);
             }
         }
 
         public void AcceptConnectionRequest(string remoteEndpointId, byte[] payload, IMessageListener listener)
         {
-            Logger.d("AcceptConnectionRequest in dummy implementation called");
+            OurUtils.Logger.d("AcceptConnectionRequest in dummy implementation called");
         }
 
-        public void StartDiscovery(string serviceId, TimeSpan? advertisingTimeout, IDiscoveryListener listener)
+        public void StartDiscovery(string serviceId, System.TimeSpan? advertisingTimeout, IDiscoveryListener listener)
         {
-            Logger.d("StartDiscovery in dummy implementation called");
+            OurUtils.Logger.d("StartDiscovery in dummy implementation called");
         }
 
         public void StopDiscovery(string serviceId)
         {
-            Logger.d("StopDiscovery in dummy implementation called");
+            OurUtils.Logger.d("StopDiscovery in dummy implementation called");
         }
 
         public void RejectConnectionRequest(string requestingEndpointId)
         {
-            Logger.d("RejectConnectionRequest in dummy implementation called");
+            OurUtils.Logger.d("RejectConnectionRequest in dummy implementation called");
         }
 
         public void DisconnectFromEndpoint(string remoteEndpointId)
         {
-            Logger.d("DisconnectFromEndpoint in dummy implementation called");
+            OurUtils.Logger.d("DisconnectFromEndpoint in dummy implementation called");
         }
 
         public void StopAllConnections()
         {
-            Logger.d("StopAllConnections in dummy implementation called");
-        }
-
-        public string GetAppBundleId()
-        {
-            return "dummy.bundle.id";
-        }
-
-        public string GetServiceId()
-        {
-            return "dummy.service.id";
+            OurUtils.Logger.d("StopAllConnections in dummy implementation called");
         }
 
         public string LocalEndpointId()
@@ -117,6 +105,16 @@ namespace GooglePlayGames.BasicApi.Nearby
         public string LocalDeviceId()
         {
             return "DummyDevice";
+        }
+
+        public string GetAppBundleId()
+        {
+            return "dummy.bundle.id";
+        }
+
+        public string GetServiceId()
+        {
+            return "dummy.service.id";
         }
     }
 }

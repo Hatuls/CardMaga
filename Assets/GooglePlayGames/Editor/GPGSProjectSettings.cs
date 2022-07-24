@@ -16,15 +16,12 @@
 
 // Keep this file even on unsupported configurations.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 namespace GooglePlayGames.Editor
 {
+    using System.Collections.Generic;
+    using System.IO;
 #if UNITY_2017_3_OR_NEWER
     using UnityEngine.Networking;
-
 #else
     using UnityEngine;
 
@@ -32,11 +29,24 @@ namespace GooglePlayGames.Editor
 
     public class GPGSProjectSettings
     {
-        private static GPGSProjectSettings sInstance;
-        private readonly string mFile;
-        private readonly Dictionary<string, string> mDict = new Dictionary<string, string>();
+        private static GPGSProjectSettings sInstance = null;
 
-        private bool mDirty;
+        public static GPGSProjectSettings Instance
+        {
+            get
+            {
+                if (sInstance == null)
+                {
+                    sInstance = new GPGSProjectSettings();
+                }
+
+                return sInstance;
+            }
+        }
+
+        private bool mDirty = false;
+        private readonly string mFile;
+        private Dictionary<string, string> mDict = new Dictionary<string, string>();
 
         private GPGSProjectSettings()
         {
@@ -52,45 +62,45 @@ namespace GooglePlayGames.Editor
                 GPGSUtil.SlashesToPlatformSeparator("Assets/Editor/projsettings.txt")
             };
 
-            foreach (var f in fileLocations)
+            foreach (string f in fileLocations)
+            {
                 if (File.Exists(f))
                 {
                     // assign the reader and break out of the loop
                     rd = new StreamReader(f);
                     break;
                 }
+            }
 
             if (rd != null)
             {
                 while (!rd.EndOfStream)
                 {
-                    var line = rd.ReadLine();
-                    if (line == null || line.Trim().Length == 0) break;
+                    string line = rd.ReadLine();
+                    if (line == null || line.Trim().Length == 0)
+                    {
+                        break;
+                    }
 
                     line = line.Trim();
-                    var p = line.Split(new[] {'='}, 2);
-                    if (p.Length >= 2) mDict[p[0].Trim()] = p[1].Trim();
+                    string[] p = line.Split(new char[] {'='}, 2);
+                    if (p.Length >= 2)
+                    {
+                        mDict[p[0].Trim()] = p[1].Trim();
+                    }
                 }
 
                 rd.Close();
             }
         }
 
-        public static GPGSProjectSettings Instance
-        {
-            get
-            {
-                if (sInstance == null) sInstance = new GPGSProjectSettings();
-
-                return sInstance;
-            }
-        }
-
         public string Get(string key, Dictionary<string, string> overrides)
         {
-            if (overrides.ContainsKey(key)) return overrides[key];
-
-            if (mDict.ContainsKey(key))
+            if (overrides.ContainsKey(key))
+            {
+                return overrides[key];
+            }
+            else if (mDict.ContainsKey(key))
             {
 #if UNITY_2017_3_OR_NEWER
                 return UnityWebRequest.UnEscapeURL(mDict[key]);
@@ -98,8 +108,10 @@ namespace GooglePlayGames.Editor
                 return WWW.UnEscapeURL(mDict[key]);
 #endif
             }
-
-            return string.Empty;
+            else
+            {
+                return string.Empty;
+            }
         }
 
         public string Get(string key, string defaultValue)
@@ -112,8 +124,10 @@ namespace GooglePlayGames.Editor
                 return WWW.UnEscapeURL(mDict[key]);
 #endif
             }
-
-            return defaultValue;
+            else
+            {
+                return defaultValue;
+            }
         }
 
         public string Get(string key)
@@ -134,7 +148,7 @@ namespace GooglePlayGames.Editor
         public void Set(string key, string val)
         {
 #if UNITY_2017_3_OR_NEWER
-            var escaped = UnityWebRequest.EscapeURL(val);
+            string escaped = UnityWebRequest.EscapeURL(val);
 #else
             string escaped = WWW.EscapeURL(val);
 #endif
@@ -150,18 +164,26 @@ namespace GooglePlayGames.Editor
         public void Save()
         {
             // See if we are building the plugin, and don't write the settings file
-            var args = Environment.GetCommandLineArgs();
-            foreach (var a in args)
+            string[] args = System.Environment.GetCommandLineArgs();
+            foreach (string a in args)
+            {
                 if (a == "-g.building")
                 {
                     mDirty = false;
                     break;
                 }
+            }
 
-            if (!mDirty) return;
+            if (!mDirty)
+            {
+                return;
+            }
 
-            var wr = new StreamWriter(mFile, false);
-            foreach (var key in mDict.Keys) wr.WriteLine(key + "=" + mDict[key]);
+            StreamWriter wr = new StreamWriter(mFile, false);
+            foreach (string key in mDict.Keys)
+            {
+                wr.WriteLine(key + "=" + mDict[key]);
+            }
 
             wr.Close();
             mDirty = false;

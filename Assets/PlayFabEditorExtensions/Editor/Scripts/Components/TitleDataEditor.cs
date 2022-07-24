@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PlayFab.PfEditor
 {
-    public class TitleDataEditor : EditorWindow
+    public class TitleDataEditor : UnityEditor.EditorWindow
     {
 #if !UNITY_5_3_OR_NEWER
         public GUIContent titleContent;
@@ -13,15 +13,11 @@ namespace PlayFab.PfEditor
         public string Value = string.Empty;
         public Vector2 scrollPos = Vector2.zero;
 
-        private void OnGUI()
+        void OnGUI()
         {
             // The actual window code goes here
             using (new UnityHorizontal(PlayFabEditorHelper.uiStyle.GetStyle("gpStyleGray1")))
-            {
-                EditorGUILayout.LabelField(string.Format("Editing: {0}", key),
-                    PlayFabEditorHelper.uiStyle.GetStyle("orTitle"),
-                    GUILayout.MinWidth(EditorGUIUtility.currentViewWidth));
-            }
+                EditorGUILayout.LabelField(string.Format("Editing: {0}", key), PlayFabEditorHelper.uiStyle.GetStyle("orTitle"), GUILayout.MinWidth(EditorGUIUtility.currentViewWidth));
 
             scrollPos = GUILayout.BeginScrollView(scrollPos, PlayFabEditorHelper.uiStyle.GetStyle("gpStyleGray1"));
             Value = EditorGUILayout.TextArea(Value, PlayFabEditorHelper.uiStyle.GetStyle("editTxt"));
@@ -32,16 +28,17 @@ namespace PlayFab.PfEditor
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("SAVE", PlayFabEditorHelper.uiStyle.GetStyle("Button"), GUILayout.MaxWidth(200)))
                 {
-                    for (var z = 0; z < PlayFabEditorDataMenu.tdViewer.items.Count; z++)
+                    for (int z = 0; z < PlayFabEditorDataMenu.tdViewer.items.Count; z++)
+                    {
                         if (PlayFabEditorDataMenu.tdViewer.items[z].Key == key)
                         {
                             PlayFabEditorDataMenu.tdViewer.items[z].Value = Value;
                             PlayFabEditorDataMenu.tdViewer.items[z].isDirty = true;
                         }
-
+                    }
                     Close();
-                }
 
+                }
                 GUILayout.FlexibleSpace();
             }
 

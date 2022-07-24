@@ -14,21 +14,22 @@
 //    limitations under the License.
 // </copyright>
 
-using UnityEditor;
-using UnityEngine;
-
 #if UNITY_ANDROID
 
 namespace GooglePlayGames.Editor
 {
+    using System.IO;
+    using UnityEditor;
+    using UnityEngine;
+
     /// <summary>
-    ///     GPGS upgrader handles performing and upgrade tasks.
+    /// GPGS upgrader handles performing and upgrade tasks.
     /// </summary>
     [InitializeOnLoad]
     public class GPGSUpgrader
     {
         /// <summary>
-        ///     Initializes static members of the <see cref="GooglePlayGames.GPGSUpgrader" /> class.
+        /// Initializes static members of the <see cref="GooglePlayGames.GPGSUpgrader"/> class.
         /// </summary>
         static GPGSUpgrader()
         {
@@ -41,7 +42,7 @@ namespace GooglePlayGames.Editor
                 PluginVersion.VersionString);
             GPGSProjectSettings.Instance.Save();
 
-            var isChanged = false;
+            bool isChanged = false;
             // Check that there is a AndroidManifest.xml file
             if (!GPGSUtil.AndroidManifestExists())
             {
@@ -49,7 +50,10 @@ namespace GooglePlayGames.Editor
                 GPGSUtil.GenerateAndroidManifest();
             }
 
-            if (isChanged) AssetDatabase.Refresh();
+            if (isChanged)
+            {
+                AssetDatabase.Refresh();
+            }
             Debug.Log("GPGSUpgrader done");
         }
     }

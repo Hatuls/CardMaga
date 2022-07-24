@@ -28,26 +28,6 @@ namespace GooglePlayGames.Editor
         public const string Success = "Success";
         public const string Warning = "Warning";
 
-        public const string AboutTitle = "Google Play Games Plugin for Unity";
-
-        public const string AboutText = "Copyright (C) 2014 Google Inc.\n\nThis is an open-source " +
-                                        "plugin that allows cross-platform integration with Google Play games services. " +
-                                        "For more information, visit the official site on Github:\n\n" +
-                                        "https://github.com/playgameservices/play-games-plugin-for-unity\n\nPlugin version: ";
-
-        public const string LicenseTitle = "Google Play Games Plugin for Unity";
-
-        public const string LicenseText = "Copyright (C) 2014 Google Inc. All Rights Reserved.\n\n" +
-                                          "Licensed under the Apache License, Version 2.0 (the \"License\"); " +
-                                          "you may not use this file except in compliance with the License. " +
-                                          "You may obtain a copy of the License at\n\n" +
-                                          "      http://www.apache.org/licenses/LICENSE-2.0\n\n" +
-                                          "Unless required by applicable law or agreed to in writing, software " +
-                                          "distributed under the License is distributed on an \"AS IS\" BASIS, " +
-                                          "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. " +
-                                          "See the License for the specific language governing permissions and " +
-                                          "limitations under the License.";
-
         public class PostInstall
         {
             public const string Title = "Google Play Games Plugin for Unity";
@@ -170,5 +150,25 @@ namespace GooglePlayGames.Editor
                                                                          "and that its path is correctly configured in the Unity preferences window " +
                                                                          "(under External Tools).";
         }
+
+        public const string AboutTitle = "Google Play Games Plugin for Unity";
+
+        public const string AboutText = "Copyright (C) 2014 Google Inc.\n\nThis is an open-source " +
+                                        "plugin that allows cross-platform integration with Google Play games services. " +
+                                        "For more information, visit the official site on Github:\n\n" +
+                                        "https://github.com/playgameservices/play-games-plugin-for-unity\n\nPlugin version: ";
+
+        public const string LicenseTitle = "Google Play Games Plugin for Unity";
+
+        public const string LicenseText = "Copyright (C) 2014 Google Inc. All Rights Reserved.\n\n" +
+                                          "Licensed under the Apache License, Version 2.0 (the \"License\"); " +
+                                          "you may not use this file except in compliance with the License. " +
+                                          "You may obtain a copy of the License at\n\n" +
+                                          "      http://www.apache.org/licenses/LICENSE-2.0\n\n" +
+                                          "Unless required by applicable law or agreed to in writing, software " +
+                                          "distributed under the License is distributed on an \"AS IS\" BASIS, " +
+                                          "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. " +
+                                          "See the License for the specific language governing permissions and " +
+                                          "limitations under the License.";
     }
 }

@@ -1,27 +1,53 @@
-﻿namespace GooglePlayGames.BasicApi.Events;
-
-internal class Event : IEvent
+﻿namespace GooglePlayGames.BasicApi.Events
 {
-    internal Event(string id, string name, string description, string imageUrl,
-        ulong currentCount, EventVisibility visibility)
+    internal class Event : IEvent
     {
-        Id = id;
-        Name = name;
-        Description = description;
-        ImageUrl = imageUrl;
-        CurrentCount = currentCount;
-        Visibility = visibility;
+        private string mId;
+        private string mName;
+        private string mDescription;
+        private string mImageUrl;
+        private ulong mCurrentCount;
+        private EventVisibility mVisibility;
+
+        internal Event(string id, string name, string description, string imageUrl,
+            ulong currentCount, EventVisibility visibility)
+        {
+            mId = id;
+            mName = name;
+            mDescription = description;
+            mImageUrl = imageUrl;
+            mCurrentCount = currentCount;
+            mVisibility = visibility;
+        }
+
+        public string Id
+        {
+            get { return mId; }
+        }
+
+        public string Name
+        {
+            get { return mName; }
+        }
+
+        public string Description
+        {
+            get { return mDescription; }
+        }
+
+        public string ImageUrl
+        {
+            get { return mImageUrl; }
+        }
+
+        public ulong CurrentCount
+        {
+            get { return mCurrentCount; }
+        }
+
+        public EventVisibility Visibility
+        {
+            get { return mVisibility; }
+        }
     }
-
-    public string Id { get; }
-
-    public string Name { get; }
-
-    public string Description { get; }
-
-    public string ImageUrl { get; }
-
-    public ulong CurrentCount { get; }
-
-    public EventVisibility Visibility { get; }
 }
