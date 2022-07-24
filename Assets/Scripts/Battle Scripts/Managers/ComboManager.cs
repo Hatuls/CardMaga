@@ -60,11 +60,11 @@ namespace Battle
                 switch (ComboSO.GoToDeckAfterCrafting)
                 {
                     case DeckEnum.Hand:
-                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, ComboSO.GoToDeckAfterCrafting);
+                        DeckManager.Instance.AddCardOnTopOfDeck(isPlayer,ComboSO.GoToDeckAfterCrafting,craftedCard);
                         DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
                     case DeckEnum.PlayerDeck:
-                    case DeckEnum.Disposal:
+                    case DeckEnum.Discard:
                         var gotolocation = ComboSO.GoToDeckAfterCrafting;
                         DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, gotolocation);
                         DeckManager.Instance.DrawHand(isPlayer, 1);

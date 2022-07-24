@@ -9,6 +9,7 @@ public class CraftingSlotUI : MonoBehaviour
     #region Events
     [SerializeField] Unity.Events.PlaceHolderSlotUIEvent _setCardUI;
     #endregion
+    
     #region Fields
     [SerializeField] Image _glowImage;
     [SerializeField] Image _iconImage;
@@ -24,6 +25,7 @@ public class CraftingSlotUI : MonoBehaviour
     [SerializeField] Animator _anim;
 
     #endregion
+    
     #region Properties
     public int SlotID { get => _SlotID; set => _SlotID = value; }
 
@@ -41,6 +43,7 @@ public class CraftingSlotUI : MonoBehaviour
     public float GetBackGroundOpacity => _backgroundImage.color.a;
     public float GetDecorationOpacity => _decorImage.color.a;
     #endregion
+    
     private void Start()
     {
         originalPos = _rectTransform.localPosition;
@@ -51,14 +54,9 @@ public class CraftingSlotUI : MonoBehaviour
         if (cardType == null  || cardType.BodyPart == CardMaga.Card.BodyPartEnum.Empty)
         {
             ResetSlotUI();
-
         }
-    
         else
-        InitPlaceHolder(
-                cardType.CardType,
-                        Factory.GameFactory.Instance.ArtBlackBoard.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardType.BodyPart)                     
-                      );
+            InitPlaceHolder(cardType.CardType, Factory.GameFactory.Instance.ArtBlackBoard.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardType.BodyPart));
 
         _iconImage.gameObject.SetActive(cardType != null && cardType.BodyPart != CardMaga.Card.BodyPartEnum.Empty);
 
@@ -67,8 +65,6 @@ public class CraftingSlotUI : MonoBehaviour
     {
         SetIconImage(icon);
         SetColors(cardType);
-
-
     }
     public void ActivateGlow(bool toActivate)
     {

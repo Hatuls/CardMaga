@@ -8,9 +8,9 @@ using UnityEngine;
 namespace CardMaga.Card
 {
     public enum CardTypeEnum { Utility = 3, Defend = 2, Attack = 1, None = 0, };
-
-
+    
     public enum BodyPartEnum { None = 0, Empty = 1, Head = 2, Elbow = 3, Hand = 4, Knee = 5, Leg = 6, Joker = 7 };
+    
     [Serializable]
     public class CardData : IEquatable<CardData>
     {
@@ -35,6 +35,10 @@ namespace CardMaga.Card
 
         #region Properties
 
+        public CardTypeData CardTypeData
+        {
+            get => _cardTypeData;
+        }      
         public bool IsExhausted { get => toExhaust; }
         public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
         public int CardInstanceID => _cardCoreInfo.InstanceID;
@@ -81,8 +85,7 @@ namespace CardMaga.Card
             return found;
         }
         #endregion
-
-
+        
         #region Functions
         public CardData()
         {
@@ -97,8 +100,6 @@ namespace CardMaga.Card
         }
         public void InitCard(CardSO _card, int cardsLevel)
         {
-
-
             var levelUpgrade = _card.GetLevelUpgrade(cardsLevel);
             List<KeywordData> keywordsList = new List<KeywordData>(1);
             for (int i = 0; i < levelUpgrade.UpgradesPerLevel.Length; i++)
@@ -165,14 +166,7 @@ namespace CardMaga.Card
 #endif
     }
     #endregion
-
-
-
-
 }
-
-
-
 
 public static class CardHelper
 {

@@ -4,15 +4,20 @@ namespace Battle.Deck
 {
     public abstract class BaseDeck : IDeckHandler
     {
+
+        public event Action<int> OnAmountOfFilledSlotsChange;
+        public virtual event Action OnResetDeck;
         public bool isPlayer { get; private set; }
         private CardData[] _deckCards;
 
-        public int AmountOfEmptySlots { get; private set; }
-        public int AmountOfFilledSlots { get; private set; }
+        private int amountOfEmptySlots;
+        private int amountOfFilledSlots;
+
+
 
         #region Properties
-        public int GetAmountOfEmptySlots { get { return AmountOfEmptySlots; } }
-        public  int GetAmountOfFilledSlots =>  AmountOfFilledSlots;
+        public int GetAmountOfEmptySlots { get { return amountOfEmptySlots; } }
+        public  int GetAmountOfFilledSlots =>  amountOfFilledSlots;
         public ref CardData[] GetDeck
             => ref _deckCards; 
         
@@ -52,14 +57,14 @@ namespace Battle.Deck
             SetDeck = new CardData[length];
         }
 
-        public void CountCards()
+        protected void CountCards()
         {
             // count for the amount of empty and not empty slots 
 
 
-            AmountOfEmptySlots = 0;
-            AmountOfFilledSlots = 0;
-
+            var currentAmountOfFilledSlots = amountOfFilledSlots;
+            amountOfEmptySlots = 0;
+            amountOfFilledSlots = 0;
             if (_deckCards == null)
             {
                 UnityEngine.Debug.LogError("DeckCards is null");
@@ -69,10 +74,15 @@ namespace Battle.Deck
             for (int i = 0; i < _deckCards.Length; i++)
             {
                 if (_deckCards[i] == null)
-                    AmountOfEmptySlots++;
+                    amountOfEmptySlots++;
                 else
-                    AmountOfFilledSlots++;
+                    amountOfFilledSlots++;
             }
+            if (currentAmountOfFilledSlots != amountOfFilledSlots)
+            {
+                OnAmountOfFilledSlotsChange?.Invoke(amountOfFilledSlots);
+            }
+
         }
         public virtual CardData GetFirstCard()
         {
@@ -101,8 +111,8 @@ namespace Battle.Deck
                 _deckCards[index] = card;
 
                 OrderDeck();
-                AmountOfEmptySlots--;
-                AmountOfFilledSlots++;
+                amountOfEmptySlots--;
+                amountOfFilledSlots++;
                 //CountCards();
                 return true;
             }
@@ -127,8 +137,8 @@ namespace Battle.Deck
                        && _deckCards[i].CardInstanceID == card.CardInstanceID)
                     {
                         _deckCards[i] = null;
-                        AmountOfEmptySlots++;
-                        AmountOfFilledSlots--;
+                        amountOfEmptySlots++;
+                        amountOfFilledSlots--;
                         foundCard = true;
                         break;
                     }
@@ -158,8 +168,8 @@ namespace Battle.Deck
                         GetDeck[i] = null;
                 }
             }
-            AmountOfEmptySlots = GetDeck.Length;
-            AmountOfFilledSlots = 0;
+            amountOfEmptySlots = GetDeck.Length;
+            amountOfFilledSlots = 0;
 
             //  CountCards();
         }
@@ -169,7 +179,7 @@ namespace Battle.Deck
             /*
              * Reset the deck to his created state 
              */
-
+            OnResetDeck?.Invoke();
             EmptySlots();
         }
         public void PrintDecks(DeckEnum deck)
@@ -287,6 +297,18 @@ namespace Battle.Deck
             Array.Resize(ref GetDeck, GetDeck.Length + 5);
             CountCards();
         }
+
+        public void AddCardAtFirstPosition(CardData card)
+        {
+            CardData[] cardDatas = new CardData[GetDeck.Length + 1];
+            Array.Copy(GetDeck,cardDatas,1);
+
+            GetDeck = cardDatas;
+            GetDeck[0] = card;
+            
+            OrderDeck();
+            CountCards();
+        }
         #endregion
         
         public override string ToString()
@@ -311,7 +333,7 @@ namespace Battle.Deck
         None = 0,
         Hand = 1,
         PlayerDeck = 2,
-        Disposal=3,
+        Discard=3,
         AutoActivate =4,
         Exhaust=5,
         Selected=6,

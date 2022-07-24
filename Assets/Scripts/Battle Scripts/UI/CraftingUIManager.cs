@@ -1,37 +1,33 @@
-﻿using ReiTools.TokenMachine;
-using TMPro;
+﻿using Battle.Deck;
+using ReiTools.TokenMachine;
 using UnityEngine;
 
 namespace Battle.UI
 {
     public class CraftingUIManager : MonoSingleton<CraftingUIManager>
-{
-        CraftingUIHandler _playerCraftingUIHandler;
-        CraftingUIHandler _opponentCraftingUIHandler;
+    {
+        [SerializeField] private CraftingSlotUI[] _playerCraftingSlotsUI;
+        [SerializeField] private RectTransform _playersfirstSlotTransform;
+        [SerializeField] private CraftingSlotUI _fadeOutCraftingSlots;
 
-        [SerializeField] CraftingSlotUI[] _playerCraftingSlotsUI;
-        [SerializeField] RectTransform _playersfirstSlotTransform;
-        [SerializeField] CraftingSlotUI _fadeOutCraftingSlots;
+        [SerializeField] private CraftingSlotUI[] _opponentCraftingSlotsUI;
+        [SerializeField] private RectTransform _opponentfirstSlotTransform;
+        [SerializeField] private CraftingSlotUI _opponentfadeOutCraftingSlots;
 
-        [SerializeField] CraftingSlotUI[] _opponentCraftingSlotsUI;
-        [SerializeField] RectTransform _opponentfirstSlotTransform;
-        [SerializeField] CraftingSlotUI _opponentfadeOutCraftingSlots;
-
-
-
-        [SerializeField] float moveLeanTweenTime;
-
-        public CraftingUIHandler GetCharacterUIHandler(bool players)
-        {
-      //      Init();
-            return players ? _playerCraftingUIHandler : _opponentCraftingUIHandler;
-        }
+        [SerializeField] private float moveLeanTweenTime;
+        private CraftingUIHandler _opponentCraftingUIHandler;
+        private CraftingUIHandler _playerCraftingUIHandler;
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.K))
-                Deck.DeckManager.GetCraftingSlots(true).PushSlots();   
-            
+                DeckManager.GetCraftingSlots(true).PushSlots();
+        }
+
+        public CraftingUIHandler GetCharacterUIHandler(bool players)
+        {
+            //Init();
+            return players ? _playerCraftingUIHandler : _opponentCraftingUIHandler;
         }
 
 
@@ -39,30 +35,35 @@ namespace Battle.UI
         {
             using (token.GetToken())
             {
+                if (_playerCraftingUIHandler == null)
+                {
+                    _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _fadeOutCraftingSlots,
+                        _playersfirstSlotTransform, moveLeanTweenTime, true);
+                    _playerCraftingUIHandler.ResetAllSlots();
+                }
 
-            if (_playerCraftingUIHandler == null)
-            {
-                _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _fadeOutCraftingSlots, _playersfirstSlotTransform, moveLeanTweenTime, true );
-                _playerCraftingUIHandler.ResetAllSlots();
-            }
-            if (_opponentCraftingUIHandler == null)
-            {
-                _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI, _opponentfadeOutCraftingSlots, _opponentfirstSlotTransform, moveLeanTweenTime, false);
-                _opponentCraftingUIHandler.ResetAllSlots();
+                if (_opponentCraftingUIHandler == null)
+                {
+                    _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI,
+                        _opponentfadeOutCraftingSlots, _opponentfirstSlotTransform, moveLeanTweenTime, false);
+                    _opponentCraftingUIHandler.ResetAllSlots();
+                }
             }
         }
-            }
 
-        #region Monobehaviour Callbacks 
+        #region Monobehaviour Callbacks
+
         public override void Awake()
         {
             base.Awake();
             SceneHandler.OnBeforeSceneShown += Init;
         }
+
         public void OnDestroy()
         {
             SceneHandler.OnBeforeSceneShown -= Init;
         }
+
         #endregion
     }
 }

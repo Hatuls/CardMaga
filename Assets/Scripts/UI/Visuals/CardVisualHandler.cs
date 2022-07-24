@@ -61,23 +61,28 @@ namespace CardMaga.UI
             _cardImageVisualAssigner.Init();
             _cardGlowVisualAssigner.Init();
             //Texts
-            _cardNameTextAssigner.Init();
-            _cardStaminaTextAssigner.Init();
-            _cardDescriptionAssigner.Init();
+            _cardNameTextAssigner.Init(null);
+            _cardStaminaTextAssigner.Init(null);
+            _cardDescriptionAssigner.Init(null);
 
             //ResetCard
             _cardZoomHandler.SetCardType(CardTypeEnum.Attack);
         }
         [Button]
-        public void ActivateGlow()
+        public override void ActivateGlow()
         {
             _cardGlowVisualAssigner.SetGlow(true);
         }
         [Button]
-        public void DeactivateGlow()
+        public override void DeactivateGlow()
         {
             _cardGlowVisualAssigner.SetGlow(false);
         }
+        public override void SetExecutedCardVisuals()
+        {
+            _cardGlowVisualAssigner.DiscardGlowAlpha();
+        }
+
         public override void SetCardVisuals(CardMaga.Card.CardData card)
         {
             var cardTypeEnum = card.CardSO.CardTypeEnum;
@@ -90,6 +95,7 @@ namespace CardMaga.UI
             _cardFrameVisualAssigner.SetFrame(1);
             _cardRarityVisualAssigner.SetRarity((int)card.CardSO.Rarity);
             _cardStaminaVisualAssigner.SetStamina(1);
+            _cardGlowVisualAssigner.ResetGlowAlpha();
             _cardLevelVisualAssigner.SetLevel((int)card.CardSO.Rarity, cardLevel, 1);
             _cardImageVisualAssigner.SetSplashImage(card.CardSO.CardSprite);
             //Texts
@@ -103,5 +109,16 @@ namespace CardMaga.UI
     {
         public abstract CardZoomHandler CardZoomHandler { get; }
         public abstract void SetCardVisuals(CardMaga.Card.CardData card);
+
+        public virtual void SetExecutedCardVisuals()
+        {
+        }
+
+        public virtual void ActivateGlow()
+        {
+        }
+        public virtual void DeactivateGlow()
+        {
+        }
     }
 }

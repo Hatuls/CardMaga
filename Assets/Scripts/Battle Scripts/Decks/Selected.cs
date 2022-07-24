@@ -4,12 +4,12 @@ namespace Battle.Deck
 {
     public class Selected : BaseDeck
     {
-        Disposal _disposalDeck;
+        Discard _disposalDeck;
         PlayerHand _playerHandDeck;
 
 
         public static DeckEnum _discardTo;
-        public Selected(bool isPlayer, int length, Disposal deck, PlayerHand hand) : base(isPlayer,length)
+        public Selected(bool isPlayer, int length, Discard deck, PlayerHand hand) : base(isPlayer,length)
         {
             _disposalDeck = deck;
             _playerHandDeck = hand;
@@ -30,7 +30,7 @@ namespace Battle.Deck
                 DeckManager.Instance.AddCardToDeck(
                     isPlayer,
                     deck[0],
-                    deck[0].IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal
+                    deck[0].IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard
                     );
 
                 DiscardCard(deck[0]);
@@ -49,7 +49,7 @@ namespace Battle.Deck
                 return true;
 
             DeckEnum destination = (discardTo == null) ?
-                ( (card.IsExhausted) ? DeckEnum.Exhaust : DeckEnum.Disposal)
+                ( (card.IsExhausted) ? DeckEnum.Exhaust : DeckEnum.Discard)
                 : discardTo.Value;
 
             DeckManager.Instance.TransferCard(

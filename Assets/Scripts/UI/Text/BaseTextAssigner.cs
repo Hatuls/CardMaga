@@ -3,9 +3,9 @@
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
-    public abstract class BaseTextAssigner
+    public abstract class BaseTextAssigner<T>
     {
-        public abstract void Init();
+        public abstract void Init(T type);
 
         public virtual void AssignText(TMPro.TextMeshProUGUI textHolder, string text)
         {

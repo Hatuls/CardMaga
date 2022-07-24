@@ -1,5 +1,6 @@
 ﻿using System;
 using Battle;
+using Battle.Deck;
 using CardMaga.UI;
 using CardMaga.UI.Card;
 using DG.Tweening;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 public class FollowCardUI : MonoBehaviour
 {
-    public event Action<CardUI> OnCardExecute;
+    public static event Action<CardUI> OnCardExecute;
     
     [SerializeField] private HandUI _handUI;
     [SerializeField] private ZoomCardUI _zoomCardUI;
@@ -55,15 +56,21 @@ public class FollowCardUI : MonoBehaviour
         _selectCardUI.Inputs.OnHold -= FollowHand;
         _selectCardUI.Inputs.OnPointUp -= ReleaseCard;
 
-        if (cardUI.transform.position.y > _executionBoundry_Y &&
-            CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
+        if (cardUI.transform.position.y > _executionBoundry_Y)
         {
-            _selectCardUI.Inputs.ForceChangeState(false);
-            OnCardExecute?.Invoke(_selectCardUI);
+            DeckManager.Instance.TransferCard(true, DeckEnum.Hand, DeckEnum.Selected, _selectCardUI.CardData);
+            
+            if (CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
+            {
+                _selectCardUI.Inputs.ForceChangeState(false);
+                OnCardExecute?.Invoke(_selectCardUI);
+                _selectCardUI = null;
+                return;
+            }
         }
-        else
-            _handUI.ReturnCardUIToHand(_selectCardUI);
-
+        
+        DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectCardUI.CardData);
+        _handUI.ReturnCardUIToHand(_selectCardUI);
         _selectCardUI = null;
     }
 
@@ -82,7 +89,7 @@ public class FollowCardUI : MonoBehaviour
     private void FollowHand(CardUI cardUI)
     {
         KillTween();
-        _currentSequence = cardUI.CardTransitionManager.Move(_mousePosition, _followHand);
+        _currentSequence = cardUI.RectTransform.Move(_mousePosition, _followHand);
     }
 
     private void GetMousePos(Vector2 mousePos)

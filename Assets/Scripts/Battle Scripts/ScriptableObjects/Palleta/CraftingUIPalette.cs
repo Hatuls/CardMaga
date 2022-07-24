@@ -1,14 +1,12 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
+
 namespace Art
 {
     [CreateAssetMenu(fileName = "Crafting UI Palette", menuName = "ScriptableObjects/Art/Crafting UI Palette")]
     public class CraftingUIPalette : Palette
     {
-
-
         [TitleGroup("CraftingUIPalette", BoldTitle = true)]
-
 
         #region Button
         [TabGroup("CraftingUIPalette/Colors", "Crafting Button")]

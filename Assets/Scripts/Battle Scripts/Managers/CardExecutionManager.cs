@@ -86,7 +86,7 @@ namespace Battle
             else
                 CardUIManager.Instance.PlayEnemyCard(card);
 
-            DeckManager.Instance.TransferCard(isPlayer, DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Disposal, card);
+            DeckManager.Instance.TransferCard(isPlayer, DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, card);
 
             RegisterCard(card, isPlayer);
 

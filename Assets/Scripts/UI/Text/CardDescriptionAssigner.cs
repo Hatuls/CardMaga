@@ -5,13 +5,13 @@ using UnityEngine;
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
-    public class CardDescriptionAssigner : BaseTextAssigner
+    public class CardDescriptionAssigner : BaseTextAssigner<object>
     {
         [SerializeField] TextMeshProUGUI[] _keywordsDescription;
         [SerializeField] GameObject[] _rows;
         [SerializeField] DescriptionColorSO _descriptionColorSO;
         [SerializeField] bool _isNumberBold = true;
-        public override void Init()
+        public override void Init(object none)
         {
             if (_keywordsDescription == null)
                 throw new System.Exception("CardDescriptionAssigner has no keywordsObjects");

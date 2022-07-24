@@ -56,6 +56,14 @@ namespace CardMaga.UI.Visuals
             color.a = (colorIndex == 0) ? 0 : 1;
             return color;
         }
+
+        public virtual Color GetColorAlpha(Color baseColor, float alpha)
+        {
+            Color color = baseColor;
+            color.a = alpha;
+            return color;
+        }
+
         public virtual void AssignSprite(Image image, Sprite sprite)
         {
             if (image.sprite == sprite)

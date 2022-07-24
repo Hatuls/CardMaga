@@ -27,7 +27,7 @@ public class ComboIconCollection : ScriptableObject
                 return _gotoIcons[1];
             case DeckEnum.PlayerDeck:
                 return _gotoIcons[2];
-            case DeckEnum.Disposal:
+            case DeckEnum.Discard:
                 return _gotoIcons[3];
         }
        throw new System.Exception($"ComboIcon Collection : Deck Was not found in the icons\nValue: {deck}");
