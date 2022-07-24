@@ -5,20 +5,21 @@ using Sirenix.OdinInspector;
 
 public class EndTurnButtonTransinion: MonoBehaviour
 {
-    [Header("Fields")]
-    [SerializeField] private TransitionPackSO _transitionPackSO;
-    
-    //Transform of the UI.
+    [Header("TransitionPackSO")]
+    [SerializeField] private TransitionPackSO _buttonTransitionPackSO;
+
+    [Header("RectTransforms")]
+    //The objects that will be effected by the animations
     [SerializeField] private RectTransform _currentRectTransform;
     [SerializeField] private RectTransform _destinationRectTransform;
 
-    //Scrip of thransitions. Recive Transision pack SO
+    [Header("RectTransitionManager")]
     private RectTransitionManager _endTurnTransitionManager;
 
     void Start()
     {
         _endTurnTransitionManager = new RectTransitionManager(_currentRectTransform);
-        if (_transitionPackSO != null)
+        if (_buttonTransitionPackSO != null)
         {
             _endTurnTransitionManager = new RectTransitionManager(_currentRectTransform);
         }
@@ -27,13 +28,13 @@ public class EndTurnButtonTransinion: MonoBehaviour
     [Button]
     public void Scale()
     {
-        _endTurnTransitionManager.Scale(_transitionPackSO);
+        _endTurnTransitionManager.Scale(_buttonTransitionPackSO);
     }
 
     [Button]
     public void Transition()
     {
-        _endTurnTransitionManager.Transition(_destinationRectTransform, _transitionPackSO);
+        _endTurnTransitionManager.Transition(_destinationRectTransform, _buttonTransitionPackSO);
     }
 
 }
