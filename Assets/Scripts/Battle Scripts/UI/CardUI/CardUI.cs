@@ -12,9 +12,7 @@ namespace CardMaga.UI.Card
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
 
         [SerializeField] private CardUIInputHandler _inputs;
-
-
-        private RectTransitionManager _cardTransitionManager;
+        
         private CardAnimator _cardAnimator;
         private CardMaga.Card.CardData _cardData;
 
@@ -23,15 +21,6 @@ namespace CardMaga.UI.Card
         public BaseCardVisualHandler CardVisuals => _cardVisuals;
         public CardUIInputHandler Inputs => _inputs;
         public RectTransform RectTransform => _rectTransform;
-        public RectTransitionManager CardTransitionManager
-        {
-            get
-            {
-                if (_cardTransitionManager == null)
-                    _cardTransitionManager = new RectTransitionManager(_rectTransform);
-                return _cardTransitionManager;
-            }
-        }
 
         public CardMaga.Card.CardData CardData { get => _cardData; private set => _cardData = value; }
 

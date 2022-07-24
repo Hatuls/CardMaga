@@ -89,7 +89,7 @@ public class FollowCardUI : MonoBehaviour
     private void FollowHand(CardUI cardUI)
     {
         KillTween();
-        _currentSequence = cardUI.CardTransitionManager.Move(_mousePosition, _followHand);
+        _currentSequence = cardUI.RectTransform.Move(_mousePosition, _followHand);
     }
 
     private void GetMousePos(Vector2 mousePos)

@@ -14,94 +14,65 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames.OurUtils
+using System;
+using UnityEngine;
+
+namespace GooglePlayGames.OurUtils;
+
+public static class Misc
 {
-    using System;
-    using UnityEngine;
-
-    public static class Misc
+    public static bool BuffersAreIdentical(byte[] a, byte[] b)
     {
-        public static bool BuffersAreIdentical(byte[] a, byte[] b)
-        {
-            if (a == b)
-            {
-                // not only identical but the very same!
-                return true;
-            }
-
-            if (a == null || b == null)
-            {
-                // one of them is null, the other one isn't
-                return false;
-            }
-
-            if (a.Length != b.Length)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < a.Length; i++)
-            {
-                if (a[i] != b[i])
-                {
-                    return false;
-                }
-            }
-
+        if (a == b)
+            // not only identical but the very same!
             return true;
-        }
 
-        public static byte[] GetSubsetBytes(byte[] array, int offset, int length)
-        {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
+        if (a == null || b == null)
+            // one of them is null, the other one isn't
+            return false;
 
-            if (offset < 0 || offset >= array.Length)
-            {
-                throw new ArgumentOutOfRangeException("offset");
-            }
+        if (a.Length != b.Length) return false;
 
-            if (length < 0 || (array.Length - offset) < length)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            }
+        for (var i = 0; i < a.Length; i++)
+            if (a[i] != b[i])
+                return false;
 
-            if (offset == 0 && length == array.Length)
-            {
-                return array;
-            }
+        return true;
+    }
 
-            byte[] piece = new byte[length];
-            Array.Copy(array, offset, piece, 0, length);
-            return piece;
-        }
+    public static byte[] GetSubsetBytes(byte[] array, int offset, int length)
+    {
+        if (array == null) throw new ArgumentNullException("array");
 
-        public static T CheckNotNull<T>(T value)
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException();
-            }
+        if (offset < 0 || offset >= array.Length) throw new ArgumentOutOfRangeException("offset");
 
-            return value;
-        }
+        if (length < 0 || array.Length - offset < length) throw new ArgumentOutOfRangeException("length");
 
-        public static T CheckNotNull<T>(T value, string paramName)
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException(paramName);
-            }
+        if (offset == 0 && length == array.Length) return array;
 
-            return value;
-        }
+        var piece = new byte[length];
+        Array.Copy(array, offset, piece, 0, length);
+        return piece;
+    }
 
-        public static bool IsApiException(AndroidJavaObject exception) {
-            var exceptionClassName = exception.Call<AndroidJavaObject>("getClass")
-                .Call<String>("getName");
-            return exceptionClassName == "com.google.android.gms.common.api.ApiException";
-        }
+    public static T CheckNotNull<T>(T value)
+    {
+        if (value == null) throw new ArgumentNullException();
+
+        return value;
+    }
+
+    public static T CheckNotNull<T>(T value, string paramName)
+    {
+        if (value == null) throw new ArgumentNullException(paramName);
+
+        return value;
+    }
+
+    public static bool IsApiException(AndroidJavaObject exception)
+    {
+        var exceptionClassName = exception.Call<AndroidJavaObject>("getClass")
+            .Call<string>("getName");
+        return exceptionClassName == "com.google.android.gms.common.api.ApiException";
     }
 }

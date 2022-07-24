@@ -14,89 +14,65 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames.BasicApi.Video
+using System.Linq;
+using GooglePlayGames.OurUtils;
+
+namespace GooglePlayGames.BasicApi.Video;
+
+/// <summary>
+///     Represents the video recording capabilities.
+/// </summary>
+public class VideoCapabilities
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using GooglePlayGames.OurUtils;
+    private readonly bool[] mCaptureModesSupported;
+    private readonly bool[] mQualityLevelsSupported;
 
-    /// <summary>
-    /// Represents the video recording capabilities.
-    /// </summary>
-    public class VideoCapabilities
+    internal VideoCapabilities(bool isCameraSupported, bool isMicSupported, bool isWriteStorageSupported,
+        bool[] captureModesSupported, bool[] qualityLevelsSupported)
     {
-        private bool mIsCameraSupported;
-        private bool mIsMicSupported;
-        private bool mIsWriteStorageSupported;
-        private bool[] mCaptureModesSupported;
-        private bool[] mQualityLevelsSupported;
+        IsCameraSupported = isCameraSupported;
+        IsMicSupported = isMicSupported;
+        IsWriteStorageSupported = isWriteStorageSupported;
+        mCaptureModesSupported = captureModesSupported;
+        mQualityLevelsSupported = qualityLevelsSupported;
+    }
 
-        internal VideoCapabilities(bool isCameraSupported, bool isMicSupported, bool isWriteStorageSupported,
-            bool[] captureModesSupported, bool[] qualityLevelsSupported)
-        {
-            mIsCameraSupported = isCameraSupported;
-            mIsMicSupported = isMicSupported;
-            mIsWriteStorageSupported = isWriteStorageSupported;
-            mCaptureModesSupported = captureModesSupported;
-            mQualityLevelsSupported = qualityLevelsSupported;
-        }
+    /// <summary>Returns whether the device has a front-facing camera and we can use it.</summary>
+    public bool IsCameraSupported { get; }
 
-        /// <summary>Returns whether the device has a front-facing camera and we can use it.</summary>
-        public bool IsCameraSupported
-        {
-            get { return mIsCameraSupported; }
-        }
+    /// <summary>Returns whether the device has a microphone and we can use it.</summary>
+    public bool IsMicSupported { get; }
 
-        /// <summary>Returns whether the device has a microphone and we can use it.</summary>
-        public bool IsMicSupported
-        {
-            get { return mIsMicSupported; }
-        }
+    /// <summary>Returns whether the device has an external storage device and we can use it.</summary>
+    public bool IsWriteStorageSupported { get; }
 
-        /// <summary>Returns whether the device has an external storage device and we can use it.</summary>
-        public bool IsWriteStorageSupported
-        {
-            get { return mIsWriteStorageSupported; }
-        }
+    /// <summary>Returns whether the device supports the given capture mode.</summary>
+    public bool SupportsCaptureMode(VideoCaptureMode captureMode)
+    {
+        if (captureMode != VideoCaptureMode.Unknown) return mCaptureModesSupported[(int) captureMode];
 
-        /// <summary>Returns whether the device supports the given capture mode.</summary>
-        public bool SupportsCaptureMode(VideoCaptureMode captureMode)
-        {
-            if (captureMode != VideoCaptureMode.Unknown)
-            {
-                return mCaptureModesSupported[(int) captureMode];
-            }
-            else
-            {
-                Logger.w("SupportsCaptureMode called with an unknown captureMode.");
-                return false;
-            }
-        }
+        Logger.w("SupportsCaptureMode called with an unknown captureMode.");
+        return false;
+    }
 
-        /// <summary>Returns whether the device supports the given quality level.</summary>
-        public bool SupportsQualityLevel(VideoQualityLevel qualityLevel)
-        {
-            if (qualityLevel != VideoQualityLevel.Unknown)
-            {
-                return mQualityLevelsSupported[(int) qualityLevel];
-            }
-            else
-            {
-                Logger.w("SupportsCaptureMode called with an unknown qualityLevel.");
-                return false;
-            }
-        }
+    /// <summary>Returns whether the device supports the given quality level.</summary>
+    public bool SupportsQualityLevel(VideoQualityLevel qualityLevel)
+    {
+        if (qualityLevel != VideoQualityLevel.Unknown) return mQualityLevelsSupported[(int) qualityLevel];
 
-        public override string ToString()
-        {
-            return string.Format(
-                "[VideoCapabilities: mIsCameraSupported={0}, mIsMicSupported={1}, mIsWriteStorageSupported={2}, " +
-                "mCaptureModesSupported={3}, mQualityLevelsSupported={4}]",
-                mIsCameraSupported,
-                mIsMicSupported,
-                mIsWriteStorageSupported,
-                string.Join(",", mCaptureModesSupported.Select(p => p.ToString()).ToArray()),
-                string.Join(",", mQualityLevelsSupported.Select(p => p.ToString()).ToArray()));
-        }
+        Logger.w("SupportsCaptureMode called with an unknown qualityLevel.");
+        return false;
+    }
+
+    public override string ToString()
+    {
+        return string.Format(
+            "[VideoCapabilities: mIsCameraSupported={0}, mIsMicSupported={1}, mIsWriteStorageSupported={2}, " +
+            "mCaptureModesSupported={3}, mQualityLevelsSupported={4}]",
+            IsCameraSupported,
+            IsMicSupported,
+            IsWriteStorageSupported,
+            string.Join(",", mCaptureModesSupported.Select(p => p.ToString()).ToArray()),
+            string.Join(",", mQualityLevelsSupported.Select(p => p.ToString()).ToArray()));
     }
 }

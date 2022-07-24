@@ -14,18 +14,17 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames.BasicApi.Video
+namespace GooglePlayGames.BasicApi.Video;
+
+/// <summary>
+///     Capture overlay state listener, will be called to notify you of changes
+///     to the state of the capture overlay.
+/// </summary>
+public interface CaptureOverlayStateListener
 {
     /// <summary>
-    /// Capture overlay state listener, will be called to notify you of changes
-    /// to the state of the capture overlay.
+    ///     Called when the state of the capture overlay changes.
     /// </summary>
-    public interface CaptureOverlayStateListener
-    {
-        /// <summary>
-        /// Called when the state of the capture overlay changes.
-        /// </summary>
-        /// <param name="overlayState">The current capture overlay state.</param>
-        void OnCaptureOverlayStateChanged(VideoCaptureOverlayState overlayState);
-    }
+    /// <param name="overlayState">The current capture overlay state.</param>
+    void OnCaptureOverlayStateChanged(VideoCaptureOverlayState overlayState);
 }

@@ -20,8 +20,9 @@ namespace CardMaga.UI.Carfting
         [SerializeField] private BodyPartBaseVisualSO _baseVisual;
         [SerializeField] private CraftingSlotDefaultSO _defaultCraftingSlotData;
         [SerializeField] private CanvasGroup _loaderCanvasGroup;
+        [SerializeField] private CanvasGroup _endCanvasGroup;
         [SerializeField] private RectTransform _slotsGroup;
-
+        
         [Header("Animation Parameters")] [SerializeField]
         private float _xMovement;
 
@@ -29,6 +30,7 @@ namespace CardMaga.UI.Carfting
 
         private void Awake()
         {
+
             for (int i = 0; i < _craftingSlot.Length; i++)
             {
                 _craftingSlot[i].Init();
@@ -79,10 +81,16 @@ namespace CardMaga.UI.Carfting
             _craftingSlot[0].AssignSlotData(craftingSlotData);
             StartCoroutine(LoaderAlpha());
         }
-        
+
+        private void EndAnimation()
+        {
+            _loaderCanvasGroup.DOFade(1, 1);
+            _endCanvasGroup.DOFade(0, 1);
+        }
+
         private IEnumerator LoaderAlpha()
         {
-            float screenHeight = Screen.height;
+            float screenHeight = Screen.height * 0.75f;
             
             while (true)
             {
@@ -90,6 +98,7 @@ namespace CardMaga.UI.Carfting
                 
                 _loaderCanvasGroup.alpha = value;
                 _slotsGroup.anchoredPosition = new Vector3(Mathf.Lerp(0, _xMovement, value), 0,0);
+                _endCanvasGroup.alpha = 1 - value;
                 yield return null;
             }
         }
@@ -102,8 +111,6 @@ namespace CardMaga.UI.Carfting
         
         private void AddCraftingSlot(CraftingSlotData craftingSlotData)
         {
-            _loaderCanvasGroup.DOFade(1, 1);
-            
             for (int i = 0; i < _craftingSlot.Length; i++)
             {
                 if (_craftingSlot[i].TryGetCardTypeData(out CraftingSlotData prevCraftingSlotData))

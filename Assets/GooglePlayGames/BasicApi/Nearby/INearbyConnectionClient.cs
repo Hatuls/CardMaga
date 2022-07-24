@@ -14,65 +14,63 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames.BasicApi.Nearby
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
-    // move this inside IMessageListener and IDiscoveryListener are always declared.
+namespace GooglePlayGames.BasicApi.Nearby;
+
+// move this inside IMessageListener and IDiscoveryListener are always declared.
 #if UNITY_ANDROID
+public interface INearbyConnectionClient
+{
+    int MaxUnreliableMessagePayloadLength();
 
-    public interface INearbyConnectionClient
-    {
-        int MaxUnreliableMessagePayloadLength();
+    int MaxReliableMessagePayloadLength();
 
-        int MaxReliableMessagePayloadLength();
+    void SendReliable(List<string> recipientEndpointIds, byte[] payload);
 
-        void SendReliable(List<string> recipientEndpointIds, byte[] payload);
+    void SendUnreliable(List<string> recipientEndpointIds, byte[] payload);
 
-        void SendUnreliable(List<string> recipientEndpointIds, byte[] payload);
+    void StartAdvertising(string name, List<string> appIdentifiers,
+        TimeSpan? advertisingDuration, Action<AdvertisingResult> resultCallback,
+        Action<ConnectionRequest> connectionRequestCallback);
 
-        void StartAdvertising(string name, List<string> appIdentifiers,
-            TimeSpan? advertisingDuration, Action<AdvertisingResult> resultCallback,
-            Action<ConnectionRequest> connectionRequestCallback);
+    void StopAdvertising();
 
-        void StopAdvertising();
+    void SendConnectionRequest(string name, string remoteEndpointId, byte[] payload,
+        Action<ConnectionResponse> responseCallback, IMessageListener listener);
 
-        void SendConnectionRequest(string name, string remoteEndpointId, byte[] payload,
-            Action<ConnectionResponse> responseCallback, IMessageListener listener);
+    void AcceptConnectionRequest(string remoteEndpointId, byte[] payload,
+        IMessageListener listener);
 
-        void AcceptConnectionRequest(string remoteEndpointId, byte[] payload,
-            IMessageListener listener);
+    void StartDiscovery(string serviceId, TimeSpan? advertisingTimeout,
+        IDiscoveryListener listener);
 
-        void StartDiscovery(string serviceId, TimeSpan? advertisingTimeout,
-            IDiscoveryListener listener);
+    void StopDiscovery(string serviceId);
 
-        void StopDiscovery(string serviceId);
+    void RejectConnectionRequest(string requestingEndpointId);
 
-        void RejectConnectionRequest(string requestingEndpointId);
+    void DisconnectFromEndpoint(string remoteEndpointId);
 
-        void DisconnectFromEndpoint(string remoteEndpointId);
+    void StopAllConnections();
 
-        void StopAllConnections();
+    string GetAppBundleId();
 
-        string GetAppBundleId();
-
-        string GetServiceId();
-    }
+    string GetServiceId();
+}
 #endif
 
-    public interface IMessageListener
-    {
-        void OnMessageReceived(string remoteEndpointId, byte[] data,
-            bool isReliableMessage);
+public interface IMessageListener
+{
+    void OnMessageReceived(string remoteEndpointId, byte[] data,
+        bool isReliableMessage);
 
-        void OnRemoteEndpointDisconnected(string remoteEndpointId);
-    }
+    void OnRemoteEndpointDisconnected(string remoteEndpointId);
+}
 
-    public interface IDiscoveryListener
-    {
-        void OnEndpointFound(EndpointDetails discoveredEndpoint);
+public interface IDiscoveryListener
+{
+    void OnEndpointFound(EndpointDetails discoveredEndpoint);
 
-        void OnEndpointLost(string lostEndpointId);
-    }
+    void OnEndpointLost(string lostEndpointId);
 }

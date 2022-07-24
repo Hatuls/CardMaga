@@ -14,102 +14,75 @@
 //    limitations under the License.
 // </copyright>
 
-namespace GooglePlayGames.BasicApi.SavedGame
+using System;
+using GooglePlayGames.OurUtils;
+
+namespace GooglePlayGames.BasicApi.SavedGame;
+
+/// <summary>
+///     A struct representing the mutation of saved game metadata. Fields can either have a new value
+///     or be untouched (in which case the corresponding field in the saved game metadata will be
+///     untouched). Instances must be built using <see cref="SavedGameMetadataUpdate.Builder" />
+///     and once created, these instances are immutable and threadsafe.
+/// </summary>
+public struct SavedGameMetadataUpdate
 {
-    using System;
-    using GooglePlayGames.OurUtils;
-
-    /// <summary>
-    /// A struct representing the mutation of saved game metadata. Fields can either have a new value
-    /// or be untouched (in which case the corresponding field in the saved game metadata will be
-    /// untouched). Instances must be built using <see cref="SavedGameMetadataUpdate.Builder"/>
-    /// and once created, these instances are immutable and threadsafe.
-    /// </summary>
-    public struct SavedGameMetadataUpdate
+    private SavedGameMetadataUpdate(Builder builder)
     {
-        private readonly bool mDescriptionUpdated;
-        private readonly string mNewDescription;
-        private readonly bool mCoverImageUpdated;
-        private readonly byte[] mNewPngCoverImage;
-        private readonly TimeSpan? mNewPlayedTime;
+        IsDescriptionUpdated = builder.mDescriptionUpdated;
+        UpdatedDescription = builder.mNewDescription;
+        IsCoverImageUpdated = builder.mCoverImageUpdated;
+        UpdatedPngCoverImage = builder.mNewPngCoverImage;
+        UpdatedPlayedTime = builder.mNewPlayedTime;
+    }
 
-        private SavedGameMetadataUpdate(Builder builder)
+    public bool IsDescriptionUpdated { get; }
+
+    public string UpdatedDescription { get; }
+
+    public bool IsCoverImageUpdated { get; }
+
+    public byte[] UpdatedPngCoverImage { get; }
+
+    public bool IsPlayedTimeUpdated => UpdatedPlayedTime.HasValue;
+
+    public TimeSpan? UpdatedPlayedTime { get; }
+
+    public struct Builder
+    {
+        internal bool mDescriptionUpdated;
+        internal string mNewDescription;
+        internal bool mCoverImageUpdated;
+        internal byte[] mNewPngCoverImage;
+        internal TimeSpan? mNewPlayedTime;
+
+        public Builder WithUpdatedDescription(string description)
         {
-            mDescriptionUpdated = builder.mDescriptionUpdated;
-            mNewDescription = builder.mNewDescription;
-            mCoverImageUpdated = builder.mCoverImageUpdated;
-            mNewPngCoverImage = builder.mNewPngCoverImage;
-            mNewPlayedTime = builder.mNewPlayedTime;
+            mNewDescription = Misc.CheckNotNull(description);
+            mDescriptionUpdated = true;
+            return this;
         }
 
-        public bool IsDescriptionUpdated
+        public Builder WithUpdatedPngCoverImage(byte[] newPngCoverImage)
         {
-            get { return mDescriptionUpdated; }
+            mCoverImageUpdated = true;
+            mNewPngCoverImage = newPngCoverImage;
+            return this;
         }
 
-        public string UpdatedDescription
+        public Builder WithUpdatedPlayedTime(TimeSpan newPlayedTime)
         {
-            get { return mNewDescription; }
+            if (newPlayedTime.TotalMilliseconds > ulong.MaxValue)
+                throw new InvalidOperationException("Timespans longer than ulong.MaxValue " +
+                                                    "milliseconds are not allowed");
+
+            mNewPlayedTime = newPlayedTime;
+            return this;
         }
 
-        public bool IsCoverImageUpdated
+        public SavedGameMetadataUpdate Build()
         {
-            get { return mCoverImageUpdated; }
-        }
-
-        public byte[] UpdatedPngCoverImage
-        {
-            get { return mNewPngCoverImage; }
-        }
-
-        public bool IsPlayedTimeUpdated
-        {
-            get { return mNewPlayedTime.HasValue; }
-        }
-
-        public TimeSpan? UpdatedPlayedTime
-        {
-            get { return mNewPlayedTime; }
-        }
-
-        public struct Builder
-        {
-            internal bool mDescriptionUpdated;
-            internal string mNewDescription;
-            internal bool mCoverImageUpdated;
-            internal byte[] mNewPngCoverImage;
-            internal TimeSpan? mNewPlayedTime;
-
-            public Builder WithUpdatedDescription(string description)
-            {
-                mNewDescription = Misc.CheckNotNull(description);
-                mDescriptionUpdated = true;
-                return this;
-            }
-
-            public Builder WithUpdatedPngCoverImage(byte[] newPngCoverImage)
-            {
-                mCoverImageUpdated = true;
-                mNewPngCoverImage = newPngCoverImage;
-                return this;
-            }
-
-            public Builder WithUpdatedPlayedTime(TimeSpan newPlayedTime)
-            {
-                if (newPlayedTime.TotalMilliseconds > ulong.MaxValue)
-                {
-                    throw new InvalidOperationException("Timespans longer than ulong.MaxValue " +
-                                                        "milliseconds are not allowed");
-                }
-
-                mNewPlayedTime = newPlayedTime;
-                return this;
-            }
-
-            public SavedGameMetadataUpdate Build()
-            {
-                return new SavedGameMetadataUpdate(this);
-            }
+            return new SavedGameMetadataUpdate(this);
         }
     }
 }

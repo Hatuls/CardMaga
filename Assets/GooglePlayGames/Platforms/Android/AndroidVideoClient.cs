@@ -1,20 +1,19 @@
+using System;
+using GooglePlayGames.BasicApi;
+using GooglePlayGames.BasicApi.Video;
+using GooglePlayGames.OurUtils;
+using UnityEngine;
+
 #if UNITY_ANDROID
 #pragma warning disable 0642 // Possible mistaken empty statement
 
 namespace GooglePlayGames.Android
 {
-    using System;
-    using System.Collections.Generic;
-    using GooglePlayGames.BasicApi;
-    using GooglePlayGames.BasicApi.Video;
-    using GooglePlayGames.OurUtils;
-    using UnityEngine;
-
     internal class AndroidVideoClient : IVideoClient
     {
+        private readonly bool mIsCaptureSupported;
+        private OnCaptureOverlayStateListenerProxy mOnCaptureOverlayStateListenerProxy;
         private volatile AndroidJavaObject mVideosClient;
-        private bool mIsCaptureSupported;
-        private OnCaptureOverlayStateListenerProxy mOnCaptureOverlayStateListenerProxy = null;
 
         public AndroidVideoClient(bool isCaptureSupported, AndroidJavaObject account)
         {
@@ -66,7 +65,7 @@ namespace GooglePlayGames.Android
         {
             callback = ToOnGameThread(callback);
             using (var task =
-                mVideosClient.Call<AndroidJavaObject>("isCaptureAvailable", ToVideoCaptureMode(captureMode)))
+                   mVideosClient.Call<AndroidJavaObject>("isCaptureAvailable", ToVideoCaptureMode(captureMode)))
             {
                 AndroidTaskUtils.AddOnSuccessListener<bool>(
                     task,
@@ -85,14 +84,14 @@ namespace GooglePlayGames.Android
 
         public void RegisterCaptureOverlayStateChangedListener(CaptureOverlayStateListener listener)
         {
-            if (mOnCaptureOverlayStateListenerProxy != null)
-            {
-                UnregisterCaptureOverlayStateChangedListener();
-            }
+            if (mOnCaptureOverlayStateListenerProxy != null) UnregisterCaptureOverlayStateChangedListener();
 
             mOnCaptureOverlayStateListenerProxy = new OnCaptureOverlayStateListenerProxy(listener);
             using (mVideosClient.Call<AndroidJavaObject>("registerOnCaptureOverlayStateChangedListener",
-                mOnCaptureOverlayStateListenerProxy)) ;
+                       mOnCaptureOverlayStateListenerProxy))
+            {
+                ;
+            }
         }
 
         public void UnregisterCaptureOverlayStateChangedListener()
@@ -100,44 +99,12 @@ namespace GooglePlayGames.Android
             if (mOnCaptureOverlayStateListenerProxy != null)
             {
                 using (mVideosClient.Call<AndroidJavaObject>("unregisterOnCaptureOverlayStateChangedListener",
-                    mOnCaptureOverlayStateListenerProxy)) ;
+                           mOnCaptureOverlayStateListenerProxy))
+                {
+                    ;
+                }
 
                 mOnCaptureOverlayStateListenerProxy = null;
-            }
-        }
-
-        private class OnCaptureOverlayStateListenerProxy : AndroidJavaProxy
-        {
-            private CaptureOverlayStateListener mListener;
-
-            public OnCaptureOverlayStateListenerProxy(CaptureOverlayStateListener listener)
-                : base("com/google/android/gms/games/VideosClient$OnCaptureOverlayStateListener")
-            {
-                mListener = listener;
-            }
-
-            public void onCaptureOverlayStateChanged(int overlayState)
-            {
-                PlayGamesHelperObject.RunOnGameThread(() =>
-                    mListener.OnCaptureOverlayStateChanged(FromVideoCaptureOverlayState(overlayState))
-                );
-            }
-
-            private static VideoCaptureOverlayState FromVideoCaptureOverlayState(int overlayState)
-            {
-                switch (overlayState)
-                {
-                    case 1: // CAPTURE_OVERLAY_STATE_SHOWN
-                        return VideoCaptureOverlayState.Shown;
-                    case 2: // CAPTURE_OVERLAY_STATE_CAPTURE_STARTED
-                        return VideoCaptureOverlayState.Started;
-                    case 3: // CAPTURE_OVERLAY_STATE_CAPTURE_STOPPED
-                        return VideoCaptureOverlayState.Stopped;
-                    case 4: // CAPTURE_OVERLAY_STATE_DISMISSED
-                        return VideoCaptureOverlayState.Dismissed;
-                    default:
-                        return VideoCaptureOverlayState.Unknown;
-                }
             }
         }
 
@@ -191,11 +158,11 @@ namespace GooglePlayGames.Android
 
         private static VideoCaptureState CreateVideoCaptureState(AndroidJavaObject videoCaptureState)
         {
-            bool isCapturing = videoCaptureState.Call<bool>("isCapturing");
-            VideoCaptureMode captureMode = FromVideoCaptureMode(videoCaptureState.Call<int>("getCaptureMode"));
-            VideoQualityLevel qualityLevel = FromVideoQualityLevel(videoCaptureState.Call<int>("getCaptureQuality"));
-            bool isOverlayVisible = videoCaptureState.Call<bool>("isOverlayVisible");
-            bool isPaused = videoCaptureState.Call<bool>("isPaused");
+            var isCapturing = videoCaptureState.Call<bool>("isCapturing");
+            var captureMode = FromVideoCaptureMode(videoCaptureState.Call<int>("getCaptureMode"));
+            var qualityLevel = FromVideoQualityLevel(videoCaptureState.Call<int>("getCaptureQuality"));
+            var isOverlayVisible = videoCaptureState.Call<bool>("isOverlayVisible");
+            var isPaused = videoCaptureState.Call<bool>("isPaused");
 
             return new VideoCaptureState(isCapturing, captureMode,
                 qualityLevel, isOverlayVisible, isPaused);
@@ -203,14 +170,49 @@ namespace GooglePlayGames.Android
 
         private static VideoCapabilities CreateVideoCapabilities(AndroidJavaObject videoCapabilities)
         {
-            bool isCameraSupported = videoCapabilities.Call<bool>("isCameraSupported");
-            bool isMicSupported = videoCapabilities.Call<bool>("isMicSupported");
-            bool isWriteStorageSupported = videoCapabilities.Call<bool>("isWriteStorageSupported");
-            bool[] captureModesSupported = videoCapabilities.Call<bool[]>("getSupportedCaptureModes");
-            bool[] qualityLevelsSupported = videoCapabilities.Call<bool[]>("getSupportedQualityLevels");
+            var isCameraSupported = videoCapabilities.Call<bool>("isCameraSupported");
+            var isMicSupported = videoCapabilities.Call<bool>("isMicSupported");
+            var isWriteStorageSupported = videoCapabilities.Call<bool>("isWriteStorageSupported");
+            var captureModesSupported = videoCapabilities.Call<bool[]>("getSupportedCaptureModes");
+            var qualityLevelsSupported = videoCapabilities.Call<bool[]>("getSupportedQualityLevels");
 
             return new VideoCapabilities(isCameraSupported, isMicSupported, isWriteStorageSupported,
                 captureModesSupported, qualityLevelsSupported);
+        }
+
+        private class OnCaptureOverlayStateListenerProxy : AndroidJavaProxy
+        {
+            private readonly CaptureOverlayStateListener mListener;
+
+            public OnCaptureOverlayStateListenerProxy(CaptureOverlayStateListener listener)
+                : base("com/google/android/gms/games/VideosClient$OnCaptureOverlayStateListener")
+            {
+                mListener = listener;
+            }
+
+            public void onCaptureOverlayStateChanged(int overlayState)
+            {
+                PlayGamesHelperObject.RunOnGameThread(() =>
+                    mListener.OnCaptureOverlayStateChanged(FromVideoCaptureOverlayState(overlayState))
+                );
+            }
+
+            private static VideoCaptureOverlayState FromVideoCaptureOverlayState(int overlayState)
+            {
+                switch (overlayState)
+                {
+                    case 1: // CAPTURE_OVERLAY_STATE_SHOWN
+                        return VideoCaptureOverlayState.Shown;
+                    case 2: // CAPTURE_OVERLAY_STATE_CAPTURE_STARTED
+                        return VideoCaptureOverlayState.Started;
+                    case 3: // CAPTURE_OVERLAY_STATE_CAPTURE_STOPPED
+                        return VideoCaptureOverlayState.Stopped;
+                    case 4: // CAPTURE_OVERLAY_STATE_DISMISSED
+                        return VideoCaptureOverlayState.Dismissed;
+                    default:
+                        return VideoCaptureOverlayState.Unknown;
+                }
+            }
         }
     }
 }
