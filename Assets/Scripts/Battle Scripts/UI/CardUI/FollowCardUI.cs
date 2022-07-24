@@ -62,6 +62,7 @@ public class FollowCardUI : MonoBehaviour
             
             if (CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
             {
+                _handUI.RemoveCardUIsFromTable(_selectCardUI);
                 _selectCardUI.Inputs.ForceChangeState(false);
                 OnCardExecute?.Invoke(_selectCardUI);
                 _selectCardUI = null;

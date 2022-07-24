@@ -2432,6 +2432,22 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
+      propertyPath: _brain
+      value: 
+      objectReference: {fileID: 11400000, guid: 01c106ff55dccba40afbf34ac883329a,
+        type: 2}
+    - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
+        type: 3}
+      propertyPath: _delayTime.x
+      value: 1.0373197
+      objectReference: {fileID: 0}
+    - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
+        type: 3}
+      propertyPath: _delayTime.y
+      value: 2.065824
+      objectReference: {fileID: 0}
+    - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
+        type: 3}
       propertyPath: _enemyNameText
       value: 
       objectReference: {fileID: 7278675045352804564}
@@ -2587,6 +2603,18 @@ PrefabInstance:
     - {fileID: 7190250571461079770, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
     - {fileID: 2443768439390745709, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
+--- !u!114 &560829603735717847 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1511457884063859248, guid: 353491b6d4691024a960a6196cac83bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 560829603735717846}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d4f06ddf8dcfd049af82a33878db572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1269784916858879584
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3195,6 +3223,11 @@ PrefabInstance:
       objectReference: {fileID: 4132734532372878162}
     - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
         type: 3}
+      propertyPath: _comboUIManager
+      value: 
+      objectReference: {fileID: 7278675045352804567}
+    - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
       propertyPath: _battleInputStateMachine
       value: 
       objectReference: {fileID: 732788130}
@@ -3696,6 +3729,38 @@ MonoBehaviour:
 --- !u!224 &7278675045352804565 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7278675045817372255, guid: 035bde59489541e49ac2c55212d431f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7278675045352804559}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7278675045352804566 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7278675045855000542, guid: 035bde59489541e49ac2c55212d431f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7278675045352804559}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7278675045352804567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7278675045352804566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba649314efc3e24b92cb5af67deb670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardUIManager: {fileID: 4132734532372878162}
+  _handUI: {fileID: 5702666649249262310}
+  _comboManager: {fileID: 560829603735717847}
+  _drawPosition: {fileID: 7278675045352804568}
+  _destination: {fileID: 0}
+  _drawTransitionPackSo: {fileID: 11400000, guid: 42e54514f2d61ce49b7197ab0123add5,
+    type: 2}
+  _delaybetweenDrawCards: 1
+--- !u!224 &7278675045352804568 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2276677397449981721, guid: 035bde59489541e49ac2c55212d431f0,
     type: 3}
   m_PrefabInstance: {fileID: 7278675045352804559}
   m_PrefabAsset: {fileID: 0}

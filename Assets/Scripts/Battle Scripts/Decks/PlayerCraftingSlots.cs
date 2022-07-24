@@ -50,7 +50,7 @@ public class PlayerCraftingSlots : BaseDeck
 
                 GetDeck[GetDeck.Length - 1] = card;
                 onCardExe?.Invoke(card.CardTypeData);
-                //_playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
+                _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
             }
         }
         CountCards();
