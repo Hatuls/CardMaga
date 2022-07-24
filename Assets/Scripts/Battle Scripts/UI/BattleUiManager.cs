@@ -59,24 +59,13 @@ namespace Battle.UI
         {
             switch (actionTypeEnum)
             {
-                case KeywordTypeEnum.Attack:
-
-                    //    _textEvent?.Raise(TextType.NormalDMG, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
-                    StatsUIManager.Instance.UpdateHealthBar(isPlayer, Amount);
-                    StatsUIManager.Instance.UpdateShieldBar(isPlayer, Amount);
-
-                    break;
-
                 case KeywordTypeEnum.Shield:
 
                     //   _textEvent?.Raise(TextType.Shield, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
-                    StatsUIManager.Instance.UpdateShieldBar(isPlayer, Amount);
+                   // StatsUIManager.Instance.UpdateShieldBar(isPlayer, Amount);
 
                     break;
-
-                case KeywordTypeEnum.Heal:
-                    StatsUIManager.Instance.UpdateHealthBar(isPlayer, Amount);
-                    break;
+        
                 case KeywordTypeEnum.Burn:
                 case KeywordTypeEnum.Protected:
                 case KeywordTypeEnum.Rage:
@@ -95,8 +84,9 @@ namespace Battle.UI
                     break;
 
                 case KeywordTypeEnum.MaxHealth:
-                    StatsUIManager.Instance.UpdateMaxHealthBar(isPlayer, Amount);
                     break;
+                case KeywordTypeEnum.Attack:
+                case KeywordTypeEnum.Heal:
                 default:
                     break;
             }

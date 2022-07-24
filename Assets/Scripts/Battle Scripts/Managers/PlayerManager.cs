@@ -78,18 +78,11 @@ namespace Managers
 
             _playerDeck = new CardData[Length];
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
+            Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
 
       
             CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
-            Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
             PlayerAnimatorController.ResetAnimator();
-        }
-        public void UpdateStatsUI()
-        {
-            var statsui = Battle.UI.StatsUIManager.Instance;
-            statsui.UpdateMaxHealthBar(true, GetCharacterStats.MaxHealth);
-            statsui.InitHealthBar(true, GetCharacterStats.Health);
-            statsui.UpdateShieldBar(true, GetCharacterStats.Shield);
         }
 
 

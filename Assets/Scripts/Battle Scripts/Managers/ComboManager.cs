@@ -108,25 +108,26 @@ namespace Battle
             var state = Battle.Turns.TurnHandler.CurrentState;
             bool isPlayer = state == Battle.Turns.TurnState.PlayerTurn || state == Battle.Turns.TurnState.StartPlayerTurn || state == Battle.Turns.TurnState.EndPlayerTurn;
 
-            var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
+            var data = DeckManager.GetCraftingSlots(isPlayer);
+
+        //    var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
 
             if (Instance._cardRecipeDetected == null || Instance._cardRecipeDetected.ComboSO == null)
             {
                 FoundCombo = false;
-                _craftingUIHandler.ResetSlotsDetection();
                 DeckManager.Instance.DrawHand(isPlayer, 1);
             }
             else
             {
                 FoundCombo = true;
-                _craftingUIHandler.MarkSlotsDetected();
+               // _craftingUIHandler.MarkSlotsDetected();
                 Instance.TryForge(isPlayer);
                 var tuffle = VFXManager.Instance.RecieveParticleSystemVFX(isPlayer, Instance._comboVFX);
                 tuffle.Item1.StartVFX(Instance._comboVFX, tuffle.Item2.AvatarHandler.GetBodyPart(BodyPartEnum.BottomBody));
-                DeckManager.GetCraftingSlots(isPlayer).ResetDeck();
+               // DeckManager.GetCraftingSlots(isPlayer).ResetDeck();
                 Instance._cardRecipeDetected = null;
+            data.ResetDeck();
             }
-
         }
 
         static void DetectRecipe()

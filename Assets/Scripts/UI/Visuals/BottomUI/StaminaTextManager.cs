@@ -26,6 +26,7 @@ public class StaminaTextManager : MonoBehaviour
         _maxStamima.text = (stamina).ToString();
     }
 
+#if UNITY_EDITOR
     /// <summary>
     /// Test for starting the animation if wanted (reduce) and changing the number
     /// </summary>
@@ -35,4 +36,5 @@ public class StaminaTextManager : MonoBehaviour
         _staminaTransition.ReduceAnimation(_staminaTransition.CurrentStaminaRectTransform);
         _currentStamima.text = (num).ToString();
     }
+#endif
 }

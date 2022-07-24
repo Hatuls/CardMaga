@@ -30,7 +30,7 @@ namespace Battle
         public static int CurrentKeywordIndex { get => currentKeywordIndex; }
 
         static List<KeywordData> _keywordData = new List<KeywordData>();
-        [SerializeField] StaminaUI _staminaBtn;
+     //   [SerializeField] StaminaUI _staminaBtn;
         static int currentKeywordIndex;
         public static bool FinishedAnimation;
 
@@ -68,7 +68,7 @@ namespace Battle
                 // not enough stamina 
                 if (isPlayer)
                 {
-                    _staminaBtn.PlayRejectAnimation();
+                //    _staminaBtn.PlayRejectAnimation();
                     OnFailedToExecute?.Invoke();
                 }
 

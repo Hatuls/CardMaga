@@ -8,18 +8,19 @@ namespace Battle.Deck
     public class PlayerBaseDeck : BaseDeck
     {
         public static Action OnShuffleDeck;
-        BuffIcon _deckIcon;
+   
         StringEvent _soundEvent;
-        public PlayerBaseDeck(bool isPlayer, CardData[] deckCards, BuffIcon DeckIcon, StringEvent soundsEvent) : base(isPlayer, deckCards)
+        public PlayerBaseDeck(bool isPlayer, CardData[] deckCards,  StringEvent soundsEvent) : base(isPlayer, deckCards)
         {
-            _deckIcon = DeckIcon;
+    
         }
         public override bool AddCard(CardData card)
         {
          bool added =   base.AddCard(card);
 
-            if (isPlayer)
-                _deckIcon?.SetAmount(AmountOfFilledSlots);
+            //if (isPlayer)
+            //    _deckIcon?.SetAmount(AmountOfFilledSlots);
+        //    OnAmountOfFilledSlotsChange?.Invoke(AmountOfEmptySlots);
             return added;
         }
 
@@ -41,9 +42,6 @@ namespace Battle.Deck
             else
                 SetDeck = EnemyManager.Instance.Deck;
 
-            if (isPlayer)
-                _deckIcon?.SetAmount(AmountOfFilledSlots);
-
 
             Shuffle();
             OrderDeck();
@@ -53,9 +51,9 @@ namespace Battle.Deck
         public override bool DiscardCard(in CardData card)
         {
             bool succeed = base.DiscardCard(card);
-
-            if (isPlayer)
-                _deckIcon?.SetAmount(AmountOfFilledSlots);
+    //        OnAmountOfFilledSlotsChange?.Invoke(AmountOfEmptySlots);
+            //if (isPlayer)
+            //    _deckIcon?.SetAmount(AmountOfFilledSlots);
             return succeed;
         }
         public void Shuffle()

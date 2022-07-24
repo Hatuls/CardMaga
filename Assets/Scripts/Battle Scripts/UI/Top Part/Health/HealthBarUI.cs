@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using System.Collections;
 using Sirenix.OdinInspector;
+using Battle.Turns;
 
 namespace CardMaga.UI.Bars
 {
@@ -53,6 +54,8 @@ namespace CardMaga.UI.Bars
                 throw new Exception("HealthBarUI has no current health Text");
             if (_maxHealthText == null)
                 throw new Exception("HealthBarUI has no Max health Text");
+
+            TurnHandler.OnFinishTurn += CompleteCounter;
         }
         private void Start()
         {
@@ -93,17 +96,17 @@ namespace CardMaga.UI.Bars
             SetText(_currentHealth);
             if (_currentHealth == _healthBarSlider.value)
             {
-                Debug.LogWarning("Health is the same but you called for Change Health method");
+         //       Debug.LogWarning("Health is the same but you called for Change Health method");
                 return;
             }
             if (_currentHealth < _healthBarSlider.value)
             {
-                Debug.Log("Lowering Health");
+            //    Debug.Log("Lowering Health");
                 StartHealthChange(_healthBarSlider, _healthBarSO.FillDownColor, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
             }
             else if (_currentHealth > _healthBarSlider.value)
             {
-                Debug.Log("Increacing Health");
+          //      Debug.Log("Increacing Health");
                 StartHealthChange(_healthBarInnerSlider, _healthBarSO.FillUpColor, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
             }
         }
@@ -116,13 +119,13 @@ namespace CardMaga.UI.Bars
             }
             if (_maxHealth < maxHealth)
             {
-                var healthDelta = maxHealth - _maxHealth;
+          //      var healthDelta = maxHealth - _maxHealth;
                 //ChangeHealth(_currentHealth += healthDelta);
-                Debug.Log("max health was Increaced");
+        //        Debug.Log("max health was Increaced");
             }
             else
             {
-                Debug.Log("max health was reduced");
+        //        Debug.Log("max health was reduced");
             }
             _maxHealth = maxHealth;
             SetMaxValue(_healthBarInnerSlider, _maxHealth);
@@ -141,13 +144,13 @@ namespace CardMaga.UI.Bars
             if (_currentHealth > _healthBarSlider.value)
             {
                 //Need to change health bar to fill bar
-                Debug.Log("Health Was Increaced Completeing transition");
+           //     Debug.Log("Health Was Increaced Completeing transition");
                 DoMoveSlider(_healthBarSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
             }
             else if (_currentHealth == _healthBarSlider.value)
             {
                 //Need to change fill to match the health
-                Debug.Log("Health Was Decreaced Completeing transition");
+             //   Debug.Log("Health Was Decreaced Completeing transition");
                 DoMoveSlider(_healthBarInnerSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
             }
             else
@@ -157,10 +160,10 @@ namespace CardMaga.UI.Bars
         }
         IEnumerator StartTimer()
         {
-            Debug.Log("Started Timer");
+      //      Debug.Log("Started Timer");
             while (_healthBarSO.DelayTillReturn > _counter)
             {
-                Debug.Log($"Health Bar counter: {_counter}");
+               // Debug.Log($"Health Bar counter: {_counter}");
                 _counter += Time.deltaTime;
                 yield return null;
             }
@@ -178,6 +181,7 @@ namespace CardMaga.UI.Bars
         private void OnDestroy()
         {
             StopCounter();
+            TurnHandler.OnFinishTurn -= CompleteCounter;
         }
     }
 }
