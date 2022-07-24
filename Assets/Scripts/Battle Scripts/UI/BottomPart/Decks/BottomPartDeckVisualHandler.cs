@@ -4,6 +4,7 @@ using Battle.Deck;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using System;
+using ReiTools.TokenMachine;
 
 namespace CardMaga.UI
 {
@@ -30,7 +31,7 @@ namespace CardMaga.UI
 #endif
         [Header("General")]
         [SerializeField] float _resetDuration = 0.3f;
-
+        [SerializeField] DeckManager _deckManager;
         [Header("Draw Deck")]
         [SerializeField] DeckTextAssigner _drawDeckTextAssigner;
         [SerializeField] TransitionPackSO _drawDeckTransitionPackSO;
@@ -64,14 +65,20 @@ namespace CardMaga.UI
                 throw new Exception("BottomPartDeckVisualHandler has no Draw Transition SO");
             if (_discardDeckTransitionPackSO == null)
                 throw new Exception("BottomPartDeckVisualHandler has no Discard Transition SO");
+
+            SceneHandler.OnLateBeforeSceneShown += InitVisuals;
         }
-        private void Start()
+  
+        private void InitVisuals(ITokenReciever tokenMachine)
         {
-            var deckManager = DeckManager.Instance;
-            _drawDeckTextAssigner.Init(deckManager.GetBaseDeck(true,DeckEnum.PlayerDeck));
-            _discardDeck = deckManager.GetBaseDeck(true, DeckEnum.Discard);
-            _discardDeckTextAssigner.Init(_discardDeck);
-            _discardDeck.OnResetDeck += MoveCardsToDrawPileAnim;
+            var t = tokenMachine.GetToken();
+            using (t)
+            {
+                _drawDeckTextAssigner.Init(_deckManager.GetBaseDeck(true, DeckEnum.PlayerDeck));
+                _discardDeck = _deckManager.GetBaseDeck(true, DeckEnum.Discard);
+                _discardDeckTextAssigner.Init(_discardDeck);
+                _discardDeck.OnResetDeck += MoveCardsToDrawPileAnim;
+            }
         }
         void MoveCardsToDrawPileAnim()
         {
@@ -91,6 +98,10 @@ namespace CardMaga.UI
         private void OnDestroy()
         {
             _discardDeck.OnResetDeck -= MoveCardsToDrawPileAnim;
+            SceneHandler.OnLateBeforeSceneShown -= InitVisuals;
+            _drawDeckTextAssigner.OnDestroy();
+            _discardDeckTextAssigner.OnDestroy();
+                
         }
     }
 }

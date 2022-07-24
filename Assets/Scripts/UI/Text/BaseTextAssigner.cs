@@ -18,5 +18,8 @@ namespace CardMaga.UI.Text
             Debug.Log("HexaCode: " + hexaCode);
             return hexaCode;
         }
+
+        public virtual void OnDestroy() { }
+      
     }
 }

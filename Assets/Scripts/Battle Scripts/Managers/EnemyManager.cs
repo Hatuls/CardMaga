@@ -33,7 +33,7 @@ namespace Battle
         private CardData[] _deck;
         public CardData[] Deck => _deck;
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
-        public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
+        public AnimatorController EnemyAnimatorController => _enemyAnimatorController;
 
         public AIBrain Brain { get => _brain;}
         private bool _isStillThinking;
@@ -77,8 +77,8 @@ namespace Battle
 
 
 #if UNITY_EDITOR
-            _enemyNameText.gameObject.SetActive(true);
-            _enemyNameText.text = characterdata.CharacterSO.CharacterName;
+         //   _enemyNameText.gameObject.SetActive(true);
+         //   _enemyNameText.text = characterdata.CharacterSO.CharacterName;
 #endif
 
         }
@@ -86,13 +86,6 @@ namespace Battle
         private void SpawnModel(Character character)
         {
             Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
-        }
-
-        public void UpdateStatsUI()
-        {
-            UI.StatsUIManager.Instance.UpdateMaxHealthBar(false, GetCharacterStats.MaxHealth);
-            UI.StatsUIManager.Instance.InitHealthBar(false, GetCharacterStats.Health);
-            UI.StatsUIManager.Instance.UpdateShieldBar(false, GetCharacterStats.Shield);
         }
 
         public void OnEndBattle()

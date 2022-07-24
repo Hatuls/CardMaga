@@ -16,19 +16,20 @@ namespace CardMaga.UI.Text
             if (_deckText == null)
                 throw new Exception("Deck has no Text");
 
-            _baseDeck = baseDeck;
 
-            _baseDeck.OnAmountOfFilledSlotsChange += SetDeckText;
+            baseDeck.OnAmountOfFilledSlotsChange += SetDeckText;
+            _baseDeck = baseDeck;
         }
 
         public void SetDeckText(int cardAmount)
         {
             AssignText(_deckText, cardAmount.ToString());
         }
-        
-        ~DeckTextAssigner()
+
+        public override void OnDestroy()
         {
             _baseDeck.OnAmountOfFilledSlotsChange -= SetDeckText;
         }
+
     }
 }

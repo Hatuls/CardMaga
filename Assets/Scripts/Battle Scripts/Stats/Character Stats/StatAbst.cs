@@ -6,9 +6,22 @@ namespace Characters.Stats
     public abstract class StatAbst
     {
         public static Action<bool, int, Keywords.KeywordTypeEnum> _updateUIStats;
+        public event Action<int> OnValueChanged;
         protected bool isPlayer;
         public abstract Keywords.KeywordTypeEnum Keyword { get; }
-        public int Amount { get; protected set; }
+        private int _amount;
+        public int Amount
+        {
+            get => _amount; protected set
+            {
+                if(_amount != value)
+                {
+                    _amount = value;
+                    OnValueChanged?.Invoke(_amount);
+                }
+
+            }
+        }
         public StatAbst(bool isPlayer, int amount)
         {
             this.isPlayer = isPlayer;
@@ -16,7 +29,7 @@ namespace Characters.Stats
             if (_updateUIStats == null)
                 _updateUIStats += BattleUiManager.Instance.UpdateUiStats;
 
-            _updateUIStats?.Invoke(isPlayer, amount,Keyword);
+            _updateUIStats?.Invoke(isPlayer, amount, Keyword);
         }
         ~StatAbst()
         {

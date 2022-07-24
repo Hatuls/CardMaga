@@ -4,14 +4,26 @@ namespace Battle.Deck
 {
     public abstract class BaseDeck : IDeckHandler
     {
-
         public event Action<int> OnAmountOfFilledSlotsChange;
         public virtual event Action OnResetDeck;
         public bool isPlayer { get; private set; }
         private CardData[] _deckCards;
-
+        private int _amountOfFilledSlots = 0;
         #region Properties
-        public int AmountOfFilledSlots { get; set; }
+        public int AmountOfFilledSlots { 
+            get
+            {
+                return _amountOfFilledSlots;
+            }
+            protected set
+            {
+                if (_amountOfFilledSlots != value)
+                {
+                    _amountOfFilledSlots = value;
+                    OnAmountOfFilledSlotsChange?.Invoke(value);
+                }
+            }
+        }
         public ref CardData[] GetDeck
             => ref _deckCards; 
         
@@ -58,7 +70,7 @@ namespace Battle.Deck
             // count for the amount of empty and not empty slots 
 
 
-            var currentAmountOfFilledSlots = AmountOfFilledSlots;
+            int currentAmountOfFilledSlots = AmountOfFilledSlots;
             AmountOfEmptySlots = 0;
             AmountOfFilledSlots = 0;
             if (_deckCards == null)
@@ -74,10 +86,8 @@ namespace Battle.Deck
                 else
                     AmountOfFilledSlots++;
             }
-            if (currentAmountOfFilledSlots != AmountOfFilledSlots)
-            {
-                OnAmountOfFilledSlotsChange?.Invoke(AmountOfFilledSlots);
-            }
+            if (currentAmountOfFilledSlots != AmountOfFilledSlots&& OnAmountOfFilledSlotsChange!=null)
+                OnAmountOfFilledSlotsChange.Invoke(AmountOfFilledSlots);
 
         }
         public virtual CardData GetFirstCard()
@@ -169,15 +179,8 @@ namespace Battle.Deck
 
             //  CountCards();
         }
-        
-        public virtual void ResetDeck()
-        {
-            /*
-             * Reset the deck to his created state 
-             */
-            OnResetDeck?.Invoke();
-            EmptySlots();
-        }
+
+        public abstract void ResetDeck();
         public void PrintDecks(DeckEnum deck)
         {
             /*
@@ -223,6 +226,7 @@ namespace Battle.Deck
         #endregion
         
         #region Private Functions
+       
         protected void OrderDeck()
         {
             /*

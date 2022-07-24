@@ -3,7 +3,7 @@ namespace Characters.Stats
 {
     public class CharacterStatsHandler
     {
-
+        public static event System.Action<bool, CharacterStatsHandler> OnStatAssigned;
 
         private System.Collections.Generic.Dictionary<KeywordTypeEnum, StatAbst> _statsDictionary;
         public CharacterStatsHandler(bool isPlayer, ref CharacterStats stats)
@@ -57,6 +57,8 @@ namespace Characters.Stats
                 {_weakStat.Keyword,_weakStat },
                 {_vulnerableKeyword.Keyword,_vulnerableKeyword  },
             };
+
+            OnStatAssigned?.Invoke(isPlayer, this);
         }
 
         public StatAbst GetStats(KeywordTypeEnum keyword)

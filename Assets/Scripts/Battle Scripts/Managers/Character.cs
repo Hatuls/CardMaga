@@ -20,6 +20,8 @@ namespace Battle.Characters
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
         public string DisplayName { get => _displayName; }
 
+        private int _model = 0;
+        public int Model { get => _model; }
         public Character() { }
 
         public Character(string displayName,  Account.GeneralData.Character data)
