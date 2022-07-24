@@ -10,14 +10,8 @@ namespace Battle.Deck
         public bool isPlayer { get; private set; }
         private CardData[] _deckCards;
 
-        private int amountOfEmptySlots;
-        private int amountOfFilledSlots;
-
-
-
         #region Properties
-        public int GetAmountOfEmptySlots { get { return amountOfEmptySlots; } }
-        public  int GetAmountOfFilledSlots =>  amountOfFilledSlots;
+        public int AmountOfFilledSlots { get; set; }
         public ref CardData[] GetDeck
             => ref _deckCards; 
         
@@ -35,6 +29,8 @@ namespace Battle.Deck
                 OrderDeck();
             }
         }
+
+        public int AmountOfEmptySlots { get; set; }
         #endregion
 
         #region Public Functions
@@ -57,14 +53,14 @@ namespace Battle.Deck
             SetDeck = new CardData[length];
         }
 
-        protected void CountCards()
+        public void CountCards()
         {
             // count for the amount of empty and not empty slots 
 
 
-            var currentAmountOfFilledSlots = amountOfFilledSlots;
-            amountOfEmptySlots = 0;
-            amountOfFilledSlots = 0;
+            var currentAmountOfFilledSlots = AmountOfFilledSlots;
+            AmountOfEmptySlots = 0;
+            AmountOfFilledSlots = 0;
             if (_deckCards == null)
             {
                 UnityEngine.Debug.LogError("DeckCards is null");
@@ -74,13 +70,13 @@ namespace Battle.Deck
             for (int i = 0; i < _deckCards.Length; i++)
             {
                 if (_deckCards[i] == null)
-                    amountOfEmptySlots++;
+                    AmountOfEmptySlots++;
                 else
-                    amountOfFilledSlots++;
+                    AmountOfFilledSlots++;
             }
-            if (currentAmountOfFilledSlots != amountOfFilledSlots)
+            if (currentAmountOfFilledSlots != AmountOfFilledSlots)
             {
-                OnAmountOfFilledSlotsChange?.Invoke(amountOfFilledSlots);
+                OnAmountOfFilledSlotsChange?.Invoke(AmountOfFilledSlots);
             }
 
         }
@@ -111,8 +107,8 @@ namespace Battle.Deck
                 _deckCards[index] = card;
 
                 OrderDeck();
-                amountOfEmptySlots--;
-                amountOfFilledSlots++;
+                AmountOfEmptySlots--;
+                AmountOfFilledSlots++;
                 //CountCards();
                 return true;
             }
@@ -137,8 +133,8 @@ namespace Battle.Deck
                        && _deckCards[i].CardInstanceID == card.CardInstanceID)
                     {
                         _deckCards[i] = null;
-                        amountOfEmptySlots++;
-                        amountOfFilledSlots--;
+                        AmountOfEmptySlots++;
+                        AmountOfFilledSlots--;
                         foundCard = true;
                         break;
                     }
@@ -168,8 +164,8 @@ namespace Battle.Deck
                         GetDeck[i] = null;
                 }
             }
-            amountOfEmptySlots = GetDeck.Length;
-            amountOfFilledSlots = 0;
+            AmountOfEmptySlots = GetDeck.Length;
+            AmountOfFilledSlots = 0;
 
             //  CountCards();
         }

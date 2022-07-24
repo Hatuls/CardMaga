@@ -31,7 +31,7 @@ namespace CardMaga.AI
 
             int GetCraftingSlotsFilled()
             {
-                int amountCache = deck.GetAmountOfFilledSlots;
+                int amountCache = deck.AmountOfFilledSlots;
            
                 craftingItems = new List<CardTypeData>(amountCache);
 

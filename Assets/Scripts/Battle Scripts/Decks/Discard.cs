@@ -36,14 +36,14 @@ namespace Battle.Deck
 
           bool added =   base.AddCard(card);
             if (isPlayer)
-                _discardIcon?.SetAmount(GetAmountOfFilledSlots);
+                _discardIcon?.SetAmount(AmountOfFilledSlots);
             return added;
         }
         public override bool DiscardCard(in CardData card)
         {
            bool succeed =  base.DiscardCard(card);
             if (isPlayer)
-                _discardIcon?.SetAmount(GetAmountOfFilledSlots);
+                _discardIcon?.SetAmount(AmountOfFilledSlots);
             return succeed;
         }
 
