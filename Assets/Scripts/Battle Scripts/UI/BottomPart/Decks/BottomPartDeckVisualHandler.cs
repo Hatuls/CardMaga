@@ -71,7 +71,8 @@ namespace CardMaga.UI
   
         private void InitVisuals(ITokenReciever tokenMachine)
         {
-            using (tokenMachine.GetToken())
+            var t = tokenMachine.GetToken();
+            using (t)
             {
                 _drawDeckTextAssigner.Init(_deckManager.GetBaseDeck(true, DeckEnum.PlayerDeck));
                 _discardDeck = _deckManager.GetBaseDeck(true, DeckEnum.Discard);

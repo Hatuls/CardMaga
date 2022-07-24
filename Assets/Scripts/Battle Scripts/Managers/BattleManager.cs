@@ -37,17 +37,17 @@ namespace Battle
 
 
 
-
+        private IDisposable _initToken;
 
 
         public override void Init(ITokenReciever token)
         {
-            using (token.GetToken())
-            {
+            _initToken = token.GetToken();
+            
                 ResetBattle();
                 if (AudioManager.Instance != null)
                     AudioManager.Instance.BattleMusicParameter();
-            }
+            
 
         }
 
@@ -58,13 +58,14 @@ namespace Battle
 
             ResetParams();
             AssignParams();
-
+            _initToken?.Dispose();
         }
         // Need To be Re-Done
         private void AssignParams()
         {
 
             var battleData = BattleData.Instance;
+            SpawnModels(battleData);
             PlayerManager.Instance.AssignCharacterData(battleData.Player);
             EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
 
@@ -89,7 +90,7 @@ namespace Battle
 
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
-            EnemyManager.EnemyAnimatorController.ResetLayerWeight();
+            EnemyManager.Instance.EnemyAnimatorController.ResetLayerWeight();
         }
         // Need To be Re-Done
         public void StartBattle()
@@ -133,7 +134,7 @@ namespace Battle
 
 
             PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
-            EnemyManager.EnemyAnimatorController.ResetLayerWeight();
+            EnemyManager.Instance.EnemyAnimatorController.ResetLayerWeight();
 
             isGameEnded = true;
             StopCoroutine(Instance._turnCycles);
@@ -156,21 +157,23 @@ namespace Battle
         private void EnemyDied()
         {
             PlayerManager.Instance.PlayerWin();
-            EnemyManager.EnemyAnimatorController.CharacterIsDead();
+            EnemyManager.Instance.EnemyAnimatorController.CharacterIsDead();
             BattleData.Instance.PlayerWon = true;
             //     SendAnalyticWhenGameEnded("player_won", battleData);
             //    AddRewards();
             //    _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
             //    OnPlayerVictory?.Invoke();
         }
-        // Need To be Re-Done
-        private void AddRewards()
+
+        private void SpawnModels(BattleData data)
         {
-            //  var battleData = Account.AccountManager.Instance.BattleData;
-            //  var characterTypeEnum = battleData.Opponent.CharacterData.CharacterSO.CharacterType;
-            //  var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(characterTypeEnum, battleData.CurrentAct);
-            //  battleData[characterTypeEnum].Diamonds += reward.DiamondsReward;
-            //  battleData[characterTypeEnum].EXP += reward.EXPReward;
+            ModelSO playersModelSO = data.Player.CharacterData.CharacterSO.CharacterAvatar;
+            ModelSO enemyModelSO = data.Opponent.CharacterData.CharacterSO.CharacterAvatar;
+            AvatarHandler avatarHandler =  Instantiate(playersModelSO.Model, PlayerManager.Instance.PlayerAnimatorController.transform);
+            AvatarHandler opponentAvatar = Instantiate(enemyModelSO.Model, EnemyManager.Instance.EnemyAnimatorController.transform);
+            if (playersModelSO == enemyModelSO)
+                opponentAvatar.Mesh.material = enemyModelSO.Materials[0].Tinted;
+
         }
         // Need To be Re-Done
         private void PlayerDied()

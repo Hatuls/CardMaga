@@ -3,7 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Model SO", menuName = "ScriptableObjects/Art/Models/New Model SO")]
 public class ModelSO : ScriptableObject
 {
-    public GameObject Model;
+    [Sirenix.OdinInspector.PreviewField(75f)]
+    public AvatarHandler Model;
     public MaterialsForModel[] Materials;
 }
 

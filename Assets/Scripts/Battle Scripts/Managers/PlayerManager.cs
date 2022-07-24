@@ -68,7 +68,8 @@ namespace Managers
         }
         public void AssignCharacterData(Character characterData)
         {
-            Instantiate(characterData.CharacterData.CharacterSO.CharacterAvatar, _playerAnimatorController.transform);
+
+        
        //     Debug.LogWarning("<a>Spawning " + Counter++ + " </a>");
             _character = characterData;
             var data = characterData.CharacterData;
