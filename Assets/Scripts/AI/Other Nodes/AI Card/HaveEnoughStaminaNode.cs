@@ -1,7 +1,7 @@
 ﻿using Characters.Stats;
 namespace CardMaga.AI
 {
-    public class HaveEnoughStaminaLogic : BaseNode<AICard>
+    public class HaveEnoughStaminaNode : BaseNode<AICard>
     {
         public bool IsPlayer { get; set; }
 

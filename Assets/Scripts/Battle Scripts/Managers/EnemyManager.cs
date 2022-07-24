@@ -97,7 +97,7 @@ namespace Battle
 
         public void OnEndBattle()
         {
-
+            NoMoreActionsFound();
         }
 
 
@@ -227,7 +227,7 @@ namespace Battle
             _card = new List<AICard>(drawAmount);
             for (int i = 0; i < drawAmount; i++)
                 _card.Add(new AICard());
-            _tree = new AITree(_brain);
+            _tree = new AITree(false,_brain);
         }
 
         public void CalculateMove()
@@ -264,7 +264,7 @@ namespace Battle
         {
             highestCard = null;
             int highestWeight = -1;
-            for (int i = 1; i < _card.Count; i++)
+            for (int i = 0; i < _card.Count; i++)
             {
                 AICard current = _card[i];
                 if (current.Card != null && highestWeight < current.Weight)

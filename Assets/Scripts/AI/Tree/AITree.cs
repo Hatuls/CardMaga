@@ -7,8 +7,8 @@
         public AITree(bool isPlayer, AIBrain brain)
         {
             _brain = brain;
-            SetupTree();
             _amIPlayerLeft = isPlayer;
+            Attach(null);
         }
         public override void SetupTree()
         {

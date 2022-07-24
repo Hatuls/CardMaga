@@ -19,8 +19,11 @@ namespace CardMaga.AI
         public void Attach(IEvaluator<T> parent)
         {
             Parent = parent;
-            for (int i = 0; i < Children.Length; i++)
-                Children[i].Attach(this);
+            if (Children != null)
+            {
+                for (int i = 0; i < Children.Length; i++)
+                    Children[i].Attach(this);
+            }
         }
     }
 
@@ -29,27 +32,39 @@ namespace CardMaga.AI
     #region Tree
     [Serializable]
     public abstract class Tree<T> : IEvaluator<T>
-   
+
     {
         public IEvaluator<T> Parent { get; set; } = null;
 
-        public IEvaluator<T>[] Children { get => Parent.Children; set => Parent.Children = value; }
+        public IEvaluator<T>[] Children { get; set; }
 
         public void Attach(IEvaluator<T> parent)
         {
-            Parent = parent;
-            SetupTree();
-            for (int i = 0; i < Children.Length; i++)
-                Children[i].Attach(this);
+            try
+            {
+                Parent = parent;
+                SetupTree();
+                if (Children != null)
+                {
+                    for (int i = 0; i < Children.Length; i++)
+                        Children[i].Attach(this);
+                }
+
+            }
+            catch (Exception e)
+            {
+                UnityEngine.Debug.LogError(this.ToString());
+                throw e;
+            }
         }
         public abstract void SetupTree();
 
-        public NodeState Evaluate(T evaluateObject) => Children[0].Evaluate(evaluateObject);
+        public NodeState Evaluate(T evaluateObject) => Children[0]?.Evaluate(evaluateObject) ?? NodeState.Failure;
     }
 
     #endregion
     public interface IEvaluator<T>
-  
+
     {
         IEvaluator<T> Parent { get; }
         IEvaluator<T>[] Children { get; set; }

@@ -30,12 +30,13 @@ namespace CardMaga.AI
 
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
+            const int ONE_HUNDREND_PRECENT = 100;
             CharacterStatsHandler statsHandler = CharacterStatsManager.GetCharacterStatsHandler(IsPlayer);
 
-            var maxHealth = statsHandler.GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
-            var current = statsHandler.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
+            var maxHealth = (float)statsHandler.GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
+            var current = (float)statsHandler.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
 
-            NodeState = (Operator.Evaluate(current / maxHealth, Precentage)) ? NodeState.Success : NodeState.Failure;
+            NodeState = (Operator.Evaluate((current / maxHealth)* ONE_HUNDREND_PRECENT, Precentage)) ? NodeState.Success : NodeState.Failure;
             return NodeState;
         }
     }

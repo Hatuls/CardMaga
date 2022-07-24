@@ -17,16 +17,19 @@
                         new CardTypeDecisionTree()
                         {
                                 IsPlayer = IsPlayer,
+                                Type = Card.CardTypeEnum.Attack,
                                 WeightToAdd = AttackWeight,
                         },
                         new CardTypeDecisionTree()
                         {
                                 IsPlayer = IsPlayer,
+                                  Type = Card.CardTypeEnum.Defend,
                                 WeightToAdd = DefenseWeight,
                         },
                         new CardTypeDecisionTree()
                         {
                                 IsPlayer = IsPlayer,
+                                    Type = Card.CardTypeEnum.Utility,
                                 WeightToAdd = UtilityWeight,
                         }
                     }
