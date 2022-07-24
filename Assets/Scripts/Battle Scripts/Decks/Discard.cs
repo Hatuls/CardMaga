@@ -1,15 +1,17 @@
 ﻿using CardMaga.Card;
+using System;
 
 namespace Battle.Deck
 {
-    public class Disposal : BaseDeck
+    public class Discard : BaseDeck
     {
+        public override event Action OnResetDeck;
         PlayerBaseDeck _playerBaseDeck;
-        BuffIcon _disposalIcon;
-        public Disposal(bool isPlayer,int length, PlayerBaseDeck baseDeck, BuffIcon icon) : base(isPlayer,length)
+        BuffIcon _discardIcon; //remove
+        public Discard(bool isPlayer,int length, PlayerBaseDeck baseDeck, BuffIcon icon) : base(isPlayer,length)
         {
             _playerBaseDeck = baseDeck;
-            _disposalIcon = icon;
+            _discardIcon = icon;
         }
 
         public override void ResetDeck()
@@ -24,6 +26,7 @@ namespace Battle.Deck
                 }
             }
             _playerBaseDeck.Shuffle();
+            OnResetDeck?.Invoke();
         }
         public override bool AddCard(CardData card)
         {
@@ -33,14 +36,14 @@ namespace Battle.Deck
 
           bool added =   base.AddCard(card);
             if (isPlayer)
-                _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
+                _discardIcon?.SetAmount(GetAmountOfFilledSlots);
             return added;
         }
         public override bool DiscardCard(in CardData card)
         {
            bool succeed =  base.DiscardCard(card);
             if (isPlayer)
-                _disposalIcon?.SetAmount(GetAmountOfFilledSlots);
+                _discardIcon?.SetAmount(GetAmountOfFilledSlots);
             return succeed;
         }
 

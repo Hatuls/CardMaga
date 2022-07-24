@@ -4,9 +4,9 @@ namespace Battle.Deck
 {
     public class PlayerHand : BaseDeck
     {
-        Disposal _disposalDeck;
+        Discard _disposalDeck;
 
-        public PlayerHand(bool isPlayer,int length , Disposal deck) : base(isPlayer,length)
+        public PlayerHand(bool isPlayer,int length , Discard deck) : base(isPlayer,length)
         {
             _disposalDeck = deck;
         }

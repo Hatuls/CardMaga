@@ -61,9 +61,9 @@ namespace CardMaga.UI
             _cardImageVisualAssigner.Init();
             _cardGlowVisualAssigner.Init();
             //Texts
-            _cardNameTextAssigner.Init();
-            _cardStaminaTextAssigner.Init();
-            _cardDescriptionAssigner.Init();
+            _cardNameTextAssigner.Init(null);
+            _cardStaminaTextAssigner.Init(null);
+            _cardDescriptionAssigner.Init(null);
 
             //ResetCard
             _cardZoomHandler.SetCardType(CardTypeEnum.Attack);
