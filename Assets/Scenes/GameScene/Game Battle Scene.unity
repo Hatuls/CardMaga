@@ -25,9 +25,9 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.18876824, g: 0.24748276, b: 0.3962264, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 6acef07856fc78e48867430a04ce5721, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: b7a1334bb84fcce48883dd042609f8bf, type: 2}
   m_HaloStrength: 0.018
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -36,10 +36,10 @@ RenderSettings:
   m_DefaultReflectionMode: 1
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 0
+  m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
+  m_IndirectSpecularColor: {r: 0.46301752, g: 0.24250293, b: 0.76682216, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -73,7 +73,7 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
-    m_MixedBakeMode: 1
+    m_MixedBakeMode: 0
     m_BakeBackend: 1
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
@@ -135,6 +135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930972003240439710, guid: 07c2e5c54e44ffd4fab4104b7caa1bd7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4930972003240439711, guid: 07c2e5c54e44ffd4fab4104b7caa1bd7,
         type: 3}
@@ -349,6 +354,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 3597226985989005940, guid: 1e7b156c630d1594eaaca490e4a2748a,
+        type: 3}
+      propertyPath: field of view
+      value: 53
+      objectReference: {fileID: 0}
+    - target: {fileID: 3597226985989005940, guid: 1e7b156c630d1594eaaca490e4a2748a,
+        type: 3}
+      propertyPath: far clip plane
+      value: 500
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e7b156c630d1594eaaca490e4a2748a, type: 3}
 --- !u!114 &208047357 stripped
@@ -412,6 +427,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Priority
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8806748547290640656, guid: 62e6b56c5cb6a4b4b9b92ff6a9c8d7aa,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 8806748547290640656, guid: 62e6b56c5cb6a4b4b9b92ff6a9c8d7aa,
         type: 3}
@@ -2432,6 +2452,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
+      propertyPath: _brain
+      value: 
+      objectReference: {fileID: 11400000, guid: baa3e3a095898b6448e0d7478da9188c,
+        type: 2}
+    - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
+        type: 3}
       propertyPath: _enemyNameText
       value: 
       objectReference: {fileID: 7278675045352804564}
@@ -2587,6 +2613,75 @@ PrefabInstance:
     - {fileID: 7190250571461079770, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
     - {fileID: 2443768439390745709, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 353491b6d4691024a960a6196cac83bf, type: 3}
+--- !u!1001 &819656651523396715
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796556, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796557, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_Name
+      value: Environment_01
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 117e1c48040d74d4995824e56dc578f3, type: 3}
 --- !u!1001 &1269784916858879584
 PrefabInstance:
   m_ObjectHideFlags: 0
