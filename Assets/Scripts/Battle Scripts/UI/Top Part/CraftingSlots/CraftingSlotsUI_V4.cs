@@ -18,8 +18,7 @@ namespace CardMaga.UI.Carfting
         private CraftingSlotData _defaultCraftingSlotData;
         
         #endregion
-
-
+        
         #region prop
 
         public CraftingSlotData CraftingSlotData
