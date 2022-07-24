@@ -264,7 +264,7 @@ namespace Battle.Deck
             BaseDeck fromBaseDeckCache = GetBaseDeck(isPlayersDeck, from);
             BaseDeck toBaseDeckCache = GetBaseDeck(isPlayersDeck, to);
 
-            if (fromBaseDeckCache.GetAmountOfFilledSlots >= amount)
+            if (fromBaseDeckCache.AmountOfFilledSlots >= amount)
             {
 
                 for (int i = 0; i < amount; i++)
@@ -277,9 +277,9 @@ namespace Battle.Deck
             }
             else
             {
-                int remainTransfer = amount - fromBaseDeckCache.GetAmountOfFilledSlots;
+                int remainTransfer = amount - fromBaseDeckCache.AmountOfFilledSlots;
 
-                for (int i = 0; i < fromBaseDeckCache.GetAmountOfFilledSlots; i++)
+                for (int i = 0; i < fromBaseDeckCache.AmountOfFilledSlots; i++)
                 {
 
                     if (fromBaseDeckCache.DiscardCard(fromBaseDeckCache.GetFirstCard()))

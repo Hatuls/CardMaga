@@ -8,12 +8,12 @@ namespace Cards
     [System.Serializable]
     public class PerLevelUpgrade
     {
-        public PerLevelUpgrade(Upgrade[] upgrades, List<string[]> info, ushort costOfUpgrade)
+        public PerLevelUpgrade(Upgrade[] upgrades, List<string[]> info, ushort costOfUpgrade, int upgradeValue)
         {
             _upgradesPerLevel = upgrades;
             _upgradesPerLevel.OrderBy(x => x.UpgradeType).Select(x => x.KeywordUpgrade).OrderBy(x => x.KeywordSO.GetKeywordType);
-         
-            _purchaseCost = costOfUpgrade;
+            _cardValue = upgradeValue;
+               _purchaseCost = costOfUpgrade;
 
             _description = new DescriptionInfo[info.Count];
 
@@ -32,6 +32,9 @@ namespace Cards
         private Upgrade[] _upgradesPerLevel;
         public Upgrade[] UpgradesPerLevel => _upgradesPerLevel;
 
+        [SerializeField]
+        private int _cardValue;
+        public int CardValue => _cardValue;
         [System.Serializable]
         public class Upgrade
         {

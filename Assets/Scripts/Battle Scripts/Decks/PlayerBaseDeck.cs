@@ -19,7 +19,7 @@ namespace Battle.Deck
          bool added =   base.AddCard(card);
 
             if (isPlayer)
-                _deckIcon?.SetAmount(GetAmountOfFilledSlots);
+                _deckIcon?.SetAmount(AmountOfFilledSlots);
             return added;
         }
 
@@ -42,7 +42,7 @@ namespace Battle.Deck
                 SetDeck = EnemyManager.Instance.Deck;
 
             if (isPlayer)
-                _deckIcon?.SetAmount(GetAmountOfFilledSlots);
+                _deckIcon?.SetAmount(AmountOfFilledSlots);
 
 
             Shuffle();
@@ -55,15 +55,15 @@ namespace Battle.Deck
             bool succeed = base.DiscardCard(card);
 
             if (isPlayer)
-                _deckIcon?.SetAmount(GetAmountOfFilledSlots);
+                _deckIcon?.SetAmount(AmountOfFilledSlots);
             return succeed;
         }
         public void Shuffle()
         {
 
             OrderDeck();
-            var list = new List<CardData>(GetAmountOfFilledSlots);
-            for (int i = 0; i < GetAmountOfFilledSlots; i++)
+            var list = new List<CardData>(AmountOfFilledSlots);
+            for (int i = 0; i < AmountOfFilledSlots; i++)
             {
                 list.Add(GetDeck[i]);
                 GetDeck[i] = null;
@@ -71,7 +71,7 @@ namespace Battle.Deck
 
             Random ran = new Random();
 
-            for (int i = 0; i < GetAmountOfFilledSlots;i++)
+            for (int i = 0; i < AmountOfFilledSlots;i++)
             {
                 int index = ran.Next(0, list.Count);
                 GetDeck[i] = list[index];

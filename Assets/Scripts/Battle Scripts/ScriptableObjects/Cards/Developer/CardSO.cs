@@ -117,8 +117,12 @@ namespace CardMaga.Card
         [TabGroup("CardData/Info", "Crafting")]
         [SerializeField]
         private ushort[] _cardsFusesFrom;
+
+
         public ushort[] CardsFusesFrom { get => _cardsFusesFrom; set => _cardsFusesFrom = value; }
 
+        public int GetCardValue(int level)
+            => _perLevelUpgrades[level].CardValue;
         #endregion
 
         #region Properties

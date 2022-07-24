@@ -167,7 +167,7 @@ namespace Battle
             // need to make algorithem better!!! 
             var recipes = isPlayer ? Managers.PlayerManager.Instance.GetCombos() : Battle.EnemyManager.Instance.Recipes;
 
-
+            CardTypeComparer comparer = new CardTypeComparer();
             CardTypeData[] cardTypeDatas;
             for (int i = 0; i < recipes.Length; i++)
             {
@@ -179,7 +179,7 @@ namespace Battle
                     cardTypeDatas[j] = comboSO.ComboSequence[j];
                     //nextRecipe.Add(combo[i].ComboSequance[j]);
                 }
-                if (craftingItems.SequenceEqual(cardTypeDatas, new CardTypeComparer()))
+                if (craftingItems.SequenceEqual(cardTypeDatas, comparer))
                 {
                     Instance.CardRecipeDetected = recipes[i];
                     return;
