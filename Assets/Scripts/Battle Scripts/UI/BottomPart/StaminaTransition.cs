@@ -17,33 +17,13 @@ public class StaminaTransition : MonoBehaviour
     [SerializeField] public RectTransform CurrentStaminaRectTransform;
     [SerializeField] public RectTransform StaminaIconsRectTransform;
 
-    [Header("RectTransitionManager")]
-    private RectTransitionManager _reduceStaminaTransitionManager;
-    private RectTransitionManager _gainStaminaTransitionManager;
-
-    void Start()
-    {
-        _reduceStaminaTransitionManager = new RectTransitionManager(CurrentStaminaRectTransform);
-        _gainStaminaTransitionManager = new RectTransitionManager(CurrentStaminaRectTransform);
-
-        if (_gainStamina != null)
-        {
-            _gainStaminaTransitionManager = new RectTransitionManager(CurrentStaminaRectTransform);
-        }
-
-        if (_reduceStamina != null)
-        {
-            _reduceStaminaTransitionManager = new RectTransitionManager(CurrentStaminaRectTransform);
-        }
-    }
-
     /// <summary>
     /// Using the _reduceStamina TransitionPackSO. The only thing you need to choose is the RectTransform object- the object you want to be effected by the animation(TransitionPackSO)
     /// </summary>
     /// <param name="_staminaRectTransform"></param>
     public void ReduceAnimation(RectTransform _staminaRectTransform)
     {
-        _staminaRectTransform.Scale(_reduceStamina.ScaleMultiplier, _reduceStamina.Scale);
+        _staminaRectTransform.Scale(_reduceStamina.ScaleMultiplier, _reduceStamina);
     }
 
 
@@ -53,7 +33,7 @@ public class StaminaTransition : MonoBehaviour
     /// <param name="_staminaRectTransform"></param>
     public void GainAnimation(RectTransform _staminaRectTransform)
     {
-        _staminaRectTransform.Scale(_gainStamina.ScaleMultiplier, _gainStamina.Scale);
+        _staminaRectTransform.Scale(_gainStamina.ScaleMultiplier, _gainStamina);
     }
 
     /// <summary>
@@ -62,7 +42,7 @@ public class StaminaTransition : MonoBehaviour
     /// <param name="_rectTransitionManager"></param>
     /// <param name="_staminaRectTransform"></param>
     /// <param name="_transitionPackSO"></param>
-    public void Transition(RectTransitionManager _rectTransitionManager, RectTransform _staminaRectTransform, TransitionPackSO _transitionPackSO)
+    public void Transition(RectTransform _rectTransitionManager, RectTransform _staminaRectTransform, TransitionPackSO _transitionPackSO)
     {
         _rectTransitionManager.Move(_staminaRectTransform, _transitionPackSO);
     }
