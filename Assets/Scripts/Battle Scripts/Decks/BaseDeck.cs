@@ -4,11 +4,16 @@ namespace Battle.Deck
 {
     public abstract class BaseDeck : IDeckHandler
     {
+
+        public event Action<int> OnAmountOfFilledSlotsChange;
+        public virtual event Action OnResetDeck;
         public bool isPlayer { get; private set; }
         private CardData[] _deckCards;
 
         private int amountOfEmptySlots;
         private int amountOfFilledSlots;
+
+
 
         #region Properties
         public int GetAmountOfEmptySlots { get { return amountOfEmptySlots; } }
@@ -57,9 +62,9 @@ namespace Battle.Deck
             // count for the amount of empty and not empty slots 
 
 
+            var currentAmountOfFilledSlots = amountOfFilledSlots;
             amountOfEmptySlots = 0;
             amountOfFilledSlots = 0;
-
             if (_deckCards == null)
             {
                 UnityEngine.Debug.LogError("DeckCards is null");
@@ -73,6 +78,11 @@ namespace Battle.Deck
                 else
                     amountOfFilledSlots++;
             }
+            if (currentAmountOfFilledSlots != amountOfFilledSlots)
+            {
+                OnAmountOfFilledSlotsChange?.Invoke(amountOfFilledSlots);
+            }
+
         }
         public virtual CardData GetFirstCard()
         {
@@ -169,7 +179,7 @@ namespace Battle.Deck
             /*
              * Reset the deck to his created state 
              */
-
+            OnResetDeck?.Invoke();
             EmptySlots();
         }
         public void PrintDecks(DeckEnum deck)
@@ -323,7 +333,7 @@ namespace Battle.Deck
         None = 0,
         Hand = 1,
         PlayerDeck = 2,
-        Disposal=3,
+        Discard=3,
         AutoActivate =4,
         Exhaust=5,
         Selected=6,

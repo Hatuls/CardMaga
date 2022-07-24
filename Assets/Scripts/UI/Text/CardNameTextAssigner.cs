@@ -4,10 +4,10 @@ using TMPro;
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
-    public class CardNameTextAssigner : BaseTextAssigner
+    public class CardNameTextAssigner : BaseTextAssigner<object>
     {
         [SerializeField] TextMeshProUGUI _cardName;
-        public override void Init()
+        public override void Init(object none)
         {
             if (_cardName == null)
                 throw new System.Exception("CardTextAssigner");

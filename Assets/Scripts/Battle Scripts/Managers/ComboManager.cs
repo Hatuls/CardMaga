@@ -64,7 +64,7 @@ namespace Battle
                         DeckManager.Instance.DrawHand(isPlayer, 1);
                         break;
                     case DeckEnum.PlayerDeck:
-                    case DeckEnum.Disposal:
+                    case DeckEnum.Discard:
                         var gotolocation = ComboSO.GoToDeckAfterCrafting;
                         DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, gotolocation);
                         DeckManager.Instance.DrawHand(isPlayer, 1);
