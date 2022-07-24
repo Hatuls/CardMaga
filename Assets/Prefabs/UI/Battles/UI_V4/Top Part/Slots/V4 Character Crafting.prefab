@@ -91,24 +91,27 @@ MonoBehaviour:
   _card:
     _bodyPart: 0
     _cardType: 0
+  _transition: {fileID: 11400000, guid: fa645e15cca706e4188f60150fbf7cf9, type: 2}
   _craftingSlot:
-  - _transform: {fileID: 9136108860654431140}
+  - _rectTransform: {fileID: 9136108860654431140}
     _bodyIcon: {fileID: 504138436495646121}
     _bgImage: {fileID: 6901513520163510752}
-  - _transform: {fileID: 3305306879837181709}
+  - _rectTransform: {fileID: 3305306879837181709}
     _bodyIcon: {fileID: 6190262277186461952}
     _bgImage: {fileID: 923286825557321033}
-  - _transform: {fileID: 3719680138123558779}
+  - _rectTransform: {fileID: 3719680138123558779}
     _bodyIcon: {fileID: 5451608201793669494}
     _bgImage: {fileID: 1337593283678031167}
-  - _transform: {fileID: 4830148678131788185}
+  - _rectTransform: {fileID: 4830148678131788185}
     _bodyIcon: {fileID: 4269085924009484180}
     _bgImage: {fileID: 7063546096980843485}
   _baseVisual: {fileID: 11400000, guid: ce0263fac1e0cab4cbcc884864aa27fb, type: 2}
   _defaultCraftingSlotData: {fileID: 11400000, guid: cc3034d87cfad4a44bede401031fb7fc,
     type: 2}
   _loaderCanvasGroup: {fileID: 3052339850767714077}
+  _unLoadCanvasGroup: {fileID: 1701743657868215584}
   _slotsGroup: {fileID: 1345030808048555389}
+  _xMovement: 0
 --- !u!1001 &311475146557980364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -441,6 +444,12 @@ PrefabInstance:
 --- !u!224 &4830148678131788185 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
+    type: 3}
+  m_PrefabInstance: {fileID: 4148744094794284273}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1701743657868215584 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 3318732992464304593, guid: c01fe267fbc81cb4db8a122d5669c756,
     type: 3}
   m_PrefabInstance: {fileID: 4148744094794284273}
   m_PrefabAsset: {fileID: 0}

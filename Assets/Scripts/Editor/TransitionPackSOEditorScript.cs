@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(TransitionPackSO))]
@@ -14,6 +15,17 @@ public class TransitionPackSOEditorScript : Editor
 
         if (obj.HaveMovement)
         {
+            switch (obj.MovePositionType = (TransitionPackSO.PositionType)EditorGUILayout.EnumPopup(obj.MovePositionType))
+            {
+                case TransitionPackSO.PositionType.AnchoredPosition:
+                    break;
+                case TransitionPackSO.PositionType.WordPosition:
+                    break;
+                case TransitionPackSO.PositionType.LocalPosition:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             EditorGUILayout.Space();
             obj.MoveOffSet =
                 EditorGUILayout.Vector3Field("Move Off Set:", obj.MoveOffSet);

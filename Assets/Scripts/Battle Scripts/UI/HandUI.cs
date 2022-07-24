@@ -27,7 +27,7 @@ namespace CardMaga.UI
         public static event Action<IReadOnlyList<CardUI>> OnCardsExecuteGetCards;//when card execute, and passes all the cards that are in the hand
 
         [Header("TransitionPackSO")]
-        [SerializeField] [Tooltip("BlaBla")] private TransitionPackSO _drawTransitionPackSo;
+        [SerializeField] private TransitionPackSO _drawTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardTransitionPackSo;
         [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
         [SerializeField] private TransitionPackSO _resetCardPositionPackSO;

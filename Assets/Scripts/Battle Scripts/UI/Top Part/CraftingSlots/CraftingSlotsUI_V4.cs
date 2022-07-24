@@ -7,11 +7,11 @@ using UnityEngine.UI;
 namespace CardMaga.UI.Carfting
 {
     [Serializable]
-    public class CraftingSlotsUI_V4 : BaseVisualAssigner
+    public class CraftingSlotsUI_V4
     {
         #region Fields
         
-        [SerializeField] private RectTransform _transform;
+        [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _bodyIcon;
         [SerializeField] private Image _bgImage;
         private CraftingSlotData _craftingSlotData;
@@ -21,6 +21,11 @@ namespace CardMaga.UI.Carfting
         
         #region prop
 
+        public RectTransform RectTransform
+        {
+            get => _rectTransform;
+        }
+        
         public CraftingSlotData CraftingSlotData
         {
             get => _craftingSlotData;
@@ -28,9 +33,15 @@ namespace CardMaga.UI.Carfting
 
         #endregion
 
-        public override void Init()
+        public void Init(CraftingSlotDefaultSO defaultCraftingSlotData)
         {
-             
+            _defaultCraftingSlotData = new CraftingSlotData();
+            
+            _defaultCraftingSlotData.SetCraftingSlotData(
+                defaultCraftingSlotData._bodyIcon,
+                defaultCraftingSlotData._bodyPartColor,
+                defaultCraftingSlotData._bgColor
+                );
         }
 
         public void AssignSlotData(CraftingSlotData craftingSlotData)
@@ -56,7 +67,8 @@ namespace CardMaga.UI.Carfting
 
         public void RestCraftingSlot()
         {
-            
+            AssignSlotData(_defaultCraftingSlotData);
+            _craftingSlotData = null;
         }
     }
 }

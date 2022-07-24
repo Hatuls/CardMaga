@@ -14,6 +14,14 @@ public class TransitionPackSO : ScriptableObject
         ByVector
     };
 
+    public enum PositionType
+    {
+        AnchoredPosition,
+        WordPosition,
+        LocalPosition
+    };
+    
+    public PositionType MovePositionType;
     public ScaleTypeEnum ScaleType;
     public bool HaveScale = false; 
     public float ScaleMultiplier;
