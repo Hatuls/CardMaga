@@ -4,7 +4,8 @@
     {
         public bool IsPlayer { get; set; }
         public Card.CardTypeEnum Type { get; set; }
-        public int WeightToAdd { get; set; }
+        public int WeightToAddForCombo { get; set; }
+        public int WeightToAddForCard { get; set; }
         public void AttachTree()
         {
             Parent.Attach(null);
@@ -27,10 +28,10 @@
                                  Children = new IEvaluator<AICard>[]
                                  {
                                      new CanCraftComboNode(){ IsPlayer = IsPlayer},
-                                     new AddWeightToCardsWeightNode() { Weight = WeightToAdd }
+                                     new AddWeightToCardsWeightNode() { Weight = WeightToAddForCombo }
                                  }
                              },
-                             new UseCardsValueAsWeightNode()
+                             new AddWeightToCardsWeightNode() {Weight = WeightToAddForCard}
                          }
                     }
                   }

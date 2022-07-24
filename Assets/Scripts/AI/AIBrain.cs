@@ -13,10 +13,10 @@ namespace CardMaga.AI
         private ContainKeyword _sectionB;
 
         [SerializeField]
-        private WeightAdditionToTypes _sectionC;
+        private WeightAdditionForCardsAndCombos _sectionC;
 
         [SerializeField]
-        private WeightAdditionToTypes _sectionD;
+        private WeightAdditionForCardsAndCombos _sectionD;
         [SerializeField]
         private HealthParameter _sectionE;
 
@@ -24,7 +24,7 @@ namespace CardMaga.AI
         private KeywordParameter _sectionF;
 
         [SerializeField]
-        private WeightAdditionToTypes _sectionG;
+        private WeightAdditionForCardsAndCombos _sectionG;
 
         [SerializeField]
         private HealthParameter _sectionH;
@@ -33,7 +33,7 @@ namespace CardMaga.AI
         private KeywordParameter _sectionI;
 
         [SerializeField]
-        private WeightAdditionToTypes _sectionJ;
+        private WeightAdditionForCardsAndCombos _sectionJ;
 
         [SerializeField]
         private HealthParameter _sectionK;
@@ -42,7 +42,7 @@ namespace CardMaga.AI
         private KeywordParameter _sectionL;
 
         [SerializeField]
-        private WeightAdditionToTypes _sectionM;
+        private WeightAdditionForCardsAndCombos _sectionM;
 
         [SerializeField]
         private ValueComparer _sectionN;
@@ -50,17 +50,17 @@ namespace CardMaga.AI
         #region Properties
         public HealthParameter SectionA { get => _sectionA;  }
         public ContainKeyword SectionB { get => _sectionB;  }
-        public WeightAdditionToTypes SectionC { get => _sectionC; }
-        public WeightAdditionToTypes SectionD { get => _sectionD; }
+        public WeightAdditionForCardsAndCombos SectionC { get => _sectionC; }
+        public WeightAdditionForCardsAndCombos SectionD { get => _sectionD; }
         public HealthParameter SectionE { get => _sectionE; }
         public KeywordParameter SectionF { get => _sectionF; }
-        public WeightAdditionToTypes SectionG { get => _sectionG; }
+        public WeightAdditionForCardsAndCombos SectionG { get => _sectionG; }
         public HealthParameter SectionH { get => _sectionH; }
         public KeywordParameter SectionI { get => _sectionI; }
-        public WeightAdditionToTypes SectionJ { get => _sectionJ;}
+        public WeightAdditionForCardsAndCombos SectionJ { get => _sectionJ;}
         public HealthParameter SectionK { get => _sectionK;  }
         public KeywordParameter SectionL { get => _sectionL; }
-        public WeightAdditionToTypes SectionM { get => _sectionM; }
+        public WeightAdditionForCardsAndCombos SectionM { get => _sectionM; }
         public ValueComparer SectionN { get => _sectionN; }
         #endregion
     }
@@ -70,7 +70,7 @@ namespace CardMaga.AI
     public class HealthParameter
     {
         public ValueComparer HealthParams;
-        public WeightAdditionToTypes Weights;
+        public WeightAdditionForCardsAndCombos Weights;
 
     }
     [Serializable]
@@ -89,7 +89,7 @@ namespace CardMaga.AI
     public class ContainKeyword
     {
         public KeywordTypeEnum Keyword;
-        public WeightAdditionToTypes Weights;
+        public WeightAdditionForCardsAndCombos Weights;
     }
     [Serializable]
     public class WeightAdditionToTypes
@@ -98,4 +98,11 @@ namespace CardMaga.AI
         public int DefenseWeightAddition;
         public int UtilityWeightAddition;
     }
+    [Serializable]
+    public class WeightAdditionForCardsAndCombos
+    {
+        public WeightAdditionToTypes Combos;
+        public WeightAdditionToTypes Cards;
+    }
+
 }

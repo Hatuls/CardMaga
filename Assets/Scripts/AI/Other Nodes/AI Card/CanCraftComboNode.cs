@@ -23,26 +23,24 @@ namespace CardMaga.AI
 
             if (GetCraftingSlotsFilled() > 1)
                 CheckRecipe();
+            else
+                NodeState = NodeState.Failure;
 
             return NodeState;
 
 
             int GetCraftingSlotsFilled()
             {
-                int amountCache = 0;
-                for (int i = 0; i < craftingSlots.Length; i++)
-                {
-                    if (craftingSlots[i] != null)
-                        amountCache++;
-                }
-
+                int amountCache = deck.GetAmountOfFilledSlots;
+           
                 craftingItems = new List<CardTypeData>(amountCache);
+
                 for (int i = 0; i < craftingSlots.Length; i++)
                 {
                     if (craftingSlots[i] != null)
                         craftingItems.Add(craftingSlots[i].CardSO.CardType);
-
                 }
+
                 return amountCache;
             }
             void CheckRecipe()
