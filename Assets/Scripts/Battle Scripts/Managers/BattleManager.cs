@@ -1,7 +1,6 @@
 ﻿using Battle.Characters;
 using Battle.Data;
 using Battle.Turns;
-using Battle.UI;
 using Characters.Stats;
 using Managers;
 using ReiTools.TokenMachine;
@@ -14,6 +13,7 @@ using UnityEngine.Events;
 
 namespace Battle
 {
+    [DefaultExecutionOrder(-99999)]
     public class BattleManager : MonoSingleton<BattleManager>
     {
         public static event Action OnGameEnded;
@@ -27,7 +27,7 @@ namespace Battle
         private UnityEvent OnPlayerVictory;
         [SerializeField, EventsGroup]
         private UnityEvent OnBattleStarts;
-        
+
         [SerializeField]
         private SceneIdentificationSO _returnScene;
 
@@ -45,8 +45,8 @@ namespace Battle
             using (token.GetToken())
             {
                 ResetBattle();
-                if(AudioManager.Instance!= null)
-                   AudioManager.Instance.BattleMusicParameter();
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.BattleMusicParameter();
             }
 
         }
@@ -71,8 +71,6 @@ namespace Battle
             //  if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
             //      throw new Exception("Battle data was not work correctly!");
 
-            PlayerManager.Instance.UpdateStatsUI();
-            EnemyManager.Instance.UpdateStatsUI();
 
 
             //// remove this later
@@ -85,8 +83,8 @@ namespace Battle
         }
         private void ResetParams()
         {
-            if (AudioManager.Instance!=null)
-            AudioManager.Instance.StopAllSounds();
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
 
 
@@ -118,7 +116,7 @@ namespace Battle
             if (isGameEnded == true)
                 return;
 
-            UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
+        //    UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
             //CardUIManager.Instance.ResetCardUIManager();
 
@@ -143,7 +141,7 @@ namespace Battle
 
             OnGameEnded?.Invoke();
         }
-  
+
         // Need To be Re-Done
         public void DeathAnimationFinished(bool isPlayer)
         {
@@ -160,7 +158,7 @@ namespace Battle
             PlayerManager.Instance.PlayerWin();
             EnemyManager.EnemyAnimatorController.CharacterIsDead();
             BattleData.Instance.PlayerWon = true;
-           //     SendAnalyticWhenGameEnded("player_won", battleData);
+            //     SendAnalyticWhenGameEnded("player_won", battleData);
             //    AddRewards();
             //    _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
             //    OnPlayerVictory?.Invoke();
@@ -168,21 +166,21 @@ namespace Battle
         // Need To be Re-Done
         private void AddRewards()
         {
-          //  var battleData = Account.AccountManager.Instance.BattleData;
-          //  var characterTypeEnum = battleData.Opponent.CharacterData.CharacterSO.CharacterType;
-          //  var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(characterTypeEnum, battleData.CurrentAct);
-          //  battleData[characterTypeEnum].Diamonds += reward.DiamondsReward;
-          //  battleData[characterTypeEnum].EXP += reward.EXPReward;
+            //  var battleData = Account.AccountManager.Instance.BattleData;
+            //  var characterTypeEnum = battleData.Opponent.CharacterData.CharacterSO.CharacterType;
+            //  var reward = Factory.GameFactory.Instance.RewardFactoryHandler.GetRunRewards(characterTypeEnum, battleData.CurrentAct);
+            //  battleData[characterTypeEnum].Diamonds += reward.DiamondsReward;
+            //  battleData[characterTypeEnum].EXP += reward.EXPReward;
         }
         // Need To be Re-Done
         private void PlayerDied()
         {
-          //  var battleData = Account.AccountManager.Instance.BattleData;
+            //  var battleData = Account.AccountManager.Instance.BattleData;
             PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
             EnemyManager.Instance.EnemyWon();
             BattleData.Instance.PlayerWon = false;
-      //      _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
-        //    SendAnalyticWhenGameEnded("player_defeated", battleData);
+            //      _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
+            //    SendAnalyticWhenGameEnded("player_defeated", battleData);
             OnPlayerDefeat?.Invoke();
         }
 
@@ -266,7 +264,6 @@ namespace Battle
         void RestartBattle();
 
         void AssignCharacterData(Character character);
-        void UpdateStatsUI();
         void OnEndBattle();
     }
 }

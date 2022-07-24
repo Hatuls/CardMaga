@@ -1,58 +1,59 @@
-﻿using Characters.Stats;
+﻿using CardMaga.UI.Bars;
+using CardMaga.UI.Visuals;
+using Characters.Stats;
 using UnityEngine;
 namespace Battle.UI
 {
     public class StatsUIManager : MonoBehaviour
     {
-        [SerializeField] UIBar _playerHealthBar, _enemyHealthBar;
+        [Header("Health Bars:")]
+        [SerializeField] private HealthBarUI _leftHealthBarUI;
+        [SerializeField] private HealthBarUI _rightHealthBarUI;
 
+        [Header("Shield Bars:")]
+        [SerializeField]private TopPartArmorUI _leftShieldUI;
+        [SerializeField]private TopPartArmorUI _rightShieldUI;
 
-        [SerializeField] BuffIconsHandler _playerBuffIconHandler;
-        [SerializeField] BuffIconsHandler _opponentBuffIconHandler;
-        private static StatsUIManager _instance;
-        public static StatsUIManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    Debug.LogError("StatsUIManager is null!");
-
-                return _instance;
-            }
-        }
         private void Awake()
         {
-            _instance = this;
+            CharacterStatsHandler.OnStatAssigned += InitStatUI;
+
         }
 
+        private void InitStatUI(bool isPlayer, CharacterStatsHandler character)
+        {
+            HealthBarUI healthBar = HealthBar(isPlayer);
+            StatAbst health = character.GetStats(Keywords.KeywordTypeEnum.Heal);
+            StatAbst maxHealth = character.GetStats(Keywords.KeywordTypeEnum.MaxHealth);
+            healthBar.InitHealthBar(health.Amount, maxHealth.Amount);
+            health.OnValueChanged += healthBar.ChangeHealth;
+            maxHealth.OnValueChanged += healthBar.ChangeMaxHealth;
 
-        public void UpdateHealthBar(bool isPlayer, int health)
-        {
-            (isPlayer ? _playerHealthBar : _enemyHealthBar).SetValueBar(health);
-            if (isPlayer) 
-                PlaySound( health);
+
+            StatAbst armour = character.GetStats(Keywords.KeywordTypeEnum.Shield);
+            armour.OnValueChanged += Armour(isPlayer).SetArmor;
         }
-        float playerMaxHealth = 0;
-        private async void PlaySound(float val)
+        private TopPartArmorUI Armour(bool isPlayer) => isPlayer ? _leftShieldUI : _rightShieldUI;
+        private HealthBarUI HealthBar(bool isPlayer) => isPlayer ? _leftHealthBarUI : _rightHealthBarUI;
+
+        private void OnDestroy()
         {
-            if (playerMaxHealth == 0)
+            UnSubscribe(true);
+            UnSubscribe(false);
+
+            CharacterStatsHandler.OnStatAssigned -= InitStatUI;
+
+            void UnSubscribe(bool isPlayer)
             {
-                await System.Threading.Tasks.Task.Yield();
-                playerMaxHealth = CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
+                var stats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer);
+                HealthBarUI healthBar = HealthBar(isPlayer);
+                StatAbst health = stats.GetStats(Keywords.KeywordTypeEnum.Heal);
+                StatAbst maxHealth = stats.GetStats(Keywords.KeywordTypeEnum.MaxHealth);
+                StatAbst armour = stats.GetStats(Keywords.KeywordTypeEnum.Shield);
+                health.OnValueChanged -= healthBar.ChangeHealth;
+                maxHealth.OnValueChanged -= healthBar.ChangeMaxHealth;
+                armour.OnValueChanged -= Armour(isPlayer).SetArmor;
             }
-
-            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Hp Parameter", val / playerMaxHealth);
         }
-        public void InitHealthBar(bool isPlayer, int health)
-            => (isPlayer ? _playerHealthBar : _enemyHealthBar).InitValueBar(health);
-        public void UpdateMaxHealthBar(bool isPlayer, int maxHealth)
-            => (isPlayer ? _playerHealthBar : _enemyHealthBar).SetMaxValue(maxHealth);
-
-
-        public void UpdateShieldBar(bool isPlayer, int shield)
-        {
-            (isPlayer ? _playerBuffIconHandler : _opponentBuffIconHandler)?.UpdateArmour(shield);
-        }
-
     }
 }

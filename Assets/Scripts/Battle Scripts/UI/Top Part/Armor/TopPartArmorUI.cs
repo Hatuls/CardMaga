@@ -23,10 +23,10 @@ namespace CardMaga.UI.Visuals
         [SerializeField] RectTransform _breakArmorRectTransform;
         
         int _currentArmor;
-        bool _canArmorReset = true;
-        bool _isReducedByHalf = false;
-        public bool IsArmorResets { set => _canArmorReset = value; }
-        public bool IsReducedByHalf { set => _isReducedByHalf = value; }
+        //bool _canArmorReset = true;
+        //bool _isReducedByHalf = false;
+        //public bool IsArmorResets { set => _canArmorReset = value; }
+        //public bool IsReducedByHalf { set => _isReducedByHalf = value; }
 
         private void Awake()
         {
@@ -53,28 +53,7 @@ namespace CardMaga.UI.Visuals
                 Debug.LogWarning("Armor did not change but you called Set Armor");
             }
         }
-        public void ResetArmor()
-        {
-            if (_currentArmor == 0)
-            {
-                Debug.Log("Armor is already 0 no need to change it");
-                return;
-            }
-            if (_canArmorReset)
-            {
-                _currentArmor = 0;
-            }
-            else if (_isReducedByHalf)
-            {
-                float half = _currentArmor / 2;
-
-                _currentArmor = (int)Mathf.Ceil(half);
-            }
-            else
-            {
-                Debug.Log("Armor should not reset");
-            }
-        }
+    
         private void GainArmor(int amount)
         {
             if (_currentArmor == 0)
@@ -111,7 +90,7 @@ namespace CardMaga.UI.Visuals
         }
         private void SetText(int amount)
         {
-            _armorAmountText.text = string.Concat(amount);
+            _armorAmountText.text = Convert.ToString(amount);
         }
         private void ActivateArmor()
         {

@@ -7,11 +7,9 @@ namespace Battle.Deck
     {
         public override event Action OnResetDeck;
         PlayerBaseDeck _playerBaseDeck;
-        BuffIcon _discardIcon; //remove
-        public Discard(bool isPlayer,int length, PlayerBaseDeck baseDeck, BuffIcon icon) : base(isPlayer,length)
+        public Discard(bool isPlayer,int length, PlayerBaseDeck baseDeck) : base(isPlayer,length)
         {
             _playerBaseDeck = baseDeck;
-            _discardIcon = icon;
         }
 
         public override void ResetDeck()
@@ -33,20 +31,16 @@ namespace Battle.Deck
             if (CheckDuplicate(card))
                 return false;
 
-
           bool added =   base.AddCard(card);
-            if (isPlayer)
-                _discardIcon?.SetAmount(AmountOfFilledSlots);
+
             return added;
         }
         public override bool DiscardCard(in CardData card)
         {
-           bool succeed =  base.DiscardCard(card);
-            if (isPlayer)
-                _discardIcon?.SetAmount(AmountOfFilledSlots);
+            bool succeed = base.DiscardCard(card);
             return succeed;
         }
-
+       
         private bool CheckDuplicate(CardData card)
         {
             if (card == null)

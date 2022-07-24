@@ -5,13 +5,15 @@ using CardMaga.Card;
 
 public class PlayerCraftingSlots : BaseDeck
 {
-    public static event Action<CardTypeData> onCardExe;
-    CraftingUIHandler _playerCraftingUIHandler;
+    public static event Action<CardTypeData> OnCardExecute;
+    public static event Action OnPushedSlots;
+    public override event Action OnResetDeck;
+    // CraftingUIHandler _playerCraftingUIHandler;
     CardData _lastCardEntered;
     public CardData LastCardEntered => _lastCardEntered;
     public PlayerCraftingSlots(bool isPlayer, int cardsLength) : base(isPlayer, cardsLength)
     {
-        _playerCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
+       // _playerCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
     }
 
     private bool AddCardToEmptySlot(CardData card)
@@ -28,7 +30,7 @@ public class PlayerCraftingSlots : BaseDeck
             {
                 foundEmptySlots = true;
                 GetDeck[i] = card;
-                _playerCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
+                //_playerCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
                 break;
             }
         }
@@ -49,8 +51,8 @@ public class PlayerCraftingSlots : BaseDeck
                     GetDeck[i - 1] = GetDeck[i];
 
                 GetDeck[GetDeck.Length - 1] = card;
-                onCardExe?.Invoke(card.CardTypeData);
-                _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
+                OnCardExecute?.Invoke(card.CardTypeData);
+                //_playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
             }
         }
         CountCards();
@@ -66,7 +68,8 @@ public class PlayerCraftingSlots : BaseDeck
             GetDeck[i - 1] = GetDeck[i];
 
         GetDeck[GetDeck.Length - 1] = null;
-        _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
+        //       _playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
+        OnPushedSlots?.Invoke();
         CountCards();
     }
     public void AddCard(CardData card, bool toDetect)
@@ -95,16 +98,14 @@ public class PlayerCraftingSlots : BaseDeck
     }
     public override void ResetDeck()
     {
-        base.ResetDeck();
-        _playerCraftingUIHandler.ResetAllSlots();
+        EmptySlots();
+        OnResetDeck?.Invoke();
+     //   _playerCraftingUIHandler.ResetAllSlots();
 
         //if(isPlayer) 
         //      Combo.ComboManager.StartDetection();
     }
-    void ResetPlaceHolderUI(int i)
-    {
-        _playerCraftingUIHandler.ResetPlaceHolderUI(i);
-    }
+
 
   
 }

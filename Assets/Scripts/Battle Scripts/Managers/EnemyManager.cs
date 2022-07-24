@@ -77,8 +77,8 @@ namespace Battle
 
 
 #if UNITY_EDITOR
-            _enemyNameText.gameObject.SetActive(true);
-            _enemyNameText.text = characterdata.CharacterSO.CharacterName;
+         //   _enemyNameText.gameObject.SetActive(true);
+         //   _enemyNameText.text = characterdata.CharacterSO.CharacterName;
 #endif
 
         }
@@ -86,13 +86,6 @@ namespace Battle
         private void SpawnModel(Character character)
         {
             Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
-        }
-
-        public void UpdateStatsUI()
-        {
-            UI.StatsUIManager.Instance.UpdateMaxHealthBar(false, GetCharacterStats.MaxHealth);
-            UI.StatsUIManager.Instance.InitHealthBar(false, GetCharacterStats.Health);
-            UI.StatsUIManager.Instance.UpdateShieldBar(false, GetCharacterStats.Shield);
         }
 
         public void OnEndBattle()

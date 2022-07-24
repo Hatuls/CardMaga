@@ -22,9 +22,6 @@ namespace Battle.Deck
         [SerializeField]
         StringEvent _soundEvent;
 
-        [SerializeField] BuffIcon _deckIcon;
-        [SerializeField] BuffIcon _disposalIcon;
-
         [SerializeField] int _playerMaxHandSize;
         [SerializeField] int _playerStartingHandSize;
         
@@ -64,7 +61,7 @@ namespace Battle.Deck
 
         public override string ToString()
         {
-            string r = "";
+            string r = "Deck Manager:\n";
 
             foreach (var item in _playerDecks)
             {
@@ -236,9 +233,9 @@ namespace Battle.Deck
             var characterDeck = (isPlayer ? _playerDecks : _OpponentDecks);
             characterDeck.Clear();
 
-            characterDeck.Add(DeckEnum.PlayerDeck, new PlayerBaseDeck(isPlayer, deck, _deckIcon, _soundEvent));
+            characterDeck.Add(DeckEnum.PlayerDeck, new PlayerBaseDeck(isPlayer, deck, _soundEvent));
             characterDeck.Add(DeckEnum.Exhaust, new Exhaust(isPlayer, _playerMaxHandSize));
-            characterDeck.Add(DeckEnum.Discard, new Discard(isPlayer, deck.Length, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.PlayerDeck] as PlayerBaseDeck, _disposalIcon));
+            characterDeck.Add(DeckEnum.Discard, new Discard(isPlayer, deck.Length, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.PlayerDeck] as PlayerBaseDeck));
             characterDeck.Add(DeckEnum.Hand, new PlayerHand(isPlayer, _playerStartingHandSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Discard] as Discard));
             characterDeck.Add(DeckEnum.Selected, new Selected(isPlayer, _placementSize, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Discard] as Discard, (isPlayer ? _playerDecks : _OpponentDecks)[DeckEnum.Hand] as PlayerHand));
             characterDeck.Add(DeckEnum.CraftingSlots, new PlayerCraftingSlots(isPlayer, _craftingSlotsSize));
@@ -338,7 +335,6 @@ namespace Battle.Deck
             var Deck = playersDeck ? _playerDecks : _OpponentDecks;
             if (Deck != null)
             {
-
                 foreach (var item in Deck)
                 {
                     if (!(item.Value is PlayerBaseDeck))

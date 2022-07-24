@@ -18,22 +18,18 @@ namespace Battle.UI
         private CraftingUIHandler _opponentCraftingUIHandler;
         private CraftingUIHandler _playerCraftingUIHandler;
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.K))
-                DeckManager.GetCraftingSlots(true).PushSlots();
-        }
-
+    
         public CraftingUIHandler GetCharacterUIHandler(bool players)
         {
-            //Init();
+            Init(null);
             return players ? _playerCraftingUIHandler : _opponentCraftingUIHandler;
         }
 
 
         public override void Init(ITokenReciever token)
         {
-            using (token.GetToken())
+            
+            using (token?.GetToken())
             {
                 if (_playerCraftingUIHandler == null)
                 {
@@ -55,8 +51,8 @@ namespace Battle.UI
 
         public override void Awake()
         {
-            base.Awake();
             SceneHandler.OnBeforeSceneShown += Init;
+            base.Awake();
         }
 
         public void OnDestroy()
