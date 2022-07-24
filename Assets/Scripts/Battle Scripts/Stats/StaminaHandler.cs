@@ -6,8 +6,8 @@ namespace Characters.Stats
     public class StaminaHandler
     {
         #region StaminaUI
-        private static StaminaUI _staminaUI;
-        public static StaminaUI StaminaUI { set => _staminaUI = value; }
+        private static StaminaTextManager _staminaTextManager;
+        public static StaminaTextManager StaminaTextManager { set => _staminaTextManager = value; }
         #endregion
 
         private static StaminaHandler _instance;
@@ -92,7 +92,7 @@ namespace Characters.Stats
             //  charactersStamina.ResetStaminaAddition();
 
             if (isPlayer)
-                _staminaUI?.SetText(charactersStamina.Stamina);
+                _staminaTextManager?.UpdateCurrentStamina(charactersStamina.Stamina);
         }
         public void OnStartTurn(bool isPlayer)
         {
@@ -102,7 +102,7 @@ namespace Characters.Stats
           //  charactersStamina.ResetStaminaAddition();
 
             if (isPlayer)
-                _staminaUI?.SetText(charactersStamina.Stamina);
+                _staminaTextManager?.UpdateCurrentStamina(charactersStamina.Stamina);
         }
         public bool IsEnoughStamina(bool isPlayer,CardData card)
          =>  GetCharacterStamina(isPlayer).Stamina >= card.StaminaCost;
@@ -113,7 +113,7 @@ namespace Characters.Stats
             character.Stamina -= card.StaminaCost;
 
             if(isPlayer)
-            _staminaUI?.SetText(character.Stamina);
+            _staminaTextManager?.SetText(character.Stamina);
         }
         
         public  void ReduceStamina(bool isPlayer ,int amount)
@@ -122,7 +122,7 @@ namespace Characters.Stats
             character.Stamina -= amount;
 
             if(isPlayer)
-                _staminaUI?.SetText(character.Stamina);
+                _staminaTextManager?.SetText(character.Stamina);
         }
         
         public void AddStartStamina(bool isPlayer,int Amount)
@@ -136,7 +136,7 @@ namespace Characters.Stats
             var character = GetCharacterStamina(isPlayer);
             character.Stamina += amount;
             if(isPlayer)
-            _staminaUI?.SetText(character.Stamina);
+            _staminaTextManager?.SetText(character.Stamina);
         }
         
         
