@@ -21,9 +21,7 @@ namespace CardMaga.UI.Visuals
         [SerializeField] TextMeshProUGUI _armorAmountText;
         [SerializeField] RectTransform _scalerRectTransform;
         [SerializeField] RectTransform _breakArmorRectTransform;
-
-        RectTransitionManager _armorManager;
-        RectTransitionManager _breakArmorManager;
+        
         int _currentArmor;
         bool _canArmorReset = true;
         bool _isReducedByHalf = false;
@@ -39,14 +37,7 @@ namespace CardMaga.UI.Visuals
             if (_armorAmountText == null)
                 throw new Exception("TopPartArmorUI has no armor text");
         }
-        private void Start()
-        {
-            _armorManager = new RectTransitionManager(_scalerRectTransform);
-            if (_breakArmorRectTransform != null)
-            {
-                _breakArmorManager = new RectTransitionManager(_breakArmorRectTransform);
-            }
-        }
+        
         public void SetArmor(int amount)
         {
             if (amount > _currentArmor)
@@ -112,11 +103,11 @@ namespace CardMaga.UI.Visuals
         }
         private void ReduceArmorAnimation()
         {
-            _armorManager.Transition(_reduceArmorTransitionSO);
+            _scalerRectTransform.Transition(_reduceArmorTransitionSO);
         }
         private void GainArmorAnimation()
         {
-            _armorManager.Transition(_gainArmorTransitionSO);
+            _scalerRectTransform.Transition(_gainArmorTransitionSO);
         }
         private void SetText(int amount)
         {

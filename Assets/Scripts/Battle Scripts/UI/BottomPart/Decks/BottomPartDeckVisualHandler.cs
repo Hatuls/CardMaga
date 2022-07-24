@@ -9,12 +9,10 @@ namespace CardMaga.UI
     {
         [Header("Draw Deck")]
         [SerializeField] DeckTextAssigner _drawDeckTextAssigner;
-        [SerializeField] RectTransitionManager _drawDeckRectTransitionManager;
         [SerializeField] TransitionPackSO _drawDeckTransitionPackSO;
 
         [Header("Discard Deck")]
         [SerializeField] DeckTextAssigner _discardDeckTextAssigner;
-        [SerializeField] RectTransitionManager _discardDeckRectTransitionManager;
         [SerializeField] TransitionPackSO _discardDeckTransitionPackSO;
         BaseDeck _discardDeck;
         //handles deck visuals
@@ -32,8 +30,8 @@ namespace CardMaga.UI
         }
         void MoveCardsToDrawPileAnim()
         {
-            _drawDeckRectTransitionManager.Transition(_drawDeckTransitionPackSO).
-                Join(_discardDeckRectTransitionManager.Transition(_discardDeckTransitionPackSO));
+            //_drawDeckRectTransitionManager.Transition(_drawDeckTransitionPackSO).
+              //  Join(_discardDeckRectTransitionManager.Transition(_discardDeckTransitionPackSO));
         }
         private void OnDestroy()
         {
