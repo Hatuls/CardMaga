@@ -39,17 +39,17 @@ public class StaminaTransition : MonoBehaviour
     [Button]
     public void ReduceAnimation(RectTransform _staminaRectTransform)
     {
-        _staminaRectTransform.Scale(_reduceStamina.ScaleMultiplier, _reduceStamina.Scale);
+        _staminaRectTransform.Scale(_reduceStamina.ScaleMultiplier, _reduceStamina);
     }
 
     [Button]
     public void GainAnimation(RectTransform _staminaRectTransform)
     {
-        _staminaRectTransform.Scale(_gainStamina.ScaleMultiplier, _gainStamina.Scale);
+        _staminaRectTransform.Scale(_gainStamina.ScaleMultiplier, _gainStamina);
     }
 
     [Button]
-    public void Transition(RectTransitionManager _rectTransitionManager, RectTransform _staminaRectTransform, TransitionPackSO _transitionPackSO)
+    public void Transition(RectTransform _rectTransitionManager, RectTransform _staminaRectTransform, TransitionPackSO _transitionPackSO)
     {
         _rectTransitionManager.Move(_staminaRectTransform, _transitionPackSO);
     }

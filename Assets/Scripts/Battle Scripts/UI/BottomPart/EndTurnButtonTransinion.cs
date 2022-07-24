@@ -12,28 +12,16 @@ public class EndTurnButtonTransinion: MonoBehaviour
     [SerializeField] private RectTransform _currentRectTransform;
     [SerializeField] private RectTransform _destinationRectTransform;
 
-    //Scrip of thransitions. Recive Transision pack SO
-    private RectTransitionManager _endTurnTransitionManager;
-
-    void Start()
-    {
-        _endTurnTransitionManager = new RectTransitionManager(_currentRectTransform);
-        if (_transitionPackSO != null)
-        {
-            _endTurnTransitionManager = new RectTransitionManager(_currentRectTransform);
-        }
-    }
-
     [Button]
     public void Scale()
     {
-        _endTurnTransitionManager.Scale(_transitionPackSO);
+        _currentRectTransform.Scale(_transitionPackSO);
     }
 
     [Button]
     public void Transition()
     {
-        _endTurnTransitionManager.Transition(_destinationRectTransform, _transitionPackSO);
+        _currentRectTransform.Transition(_destinationRectTransform, _transitionPackSO);
     }
 
 }
