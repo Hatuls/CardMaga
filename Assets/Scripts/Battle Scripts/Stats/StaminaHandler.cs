@@ -5,7 +5,7 @@ namespace Characters.Stats
 {
     public class StaminaHandler
     {
-        #region StaminaUI
+        #region StaminaTextManager
         private static StaminaTextManager _staminaTextManager;
         public static StaminaTextManager StaminaTextManager { set => _staminaTextManager = value; }
         #endregion
@@ -113,7 +113,7 @@ namespace Characters.Stats
             character.Stamina -= card.StaminaCost;
 
             if(isPlayer)
-            _staminaTextManager?.SetText(character.Stamina);
+            _staminaTextManager?.UpdateCurrentStamina(character.Stamina);
         }
         
         public  void ReduceStamina(bool isPlayer ,int amount)
@@ -122,7 +122,7 @@ namespace Characters.Stats
             character.Stamina -= amount;
 
             if(isPlayer)
-                _staminaTextManager?.SetText(character.Stamina);
+                _staminaTextManager?.UpdateCurrentStamina(character.Stamina);
         }
         
         public void AddStartStamina(bool isPlayer,int Amount)
@@ -136,7 +136,7 @@ namespace Characters.Stats
             var character = GetCharacterStamina(isPlayer);
             character.Stamina += amount;
             if(isPlayer)
-            _staminaTextManager?.SetText(character.Stamina);
+            _staminaTextManager?.UpdateCurrentStamina(character.Stamina);
         }
         
         

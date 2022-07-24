@@ -236,6 +236,12 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!224 &358574535 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1587459261254220152, guid: 59d86999b3b00ab489e1d92f80d34852,
+    type: 3}
+  m_PrefabInstance: {fileID: 556047225}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &556047225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -243,6 +249,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 126979476454820983, guid: 59d86999b3b00ab489e1d92f80d34852,
+        type: 3}
+      propertyPath: m_Name
+      value: EndTurnScaler
+      objectReference: {fileID: 0}
+    - target: {fileID: 2622515229973395117, guid: 59d86999b3b00ab489e1d92f80d34852,
+        type: 3}
+      propertyPath: MaxStaminaRectTransform
+      value: 
+      objectReference: {fileID: 1712550968}
+    - target: {fileID: 2622515229973395117, guid: 59d86999b3b00ab489e1d92f80d34852,
+        type: 3}
+      propertyPath: CurrentStaminaRectTransform
+      value: 
+      objectReference: {fileID: 358574535}
     - target: {fileID: 4132734533086917079, guid: 59d86999b3b00ab489e1d92f80d34852,
         type: 3}
       propertyPath: m_Pivot.x
@@ -353,6 +374,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: V4 Bottom Part Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5831132559675722501, guid: 59d86999b3b00ab489e1d92f80d34852,
+        type: 3}
+      propertyPath: _staminaTransition
+      value: 
+      objectReference: {fileID: 1177424426}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59d86999b3b00ab489e1d92f80d34852, type: 3}
 --- !u!1 &956319668
@@ -398,6 +424,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1177424426 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2622515229973395117, guid: 59d86999b3b00ab489e1d92f80d34852,
+    type: 3}
+  m_PrefabInstance: {fileID: 556047225}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a10b30fb43cf6e46b7754f443dfa181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!224 &1712550968 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 866624370748249221, guid: 59d86999b3b00ab489e1d92f80d34852,
+    type: 3}
+  m_PrefabInstance: {fileID: 556047225}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1757894757
 GameObject:
   m_ObjectHideFlags: 0

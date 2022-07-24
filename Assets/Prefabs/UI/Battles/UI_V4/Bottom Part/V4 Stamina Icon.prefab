@@ -1,5 +1,41 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1731082972433883581
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2105663142941395555}
+  m_Layer: 5
+  m_Name: CurrentStaminaRectTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2105663142941395555
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731082972433883581}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8898533909670885689}
+  m_Father: {fileID: 7178484877920051462}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1775881549762878788
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +48,7 @@ GameObject:
   - component: {fileID: 5241708207472054009}
   - component: {fileID: 5119760484061566784}
   m_Layer: 0
-  m_Name: MaxText
+  m_Name: MaxStaminaText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,8 +65,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7178484877920051462}
-  m_RootOrder: 3
+  m_Father: {fileID: 520665998210426782}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -146,7 +182,7 @@ GameObject:
   - component: {fileID: 6605557950877849033}
   - component: {fileID: 4879502499920639398}
   m_Layer: 0
-  m_Name: CurrentText
+  m_Name: CurrentStaminaText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,8 +199,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7178484877920051462}
-  m_RootOrder: 2
+  m_Father: {fileID: 2105663142941395555}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -278,7 +314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7178484877920051462}
   m_Layer: 5
-  m_Name: Scaler
+  m_Name: StaminaScaler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,8 +333,8 @@ RectTransform:
   m_Children:
   - {fileID: 818784082242272243}
   - {fileID: 4383293737885371694}
-  - {fileID: 8898533909670885689}
-  - {fileID: 2108260363714471934}
+  - {fileID: 520665998210426782}
+  - {fileID: 2105663142941395555}
   m_Father: {fileID: 7243756541293473286}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -392,6 +428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7243756541293473286}
   - component: {fileID: 3412060582252905910}
+  - component: {fileID: 6616703309459634206}
   m_Layer: 5
   m_Name: V4 Stamina Icon
   m_TagString: Untagged
@@ -433,9 +470,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gainStamina: {fileID: 11400000, guid: 81b3ba20a4838e845be2fce17fc6f082, type: 2}
   _reduceStamina: {fileID: 11400000, guid: 4885bb10c55d1804aa9f9a3c244aed3a, type: 2}
-  _maxStaminaRectTransform: {fileID: 2108260363714471934}
-  _currentStaminaRectTransform: {fileID: 8898533909670885689}
-  _staminaIconsRectTransform: {fileID: 7178484877920051462}
+  MaxStaminaRectTransform: {fileID: 520665998210426782}
+  CurrentStaminaRectTransform: {fileID: 2105663142941395555}
+  StaminaIconsRectTransform: {fileID: 7178484877920051462}
+--- !u!114 &6616703309459634206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5813507760991287918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f046ddfb32061fa43abda0667d6bfa50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentStamima: {fileID: 4879502499920639398}
+  _maxStamima: {fileID: 5119760484061566784}
+  _staminaTransition: {fileID: 3412060582252905910}
 --- !u!1 &7464794653982036493
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,3 +563,39 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &8543622065470611505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 520665998210426782}
+  m_Layer: 5
+  m_Name: MaxStaminaRectTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &520665998210426782
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8543622065470611505}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2108260363714471934}
+  m_Father: {fileID: 7178484877920051462}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}

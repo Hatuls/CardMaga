@@ -14,7 +14,7 @@ public class StaminaUI : MonoBehaviour
     int RejectAnimation = Animator.StringToHash("StaminaIcon_Reject");
     private void Start()
     {
-        StaminaHandler.StaminaUI = this;
+        //StaminaHandler.StaminaUI = this;
 
         if (_animator == null)
             _animator = GetComponent<Animator>();
