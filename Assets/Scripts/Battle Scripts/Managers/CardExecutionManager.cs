@@ -1,4 +1,5 @@
-﻿using Battle.Deck;
+﻿using System;
+using Battle.Deck;
 using Battle.UI;
 using CardMaga.Card;
 using CardMaga.UI.Card;
@@ -16,6 +17,8 @@ namespace Battle
     [System.Serializable]
     public class CardExecutionManager : MonoSingleton<CardExecutionManager>
     {
+        public static event Action<CardData> OnCardExecute;
+        
         [SerializeField]
         AnimatorController _playerAnimatorController;
         [SerializeField]
@@ -78,6 +81,7 @@ namespace Battle
             // execute card
             StaminaHandler.Instance.ReduceStamina(isPlayer, card);
             OnSuccessfullExecution?.Invoke();
+            OnCardExecute?.Invoke(card);
             if (isPlayer)
             {
 

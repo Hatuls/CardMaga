@@ -153,7 +153,7 @@ public static class RectTransitionManager
             param = transitionPackSo.Movement;
         }
 
-        switch (transitionPackSo.MovePositionType)
+        switch (transitionPackSo?.MovePositionType)
         {
             case TransitionPackSO.PositionType.AnchoredPosition:
                 return rect.MoveAnchorPosition(destination, param?.TimeToTransition ?? 0, param?.AnimationCurveX, param?.AnimationCurveY,
@@ -167,7 +167,8 @@ public static class RectTransitionManager
                     param?.AnimationCurveZ,
                     onComplete);
             default:
-                return rect.MoveAnchorPosition(destination, param?.TimeToTransition ?? 0, param?.AnimationCurveX, param?.AnimationCurveY,
+                return rect.MoveWordPosition(destination, param?.TimeToTransition ?? 0, param?.AnimationCurveX, param?.AnimationCurveY,
+                    param?.AnimationCurveZ,
                     onComplete);
         }
     }
@@ -194,8 +195,7 @@ public static class RectTransitionManager
         sequence.Join(tweenY = rect.DOMoveY(destination.y, timeToTransition));
 
         if (destination.z != 0) sequence.Join(tweenZ = rect.DOMoveZ(destination.z, timeToTransition));
-
-
+        
         if (animationCurveX != null) tweenX.SetEase(animationCurveX);
 
         if (animationCurveY != null) tweenY.SetEase(animationCurveY);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Battle;
 using Battle.Deck;
 using CardMaga.Card;
 using CardMaga.UI.Card;
@@ -45,6 +46,7 @@ namespace CardMaga.UI.Carfting
             HandUI.OnCardSelect += LoadCraftingSlot;
             HandUI.OnCardReturnToHand += StopLoading;
             
+            
             GetDistance();
         }
 
@@ -57,7 +59,7 @@ namespace CardMaga.UI.Carfting
         #endregion
 
         #region PublicFunctions
-
+        
         public void LoadCraftingSlot(CardUI cardTypeDataUI)
         {
             LoadCraftingSlot(cardTypeDataUI.CardData.CardTypeData);
@@ -65,20 +67,18 @@ namespace CardMaga.UI.Carfting
         
         public void LoadCraftingSlot(CardTypeData cardTypeData)
         {
-            CraftingSlotData craftingSlotData = AssignCraftingSlotData(cardTypeData);
+            _craftingSlotData = AssignCraftingSlotData(cardTypeData);
 
             if (_craftingSlot[1].TryGetCardTypeData(out CraftingSlotData prevCraftingSlotData))
             {
-                LoadCraftingSlot(craftingSlotData);
+                LoadCraftingSlot(_craftingSlotData);
             }
             else
             {
-                AddCraftingSlot(craftingSlotData);
+                AddCraftingSlot(_craftingSlotData);
             }
         }
-
         
-
         public void RestCraftingSlots()
         {
             for (int i = 0; i < _craftingSlot.Length; i++)
@@ -91,10 +91,20 @@ namespace CardMaga.UI.Carfting
 
         #region PrivateFunctions
 
+        private void AddCraftingSlot(CardData cardData)
+        {
+            LoadCraftingSlot(cardData.CardTypeData);
+        }
+        
         private void GetDistance()
         {
             _xMovement = -Vector2.Distance(_craftingSlot[0].RectTransform.anchoredPosition,
                 _craftingSlot[1].RectTransform.anchoredPosition);
+        }
+
+        private void LoadEmptyCraftingSlot(CraftingSlotData craftingSlotData)
+        {
+            
         }
         
         private CraftingSlotData AssignCraftingSlotData(CardTypeData cardTypeData)
@@ -199,6 +209,7 @@ namespace CardMaga.UI.Carfting
                 }
             }
         }
+        
         [Sirenix.OdinInspector.Button]
         private void ResetAllCraftingSlots()
         {

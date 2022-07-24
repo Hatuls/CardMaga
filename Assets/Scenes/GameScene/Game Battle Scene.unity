@@ -270,6 +270,18 @@ Transform:
   m_Father: {fileID: 209181450}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &142119617 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1511457884063859248, guid: 353491b6d4691024a960a6196cac83bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 560829603735717846}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d4f06ddf8dcfd049af82a33878db572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &203050804 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6717845894632501557, guid: e85af4287e4c649448566fa0a5af3d8c,
@@ -1860,6 +1872,21 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1901611766098815565, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+        type: 3}
+      propertyPath: _handUI
+      value: 
+      objectReference: {fileID: 5702666649249262310}
+    - target: {fileID: 1901611766098815565, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+        type: 3}
+      propertyPath: _comboManager
+      value: 
+      objectReference: {fileID: 142119617}
+    - target: {fileID: 1901611766098815565, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+        type: 3}
+      propertyPath: _cardUIManager
+      value: 
+      objectReference: {fileID: 2064259212}
     - target: {fileID: 2000395846913515583, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2020,7 +2047,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3237012425510655566, guid: 387e37b7af6f1a44c8de5e3e78feebdd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 387e37b7af6f1a44c8de5e3e78feebdd, type: 3}
 --- !u!224 &1078837722 stripped
 RectTransform:
@@ -2274,6 +2302,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b8ca9ddedd7c06488d62dca0311698c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1664655179 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1901611766098815565, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1005306861}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba649314efc3e24b92cb5af67deb670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1677065920
@@ -3618,6 +3658,11 @@ PrefabInstance:
       propertyPath: _cardUIManager
       value: 
       objectReference: {fileID: 2064259212}
+    - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: _comboUIManager
+      value: 
+      objectReference: {fileID: 1664655179}
     - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
         type: 3}
       propertyPath: _battleInputStateMachine

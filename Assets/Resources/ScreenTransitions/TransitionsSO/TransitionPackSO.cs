@@ -16,8 +16,8 @@ public class TransitionPackSO : ScriptableObject
 
     public enum PositionType
     {
-        AnchoredPosition,
         WordPosition,
+        AnchoredPosition,
         LocalPosition
     };
     
