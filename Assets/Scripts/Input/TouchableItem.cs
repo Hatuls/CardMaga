@@ -106,8 +106,6 @@ namespace CardMaga.Input
                     Debug.LogError(name + " State Not Set");
                     break;
             }
-
-            Debug.Log(name + " is touchable set to " + _isTouchable);
         }
 
         [ContextMenu("ToggleState")]
@@ -165,7 +163,6 @@ namespace CardMaga.Input
             _isHold = false;
             StartCoroutine(HoldCheck(eventData)); 
             OnPointDown?.Invoke(_touchableItem);
-            Debug.Log( base.name + "OnPointDown");
         }
 
         public void OnPointerUp(PointerEventData eventData)
@@ -204,7 +201,6 @@ namespace CardMaga.Input
         private IEnumerator HoldDelay(PointerEventData eventData)
         {
             yield return new WaitForSeconds(_holdDelay);
-            Debug.Log("From dely");
             _isHold = true;
         }
 
@@ -220,7 +216,6 @@ namespace CardMaga.Input
                 
                 if (Vector2.Distance(_startPosition,currentTouchPosition) > _holdDistance)
                 {
-                    Debug.Log("FromDis");
                     _isHold = true;
                     yield break;
                 }
@@ -232,18 +227,20 @@ namespace CardMaga.Input
         private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
         {
             OnBeginHold?.Invoke(_touchableItem);
-            Debug.Log(base.name + "OnBeginHold");
+            //Debug.Log(base.name + "OnBeginHold");
             
             int count = 0;
             while (_isHold)
             {
                 OnHold?.Invoke(_touchableItem);
-                
+#if UNITY_EDITOR
                 if (count % 10 == 0)
                 {
                     Debug.Log(base.name + "OnHold");
                 }
                 count++;
+
+#endif       
                 
                 yield return null;
             }
@@ -253,17 +250,17 @@ namespace CardMaga.Input
         {
             _isHold = false;
             OnEndHold?.Invoke(_touchableItem);
-            Debug.Log(base.name + "OnEndHold");
+            //Debug.Log(base.name + "OnEndHold");
             OnPointUp?.Invoke(_touchableItem);
-            Debug.Log(base.name + "OnPointUp");
+            //Debug.Log(base.name + "OnPointUp");
         }
 
         private void ProcessTouch(PointerEventData eventData)
         {
             OnClick?.Invoke(_touchableItem);
-            Debug.Log(base.name + "OnClick");
+            //Debug.Log(base.name + "OnClick");
             OnPointUp?.Invoke(_touchableItem);
-            Debug.Log(base.name + "OnPointUp");
+            //Debug.Log(base.name + "OnPointUp");
         }
 
         private void ChangeState(State state)
@@ -282,8 +279,6 @@ namespace CardMaga.Input
                     Debug.LogError(name + " State Not Set");
                     break;
             }
-
-            Debug.Log(name + " is touchable set to " + _isTouchable);
         }
 
         [ContextMenu("ToggleState")]

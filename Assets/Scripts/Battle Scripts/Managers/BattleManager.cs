@@ -31,6 +31,8 @@ namespace Battle
         [SerializeField]
         private SceneIdentificationSO _returnScene;
 
+        [SerializeField] private DollyTrackCinematicManager _cinematicManager;
+
 
         private IEnumerator _turnCycles;
         private ISceneHandler _sceneHandler;
@@ -150,9 +152,15 @@ namespace Battle
             //    Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
+            
+            _cinematicManager.StartCinematic(MoveToNextScene);
+        }
 
+        private void MoveToNextScene()
+        {
             _sceneHandler.MoveToScene(_returnScene);
         }
+        
         // Need To be Re-Done
         private void EnemyDied()
         {
