@@ -97,10 +97,11 @@ namespace CardMaga.UI
         }
         private void OnDestroy()
         {
+            if(_discardDeck != null)
             _discardDeck.OnResetDeck -= MoveCardsToDrawPileAnim;
             SceneHandler.OnLateBeforeSceneShown -= InitVisuals;
-            _drawDeckTextAssigner.OnDestroy();
-            _discardDeckTextAssigner.OnDestroy();
+            _drawDeckTextAssigner?.OnDestroy();
+            _discardDeckTextAssigner?.OnDestroy();
                 
         }
     }

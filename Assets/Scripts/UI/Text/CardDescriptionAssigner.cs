@@ -78,17 +78,18 @@ namespace CardMaga.UI.Text
         }
         private string SetKeywordDescription(Color color, string[] keyword)
         {
-            string hexaCode = GetHexaCodeFromColor(color);
+           // string hexaCode = GetHexaCodeFromColor(color);
             string completedString;
             //try parse index
             if (!int.TryParse(keyword[0], out int value))
             {
-                completedString = "<color=#" + hexaCode + ">" + keyword[0];
+                completedString = keyword[0].ColorString(color);
+              //  completedString = "<color=#" + hexaCode + ">" + keyword[0];
             }
             else
             {
                 completedString = AddBoldToNumber(keyword[0]);
-                completedString += "<color=#" + hexaCode + ">" + " " + keyword[1];
+                completedString += keyword[1].ColorString(color); 
             }
             return completedString;
         }
@@ -96,7 +97,8 @@ namespace CardMaga.UI.Text
         {
             if (_isNumberBold)
             {
-                return "<B>" + keyword + "</B>";
+                // return "<B>" + keyword + "</B>";
+                 return  keyword.ToBold();
             }
             else
             {
@@ -104,4 +106,24 @@ namespace CardMaga.UI.Text
             }
         }
     }
+}
+
+
+public static class StringHelper
+{
+    private const string COLOR_HTML = "<color=#";
+    private const string COLOR_HTML_CLOSER = "</color>";
+    private const string HTML_CLOSER = ">";
+    private const string HTML_BOLD = "<b>";
+    private const string HTML_BOLD_CLOSER = "</b>";
+    public static string ToHexa(this Color color)
+     => ColorUtility.ToHtmlStringRGB(color);
+    public static string ToBold(this string text) => string.Concat(HTML_BOLD, text, HTML_BOLD_CLOSER);
+    public static string ColorString(this string text, Color color)
+        => string.Concat(COLOR_HTML, color.ToHexa(), HTML_CLOSER,text, COLOR_HTML_CLOSER);
+}
+
+public static class StupidLog
+{
+    public static void Log(this object o) => Debug.Log(o.ToString());
 }

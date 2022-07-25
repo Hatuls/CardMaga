@@ -45,7 +45,9 @@ namespace Battle.UI
 
             void UnSubscribe(bool isPlayer)
             {
-                var stats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer);
+                var stats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer) ;
+                if (stats == null)
+                    return;
                 HealthBarUI healthBar = HealthBar(isPlayer);
                 StatAbst health = stats.GetStats(Keywords.KeywordTypeEnum.Heal);
                 StatAbst maxHealth = stats.GetStats(Keywords.KeywordTypeEnum.MaxHealth);
