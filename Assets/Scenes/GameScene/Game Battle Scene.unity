@@ -375,7 +375,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CustomBlends
       value: 
-      objectReference: {fileID: 11400000, guid: 18ed8330d0c5373419060bed5042dbbb,
+      objectReference: {fileID: 11400000, guid: 91ddd4ccb35f90248b0c825504a89778,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e7b156c630d1594eaaca490e4a2748a, type: 3}
@@ -1877,11 +1877,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 482083833}
     m_Modifications:
-    - target: {fileID: 1099762860285308980, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 115716895, guid: 387e37b7af6f1a44c8de5e3e78feebdd, type: 3}
+      propertyPath: _deckManager
+      value: 
+      objectReference: {fileID: 304944477}
     - target: {fileID: 1491555520572507407, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1917,11 +1916,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2469504551532316773, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
-        type: 3}
-      propertyPath: _timeTillEndTurn
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 6193234265197798827, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1940,27 +1934,12 @@ PrefabInstance:
     - target: {fileID: 6522071508316668059, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6960928483793819527, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
-        type: 3}
-      propertyPath: m_text
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7157369212477914302, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
-        type: 3}
-      propertyPath: m_text
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7278675045817372227, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
       propertyPath: m_Name
       value: V4 Top Part Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 7278675045817372227, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7278675045817372255, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
@@ -2067,8 +2046,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3237012425510655566, guid: 387e37b7af6f1a44c8de5e3e78feebdd, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 387e37b7af6f1a44c8de5e3e78feebdd, type: 3}
 --- !u!1001 &1058096951
 PrefabInstance:
@@ -2889,6 +2867,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: V4 Bottom Part Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4132734533112501222, guid: 59d86999b3b00ab489e1d92f80d34852,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 4562471779681742130, guid: 59d86999b3b00ab489e1d92f80d34852,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -3078,12 +3061,12 @@ PrefabInstance:
     - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: _delayTime.x
-      value: 1.0282038
+      value: 1.1857294
       objectReference: {fileID: 0}
     - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
       propertyPath: _delayTime.y
-      value: 2.1829894
+      value: 2.32832
       objectReference: {fileID: 0}
     - target: {fileID: 516472383804032214, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
@@ -3762,6 +3745,11 @@ PrefabInstance:
       propertyPath: _tableCardSlot._middleHandPos
       value: 
       objectReference: {fileID: 1417368370}
+    - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: _tableCardSlot._cardPaddingPrecentage
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e85af4287e4c649448566fa0a5af3d8c, type: 3}
 --- !u!114 &5702666649249262310 stripped

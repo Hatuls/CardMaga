@@ -400,7 +400,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41a67a9d9c8b15a488db84ce8df29f35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _drawTransitionPackSo: {fileID: 11400000, guid: 0aad001d516b3514cab3d24103e7fc62,
+  _drawMoveTransitionPackSo: {fileID: 11400000, guid: 0aad001d516b3514cab3d24103e7fc62,
+    type: 2}
+  _drawScaleTransitionPackSo: {fileID: 11400000, guid: dcac49625bc39824cbab22f225453fdf,
     type: 2}
   _discardTransitionPackSo: {fileID: 11400000, guid: 8cabfc347f3a83e49b32bfd7851d0360,
     type: 2}
@@ -417,6 +419,7 @@ MonoBehaviour:
   _cardUIManager: {fileID: 0}
   _followCard: {fileID: 5368535060217224795}
   _zoomCard: {fileID: 8813301573821374498}
+  _comboUIManager: {fileID: 0}
   _tableCardSlot:
     _middleHandPos: {fileID: 0}
     _cardPaddingPrecentage: 0
@@ -424,6 +427,7 @@ MonoBehaviour:
     _cardSlots: []
   _delayBetweenCardDrawn: 0
   _delayBetweenCardDiscard: 0
+  _selectedCard: {fileID: 0}
 --- !u!114 &6721602299382048637
 MonoBehaviour:
   m_ObjectHideFlags: 0

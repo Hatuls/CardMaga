@@ -16,12 +16,19 @@ namespace CardMaga.UI.Carfting
         [SerializeField] private Image _bgImage;
         [SerializeField] private CanvasGroup _canvasGroup;
         private CraftingSlotData _craftingSlotData;
+        private CraftingSlotData _tempCraftingSlotData;
         private CraftingSlotData _defaultCraftingSlotData;
+        private bool _isApply = false;
         
         #endregion
         
         #region prop
 
+        public bool IsApply
+        {
+            get => _isApply;
+        }
+        
         public CanvasGroup CanvasGroup
         {
             get => _canvasGroup;
@@ -50,13 +57,20 @@ namespace CardMaga.UI.Carfting
                 );
         }
 
-        public void AssignSlotData(CraftingSlotData craftingSlotData)
+        public void LoadSlotData(CraftingSlotData craftingSlotData)
         {
-            _craftingSlotData = craftingSlotData;
-
+            _tempCraftingSlotData = craftingSlotData;
+            
             _bodyIcon.sprite = craftingSlotData.BodyPartIcon;
             _bodyIcon.color = craftingSlotData.BodyPartColor;
             _bgImage.color = craftingSlotData.BgColor;
+        }
+
+        public void ApplyCraftingData()
+        {
+            _craftingSlotData = _tempCraftingSlotData;
+            _tempCraftingSlotData = null;
+            _isApply = true;
         }
 
         public bool TryGetCardTypeData(out CraftingSlotData cardTypeData)
@@ -73,7 +87,9 @@ namespace CardMaga.UI.Carfting
 
         public void RestCraftingSlot()
         {
-            AssignSlotData(_defaultCraftingSlotData);
+            LoadSlotData(_defaultCraftingSlotData);
+            ApplyCraftingData();
+            _isApply = false;
             _craftingSlotData = null;
         }
     }

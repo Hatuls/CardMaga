@@ -17,7 +17,8 @@ namespace Battle
     [System.Serializable]
     public class CardExecutionManager : MonoSingleton<CardExecutionManager>
     {
-        public static event Action OnCardExecute;
+        public static event Action OnPlayerCardExecute;
+        public static event Action<CardData> OnEnemyCardExecute;
         
         [SerializeField]
         AnimatorController _playerAnimatorController;
@@ -81,14 +82,16 @@ namespace Battle
             // execute card
             StaminaHandler.Instance.ReduceStamina(isPlayer, card);
             OnSuccessfullExecution?.Invoke();
-            OnCardExecute?.Invoke();
             if (isPlayer)
             {
-
+                OnPlayerCardExecute?.Invoke();
                 //CardUIManager.Instance.LockHandCards(false);
             }
             else
+            {
                 CardUIManager.Instance.PlayEnemyCard(card);
+                OnEnemyCardExecute?.Invoke(card);
+            }
 
             DeckManager.Instance.TransferCard(isPlayer, DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, card);
 

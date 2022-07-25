@@ -34,12 +34,13 @@ public class AudioManager : MonoBehaviour
         {
             _instance = this;
             FmodInit();
+            DontDestroyOnLoad(this.gameObject);
         }
         else if (_instance != this)
             Destroy(this.gameObject);
         
 
-            DontDestroyOnLoad(this.gameObject);
+
     }
 
 
@@ -67,6 +68,7 @@ public class AudioManager : MonoBehaviour
         {
             EventInstance _eventInstance = RuntimeManager.CreateInstance(path);
             backgroundFmod = new FmodData(_backgroundMusic, _eventInstance, eventDescription);
+
             backgroundFmod.PlaySound();
         }
         else
@@ -146,7 +148,10 @@ public class AudioManager : MonoBehaviour
             _fmodLibrary.Clear();
         }
     }
-
+    private void OnDestroy()
+    {
+        StopAllSounds();
+    }
     //private void SceneParameter(SceneHandler.ScenesEnum scene)
     //{
     //    switch (scene)
@@ -165,10 +170,11 @@ public class AudioManager : MonoBehaviour
     //    }
     //}
 
-  
+
     // Need To be Re-Done
     public void BattleMusicParameter()
     {
+        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);
         //switch (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType)
         //{
         //    case Battles.CharacterTypeEnum.Elite_Enemy:

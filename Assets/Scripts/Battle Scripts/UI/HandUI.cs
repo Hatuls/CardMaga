@@ -27,8 +27,10 @@ namespace CardMaga.UI
         public static event Action<IReadOnlyList<CardUI>> OnCardsExecuteGetCards;//when card execute, and passes all the cards that are in the hand
 
         [Header("TransitionPackSO")]
-        [SerializeField] private TransitionPackSO _drawTransitionPackSo;
-        [SerializeField] private TransitionPackSO _discardTransitionPackSo;
+        [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
+        [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;
+        [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
+        [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
         [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
         [SerializeField] private TransitionPackSO _resetCardPositionPackSO;
         [SerializeField] private TransitionPackSO _dicardExecutePositionPackSO;
@@ -250,7 +252,7 @@ namespace CardMaga.UI
             for (var i = 0; i < cards.Length; i++)
             {
                 cards[i].RectTransform.SetPosition(_drawPos);
-                cards[i].RectTransform.SetScale(0.1f);
+                cards[i].VisualsRectTransform.SetScale(0.1f);
             }
         }
 
@@ -266,7 +268,8 @@ namespace CardMaga.UI
             {
                 cardSlots[i].CardUI.Init();
                 cardSlots[i].CardUI.transform.SetAsLastSibling();
-                cardSlots[i].CardUI.RectTransform.Transition(cardSlots[i].CardPos, _drawTransitionPackSo);
+                cardSlots[i].CardUI.RectTransform.Transition(cardSlots[i].CardPos, _drawMoveTransitionPackSo,UnLockInput);//Plaster!!!
+                cardSlots[i].CardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo);
                 yield return _waitForCardDrawnDelay;
             }
 
@@ -299,14 +302,15 @@ namespace CardMaga.UI
         {
             for (var i = 0; i < cardUI.Length; i++)
             {
-                cardUI[i].RectTransform.Transition(_discardPos, _discardTransitionPackSo,cardUI[i].Dispose);
+                cardUI[i].RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo,cardUI[i].Dispose);
+                cardUI[i].VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
                 yield return _waitForCardDiscardDelay;
             }
         }
 
         private void MoveCardToDiscardAfterExecute(CardUI cardUI)
         {
-            cardUI.RectTransform.Transition(_discardPos, _discardTransitionPackSo, cardUI.Dispose);
+            cardUI.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo, cardUI.Dispose);
         }
 
         /// <summary>
