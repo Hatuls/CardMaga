@@ -114,6 +114,7 @@ namespace Battle
         public IEnumerator PlayTurnDelay()
         {
             const int NO_MORE_ACTION_TO_DO = -1;
+
             if (_aiHand.TryGetHighestWeight(out AICard card) > NO_MORE_ACTION_TO_DO && !BattleManager.isGameEnded)
             {
                 DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, card.Card);
