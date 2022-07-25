@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
+﻿using DG.Tweening;
 using Sirenix.OdinInspector;
-using System;
+using UnityEngine;
 
 public class StaminaTransition : MonoBehaviour
 {
@@ -13,8 +10,8 @@ public class StaminaTransition : MonoBehaviour
     [SerializeField] public RectTransform CurrentStaminaRectTransform;
     [SerializeField] public RectTransform StaminaIconsRectTransform;
 
-    [Title("TransitionPackSO","Texts: ")]
-    [SerializeField] public  TransitionPackSO _gainStaminaTextTransition;
+    [Title("TransitionPackSO", "Texts: ")]
+    [SerializeField] public TransitionPackSO _gainStaminaTextTransition;
     [SerializeField] private TransitionPackSO _reduceStaminaTextTransition;
 
 
@@ -25,6 +22,16 @@ public class StaminaTransition : MonoBehaviour
     [SerializeField] public TransitionPackSO _gainMaxStaminaIconTransition;
     [SerializeField] public TransitionPackSO _reduceMaxStaminaIconTransition;
 
+    private float _startStaminaTextScale;
+    private float _startMaxStaminaText;
+    private float _startIconStaminaIcon;
+
+    private void Start()
+    {
+        _startStaminaTextScale = CurrentStaminaRectTransform.localScale.x;
+        _startMaxStaminaText = MaxStaminaRectTransform.localScale.x;
+        _startIconStaminaIcon = StaminaIconsRectTransform.localScale.x;
+    }
 
     /// <summary>
     /// Using the _reduceStamina TransitionPackSO. The only thing you need to choose is the RectTransform object- the object you want to be effected by the animation(TransitionPackSO)
@@ -33,20 +40,28 @@ public class StaminaTransition : MonoBehaviour
     public void ReduceCurrentStaminaAnimation()
     {
         CurrentStaminaRectTransform.Transition(_reduceStaminaTextTransition);
-        StaminaIconsRectTransform.Transition(_reduceStaminaIconTransition);
+        StaminaIconsRectTransform.Transition(_reduceStaminaIconTransition).OnComplete(ResetScales);
     }
 
     internal void ReduceMaxStaminaAnimation()
     {
         MaxStaminaRectTransform.Transition(_reduceStaminaTextTransition);
-        StaminaIconsRectTransform.Transition(_reduceStaminaIconTransition);
+        StaminaIconsRectTransform.Transition(_reduceStaminaIconTransition).OnComplete(ResetScales);
     }
 
     internal void GainMaxStaminaAnimation()
     {
         CurrentStaminaRectTransform.Transition(_gainStaminaTextTransition);
-        StaminaIconsRectTransform.Transition(_gainMaxStaminaIconTransition);
+        StaminaIconsRectTransform.Transition(_gainMaxStaminaIconTransition).OnComplete(ResetScales);
     }
+
+    private void ResetScales()
+    {
+        MaxStaminaRectTransform.localScale = _startStaminaTextScale * Vector3.one;
+        CurrentStaminaRectTransform.localScale = _startMaxStaminaText * Vector3.one;
+        StaminaIconsRectTransform.localScale = _startIconStaminaIcon * Vector3.one;
+    }
+
 
 
     /// <summary>
@@ -56,7 +71,7 @@ public class StaminaTransition : MonoBehaviour
     public void GainCurrentStaminaAnimation()
     {
         CurrentStaminaRectTransform.Transition(_gainStaminaTextTransition);
-        StaminaIconsRectTransform.Transition(_gainStaminaIconTransition);
+        StaminaIconsRectTransform.Transition(_gainStaminaIconTransition).OnComplete(ResetScales);
     }
 
     /// <summary>

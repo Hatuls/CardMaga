@@ -13,6 +13,7 @@ public class StaminaTextManager : MonoBehaviour
 
     private void Start()
     {
+
         StaminaHandler.StaminaTextManager = this;
         ResetStamina();
     }
