@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Characters.Stats;
+using System.Collections;
 using TMPro;
-using Sirenix.OdinInspector;
-using Characters.Stats;
+using UnityEngine;
 
 public class StaminaTextManager : MonoBehaviour
 {
@@ -11,7 +9,7 @@ public class StaminaTextManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _maxStamimaText;
     [SerializeField] private StaminaTransition _staminaTransition;
 
-    private int _currentStamina;
+    private int _currentStamina = -1;
 
     private void Start()
     {
@@ -21,8 +19,13 @@ public class StaminaTextManager : MonoBehaviour
 
     public void UpdateCurrentStamina(int stamina)
     {
-        CheckCurrentStaminaForAnimation(stamina);
-        _currentStamimaText.text = (_currentStamina).ToString();
+        if (stamina != _currentStamina)
+        {
+            CheckCurrentStaminaForAnimation(stamina);
+            _currentStamimaText.text = (stamina).ToString();
+            _currentStamina = stamina;
+        }
+
     }
 
     public void UpdateMaxStamina(int stamina)
@@ -33,35 +36,27 @@ public class StaminaTextManager : MonoBehaviour
 
     private void CheckCurrentStaminaForAnimation(int _newStamina)
     {
-        if(_newStamina != _currentStamina)
-        {
-            if (_newStamina < _currentStamina)
-                _staminaTransition.ReduceAnimation(_staminaTransition.CurrentStaminaRectTransform);
+        if (_newStamina < _currentStamina)
+            _staminaTransition.ReduceCurrentStaminaAnimation();
 
-            else if (_newStamina > _currentStamina)
-                _staminaTransition.GainAnimation(_staminaTransition.CurrentStaminaRectTransform);
-
-            _currentStamina = _newStamina;
-        }
+        else if (_newStamina > _currentStamina)
+            _staminaTransition.GainCurrentStaminaAnimation();
     }
 
     private void CheckMaxStaminaForAnimation(int _newStamina)
     {
-        if(_newStamina != _currentStamina)
-        {
+   
             if (_newStamina < _currentStamina)
-                _staminaTransition.ReduceAnimation(_staminaTransition.MaxStaminaRectTransform);
+                _staminaTransition.ReduceMaxStaminaAnimation();
 
             else if (_newStamina > _currentStamina)
-                _staminaTransition.GainAnimation(_staminaTransition.MaxStaminaRectTransform);
-        }
-
-        _currentStamina = _newStamina;
+                _staminaTransition.GainMaxStaminaAnimation();
+ 
     }
 
     private void ResetStamina()
     {
-        _currentStamina = 0;
+        UpdateCurrentStamina(0);
     }
 
     private void ChangeTextColor(TextMeshProUGUI _staminaText, Color _newColor)
@@ -90,7 +85,7 @@ public class StaminaTextManager : MonoBehaviour
     //Not working yet!!
     public void TestReduceStamina(RectTransform rectTransform, float timing, TextMeshProUGUI _staminaText, Color _newColor, int _newStamina)
     {
-        StartCoroutine(WaitForColorChangeTiming( rectTransform,  timing,  _staminaText,  _newColor,  _newStamina));
+        StartCoroutine(WaitForColorChangeTiming(rectTransform, timing, _staminaText, _newColor, _newStamina));
     }
 #endif
 }

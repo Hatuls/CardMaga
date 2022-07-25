@@ -3,27 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Sirenix.OdinInspector;
+using System;
 
 public class StaminaTransition : MonoBehaviour
 {
-
-    [Header("TransitionPackSO")]
-    [SerializeField] public TransitionPackSO _gainStamina;
-    [SerializeField] private TransitionPackSO _reduceStamina;
-
     [Header("RectTransforms")]
     //The objects that will be effected by the animations
     [SerializeField] public RectTransform MaxStaminaRectTransform;
     [SerializeField] public RectTransform CurrentStaminaRectTransform;
     [SerializeField] public RectTransform StaminaIconsRectTransform;
 
+    [Title("TransitionPackSO","Texts: ")]
+    [SerializeField] public  TransitionPackSO _gainStaminaTextTransition;
+    [SerializeField] private TransitionPackSO _reduceStaminaTextTransition;
+
+
+    [Title("Icon", "Current Stamina: ")]
+    [SerializeField] public TransitionPackSO _gainStaminaIconTransition;
+    [SerializeField] public TransitionPackSO _reduceStaminaIconTransition;
+    [Title("Icon", "Max Stamina: ")]
+    [SerializeField] public TransitionPackSO _gainMaxStaminaIconTransition;
+    [SerializeField] public TransitionPackSO _reduceMaxStaminaIconTransition;
+
+
     /// <summary>
     /// Using the _reduceStamina TransitionPackSO. The only thing you need to choose is the RectTransform object- the object you want to be effected by the animation(TransitionPackSO)
     /// </summary>
     /// <param name="_staminaRectTransform"></param>
-    public void ReduceAnimation(RectTransform _staminaRectTransform)
+    public void ReduceCurrentStaminaAnimation()
     {
-        _staminaRectTransform.Scale(_reduceStamina);
+        CurrentStaminaRectTransform.Transition(_reduceStaminaTextTransition);
+        StaminaIconsRectTransform.Transition(_reduceStaminaIconTransition);
+    }
+
+    internal void ReduceMaxStaminaAnimation()
+    {
+        MaxStaminaRectTransform.Transition(_reduceStaminaTextTransition);
+        StaminaIconsRectTransform.Transition(_reduceStaminaIconTransition);
+    }
+
+    internal void GainMaxStaminaAnimation()
+    {
+        CurrentStaminaRectTransform.Transition(_gainStaminaTextTransition);
+        StaminaIconsRectTransform.Transition(_gainMaxStaminaIconTransition);
     }
 
 
@@ -31,9 +53,10 @@ public class StaminaTransition : MonoBehaviour
     /// Using the _gainStamina TransitionPackSO. The only thing you need to choose is the RectTransform object- the object you want to be effected by the animation(TransitionPackSO)"
     /// </summary>
     /// <param name="_staminaRectTransform"></param>
-    public void GainAnimation(RectTransform _staminaRectTransform)
+    public void GainCurrentStaminaAnimation()
     {
-        _staminaRectTransform.Scale(_gainStamina);
+        CurrentStaminaRectTransform.Transition(_gainStaminaTextTransition);
+        StaminaIconsRectTransform.Transition(_gainStaminaIconTransition);
     }
 
     /// <summary>
