@@ -23,7 +23,7 @@ public class StaminaTransition : MonoBehaviour
     /// <param name="_staminaRectTransform"></param>
     public void ReduceAnimation(RectTransform _staminaRectTransform)
     {
-        _staminaRectTransform.Scale(_reduceStamina.ScaleMultiplier, _reduceStamina);
+        _staminaRectTransform.Scale(_reduceStamina);
     }
 
 
@@ -33,7 +33,7 @@ public class StaminaTransition : MonoBehaviour
     /// <param name="_staminaRectTransform"></param>
     public void GainAnimation(RectTransform _staminaRectTransform)
     {
-        _staminaRectTransform.Scale(_gainStamina.ScaleMultiplier, _gainStamina);
+        _staminaRectTransform.Scale(_gainStamina);
     }
 
     /// <summary>
