@@ -189,6 +189,7 @@ namespace CardMaga.UI.Carfting
 
         private void SingleStopLoading()
         {
+            StopAllCoroutines();
             _craftingSlot[_currentSlot].RestCraftingSlot();
             _craftingSlot[_currentSlot].CanvasGroup.alpha = 1;
         }
