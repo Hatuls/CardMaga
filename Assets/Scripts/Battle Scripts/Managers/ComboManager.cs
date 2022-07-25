@@ -1,4 +1,5 @@
-﻿using Battle.Deck;
+﻿using System;
+using Battle.Deck;
 using Battle.UI;
 using Cards;
 using ReiTools.TokenMachine;
@@ -16,6 +17,9 @@ namespace Battle
     {
 
         #region Fields
+
+        public event Action<CardData[]> OnCraftingComboToHand;
+
         [SerializeField] Combo.Combo _cardRecipeDetected;
         [SerializeField] VFXSO _comboVFX;
         PlayerCraftingSlots _playerCraftingSlots;
@@ -60,8 +64,10 @@ namespace Battle
                 switch (ComboSO.GoToDeckAfterCrafting)
                 {
                     case DeckEnum.Hand:
-                        DeckManager.Instance.AddCardOnTopOfDeck(isPlayer,ComboSO.GoToDeckAfterCrafting,craftedCard);
-                        DeckManager.Instance.DrawHand(isPlayer, 1);
+                        if (isPlayer)
+                            OnCraftingComboToHand?.Invoke(new CardData[]{craftedCard});
+                        
+                        DeckManager.Instance.AddCardToDeck(isPlayer,craftedCard,DeckEnum.Hand);
                         break;
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Discard:

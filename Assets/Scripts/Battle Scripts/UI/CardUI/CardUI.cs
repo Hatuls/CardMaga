@@ -9,6 +9,7 @@ namespace CardMaga.UI.Card
         #region Fields
 
         [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private RectTransform _visualsRectTransform;
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
 
         [SerializeField] private CardUIInputHandler _inputs;
@@ -22,6 +23,7 @@ namespace CardMaga.UI.Card
         public BaseCardVisualHandler CardVisuals => _cardVisuals;
         public CardUIInputHandler Inputs => _inputs;
         public RectTransform RectTransform => _rectTransform;
+        public RectTransform VisualsRectTransform => _visualsRectTransform;
 
         public CardMaga.Card.CardData CardData { get => _cardData; private set => _cardData = value; }
 

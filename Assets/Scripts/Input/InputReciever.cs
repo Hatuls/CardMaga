@@ -11,6 +11,7 @@ public class InputReciever : MonoBehaviour
     public static event Action<Vector2> OnTouchStart;
 
     private static Vector2 _touchPosOnScreen;
+    private static bool _isTouching = false;
     private Vector2 _firstTouchLocation;
     private Camera _camera;
 
@@ -18,6 +19,11 @@ public class InputReciever : MonoBehaviour
 
     #region Prop
 
+    public static bool IsTouching
+    {
+        get => _isTouching;
+    }
+    
     public static Vector2 TouchPosOnScreen
     {
         get => _touchPosOnScreen;
@@ -67,6 +73,8 @@ public class InputReciever : MonoBehaviour
     {
         if (Input.touchCount > 0)
         {
+            _isTouching = true;
+            
             PlayerTouch = Input.GetTouch(0);
 
             if (PlayerTouch == null)
@@ -76,7 +84,11 @@ public class InputReciever : MonoBehaviour
 
             _touchPosOnScreen = PlayerTouch.Value.position;
             OnTouchDetected?.Invoke(_touchPosOnScreen);
+            
+            return;
         }
+        
+        _isTouching = false;
     }
 
     private void GetTouchPhase(Touch touch)

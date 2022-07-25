@@ -74,7 +74,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 150}
+  m_SizeDelta: {x: 700, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6110138115967091983
 MonoBehaviour:
@@ -91,23 +91,27 @@ MonoBehaviour:
   _card:
     _bodyPart: 0
     _cardType: 0
+  _transition: {fileID: 11400000, guid: fa645e15cca706e4188f60150fbf7cf9, type: 2}
   _craftingSlot:
-  - _transform: {fileID: 9136108860654431140}
+  - _rectTransform: {fileID: 9136108860654431140}
     _bodyIcon: {fileID: 504138436495646121}
     _bgImage: {fileID: 6901513520163510752}
-  - _transform: {fileID: 3305306879837181709}
+    _canvasGroup: {fileID: 3052339850767714077}
+  - _rectTransform: {fileID: 3305306879837181709}
     _bodyIcon: {fileID: 6190262277186461952}
     _bgImage: {fileID: 923286825557321033}
-  - _transform: {fileID: 3719680138123558779}
+    _canvasGroup: {fileID: 8740118460686007220}
+  - _rectTransform: {fileID: 3719680138123558779}
     _bodyIcon: {fileID: 5451608201793669494}
     _bgImage: {fileID: 1337593283678031167}
-  - _transform: {fileID: 4830148678131788185}
+    _canvasGroup: {fileID: 7425055993478927298}
+  - _rectTransform: {fileID: 4830148678131788185}
     _bodyIcon: {fileID: 4269085924009484180}
     _bgImage: {fileID: 7063546096980843485}
+    _canvasGroup: {fileID: 1701743657868215584}
   _baseVisual: {fileID: 11400000, guid: ce0263fac1e0cab4cbcc884864aa27fb, type: 2}
   _defaultCraftingSlotData: {fileID: 11400000, guid: cc3034d87cfad4a44bede401031fb7fc,
     type: 2}
-  _loaderCanvasGroup: {fileID: 3052339850767714077}
   _slotsGroup: {fileID: 1345030808048555389}
 --- !u!1001 &311475146557980364
 PrefabInstance:
@@ -219,7 +223,7 @@ PrefabInstance:
     - target: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 225
+      value: 262.5
       objectReference: {fileID: 0}
     - target: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
         type: 3}
@@ -399,7 +403,7 @@ PrefabInstance:
     - target: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -225
+      value: -262.5
       objectReference: {fileID: 0}
     - target: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
         type: 3}
@@ -441,6 +445,12 @@ PrefabInstance:
 --- !u!224 &4830148678131788185 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
+    type: 3}
+  m_PrefabInstance: {fileID: 4148744094794284273}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1701743657868215584 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 3318732992464304593, guid: c01fe267fbc81cb4db8a122d5669c756,
     type: 3}
   m_PrefabInstance: {fileID: 4148744094794284273}
   m_PrefabAsset: {fileID: 0}
@@ -568,7 +578,7 @@ PrefabInstance:
     - target: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -75
+      value: -87.5
       objectReference: {fileID: 0}
     - target: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
         type: 3}
@@ -595,6 +605,12 @@ PrefabInstance:
 --- !u!224 &3719680138123558779 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
+    type: 3}
+  m_PrefabInstance: {fileID: 5261782184901372435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &7425055993478927298 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 3318732992464304593, guid: c01fe267fbc81cb4db8a122d5669c756,
     type: 3}
   m_PrefabInstance: {fileID: 5261782184901372435}
   m_PrefabAsset: {fileID: 0}
@@ -732,7 +748,7 @@ PrefabInstance:
     - target: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 75
+      value: 87.5
       objectReference: {fileID: 0}
     - target: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
         type: 3}
@@ -759,6 +775,12 @@ PrefabInstance:
 --- !u!224 &3305306879837181709 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8834776471377040744, guid: c01fe267fbc81cb4db8a122d5669c756,
+    type: 3}
+  m_PrefabInstance: {fileID: 6288610008912478821}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &8740118460686007220 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 3318732992464304593, guid: c01fe267fbc81cb4db8a122d5669c756,
     type: 3}
   m_PrefabInstance: {fileID: 6288610008912478821}
   m_PrefabAsset: {fileID: 0}

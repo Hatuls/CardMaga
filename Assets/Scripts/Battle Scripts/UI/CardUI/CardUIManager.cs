@@ -58,8 +58,7 @@ namespace Battle.UI
             => _enemyCardUI.gameObject.SetActive(state);
 
         #endregion
-
-
+        
         #region Monobehaviour Callbacks 
         public override void Awake()
         {
@@ -88,8 +87,7 @@ namespace Battle.UI
         }
 
         #endregion
-
-
+        
         #region Public Methods
 
         public CardUI[] GetCardsUI(params CardData[] cardData)
@@ -114,25 +112,7 @@ namespace Battle.UI
 
                 tempCardUI.Add(cache);
             }
-
-            // for (int i = 0; i < cardData.Length; i++)
-            // {
-            //     var card = _handUI.GetHandCardUIFromIndex(i);
-            //
-            //     if (cardData[i] == null)
-            //     {
-            //         string cardsDrawn = "";
-            //         for (int j = 0; j < cardData.Length; j++)
-            //         {
-            //             if (cardData[j] != null)
-            //                 cardsDrawn += cardData[j].ToString() + " " + cardData[j].CardSO.CardName + "\n";
-            //             else
-            //                 cardsDrawn += "Card at index " + i + " Is null!\n";
-            //         }
-            //         Debug.LogError($"Drawn Card is null!!\n {cardsDrawn} ,\n");
-            //     }
-            // }
-
+            
             return tempCardUI.ToArray();
         }
 

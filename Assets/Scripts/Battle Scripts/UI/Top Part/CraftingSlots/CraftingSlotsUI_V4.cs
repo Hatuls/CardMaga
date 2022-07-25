@@ -7,20 +7,38 @@ using UnityEngine.UI;
 namespace CardMaga.UI.Carfting
 {
     [Serializable]
-    public class CraftingSlotsUI_V4 : BaseVisualAssigner
+    public class CraftingSlotsUI_V4
     {
         #region Fields
         
-        [SerializeField] private RectTransform _transform;
+        [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _bodyIcon;
         [SerializeField] private Image _bgImage;
+        [SerializeField] private CanvasGroup _canvasGroup;
         private CraftingSlotData _craftingSlotData;
+        private CraftingSlotData _tempCraftingSlotData;
         private CraftingSlotData _defaultCraftingSlotData;
+        private bool _isApply = false;
         
         #endregion
         
         #region prop
 
+        public bool IsApply
+        {
+            get => _isApply;
+        }
+        
+        public CanvasGroup CanvasGroup
+        {
+            get => _canvasGroup;
+        }    
+        
+        public RectTransform RectTransform
+        {
+            get => _rectTransform;
+        }
+        
         public CraftingSlotData CraftingSlotData
         {
             get => _craftingSlotData;
@@ -28,18 +46,31 @@ namespace CardMaga.UI.Carfting
 
         #endregion
 
-        public override void Init()
+        public void Init(CraftingSlotDefaultSO defaultCraftingSlotData)
         {
-             
+            _defaultCraftingSlotData = new CraftingSlotData();
+            
+            _defaultCraftingSlotData.SetCraftingSlotData(
+                defaultCraftingSlotData._bodyIcon,
+                defaultCraftingSlotData._bodyPartColor,
+                defaultCraftingSlotData._bgColor
+                );
         }
 
-        public void AssignSlotData(CraftingSlotData craftingSlotData)
+        public void LoadSlotData(CraftingSlotData craftingSlotData)
         {
-            _craftingSlotData = craftingSlotData;
-
+            _tempCraftingSlotData = craftingSlotData;
+            
             _bodyIcon.sprite = craftingSlotData.BodyPartIcon;
             _bodyIcon.color = craftingSlotData.BodyPartColor;
             _bgImage.color = craftingSlotData.BgColor;
+        }
+
+        public void ApplyCraftingData()
+        {
+            _craftingSlotData = _tempCraftingSlotData;
+            _tempCraftingSlotData = null;
+            _isApply = true;
         }
 
         public bool TryGetCardTypeData(out CraftingSlotData cardTypeData)
@@ -56,7 +87,10 @@ namespace CardMaga.UI.Carfting
 
         public void RestCraftingSlot()
         {
-            
+            LoadSlotData(_defaultCraftingSlotData);
+            ApplyCraftingData();
+            _isApply = false;
+            _craftingSlotData = null;
         }
     }
 }

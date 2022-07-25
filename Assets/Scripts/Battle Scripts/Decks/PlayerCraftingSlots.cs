@@ -1,4 +1,5 @@
 ﻿using System;
+using Account.GeneralData;
 using Battle.Deck;
 using Battle.UI;
 using CardMaga.Card;
@@ -7,6 +8,7 @@ public class PlayerCraftingSlots : BaseDeck
 {
     public static event Action<CardTypeData> OnCardExecute;
     public static event Action OnPushedSlots;
+    public static event Action<bool> OnResetCrftingSlot;
     public override event Action OnResetDeck;
     // CraftingUIHandler _playerCraftingUIHandler;
     CardData _lastCardEntered;
@@ -100,6 +102,7 @@ public class PlayerCraftingSlots : BaseDeck
     {
         EmptySlots();
         OnResetDeck?.Invoke();
+        OnResetCrftingSlot?.Invoke(isPlayer);
      //   _playerCraftingUIHandler.ResetAllSlots();
 
         //if(isPlayer) 

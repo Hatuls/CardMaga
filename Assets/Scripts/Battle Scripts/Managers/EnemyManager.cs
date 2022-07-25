@@ -15,7 +15,6 @@ namespace Battle
 {
     public class EnemyManager : MonoSingleton<EnemyManager>, IBattleHandler
     {
-        public static event Action<CardData> OnEnemyPlayCard;
         #region Fields
         //   [UnityEngine.SerializeField] Opponents EnemyAI;
 
@@ -100,7 +99,15 @@ namespace Battle
             _aiHand.ResetData();
             var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
             _aiHand.AddCard(handCards);
+            try
+            {
             ThreadsHandler.ThreadHandler.StartThread(new ThreadsHandler.ThreadList(ThreadsHandler.ThreadHandler.GetNewID, _aiHand.CalculateMove, DoAction));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+                _turnFinished?.Dispose();
+            }
         }
 
 
@@ -111,13 +118,12 @@ namespace Battle
             if (_aiHand.TryGetHighestWeight(out AICard card) > NO_MORE_ACTION_TO_DO && !BattleManager.isGameEnded)
             {
                 DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, card.Card);
-                OnEnemyPlayCard?.Invoke(card.Card);
                 CardExecutionManager.Instance.TryExecuteCard(false, card.Card);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(_delayTime.x, _delayTime.y));
                 CalculateEnemyMoves();
             }
             else
-                _turnFinished.Dispose();
+                _turnFinished?.Dispose();
         }
 
         public void DoAction()
