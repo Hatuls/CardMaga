@@ -10,6 +10,8 @@ public class TurnCounter : MonoBehaviour
     public static ITokenReciever TimerTokenMachine => _timerTokenMachine;
     [SerializeField]
     private TextMeshProUGUI _timerText;
+    [SerializeField]
+    private RectTransform _textScaler;
     [SerializeField, Tooltip("The Turn Time (when depeleted it will end the turn)")]
     private float _timeTillEndTurn;
 
@@ -68,7 +70,7 @@ public class TurnCounter : MonoBehaviour
     {
         if (_sequence == null)
             _sequence.Kill();
-        _timerText.rectTransform.localScale = _startScale * Vector3.one;
+        _textScaler.localScale = _startScale * Vector3.one;
     }
     private void ResetTimer()
     {
@@ -103,7 +105,7 @@ public class TurnCounter : MonoBehaviour
         if (isTimeRunningLow)
         {
             clr = _lowTextColor;
-            _sequence = _timerText.rectTransform.Transition(_timerTextTransition);
+            _sequence = _textScaler.Transition(_timerTextTransition);
         }
 
         _timerText.text = _textTime.ToString("00").ColorString(clr);
