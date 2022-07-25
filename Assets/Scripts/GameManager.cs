@@ -20,7 +20,12 @@ namespace CardMaga.Managers.GameManager
         {
             _tokenMachine = new TokenMachine( OnFirstEnterTheGame);
             using (_tokenMachine.GetToken())
-            OnEnteringTheGame?.Invoke(_tokenMachine);
+            {
+                if (AudioManager.Instance == null)
+                    Debug.Log("Creating Audio Manager");
+
+                OnEnteringTheGame?.Invoke(_tokenMachine);
+            }
         }
         private void OnFirstEnterTheGame()
         {
