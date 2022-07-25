@@ -99,7 +99,15 @@ namespace Battle
             _aiHand.ResetData();
             var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
             _aiHand.AddCard(handCards);
+            try
+            {
             ThreadsHandler.ThreadHandler.StartThread(new ThreadsHandler.ThreadList(ThreadsHandler.ThreadHandler.GetNewID, _aiHand.CalculateMove, DoAction));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+                _turnFinished?.Dispose();
+            }
         }
 
 
@@ -114,7 +122,7 @@ namespace Battle
                 CalculateEnemyMoves();
             }
             else
-                _turnFinished.Dispose();
+                _turnFinished?.Dispose();
         }
 
         public void DoAction()
