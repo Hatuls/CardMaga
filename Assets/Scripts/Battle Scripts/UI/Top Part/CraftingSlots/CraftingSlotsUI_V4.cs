@@ -14,6 +14,7 @@ namespace CardMaga.UI.Carfting
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _bodyIcon;
         [SerializeField] private Image _bgImage;
+        [SerializeField] private CanvasGroup _canvasGroup;
         private CraftingSlotData _craftingSlotData;
         private CraftingSlotData _defaultCraftingSlotData;
         
@@ -21,6 +22,11 @@ namespace CardMaga.UI.Carfting
         
         #region prop
 
+        public CanvasGroup CanvasGroup
+        {
+            get => _canvasGroup;
+        }    
+        
         public RectTransform RectTransform
         {
             get => _rectTransform;
