@@ -33,7 +33,7 @@ namespace Battle
         private CardData[] _deck;
         public CardData[] Deck => _deck;
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
-        public static AnimatorController EnemyAnimatorController => Instance._enemyAnimatorController;
+        public AnimatorController EnemyAnimatorController => _enemyAnimatorController;
 
         public AIBrain Brain { get => _brain;}
         private bool _isStillThinking;

@@ -2,6 +2,7 @@
 
 public class AvatarHandler : MonoBehaviour
 {
+    [Header("Body Parts:")]
     [SerializeField] Transform _headPart;
     [SerializeField] Transform _leftHandPart;
     [SerializeField] Transform _rightHandPart;
@@ -13,7 +14,11 @@ public class AvatarHandler : MonoBehaviour
     [SerializeField] Transform _rightKneePart;
     [SerializeField] Transform _bottomBody;
     [SerializeField] Transform _chestPart;
+
+    [Header("Avatar:")]
     [SerializeField] Avatar avatar;
+    [Header("Avatar:")]
+    [SerializeField] SkinnedMeshRenderer _mesh;
     public Transform HeadPart { get => _headPart; }
     public Transform LeftHandPart { get => _leftHandPart; }
     public Transform RightHandPart { get => _rightHandPart; }
@@ -26,6 +31,7 @@ public class AvatarHandler : MonoBehaviour
     public Transform RightElbowPart { get => _rightElbowPart; }
     public Transform LeftKneePart { get => _leftKneePart; }
     public Transform RightKneePart { get => _rightKneePart; }
+    public SkinnedMeshRenderer Mesh { get => _mesh; }
 
     private void Start()
     {
@@ -47,7 +53,7 @@ public class AvatarHandler : MonoBehaviour
 
     }
 
-  
+
     public Transform GetBodyPart(BodyPartEnum bodyPartEnum)
     {
 
@@ -88,9 +94,46 @@ public class AvatarHandler : MonoBehaviour
                 transformOfBodyPart = _rightElbowPart;
                 break;
         }
-  
+
         if (transformOfBodyPart == null)
             throw new System.Exception($"AvatarHandler:  Body Part is not valid or null {bodyPartEnum}");
         return transformOfBodyPart;
     }
+
+#if UNITY_EDITOR
+    [Sirenix.OdinInspector.Button]
+    private void AssignSkinnedMesh() { _mesh = transform.GetComponentInChildren<SkinnedMeshRenderer>(); }
+    [Sirenix.OdinInspector.InfoBox("Only works for mixamo rigged models")]
+    [Sirenix.OdinInspector.Button]
+    private void TryAssignBodyParts()
+    {
+        _headPart = FindBodyPart(transform,"HeadTop_End");
+        _leftHandPart = FindBodyPart(transform,"LeftHandMiddle1");
+        _rightHandPart= FindBodyPart(transform,"RightHandMiddle1");
+        _leftElbowPart = FindBodyPart(transform,"LeftForeArm");
+        _rightElbowPart=  FindBodyPart(transform,"RightForeArm");
+        _leftLegPart=     FindBodyPart(transform,"LeftToe_End");
+        _rightLegPart=    FindBodyPart(transform,"RightToe_End");
+        _leftKneePart=    FindBodyPart(transform,"LeftLeg");
+        _rightKneePart=   FindBodyPart(transform,"RightLeg");
+        _bottomBody=      FindBodyPart(transform,"Hips");
+        _chestPart= FindBodyPart(transform,"Spine2");
+
+    }
+    private Transform FindBodyPart(Transform from ,string name)
+    {
+        if (from.name.Contains(name))
+            return from;
+        Transform result = null;
+        for (int i = 0; i < from.childCount; i++)
+        {
+           result = FindBodyPart(from.GetChild(i), name);
+            if (result != null) 
+            break;
+        }
+    
+        return result;
+    
+    }
+#endif
 }
