@@ -1881,11 +1881,22 @@ PrefabInstance:
       propertyPath: _deckManager
       value: 
       objectReference: {fileID: 304944477}
-    - target: {fileID: 1099762860285308980, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+    - target: {fileID: 115716895, guid: 387e37b7af6f1a44c8de5e3e78feebdd, type: 3}
+      propertyPath: _playerSlots
+      value: 
+      objectReference: {fileID: 1005306863}
+    - target: {fileID: 981866060814860138, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: _breakArmorTransitionSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 0332199de2daf264a9e7a3be01cd9118,
+        type: 2}
+    - target: {fileID: 1039895047410832467, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+        type: 3}
+      propertyPath: _breakArmorTransitionSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 0332199de2daf264a9e7a3be01cd9118,
+        type: 2}
     - target: {fileID: 1491555520572507407, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1908,6 +1919,11 @@ PrefabInstance:
       objectReference: {fileID: 142119617}
     - target: {fileID: 1901611766098815565, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
+      propertyPath: _drawPosition
+      value: 
+      objectReference: {fileID: 1005306862}
+    - target: {fileID: 1901611766098815565, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+        type: 3}
       propertyPath: _cardUIManager
       value: 
       objectReference: {fileID: 2064259212}
@@ -1921,6 +1937,12 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2497154983245197239, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+        type: 3}
+      propertyPath: _transition
+      value: 
+      objectReference: {fileID: 11400000, guid: fa645e15cca706e4188f60150fbf7cf9,
+        type: 2}
     - target: {fileID: 6193234265197798827, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2053,6 +2075,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 387e37b7af6f1a44c8de5e3e78feebdd, type: 3}
+--- !u!224 &1005306862 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5491566605100729867, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1005306861}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1005306863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 744473695855482489, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1005306861}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89863bff8e0356741bb5a48360df44c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1058096951
 PrefabInstance:
   m_ObjectHideFlags: 0
