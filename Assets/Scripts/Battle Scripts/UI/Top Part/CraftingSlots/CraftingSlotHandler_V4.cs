@@ -42,7 +42,9 @@ namespace CardMaga.UI.Carfting
             {
                 _craftingSlot[i].Init(_defaultCraftingSlotData);
             }
-
+            
+            EnemyManager
+            
             HandUI.OnCardSelect += LoadCraftingSlot;
             HandUI.OnCardReturnToHand += CancelLoadSlot;
             CardExecutionManager.OnCardExecute += ApplySlot;
