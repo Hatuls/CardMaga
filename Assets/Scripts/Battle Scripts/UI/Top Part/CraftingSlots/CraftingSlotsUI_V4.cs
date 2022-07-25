@@ -53,7 +53,8 @@ namespace CardMaga.UI.Carfting
             _defaultCraftingSlotData.SetCraftingSlotData(
                 defaultCraftingSlotData._bodyIcon,
                 defaultCraftingSlotData._bodyPartColor,
-                defaultCraftingSlotData._bgColor
+                defaultCraftingSlotData._bgColor,
+                false
                 );
         }
 
@@ -61,9 +62,17 @@ namespace CardMaga.UI.Carfting
         {
             _tempCraftingSlotData = craftingSlotData;
             
-            _bodyIcon.sprite = craftingSlotData.BodyPartIcon;
-            _bodyIcon.color = craftingSlotData.BodyPartColor;
             _bgImage.color = craftingSlotData.BgColor;
+            _bodyIcon.color = craftingSlotData.BodyPartColor;
+
+            if (craftingSlotData.IsEmpty)
+            {
+                _bodyIcon.enabled = false;
+                return;
+            }
+                
+            _bodyIcon.enabled = true;
+            _bodyIcon.sprite = craftingSlotData.BodyPartIcon;
         }
 
         public void ApplyCraftingData()

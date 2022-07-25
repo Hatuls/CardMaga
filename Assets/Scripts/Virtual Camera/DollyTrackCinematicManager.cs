@@ -1,9 +1,11 @@
-﻿using Cinemachine;
+﻿using System;
+using Cinemachine;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class DollyTrackCinematicManager : MonoBehaviour
 {
@@ -22,10 +24,12 @@ public class DollyTrackCinematicManager : MonoBehaviour
         _introCinematicCam.gameObject.SetActive(false);
 
         SceneHandler.OnBeforeSceneShown += SceneStarted;
+        SceneHandler.OnSceneLateStart += StartCinematic;
     }
     private void OnDestroy()
     {
         SceneHandler.OnBeforeSceneShown -= SceneStarted;
+        SceneHandler.OnSceneLateStart -= StartCinematic;
     }
     private void SceneStarted(ITokenReciever tokenMachine)
     {
@@ -52,8 +56,15 @@ public class DollyTrackCinematicManager : MonoBehaviour
             _dollyTrack.m_PathPosition = _dollyTrack.m_Path.MinPos;
         }
     }
+
     [Button]
+
     public void StartCinematic()
+    {
+        StartCinematic(null);
+    }
+    
+    public void StartCinematic(Action onComplete = null)
     {
         _introCinematicCam.Priority = 10;
         ResetTrack();
@@ -61,9 +72,9 @@ public class DollyTrackCinematicManager : MonoBehaviour
         {
             _introCinematicCam.gameObject.SetActive(true);
         }
-        StartCoroutine(StartMovement());
+        StartCoroutine(StartMovement(onComplete));
     }
-    IEnumerator StartMovement()
+    IEnumerator StartMovement(Action onComplete = null)
     {
         while (_dollyTrack.m_PathPosition < _dollyTrack.m_Path.MaxPos)
         {
@@ -73,6 +84,7 @@ public class DollyTrackCinematicManager : MonoBehaviour
         _introCinematicCam.Priority = -1;
         _introCinematicCam.gameObject.SetActive(false);
         _token?.Dispose();
+        onComplete?.Invoke();
         OnCinematicEnded?.Invoke();
     }
 }

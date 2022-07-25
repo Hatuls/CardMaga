@@ -82,12 +82,10 @@ namespace CardMaga.UI.Carfting
             
             if (_craftingSlot[1].TryGetCardTypeData(out CraftingSlotData prevCraftingSlotData))
             {
-                LoadCraftingSlot();
                 ApplySlot();
             }
             else
             {
-                AddCraftingSlot();
                 ApplySlot();
             }
         }
@@ -128,12 +126,28 @@ namespace CardMaga.UI.Carfting
         private CraftingSlotData AssignCraftingSlotData(CardTypeData cardTypeData)
         {
             CraftingSlotData craftingSlotData = new CraftingSlotData();
+            
+            Sprite bpImage;
+            Color bpColor;
+            Color bgColor;
+            bool isEmpty;
+            
+            if (cardTypeData.BodyPart == CardMaga.Card.BodyPartEnum.Empty)
+            {
+                bpImage = null;
+                isEmpty = true;
+            }
+            else
+            {
+                bpImage = _baseVisual.GetBodyPartSprite(cardTypeData.BodyPart);
+                isEmpty = false;
+            }
+            
+            
+            bpColor = _baseVisual.GetMainColor(cardTypeData.CardType);
+            bgColor = _baseVisual.GetInnerColor(cardTypeData.CardType);
 
-            var bpImage = _baseVisual.GetBodyPartSprite(cardTypeData.BodyPart);
-            var bpColor = _baseVisual.GetMainColor(cardTypeData.CardType);
-            var bgColor = _baseVisual.GetInnerColor(cardTypeData.CardType);
-
-            craftingSlotData.SetCraftingSlotData(bpImage,bpColor,bgColor);
+            craftingSlotData.SetCraftingSlotData(bpImage,bpColor,bgColor,isEmpty);
             
             return craftingSlotData;
         }
@@ -216,19 +230,15 @@ namespace CardMaga.UI.Carfting
             _craftingSlot[0].CanvasGroup.alpha = 0;
             _craftingSlot[_craftingSlot.Length - 1].CanvasGroup.alpha = 1;
             _slotsGroup.anchoredPosition = Vector2.zero;
+            _craftingSlot[0].RestCraftingSlot();
         }
         
         private void AddCraftingSlot()
         {
-            for (int i = 1; i < _craftingSlot.Length; i++)
+            for (int i = 0; i < _craftingSlot.Length; i++)
             {
                 if (_craftingSlot[i].TryGetCardTypeData(out CraftingSlotData prevCraftingSlotData))
                 {
-                    if (i == 1)
-                    {
-                        _craftingSlot[i].LoadSlotData(_craftingSlotData);
-                        return;
-                    }
                     _currentSlot = i - 1;
                     LoadSingleSlot(_craftingSlotData);
                     return;
@@ -241,6 +251,7 @@ namespace CardMaga.UI.Carfting
         private void LoadSingleSlot(CraftingSlotData craftingSlotData)
         {
             _craftingSlot[_currentSlot].LoadSlotData(craftingSlotData);
+            StopCoroutine(SingleLoaderAlpha(craftingSlotData));
             StartCoroutine(SingleLoaderAlpha(craftingSlotData));
         }
 
@@ -277,7 +288,13 @@ namespace CardMaga.UI.Carfting
         private Sprite _bodyIcon;
         private Color _bodyPartColor;
         private Color _bgColor;
+        private bool _isEmpty;
 
+        public bool IsEmpty
+        {
+            get => _isEmpty;
+        }
+        
         public Sprite BodyPartIcon
         {
             get => _bodyIcon;
@@ -293,11 +310,12 @@ namespace CardMaga.UI.Carfting
             get => _bgColor;
         }
 
-        public void SetCraftingSlotData(Sprite bodyIcon, Color bodyPartColor,Color bgColor)
+        public void SetCraftingSlotData(Sprite bodyIcon, Color bodyPartColor,Color bgColor,bool isEmpty)
         {
             _bodyIcon = bodyIcon;
             _bodyPartColor = bodyPartColor;
             _bgColor = bgColor;
+            _isEmpty = isEmpty;
         }
     }
 }

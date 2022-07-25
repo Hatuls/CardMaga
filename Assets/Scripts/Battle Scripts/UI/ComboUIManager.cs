@@ -7,6 +7,7 @@ using CardMaga.Card;
 using CardMaga.UI;
 using CardMaga.UI.Card;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ComboUIManager : MonoBehaviour
 {
@@ -21,8 +22,10 @@ public class ComboUIManager : MonoBehaviour
    [SerializeField] private RectTransform _drawPosition;
    [SerializeField] private RectTransform _destination;
 
+   [FormerlySerializedAs("_drawTransitionPackSo")]
    [Header("TransitionPackSOs")] 
-   [SerializeField] private TransitionPackSO _drawTransitionPackSo;
+   [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
+   [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;
 
    [Header("Draw Parameters")] 
    [SerializeField] private float _delaybetweenDrawCards;
@@ -52,7 +55,7 @@ public class ComboUIManager : MonoBehaviour
       for (int i = 0; i < cardUis.Length; i++)
       {
          cardUis[i].RectTransform.SetPosition(destination);
-         cardUis[i].RectTransform.SetScale(0.1f);
+         cardUis[i].VisualsRectTransform.SetScale(0.1f);
       }
       OnCardComboDone?.Invoke(cardUis);
    }
@@ -62,7 +65,8 @@ public class ComboUIManager : MonoBehaviour
       for (int i = 0; i < cardUis.Length; i++)
       {
          cardUis[i].Init();
-         cardUis[i].RectTransform.Transition(destination, _drawTransitionPackSo);
+         cardUis[i].RectTransform.Transition(destination, _drawMoveTransitionPackSo);
+         cardUis[i].VisualsRectTransform.Transition( _drawScaleTransitionPackSo);
          yield return _waitForDrawBetweenCards;
          
       }
