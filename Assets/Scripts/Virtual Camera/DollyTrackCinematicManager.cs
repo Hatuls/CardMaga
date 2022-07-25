@@ -1,76 +1,102 @@
 ﻿using System;
 using Cinemachine;
 using ReiTools.TokenMachine;
-using Sirenix.OdinInspector;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class DollyTrackCinematicManager : MonoBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera _introCinematicCam;
+    [FormerlySerializedAs("_introCinematicCam")] [SerializeField] CinemachineVirtualCamera _cinematicCam;
     CinemachineTrackedDolly _dollyTrack;
     [SerializeField] int _defaultTrackNumber;
     [SerializeField] bool _isRandomTrack;
-    [SerializeField] CinemachineSmoothPath[] _tracks;
+    [FormerlySerializedAs("_tracks")] [SerializeField] CinemachineSmoothPath[] _winTracks;
+    [SerializeField] CinemachineSmoothPath[] _loseTracks;
+    [SerializeField] CinemachineSmoothPath[] _introTracks;
     [SerializeField] UnityEvent OnCinematicEnded;
+    private CinemachineSmoothPath _introPath;
+    private CinemachineSmoothPath _outroWinPath;
+    private CinemachineSmoothPath _outroLosePath;
     System.IDisposable _token;
 
     private void Awake()
     {
         if (_dollyTrack == null)
-            _dollyTrack = _introCinematicCam.GetCinemachineComponent<CinemachineTrackedDolly>();
-        _introCinematicCam.gameObject.SetActive(false);
+            _dollyTrack = _cinematicCam.GetCinemachineComponent<CinemachineTrackedDolly>();
+        _cinematicCam.gameObject.SetActive(false);
 
         SceneHandler.OnBeforeSceneShown += SceneStarted;
-        SceneHandler.OnSceneLateStart += StartCinematic;
+        //SceneHandler.OnSceneStart += StartIntroCinematic;
     }
+    
     private void OnDestroy()
     {
         SceneHandler.OnBeforeSceneShown -= SceneStarted;
-        SceneHandler.OnSceneLateStart -= StartCinematic;
+        //SceneHandler.OnSceneStart -= StartIntroCinematic;
     }
+    
     private void SceneStarted(ITokenReciever tokenMachine)
     {
         _token = tokenMachine.GetToken();
 
-        SetTrack();
-        StartCinematic();
+        //SetTrack(_winTracks,ref _outroWinPath);
+        //SetTrack(_loseTracks,ref _outroLosePath);
+        SetTrack(_introTracks,ref _introPath);
+        StartIntroCinematic();
     }
-    [Button]
-    private void SetTrack()
+    
+    private void SetTrack(CinemachineSmoothPath[] tracks,ref CinemachineSmoothPath path)
     {
-        var track = _tracks[_defaultTrackNumber];
+        var track = tracks[_defaultTrackNumber];
         if (_isRandomTrack)
         {
-            var randomTrack = Random.Range(0, _tracks.Length);
-            track = _tracks[randomTrack];
+            var randomTrack = Random.Range(0, tracks.Length);
+            track = tracks[randomTrack];
         }
-        _dollyTrack.m_Path = track;
+        path = track;
     }
+
     private void ResetTrack()
     {
-        if (!CinemachineCore.Instance.IsLive(_introCinematicCam))
+        if (!CinemachineCore.Instance.IsLive(_cinematicCam))
         {
             _dollyTrack.m_PathPosition = _dollyTrack.m_Path.MinPos;
         }
     }
-
-    [Button]
-
-    public void StartCinematic()
+    
+    private void StartIntroCinematic()
     {
-        StartCinematic(null);
+        StartIntroCinematic(null);
+    }
+
+    public void StartWinCinematic(Action onComplete = null)
+    {
+        _dollyTrack.m_Path = _outroWinPath;
+        StartCinematic(onComplete);
     }
     
-    public void StartCinematic(Action onComplete = null)
+    public void StartLoseCinematic(Action onComplete = null)
     {
-        _introCinematicCam.Priority = 10;
+        _dollyTrack.m_Path = _outroLosePath;
+        StartCinematic(onComplete);
+    }
+    
+    private void StartIntroCinematic(Action onComplete = null)
+    {
+        _dollyTrack.m_Path = _introPath;
+        StartCinematic(onComplete);
+    }
+    
+    private void StartCinematic(Action onComplete = null)
+    {
+        _cinematicCam.Priority = 10;
         ResetTrack();
-        if (!_introCinematicCam.gameObject.activeSelf)
+        if (!_cinematicCam.gameObject.activeSelf)
         {
-            _introCinematicCam.gameObject.SetActive(true);
+            _cinematicCam.gameObject.SetActive(true);
         }
         StartCoroutine(StartMovement(onComplete));
     }
@@ -81,8 +107,8 @@ public class DollyTrackCinematicManager : MonoBehaviour
             _dollyTrack.m_PathPosition += Time.deltaTime;
             yield return null;
         }
-        _introCinematicCam.Priority = -1;
-        _introCinematicCam.gameObject.SetActive(false);
+        _cinematicCam.Priority = -1;
+        _cinematicCam.gameObject.SetActive(false);
         _token?.Dispose();
         onComplete?.Invoke();
         OnCinematicEnded?.Invoke();

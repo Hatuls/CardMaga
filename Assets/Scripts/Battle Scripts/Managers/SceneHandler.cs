@@ -96,8 +96,6 @@ _overrideLoadingSceneManager = false;
             OnSceneHandlerActivated?.Invoke(this);
             OnBeforeSceneShown?.Invoke(sceneTokenMachine); // notifiyng all who need to do preperation 
         }
-
-       
     }
 
     private void BeforeLateSceneStart()

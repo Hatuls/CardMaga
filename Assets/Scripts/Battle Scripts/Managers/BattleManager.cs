@@ -152,8 +152,8 @@ namespace Battle
             //    Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
 
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
-            
-            _cinematicManager.StartCinematic(MoveToNextScene);
+
+            MoveToNextScene();
         }
 
         private void MoveToNextScene()

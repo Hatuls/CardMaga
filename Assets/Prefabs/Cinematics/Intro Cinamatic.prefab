@@ -1,61 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1427368989932970696
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1427368989932970697}
-  - component: {fileID: 1427368989932970698}
-  m_Layer: 0
-  m_Name: Up Down Dolly Track
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1427368989932970697
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427368989932970696}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1427368991242887679}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1427368989932970698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427368989932970696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Resolution: 20
-  m_Appearance:
-    pathColor: {r: 0, g: 1, b: 0, a: 1}
-    inactivePathColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    width: 0.2
-  m_Looped: 0
-  m_Waypoints:
-  - position: {x: 0.17644596, y: 14.272894, z: -19.807747}
-    roll: 0
-  - position: {x: 0.41736698, y: 6.9177504, z: -14.796524}
-    roll: 0
-  - position: {x: 0.31, y: 0.18, z: -6.61}
-    roll: 0
 --- !u!1 &1427368990089229655
 GameObject:
   m_ObjectHideFlags: 0
@@ -67,7 +11,7 @@ GameObject:
   - component: {fileID: 1427368990089229649}
   - component: {fileID: 1427368990089229648}
   m_Layer: 0
-  m_Name: From Far Dolly Track
+  m_Name: From Characters Dolly Track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1427368991242887679}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1427368990089229648
 MonoBehaviour:
@@ -106,11 +50,11 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 0
   m_Waypoints:
-  - position: {x: 0, y: 6.802231, z: -23.443216}
+  - position: {x: 0.19836187, y: 0.9487233, z: -4.5941076}
     roll: 0
-  - position: {x: 0, y: 2.3248854, z: -14.796524}
+  - position: {x: 0.31, y: 0.50070715, z: -5.6058445}
     roll: 0
-  - position: {x: 0, y: 0.18, z: -6.61}
+  - position: {x: 0.31, y: 0.18, z: -6.61}
     roll: 0
 --- !u!1 &1427368990668049380
 GameObject:
@@ -162,9 +106,9 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 0
   m_Waypoints:
-  - position: {x: 6.386032, y: 10.630989, z: -19.807747}
+  - position: {x: 3.8603656, y: 0.6387501, z: -4.7021027}
     roll: 0
-  - position: {x: 1.9877911, y: 4.551627, z: -14.796524}
+  - position: {x: 1.9877911, y: -0.36257267, z: -4.131609}
     roll: 0
   - position: {x: 0.31, y: 0.18, z: -6.61}
     roll: 0
@@ -255,8 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418e42c7d0405cc48a7b83f63ea53bb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Path: {fileID: 1427368990089229648}
-  m_PathPosition: 0
+  m_Path: {fileID: 1427368990668049381}
+  m_PathPosition: 2.006672
   m_PositionUnits: 0
   m_PathOffset: {x: 0, y: 0, z: 0}
   m_XDamping: 0
@@ -333,9 +277,9 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 0
   m_Waypoints:
-  - position: {x: -14.47937, y: 10.630989, z: -16.15517}
+  - position: {x: -5.358675, y: 5.715823, z: -6.2208796}
     roll: 0
-  - position: {x: -4.928417, y: 4.551627, z: -14.796524}
+  - position: {x: -3.4027185, y: 4.252945, z: -6.94254}
     roll: 0
   - position: {x: 0.31, y: 0.18, z: -6.61}
     roll: 0
@@ -371,7 +315,6 @@ Transform:
   - {fileID: 1427368990852475315}
   - {fileID: 1427368991190555706}
   - {fileID: 1427368990668049382}
-  - {fileID: 1427368989932970697}
   - {fileID: 1427368990089229649}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -388,14 +331,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 686b34ccf1d5aad48b54045509c97867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _introCinematicCam: {fileID: 1427368991365419391}
+  _cinematicCam: {fileID: 1427368991365419391}
   _defaultTrackNumber: 0
   _isRandomTrack: 1
-  _tracks:
-  - {fileID: 1427368990089229648}
-  - {fileID: 1427368989932970698}
+  _winTracks: []
+  _loseTracks: []
+  _introTracks:
   - {fileID: 1427368990668049381}
   - {fileID: 1427368991190555705}
+  - {fileID: 1427368990089229648}
   OnCinematicEnded:
     m_PersistentCalls:
       m_Calls: []
@@ -423,7 +367,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1427368991365419390}
-  m_LocalRotation: {x: 0.16095707, y: 0.006305026, z: -0.001028267, w: 0.98694074}
+  m_LocalRotation: {x: 0.09646884, y: -0.00035360764, z: 0.00003427197, w: 0.995336}
   m_LocalPosition: {x: 0.31, y: 0.18, z: -6.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -452,7 +396,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 1427368990852475315}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 40
+    FieldOfView: 53
     OrthographicSize: 5
     NearClipPlane: 0.1
     FarClipPlane: 5000
