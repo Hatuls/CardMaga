@@ -130,7 +130,7 @@ namespace CardMaga.UI
             OnCardsAddToHand?.Invoke(_handCards);
             AddCards(_handCards);
             SetCardAtDrawPos(_handCards);
-            ReAlignCardUI(_tableCardSlot.GetCardSlotsExceptFrom(_handCards));
+            //ReAlignCardUI(_tableCardSlot.GetCardSlotsExceptFrom(_handCards));
             StartCoroutine(MoveCardsToHandPos(_tableCardSlot.GetCardSlotsFrom(_handCards), OnCardDrawnAndAlign));
         }
         
@@ -140,7 +140,7 @@ namespace CardMaga.UI
             
             OnCardsAddToHand?.Invoke(cards);
             AddCards(cards);
-            ReAlignCardUI(_tableCardSlot.GetCardSlotsExceptFrom(cards));
+            //ReAlignCardUI(_tableCardSlot.GetCardSlotsExceptFrom(cards));
             StartCoroutine(MoveCardsToHandPos(_tableCardSlot.GetCardSlotsFrom(cards), OnCardDrawnAndAlign));
         }
 
