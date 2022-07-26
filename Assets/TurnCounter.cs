@@ -101,14 +101,16 @@ public class TurnCounter : MonoBehaviour
         //  do somet cool stuff
         ResetScale();
         bool isTimeRunningLow = _textTime <= _textWarningStart;
+        string text = _textTime.ToString("00");
         Color clr = _highTextColor;
         if (isTimeRunningLow)
         {
             clr = _lowTextColor;
             _sequence = _textScaler.Transition(_timerTextTransition);
+            text.ToBold();
         }
 
-        _timerText.text = _textTime.ToString("00").ColorString(clr);
+        _timerText.text = text.ColorString(clr);
     }
     private void FinishCounting()
     {

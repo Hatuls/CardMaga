@@ -7,7 +7,7 @@ using CardMaga.UI;
 using CardMaga.UI.Carfting;
 using UnityEngine;
 
-public class CradtingSlotsUIManager_V4 : MonoBehaviour
+public class CraftingSlotsUIManager_V4 : MonoBehaviour
 {
    [SerializeField] private CraftingSlotHandler_V4 _playerSlots;
    [SerializeField] private CraftingSlotHandler_V4 _enemySlots;
