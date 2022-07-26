@@ -114,8 +114,8 @@ public static class StringHelper
     private const string COLOR_HTML = "<color=#";
     private const string COLOR_HTML_CLOSER = "</color>";
     private const string HTML_CLOSER = ">";
-    private const string HTML_BOLD = "<B>";
-    private const string HTML_BOLD_CLOSER = "</B>";
+    private const string HTML_BOLD = "<b>";
+    private const string HTML_BOLD_CLOSER = "</b>";
     public static string ToHexa(this Color color)
      => ColorUtility.ToHtmlStringRGB(color);
     public static string ToBold(this string text) => string.Concat(HTML_BOLD, text, HTML_BOLD_CLOSER);

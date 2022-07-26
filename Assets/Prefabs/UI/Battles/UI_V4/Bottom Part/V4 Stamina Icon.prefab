@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 2108260363714471934}
   - component: {fileID: 5241708207472054009}
   - component: {fileID: 5119760484061566784}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MaxStaminaText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 8898533909670885689}
   - component: {fileID: 6605557950877849033}
   - component: {fileID: 4879502499920639398}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: CurrentStaminaText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +443,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5813507760991287918}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -468,21 +468,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a10b30fb43cf6e46b7754f443dfa181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gainStamina: {fileID: 11400000, guid: 81b3ba20a4838e845be2fce17fc6f082, type: 2}
+  _reduceStamina: {fileID: 11400000, guid: 4885bb10c55d1804aa9f9a3c244aed3a, type: 2}
   MaxStaminaRectTransform: {fileID: 520665998210426782}
   CurrentStaminaRectTransform: {fileID: 2105663142941395555}
   StaminaIconsRectTransform: {fileID: 7178484877920051462}
-  _gainStaminaTextTransition: {fileID: 11400000, guid: 81b3ba20a4838e845be2fce17fc6f082,
-    type: 2}
-  _reduceStaminaTextTransition: {fileID: 11400000, guid: 4885bb10c55d1804aa9f9a3c244aed3a,
-    type: 2}
-  _gainStaminaIconTransition: {fileID: 11400000, guid: aef655ab19cd4f94689fcffa1ab979b6,
-    type: 2}
-  _reduceStaminaIconTransition: {fileID: 11400000, guid: 9ad4646e56d1bb14cabd1bcac8c37514,
-    type: 2}
-  _gainMaxStaminaIconTransition: {fileID: 11400000, guid: aef655ab19cd4f94689fcffa1ab979b6,
-    type: 2}
-  _reduceMaxStaminaIconTransition: {fileID: 11400000, guid: 9ad4646e56d1bb14cabd1bcac8c37514,
-    type: 2}
 --- !u!114 &6616703309459634206
 MonoBehaviour:
   m_ObjectHideFlags: 0

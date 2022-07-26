@@ -40,7 +40,6 @@ public class ComboUIManager : MonoBehaviour
 
    private void OnDestroy()
    {
-      if(_comboManager!=null)
       _comboManager.OnCraftingComboToHand -= CraftComboCards;
    }
 
