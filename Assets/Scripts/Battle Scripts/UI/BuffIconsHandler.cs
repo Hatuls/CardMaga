@@ -7,13 +7,11 @@ public class RemoveUIIcon : UnityEvent<bool, KeywordTypeEnum> { }
 public class BuffIconsHandler : MonoBehaviour
 {
     #region Fields
-    [SerializeField]
-    BuffIconCollectionSO _buffCollection;
+
 
     [SerializeField] BuffIcon armourIcon;
     [SerializeField]
     BuffIcon[] _buffSlots;
-    [SerializeField] Art.ArtSO _artSO;
 
     [SerializeField] BuffIcon _enemyOpponentActionUI;
 
@@ -95,7 +93,6 @@ public class BuffIconsHandler : MonoBehaviour
         }
         var buffSlot = GetFreeSlot();
         buffSlot.KeywordType = icon;
-        buffSlot.InitIconData(_buffCollection.GetIconData(icon), amount, icon);
     }
 
     internal void UpdateArmour(int amount)

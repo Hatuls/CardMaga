@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Battles.UI;
 using UnityEngine;
-using Object = System.Object;
 
 [Serializable]
 public class PoolObject<T> : MonoBehaviour, IPoolObject<T> where T : MonoBehaviour, IPoolable<T>

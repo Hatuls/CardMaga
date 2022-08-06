@@ -13,8 +13,6 @@ namespace Factory
         [SerializeField] ComboCollectionSO _combos;
         [SerializeField] CharacterCollectionSO _characters;
         [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
-        [SerializeField] EventPointCollectionSO _eventPoints;
-        [SerializeField] Art.ArtSO _art;
         public static bool flag;
 
         public void Init(ITokenReciever tokenReciever)
@@ -55,12 +53,6 @@ namespace Factory
                             throw new System.Exception("Reward Collection Was Not Assigned!");
                     }
 
-                    if (_eventPoints == null)
-                    {
-                        _eventPoints = Resources.Load<EventPointCollectionSO>("Collection SO/EventPointCollection");
-                        if (_eventPoints == null)
-                            throw new System.Exception("Event Point Collection Was Not Assigned!");
-                    }
 
                     if (_keywords == null)
                     {
@@ -69,14 +61,8 @@ namespace Factory
                             throw new System.Exception("GameFactoryTerminal : KeywordCollection Was not assigned!");
                     }
 
-                    if (_art == null)
-                    {
-                        _art = Resources.Load<Art.ArtSO>("Art/AllPalette/ART BLACKBOARD");
-                        if (_art == null)
-                            throw new System.Exception("ArtSO Was Not Assigned!");
-                    }
 
-                    new GameFactory(_art, _cards, _combos, _characters, _rewards, _eventPoints, _keywords);
+                    new GameFactory(_cards, _combos, _characters, _rewards,  _keywords);
                 }
 
                 Destroy(this.gameObject);

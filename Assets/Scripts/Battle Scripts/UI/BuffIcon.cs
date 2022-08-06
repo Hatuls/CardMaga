@@ -37,53 +37,52 @@ public class BuffIcon : MonoBehaviour
     #region Properties
     public KeywordTypeEnum KeywordType { get => _name; set => _name = value; }
     #endregion
- 
-    public virtual void InitIconData(CardData card)
-    {
-        var art = Factory.GameFactory.Instance.ArtBlackBoard;
-        var _cardTypePalette = art.GetPallette<CardTypePalette>();
-        _icon.sprite = art.GetSpriteCollections<CardIconCollectionSO>().GetSprite(card.CardSO.BodyPartEnum);
 
-        _background.color = art.GetPallette<BuffUIPalette>().CardDefaultBackground;
+    //public virtual void InitIconData(CardData card)
+    //{
+    //    var _cardTypePalette = art.GetPallette<CardTypePalette>();
+    //    _icon.sprite = art.GetSpriteCollections<CardIconCollectionSO>().GetSprite(card.CardSO.BodyPartEnum);
 
-        Color clr = _cardTypePalette.GetIconBodyPartColorFromEnum(card.CardSO.CardTypeEnum);
-        _icon.color = clr;
+    //    _background.color = art.GetPallette<BuffUIPalette>().CardDefaultBackground;
 
-
-        _decor.color = _cardTypePalette.GetDecorationColorFromEnum(card.CardSO.CardTypeEnum);
-        SetText(card.CardSO.CardSOKeywords[0].GetAmountToApply.ToString());
-
-        _iconText.color = clr;
-    }
-    public void InitIconData(UIIconSO iconData, int amount, KeywordTypeEnum buffIcons)
-    {
+    //    Color clr = _cardTypePalette.GetIconBodyPartColorFromEnum(card.CardSO.CardTypeEnum);
+    //    _icon.color = clr;
 
 
-        ShowIcon();
-        var art = Factory.GameFactory.Instance.ArtBlackBoard;
-        //var buffUIPalette = art.GetPallette<BuffUIPalette>();
-        _background.sprite = iconData?.GetBackground;
-        // _background.color = iconData.GetBackgroundColor;
-        //_background.color = buffUIPalette.CardDefaultBackground;
+    //    _decor.color = _cardTypePalette.GetDecorationColorFromEnum(card.CardSO.CardTypeEnum);
+    //    SetText(card.CardSO.CardSOKeywords[0].GetAmountToApply.ToString());
 
-        _decor.sprite = iconData?.GetDecor;
-        //_decor.color = iconData.GetDecorColor;
-        //_decor.color = buffUIPalette.CardDefaultDecorateColor;
+    //    _iconText.color = clr;
+    //}
+    //public void InitIconData(UIIconSO iconData, int amount, KeywordTypeEnum buffIcons)
+    //{
 
-        _icon.sprite = iconData?.GetIcon;
-        //_icon.color = iconData.GetIconColor;
-        //_icon.color = buffUIPalette.GetBuffIconFromColor(buffIcons);
 
-        if (iconData.ToShowAmount)
-        {
-            SetText(amount.ToString());
-            _iconText.gameObject.SetActive(true);
-        }
-        else
-        {
-            _iconText.gameObject.SetActive(false);
-        }
-    }
+    //    ShowIcon();
+    //    var art = Factory.GameFactory.Instance.ArtBlackBoard;
+    //    //var buffUIPalette = art.GetPallette<BuffUIPalette>();
+    //    _background.sprite = iconData?.GetBackground;
+    //    // _background.color = iconData.GetBackgroundColor;
+    //    //_background.color = buffUIPalette.CardDefaultBackground;
+
+    //    _decor.sprite = iconData?.GetDecor;
+    //    //_decor.color = iconData.GetDecorColor;
+    //    //_decor.color = buffUIPalette.CardDefaultDecorateColor;
+
+    //    _icon.sprite = iconData?.GetIcon;
+    //    //_icon.color = iconData.GetIconColor;
+    //    //_icon.color = buffUIPalette.GetBuffIconFromColor(buffIcons);
+
+    //    if (iconData.ToShowAmount)
+    //    {
+    //        SetText(amount.ToString());
+    //        _iconText.gameObject.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        _iconText.gameObject.SetActive(false);
+    //    }
+    //}
     public void ResetEnumType()
     {
         KeywordType = KeywordTypeEnum.None;
@@ -125,11 +124,6 @@ public class BuffIcon : MonoBehaviour
     {
         if (gameObject != null && gameObject.activeSelf)
         {
-
-
-            LeanTween.scale(_rectTransform, Vector3.one * _buffIconSettingsSO.ScaleAmount, _buffIconSettingsSO.ScaleEntranceTime).setEase(_buffIconSettingsSO.EntranceTypeTweenType).setOnComplete(() =>
-            LeanTween.scale(_rectTransform, Vector3.one, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType)
-                );
         }
     }
 
@@ -137,17 +131,13 @@ public class BuffIcon : MonoBehaviour
     {
         if (isEntering)
         {
-            LeanTween.alpha(_rectTransform, 1, _buffIconSettingsSO.ScaleEntranceTime).setEase(_buffIconSettingsSO.EntranceTypeTweenType);
-            LeanTween.scale(_rectTransform, Vector3.one, _buffIconSettingsSO.ScaleEntranceTime).setEase(_buffIconSettingsSO.EntranceTypeTweenType);
         }
         else
         {
-            LeanTween.alpha(_rectTransform, 0, _buffIconSettingsSO.AlphaExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType);
-            LeanTween.scale(_rectTransform, Vector3.zero, _buffIconSettingsSO.ScaleExitTime).setEase(_buffIconSettingsSO.ExitTypeTweenType).setOnComplete(() => gameObject.SetActive(false));
         }
     }
 
 
 
-  
+
 }

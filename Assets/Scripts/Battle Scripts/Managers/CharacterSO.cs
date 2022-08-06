@@ -6,6 +6,8 @@ using System.Linq;
 using UnityEngine;
 using Battle.Combo;
 using Characters.Stats;
+using UnityEditor;
+
 namespace Battle
 {
     [CreateAssetMenu(fileName = "CharacterSO", menuName = "ScriptableObjects/Characters/CharacterSO")]
@@ -119,8 +121,10 @@ namespace Battle
                         if (row[CharacterNameIndex].Length != 0)
                         {
                             CharacterName = row[CharacterNameIndex];
-
-                            ModelSO characterModel = Resources.Load<ModelSO>($"Art/Models/SO/{row[CharacterModelIndex]}");
+                            Debug.Log(Application.dataPath);
+                            
+                            //AssetDatabase.LoadAssetAtPath(Application.dataPath, typeof(Material))
+                            ModelSO characterModel =  Resources.Load<ModelSO>($"Art/Models/SO/{row[CharacterModelIndex]}");
                             if (row[CharacterModelIndex].Length != 0 && characterModel != null)
                             {
                                 CharacterAvatar = characterModel;

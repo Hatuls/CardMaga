@@ -29,8 +29,7 @@ namespace UI
         [SerializeField]
         Image _decorImage;
 
-        [SerializeField]
-        ComboIconCollection _gotoIconCollection;
+
         [SerializeField]
         ComboRecipeEvent _event;
 
@@ -41,10 +40,6 @@ namespace UI
         [SerializeField]
         Transform placeHolderContainer;
 
-
-        [BoxGroup("References")]
-        [SerializeField]
-        Art.ArtSO _art;
 
 
         [BoxGroup("References")]
@@ -89,13 +84,14 @@ namespace UI
             AssignComboCrafting();
 
         }
+        //Redo please
         public void AssignComboCrafting()
         {
-            var setOfImage = _gotoIconCollection.GetInnerImage(_combo.ComboSO.GoToDeckAfterCrafting);
-            _innerImage.sprite = setOfImage.Icon;
+          //  var setOfImage = _gotoIconCollection.GetInnerImage(_combo.ComboSO.GoToDeckAfterCrafting);
+          //  _innerImage.sprite = setOfImage.Icon;
             //  _innerImage.color = setOfImage.GetMainColor(_combo.ComboSO.CraftedCard.CardTypeEnum);
             //_decorImage.sprite = _gotoIconCollection.GetDecorImage().Icon;
-            _outerImage.sprite = _gotoIconCollection.GetBackGroundImage().Icon;
+           // _outerImage.sprite = _gotoIconCollection.GetBackGroundImage().Icon;
         }
         private void ActivatedPlaceHolders(ComboSO relicSO)
         {

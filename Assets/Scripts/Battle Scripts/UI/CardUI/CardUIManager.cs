@@ -25,8 +25,7 @@ namespace CardMaga.Battle.UI
         private List<CardUI> _handCards;
         private HandUI _handUI;
 
-        [SerializeField]
-        Art.ArtSO _artSO;
+
         #endregion
 
         #region Events

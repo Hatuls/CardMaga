@@ -56,7 +56,7 @@ public class CraftingSlotUI : MonoBehaviour
             ResetSlotUI();
         }
         else
-            InitPlaceHolder(cardType.CardType, Factory.GameFactory.Instance.ArtBlackBoard.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardType.BodyPart));
+            InitPlaceHolder(cardType);
 
         _iconImage.gameObject.SetActive(cardType != null && cardType.BodyPart != CardMaga.Card.BodyPartEnum.Empty);
 
@@ -80,32 +80,29 @@ public class CraftingSlotUI : MonoBehaviour
     }
     public void ResetSlotUI()
     {
-        var artBoard = Factory.GameFactory.Instance.ArtBlackBoard;
         if (_glowImage.gameObject.activeSelf)
             _glowImage.gameObject.SetActive(false);
 
-        var craftingUIPalete = artBoard.GetPallette<CraftingUIPalette>();
+       // var craftingUIPalete = artBoard.GetPallette<CraftingUIPalette>();
         _iconImage.color = Color.clear;
-        _decorImage.color = craftingUIPalete.SlotDecorationColor;
-        _backgroundImage.color = craftingUIPalete.SlotBackgroundColor;
+      //  _decorImage.color = craftingUIPalete.SlotDecorationColor;
+      //  _backgroundImage.color = craftingUIPalete.SlotBackgroundColor;
 
         _iconImage.sprite = null;
     }
     void SetColors(CardTypeEnum cardType)
     {
-        var artBoard = Factory.GameFactory.Instance.ArtBlackBoard;
-       
-        _backgroundImage.color = artBoard.GetPallette<CraftingUIPalette>().SlotBackgroundColor;
-        var cardTypePallete = artBoard.GetPallette<CardTypePalette>();
+      //  var artBoard = Factory.GameFactory.Instance.ArtBlackBoard;
+    //   
+     //   _backgroundImage.color = artBoard.GetPallette<CraftingUIPalette>().SlotBackgroundColor;
+     //   var cardTypePallete = artBoard.GetPallette<CardTypePalette>();
 
-        _iconImage.color = cardTypePallete.GetIconBodyPartColorFromEnum(cardType);
-        _decorImage.color = cardTypePallete.GetDecorationColorFromEnum(cardType);
+     //   _iconImage.color = cardTypePallete.GetIconBodyPartColorFromEnum(cardType);
+     //   _decorImage.color = cardTypePallete.GetDecorationColorFromEnum(cardType);
     }
-
     public void MoveLocation(Vector2 startPosition, float leantweenTime)
     {
         _rectTransform.localPosition = startPosition;
-        LeanTween.move(_rectTransform, originalPos, leantweenTime);
 
     }
 }

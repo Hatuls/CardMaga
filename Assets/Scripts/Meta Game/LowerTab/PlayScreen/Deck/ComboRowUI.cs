@@ -19,13 +19,12 @@ namespace UI.Meta.PlayScreen
         BodyPartGFX[] _comboRecipe;
         #endregion
         #region Public Methods
-        public void Init(ComboSort combo, int comboLevel, ArtSO artSO)
+        public void Init(ComboSO combo, int comboLevel)
         {
             ResetComboRecipeSlots();
             _comboName.text = combo.ComboName;
             _levelText.text = $"LVL {comboLevel}";
-            var cardTypePalette = artSO.GetPallette<CardTypePalette>();
-            var iconCollection = artSO.IconCollection;
+
             _comboBodyPart.AssignBodyPart(combo.CraftedCard.CardType);
             for (int i = 0; i < combo.ComboSequence.Length; i++)
             {

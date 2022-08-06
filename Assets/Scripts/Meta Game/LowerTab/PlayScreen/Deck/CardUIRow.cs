@@ -16,7 +16,7 @@ namespace UI.Meta.PlayScreen
         BodyPartGFX _bodyPartGFX;
         #endregion
         #region Public Methods
-        public void Init(CardSO card,int cardLevel, ArtSO artSO)
+        public void Init(CardSO card,int cardLevel)
         {
 
             _cardName.text = card.CardName;

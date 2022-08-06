@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static CardMaga.ActDifficultySO;
 using CardMaga.Card;
 
 namespace Factory
@@ -36,33 +35,29 @@ namespace Factory
             ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
             CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
             BattleRewardCollectionSO battleRewardsCollection = Resources.Load<BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
-            EventPointCollectionSO eventPointCollection = Resources.Load<EventPointCollectionSO>("Collection SO/EventPointCollection");
-            Art.ArtSO _art = Resources.Load<Art.ArtSO>("Art/AllPalette/ART BLACKBOARD");
+     
             Keywords.KeywordsCollectionSO keywordsCollection = Resources.Load<Keywords.KeywordsCollectionSO>("Collection SO/KeywordSOCollection");
-            _instance = new GameFactory(_art, cardCollections, recipeCollection, characterCollection, battleRewardsCollection, eventPointCollection, keywordsCollection);
+            _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, battleRewardsCollection,  keywordsCollection);
         }
 
         public ComboFactory ComboFactoryHandler { get; private set; }
         public CardFactory CardFactoryHandler { get; private set; }
         public CharacterFactory CharacterFactoryHandler { get; private set; }
         public RewardFactory RewardFactoryHandler { get; private set; }
-        public EventPointFactory EventPointFactoryHandler { get; private set; }
         public KeywordFactory KeywordSOHandler { get; private set; }
-        public Art.ArtSO ArtBlackBoard { get; private set; }
 
 
-        public GameFactory(Art.ArtSO art, CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards, EventPointCollectionSO eventPoints, Keywords.KeywordsCollectionSO keywords)
+        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards,  Keywords.KeywordsCollectionSO keywords)
         {
-            if (cards == null || comboCollectionSO == null || characters == null || rewards == null || eventPoints == null)
+            if (cards == null || comboCollectionSO == null || characters == null || rewards == null )
                 throw new Exception("Collections is null!!");
 
-            ArtBlackBoard = art;
+           
 
             CardFactoryHandler = new CardFactory(cards);
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
             RewardFactoryHandler = new RewardFactory(rewards);
-            EventPointFactoryHandler = new EventPointFactory(eventPoints);
             KeywordSOHandler = new KeywordFactory(keywords);
             Debug.Log("Factory Created<a>!</a>");
 
@@ -73,17 +68,7 @@ namespace Factory
 
 
 
-        public class EventPointFactory
-        {
-            public EventPointCollectionSO EventPointCollection { get; private set; }
-            public EventPointFactory(EventPointCollectionSO eventPoints)
-            {
-                EventPointCollection = eventPoints;
-            }
-
-            public NodePointAbstSO GetEventPoint(NodeType type)
-           => EventPointCollection.GetEventPoint(type);
-        }
+     
         public class RewardFactory
         {
             public BattleRewardCollectionSO BattleRewardCollection { get; private set; }
@@ -127,17 +112,7 @@ namespace Factory
                 throw new Exception($"Could not find the character type: {type}\nin the character collections");
             }
 
-            public CharacterSO[] GetCharactersSO(CharacterTypeEnum type, NodeLevel NodeLevelsRange)
-            {
-                int rightIndex = type == CharacterTypeEnum.Elite_Enemy ? 1 : 0;
-                var range = NodeLevelsRange.MinMaxCharacters[rightIndex];
-
-                return GetCharactersSO(type).Where(
-                    diffuclty =>
-                    (diffuclty.CharacterDiffciulty >= range.MinDiffculty &&
-                    diffuclty.CharacterDiffciulty <= range.MaxDiffculty)
-                    ).ToArray();
-            }
+       
             public CharacterSO[] GetCharactersSO(CharacterTypeEnum type) => CharacterCollection.CharactersSO.Where(character => (character.CharacterType == type)).ToArray();
 
             public CharacterSO GetCharacterSO(CharacterEnum characterEnum)
@@ -161,17 +136,7 @@ namespace Factory
                 return CharacterCollection.CharactersSO.First(x => x.ID == id) ?? throw new Exception("CharacterFactory: CharacterID was not found\nID requested - " + id);
             }
 
-            public CharacterSO GetRandomCharacterSO(CharacterTypeEnum character, NodeLevel NodeLevelsRange)
-            {
-                var collection = GetCharactersSO(character, NodeLevelsRange);
-                int collecitonLength = collection.Length;
-
-                if (collecitonLength == 0)
-                    throw new Exception($"CharacterFactory: Couldnt find any characterSO from the character collection based on the CharacterTypeEnum : {character}");
-
-                return collection[UnityEngine.Random.Range(0, collecitonLength)];
-            }
-
+      
             public Character CreateCharacter(CharacterSO characterSO) => new Character(characterSO);
 
 

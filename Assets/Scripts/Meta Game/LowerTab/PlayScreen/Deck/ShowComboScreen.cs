@@ -11,12 +11,10 @@ namespace UI.Meta.PlayScreen
         TextMeshProUGUI _title;
         [SerializeField]
         ComboRowUI[] _comboUI;
-        Art.ArtSO _artSO;
         #endregion
         #region Public Method
-        public void Init(Character character, Art.ArtSO artSO)
+        public void Init(Character character)
         {
-            _artSO = artSO;
             gameObject.SetActive(true);
 
             ResetCombosShown();

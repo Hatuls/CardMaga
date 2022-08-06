@@ -19,7 +19,6 @@ public class CSVManager
     public static BattleRewardCollectionSO _battleRewards;
     public static CardUpgradeCostSO _upgradeCardCostSO;
     public static DismentalCostsSO _dismentalCardCostSO;
-    public static ActDifficultySO[] actDifficultySOs;
 #endif
 
 
@@ -71,14 +70,12 @@ public class CSVManager
         CSVAbst[] metacsv = new CSVAbst[] {
          new CSVToPackReward(),
          new CSVToUpgradeAndDismental(),
-         new CSVToActDiffuclty(),
         };
 
         string[] metaurls = new string[]
         {
         _driveURLOfPackRewards,
         _driveURLOfDismentalAndUpgrades,
-        _driveURLOfDiffculty,
         };
 
         await StartLoading(_driveMetaURL, metaurls, metacsv);
@@ -128,40 +125,3 @@ public abstract class CSVAbst
     { }
 }
 
-
-public class CSVToActDiffuclty : CSVAbst
-{
-    public static bool taskFinished = false;
-    public async override Task StartCSV(string data)
-    {
-        taskFinished = false;
-
-        WebRequests.Get(data, (x) => Debug.LogError($"Error On Loading ActDiffculty {x} "), OnCompleteDownloadingActDiffucltyCSV);
-
-        do
-        {
-            await Task.Yield();
-        } while (!taskFinished);
-        Debug.Log("Finished Loading Diffulty Acts SO");
-    }
-
-    private void OnCompleteDownloadingActDiffucltyCSV(string csv)
-    {
-
-        string[] rows = csv.Replace("\r", "").Split('\n');
-        int amountOfActs = rows.Length - 1;
-        CSVManager.actDifficultySOs = new ActDifficultySO[amountOfActs];
-
-        
-        for (int i = 1; i <= amountOfActs; i++)
-        {
-            CSVManager.actDifficultySOs[i-1] = ScriptableObject.CreateInstance<ActDifficultySO>();
-            string[] row = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
-            CSVManager.actDifficultySOs[i - 1].Init(row);
-            AssetDatabase.CreateAsset(CSVManager.actDifficultySOs[i - 1], $"Assets/Resources/Maps/Acts Diffuclty/{CSVManager.actDifficultySOs[i - 1].Act}Difficulty.asset");
-        }
-
-        AssetDatabase.SaveAssets();
-        taskFinished = true;
-    }
-}

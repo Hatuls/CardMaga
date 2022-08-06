@@ -36,14 +36,14 @@ namespace UI.Meta.PlayScreen
 
         public void AssignBodyPart(CardTypeData cardTypeData)
         {
-            var art = Factory.GameFactory.Instance.ArtBlackBoard;
-            _bodyPartImage.sprite = art.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardTypeData.BodyPart);
-            var artPalett = art.GetPallette<CardTypePalette>();
-            _bodyPartImage.color = artPalett.GetIconBodyPartColorFromEnum(cardTypeData.CardType);
+         //   var art = Factory.GameFactory.Instance.ArtBlackBoard;
+       //     _bodyPartImage.sprite = art.GetSpriteCollections<CardIconCollectionSO>().GetSprite(cardTypeData.BodyPart);
+        //    var artPalett = art.GetPallette<CardTypePalette>();
+        //    _bodyPartImage.color = artPalett.GetIconBodyPartColorFromEnum(cardTypeData.CardType);
 
 
-            if (_decorImage != null)
-                _decorImage.color = artPalett.GetDecorationColorFromEnum(cardTypeData.CardType);
+        //    if (_decorImage != null)
+        //        _decorImage.color = artPalett.GetDecorationColorFromEnum(cardTypeData.CardType);
             _bodyPartImage.gameObject.SetActive(cardTypeData.BodyPart != CardMaga.Card.BodyPartEnum.Empty);
         }
         #endregion
