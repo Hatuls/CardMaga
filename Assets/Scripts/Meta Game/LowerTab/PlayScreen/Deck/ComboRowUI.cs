@@ -1,5 +1,6 @@
 ﻿using Art;
 using Battle.Combo;
+using CardMaga.UI;
 using TMPro;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace UI.Meta.PlayScreen
         BodyPartGFX[] _comboRecipe;
         #endregion
         #region Public Methods
-        public void Init(ComboSO combo, int comboLevel, ArtSO artSO)
+        public void Init(ComboSort combo, int comboLevel, ArtSO artSO)
         {
             ResetComboRecipeSlots();
             _comboName.text = combo.ComboName;

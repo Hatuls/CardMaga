@@ -1,7 +1,7 @@
 ﻿using Battle.Characters;
 using Battle.Deck;
-using Battle.UI;
 using CardMaga.AI;
+using CardMaga.Battle.UI;
 using CardMaga.Card;
 using Characters.Stats;
 using ReiTools.TokenMachine;
@@ -198,7 +198,7 @@ namespace Battle
 
 
             yield return new WaitUntil(() => EnemyAnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count == 0);
-            UI.CardUIManager.Instance.ActivateEnemyCardUI(false);
+            CardUIManager.Instance.ActivateEnemyCardUI(false);
             yield return Turns.Turn.WaitOneSecond;
             EnemyAnimatorController.ResetToStartingPosition();
         }

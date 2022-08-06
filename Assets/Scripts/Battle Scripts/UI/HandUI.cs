@@ -1,7 +1,7 @@
 using Battle;
 using Battle.Deck;
 using Battle.Turns;
-using Battle.UI;
+using CardMaga.Battle.UI;
 using CardMaga.Card;
 using CardMaga.Input;
 using CardMaga.UI.Card;

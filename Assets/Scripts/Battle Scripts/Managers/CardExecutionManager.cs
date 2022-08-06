@@ -1,6 +1,5 @@
 ﻿using System;
 using Battle.Deck;
-using Battle.UI;
 using CardMaga.Card;
 using CardMaga.UI.Card;
 using Characters.Stats;
@@ -9,6 +8,7 @@ using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using CardMaga.Battle.UI;
 
 namespace Battle
 {

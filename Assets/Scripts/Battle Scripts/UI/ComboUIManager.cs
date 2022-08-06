@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Battle;
-using Battle.UI;
+using CardMaga.Battle.UI;
 using CardMaga.Card;
 using CardMaga.UI;
 using CardMaga.UI.Card;

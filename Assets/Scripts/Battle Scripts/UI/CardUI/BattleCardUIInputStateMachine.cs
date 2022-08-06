@@ -1,5 +1,0 @@
-﻿
-namespace Battles.UI.CardUIAttributes
-{
-
-}

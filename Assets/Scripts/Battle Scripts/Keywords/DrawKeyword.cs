@@ -1,4 +1,6 @@
-﻿namespace Keywords
+﻿using CardMaga.Battle.UI;
+
+namespace Keywords
 {
     public class DrawKeyword : KeywordAbst
     {
@@ -10,7 +12,7 @@
             {
                 //  Battles.Deck.DeckManager.Instance.OnEndTurn(currentPlayer);
                 Battle.Deck.DeckManager.Instance.ResetCharacterDeck(currentPlayer, Battle.Deck.DeckEnum.Hand);
-                Battle.UI.CardUIManager.Instance.RemoveHands();
+                CardUIManager.Instance.RemoveHands();
                 Battle.Deck.DeckManager.Instance.DrawHand(
                     currentPlayer,
                     Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Amount

@@ -10,10 +10,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using Battles.UI;
 using CardMaga.UI;
 
-namespace Battle.UI
+namespace CardMaga.Battle.UI
 {
     public class CardUIManager : MonoSingleton<CardUIManager>
     {
@@ -58,7 +57,7 @@ namespace Battle.UI
             => _enemyCardUI.gameObject.SetActive(state);
 
         #endregion
-        
+
         #region Monobehaviour Callbacks 
         public override void Awake()
         {
@@ -87,7 +86,7 @@ namespace Battle.UI
         }
 
         #endregion
-        
+
         #region Public Methods
 
         public CardUI[] GetCardsUI(params CardData[] cardData)
@@ -112,7 +111,7 @@ namespace Battle.UI
 
                 tempCardUI.Add(cache);
             }
-            
+
             return tempCardUI.ToArray();
         }
 
