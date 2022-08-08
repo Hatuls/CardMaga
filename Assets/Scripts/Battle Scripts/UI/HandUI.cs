@@ -12,7 +12,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 
 namespace CardMaga.UI
@@ -49,6 +48,7 @@ namespace CardMaga.UI
         [SerializeField] private ZoomCardUI _zoomCard;
         [SerializeField] private ComboUIManager _comboUIManager;
         [SerializeField] private TableCardSlot _tableCardSlot;
+        [SerializeField] private SelectCardUI _selectCardUI;
         
         [Header("Parameters")] 
         [SerializeField] private float _delayBetweenCardDrawn;
@@ -56,7 +56,10 @@ namespace CardMaga.UI
 
         [Header("Selected Card"),SerializeField,ReadOnly]
         private CardUI _selectedCard;
-        
+
+        private IInputBehaviour _cardHoldState;
+        private IInputBehaviour _cardFollowState;
+        private IInputBehaviour _cardDefaultState;
         
         private Sequence _currentSequence;
 
@@ -83,7 +86,7 @@ namespace CardMaga.UI
             _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
             _waitForCardDiscardDelay = new WaitForSeconds(_delayBetweenCardDiscard);
             _handLockTokenMachine = new TokenMachine(UnLockInput, LockInput);
-
+            
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             EndPlayerTurn.OnPlayerEndTurn += ForceDiscardCards;
             BattleManager.OnGameEnded += ForceDiscardCards;
@@ -184,10 +187,11 @@ namespace CardMaga.UI
 
             if (_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
+                if (!_selectCardUI.TrySetSelectedCardUI(cardUI))
+                    return;
+                
                 RemoveInputEvents(cardUI.Inputs);
                 cardUI.transform.SetAsLastSibling();
-                cardUI.Inputs.OnClick += _zoomCard.SetZoomCard;
-                cardUI.Inputs.OnBeginHold += _followCard.SetSelectCardUI;
                // _tableCardSlot.RemoveCardUI(cardUI);
                 _selectedCard = cardUI;
                 _isCardSelected = true;
