@@ -148,12 +148,6 @@ public class AnimatorController : MonoBehaviour
     }
 
 
-    public void SetCamera(CameraController.CameraAngleLookAt cameraAngleLookAt)
-    {
-        _moveCameraAngle?.Raise((int)cameraAngleLookAt);
-    }
-
-
     public void DeathAnimationCompleted()
     {
         OnDeathAnimationFinished?.Invoke(_isPlayer);
@@ -318,8 +312,6 @@ public class AnimatorController : MonoBehaviour
     private void OnFinishAnimation()
     {
         CardExecutionManager.FinishedAnimation = true;
-
-            SetCamera(CameraController.CameraAngleLookAt.Both);
         //ReturnToIdle();
         ResetBothRotaionAndPosition();
         //  isFirst = true;

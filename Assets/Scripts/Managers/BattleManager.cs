@@ -316,7 +316,7 @@ namespace Battle
             _sceneStart = null;
             _lateSceneStart = null;
 
-            static void Reset(OperationHandler<ISequenceOperation> operation)
+            void Reset(OperationHandler<ISequenceOperation> operation)
             {
                 operation.Clear();
                 operation.Dispose();
