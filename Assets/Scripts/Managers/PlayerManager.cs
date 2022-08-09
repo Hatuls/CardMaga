@@ -9,18 +9,18 @@ using UnityEngine;
 
 namespace Managers
 {
+    public interface IPlayer
+    {
+        CardData[] Deck { get; }
+        Combo[] Combos { get; }
+    }
 
 
-
-    public class PlayerManager : MonoSingleton<PlayerManager>
+    public class PlayerManager : MonoSingleton<PlayerManager>, IPlayer
     {
         #region Fields
 
         [SerializeField] Character _character;
-        [SerializeField] Combo _recipes;
-
-        //[SerializeField] CardSort[] _cardSorters;
-        //[SerializeField] ComboSort[] _comboSorters;
 
         [SerializeField] AnimatorController _playerAnimatorController;
         [SerializeField] AnimationBodyPartSoundsHandler _soundAnimation;
@@ -28,8 +28,8 @@ namespace Managers
         static int Counter = 0;
         public ref CharacterStats GetCharacterStats => ref _character.CharacterData.CharacterStats;
         CardData[] _playerDeck;
-        public CardData[] GetDeck() => _playerDeck;
-        public Combo[] GetCombos() => _character.CharacterData.ComboRecipe;
+        public CardData[] Deck => _playerDeck;
+        public Combo[] Combos => _character.CharacterData.ComboRecipe;
 
         public AnimatorController PlayerAnimatorController
         {
@@ -107,7 +107,7 @@ namespace Managers
         #region Monobehaviour Callbacks 
         public override  void Awake()
         {
-
+            base.Awake();
             BattleStarter.Register(new SequenceOperation(Init, 0));
 
         }

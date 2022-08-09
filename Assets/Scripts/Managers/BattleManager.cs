@@ -30,7 +30,10 @@ namespace Battle
         private UnityEvent OnBattleFinished;
 
         [SerializeField] private DollyTrackCinematicManager _cinematicManager;
-
+        [SerializeField]
+        private PlayerManager _playerManager;
+        [SerializeField]
+        private EnemyManager _enemyManager;
 
         private IEnumerator _turnCycles;
         private IDisposable _initToken;
@@ -65,8 +68,8 @@ namespace Battle
 
             var battleData = BattleData.Instance;
             SpawnModels(battleData);
-            PlayerManager.Instance.AssignCharacterData(battleData.Player);
-            EnemyManager.Instance.AssignCharacterData(battleData.Opponent);
+            _playerManager.AssignCharacterData(battleData.Player);
+            _enemyManager.AssignCharacterData(battleData.Opponent);
 
             //  if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
             //      throw new Exception("Battle data was not work correctly!");
@@ -88,8 +91,8 @@ namespace Battle
             isGameEnded = false;
 
 
-            PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
-            EnemyManager.Instance.EnemyAnimatorController.ResetLayerWeight();
+           _playerManager.PlayerAnimatorController.ResetLayerWeight();
+           _enemyManager.EnemyAnimatorController.ResetLayerWeight();
         }
         // Need To be Re-Done
         public void StartBattle()
@@ -132,8 +135,8 @@ namespace Battle
             BattleData.Instance.PlayerWon = !isPlayerDied;
 
 
-            PlayerManager.Instance.PlayerAnimatorController.ResetLayerWeight();
-            EnemyManager.Instance.EnemyAnimatorController.ResetLayerWeight();
+            _playerManager.PlayerAnimatorController.ResetLayerWeight();
+            _enemyManager.EnemyAnimatorController.ResetLayerWeight();
 
             isGameEnded = true;
             StopCoroutine(Instance._turnCycles);
@@ -161,8 +164,8 @@ namespace Battle
         // Need To be Re-Done
         private void EnemyDied()
         {
-            PlayerManager.Instance.PlayerWin();
-            EnemyManager.Instance.EnemyAnimatorController.CharacterIsDead();
+            _playerManager.PlayerWin();
+            _enemyManager.EnemyAnimatorController.CharacterIsDead();
             BattleData.Instance.PlayerWon = true;
             //     SendAnalyticWhenGameEnded("player_won", battleData);
             //    AddRewards();
@@ -174,8 +177,8 @@ namespace Battle
         {
             ModelSO playersModelSO = data.Player.CharacterData.CharacterSO.CharacterAvatar;
             ModelSO enemyModelSO = data.Opponent.CharacterData.CharacterSO.CharacterAvatar;
-            AvatarHandler avatarHandler = Instantiate(playersModelSO.Model, PlayerManager.Instance.PlayerAnimatorController.transform);
-            AvatarHandler opponentAvatar = Instantiate(enemyModelSO.Model, EnemyManager.Instance.EnemyAnimatorController.transform);
+            AvatarHandler avatarHandler = Instantiate(playersModelSO.Model, _playerManager.PlayerAnimatorController.transform);
+            AvatarHandler opponentAvatar = Instantiate(enemyModelSO.Model, _enemyManager.EnemyAnimatorController.transform);
             if (playersModelSO == enemyModelSO)
                 opponentAvatar.Mesh.material = enemyModelSO.Materials[0].Tinted;
 
@@ -184,8 +187,8 @@ namespace Battle
         private void PlayerDied()
         {
             //  var battleData = Account.AccountManager.Instance.BattleData;
-            PlayerManager.Instance.PlayerAnimatorController.CharacterIsDead();
-            EnemyManager.Instance.EnemyWon();
+            _playerManager.PlayerAnimatorController.CharacterIsDead();
+            _enemyManager.EnemyWon();
             BattleData.Instance.PlayerWon = false;
             //      _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
             //    SendAnalyticWhenGameEnded("player_defeated", battleData);

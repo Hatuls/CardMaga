@@ -28,6 +28,7 @@ namespace CardMaga.UI.Text
 
         public override void OnDestroy()
         {
+            if (_baseDeck != null)
             _baseDeck.OnAmountOfFilledSlotsChange -= SetDeckText;
         }
 

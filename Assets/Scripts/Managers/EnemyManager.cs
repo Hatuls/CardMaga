@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Battle
 {
-    public class EnemyManager : MonoSingleton<EnemyManager>
+    public class EnemyManager : MonoSingleton<EnemyManager>, IPlayer
     {
         #region Fields
         //   [UnityEngine.SerializeField] Opponents EnemyAI;
@@ -30,7 +30,7 @@ namespace Battle
         [SerializeField] AnimatorController _enemyAnimatorController;
         [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
-        public Battle.Combo.Combo[] Recipes => _myCharacter.CharacterData.ComboRecipe;
+        public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
         private CardData[] _deck;
         public CardData[] Deck => _deck;
         public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;

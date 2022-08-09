@@ -38,7 +38,7 @@ namespace Battle.Deck
         public override void ResetDeck()
         {
             if (isPlayer)
-                SetDeck = Managers.PlayerManager.Instance.GetDeck();
+                SetDeck = Managers.PlayerManager.Instance.Deck;
             else
                 SetDeck = EnemyManager.Instance.Deck;
 

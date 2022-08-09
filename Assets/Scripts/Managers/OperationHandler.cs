@@ -64,7 +64,7 @@ namespace Managers
         #endregion
     }
 
-    public interface ISequenceOperation : IComparable<int>
+    public interface ISequenceOperation : IComparable<ISequenceOperation>
     {
         int Order { get; }
 
@@ -82,17 +82,18 @@ namespace Managers
         public event Action<ITokenReciever> Operation;
         public int Order { get; private set; }
 
-        public int CompareTo(int other)
+
+        public void Invoke(ITokenReciever tokenMachine)
+       => Operation.Invoke(tokenMachine);
+
+        public int CompareTo(ISequenceOperation other)
         {
-            if (Order < other)
+            if (Order < other.Order)
                 return -1;
-            else if (Order > other)
+            else if (Order > other.Order)
                 return 1;
             else
                 return 0;
         }
-
-        public void Invoke(ITokenReciever tokenMachine)
-       => Operation.Invoke(tokenMachine);
     }
 }

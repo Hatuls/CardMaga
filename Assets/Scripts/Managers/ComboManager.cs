@@ -10,6 +10,7 @@ using Unity.Events;
 using UnityEngine;
 using Battle.Combo;
 using CardMaga.Card;
+using Managers;
 
 namespace Battle
 {
@@ -22,8 +23,14 @@ namespace Battle
 
         [SerializeField] Combo.Combo _cardRecipeDetected;
         [SerializeField] VFXSO _comboVFX;
-        PlayerCraftingSlots _playerCraftingSlots;
-        PlayerCraftingSlots _enemyCraftingSlots;
+
+        [SerializeField]
+        private PlayerManager _player;
+        [SerializeField]
+        private EnemyManager _enemy;
+        [SerializeField]
+        private DeckManager _deckManager;
+
         static byte threadId;
 
         #endregion
@@ -172,7 +179,7 @@ namespace Battle
         static void CheckRecipe(CardTypeData[] craftingItems, bool isPlayer)
         {
             // need to make algorithem better!!! 
-            var recipes = isPlayer ? Managers.PlayerManager.Instance.GetCombos() : Battle.EnemyManager.Instance.Recipes;
+            var recipes = isPlayer ? Managers.PlayerManager.Instance.Combos : Battle.EnemyManager.Instance.Combos;
 
             CardTypeComparer comparer = new CardTypeComparer();
             CardTypeData[] cardTypeDatas;

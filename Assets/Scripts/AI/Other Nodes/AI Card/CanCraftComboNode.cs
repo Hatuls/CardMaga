@@ -47,7 +47,7 @@ namespace CardMaga.AI
             void CheckRecipe()
             {
                 // need to make algorithem better!!! 
-                var recipes = IsPlayer ? PlayerManager.Instance.GetCombos() :EnemyManager.Instance.Recipes;
+                var recipes = IsPlayer ? PlayerManager.Instance.Combos :EnemyManager.Instance.Combos;
 
                 var comparer = new CardTypeComparer();
                 CardTypeData[] cardTypeDatas;
