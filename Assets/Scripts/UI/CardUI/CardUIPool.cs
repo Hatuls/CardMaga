@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReiTools.TokenMachine;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 namespace CardMaga.UI.Card
@@ -45,7 +46,17 @@ namespace CardMaga.UI.Card
             for (int i = 0; i < _totalPoolType.Count; i++)
                 _totalPoolType[i].Dispose();
         }
+        public void Init(ITokenReciever token)
+        {
+            IDisposable t = token?.GetToken() ?? null;
 
+            for (int i = 0; i < _totalPoolType.Count; i++)
+                _totalPoolType[i].OnDisposed += AddToQueue;
+
+            ResetPool();
+
+            t?.Dispose();
+        }
         private void OnDestroy()
         {
             {

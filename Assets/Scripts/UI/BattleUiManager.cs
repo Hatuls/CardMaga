@@ -1,4 +1,5 @@
 ﻿using Keywords;
+using Managers;
 using ReiTools.TokenMachine;
 using Unity.Events;
 using UnityEngine;
@@ -27,16 +28,13 @@ namespace Battle.UI
         public override void Awake()
         {
             base.Awake();
-            SceneHandler.OnBeforeSceneShown += Init;
+            const int order = 7;
+            BattleStarter.Register(new SequenceOperation(Init, order));
         }
-        public void OnDestroy()
-        {
-            SceneHandler.OnBeforeSceneShown -= Init;
-        }
+
         #endregion
         public void EndTurn()
         {
-
             _endTurn?.Raise();
         }
 

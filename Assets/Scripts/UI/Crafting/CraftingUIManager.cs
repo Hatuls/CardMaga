@@ -1,4 +1,5 @@
 ﻿using Battle.Deck;
+using Managers;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
@@ -48,16 +49,11 @@ namespace Battle.UI
         }
 
         #region Monobehaviour Callbacks
-
         public override void Awake()
         {
-            SceneHandler.OnBeforeSceneShown += Init;
             base.Awake();
-        }
-
-        public void OnDestroy()
-        {
-            SceneHandler.OnBeforeSceneShown -= Init;
+            const int order = 4;
+            BattleStarter.Register(new SequenceOperation(Init, order));
         }
 
         #endregion

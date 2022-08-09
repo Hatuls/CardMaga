@@ -5,6 +5,8 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using System;
 using ReiTools.TokenMachine;
+using Battle;
+using Managers;
 
 namespace CardMaga.UI
 {
@@ -66,13 +68,13 @@ namespace CardMaga.UI
             if (_discardDeckTransitionPackSO == null)
                 throw new Exception("BottomPartDeckVisualHandler has no Discard Transition SO");
 
-            SceneHandler.OnLateBeforeSceneShown += InitVisuals;
+            BattleStarter.Register(new SequenceOperation(InitVisuals, 0), BattleStarter.BattleStarterOperationType.Late);
         }
   
-        private void InitVisuals(ITokenReciever tokenMachine)
+        public void InitVisuals(ITokenReciever tokenMachine)
         {
-            var t = tokenMachine.GetToken();
-            using (t)
+         
+            using (tokenMachine.GetToken())
             {
                 _drawDeckTextAssigner.Init(_deckManager.GetBaseDeck(true, DeckEnum.PlayerDeck));
                 _discardDeck = _deckManager.GetBaseDeck(true, DeckEnum.Discard);
@@ -99,7 +101,7 @@ namespace CardMaga.UI
         {
             if(_discardDeck != null)
             _discardDeck.OnResetDeck -= MoveCardsToDrawPileAnim;
-            SceneHandler.OnLateBeforeSceneShown -= InitVisuals;
+     
             _drawDeckTextAssigner?.OnDestroy();
             _discardDeckTextAssigner?.OnDestroy();
                 

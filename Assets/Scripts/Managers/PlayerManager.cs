@@ -1,21 +1,18 @@
 ﻿using Battle;
 using Battle.Characters;
-using Characters;
+using Battle.Combo;
+using CardMaga.Card;
 using Characters.Stats;
 using ReiTools.TokenMachine;
-using UnityEngine;
-using Battle.Combo;
-using CardMaga.UI;
 using System;
-using System.Collections.Generic;
-using CardMaga.Card;
+using UnityEngine;
 
 namespace Managers
 {
 
 
 
-    public class PlayerManager : MonoSingleton<PlayerManager>, IBattleHandler
+    public class PlayerManager : MonoSingleton<PlayerManager>
     {
         #region Fields
 
@@ -61,13 +58,13 @@ namespace Managers
         }
         public override void Init(ITokenReciever token)
         {
-    
+
         }
         public void AssignCharacterData(Character characterData)
         {
 
-        
-       //     Debug.LogWarning("<a>Spawning " + Counter++ + " </a>");
+
+            //     Debug.LogWarning("<a>Spawning " + Counter++ + " </a>");
             _character = characterData;
             var data = characterData.CharacterData;
             _soundAnimation.CurrentCharacter = data.CharacterSO;
@@ -78,7 +75,7 @@ namespace Managers
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
             Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
 
-      
+
             CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
             PlayerAnimatorController.ResetAnimator();
         }
@@ -108,16 +105,11 @@ namespace Managers
 
 
         #region Monobehaviour Callbacks 
-        public override void Awake()
+        public override  void Awake()
         {
-            base.Awake();
-  
-            SceneHandler.OnBeforeSceneShown += Init;
-        }
-        public void OnDestroy()
-        {
-      
-            SceneHandler.OnBeforeSceneShown -= Init;
+
+            BattleStarter.Register(new SequenceOperation(Init, 0));
+
         }
         #endregion
     }

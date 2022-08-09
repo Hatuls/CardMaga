@@ -1,5 +1,7 @@
 ﻿
+using Battle;
 using Characters.Stats;
+using Managers;
 using ReiTools.TokenMachine;
 using System.Collections;
 using System.Collections.Generic;
@@ -158,12 +160,10 @@ namespace Keywords
         public override void Awake()
         {
             base.Awake();
-            SceneHandler.OnBeforeSceneShown += Init;
+            const int order = 4;
+            BattleStarter.Register(new SequenceOperation(Init, order));
         }
-        public void OnDestroy()
-        {
-            SceneHandler.OnBeforeSceneShown -= Init;
-        }
+
         #endregion
     }
 

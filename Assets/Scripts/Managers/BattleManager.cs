@@ -1,5 +1,4 @@
-﻿using Battle.Characters;
-using Battle.Data;
+﻿using Battle.Data;
 using Battle.Turns;
 using Characters.Stats;
 using Managers;
@@ -7,7 +6,6 @@ using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
-using UI.Meta.Settings;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,27 +27,26 @@ namespace Battle
         private UnityEvent OnBattleStarts;
 
         [SerializeField]
-        private SceneIdentificationSO _returnScene;
+        private UnityEvent OnBattleFinished;
 
         [SerializeField] private DollyTrackCinematicManager _cinematicManager;
 
 
         private IEnumerator _turnCycles;
-        private ISceneHandler _sceneHandler;
-
-
-
         private IDisposable _initToken;
+        private BattleStarter _BattleStarter = new BattleStarter();
+
+
 
 
         public override void Init(ITokenReciever token)
         {
             _initToken = token.GetToken();
-            
-                ResetBattle();
-                if (AudioManager.Instance != null)
-                    AudioManager.Instance.BattleMusicParameter();
-            
+
+            ResetBattle();
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.BattleMusicParameter();
+
 
         }
 
@@ -119,7 +116,7 @@ namespace Battle
             if (isGameEnded == true)
                 return;
 
-        //    UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
+            //    UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
             CardExecutionManager.Instance.ResetExecution();
             //CardUIManager.Instance.ResetCardUIManager();
 
@@ -158,9 +155,9 @@ namespace Battle
 
         private void MoveToNextScene()
         {
-            _sceneHandler.MoveToScene(_returnScene);
+            OnBattleFinished?.Invoke();
         }
-        
+
         // Need To be Re-Done
         private void EnemyDied()
         {
@@ -177,7 +174,7 @@ namespace Battle
         {
             ModelSO playersModelSO = data.Player.CharacterData.CharacterSO.CharacterAvatar;
             ModelSO enemyModelSO = data.Opponent.CharacterData.CharacterSO.CharacterAvatar;
-            AvatarHandler avatarHandler =  Instantiate(playersModelSO.Model, PlayerManager.Instance.PlayerAnimatorController.transform);
+            AvatarHandler avatarHandler = Instantiate(playersModelSO.Model, PlayerManager.Instance.PlayerAnimatorController.transform);
             AvatarHandler opponentAvatar = Instantiate(enemyModelSO.Model, EnemyManager.Instance.EnemyAnimatorController.transform);
             if (playersModelSO == enemyModelSO)
                 opponentAvatar.Mesh.material = enemyModelSO.Materials[0].Tinted;
@@ -196,8 +193,6 @@ namespace Battle
         }
 
 
-        private void Inject(ISceneHandler sh)
-            => _sceneHandler = sh;
 
         #region MonoBehaviour Callbacks
         private void Update()
@@ -206,26 +201,22 @@ namespace Battle
         }
         private void OnDestroy()
         {
-
-
             ThreadsHandler.ThreadHandler.ResetList();
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
-            SceneHandler.OnBeforeSceneShown -= Init;
-            SceneHandler.OnSceneHandlerActivated -= Inject;
-            SceneHandler.OnSceneStart -= StartBattle;
+            _BattleStarter.OnDestroy();
             HealthStat.OnCharacterDeath -= BattleEnded;
-            SettingsScreenUI.OnAbandon -= BattleEnded;
         }
 
         public override void Awake()
         {
-            SettingsScreenUI.OnAbandon += BattleEnded;
-            SceneHandler.OnSceneHandlerActivated += Inject;
-            SceneHandler.OnBeforeSceneShown += Init;
             HealthStat.OnCharacterDeath += BattleEnded;
-            SceneHandler.OnSceneStart += StartBattle;
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
+            BattleStarter.Register(new SequenceOperation(Init, 0));
+        }
+        private void Start()
+        {
+            _BattleStarter.Start(StartBattle);
         }
         #endregion
         #region Analytics
@@ -270,11 +261,66 @@ namespace Battle
     }
 
 
-    public interface IBattleHandler
-    {
-        void RestartBattle();
 
-        void AssignCharacterData(Character character);
-        void OnEndBattle();
+    public class BattleStarter
+    {
+        public enum BattleStarterOperationType { Early, Start, Late }
+        private static OperationHandler<ISequenceOperation> _earlySceneStart = new OperationHandler<ISequenceOperation>();
+        private static OperationHandler<ISequenceOperation> _sceneStart = new OperationHandler<ISequenceOperation>();
+        private static OperationHandler<ISequenceOperation> _lateSceneStart = new OperationHandler<ISequenceOperation>();
+        private static OperationHandler<ISequenceOperation> Get(BattleStarterOperationType type)
+        {
+            switch (type)
+            {
+                case BattleStarterOperationType.Start:
+                    return _sceneStart;
+                case BattleStarterOperationType.Late:
+                    return _lateSceneStart;
+                case BattleStarterOperationType.Early:
+                default:
+                    return _earlySceneStart;
+            }
+        }
+
+
+
+        public static void Register(ISequenceOperation sequenceOperation, BattleStarterOperationType to = BattleStarterOperationType.Early)
+        => Get(to).Add(sequenceOperation);
+
+        public static void Remove(ISequenceOperation sequenceOperation, BattleStarterOperationType from = BattleStarterOperationType.Early)
+             => Get(from).Remove(sequenceOperation);
+
+
+        public void Start(Action OnComplete = null)
+        {
+            StartOperation(Get(BattleStarterOperationType.Early), StartScene);
+            void StartScene() => StartOperation(Get(BattleStarterOperationType.Start), LateStartScene);
+            void LateStartScene() => StartOperation(Get(BattleStarterOperationType.Late), OnComplete);
+        }
+
+        private void StartOperation(OperationHandler<ISequenceOperation> operation, Action OnComplete)
+        {
+            TokenMachine tokenMachine = new TokenMachine(OnComplete);
+            using (tokenMachine.GetToken())
+            {
+                foreach (var item in operation)
+                    item.Invoke(tokenMachine);
+            }
+        }
+        public void OnDestroy()
+        {
+            Reset(_earlySceneStart);
+            Reset(_sceneStart);
+            Reset(_lateSceneStart);
+            _earlySceneStart = null;
+            _sceneStart = null;
+            _lateSceneStart = null;
+
+            static void Reset(OperationHandler<ISequenceOperation> operation)
+            {
+                operation.Clear();
+                operation.Dispose();
+            }
+        }
     }
 }

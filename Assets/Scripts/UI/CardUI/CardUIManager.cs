@@ -18,14 +18,8 @@ namespace CardMaga.Battle.UI
     {
         #region Field
 
-        // [SerializeField] private DeckManager _deckManager;
-        //[SerializeField] private RectTransform _middleHandPos;
         [SerializeField] private CardUIPool _cardPool;
-
-        private List<CardUI> _handCards;
-        private HandUI _handUI;
-
-
+        [SerializeField] private CardUI _enemyCardUI;
         #endregion
 
         #region Events
@@ -37,8 +31,7 @@ namespace CardMaga.Battle.UI
 
         #region Properties
 
-        [SerializeField]
-        private CardUI _enemyCardUI;
+
         internal void UpdateHand(bool isPlayer)
         {
             GetCardsUI(DeckManager.Instance.GetCardsFromDeck(isPlayer, DeckEnum.Hand));
@@ -58,26 +51,13 @@ namespace CardMaga.Battle.UI
         #endregion
 
         #region Monobehaviour Callbacks 
-        public override void Awake()
-        {
-            base.Awake();
-            SceneHandler.OnBeforeSceneShown += Init;
-        }
-        public void OnDestroy()
-        {
-            SceneHandler.OnBeforeSceneShown -= Init;
-        }
+  
 
         #endregion
 
         #region Private Methods
 
-        // internal void CraftCardUI(Card addedCard, DeckEnum toBaseDeck)
-        // {
-        //     if (toBaseDeck == DeckEnum.Hand)
-        //         AssignDataToCardUI(_handUI.CurrentlyHolding, addedCard);
-        //
-        // }
+
 
         public void AssignDataToCardUI(CardUI card, CardData cardData)
         {
@@ -121,18 +101,17 @@ namespace CardMaga.Battle.UI
             OnPlayerRemoveHand?.Invoke();
         }
 
-        public override void Init(ITokenReciever token)
-        {
-            using (token.GetToken())
-            {
-                //_handUI = new HandUI(_middleHandPos.rect.position);
-            }
-        }
+   
 
         public void ExecuteCardUI(CardUI card)
         {
             if (card == null)
                 return;
+        }
+
+        public override void Init(ITokenReciever token)
+        {
+            _cardPool.Init(token);
         }
 
         #endregion

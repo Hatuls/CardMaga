@@ -2,34 +2,36 @@
 using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
+
 namespace CardMaga.Managers.GameManager
 {
 
     public class GameManager : MonoBehaviour
     {
-        [SerializeField]
-        private LoadingSceneManager _loader;
+  
 
-        [SerializeField]
-        private SceneIdentificationSO _firstScene;
         TokenMachine _tokenMachine;
 
         public static event Action<ITokenReciever> OnEnteringTheGame;
-
+        [SerializeField]
+        private UnityEvent OnApplicationStart;
         private void Start()
         {
-            _tokenMachine = new TokenMachine( OnFirstEnterTheGame);
-            using (_tokenMachine.GetToken())
-            {
-                if (AudioManager.Instance == null)
-                    Debug.Log("Creating Audio Manager");
+         //   OnApplicationStart?.Invoke();
+           _tokenMachine = new TokenMachine( OnFirstEnterTheGame);
+           using (_tokenMachine.GetToken())
+           {
+               if (AudioManager.Instance == null)
+                   Debug.Log("Creating Audio Manager");
 
-                OnEnteringTheGame?.Invoke(_tokenMachine);
-            }
+               OnEnteringTheGame?.Invoke(_tokenMachine);
+           }
         }
         private void OnFirstEnterTheGame()
         {
-            _loader.LoadScenes(null, _firstScene.SceneBuildIndex);
+            // _loader.LoadScenes(null, _firstScene.SceneBuildIndex);
+            OnApplicationStart?.Invoke();
         }
     }
 }

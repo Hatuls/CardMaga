@@ -1,5 +1,7 @@
 ﻿
 
+using Battle;
+using Managers;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,12 +60,10 @@ public class VFXManager : MonoSingleton<VFXManager>
     public override void Awake()
     {
         base.Awake();
-        SceneHandler.OnBeforeSceneShown += Init;
+        const int order = 5;
+        BattleStarter.Register(new SequenceOperation(Init, order));
     }
-    public  void OnDestroy()
-    {
-        SceneHandler.OnBeforeSceneShown -= Init;
-    }
+
 }
 
 

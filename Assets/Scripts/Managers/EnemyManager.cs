@@ -4,6 +4,7 @@ using CardMaga.AI;
 using CardMaga.Battle.UI;
 using CardMaga.Card;
 using Characters.Stats;
+using Managers;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections;
@@ -13,7 +14,7 @@ using UnityEngine;
 
 namespace Battle
 {
-    public class EnemyManager : MonoSingleton<EnemyManager>, IBattleHandler
+    public class EnemyManager : MonoSingleton<EnemyManager>
     {
         #region Fields
         //   [UnityEngine.SerializeField] Opponents EnemyAI;
@@ -151,52 +152,6 @@ namespace Battle
             while (_isStillThinking)
                 yield return null;
 
-
-            //int indexCheck = -1;
-            //bool noMoreCardsAvailable = false;
-            //do
-            //{
-            //    var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
-            //    bool isCardExecuted = false;
-            //    do
-            //    {
-            //        yield return null;
-            //        indexCheck++;
-            //        if (indexCheck >= handCards.Length)
-            //        {
-            //            noMoreCardsAvailable = true;
-            //            break;
-            //        }
-
-            //        enemyAction = handCards[indexCheck];
-
-            //        if (enemyAction != null && staminaHandler.IsEnoughStamina(false, enemyAction))
-            //            DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, enemyAction);
-            //      isCardExecuted = CardExecutionManager.Instance.CanPlayCard(false, enemyAction);
-
-            //    } while (enemyAction == null || !isCardExecuted);
-
-            //    if (isCardExecuted)
-            //    {
-            //        yield return new WaitForSeconds(Random.Range(_delayTime.x, _delayTime.y));
-            //        CardExecutionManager.Instance.TryExecuteCard(false, enemyAction);
-            //    }
-
-            //    if (noMoreCardsAvailable == false)
-            //    {
-            //        //if (enemyAction.CardSO.CardTypeEnum == Cards.CardTypeEnum.Attack)
-            //        //    yield return new WaitForSeconds(.3f);
-            //        //else
-
-            //        yield return Turns.Turn.WaitOneSecond;
-            //    }
-
-            //    indexCheck = -1;
-            //} while (staminaHandler.HasStamina(false) && noMoreCardsAvailable == false);
-
-            //   ThreadsHandler.ThreadHandler.StartThread(new ThreadsHandler.ThreadList(AIHand)
-
-
             yield return new WaitUntil(() => EnemyAnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count == 0);
             CardUIManager.Instance.ActivateEnemyCardUI(false);
             yield return Turns.Turn.WaitOneSecond;
@@ -210,11 +165,8 @@ namespace Battle
         public override void Awake()
         {
             base.Awake();
-            SceneHandler.OnBeforeSceneShown += Init;
-        }
-        public void OnDestroy()
-        {
-            SceneHandler.OnBeforeSceneShown -= Init;
+            const int order = 5;
+            BattleStarter.Register(new SequenceOperation(Init, order));
         }
         #endregion
     }

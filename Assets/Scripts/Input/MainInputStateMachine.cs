@@ -1,9 +1,5 @@
 ﻿public class MainInputStateMachine : BaseStateMachine
 {
-    private void Awake()
-    {
-        SceneHandler.OnSceneStart += InitStateMachine;
-    }
 
     public void Update()
     {
@@ -13,8 +9,4 @@
         TryChangeState(_currentState.OnHoldState());
     }
 
-    private void OnDestroy()
-    {
-        SceneHandler.OnSceneStart -= InitStateMachine;
-    }
 }

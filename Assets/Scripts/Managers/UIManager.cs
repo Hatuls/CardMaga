@@ -1,4 +1,6 @@
 ﻿
+using Battle;
+using Managers;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
@@ -11,18 +13,17 @@ public class UIManager : MonoSingleton<UIManager>
     #endregion
     public override void Init(ITokenReciever token)
     {
+#if !UNITY_EDITOR
         Cursor.lockState = CursorLockMode.Confined;
+#endif
+
     }
 
     #region Monobehaviour Callbacks 
     public override void Awake()
     {
         base.Awake();
-        SceneHandler.OnBeforeSceneShown += Init;
-    }
-    public void OnDestroy()
-    {
-        SceneHandler.OnBeforeSceneShown -= Init;
+        BattleStarter.Register(new SequenceOperation(Init, 0));
     }
     #endregion
 }

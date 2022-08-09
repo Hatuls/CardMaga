@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using CardMaga.Battle.UI;
+using Managers;
 
 namespace Battle
 {
@@ -52,15 +53,7 @@ namespace Battle
             StopAllCoroutines();
         }
 
-        public override void Init(ITokenReciever token)
-        {
-            using (token.GetToken())
-            {
-                FinishedAnimation = true;
-            _cardsQueue.Clear();
-            _keywordData.Clear();
-            }
-        }
+     
         public bool CanPlayCard(bool isPlayer, CardData card)
        => card == null ? false : StaminaHandler.Instance.IsEnoughStamina(isPlayer, card);
         public bool TryExecuteCard(bool isPlayer, CardData card)
@@ -271,17 +264,21 @@ namespace Battle
             currentKeywordIndex++;
             OnAnimationIndexChange?.Invoke(currentKeywordIndex);
         }
-
+        public override void Init(ITokenReciever token)
+        {
+            FinishedAnimation = true;
+            _cardsQueue.Clear();
+            _keywordData.Clear();
+        }
         #region Monobehaviour Callbacks 
+
         public override void Awake()
         {
             base.Awake();
-            SceneHandler.OnBeforeSceneShown += Init;
+            const int order = 2;
+            BattleStarter.Register(new SequenceOperation(Init, order));
         }
-        public void OnDestroy()
-        {
-            SceneHandler.OnBeforeSceneShown -= Init;
-        }
+
         #endregion
     }
 }

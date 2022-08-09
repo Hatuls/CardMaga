@@ -34,7 +34,6 @@ Transform:
   - {fileID: 424075384640963960}
   - {fileID: 5524999673177164230}
   - {fileID: 5127487931140159612}
-  - {fileID: 121738182527106473}
   - {fileID: 1893495305900568647}
   - {fileID: 478503175451558045}
   m_Father: {fileID: 0}
@@ -104,8 +103,10 @@ MonoBehaviour:
   OnBattleStarts:
     m_PersistentCalls:
       m_Calls: []
-  _cameraController: {fileID: 0}
-  _mapScene: {fileID: 0}
+  OnBattleFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  _cinematicManager: {fileID: 0}
 --- !u!1 &2120255477555410628
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +136,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3203114067387272730
 MonoBehaviour:
@@ -258,53 +259,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _soundEvent: {fileID: 0}
-  _deckIcon: {fileID: 0}
-  _disposalIcon: {fileID: 0}
   _playerMaxHandSize: 10
   _playerStartingHandSize: 4
---- !u!1 &4136077259455129387
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 121738182527106473}
-  - component: {fileID: 6921548837149443751}
-  m_Layer: 0
-  m_Name: CardManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!4 &121738182527106473
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4136077259455129387}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6921548837149443751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4136077259455129387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 715980c7c9c625b4f82573e4a96c530f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4147605569478178821
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +367,6 @@ MonoBehaviour:
   _enemyAnimatorController: {fileID: 0}
   __playerVFXHandler: {fileID: 0}
   _playSound: {fileID: 0}
-  _staminaBtn: {fileID: 0}
   OnSuccessfullExecution:
     m_PersistentCalls:
       m_Calls:
@@ -514,7 +469,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5572394969957932758
 MonoBehaviour:
@@ -616,8 +571,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardRecipeDetected:
+    _comboCore:
+      _id: 0
+      _level: 0
     _comboSO: {fileID: 0}
-    _level: 0
   _comboVFX: {fileID: 0}
   _successCrafting: {fileID: 11400000, guid: 01936ff9a3ed66e47b1d9e213f25f55e, type: 2}
 --- !u!1 &5847196689953200342
@@ -663,8 +620,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24c5b582a21854a4581869d812f1be65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _brain: {fileID: 0}
   _myCharacter:
     _characterData:
+      _characterSO: {fileID: 0}
       _characterStats:
         _maxHealth: 0
         _health: 0
@@ -685,22 +644,11 @@ MonoBehaviour:
         _vulnerable: 0
       _characterDeck: []
       _comboRecipe: []
-      _characterSO: {fileID: 0}
+    _displayName: 
   _animationSoundHandler: {fileID: 0}
-  enemyAction:
-    _cardSO: {fileID: 0}
-    _cardCoreInfo:
-      _cardID: 0
-      _instanceID: 0
-      _level: 0
-    toExhaust: 0
-    _cardTypeData:
-      _bodyPart: 0
-      _cardType: 0
-    _cardKeyword: []
-    staminaCost: 0
   _enemyAnimatorController: {fileID: 0}
   _enemyNameText: {fileID: 0}
+  _delayTime: {x: 0, y: 0}
 --- !u!1 &8357264424072378610
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,6 +694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _character:
     _characterData:
+      _characterSO: {fileID: 0}
       _characterStats:
         _maxHealth: 0
         _health: 0
@@ -766,7 +715,11 @@ MonoBehaviour:
         _vulnerable: 0
       _characterDeck: []
       _comboRecipe: []
-      _characterSO: {fileID: 0}
-  _recipes: []
+    _displayName: 
+  _recipes:
+    _comboCore:
+      _id: 0
+      _level: 0
+    _comboSO: {fileID: 0}
   _playerAnimatorController: {fileID: 0}
   _soundAnimation: {fileID: 0}

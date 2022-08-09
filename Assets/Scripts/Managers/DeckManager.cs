@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
 using CardMaga.Card;
+using Managers;
 
 namespace Battle.Deck
 {
@@ -344,7 +345,7 @@ namespace Battle.Deck
                 }
             }
         }
-        
+
         #endregion
 
 
@@ -354,12 +355,10 @@ namespace Battle.Deck
         public override void Awake()
         {
             base.Awake();
-            SceneHandler.OnBeforeSceneShown += Init;
+            const int order = 8;
+            BattleStarter.Register(new SequenceOperation(Init, order));
         }
-        public void OnDestroy()
-        {
-            SceneHandler.OnBeforeSceneShown -= Init;
-        }
+
         #endregion
     }
 }
