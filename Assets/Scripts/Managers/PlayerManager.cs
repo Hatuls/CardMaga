@@ -108,7 +108,7 @@ namespace Managers
         public override  void Awake()
         {
             base.Awake();
-            BattleStarter.Register(new SequenceOperation(Init, 0));
+            SceneStarter.Register(new OperationTask(Init, 0));
 
         }
         #endregion

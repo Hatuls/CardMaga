@@ -16,7 +16,7 @@ public class MainInputStateMachine : BaseStateMachine
 
     private void Awake()
     {
-        BattleStarter.Register(new SequenceOperation(Init, 1), BattleStarter.BattleStarterOperationType.Late);
+        SceneStarter.Register(new OperationTask(Init, 1), SceneStarter.SequenceType.Late);
     }
     private void Init(ITokenReciever tokenMachine)
     {

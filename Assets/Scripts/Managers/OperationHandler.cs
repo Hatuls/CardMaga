@@ -5,6 +5,23 @@ using System.Collections.Generic;
 
 namespace Managers
 {
+    public class OperationTasks : OperationHandler<OperationTask>
+    {
+        public void Add(Action<ITokenReciever> tokenReceiver, int order = 0)
+        => Add(new OperationTask(tokenReceiver, order));
+        public override void Add(OperationTask item)
+        {
+            base.Add(item);
+            item.OnDispose += RemoveTask;
+
+            void RemoveTask()
+            {
+               Remove(item);
+               item.OnDispose -= RemoveTask;
+            }
+        }
+        
+    }
     public class OperationHandler<T> : IEnumerator<T>, ICollection<T>
         where T : ISequenceOperation
     {
@@ -38,7 +55,7 @@ namespace Managers
             _index = -1;
         }
 
-        public void Add(T item)
+        public virtual void Add(T item)
         {
             _operations.Add(item);
             _operations.Sort();
@@ -64,27 +81,26 @@ namespace Managers
         #endregion
     }
 
-    public interface ISequenceOperation : IComparable<ISequenceOperation>
+    public interface ISequenceOperation : IComparable<ISequenceOperation>, IDisposable
     {
         int Order { get; }
 
         void Invoke(ITokenReciever tokenMachine);
     }
 
-    public class SequenceOperation : ISequenceOperation
+    public class OperationTask : ISequenceOperation
     {
-        public SequenceOperation(Action<ITokenReciever> operation, int order)
+        public event Action OnDispose;
+
+        public event Action<ITokenReciever> OnOperationExecute;
+        public int Order { get; private set; }
+        public OperationTask(Action<ITokenReciever> operation, int order)
         {
-            Operation = operation;
+            OnOperationExecute = operation;
             Order = order;
         }
 
-        public event Action<ITokenReciever> Operation;
-        public int Order { get; private set; }
-
-
-        public void Invoke(ITokenReciever tokenMachine)
-       => Operation.Invoke(tokenMachine);
+        public void Invoke(ITokenReciever tokenMachine) => OnOperationExecute.Invoke(tokenMachine);
 
         public int CompareTo(ISequenceOperation other)
         {
@@ -95,5 +111,8 @@ namespace Managers
             else
                 return 0;
         }
+
+        public void Dispose() => OnDispose?.Invoke();
+        
     }
 }

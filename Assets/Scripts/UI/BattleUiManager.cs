@@ -29,7 +29,7 @@ namespace Battle.UI
         {
             base.Awake();
             const int order = 7;
-            BattleStarter.Register(new SequenceOperation(Init, order));
+            SceneStarter.Register(new OperationTask(Init, order));
         }
 
         #endregion

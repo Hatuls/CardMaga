@@ -1,6 +1,9 @@
 ﻿using Battle.Data;
+using Battle.Deck;
 using Battle.Turns;
+using CardMaga.Battle.UI;
 using Characters.Stats;
+using Keywords;
 using Managers;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
@@ -15,8 +18,10 @@ namespace Battle
     public class BattleManager : MonoSingleton<BattleManager>
     {
         public static event Action OnGameEnded;
-        public static bool isGameEnded;
+        public static event Action<SceneStarter> OnSceneStart;
 
+
+        public static bool isGameEnded;
         [SerializeField, EventsGroup]
         private Unity.Events.StringEvent _playSound;
         [SerializeField, EventsGroup]
@@ -36,33 +41,32 @@ namespace Battle
         private EnemyManager _enemyManager;
 
         private IEnumerator _turnCycles;
-        private IDisposable _initToken;
-        private BattleStarter _BattleStarter = new BattleStarter();
+        private SceneStarter _BattleStarter = new SceneStarter();
 
 
 
 
         public override void Init(ITokenReciever token)
         {
-            _initToken = token.GetToken();
-
-            ResetBattle();
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.BattleMusicParameter();
-
-
-        }
-
-        private void ResetBattle()
-        {
+         var _initToken = token.GetToken();
 
             isGameEnded = false;
 
             ResetParams();
             AssignParams();
-            _initToken?.Dispose();
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.BattleMusicParameter();
+
+             _initToken.Dispose();
         }
-        // Need To be Re-Done
+
+        private void ResetBattle()
+        {
+
+            _BattleStarter.Start(StartBattle);
+
+        }
         private void AssignParams()
         {
 
@@ -70,17 +74,6 @@ namespace Battle
             SpawnModels(battleData);
             _playerManager.AssignCharacterData(battleData.Player);
             _enemyManager.AssignCharacterData(battleData.Opponent);
-
-            //  if (battleData.Player.CharacterData.CharacterStats.Health <= 0)
-            //      throw new Exception("Battle data was not work correctly!");
-
-
-
-            //// remove this later
-            //if (EndTurnButton._OnFinishTurnPress != null)
-            //    EndTurnButton.OnFinishTurnPress -= TurnHandler.OnFinishTurn;
-
-
 
             StaminaHandler.Instance.InitStaminaHandler();
         }
@@ -215,11 +208,12 @@ namespace Battle
             HealthStat.OnCharacterDeath += BattleEnded;
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
-            BattleStarter.Register(new SequenceOperation(Init, 0));
+            _BattleStarter.Register(new OperationTask(Init, 0));
+            OnSceneStart?.Invoke(_BattleStarter);
         }
         private void Start()
         {
-            _BattleStarter.Start(StartBattle);
+            ResetBattle();
         }
         #endregion
         #region Analytics
@@ -265,65 +259,20 @@ namespace Battle
 
 
 
-    public class BattleStarter
+
+
+
+    public interface IBattleManager
     {
-        public enum BattleStarterOperationType { Early, Start, Late }
-        private static OperationHandler<ISequenceOperation> _earlySceneStart = new OperationHandler<ISequenceOperation>();
-        private static OperationHandler<ISequenceOperation> _sceneStart = new OperationHandler<ISequenceOperation>();
-        private static OperationHandler<ISequenceOperation> _lateSceneStart = new OperationHandler<ISequenceOperation>();
-        private static OperationHandler<ISequenceOperation> Get(BattleStarterOperationType type)
-        {
-            switch (type)
-            {
-                case BattleStarterOperationType.Start:
-                    return _sceneStart;
-                case BattleStarterOperationType.Late:
-                    return _lateSceneStart;
-                case BattleStarterOperationType.Early:
-                default:
-                    return _earlySceneStart;
-            }
-        }
-
-
-
-        public static void Register(ISequenceOperation sequenceOperation, BattleStarterOperationType to = BattleStarterOperationType.Early)
-        => Get(to).Add(sequenceOperation);
-
-        public static void Remove(ISequenceOperation sequenceOperation, BattleStarterOperationType from = BattleStarterOperationType.Early)
-             => Get(from).Remove(sequenceOperation);
-
-
-        public void Start(Action OnComplete = null)
-        {
-            StartOperation(Get(BattleStarterOperationType.Early), StartScene);
-            void StartScene() => StartOperation(Get(BattleStarterOperationType.Start), LateStartScene);
-            void LateStartScene() => StartOperation(Get(BattleStarterOperationType.Late), OnComplete);
-        }
-
-        private void StartOperation(OperationHandler<ISequenceOperation> operation, Action OnComplete)
-        {
-            TokenMachine tokenMachine = new TokenMachine(OnComplete);
-            using (tokenMachine.GetToken())
-            {
-                foreach (var item in operation)
-                    item.Invoke(tokenMachine);
-            }
-        }
-        public void OnDestroy()
-        {
-            Reset(_earlySceneStart);
-            Reset(_sceneStart);
-            Reset(_lateSceneStart);
-            _earlySceneStart = null;
-            _sceneStart = null;
-            _lateSceneStart = null;
-
-            void Reset(OperationHandler<ISequenceOperation> operation)
-            {
-                operation.Clear();
-                operation.Dispose();
-            }
-        }
+        DeckManager DeckManager { get; }
+        PlayerManager PlayerManager { get; }
+        EnemyManager EnemyManager { get; }
+        CardExecutionManager CardExecutionManager { get; }
+        CardUIManager CardUIManager { get; }
+        ComboManager ComboManager { get; }
+        KeywordManager KeywordManager { get; }
+        TurnHandler TurnHandler { get; }
+        VFXManager VFXManager { get; }
+        CameraManager CameraManager { get; }
     }
 }

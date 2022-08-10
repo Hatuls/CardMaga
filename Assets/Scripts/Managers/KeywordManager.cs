@@ -161,7 +161,7 @@ namespace Keywords
         {
             base.Awake();
             const int order = 4;
-            BattleStarter.Register(new SequenceOperation(Init, order));
+            SceneStarter.Register(new OperationTask(Init, order));
         }
 
         #endregion

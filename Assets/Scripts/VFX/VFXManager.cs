@@ -61,7 +61,7 @@ public class VFXManager : MonoSingleton<VFXManager>
     {
         base.Awake();
         const int order = 5;
-        BattleStarter.Register(new SequenceOperation(Init, order));
+        SceneStarter.Register(new OperationTask(Init, order));
     }
 
 }

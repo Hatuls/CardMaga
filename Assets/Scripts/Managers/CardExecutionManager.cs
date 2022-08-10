@@ -276,7 +276,7 @@ namespace Battle
         {
             base.Awake();
             const int order = 2;
-            BattleStarter.Register(new SequenceOperation(Init, order));
+            SceneStarter.Register(new OperationTask(Init, order));
         }
 
         #endregion

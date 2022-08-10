@@ -12,9 +12,9 @@ namespace Battle.Turns
     public static class TurnHandler
     {
         public static Action<int> OnTurnCountChange;
+        public static event Action OnFinishTurn;
         private static int _turnCount = 0;
         private static TurnState _currectState;
-        public static event Action OnFinishTurn;
 
         private static Dictionary<TurnState, Turn> _turnDict = new Dictionary<TurnState, Turn>()
                 {

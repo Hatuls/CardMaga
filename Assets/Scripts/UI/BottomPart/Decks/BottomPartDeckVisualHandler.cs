@@ -68,7 +68,7 @@ namespace CardMaga.UI
             if (_discardDeckTransitionPackSO == null)
                 throw new Exception("BottomPartDeckVisualHandler has no Discard Transition SO");
 
-            BattleStarter.Register(new SequenceOperation(InitVisuals, 0), BattleStarter.BattleStarterOperationType.Late);
+            SceneStarter.Register(new OperationTask(InitVisuals, 0), SceneStarter.SequenceType.Late);
         }
   
         public void InitVisuals(ITokenReciever tokenMachine)

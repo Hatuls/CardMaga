@@ -356,7 +356,7 @@ namespace Battle.Deck
         {
             base.Awake();
             const int order = 8;
-            BattleStarter.Register(new SequenceOperation(Init, order));
+            SceneStarter.Register(new OperationTask(Init, order));
         }
 
         #endregion
