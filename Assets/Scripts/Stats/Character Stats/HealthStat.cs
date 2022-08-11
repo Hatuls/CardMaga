@@ -2,7 +2,7 @@
 using System;
 namespace Characters.Stats
 {
-    public class HealthStat : StatAbst
+    public class HealthStat : BaseStat
     {
         public static event Action<bool> OnCharacterDeath;
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Heal;
@@ -21,7 +21,7 @@ namespace Characters.Stats
             if (Amount > _maxHealthStats.Amount)
                 Amount = _maxHealthStats.Amount;
 
-            _updateUIStats.Invoke(isPlayer, Amount, Keyword);
+            OnStatsUpdated.Invoke(isPlayer, Amount, Keyword);
         }
         public override void Reduce(int amount)
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Battle.UI
 {
-    public class CraftingUIManager : MonoSingleton<CraftingUIManager>
+    public class CraftingUIManager : MonoBehaviour, ISequenceOperation
     {
         [SerializeField] private CraftingSlotUI[] _playerCraftingSlotsUI;
         [SerializeField] private RectTransform _playersfirstSlotTransform;
@@ -19,41 +19,52 @@ namespace Battle.UI
         private CraftingUIHandler _opponentCraftingUIHandler;
         private CraftingUIHandler _playerCraftingUIHandler;
 
-    
+
+
+        const int ORDER = 4;
+        public int Priority => ORDER;
+        public OrderType Order => OrderType.Before;
+
+
+
         public CraftingUIHandler GetCharacterUIHandler(bool players)
         {
-            Init(null);
+           // Init();
             return players ? _playerCraftingUIHandler : _opponentCraftingUIHandler;
         }
 
 
-        public override void Init(ITokenReciever token)
-        {
-            
-            using (token?.GetToken())
-            {
-                if (_playerCraftingUIHandler == null)
-                {
-                    _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _fadeOutCraftingSlots,
-                        _playersfirstSlotTransform, moveLeanTweenTime, true);
-                    _playerCraftingUIHandler.ResetAllSlots();
-                }
+   
 
-                if (_opponentCraftingUIHandler == null)
-                {
-                    _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI,
-                        _opponentfadeOutCraftingSlots, _opponentfirstSlotTransform, moveLeanTweenTime, false);
-                    _opponentCraftingUIHandler.ResetAllSlots();
-                }
+        #region Monobehaviour Callbacks
+        public void Awake()
+        {
+            BattleManager.Register(this);
+        }
+
+        public void ExecuteTask(ITokenReciever tokenMachine)
+        {
+            using (tokenMachine.GetToken())
+            {
+                Init();
             }
         }
 
-        #region Monobehaviour Callbacks
-        public override void Awake()
+        private void Init()
         {
-            base.Awake();
-            const int order = 4;
-            SceneStarter.Register(new OperationTask(Init, order));
+            if (_playerCraftingUIHandler == null)
+            {
+                _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _fadeOutCraftingSlots,
+                    _playersfirstSlotTransform, moveLeanTweenTime, true);
+                _playerCraftingUIHandler.ResetAllSlots();
+            }
+
+            if (_opponentCraftingUIHandler == null)
+            {
+                _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI,
+                    _opponentfadeOutCraftingSlots, _opponentfirstSlotTransform, moveLeanTweenTime, false);
+                _opponentCraftingUIHandler.ResetAllSlots();
+            }
         }
 
         #endregion

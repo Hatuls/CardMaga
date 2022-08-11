@@ -12,12 +12,16 @@ namespace Keywords
 {
     [System.Serializable]
     public class KeywordEvent : UnityEvent<KeywordAbst> { }
-    public class KeywordManager : MonoSingleton<KeywordManager>
+    public class KeywordManager : MonoBehaviour, ISequenceOperation
     {
         [SerializeField]
         KeywordEvent keywordEvent;
         #region Fields
         private static Dictionary<KeywordTypeEnum, KeywordAbst> _keywordDict;
+
+        public OrderType Order => OrderType.Before;
+
+        public int Priority => 0;
 
         #endregion
 
@@ -29,11 +33,11 @@ namespace Keywords
         #region public Functions
 
 
-        public override void Init(ITokenReciever token)
+        public void ExecuteTask(ITokenReciever token)
         {
             using (token.GetToken())
             {
-            InitParams();
+                InitParams();
 
             }
         }
@@ -157,11 +161,15 @@ namespace Keywords
 
 
         #region Monobehaviour Callbacks 
-        public override void Awake()
+        public void Awake()
         {
-            base.Awake();
-            const int order = 4;
-            SceneStarter.Register(new OperationTask(Init, order));
+            BattleManager.Register(this);
+            CardExecutionManager.OnKeywordExecute += ActivateKeyword;
+        }
+
+        private void OnDestroy()
+        {
+            CardExecutionManager.OnKeywordExecute -= ActivateKeyword;
         }
 
         #endregion
@@ -221,7 +229,7 @@ namespace Keywords
         BloodLoss = 49,
         Sacrifice = 50,
         Shield_Bash = 51,
-        Permanent_Defense =52,
+        Permanent_Defense = 52,
     };
 
 }

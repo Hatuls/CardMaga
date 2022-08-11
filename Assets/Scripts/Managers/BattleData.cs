@@ -18,8 +18,8 @@ namespace Battle.Data
         [SerializeField, Sirenix.OdinInspector.ReadOnly]
         private bool _playerWon = false;
 
-        public Character Player { get => _player; set => _player = value; }
-        public Character Opponent { get => _opponent; set => _opponent = value; }
+        public Character Left { get => _player; set => _player = value; }
+        public Character Right { get => _opponent; set => _opponent = value; }
         public bool PlayerWon { get => _playerWon; set => _playerWon = value; }
 
 

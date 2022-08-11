@@ -3,8 +3,22 @@ using Managers;
 using ReiTools.TokenMachine;
 using System.Collections;
 
-public class MainInputStateMachine : BaseStateMachine
+public class MainInputStateMachine : BaseStateMachine , ISequenceOperation
 {
+    public int Priority => 1;
+
+    public OrderType Order =>  OrderType.After;
+
+    public void Dispose()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ExecuteTask(ITokenReciever tokenMachine)
+    {
+        using (tokenMachine.GetToken())
+            InitStateMachine();
+    }
 
     public void Update()
     {
@@ -16,11 +30,6 @@ public class MainInputStateMachine : BaseStateMachine
 
     private void Awake()
     {
-        SceneStarter.Register(new OperationTask(Init, 1), SceneStarter.SequenceType.Late);
-    }
-    private void Init(ITokenReciever tokenMachine)
-    {
-        using (tokenMachine.GetToken())
-            InitStateMachine();
+        BattleManager.Register(this);
     }
 }

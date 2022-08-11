@@ -20,7 +20,12 @@ namespace Battle
     {
         public static event Action OnPlayerCardExecute;
         public static event Action<CardData> OnEnemyCardExecute;
-        
+        public static event Action<List<KeywordData>> OnSortingKeywords;
+        public static event Action<int> OnAnimationIndexChange;
+        public static event Action OnInsantExecute;
+        public static event Action<bool, KeywordData> OnKeywordExecute;
+
+
         [SerializeField]
         AnimatorController _playerAnimatorController;
         [SerializeField]
@@ -42,9 +47,7 @@ namespace Battle
 
         [SerializeField] UnityEvent OnSuccessfullExecution;
         [SerializeField] UnityEvent OnFailedToExecute;
-        public static System.Action<List<KeywordData>> OnSortingKeywords;
-        public static System.Action<int> OnAnimationIndexChange;
-        public static System.Action OnInsantExecute;
+ 
         public void ResetExecution()
         {
             //_keywordData.Clear();
@@ -257,14 +260,14 @@ namespace Battle
                     _keywordData.Remove(_keywordData[i]);
                     i--;
                     // activate the keyword
-                    KeywordManager.Instance.ActivateKeyword(currentTurn, keyword);
+                    OnKeywordExecute?.Invoke(currentTurn, keyword);
 
                 }
             }
             currentKeywordIndex++;
             OnAnimationIndexChange?.Invoke(currentKeywordIndex);
         }
-        public override void Init(ITokenReciever token)
+        private void ResetExecutionData()
         {
             FinishedAnimation = true;
             _cardsQueue.Clear();
@@ -275,8 +278,7 @@ namespace Battle
         public override void Awake()
         {
             base.Awake();
-            const int order = 2;
-            SceneStarter.Register(new OperationTask(Init, order));
+            ResetExecutionData();
         }
 
         #endregion

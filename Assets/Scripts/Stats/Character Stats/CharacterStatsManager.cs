@@ -1,20 +1,14 @@
 ﻿
+using Battle;
+using Managers;
+
 namespace Characters.Stats
 {
     public static class CharacterStatsManager {
 
-       private static CharacterStatsHandler _player;
-       private static CharacterStatsHandler _opponent;
-
-        public static void RegisterCharacterStats(bool isPlayer, ref CharacterStats stat)
-        {
-            if (isPlayer)
-                _player = new CharacterStatsHandler(isPlayer, ref stat);
-            else
-                _opponent = new CharacterStatsHandler(isPlayer,ref stat);
-        }
+        // need to remove it and refactor the stats + keywords !
         public static CharacterStatsHandler GetCharacterStatsHandler(bool playerStats)
-                => playerStats ? _player : _opponent; 
+                => playerStats ? PlayerManager.Instance.StatsHandler : EnemyManager.Instance.StatsHandler; 
     }
 
 }

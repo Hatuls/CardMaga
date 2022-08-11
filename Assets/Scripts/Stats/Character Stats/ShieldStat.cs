@@ -1,7 +1,7 @@
 ﻿using Keywords;
 namespace Characters.Stats
 {
-    public class ShieldStat : StatAbst
+    public class ShieldStat : BaseStat
     {
 
         HealthStat _health;

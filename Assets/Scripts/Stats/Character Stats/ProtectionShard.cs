@@ -1,7 +1,7 @@
 ﻿using Keywords;
 namespace Characters.Stats
 {
-    public class ProtectionShard : StatAbst
+    public class ProtectionShard : BaseStat
     {
         byte _maxShardSize;
 

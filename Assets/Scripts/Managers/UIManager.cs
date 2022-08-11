@@ -5,25 +5,29 @@ using ReiTools.TokenMachine;
 using UnityEngine;
 
 
-public class UIManager : MonoSingleton<UIManager>
+public class UIManager : MonoBehaviour , ISequenceOperation
 {
     #region Fields
     public static Vector2 MiddleScreenPosition = new Vector2(Screen.width / 2, Screen.height / 2);
 
+    public int Priority =>99;
+
+    public OrderType Order => OrderType.Before;
+
     #endregion
-    public override void Init(ITokenReciever token)
+
+
+    #region Monobehaviour Callbacks 
+    public  void Awake()
+    {
+        BattleManager.Register(this);
+    }
+
+    public void ExecuteTask(ITokenReciever tokenMachine)
     {
 #if !UNITY_EDITOR
         Cursor.lockState = CursorLockMode.Confined;
 #endif
-
-    }
-
-    #region Monobehaviour Callbacks 
-    public override void Awake()
-    {
-        base.Awake();
-        SceneStarter.Register(new OperationTask(Init, 0));
     }
     #endregion
 }

@@ -9,16 +9,17 @@ using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Battle
 {
-    [DefaultExecutionOrder(-99999)]
+ 
     public class BattleManager : MonoSingleton<BattleManager>
     {
         public static event Action OnGameEnded;
-        public static event Action<SceneStarter> OnSceneStart;
+        public static event Action<SequenceHandler> OnSceneStart;
 
 
         public static bool isGameEnded;
@@ -41,19 +42,18 @@ namespace Battle
         private EnemyManager _enemyManager;
 
         private IEnumerator _turnCycles;
-        private SceneStarter _BattleStarter = new SceneStarter();
+        private SequenceHandler _BattleStarter = new SequenceHandler();
 
 
+        private static List<ISequenceOperation> _battleStartUpOrderList = new List<ISequenceOperation>();
 
-
-        public override void Init(ITokenReciever token)
+        public void Init(ITokenReciever token)
         {
          var _initToken = token.GetToken();
 
             isGameEnded = false;
 
             ResetParams();
-            AssignParams();
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.BattleMusicParameter();
@@ -67,16 +67,7 @@ namespace Battle
             _BattleStarter.Start(StartBattle);
 
         }
-        private void AssignParams()
-        {
 
-            var battleData = BattleData.Instance;
-            SpawnModels(battleData);
-            _playerManager.AssignCharacterData(battleData.Player);
-            _enemyManager.AssignCharacterData(battleData.Opponent);
-
-            StaminaHandler.Instance.InitStaminaHandler();
-        }
         private void ResetParams()
         {
             if (AudioManager.Instance != null)
@@ -84,8 +75,8 @@ namespace Battle
             isGameEnded = false;
 
 
-           _playerManager.PlayerAnimatorController.ResetLayerWeight();
-           _enemyManager.EnemyAnimatorController.ResetLayerWeight();
+           _playerManager.AnimatorController.ResetLayerWeight();
+           _enemyManager.AnimatorController.ResetLayerWeight();
         }
         // Need To be Re-Done
         public void StartBattle()
@@ -128,8 +119,8 @@ namespace Battle
             BattleData.Instance.PlayerWon = !isPlayerDied;
 
 
-            _playerManager.PlayerAnimatorController.ResetLayerWeight();
-            _enemyManager.EnemyAnimatorController.ResetLayerWeight();
+            _playerManager.AnimatorController.ResetLayerWeight();
+            _enemyManager.AnimatorController.ResetLayerWeight();
 
             isGameEnded = true;
             StopCoroutine(Instance._turnCycles);
@@ -158,7 +149,7 @@ namespace Battle
         private void EnemyDied()
         {
             _playerManager.PlayerWin();
-            _enemyManager.EnemyAnimatorController.CharacterIsDead();
+            _enemyManager.AnimatorController.CharacterIsDead();
             BattleData.Instance.PlayerWon = true;
             //     SendAnalyticWhenGameEnded("player_won", battleData);
             //    AddRewards();
@@ -166,27 +157,35 @@ namespace Battle
             //    OnPlayerVictory?.Invoke();
         }
 
-        private void SpawnModels(BattleData data)
-        {
-            ModelSO playersModelSO = data.Player.CharacterData.CharacterSO.CharacterAvatar;
-            ModelSO enemyModelSO = data.Opponent.CharacterData.CharacterSO.CharacterAvatar;
-            AvatarHandler avatarHandler = Instantiate(playersModelSO.Model, _playerManager.PlayerAnimatorController.transform);
-            AvatarHandler opponentAvatar = Instantiate(enemyModelSO.Model, _enemyManager.EnemyAnimatorController.transform);
-            if (playersModelSO == enemyModelSO)
-                opponentAvatar.Mesh.material = enemyModelSO.Materials[0].Tinted;
-
-        }
+      
         // Need To be Re-Done
         private void PlayerDied()
         {
             //  var battleData = Account.AccountManager.Instance.BattleData;
-            _playerManager.PlayerAnimatorController.CharacterIsDead();
+            _playerManager.AnimatorController.CharacterIsDead();
             _enemyManager.EnemyWon();
             BattleData.Instance.PlayerWon = false;
             //      _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
             //    SendAnalyticWhenGameEnded("player_defeated", battleData);
             OnPlayerDefeat?.Invoke();
         }
+
+
+
+        #region Observer Pattern 
+
+        public static void Register(ISequenceOperation battleStarter)
+            => _battleStartUpOrderList.Add(battleStarter);
+        public static void Remove(ISequenceOperation battleStarter)
+            => _battleStartUpOrderList.Remove(battleStarter);
+
+        private void Setup()
+        {
+            for (int i = 0; i < _battleStartUpOrderList.Count; i++)
+                _BattleStarter.Register(_battleStartUpOrderList[i]);
+        }
+        #endregion
+
 
 
 
@@ -209,10 +208,11 @@ namespace Battle
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
             _BattleStarter.Register(new OperationTask(Init, 0));
-            OnSceneStart?.Invoke(_BattleStarter);
+    
         }
         private void Start()
         {
+            Setup();
             ResetBattle();
         }
         #endregion
@@ -220,7 +220,7 @@ namespace Battle
 
         private static void SendAnalyticWhenGameEnded(string eventName, BattleData battleData)
         {
-            var characterSO = battleData.Opponent.CharacterData.CharacterSO;
+            var characterSO = battleData.Right.CharacterData.CharacterSO;
 
             string characterEnum = "opponent";
             string characterDifficulty = "difficulty";
@@ -260,8 +260,7 @@ namespace Battle
 
 
 
-
-
+  
     public interface IBattleManager
     {
         DeckManager DeckManager { get; }
@@ -275,4 +274,45 @@ namespace Battle
         VFXManager VFXManager { get; }
         CameraManager CameraManager { get; }
     }
+
+
+
+
+    public class PlayersManager : ISequenceOperation
+    {
+        public IPlayer LeftCharacter { get; private set; }
+        public IPlayer RightCharacter { get; private set; }
+
+        public OrderType Order =>  OrderType.Before;
+        public int Priority => -1;
+
+        public void ExecuteTask(ITokenReciever tokenMachine)
+        {
+            IDisposable token = tokenMachine.GetToken();
+            var battleData = BattleData.Instance;
+            // assign data
+            LeftCharacter.AssignCharacterData(battleData.Left);
+            RightCharacter.AssignCharacterData(battleData.Right);
+
+            //assign visuals
+            var leftModel = battleData.Left.CharacterData.CharacterSO.CharacterAvatar;
+            var rightModel = battleData.Right.CharacterData.CharacterSO.CharacterAvatar;
+
+            LeftCharacter.VisualCharacter.SpawnModel(leftModel,false);
+            RightCharacter.VisualCharacter.SpawnModel(rightModel, rightModel == leftModel);
+
+
+            StaminaHandler.Instance.InitStaminaHandler();
+            token.Dispose();
+        }
+
+        public IPlayer GetCharacter(bool IsLeftCharacter) => IsLeftCharacter ? LeftCharacter : RightCharacter;
+
+
+
+
+    }
+
+
+    
 }

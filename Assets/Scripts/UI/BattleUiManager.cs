@@ -1,4 +1,5 @@
-﻿using Keywords;
+﻿using Characters.Stats;
+using Keywords;
 using Managers;
 using ReiTools.TokenMachine;
 using Unity.Events;
@@ -7,11 +8,9 @@ using UnityEngine;
 namespace Battle.UI
 {
     public class UpdateUiStats : UnityEngine.Events.UnityEvent<bool, int, KeywordTypeEnum> { }
-    public class BattleUiManager : MonoSingleton<BattleUiManager>
+    public class BattleUiManager :MonoBehaviour 
     {
         #region Fields
-
-
 
         [SerializeField]
         Tutorial.TutorialManager _tutorialManager;
@@ -22,36 +21,17 @@ namespace Battle.UI
         [SerializeField] VoidEvent _endTurn;
 
         public static System.Action<bool, int, KeywordTypeEnum> _buffEvent;
+
+        public int Priority => throw new System.NotImplementedException();
+
+        public OrderType Order => throw new System.NotImplementedException();
         #endregion
 
-        #region MonoBehaviour Callbacks
-        public override void Awake()
-        {
-            base.Awake();
-            const int order = 7;
-            SceneStarter.Register(new OperationTask(Init, order));
-        }
 
-        #endregion
         public void EndTurn()
         {
             _endTurn?.Raise();
         }
-
-
-        // Need To be Re-Done
-        public override void Init(ITokenReciever token)
-        {
-            using (token.GetToken())
-            {
-
-               // if ((Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
-                {
-                    //   _tutorialManager.StartTutorial();
-                }
-            }
-        }
-
 
         public void UpdateUiStats(bool isPlayer, int Amount, KeywordTypeEnum actionTypeEnum)
         {
@@ -89,6 +69,18 @@ namespace Battle.UI
                     break;
             }
         }
+
+        #region Monobehaviour Callbacks
+
+        private void Awake()
+        {
+            BaseStat.OnStatsUpdated += UpdateUiStats;
+        }
+        private void OnDestroy()
+        {
+            BaseStat.OnStatsUpdated -= UpdateUiStats;
+        }
+        #endregion
     }
 }
 

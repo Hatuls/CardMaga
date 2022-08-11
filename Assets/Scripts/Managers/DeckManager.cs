@@ -38,10 +38,7 @@ namespace Battle.Deck
         #region Functions
 
         #region Public Functions
-        public override void Init(ITokenReciever token)
-        {
-           // ResetDecks();
-        }
+  
         public void ResetDecks()
         {
             _OpponentDecks?.Clear();
@@ -352,13 +349,6 @@ namespace Battle.Deck
         #endregion
 
         #region Monobehaviour Callbacks 
-        public override void Awake()
-        {
-            base.Awake();
-            const int order = 8;
-            SceneStarter.Register(new OperationTask(Init, order));
-        }
-
         #endregion
     }
 }

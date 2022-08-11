@@ -29,8 +29,8 @@ public class VSScreenUI : MonoBehaviour
     public void AssignValues(ITokenReciever tokenReciever)
     {
             BattleData battleData = BattleData.Instance;
-            _upper.AssignCharacterVisuals(battleData.Opponent);
-            _bottom.AssignCharacterVisuals(battleData.Player);
+            _upper.AssignCharacterVisuals(battleData.Right);
+            _bottom.AssignCharacterVisuals(battleData.Left);
             ActivateVisuals(true);
         StartCoroutine(ScreenDuration());
         _token = tokenReciever.GetToken();

@@ -3,7 +3,7 @@ using Keywords;
 
 namespace Characters.Stats
 {
-    public class StaminaStat : StatAbst
+    public class StaminaStat : BaseStat
     {
         public StaminaStat(bool isPalyer,  int amount) : base(isPalyer,  amount)
         {

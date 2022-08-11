@@ -6,18 +6,17 @@ using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VFXManager : MonoSingleton<VFXManager>
+public class VFXManager : MonoBehaviour
 {
 
     [SerializeField] VFXController _playerVFX, _enemyVFX;
     
-    [SerializeField] List<ParticleSystemVFX> _VFXLIST;
+    [SerializeField] List<ParticleSystemVFX> _VFXList;
     
 
-    public override void Init(ITokenReciever token)
-    {
-        using(token.GetToken())
-        _VFXLIST = new List<ParticleSystemVFX>();
+    public  void Start()
+    { 
+        _VFXList = new List<ParticleSystemVFX>();
     }
     
     public (ParticleSystemVFX,VFXController) RecieveParticleSystemVFX(bool isOnPlayer, VFXSO vfx)
@@ -41,10 +40,10 @@ public class VFXManager : MonoSingleton<VFXManager>
 
     private ParticleSystemVFX RecieveFirstOfVFX(VFXSO vfx)
     {
-        for (int i = 0; i < _VFXLIST.Count; i++)
+        for (int i = 0; i < _VFXList.Count; i++)
         {
-            if (_VFXLIST[i].VFXID == vfx && !_VFXLIST[i].IsPlaying)
-                return _VFXLIST[i];
+            if (_VFXList[i].VFXID == vfx && !_VFXList[i].IsPlaying)
+                return _VFXList[i];
         }
         return CreateVFX(vfx); ;
     }
@@ -52,16 +51,8 @@ public class VFXManager : MonoSingleton<VFXManager>
     private ParticleSystemVFX CreateVFX(VFXSO vfx)
     {
         ParticleSystemVFX vfxBase = Instantiate(vfx.VFXPrefab).GetComponent<ParticleSystemVFX>();
-        _VFXLIST.Add(vfxBase);
+        _VFXList.Add(vfxBase);
         return vfxBase;
-    }
-
-
-    public override void Awake()
-    {
-        base.Awake();
-        const int order = 5;
-        SceneStarter.Register(new OperationTask(Init, order));
     }
 
 }

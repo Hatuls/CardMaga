@@ -1,7 +1,7 @@
 ﻿using Keywords;
 namespace Characters.Stats
 {
-    public class RageShard : StatAbst
+    public class RageShard : BaseStat
     {
         byte _maxShardSize;
 

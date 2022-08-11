@@ -5,7 +5,7 @@ namespace Characters.Stats
     {
         public static event System.Action<bool, CharacterStatsHandler> OnStatAssigned;
 
-        private System.Collections.Generic.Dictionary<KeywordTypeEnum, StatAbst> _statsDictionary;
+        private System.Collections.Generic.Dictionary<KeywordTypeEnum, BaseStat> _statsDictionary;
         public CharacterStatsHandler(bool isPlayer, ref CharacterStats stats)
         {
             //stats
@@ -36,7 +36,7 @@ namespace Characters.Stats
 
             const int StatsCapacity = 20;
 
-            _statsDictionary = new System.Collections.Generic.Dictionary<KeywordTypeEnum, StatAbst>(StatsCapacity) {
+            _statsDictionary = new System.Collections.Generic.Dictionary<KeywordTypeEnum, BaseStat>(StatsCapacity) {
                 {_health.Keyword,_health },
                 {_defense.Keyword,_defense },
                 { _max.Keyword,_max },
@@ -61,9 +61,9 @@ namespace Characters.Stats
             OnStatAssigned?.Invoke(isPlayer, this);
         }
 
-        public StatAbst GetStats(KeywordTypeEnum keyword)
+        public BaseStat GetStats(KeywordTypeEnum keyword)
         {
-            if (_statsDictionary.TryGetValue(keyword, out StatAbst stat))
+            if (_statsDictionary.TryGetValue(keyword, out BaseStat stat))
                 return stat;
 
             UnityEngine.Debug.LogError("Keyword Was Not Found!");

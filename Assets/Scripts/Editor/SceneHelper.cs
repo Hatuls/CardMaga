@@ -1,62 +1,122 @@
-﻿using UnityEditor;
+﻿using Sirenix.OdinInspector.Editor;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class SceneHelper
+
+
+
+public class SceneEditor : OdinMenuEditorWindow
 {
-    static string NetworkSceneName = "NetworkScene";
-    static string LoadingSceneName = "LoadingScene";
-    static string BattleSceneName = "Game Battle Scene";
-    static string MainMenuSceneName = "Main Menu Scene";
-    static string MapSceneName = "Map Scene";
-    static string LoreSceneName = "Lore Scene";
-    static string PersistentSceneName = "PersistentScene";
-    static string MatchLookingSceneName = "Match Making Scene";
 
-
-
-    [MenuItem("Scenes/Persistent Scene")]
-    public static void PersistentScene()=>
-        LoadScene(PersistentSceneName);
-
-    [MenuItem("Scenes/Network Scene")]
-    public static void NetworkScene()
+    [MenuItem("Tools/Scenes")]
+    private static void OpenWindow()
     {
-        LoadScene(NetworkSceneName);
+        SceneEditor window = GetWindow<SceneEditor>();
+        window.Show();
     }
-    [MenuItem("Scenes/Battle Scene")]
-    private static void BattleScene()
+    protected override void OnEnable()
     {
-        LoadScene(BattleSceneName);
+        base.OnEnable();
+        SceneEditorCache.OnSceneDeleted += ForceMenuTreeRebuild;
     }
-    [MenuItem("Scenes/Map Scene")]
-    private static void MapScene()
-    { LoadScene(MapSceneName); }
-    [MenuItem("Scenes/Main Menu Scene")]
-    private static void MainMenuScene()
+    protected override void OnDestroy()
     {
-        LoadScene(MainMenuSceneName);
+        SceneEditorCache.OnSceneDeleted -= ForceMenuTreeRebuild;
+        base.OnDestroy();
+    }
+    protected override OdinMenuTree BuildMenuTree()
+    {
+        var tree = new OdinMenuTree();
+        tree.DefaultMenuStyle.Offset = 1f;
+
+        var result = AssetDatabase.FindAssets("t:SceneAsset", new string[] { "Assets/Scenes/Production Scenes" });
+        SceneEditorCache[] productionScenes = new SceneEditorCache[result.Length];
+        for (int i = 0; i < result.Length; i++)
+        {
+            var path = AssetDatabase.GUIDToAssetPath(result[i]);
+            var currentScene = AssetDatabase.LoadAssetAtPath(path, typeof(SceneAsset)) as SceneAsset;
+            productionScenes[i] = new SceneEditorCache(false, currentScene);
+            // Debug.Log("Path " + AssetDatabase.GUIDToAssetPath(guid));
+            tree.Add("Production/" + currentScene.name, productionScenes[i]);
+        }
+
+        result = AssetDatabase.FindAssets("t:SceneAsset", new string[] { "Assets/Scenes/Test Scenes" });
+        productionScenes = new SceneEditorCache[result.Length];
+        for (int i = 0; i < result.Length; i++)
+        {
+            var path = AssetDatabase.GUIDToAssetPath(result[i]);
+            var currentScene = AssetDatabase.LoadAssetAtPath(path, typeof(SceneAsset)) as SceneAsset;
+            productionScenes[i] = new SceneEditorCache(true, currentScene);
+            // Debug.Log("Path " + AssetDatabase.GUIDToAssetPath(guid));
+            tree.Add("Others/" + currentScene.name, productionScenes[i]);
+        }
+        //    tree.AddAllAssetsAtPath("Test Scenes", "Assets/Scenes/Test Scenes", typeof(SceneAsset));
+
+        return tree;
     }
 
-    [MenuItem("Scenes/Loading Scene")]
-    private static void LoadingScene()
+    public class SceneEditorCache
     {
-        LoadScene(LoadingSceneName); 
-    }
+        public static event Action OnSceneDeleted;
+        private bool _canBeDeleted;
+        private SceneAsset _current;
+        private List<Scene> _scenes = new List<Scene>();
+        public SceneEditorCache(bool canBeDeleted, SceneAsset scene)
+        {
+            _current = scene;
+            _canBeDeleted = canBeDeleted;
+        }
+        [Sirenix.OdinInspector.Button]
+        public void LoadSingle()
+        {
 
-    [MenuItem("Scenes/Match Making Scene")]
-    public static void MatchLookingScene() =>
-    LoadScene(MatchLookingSceneName);
+            Debug.Log($"Loading {_current.name} Scene");
+            Reset();
+            EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(_current), OpenSceneMode.Single);
+        }
+        [Sirenix.OdinInspector.Button]
+        public void LoadAdditive()
+        {
+            _scenes.Add(EditorSceneManager.OpenScene(AssetDatabase.GetAssetPath(_current), OpenSceneMode.Additive));
+            Debug.Log($"Loading {_current.name} Scene Additive ");
+        }
 
+        [Sirenix.OdinInspector.Button]
+        public void Unload()
+        {
+            for (int i = 0; i < _scenes.Count; i++)
+                EditorSceneManager.CloseScene(_scenes[i], false);
+            Reset();
+            Debug.Log($"Unloading {_current.name} Scenes");
+        }
 
-    [MenuItem("Scenes/Lore Scene")]
-    private static void LoreScene()
-    {
-        LoadScene(LoreSceneName);
-    }
-    private static void LoadScene(string sceneName)
-    {
-        if (UnityEditor.SceneManagement.EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene(string.Concat(Application.dataPath, "/Scenes/GameScene/", sceneName, ".unity"), UnityEditor.SceneManagement.OpenSceneMode.Single);
+        [Sirenix.OdinInspector.Button]
+        public void Delete()
+        {
+            if (_canBeDeleted == false)
+            {
+                Debug.LogError("Scene Cannot be deleted from editor window!");
+                return;
+            }
+
+            var path = AssetDatabase.GetAssetPath(_current);
+
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path);
+                OnSceneDeleted?.Invoke();
+            }
+
+            Debug.Log("Scene Deleted");
+        }
+
+        private void Reset() => _scenes.Clear();
 
     }
 }
+

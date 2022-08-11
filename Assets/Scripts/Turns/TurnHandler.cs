@@ -179,7 +179,8 @@ namespace Battle.Turns
         {
             bool isPlayerTurn = false;
             base.PlayTurn();
-            yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
+            //redoo
+          //  yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
 
             yield return null;
             MoveToNextTurnState();
@@ -209,10 +210,11 @@ namespace Battle.Turns
 
             base.PlayTurn();
             // Activate Previous Action if not null
-            
+            yield return null;
 
-            if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
-                yield return EnemyManager.Instance.PlayEnemyTurn();
+            //redo
+            //if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
+            //    yield return EnemyManager.Instance.PlayEnemyTurn();
 
             MoveToNextTurnState();
         }
@@ -233,7 +235,7 @@ namespace Battle.Turns
              * Activate the enemy keywords 
              * Remove The Player Defense
              */
-            GameEventsInvoker.Instance.OnEndTurn?.Invoke();
+            //GameEventsInvoker.Instance.OnEndTurn?.Invoke();
             // CardUIManager.Instance.RemoveHands();
             CardExecutionManager.Instance.ResetExecution();
             base.PlayTurn();
@@ -242,7 +244,9 @@ namespace Battle.Turns
             Deck.DeckManager.Instance.OnEndTurn(false);
 
             base.PlayTurn();
-            yield return KeywordManager.Instance.OnEndTurnKeywords(false);
+            yield return null;
+            // redo!
+            // KeywordManager.Instance.OnEndTurnKeywords(false);
 
             CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Shield).Reset();
 
@@ -270,7 +274,9 @@ namespace Battle.Turns
             TurnHandler.TurnCount++;
             bool isPlayerTurn = true;
             base.PlayTurn();
-            yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
+            yield return null;
+            //redoooo
+           // yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
 
             Debug.Log("Player Drawing Cards!");
             MoveToNextTurnState();
@@ -292,7 +298,8 @@ namespace Battle.Turns
             // unlock Player Inputs 
             TurnHandler.IsTurnFinished = false;
             bool isPlayerTurn = true;
-            if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
+            // redo!
+           // if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
             {
 
                 StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
@@ -350,15 +357,15 @@ namespace Battle.Turns
              * each animation that finished tell the CardExecutionManager to execute the keyword effects of the current card
              * and remove the current card from the placementslot
             */
-            GameEventsInvoker.Instance.OnEndTurn?.Invoke();
+          //  GameEventsInvoker.Instance.OnEndTurn?.Invoke();
             StaminaHandler.Instance.OnEndTurn(true);
             Deck.DeckManager.Instance.OnEndTurn(true);
             OnPlayerEndTurn?.Invoke();
             CardExecutionManager.Instance.ResetExecution();
             base.PlayTurn();
 
-
-            yield return KeywordManager.Instance.OnEndTurnKeywords(true);
+            //redoooo!
+         //   yield return KeywordManager.Instance.OnEndTurnKeywords(true);
             yield return null;
             CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(KeywordTypeEnum.Shield).Reset();
 

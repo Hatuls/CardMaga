@@ -46,17 +46,15 @@ namespace CardMaga.UI.Card
             for (int i = 0; i < _totalPoolType.Count; i++)
                 _totalPoolType[i].Dispose();
         }
-        public void Init(ITokenReciever token)
-        {
-            IDisposable t = token?.GetToken() ?? null;
 
+        public void Init()
+        {
             for (int i = 0; i < _totalPoolType.Count; i++)
                 _totalPoolType[i].OnDisposed += AddToQueue;
 
             ResetPool();
-
-            t?.Dispose();
         }
+
         private void OnDestroy()
         {
             {

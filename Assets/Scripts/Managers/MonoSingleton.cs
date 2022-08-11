@@ -1,7 +1,7 @@
 using ReiTools.TokenMachine;
 using UnityEngine;
 
-public abstract class MonoSingleton<T> : MonoBehaviour , ITokenInitialized where T : Component
+public abstract class MonoSingleton<T> : MonoBehaviour where T : Component
 {
         private static T _instance;
         public static T Instance => _instance;
@@ -17,10 +17,5 @@ public abstract class MonoSingleton<T> : MonoBehaviour , ITokenInitialized where
             }
         }
     
-        public abstract void Init(ITokenReciever token);
     
 }
-    public interface ITokenInitialized 
-    {
-        void Init(ITokenReciever tokenMachine); 
-    }

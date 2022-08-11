@@ -53,7 +53,7 @@ namespace Battle
 
         #endregion
 
-        public override void Init(ITokenReciever token)
+        public void Start()
         {
             threadId = ThreadHandler.GetNewID;
         }
@@ -135,9 +135,7 @@ namespace Battle
                 FoundCombo = true;
                // _craftingUIHandler.MarkSlotsDetected();
                 Instance.TryForge(isPlayer);
-                var tuffle = VFXManager.Instance.RecieveParticleSystemVFX(isPlayer, Instance._comboVFX);
-                tuffle.Item1.StartVFX(Instance._comboVFX, tuffle.Item2.AvatarHandler.GetBodyPart(BodyPartEnum.BottomBody));
-               // DeckManager.GetCraftingSlots(isPlayer).ResetDeck();
+
                 Instance._cardRecipeDetected = null;
             data.ResetDeck();
             }

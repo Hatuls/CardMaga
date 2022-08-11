@@ -108,10 +108,10 @@ namespace CardMaga.Battle.UI
             if (card == null)
                 return;
         }
-
-        public override void Init(ITokenReciever token)
+        public override void Awake()
         {
-            _cardPool.Init(token);
+            base.Awake();
+            _cardPool.Init();
         }
 
         #endregion

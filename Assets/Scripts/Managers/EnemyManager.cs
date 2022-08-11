@@ -31,12 +31,20 @@ namespace Battle
         [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
         public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
+
+        private CharacterStatsHandler _statsHandler;
         private CardData[] _deck;
         public CardData[] Deck => _deck;
-        public ref CharacterStats GetCharacterStats => ref _myCharacter.CharacterData.CharacterStats;
-        public AnimatorController EnemyAnimatorController => _enemyAnimatorController;
+
+        public AnimatorController AnimatorController => _enemyAnimatorController;
 
         public AIBrain Brain { get => _brain; }
+        public CharacterStatsHandler StatsHandler { get => _statsHandler; }
+
+        public bool IsLeft =>false;
+
+        public VisualCharacter VisualCharacter => throw new NotImplementedException();
+
         private bool _isStillThinking;
         private TokenMachine _aiTokenMachine;
         private IDisposable _turnFinished;
@@ -44,14 +52,6 @@ namespace Battle
         [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f)]
         private Vector2 _delayTime;
         #region Public Methods
-        public override void Init(ITokenReciever token)
-        {
-            using (token.GetToken())
-            {
-                _aiHand = new AIHand(_brain, _myCharacter.CharacterData.CharacterStats.DrawCardsAmount);
-                _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, NoMoreActionsFound);
-            }
-        }
 
 
         public void RestartBattle()
@@ -69,19 +69,14 @@ namespace Battle
 
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new CardData[deckLength];
-            System.Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
-
-            CharacterStatsManager.RegisterCharacterStats(false, ref characterdata.CharacterStats);
+            Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
+            _statsHandler = new CharacterStatsHandler(false, ref characterdata.CharacterStats);
             DeckManager.Instance.InitDeck(false, _deck);
 
-            EnemyAnimatorController.ResetAnimator();
+            AnimatorController.ResetAnimator();
 
-
-#if UNITY_EDITOR
-            //   _enemyNameText.gameObject.SetActive(true);
-            //   _enemyNameText.text = characterdata.CharacterSO.CharacterName;
-#endif
-
+            _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
+            _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, NoMoreActionsFound);
         }
 
         private void SpawnModel(Character character)
@@ -102,7 +97,7 @@ namespace Battle
             _aiHand.AddCard(handCards);
             try
             {
-            ThreadsHandler.ThreadHandler.StartThread(new ThreadsHandler.ThreadList(ThreadsHandler.ThreadHandler.GetNewID, _aiHand.CalculateMove, DoAction));
+                ThreadsHandler.ThreadHandler.StartThread(new ThreadsHandler.ThreadList(ThreadsHandler.ThreadHandler.GetNewID, _aiHand.CalculateMove, DoAction));
             }
             catch (Exception e)
             {
@@ -152,24 +147,16 @@ namespace Battle
             while (_isStillThinking)
                 yield return null;
 
-            yield return new WaitUntil(() => EnemyAnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count == 0);
+            yield return new WaitUntil(() => AnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count == 0);
             CardUIManager.Instance.ActivateEnemyCardUI(false);
             yield return Turns.Turn.WaitOneSecond;
-            EnemyAnimatorController.ResetToStartingPosition();
+            AnimatorController.ResetToStartingPosition();
         }
 
 
-        #endregion
-
-        #region Monobehaviour Callbacks 
-        public override void Awake()
-        {
-            base.Awake();
-            const int order = 5;
-            SceneStarter.Register(new OperationTask(Init, order));
-        }
         #endregion
     }
+
 
 
     public class AIHand

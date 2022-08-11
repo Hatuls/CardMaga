@@ -1,7 +1,7 @@
 ﻿using Keywords;
 namespace Characters.Stats
 {
-    public class DexterityStat : StatAbst
+    public class DexterityStat : BaseStat
     {
         public DexterityStat(bool isPlayer ,  int amount) : base(isPlayer,  amount)
         {

@@ -1,7 +1,7 @@
 ﻿using Keywords;
 namespace Characters.Stats
 {
-    public class StunShard : StatAbst
+    public class StunShard : BaseStat
     {
          int _maxShardSize;
         

@@ -2,7 +2,7 @@
 
 namespace Characters.Stats
 {
-    public class MaxHealthStat : StatAbst
+    public class MaxHealthStat : BaseStat
     {
         public HealthStat _healthStat { get; set; }
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.MaxHealth;

@@ -10,7 +10,7 @@ using Managers;
 
 namespace CardMaga.UI
 {
-    public class BottomPartDeckVisualHandler : MonoBehaviour
+    public class BottomPartDeckVisualHandler : MonoBehaviour , ISequenceOperation
     {
 #if UNITY_EDITOR
         //[Header("Test")]
@@ -47,6 +47,11 @@ namespace CardMaga.UI
         [SerializeField] RectTransform _discardDeckRectTransform;
         Vector3 _discardDeckStartPos;
         BaseDeck _discardDeck;
+
+        public int Priority => 10;
+
+        public OrderType Order => OrderType.Before;
+
         //handles deck visuals
         //need to know how to add/remove cards from deck
         //need to know to init deck
@@ -68,10 +73,10 @@ namespace CardMaga.UI
             if (_discardDeckTransitionPackSO == null)
                 throw new Exception("BottomPartDeckVisualHandler has no Discard Transition SO");
 
-            SceneStarter.Register(new OperationTask(InitVisuals, 0), SceneStarter.SequenceType.Late);
+            BattleManager.Register(this);
         }
   
-        public void InitVisuals(ITokenReciever tokenMachine)
+        public void ExecuteTask(ITokenReciever tokenMachine)
         {
          
             using (tokenMachine.GetToken())
