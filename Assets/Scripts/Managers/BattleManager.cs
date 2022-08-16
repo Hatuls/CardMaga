@@ -41,6 +41,7 @@ namespace Battle
         [SerializeField]
         private EnemyManager _enemyManager;
 
+        private PlayersManager _playersManager;
         private IEnumerator _turnCycles;
         private SequenceHandler _BattleStarter = new SequenceHandler();
 
@@ -208,7 +209,7 @@ namespace Battle
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
             _BattleStarter.Register(new OperationTask(Init, 0));
-    
+            _playersManager = new PlayersManager(_playerManager, _enemyManager);
         }
         private void Start()
         {
@@ -308,7 +309,12 @@ namespace Battle
 
         public IPlayer GetCharacter(bool IsLeftCharacter) => IsLeftCharacter ? LeftCharacter : RightCharacter;
 
-
+        public PlayersManager(IPlayer leftCharacter, IPlayer rightCharacter)
+        {
+            LeftCharacter = leftCharacter;
+            RightCharacter = rightCharacter;
+            BattleManager.Register(this);
+        }
 
 
     }

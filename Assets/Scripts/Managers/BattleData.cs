@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Battle.Data
 {
+    [DefaultExecutionOrder(-9999)]
     [Serializable]
     public class BattleData : MonoBehaviour
     {
@@ -16,18 +17,18 @@ namespace Battle.Data
         [SerializeField]
         private Character _opponent = null;
         [SerializeField, Sirenix.OdinInspector.ReadOnly]
-        private bool _playerWon = false;
+        private bool _isPlayerWon = false;
 
         public Character Left { get => _player; set => _player = value; }
         public Character Right { get => _opponent; set => _opponent = value; }
-        public bool PlayerWon { get => _playerWon; set => _playerWon = value; }
+        public bool PlayerWon { get => _isPlayerWon; set => _isPlayerWon = value; }
 
 
         public void ResetData()
         {
             _player = null;
             _opponent = null;
-            _playerWon = false;
+            _isPlayerWon = false;
         }
 
         public void AssginCharacter(in bool isPlayer, CharacterSO characterSO)
@@ -53,22 +54,5 @@ namespace Battle.Data
 
     }
 
-    /// <summary>
-    /// Need Remake
-    /// </summary>
-    [System.Serializable]
-    public class MapRewards
-    {
-        [SerializeField] private ushort _diamonds;
-        [SerializeField] private ushort _exp;
-        [SerializeField] private ushort _credits;
-        [SerializeField] private ushort _gold;
-
-
-
-        public ushort Diamonds { get => _diamonds; set => _diamonds = value; }
-        public ushort EXP { get => _exp; set => _exp = value; }
-        public ushort Credits { get => _credits; set => _credits = value; }
-        public ushort Gold { get => _gold; set => _gold = value; }
-    }
+  
 }

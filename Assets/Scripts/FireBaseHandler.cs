@@ -2,7 +2,6 @@
 using System;
 using Firebase.Analytics;
 using ReiTools.TokenMachine;
-using System;
 using UnityEngine;
 
 public static class FireBaseHandler

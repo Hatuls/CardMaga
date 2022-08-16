@@ -107,6 +107,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _cinematicManager: {fileID: 0}
+  _playerManager: {fileID: 4865128171655590735}
+  _enemyManager: {fileID: 516472383804032214}
 --- !u!1 &2120255477555410628
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +118,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 478503175451558045}
-  - component: {fileID: 3203114067387272730}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -138,83 +139,6 @@ Transform:
   m_Father: {fileID: 560829604320045288}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3203114067387272730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2120255477555410628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b60ba41d9df4414db106061a7c5eb4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnStartTurn:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: e0cc4436abd4ea349901a3821c4f4944, type: 2}
-        m_MethodName: PlaySound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnEndTurn:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 4b7fdc40f57206649ac40b5d55859447, type: 2}
-        m_MethodName: PlaySound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnSelectCard:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 7b49bf501b5f0ab40939970b6d562477, type: 2}
-        m_MethodName: PlaySound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnZoomCard:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: c847c7392a506e94fb32e9a15fbac1e9, type: 2}
-        m_MethodName: PlaySound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnHeal:
-    m_PersistentCalls:
-      m_Calls: []
-  OnShield:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRecieveDamage:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2806236739573109155
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +231,7 @@ MonoBehaviour:
   keywordEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3203114067387272730}
+      - m_Target: {fileID: 0}
         m_MethodName: OnKeywordActivate
         m_Mode: 0
         m_Arguments:
@@ -485,16 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerVFX: {fileID: 0}
   _enemyVFX: {fileID: 0}
-  _VFXLIST:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _VFXList: []
 --- !u!114 &604163677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,6 +491,9 @@ MonoBehaviour:
       _level: 0
     _comboSO: {fileID: 0}
   _comboVFX: {fileID: 0}
+  _player: {fileID: 4865128171655590735}
+  _enemy: {fileID: 516472383804032214}
+  _deckManager: {fileID: 5637503591984725427}
   _successCrafting: {fileID: 11400000, guid: 01936ff9a3ed66e47b1d9e213f25f55e, type: 2}
 --- !u!1 &5847196689953200342
 GameObject:
@@ -648,7 +566,7 @@ MonoBehaviour:
   _animationSoundHandler: {fileID: 0}
   _enemyAnimatorController: {fileID: 0}
   _enemyNameText: {fileID: 0}
-  _delayTime: {x: 0, y: 0}
+  _delayTime: {x: 1.125849, y: 2.2627509}
 --- !u!1 &8357264424072378610
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,34 +610,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebff4e7f2aa32d4aa82a0da132088ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _character:
-    _characterData:
-      _characterSO: {fileID: 0}
-      _characterStats:
-        _maxHealth: 0
-        _health: 0
-        _defense: 0
-        _gold: 0
-        _strengthPoint: 0
-        _bleedPoints: 0
-        _cardDraw: 0
-        _startStamina: 0
-        _regenerationPoints: 0
-        _stunShards: 0
-        _staminaShard: 0
-        _protectionShard: 0
-        _rageShard: 0
-        _ragePoints: 0
-        _protectionPoints: 0
-        _weak: 0
-        _vulnerable: 0
-      _characterDeck: []
-      _comboRecipe: []
-    _displayName: 
-  _recipes:
-    _comboCore:
-      _id: 0
-      _level: 0
-    _comboSO: {fileID: 0}
   _playerAnimatorController: {fileID: 0}
   _soundAnimation: {fileID: 0}
