@@ -1,37 +1,43 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CardMaga.Input;
 using UnityEngine;
 
-public class CardDefaultInputBehaviour : IInputBehaviour
+public class CardDefaultInputBehaviour : InputBehaviour
 {
-    public void Click()
+    public override void Click()
     {
+        base.Click();
+    }
+
+    public override void Hold()
+    {
+        base.Hold();
         throw new System.NotImplementedException();
     }
 
-    public void Hold()
+    public override void BeginHold()
     {
+        base.BeginHold();
         throw new System.NotImplementedException();
     }
 
-    public void BeginHold()
+    public override void EndHold()
     {
+        base.EndHold();
         throw new System.NotImplementedException();
     }
 
-    public void EndHold()
+    public override void PointDown()
     {
+        base.PointDown();
         throw new System.NotImplementedException();
     }
 
-    public void PointDown()
+    public override void PointUp()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void PointUp()
-    {
+        base.PointUp();
         throw new System.NotImplementedException();
     }
 }

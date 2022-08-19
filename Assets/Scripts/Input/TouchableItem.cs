@@ -29,14 +29,17 @@ namespace CardMaga.Input
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
 
         private Vector2 _startPosition;
-        
+        private InputBehaviour _inputBehaviour;
         private bool _isHold;
         private bool _isTouchable;
+
+        public InputBehaviour InputBehaviour => _inputBehaviour;
         public State CurrentState => _currentState;
 
         protected virtual void Click()
         {
             OnClick?.Invoke(_touchableItem);
+            _inputBehaviour.Click();
         }
         
         protected virtual void BeginHold()
@@ -207,14 +210,46 @@ namespace CardMaga.Input
             Gizmos.DrawWireSphere(transform.position,_holdDistance);
         }
     }
-    
-    public interface IInputBehaviour
+    [System.Serializable]
+    public abstract class InputBehaviour
     {
-         void Click();
-         void Hold();
-         void BeginHold();
-         void EndHold();
-         void PointDown();
-         void PointUp();
+        
+        
+        public event Action OnClick; 
+        public event Action OnBeginHold;
+        public event Action OnEndHold;
+        public event Action OnHold;
+        public event Action OnPointDown;
+        public event Action OnPointUp;
+
+        public virtual void Click()
+        {
+            OnClick?.Invoke();
+        }
+
+        public virtual void Hold()
+        {
+            
+        }
+
+        public virtual void BeginHold()
+        {
+            
+        }
+
+        public virtual void EndHold()
+        {
+            
+        }
+
+        public virtual void PointDown()
+        {
+            
+        }
+
+        public virtual void PointUp()
+        {
+            
+        }
     }
 }

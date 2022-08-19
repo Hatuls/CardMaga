@@ -57,9 +57,9 @@ namespace CardMaga.UI
         [Header("Selected Card"),SerializeField,ReadOnly]
         private CardUI _selectedCard;
 
-        private IInputBehaviour _cardHoldState;
-        private IInputBehaviour _cardFollowState;
-        private IInputBehaviour _cardDefaultState;
+        private InputBehaviour _cardHoldState;
+        private InputBehaviour _cardFollowState;
+        private InputBehaviour _cardDefaultState;
         
         private Sequence _currentSequence;
 

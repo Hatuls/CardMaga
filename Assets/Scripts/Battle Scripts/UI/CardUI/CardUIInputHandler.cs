@@ -3,9 +3,9 @@ namespace CardMaga.Input
 {
     public class CardUIInputHandler : TouchableItem<CardUI>
     {
-        private IInputBehaviour _inputBehaviours;
+        private InputBehaviour _inputBehaviours;
 
-        public IInputBehaviour InputBehaviour
+        public InputBehaviour InputBehaviour
         {
             get { return _inputBehaviours;}
             set { _inputBehaviours = value; }

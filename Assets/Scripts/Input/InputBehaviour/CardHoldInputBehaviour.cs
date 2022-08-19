@@ -1,10 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CardMaga.Input;
 using UnityEngine;
 
-public class CardHoldInputBehaviour : IInputBehaviour
+public class CardHoldInputBehaviour : InputBehaviour
 {
+    public event Action OnClick;
+    public event Action OnBeginHold;
+    public event Action OnEndHold;
+    public event Action OnHold;
+    public event Action OnPointDown;
+    public event Action OnPointUp;
+
     public void Click()
     {
         throw new System.NotImplementedException();
