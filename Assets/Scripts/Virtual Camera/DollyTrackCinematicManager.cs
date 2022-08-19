@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Battle;
+using Managers;
 
 public class DollyTrackCinematicManager : MonoBehaviour
 {
@@ -27,18 +29,13 @@ public class DollyTrackCinematicManager : MonoBehaviour
         if (_dollyTrack == null)
             _dollyTrack = _cinematicCam.GetCinemachineComponent<CinemachineTrackedDolly>();
         _cinematicCam.gameObject.SetActive(false);
+        const int order = 2;
+        BattleManager.Register(new OperationTask(StartCinematicTrack, order, OrderType.Default));
+    }
 
-        SceneHandler.OnBeforeSceneShown += SceneStarted;
-        //SceneHandler.OnSceneStart += StartIntroCinematic;
-    }
-    
-    private void OnDestroy()
-    {
-        SceneHandler.OnBeforeSceneShown -= SceneStarted;
-        //SceneHandler.OnSceneStart -= StartIntroCinematic;
-    }
-    
-    private void SceneStarted(ITokenReciever tokenMachine)
+ 
+
+    public void StartCinematicTrack(ITokenReciever tokenMachine)
     {
         _token = tokenMachine.GetToken();
 

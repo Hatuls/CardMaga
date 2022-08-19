@@ -17,19 +17,6 @@ namespace CardMaga.Playfab
 
 
 
-        private void Awake()
-        {
-            PlayFabLogin = new PlayfabLogin();
-            LoadingSceneManager.OnLoadScenesComplete += Notify;
-        }
-        private void OnDestroy()
-        {
-            LoadingSceneManager.OnLoadScenesComplete -= Notify;
-        }
-
-
-
-
         #region Recieve From Server
         public void GetUserData(Action<GetUserDataResult> onUserDataRecieved, Action<PlayFabError> OnRequestFailed)
         =>  PlayFabClientAPI.GetUserData(new GetUserDataRequest(), onUserDataRecieved, OnRequestFailed);
@@ -50,8 +37,11 @@ namespace CardMaga.Playfab
   
         #endregion
 
-        private void Notify()
-            => OnSceneEnter?.Invoke(this);
+        private void Start()
+        {
+            PlayFabLogin = new PlayfabLogin();
+            OnSceneEnter?.Invoke(this);
+        }
     }
 
 

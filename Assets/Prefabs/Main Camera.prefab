@@ -74,11 +74,8 @@ GameObject:
   - component: {fileID: 9062502925368104155}
   - component: {fileID: 9062502925368104149}
   - component: {fileID: 9062502925368104153}
-  - component: {fileID: 9062502925368104148}
   - component: {fileID: 937654371}
-  - component: {fileID: 937654375}
   - component: {fileID: 1369493985035152411}
-  - component: {fileID: 5951709090148632296}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -93,8 +90,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9062502925368104150}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: 0.09646884, y: -0.00035360764, z: 0.00003427197, w: 0.995336}
+  m_LocalPosition: {x: 0.31, y: 0.18, z: -6.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 653260038}
@@ -124,9 +121,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 150
-  field of view: 60
+  near clip plane: 0.1
+  far clip plane: 500
+  field of view: 53
   orthographic: 0
   orthographic size: 1.6
   m_Depth: -1
@@ -183,26 +180,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &9062502925368104148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9062502925368104150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17bfee27b93ef004a9bd36bd2c43f626, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IntroCinematic: {fileID: 0}
-  MoveCameraAngle: {fileID: 0}
-  ShakeAtPlayer: {fileID: 0}
-  ShakeAtMiddle: {fileID: 0}
-  ShakeAtEnemy: {fileID: 0}
-  _returnSpeed: 0.6
-  _goToSpeed: 0.6
-  _cinemachineVirtualCamera: {fileID: 0}
 --- !u!114 &937654371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,33 +214,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &937654375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9062502925368104150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd9d81e1878ffd40a5e56467136493c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 45b8cd7551d62d44d8eb685b3b08176f, type: 2}
-  _unityEventResponse:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9062502925368104148}
-        m_MethodName: MoveCameraAnglePos
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1369493985035152411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,30 +248,3 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5951709090148632296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9062502925368104150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd9d81e1878ffd40a5e56467136493c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 45b8cd7551d62d44d8eb685b3b08176f, type: 2}
-  _unityEventResponse:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9062502925368104148}
-        m_MethodName: MoveCameraAnglePos
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2

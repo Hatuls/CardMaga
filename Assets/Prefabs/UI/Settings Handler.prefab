@@ -1165,7 +1165,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3112234268846236306}
+      - m_Target: {fileID: 0}
         m_MethodName: SwitchVFX
         m_Mode: 1
         m_Arguments:
@@ -1191,7 +1191,7 @@ MonoBehaviour:
   _onBtnPressed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3112234268846236306}
+      - m_Target: {fileID: 0}
         m_MethodName: SwitchVFX
         m_Mode: 1
         m_Arguments:
@@ -1457,7 +1457,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3112234268846236306}
+      - m_Target: {fileID: 0}
         m_MethodName: AbandonQuestInGame
         m_Mode: 1
         m_Arguments:
@@ -2010,7 +2010,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3112234268846236306}
+      - m_Target: {fileID: 0}
         m_MethodName: SwitchMasterVolumeSound
         m_Mode: 1
         m_Arguments:
@@ -2046,7 +2046,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6836200287076079044}
-  - component: {fileID: 3112234268846236306}
   m_Layer: 5
   m_Name: Settings Handler
   m_TagString: Untagged
@@ -2074,33 +2073,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3112234268846236306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6836200287076079045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb4af29a605a0ee459b8af78bb75229c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnOpen:
-    m_PersistentCalls:
-      m_Calls: []
-  OnClose:
-    m_PersistentCalls:
-      m_Calls: []
-  _sfxBtnImage: {fileID: 6836200285546771673}
-  _masterVolumeBtnImage: {fileID: 6836200286745167780}
-  _sfxBtnText: {fileID: 6836200286191562318}
-  _masterVolumeBtnText: {fileID: 6836200285147435598}
-  _offColor: {r: 0.9607844, g: 0, b: 0, a: 1}
-  _onColor: {r: 0, g: 0.7607844, b: 0.04705883, a: 1}
-  _parent: {fileID: 6836200285362441809}
-  settingsGOToWhenClicked: []
-  _networkScene: {fileID: 0}
 --- !u!1 &6836200287105649897
 GameObject:
   m_ObjectHideFlags: 0
@@ -2220,7 +2192,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3112234268846236306}
+      - m_Target: {fileID: 0}
         m_MethodName: Close
         m_Mode: 1
         m_Arguments:
