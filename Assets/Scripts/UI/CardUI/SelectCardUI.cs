@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using CardMaga.UI.Card;
+﻿using CardMaga.UI.Card;
 using UnityEngine;
 
 public class SelectCardUI : MonoBehaviour

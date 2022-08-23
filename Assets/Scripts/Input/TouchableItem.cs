@@ -9,14 +9,19 @@ namespace CardMaga.Input
     public class TouchableItem<T> : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         where T : MonoBehaviour
     {
-        
+        #region Events
+
         public virtual event Action<T> OnClick;
         public virtual event Action<T> OnBeginHold;
         public virtual event Action<T> OnEndHold;
         public virtual event Action<T> OnHold;
         public virtual event Action<T> OnPointDown;
         public virtual event Action<T> OnPointUp;
-        
+
+        #endregion
+
+        #region Fields
+
         public enum State
         {
             Lock,
@@ -29,44 +34,76 @@ namespace CardMaga.Input
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
 
         private Vector2 _startPosition;
-        private InputBehaviour _inputBehaviour;
+        private InputBehaviour<T> _inputBehaviour;
+        private InputBehaviour<T> _defaultInputBehaviour;
         private bool _isHold;
         private bool _isTouchable;
 
-        public InputBehaviour InputBehaviour => _inputBehaviour;
+        #endregion
+
+        #region Prop
+
+        public InputBehaviour<T> InputBehaviour => _inputBehaviour;
         public State CurrentState => _currentState;
+
+        #endregion
+
+        #region UnityCallBack
+
+        private void OnEnable()
+        {
+            if (_defaultInputBehaviour != null)
+                return;
+
+            _defaultInputBehaviour = new InputBehaviour<T>();
+
+            _inputBehaviour = _defaultInputBehaviour;
+        }
+
+        #endregion
+
+        #region EventCallBack
 
         protected virtual void Click()
         {
             OnClick?.Invoke(_touchableItem);
-            _inputBehaviour.Click();
+            _inputBehaviour.Click(_touchableItem);
         }
         
         protected virtual void BeginHold()
         {
             OnBeginHold?.Invoke(_touchableItem);
+            _inputBehaviour.BeginHold(_touchableItem);
         }
         
         protected virtual void EndHold()
         {
             OnEndHold?.Invoke(_touchableItem);
+            _inputBehaviour.EndHold(_touchableItem);
         }
         
         protected virtual void Hold()
         {
             OnHold?.Invoke(_touchableItem);
+            _inputBehaviour.Hold(_touchableItem);
         }
         
         protected virtual void PointDown()
         {
             OnPointDown?.Invoke(_touchableItem);
+            _inputBehaviour.PointDown(_touchableItem);
         }
         
         protected virtual void PointUp()
         {
             OnPointUp?.Invoke(_touchableItem);
+            _inputBehaviour.PointUp(_touchableItem);
         }
-        
+
+        #endregion
+
+        #region TouchProcess
+
         public void OnPointerDown(PointerEventData eventData)
         {
             if (!_isTouchable)
@@ -170,6 +207,11 @@ namespace CardMaga.Input
             PointUp();
         }
 
+
+        #endregion
+
+        #region StateManagement
+
         private void ChangeState(State state)
         {
             _currentState = state;
@@ -187,7 +229,7 @@ namespace CardMaga.Input
                     break;
             }
         }
-
+        
         [ContextMenu("ToggleState")]
         public void ToggleState()
         {
@@ -205,51 +247,37 @@ namespace CardMaga.Input
                 ChangeState(State.Lock);
         }
 
+
+        #endregion
+
+        #region InputBehaviourManagement
+
+        public bool TrySetInputBehaviour(InputBehaviour<T> inputBehaviour)
+        {
+            if (inputBehaviour == null || _inputBehaviour == null)
+            {
+                Debug.LogWarning(name + "InputBehaviour is null");
+                return false;
+            }
+
+            _inputBehaviour = inputBehaviour;
+
+            if (_inputBehaviour.Equals(inputBehaviour))
+                return true;
+
+            return false;
+        }
+
+        public void ResetInputBehaviour()
+        {
+            _inputBehaviour = _defaultInputBehaviour;
+        }
+
+        #endregion
+        
         private void OnDrawGizmosSelected()
         {
             Gizmos.DrawWireSphere(transform.position,_holdDistance);
-        }
-    }
-    [System.Serializable]
-    public abstract class InputBehaviour
-    {
-        
-        
-        public event Action OnClick; 
-        public event Action OnBeginHold;
-        public event Action OnEndHold;
-        public event Action OnHold;
-        public event Action OnPointDown;
-        public event Action OnPointUp;
-
-        public virtual void Click()
-        {
-            OnClick?.Invoke();
-        }
-
-        public virtual void Hold()
-        {
-            
-        }
-
-        public virtual void BeginHold()
-        {
-            
-        }
-
-        public virtual void EndHold()
-        {
-            
-        }
-
-        public virtual void PointDown()
-        {
-            
-        }
-
-        public virtual void PointUp()
-        {
-            
         }
     }
 }

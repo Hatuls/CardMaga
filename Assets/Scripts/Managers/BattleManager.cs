@@ -271,7 +271,7 @@ namespace Battle
         CardUIManager CardUIManager { get; }
         ComboManager ComboManager { get; }
         KeywordManager KeywordManager { get; }
-        TurnHandler TurnHandler { get; }
+        //TurnHandler TurnHandler { get; }
         VFXManager VFXManager { get; }
         CameraManager CameraManager { get; }
     }

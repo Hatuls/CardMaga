@@ -57,10 +57,6 @@ namespace CardMaga.UI
         [Header("Selected Card"),SerializeField,ReadOnly]
         private CardUI _selectedCard;
 
-        private InputBehaviour _cardHoldState;
-        private InputBehaviour _cardFollowState;
-        private InputBehaviour _cardDefaultState;
-        
         private Sequence _currentSequence;
 
         private TokenMachine _handLockTokenMachine;
@@ -238,7 +234,7 @@ namespace CardMaga.UI
             RemoveInputEvents(cardUI.Inputs);
             MoveCardToDiscardAfterExecute(cardUI);
             _selectedCard = null;
-            _isCardSelected = false; 
+            _isCardSelected = false;
             OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
             //OnCardReturnToHand?.Invoke(cardUI);
         }
@@ -452,11 +448,6 @@ namespace CardMaga.UI
 
             AlignCardsSlots();
         }
-
-        // public CardUI RemoveCardUIFromCardSlot(CardSlot cardSlot)
-        // {
-        //     
-        // }
 
         public bool RemoveCardUI(CardUI cardUI)
         {
