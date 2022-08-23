@@ -49,6 +49,7 @@ namespace CardMaga.UI
         [SerializeField] private ComboUIManager _comboUIManager;
         [SerializeField] private TableCardSlot _tableCardSlot;
         [SerializeField] private SelectCardUI _selectCardUI;
+        [SerializeField] private CardUiInputBehaviourHandler _cardUiInputBehaviourHandler;
         
         [Header("Parameters")] 
         [SerializeField] private float _delayBetweenCardDrawn;
@@ -56,6 +57,12 @@ namespace CardMaga.UI
 
         [Header("Selected Card"),SerializeField,ReadOnly]
         private CardUI _selectedCard;
+
+        [Header("InputBehaviourSO")]
+        [SerializeField] private CardUIInputBehaviourSO _zoomInputBehaviour;
+        [SerializeField] private CardUIInputBehaviourSO _followInputBehaviour;
+        [SerializeField] private CardUIInputBehaviourSO _handInputBehaviour;
+        [SerializeField] private CardUIInputBehaviourSO _selectedInputBehaviour;
 
         private Sequence _currentSequence;
 
@@ -103,8 +110,50 @@ namespace CardMaga.UI
             {
                 var currentSlot = _tableCardSlot.CardSlots[i];
 
-                if (currentSlot.IsHaveValue) RemoveInputEvents(currentSlot.CardUI.Inputs);
+                if (currentSlot.IsHaveValue) //RemoveInputEvents(currentSlot.CardUI.Inputs);
             }
+        }
+
+        private void SubHandBehaviourEvents()
+        {
+            _handInputBehaviour.OnClick += SetToZoom;
+            _handInputBehaviour.OnBeginHold += SetToFollow;
+        }
+
+        private void SubFollowBehaviourEvents()
+        {
+            _followInputBehaviour.OnHold += _followCard.FollowHand;
+            _followInputBehaviour.OnPointUp += _followCard.ReleaseCard;
+        }
+
+        private void SubZoomBehaviourEvents()
+        {
+            _zoomInputBehaviour.OnHold += _zoomCard.SetToFollow;
+            _zoomInputBehaviour.OnClick += _zoomCard.ReturnCardToHand;
+            _zoomInputBehaviour.OnPointUp += SetToHand;
+        }
+        
+        private void SetToZoom(CardUI cardUI)
+        {
+            _cardUiInputBehaviourHandler.TrySetBehaviour(cardUI.Inputs, _zoomInputBehaviour);
+            _zoomCard.SetSelectCardUI(cardUI);
+            RemoveCardUIFromHand(cardUI);
+            _cardUiInputBehaviourHandler.LockAllTouchableItemsExcept(_tableCardSlot.GetCardUIInputsFromTable(),cardUI.Inputs,false);
+        }
+
+        private void SetToFollow(CardUI cardUI)
+        {
+            _cardUiInputBehaviourHandler.TrySetBehaviour(cardUI.Inputs, _followInputBehaviour);
+            _followCard.SetSelectCardUI(cardUI);
+            RemoveCardUIFromHand(cardUI);
+            _cardUiInputBehaviourHandler.LockAllTouchableItemsExcept(_tableCardSlot.GetCardUIInputsFromTable(),cardUI.Inputs,false);
+        }
+
+        private void SetToHand(CardUI cardUI)
+        {
+            _cardUiInputBehaviourHandler.TrySetBehaviour(cardUI.Inputs, _handInputBehaviour);
+            AddCards(cardUI);
+            _cardUiInputBehaviourHandler.LockAllTouchableItems(_tableCardSlot.GetCardUIInputsFromTable(),true);
         }
 
         public void LockInput()
@@ -159,21 +208,6 @@ namespace CardMaga.UI
         private void AddCards(params CardUI[] cards)
         {
             _tableCardSlot.AddCardUIToCardSlot(cards);
-
-            for (var i = 0; i < cards.Length; i++)
-            {
-                AddInputEvents(cards[i].Inputs);
-            }
-        }
-
-        private void AddInputEvents(CardUIInputHandler cardUIInput)
-        {
-            cardUIInput.OnPointDown += RemoveCardUIFromHand;
-        }
-
-        private void RemoveInputEvents(CardUIInputHandler cardUIInput)
-        {
-            cardUIInput.OnPointDown -= RemoveCardUIFromHand;
         }
 
         private void RemoveCardUIFromHand(CardUI cardUI)
@@ -186,7 +220,6 @@ namespace CardMaga.UI
                 if (!_selectCardUI.TrySetSelectedCardUI(cardUI))
                     return;
                 
-                RemoveInputEvents(cardUI.Inputs);
                 cardUI.transform.SetAsLastSibling();
                // _tableCardSlot.RemoveCardUI(cardUI);
                 _selectedCard = cardUI;
@@ -231,7 +264,7 @@ namespace CardMaga.UI
                 return;
 
             cardUI.CardVisuals.SetExecutedCardVisuals();
-            RemoveInputEvents(cardUI.Inputs);
+           // RemoveInputEvents(cardUI.Inputs);
             MoveCardToDiscardAfterExecute(cardUI);
             _selectedCard = null;
             _isCardSelected = false;
@@ -244,7 +277,7 @@ namespace CardMaga.UI
             KillTween();
             Sequence temp = cardUI.RectTransform
                 .Transition(_tableCardSlot.GetCardSlotFrom(cardUI).CardPos, _resetCardPositionPackSO)
-                .OnComplete(() => AddInputEvents(cardUI.Inputs));
+                .OnComplete(() => //AddInputEvents(cardUI.Inputs));
         }
 
         private void SetCardAtDrawPos(params CardUI[] cards)
@@ -290,7 +323,7 @@ namespace CardMaga.UI
             
             for (int i = 0; i < tempCardUis.Length; i++)
             {
-                RemoveInputEvents(tempCardUis[i].Inputs); 
+                //RemoveInputEvents(tempCardUis[i].Inputs); 
             }
             
             _tableCardSlot.RemoveAllCardUI();
@@ -334,6 +367,9 @@ namespace CardMaga.UI
         }
     }
 
+    
+    
+    
     [Serializable]
     public class CardSlot
     {
@@ -376,6 +412,9 @@ namespace CardMaga.UI
         }
     }
 
+    
+    
+    
     [Serializable]
     public class TableCardSlot
     {
@@ -505,6 +544,17 @@ namespace CardMaga.UI
             for (var i = 0; i < _cardSlots.Count; i++)
                 if (_cardSlots[i].IsHaveValue)
                     tempCardUI.Add(_cardSlots[i].CardUI);
+
+            return tempCardUI.ToArray();
+        }
+        
+        public TouchableItem<CardUI>[] GetCardUIInputsFromTable()
+        {
+            var tempCardUI = new List<TouchableItem<CardUI>>();
+
+            for (var i = 0; i < _cardSlots.Count; i++)
+                if (_cardSlots[i].IsHaveValue)
+                    tempCardUI.Add(_cardSlots[i].CardUI.Inputs);
 
             return tempCardUI.ToArray();
         }

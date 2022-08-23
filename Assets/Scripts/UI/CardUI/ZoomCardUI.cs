@@ -19,14 +19,12 @@ namespace CardMaga.UI.Card
 
         private IDisposable _zoomToken;
 
-        public void SetZoomCard(CardUI cardUI)
+        public void SetSelectCardUI(CardUI cardUI)
         {
             if (_selectCardUI != null)
                 return;
 
             _selectCardUI = cardUI;
-            _selectCardUI.Inputs.OnBeginHold -= _followCard.SetSelectCardUI;
-            _selectCardUI.Inputs.OnClick -= SetZoomCard;
             MoveToZoomPosition(_selectCardUI);
         }
 
@@ -36,17 +34,12 @@ namespace CardMaga.UI.Card
                 return;
             
             _zoomToken = _selectCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
-            _selectCardUI.Inputs.OnBeginHold += SetToFollow;
-            _selectCardUI.Inputs.OnClick += ReturnCardToHand;
         }
 
-        private void SetToFollow(CardUI cardUI)
+        public void SetToFollow(CardUI cardUI)
         {
             if (!ReferenceEquals(cardUI, _selectCardUI))
                 return;
-
-            _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
-            _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
 
             if (_zoomToken != null)
                 _zoomToken.Dispose();
@@ -64,13 +57,10 @@ namespace CardMaga.UI.Card
             }
         }
 
-        private void ReturnCardToHand(CardUI cardUI)
+        public void ReturnCardToHand(CardUI cardUI)
         {
             if (!ReferenceEquals(cardUI, _selectCardUI))
                 return;
-
-            _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
-            _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
 
             _zoomToken.Dispose();
 
@@ -83,9 +73,7 @@ namespace CardMaga.UI.Card
         {
             if (_selectCardUI == null)
                 return;
-
-            _selectCardUI.Inputs.OnBeginHold -= SetToFollow;
-            _selectCardUI.Inputs.OnClick -= ReturnCardToHand;
+            
             _zoomToken.Dispose();
 
             _handUI.ForceReturnCardUIToHand(_selectCardUI);

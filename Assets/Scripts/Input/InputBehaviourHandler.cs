@@ -5,25 +5,25 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
 {
     public abstract InputBehaviour<T>[] InputBehaviours { get; }
 
-    public void LockAllTouchableItems(TouchableItem<T>[] touchableItems)
+    public void LockAllTouchableItems(TouchableItem<T>[] touchableItems,bool isTouchable)
     {
         for (int i = 0; i < touchableItems.Length; i++)
         {
             if (touchableItems[i] == null)
                 continue;
             
-            touchableItems[i].ForceChangeState(false);
+            touchableItems[i].ForceChangeState(isTouchable);
         }
     }
     
-    public void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T> touchableItem)
+    public void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T> touchableItem,bool isTouchable)
     {
         TouchableItem<T>[] tempArray = new TouchableItem<T>[] { touchableItem };
         
-        LockAllTouchableItemsExcept(touchableItems,tempArray);
+        LockAllTouchableItemsExcept(touchableItems,tempArray,isTouchable);
     }
     
-    public void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T>[] exceptTouchableItem)
+    public void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T>[] exceptTouchableItem,bool isTouchable)
     {
         for (int i = 0; i < touchableItems.Length; i++)
         {
@@ -41,7 +41,7 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             if (isExcept)
                 continue;            
             
-            touchableItems[i].ForceChangeState(false);
+            touchableItems[i].ForceChangeState(isTouchable);
         }
     }
 

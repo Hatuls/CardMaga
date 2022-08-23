@@ -36,24 +36,19 @@ public class FollowCardUI : MonoBehaviour
     }
 
 
-    public void SetSelectCardUI(CardUI cardUI)
+    public bool SetSelectCardUI(CardUI cardUI)
     {
         if (_selectCardUI != null)
-            return;
+            return false;
 
         _selectCardUI = cardUI;
-        _selectCardUI.Inputs.OnClick -= _zoomCardUI.SetZoomCard;
-        _selectCardUI.Inputs.OnHold += FollowHand;
-        _selectCardUI.Inputs.OnPointUp += ReleaseCard;
+        return true;
     }
 
-    private void ReleaseCard(CardUI cardUI)
+    public void ReleaseCard(CardUI cardUI)
     {
         if (!ReferenceEquals(cardUI, _selectCardUI))
             return;
-
-        _selectCardUI.Inputs.OnHold -= FollowHand;
-        _selectCardUI.Inputs.OnPointUp -= ReleaseCard;
 
         if (cardUI.transform.position.y > _executionBoundry_Y)
         {
@@ -61,15 +56,15 @@ public class FollowCardUI : MonoBehaviour
             
             if (CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
             {
-                _handUI.RemoveCardUIsFromTable(_selectCardUI);
                 _selectCardUI.Inputs.ForceChangeState(false);
+                _handUI.RemoveCardUIsFromTable(_selectCardUI);
                 OnCardExecute?.Invoke(_selectCardUI);
                 _selectCardUI = null;
                 return;
             }
         }
         
-        DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectCardUI.CardData);
+        //DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectCardUI.CardData);
         _handUI.ReturnCardUIToHand(_selectCardUI);
         _selectCardUI = null;
     }
@@ -78,15 +73,13 @@ public class FollowCardUI : MonoBehaviour
     {
         if (_selectCardUI == null)
             return;
-
-        _selectCardUI.Inputs.OnHold -= FollowHand;
-        _selectCardUI.Inputs.OnPointUp -= ReleaseCard;
+        
         _handUI.ForceReturnCardUIToHand(_selectCardUI);
         _selectCardUI = null;
     }
 
 
-    private void FollowHand(CardUI cardUI)
+    public void FollowHand(CardUI cardUI)
     {
         KillTween();
         _currentSequence = cardUI.RectTransform.Move(_mousePosition, _followHand);
