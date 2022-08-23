@@ -7,7 +7,6 @@ public class MainInputStateMachine : BaseStateMachine , ISequenceOperation
 {
     public int Priority => 1;
 
-    public OrderType Order =>  OrderType.After;
 
     public void Dispose()
     {
@@ -30,6 +29,6 @@ public class MainInputStateMachine : BaseStateMachine , ISequenceOperation
 
     private void Awake()
     {
-        BattleManager.Register(this);
+        BattleManager.Register(this, OrderType.After);
     }
 }

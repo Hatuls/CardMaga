@@ -43,10 +43,10 @@ namespace Battle
 
         private PlayersManager _playersManager;
         private IEnumerator _turnCycles;
-        private SequenceHandler _BattleStarter = new SequenceHandler();
+        private static SequenceHandler _battleStarter = new SequenceHandler();
 
 
-        private static List<ISequenceOperation> _battleStartUpOrderList = new List<ISequenceOperation>();
+
 
         public void Init(ITokenReciever token)
         {
@@ -64,9 +64,7 @@ namespace Battle
 
         private void ResetBattle()
         {
-
-            _BattleStarter.Start(StartBattle);
-
+            _battleStarter.StartAll(StartBattle);
         }
 
         private void ResetParams()
@@ -175,16 +173,12 @@ namespace Battle
 
         #region Observer Pattern 
 
-        public static void Register(ISequenceOperation battleStarter)
-            => _battleStartUpOrderList.Add(battleStarter);
-        public static void Remove(ISequenceOperation battleStarter)
-            => _battleStartUpOrderList.Remove(battleStarter);
+        public static void Register(ISequenceOperation battleStarter, OrderType order )
+            => _battleStarter.Register(battleStarter,order);
+        public static bool Remove(ISequenceOperation battleStarter, OrderType order)
+            => _battleStarter.Remove(battleStarter);
 
-        private void Setup()
-        {
-            for (int i = 0; i < _battleStartUpOrderList.Count; i++)
-                _BattleStarter.Register(_battleStartUpOrderList[i]);
-        }
+     
         #endregion
 
 
@@ -199,7 +193,8 @@ namespace Battle
         {
             ThreadsHandler.ThreadHandler.ResetList();
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
-            _BattleStarter.OnDestroy();
+            _battleStarter.OnDestroy();
+            _battleStarter = null;
             HealthStat.OnCharacterDeath -= BattleEnded;
         }
 
@@ -208,12 +203,11 @@ namespace Battle
             HealthStat.OnCharacterDeath += BattleEnded;
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
-            _BattleStarter.Register(new OperationTask(Init, 0));
+            _battleStarter.Register(new OperationTask(Init, 0));
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
         }
         private void Start()
         {
-            Setup();
             ResetBattle();
         }
         #endregion
@@ -313,7 +307,7 @@ namespace Battle
         {
             LeftCharacter = leftCharacter;
             RightCharacter = rightCharacter;
-            BattleManager.Register(this);
+            BattleManager.Register(this, OrderType.Before);
         }
 
 

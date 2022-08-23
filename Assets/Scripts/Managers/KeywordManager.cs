@@ -19,7 +19,7 @@ namespace Keywords
         #region Fields
         private static Dictionary<KeywordTypeEnum, KeywordAbst> _keywordDict;
 
-        public OrderType Order => OrderType.Before;
+
 
         public int Priority => 0;
 
@@ -163,7 +163,7 @@ namespace Keywords
         #region Monobehaviour Callbacks 
         public void Awake()
         {
-            BattleManager.Register(this);
+            BattleManager.Register(this, OrderType.Before);
             CardExecutionManager.OnKeywordExecute += ActivateKeyword;
         }
 

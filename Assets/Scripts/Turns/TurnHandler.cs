@@ -1,6 +1,6 @@
-﻿using Battle.UI;
-using Characters.Stats;
+﻿using Characters.Stats;
 using Keywords;
+using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -180,7 +180,7 @@ namespace Battle.Turns
             bool isPlayerTurn = false;
             base.PlayTurn();
             //redoo
-          //  yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
+            //  yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
 
             yield return null;
             MoveToNextTurnState();
@@ -250,9 +250,9 @@ namespace Battle.Turns
 
             CharacterStatsManager.GetCharacterStatsHandler(true).GetStats(KeywordTypeEnum.Shield).Reset();
 
-            if(OnEndEnemyTurn!=null)
+            if (OnEndEnemyTurn != null)
             {
-            OnEndEnemyTurn.Invoke();
+                OnEndEnemyTurn.Invoke();
             }
             Managers.PlayerManager.Instance.OnEndTurn();
             EnemyManager.Instance.OnEndTurn();
@@ -276,7 +276,7 @@ namespace Battle.Turns
             base.PlayTurn();
             yield return null;
             //redoooo
-           // yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
+            // yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
 
             Debug.Log("Player Drawing Cards!");
             MoveToNextTurnState();
@@ -299,7 +299,7 @@ namespace Battle.Turns
             TurnHandler.IsTurnFinished = false;
             bool isPlayerTurn = true;
             // redo!
-           // if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
+            // if (!KeywordManager.Instance.IsCharcterIsStunned(isPlayerTurn))
             {
 
                 StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
@@ -331,7 +331,7 @@ namespace Battle.Turns
 
         private static void SendAnalyticData()
         {
-             string turnCount = string.Concat("Finished Battle At Turn ", TurnHandler.TurnCount);
+            string turnCount = string.Concat("Finished Battle At Turn ", TurnHandler.TurnCount);
             UnityAnalyticHandler.SendEvent(turnCount);
             FireBaseHandler.SendEvent(turnCount);
         }
@@ -357,7 +357,7 @@ namespace Battle.Turns
              * each animation that finished tell the CardExecutionManager to execute the keyword effects of the current card
              * and remove the current card from the placementslot
             */
-          //  GameEventsInvoker.Instance.OnEndTurn?.Invoke();
+            //  GameEventsInvoker.Instance.OnEndTurn?.Invoke();
             StaminaHandler.Instance.OnEndTurn(true);
             Deck.DeckManager.Instance.OnEndTurn(true);
             OnPlayerEndTurn?.Invoke();
@@ -365,11 +365,11 @@ namespace Battle.Turns
             base.PlayTurn();
 
             //redoooo!
-         //   yield return KeywordManager.Instance.OnEndTurnKeywords(true);
+            //   yield return KeywordManager.Instance.OnEndTurnKeywords(true);
             yield return null;
             CharacterStatsManager.GetCharacterStatsHandler(false).GetStats(KeywordTypeEnum.Shield).Reset();
 
-      
+
             Managers.PlayerManager.Instance.OnEndTurn();
             EnemyManager.Instance.OnEndTurn();
             MoveToNextTurnState();
@@ -377,4 +377,176 @@ namespace Battle.Turns
 
     }
 
+
+
+
+    public enum GameTurnType { EnterBattle, ExitBattle, LeftPlayerTurn, RightPlayerTurn }
+    public class GameTurnHandler : IDisposable
+    {
+        public event Action OnGameTurnFinished;
+        public event Action OnGameTurnStarted;
+
+        private Dictionary<GameTurnType, GameTurn> _gameTurnsDictionary;
+        private int _turnCount;
+
+
+        public int TurnCount => _turnCount;
+        public GameTurnType CurrentTurn { get; private set; } = GameTurnType.EnterBattle;
+
+
+
+        public bool IsLeftCharacterTurn => CurrentTurn == GameTurnType.LeftPlayerTurn;
+        public bool IsRightCharacterTurn => CurrentTurn == GameTurnType.RightPlayerTurn;
+
+
+        public GameTurnHandler() //will need to enter turn logic here 
+        {
+            _gameTurnsDictionary = new Dictionary<GameTurnType, GameTurn>()
+            {
+                { GameTurnType.EnterBattle,     new EnterBattle(OnGameTurnStarted,new NextTurn(/*Start Turn Logic Enter here*/ GameTurnType.LeftPlayerTurn, 0)) },
+                { GameTurnType.LeftPlayerTurn,  new GameTurn(new NextTurn( GameTurnType.RightPlayerTurn, 0))},
+                { GameTurnType.RightPlayerTurn, new GameTurn(new NextTurn( GameTurnType.LeftPlayerTurn, 0)) },
+                { GameTurnType.ExitBattle,      new EnterBattle(OnGameTurnFinished,null) },
+            };
+
+            CurrentTurn = GameTurnType.EnterBattle;
+
+            _gameTurnsDictionary[GameTurnType.LeftPlayerTurn].OnTurnEnter += AddTurn;
+            _gameTurnsDictionary[GameTurnType.RightPlayerTurn].OnTurnEnter += AddTurn;
+        }
+        public GameTurn GetTurn(GameTurnType type) => _gameTurnsDictionary[type];
+        public void MoveToNextTurn()
+        {
+            var currentTurn = GetTurn(CurrentTurn);
+
+            CurrentTurn = currentTurn.GetNextTurn();
+
+            var nextTurn = GetTurn(CurrentTurn);
+
+            currentTurn?.Exit(nextTurn == null ? null : nextTurn.Enter);
+        }
+
+
+        public void StartSequence()
+        => GetTurn(CurrentTurn).Enter();
+
+
+        public void Dispose()
+        {
+            _gameTurnsDictionary[GameTurnType.LeftPlayerTurn].OnTurnEnter  -= AddTurn;
+            _gameTurnsDictionary[GameTurnType.RightPlayerTurn].OnTurnEnter -= AddTurn;
+            _gameTurnsDictionary.Clear();
+        }
+
+
+        private void AddTurn() => _turnCount++;
+    }
+
+    public class NextTurn : IComparable<NextTurn>
+    {
+        private GameTurnType _gameTurnType;
+        private int _weight;
+
+        public int Weight => _weight;
+        public GameTurnType GameTurnType => _gameTurnType;
+
+        public NextTurn(GameTurnType gameTurnType, int weight)
+        {
+            _gameTurnType = gameTurnType;
+            _weight = weight;
+        }
+
+        public int CompareTo(NextTurn other)
+        {
+            if (Weight < other.Weight)
+                return -1;
+            else if (Weight > other.Weight)
+                return 1;
+            else
+                return 0;
+        }
+    }
+
+
+    public class EnterBattle : GameTurn
+    {
+        private event Action OnFinish;
+
+        public EnterBattle(Action onFinish, NextTurn nextTurn) : base(nextTurn)
+        {
+            OnFinish = onFinish;
+        }
+        public override void Enter()
+        {
+            base.Enter();
+            Exit(OnFinish);
+        }
+
+    }
+
+
+    public class GameTurn
+    {
+        public event Action OnTurnEnter;
+        public event Action OnTurnActive;
+        public event Action OnTurnExit;
+
+        private SequenceHandler _startTurnOperations = new SequenceHandler();
+        private SequenceHandler _endTurnOperations = new SequenceHandler();
+        private List<NextTurn> _nextTurn = new List<NextTurn>();
+        private NextTurn _defaultNextTurn;
+
+        protected TokenMachine _tokenMachine;
+        public SequenceHandler StartTurnOperations { get => _startTurnOperations; }
+        public SequenceHandler EndTurnOperations { get => _endTurnOperations; }
+
+        public GameTurn(NextTurn defaultNextTurn)
+        {
+            _defaultNextTurn = defaultNextTurn;
+        }
+
+        public GameTurnType GetNextTurn()
+        {
+            NextTurn nextTurn = _defaultNextTurn;
+            if (_nextTurn.Count >= 0)
+            {
+                for (int i = 0; i < _nextTurn.Count; i++)
+                {
+                    if (nextTurn.Weight < _nextTurn[i].Weight)
+                        nextTurn = _nextTurn[i];
+                }
+            }
+            return nextTurn.GameTurnType;
+        }
+
+
+        public void AddNextTurn(NextTurn nextTurn)
+        {
+            _nextTurn.Add(nextTurn);
+            _nextTurn.Sort();
+        }
+        public void RemoveNextTurn(NextTurn nextTurn) => _nextTurn.Remove(nextTurn);
+        public virtual void Enter()
+        {
+            OnTurnEnter?.Invoke();
+            _tokenMachine = new TokenMachine(OnTurnActive);
+            StartTurnOperations.ExecuteTask(_tokenMachine);
+        }
+
+        public virtual void Exit(Action OnComplete)
+        {
+            _tokenMachine = new TokenMachine(Complete);
+            EndTurnOperations.ExecuteTask(_tokenMachine);
+
+            void Complete()
+            {
+                OnTurnExit?.Invoke();
+                OnComplete?.Invoke();
+                ResetNextTurns();
+            }
+        }
+
+
+        private void ResetNextTurns() => _nextTurn.Clear();
+    }
 }

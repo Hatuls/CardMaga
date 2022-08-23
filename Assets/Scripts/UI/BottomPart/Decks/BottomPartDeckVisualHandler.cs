@@ -50,7 +50,6 @@ namespace CardMaga.UI
 
         public int Priority => 10;
 
-        public OrderType Order => OrderType.Before;
 
         //handles deck visuals
         //need to know how to add/remove cards from deck
@@ -73,7 +72,7 @@ namespace CardMaga.UI
             if (_discardDeckTransitionPackSO == null)
                 throw new Exception("BottomPartDeckVisualHandler has no Discard Transition SO");
 
-            BattleManager.Register(this);
+            BattleManager.Register(this, OrderType.Before);
         }
   
         public void ExecuteTask(ITokenReciever tokenMachine)

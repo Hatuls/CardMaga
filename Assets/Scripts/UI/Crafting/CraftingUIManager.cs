@@ -23,7 +23,7 @@ namespace Battle.UI
 
         const int ORDER = 4;
         public int Priority => ORDER;
-        public OrderType Order => OrderType.Before;
+       
 
 
 
@@ -39,7 +39,7 @@ namespace Battle.UI
         #region Monobehaviour Callbacks
         public void Awake()
         {
-            BattleManager.Register(this);
+            BattleManager.Register(this, OrderType.Before);
         }
 
         public void ExecuteTask(ITokenReciever tokenMachine)
