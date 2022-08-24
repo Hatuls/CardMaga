@@ -1,12 +1,15 @@
-﻿using Battle.Turns;
+﻿using Battle;
+using Battle.Turns;
 using DG.Tweening;
 using ReiTools.TokenMachine;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 public class TurnCounter : MonoBehaviour
 {
     private static TokenMachine _timerTokenMachine;
+    public static event Action OnCounterDepleted;
     public static ITokenReciever TimerTokenMachine => _timerTokenMachine;
     [SerializeField]
     private TextMeshProUGUI _timerText;
@@ -29,7 +32,7 @@ public class TurnCounter : MonoBehaviour
 
 
 
-
+   
     private int _textTime;
     private float _counter;
     private bool _toStopTimer;
@@ -41,20 +44,32 @@ public class TurnCounter : MonoBehaviour
     private void Awake()
     {
         _startScale = _timerText.rectTransform.localScale.x;
-        PlayerTurn.OnStartTurn += StartTime;
-        EnemyTurn.OnStartTurn += StartTime;
-        TurnHandler.OnFinishTurn += FinishCounting;
+
+
+       
+        GameTurn.OnTurnFinished += FinishCounting;
         _timerTokenMachine = new TokenMachine(StopTimer, ContinueTimer);
         ResetTimer();
         ResetScale();
     }
+    private void Start()
+    {
+        var turn = BattleManager.Instance.TurnHandler;
+        turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive += StartTime;
+        turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive += StartTime;
+    }
+
+
     private void OnDestroy()
     {
-        PlayerTurn.OnStartTurn -= StartTime;
-        EnemyTurn.OnStartTurn -= StartTime;
-        TurnHandler.OnFinishTurn -= FinishCounting;
+        var turn = BattleManager.Instance.TurnHandler;
+        turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive  -= StartTime;
+        turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive -= StartTime;
+        GameTurn.OnTurnFinished -= FinishCounting;
+
         if (_sequence != null)
             _sequence.Kill();
+        _sequence = null;
     }
     public void StartTime()
     {
@@ -89,7 +104,8 @@ public class TurnCounter : MonoBehaviour
             yield return null;
         }
         FinishCounting();
-        TurnHandler.FinishTurn();
+        OnCounterDepleted?.Invoke();
+
     }
     private void AssignTime(float time)
     {

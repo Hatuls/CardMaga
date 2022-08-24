@@ -156,16 +156,15 @@ public class AnimatorController : MonoBehaviour
 
     public void CheckForRegisterCards()
     {
-        if (CheckIfMyTurn())
+      //  if (CheckIfMyTurn())
             TranstionToNextAnimation();
-        //Battles.CardExecutionManager.Instance.CardFinishExecuting();
-        //  _previousAnimation = null;
+
     }
 
-    public bool CheckIfMyTurn()
-    {
-        return (TurnHandler.IsPlayerTurn == _isPlayer);
-    }
+    //public bool CheckIfMyTurn()
+    //{
+    //    return (TurnHandler.IsPlayerTurn == _isPlayer);
+    //}
     public void PlayCrossAnimation()
     {
         var cardQueue = CardExecutionManager.CardsQueue;
@@ -216,12 +215,12 @@ public class AnimatorController : MonoBehaviour
     {
 
         transform.SetPositionAndRotation(startPos, ToolClass.RotateToLookTowards(targetToLookAt, transform));
-        if (TurnHandler.IsPlayerTurn != _isPlayer)
-        {
+        //if (TurnHandler.IsPlayerTurn != _isPlayer)
+        //{
 
-            _previousAnimation = null;
-            return;
-        }
+        //    _previousAnimation = null;
+        //    return;
+        //}
 
         var cardQueue = CardExecutionManager.CardsQueue;
         if (cardQueue.Count == 0)

@@ -135,7 +135,7 @@ namespace Managers
         /// After<br></br>
         /// Note* -> the above is also the order of execution
         /// </summary>
-        Battle.OrderType Order { get; }
+       // Battle.OrderType Order { get; }
         /// <summary>
         /// The function that will be executed when called
         /// </summary>

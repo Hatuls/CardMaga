@@ -10,7 +10,7 @@ using Managers;
 
 namespace CardMaga.UI
 {
-    public class BottomPartDeckVisualHandler : MonoBehaviour , ISequenceOperation
+    public class BottomPartDeckVisualHandler : MonoBehaviour , ISequenceOperation<BattleManager>
     {
 #if UNITY_EDITOR
         //[Header("Test")]
@@ -75,7 +75,7 @@ namespace CardMaga.UI
             BattleManager.Register(this, OrderType.Before);
         }
   
-        public void ExecuteTask(ITokenReciever tokenMachine)
+        public void ExecuteTask(ITokenReciever tokenMachine,BattleManager battleManager)
         {
          
             using (tokenMachine.GetToken())

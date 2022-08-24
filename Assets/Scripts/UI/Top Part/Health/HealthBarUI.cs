@@ -55,7 +55,7 @@ namespace CardMaga.UI.Bars
             if (_maxHealthText == null)
                 throw new Exception("HealthBarUI has no Max health Text");
 
-            TurnHandler.OnFinishTurn += CompleteCounter;
+            GameTurn.OnTurnFinished += CompleteCounter;
         }
         private void Start()
         {
@@ -181,7 +181,7 @@ namespace CardMaga.UI.Bars
         private void OnDestroy()
         {
             StopCounter();
-            TurnHandler.OnFinishTurn -= CompleteCounter;
+            GameTurn.OnTurnFinished -= CompleteCounter;
         }
     }
 }

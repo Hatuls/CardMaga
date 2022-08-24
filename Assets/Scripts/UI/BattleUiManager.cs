@@ -12,8 +12,6 @@ namespace Battle.UI
     {
         #region Fields
 
-        [SerializeField]
-        Tutorial.TutorialManager _tutorialManager;
         #endregion
 
 

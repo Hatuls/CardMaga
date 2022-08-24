@@ -120,11 +120,21 @@ namespace Battle
 
 
 
-    public class SequenceHandler<T>
+    public class SequenceHandler<T> : ISequenceOperation<T>
     {
         private OperationHandler<ISequenceOperation<T>> _early = new OperationHandler<ISequenceOperation<T>>();
         private OperationHandler<ISequenceOperation<T>> _default = new OperationHandler<ISequenceOperation<T>>();
         private OperationHandler<ISequenceOperation<T>> _late = new OperationHandler<ISequenceOperation<T>>();
+        private OrderType _order;
+        private int _priority;
+        public OrderType Order { get => _order; private set => _order = value; }
+
+        public int Priority { get => _priority; private set => _priority = value; }
+        public SequenceHandler(int priorty = 0, OrderType orderType = OrderType.Default)
+        {
+            Order = orderType;
+            Priority = priorty;
+        }
         public OperationHandler<ISequenceOperation<T>> this[OrderType type]
         {
             get
@@ -147,7 +157,7 @@ namespace Battle
         public void Register(ISequenceOperation<T> sequenceOperation, OrderType to = OrderType.Default)
         => this[to].Add(sequenceOperation);
 
-        public void Remove(ISequenceOperation<T> sequenceOperation, OrderType from = OrderType.Default)
+        public bool Remove(ISequenceOperation<T> sequenceOperation, OrderType from = OrderType.Default)
              => this[from].Remove(sequenceOperation);
 
 
@@ -157,7 +167,22 @@ namespace Battle
             void StartScene() => StartOperation(this[OrderType.Default], data, LateStartScene);
             void LateStartScene() => StartOperation(this[OrderType.After], data, OnComplete);
         }
-
+        public void StartAll(T data,Action OnComplete = null)
+        {
+            StartOperation(this[OrderType.Before], data, StartScene);
+            void StartScene() => StartOperation(this[OrderType.Default], data, LateStartScene);
+            void LateStartScene() => StartOperation(this[OrderType.After], data, OnComplete);
+        }
+        public void ExecuteTask(ITokenReciever tokenMachine,T data)
+        {
+            IDisposable token = tokenMachine?.GetToken();
+            StartAll(data,token.Dispose);
+        }
+        public void ExecuteTask(T data,Action onComplete = null)
+        {
+            IDisposable token = new TokenMachine(onComplete).GetToken();
+            StartAll(data,token.Dispose);
+        }
         private void StartOperation(OperationHandler<ISequenceOperation<T>> operation, T data, Action OnComplete)
         {
             if (operation.Count == 0)
@@ -187,5 +212,6 @@ namespace Battle
                 operation.Dispose();
             }
         }
+
     }
 }

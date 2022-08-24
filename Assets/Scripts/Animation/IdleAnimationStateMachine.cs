@@ -31,11 +31,11 @@ public class IdleAnimationStateMachine : CharacterBaseStateMachine
     }
 
 
-
+    // redo
     private void CheckPlayerTurn()
     {
   
-        Battle.Turns.TurnHandler.CheckPlayerTurnForAvailableAction();
+     //   Battle.Turns.TurnHandler.CheckPlayerTurnForAvailableAction();
 
     }
 

@@ -1,8 +1,16 @@
 ﻿using Battle;
 using Battle.Turns;
+using UnityEngine;
 
 public class ForceMoveToLockState : BaseCondition
 {
+    [SerializeField]
+    private BattleManager _battleManager;
+    private GameTurnHandler _turnHandler;
+    private void Start()
+    {
+        _turnHandler = _battleManager.TurnHandler;
+    }
     public override bool CheckCondition()
     {
         return _moveCondition;
@@ -10,13 +18,15 @@ public class ForceMoveToLockState : BaseCondition
 
     public override void InitCondition()
     {
-        EndPlayerTurn.OnPlayerEndTurn += ChangeState;
+        _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit += ChangeState;
+        _turnHandler.GetTurn(GameTurnType.ExitBattle).OnTurnEnter    += ChangeState;
         BattleManager.OnGameEnded += ChangeState;
     }
 
     private void ChangeState()
     {
-        EndPlayerTurn.OnPlayerEndTurn -= ChangeState;
+        _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit -= ChangeState;
+        _turnHandler.GetTurn(GameTurnType.ExitBattle).OnTurnEnter    -= ChangeState;
         BattleManager.OnGameEnded -= ChangeState;
         _moveCondition = true;
     }

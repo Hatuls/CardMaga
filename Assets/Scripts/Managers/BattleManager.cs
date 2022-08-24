@@ -9,13 +9,12 @@ using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Battle
 {
- 
+
     public class BattleManager : MonoSingleton<BattleManager>
     {
         public static event Action OnGameEnded;
@@ -43,28 +42,22 @@ namespace Battle
 
         private PlayersManager _playersManager;
         private IEnumerator _turnCycles;
-        private static SequenceHandler _battleStarter = new SequenceHandler();
+        private static SequenceHandler<BattleManager> _battleStarter = new SequenceHandler<BattleManager>();
+        private GameTurnHandler _gameTurnHandler;
 
 
+        public GameTurnHandler TurnHandler { get => _gameTurnHandler; }
+ 
 
-
-        public void Init(ITokenReciever token)
+        private void ResetBattle()
         {
-         var _initToken = token.GetToken();
 
-            isGameEnded = false;
-
+            _gameTurnHandler = new GameTurnHandler();
+            _battleStarter.StartAll(this, StartBattle);
             ResetParams();
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.BattleMusicParameter();
-
-             _initToken.Dispose();
-        }
-
-        private void ResetBattle()
-        {
-            _battleStarter.StartAll(StartBattle);
         }
 
         private void ResetParams()
@@ -74,16 +67,14 @@ namespace Battle
             isGameEnded = false;
 
 
-           _playerManager.AnimatorController.ResetLayerWeight();
-           _enemyManager.AnimatorController.ResetLayerWeight();
+            _playerManager.AnimatorController.ResetLayerWeight();
+            _enemyManager.AnimatorController.ResetLayerWeight();
         }
         // Need To be Re-Done
         public void StartBattle()
         {
             StopAllCoroutines();
-
-            _turnCycles = TurnHandler.TurnCycle();
-
+            TurnHandler.Start();
             BattleData.Instance.PlayerWon = false;
 
             OnBattleStarts?.Invoke();
@@ -156,7 +147,7 @@ namespace Battle
             //    OnPlayerVictory?.Invoke();
         }
 
-      
+
         // Need To be Re-Done
         private void PlayerDied()
         {
@@ -173,12 +164,12 @@ namespace Battle
 
         #region Observer Pattern 
 
-        public static void Register(ISequenceOperation battleStarter, OrderType order )
-            => _battleStarter.Register(battleStarter,order);
-        public static bool Remove(ISequenceOperation battleStarter, OrderType order)
-            => _battleStarter.Remove(battleStarter);
+        public static void Register(ISequenceOperation<BattleManager> battleStarter, OrderType order)
+            => _battleStarter.Register(battleStarter, order);
+        public static bool Remove(ISequenceOperation<BattleManager> battleStarter, OrderType order)
+            => _battleStarter.Remove(battleStarter, order);
 
-     
+
         #endregion
 
 
@@ -203,17 +194,17 @@ namespace Battle
             HealthStat.OnCharacterDeath += BattleEnded;
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
-            _battleStarter.Register(new OperationTask(Init, 0));
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
         }
         private void Start()
         {
             ResetBattle();
+           
         }
         #endregion
         #region Analytics
 
-        private static void SendAnalyticWhenGameEnded(string eventName, BattleData battleData)
+        private void SendAnalyticWhenGameEnded(string eventName, BattleData battleData)
         {
             var characterSO = battleData.Right.CharacterData.CharacterSO;
 
@@ -255,7 +246,7 @@ namespace Battle
 
 
 
-  
+
     public interface IBattleManager
     {
         DeckManager DeckManager { get; }
@@ -265,7 +256,7 @@ namespace Battle
         CardUIManager CardUIManager { get; }
         ComboManager ComboManager { get; }
         KeywordManager KeywordManager { get; }
-        TurnHandler TurnHandler { get; }
+        GameTurnHandler TurnHandler { get; }
         VFXManager VFXManager { get; }
         CameraManager CameraManager { get; }
     }
@@ -273,15 +264,15 @@ namespace Battle
 
 
 
-    public class PlayersManager : ISequenceOperation
+    public class PlayersManager : ISequenceOperation<BattleManager>
     {
         public IPlayer LeftCharacter { get; private set; }
         public IPlayer RightCharacter { get; private set; }
 
-        public OrderType Order =>  OrderType.Before;
+        public OrderType Order => OrderType.Before;
         public int Priority => -1;
 
-        public void ExecuteTask(ITokenReciever tokenMachine)
+        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager battleManager)
         {
             IDisposable token = tokenMachine.GetToken();
             var battleData = BattleData.Instance;
@@ -293,7 +284,7 @@ namespace Battle
             var leftModel = battleData.Left.CharacterData.CharacterSO.CharacterAvatar;
             var rightModel = battleData.Right.CharacterData.CharacterSO.CharacterAvatar;
 
-            LeftCharacter.VisualCharacter.SpawnModel(leftModel,false);
+            LeftCharacter.VisualCharacter.SpawnModel(leftModel, false);
             RightCharacter.VisualCharacter.SpawnModel(rightModel, rightModel == leftModel);
 
 
@@ -302,6 +293,8 @@ namespace Battle
         }
 
         public IPlayer GetCharacter(bool IsLeftCharacter) => IsLeftCharacter ? LeftCharacter : RightCharacter;
+
+  
 
         public PlayersManager(IPlayer leftCharacter, IPlayer rightCharacter)
         {
@@ -314,5 +307,5 @@ namespace Battle
     }
 
 
-    
+
 }

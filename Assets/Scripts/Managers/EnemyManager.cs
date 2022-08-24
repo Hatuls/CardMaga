@@ -21,6 +21,7 @@ namespace Battle
 
         [Tooltip("Player Stats: ")]
         [SerializeField] AIBrain _brain;
+        [SerializeField] BattleManager _battleManager;
         [SerializeField] private Character _myCharacter;
         [SerializeField] AnimationBodyPartSoundsHandler _animationSoundHandler;
         [Space]
@@ -45,7 +46,7 @@ namespace Battle
 
         public VisualCharacter VisualCharacter => throw new NotImplementedException();
 
-        private bool _isStillThinking;
+     //   private bool _isStillThinking;
         private TokenMachine _aiTokenMachine;
         private IDisposable _turnFinished;
 
@@ -54,10 +55,7 @@ namespace Battle
         #region Public Methods
 
 
-        public void RestartBattle()
-        {
-
-        }
+  
 
 
         public void AssignCharacterData(Character character)
@@ -76,7 +74,7 @@ namespace Battle
             AnimatorController.ResetAnimator();
 
             _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
-            _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, NoMoreActionsFound);
+            _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
         }
 
         private void SpawnModel(Character character)
@@ -86,7 +84,7 @@ namespace Battle
 
         public void OnEndBattle()
         {
-            NoMoreActionsFound();
+            FinishTurn();
         }
 
 
@@ -137,22 +135,31 @@ namespace Battle
             _enemyAnimatorController.ResetLayerWeight();
 
         }
-        private void NoMoreActionsFound() => _isStillThinking = false;
-        public IEnumerator PlayEnemyTurn()
+        private void FinishTurn()
+        {
+            _battleManager.TurnHandler.MoveToNextTurn();
+            AnimatorController.ResetToStartingPosition();
+        }
+        //public IEnumerator PlayEnemyTurn()
+        //{
+        //    Debug.Log("Enemy Attack!");
+
+        //    _turnFinished = _aiTokenMachine.GetToken();
+        //    _isStillThinking = true;
+        //    while (_isStillThinking)
+        //        yield return null;
+
+        //    yield return new WaitUntil(() => AnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count == 0);
+        //    CardUIManager.Instance.ActivateEnemyCardUI(false);
+        //    yield return Turns.Turn.WaitOneSecond;
+        //    AnimatorController.ResetToStartingPosition();
+        //}
+        public void PlayEnemyTurn()
         {
             Debug.Log("Enemy Attack!");
 
             _turnFinished = _aiTokenMachine.GetToken();
-            _isStillThinking = true;
-            while (_isStillThinking)
-                yield return null;
-
-            yield return new WaitUntil(() => AnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count == 0);
-            CardUIManager.Instance.ActivateEnemyCardUI(false);
-            yield return Turns.Turn.WaitOneSecond;
-            AnimatorController.ResetToStartingPosition();
         }
-
 
         #endregion
     }
