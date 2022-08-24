@@ -19,7 +19,7 @@ public class CradtingSlotsUIManager_V4 : MonoBehaviour
       HandUI.OnCardReturnToHand += _playerSlots.CancelLoadSlot;
       CardExecutionManager.OnPlayerCardExecute += _playerSlots.ApplySlot;
       
-      PlayerCraftingSlots.OnResetCrftingSlot += ResetCraftingSlots;
+      PlayerCraftingSlots.OnResetCraftingSlot += ResetCraftingSlots;
       
       CardExecutionManager.OnEnemyCardExecute += _enemySlots.ApplyEnemySlot;
    }
@@ -30,7 +30,7 @@ public class CradtingSlotsUIManager_V4 : MonoBehaviour
       HandUI.OnCardReturnToHand -= _playerSlots.CancelLoadSlot;
       CardExecutionManager.OnPlayerCardExecute -= _playerSlots.ApplySlot;
       
-      PlayerCraftingSlots.OnResetCrftingSlot -= ResetCraftingSlots;
+      PlayerCraftingSlots.OnResetCraftingSlot -= ResetCraftingSlots;
       
       CardExecutionManager.OnEnemyCardExecute -= _enemySlots.ApplyEnemySlot;
    }

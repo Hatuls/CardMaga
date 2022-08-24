@@ -1,9 +1,12 @@
 ﻿using Battle.Deck;
+using Battle.Turns;
 using CardMaga.Battle.UI;
 using CardMaga.Card;
 using CardMaga.UI.Card;
 using Characters.Stats;
 using Keywords;
+using Managers;
+using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +17,7 @@ namespace Battle
     [System.Serializable]
     public class CardEvent : UnityEvent<CardData> { }
     [System.Serializable]
-    public class CardExecutionManager : MonoSingleton<CardExecutionManager>
+    public class CardExecutionManager : MonoSingleton<CardExecutionManager> , ISequenceOperation<BattleManager>
     {
         public static event Action OnPlayerCardExecute;
         public static event Action<CardData> OnEnemyCardExecute;
@@ -36,6 +39,8 @@ namespace Battle
         public static Queue<CardData> CardsQueue => _cardsQueue;
 
         public static int CurrentKeywordIndex { get => currentKeywordIndex; }
+        private GameTurnHandler _turnHandler;
+        public int Priority => 0;
 
         static List<KeywordData> _keywordData = new List<KeywordData>();
         //   [SerializeField] StaminaUI _staminaBtn;
@@ -181,7 +186,7 @@ namespace Battle
             }
             else
             {
-                if (Turns.TurnHandler.IsPlayerTurn)
+                if (_turnHandler.IsLeftCharacterTurn)
                     _playerAnimatorController.PlayCrossAnimation();
                 else
                     _enemyAnimatorController.PlayCrossAnimation();
@@ -246,7 +251,7 @@ namespace Battle
 
 
             Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
-            bool currentTurn = (Turns.TurnHandler.CurrentState == Turns.TurnState.EndPlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.PlayerTurn || Turns.TurnHandler.CurrentState == Turns.TurnState.StartPlayerTurn);
+            bool currentTurn = _turnHandler.IsLeftCharacterTurn;
 
 
             for (int i = 0; i < _keywordData.Count; i++)
@@ -277,6 +282,12 @@ namespace Battle
         {
             base.Awake();
             ResetExecutionData();
+            BattleManager.Register(this, OrderType.Default);
+        }
+
+        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        {
+            _turnHandler = data.TurnHandler;
         }
 
         #endregion

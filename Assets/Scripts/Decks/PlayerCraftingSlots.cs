@@ -8,8 +8,9 @@ public class PlayerCraftingSlots : BaseDeck
 {
     public static event Action<CardTypeData> OnCardExecute;
     public static event Action OnPushedSlots;
-    public static event Action<bool> OnResetCrftingSlot;
+    public static event Action<bool> OnResetCraftingSlot;
     public override event Action OnResetDeck;
+    public static event Action OnDetectComboRequire;
     // CraftingUIHandler _playerCraftingUIHandler;
     CardData _lastCardEntered;
     public CardData LastCardEntered => _lastCardEntered;
@@ -58,7 +59,7 @@ public class PlayerCraftingSlots : BaseDeck
             }
         }
         CountCards();
-        Battle.ComboManager.StartDetection();
+        OnDetectComboRequire?.Invoke();
         return true;
     }
 
@@ -96,13 +97,14 @@ public class PlayerCraftingSlots : BaseDeck
         CountCards();
 
         if (toDetect)
-            Battle.ComboManager.StartDetection();
+            OnDetectComboRequire?.Invoke();
+   
     }
     public override void ResetDeck()
     {
         EmptySlots();
         OnResetDeck?.Invoke();
-        OnResetCrftingSlot?.Invoke(isPlayer);
+        OnResetCraftingSlot?.Invoke(isPlayer);
      //   _playerCraftingUIHandler.ResetAllSlots();
 
         //if(isPlayer) 

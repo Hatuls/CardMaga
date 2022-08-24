@@ -30,7 +30,7 @@ public class DollyTrackCinematicManager : MonoBehaviour
             _dollyTrack = _cinematicCam.GetCinemachineComponent<CinemachineTrackedDolly>();
         _cinematicCam.gameObject.SetActive(false);
         const int order = 2;
-        BattleManager.Register(new OperationTask<BattleManager>(StartCinematicTrack, order), OrderType.Default);
+        BattleManager.Register(new OperationTask<BattleManager>(StartCinematicTrack, order), OrderType.After);
     }
 
  

@@ -44,7 +44,7 @@ public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
     {
         _counter = 0;
         AnimatorController.OnAnimationStart += SwitchCamera;
-    
+        BattleManager.Register(this, OrderType.Default);
         // AnimatorController.OnAnimationEnding += ReturnToDefaultCamera;
     }
 

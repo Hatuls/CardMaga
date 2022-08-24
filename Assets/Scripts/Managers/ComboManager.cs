@@ -11,10 +11,11 @@ using UnityEngine;
 using Battle.Combo;
 using CardMaga.Card;
 using Managers;
+using Battle.Turns;
 
 namespace Battle
 {
-    public class ComboManager : MonoSingleton<ComboManager>
+    public class ComboManager : MonoSingleton<ComboManager>, ISequenceOperation<BattleManager>
     {
 
         #region Fields
@@ -30,7 +31,7 @@ namespace Battle
         private EnemyManager _enemy;
         [SerializeField]
         private DeckManager _deckManager;
-
+        private GameTurnHandler _gameTurnHandler;
         static byte threadId;
 
         #endregion
@@ -50,9 +51,20 @@ namespace Battle
 
         public static bool FoundCombo { get; internal set; }
 
+        public int Priority => throw new NotImplementedException();
+
 
         #endregion
-
+        public override void Awake()
+        {
+            base.Awake();
+            PlayerCraftingSlots.OnDetectComboRequire += StartDetection;
+            BattleManager.Register(this, OrderType.Default);
+        }
+        private void OnDestroy()
+        {
+            PlayerCraftingSlots.OnDetectComboRequire -= StartDetection;
+        }
         public void Start()
         {
             threadId = ThreadHandler.GetNewID;
@@ -114,12 +126,12 @@ namespace Battle
              */
         }
 
-        public static void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId,DetectRecipe, EndDetection));
-        private static void EndDetection()
+        public  void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId,DetectRecipe, EndDetection));
+        private  void EndDetection()
         {
             // need to change the logic!
-            var state = Battle.Turns.TurnHandler.CurrentState;
-            bool isPlayer = state == Battle.Turns.TurnState.PlayerTurn || state == Battle.Turns.TurnState.StartPlayerTurn || state == Battle.Turns.TurnState.EndPlayerTurn;
+
+            bool isPlayer = _gameTurnHandler.IsLeftCharacterTurn;
 
             var data = DeckManager.GetCraftingSlots(isPlayer);
 
@@ -141,9 +153,9 @@ namespace Battle
             }
         }
 
-        static void DetectRecipe()
+         void DetectRecipe()
         {
-            bool isPlayer = Battle.Turns.TurnHandler.CurrentState == Battle.Turns.TurnState.PlayerTurn;
+            bool isPlayer = _gameTurnHandler.IsLeftCharacterTurn;
             //coping the relevant crafting slots from the deck manager
             CardData[] craftingSlots = new CardData[DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length];
 
@@ -199,6 +211,11 @@ namespace Battle
 
             }
             Instance.CardRecipeDetected = null;
+        }
+
+        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        {
+            _gameTurnHandler = data.TurnHandler;
         }
     }
 }
