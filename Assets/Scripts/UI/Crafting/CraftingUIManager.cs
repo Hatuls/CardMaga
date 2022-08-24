@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Battle.UI
 {
-    public class CraftingUIManager : MonoBehaviour, ISequenceOperation
+    public class CraftingUIManager : MonoBehaviour, ISequenceOperation<BattleManager>
     {
         [SerializeField] private CraftingSlotUI[] _playerCraftingSlotsUI;
         [SerializeField] private RectTransform _playersfirstSlotTransform;
@@ -42,7 +42,7 @@ namespace Battle.UI
             BattleManager.Register(this, OrderType.Before);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine)
+        public void ExecuteTask(ITokenReciever tokenMachine,BattleManager battleManager)
         {
             using (tokenMachine.GetToken())
             {

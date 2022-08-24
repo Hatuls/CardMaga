@@ -12,7 +12,7 @@ namespace Keywords
 {
     [System.Serializable]
     public class KeywordEvent : UnityEvent<KeywordAbst> { }
-    public class KeywordManager : MonoBehaviour, ISequenceOperation
+    public class KeywordManager : MonoBehaviour, ISequenceOperation<BattleManager>
     {
         [SerializeField]
         KeywordEvent keywordEvent;
@@ -33,8 +33,8 @@ namespace Keywords
         #region public Functions
 
 
-        public void ExecuteTask(ITokenReciever token)
-        {
+        public void ExecuteTask(ITokenReciever token, BattleManager bm) 
+        { 
             using (token.GetToken())
             {
                 InitParams();

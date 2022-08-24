@@ -31,7 +31,7 @@ public class AnimatorController : MonoBehaviour
     Queue<AnimationBundle> _animationQueue = new Queue<AnimationBundle>();
 
     public static event Action OnAnimationEnding;
-    public static event Action<TransitionCamera> OnAnimationStart;
+    public static event Action<TransitionCamera,Action> OnAnimationStart;
 
     [SerializeField] float _rotationSpeed;
     [SerializeField] float _positionSpeed;
@@ -116,7 +116,7 @@ public class AnimatorController : MonoBehaviour
         if (_currentAnimation != null && _currentAnimation.CameraDetails != null && _currentAnimation.CameraDetails.CheckCameraDetails(_isPlayer))
         {
             TransitionCamera transitionCamera = _currentAnimation.CameraDetails.GetTransitionCamera(_isPlayer);
-            OnAnimationStart?.Invoke(transitionCamera);
+            OnAnimationStart?.Invoke(transitionCamera,null);
         }
 
     }

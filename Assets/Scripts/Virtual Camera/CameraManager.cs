@@ -2,11 +2,14 @@
 using Battle;
 using Battle.Turns;
 using Cinemachine;
+using Managers;
+using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class CameraManager : MonoBehaviour
+public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
 {
     [SerializeField]
     private CinemachineBrain _cinemachineBrain;
@@ -25,7 +28,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField, Tooltip("The Time till the camera will return to default position"), Min(0)]
     private float _delayTillReturn;
     private float _counter = 0;
-
+    private Coroutine _coroutineCallback;
 
     private bool IsDefaultCamera
     {
@@ -35,13 +38,13 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    public int Priority =>10;
+
     private void Awake()
     {
         _counter = 0;
-        EndEnemyTurn.OnEndEnemyTurn += ReturnToDefaultCamera;
-        EndPlayerTurn.OnPlayerEndTurn += ReturnToDefaultCamera;
         AnimatorController.OnAnimationStart += SwitchCamera;
-       
+    
         // AnimatorController.OnAnimationEnding += ReturnToDefaultCamera;
     }
 
@@ -54,8 +57,8 @@ public class CameraManager : MonoBehaviour
     }
     private void OnDestroy()
     {
-        EndEnemyTurn.OnEndEnemyTurn -= ReturnToDefaultCamera;
-        EndPlayerTurn.OnPlayerEndTurn -= ReturnToDefaultCamera;
+        _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit  -= ReturnToDefaultCamera;
+        _turnHandler.GetTurn(GameTurnType.RightPlayerTurn).OnTurnExit -= ReturnToDefaultCamera;
         AnimatorController.OnAnimationStart -= SwitchCamera;
         StopCounter();
         //AnimatorController.OnAnimationEnding -= ReturnToDefaultCamera;
@@ -93,11 +96,11 @@ public class CameraManager : MonoBehaviour
         return false;
     }
 
-    private void SwitchPriority(VirtualCamera camera)
+    private void SwitchPriority(VirtualCamera camera,Action onComplete = null)
     {
         _activeCamera = camera;
         _activeCamera.ChangePriority(10);
-
+   
         foreach (VirtualCamera currentCamera in _cameras)
         {
             if (currentCamera != camera)
@@ -105,6 +108,8 @@ public class CameraManager : MonoBehaviour
                 currentCamera.ChangePriority(0);
             }
         }
+        StopCoroutine(_coroutineCallback);
+       _coroutineCallback =  StartCoroutine(TransitionCameraCallback(onComplete));
     }
 
 
@@ -130,7 +135,7 @@ public class CameraManager : MonoBehaviour
         return true;
     }
 
-    private IEnumerator DelayTillReturn()
+    private IEnumerator DelayTillReturn(Action onComplete = null)
     {
         Transform current = _cinemachineBrain.transform;
 
@@ -155,7 +160,12 @@ public class CameraManager : MonoBehaviour
 
 
     #region public
-
+    public void ReturnToDefaultCamera(ITokenReciever tokenMachine)
+    {
+        IDisposable disposable = tokenMachine.GetToken();
+        StopCounter();
+        SwitchCamera(_defaultCamera, disposable.Dispose);
+    }
 
     public void ReturnToDefaultCamera()
     {
@@ -169,7 +179,7 @@ public class CameraManager : MonoBehaviour
         SwitchCamera(_eyalTestCamera);
     }
 
-    public void SwitchCamera(TransitionCamera transitionCamera)
+    public void SwitchCamera(TransitionCamera transitionCamera,Action onCallback = null)
     {
         if (!CheckTransitionCamera(transitionCamera))
             return;
@@ -182,14 +192,20 @@ public class CameraManager : MonoBehaviour
                 StartTimer();
 
             _cinemachineBrain.m_CustomBlends = transitionCamera.CustomBlend;
-            SwitchPriority(virtualCamera);
+            SwitchPriority(virtualCamera, onCallback);
 
         }
     }
-    private void StartTimer()
+    private IEnumerator TransitionCameraCallback( Action onComplete = null)
+    {
+        while (_cinemachineBrain.IsBlending)
+            yield return null;
+        onComplete?.Invoke();
+    }
+    private void StartTimer(Action onComplete = null)
     {
 
-        StartCoroutine(DelayTillReturn());
+        StartCoroutine(DelayTillReturn(onComplete));
 
     }
 
@@ -210,8 +226,12 @@ public class CameraManager : MonoBehaviour
         Debug.Log("Animation Reset");
         _counter = 0;
     }
+    private GameTurnHandler _turnHandler;
+    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    {
+        _turnHandler = data.TurnHandler;
+        _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit += ReturnToDefaultCamera;
+        _turnHandler.GetTurn(GameTurnType.RightPlayerTurn).OnTurnExit += ReturnToDefaultCamera;
 
-
-
-
+    }
 }

@@ -1,15 +1,13 @@
-﻿using System;
-using Battle.Deck;
+﻿using Battle.Deck;
+using CardMaga.Battle.UI;
 using CardMaga.Card;
 using CardMaga.UI.Card;
 using Characters.Stats;
 using Keywords;
-using ReiTools.TokenMachine;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using CardMaga.Battle.UI;
-using Managers;
 
 namespace Battle
 {
@@ -40,14 +38,14 @@ namespace Battle
         public static int CurrentKeywordIndex { get => currentKeywordIndex; }
 
         static List<KeywordData> _keywordData = new List<KeywordData>();
-     //   [SerializeField] StaminaUI _staminaBtn;
+        //   [SerializeField] StaminaUI _staminaBtn;
         static int currentKeywordIndex;
         public static bool FinishedAnimation;
 
 
         [SerializeField] UnityEvent OnSuccessfullExecution;
         [SerializeField] UnityEvent OnFailedToExecute;
- 
+
         public void ResetExecution()
         {
             //_keywordData.Clear();
@@ -56,19 +54,19 @@ namespace Battle
             StopAllCoroutines();
         }
 
-     
+
         public bool CanPlayCard(bool isPlayer, CardData card)
        => card == null ? false : StaminaHandler.Instance.IsEnoughStamina(isPlayer, card);
         public bool TryExecuteCard(bool isPlayer, CardData card)
         {
             if (card == null)
                 throw new System.Exception("Card cannot be executed card is null\n Player " + isPlayer + " Tried to play a null Card");
-            if (CanPlayCard ( isPlayer,card) == false)
+            if (CanPlayCard(isPlayer, card) == false)
             {
                 // not enough stamina 
                 if (isPlayer)
                 {
-                //    _staminaBtn.PlayRejectAnimation();
+                    //    _staminaBtn.PlayRejectAnimation();
                     OnFailedToExecute?.Invoke();
                 }
 
@@ -94,7 +92,7 @@ namespace Battle
             RegisterCard(card, isPlayer);
 
             DeckManager.AddToCraftingSlot(isPlayer, card);
-            
+
             return true;
         }
 
@@ -142,7 +140,7 @@ namespace Battle
             _cardsQueue.Dequeue();
         }
 
-      
+
 
 
         public void AddToQueue(CardData card)

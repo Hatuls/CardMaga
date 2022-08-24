@@ -1,29 +1,40 @@
-﻿using Keywords;
+﻿using Battle;
+using Battle.Turns;
+using Keywords;
+using Managers;
+using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
-public class VFXController : MonoBehaviour
+public class VFXController : MonoBehaviour , ISequenceOperation<BattleManager>
 {
 
     [SerializeField] bool _isPlayer;
     [SerializeField] VFXSO _defensingVFX;
     [SerializeField] VFXSO _recieivingDamageVFX;
-
     [SerializeField] AvatarHandler _avatarHandler;
+
     public AvatarHandler AvatarHandler { get => _avatarHandler; set => _avatarHandler = value; }
+
+    public int Priority => 99;
+
     List<KeywordData> keywordDatas = new List<KeywordData>();
 
     private Queue<VFXSO> VFXQueue = new Queue<VFXSO>();
+
+    private GameTurnHandler _turnHandler;
+
     private void Start()
     {
-        Battle.CardExecutionManager.OnSortingKeywords += RecieveSortingKeywordsData;
-        Battle.CardExecutionManager.OnAnimationIndexChange += SortVFXFromListByAnimationIndex;
-        Battle.CardExecutionManager.OnInsantExecute += ExecuteAllKeywords;
+        CardExecutionManager.OnSortingKeywords += RecieveSortingKeywordsData;
+        CardExecutionManager.OnAnimationIndexChange += SortVFXFromListByAnimationIndex;
+        CardExecutionManager.OnInsantExecute += ExecuteAllKeywords;
+
     }
     private void OnDisable()
     {
-        Battle.CardExecutionManager.OnInsantExecute -= ExecuteAllKeywords;
-        Battle.CardExecutionManager.OnAnimationIndexChange -= SortVFXFromListByAnimationIndex;
-        Battle.CardExecutionManager.OnSortingKeywords -= RecieveSortingKeywordsData;
+        CardExecutionManager.OnInsantExecute -= ExecuteAllKeywords;
+        CardExecutionManager.OnAnimationIndexChange -= SortVFXFromListByAnimationIndex;
+        CardExecutionManager.OnSortingKeywords -= RecieveSortingKeywordsData;
     }
     public void RegisterVFXQueue(KeywordSO keyword)
     {
@@ -44,7 +55,7 @@ public class VFXController : MonoBehaviour
     }
     private void RecieveSortingKeywordsData(List<KeywordData> keywords)
     {
-        if (_isPlayer == Battle.Turns.TurnHandler.IsPlayerTurn)
+        if (_isPlayer == _turnHandler.IsLeftCharacterTurn)
         {
             keywordDatas.AddRange(keywords);
 
@@ -179,6 +190,11 @@ public class VFXController : MonoBehaviour
 => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.RightElbow), _recieivingDamageVFX);
     public void ApplyRecieveDamageLeftElbowArmVFX()
 => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftElbow), _recieivingDamageVFX);
+
+    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    {
+        _turnHandler = data.TurnHandler;
+    }
     #endregion
     #endregion
 

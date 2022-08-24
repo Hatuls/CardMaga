@@ -5,7 +5,7 @@ using ReiTools.TokenMachine;
 using UnityEngine;
 
 
-public class UIManager : MonoBehaviour , ISequenceOperation
+public class UIManager : MonoBehaviour
 {
     #region Fields
     public static Vector2 MiddleScreenPosition = new Vector2(Screen.width / 2, Screen.height / 2);
@@ -17,14 +17,11 @@ public class UIManager : MonoBehaviour , ISequenceOperation
     #region Monobehaviour Callbacks 
     public  void Awake()
     {
-        BattleManager.Register(this, OrderType.Before);
-    }
-
-    public void ExecuteTask(ITokenReciever tokenMachine)
-    {
 #if !UNITY_EDITOR
-        Cursor.lockState = CursorLockMode.Confined;
+                Cursor.lockState = CursorLockMode.Confined;
 #endif
     }
+
+   
     #endregion
 }
