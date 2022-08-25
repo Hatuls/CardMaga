@@ -2,6 +2,7 @@
 using CardMaga.UI.Card;
 using UnityEngine;
 using System.Collections.Generic;
+using CardMaga.UI;
 using TMPro;
 
 public class SelectCardUI : MonoBehaviour
@@ -10,6 +11,7 @@ public class SelectCardUI : MonoBehaviour
     [SerializeField] private CardUiInputBehaviourHandler _behaviourHandler;
     [SerializeField] private FollowCardUI _followCardUI;
     [SerializeField] private ZoomCardUI _zoomCardUI;
+    [SerializeField] private HandUI _handUI;
     
     [Header("InputBehaviourSO")]
     [SerializeField] private CardUIInputBehaviourSO _zoomInputBehaviour;
@@ -18,6 +20,8 @@ public class SelectCardUI : MonoBehaviour
     [SerializeField] private CardUIInputBehaviourSO _selectedInputBehaviour;
     
     private CardUI _selectCardUI;
+
+    private BaseHandUIState _currentState;
 
     public enum HandState
     {
@@ -42,7 +46,7 @@ public class SelectCardUI : MonoBehaviour
             return;
         }
 
-        if (_behaviourHandler.TrySetBehaviour(cardUI.Inputs, _selectedInputBehaviour))
+        if (cardUI.Inputs.TrySetInputBehaviour(_selectedInputBehaviour))
         {
             _selectCardUI = cardUI;
             //let the hand know
@@ -51,55 +55,63 @@ public class SelectCardUI : MonoBehaviour
 
     private void SetToZoomState(CardUI cardUI)
     {
-        if (!_behaviourHandler.TrySetBehaviour(cardUI.Inputs, _zoomInputBehaviour))
-        {
-            Debug.LogError("Failed To Set Zoom State");
-            return;
-        }
-        
-        _zoomCardUI.SetSelectCardUI(cardUI);
+       SetState(HandState.Zoom,cardUI);
     }
 
     private void SetToFollowState(CardUI cardUI)
     {
-        if (cardUI.Inputs.InputBehaviour == _zoomInputBehaviour)
+        SetState(HandState.Follow,cardUI);
+    }
+
+    private void SetState(HandState state,CardUI cardUI)
+    {
+        if (_currentState == null)
         {
-            if (!_behaviourHandler.TrySetBehaviour(cardUI.Inputs,_followInputBehaviour))
-            {
-                Debug.LogError("Failed To Set Follow State From Zoom State");
-                return;
-            }
-            
-            _zoomCardUI.SetToFollow(cardUI);
+            _currentState = _handUIStates[state];
+        
+            _currentState.EnterState(cardUI);
         }
         else
         {
-            if (!_behaviourHandler.TrySetBehaviour(cardUI.Inputs,_followInputBehaviour))
-            {
-                Debug.LogError("Failed To Set Follow State");
-                return;
-            }
-
-            _followCardUI.SetSelectCardUI(cardUI);
+            _currentState.ExitState(cardUI);
+            
+            _currentState = _handUIStates[state];
+        
+            _currentState.EnterState(cardUI);
         }
     }
 
-    private void SetToHandState(CardUI cardUI)
+    private void ReturnCardHandState(CardUI cardUI)
     {
-        if (_selectCardUI == null)
+        if (_selectCardUI == null || cardUI != _selectCardUI)
             return;
 
-        if (!_behaviourHandler.TrySetBehaviour(cardUI.Inputs,_handInputBehaviour))
+        if (!cardUI.Inputs.TrySetInputBehaviour(_handInputBehaviour))
         {
             Debug.LogError("Failed To Set To Hand State");
             return;
         }
-        
+
+        _selectCardUI = null;
+        _currentState = null;
+        _handUI.ReturnCardUIToHand(cardUI);
+    }
+    
+    private void ForceReturnCardHandState(CardUI cardUI)
+    {
+        cardUI.Inputs.ForceSetInputBehaviour(_handInputBehaviour);
+        _selectCardUI = null;
+        _handUI.ForceReturnCardUIToHand(cardUI);
     }
 
     private void Start()
     {
         SubEvent();
+
+        _handUIStates = new Dictionary<HandState, BaseHandUIState>()
+        {
+            {HandState.Zoom, _zoomCardUI}, {HandState.Follow, _followCardUI}
+        };
     }
 
     private void OnDestroy()
@@ -113,8 +125,8 @@ public class SelectCardUI : MonoBehaviour
         _selectedInputBehaviour.OnClick += SetToZoomState;
         _selectedInputBehaviour.OnBeginHold += SetToFollowState;
         _followInputBehaviour.OnHold += _followCardUI.FollowHand;
-        _followInputBehaviour.OnPointUp += SetToHandState;
-        _zoomInputBehaviour.OnClick += SetToHandState;
+        _followInputBehaviour.OnPointUp += ReturnCardHandState;
+        _zoomInputBehaviour.OnClick += ReturnCardHandState;
         _zoomInputBehaviour.OnBeginHold += SetToFollowState;
     }
     
@@ -124,8 +136,8 @@ public class SelectCardUI : MonoBehaviour
         _selectedInputBehaviour.OnClick -= SetToZoomState;
         _selectedInputBehaviour.OnBeginHold -= SetToFollowState;
         _followInputBehaviour.OnHold -= _followCardUI.FollowHand;
-        _followInputBehaviour.OnPointUp -= SetToHandState;
-        _zoomInputBehaviour.OnClick -= SetToHandState;
+        _followInputBehaviour.OnPointUp -= ReturnCardHandState;
+        _zoomInputBehaviour.OnClick -= ReturnCardHandState;
         _zoomInputBehaviour.OnBeginHold -= SetToFollowState;
     }
 }

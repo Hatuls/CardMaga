@@ -108,48 +108,6 @@ namespace CardMaga.UI
             }
         }
 
-        private void SubHandBehaviourEvents()
-        {
-            _handInputBehaviour.OnClick += SetToZoom;
-            _handInputBehaviour.OnBeginHold += SetToFollow;
-        }
-
-        private void SubFollowBehaviourEvents()
-        {
-            _followInputBehaviour.OnHold += _followCard.FollowHand;
-            _followInputBehaviour.OnPointUp += _followCard.ReleaseCard;
-        }
-
-        private void SubZoomBehaviourEvents()
-        {
-            _zoomInputBehaviour.OnHold += _zoomCard.SetToFollow;
-            _zoomInputBehaviour.OnClick += _zoomCard.ReleaseCard;
-            _zoomInputBehaviour.OnPointUp += SetToHand;
-        }
-        
-        private void SetToZoom(CardUI cardUI)
-        {
-            _cardUiInputBehaviourHandler.TrySetBehaviour(cardUI.Inputs, _zoomInputBehaviour);
-            _zoomCard.SetSelectCardUI(cardUI);
-            RemoveCardUIFromHand(cardUI);
-            _cardUiInputBehaviourHandler.LockAllTouchableItemsExcept(_tableCardSlot.GetCardUIInputsFromTable(),cardUI.Inputs,false);
-        }
-
-        private void SetToFollow(CardUI cardUI)
-        {
-            _cardUiInputBehaviourHandler.TrySetBehaviour(cardUI.Inputs, _followInputBehaviour);
-            _followCard.SetSelectCardUI(cardUI);
-            RemoveCardUIFromHand(cardUI);
-            _cardUiInputBehaviourHandler.LockAllTouchableItemsExcept(_tableCardSlot.GetCardUIInputsFromTable(),cardUI.Inputs,false);
-        }
-
-        private void SetToHand(CardUI cardUI)
-        {
-            _cardUiInputBehaviourHandler.TrySetBehaviour(cardUI.Inputs, _handInputBehaviour);
-            AddCards(cardUI);
-            _cardUiInputBehaviourHandler.LockAllTouchableItems(_tableCardSlot.GetCardUIInputsFromTable(),true);
-        }
-
         public void LockInput()
         {
             CardUI[] tempCardUis = _tableCardSlot.GetCardsUIExceptFrom(_selectedCard).ToArray();
@@ -191,12 +149,6 @@ namespace CardMaga.UI
             CardUI[] _handCards = _cardUIManager.GetCardsUI(cardDatas);
            
             return _handCards;
-        }
-
-        private void ForceRelease()
-        {
-            _zoomCard.ForceReleaseCard();
-            _followCard.ForceReleaseCard();
         }
 
         private void AddCards(params CardUI[] cards)

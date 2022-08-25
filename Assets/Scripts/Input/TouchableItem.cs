@@ -1,6 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using System;
 using System.Collections;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -252,7 +253,7 @@ namespace CardMaga.Input
 
         #region InputBehaviourManagement
 
-        public bool TrySetInputBehaviour(this TouchableItem<T>,InputBehaviour<T> inputBehaviour)
+        public bool TrySetInputBehaviour(InputBehaviour<T> inputBehaviour)
         {
             if (inputBehaviour == null || _inputBehaviour == null)
             {
@@ -266,6 +267,11 @@ namespace CardMaga.Input
                 return true;
 
             return false;
+        }
+        
+        public void ForceSetInputBehaviour(InputBehaviour<T> inputBehaviour)
+        {
+            _inputBehaviour = inputBehaviour;
         }
 
         public void ResetInputBehaviour()

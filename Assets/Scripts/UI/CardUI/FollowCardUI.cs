@@ -6,12 +6,11 @@ using CardMaga.UI.Card;
 using DG.Tweening;
 using UnityEngine;
 
-public class FollowCardUI : MonoBehaviour
+public class FollowCardUI : BaseHandUIState
 {
     public static event Action<CardUI> OnCardExecute;
     
     [SerializeField] private HandUI _handUI;
-    [SerializeField] private ZoomCardUI _zoomCardUI;
     [SerializeField] private TransitionPackSO _followHand;
     [SerializeField] private RectTransform _executionBoundry;
 
@@ -19,9 +18,6 @@ public class FollowCardUI : MonoBehaviour
     private float _executionBoundry_Y;
 
     private Vector2 _mousePosition;
-
-    private CardUI _selectCardUI;
-    private IDisposable _token;
 
     public void Start()
     {
@@ -35,49 +31,27 @@ public class FollowCardUI : MonoBehaviour
         KillTween();
     }
 
-
-    public void SetSelectCardUI(CardUI cardUI)
+    public override void ExitState(CardUI cardUI)
     {
-        if (_selectCardUI != null)
+        if (!ReferenceEquals(cardUI, SelectedCardUI))
             return;
-
-        _selectCardUI = cardUI;
-    }
-
-    public void ReleaseCard(CardUI cardUI)
-    {
-        if (!ReferenceEquals(cardUI, _selectCardUI))
-            return;
-
+        
         if (cardUI.transform.position.y > _executionBoundry_Y)
         {
-            DeckManager.Instance.TransferCard(true, DeckEnum.Hand, DeckEnum.Selected, _selectCardUI.CardData);
+            DeckManager.Instance.TransferCard(true, DeckEnum.Hand, DeckEnum.Selected, SelectedCardUI.CardData);
             
-            if (CardExecutionManager.Instance.TryExecuteCard(_selectCardUI))
+            if (CardExecutionManager.Instance.TryExecuteCard(SelectedCardUI))
             {
-                _selectCardUI.Inputs.ForceChangeState(false);
-                _handUI.RemoveCardUIsFromTable(_selectCardUI);
-                OnCardExecute?.Invoke(_selectCardUI);
-                _selectCardUI = null;
+                SelectedCardUI.Inputs.ForceChangeState(false);
+                _handUI.RemoveCardUIsFromTable(SelectedCardUI);
+                OnCardExecute?.Invoke(SelectedCardUI);
                 return;
             }
         }
         
-        //DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, _selectCardUI.CardData);
-        _handUI.ReturnCardUIToHand(_selectCardUI);
-        _selectCardUI = null;
+        base.ExitState(cardUI);
     }
-
-    public void ForceReleaseCard()
-    {
-        if (_selectCardUI == null)
-            return;
-        
-        _handUI.ForceReturnCardUIToHand(_selectCardUI);
-        _selectCardUI = null;
-    }
-
-
+    
     public void FollowHand(CardUI cardUI)
     {
         KillTween();

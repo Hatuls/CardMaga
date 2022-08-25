@@ -19,26 +19,35 @@ public class BaseHandUIState : MonoBehaviour
         get => _selectedCardUI;
     }
     
-    protected virtual void EnterState(CardUI cardUI)
+    public virtual void EnterState(CardUI cardUI)
     {
         if (_selectedCardUI != null)
             return;
 
+        if (!cardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
+        {
+            Debug.LogError(name + "Failed To Set Input Behaviour");
+            return;
+        }
+        
         _selectedCardUI = cardUI;
         
         OnEnterState?.Invoke();
     }
 
-    protected virtual void ExitState(CardUI cardUI)
+    public virtual void ExitState(CardUI cardUI)
     {
         if (!ReferenceEquals(cardUI, SelectedCardUI))
+        {
+            Debug.LogError(name + "CardUI Not equal To the Selected CardUI");
             return;
+        }
         
         _selectedCardUI = null;
         OnExitState?.Invoke();
     }
 
-    protected virtual void ForceExitState(CardUI cardUI)
+    public virtual void ForceExitState(CardUI cardUI)
     {
         _selectedCardUI = null;
         OnExitState?.Invoke();
