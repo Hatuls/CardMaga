@@ -58,12 +58,6 @@ namespace CardMaga.UI
         [Header("Selected Card"),SerializeField,ReadOnly]
         private CardUI _selectedCard;
 
-        [Header("InputBehaviourSO")]
-        [SerializeField] private CardUIInputBehaviourSO _zoomInputBehaviour;
-        [SerializeField] private CardUIInputBehaviourSO _followInputBehaviour;
-        [SerializeField] private CardUIInputBehaviourSO _handInputBehaviour;
-        [SerializeField] private CardUIInputBehaviourSO _selectedInputBehaviour;
-
         private Sequence _currentSequence;
 
         private TokenMachine _handLockTokenMachine;
@@ -129,7 +123,7 @@ namespace CardMaga.UI
         private void SubZoomBehaviourEvents()
         {
             _zoomInputBehaviour.OnHold += _zoomCard.SetToFollow;
-            _zoomInputBehaviour.OnClick += _zoomCard.ReturnCardToHand;
+            _zoomInputBehaviour.OnClick += _zoomCard.ReleaseCard;
             _zoomInputBehaviour.OnPointUp += SetToHand;
         }
         

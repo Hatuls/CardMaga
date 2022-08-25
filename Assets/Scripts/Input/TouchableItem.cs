@@ -252,7 +252,7 @@ namespace CardMaga.Input
 
         #region InputBehaviourManagement
 
-        public bool TrySetInputBehaviour(InputBehaviour<T> inputBehaviour)
+        public bool TrySetInputBehaviour(this TouchableItem<T>,InputBehaviour<T> inputBehaviour)
         {
             if (inputBehaviour == null || _inputBehaviour == null)
             {

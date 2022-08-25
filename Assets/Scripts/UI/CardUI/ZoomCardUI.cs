@@ -5,7 +5,7 @@ namespace CardMaga.UI.Card
 {
 
 
-    public class ZoomCardUI : MonoBehaviour
+    public class ZoomCardUI : BaseHandUIState
     {
         [SerializeField] private HandUI _handUI;
         [SerializeField] private FollowCardUI _followCard;
@@ -15,25 +15,35 @@ namespace CardMaga.UI.Card
 
         private Sequence _currentSequence;
 
-        private CardUI _selectCardUI;
-
         private IDisposable _zoomToken;
+
+        protected override void EnterState(CardUI cardUI)
+        {
+            base.EnterState(cardUI);
+            
+            MoveToZoomPosition(SelectedCardUI);
+        }
+
+        protected override CardUI ExitState()
+        {
+            return base.ExitState();
+        }
+
+        protected override CardUI ForceExitState()
+        {
+            return base.ForceExitState();
+        }
 
         public void SetSelectCardUI(CardUI cardUI)
         {
-            if (_selectCardUI != null)
-                return;
-
-            _selectCardUI = cardUI;
-            MoveToZoomPosition(_selectCardUI);
         }
 
         private void InitZoom()
         {
-            if (_selectCardUI == null)
+            if (SelectedCardUI == null)
                 return;
             
-            _zoomToken = _selectCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
+            _zoomToken = SelectedCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
 
         public void SetToFollow(CardUI cardUI)
@@ -50,23 +60,23 @@ namespace CardMaga.UI.Card
 
         private void MoveToZoomPosition(CardUI cardUI)
         {
-            if (_selectCardUI != null)
+            if (SelectedCardUI != null)
             {
                 KillTween();
                 _currentSequence = cardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
             }
         }
 
-        public void ReturnCardToHand(CardUI cardUI)
+        public void ReleaseCard(CardUI cardUI)
         {
-            if (!ReferenceEquals(cardUI, _selectCardUI))
+            if (!ReferenceEquals(cardUI, SelectedCardUI))
                 return;
 
             _zoomToken.Dispose();
 
-            _handUI.ReturnCardUIToHand(_selectCardUI);
+            _handUI.ReturnCardUIToHand(SelectedCardUI);
 
-            _selectCardUI = null;
+            SelectedCardUI = null;
         }
 
         public void ForceReleaseCard()

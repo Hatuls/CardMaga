@@ -55,13 +55,4 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             touchableItems[i].ResetInputBehaviour();
         }
     }
-
-    public bool TrySetBehaviour(TouchableItem<T> touchableItem, InputBehaviour<T> inputBehaviour)
-    {
-        if (touchableItem == null || inputBehaviour == null)
-            return false;
-        
-        touchableItem.TrySetInputBehaviour(inputBehaviour);
-        return true;
-    }
 }

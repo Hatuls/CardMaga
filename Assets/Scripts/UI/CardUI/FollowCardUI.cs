@@ -36,13 +36,12 @@ public class FollowCardUI : MonoBehaviour
     }
 
 
-    public bool SetSelectCardUI(CardUI cardUI)
+    public void SetSelectCardUI(CardUI cardUI)
     {
         if (_selectCardUI != null)
-            return false;
+            return;
 
         _selectCardUI = cardUI;
-        return true;
     }
 
     public void ReleaseCard(CardUI cardUI)
