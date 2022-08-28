@@ -47,17 +47,22 @@ namespace Battle
 
 
         public GameTurnHandler TurnHandler { get => _gameTurnHandler; }
- 
+        public PlayersManager PlayersManager { get => _playersManager; }
 
         private void ResetBattle()
         {
-
-            _gameTurnHandler = new GameTurnHandler();
+            InitParams();
             _battleStarter.StartAll(this, StartBattle);
             ResetParams();
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.BattleMusicParameter();
+        }
+
+        private void InitParams()
+        {
+            _gameTurnHandler = new GameTurnHandler();
+            _playersManager = new PlayersManager(_playerManager, _enemyManager);
         }
 
         private void ResetParams()
@@ -194,7 +199,6 @@ namespace Battle
             HealthStat.OnCharacterDeath += BattleEnded;
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
-            _playersManager = new PlayersManager(_playerManager, _enemyManager);
         }
         private void Start()
         {

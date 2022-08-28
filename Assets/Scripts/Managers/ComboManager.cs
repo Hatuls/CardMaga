@@ -51,7 +51,7 @@ namespace Battle
 
         public static bool FoundCombo { get; internal set; }
 
-        public int Priority => throw new NotImplementedException();
+        public int Priority => 0;
 
 
         #endregion

@@ -17,8 +17,10 @@ public class AvatarHandler : MonoBehaviour
 
     [Header("Avatar:")]
     [SerializeField] Avatar avatar;
-    [Header("Avatar:")]
     [SerializeField] SkinnedMeshRenderer _mesh;
+    [Header("Animation:")]
+    [SerializeField] Animator _animator;
+    public Animator Animator => _animator;
     public Transform HeadPart { get => _headPart; }
     public Transform LeftHandPart { get => _leftHandPart; }
     public Transform RightHandPart { get => _rightHandPart; }
@@ -33,25 +35,7 @@ public class AvatarHandler : MonoBehaviour
     public Transform RightKneePart { get => _rightKneePart; }
     public SkinnedMeshRenderer Mesh { get => _mesh; }
 
-    private void Start()
-    {
-        if (transform.root.TryGetComponent(out VFXController vfx))
-        {
-            vfx.AvatarHandler = this;
-        }
-        else
-            throw new System.Exception($"AvatarHandler : Could Not Find An VFXContoller");
-
-
-        if (transform.root.TryGetComponent(out Animator animator))
-        {
-            animator.avatar = avatar;
-        }
-        else
-            throw new System.Exception($"AvatarHandler : Could Not Find An Animator");
-
-
-    }
+   
 
 
     public Transform GetBodyPart(BodyPartEnum bodyPartEnum)

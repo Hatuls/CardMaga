@@ -27,43 +27,21 @@ namespace Managers
         private Character _character;
         private CharacterStatsHandler _statsHandler;
         private CardData[] _playerDeck;
-        [SerializeField] AnimatorController _playerAnimatorController;
-        [SerializeField] AnimationBodyPartSoundsHandler _soundAnimation;
+        [SerializeField] VisualCharacter _visualCharacter;
+
         #endregion
-        static int Counter = 0;
+      
 
         public CardData[] Deck => _playerDeck;
         public Combo[] Combos => _character.CharacterData.ComboRecipe;
         public bool IsLeft => true;
-        public AnimatorController AnimatorController
-        {
-            get
-            {
-                if (_playerAnimatorController == null)
-                {
-                    var animators = FindObjectsOfType<AnimatorController>();
+        public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
 
-                    if (animators != null && animators.Length > 0)
-                    {
-                        foreach (var anim in animators)
-                        {
-                            if (anim.tag == "Player")
-                            {
-                                _playerAnimatorController = anim;
-                                break;
-                            }
-                        }
-                    }
 
-                }
-                return _playerAnimatorController;
-            }
-
-        }
 
         public CharacterStatsHandler StatsHandler { get => _statsHandler; }
 
-        public VisualCharacter VisualCharacter => throw new NotImplementedException();
+        public VisualCharacter VisualCharacter => _visualCharacter;
 
         public void AssignCharacterData(Character characterData)
         {
@@ -72,7 +50,7 @@ namespace Managers
             //     Debug.LogWarning("<a>Spawning " + Counter++ + " </a>");
             _character = characterData;
             var data = characterData.CharacterData;
-            _soundAnimation.CurrentCharacter = data.CharacterSO;
+            VisualCharacter.AnimationSound.CurrentCharacter = data.CharacterSO;
 
             int Length = data.CharacterDeck.Length;
 
@@ -82,16 +60,16 @@ namespace Managers
             _statsHandler = new CharacterStatsHandler(true, ref data.CharacterStats);
 
             //  CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
-            AnimatorController.ResetAnimator();
+   
         }
 
 
         public void OnEndTurn()
-            => _playerAnimatorController.ResetLayerWeight();
+            => VisualCharacter.AnimatorController.ResetLayerWeight();
 
         public void PlayerWin()
         {
-            _playerAnimatorController.CharacterWon();
+            VisualCharacter.AnimatorController.CharacterWon();
             _character.CharacterData.CharacterSO.VictorySound.PlaySound();
         }
 

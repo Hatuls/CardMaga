@@ -11,7 +11,7 @@ public class VFXController : MonoBehaviour , ISequenceOperation<BattleManager>
     [SerializeField] bool _isPlayer;
     [SerializeField] VFXSO _defensingVFX;
     [SerializeField] VFXSO _recieivingDamageVFX;
-    [SerializeField] AvatarHandler _avatarHandler;
+     private AvatarHandler _avatarHandler;
 
     public AvatarHandler AvatarHandler { get => _avatarHandler; set => _avatarHandler = value; }
 

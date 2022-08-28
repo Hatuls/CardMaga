@@ -49,7 +49,7 @@ public class CharacterBaseStateMachine : StateMachineBehaviour
     public AnimatorController GetAnimatorController(Animator animator)
     {
         if (_animatorController == null)
-            _animatorController = animator.GetComponent<AnimatorController>();
+            _animatorController = animator.transform.root.GetComponent<VisualCharacter>().AnimatorController;
 
         return _animatorController;
     }

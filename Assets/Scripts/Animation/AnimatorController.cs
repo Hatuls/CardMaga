@@ -22,8 +22,9 @@ public class AnimatorController : MonoBehaviour
     #endregion
 
     #region Fields
+
     [SerializeField] AnimatorController _opponentController;
-    [SerializeField] Animator _animator;
+
     [SerializeField] Transform targetToLookAt;
 
     AnimationBundle _previousAnimation;
@@ -49,6 +50,8 @@ public class AnimatorController : MonoBehaviour
 
 
     #region Properties
+    public Animator Animator { get; set; }
+
     public bool AnimatorIsPlayer => _isPlayer;
     public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
     public AnimationBundle SetCurrentAnimationBundle { set => _currentAnimation = value; }
@@ -58,10 +61,7 @@ public class AnimatorController : MonoBehaviour
 
     #region MonoBehaviour Callbacks   
 
-    private void Start()
-    {
-        ResetAnimator();
-    }
+
 
 
     private void Update()
@@ -89,8 +89,8 @@ public class AnimatorController : MonoBehaviour
 
         startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         _isAnimationPlaying = false;
-        _animator.SetBool("IsDead", false);
-        _animator.SetBool("IsWon", false);
+        Animator.SetBool("IsDead", false);
+        Animator.SetBool("IsWon", false);
         _animationQueue.Clear();
         _currentAnimation = null;
         ReturnToIdle();
@@ -99,7 +99,7 @@ public class AnimatorController : MonoBehaviour
 
     public void ResetToStartingPosition()
     {
-        if (_animator == null)
+        if (Animator == null)
         {
             Debug.LogError("Error in ResetToIdle");
             return;
@@ -135,13 +135,13 @@ public class AnimatorController : MonoBehaviour
     {
         _isAnimationPlaying = false;
 
-        _animator.SetBool("IsWon", true);
+        Animator.SetBool("IsWon", true);
         //_playerAnimator.SetInteger("AnimNum", -2);
         transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
     }
     public void CharacterIsDead()
     {
-        _animator.SetBool("IsDead", true);
+        Animator.SetBool("IsDead", true);
         //      _animator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
         _toLockAtPlace = true;
 
@@ -203,9 +203,9 @@ public class AnimatorController : MonoBehaviour
     {
         Debug.Log("Play Anim " + name);
         if (_crossFadeBetweenAnimations || toCrossFade)
-            _animator.CrossFade(name, _transitionSpeedBetweenAnimations);
+            Animator.CrossFade(name, _transitionSpeedBetweenAnimations);
         else
-            _animator.Play(name);
+            Animator.Play(name);
 
     }
 
@@ -254,8 +254,8 @@ public class AnimatorController : MonoBehaviour
 
     public void ResetLayerWeight()
     {
-        _animator.SetLayerWeight(1, 0);
-        _animator.SetLayerWeight(2, 0);
+        Animator.SetLayerWeight(1, 0);
+        Animator.SetLayerWeight(2, 0);
     }
 
 
@@ -290,10 +290,10 @@ public class AnimatorController : MonoBehaviour
         {
             bool isEmptyList = _animationQueue.Count == 0;
             bool isIdle = true;
-            if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)
+            if (Animator.GetCurrentAnimatorClipInfo(0).Length > 0)
             {
 
-                isIdle = _animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
+                isIdle = Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
             }
 
 
@@ -304,6 +304,7 @@ public class AnimatorController : MonoBehaviour
             return isEmptyList && isIdle;
         }
     }
+
 
     #endregion
 
@@ -318,7 +319,7 @@ public class AnimatorController : MonoBehaviour
         //  _currentAnimation = null;
 
     }
-    private void ReturnToIdle() => _animator.CrossFade("Idle_1", transitionToIdle);
+    private void ReturnToIdle() => Animator.CrossFade("Idle_1", transitionToIdle);
     #endregion
 
     #endregion

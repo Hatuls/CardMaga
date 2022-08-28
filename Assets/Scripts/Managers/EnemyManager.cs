@@ -21,14 +21,13 @@ namespace Battle
 
         [Tooltip("Player Stats: ")]
         [SerializeField] AIBrain _brain;
-        [SerializeField] BattleManager _battleManager;
+        [SerializeField] BattleManager _battleManager; // remove from here
         [SerializeField] private Character _myCharacter;
-        [SerializeField] AnimationBodyPartSoundsHandler _animationSoundHandler;
+        [SerializeField] VisualCharacter _visualCharacter;
         [Space]
         private AIHand _aiHand;
         int _cardAction;
-        //   [SerializeField] CardData enemyAction;
-        [SerializeField] AnimatorController _enemyAnimatorController;
+
         [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
         public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
@@ -37,20 +36,20 @@ namespace Battle
         private CardData[] _deck;
         public CardData[] Deck => _deck;
 
-        public AnimatorController AnimatorController => _enemyAnimatorController;
+        public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
 
         public AIBrain Brain { get => _brain; }
         public CharacterStatsHandler StatsHandler { get => _statsHandler; }
 
         public bool IsLeft =>false;
 
-        public VisualCharacter VisualCharacter => throw new NotImplementedException();
+        public VisualCharacter VisualCharacter => _visualCharacter;
 
      //   private bool _isStillThinking;
         private TokenMachine _aiTokenMachine;
         private IDisposable _turnFinished;
 
-        [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f)]
+        [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f,true)]
         private Vector2 _delayTime;
         #region Public Methods
 
@@ -60,10 +59,10 @@ namespace Battle
 
         public void AssignCharacterData(Character character)
         {
-            SpawnModel(character);
+          
             _myCharacter = character;
             var characterdata = character.CharacterData;
-            _animationSoundHandler.CurrentCharacter = characterdata.CharacterSO;
+            VisualCharacter.AnimationSound.CurrentCharacter = characterdata.CharacterSO;
 
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new CardData[deckLength];
@@ -71,16 +70,11 @@ namespace Battle
             _statsHandler = new CharacterStatsHandler(false, ref characterdata.CharacterStats);
             DeckManager.Instance.InitDeck(false, _deck);
 
-            AnimatorController.ResetAnimator();
-
             _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
         }
 
-        private void SpawnModel(Character character)
-        {
-            Instantiate(character.CharacterData.CharacterSO.CharacterAvatar, _enemyAnimatorController.transform);
-        }
+
 
         public void OnEndBattle()
         {
@@ -126,13 +120,13 @@ namespace Battle
         }
         public void EnemyWon()
         {
-            _enemyAnimatorController.CharacterWon();
+            VisualCharacter.AnimatorController.CharacterWon();
             _myCharacter.CharacterData.CharacterSO.VictorySound.PlaySound();
         }
 
         public void OnEndTurn()
         {
-            _enemyAnimatorController.ResetLayerWeight();
+            VisualCharacter.AnimatorController.ResetLayerWeight();
 
         }
         private void FinishTurn()
