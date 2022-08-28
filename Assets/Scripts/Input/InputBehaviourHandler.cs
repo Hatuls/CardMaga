@@ -3,8 +3,6 @@ using UnityEngine;
 
 public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBehaviour
 {
-    public abstract InputBehaviour<T>[] InputBehaviours { get; }
-
     public void LockAllTouchableItems(TouchableItem<T>[] touchableItems,bool isTouchable)
     {
         for (int i = 0; i < touchableItems.Length; i++)

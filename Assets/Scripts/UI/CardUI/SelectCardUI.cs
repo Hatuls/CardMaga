@@ -38,7 +38,7 @@ public class SelectCardUI : MonoBehaviour
         get => _selectCardUI;
     }
 
-    public void TrySetSelectedCardUI(CardUI cardUI)
+    public void SetSelectedCardUI(CardUI cardUI)
     {
         if (_selectCardUI != null)
         {
@@ -97,7 +97,7 @@ public class SelectCardUI : MonoBehaviour
         _handUI.ReturnCardUIToHand(cardUI);
     }
     
-    private void ForceReturnCardHandState(CardUI cardUI)
+    public void ForceReturnCardHandState(CardUI cardUI)
     {
         cardUI.Inputs.ForceSetInputBehaviour(_handInputBehaviour);
         _selectCardUI = null;
@@ -121,7 +121,7 @@ public class SelectCardUI : MonoBehaviour
 
     private void SubEvent()
     {
-        _handInputBehaviour.OnPointDown += TrySetSelectedCardUI;
+        _handInputBehaviour.OnPointDown += SetSelectedCardUI;
         _selectedInputBehaviour.OnClick += SetToZoomState;
         _selectedInputBehaviour.OnBeginHold += SetToFollowState;
         _followInputBehaviour.OnHold += _followCardUI.FollowHand;
@@ -132,7 +132,7 @@ public class SelectCardUI : MonoBehaviour
     
     private void UnSubEvent()
     {
-        _handInputBehaviour.OnPointDown -= TrySetSelectedCardUI;
+        _handInputBehaviour.OnPointDown -= SetSelectedCardUI;
         _selectedInputBehaviour.OnClick -= SetToZoomState;
         _selectedInputBehaviour.OnBeginHold -= SetToFollowState;
         _followInputBehaviour.OnHold -= _followCardUI.FollowHand;
