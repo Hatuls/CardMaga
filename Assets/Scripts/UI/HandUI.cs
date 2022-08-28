@@ -18,7 +18,7 @@ namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : MonoBehaviour, ILockabel, IGetCardsUI
+    public class HandUI : MonoBehaviour, ILockable, IGetCardsUI
     {
         #region Events
 
@@ -106,20 +106,22 @@ namespace CardMaga.UI
             _handLockTokenMachine = new TokenMachine(UnLockInput, LockInput);
 
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
-            EndPlayerTurn.OnPlayerEndTurn += ForceDiscardCards;
             BattleManager.OnGameEnded += ForceDiscardCards;
             DeckManager.OnDrawCards += DrawCardsFromDrawDeck;
             FollowCardUI.OnCardExecute += DiscardCard;
             _isCardSelected = false;
         }
-
+        private void Start()
+        {
+            BattleManager.Instance.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit += ForceDiscardCards;
+        }
         private void OnDestroy()
         {
             _comboUIManager.OnCardComboDone -= GetCardsFromCombo;
             BattleManager.OnGameEnded -= ForceDiscardCards;
             DeckManager.OnDrawCards -= DrawCardsFromDrawDeck;
             FollowCardUI.OnCardExecute -= DiscardCard;
-            EndPlayerTurn.OnPlayerEndTurn -= ForceDiscardCards;
+            BattleManager.Instance.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit -= ForceDiscardCards;
 
             for (var i = 0; i < _tableCardSlot.CardSlots.Count; i++)
             {

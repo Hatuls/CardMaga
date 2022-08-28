@@ -188,6 +188,7 @@ namespace Battle
         private void OnDestroy()
         {
             ThreadsHandler.ThreadHandler.ResetList();
+            TurnHandler.Dispose();
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
             _battleStarter.OnDestroy();
             _battleStarter = null;
@@ -253,7 +254,7 @@ namespace Battle
 
     public interface IBattleManager
     {
-        DeckManager DeckManager { get; }
+     //   DeckManager DeckManager { get; }
         PlayerManager PlayerManager { get; }
         EnemyManager EnemyManager { get; }
         CardExecutionManager CardExecutionManager { get; }
@@ -281,8 +282,8 @@ namespace Battle
             IDisposable token = tokenMachine.GetToken();
             var battleData = BattleData.Instance;
             // assign data
-            LeftCharacter.AssignCharacterData(battleData.Left);
-            RightCharacter.AssignCharacterData(battleData.Right);
+            LeftCharacter.AssignCharacterData (battleManager,battleData.Left);
+            RightCharacter.AssignCharacterData(battleManager,battleData.Right);
 
             //assign visuals
             var leftModel = battleData.Left.CharacterData.CharacterSO.CharacterAvatar;

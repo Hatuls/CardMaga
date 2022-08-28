@@ -1,6 +1,8 @@
 ﻿
+using Battle;
 using Battle.Characters;
 using Battle.Combo;
+using Battle.Deck;
 using CardMaga.Card;
 using Characters.Stats;
 using System;
@@ -12,10 +14,11 @@ namespace Managers
     {
         bool IsLeft { get; }
         CharacterStatsHandler StatsHandler { get; }
-        CardData[] Deck { get; }
+        CardData[] StartingCards { get; }
+        DeckHandler DeckHandler { get; }
         Combo[] Combos { get; }
         VisualCharacter VisualCharacter { get; }
-        void AssignCharacterData(Character characterData);
+        void AssignCharacterData(BattleManager battleManager, Character characterData);
     }
 
 
@@ -23,7 +26,7 @@ namespace Managers
     {
         #region Fields
 
-
+        private DeckHandler _deckHandler;
         private Character _character;
         private CharacterStatsHandler _statsHandler;
         private CardData[] _playerDeck;
@@ -32,7 +35,7 @@ namespace Managers
         #endregion
       
 
-        public CardData[] Deck => _playerDeck;
+        public CardData[] StartingCards => _playerDeck;
         public Combo[] Combos => _character.CharacterData.ComboRecipe;
         public bool IsLeft => true;
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
@@ -43,7 +46,9 @@ namespace Managers
 
         public VisualCharacter VisualCharacter => _visualCharacter;
 
-        public void AssignCharacterData(Character characterData)
+        public DeckHandler DeckHandler => _deckHandler;
+
+        public void AssignCharacterData(BattleManager battleManager,Character characterData)
         {
 
 
@@ -58,9 +63,9 @@ namespace Managers
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
             Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
             _statsHandler = new CharacterStatsHandler(true, ref data.CharacterStats);
-
+            _deckHandler = new DeckHandler(this, battleManager);
             //  CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
-   
+
         }
 
 

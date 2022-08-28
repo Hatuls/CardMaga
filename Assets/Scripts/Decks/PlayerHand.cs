@@ -6,7 +6,7 @@ namespace Battle.Deck
     {
         Discard _disposalDeck;
 
-        public PlayerHand(bool isPlayer,int length , Discard deck) : base(isPlayer,length)
+        public PlayerHand(int length , Discard deck) : base(length)
         {
             _disposalDeck = deck;
         }

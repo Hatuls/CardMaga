@@ -1,5 +1,6 @@
 ﻿using Battle.Characters;
 using Battle.Deck;
+using Battle.Turns;
 using CardMaga.AI;
 using CardMaga.Battle.UI;
 using CardMaga.Card;
@@ -21,20 +22,19 @@ namespace Battle
 
         [Tooltip("Player Stats: ")]
         [SerializeField] AIBrain _brain;
-        [SerializeField] BattleManager _battleManager; // remove from here
         [SerializeField] private Character _myCharacter;
         [SerializeField] VisualCharacter _visualCharacter;
         [Space]
         private AIHand _aiHand;
         int _cardAction;
-
+        private DeckHandler _deckHandler;
         [SerializeField] TextMeshProUGUI _enemyNameText;
         #endregion
         public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
 
         private CharacterStatsHandler _statsHandler;
         private CardData[] _deck;
-        public CardData[] Deck => _deck;
+        public CardData[] StartingCards => _deck;
 
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
 
@@ -45,7 +45,9 @@ namespace Battle
 
         public VisualCharacter VisualCharacter => _visualCharacter;
 
-     //   private bool _isStillThinking;
+        public DeckHandler DeckHandler => _deckHandler;
+
+        //   private bool _isStillThinking;
         private TokenMachine _aiTokenMachine;
         private IDisposable _turnFinished;
 
@@ -54,22 +56,22 @@ namespace Battle
         #region Public Methods
 
 
-  
 
+        GameTurnHandler _turnHandler;
 
-        public void AssignCharacterData(Character character)
+        public void AssignCharacterData(BattleManager battleManager, Character character)
         {
           
             _myCharacter = character;
             var characterdata = character.CharacterData;
             VisualCharacter.AnimationSound.CurrentCharacter = characterdata.CharacterSO;
-
+            _turnHandler = battleManager.TurnHandler;
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new CardData[deckLength];
             Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
             _statsHandler = new CharacterStatsHandler(false, ref characterdata.CharacterStats);
             DeckManager.Instance.InitDeck(false, _deck);
-
+            _deckHandler = new DeckHandler(this, battleManager);
             _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
         }
@@ -131,7 +133,7 @@ namespace Battle
         }
         private void FinishTurn()
         {
-            _battleManager.TurnHandler.MoveToNextTurn();
+            _turnHandler.MoveToNextTurn();
             AnimatorController.ResetToStartingPosition();
         }
         //public IEnumerator PlayEnemyTurn()

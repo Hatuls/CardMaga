@@ -4,13 +4,13 @@ namespace CardMaga.AI
 {
     public class ComboFilledSlotsCountLogic: BaseNode<AICard>
     {
-        [SerializeField]
-        public bool IsPlayer { get; set; }
-
+   
+ 
+        public DeckHandler DeckHandler { get; set; }
         public int AmountOfFilledSlots { get; set; }
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
-            PlayerCraftingSlots comboSlots = DeckManager.GetCraftingSlots(IsPlayer);
+            PlayerCraftingSlots comboSlots = DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots;
             comboSlots.CountCards();
             NodeState = (AmountOfFilledSlots == comboSlots.AmountOfFilledSlots) ? NodeState.Success: NodeState.Failure;
             return NodeState;

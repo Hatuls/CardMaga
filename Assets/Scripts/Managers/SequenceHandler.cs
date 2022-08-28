@@ -61,7 +61,8 @@ namespace Battle
         }
         public void Register(ISequenceOperation sequenceOperation, OrderType to = OrderType.Default)
         => this[to].Add(sequenceOperation);
-
+        public void Register(Action<ITokenReciever> token, int priority = 0, OrderType to = OrderType.Default)
+ => this[to].Add(new OperationTask(token, priority, to));
         public bool Remove(ISequenceOperation sequenceOperation, OrderType from = OrderType.Default)
              => this[from].Remove(sequenceOperation);
         public void OnDestroy()

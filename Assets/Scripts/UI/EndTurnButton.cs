@@ -1,31 +1,27 @@
 ﻿using Battle;
 using Battle.Turns;
+using Managers;
+using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
 
-public class EndTurnButton : ButtonUI
+public class EndTurnButton : ButtonUI , ISequenceOperation<BattleManager>
 {
     public static event Action OnEndTurnButtonClicked;
-    private static EndTurnButton _instance;
 
-    [SerializeField]
-    BattleManager _battleManager;
+
     private GameTurnHandler _turnHandler;
     [SerializeField]
     SoundEventSO OnRejectSound;
 
+    public int Priority => 0;
+
     private void Awake()
     {
-        _instance = this;
-    }
-    private void Start()
-    {
-        _turnHandler = _battleManager.TurnHandler;
 
-        var left = _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
-        left.OnTurnActive += ShowTurn;
-        left.OnTurnExit += HideTurnButton;
+        BattleManager.Register(this, OrderType.Before);
     }
+
     private void OnDestroy()
     {
 
@@ -51,5 +47,12 @@ public class EndTurnButton : ButtonUI
         }
     }
 
-
+    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    {
+        _turnHandler = data.TurnHandler;
+        var left = _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
+        left.OnTurnActive += ShowTurn;
+        left.OnTurnExit += HideTurnButton;
+        HideTurnButton();
+    }
 }

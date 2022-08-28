@@ -382,6 +382,8 @@ namespace Battle.Turns
         public event Action OnGameTurnFinished;
         public event Action OnGameTurnStarted;
         public event Action<int> OnTurnCountChange;
+        public event Action<GameTurnHandler> OnTurnHandlerDestroy;
+
         private Dictionary<GameTurnType, GameTurn> _gameTurnsDictionary;
         private int _turnCount;
         private TokenMachine _turnStarterTurnMachine;
@@ -416,6 +418,7 @@ namespace Battle.Turns
 
         }
         public GameTurn GetTurn(GameTurnType type) => _gameTurnsDictionary[type];
+        public GameTurn GetCharacterTurn(bool isLeftCharacter) =>  GetTurn(isLeftCharacter ? GameTurnType.LeftPlayerTurn :GameTurnType.RightPlayerTurn);
         public void MoveToNextTurn()
         {
             if (!_canChangeTurn)
@@ -442,7 +445,7 @@ namespace Battle.Turns
         {
             TurnCounter.OnCounterDepleted -= MoveToNextTurn;
             EndTurnButton.OnEndTurnButtonClicked -= MoveToNextTurn;
-
+            OnTurnHandlerDestroy?.Invoke(this);
             _gameTurnsDictionary[GameTurnType.LeftPlayerTurn].OnTurnEnter -= AddTurnCount;
             _gameTurnsDictionary[GameTurnType.RightPlayerTurn].OnTurnEnter -= AddTurnCount;
             _gameTurnsDictionary.Clear();

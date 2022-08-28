@@ -7,10 +7,9 @@ namespace Battle.Deck
 {
     public class PlayerBaseDeck : BaseDeck
     {
-        public static Action OnShuffleDeck;
+        public event Action OnShuffleDeck;
    
-        StringEvent _soundEvent;
-        public PlayerBaseDeck(bool isPlayer, CardData[] deckCards,  StringEvent soundsEvent) : base(isPlayer, deckCards)
+        public PlayerBaseDeck( CardData[] deckCards) : base( deckCards)
         {
     
         }
@@ -37,10 +36,10 @@ namespace Battle.Deck
         }
         public override void ResetDeck()
         {
-            if (isPlayer)
-                SetDeck = Managers.PlayerManager.Instance.Deck;
-            else
-                SetDeck = EnemyManager.Instance.Deck;
+            //if (isPlayer)
+            //    SetDeck = Managers.PlayerManager.Instance.StartingCards;
+            //else
+            //    SetDeck = EnemyManager.Instance.StartingCards;
 
 
             Shuffle();
@@ -75,7 +74,6 @@ namespace Battle.Deck
                 GetDeck[i] = list[index];
                 list.RemoveAt(index);
             }
-            if (isPlayer)
                 OnShuffleDeck?.Invoke();
 
          

@@ -1,4 +1,4 @@
-﻿public interface ILockabel
+﻿public interface ILockable
 {
     void LockInput();
     void UnLockInput();

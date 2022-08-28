@@ -10,6 +10,7 @@ namespace CardMaga.AI
     public class CanCraftComboNode : BaseNode<AICard>
     {
         public bool IsPlayer { get; set; }
+        public BattleManager BattleManager { get; set; }
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
             var deck = DeckManager.GetCraftingSlots(IsPlayer);
