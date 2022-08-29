@@ -106,7 +106,7 @@ namespace CardMaga.UI
             _handLockTokenMachine = new TokenMachine(UnLockInput, LockInput);
 
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
-            EndPlayerTurn.OnPlayerEndTurn += ForceDiscardCards;
+            //EndPlayerTurn.OnPlayerEndTurn += ForceDiscardCards;
             BattleManager.OnGameEnded += ForceDiscardCards;
             DeckManager.OnDrawCards += DrawCardsFromDrawDeck;
             FollowCardUI.OnCardExecute += DiscardCard;
@@ -119,7 +119,7 @@ namespace CardMaga.UI
             BattleManager.OnGameEnded -= ForceDiscardCards;
             DeckManager.OnDrawCards -= DrawCardsFromDrawDeck;
             FollowCardUI.OnCardExecute -= DiscardCard;
-            EndPlayerTurn.OnPlayerEndTurn -= ForceDiscardCards;
+            //EndPlayerTurn.OnPlayerEndTurn -= ForceDiscardCards;
 
             for (var i = 0; i < _tableCardSlot.CardSlots.Count; i++)
             {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-    public class InputReciever : MonoBehaviour
+public class InputReciever : MonoBehaviour
 {
     #region Fields
 
@@ -11,10 +11,10 @@ using UnityEngine;
     public static event Action<Vector2> OnTouchStart;
     public static event Action<SwipeData> OnSwipeDetected;
 
-    private const float CIRCLE_BORDER_TOP_LEFT = 0.875F;
-    private const float CIRCLE_BORDER_TOP_RIGHT = 0.125F;
-    private const float CIRCLE_BORDER_BUTTOM_RIGHT = 0.375F;
-    private const float CIRCLE_BORDER_BUTTOM_LEFT = 0.625F;
+    private const float CIRCLE_BORDER_TOP_LEFT = 0.25F;
+    private const float CIRCLE_BORDER_TOP_RIGHT = -0.25F;
+    private const float CIRCLE_BORDER_BUTTOM_RIGHT = -0.75F;
+    private const float CIRCLE_BORDER_BUTTOM_LEFT = 0.75F;
 
     [SerializeField] private float _swipeDistance;
     [SerializeField] private bool _onlyDetectSwipeAtEnd;
@@ -24,6 +24,8 @@ using UnityEngine;
     private static Vector2 _endTouchLocation;
     
     private static bool _isTouching = false;
+
+    private bool _swipeDetected = false;
     
     private Camera _camera;
 
@@ -132,6 +134,7 @@ using UnityEngine;
                 _touchPosOnScreen = touch.position;
                 if (_onlyDetectSwipeAtEnd)
                     SwipeDetector(_startTouchLocation,_endTouchLocation);
+                _swipeDetected = false;
                 OnTouchEnded?.Invoke(_endTouchLocation);
                 break;
             case TouchPhase.Canceled:
@@ -148,8 +151,10 @@ using UnityEngine;
         if (PlayerTouch == null)
             return;
 
-        if (Vector2.Distance(start,end) > _swipeDistance)
+        if (Vector2.Distance(start,end) > _swipeDistance && !_swipeDetected)
         {
+            _swipeDetected = true;
+            
             SwipeData swipeData;
 
             swipeData.SwipeStartPosition = start;
@@ -165,15 +170,15 @@ using UnityEngine;
     {
         Vector2 dir = (end - start).normalized;
 
-        float dirAngle = Vector2.Angle(Vector2.zero, dir) / 360;
+        float dirAngle = Vector2.SignedAngle(Vector2.up, dir) / 180;
 
-        if (CIRCLE_BORDER_TOP_LEFT < dirAngle && dirAngle < CIRCLE_BORDER_TOP_RIGHT)
+        if (CIRCLE_BORDER_TOP_LEFT > dirAngle && dirAngle > CIRCLE_BORDER_TOP_RIGHT)
             return SwipeDirection.Up;
-        if (CIRCLE_BORDER_TOP_RIGHT < dirAngle && dirAngle < CIRCLE_BORDER_BUTTOM_RIGHT)
+        if (CIRCLE_BORDER_TOP_RIGHT > dirAngle && dirAngle > CIRCLE_BORDER_BUTTOM_RIGHT)
             return SwipeDirection.Right;
-        if (CIRCLE_BORDER_BUTTOM_RIGHT < dirAngle && dirAngle < CIRCLE_BORDER_BUTTOM_LEFT)
+        if (CIRCLE_BORDER_BUTTOM_RIGHT > dirAngle || dirAngle > CIRCLE_BORDER_BUTTOM_LEFT)
             return SwipeDirection.Down;
-        if (CIRCLE_BORDER_BUTTOM_LEFT < dirAngle && dirAngle < CIRCLE_BORDER_TOP_LEFT)
+        if (CIRCLE_BORDER_BUTTOM_LEFT > dirAngle && dirAngle > CIRCLE_BORDER_TOP_LEFT)
             return SwipeDirection.Left;
 
         Debug.LogError("Swipe Error Cant Find Swipe Direction");
