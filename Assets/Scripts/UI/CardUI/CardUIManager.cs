@@ -19,7 +19,7 @@ namespace CardMaga.Battle.UI
     public class CardUIManager : MonoSingleton<CardUIManager>, ISequenceOperation<BattleManager>
     {
         #region Field
-        private PlayersManager _players;
+        private IPlayersManager _players;
         [SerializeField] private CardUIPool _cardPool;
         [SerializeField] private CardUI _enemyCardUI;
         #endregion

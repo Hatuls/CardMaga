@@ -1,4 +1,5 @@
-﻿using Characters.Stats;
+﻿using Battle;
+using Characters.Stats;
 
 namespace Keywords
 {
@@ -6,7 +7,7 @@ namespace Keywords
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Stun;
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
@@ -29,7 +30,7 @@ namespace Keywords
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Strength;
 
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
             UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount " + data.GetAmountToApply);
        

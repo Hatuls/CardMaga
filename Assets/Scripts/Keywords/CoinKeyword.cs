@@ -1,4 +1,5 @@
-﻿using Characters.Stats;
+﻿using Battle;
+using Characters.Stats;
 using System.Collections.Generic;
 
 namespace Keywords
@@ -7,7 +8,7 @@ namespace Keywords
     {
         public override KeywordTypeEnum Keyword =>  KeywordTypeEnum.Coins;
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
             data.KeywordSO.SoundEventSO.PlaySound();
             var target = data.GetTarget;
@@ -34,22 +35,21 @@ namespace Keywords
     {
         public override KeywordTypeEnum Keyword =>  KeywordTypeEnum.Double;
 
-        public async override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public  override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
             data.KeywordSO.SoundEventSO.PlaySound();
             var target = data.GetTarget;
-            await System.Threading.Tasks.Task.Yield();
+            var characters = playersManager;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
-                var cards = Battle.Deck.DeckManager.GetCraftingSlots(currentPlayer);
-                Battle.Deck.DeckManager.AddToCraftingSlot(currentPlayer, cards.LastCardEntered);
+                var craftingSlots = characters.GetCharacter(currentPlayer).DeckHandler[Battle.Deck.DeckEnum.CraftingSlots] as PlayerCraftingSlots;
+                craftingSlots.AddCard(craftingSlots.LastCardEntered);
             }
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
-                var cards = Battle.Deck.DeckManager.GetCraftingSlots(!currentPlayer);
-                Battle.Deck.DeckManager.AddToCraftingSlot(!currentPlayer, cards.LastCardEntered);
-
+                var craftingSlots = characters.GetCharacter(!currentPlayer).DeckHandler[Battle.Deck.DeckEnum.CraftingSlots] as PlayerCraftingSlots;
+                craftingSlots.AddCard(craftingSlots.LastCardEntered);
             }
         }
       

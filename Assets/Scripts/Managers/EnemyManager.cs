@@ -70,7 +70,6 @@ namespace Battle
             _deck = new CardData[deckLength];
             Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
             _statsHandler = new CharacterStatsHandler(false, ref characterdata.CharacterStats);
-            DeckManager.Instance.InitDeck(false, _deck);
             _deckHandler = new DeckHandler(this, battleManager);
             _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
@@ -87,7 +86,7 @@ namespace Battle
         public void CalculateEnemyMoves()
         {
             _aiHand.ResetData();
-            var handCards = DeckManager.Instance.GetCardsFromDeck(false, DeckEnum.Hand);
+            var handCards = _deckHandler.GetCardsFromDeck(DeckEnum.Hand);
             _aiHand.AddCard(handCards);
             try
             {
@@ -107,7 +106,7 @@ namespace Battle
 
             if (_aiHand.TryGetHighestWeight(out AICard card) > NO_MORE_ACTION_TO_DO && !BattleManager.isGameEnded)
             {
-                DeckManager.Instance.TransferCard(false, DeckEnum.Hand, DeckEnum.Selected, card.Card);
+               _deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, card.Card);
                 CardExecutionManager.Instance.TryExecuteCard(false, card.Card);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(_delayTime.x, _delayTime.y));
                 CalculateEnemyMoves();

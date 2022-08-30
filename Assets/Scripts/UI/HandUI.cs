@@ -6,6 +6,7 @@ using CardMaga.Card;
 using CardMaga.Input;
 using CardMaga.UI.Card;
 using DG.Tweening;
+using Managers;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
@@ -18,7 +19,7 @@ namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : MonoBehaviour, ILockable, IGetCardsUI
+    public class HandUI : MonoBehaviour, ILockable, IGetCardsUI, ISequenceOperation<BattleManager>
     {
         #region Events
 
@@ -72,11 +73,11 @@ namespace CardMaga.UI
         [SerializeField] private float _delayBetweenCardDiscard;
 
         private Sequence _currentSequence;
-
+        private DeckHandler _deckHandler;
         private TokenMachine _handLockTokenMachine;
         private bool _isCardSelected;
         private WaitForSeconds _waitForCardDiscardDelay;
-
+        private GameTurn _leftPlayerGameTurn;
         private WaitForSeconds _waitForCardDrawnDelay;
 
         #endregion
@@ -95,6 +96,8 @@ namespace CardMaga.UI
             get => _tableCardSlot.GetCardUIsFromTable();
         }
 
+        public int Priority => 0;
+
         #endregion
 
         #region UnityCallBack
@@ -104,25 +107,23 @@ namespace CardMaga.UI
             _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
             _waitForCardDiscardDelay = new WaitForSeconds(_delayBetweenCardDiscard);
             _handLockTokenMachine = new TokenMachine(UnLockInput, LockInput);
-
+            BattleManager.Register(this, OrderType.Default);
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += ForceDiscardCards;
-            DeckManager.OnDrawCards += DrawCardsFromDrawDeck;
+  
             FollowCardUI.OnCardExecute += DiscardCard;
             _isCardSelected = false;
         }
-        private void Start()
-        {
-            BattleManager.Instance.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit += ForceDiscardCards;
-        }
+        
         private void OnDestroy()
         {
             _comboUIManager.OnCardComboDone -= GetCardsFromCombo;
             BattleManager.OnGameEnded -= ForceDiscardCards;
-            DeckManager.OnDrawCards -= DrawCardsFromDrawDeck;
             FollowCardUI.OnCardExecute -= DiscardCard;
-            BattleManager.Instance.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit -= ForceDiscardCards;
-
+            if(_leftPlayerGameTurn!=null)
+            _leftPlayerGameTurn.OnTurnExit -= ForceDiscardCards;
+            if(_deckHandler != null)
+            _deckHandler.OnDrawCards -= DrawCardsFromDrawDeck;
             for (var i = 0; i < _tableCardSlot.CardSlots.Count; i++)
             {
                 var currentSlot = _tableCardSlot.CardSlots[i];
@@ -337,6 +338,14 @@ namespace CardMaga.UI
             _tableCardSlot.RemoveAllCardUI();
             OnDiscardAllCards?.Invoke();
             DiscardCards(tempCardUis);
+        }
+
+        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        {
+            _deckHandler = data.PlayersManager.GetCharacter(true).DeckHandler;
+            _leftPlayerGameTurn = data.TurnHandler.GetCharacterTurn(true);
+            _deckHandler.OnDrawCards += DrawCardsFromDrawDeck;
+            _leftPlayerGameTurn.OnTurnExit += ForceDiscardCards;
         }
 
         #endregion

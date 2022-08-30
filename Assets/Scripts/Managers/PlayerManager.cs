@@ -61,7 +61,8 @@ namespace Managers
 
             _playerDeck = new CardData[Length];
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
-            Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
+
+          //  Battle.Deck.DeckManager.Instance.InitDeck(true, _playerDeck);
             _statsHandler = new CharacterStatsHandler(true, ref data.CharacterStats);
             _deckHandler = new DeckHandler(this, battleManager);
             //  CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
