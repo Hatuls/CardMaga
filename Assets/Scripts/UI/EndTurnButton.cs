@@ -5,54 +5,58 @@ using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
 
-public class EndTurnButton : ButtonUI , ISequenceOperation<BattleManager>
+public class EndTurnButton : ButtonUI, ISequenceOperation<BattleManager>
 {
     public static event Action OnEndTurnButtonClicked;
 
-
-    private GameTurnHandler _turnHandler;
+    [SerializeField]
+    private GameObject _visualizer;
     [SerializeField]
     SoundEventSO OnRejectSound;
 
     public int Priority => 0;
-
+    private bool _isDirty;
     private void Awake()
     {
 
         BattleManager.Register(this, OrderType.Before);
     }
 
-    private void OnDestroy()
-    {
 
-        var left = _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
-        left.OnTurnActive -= ShowTurn;
-        left.OnTurnExit   -= HideTurnButton;
-        _turnHandler      = null;
-    }
-
-    private void ShowTurn() =>  gameObject.SetActive(true);
-    private void HideTurnButton() => gameObject.SetActive(false);
+    private void ShowTurn() { _visualizer.SetActive(true); _isDirty = false; }
+    private void HideTurnButton() => _visualizer.SetActive(false);
 
     public override void ButtonPressed()
     {
-        if (_turnHandler.CurrentTurn ==  GameTurnType.LeftPlayerTurn)
+        if (!_isDirty)
         {
+            _isDirty = true;
             OnEndTurnButtonClicked?.Invoke();
         }
-        else
-        {
-            OnRejectSound?.PlaySound();
-           // _playSound?.Raise("Reject");
-        }
+
+        //   OnRejectSound?.PlaySound();
+
     }
 
     public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
     {
-        _turnHandler = data.TurnHandler;
-        var left = _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
+
+        OnEndTurnButtonClicked += data.TurnHandler.MoveToNextTurn;
+        var left = data.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
         left.OnTurnActive += ShowTurn;
         left.OnTurnExit += HideTurnButton;
+        data.OnBattleManagerDestroyed += BeforeDestroyed;
         HideTurnButton();
+    }
+
+    private void BeforeDestroyed(BattleManager bm)
+    {
+        var _turnHandler = bm.TurnHandler;
+        OnEndTurnButtonClicked -= _turnHandler.MoveToNextTurn;
+        bm.OnBattleManagerDestroyed -= BeforeDestroyed;
+        var left = _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
+        left.OnTurnActive -= ShowTurn;
+        left.OnTurnExit -= HideTurnButton;
+        _turnHandler = null;
     }
 }

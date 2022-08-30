@@ -59,17 +59,7 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
 
 
 
-    private void OnDestroy()
-    {
-        var turn = BattleManager.Instance.TurnHandler;
-        turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive -= StartTime;
-        turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive -= StartTime;
-        GameTurn.OnTurnFinished -= FinishCounting;
-
-        if (_sequence != null)
-            _sequence.Kill();
-        _sequence = null;
-    }
+ 
     public void StartTime()
     {
         ResetScale();
@@ -141,8 +131,24 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
         using (tokenMachine.GetToken())
         {
             var turn = data.TurnHandler;
+            OnCounterDepleted += turn.MoveToNextTurn;
             turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive  += StartTime;
             turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive += StartTime;
+            data.OnBattleManagerDestroyed += Dispose;
         }
+    }
+
+    public void Dispose(BattleManager bm)
+    {
+        var turn = bm.TurnHandler;
+        bm.OnBattleManagerDestroyed -= Dispose;
+        OnCounterDepleted -= turn.MoveToNextTurn;
+        turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive -= StartTime;
+        turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive -= StartTime;
+        GameTurn.OnTurnFinished -= FinishCounting;
+
+        if (_sequence != null)
+            _sequence.Kill();
+        _sequence = null;
     }
 }

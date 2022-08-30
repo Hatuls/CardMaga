@@ -5,7 +5,6 @@ using Managers;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
-using Unity.Events;
 using UnityEngine;
 
 namespace Battle.Deck
@@ -355,13 +354,13 @@ namespace Battle.Deck
     //    #region Monobehaviour Callbacks 
     //    #endregion
     //}
-    [Serializable]
+  //  [Serializable]
     public class DeckHandler
     {
         public const int MAX_DECK_HAND_SIZE = 10;
         public const int MAX_CRAFTING_SLOT_SIZE = 4;
         public event Action<CardData[]> OnDrawCards;
-      
+
         private Dictionary<DeckEnum, BaseDeck> _deckDictionary;
 
         public BaseDeck this[DeckEnum deckEnum]
@@ -476,13 +475,13 @@ namespace Battle.Deck
             const int size = 6;
 
             _deckDictionary = new Dictionary<DeckEnum, BaseDeck>(size);
-       
 
-            _deckDictionary.Add(DeckEnum.Exhaust,       new PlayerBaseDeck(deck));
+
+            _deckDictionary.Add(DeckEnum.PlayerDeck,    new PlayerBaseDeck(deck));
             _deckDictionary.Add(DeckEnum.Discard,       new Discard(deck.Length, this[DeckEnum.PlayerDeck] as PlayerBaseDeck));
-            _deckDictionary.Add(DeckEnum.Hand,          new Exhaust(MAX_DECK_HAND_SIZE));
+            _deckDictionary.Add(DeckEnum.Hand,          new PlayerHand(MAX_DECK_HAND_SIZE, this[DeckEnum.Discard] as Discard));
             _deckDictionary.Add(DeckEnum.Selected,      new Selected(1, this[DeckEnum.Discard] as Discard, this[DeckEnum.Hand] as PlayerHand, AddCardToDeck, TransferCard));
-            _deckDictionary.Add(DeckEnum.PlayerDeck,    new PlayerHand(MAX_DECK_HAND_SIZE, this[DeckEnum.Discard] as Discard));
+            _deckDictionary.Add(DeckEnum.Exhaust,       new Exhaust(MAX_DECK_HAND_SIZE));
             _deckDictionary.Add(DeckEnum.CraftingSlots, new PlayerCraftingSlots(MAX_CRAFTING_SLOT_SIZE));
             ResetDecks();
         }
@@ -521,7 +520,7 @@ namespace Battle.Deck
              * the disposal deck and redraw the amount we need
             */
 
-     
+
             else if (drawAmount < 1)
             {
                 Debug.LogError("DeckManager :Cannot draw - draw amount is less than 1!");

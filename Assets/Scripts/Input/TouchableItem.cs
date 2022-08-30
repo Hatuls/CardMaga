@@ -56,7 +56,7 @@ namespace CardMaga.Input
             if (_defaultInputBehaviour != null)
                 return;
 
-            _defaultInputBehaviour = new InputBehaviour<T>();
+            //_defaultInputBehaviour = new InputBehaviour<T>();
 
             _inputBehaviour = _defaultInputBehaviour;
         }
