@@ -1,9 +1,12 @@
-﻿namespace Keywords
+﻿using Battle;
+
+namespace Keywords
 {
+
     public class InteruptKeyword : KeywordAbst
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Interupt;
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
             if (data != null)
             {
@@ -11,18 +14,20 @@
 
                 int length = data.GetAmountToApply;
                 var target = data.GetTarget;
+        
+                PlayerCraftingSlots playerCraftingSlots;
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
                 {
-                    var craftingslots = Battle.Deck.DeckManager.GetCraftingSlots(currentPlayer);
+                    playerCraftingSlots = (playersManager.GetCharacter(currentPlayer).DeckHandler[Battle.Deck.DeckEnum.CraftingSlots] as PlayerCraftingSlots);
                     for (int i = 0; i < length; i++)
-                        craftingslots.PushSlots();
+                        playerCraftingSlots.PushSlots();
                 }
 
                 if (target == TargetEnum.Opponent || target == TargetEnum.All)
                 {
-                    var craftingslot = Battle.Deck.DeckManager.GetCraftingSlots(!currentPlayer);
+                    playerCraftingSlots = (playersManager.GetCharacter(!currentPlayer).DeckHandler[Battle.Deck.DeckEnum.CraftingSlots] as PlayerCraftingSlots);
                     for (int i = 0; i < length; i++)
-                        craftingslot.PushSlots();
+                        playerCraftingSlots.PushSlots();
                 }
                 data.KeywordSO.SoundEventSO.PlaySound();
             }

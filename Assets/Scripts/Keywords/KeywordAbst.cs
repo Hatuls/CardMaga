@@ -1,4 +1,5 @@
-﻿using Conditions;
+﻿using Battle;
+using Conditions;
 
 namespace Keywords
 {
@@ -8,9 +9,9 @@ namespace Keywords
 
         public abstract KeywordTypeEnum Keyword { get; }
 
-        public abstract void ProcessOnTarget(bool currentPlayer, KeywordData data);
+        public abstract void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager);
 
-        public static bool CheckCondition(ref Condition con)
+        public static bool CheckCondition(Condition con)
         {
 
             bool isValidCondition = true; ;
@@ -42,7 +43,7 @@ namespace Keywords
     }
     public interface IKeyword
     {
-        void ProcessOnTarget(bool isFromPlayer, KeywordData keywordData);
+        void ProcessOnTarget(bool isFromPlayer, KeywordData keywordData, IPlayersManager playersManager);
         KeywordTypeEnum Keyword { get; }
     }
 }

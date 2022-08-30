@@ -13,7 +13,7 @@ public class CraftingSlotsUIManager_V4 : MonoBehaviour , ISequenceOperation<Batt
 
 
     public int Priority => 0;
-    private PlayersManager _playersManager;
+    private IPlayersManager _playersManager;
     public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
     {
         _playersManager = data.PlayersManager;

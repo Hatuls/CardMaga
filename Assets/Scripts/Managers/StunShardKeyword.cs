@@ -1,4 +1,5 @@
-﻿using Characters.Stats;
+﻿using Battle;
+using Characters.Stats;
 
 namespace Keywords
 {
@@ -6,7 +7,7 @@ namespace Keywords
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.StunShard;
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
 
             var target = data.GetTarget;
@@ -27,7 +28,7 @@ namespace Keywords
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.RageShard;
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
 
             var target = data.GetTarget;
@@ -47,7 +48,7 @@ namespace Keywords
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.ProtectionShard;
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
 
             var target = data.GetTarget;

@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using CardMaga.UI.Card;
+﻿using CardMaga.UI.Card;
+using System;
 using UnityEngine;
 
 public class BaseHandUIState : MonoBehaviour
 {
     public event Action OnEnterState;
     public event Action OnExitState;
-    
+
     [SerializeField] private CardUIInputBehaviourSO _inputBehaviour;
-    
+
     private CardUI _selectedCardUI;
+
 
     public CardUI SelectedCardUI
     {
         get => _selectedCardUI;
     }
-    
+
     public virtual void EnterState(CardUI cardUI)
     {
         if (_selectedCardUI != null)
@@ -29,9 +27,9 @@ public class BaseHandUIState : MonoBehaviour
             Debug.LogError(name + "Failed To Set Input Behaviour");
             return;
         }
-        
+
         _selectedCardUI = cardUI;
-        
+
         OnEnterState?.Invoke();
     }
 
@@ -42,7 +40,7 @@ public class BaseHandUIState : MonoBehaviour
             Debug.LogError(name + "CardUI Not equal To the Selected CardUI");
             return;
         }
-        
+
         _selectedCardUI = null;
         OnExitState?.Invoke();
     }
@@ -52,4 +50,7 @@ public class BaseHandUIState : MonoBehaviour
         _selectedCardUI = null;
         OnExitState?.Invoke();
     }
+
+
+
 }

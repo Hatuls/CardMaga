@@ -22,7 +22,7 @@ namespace Keywords
 
 
         public int Priority => 0;
-
+        private IPlayersManager _playersManager;
         #endregion
 
 
@@ -38,7 +38,7 @@ namespace Keywords
             using (token.GetToken())
             {
                 InitParams();
-
+                _playersManager = bm.PlayersManager;
             }
         }
 
@@ -66,7 +66,7 @@ namespace Keywords
 
             if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.KeywordSO.GetKeywordType, out KeywordAbst keywordEffect))
             {
-                keywordEffect.ProcessOnTarget(isPlayerTurn, keyword);
+                keywordEffect.ProcessOnTarget(isPlayerTurn, keyword, _playersManager);
 
                 keywordEvent?.Invoke(keywordEffect);
 

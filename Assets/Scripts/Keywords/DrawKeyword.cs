@@ -1,4 +1,5 @@
-﻿using CardMaga.Battle.UI;
+﻿using Battle;
+using CardMaga.Battle.UI;
 
 namespace Keywords
 {
@@ -6,15 +7,14 @@ namespace Keywords
     {
         public override KeywordTypeEnum Keyword =>   KeywordTypeEnum.Draw;
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
             if (data.GetTarget == TargetEnum.MySelf)
             {
-                //  Battles.Deck.DeckManager.Instance.OnEndTurn(currentPlayer);
-                Battle.Deck.DeckManager.Instance.ResetCharacterDeck(currentPlayer, Battle.Deck.DeckEnum.Hand);
+             var deck =   playersManager.GetCharacter(true).DeckHandler;
+                deck.ResetDeck(Battle.Deck.DeckEnum.Hand);
                 CardUIManager.Instance.RemoveHands();
-                Battle.Deck.DeckManager.Instance.DrawHand(
-                    currentPlayer,
+                deck.DrawHand(-
                     Characters.Stats.CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Amount
                     );
                 data.KeywordSO.SoundEventSO.PlaySound();

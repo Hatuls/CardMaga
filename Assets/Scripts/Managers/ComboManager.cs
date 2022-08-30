@@ -25,7 +25,7 @@ namespace Battle
         [SerializeField] Combo.Combo _cardRecipeDetected;
         [SerializeField] VFXSO _comboVFX;
 
-        private PlayersManager _playersManager;
+        private IPlayersManager _playersManager;
         private GameTurnHandler _gameTurnHandler;
         static byte threadId;
 

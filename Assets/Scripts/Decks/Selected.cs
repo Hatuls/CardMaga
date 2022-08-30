@@ -44,7 +44,7 @@ namespace Battle.Deck
             if (card == null)
                 return false;
             else if (GetDeck == null || GetDeck.Length == 0)
-                InitDeck(DeckManager._placementSize);
+                InitDeck(1);
   
             if (GetDeck[0] == null)
                 return true;
@@ -68,7 +68,7 @@ namespace Battle.Deck
             if (card == null)
                 return false;
             else if (GetDeck == null || GetDeck.Length == 0)
-                InitDeck(DeckManager._placementSize);
+                InitDeck(1);
 
 
             if (GetDeck[0] == null)
