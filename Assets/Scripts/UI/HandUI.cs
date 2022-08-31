@@ -343,7 +343,7 @@ namespace CardMaga.UI
         public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
         {
             _deckHandler = data.PlayersManager.GetCharacter(true).DeckHandler;
-        //    _deckHandler.OnDrawCards += DrawCardsFromDrawDeck;
+            _deckHandler.OnDrawCards += DrawCardsFromDrawDeck;
             _leftPlayerGameTurn = data.TurnHandler.GetCharacterTurn(true);
             _leftPlayerGameTurn.EndTurnOperations.Register((x) => ForceDiscardCards(), 0, OrderType.Before);
         }
