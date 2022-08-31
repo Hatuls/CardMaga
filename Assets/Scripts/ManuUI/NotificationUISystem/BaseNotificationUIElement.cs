@@ -1,13 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class NotificationUIElement : MonoBehaviour
+public abstract class BaseNotificationUIElement : MonoBehaviour
 {
     public event Action OnSetDirty;
     
     public event Action OnSetClean;
     
-    [SerializeField] private NotificationUIElement[] _children;
+    [SerializeField] private BaseNotificationUIElement[] _children;
     
     private bool _isDirty;
 
@@ -17,15 +17,15 @@ public abstract class NotificationUIElement : MonoBehaviour
     {
         _isDirty = true;
         UpdateBranch(_isDirty);
-        OnDirty();
+        Dirty();
         OnSetDirty?.Invoke();
     }
 
-    public void Clean()
+    public void SetClean()
     {
         _isDirty = false;
         UpdateBranch(_isDirty);
-        OnClean();
+        Clean();
         OnSetClean?.Invoke();
     }
 
@@ -39,11 +39,11 @@ public abstract class NotificationUIElement : MonoBehaviour
             }
             else
             {
-                _children[i].Clean();
+                _children[i].SetClean();
             }
         }
     }
 
-    protected abstract void OnDirty();
-    protected abstract void OnClean();
+    protected abstract void Dirty();
+    protected abstract void Clean();
 }

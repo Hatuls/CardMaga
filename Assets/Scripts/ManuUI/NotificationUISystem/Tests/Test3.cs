@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class Test3 : NotificationUIElement
+public class Test3 : BaseNotificationUIElement
 {
-    protected override void OnDirty()
+    protected override void Dirty()
     {
         Debug.Log(name + "SetDirty");
     }
 
-    protected override void OnClean()
+    protected override void Clean()
     {
         Debug.Log(name + "Setclean");
     }

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test2 : NotificationUIElement
+public class Test2 : BaseNotificationUIElement
 {
-    protected override void OnDirty()
+    protected override void Dirty()
     {
         Debug.Log(name + "SetDirty");
     }
 
-    protected override void OnClean()
+    protected override void Clean()
     {
         Debug.Log(name + "SetClean");
     }
