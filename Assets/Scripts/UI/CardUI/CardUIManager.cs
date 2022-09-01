@@ -11,13 +11,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using CardMaga.UI;
+using Battle;
+using Managers;
 
 namespace CardMaga.Battle.UI
 {
-    public class CardUIManager : MonoSingleton<CardUIManager>
+    public class CardUIManager : MonoSingleton<CardUIManager>, ISequenceOperation<BattleManager>
     {
         #region Field
-
+        private IPlayersManager _players;
         [SerializeField] private CardUIPool _cardPool;
         [SerializeField] private CardUI _enemyCardUI;
         #endregion
@@ -27,14 +29,16 @@ namespace CardMaga.Battle.UI
         UnityEvent OnPlayerRemoveHand;
         [SerializeField]
         UnityEvent OnDrawCard;
+
         #endregion
 
         #region Properties
+        public int Priority => 0;
 
 
         internal void UpdateHand(bool isPlayer)
         {
-            GetCardsUI(DeckManager.Instance.GetCardsFromDeck(isPlayer, DeckEnum.Hand));
+            GetCardsUI(_players.GetCharacter(isPlayer).DeckHandler.GetCardsFromDeck( DeckEnum.Hand));
         }
 
         internal void PlayEnemyCard(CardData card)
@@ -112,6 +116,11 @@ namespace CardMaga.Battle.UI
         {
             base.Awake();
             _cardPool.Init();
+        }
+        
+        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        {
+            _players = data.PlayersManager;
         }
 
         #endregion

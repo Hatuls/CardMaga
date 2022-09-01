@@ -10,9 +10,20 @@ namespace CardMaga.AI
     public class CanCraftComboNode : BaseNode<AICard>
     {
         public bool IsPlayer { get; set; }
+        public BattleManager BM { get; set; }
+        private DeckHandler _deckHandler;
+        public CanCraftComboNode() : base()
+        {
+            if (BM == null)
+                BM = BattleManager.Instance;
+            _deckHandler = BM.PlayersManager.GetCharacter(IsPlayer).DeckHandler;
+        }
+
+
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
-            var deck = DeckManager.GetCraftingSlots(IsPlayer);
+
+            var deck = _deckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots; //DeckManager.GetCraftingSlots(IsPlayer);
 
             CardData[] craftingSlots = new CardData[deck.GetDeck.Length + 1];
 
@@ -47,7 +58,7 @@ namespace CardMaga.AI
             void CheckRecipe()
             {
                 // need to make algorithem better!!! 
-                var recipes = IsPlayer ? PlayerManager.Instance.Combos :EnemyManager.Instance.Combos;
+                var recipes = BM.PlayersManager.GetCharacter(IsPlayer).Combos;
 
                 var comparer = new CardTypeComparer();
                 CardTypeData[] cardTypeDatas;

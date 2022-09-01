@@ -7,7 +7,7 @@ namespace Battle.Deck
     {
         public override event Action OnResetDeck;
         PlayerBaseDeck _playerBaseDeck;
-        public Discard(bool isPlayer,int length, PlayerBaseDeck baseDeck) : base(isPlayer,length)
+        public Discard(int length, PlayerBaseDeck baseDeck) : base(length)
         {
             _playerBaseDeck = baseDeck;
         }

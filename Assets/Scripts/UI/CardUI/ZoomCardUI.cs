@@ -13,6 +13,16 @@ namespace CardMaga.UI.Card
 
         private IDisposable _zoomToken;
 
+        private void Start()
+        {
+            _inputBehaviour.OnClick += ExitState;//not good!!!
+        }
+
+        private void OnDestroy()
+        {
+            _inputBehaviour.OnClick -= ExitState;
+        }
+
         public override void EnterState(CardUI cardUI)
         {
             base.EnterState(cardUI);

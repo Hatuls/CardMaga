@@ -8,13 +8,13 @@ public class PlayerCraftingSlots : BaseDeck
 {
     public static event Action<CardTypeData> OnCardExecute;
     public static event Action OnPushedSlots;
-    public static event Action<bool> OnResetCraftingSlot;
+    public  event Action OnResetCraftingSlot;
     public override event Action OnResetDeck;
     public static event Action OnDetectComboRequire;
     // CraftingUIHandler _playerCraftingUIHandler;
     CardData _lastCardEntered;
     public CardData LastCardEntered => _lastCardEntered;
-    public PlayerCraftingSlots(bool isPlayer, int cardsLength) : base(isPlayer, cardsLength)
+    public PlayerCraftingSlots(int cardsLength) : base( cardsLength)
     {
        // _playerCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
     }
@@ -104,7 +104,7 @@ public class PlayerCraftingSlots : BaseDeck
     {
         EmptySlots();
         OnResetDeck?.Invoke();
-        OnResetCraftingSlot?.Invoke(isPlayer);
+        OnResetCraftingSlot?.Invoke();
      //   _playerCraftingUIHandler.ResetAllSlots();
 
         //if(isPlayer) 

@@ -6,7 +6,7 @@ namespace Battle.Deck
     {
         public event Action<int> OnAmountOfFilledSlotsChange;
         public virtual event Action OnResetDeck;
-        public bool isPlayer { get; private set; }
+
         private CardData[] _deckCards;
         private int _amountOfFilledSlots = 0;
         #region Properties
@@ -46,15 +46,13 @@ namespace Battle.Deck
         #endregion
 
         #region Public Functions
-        public BaseDeck(bool isPlayer, CardData[] deckCards)
+        public BaseDeck(CardData[] deckCards)
         {
             SetDeck = deckCards;
-            this.isPlayer = isPlayer;
 
         }
-        public BaseDeck(bool isPlayer,int length)
+        public BaseDeck(int length)
         {
-            this.isPlayer = isPlayer;
             InitDeck(length);
         }
 

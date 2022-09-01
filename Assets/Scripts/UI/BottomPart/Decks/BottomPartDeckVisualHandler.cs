@@ -33,7 +33,7 @@ namespace CardMaga.UI
 #endif
         [Header("General")]
         [SerializeField] float _resetDuration = 0.3f;
-        [SerializeField] DeckManager _deckManager;
+  
         [Header("Draw Deck")]
         [SerializeField] DeckTextAssigner _drawDeckTextAssigner;
         [SerializeField] TransitionPackSO _drawDeckTransitionPackSO;
@@ -80,8 +80,9 @@ namespace CardMaga.UI
          
             using (tokenMachine.GetToken())
             {
-                _drawDeckTextAssigner.Init(_deckManager.GetBaseDeck(true, DeckEnum.PlayerDeck));
-                _discardDeck = _deckManager.GetBaseDeck(true, DeckEnum.Discard);
+                var deckHandler = battleManager.PlayersManager.GetCharacter(true).DeckHandler;
+                _drawDeckTextAssigner.Init(deckHandler[DeckEnum.PlayerDeck]);
+                _discardDeck = deckHandler[DeckEnum.Discard];
                 _discardDeckTextAssigner.Init(_discardDeck);
                 _discardDeck.OnResetDeck += MoveCardsToDrawPileAnim;
             }

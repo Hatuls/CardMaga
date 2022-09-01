@@ -46,23 +46,23 @@ namespace Battle.UI
         {
             using (tokenMachine.GetToken())
             {
-                Init();
+                Init(battleManager.PlayersManager);
             }
         }
 
-        private void Init()
+        private void Init(IPlayersManager playerManager)
         {
             if (_playerCraftingUIHandler == null)
             {
                 _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _fadeOutCraftingSlots,
-                    _playersfirstSlotTransform, moveLeanTweenTime, true);
+                    _playersfirstSlotTransform, moveLeanTweenTime, playerManager.GetCharacter(true).DeckHandler);
                 _playerCraftingUIHandler.ResetAllSlots();
             }
 
             if (_opponentCraftingUIHandler == null)
             {
                 _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI,
-                    _opponentfadeOutCraftingSlots, _opponentfirstSlotTransform, moveLeanTweenTime, false);
+                    _opponentfadeOutCraftingSlots, _opponentfirstSlotTransform, moveLeanTweenTime, playerManager.GetCharacter(false).DeckHandler);
                 _opponentCraftingUIHandler.ResetAllSlots();
             }
         }

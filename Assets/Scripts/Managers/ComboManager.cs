@@ -25,12 +25,7 @@ namespace Battle
         [SerializeField] Combo.Combo _cardRecipeDetected;
         [SerializeField] VFXSO _comboVFX;
 
-        [SerializeField]
-        private PlayerManager _player;
-        [SerializeField]
-        private EnemyManager _enemy;
-        [SerializeField]
-        private DeckManager _deckManager;
+        private IPlayersManager _playersManager;
         private GameTurnHandler _gameTurnHandler;
         static byte threadId;
 
@@ -79,28 +74,28 @@ namespace Battle
                 var craftedCard = factory.CreateCard(ComboSO.CraftedCard.ID, _cardRecipeDetected.Level);
 
                 _successCrafting?.Raise();
-
+                DeckHandler deck = _playersManager.GetCharacter(isPlayer).DeckHandler;
                 switch (ComboSO.GoToDeckAfterCrafting)
                 {
                     case DeckEnum.Hand:
                         if (isPlayer)
                             OnCraftingComboToHand?.Invoke(new CardData[]{craftedCard});
-                        
-                        DeckManager.Instance.AddCardToDeck(isPlayer,craftedCard,DeckEnum.Hand);
+
+                        deck.AddCardToDeck(craftedCard,DeckEnum.Hand);
                         break;
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Discard:
                         var gotolocation = ComboSO.GoToDeckAfterCrafting;
-                        DeckManager.Instance.AddCardToDeck(isPlayer, craftedCard, gotolocation);
-                        DeckManager.Instance.DrawHand(isPlayer, 1);
+                        deck.AddCardToDeck( craftedCard, gotolocation);
+                        deck.DrawHand( 1);
                         break;
 
                     case DeckEnum.AutoActivate:
 
                         Battle.CardExecutionManager.Instance.RegisterCard(craftedCard, isPlayer);
                         //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
-                        DeckManager.GetCraftingSlots(isPlayer).AddCard(craftedCard, false);
-                        DeckManager.Instance.DrawHand(isPlayer, 1);
+                        (deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(craftedCard, false);
+                       deck.DrawHand( 1);
                         break;
                     default:
                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
@@ -132,15 +127,15 @@ namespace Battle
             // need to change the logic!
 
             bool isPlayer = _gameTurnHandler.IsLeftCharacterTurn;
-
-            var data = DeckManager.GetCraftingSlots(isPlayer);
+            var deck = _playersManager.GetCharacter(isPlayer).DeckHandler;
+            var data = deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots;
 
         //    var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
 
             if (Instance._cardRecipeDetected == null || Instance._cardRecipeDetected.ComboSO == null)
             {
                 FoundCombo = false;
-                DeckManager.Instance.DrawHand(isPlayer, 1);
+               deck.DrawHand( 1);
             }
             else
             {
@@ -157,9 +152,12 @@ namespace Battle
         {
             bool isPlayer = _gameTurnHandler.IsLeftCharacterTurn;
             //coping the relevant crafting slots from the deck manager
-            CardData[] craftingSlots = new CardData[DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length];
+            var deck = _playersManager.GetCharacter(isPlayer).DeckHandler;
+            var data = deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots;
 
-            System.Array.Copy(DeckManager.GetCraftingSlots(isPlayer).GetDeck, craftingSlots, DeckManager.GetCraftingSlots(isPlayer).GetDeck.Length);
+            CardData[] craftingSlots = new CardData[data.GetDeck.Length];
+
+            System.Array.Copy(data.GetDeck, craftingSlots, data.GetDeck.Length);
 
             //  System.Array.Reverse(craftingSlots);
 
@@ -216,6 +214,7 @@ namespace Battle
         public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
         {
             _gameTurnHandler = data.TurnHandler;
+            _playersManager = data.PlayersManager;
         }
     }
 }

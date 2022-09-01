@@ -25,32 +25,35 @@ namespace Battle
         public static event Action<int> OnAnimationIndexChange;
         public static event Action OnInsantExecute;
         public static event Action<bool, KeywordData> OnKeywordExecute;
+        public static bool FinishedAnimation;
+        static List<KeywordData> _keywordData = new List<KeywordData>();
+
+        static int currentKeywordIndex;
+        [Sirenix.OdinInspector.ShowInInspector]
+        static Queue<CardData> _cardsQueue = new Queue<CardData>();
 
 
-        [SerializeField]
-        AnimatorController _playerAnimatorController;
-        [SerializeField]
-        AnimatorController _enemyAnimatorController;
+
         [SerializeField] VFXController __playerVFXHandler;
 
         [SerializeField] Unity.Events.StringEvent _playSound;
-        [Sirenix.OdinInspector.ShowInInspector]
-        static Queue<CardData> _cardsQueue = new Queue<CardData>();
+
         public static Queue<CardData> CardsQueue => _cardsQueue;
 
         public static int CurrentKeywordIndex { get => currentKeywordIndex; }
-        private GameTurnHandler _turnHandler;
-        public int Priority => 0;
 
-        static List<KeywordData> _keywordData = new List<KeywordData>();
-        //   [SerializeField] StaminaUI _staminaBtn;
-        static int currentKeywordIndex;
-        public static bool FinishedAnimation;
+
+        private GameTurnHandler _turnHandler;
+        private IPlayersManager _playersManager;
+
+  
+
+
 
 
         [SerializeField] UnityEvent OnSuccessfullExecution;
         [SerializeField] UnityEvent OnFailedToExecute;
-
+        public int Priority => 0;
         public void ResetExecution()
         {
             //_keywordData.Clear();
@@ -91,12 +94,13 @@ namespace Battle
                 CardUIManager.Instance.PlayEnemyCard(card);
                 OnEnemyCardExecute?.Invoke(card);
             }
-
-            DeckManager.Instance.TransferCard(isPlayer, DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, card);
+            var deckHandler = _playersManager.GetCharacter(isPlayer).DeckHandler;
+           deckHandler.TransferCard(DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, card);
 
             RegisterCard(card, isPlayer);
 
-            DeckManager.AddToCraftingSlot(isPlayer, card);
+            (deckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
+  
 
             return true;
         }
@@ -115,7 +119,7 @@ namespace Battle
 
         public void ExecuteCraftedCard(bool isPlayer, CardData card)
         {
-            DeckManager.AddToCraftingSlot(isPlayer, card);
+            (_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
             RegisterCard(card);
 
         }
@@ -186,10 +190,8 @@ namespace Battle
             }
             else
             {
-                if (_turnHandler.IsLeftCharacterTurn)
-                    _playerAnimatorController.PlayCrossAnimation();
-                else
-                    _enemyAnimatorController.PlayCrossAnimation();
+
+                _playersManager.GetCharacter(_turnHandler.IsLeftCharacterTurn).VisualCharacter.AnimatorController.PlayCrossAnimation();
             }
 
         }
@@ -276,6 +278,12 @@ namespace Battle
             _cardsQueue.Clear();
             _keywordData.Clear();
         }
+        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        {
+            _turnHandler = data.TurnHandler;
+            _playersManager = data.PlayersManager;
+        }
+
         #region Monobehaviour Callbacks 
 
         public override void Awake()
@@ -285,10 +293,7 @@ namespace Battle
             BattleManager.Register(this, OrderType.Default);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
-        {
-            _turnHandler = data.TurnHandler;
-        }
+   
 
         #endregion
     }

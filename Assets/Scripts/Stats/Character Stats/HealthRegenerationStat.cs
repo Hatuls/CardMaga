@@ -1,4 +1,5 @@
-﻿using Keywords;
+﻿using Battle;
+using Keywords;
 namespace Characters.Stats
 {
     public class HealthRegenerationStat : BaseStat
@@ -21,7 +22,7 @@ namespace Characters.Stats
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Regeneration;
 
     
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
             if (data == null)
                 throw new System.Exception("HealthRegen data is null!!");

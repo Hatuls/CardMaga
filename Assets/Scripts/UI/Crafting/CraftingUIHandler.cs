@@ -14,7 +14,7 @@ namespace Battle.UI
 
         private readonly CraftingSlotUI _fadingOut;
         private readonly RectTransform _firstSlotTransform;
-
+        private readonly DeckHandler _deckHandler;
         private static float leanTweenTime;
 
         #region Properties
@@ -24,12 +24,13 @@ namespace Battle.UI
         #endregion
 
         public CraftingUIHandler(CraftingSlotUI[] _CraftingSlotsUIArr, CraftingSlotUI _fadingOut,
-            RectTransform _firstSlotTransform, float _leanTweenTime, bool isPlayersCrafting)
+            RectTransform _firstSlotTransform, float _leanTweenTime,DeckHandler deckHandler)
         {
             this._fadingOut = _fadingOut;
             GetCraftingSlotsUIArr = _CraftingSlotsUIArr;
             this._firstSlotTransform = _firstSlotTransform;
             leanTweenTime = _leanTweenTime;
+            _deckHandler = deckHandler;
             ResetAllSlots();
         }
 
@@ -44,7 +45,7 @@ namespace Battle.UI
         internal void MarkSlotsDetected()
         {
             for (var i = 0; i < GetCraftingSlotsUIArr.Length; i++)
-                if (GetCraftingSlotsUIArr[i] != null && DeckManager.GetCraftingSlots(true).GetDeck[i] != null)
+                if (GetCraftingSlotsUIArr[i] != null && (_deckHandler[DeckEnum.CraftingSlots]as PlayerCraftingSlots).GetDeck[i] != null)
                     GetCraftingSlotsUIArr[i].ActivateGlow(true);
         }
 

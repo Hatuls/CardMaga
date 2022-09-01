@@ -1,4 +1,5 @@
-﻿using Characters.Stats;
+﻿using Battle;
+using Characters.Stats;
 
 namespace Keywords
 {
@@ -6,7 +7,7 @@ namespace Keywords
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Weak;
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
 
             var target = data.GetTarget;

@@ -15,10 +15,10 @@ using UnityEngine.Events;
 namespace Battle
 {
 
-    public class BattleManager : MonoSingleton<BattleManager>
+    public class BattleManager : MonoSingleton<BattleManager>, IBattleManager
     {
         public static event Action OnGameEnded;
-        public static event Action<SequenceHandler> OnSceneStart;
+        public event Action<BattleManager> OnBattleManagerDestroyed;
 
 
         public static bool isGameEnded;
@@ -30,24 +30,42 @@ namespace Battle
         private UnityEvent OnPlayerVictory;
         [SerializeField, EventsGroup]
         private UnityEvent OnBattleStarts;
-
         [SerializeField]
         private UnityEvent OnBattleFinished;
 
-        [SerializeField] private DollyTrackCinematicManager _cinematicManager;
+        [SerializeField]
+        private DollyTrackCinematicManager _cinematicManager;
         [SerializeField]
         private PlayerManager _playerManager;
         [SerializeField]
         private EnemyManager _enemyManager;
+        [SerializeField]
+        private CardExecutionManager _cardExecutionManager;
+        [SerializeField]
+        private CardUIManager _cardUIManager;
+        [SerializeField]
+        private ComboManager _comboManager;
+        [SerializeField]
+        private KeywordManager _keywordManager;
+        [SerializeField]
+        private VFXManager _vFXManager;
+        [SerializeField]
+        private CameraManager _cameraManager;
 
-        private PlayersManager _playersManager;
-        private IEnumerator _turnCycles;
+        private IPlayersManager _playersManager;
         private static SequenceHandler<BattleManager> _battleStarter = new SequenceHandler<BattleManager>();
         private GameTurnHandler _gameTurnHandler;
 
-
-        public GameTurnHandler TurnHandler { get => _gameTurnHandler; }
-        public PlayersManager PlayersManager { get => _playersManager; }
+        #region Properties
+        public GameTurnHandler TurnHandler => _gameTurnHandler; 
+        public IPlayersManager PlayersManager => _playersManager; 
+        public CardExecutionManager CardExecutionManager => _cardExecutionManager;
+        public CardUIManager CardUIManager => _cardUIManager;
+        public ComboManager ComboManager => _comboManager;
+        public KeywordManager KeywordManager => _keywordManager;
+        public VFXManager VFXManager => _vFXManager;
+        public CameraManager CameraManager => _cameraManager;
+        #endregion
 
         private void ResetBattle()
         {
@@ -84,12 +102,10 @@ namespace Battle
 
             OnBattleStarts?.Invoke();
 
-            StartGameTurns();
         }
 
 
-        private void StartGameTurns()
-            => StartCoroutine(_turnCycles);
+
 
 
         // Need To be Re-Done
@@ -118,7 +134,7 @@ namespace Battle
             _enemyManager.AnimatorController.ResetLayerWeight();
 
             isGameEnded = true;
-            StopCoroutine(Instance._turnCycles);
+
 
 
             OnGameEnded?.Invoke();
@@ -187,7 +203,10 @@ namespace Battle
         }
         private void OnDestroy()
         {
+            OnBattleManagerDestroyed?.Invoke(this);
             ThreadsHandler.ThreadHandler.ResetList();
+            TurnHandler.Dispose();
+            _gameTurnHandler = null;
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
             _battleStarter.OnDestroy();
             _battleStarter = null;
@@ -253,9 +272,8 @@ namespace Battle
 
     public interface IBattleManager
     {
-        DeckManager DeckManager { get; }
-        PlayerManager PlayerManager { get; }
-        EnemyManager EnemyManager { get; }
+
+        IPlayersManager PlayersManager { get; }
         CardExecutionManager CardExecutionManager { get; }
         CardUIManager CardUIManager { get; }
         ComboManager ComboManager { get; }
@@ -265,15 +283,19 @@ namespace Battle
         CameraManager CameraManager { get; }
     }
 
+    public interface IPlayersManager
+    {
+        IPlayer LeftCharacter { get; }
+        IPlayer RightCharacter { get; }
 
+        IPlayer GetCharacter(bool IsLeftCharacter);
+    }
 
-
-    public class PlayersManager : ISequenceOperation<BattleManager>
+    public class PlayersManager : ISequenceOperation<BattleManager>, IPlayersManager
     {
         public IPlayer LeftCharacter { get; private set; }
         public IPlayer RightCharacter { get; private set; }
 
-        public OrderType Order => OrderType.Before;
         public int Priority => -1;
 
         public void ExecuteTask(ITokenReciever tokenMachine, BattleManager battleManager)
@@ -281,8 +303,8 @@ namespace Battle
             IDisposable token = tokenMachine.GetToken();
             var battleData = BattleData.Instance;
             // assign data
-            LeftCharacter.AssignCharacterData(battleData.Left);
-            RightCharacter.AssignCharacterData(battleData.Right);
+            LeftCharacter.AssignCharacterData(battleManager, battleData.Left);
+            RightCharacter.AssignCharacterData(battleManager, battleData.Right);
 
             //assign visuals
             var leftModel = battleData.Left.CharacterData.CharacterSO.CharacterAvatar;
@@ -295,10 +317,14 @@ namespace Battle
             StaminaHandler.Instance.InitStaminaHandler();
             token.Dispose();
         }
-
+        /// <summary>
+        /// Return the left or right character manager
+        /// </summary>
+        /// <param name="IsLeftCharacter"></param>
+        /// <returns></returns>
         public IPlayer GetCharacter(bool IsLeftCharacter) => IsLeftCharacter ? LeftCharacter : RightCharacter;
 
-  
+
 
         public PlayersManager(IPlayer leftCharacter, IPlayer rightCharacter)
         {

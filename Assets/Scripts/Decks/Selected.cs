@@ -1,4 +1,5 @@
 ﻿using CardMaga.Card;
+using System;
 using UnityEngine;
 namespace Battle.Deck
 {
@@ -7,12 +8,15 @@ namespace Battle.Deck
         Discard _disposalDeck;
         PlayerHand _playerHandDeck;
 
-
+        private event Action<CardData,DeckEnum> OnSelectCardReset;
+        private event Action<DeckEnum, DeckEnum,CardData> OnSelectedCardDiscard;
         public static DeckEnum _discardTo;
-        public Selected(bool isPlayer, int length, Discard deck, PlayerHand hand) : base(isPlayer,length)
+        public Selected( int length, Discard deck, PlayerHand hand , Action<CardData, DeckEnum> onCardReset, Action<DeckEnum, DeckEnum, CardData> onSelectedCardDiscard) : base(length)
         {
             _disposalDeck = deck;
             _playerHandDeck = hand;
+            OnSelectCardReset = onCardReset;
+            OnSelectedCardDiscard = onSelectedCardDiscard;
         }
 
         public override void ResetDeck()
@@ -27,12 +31,9 @@ namespace Battle.Deck
        
             if (deck[0] != null)
             {
-                DeckManager.Instance.AddCardToDeck(
-                    isPlayer,
-                    deck[0],
-                    deck[0].IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard
-                    );
-
+                //DeckManager.Instance.AddCardToDeck( isPlayer, deck[0], deck[0].IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard
+                //    );
+                OnSelectCardReset?.Invoke(deck[0], deck[0].IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard);
                 DiscardCard(deck[0]);
             }
         }
@@ -43,7 +44,7 @@ namespace Battle.Deck
             if (card == null)
                 return false;
             else if (GetDeck == null || GetDeck.Length == 0)
-                InitDeck(DeckManager._placementSize);
+                InitDeck(1);
   
             if (GetDeck[0] == null)
                 return true;
@@ -52,12 +53,12 @@ namespace Battle.Deck
                 ( (card.IsExhausted) ? DeckEnum.Exhaust : DeckEnum.Discard)
                 : discardTo.Value;
 
-            DeckManager.Instance.TransferCard(
-                isPlayer,
-                DeckEnum.Selected,
-                destination,
-                card);
-
+            //DeckManager.Instance.TransferCard(
+            //    isPlayer,
+            //    DeckEnum.Selected,
+            //    destination,
+            //    card);
+            OnSelectedCardDiscard?.Invoke(DeckEnum.Selected, destination, card);
             GetDeck[0] = null;
 
             return true;
@@ -67,7 +68,7 @@ namespace Battle.Deck
             if (card == null)
                 return false;
             else if (GetDeck == null || GetDeck.Length == 0)
-                InitDeck(DeckManager._placementSize);
+                InitDeck(1);
 
 
             if (GetDeck[0] == null)

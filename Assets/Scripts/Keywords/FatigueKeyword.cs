@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Battle;
 using Characters.Stats;
 using Keywords;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 public class FatigueKeyword : KeywordAbst
 {
     
-    public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+    public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
     {
         if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
         {

@@ -29,7 +29,6 @@ public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
     private float _delayTillReturn;
     private float _counter = 0;
     private Coroutine _coroutineCallback;
-
     private bool IsDefaultCamera
     {
         get
@@ -55,14 +54,7 @@ public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
         if (!TryReturnVirtualCamera(_defaultCamera.NextCamID, out _activeCamera))
             throw new System.Exception("Default Camera was not assigned!");
     }
-    private void OnDestroy()
-    {
-        _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit  -= ReturnToDefaultCamera;
-        _turnHandler.GetTurn(GameTurnType.RightPlayerTurn).OnTurnExit -= ReturnToDefaultCamera;
-        AnimatorController.OnAnimationStart -= SwitchCamera;
-        StopCounter();
-        //AnimatorController.OnAnimationEnding -= ReturnToDefaultCamera;
-    }
+
 
 
     #region Private
@@ -226,12 +218,22 @@ public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
         Debug.Log("Animation Reset");
         _counter = 0;
     }
-    private GameTurnHandler _turnHandler;
+
     public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
     {
-        _turnHandler = data.TurnHandler;
+       var _turnHandler = data.TurnHandler;
         _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit += ReturnToDefaultCamera;
         _turnHandler.GetTurn(GameTurnType.RightPlayerTurn).OnTurnExit += ReturnToDefaultCamera;
-
+        data.OnBattleManagerDestroyed += GameDestroyed;
+    }
+    private void GameDestroyed(BattleManager bm)
+    {
+        var _turnHandler = bm.TurnHandler;
+        _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit  -= ReturnToDefaultCamera;
+        _turnHandler.GetTurn(GameTurnType.RightPlayerTurn).OnTurnExit -= ReturnToDefaultCamera;
+        AnimatorController.OnAnimationStart -= SwitchCamera;
+        bm.OnBattleManagerDestroyed -= GameDestroyed;
+        StopCounter();
+        //AnimatorController.OnAnimationEnding -= ReturnToDefaultCamera;
     }
 }

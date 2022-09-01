@@ -23,12 +23,12 @@ public class VFXController : MonoBehaviour , ISequenceOperation<BattleManager>
 
     private GameTurnHandler _turnHandler;
 
-    private void Start()
+    private void Awake()
     {
         CardExecutionManager.OnSortingKeywords += RecieveSortingKeywordsData;
         CardExecutionManager.OnAnimationIndexChange += SortVFXFromListByAnimationIndex;
         CardExecutionManager.OnInsantExecute += ExecuteAllKeywords;
-
+        BattleManager.Register(this, OrderType.Default);
     }
     private void OnDisable()
     {

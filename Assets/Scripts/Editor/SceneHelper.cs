@@ -8,11 +8,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-
+public enum SceneType
+{
+    Production,
+    Test
+}
 
 public class SceneEditor : OdinMenuEditorWindow
 {
-
+    const string PRODUCTION_PATH = "Assets/Scenes/Production Scenes";
+    const string TEST_PATH = "Assets/Scenes/Test Scenes";
     [MenuItem("Tools/Scenes")]
     private static void OpenWindow()
     {
@@ -36,6 +41,7 @@ public class SceneEditor : OdinMenuEditorWindow
 
         var result = AssetDatabase.FindAssets("t:SceneAsset", new string[] { "Assets/Scenes/Production Scenes" });
         SceneEditorCache[] productionScenes = new SceneEditorCache[result.Length];
+        tree.Add("  New Scene", new NewSceneClass());
         for (int i = 0; i < result.Length; i++)
         {
             var path = AssetDatabase.GUIDToAssetPath(result[i]);
@@ -60,6 +66,37 @@ public class SceneEditor : OdinMenuEditorWindow
         return tree;
     }
 
+    public static string Path(SceneType path)
+    {
+        switch (path)
+        {
+            case SceneType.Production:
+                return SceneEditor.PRODUCTION_PATH;
+            case SceneType.Test:
+                return SceneEditor.TEST_PATH;
+        }
+        throw new Exception();
+    }
+
+
+    public class NewSceneClass
+    {
+        [SerializeField]
+        private string _name;
+        [SerializeField]
+        private SceneType _path = SceneType.Test;
+        [Sirenix.OdinInspector.Button]
+        private void CreateNewScene()
+        {
+            if (_name.Length == 0)
+                return;
+           var scene =  EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            EditorSceneManager.SaveScene(scene, Path(_path)+$"\\{_name}.unity");
+
+        }
+
+
+    }
     public class SceneEditorCache
     {
         public static event Action OnSceneDeleted;

@@ -1,7 +1,7 @@
 ﻿namespace Battle.Deck
 {
     public class Exhaust : BaseDeck {
-        public Exhaust(bool isPlayer, int length) : base(isPlayer,length)
+        public Exhaust( int length) : base(length)
         {
         }
         public override void ResetDeck()

@@ -1,16 +1,20 @@
 ﻿using Battle;
 using Battle.Turns;
 using DG.Tweening;
+using Managers;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-public class TurnCounter : MonoBehaviour
+public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
 {
     private static TokenMachine _timerTokenMachine;
     public static event Action OnCounterDepleted;
     public static ITokenReciever TimerTokenMachine => _timerTokenMachine;
+
+    public int Priority => 0;
+
     [SerializeField]
     private TextMeshProUGUI _timerText;
     [SerializeField]
@@ -32,7 +36,7 @@ public class TurnCounter : MonoBehaviour
 
 
 
-   
+
     private int _textTime;
     private float _counter;
     private bool _toStopTimer;
@@ -46,31 +50,16 @@ public class TurnCounter : MonoBehaviour
         _startScale = _timerText.rectTransform.localScale.x;
 
 
-       
+
         GameTurn.OnTurnFinished += FinishCounting;
         _timerTokenMachine = new TokenMachine(StopTimer, ContinueTimer);
         ResetTimer();
         ResetScale();
     }
-    private void Start()
-    {
-        var turn = BattleManager.Instance.TurnHandler;
-        turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive += StartTime;
-        turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive += StartTime;
-    }
 
 
-    private void OnDestroy()
-    {
-        var turn = BattleManager.Instance.TurnHandler;
-        turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive  -= StartTime;
-        turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive -= StartTime;
-        GameTurn.OnTurnFinished -= FinishCounting;
 
-        if (_sequence != null)
-            _sequence.Kill();
-        _sequence = null;
-    }
+ 
     public void StartTime()
     {
         ResetScale();
@@ -137,5 +126,29 @@ public class TurnCounter : MonoBehaviour
     private void ContinueTimer() => _toStopTimer = false;
     private void StopTimer() => _toStopTimer = true;
 
+    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    {
+        using (tokenMachine.GetToken())
+        {
+            var turn = data.TurnHandler;
+            OnCounterDepleted += turn.MoveToNextTurn;
+            turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive  += StartTime;
+            turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive += StartTime;
+            data.OnBattleManagerDestroyed += Dispose;
+        }
+    }
 
+    public void Dispose(BattleManager bm)
+    {
+        var turn = bm.TurnHandler;
+        bm.OnBattleManagerDestroyed -= Dispose;
+        OnCounterDepleted -= turn.MoveToNextTurn;
+        turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive -= StartTime;
+        turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive -= StartTime;
+        GameTurn.OnTurnFinished -= FinishCounting;
+
+        if (_sequence != null)
+            _sequence.Kill();
+        _sequence = null;
+    }
 }
