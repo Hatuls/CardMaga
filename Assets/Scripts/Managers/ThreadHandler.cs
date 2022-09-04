@@ -125,7 +125,7 @@ namespace ThreadsHandler
     {
         public byte ID;
         public Thread thread;
-        private event System.Action OnStartThread;
+        public System.Action OnStartThread;
         private event System.Action OnFinishThread;
         public ThreadList(byte id, System.Action ActionInThread, System.Action _actionOnFinishThread = null)
         {
