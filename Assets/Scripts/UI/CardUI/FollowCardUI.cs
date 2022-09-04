@@ -12,7 +12,7 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
 {
     public static event Action<CardUI> OnCardExecute;
     [Header("Scripts Reference")]
-    [SerializeField] private CardUiInputBehaviourHandler _behaviourHandler;
+    [SerializeField] private HandUI _handUI;
     [Header("TransitionPackSO")]
     [SerializeField] private TransitionPackSO _followHand;
     [Header("RectTransforms")]
@@ -23,17 +23,14 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
 
     private Vector2 _mousePosition;
     private DeckHandler _playerDeck;
-
-
-    private void Awake()
-    {
-        _executionBoundry_Y = _executionBoundry.position.y;
-        BattleManager.Register(this, OrderType.Default);
-        InputReciever.OnTouchDetected += GetMousePos;
-    }
+    
 
     private void Start()
     {
+        _executionBoundry_Y = _executionBoundry.position.y;
+        BattleManager.Register(this, OrderType.Default);
+        InputReciever.OnTouchDetectedLocation += GetMousePos;
+        
         _inputBehaviour.OnHold += FollowHand;
         _inputBehaviour.OnPointUp += ReturnToHandState;
     }
@@ -42,7 +39,7 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
     {
         _inputBehaviour.OnHold -= FollowHand;
         _inputBehaviour.OnPointUp -= ReturnToHandState;
-        InputReciever.OnTouchDetected -= GetMousePos;
+        InputReciever.OnTouchDetectedLocation -= GetMousePos;
         KillTween();
     }
 
@@ -55,13 +52,17 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
         {
            ExecuteCardUI(cardUI);
         }
+        else
+        {
+            _handUI.ReturnCardToHand(cardUI);
+        }
         
         base.ExitState(cardUI);
     }
     
     private void ReturnToHandState(CardUI cardUI)
     {
-        _behaviourHandler.SetState(CardUiInputBehaviourHandler.HandState.Hand,cardUI);
+        ExitState(cardUI);
     }
     
     private void FollowHand(CardUI cardUI)
@@ -82,12 +83,12 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
 
     private void ExecuteCardUI(CardUI cardUI)
     {
-        _playerDeck.TransferCard(DeckEnum.Hand, DeckEnum.Selected, SelectedCardUI.CardData);
+        _playerDeck.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.CardData);
             
-        if (CardExecutionManager.Instance.TryExecuteCard(SelectedCardUI))
+        if (CardExecutionManager.Instance.TryExecuteCard(cardUI))
         {
-            SelectedCardUI.Inputs.ForceChangeState(false);
-            OnCardExecute?.Invoke(SelectedCardUI);
+            cardUI.Inputs.ForceChangeState(false);
+            OnCardExecute?.Invoke(cardUI);
         }
     }
     

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using CardMaga.Input;
+using Sirenix.OdinInspector;
 
 namespace CardMaga.UI.Card
 {
@@ -12,7 +13,7 @@ namespace CardMaga.UI.Card
         [SerializeField] private RectTransform _visualsRectTransform;
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
 
-        [SerializeField] private CardUIInputHandler _inputs;
+        [SerializeField,InlineEditor()] private CardUIInputHandler _inputs;
 
 
         private CardAnimator _cardAnimator;

@@ -8,8 +8,6 @@ public class BaseHandUIState : MonoBehaviour
     public event Action OnEnterState;
     public event Action OnExitState;
 
-    [SerializeField] private CardUiInputBehaviourHandler _behaviourHandler;
-    
     protected InputBehaviour<CardUI> _inputBehaviour;
 
     protected CardUI _selectedCardUI;
@@ -51,7 +49,7 @@ public class BaseHandUIState : MonoBehaviour
             Debug.LogError(name + "CardUI Not equal To the Selected CardUI");
             return;
         }
-
+        
         _selectedCardUI = null;
         OnExitState?.Invoke();
     }

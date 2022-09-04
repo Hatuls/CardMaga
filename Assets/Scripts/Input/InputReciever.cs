@@ -3,14 +3,19 @@ using UnityEngine;
 
 public class InputReciever : MonoBehaviour
 {
-    #region Fields
+    #region Events
 
     public static Touch? PlayerTouch { get; set; }
-    public static event Action<Vector2> OnTouchDetected;
+    public static event Action<Vector2> OnTouchDetectedLocation;
     public static event Action<Vector2> OnTouchEnded;
     public static event Action<Vector2> OnTouchStart;
     public static event Action<SwipeData> OnSwipeDetected;
+    public static event Action OnTouchDetected;
 
+    #endregion
+    
+    #region Fields
+    
     private const float CIRCLE_BORDER_TOP_LEFT = 0.25F;
     private const float CIRCLE_BORDER_TOP_RIGHT = -0.25F;
     private const float CIRCLE_BORDER_BUTTOM_RIGHT = -0.75F;
@@ -81,7 +86,8 @@ public class InputReciever : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             _touchPosOnScreen = _camera.ScreenToWorldPoint(Input.mousePosition);
-            OnTouchDetected?.Invoke(_touchPosOnScreen);
+            OnTouchDetectedLocation?.Invoke(_touchPosOnScreen);
+            OnTouchDetected?.Invoke();
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -104,9 +110,6 @@ public class InputReciever : MonoBehaviour
 
             GetTouchPhase(PlayerTouch.Value);
 
-            _touchPosOnScreen = PlayerTouch.Value.position;
-            OnTouchDetected?.Invoke(_touchPosOnScreen);
-            
             return;
         }
         
@@ -122,12 +125,13 @@ public class InputReciever : MonoBehaviour
                 _touchPosOnScreen = touch.position;
                 _endTouchLocation = touch.position;
                 OnTouchStart?.Invoke(_startTouchLocation);
+                OnTouchDetected?.Invoke();
                 break;
             case TouchPhase.Moved:
                 _touchPosOnScreen = touch.position;
                 if (!_onlyDetectSwipeAtEnd)
                     SwipeDetector(_startTouchLocation,_touchPosOnScreen);
-                OnTouchDetected?.Invoke(_touchPosOnScreen);
+                OnTouchDetectedLocation?.Invoke(_touchPosOnScreen);
                 break;
             case TouchPhase.Ended:
                 _endTouchLocation = touch.position;
@@ -141,7 +145,7 @@ public class InputReciever : MonoBehaviour
                 break;
             case TouchPhase.Stationary:
                 _touchPosOnScreen = touch.position;
-                OnTouchDetected?.Invoke(_touchPosOnScreen);
+                OnTouchDetectedLocation?.Invoke(_touchPosOnScreen);
                 break;
         }
     }
