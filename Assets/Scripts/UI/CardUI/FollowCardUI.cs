@@ -6,6 +6,7 @@ using CardMaga.UI.Card;
 using DG.Tweening;
 using Managers;
 using ReiTools.TokenMachine;
+using Unity.Events;
 using UnityEngine;
 
 public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
@@ -22,7 +23,13 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
     private float _executionBoundry_Y;
 
     private Vector2 _mousePosition;
+    private bool _isExecuted = false;
     private DeckHandler _playerDeck;
+
+    public bool IsExecuted
+    {
+        get => _isExecuted;
+    }
     
 
     private void Start()
@@ -43,26 +50,28 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
         KillTween();
     }
 
+    public override void EnterState(CardUI cardUI)
+    {
+        base.EnterState(cardUI);
+        _isExecuted = false;
+    }
+
     public override void ExitState(CardUI cardUI)
     {
         if (!ReferenceEquals(cardUI, SelectedCardUI))
             return;
-        
+
         if (cardUI.transform.position.y > _executionBoundry_Y)
         {
-           ExecuteCardUI(cardUI);
+            ExecuteCardUI(cardUI);
         }
-        else
-        {
-            _handUI.ReturnCardToHand(cardUI);
-        }
-        
+
         base.ExitState(cardUI);
     }
     
     private void ReturnToHandState(CardUI cardUI)
     {
-        ExitState(cardUI);
+        _handUI.ReturnCardToHand(cardUI);
     }
     
     private void FollowHand(CardUI cardUI)
@@ -81,7 +90,7 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
         if (_currentSequence != null) _currentSequence.Kill();
     }
 
-    private void ExecuteCardUI(CardUI cardUI)
+    private bool ExecuteCardUI(CardUI cardUI)
     {
         _playerDeck.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.CardData);
             
@@ -89,7 +98,11 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
         {
             cardUI.Inputs.ForceChangeState(false);
             OnCardExecute?.Invoke(cardUI);
+            _isExecuted = true;
+            return true;
         }
+        _playerDeck.TransferCard(DeckEnum.Selected, DeckEnum.Hand, cardUI.CardData);
+        return false;
     }
     
     public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
