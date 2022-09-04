@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &8258599519189630728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2229796832149641529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d148a8a06c0b03b4a81bc8569b714c2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _touchableItem: {fileID: 1304183681161663716}
-  _holdDelay: 0.5
-  _holdDistance: 300
-  _currentState: 0
 --- !u!1 &7089541100094718733
 GameObject:
   m_ObjectHideFlags: 0
@@ -51,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 850}
+  m_SizeDelta: {x: 339.77, y: 516.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5192568083874443982
 CanvasRenderer:
@@ -103,9 +87,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 4405328268795982148}
-  _visualsRectTransform: {fileID: 3119259106320656275}
+  _visualsRectTransform: {fileID: 774937045894503608}
   _cardVisuals: {fileID: 2702904831510570026}
   _inputs: {fileID: 8258599519189630728}
+--- !u!114 &8258599519189630728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2229796832149641529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d148a8a06c0b03b4a81bc8569b714c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _touchableItem: {fileID: 1304183681161663716}
+  _holdDelay: 0.5
+  _holdDistance: 300
+  _currentState: 0
 --- !u!1001 &8985172838431535954
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -398,9 +398,9 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8985172838431535954}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &3119259106320656275 stripped
+--- !u!224 &774937045894503608 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6338933806020826305, guid: bd36032e49a557545a600c7d0ccf2374,
+  m_CorrespondingSourceObject: {fileID: 8534495242188369898, guid: bd36032e49a557545a600c7d0ccf2374,
     type: 3}
   m_PrefabInstance: {fileID: 8985172838431535954}
   m_PrefabAsset: {fileID: 0}

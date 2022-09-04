@@ -33,10 +33,7 @@ namespace Battle
         static Queue<CardData> _cardsQueue = new Queue<CardData>();
 
 
-        [SerializeField]
-        AnimatorController _playerAnimatorController;
-        [SerializeField]
-        AnimatorController _enemyAnimatorController;
+
         [SerializeField] VFXController __playerVFXHandler;
 
         [SerializeField] Unity.Events.StringEvent _playSound;
@@ -193,10 +190,8 @@ namespace Battle
             }
             else
             {
-                if (_turnHandler.IsLeftCharacterTurn)
-                    _playerAnimatorController.PlayCrossAnimation();
-                else
-                    _enemyAnimatorController.PlayCrossAnimation();
+
+                _playersManager.GetCharacter(_turnHandler.IsLeftCharacterTurn).VisualCharacter.AnimatorController.PlayCrossAnimation();
             }
 
         }
@@ -283,6 +278,12 @@ namespace Battle
             _cardsQueue.Clear();
             _keywordData.Clear();
         }
+        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        {
+            _turnHandler = data.TurnHandler;
+            _playersManager = data.PlayersManager;
+        }
+
         #region Monobehaviour Callbacks 
 
         public override void Awake()
@@ -292,10 +293,7 @@ namespace Battle
             BattleManager.Register(this, OrderType.Default);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
-        {
-            _turnHandler = data.TurnHandler;
-        }
+   
 
         #endregion
     }

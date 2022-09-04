@@ -5,19 +5,21 @@ public class VisualCharacter : MonoBehaviour
 {
     [SerializeField]
     private AnimatorController _animatorController;
-
     [SerializeField]
     private VFXController _vfxController;
     [SerializeField]
     private AnimationBodyPartSoundsHandler _animationSound;
-
+    [Sirenix.OdinInspector.ShowInInspector,Sirenix.OdinInspector.ReadOnly]
+    private AvatarHandler _avatarHandler;
+    [Sirenix.OdinInspector.ShowInInspector,Sirenix.OdinInspector.ReadOnly]
+    private Animator _characterAnimator;
     [SerializeField]
     private Transform _visual;
-    public AvatarHandler AvatarHandler { get; private set; }
+    public AvatarHandler AvatarHandler { get => _avatarHandler; private set => _avatarHandler = value; }
     public AnimatorController AnimatorController => _animatorController;
+    public Animator CharacterAnimator { get => _characterAnimator;private set => _characterAnimator = value; }
 
     public VFXController VfxController => _vfxController;
-
     public AnimationBodyPartSoundsHandler AnimationSound { get => _animationSound; }
 
     public void SpawnModel(ModelSO modelSO, bool isTinted)
@@ -26,7 +28,8 @@ public class VisualCharacter : MonoBehaviour
         if (isTinted)
             AvatarHandler.Mesh.material = modelSO.GetRandomTintedMaterials();
         VfxController.AvatarHandler = AvatarHandler;
-        AnimatorController.Animator = AvatarHandler.Animator;
+        _characterAnimator = AvatarHandler.Animator;
+        AnimatorController.Init(AvatarHandler);
         AnimatorController.ResetAnimator();
 
 #if UNITY_EDITOR
@@ -51,12 +54,14 @@ public class VisualCharacter : MonoBehaviour
     [SerializeField]
     private Vector3 _rotation = Vector3.one;
     public bool DrawMesh;
+
+
     private void OnDrawGizmos()
     {
-        if(DrawMesh)
+        if (DrawMesh)
         {
-        Gizmos.color = _gizmoColor;
-        Gizmos.DrawWireMesh(_mesh, _visual.position,Quaternion.Euler(_rotation), _meshScale);
+            Gizmos.color = _gizmoColor;
+            Gizmos.DrawWireMesh(_mesh, _visual.position, Quaternion.Euler(_rotation), _meshScale);
         }
     }
     #endregion

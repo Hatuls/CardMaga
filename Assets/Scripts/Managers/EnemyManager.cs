@@ -27,41 +27,44 @@ namespace Battle
         [Space]
         private AIHand _aiHand;
         int _cardAction;
+        private GameTurnHandler _turnHandler;
         private DeckHandler _deckHandler;
         [SerializeField] TextMeshProUGUI _enemyNameText;
-        #endregion
-        public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
+
+  
 
         private CharacterStatsHandler _statsHandler;
         private CardData[] _deck;
-        public CardData[] StartingCards => _deck;
+ 
 
-        public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
 
-        public AIBrain Brain { get => _brain; }
-        public CharacterStatsHandler StatsHandler { get => _statsHandler; }
-
-        public bool IsLeft =>false;
-
-        public VisualCharacter VisualCharacter => _visualCharacter;
-
-        public DeckHandler DeckHandler => _deckHandler;
 
         //   private bool _isStillThinking;
         private TokenMachine _aiTokenMachine;
         private IDisposable _turnFinished;
 
-        [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f,true)]
+        [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f, true)]
         private Vector2 _delayTime;
+        #endregion
+
+        #region Properties
+        public bool IsLeft => false;
+        public VisualCharacter VisualCharacter => _visualCharacter;
+        public CardData[] StartingCards => _deck;
+        public AIBrain Brain  => _brain; 
+        public CharacterStatsHandler StatsHandler  => _statsHandler; 
+        public DeckHandler DeckHandler => _deckHandler;
+        public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
+        public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
+        #endregion
         #region Public Methods
 
 
 
-        GameTurnHandler _turnHandler;
+
 
         public void AssignCharacterData(BattleManager battleManager, Character character)
         {
-          
             _myCharacter = character;
             var characterdata = character.CharacterData;
             VisualCharacter.AnimationSound.CurrentCharacter = characterdata.CharacterSO;
@@ -71,9 +74,15 @@ namespace Battle
             Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
             _statsHandler = new CharacterStatsHandler(false, ref characterdata.CharacterStats);
             _deckHandler = new DeckHandler(this, battleManager);
+
+            
             _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
+            _turnHandler.GetCharacterTurn(IsLeft).StartTurnOperations.Register(DrawHands);
+            _turnHandler.GetCharacterTurn(IsLeft).OnTurnActive += CalculateEnemyMoves;
         }
+        private void DrawHands(ITokenReciever tokenMachine)
+          => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
 
 
 
@@ -86,7 +95,7 @@ namespace Battle
         public void CalculateEnemyMoves()
         {
             _aiHand.ResetData();
-            var handCards = _deckHandler.GetCardsFromDeck(DeckEnum.Hand);
+            var handCards = DeckHandler.GetCardsFromDeck(DeckEnum.Hand);
             _aiHand.AddCard(handCards);
             try
             {
@@ -135,20 +144,7 @@ namespace Battle
             _turnHandler.MoveToNextTurn();
             AnimatorController.ResetToStartingPosition();
         }
-        //public IEnumerator PlayEnemyTurn()
-        //{
-        //    Debug.Log("Enemy Attack!");
-
-        //    _turnFinished = _aiTokenMachine.GetToken();
-        //    _isStillThinking = true;
-        //    while (_isStillThinking)
-        //        yield return null;
-
-        //    yield return new WaitUntil(() => AnimatorController.GetIsAnimationCurrentlyActive == false && CardExecutionManager.CardsQueue.Count == 0);
-        //    CardUIManager.Instance.ActivateEnemyCardUI(false);
-        //    yield return Turns.Turn.WaitOneSecond;
-        //    AnimatorController.ResetToStartingPosition();
-        //}
+ 
         public void PlayEnemyTurn()
         {
             Debug.Log("Enemy Attack!");

@@ -15,10 +15,10 @@ using UnityEngine.Events;
 namespace Battle
 {
 
-    public class BattleManager : MonoSingleton<BattleManager>
+    public class BattleManager : MonoSingleton<BattleManager>, IBattleManager
     {
         public static event Action OnGameEnded;
-        public static event Action<SequenceHandler> OnSceneStart;
+        public event Action<BattleManager> OnBattleManagerDestroyed;
 
 
         public static bool isGameEnded;
@@ -30,23 +30,42 @@ namespace Battle
         private UnityEvent OnPlayerVictory;
         [SerializeField, EventsGroup]
         private UnityEvent OnBattleStarts;
-
         [SerializeField]
         private UnityEvent OnBattleFinished;
 
-        [SerializeField] private DollyTrackCinematicManager _cinematicManager;
+        [SerializeField]
+        private DollyTrackCinematicManager _cinematicManager;
         [SerializeField]
         private PlayerManager _playerManager;
         [SerializeField]
         private EnemyManager _enemyManager;
+        [SerializeField]
+        private CardExecutionManager _cardExecutionManager;
+        [SerializeField]
+        private CardUIManager _cardUIManager;
+        [SerializeField]
+        private ComboManager _comboManager;
+        [SerializeField]
+        private KeywordManager _keywordManager;
+        [SerializeField]
+        private VFXManager _vFXManager;
+        [SerializeField]
+        private CameraManager _cameraManager;
 
         private IPlayersManager _playersManager;
         private static SequenceHandler<BattleManager> _battleStarter = new SequenceHandler<BattleManager>();
         private GameTurnHandler _gameTurnHandler;
 
-
-        public GameTurnHandler TurnHandler { get => _gameTurnHandler; }
-        public IPlayersManager PlayersManager { get => _playersManager; }
+        #region Properties
+        public GameTurnHandler TurnHandler => _gameTurnHandler; 
+        public IPlayersManager PlayersManager => _playersManager; 
+        public CardExecutionManager CardExecutionManager => _cardExecutionManager;
+        public CardUIManager CardUIManager => _cardUIManager;
+        public ComboManager ComboManager => _comboManager;
+        public KeywordManager KeywordManager => _keywordManager;
+        public VFXManager VFXManager => _vFXManager;
+        public CameraManager CameraManager => _cameraManager;
+        #endregion
 
         private void ResetBattle()
         {
@@ -184,8 +203,10 @@ namespace Battle
         }
         private void OnDestroy()
         {
+            OnBattleManagerDestroyed?.Invoke(this);
             ThreadsHandler.ThreadHandler.ResetList();
             TurnHandler.Dispose();
+            _gameTurnHandler = null;
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
             _battleStarter.OnDestroy();
             _battleStarter = null;
@@ -251,9 +272,8 @@ namespace Battle
 
     public interface IBattleManager
     {
-     //   DeckManager DeckManager { get; }
-        PlayerManager PlayerManager { get; }
-        EnemyManager EnemyManager { get; }
+
+        IPlayersManager PlayersManager { get; }
         CardExecutionManager CardExecutionManager { get; }
         CardUIManager CardUIManager { get; }
         ComboManager ComboManager { get; }

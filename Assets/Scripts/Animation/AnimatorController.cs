@@ -10,8 +10,10 @@ using CardMaga.Animation;
 
 public class AnimatorController : MonoBehaviour
 {
-    public static event Action<bool> OnDeathAnimationFinished;
     #region Events
+    public static event Action<bool> OnDeathAnimationFinished;
+    public static event Action OnAnimationEnding;
+    public static event Action<TransitionCamera, Action> OnAnimationStart;
 
     [SerializeField] VoidEvent _movedToNextAnimation;
 
@@ -31,8 +33,6 @@ public class AnimatorController : MonoBehaviour
     AnimationBundle _currentAnimation;
     Queue<AnimationBundle> _animationQueue = new Queue<AnimationBundle>();
 
-    public static event Action OnAnimationEnding;
-    public static event Action<TransitionCamera,Action> OnAnimationStart;
 
     [SerializeField] float _rotationSpeed;
     [SerializeField] float _positionSpeed;
@@ -40,19 +40,19 @@ public class AnimatorController : MonoBehaviour
 
     [SerializeField] float _transitionSpeedBetweenAnimations = 0.1f;
     [SerializeField] float transitionToIdle = 0.1f;
-
     [SerializeField] bool _isPlayer;
-
-    bool _toLockAtPlace;
-    bool _isAnimationPlaying;
+    [SerializeField] bool _crossFadeBetweenAnimations = false;
     [SerializeField] Vector3 startPos;
+    private bool _toLockAtPlace;
+    private bool _isAnimationPlaying;
+    private AvatarHandler _avatarHandler;
     #endregion
 
 
     #region Properties
-    public Animator Animator { get; set; }
+    public Animator Animator => _avatarHandler.Animator;
 
-    public bool AnimatorIsPlayer => _isPlayer;
+    public bool IsPlayersAnimator => _isPlayer;
     public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
     public AnimationBundle SetCurrentAnimationBundle { set => _currentAnimation = value; }
     #endregion
@@ -83,7 +83,11 @@ public class AnimatorController : MonoBehaviour
 
 
     #region Public
-
+    public void Init(AvatarHandler avatarHandler)
+    {
+        _avatarHandler = avatarHandler;
+        ResetAnimator();
+    }
     public void ResetAnimator()
     {
 
@@ -116,14 +120,14 @@ public class AnimatorController : MonoBehaviour
         if (_currentAnimation != null && _currentAnimation.CameraDetails != null && _currentAnimation.CameraDetails.CheckCameraDetails(_isPlayer))
         {
             TransitionCamera transitionCamera = _currentAnimation.CameraDetails.GetTransitionCamera(_isPlayer);
-            OnAnimationStart?.Invoke(transitionCamera,null);
+            OnAnimationStart?.Invoke(transitionCamera, null);
         }
 
     }
     internal void FinishAnimation(AnimatorStateInfo stateInfo)
     {
         if (_animationQueue.Count == 0 && _currentAnimation == null)
-                OnAnimationEnding?.Invoke();
+            OnAnimationEnding?.Invoke();
 
         //if (_animationQueue.Count > 0)
         //{
@@ -156,8 +160,8 @@ public class AnimatorController : MonoBehaviour
 
     public void CheckForRegisterCards()
     {
-      //  if (CheckIfMyTurn())
-            TranstionToNextAnimation();
+        //  if (CheckIfMyTurn())
+        TranstionToNextAnimation();
 
     }
 
@@ -198,7 +202,8 @@ public class AnimatorController : MonoBehaviour
 
 
     }
-    [SerializeField] bool _crossFadeBetweenAnimations = false;
+
+
     private void PlayAnimation(string name, bool toCrossFade = false)
     {
         Debug.Log("Play Anim " + name);

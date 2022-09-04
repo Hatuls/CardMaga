@@ -202,11 +202,9 @@ GameObject:
   - component: {fileID: 5702666649216585369}
   - component: {fileID: 8813301573821374498}
   - component: {fileID: 5368535060217224795}
-  - component: {fileID: 7184460586434772631}
   - component: {fileID: 8694790356547147787}
   - component: {fileID: 1093964942527637542}
   - component: {fileID: 6721602299382048637}
-  - component: {fileID: 2871113150062929385}
   m_Layer: 5
   m_Name: CardCanvas
   m_TagString: Untagged
@@ -307,10 +305,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31dc56e4da66a9341b2919e23ca49fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputBehaviour: {fileID: 11400000, guid: 3678203bcc46b474a8657dd9f3ce3b31, type: 2}
-  _zoomPosition: {fileID: 210326852}
+  _handUI: {fileID: 8694790356547147787}
   _zoomCard: {fileID: 11400000, guid: a551b5cc623c9304fb2c04e985dfd214, type: 2}
   _resetZoomCard: {fileID: 11400000, guid: 59267d57b7168cb4fa9fec5a38c79d70, type: 2}
+  _zoomPosition: {fileID: 210326852}
 --- !u!114 &5368535060217224795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,34 +321,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c490c4661c5c00d4db82f4add2e29d77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputBehaviour: {fileID: 11400000, guid: c27564774ff39014fba0b0ec9e708f82, type: 2}
   _handUI: {fileID: 8694790356547147787}
   _followHand: {fileID: 11400000, guid: 01dd9ea9487741d40802708138894a98, type: 2}
   _executionBoundry: {fileID: 4063326684566358454}
---- !u!114 &7184460586434772631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5702666649216585370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ae922c9ecff864ea0f2fb15840ad93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _behaviourHandler: {fileID: 2871113150062929385}
-  _followCardUI: {fileID: 5368535060217224795}
-  _zoomCardUI: {fileID: 8813301573821374498}
-  _handUI: {fileID: 8694790356547147787}
-  _zoomInputBehaviour: {fileID: 11400000, guid: 3678203bcc46b474a8657dd9f3ce3b31,
-    type: 2}
-  _followInputBehaviour: {fileID: 11400000, guid: c27564774ff39014fba0b0ec9e708f82,
-    type: 2}
-  _handInputBehaviour: {fileID: 11400000, guid: abab0af7731ad73459366f9b934da0bc,
-    type: 2}
-  _selectedInputBehaviour: {fileID: 11400000, guid: faba468f289deee4898f33ee88d19371,
-    type: 2}
 --- !u!114 &8694790356547147787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,8 +350,6 @@ MonoBehaviour:
     type: 2}
   _dicardExecutePositionPackSO: {fileID: 11400000, guid: eb9b2dae227c22644a7fef5f6e5f3548,
     type: 2}
-  _battleInputStateMachine: {fileID: 0}
-  _lockState: {fileID: 11400000, guid: 4f0ad017bd0da9649ad38d78516d6228, type: 2}
   _discardPos: {fileID: 0}
   _drawPos: {fileID: 0}
   _cardUIManager: {fileID: 0}
@@ -388,8 +359,8 @@ MonoBehaviour:
     _cardPaddingPrecentage: 8
     _cardCenterOffSetPrecentage: 0
     _cardSlots: []
-  _selectCardUI: {fileID: 7184460586434772631}
-  _cardUiInputBehaviourHandler: {fileID: 2871113150062929385}
+  _zoomUIState: {fileID: 8813301573821374498}
+  _followUIState: {fileID: 5368535060217224795}
   _delayBetweenCardDrawn: 0
   _delayBetweenCardDiscard: 0
 --- !u!114 &1093964942527637542
@@ -418,18 +389,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aff1ed58d7af3a745b085f83de146a3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2871113150062929385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5702666649216585370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23c2e4a89a18dc445904d646712428e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5702666649046509009

@@ -1,5 +1,6 @@
 ﻿using CardMaga.UI.Card;
 using System;
+using CardMaga.Input;
 using UnityEngine;
 
 public class BaseHandUIState : MonoBehaviour
@@ -7,14 +8,22 @@ public class BaseHandUIState : MonoBehaviour
     public event Action OnEnterState;
     public event Action OnExitState;
 
-    [SerializeField] private CardUIInputBehaviourSO _inputBehaviour;
+    protected InputBehaviour<CardUI> _inputBehaviour;
 
-    private CardUI _selectedCardUI;
+    protected CardUI _selectedCardUI;
 
 
     public CardUI SelectedCardUI
     {
         get => _selectedCardUI;
+    }
+
+    private void Awake()
+    {
+        if (_inputBehaviour == null)
+        {
+            _inputBehaviour = new InputBehaviour<CardUI>();
+        }
     }
 
     public virtual void EnterState(CardUI cardUI)
@@ -40,7 +49,7 @@ public class BaseHandUIState : MonoBehaviour
             Debug.LogError(name + "CardUI Not equal To the Selected CardUI");
             return;
         }
-
+        
         _selectedCardUI = null;
         OnExitState?.Invoke();
     }

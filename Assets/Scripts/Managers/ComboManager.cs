@@ -28,7 +28,8 @@ namespace Battle
         private IPlayersManager _playersManager;
         private GameTurnHandler _gameTurnHandler;
         static byte threadId;
-
+        private CardTypeComparer _cardTypeComparer = new CardTypeComparer();
+        private Factory.GameFactory.CardFactory _cardFactory;
         #endregion
         #region Events
         [SerializeField] VoidEvent _successCrafting;
@@ -63,6 +64,7 @@ namespace Battle
         public void Start()
         {
             threadId = ThreadHandler.GetNewID;
+            _cardFactory = Factory.GameFactory.Instance.CardFactoryHandler;
         }
 
         public void TryForge(bool isPlayer)
@@ -70,8 +72,8 @@ namespace Battle
             var ComboSO = _cardRecipeDetected.ComboSO;
             if (_cardRecipeDetected != null && ComboSO != null)
             {
-                var factory = Factory.GameFactory.Instance.CardFactoryHandler;
-                var craftedCard = factory.CreateCard(ComboSO.CraftedCard.ID, _cardRecipeDetected.Level);
+                 
+                var craftedCard = _cardFactory.CreateCard(ComboSO.CraftedCard.ID, _cardRecipeDetected.Level);
 
                 _successCrafting?.Raise();
                 DeckHandler deck = _playersManager.GetCharacter(isPlayer).DeckHandler;
@@ -132,7 +134,7 @@ namespace Battle
 
         //    var _craftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
 
-            if (Instance._cardRecipeDetected == null || Instance._cardRecipeDetected.ComboSO == null)
+            if (_cardRecipeDetected == null || _cardRecipeDetected.ComboSO == null)
             {
                 FoundCombo = false;
                deck.DrawHand( 1);
@@ -141,14 +143,14 @@ namespace Battle
             {
                 FoundCombo = true;
                // _craftingUIHandler.MarkSlotsDetected();
-                Instance.TryForge(isPlayer);
+                TryForge(isPlayer);
 
-                Instance._cardRecipeDetected = null;
+                _cardRecipeDetected = null;
             data.ResetDeck();
             }
         }
 
-         void DetectRecipe()
+        private void DetectRecipe()
         {
             bool isPlayer = _gameTurnHandler.IsLeftCharacterTurn;
             //coping the relevant crafting slots from the deck manager
@@ -180,16 +182,16 @@ namespace Battle
             }
             if (amountCache > 1)
             {
-                CheckRecipe(craftingItems.ToArray(), isPlayer);
+                CheckRecipe(craftingItems, isPlayer);
             }
 
         }
-        static void CheckRecipe(CardTypeData[] craftingItems, bool isPlayer)
+         void CheckRecipe(IReadOnlyList<CardTypeData> craftingItems, bool isPlayer)
         {
             // need to make algorithem better!!! 
-            var recipes = isPlayer ? Managers.PlayerManager.Instance.Combos : Battle.EnemyManager.Instance.Combos;
+            var recipes = _playersManager.GetCharacter(isPlayer).Combos;
 
-            CardTypeComparer comparer = new CardTypeComparer();
+        
             CardTypeData[] cardTypeDatas;
             for (int i = 0; i < recipes.Length; i++)
             {
@@ -201,14 +203,14 @@ namespace Battle
                     cardTypeDatas[j] = comboSO.ComboSequence[j];
                     //nextRecipe.Add(combo[i].ComboSequance[j]);
                 }
-                if (craftingItems.SequenceEqual(cardTypeDatas, comparer))
+                if (craftingItems.SequenceEqual(cardTypeDatas, _cardTypeComparer))
                 {
-                    Instance.CardRecipeDetected = recipes[i];
+                    CardRecipeDetected = recipes[i];
                     return;
                 }
 
             }
-            Instance.CardRecipeDetected = null;
+            CardRecipeDetected = null;
         }
 
         public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)

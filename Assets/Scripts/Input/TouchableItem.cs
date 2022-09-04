@@ -1,7 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using System;
 using System.Collections;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -34,24 +33,30 @@ namespace CardMaga.Input
         [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
 
-        private Vector2 _startPosition;
-        private InputBehaviour<T> _inputBehaviour;
+        [ShowInInspector,ReadOnly] private InputBehaviour<T> _inputBehaviour;
         private InputBehaviour<T> _defaultInputBehaviour;
+        private Vector2 _startPosition;
         private bool _isHold;
         private bool _isTouchable;
+
+#if UNITY_EDITOR
+        private int _holdLogCount;
+#endif
 
         #endregion
 
         #region Prop
 
         public InputBehaviour<T> InputBehaviour => _inputBehaviour;
+        
+        public InputBehaviour<T> DefaultInputBehaviour => _defaultInputBehaviour;
         public State CurrentState => _currentState;
 
         #endregion
 
         #region UnityCallBack
 
-        private void OnEnable()
+        private void Awake()
         {
             if (_defaultInputBehaviour != null)
                 return;
@@ -69,36 +74,59 @@ namespace CardMaga.Input
         {
             OnClick?.Invoke(_touchableItem);
             _inputBehaviour.Click(_touchableItem);
+#if UNITY_EDITOR
+            Debug.Log(_touchableItem.name + GetInstanceID() + " Click");
+#endif
         }
         
         protected virtual void BeginHold()
         {
             OnBeginHold?.Invoke(_touchableItem);
             _inputBehaviour.BeginHold(_touchableItem);
+#if UNITY_EDITOR
+            Debug.Log(_touchableItem.name + GetInstanceID() + " BeginHold");
+#endif
         }
         
         protected virtual void EndHold()
         {
             OnEndHold?.Invoke(_touchableItem);
             _inputBehaviour.EndHold(_touchableItem);
+#if UNITY_EDITOR
+            Debug.Log(_touchableItem.name + GetInstanceID() + " EndHold");
+#endif
         }
         
         protected virtual void Hold()
         {
             OnHold?.Invoke(_touchableItem);
             _inputBehaviour.Hold(_touchableItem);
+#if UNITY_EDITOR
+            if (_holdLogCount % 10 == 0)
+            {
+                Debug.Log(_touchableItem.name + GetInstanceID() + " Hold");
+            }
+            _holdLogCount++;
+
+#endif     
         }
         
         protected virtual void PointDown()
         {
             OnPointDown?.Invoke(_touchableItem);
             _inputBehaviour.PointDown(_touchableItem);
+#if UNITY_EDITOR
+            Debug.Log(_touchableItem.name + GetInstanceID() + " PointDown");
+#endif
         }
         
         protected virtual void PointUp()
         {
             OnPointUp?.Invoke(_touchableItem);
             _inputBehaviour.PointUp(_touchableItem);
+#if UNITY_EDITOR
+            Debug.Log(_touchableItem.name + GetInstanceID() + " PointUp");
+#endif
         }
 
         #endregion
@@ -177,20 +205,10 @@ namespace CardMaga.Input
         private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
         {
             BeginHold();
-
-            int count = 0;
+            _holdLogCount = 0;
             while (_isHold)
             {
                 Hold();
-#if UNITY_EDITOR
-                if (count % 10 == 0)
-                {
-                    Debug.Log(base.name + "OnHold");
-                }
-                count++;
-
-#endif       
-                
                 yield return null;
             }
         }

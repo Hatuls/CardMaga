@@ -5,6 +5,7 @@ using Battle.Combo;
 using Battle.Deck;
 using CardMaga.Card;
 using Characters.Stats;
+using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
 
@@ -66,7 +67,7 @@ namespace Managers
             _statsHandler = new CharacterStatsHandler(true, ref data.CharacterStats);
             _deckHandler = new DeckHandler(this, battleManager);
             //  CharacterStatsManager.RegisterCharacterStats(true, ref data.CharacterStats);
-
+            battleManager.TurnHandler.GetCharacterTurn(true).StartTurnOperations.Register(DrawHands);
         }
 
 
@@ -81,7 +82,8 @@ namespace Managers
 
 
 
-
+        private void DrawHands(ITokenReciever tokenMachine)
+            => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);    
 
     }
 

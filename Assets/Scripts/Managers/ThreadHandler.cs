@@ -55,7 +55,7 @@ namespace ThreadsHandler
             _threads.Add(thread);
 
             thread.thread = new Thread(
-                new ThreadStart(thread.actionOnStartThread)
+                new ThreadStart(thread.OnStartThread)
                 );
 
             thread.thread.Start();
@@ -114,9 +114,9 @@ namespace ThreadsHandler
             {
                 for (int i = 0; i < _threads.Count; i++)
                     _threads[i].AbortThread();
+            _threads.Clear();
             }
 
-            _threads.Clear();
         }
     }
 
@@ -125,17 +125,17 @@ namespace ThreadsHandler
     {
         public byte ID;
         public Thread thread;
-        public System.Action actionOnStartThread;
-        private System.Action actionOnFinishThread;
+        public System.Action OnStartThread;
+        private event System.Action OnFinishThread;
         public ThreadList(byte id, System.Action ActionInThread, System.Action _actionOnFinishThread = null)
         {
             ID = id;
-            actionOnStartThread = ActionInThread;
-            actionOnFinishThread = _actionOnFinishThread;
+            OnStartThread = ActionInThread;
+            OnFinishThread = _actionOnFinishThread;
         }
         public void AbortThread() {
             thread?.Abort();
-                actionOnFinishThread?.Invoke(); 
+                OnFinishThread?.Invoke(); 
         }
         public bool IsThreadAlive
          => (thread != null) ? thread.IsAlive : false;

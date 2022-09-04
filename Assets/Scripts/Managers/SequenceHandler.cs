@@ -42,27 +42,25 @@ namespace Battle
                 switch (type)
                 {
                     case OrderType.Default:
-                        if (_default == null)
-                            _default = new OperationHandler<ISequenceOperation>();
                         return _default;
 
                     case OrderType.After:
-                        if (_after == null)
-                            _after = new OperationHandler<ISequenceOperation>();
                         return _after;
 
                     case OrderType.Before:
                     default:
-                        if (_early == null)
-                            _early = new OperationHandler<ISequenceOperation>();
                         return _early;
                 }
             }
         }
         public void Register(ISequenceOperation sequenceOperation, OrderType to = OrderType.Default)
-        => this[to].Add(sequenceOperation);
-        public void Register(Action<ITokenReciever> token, int priority = 0, OrderType to = OrderType.Default)
- => this[to].Add(new OperationTask(token, priority, to));
+        {
+            if (this[to] == null)
+                InitList(to);
+            this[to].Add(sequenceOperation);
+        }
+        public void Register(Action<ITokenReciever> token, int priority = 0, OrderType to = OrderType.Default) => Register(new OperationTask(token, priority, to));
+
         public bool Remove(ISequenceOperation sequenceOperation, OrderType from = OrderType.Default)
              => this[from].Remove(sequenceOperation);
         public void OnDestroy()
@@ -111,11 +109,35 @@ namespace Battle
 
             TokenMachine tokenMachine = new TokenMachine(OnComplete);
             operation.Sort();
-            foreach (var item in operation)
-                item.ExecuteTask(tokenMachine);
+            IDisposable t = tokenMachine.GetToken();
+            using (t)
+            {
+                foreach (var item in operation)
+                    item.ExecuteTask(tokenMachine);
+            }
 
         }
+        private void InitList(OrderType type)
+        {
+            switch (type)
+            {
+                case OrderType.Default:
+                    if (_default == null)
+                        _default = new OperationHandler<ISequenceOperation>();
+                    break;
 
+                case OrderType.After:
+                    if (_after == null)
+                        _after = new OperationHandler<ISequenceOperation>();
+                    break;
+
+                case OrderType.Before:
+                default:
+                    if (_early == null)
+                        _early = new OperationHandler<ISequenceOperation>();
+                    break;
+            }
+        }
         #endregion
     }
 
@@ -123,9 +145,9 @@ namespace Battle
 
     public class SequenceHandler<T> : ISequenceOperation<T>
     {
-        private OperationHandler<ISequenceOperation<T>> _early = new OperationHandler<ISequenceOperation<T>>();
-        private OperationHandler<ISequenceOperation<T>> _default = new OperationHandler<ISequenceOperation<T>>();
-        private OperationHandler<ISequenceOperation<T>> _late = new OperationHandler<ISequenceOperation<T>>();
+        private OperationHandler<ISequenceOperation<T>> _early  ;
+        private OperationHandler<ISequenceOperation<T>> _default;
+        private OperationHandler<ISequenceOperation<T>> _after  ;
         private OrderType _order;
         private int _priority;
         public OrderType Order { get => _order; private set => _order = value; }
@@ -145,7 +167,7 @@ namespace Battle
                     case OrderType.Default:
                         return _default;
                     case OrderType.After:
-                        return _late;
+                        return _after;
                     case OrderType.Before:
                     default:
                         return _early;
@@ -156,7 +178,13 @@ namespace Battle
 
 
         public void Register(ISequenceOperation<T> sequenceOperation, OrderType to = OrderType.Default)
-        => this[to].Add(sequenceOperation);
+        {
+            if (this[to] == null)
+                InitList(to);
+         this[to].Add(sequenceOperation);
+        }
+
+
 
         public bool Remove(ISequenceOperation<T> sequenceOperation, OrderType from = OrderType.Default)
              => this[from].Remove(sequenceOperation);
@@ -168,25 +196,25 @@ namespace Battle
             void StartScene() => StartOperation(this[OrderType.Default], data, LateStartScene);
             void LateStartScene() => StartOperation(this[OrderType.After], data, OnComplete);
         }
-        public void StartAll(T data,Action OnComplete = null)
+        public void StartAll(T data, Action OnComplete = null)
         {
             StartOperation(this[OrderType.Before], data, StartScene);
             void StartScene() => StartOperation(this[OrderType.Default], data, LateStartScene);
             void LateStartScene() => StartOperation(this[OrderType.After], data, OnComplete);
         }
-        public void ExecuteTask(ITokenReciever tokenMachine,T data)
+        public void ExecuteTask(ITokenReciever tokenMachine, T data)
         {
             IDisposable token = tokenMachine?.GetToken();
-            StartAll(data,token.Dispose);
+            StartAll(data, token.Dispose);
         }
-        public void ExecuteTask(T data,Action onComplete = null)
+        public void ExecuteTask(T data, Action onComplete = null)
         {
             IDisposable token = new TokenMachine(onComplete).GetToken();
-            StartAll(data,token.Dispose);
+            StartAll(data, token.Dispose);
         }
         private void StartOperation(OperationHandler<ISequenceOperation<T>> operation, T data, Action OnComplete)
         {
-            if (operation.Count == 0)
+            if (operation == null|| operation.Count == 0)
             {
                 OnComplete?.Invoke();
                 return;
@@ -194,18 +222,21 @@ namespace Battle
 
             TokenMachine tokenMachine = new TokenMachine(OnComplete);
             operation.Sort();
-            foreach (var item in operation)
-                item.ExecuteTask(tokenMachine, data);
+            using (tokenMachine.GetToken())
+            {
+                foreach (var item in operation)
+                    item.ExecuteTask(tokenMachine, data);
+            }
 
         }
         public void OnDestroy()
         {
             Reset(_early);
             Reset(_default);
-            Reset(_late);
+            Reset(_after);
             _early = null;
             _default = null;
-            _late = null;
+            _after = null;
 
             void Reset(OperationHandler<ISequenceOperation<T>> operation)
             {
@@ -213,6 +244,26 @@ namespace Battle
                 operation.Dispose();
             }
         }
+        private void InitList(OrderType type)
+        {
+            switch (type)
+            {
+                case OrderType.Default:
+                    if (_default == null)
+                        _default = new OperationHandler<ISequenceOperation<T>>();
+                    break;
 
+                case OrderType.After:
+                    if (_after == null)
+                        _after = new OperationHandler<ISequenceOperation<T>>();
+                    break;
+
+                case OrderType.Before:
+                default:
+                    if (_early == null)
+                        _early = new OperationHandler<ISequenceOperation<T>>();
+                    break;
+            }
+        }
     }
 }

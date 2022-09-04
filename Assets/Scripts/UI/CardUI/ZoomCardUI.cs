@@ -5,25 +5,44 @@ namespace CardMaga.UI.Card
 {
     public class ZoomCardUI : BaseHandUIState
     {
-        [SerializeField] private RectTransform _zoomPosition;
+        [Header("Scripts Reference")] 
+        [SerializeField] private HandUI _handUI;
+        [Header("TransitionPackSO")]
         [SerializeField] private TransitionPackSO _zoomCard;
         [SerializeField] private TransitionPackSO _resetZoomCard;
+        [Header("RectTransforms")]
+        [SerializeField] private RectTransform _zoomPosition;
 
         private Sequence _currentSequence;
 
         private IDisposable _zoomToken;
 
+        private void Start()
+        {
+            InputReciever.OnTouchDetected += ReturnToHandState;
+        }
+
+        private void OnDestroy()
+        {
+            InputReciever.OnTouchDetected -= ReturnToHandState;
+        }
+
         public override void EnterState(CardUI cardUI)
         {
             base.EnterState(cardUI);
             
-            MoveToZoomPosition(SelectedCardUI);
+            MoveToZoomPosition(cardUI);
         }
 
         public override void ExitState(CardUI cardUI)
         {
-            base.ExitState(cardUI);
             _zoomToken.Dispose();
+            base.ExitState(cardUI);
+        }
+
+        private void ReturnToHandState()
+        {
+            _handUI.ReturnCardToHand(SelectedCardUI);
         }
 
         public override void ForceExitState(CardUI cardUI)
