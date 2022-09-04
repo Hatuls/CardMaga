@@ -5,9 +5,13 @@ namespace CardMaga.UI.Card
 {
     public class ZoomCardUI : BaseHandUIState
     {
-        [SerializeField] private RectTransform _zoomPosition;
+        [Header("Scripts Reference")]
+        [SerializeField] private CardUiInputBehaviourHandler _behaviourHandler;
+        [Header("TransitionPackSO")]
         [SerializeField] private TransitionPackSO _zoomCard;
         [SerializeField] private TransitionPackSO _resetZoomCard;
+        [Header("RectTransforms")]
+        [SerializeField] private RectTransform _zoomPosition;
 
         private Sequence _currentSequence;
 
@@ -15,12 +19,12 @@ namespace CardMaga.UI.Card
 
         private void Start()
         {
-            _inputBehaviour.OnClick += ExitState;//not good!!!
+            _inputBehaviour.OnClick += ReturnToHandState;
         }
 
         private void OnDestroy()
         {
-            _inputBehaviour.OnClick -= ExitState;
+            _inputBehaviour.OnClick -= ReturnToHandState;
         }
 
         public override void EnterState(CardUI cardUI)
@@ -34,6 +38,11 @@ namespace CardMaga.UI.Card
         {
             base.ExitState(cardUI);
             _zoomToken.Dispose();
+        }
+
+        private void ReturnToHandState(CardUI cardUI)
+        {
+            _behaviourHandler.SetState(CardUiInputBehaviourHandler.HandState.Hand,cardUI);
         }
 
         public override void ForceExitState(CardUI cardUI)

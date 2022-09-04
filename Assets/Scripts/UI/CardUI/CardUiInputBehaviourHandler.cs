@@ -30,11 +30,6 @@ public class CardUiInputBehaviourHandler : InputBehaviourHandler<CardUI>
         };
     }
 
-    private void Start()
-    {
-        
-    }
-
     public void SetState(HandState state,CardUI cardUI)
     {
         if (_currentState == null)

@@ -39,19 +39,14 @@ namespace CardMaga.UI
 
         #region Fields
 
-        [Header("TransitionPackSO")] [SerializeField]
-        private TransitionPackSO _drawMoveTransitionPackSo;
-
+        [Header("TransitionPackSO")] 
+        [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
         [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
         [SerializeField] private TransitionPackSO _resetCardPositionPackSO;
         [SerializeField] private TransitionPackSO _dicardExecutePositionPackSO;
-
-        [Header("Input State Machine")] 
-        [SerializeField] private BaseStateMachine _battleInputStateMachine;
-        [SerializeField] private StateIdentificationSO _lockState;
         
         [Header("RectTransforms")] 
         [SerializeField] private RectTransform _discardPos;
@@ -59,9 +54,6 @@ namespace CardMaga.UI
 
         [Header("Scripts Reference")]
         [SerializeField] private CardUIManager _cardUIManager;
-        [SerializeField] private FollowCardUI _followCardUI;
-        [SerializeField] private ZoomCardUI _zoomCardUI;
-
         [SerializeField] private ComboUIManager _comboUIManager;
         [SerializeField] private TableCardSlot _tableCardSlot;
         [SerializeField] private CardUiInputBehaviourHandler _cardUiInputBehaviourHandler;
@@ -72,7 +64,6 @@ namespace CardMaga.UI
 
         private Sequence _currentSequence;
         private DeckHandler _deckHandler;
-        private TokenMachine _handLockTokenMachine;
         private bool _isCardSelected;
         private WaitForSeconds _waitForCardDiscardDelay;
         private GameTurn _leftPlayerGameTurn;
@@ -81,8 +72,6 @@ namespace CardMaga.UI
         #endregion
 
         #region Prop
-
-        public ITokenReciever HandLockTokenReceiver => _handLockTokenMachine;
 
         public bool IsCardSelect
         {
@@ -104,8 +93,7 @@ namespace CardMaga.UI
         {
             _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
             _waitForCardDiscardDelay = new WaitForSeconds(_delayBetweenCardDiscard);
-            _handLockTokenMachine = new TokenMachine(UnLockInput, LockInput);
-            
+
             BattleManager.Register(this, OrderType.After);
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += ForceDiscardCards;
@@ -123,7 +111,7 @@ namespace CardMaga.UI
             
             for (int i = 0; i < temp.Length; i++)
             {
-                SetState(HandState.Hand,temp[i]);   
+                _cardUiInputBehaviourHandler.SetState(CardUiInputBehaviourHandler.HandState.Hand,temp[i]);   
             }
         }
 
@@ -148,24 +136,12 @@ namespace CardMaga.UI
 
         public void LockInput()
         {
-            CardUI[] tempCardUis = _tableCardSlot.GetCardsUIExceptFrom(_selectCardUI.SelectedCardUI).ToArray();
-            LockCardsInput(false, tempCardUis);
+            _cardUiInputBehaviourHandler.LockAllTouchableItems(_tableCardSlot.GetCardUIInputsFromTable(),false);
         }
 
         public void UnLockInput()
         {
-            LockCardsInput(true, _tableCardSlot.GetCardUIsFromTable());
-        }
-
-        private void LockCardsInput(bool toLock, CardUI[] cardUis)
-        {
-            for (var i = 0; i < cardUis.Length; i++)
-            {
-                if (cardUis[i] != null)
-                {
-                    cardUis[i].Inputs.ForceChangeState(toLock);
-                }
-            }
+            _cardUiInputBehaviourHandler.LockAllTouchableItems(_tableCardSlot.GetCardUIInputsFromTable(),true);
         }
 
         #endregion
@@ -240,15 +216,9 @@ namespace CardMaga.UI
 
             if (_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
-
-                if (_selectCardUI.SelectedCardUI != cardUI)
-                {
-                    Debug.LogError(name + "Failed to Set Selected cardUI");
-                    return;
-                }
-
                 cardUI.transform.SetAsLastSibling();
                 _tableCardSlot.RemoveCardUI(cardUI);
+                LockInput();
                 _isCardSelected = true;
                 OnCardSelect?.Invoke(cardUI);
             }
@@ -263,6 +233,7 @@ namespace CardMaga.UI
             if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
+                UnLockInput();
                 ResetCardPosition(cardUI);
                 OnCardReturnToHand?.Invoke(cardUI);
                 _isCardSelected = false;
@@ -332,14 +303,6 @@ namespace CardMaga.UI
             OnCardReturnToHand?.Invoke(cardUI);
             //DeckManager.Instance.TransferCard(true, DeckEnum.Selected, DeckEnum.Hand, cardUI.CardData);
             _isCardSelected = false;
-        }
-
-        public void RemoveCardUIsFromTable(params CardUI[] cardUis)
-        {
-            for (int i = 0; i < cardUis.Length; i++)
-            {
-                _tableCardSlot.RemoveCardUI(cardUis[i]);
-            }
         }
 
         private void DiscardCard(CardUI cardUI)
