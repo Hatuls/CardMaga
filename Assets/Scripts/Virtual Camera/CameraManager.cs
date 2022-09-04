@@ -100,6 +100,7 @@ public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
                 currentCamera.ChangePriority(0);
             }
         }
+        if(_coroutineCallback!=null)
         StopCoroutine(_coroutineCallback);
        _coroutineCallback =  StartCoroutine(TransitionCameraCallback(onComplete));
     }

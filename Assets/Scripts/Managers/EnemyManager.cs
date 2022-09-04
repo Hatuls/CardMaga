@@ -30,30 +30,33 @@ namespace Battle
         private GameTurnHandler _turnHandler;
         private DeckHandler _deckHandler;
         [SerializeField] TextMeshProUGUI _enemyNameText;
-        #endregion
-        public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
+
+  
 
         private CharacterStatsHandler _statsHandler;
         private CardData[] _deck;
-        public CardData[] StartingCards => _deck;
+ 
 
-        public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
 
-        public AIBrain Brain { get => _brain; }
-        public CharacterStatsHandler StatsHandler { get => _statsHandler; }
-
-        public bool IsLeft =>false;
-
-        public VisualCharacter VisualCharacter => _visualCharacter;
-
-        public DeckHandler DeckHandler => _deckHandler;
 
         //   private bool _isStillThinking;
         private TokenMachine _aiTokenMachine;
         private IDisposable _turnFinished;
 
-        [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f,true)]
+        [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f, true)]
         private Vector2 _delayTime;
+        #endregion
+
+        #region Properties
+        public bool IsLeft => false;
+        public VisualCharacter VisualCharacter => _visualCharacter;
+        public CardData[] StartingCards => _deck;
+        public AIBrain Brain  => _brain; 
+        public CharacterStatsHandler StatsHandler  => _statsHandler; 
+        public DeckHandler DeckHandler => _deckHandler;
+        public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
+        public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
+        #endregion
         #region Public Methods
 
 
