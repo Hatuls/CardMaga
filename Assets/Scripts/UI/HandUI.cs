@@ -226,7 +226,7 @@ namespace CardMaga.UI
             SetState(HandState.Zoom,cardUI);
         }
 
-        private void SetToFollowState(CardUI cardUI)
+        public void SetToFollowState(CardUI cardUI)
         {
             RemoveCardUIFromHand(cardUI);
             SetState(HandState.Follow,cardUI);
@@ -260,7 +260,7 @@ namespace CardMaga.UI
         {
             if (_isCardSelected)
                 return;
-                
+
             if (_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
                 cardUI.transform.SetAsLastSibling();
@@ -282,7 +282,7 @@ namespace CardMaga.UI
             if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
                 cardUI.Inputs.ForceChangeState(false);
-                
+
                 HandState previousState = CurrentStateID;
                 
                 SetState(HandState.Default,cardUI);
