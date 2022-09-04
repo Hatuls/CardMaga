@@ -45,7 +45,7 @@ namespace CardMaga.UI.Visuals
             }
             else
             {
-                return colors[imageIndex]; ;
+                return colors[imageIndex];
             }
         }
         public virtual Color GetColorAlpha(Color baseColor, int imageIndex, int colorIndex)
