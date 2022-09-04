@@ -447,6 +447,10 @@ namespace Battle.Turns
         public void Dispose()
         {
             OnTurnHandlerDestroy?.Invoke(this);
+
+            foreach (var item in _gameTurnsDictionary)
+                item.Value.Dispose();
+
             _gameTurnsDictionary[GameTurnType.EnterBattle].OnTurnActive -= MoveToNextTurn;
             _gameTurnsDictionary[GameTurnType.ExitBattle].OnTurnActive -= FinishGame;
             _gameTurnsDictionary[GameTurnType.LeftPlayerTurn].OnTurnEnter -= AddTurnCount;
@@ -507,7 +511,7 @@ namespace Battle.Turns
     //}
 
 
-    public class GameTurn
+    public class GameTurn : IDisposable
     {
         public static event Action OnTurnStarted;
         public static event Action OnTurnFinished;
@@ -587,5 +591,11 @@ namespace Battle.Turns
 
         private void TurnActive() => OnTurnActive?.Invoke();
         private void ResetNextTurns() => _nextTurn.Clear();
+
+        public void Dispose()
+        {
+            StartTurnOperations.OnDestroy();
+            EndTurnOperations.OnDestroy();
+        }
     }
 }
