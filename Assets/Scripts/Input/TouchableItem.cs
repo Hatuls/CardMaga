@@ -206,6 +206,7 @@ namespace CardMaga.Input
         {
             BeginHold();
             _holdLogCount = 0;
+            
             while (_isHold)
             {
                 Hold();
@@ -263,7 +264,10 @@ namespace CardMaga.Input
             if (isTouchable)
                 ChangeState(State.UnLock);
             else
+            {
+                StopAllCoroutines();
                 ChangeState(State.Lock);
+            }
         }
 
 

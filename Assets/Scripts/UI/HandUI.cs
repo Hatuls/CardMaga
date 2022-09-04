@@ -281,6 +281,8 @@ namespace CardMaga.UI
         {
             if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
+                cardUI.Inputs.ForceChangeState(false);
+                
                 HandState previousState = CurrentStateID;
                 
                 SetState(HandState.Default,cardUI);
