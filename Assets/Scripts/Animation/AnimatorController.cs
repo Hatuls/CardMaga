@@ -72,13 +72,7 @@ public class AnimatorController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
     }
 
-    private void RotateModel()
-    {
-        if (IsMyTurn)
-            transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
-        else
-            transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + (_isPlayer ? Vector3.left : Vector3.right), transform.position));
-    }
+
     #endregion
 
 
@@ -323,6 +317,13 @@ public class AnimatorController : MonoBehaviour
         //   _onFinishedAnimation?.Raise();
         //  _currentAnimation = null;
 
+    }
+    private void RotateModel()
+    {
+        if (IsMyTurn)
+            transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
+        else
+            transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + (_isPlayer ? Vector3.left : Vector3.right), transform.position));
     }
     private void ReturnToIdle() => Animator.CrossFade("Idle_1", transitionToIdle);
     #endregion
