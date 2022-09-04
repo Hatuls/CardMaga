@@ -56,8 +56,8 @@ namespace CardMaga.UI
         [SerializeField] private CardUIManager _cardUIManager;
         [SerializeField] private ComboUIManager _comboUIManager;
         [SerializeField] private TableCardSlot _tableCardSlot;
-        [SerializeField] private BaseHandUIState _zoomUIState;
-        [SerializeField] private BaseHandUIState _followUIState;
+        [SerializeField] private ZoomCardUI _zoomUIState;
+        [SerializeField] private FollowCardUI _followUIState;
 
         [Header("Parameters")]
         [SerializeField] private float _delayBetweenCardDrawn;
@@ -241,6 +241,11 @@ namespace CardMaga.UI
             CardUI[] _handCards;
 
             _handCards = GetCardsUI(cards);
+
+            for (int i = 0; i < _handCards.Length; i++)
+            {
+                _handCards[i].Inputs.ResetInputBehaviour();
+            }
             
             SubInputEvent(_handCards);
             
@@ -276,8 +281,13 @@ namespace CardMaga.UI
         {
             if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
+                HandState previousState = CurrentStateID;
+                
                 SetState(HandState.Default,cardUI);
-                cardUI.Inputs.ResetInputBehaviour();
+                
+                if (previousState == HandState.Follow && _followUIState.IsExecuted)
+                    return;
+                
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
                 ResetCardPosition(cardUI);
                 OnCardReturnToHand?.Invoke(cardUI);
