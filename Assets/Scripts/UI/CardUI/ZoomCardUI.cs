@@ -37,13 +37,12 @@ namespace CardMaga.UI.Card
         public override void ExitState(CardUI cardUI)
         {
             _zoomToken.Dispose();
-            _handUI.ReturnCardToHand(cardUI);
             base.ExitState(cardUI);
         }
 
         private void ReturnToHandState()
         {
-            ExitState(SelectedCardUI);
+            _handUI.ReturnCardToHand(SelectedCardUI);
         }
 
         public override void ForceExitState(CardUI cardUI)

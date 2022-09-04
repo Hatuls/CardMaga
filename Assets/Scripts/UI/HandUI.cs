@@ -97,7 +97,7 @@ namespace CardMaga.UI
             
             _handUIStates = new Dictionary<HandState, BaseHandUIState>()
             {
-                {HandState.Zoom, _zoomUIState}, {HandState.Follow, _followUIState}
+                {HandState.Zoom, _zoomUIState}, {HandState.Follow, _followUIState}, { HandState.Default,null }
             };
 
             BattleManager.Register(this, OrderType.After);
@@ -276,6 +276,7 @@ namespace CardMaga.UI
         {
             if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
+                SetState(HandState.Default,cardUI);
                 cardUI.Inputs.ResetInputBehaviour();
                 _tableCardSlot.AddCardUIToCardSlot(cardUI);
                 ResetCardPosition(cardUI);

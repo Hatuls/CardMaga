@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CardMaga.Input;
 using CardMaga.UI.Card;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBehaviour
@@ -9,7 +10,7 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
     
     public enum HandState
     {
-        Hand,
+        Default,
         Follow,
         Zoom
     };
@@ -29,7 +30,10 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             _currentState.ExitState(cardUI);
             
             _currentState = _handUIStates[state];
-        
+            
+            if (_currentState == null)
+                return;
+            
             _currentState.EnterState(cardUI);
         }
     }
