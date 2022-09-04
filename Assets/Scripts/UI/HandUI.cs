@@ -19,7 +19,7 @@ namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : MonoBehaviour, ILockable, IGetCardsUI, ISequenceOperation<BattleManager>
+    public class HandUI : InputBehaviourHandler<CardUI>, ILockable, IGetCardsUI, ISequenceOperation<BattleManager>
     {
         #region Events
 
@@ -39,42 +39,32 @@ namespace CardMaga.UI
 
         #region Fields
 
-        [Header("TransitionPackSO")] [SerializeField]
-        private TransitionPackSO _drawMoveTransitionPackSo;
-
+        [Header("TransitionPackSO")] 
+        [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
         [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
         [SerializeField] private TransitionPackSO _resetCardPositionPackSO;
         [SerializeField] private TransitionPackSO _dicardExecutePositionPackSO;
-
-        [Header("Input State Machine")] [SerializeField]
-        private BaseStateMachine _battleInputStateMachine;
-
-        [SerializeField] private StateIdentificationSO _lockState;
-
-        [Header("RectTransforms")] [SerializeField]
-        private RectTransform _discardPos;
-
+        
+        [Header("RectTransforms")] 
+        [SerializeField] private RectTransform _discardPos;
         [SerializeField] private RectTransform _drawPos;
 
-        [Header("Scripts Reference")] [SerializeField]
-        private CardUIManager _cardUIManager;
-
+        [Header("Scripts Reference")]
+        [SerializeField] private CardUIManager _cardUIManager;
         [SerializeField] private ComboUIManager _comboUIManager;
         [SerializeField] private TableCardSlot _tableCardSlot;
-        [SerializeField] private SelectCardUI _selectCardUI;
-        [SerializeField] private CardUiInputBehaviourHandler _cardUiInputBehaviourHandler;
+        [SerializeField] private BaseHandUIState _zoomUIState;
+        [SerializeField] private BaseHandUIState _followUIState;
 
-        [Header("Parameters")] [SerializeField]
-        private float _delayBetweenCardDrawn;
-
+        [Header("Parameters")]
+        [SerializeField] private float _delayBetweenCardDrawn;
         [SerializeField] private float _delayBetweenCardDiscard;
 
         private Sequence _currentSequence;
         private DeckHandler _deckHandler;
-        private TokenMachine _handLockTokenMachine;
         private bool _isCardSelected;
         private WaitForSeconds _waitForCardDiscardDelay;
         private GameTurn _leftPlayerGameTurn;
@@ -83,8 +73,6 @@ namespace CardMaga.UI
         #endregion
 
         #region Prop
-
-        public ITokenReciever HandLockTokenReceiver => _handLockTokenMachine;
 
         public bool IsCardSelect
         {
@@ -106,7 +94,12 @@ namespace CardMaga.UI
         {
             _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
             _waitForCardDiscardDelay = new WaitForSeconds(_delayBetweenCardDiscard);
-            _handLockTokenMachine = new TokenMachine(UnLockInput, LockInput);
+            
+            _handUIStates = new Dictionary<HandState, BaseHandUIState>()
+            {
+                {HandState.Zoom, _zoomUIState}, {HandState.Follow, _followUIState}, { HandState.Default,null }
+            };
+
             BattleManager.Register(this, OrderType.After);
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += ForceDiscardCards;
@@ -120,40 +113,45 @@ namespace CardMaga.UI
             _comboUIManager.OnCardComboDone -= GetCardsFromCombo;
             BattleManager.OnGameEnded -= ForceDiscardCards;
             FollowCardUI.OnCardExecute -= DiscardCard;
+            
             if(_leftPlayerGameTurn!=null)
-            _leftPlayerGameTurn.OnTurnExit -= ForceDiscardCards;
+                _leftPlayerGameTurn.OnTurnExit -= ForceDiscardCards;
             if(_deckHandler != null)
-            _deckHandler.OnDrawCards -= DrawCardsFromDrawDeck;
-            for (var i = 0; i < _tableCardSlot.CardSlots.Count; i++)
-            {
-                var currentSlot = _tableCardSlot.CardSlots[i];
-            }
+                _deckHandler.OnDrawCards -= DrawCardsFromDrawDeck;
+            
+            UnSubInputEvent(_tableCardSlot.GetCardUIsFromTable());
         }
 
         #endregion
 
         #region Input
 
+        private void SubInputEvent(params CardUI[] cardUis)
+        {
+            for (int i = 0; i < cardUis.Length; i++)
+            {
+                cardUis[i].Inputs.DefaultInputBehaviour.OnClick += SetToZoomState;
+                cardUis[i].Inputs.DefaultInputBehaviour.OnBeginHold += SetToFollowState;
+            }
+        }
+        
+        private void UnSubInputEvent(params CardUI[] cardUis)
+        {
+            for (int i = 0; i < cardUis.Length; i++)
+            {
+                cardUis[i].Inputs.DefaultInputBehaviour.OnClick -= SetToZoomState;
+                cardUis[i].Inputs.DefaultInputBehaviour.OnBeginHold -= SetToFollowState;
+            }
+        }
+        
         public void LockInput()
         {
-            CardUI[] tempCardUis = _tableCardSlot.GetCardsUIExceptFrom(_selectCardUI.SelectedCardUI).ToArray();
-            LockCardsInput(false, tempCardUis);
+            LockAllTouchableItems(_tableCardSlot.GetCardUIInputsFromTable(),false);
         }
 
         public void UnLockInput()
         {
-            LockCardsInput(true, _tableCardSlot.GetCardUIsFromTable());
-        }
-
-        private void LockCardsInput(bool toLock, CardUI[] cardUis)
-        {
-            for (var i = 0; i < cardUis.Length; i++)
-            {
-                if (cardUis[i] != null)
-                {
-                    cardUis[i].Inputs.ForceChangeState(toLock);
-                }
-            }
+            LockAllTouchableItems(_tableCardSlot.GetCardUIInputsFromTable(),true);
         }
 
         #endregion
@@ -195,7 +193,8 @@ namespace CardMaga.UI
         {
             KillTween();
             Sequence temp = cardUI.RectTransform
-                .Transition(_tableCardSlot.GetCardSlotFrom(cardUI).CardPos, _resetCardPositionPackSO);
+                .Transition(_tableCardSlot.GetCardSlotFrom(cardUI).CardPos, _resetCardPositionPackSO)
+                .OnComplete(UnLockInput);
         }
 
         private void SetCardAtDrawPos(params CardUI[] cards)
@@ -219,19 +218,71 @@ namespace CardMaga.UI
 
         #endregion
 
-        #region CardUIManagnent
+        #region HandStateManagnent
 
+        private void SetToZoomState(CardUI cardUI)
+        {
+            RemoveCardUIFromHand(cardUI);
+            SetState(HandState.Zoom,cardUI);
+        }
+
+        private void SetToFollowState(CardUI cardUI)
+        {
+            RemoveCardUIFromHand(cardUI);
+            SetState(HandState.Follow,cardUI);
+        }
+
+        #endregion
+        
+        #region CardUIManagnent
+        
         private void DrawCardsFromDrawDeck(params CardData[] cards)
         {
             CardUI[] _handCards;
 
             _handCards = GetCardsUI(cards);
-
+            
+            SubInputEvent(_handCards);
+            
             OnCardsAddToHand?.Invoke(_handCards);
             AddCards(_handCards);
             SetCardAtDrawPos(_handCards);
             //ReAlignCardUI(_tableCardSlot.GetCardSlotsExceptFrom(_handCards));
             StartCoroutine(MoveCardsToHandPos(_tableCardSlot.GetCardSlotsFrom(_handCards), OnCardDrawnAndAlign));
+        }
+
+        private void RemoveCardUIFromHand(CardUI cardUI)
+        {
+            if (_isCardSelected)
+                return;
+                
+            if (_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
+            {
+                cardUI.transform.SetAsLastSibling();
+
+                if (!_tableCardSlot.RemoveCardUI(cardUI))
+                {
+                    Debug.LogError("Failed To Remove " + cardUI.name + "From Hand");
+                    return;
+                }
+                
+                LockInput();
+                _isCardSelected = true;
+                OnCardSelect?.Invoke(cardUI);
+            }
+        }
+
+        public void ReturnCardToHand(CardUI cardUI)
+        {
+            if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
+            {
+                SetState(HandState.Default,cardUI);
+                cardUI.Inputs.ResetInputBehaviour();
+                _tableCardSlot.AddCardUIToCardSlot(cardUI);
+                ResetCardPosition(cardUI);
+                OnCardReturnToHand?.Invoke(cardUI);
+                _isCardSelected = false;
+            }
         }
 
         private void GetCardsFromCombo(params CardUI[] cards)
@@ -253,40 +304,7 @@ namespace CardMaga.UI
         {
             _tableCardSlot.AddCardUIToCardSlot(cards);
         }
-
-        private void RemoveCardUIFromHand(CardUI cardUI)
-        {
-            if (_isCardSelected)
-                return;
-
-            if (_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
-            {
-                _selectCardUI.SetSelectedCardUI(cardUI);
-
-                if (_selectCardUI.SelectedCardUI != cardUI)
-                {
-                    Debug.LogError(name + "Failed to Set Selected cardUI");
-                    return;
-                }
-
-                cardUI.transform.SetAsLastSibling();
-                _tableCardSlot.RemoveCardUI(cardUI);
-                _isCardSelected = true;
-                OnCardSelect?.Invoke(cardUI);
-            }
-        }
-
-        public void ReturnCardUIToHand(CardUI cardUI)
-        {
-            if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
-            {
-                _tableCardSlot.AddCardUIToCardSlot(cardUI);
-                ResetCardPosition(cardUI);
-                OnCardReturnToHand?.Invoke(cardUI);
-                _isCardSelected = false;
-            }
-        }
-
+        
         public void ForceReturnCardUIToHand(CardUI cardUI)
         {
             if (cardUI == null)
@@ -299,19 +317,12 @@ namespace CardMaga.UI
             _isCardSelected = false;
         }
 
-        public void RemoveCardUIsFromTable(params CardUI[] cardUis)
-        {
-            for (int i = 0; i < cardUis.Length; i++)
-            {
-                _tableCardSlot.RemoveCardUI(cardUis[i]);
-            }
-        }
-
         private void DiscardCard(CardUI cardUI)
         {
             if (cardUI == null)
                 return;
-
+            
+            UnSubInputEvent(cardUI);
             cardUI.CardVisuals.SetExecutedCardVisuals();
             MoveCardToDiscardAfterExecute(cardUI);
             _isCardSelected = false;
@@ -326,14 +337,9 @@ namespace CardMaga.UI
 
         private void ForceDiscardCards()
         {
-            _battleInputStateMachine.ForceChangeState(_lockState);
+            //_battleInputStateMachine.ForceChangeState(_lockState);
 
             CardUI[] tempCardUis = _tableCardSlot.GetCardUIsFromTable();
-
-            //for (int i = 0; i < tempCardUis.Length; i++)
-            //{
-            //    //RemoveInputEvents(tempCardUis[i].Inputs); 
-            //}
 
             _tableCardSlot.RemoveAllCardUI();
             OnDiscardAllCards?.Invoke();

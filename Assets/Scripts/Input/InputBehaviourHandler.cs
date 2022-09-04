@@ -1,9 +1,44 @@
-﻿using CardMaga.Input;
+﻿using System.Collections.Generic;
+using CardMaga.Input;
+using CardMaga.UI.Card;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBehaviour
 {
-    public void LockAllTouchableItems(TouchableItem<T>[] touchableItems,bool isTouchable)
+    private BaseHandUIState _currentState;
+    
+    public enum HandState
+    {
+        Default,
+        Follow,
+        Zoom
+    };
+
+    protected Dictionary<HandState, BaseHandUIState> _handUIStates;
+    
+    protected void SetState(HandState state,CardUI cardUI)
+    {
+        if (_currentState == null)
+        {
+            _currentState = _handUIStates[state];
+        
+            _currentState.EnterState(cardUI);
+        }
+        else
+        {
+            _currentState.ExitState(cardUI);
+            
+            _currentState = _handUIStates[state];
+            
+            if (_currentState == null)
+                return;
+            
+            _currentState.EnterState(cardUI);
+        }
+    }
+
+    protected void LockAllTouchableItems(TouchableItem<T>[] touchableItems,bool isTouchable)
     {
         for (int i = 0; i < touchableItems.Length; i++)
         {
@@ -14,14 +49,14 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
         }
     }
     
-    public void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T> touchableItem,bool isTouchable)
+    protected void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T> touchableItem,bool isTouchable)
     {
         TouchableItem<T>[] tempArray = new TouchableItem<T>[] { touchableItem };
         
         LockAllTouchableItemsExcept(touchableItems,tempArray,isTouchable);
     }
     
-    public void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T>[] exceptTouchableItem,bool isTouchable)
+    protected void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T>[] exceptTouchableItem,bool isTouchable)
     {
         for (int i = 0; i < touchableItems.Length; i++)
         {
@@ -43,7 +78,7 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
         }
     }
 
-    public void SetAllTouchableItemsToDefault(TouchableItem<T>[] touchableItems)
+    protected void SetAllTouchableItemsToDefault(TouchableItem<T>[] touchableItems)
     {
         for (int i = 0; i < touchableItems.Length; i++)
         {

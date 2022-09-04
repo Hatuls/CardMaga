@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CardMaga.Input
 {
-    public class InputBehaviour<T> : ScriptableObject , IEquatable<ScriptableObject>
+    public class InputBehaviour<T> : IEquatable<InputBehaviour<T>>
     {
         public event Action<T> OnClick; 
         public event Action<T> OnBeginHold;
@@ -42,7 +42,7 @@ namespace CardMaga.Input
             OnPointUp?.Invoke(obj);
         }
 
-        public bool Equals(ScriptableObject other)
+        public bool Equals(InputBehaviour<T> other)
         {
             if (other == null)
                 return false;
