@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using DG.Tweening;
 using UnityEngine;
 namespace CardMaga.UI.Card
@@ -19,12 +20,14 @@ namespace CardMaga.UI.Card
 
         private void Start()
         {
-            InputReciever.OnTouchDetected += ReturnToHandState;
+            _inputBehaviour.OnClick += ReturnToHandState;
+            _inputBehaviour.OnBeginHold += SetToFollowState;
         }
 
         private void OnDestroy()
         {
-            InputReciever.OnTouchDetected -= ReturnToHandState;
+            _inputBehaviour.OnClick -= ReturnToHandState;
+            _inputBehaviour.OnBeginHold -= SetToFollowState;
         }
 
         public override void EnterState(CardUI cardUI)
@@ -40,9 +43,14 @@ namespace CardMaga.UI.Card
             base.ExitState(cardUI);
         }
 
-        private void ReturnToHandState()
+        private void ReturnToHandState(CardUI cardUI)
         {
-            _handUI.ReturnCardToHand(SelectedCardUI);
+            _handUI.ReturnCardToHand(cardUI);
+        }
+
+        private void SetToFollowState(CardUI cardUI)
+        {
+            _handUI.SetToFollowState(cardUI);
         }
 
         public override void ForceExitState(CardUI cardUI)

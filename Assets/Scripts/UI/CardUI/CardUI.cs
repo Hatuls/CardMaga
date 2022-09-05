@@ -13,7 +13,7 @@ namespace CardMaga.UI.Card
         [SerializeField] private RectTransform _visualsRectTransform;
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
 
-        [SerializeField,InlineEditor()] private CardUIInputHandler _inputs;
+        [SerializeField] private CardUIInputHandler _inputs;
 
 
         private CardAnimator _cardAnimator;
@@ -46,6 +46,7 @@ namespace CardMaga.UI.Card
         public void Init()
         {
             gameObject.SetActive(true);
+            _inputs.DisableHold = false;
         }
 
         #endregion

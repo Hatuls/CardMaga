@@ -58,6 +58,7 @@ namespace CardMaga.UI
         [SerializeField] private TableCardSlot _tableCardSlot;
         [SerializeField] private ZoomCardUI _zoomUIState;
         [SerializeField] private FollowCardUI _followUIState;
+        [SerializeField] private ClickHelper _clickHelper;
 
         [Header("Parameters")]
         [SerializeField] private float _delayBetweenCardDrawn;
@@ -228,6 +229,7 @@ namespace CardMaga.UI
 
         public void SetToFollowState(CardUI cardUI)
         {
+            _clickHelper.Close();
             RemoveCardUIFromHand(cardUI);
             SetState(HandState.Follow,cardUI);
         }
@@ -263,7 +265,7 @@ namespace CardMaga.UI
 
             if (_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
-                cardUI.transform.SetAsLastSibling();
+                _clickHelper.LoadObject(true,true,ReturnZoomCardToHand,cardUI.RectTransform);
 
                 if (!_tableCardSlot.RemoveCardUI(cardUI))
                 {
@@ -275,12 +277,19 @@ namespace CardMaga.UI
                 _isCardSelected = true;
                 OnCardSelect?.Invoke(cardUI);
             }
+
+            void ReturnZoomCardToHand()
+            {
+                ReturnCardToHand(cardUI);
+            }
         }
 
         public void ReturnCardToHand(CardUI cardUI)
         {
             if (cardUI != null && !_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
             {
+                _clickHelper.Close();
+                
                 cardUI.Inputs.ForceChangeState(false);
 
                 HandState previousState = CurrentStateID;

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace CardMaga.Input
 { 
@@ -28,12 +29,14 @@ namespace CardMaga.Input
             UnLock
         }
 
+        [Tooltip("Disable Hold")] public bool DisableHold = false;
+        
         [SerializeField,Tooltip("The Touchable Item")] T _touchableItem;
         [SerializeField,Tooltip("The delay between moving from point down to hold")] private float _holdDelay = .5f;
         [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
 
-        [ShowInInspector,ReadOnly] private InputBehaviour<T> _inputBehaviour;
+        private InputBehaviour<T> _inputBehaviour;
         private InputBehaviour<T> _defaultInputBehaviour;
         private Vector2 _startPosition;
         private bool _isHold;
@@ -139,7 +142,11 @@ namespace CardMaga.Input
                 return;
             
             _isHold = false;
-            StartCoroutine(HoldCheck(eventData)); 
+            
+            if (!DisableHold)
+            {
+                StartCoroutine(HoldCheck(eventData));
+            }
             PointDown();
         }
 
