@@ -4,9 +4,10 @@ namespace Characters.Stats
     public class ProtectionShard : BaseStat
     {
         byte _maxShardSize;
-
-        public ProtectionShard(bool isPlayer, int amount) : base(isPlayer, amount)
+        private ProtectedStat _protectionStat;
+        public ProtectionShard(bool isPlayer, int amount, ProtectedStat protectedStat) : base(isPlayer, amount)
         {
+            _protectionStat = protectedStat;
             _maxShardSize = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(Keyword).InfoAmount;
         }
 
@@ -18,7 +19,7 @@ namespace Characters.Stats
 
             if (Amount >= _maxShardSize)
             {
-                CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(KeywordTypeEnum.Protected).Add(1);
+               _protectionStat.Add(1);
                 Reset();
             }
         }

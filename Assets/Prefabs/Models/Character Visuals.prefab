@@ -29,7 +29,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2196011870050165751}
-  - {fileID: 1197036122530411086}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,11 +46,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animatorController: {fileID: 1618581856241741136}
   _vfxController: {fileID: 2329772904515883535}
-  _animationSound: {fileID: 7463258387634645722}
+  _animationSound: {fileID: 7782881527305459121}
+  _animator: {fileID: 7152309061550256374}
   _visual: {fileID: 2196011870050165751}
   _mesh: {fileID: 1881658275731381208, guid: 6808112de31260d42b424a7635830a61, type: 3}
   _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   _meshScale: {x: 1, y: 1, z: 1}
+  _rotation: {x: 1, y: 1, z: 1}
   DrawMesh: 0
 --- !u!1 &6322448102616016464
 GameObject:
@@ -64,8 +65,10 @@ GameObject:
   - component: {fileID: 2196011870050165751}
   - component: {fileID: 2329772904515883535}
   - component: {fileID: 1618581856241741136}
+  - component: {fileID: 7152309061550256374}
+  - component: {fileID: 7782881527305459121}
   m_Layer: 0
-  m_Name: Visuals
+  m_Name: AnimationCallBacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,11 +116,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37daef6c4b4e484ca2a519e12988fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movedToNextAnimation: {fileID: 0}
-  _onFinishedAnimation: {fileID: 0}
-  _onAnimationDoKeyword: {fileID: 0}
-  _moveCameraAngle: {fileID: 0}
-  _opponentController: {fileID: 0}
+  _movedToNextAnimation: {fileID: 11400000, guid: 698589266bfcaaf4aac52860743d983e,
+    type: 2}
+  _onFinishedAnimation: {fileID: 11400000, guid: 3da0334e102a2674aa1ef2fe39501199,
+    type: 2}
+  _onAnimationDoKeyword: {fileID: 11400000, guid: 0743efe3c68b81f408af38b1f766dd03,
+    type: 2}
+  _moveCameraAngle: {fileID: 11400000, guid: 45b8cd7551d62d44d8eb685b3b08176f, type: 2}
+  _opponentController: {fileID: 1618581856241741136}
   targetToLookAt: {fileID: 0}
   _rotationSpeed: 0
   _positionSpeed: 0
@@ -125,46 +131,34 @@ MonoBehaviour:
   _transitionSpeedBetweenAnimations: 0.1
   transitionToIdle: 0.1
   _isPlayer: 0
-  startPos: {x: 0, y: 0, z: 0}
   _crossFadeBetweenAnimations: 0
---- !u!1 &7191348087281194451
-GameObject:
+  startPos: {x: 0, y: 0, z: 0}
+--- !u!95 &7152309061550256374
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1197036122530411086}
-  - component: {fileID: 7463258387634645722}
-  m_Layer: 0
-  m_Name: Audio
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1197036122530411086
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7191348087281194451}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7804355120041086266}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7463258387634645722
+  m_GameObject: {fileID: 6322448102616016464}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 28ba059643c47ae489d5dcf6d76c7991, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7782881527305459121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7191348087281194451}
+  m_GameObject: {fileID: 6322448102616016464}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbd6b02e4efc6224387102b17338824d, type: 3}

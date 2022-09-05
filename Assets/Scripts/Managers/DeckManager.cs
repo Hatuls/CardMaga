@@ -358,7 +358,7 @@ namespace Battle.Deck
     public class DeckHandler
     {
         public const int MAX_DECK_HAND_SIZE = 10;
-        public const int MAX_CRAFTING_SLOT_SIZE = 4;
+        public const int MAX_CRAFTING_SLOT_SIZE = 3;
         public event Action<CardData[]> OnDrawCards;
 
         private Dictionary<DeckEnum, BaseDeck> _deckDictionary;

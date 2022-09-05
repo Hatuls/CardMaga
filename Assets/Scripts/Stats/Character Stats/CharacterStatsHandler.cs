@@ -6,7 +6,7 @@ namespace Characters.Stats
         public static event System.Action<bool, CharacterStatsHandler> OnStatAssigned;
 
         private System.Collections.Generic.Dictionary<KeywordTypeEnum, BaseStat> _statsDictionary;
-        public CharacterStatsHandler(bool isPlayer, ref CharacterStats stats)
+        public CharacterStatsHandler(bool isPlayer, ref CharacterStats stats, StaminaHandler staminaHandler)
         {
             //stats
             MaxHealthStat _max = new MaxHealthStat(isPlayer, stats.MaxHealth);
@@ -27,10 +27,10 @@ namespace Characters.Stats
             StunStat _stun = new StunStat(isPlayer);
 
             //shards
-            StaminaShard _staminaShards = new StaminaShard(isPlayer, stats.StaminaShard);
-            StunShard _stunShards = new StunShard(isPlayer, stats.StunShard);
-            RageShard _rageShard = new RageShard(isPlayer, stats.RageShard);
-            ProtectionShard _protectionShard = new ProtectionShard(isPlayer, stats.ProtectionShards);
+            StaminaShard _staminaShards = new StaminaShard(isPlayer, stats.StaminaShard, staminaHandler, _stamina);
+            StunShard _stunShards = new StunShard(isPlayer, stats.StunShard,_stun);
+            RageShard _rageShard = new RageShard(isPlayer, stats.RageShard,_rage);
+            ProtectionShard _protectionShard = new ProtectionShard(isPlayer, stats.ProtectionShards,_protected);
 
             _max._healthStat = _health;
 
@@ -57,7 +57,7 @@ namespace Characters.Stats
                 {_weakStat.Keyword,_weakStat },
                 {_vulnerableKeyword.Keyword,_vulnerableKeyword  },
             };
-
+            
             OnStatAssigned?.Invoke(isPlayer, this);
         }
 

@@ -1,5 +1,4 @@
 ﻿using Battle;
-using Characters.Stats;
 
 namespace Keywords
 {
@@ -13,12 +12,13 @@ namespace Keywords
             var target = data.GetTarget;
             data.KeywordSO.SoundEventSO.PlaySound();
 
+
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
-            
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Battle
 
         private IPlayersManager _playersManager;
         private GameTurnHandler _gameTurnHandler;
+        private CardExecutionManager _cardExecutionManager;
         static byte threadId;
         private CardTypeComparer _cardTypeComparer = new CardTypeComparer();
         private Factory.GameFactory.CardFactory _cardFactory;
@@ -39,7 +40,8 @@ namespace Battle
 
         public Battle.Combo.Combo CardRecipeDetected
         {
-            get => _cardRecipeDetected; set
+            get => _cardRecipeDetected;
+            set
             {
                 _cardRecipeDetected = value;
             }
@@ -94,7 +96,7 @@ namespace Battle
 
                     case DeckEnum.AutoActivate:
 
-                        Battle.CardExecutionManager.Instance.RegisterCard(craftedCard, isPlayer);
+                        _cardExecutionManager.RegisterCard(craftedCard, isPlayer);
                         //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
                         (deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(craftedCard, false);
                        deck.DrawHand( 1);
@@ -176,7 +178,6 @@ namespace Battle
             for (int i = 0; i < craftingSlots.Length; i++)
             {
                 if (craftingSlots[i] != null)
-
                     craftingItems.Add(craftingSlots[i].CardSO.CardType);
 
             }
@@ -216,6 +217,7 @@ namespace Battle
         public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
         {
             _gameTurnHandler = data.TurnHandler;
+            _cardExecutionManager = data.CardExecutionManager;
             _playersManager = data.PlayersManager;
         }
     }

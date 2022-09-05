@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Battle;
+using Battle.Turns;
+using Managers;
+using UnityEngine;
 #if UNITY_EDITOR
 #endif
 public class VisualCharacter : MonoBehaviour
@@ -11,26 +14,32 @@ public class VisualCharacter : MonoBehaviour
     private AnimationBodyPartSoundsHandler _animationSound;
     [Sirenix.OdinInspector.ShowInInspector,Sirenix.OdinInspector.ReadOnly]
     private AvatarHandler _avatarHandler;
-    [Sirenix.OdinInspector.ShowInInspector,Sirenix.OdinInspector.ReadOnly]
-    private Animator _characterAnimator;
+    [SerializeField]
+    private Animator _animator;
     [SerializeField]
     private Transform _visual;
+    private bool _isLeft;
     public AvatarHandler AvatarHandler { get => _avatarHandler; private set => _avatarHandler = value; }
     public AnimatorController AnimatorController => _animatorController;
-    public Animator CharacterAnimator { get => _characterAnimator;private set => _characterAnimator = value; }
-
+    public Animator Animator => _animator;
     public VFXController VfxController => _vfxController;
     public AnimationBodyPartSoundsHandler AnimationSound { get => _animationSound; }
+    public bool IsLeft { get => _isLeft;private set => _isLeft = value; }
 
-    public void InitVisuals(ModelSO modelSO, bool isTinted)
+    public void InitVisuals(IPlayer player,CharacterSO characterSO, bool isTinted, GameTurn gameTurn)
     {
+        IsLeft = player.IsLeft;
+
+        ModelSO modelSO = characterSO.CharacterAvatar;
         AvatarHandler = Instantiate(modelSO.Model, _visual.position, Quaternion.identity, _visual);
         if (isTinted)
             AvatarHandler.Mesh.material = modelSO.GetRandomTintedMaterials();
-        VfxController.AvatarHandler = AvatarHandler;
-        _characterAnimator = AvatarHandler.Animator;
-        AnimatorController.Init(AvatarHandler);
 
+
+        VfxController.AvatarHandler = AvatarHandler;
+        Animator.avatar = AvatarHandler.Avatar;
+        AnimatorController.Init(this, gameTurn);
+        AnimationSound.CurrentCharacter = characterSO;
 
 #if UNITY_EDITOR
         DrawMesh = false;

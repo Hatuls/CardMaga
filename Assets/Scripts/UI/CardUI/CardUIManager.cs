@@ -43,14 +43,14 @@ namespace CardMaga.Battle.UI
 
         internal void PlayEnemyCard(CardData card)
         {
-            if (_enemyCardUI.gameObject.activeSelf == false)
-                ActivateEnemyCardUI(true);
             AssignDataToCardUI(_enemyCardUI, card);
+                ActivateEnemyCardUI(true);
 
         }
 
         public void ActivateEnemyCardUI(bool state)
             => _enemyCardUI.gameObject.SetActive(state);
+
 
         #endregion
 
@@ -107,22 +107,25 @@ namespace CardMaga.Battle.UI
 
    
 
-        public void ExecuteCardUI(CardUI card)
-        {
-            if (card == null)
-                return;
-        }
+
         public override void Awake()
         {
             base.Awake();
+            BattleManager.Register(this, OrderType.After);
             _cardPool.Init();
         }
         
         public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
         {
             _players = data.PlayersManager;
-        }
+            CardExecutionManager.OnEnemyCardExecute += PlayEnemyCard;
+            data.TurnHandler.GetCharacterTurn(false).EndTurnOperations.Register((x) => ActivateEnemyCardUI(false));
 
+        }
+        private void OnDestroy()
+        {
+            CardExecutionManager.OnEnemyCardExecute -= PlayEnemyCard;
+        }
         #endregion
     }
 

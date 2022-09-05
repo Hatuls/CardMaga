@@ -455,6 +455,7 @@ namespace Battle.Turns
             _gameTurnsDictionary[GameTurnType.ExitBattle].OnTurnActive -= FinishGame;
             _gameTurnsDictionary[GameTurnType.LeftPlayerTurn].OnTurnEnter -= AddTurnCount;
             _gameTurnsDictionary[GameTurnType.RightPlayerTurn].OnTurnEnter -= AddTurnCount;
+
             _gameTurnsDictionary.Clear();
         }
 

@@ -45,7 +45,7 @@ namespace Battle.UI
 
             void UnSubscribe(bool isPlayer)
             {
-                var stats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer) ;
+                var stats = BattleManager.Instance.PlayersManager.GetCharacter(isPlayer).StatsHandler;
                 if (stats == null)
                     return;
                 HealthBarUI healthBar = HealthBar(isPlayer);

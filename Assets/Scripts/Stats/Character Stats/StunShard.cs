@@ -4,9 +4,10 @@ namespace Characters.Stats
     public class StunShard : BaseStat
     {
          int _maxShardSize;
-        
-        public StunShard(bool isPlayer, int amount) : base(isPlayer, amount)
+        StunStat _stunStat; 
+        public StunShard(bool isPlayer, int amount,StunStat stun) : base(isPlayer, amount)
         {
+            _stunStat = stun;
             _maxShardSize = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(Keyword).InfoAmount;
         }
 
@@ -18,7 +19,8 @@ namespace Characters.Stats
 
             if (Amount >= _maxShardSize)
             {
-                CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(KeywordTypeEnum.Stun).Add(1);
+
+                _stunStat.Add(1);
                 Reduce(_maxShardSize);
             }
         }

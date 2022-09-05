@@ -64,7 +64,7 @@ namespace Battle
 
 
         public bool CanPlayCard(bool isPlayer, CardData card)
-       => card == null ? false : StaminaHandler.Instance.IsEnoughStamina(isPlayer, card);
+       => card == null ? false : _playersManager.GetCharacter(isPlayer).StaminaHandler.CanPlayCard(card);
         public bool TryExecuteCard(bool isPlayer, CardData card)
         {
             if (card == null)
@@ -82,7 +82,7 @@ namespace Battle
             }
 
             // execute card
-            StaminaHandler.Instance.ReduceStamina(isPlayer, card);
+            _playersManager.GetCharacter(isPlayer).StaminaHandler.ReduceStamina(card);
             OnSuccessfullExecution?.Invoke();
             if (isPlayer)
             {
@@ -91,7 +91,7 @@ namespace Battle
             }
             else
             {
-                CardUIManager.Instance.PlayEnemyCard(card);
+    
                 OnEnemyCardExecute?.Invoke(card);
             }
             var deckHandler = _playersManager.GetCharacter(isPlayer).DeckHandler;
@@ -109,11 +109,7 @@ namespace Battle
         {
             CardData card = cardUI.CardData;
             bool isExecuted = TryExecuteCard(true, card);
-            if (isExecuted)
-            {
-                // reset the holding card
-                CardUIManager.Instance.ExecuteCardUI(cardUI);
-            }
+    
             return isExecuted;
         }
 
@@ -204,7 +200,7 @@ namespace Battle
                 {
                     if (_keywordData[i].KeywordSO.GetKeywordType == KeywordTypeEnum.Attack)
                     {
-                        return CharacterStatsManager.GetCharacterStatsHandler(Reciever).GetStats(KeywordTypeEnum.Shield).Amount >= _keywordData[i].GetAmountToApply;
+                        return _playersManager.GetCharacter(Reciever).StatsHandler.GetStats(KeywordTypeEnum.Shield).Amount >= _keywordData[i].GetAmountToApply;
                     }
                 }
             }

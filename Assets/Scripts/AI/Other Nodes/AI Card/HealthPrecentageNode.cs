@@ -1,4 +1,5 @@
 ﻿
+using Battle;
 using Characters.Stats;
 namespace CardMaga.AI
 {
@@ -31,10 +32,10 @@ namespace CardMaga.AI
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
             const int ONE_HUNDREND_PRECENT = 100;
-            CharacterStatsHandler statsHandler = CharacterStatsManager.GetCharacterStatsHandler(IsPlayer);
+            CharacterStatsHandler statsHandler = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StatsHandler;
 
-            var maxHealth = (float)statsHandler.GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
-            var current = (float)statsHandler.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
+            float maxHealth = (float)statsHandler.GetStats(Keywords.KeywordTypeEnum.MaxHealth).Amount;
+            float current = (float)statsHandler.GetStats(Keywords.KeywordTypeEnum.Heal).Amount;
 
             NodeState = (Operator.Evaluate((current / maxHealth)* ONE_HUNDREND_PRECENT, Precentage)) ? NodeState.Success : NodeState.Failure;
             return NodeState;

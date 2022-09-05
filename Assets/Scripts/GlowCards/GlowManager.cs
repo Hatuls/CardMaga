@@ -6,12 +6,19 @@ using CardMaga.UI;
 using CardMaga.Card;
 using Characters.Stats;
 using CardMaga.UI.Card;
+using Managers;
+using Battle;
+using ReiTools.TokenMachine;
 
-public class GlowManager : MonoBehaviour
+public class GlowManager : MonoBehaviour ,ISequenceOperation<BattleManager>
 {
     IGetCardsUI cardUI;
+    private StaminaHandler _playerStaminaHandler;
+    public int Priority => 0;
+
     private void Awake()
     {
+        BattleManager.Register(this, OrderType.After);
         cardUI = GetComponent<IGetCardsUI>();
         HandUI.OnCardsAddToHand += CheckCardToGlow;
         HandUI.OnCardsExecuteGetCards += CheckCardGlowAfterExecute;
@@ -23,7 +30,7 @@ public class GlowManager : MonoBehaviour
     {
         for (int i = 0; i < cards.Count; i++)
         {
-            if (StaminaHandler.Instance.IsEnoughStamina(true, cards[i].CardData))
+            if (_playerStaminaHandler.CanPlayCard(cards[i].CardData))
             {
                 cards[i].CardVisuals.ActivateGlow();
             }
@@ -37,7 +44,7 @@ public class GlowManager : MonoBehaviour
     {
         for (int i = 0; i < cards.Count; i++)
         {
-            if (StaminaHandler.Instance.IsEnoughStamina(true, cards[i].CardData))
+            if (_playerStaminaHandler.CanPlayCard(cards[i].CardData))
                 cards[i].CardVisuals.ActivateGlow();
 
             else
@@ -56,12 +63,12 @@ public class GlowManager : MonoBehaviour
 
     public void DeactiveDeckCards(CardUI selectedCard)
     {
-        if (StaminaHandler.Instance.IsEnoughStamina(true, selectedCard.CardData))
+        if (_playerStaminaHandler.CanPlayCard(selectedCard.CardData))
             selectedCard.CardVisuals.ActivateGlow();
             
         for (int i = 0; i < cardUI.CardsUI.Count; i++)
         {
-            if (StaminaHandler.Instance.IsEnoughStamina(true, cardUI.CardsUI[i].CardData))
+            if (_playerStaminaHandler.CanPlayCard(cardUI.CardsUI[i].CardData))
                 cardUI.CardsUI[i].CardVisuals.ActivateGlow();
         }
 
@@ -73,5 +80,10 @@ public class GlowManager : MonoBehaviour
         HandUI.OnCardsExecuteGetCards -= CheckCardGlowAfterExecute;
         HandUI.OnCardSelect -= ActiveDeckCardsGlow;
         HandUI.OnCardSelect -= DeactiveDeckCards;
+    }
+
+    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    {
+        _playerStaminaHandler = data.PlayersManager.GetCharacter(true).StaminaHandler;
     }
 }

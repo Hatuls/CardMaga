@@ -1,5 +1,4 @@
 ﻿using Battle;
-using Characters.Stats;
 
 namespace Keywords
 {
@@ -16,53 +15,50 @@ namespace Keywords
             data.KeywordSO.SoundEventSO.PlaySound();
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             }
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
         }
     }
-
-    public class RageShardKeyword : KeywordAbst
-    {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.RageShard;
-
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        public class RageShardKeyword : KeywordAbst
         {
+            public override KeywordTypeEnum Keyword => KeywordTypeEnum.RageShard;
 
-            var target = data.GetTarget;
-
-
-            data.KeywordSO.SoundEventSO.PlaySound();
-            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+            public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
             {
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+
+                var target = data.GetTarget;
+
+                data.KeywordSO.SoundEventSO.PlaySound();
+                if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                {
+                    playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                }
+
+                if (target == TargetEnum.All || target == TargetEnum.Opponent)
+                    playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             }
-
-            if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
         }
-    }
-    public class ProtectionShardKeyword : KeywordAbst
-    {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.ProtectionShard;
-
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        public class ProtectionShardKeyword : KeywordAbst
         {
+            public override KeywordTypeEnum Keyword => KeywordTypeEnum.ProtectionShard;
 
-            var target = data.GetTarget;
-
-
-            data.KeywordSO.SoundEventSO.PlaySound();
-            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+            public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
             {
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+
+                var target = data.GetTarget;
+
+
+                data.KeywordSO.SoundEventSO.PlaySound();
+                if (target == TargetEnum.All || target == TargetEnum.MySelf)
+
+                    playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+
+                if (target == TargetEnum.All || target == TargetEnum.Opponent)
+                    playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             }
 
-            if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
         }
     }
-
-}
