@@ -11,14 +11,6 @@ namespace CardMaga.UI.Text
         {
             textHolder.text = text;
         }
-        public string GetHexaCodeFromColor(Color keywordsColor)
-        {
-            string hexaCode;
-            hexaCode = ColorUtility.ToHtmlStringRGB(keywordsColor);
-            Debug.Log("HexaCode: " + hexaCode);
-            return hexaCode;
-        }
-
         public virtual void OnDestroy() { }
       
     }
