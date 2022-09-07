@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.iOS;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class TestCards : BaseView
@@ -15,5 +12,9 @@ public class TestCards : BaseView
     private void Back()
     {
         ViewWindowHandler.Instance.ShowLast();
+    }
+    private void OnDestroy()
+    {
+        _button.onClick.RemoveListener(Back);
     }
 }

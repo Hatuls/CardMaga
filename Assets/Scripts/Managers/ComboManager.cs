@@ -12,6 +12,7 @@ using Battle.Combo;
 using CardMaga.Card;
 using Managers;
 using Battle.Turns;
+using System.Threading;
 
 namespace Battle
 {
@@ -19,7 +20,7 @@ namespace Battle
     {
 
         #region Fields
-
+        public event Action OnComboDetectedFinished;
         public event Action<CardData[]> OnCraftingComboToHand;
 
         [SerializeField] Combo.Combo _cardRecipeDetected;
@@ -105,6 +106,7 @@ namespace Battle
                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
                         break;
                 }
+           
                 // Need To be Re-Done
                 //var battledata = Account.AccountManager.Instance.BattleData;
                 //var sounds = (isPlayer) ? battledata.Player.CharacterData.CharacterSO.ComboSounds : battledata.Opponent.CharacterData.CharacterSO.ComboSounds;
@@ -115,14 +117,8 @@ namespace Battle
 
             // get the crafting deck
 
-
-            /*
-             * run on the possiblities from low to high
-             * 
-             * return true if found option
-             * 
-            * return false if nothign found 
-             */
+    
+       
         }
 
         public  void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId,DetectRecipe, EndDetection));
@@ -150,6 +146,7 @@ namespace Battle
                 _cardRecipeDetected = null;
             data.ResetDeck();
             }
+            OnComboDetectedFinished?.Invoke();
         }
 
         private void DetectRecipe()
@@ -207,6 +204,7 @@ namespace Battle
                 if (craftingItems.SequenceEqual(cardTypeDatas, _cardTypeComparer))
                 {
                     CardRecipeDetected = recipes[i];
+                    Thread.Sleep(100);
                     return;
                 }
 
@@ -219,6 +217,17 @@ namespace Battle
             _gameTurnHandler = data.TurnHandler;
             _cardExecutionManager = data.CardExecutionManager;
             _playersManager = data.PlayersManager;
+            OnComboDetectedFinished += _playersManager.GetCharacter(true).StaminaHandler.CheckStaminaEmpty;
+            OnComboDetectedFinished += _playersManager.GetCharacter(false).StaminaHandler.CheckStaminaEmpty;
+
+            data.OnBattleManagerDestroyed += BattleManagerDestroyed;
+        }
+   
+        private void BattleManagerDestroyed(BattleManager bm)
+        {
+            bm.OnBattleManagerDestroyed -= BattleManagerDestroyed;
+            OnComboDetectedFinished -= _playersManager.GetCharacter(true).StaminaHandler.CheckStaminaEmpty;
+            OnComboDetectedFinished -= _playersManager.GetCharacter(false).StaminaHandler.CheckStaminaEmpty;
         }
     }
 }

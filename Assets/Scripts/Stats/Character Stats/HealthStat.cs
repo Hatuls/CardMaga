@@ -26,17 +26,13 @@ namespace Characters.Stats
         public override void Reduce(int amount)
         {
             if (Amount <= 0)
-            {
-                throw new System.Exception($"HealthStat: Trying To Reduce Health Amount when its already a 0! Amount: {amount}");
-
-            }
+                return;
 
             base.Reduce(amount);
 
             if (Amount <= 0)
-            {
                 OnCharacterDeath?.Invoke(isPlayer);
-            }
+            
 
         }
     }

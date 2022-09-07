@@ -70,18 +70,21 @@ namespace Battle
 
         private void ResetBattle()
         {
+            ResetParams();
             InitParams();
             _battleStarter.StartAll(this, StartBattle);
-            ResetParams();
+           
 
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.BattleMusicParameter();
+
         }
 
         private void InitParams()
         {
             _gameTurnHandler = new GameTurnHandler();
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.BattleMusicParameter();
         }
 
         private void ResetParams()
@@ -91,8 +94,6 @@ namespace Battle
             isGameEnded = false;
 
 
-            _playerManager.AnimatorController.ResetLayerWeight();
-            _enemyManager.AnimatorController.ResetLayerWeight();
         }
         // Need To be Re-Done
         public void StartBattle()
@@ -208,8 +209,8 @@ namespace Battle
             ThreadsHandler.ThreadHandler.ResetList();
 
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
-            _battleStarter.OnDestroy();
-            _battleStarter = null;
+            _battleStarter.Dispose();
+           
             HealthStat.OnCharacterDeath -= BattleEnded;
             TurnHandler.Dispose();
             _gameTurnHandler = null;
@@ -336,7 +337,6 @@ namespace Battle
 
             LeftCharacter.VisualCharacter.InitVisuals(LeftCharacter, leftCharacter, false, battleManager.TurnHandler.GetCharacterTurn(LeftCharacter.IsLeft));
             RightCharacter.VisualCharacter.InitVisuals(RightCharacter, rightCharacter, rightModel == leftModel, battleManager.TurnHandler.GetCharacterTurn(RightCharacter.IsLeft));
-
 
             token.Dispose();
         }

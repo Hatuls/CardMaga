@@ -54,7 +54,7 @@ namespace Managers
 
         public void AssignCharacterData(BattleManager battleManager,Character characterData)
         {
-
+            battleManager.OnBattleManagerDestroyed += BeforeDestroy;
             _character = characterData;
             var data = characterData.CharacterData;
             VisualCharacter.AnimationSound.CurrentCharacter = data.CharacterSO;
@@ -68,14 +68,16 @@ namespace Managers
             _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
             _deckHandler = new DeckHandler(this, battleManager);
 
-
+       
            GameTurnHandler turnHandler = battleManager.TurnHandler;
            GameTurn turn = turnHandler.GetCharacterTurn(IsLeft);
-
+            _staminaHandler.OnStaminaDepleted += turnHandler.MoveToNextTurn;
             turn.StartTurnOperations.Register(DrawHands);
             turn.StartTurnOperations.Register(StaminaHandler.StartTurn);
 
             turn.EndTurnOperations.Register(StaminaHandler.EndTurn);
+
+
         }
 
 
@@ -89,7 +91,12 @@ namespace Managers
         }
 
 
-
+        private void BeforeDestroy(BattleManager battleManager)
+        {
+            battleManager.OnBattleManagerDestroyed -= BeforeDestroy;
+            
+            _staminaHandler.OnStaminaDepleted -= battleManager.TurnHandler.MoveToNextTurn;
+        }
         private void DrawHands(ITokenReciever tokenMachine)
             => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);    
 

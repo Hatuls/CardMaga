@@ -141,7 +141,7 @@ public class AnimatorController : MonoBehaviour
         ReleaseToken();
         Animator.SetBool("IsWon", true);
         //_playerAnimator.SetInteger("AnimNum", -2);
-        transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
+    //    transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
     }
     public void CharacterIsDead()
     {

@@ -79,7 +79,6 @@ namespace Battle
 
             _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
 
-
             _turnHandler = battleManager.TurnHandler;
             GameTurn turn = _turnHandler.GetCharacterTurn(IsLeft);
             turn.StartTurnOperations.Register(StaminaHandler.StartTurn);
@@ -88,6 +87,7 @@ namespace Battle
             turn.EndTurnOperations.Register(StaminaHandler.EndTurn);
   
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
+            _staminaHandler.OnStaminaDepleted += _turnHandler.MoveToNextTurn;
         }
 
 
@@ -164,10 +164,9 @@ namespace Battle
             AnimatorController.ResetToStartingPosition();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _turnHandler.GetCharacterTurn(IsLeft).OnTurnActive -= CalculateEnemyMoves;
-
         }
         #endregion
     }

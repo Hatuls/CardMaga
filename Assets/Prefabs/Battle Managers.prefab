@@ -47,6 +47,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2685976427900551653}
   - component: {fileID: 5313819635375779531}
+  - component: {fileID: 8810211621910226528}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -103,7 +104,18 @@ MonoBehaviour:
       m_Calls: []
   OnBattleFinished:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8810211621910226528}
+        m_MethodName: LoadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _cinematicManager: {fileID: 0}
   _playerManager: {fileID: 4865128171655590735}
   _enemyManager: {fileID: 516472383804032214}
@@ -113,6 +125,43 @@ MonoBehaviour:
   _keywordManager: {fileID: 0}
   _vFXManager: {fileID: 0}
   _cameraManager: {fileID: 0}
+--- !u!114 &8810211621910226528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106500846166016497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99fdf08fb0ba2804ebf01256d1d312db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _loadSceneMode: 1
+  _loadMode: 1
+  _lockAtLoad: 1
+  _dontDestroyOnLoad: 1
+  _loadDelay: 1
+  _sceneName: Main Menu
+  _sceneIndex: 0
+  _sceneUnloadMode: 3
+  _unLoadsceneName: Game Battle Scene
+  _preUnloadDelay: 0
+  _postUnloadDelay: 0
+  _readyable: {fileID: 0}
+  _unlockAfterUnload: 1
+  OnStartLoadingScene:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishedLoadingScene:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStartUnloadingScene:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishedUnloadingScene:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4147605569478178821
 GameObject:
   m_ObjectHideFlags: 0

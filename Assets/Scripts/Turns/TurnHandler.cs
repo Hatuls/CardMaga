@@ -396,7 +396,7 @@ namespace Battle.Turns
         public int TurnCount => _turnCount;
         public bool IsLeftCharacterTurn => CurrentTurn == GameTurnType.LeftPlayerTurn;
         public bool IsRightCharacterTurn => CurrentTurn == GameTurnType.RightPlayerTurn;
-
+        public ITokenReciever TurnChangeTokenMachine => _turnStarterTurnMachine;
 
         public GameTurnHandler() //will need to enter turn logic here 
         {
@@ -440,7 +440,7 @@ namespace Battle.Turns
         public void Start()
         {
             UnlockTurnChanging();
-            GetTurn(CurrentTurn).Enter(_turnStarterTurnMachine);
+            GetTurn(CurrentTurn).Enter(TurnChangeTokenMachine);
         }
 
 

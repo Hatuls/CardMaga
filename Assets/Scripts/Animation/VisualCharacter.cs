@@ -35,7 +35,7 @@ public class VisualCharacter : MonoBehaviour
         if (isTinted)
             AvatarHandler.Mesh.material = modelSO.GetRandomTintedMaterials();
 
-
+        
         VfxController.AvatarHandler = AvatarHandler;
         Animator.avatar = AvatarHandler.Avatar;
         AnimatorController.Init(this, gameTurn);

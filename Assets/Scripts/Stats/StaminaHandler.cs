@@ -12,7 +12,7 @@ namespace Characters.Stats
         public event Action<int> OnStaminaShardValueChanged;
 
 
-
+        private bool _isFlag;
         private int _stamina;
         private int _startStamina;
         private int _staminaShards;
@@ -28,8 +28,7 @@ namespace Characters.Stats
             {
                 _stamina = value;
                 OnStaminaValueChanged?.Invoke(_stamina);
-                if (_stamina == 0)
-                    OnStaminaDepleted?.Invoke();
+
             }
         }
         public int StaminaShards
@@ -44,6 +43,7 @@ namespace Characters.Stats
 
         public StaminaHandler(int startAmount, int stamminaShards, int staminaAddition = 0)
         {
+
             StaminaAddition = staminaAddition;
             StartStamina = startAmount;
             StaminaShards = stamminaShards;
@@ -53,6 +53,7 @@ namespace Characters.Stats
 
         public void StartTurn(ITokenReciever tokenMachine)
         {
+            _isFlag = true;
             IDisposable t = tokenMachine.GetToken();
             Stamina = StartStamina + StaminaAddition;
             ResetStaminaAddition();
@@ -60,7 +61,8 @@ namespace Characters.Stats
         }
         public void EndTurn(ITokenReciever tokenMachine)
         {
-            ResetStamina();
+            _stamina = 0;
+            OnStaminaValueChanged?.Invoke(Stamina);
         }
         public void AddStaminaAddition(int addition) => StaminaAddition += addition;
         public void AddStartStamina(int startStamina) => StartStamina += startStamina;
@@ -68,7 +70,15 @@ namespace Characters.Stats
         public void ResetStaminaAddition() => StaminaAddition = 0;
         public bool CanPlayCard(CardData card) => card.StaminaCost <= Stamina;
         public void ReduceStamina(CardData card) => Stamina -= card.StaminaCost;
-
+   
+        public void CheckStaminaEmpty()
+        {
+            if (Stamina <= 0&& _isFlag)
+            {
+                OnStaminaDepleted?.Invoke();
+                _isFlag = false;
+            }
+        }
 
         public void AddStamina(int amount)
         {

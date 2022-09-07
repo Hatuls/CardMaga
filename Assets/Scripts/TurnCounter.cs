@@ -36,19 +36,19 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
 
 
 
-
+    private GameTurnHandler _gameTurnHandler;
     private int _textTime;
     private float _counter;
     private bool _toStopTimer;
-    private Coroutine _coroutineTimer;
     private float _startScale;
     private Sequence _sequence;
+    private Coroutine _coroutineTimer;
 
 
     private void Awake()
     {
         _startScale = _timerText.rectTransform.localScale.x;
-
+        BattleManager.Register(this, OrderType.Default);
 
 
         GameTurn.OnTurnFinished += FinishCounting;
@@ -59,7 +59,7 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
 
 
 
- 
+
     public void StartTime()
     {
         ResetScale();
@@ -78,7 +78,6 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
     }
     private void ResetTimer()
     {
-
         _counter = _timeTillEndTurn;
     }
     private IEnumerator Count()
@@ -125,16 +124,28 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
     }
     private void ContinueTimer() => _toStopTimer = false;
     private void StopTimer() => _toStopTimer = true;
-
+    private void StartTurn()
+    {
+        ContinueTimer();
+        StartTime();
+    }
     public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
     {
         using (tokenMachine.GetToken())
         {
             var turn = data.TurnHandler;
             OnCounterDepleted += turn.MoveToNextTurn;
-            turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive  += StartTime;
-            turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive += StartTime;
+            var leftTurn = turn.GetTurn(GameTurnType.LeftPlayerTurn);
+            leftTurn.OnTurnExit += StopTimer;
+            leftTurn.OnTurnActive += StartTurn;
+            BattleManager.OnGameEnded += StopTimer;
+
+            var rightTurn = turn.GetTurn(GameTurnType.RightPlayerTurn);
+            rightTurn.OnTurnActive += StartTurn;
+            rightTurn.OnTurnEnter += StopTimer;
             data.OnBattleManagerDestroyed += Dispose;
+
+            turn.GetTurn(GameTurnType.ExitBattle).OnTurnActive += StopTimer;
         }
     }
 
@@ -143,9 +154,17 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
         var turn = bm.TurnHandler;
         bm.OnBattleManagerDestroyed -= Dispose;
         OnCounterDepleted -= turn.MoveToNextTurn;
-        turn.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnActive -= StartTime;
-        turn.GetTurn(GameTurnType.RightPlayerTurn).OnTurnActive -= StartTime;
+        var leftTurn = turn.GetTurn(GameTurnType.LeftPlayerTurn);
+        leftTurn.OnTurnExit -= StopTimer;
+        leftTurn.OnTurnActive -= StartTurn;
+
+        var rightTurn = turn.GetTurn(GameTurnType.RightPlayerTurn);
+        rightTurn.OnTurnActive -= StartTurn;
+        rightTurn.OnTurnEnter -= StopTimer;
         GameTurn.OnTurnFinished -= FinishCounting;
+        BattleManager.OnGameEnded -= StopTimer;
+
+        turn.GetTurn(GameTurnType.ExitBattle).OnTurnActive -= StopTimer;
 
         if (_sequence != null)
             _sequence.Kill();

@@ -18,12 +18,15 @@ public class EndTurnButton : ButtonUI, ISequenceOperation<BattleManager>
     private bool _isDirty;
     private void Awake()
     {
-
         BattleManager.Register(this, OrderType.Before);
     }
 
 
-    private void ShowTurn() { _visualizer.SetActive(true); _isDirty = false; }
+    private void ShowTurn()
+    {
+        _visualizer.SetActive(true);
+        _isDirty = false;
+    }
     private void HideTurnButton() => _visualizer.SetActive(false);
 
     public override void ButtonPressed()
@@ -46,17 +49,19 @@ public class EndTurnButton : ButtonUI, ISequenceOperation<BattleManager>
         left.OnTurnActive += ShowTurn;
         left.OnTurnExit += HideTurnButton;
         data.OnBattleManagerDestroyed += BeforeDestroyed;
+        BattleManager.OnGameEnded += HideTurnButton;
         HideTurnButton();
     }
 
     private void BeforeDestroyed(BattleManager bm)
     {
+        BattleManager.OnGameEnded -= HideTurnButton;
         var _turnHandler = bm.TurnHandler;
         OnEndTurnButtonClicked -= _turnHandler.MoveToNextTurn;
         bm.OnBattleManagerDestroyed -= BeforeDestroyed;
         var left = _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
         left.OnTurnActive -= ShowTurn;
-        left.OnTurnExit -= HideTurnButton;
+        left.OnTurnExit   -= HideTurnButton;
         _turnHandler = null;
     }
 }

@@ -123,7 +123,3 @@ public static class StringHelper
         => string.Concat(COLOR_HTML, color.ToHexa(), HTML_CLOSER,text, COLOR_HTML_CLOSER);
 }
 
-public static class StupidLog
-{
-    public static void Log(this object o) => Debug.Log(o.ToString());
-}
