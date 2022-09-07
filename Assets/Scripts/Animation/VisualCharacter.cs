@@ -22,7 +22,7 @@ public class VisualCharacter : MonoBehaviour
     public VFXController VfxController => _vfxController;
     public AnimationBodyPartSoundsHandler AnimationSound { get => _animationSound; }
 
-    public void SpawnModel(ModelSO modelSO, bool isTinted)
+    public void InitVisuals(ModelSO modelSO, bool isTinted)
     {
         AvatarHandler = Instantiate(modelSO.Model, _visual.position, Quaternion.identity, _visual);
         if (isTinted)
@@ -30,7 +30,7 @@ public class VisualCharacter : MonoBehaviour
         VfxController.AvatarHandler = AvatarHandler;
         _characterAnimator = AvatarHandler.Animator;
         AnimatorController.Init(AvatarHandler);
-        AnimatorController.ResetAnimator();
+
 
 #if UNITY_EDITOR
         DrawMesh = false;

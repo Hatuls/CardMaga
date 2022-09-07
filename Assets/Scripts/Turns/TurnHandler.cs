@@ -33,7 +33,7 @@ namespace Battle.Turns
     //            _turnCount = value; OnTurnCountChange?.Invoke(_turnCount);
     //        }
     //    }
-    //    public static TurnState CurrentState
+    //    public static TurnState CurrentStateID
     //    {
 
     //        get => _currectState;
@@ -51,7 +51,7 @@ namespace Battle.Turns
     //    {
     //        get
     //        {
-    //            var State = TurnHandler.CurrentState;
+    //            var State = TurnHandler.CurrentStateID;
     //            return (State == TurnState.PlayerTurn || State == TurnState.StartPlayerTurn || State == TurnState.EndPlayerTurn);
 
     //        }
@@ -63,26 +63,26 @@ namespace Battle.Turns
     //    }
     //    public static void MoveToNextTurn(TurnState turnState)
     //    {
-    //        Debug.Log("Current Turn State is " + CurrentState);
-    //        CurrentState = turnState;
-    //        Debug.Log("After update Turn State is " + CurrentState);
+    //        Debug.Log("Current Turn State is " + CurrentStateID);
+    //        CurrentStateID = turnState;
+    //        Debug.Log("After update Turn State is " + CurrentStateID);
     //    }
     //    public static IEnumerator TurnCycle()
     //    {
     //        TurnState turn = TurnState.NotInBattle;
-    //        CurrentState = TurnState.Startbattle;
+    //        CurrentStateID = TurnState.Startbattle;
     //        do
     //        {
-    //            if (turn != CurrentState)
+    //            if (turn != CurrentStateID)
     //            {
-    //                turn = CurrentState;
+    //                turn = CurrentStateID;
     //                yield return _turnDict[turn].PlayTurn();
     //            }
     //        }
     //        while (!BattleManager.isGameEnded);
 
-    //        CurrentState = TurnState.EndBattle;
-    //        yield return _turnDict[CurrentState].PlayTurn();
+    //        CurrentStateID = TurnState.EndBattle;
+    //        yield return _turnDict[CurrentStateID].PlayTurn();
     //    }
 
 
@@ -93,7 +93,7 @@ namespace Battle.Turns
 
     //    internal static void CheckPlayerTurnForAvailableAction()
     //    {
-    //        if (CurrentState != TurnState.PlayerTurn && BattleManager.isGameEnded == false)
+    //        if (CurrentStateID != TurnState.PlayerTurn && BattleManager.isGameEnded == false)
     //            return;
 
     //        bool noMoreActionAvailable = StaminaHandler.Instance.PlayerStamina.HasStamina == false && CardExecutionManager.CardsQueue.Count == 0;

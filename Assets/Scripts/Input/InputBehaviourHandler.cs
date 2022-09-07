@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBehaviour
 {
     private BaseHandUIState _currentState;
-    
+    private HandState _currentStateID;
     public enum HandState
     {
         Default,
@@ -16,13 +16,20 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
     };
 
     protected Dictionary<HandState, BaseHandUIState> _handUIStates;
+
+    public HandState CurrentStateID
+    {
+        get => _currentStateID;
+    }
     
     protected void SetState(HandState state,CardUI cardUI)
     {
         if (_currentState == null)
         {
             _currentState = _handUIStates[state];
-        
+            
+            _currentStateID = state;
+            
             _currentState.EnterState(cardUI);
         }
         else
@@ -31,8 +38,13 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             
             _currentState = _handUIStates[state];
             
+            _currentStateID = state;
+
             if (_currentState == null)
+            {
+                cardUI.Inputs.ResetInputBehaviour();
                 return;
+            }
             
             _currentState.EnterState(cardUI);
         }

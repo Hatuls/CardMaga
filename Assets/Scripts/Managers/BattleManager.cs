@@ -310,8 +310,8 @@ namespace Battle
             var leftModel = battleData.Left.CharacterData.CharacterSO.CharacterAvatar;
             var rightModel = battleData.Right.CharacterData.CharacterSO.CharacterAvatar;
 
-            LeftCharacter.VisualCharacter.SpawnModel(leftModel, false);
-            RightCharacter.VisualCharacter.SpawnModel(rightModel, rightModel == leftModel);
+            LeftCharacter.VisualCharacter.InitVisuals(leftModel, false);
+            RightCharacter.VisualCharacter.InitVisuals(rightModel, rightModel == leftModel);
 
 
             StaminaHandler.Instance.InitStaminaHandler();
