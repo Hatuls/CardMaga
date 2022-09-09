@@ -143,7 +143,7 @@ namespace Battle
 
 
 
-    public class SequenceHandler<T> : ISequenceOperation<T>
+    public class SequenceHandler<T> : ISequenceOperation<T>, IDisposable
     {
         private OperationHandler<ISequenceOperation<T>> _early  ;
         private OperationHandler<ISequenceOperation<T>> _default;
@@ -229,21 +229,7 @@ namespace Battle
             }
 
         }
-        public void OnDestroy()
-        {
-            Reset(_early);
-            Reset(_default);
-            Reset(_after);
-            _early = null;
-            _default = null;
-            _after = null;
-
-            void Reset(OperationHandler<ISequenceOperation<T>> operation)
-            {
-                operation.Clear();
-                operation.Dispose();
-            }
-        }
+      
         private void InitList(OrderType type)
         {
             switch (type)
@@ -263,6 +249,22 @@ namespace Battle
                     if (_early == null)
                         _early = new OperationHandler<ISequenceOperation<T>>();
                     break;
+            }
+        }
+
+        public void Dispose()
+        {
+            Reset(_early);
+            Reset(_default);
+            Reset(_after);
+            _early = null;
+            _default = null;
+            _after = null;
+
+            void Reset(OperationHandler<ISequenceOperation<T>> operation)
+            {
+                operation.Clear();
+                operation.Dispose();
             }
         }
     }

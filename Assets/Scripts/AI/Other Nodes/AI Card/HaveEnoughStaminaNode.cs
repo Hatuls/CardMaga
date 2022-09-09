@@ -1,4 +1,5 @@
-﻿using Characters.Stats;
+﻿using Battle;
+using Characters.Stats;
 namespace CardMaga.AI
 {
     public class HaveEnoughStaminaNode : BaseNode<AICard>
@@ -7,7 +8,8 @@ namespace CardMaga.AI
 
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
-            NodeState = StaminaHandler.Instance?.IsEnoughStamina(IsPlayer, basedEvaluationObject.Card) ?? false ? NodeState.Success : NodeState.Failure;
+            var character = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer);
+            NodeState = character.StaminaHandler.CanPlayCard(basedEvaluationObject.Card) ? NodeState.Success : NodeState.Failure;
             return NodeState;
         }
     }

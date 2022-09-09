@@ -29,6 +29,10 @@ public class LevelLoader : MonoBehaviour
         ResetSlider();
         _slider.onValueChanged.AddListener(SetLoadingText);
     }
+    private void Start()
+    {
+        StartLoading();
+    }
     public void ResetSlider()
     {
         _current = 0;

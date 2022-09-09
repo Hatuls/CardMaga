@@ -65,22 +65,26 @@ namespace Battle
         public KeywordManager KeywordManager => _keywordManager;
         public VFXManager VFXManager => _vFXManager;
         public CameraManager CameraManager => _cameraManager;
+        public BattleData BattleData => BattleData.Instance;
         #endregion
 
         private void ResetBattle()
         {
+            ResetParams();
             InitParams();
             _battleStarter.StartAll(this, StartBattle);
-            ResetParams();
+           
 
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.BattleMusicParameter();
+
         }
 
         private void InitParams()
         {
             _gameTurnHandler = new GameTurnHandler();
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.BattleMusicParameter();
         }
 
         private void ResetParams()
@@ -90,8 +94,6 @@ namespace Battle
             isGameEnded = false;
 
 
-            _playerManager.AnimatorController.ResetLayerWeight();
-            _enemyManager.AnimatorController.ResetLayerWeight();
         }
         // Need To be Re-Done
         public void StartBattle()
@@ -115,7 +117,7 @@ namespace Battle
                 return;
 
             //    UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
-            CardExecutionManager.Instance.ResetExecution();
+         _cardExecutionManager.ResetExecution();
             //CardUIManager.Instance.ResetCardUIManager();
 
 
@@ -161,7 +163,7 @@ namespace Battle
         {
             _playerManager.PlayerWin();
             _enemyManager.AnimatorController.CharacterIsDead();
-            BattleData.Instance.PlayerWon = true;
+            BattleData.PlayerWon = true;
             //     SendAnalyticWhenGameEnded("player_won", battleData);
             //    AddRewards();
             //    _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
@@ -175,7 +177,7 @@ namespace Battle
             //  var battleData = Account.AccountManager.Instance.BattleData;
             _playerManager.AnimatorController.CharacterIsDead();
             _enemyManager.EnemyWon();
-            BattleData.Instance.PlayerWon = false;
+            BattleData.PlayerWon = false;
             //      _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
             //    SendAnalyticWhenGameEnded("player_defeated", battleData);
             OnPlayerDefeat?.Invoke();
@@ -205,12 +207,13 @@ namespace Battle
         {
             OnBattleManagerDestroyed?.Invoke(this);
             ThreadsHandler.ThreadHandler.ResetList();
+
+            AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
+            _battleStarter.Dispose();
+           
+            HealthStat.OnCharacterDeath -= BattleEnded;
             TurnHandler.Dispose();
             _gameTurnHandler = null;
-            AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
-            _battleStarter.OnDestroy();
-            _battleStarter = null;
-            HealthStat.OnCharacterDeath -= BattleEnded;
         }
 
         public override void Awake()
@@ -257,11 +260,11 @@ namespace Battle
 #if UNITY_EDITOR
         [Button]
         public void KillEnemy()
-        => CharacterStatsManager.GetCharacterStatsHandler(false)?.RecieveDamage(1000000);
+        => _playersManager.GetCharacter(false).StatsHandler?.RecieveDamage(1000000);
 
         [Button]
         public void KillPlayer()
-           => CharacterStatsManager.GetCharacterStatsHandler(true)?.RecieveDamage(1000000);
+           => _playersManager.GetCharacter(true).StatsHandler?.RecieveDamage(1000000);
 #endif
         #endregion
     }
@@ -272,7 +275,7 @@ namespace Battle
 
     public interface IBattleManager
     {
-
+        BattleData BattleData { get; }
         IPlayersManager PlayersManager { get; }
         CardExecutionManager CardExecutionManager { get; }
         CardUIManager CardUIManager { get; }
@@ -293,36 +296,21 @@ namespace Battle
 
     public class PlayersManager : ISequenceOperation<BattleManager>, IPlayersManager
     {
-        public IPlayer LeftCharacter { get; private set; }
-        public IPlayer RightCharacter { get; private set; }
+        private IPlayer _leftCharacter;
+        private IPlayer _rightCharacter;
+
+        public IPlayer LeftCharacter { get => _leftCharacter; private set => _leftCharacter = value; }
+        public IPlayer RightCharacter { get => _rightCharacter; private set => _rightCharacter = value; }
 
         public int Priority => -1;
-
-        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager battleManager)
-        {
-            IDisposable token = tokenMachine.GetToken();
-            var battleData = BattleData.Instance;
-            // assign data
-            LeftCharacter.AssignCharacterData(battleManager, battleData.Left);
-            RightCharacter.AssignCharacterData(battleManager, battleData.Right);
-
-            //assign visuals
-            var leftModel = battleData.Left.CharacterData.CharacterSO.CharacterAvatar;
-            var rightModel = battleData.Right.CharacterData.CharacterSO.CharacterAvatar;
-
-            LeftCharacter.VisualCharacter.SpawnModel(leftModel, false);
-            RightCharacter.VisualCharacter.SpawnModel(rightModel, rightModel == leftModel);
-
-
-            StaminaHandler.Instance.InitStaminaHandler();
-            token.Dispose();
-        }
         /// <summary>
         /// Return the left or right character manager
         /// </summary>
         /// <param name="IsLeftCharacter"></param>
         /// <returns></returns>
         public IPlayer GetCharacter(bool IsLeftCharacter) => IsLeftCharacter ? LeftCharacter : RightCharacter;
+
+
 
 
 
@@ -333,7 +321,25 @@ namespace Battle
             BattleManager.Register(this, OrderType.Before);
         }
 
+        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager battleManager)
+        {
+            IDisposable token = tokenMachine.GetToken();
+            BattleData battleData = battleManager.BattleData;
+            // assign data
+            LeftCharacter.AssignCharacterData(battleManager, battleData.Left);
+            RightCharacter.AssignCharacterData(battleManager, battleData.Right);
 
+            //assign visuals
+            CharacterSO leftCharacter =  battleData.Left.CharacterData.CharacterSO;
+            CharacterSO rightCharacter = battleData.Right.CharacterData.CharacterSO;
+            ModelSO leftModel = leftCharacter.CharacterAvatar;
+            ModelSO rightModel = rightCharacter.CharacterAvatar;
+
+            LeftCharacter.VisualCharacter.InitVisuals(LeftCharacter, leftCharacter, false, battleManager.TurnHandler.GetCharacterTurn(LeftCharacter.IsLeft));
+            RightCharacter.VisualCharacter.InitVisuals(RightCharacter, rightCharacter, rightModel == leftModel, battleManager.TurnHandler.GetCharacterTurn(RightCharacter.IsLeft));
+
+            token.Dispose();
+        }
     }
 
 

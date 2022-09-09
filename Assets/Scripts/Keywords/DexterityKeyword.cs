@@ -1,5 +1,4 @@
 ﻿using Battle;
-using Characters.Stats;
 
 namespace Keywords
 {
@@ -7,7 +6,7 @@ namespace Keywords
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Dexterity;
 
-   
+
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
@@ -16,10 +15,10 @@ namespace Keywords
             var target = data.GetTarget;
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             data.KeywordSO.SoundEventSO.PlaySound();
         }
     }

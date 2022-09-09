@@ -18,9 +18,7 @@ public class AvatarHandler : MonoBehaviour
     [Header("Avatar:")]
     [SerializeField] Avatar avatar;
     [SerializeField] SkinnedMeshRenderer _mesh;
-    [Header("Animation:")]
-    [SerializeField] Animator _animator;
-    public Animator Animator => _animator;
+
     public Transform HeadPart { get => _headPart; }
     public Transform LeftHandPart { get => _leftHandPart; }
     public Transform RightHandPart { get => _rightHandPart; }

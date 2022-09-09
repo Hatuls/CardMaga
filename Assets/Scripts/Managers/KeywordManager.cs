@@ -1,9 +1,9 @@
 ﻿
 using Battle;
+using Battle.Turns;
 using Characters.Stats;
 using Managers;
 using ReiTools.TokenMachine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,11 +17,12 @@ namespace Keywords
         [SerializeField]
         KeywordEvent keywordEvent;
         #region Fields
-        private static Dictionary<KeywordTypeEnum, KeywordAbst> _keywordDict;
+        private  Dictionary<KeywordTypeEnum, KeywordAbst> _keywordDict;
 
 
 
         public int Priority => 0;
+        private GameTurnHandler _turnHandler;
         private IPlayersManager _playersManager;
         #endregion
 
@@ -33,12 +34,20 @@ namespace Keywords
         #region public Functions
 
 
-        public void ExecuteTask(ITokenReciever token, BattleManager bm) 
-        { 
+        public void ExecuteTask(ITokenReciever token, BattleManager bm)
+        {
             using (token.GetToken())
             {
                 InitParams();
+                _turnHandler = bm.TurnHandler;
+                RegisterTurnEvents(_turnHandler.GetTurn(GameTurnType.LeftPlayerTurn));
+                RegisterTurnEvents(_turnHandler.GetTurn(GameTurnType.RightPlayerTurn));
                 _playersManager = bm.PlayersManager;
+            }
+            void RegisterTurnEvents(GameTurn turn)
+            {
+                turn.StartTurnOperations.Register(StartTurnKeywords);
+                turn.EndTurnOperations.Register(EndTurnKeywords);
             }
         }
 
@@ -78,22 +87,22 @@ namespace Keywords
         public bool IsCharcterIsStunned(bool isPlayer)
         {
             bool isStunned;
-            var stunStat = CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(KeywordTypeEnum.Stun);
+            var stunStat = _playersManager.GetCharacter(isPlayer).StatsHandler.GetStats(KeywordTypeEnum.Stun);
             isStunned = stunStat.HasValue();
 
             stunStat.Reset();
 
             return isStunned;
         }
-        public IEnumerator OnStartTurnKeywords(bool isPlayer)
+        private void StartTurnKeywords(ITokenReciever token)
         {
-            var characterStats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer);
+            bool isPlayer = _turnHandler.IsLeftCharacterTurn;
+            var characterStats = _playersManager.GetCharacter(isPlayer).StatsHandler;
             Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the start of the turn");
 
 
 
             characterStats.ApplyBleed();
-            yield return new WaitForSeconds(0.2f);
             characterStats.ApplyHealRegeneration();
 
 
@@ -101,11 +110,11 @@ namespace Keywords
         }
 
 
-        public IEnumerator OnEndTurnKeywords(bool isPlayer)
+        private void EndTurnKeywords(ITokenReciever token)
         {
-
+            bool isPlayer = _turnHandler.IsLeftCharacterTurn;
             Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the end of the turn");
-            var characterStats = CharacterStatsManager.GetCharacterStatsHandler(isPlayer);
+            var characterStats = _playersManager.GetCharacter(isPlayer).StatsHandler;
             var vulnrable = characterStats.GetStats(KeywordTypeEnum.Vulnerable);
             if (vulnrable.Amount > 0)
                 vulnrable.Reduce(1);
@@ -114,7 +123,6 @@ namespace Keywords
             if (Weak.Amount > 0)
                 Weak.Reduce(1);
 
-            yield return null;
 
 
         }

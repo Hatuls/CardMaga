@@ -1,4 +1,5 @@
 ﻿
+using Battle;
 using Characters.Stats;
 namespace CardMaga.AI
 {
@@ -24,7 +25,7 @@ namespace CardMaga.AI
 
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
-            CharacterStatsHandler statsHandler = CharacterStatsManager.GetCharacterStatsHandler(IsPlayer);
+            CharacterStatsHandler statsHandler = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StatsHandler; 
             int stat = statsHandler.GetStats(KeywordType).Amount;
             NodeState = (Operator.Evaluate(stat, Amount)) ? NodeState.Success : NodeState.Failure;
             return NodeState;
@@ -53,7 +54,7 @@ namespace CardMaga.AI
         public OperatorType Operator { get; set; }
         public override NodeState Evaluate(AICard evaluateObject)
         {
-            CharacterStatsHandler statsHandler = CharacterStatsManager.GetCharacterStatsHandler(IsPlayer);
+            CharacterStatsHandler statsHandler = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StatsHandler;
 
             int amountA = statsHandler.GetStats(KeywordA).Amount;
             int amountB = statsHandler.GetStats(KeywordB).Amount;

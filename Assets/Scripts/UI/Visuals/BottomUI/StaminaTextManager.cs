@@ -1,21 +1,27 @@
-﻿using Characters.Stats;
+﻿
+using Battle;
+using Characters.Stats;
+using Managers;
+using ReiTools.TokenMachine;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class StaminaTextManager : MonoBehaviour
+public class StaminaTextManager : MonoBehaviour, ISequenceOperation<BattleManager>
 {
     [SerializeField] private TextMeshProUGUI _currentStamimaText;
     [SerializeField] private TextMeshProUGUI _maxStamimaText;
     [SerializeField] private StaminaTransition _staminaTransition;
-
+    private StaminaHandler _playerStaminaHandler;
     private int _currentStamina = -1;
 
-    private void Start()
+    public int Priority => 0;
+
+    private void Awake()
     {
 
-        StaminaHandler.StaminaTextManager = this;
-        ResetStamina();
+        BattleManager.Register(this, OrderType.Before);
+
     }
 
     public void UpdateCurrentStamina(int stamina)
@@ -77,7 +83,19 @@ public class StaminaTextManager : MonoBehaviour
         ChangeTextColor(_staminaText, _newColor);
         _currentStamimaText.text = (_currentStamina).ToString();
     }
+    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    {
+        _playerStaminaHandler = data.PlayersManager.GetCharacter(true).StaminaHandler;
+        _playerStaminaHandler.OnStaminaValueChanged += UpdateCurrentStamina;
+        ResetStamina();
+       // data.PlayersManager.GetCharacter(true).
+    }
 
+    private void OnDestroy()
+    {
+        if (_playerStaminaHandler != null)
+            _playerStaminaHandler.OnStaminaValueChanged -= UpdateCurrentStamina;
+    }
 #if UNITY_EDITOR
     /// <summary>
     /// Test for starting the animation if wanted (reduce) and changing the number
@@ -88,5 +106,7 @@ public class StaminaTextManager : MonoBehaviour
     {
         StartCoroutine(WaitForColorChangeTiming(rectTransform, timing, _staminaText, _newColor, _newStamina));
     }
+
+ 
 #endif
 }

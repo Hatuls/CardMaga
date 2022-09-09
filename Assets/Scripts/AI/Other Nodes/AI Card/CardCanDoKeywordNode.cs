@@ -1,4 +1,5 @@
-﻿using Characters.Stats;
+﻿using Battle;
+using Characters.Stats;
 
 namespace CardMaga.AI
 {
@@ -17,7 +18,8 @@ namespace CardMaga.AI
 public bool IsPlayer { get; set; }
         public override NodeState Evaluate(AICard evaluateObject)
         {
-            NodeState = (StaminaHandler.Instance.GetCharacterStamina(IsPlayer).Stamina == evaluateObject.Card.StaminaCost) ? NodeState.Success: NodeState.Failure;
+          
+            NodeState = (BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StaminaHandler.Stamina == evaluateObject.Card.StaminaCost) ? NodeState.Success: NodeState.Failure;
             return NodeState;
         }
     }

@@ -29,6 +29,7 @@ public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
     private float _delayTillReturn;
     private float _counter = 0;
     private Coroutine _coroutineCallback;
+    private Coroutine _delayTimerCoroutine;
     private bool IsDefaultCamera
     {
         get
@@ -148,7 +149,14 @@ public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
         ReturnToDefaultCamera();
     }
 
-    private void StopCounter() => StopCoroutine(DelayTillReturn());
+    private void StopCounter()
+    {
+        if (_delayTimerCoroutine != null)
+        {
+            StopCoroutine(DelayTillReturn());
+            _delayTimerCoroutine = null;
+        }
+    }
     #endregion
 
 
@@ -198,7 +206,7 @@ public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
     private void StartTimer(Action onComplete = null)
     {
 
-        StartCoroutine(DelayTillReturn(onComplete));
+        _delayTimerCoroutine= StartCoroutine(DelayTillReturn(onComplete));
 
     }
 

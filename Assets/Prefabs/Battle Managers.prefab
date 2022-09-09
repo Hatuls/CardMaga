@@ -28,14 +28,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2685976427900551653}
-  - {fileID: 8836778802469941420}
   - {fileID: 5668709163757501658}
   - {fileID: 2166197952052620344}
   - {fileID: 424075384640963960}
   - {fileID: 5524999673177164230}
   - {fileID: 5127487931140159612}
   - {fileID: 1893495305900568647}
-  - {fileID: 478503175451558045}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,6 +47,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2685976427900551653}
   - component: {fileID: 5313819635375779531}
+  - component: {fileID: 8810211621910226528}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -105,86 +104,64 @@ MonoBehaviour:
       m_Calls: []
   OnBattleFinished:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8810211621910226528}
+        m_MethodName: LoadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _cinematicManager: {fileID: 0}
   _playerManager: {fileID: 4865128171655590735}
   _enemyManager: {fileID: 516472383804032214}
---- !u!1 &2120255477555410628
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 478503175451558045}
-  m_Layer: 0
-  m_Name: Audio
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &478503175451558045
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2120255477555410628}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2806236739573109155
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8836778802469941420}
-  - component: {fileID: 5637503591984725427}
-  m_Layer: 0
-  m_Name: Decks
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!4 &8836778802469941420
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2806236739573109155}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5637503591984725427
+  _cardExecutionManager: {fileID: 0}
+  _cardUIManager: {fileID: 0}
+  _comboManager: {fileID: 0}
+  _keywordManager: {fileID: 0}
+  _vFXManager: {fileID: 0}
+  _cameraManager: {fileID: 0}
+--- !u!114 &8810211621910226528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2806236739573109155}
+  m_GameObject: {fileID: 1106500846166016497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff6c36d46fa4ba45825a6d84fe0c302, type: 3}
+  m_Script: {fileID: 11500000, guid: 99fdf08fb0ba2804ebf01256d1d312db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundEvent: {fileID: 0}
-  _playerMaxHandSize: 10
-  _playerStartingHandSize: 4
+  _loadSceneMode: 1
+  _loadMode: 1
+  _lockAtLoad: 1
+  _dontDestroyOnLoad: 1
+  _loadDelay: 1
+  _sceneName: Main Menu
+  _sceneIndex: 0
+  _sceneUnloadMode: 3
+  _unLoadsceneName: Game Battle Scene
+  _preUnloadDelay: 0
+  _postUnloadDelay: 0
+  _readyable: {fileID: 0}
+  _unlockAfterUnload: 1
+  OnStartLoadingScene:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishedLoadingScene:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStartUnloadingScene:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishedUnloadingScene:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4147605569478178821
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +191,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7806606445429385597
 MonoBehaviour:
@@ -273,7 +250,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8513023217717614139
 MonoBehaviour:
@@ -287,8 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa96d511541f5942af5a62570f914ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAnimatorController: {fileID: 0}
-  _enemyAnimatorController: {fileID: 0}
   __playerVFXHandler: {fileID: 0}
   _playSound: {fileID: 0}
   OnSuccessfullExecution:
@@ -393,7 +368,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5572394969957932758
 MonoBehaviour:
@@ -471,7 +446,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1511457884063859248
 MonoBehaviour:
@@ -491,9 +466,6 @@ MonoBehaviour:
       _level: 0
     _comboSO: {fileID: 0}
   _comboVFX: {fileID: 0}
-  _player: {fileID: 4865128171655590735}
-  _enemy: {fileID: 516472383804032214}
-  _deckManager: {fileID: 5637503591984725427}
   _successCrafting: {fileID: 11400000, guid: 01936ff9a3ed66e47b1d9e213f25f55e, type: 2}
 --- !u!1 &5847196689953200342
 GameObject:
@@ -524,7 +496,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &516472383804032214
 MonoBehaviour:
@@ -539,7 +511,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _brain: {fileID: 0}
-  _battleManager: {fileID: 0}
   _myCharacter:
     _characterData:
       _characterSO: {fileID: 0}
@@ -596,7 +567,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 560829604320045288}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4865128171655590735
 MonoBehaviour:

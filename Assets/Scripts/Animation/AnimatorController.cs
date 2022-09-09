@@ -7,6 +7,7 @@ using UnityEngine;
 using Battle;
 using Battle.Turns;
 using CardMaga.Animation;
+using ReiTools.TokenMachine;
 
 public class AnimatorController : MonoBehaviour
 {
@@ -45,12 +46,13 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] Vector3 startPos;
     private bool _toLockAtPlace;
     private bool _isAnimationPlaying;
-    private AvatarHandler _avatarHandler;
+    private Animator _animator;
+    private IDisposable _animationToken;
     #endregion
 
 
     #region Properties
-    public Animator Animator => _avatarHandler.Animator;
+    public Animator Animator => _animator;
 
     public bool IsPlayersAnimator => _isPlayer;
     public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
@@ -62,8 +64,7 @@ public class AnimatorController : MonoBehaviour
     #region MonoBehaviour Callbacks   
 
 
-
-
+ 
     private void Update()
     {
         RotateModel();
@@ -72,20 +73,15 @@ public class AnimatorController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
     }
 
-    private void RotateModel()
-    {
-        if (IsMyTurn)
-            transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
-        else
-            transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + (_isPlayer ? Vector3.left : Vector3.right), transform.position));
-    }
+
     #endregion
 
 
     #region Public
-    public void Init(AvatarHandler avatarHandler)
+    public void Init(VisualCharacter vc,GameTurn turn)
     {
-        _avatarHandler = avatarHandler;
+        _animator = vc.Animator;
+        turn.EndTurnOperations.Register(AnimationToken);
         ResetAnimator();
     }
     public void ResetAnimator()
@@ -124,10 +120,14 @@ public class AnimatorController : MonoBehaviour
         }
 
     }
+
     internal void FinishAnimation(AnimatorStateInfo stateInfo)
     {
         if (_animationQueue.Count == 0 && _currentAnimation == null)
+        {
             OnAnimationEnding?.Invoke();
+            ReleaseToken();
+        }
 
         //if (_animationQueue.Count > 0)
         //{
@@ -138,13 +138,14 @@ public class AnimatorController : MonoBehaviour
     public void CharacterWon()
     {
         _isAnimationPlaying = false;
-
+        ReleaseToken();
         Animator.SetBool("IsWon", true);
         //_playerAnimator.SetInteger("AnimNum", -2);
-        transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
+    //    transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
     }
     public void CharacterIsDead()
     {
+        ReleaseToken();
         Animator.SetBool("IsDead", true);
         //      _animator.CrossFade("KO_Head", _transitionSpeedBetweenAnimations);
         _toLockAtPlace = true;
@@ -314,15 +315,28 @@ public class AnimatorController : MonoBehaviour
     #endregion
 
     #region Private
+    private void ReleaseToken() => _animationToken?.Dispose();
+    private void AnimationToken(ITokenReciever token)
+    {
+        if(_animationQueue.Count>0)
+        _animationToken = token.GetToken();
+    }
     private void OnFinishAnimation()
     {
         CardExecutionManager.FinishedAnimation = true;
-        //ReturnToIdle();
+        ReleaseToken();
         ResetBothRotaionAndPosition();
         //  isFirst = true;
         //   _onFinishedAnimation?.Raise();
         //  _currentAnimation = null;
 
+    }
+    private void RotateModel()
+    {
+        if (IsMyTurn)
+            transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
+        else
+            transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + (_isPlayer ? Vector3.left : Vector3.right), transform.position));
     }
     private void ReturnToIdle() => Animator.CrossFade("Idle_1", transitionToIdle);
     #endregion

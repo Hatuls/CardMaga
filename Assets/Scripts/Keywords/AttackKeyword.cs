@@ -18,8 +18,8 @@ namespace Keywords
                 // damage + applier strenght + reciever Vulnerable - applier weakend
 
                 int finalDamage = 0;
-                var reciver = CharacterStatsManager.GetCharacterStatsHandler(currentPlayer);
-                var applier = CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer);
+                var reciver = playersManager.GetCharacter(currentPlayer).StatsHandler;
+                var applier = playersManager.GetCharacter(!currentPlayer).StatsHandler;
 
                 var recieverVulnerable = reciver.GetStats(KeywordTypeEnum.Vulnerable).Amount;
                 var applierStrength = applier.GetStats(KeywordTypeEnum.Strength).Amount;
@@ -37,8 +37,8 @@ namespace Keywords
             {
 
                 int finalDamage = 0;
-                var reciver = CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer);
-                var applier = CharacterStatsManager.GetCharacterStatsHandler(currentPlayer);
+                var reciver = playersManager.GetCharacter(!currentPlayer).StatsHandler;
+                var applier = playersManager.GetCharacter(currentPlayer).StatsHandler;
 
                 var recieverVulnerable = reciver.GetStats(KeywordTypeEnum.Vulnerable).Amount;
                 var applierStrength = applier.GetStats(KeywordTypeEnum.Strength).Amount;

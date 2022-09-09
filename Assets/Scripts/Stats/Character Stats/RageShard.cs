@@ -4,10 +4,11 @@ namespace Characters.Stats
     public class RageShard : BaseStat
     {
         byte _maxShardSize;
-
-        public RageShard(bool isPlayer, int amount) : base(isPlayer, amount)
+        private RageStat _rageStat;
+        public RageShard(bool isPlayer, int amount,RageStat rageStat) : base(isPlayer, amount)
         {
             _maxShardSize = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(Keyword).InfoAmount;
+            _rageStat = rageStat;
         }
 
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.RageShard;
@@ -18,7 +19,7 @@ namespace Characters.Stats
 
             if (Amount >= _maxShardSize)
             {
-                CharacterStatsManager.GetCharacterStatsHandler(isPlayer).GetStats(KeywordTypeEnum.Rage).Add(1);
+                _rageStat.Add(1);
                 Reset();
             }
         }

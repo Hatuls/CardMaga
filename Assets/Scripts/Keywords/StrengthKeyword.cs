@@ -11,17 +11,13 @@ namespace Keywords
         {
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer)
-             .GetStats(Keyword)
-             .Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             }
 
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
             {
 
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer)
-                .GetStats(Keyword)
-                .Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             }
         }
     }
@@ -33,10 +29,11 @@ namespace Keywords
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
             UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount " + data.GetAmountToApply);
+
        
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer)
+                playersManager.GetCharacter(currentPlayer).StatsHandler
              .GetStats(Keyword)
              .Add(data.GetAmountToApply);
             }
@@ -44,8 +41,8 @@ namespace Keywords
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
             {
 
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer)
-                .GetStats(Keyword)
+                playersManager.GetCharacter(!currentPlayer).StatsHandler
+  .GetStats(Keyword)
                 .Add(data.GetAmountToApply);
             }
             data.KeywordSO.SoundEventSO.PlaySound();

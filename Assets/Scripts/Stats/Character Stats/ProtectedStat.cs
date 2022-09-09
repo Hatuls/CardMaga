@@ -60,7 +60,7 @@ namespace Characters.Stats
         public override void Reduce(int amount)
         {
             base.Reduce(amount);
-            if (Amount <= 0 && _weakParticleVFX.IsPlaying)
+            if (Amount <= 0 && (_weakParticleVFX?.IsPlaying ?? false))
             {
                 _weakParticleVFX.Cancel();
             }
