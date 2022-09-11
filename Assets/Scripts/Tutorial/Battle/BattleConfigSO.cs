@@ -17,7 +17,7 @@ namespace CardMaga.BattleConfigSO
         private int _turnCountdown;
         private bool _timerActive;
         private bool _isPlayerStart;
-        private BattleTutorial _battleTutorial;
+        [SerializeField] private BattleTutorial _battleTutorial;
 
         public int MaxCardsInHand => _maxCardsInHand;
         public bool IsRandom => _isRandom;
