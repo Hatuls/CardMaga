@@ -29,7 +29,7 @@ namespace Battle
         private GameTurnHandler _turnHandler;
         private DeckHandler _deckHandler;
 
-
+        private GameTurn _myTurn;
         private StaminaHandler _staminaHandler;
         private CharacterStatsHandler _statsHandler;
         private CardData[] _deck;
@@ -55,9 +55,10 @@ namespace Battle
         public DeckHandler DeckHandler => _deckHandler;
         public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
-
+        public GameTurn MyTurn => _myTurn;
         public StaminaHandler StaminaHandler => _staminaHandler;
         #endregion
+
         #region Public Methods
 
 
@@ -77,14 +78,14 @@ namespace Battle
             _statsHandler = new CharacterStatsHandler(IsLeft, ref characterdata.CharacterStats, StaminaHandler);
             _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
 
-            _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
+            _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw));
 
             _turnHandler = battleManager.TurnHandler;
-            GameTurn turn = _turnHandler.GetCharacterTurn(IsLeft);
-            turn.StartTurnOperations.Register(StaminaHandler.StartTurn);
-            turn.StartTurnOperations.Register(DrawHands);
-            turn.OnTurnActive += PlayEnemyTurn;
-            turn.EndTurnOperations.Register(StaminaHandler.EndTurn);
+            _myTurn = _turnHandler.GetCharacterTurn(IsLeft);
+           _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
+           _myTurn.StartTurnOperations.Register(DrawHands);
+           _myTurn.OnTurnActive += PlayEnemyTurn;
+            _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
   
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
             _staminaHandler.OnStaminaDepleted += _turnHandler.MoveToNextTurn;
@@ -166,7 +167,8 @@ namespace Battle
 
         private void OnDisable()
         {
-            _turnHandler.GetCharacterTurn(IsLeft).OnTurnActive -= CalculateEnemyMoves;
+            _myTurn.OnTurnActive -= CalculateEnemyMoves;
+            _myTurn = null;
         }
         #endregion
     }
@@ -178,8 +180,11 @@ namespace Battle
         public NodeState Result;
         private List<AICard> _card;
         private AITree _tree;
-        public AIHand(AIBrain _brain, int drawAmount)
+        private BaseStat _drawStat;
+        public AIHand(AIBrain _brain, BaseStat drawStat)
         {
+            _drawStat = drawStat;
+            int drawAmount = _drawStat.Amount;
             _card = new List<AICard>(drawAmount);
             for (int i = 0; i < drawAmount; i++)
                 _card.Add(new AICard());
