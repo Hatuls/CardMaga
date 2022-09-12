@@ -21,6 +21,8 @@ namespace Managers
         DeckHandler DeckHandler { get; }
         Combo[] Combos { get; }
         VisualCharacter VisualCharacter { get; }
+        GameTurn MyTurn { get; }
+        CraftingHandler CraftingHandler { get; }
         void AssignCharacterData(BattleManager battleManager, Character characterData);
     }
 
@@ -28,7 +30,8 @@ namespace Managers
     public class PlayerManager : MonoSingleton<PlayerManager>, IPlayer
     {
         #region Fields
-
+        private CraftingHandler _craftingHandler;
+        private GameTurn _myTurn;
         private DeckHandler _deckHandler;
         private Character _character;
         private CharacterStatsHandler _statsHandler;
@@ -52,6 +55,10 @@ namespace Managers
 
         public StaminaHandler StaminaHandler => _staminaHandler;
 
+        public GameTurn MyTurn => _myTurn;
+
+        public CraftingHandler CraftingHandler => _craftingHandler;
+
         public void AssignCharacterData(BattleManager battleManager,Character characterData)
         {
             battleManager.OnBattleManagerDestroyed += BeforeDestroy;
@@ -63,19 +70,19 @@ namespace Managers
 
             _playerDeck = new CardData[Length];
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
-
-            _statsHandler = new CharacterStatsHandler(true, ref data.CharacterStats, _staminaHandler);
+            _craftingHandler = new CraftingHandler();
+            _statsHandler = new CharacterStatsHandler(IsLeft, ref data.CharacterStats, _staminaHandler);
             _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
             _deckHandler = new DeckHandler(this, battleManager);
 
        
            GameTurnHandler turnHandler = battleManager.TurnHandler;
-           GameTurn turn = turnHandler.GetCharacterTurn(IsLeft);
+            _myTurn = turnHandler.GetCharacterTurn(IsLeft);
             _staminaHandler.OnStaminaDepleted += turnHandler.MoveToNextTurn;
-            turn.StartTurnOperations.Register(DrawHands);
-            turn.StartTurnOperations.Register(StaminaHandler.StartTurn);
+            _myTurn.StartTurnOperations.Register(DrawHands);
+            _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
 
-            turn.EndTurnOperations.Register(StaminaHandler.EndTurn);
+            _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
 
 
         }

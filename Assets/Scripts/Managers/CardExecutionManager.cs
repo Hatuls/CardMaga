@@ -107,8 +107,7 @@ namespace Battle
 
             RegisterCard(card, isPlayer);
 
-            (deckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
-
+            _playersManager.GetCharacter(isPlayer).CraftingHandler.AddFront(card, true);
 
             return true;
         }
@@ -123,7 +122,10 @@ namespace Battle
 
         public void ExecuteCraftedCard(bool isPlayer, CardData card)
         {
-            (_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
+
+            _playersManager.GetCharacter(isPlayer).CraftingHandler.AddFront(card, false);
+
+            //(_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
             RegisterCard(card);
 
         }

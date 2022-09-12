@@ -40,17 +40,15 @@ namespace Keywords
             var characters = playersManager;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
-                var craftingSlots = characters.GetCharacter(currentPlayer).DeckHandler[Battle.Deck.DeckEnum.CraftingSlots] as PlayerCraftingSlots;
-                craftingSlots.AddCard(craftingSlots.LastCardEntered);
+                var craftingSlots = characters.GetCharacter(currentPlayer).CraftingHandler;
+                craftingSlots.AddFront(craftingSlots.LastCardTypeData, false) ;
             }
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
-                var craftingSlots = characters.GetCharacter(!currentPlayer).DeckHandler[Battle.Deck.DeckEnum.CraftingSlots] as PlayerCraftingSlots;
-                craftingSlots.AddCard(craftingSlots.LastCardEntered);
+                var craftingSlots = characters.GetCharacter(!currentPlayer).CraftingHandler;
+                craftingSlots.AddFront(craftingSlots.LastCardTypeData, false);
             }
         }
-
-
     }
 }
