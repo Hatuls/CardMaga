@@ -22,13 +22,15 @@ namespace Managers
         Combo[] Combos { get; }
         VisualCharacter VisualCharacter { get; }
         void AssignCharacterData(BattleManager battleManager, Character characterData);
+
+        GameTurn MyTurn { get; }
     }
 
 
     public class PlayerManager : MonoSingleton<PlayerManager>, IPlayer
     {
         #region Fields
-
+        private GameTurn _myTurn;
         private DeckHandler _deckHandler;
         private Character _character;
         private CharacterStatsHandler _statsHandler;
@@ -52,6 +54,8 @@ namespace Managers
 
         public StaminaHandler StaminaHandler => _staminaHandler;
 
+        public GameTurn MyTurn => _myTurn;
+
         public void AssignCharacterData(BattleManager battleManager,Character characterData)
         {
             battleManager.OnBattleManagerDestroyed += BeforeDestroy;
@@ -70,12 +74,12 @@ namespace Managers
 
        
            GameTurnHandler turnHandler = battleManager.TurnHandler;
-           GameTurn turn = turnHandler.GetCharacterTurn(IsLeft);
+            _myTurn = turnHandler.GetCharacterTurn(IsLeft);
             _staminaHandler.OnStaminaDepleted += turnHandler.MoveToNextTurn;
-            turn.StartTurnOperations.Register(DrawHands);
-            turn.StartTurnOperations.Register(StaminaHandler.StartTurn);
+            _myTurn.StartTurnOperations.Register(DrawHands);
+            _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
 
-            turn.EndTurnOperations.Register(StaminaHandler.EndTurn);
+            _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
 
 
         }
