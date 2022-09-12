@@ -21,15 +21,16 @@ namespace Managers
         DeckHandler DeckHandler { get; }
         Combo[] Combos { get; }
         VisualCharacter VisualCharacter { get; }
-        void AssignCharacterData(BattleManager battleManager, Character characterData);
-
         GameTurn MyTurn { get; }
+        CraftingHandler CraftingHandler { get; }
+        void AssignCharacterData(BattleManager battleManager, Character characterData);
     }
 
 
     public class PlayerManager : MonoSingleton<PlayerManager>, IPlayer
     {
         #region Fields
+        private CraftingHandler _craftingHandler;
         private GameTurn _myTurn;
         private DeckHandler _deckHandler;
         private Character _character;
@@ -56,6 +57,8 @@ namespace Managers
 
         public GameTurn MyTurn => _myTurn;
 
+        public CraftingHandler CraftingHandler => _craftingHandler;
+
         public void AssignCharacterData(BattleManager battleManager,Character characterData)
         {
             battleManager.OnBattleManagerDestroyed += BeforeDestroy;
@@ -67,8 +70,8 @@ namespace Managers
 
             _playerDeck = new CardData[Length];
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
-
-            _statsHandler = new CharacterStatsHandler(true, ref data.CharacterStats, _staminaHandler);
+            _craftingHandler = new CraftingHandler();
+            _statsHandler = new CharacterStatsHandler(IsLeft, ref data.CharacterStats, _staminaHandler);
             _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
             _deckHandler = new DeckHandler(this, battleManager);
 

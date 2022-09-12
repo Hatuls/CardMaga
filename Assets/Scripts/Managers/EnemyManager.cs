@@ -28,7 +28,7 @@ namespace Battle
         int _cardAction;
         private GameTurnHandler _turnHandler;
         private DeckHandler _deckHandler;
-
+        private CraftingHandler _craftingHandler;
         private GameTurn _myTurn;
         private StaminaHandler _staminaHandler;
         private CharacterStatsHandler _statsHandler;
@@ -57,6 +57,8 @@ namespace Battle
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
         public GameTurn MyTurn => _myTurn;
         public StaminaHandler StaminaHandler => _staminaHandler;
+
+        public CraftingHandler CraftingHandler => _craftingHandler;
         #endregion
 
         #region Public Methods
@@ -74,11 +76,13 @@ namespace Battle
             _deck = new CardData[deckLength];
             Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
 
+            _craftingHandler = new CraftingHandler();
             _deckHandler = new DeckHandler(this, battleManager);
             _statsHandler = new CharacterStatsHandler(IsLeft, ref characterdata.CharacterStats, StaminaHandler);
             _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
 
             _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw));
+
 
             _turnHandler = battleManager.TurnHandler;
             _myTurn = _turnHandler.GetCharacterTurn(IsLeft);

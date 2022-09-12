@@ -12,10 +12,10 @@ namespace Keywords
             data.KeywordSO.SoundEventSO.PlaySound();
             var target = data.GetTarget;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                playersManager.GetCharacter(currentPlayer).DeckHandler.ResetDeck(Battle.Deck.DeckEnum.CraftingSlots);
+                playersManager.GetCharacter(currentPlayer).CraftingHandler.ResetCraftingSlots();
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                playersManager.GetCharacter(!currentPlayer).DeckHandler.ResetDeck(Battle.Deck.DeckEnum.CraftingSlots);
+                playersManager.GetCharacter(!currentPlayer).CraftingHandler.ResetCraftingSlots();
 
         }
     }

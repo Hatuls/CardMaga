@@ -1,18 +1,16 @@
-﻿using Battle.Deck;
-using UnityEngine;
-namespace CardMaga.AI
+﻿namespace CardMaga.AI
 {
-    public class ComboFilledSlotsCountLogic: BaseNode<AICard>
+    public class ComboFilledSlotsCountLogic : BaseNode<AICard>
     {
-   
- 
-        public DeckHandler DeckHandler { get; set; }
-        public int AmountOfFilledSlots { get; set; }
+        private CraftingHandler _craftingHandler;
+        private int _amountOfFilledSlots;
+
+        public CraftingHandler CraftingHandler { get => _craftingHandler; set => _craftingHandler = value; }
+        public int AmountOfFilledSlots { get => _amountOfFilledSlots; set => _amountOfFilledSlots = value; }
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
-            PlayerCraftingSlots comboSlots = DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots;
-            comboSlots.CountCards();
-            NodeState = (AmountOfFilledSlots == comboSlots.AmountOfFilledSlots) ? NodeState.Success: NodeState.Failure;
+
+            NodeState = (AmountOfFilledSlots == CraftingHandler.CountFullSlots) ? NodeState.Success : NodeState.Failure;
             return NodeState;
         }
     }

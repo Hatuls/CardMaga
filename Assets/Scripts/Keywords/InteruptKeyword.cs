@@ -15,19 +15,19 @@ namespace Keywords
                 int length = data.GetAmountToApply;
                 var target = data.GetTarget;
         
-                PlayerCraftingSlots playerCraftingSlots;
+                CraftingHandler playerCraftingSlots;
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
                 {
-                    playerCraftingSlots = (playersManager.GetCharacter(currentPlayer).DeckHandler[Battle.Deck.DeckEnum.CraftingSlots] as PlayerCraftingSlots);
+                    playerCraftingSlots = playersManager.GetCharacter(currentPlayer).CraftingHandler;
                     for (int i = 0; i < length; i++)
-                        playerCraftingSlots.PushSlots();
+                        playerCraftingSlots.PushFront(false);
                 }
 
                 if (target == TargetEnum.Opponent || target == TargetEnum.All)
                 {
-                    playerCraftingSlots = (playersManager.GetCharacter(!currentPlayer).DeckHandler[Battle.Deck.DeckEnum.CraftingSlots] as PlayerCraftingSlots);
+                    playerCraftingSlots = playersManager.GetCharacter(!currentPlayer).CraftingHandler;
                     for (int i = 0; i < length; i++)
-                        playerCraftingSlots.PushSlots();
+                        playerCraftingSlots.PushFront(false);
                 }
                 data.KeywordSO.SoundEventSO.PlaySound();
             }
