@@ -137,8 +137,6 @@ namespace Battle
 
             isGameEnded = true;
 
-
-
             OnGameEnded?.Invoke();
         }
 
@@ -194,10 +192,7 @@ namespace Battle
 
 
         #endregion
-
-
-
-
+        
         #region MonoBehaviour Callbacks
         private void Update()
         {
@@ -228,6 +223,7 @@ namespace Battle
            
         }
         #endregion
+        
         #region Analytics
 
         private void SendAnalyticWhenGameEnded(string eventName, BattleData battleData)

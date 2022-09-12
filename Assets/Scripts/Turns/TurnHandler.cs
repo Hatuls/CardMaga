@@ -402,7 +402,6 @@ namespace Battle.Turns
         {
             _gameTurnsDictionary = new Dictionary<GameTurnType, GameTurn>()
             {
-             //   { GameTurnType.EnterBattle,     new EnterBattle(MoveToNextTurn ,new NextTurn(/*Start Turn Logic Enter here*/ GameTurnType.LeftPlayerTurn, 0)) },
                 { GameTurnType.EnterBattle,     new GameTurn(new NextTurn(/*Start Turn Logic Enter here*/ GameTurnType.LeftPlayerTurn, 0)) },
                 { GameTurnType.LeftPlayerTurn,  new GameTurn(new NextTurn( GameTurnType.RightPlayerTurn, 0))},
                 { GameTurnType.RightPlayerTurn, new GameTurn(new NextTurn( GameTurnType.LeftPlayerTurn, 0)) },
