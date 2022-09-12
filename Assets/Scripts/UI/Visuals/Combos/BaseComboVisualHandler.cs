@@ -1,4 +1,5 @@
 ﻿using Battle.Combo;
+using CardMaga.UI.Text;
 
 namespace CardMaga.UI
 {
@@ -6,6 +7,5 @@ namespace CardMaga.UI
     {
         //#combo visual Assigner
         //#combo Text Assigner
-
     }
 }

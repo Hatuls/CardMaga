@@ -107,8 +107,8 @@ namespace CardMaga.UI
             if(_discardDeck != null)
             _discardDeck.OnResetDeck -= MoveCardsToDrawPileAnim;
      
-            _drawDeckTextAssigner?.OnDestroy();
-            _discardDeckTextAssigner?.OnDestroy();
+            _drawDeckTextAssigner?.Dispose();
+            _discardDeckTextAssigner?.Dispose();
                 
         }
     }
