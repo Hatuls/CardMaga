@@ -52,6 +52,7 @@ namespace Battle
         [SerializeField]
         private CameraManager _cameraManager;
 
+        private BattleTutorial _battleTutorial;
         private IPlayersManager _playersManager;
         private static SequenceHandler<BattleManager> _battleStarter = new SequenceHandler<BattleManager>();
         private GameTurnHandler _gameTurnHandler;
@@ -181,7 +182,13 @@ namespace Battle
             OnPlayerDefeat?.Invoke();
         }
 
+        private void CreateTutorial(ITokenReciever tokenReciever, BattleManager battleManager)
+        {
+            if (BattleData.BattleConfigSO.BattleTutorial == null)
+                return;
 
+            _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
+        }
 
         #region Observer Pattern 
 
@@ -213,6 +220,7 @@ namespace Battle
 
         public override void Awake()
         {
+            Register(new OperationTask<BattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
             HealthStat.OnCharacterDeath += BattleEnded;
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
