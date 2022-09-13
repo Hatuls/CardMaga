@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CardMaga.UI.Visuals
 {
     [CreateAssetMenu(fileName = "Body Parts Base SO", menuName = "ScriptableObjects/UI/Visuals/Body Part base Visual SO")]
-    public class BodyPartBaseVisualSO : ScriptableObject
+    public class BodyPartBaseVisualSO : ScriptableObject, ICheckValidation
     {
         [Tooltip("Empty = 0, Head = 1, Elbow = 2, Hand = 3, Knee = 4, Leg = 5, Joker = 6")]
         public Sprite[] BodyParts;
@@ -14,12 +14,21 @@ namespace CardMaga.UI.Visuals
         [Tooltip("Attack - 0, Defense - 1, Utility - 2")]
         public Color[] InnerBGColor;
 
+        public void CheckValidation()
+        {
+            if (InnerBGColor.Length == 0)
+                throw new Exception("CardBodyPartVisualAssigner has no BG Color");
+
+            if (MainColor.Length == 0)
+                throw new Exception("CardBodyPartVisualAssigner has no Main Color");
+
+            if (BodyParts.Length == 0)
+                throw new Exception("CardBodyPartVisualAssigner has no BodyParts");
+        }
         public Sprite GetBodyPartSprite(CardMaga.Card.BodyPartEnum bodyPartEnum)
         {
             switch (bodyPartEnum)
             {
-                case CardMaga.Card.BodyPartEnum.None:
-                    return BodyParts[0];
                 case CardMaga.Card.BodyPartEnum.Empty:
                     return BodyParts[0];
                 case CardMaga.Card.BodyPartEnum.Head:
