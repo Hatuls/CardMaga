@@ -1,9 +1,7 @@
 ﻿using Battle.Deck;
 using Battle.Turns;
-using CardMaga.Battle.UI;
 using CardMaga.Card;
 using CardMaga.UI.Card;
-using Characters.Stats;
 using Keywords;
 using Managers;
 using ReiTools.TokenMachine;
@@ -17,17 +15,27 @@ namespace Battle
     [System.Serializable]
     public class CardEvent : UnityEvent<CardData> { }
     [System.Serializable]
-    public class CardExecutionManager : MonoSingleton<CardExecutionManager> , ISequenceOperation<BattleManager>
+    public class CardExecutionManager : MonoSingleton<CardExecutionManager>, ISequenceOperation<BattleManager>
     {
+
         public static event Action OnPlayerCardExecute;
         public static event Action<CardData> OnEnemyCardExecute;
         public static event Action<List<KeywordData>> OnSortingKeywords;
         public static event Action<int> OnAnimationIndexChange;
         public static event Action OnInsantExecute;
         public static event Action<bool, KeywordData> OnKeywordExecute;
-        public static bool FinishedAnimation;
+        public static bool FinishedAnimation 
+        {
+            get => _isFinishedAnimation;
+            set
+            {
+                _isFinishedAnimation = value;
+                if (_isFinishedAnimation) 
+                    Instance.DisposeEndTurnToken(); 
+            }
+        }
         static List<KeywordData> _keywordData = new List<KeywordData>();
-
+        private static bool _isFinishedAnimation;
         static int currentKeywordIndex;
         [Sirenix.OdinInspector.ShowInInspector]
         static Queue<CardData> _cardsQueue = new Queue<CardData>();
@@ -45,8 +53,8 @@ namespace Battle
 
         private GameTurnHandler _turnHandler;
         private IPlayersManager _playersManager;
+        private IDisposable _endTurnToken;
 
-  
 
 
 
@@ -64,7 +72,7 @@ namespace Battle
 
 
         public bool CanPlayCard(bool isPlayer, CardData card)
-       => card == null ? false : StaminaHandler.Instance.IsEnoughStamina(isPlayer, card);
+       => card == null ? false : _playersManager.GetCharacter(isPlayer).StaminaHandler.CanPlayCard(card);
         public bool TryExecuteCard(bool isPlayer, CardData card)
         {
             if (card == null)
@@ -82,7 +90,7 @@ namespace Battle
             }
 
             // execute card
-            StaminaHandler.Instance.ReduceStamina(isPlayer, card);
+            _playersManager.GetCharacter(isPlayer).StaminaHandler.ReduceStamina(card);
             OnSuccessfullExecution?.Invoke();
             if (isPlayer)
             {
@@ -91,16 +99,15 @@ namespace Battle
             }
             else
             {
-                CardUIManager.Instance.PlayEnemyCard(card);
+
                 OnEnemyCardExecute?.Invoke(card);
             }
             var deckHandler = _playersManager.GetCharacter(isPlayer).DeckHandler;
-           deckHandler.TransferCard(DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, card);
+            deckHandler.TransferCard(DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, card);
 
             RegisterCard(card, isPlayer);
 
-            (deckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
-  
+            _playersManager.GetCharacter(isPlayer).CraftingHandler.AddFront(card, true);
 
             return true;
         }
@@ -109,17 +116,16 @@ namespace Battle
         {
             CardData card = cardUI.CardData;
             bool isExecuted = TryExecuteCard(true, card);
-            if (isExecuted)
-            {
-                // reset the holding card
-                CardUIManager.Instance.ExecuteCardUI(cardUI);
-            }
+
             return isExecuted;
         }
 
         public void ExecuteCraftedCard(bool isPlayer, CardData card)
         {
-            (_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
+
+            _playersManager.GetCharacter(isPlayer).CraftingHandler.AddFront(card, false);
+
+            //(_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
             RegisterCard(card);
 
         }
@@ -177,7 +183,10 @@ namespace Battle
         {
             // play the card animation
             if (_cardsQueue.Count == 0 || BattleManager.isGameEnded)
+            {
+                DisposeEndTurnToken();
                 return;
+            }
             Debug.Log("<a>Activating Card</a>");
 
             SortKeywords();
@@ -204,7 +213,7 @@ namespace Battle
                 {
                     if (_keywordData[i].KeywordSO.GetKeywordType == KeywordTypeEnum.Attack)
                     {
-                        return CharacterStatsManager.GetCharacterStatsHandler(Reciever).GetStats(KeywordTypeEnum.Shield).Amount >= _keywordData[i].GetAmountToApply;
+                        return _playersManager.GetCharacter(Reciever).StatsHandler.GetStats(KeywordTypeEnum.Shield).Amount >= _keywordData[i].GetAmountToApply;
                     }
                 }
             }
@@ -277,13 +286,29 @@ namespace Battle
             FinishedAnimation = true;
             _cardsQueue.Clear();
             _keywordData.Clear();
+            _endTurnToken = null;
+        }
+        private void RecieveToken(ITokenReciever endTurnToken)
+        {
+            if (_cardsQueue.Count > 0 && !BattleManager.isGameEnded)
+                _endTurnToken = endTurnToken.GetToken();
         }
         public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
         {
             _turnHandler = data.TurnHandler;
             _playersManager = data.PlayersManager;
+
+            _turnHandler.GetCharacterTurn(true).EndTurnOperations.Register(RecieveToken);
+            _turnHandler.GetCharacterTurn(false).EndTurnOperations.Register(RecieveToken);
+            data.OnBattleManagerDestroyed += FinishBattle;
         }
 
+        private void FinishBattle(BattleManager battleManager)
+        {
+            battleManager.OnBattleManagerDestroyed -= FinishBattle;
+
+        }
+        private void DisposeEndTurnToken() => _endTurnToken?.Dispose();
         #region Monobehaviour Callbacks 
 
         public override void Awake()
@@ -293,7 +318,7 @@ namespace Battle
             BattleManager.Register(this, OrderType.Default);
         }
 
-   
+
 
         #endregion
     }

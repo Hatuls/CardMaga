@@ -205,7 +205,9 @@ namespace CardMaga.Input
         private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
         {
             BeginHold();
+#if UNITY_EDITOR
             _holdLogCount = 0;
+#endif
             while (_isHold)
             {
                 Hold();

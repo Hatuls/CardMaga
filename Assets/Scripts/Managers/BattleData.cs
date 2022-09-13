@@ -1,5 +1,6 @@
 ﻿
 using Battle.Characters;
+using CardMaga.BattleConfigSO;
 using System;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace Battle.Data
         private Character _opponent = null;
         [SerializeField, Sirenix.OdinInspector.ReadOnly]
         private bool _isPlayerWon = false;
+        [SerializeField] private BattleConfigSO _battleConfigSo;
+        public BattleConfigSO BattleConfigSO { get => _battleConfigSo; }
 
         public Character Left { get => _player; set => _player = value; }
         public Character Right { get => _opponent; set => _opponent = value; }

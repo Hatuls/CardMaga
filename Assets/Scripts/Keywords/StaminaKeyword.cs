@@ -16,10 +16,10 @@ namespace Keywords
  
                 var target = data.GetTarget;
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                    StaminaHandler.Instance.AddStamina(currentPlayer, data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStamina(data.GetAmountToApply);
    
                 if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                   StaminaHandler.Instance.AddStamina(!currentPlayer, data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStamina(data.GetAmountToApply);
 
             data.KeywordSO.SoundEventSO.PlaySound();
         }

@@ -12,10 +12,10 @@ namespace Keywords
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
 
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             data.KeywordSO.SoundEventSO.PlaySound();
         }
     }

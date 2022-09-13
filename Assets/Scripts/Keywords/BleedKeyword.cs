@@ -8,17 +8,17 @@ namespace Keywords
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Bleed;
 
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManagerr)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
 
             UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
 
             var target = data.GetTarget;
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
 
             data.KeywordSO.SoundEventSO.PlaySound();
         }

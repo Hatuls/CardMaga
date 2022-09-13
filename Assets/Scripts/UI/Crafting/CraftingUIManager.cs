@@ -15,7 +15,7 @@ namespace Battle.UI
         [SerializeField] private RectTransform _opponentfirstSlotTransform;
         [SerializeField] private CraftingSlotUI _opponentfadeOutCraftingSlots;
 
-        [SerializeField] private float moveLeanTweenTime;
+        [SerializeField] private float _moveTweenTime;
         private CraftingUIHandler _opponentCraftingUIHandler;
         private CraftingUIHandler _playerCraftingUIHandler;
 
@@ -55,14 +55,14 @@ namespace Battle.UI
             if (_playerCraftingUIHandler == null)
             {
                 _playerCraftingUIHandler = new CraftingUIHandler(_playerCraftingSlotsUI, _fadeOutCraftingSlots,
-                    _playersfirstSlotTransform, moveLeanTweenTime, playerManager.GetCharacter(true).DeckHandler);
+                    _playersfirstSlotTransform, _moveTweenTime, playerManager.GetCharacter(true).CraftingHandler);
                 _playerCraftingUIHandler.ResetAllSlots();
             }
 
             if (_opponentCraftingUIHandler == null)
             {
                 _opponentCraftingUIHandler = new CraftingUIHandler(_opponentCraftingSlotsUI,
-                    _opponentfadeOutCraftingSlots, _opponentfirstSlotTransform, moveLeanTweenTime, playerManager.GetCharacter(false).DeckHandler);
+                    _opponentfadeOutCraftingSlots, _opponentfirstSlotTransform, _moveTweenTime, playerManager.GetCharacter(false).CraftingHandler);
                 _opponentCraftingUIHandler.ResetAllSlots();
             }
         }

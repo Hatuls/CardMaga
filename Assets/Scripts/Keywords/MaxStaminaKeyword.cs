@@ -11,10 +11,10 @@ namespace Keywords
         {
             var target = data.GetTarget;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                StaminaHandler.Instance.AddStartStamina(currentPlayer, data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(data.GetAmountToApply);
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                StaminaHandler.Instance.AddStartStamina(!currentPlayer, data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStaminaAddition(data.GetAmountToApply);
             data.KeywordSO.SoundEventSO.PlaySound();
         }
     }

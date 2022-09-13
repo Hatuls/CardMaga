@@ -29,10 +29,11 @@ namespace Characters.Stats
 
             var target = data.GetTarget;
 
+
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             data.KeywordSO.SoundEventSO.PlaySound();
         }
     }

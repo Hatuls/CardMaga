@@ -1966,6 +1966,8 @@ namespace PlayFab.ServerModels
         AutomationInvalidRuleName,
         AutomationRuleAlreadyExists,
         AutomationRuleLimitExceeded,
+        InvalidGooglePlayGamesServerAuthCode,
+        StorageAccountNotFound,
         MatchmakingEntityInvalid,
         MatchmakingPlayerAttributesInvalid,
         MatchmakingQueueNotFound,
@@ -3155,6 +3157,27 @@ namespace PlayFab.ServerModels
     }
 
     [Serializable]
+    public class GetPlayFabIDsFromTwitchIDsRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers.
+        /// </summary>
+        public List<string> TwitchIds;
+    }
+
+    /// <summary>
+    /// For Twitch identifiers which have not been linked to PlayFab accounts, null will be returned.
+    /// </summary>
+    [Serializable]
+    public class GetPlayFabIDsFromTwitchIDsResult : PlayFabResultCommon
+    {
+        /// <summary>
+        /// Mapping of Twitch identifiers to PlayFab identifiers.
+        /// </summary>
+        public List<TwitchPlayFabIdPair> Data;
+    }
+
+    [Serializable]
     public class GetPlayFabIDsFromXboxLiveIDsRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -4089,7 +4112,8 @@ namespace PlayFab.ServerModels
         FacebookInstantGames,
         OpenIdConnect,
         Apple,
-        NintendoSwitchAccount
+        NintendoSwitchAccount,
+        GooglePlayGames
     }
 
     [Serializable]
@@ -6023,6 +6047,19 @@ namespace PlayFab.ServerModels
     }
 
     [Serializable]
+    public class TwitchPlayFabIdPair : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Twitch identifier.
+        /// </summary>
+        public string PlayFabId;
+        /// <summary>
+        /// Unique Twitch identifier for a user.
+        /// </summary>
+        public string TwitchId;
+    }
+
+    [Serializable]
     public class UnlinkPSNAccountRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -6527,6 +6564,10 @@ namespace PlayFab.ServerModels
         /// </summary>
         public UserGoogleInfo GoogleInfo;
         /// <summary>
+        /// User Google Play Games account information, if a Google Play Games account has been linked
+        /// </summary>
+        public UserGooglePlayGamesInfo GooglePlayGamesInfo;
+        /// <summary>
         /// User iOS device information, if an iOS device has been linked
         /// </summary>
         public UserIosDeviceInfo IosDeviceInfo;
@@ -6692,6 +6733,23 @@ namespace PlayFab.ServerModels
     }
 
     [Serializable]
+    public class UserGooglePlayGamesInfo : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Avatar image url of the Google Play Games player
+        /// </summary>
+        public string GooglePlayGamesPlayerAvatarImageUrl;
+        /// <summary>
+        /// Display name of the Google Play Games player
+        /// </summary>
+        public string GooglePlayGamesPlayerDisplayName;
+        /// <summary>
+        /// Google Play Games player ID
+        /// </summary>
+        public string GooglePlayGamesPlayerId;
+    }
+
+    [Serializable]
     public class UserIosDeviceInfo : PlayFabBaseModel
     {
         /// <summary>
@@ -6772,7 +6830,8 @@ namespace PlayFab.ServerModels
         FacebookInstantGamesId,
         OpenIdConnect,
         Apple,
-        NintendoSwitchAccount
+        NintendoSwitchAccount,
+        GooglePlayGames
     }
 
     [Serializable]

@@ -18,7 +18,7 @@ namespace Keywords
 
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
                 {
-                    var characterStatHandler = CharacterStatsManager.GetCharacterStatsHandler(currentPlayer);
+                    var characterStatHandler = playersManager.GetCharacter(currentPlayer).StatsHandler;
                     var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
 
                     characterStatHandler.GetStats(Keyword)
@@ -29,7 +29,7 @@ namespace Keywords
 
                 if (target == TargetEnum.All || target == TargetEnum.Opponent)
                 {
-                    var characterStatHandler = CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer);
+                    var characterStatHandler = playersManager.GetCharacter(!currentPlayer).StatsHandler;
                     var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
 
                     characterStatHandler.GetStats(Keyword)

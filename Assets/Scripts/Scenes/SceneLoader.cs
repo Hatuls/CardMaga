@@ -7,8 +7,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 namespace CardMaga.Core
 {
-    public enum SceneLoadMode { NextInBuild = 0, ByName = 1, ByIndex = 2 }
-    public enum SceneUnloadMode { LoadFinished = 0, Delay = 1, IReadyable = 2, Manually = 3 }
+    public enum SceneLoadMode { NextInBuild = 0, ByName = 1, ByIndex = 2,  None = 4 }
+    public enum SceneUnloadMode { LoadFinished = 0, Delay = 1, IReadyable = 2, Manually = 3 , None = 4}
     public class SceneLoader : MonoBehaviour
     {
         [BoxGroup("Load")]
@@ -19,15 +19,15 @@ namespace CardMaga.Core
         [SerializeField, EnumToggleButtons]
         private SceneLoadMode _loadMode;
 
-        [BoxGroup("Load")]
+        [BoxGroup("Load"), ShowIf("@_loadMode != SceneLoadMode.None")]
         [Tooltip("Whether the sceneloader should be able to load multiple scenes at the same time.")]
         [SerializeField]
         private bool _lockAtLoad = true;
 
-        [BoxGroup("Load")]
+        [BoxGroup("Load"), ShowIf("@_loadMode != SceneLoadMode.None")]
         [SerializeField]
         private bool _dontDestroyOnLoad = false;
-        [BoxGroup("Load")]
+        [BoxGroup("Load"), ShowIf("@_loadMode != SceneLoadMode.None")]
         [SerializeField]
         private int _loadDelay;
 
@@ -39,11 +39,13 @@ namespace CardMaga.Core
         [SerializeField, ShowIf("@_loadMode == SceneLoadMode.ByIndex"), ValueDropdown("ScenesIndexes"), InspectorName("Scene"), ValidateInput("@_sceneIndex >= 0")]
         private int _sceneIndex;
 
-
         [BoxGroup("Unload", VisibleIf = "@_loadSceneMode == LoadSceneMode.Additive")]
         [SerializeField, EnumToggleButtons]
         private SceneUnloadMode _sceneUnloadMode;
-
+        [BoxGroup("Unload")]
+        [SerializeField,ShowIf("@_sceneUnloadMode == SceneUnloadMode.Manually"), ValueDropdown("ScenesNames"), InspectorName("Scene"), ValidateInput("@_unLoadsceneName != string.Empty")]
+        private string _unLoadsceneName;
+        
         [BoxGroup("Unload")]
         [SerializeField, MinValue(0), ShowIf("@_sceneUnloadMode == SceneUnloadMode.Delay"), SuffixLabel("S")]
         private float _preUnloadDelay;
@@ -184,8 +186,13 @@ namespace CardMaga.Core
                 OnFinishedLoadingScene?.Invoke();
                 callback?.Invoke();
 
-                if (loadSceneMode == LoadSceneMode.Additive && _sceneUnloadMode != SceneUnloadMode.Manually)
-                    UnloadScene();
+                if (loadSceneMode == LoadSceneMode.Additive && _sceneUnloadMode != SceneUnloadMode.None)
+                {
+                    if (_sceneUnloadMode == SceneUnloadMode.Manually)
+                        UnloadManualy();
+                    else
+                        UnloadScene();
+                }
             }
         }
         public IEnumerator LoadSceneRoutine(int sceneIndex, LoadSceneMode loadSceneMode, Action callback = null)
@@ -211,13 +218,41 @@ namespace CardMaga.Core
                 OnFinishedLoadingScene?.Invoke();
                 callback?.Invoke();
 
-                if (loadSceneMode == LoadSceneMode.Additive && _sceneUnloadMode != SceneUnloadMode.Manually)
+                if (loadSceneMode == LoadSceneMode.Additive && _sceneUnloadMode != SceneUnloadMode.None)
+                {
+                    if (_sceneUnloadMode == SceneUnloadMode.Manually)
+                        UnloadManualy();
+                    else
                     UnloadScene();
+                }
             }
         }
         #endregion
         #region Unload
+        public void UnloadManualy()
+        {
+            StartCoroutine(UnloadCoroutine());
+        }
+        private IEnumerator UnloadCoroutine()
+        {
 
+            yield return null;
+
+            OnStartUnloadingScene?.Invoke();
+
+            if (_preUnloadDelay != 0)
+                yield return new WaitForSecondsRealtime(_preUnloadDelay);
+
+            yield return SceneManager.UnloadSceneAsync(_unLoadsceneName);
+
+            if (_postUnloadDelay != 0)
+                yield return new WaitForSecondsRealtime(_postUnloadDelay);
+
+            if (_unlockAfterUnload)
+                _locked = false;
+
+            OnFinishedUnloadingScene?.Invoke();
+        }
         private void UnloadScene()
         {
             switch (_sceneUnloadMode)
@@ -240,6 +275,11 @@ namespace CardMaga.Core
                     else
                         UnloadActiveScene();
                     break;
+                case SceneUnloadMode.Manually:
+                    UnloadManualy();
+                    break;
+                case SceneUnloadMode.None:
+                    return;
             }
         }
         private void UnloadActiveScene()

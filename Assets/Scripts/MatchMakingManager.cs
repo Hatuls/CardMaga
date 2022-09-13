@@ -23,6 +23,10 @@ public class MatchMakingManager : MonoBehaviour
     {
         LookForOpponent.OnOpponentFound -= RegisterOpponent;
     }
+    private void Start()
+    {
+        StartLooking();
+    }
     private void RegisterOpponent(string name ,CharactersData obj)
     {
         bool isPlayer = false;

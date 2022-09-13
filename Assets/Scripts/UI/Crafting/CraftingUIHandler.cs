@@ -14,8 +14,8 @@ namespace Battle.UI
 
         private readonly CraftingSlotUI _fadingOut;
         private readonly RectTransform _firstSlotTransform;
-        private readonly DeckHandler _deckHandler;
-        private static float leanTweenTime;
+        private readonly CraftingHandler _craftingHandler;
+        private static float _tweenTime;
 
         #region Properties
 
@@ -24,13 +24,13 @@ namespace Battle.UI
         #endregion
 
         public CraftingUIHandler(CraftingSlotUI[] _CraftingSlotsUIArr, CraftingSlotUI _fadingOut,
-            RectTransform _firstSlotTransform, float _leanTweenTime,DeckHandler deckHandler)
+            RectTransform _firstSlotTransform, float _leanTime,CraftingHandler craftingHandler)
         {
             this._fadingOut = _fadingOut;
             GetCraftingSlotsUIArr = _CraftingSlotsUIArr;
             this._firstSlotTransform = _firstSlotTransform;
-            leanTweenTime = _leanTweenTime;
-            _deckHandler = deckHandler;
+            _tweenTime = _leanTime;
+            _craftingHandler = craftingHandler;
             ResetAllSlots();
         }
 
@@ -45,7 +45,7 @@ namespace Battle.UI
         internal void MarkSlotsDetected()
         {
             for (var i = 0; i < GetCraftingSlotsUIArr.Length; i++)
-                if (GetCraftingSlotsUIArr[i] != null && (_deckHandler[DeckEnum.CraftingSlots]as PlayerCraftingSlots).GetDeck[i] != null)
+                if (GetCraftingSlotsUIArr[i] != null && (_craftingHandler.CraftingSlots[i].IsEmpty == false))
                     GetCraftingSlotsUIArr[i].ActivateGlow(true);
         }
 
@@ -81,7 +81,7 @@ namespace Battle.UI
         {
             _fadingOut.InitPlaceHolder(removedCard?.CardSO?.CardType);
             _fadingOut.PlayAnimation(_fadingInAnim);
-            _fadingOut.MoveLocation(GetCraftingSlotsUIArr[0].RectTransform.localPosition, leanTweenTime);
+            _fadingOut.MoveLocation(GetCraftingSlotsUIArr[0].RectTransform.localPosition, _tweenTime);
 
             for (var i = 0; i < GetCraftingSlotsUIArr.Length; i++)
             {
@@ -89,7 +89,7 @@ namespace Battle.UI
                 Vector2 startPos = i == GetCraftingSlotsUIArr.Length - 1
                     ? _firstSlotTransform.localPosition
                     : GetCraftingSlotsUIArr[i + 1].RectTransform.localPosition;
-                GetCraftingSlotsUIArr[i].MoveLocation(startPos, leanTweenTime);
+                GetCraftingSlotsUIArr[i].MoveLocation(startPos, _tweenTime);
             }
         }
 

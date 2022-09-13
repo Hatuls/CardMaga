@@ -17,11 +17,11 @@ public class CraftingSlotsUIManager_V4 : MonoBehaviour , ISequenceOperation<Batt
     public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
     {
         _playersManager = data.PlayersManager;
-        (_playersManager.GetCharacter(true).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).OnResetCraftingSlot += _playerSlots.RestCraftingSlots;
-        (_playersManager.GetCharacter(false).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).OnResetCraftingSlot += _enemySlots.RestCraftingSlots;
+        _playersManager.GetCharacter(true).CraftingHandler.OnCraftingSlotsReset += _playerSlots.RestCraftingSlots;
+        _playersManager.GetCharacter(false).CraftingHandler.OnCraftingSlotsReset += _enemySlots.RestCraftingSlots;
     }
 
-    private void Awake()
+    public void Awake()
     {
         HandUI.OnCardSelect += _playerSlots.LoadCraftingSlot;
         HandUI.OnCardReturnToHand += _playerSlots.CancelLoadSlot;
@@ -31,14 +31,14 @@ public class CraftingSlotsUIManager_V4 : MonoBehaviour , ISequenceOperation<Batt
         CardExecutionManager.OnEnemyCardExecute += _enemySlots.ApplyEnemySlot;
     }
 
-    private void OnDestroy()
+    public void OnDestroy()
     {
         HandUI.OnCardSelect -= _playerSlots.LoadCraftingSlot;
         HandUI.OnCardReturnToHand -= _playerSlots.CancelLoadSlot;
         CardExecutionManager.OnPlayerCardExecute -= _playerSlots.ApplySlot;
 
-        (_playersManager.GetCharacter(true).DeckHandler[DeckEnum.CraftingSlots]  as PlayerCraftingSlots).OnResetCraftingSlot  -= _playerSlots.RestCraftingSlots;
-        (_playersManager.GetCharacter(false).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).OnResetCraftingSlot -= _enemySlots.RestCraftingSlots;
+        _playersManager.GetCharacter(true).CraftingHandler.OnCraftingSlotsReset  -= _playerSlots.RestCraftingSlots;
+        _playersManager.GetCharacter(false).CraftingHandler.OnCraftingSlotsReset -= _enemySlots.RestCraftingSlots;
 
         CardExecutionManager.OnEnemyCardExecute -= _enemySlots.ApplyEnemySlot;
     }

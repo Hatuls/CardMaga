@@ -9,10 +9,11 @@ namespace Keywords
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
+
             var target = data.GetTarget;
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
             {
-                var maxHealth = CharacterStatsManager.GetCharacterStatsHandler(currentPlayer).GetStats(Keyword);
+                var maxHealth = playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword);
                 if (data.GetAmountToApply > 0)
                     maxHealth.Add(data.GetAmountToApply);
                 else
@@ -21,7 +22,7 @@ namespace Keywords
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
-                var maxHealth = CharacterStatsManager.GetCharacterStatsHandler(!currentPlayer).GetStats(Keyword);
+                var maxHealth = playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword);
                 if (data.GetAmountToApply > 0)
                     maxHealth.Add(data.GetAmountToApply);
                 else
