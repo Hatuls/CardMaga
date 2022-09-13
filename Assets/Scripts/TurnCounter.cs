@@ -35,7 +35,7 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<IBattleManager>
     private TransitionPackSO _timerTextTransition;
 
 
-
+    private IPlayersManager _playersManager;
     private GameTurnHandler _gameTurnHandler;
     private int _textTime;
     private float _counter;
@@ -133,27 +133,30 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<IBattleManager>
     {
         using (tokenMachine.GetToken())
         {
-            var turn = data.TurnHandler;
-            OnCounterDepleted += turn.MoveToNextTurn;
-            var leftTurn = turn.GetTurn(GameTurnType.LeftPlayerTurn);
+            _gameTurnHandler = data.TurnHandler;
+            OnCounterDepleted += EndTurn;
+            var leftTurn = _gameTurnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
             leftTurn.OnTurnExit += StopTimer;
             leftTurn.OnTurnActive += StartTurn;
             BattleManager.OnGameEnded += StopTimer;
 
-            var rightTurn = turn.GetTurn(GameTurnType.RightPlayerTurn);
+            var rightTurn = _gameTurnHandler.GetTurn(GameTurnType.RightPlayerTurn);
             rightTurn.OnTurnActive += StartTurn;
             rightTurn.OnTurnEnter += StopTimer;
             data.OnBattleManagerDestroyed += Dispose;
-
-            turn.GetTurn(GameTurnType.ExitBattle).OnTurnActive += StopTimer;
+            _playersManager = data.PlayersManager;
+            _gameTurnHandler.GetTurn(GameTurnType.ExitBattle).OnTurnActive += StopTimer;
         }
     }
-
+    private void EndTurn() {
+        var currentPlayer = _gameTurnHandler.IsLeftCharacterTurn;
+                _playersManager.GetCharacter(currentPlayer).EndTurnHandler.EndTurnPressed();
+    }
     public void Dispose(IBattleManager bm)
     {
         var turn = bm.TurnHandler;
         bm.OnBattleManagerDestroyed -= Dispose;
-        OnCounterDepleted -= turn.MoveToNextTurn;
+        OnCounterDepleted -= EndTurn;
         var leftTurn = turn.GetTurn(GameTurnType.LeftPlayerTurn);
         leftTurn.OnTurnExit -= StopTimer;
         leftTurn.OnTurnActive -= StartTurn;

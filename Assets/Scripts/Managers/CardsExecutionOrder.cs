@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Battle
 {
-    public class CardsExecutionOrder
+    public class CardsExecutionOrder : IDisposable
     {
         public event Action OnQueueEmpty;
         public event Action<CardData, ITokenReciever> OnCardExecute;
@@ -21,6 +21,7 @@ namespace Battle
         private readonly TokenMachine _cardExecutedTokenMachine;
         private readonly IPlayer _character;
 
+     
         private int _currentKeywordIndex;
         private SortedQueue<CardAction> _queue;
         private List<KeywordData> _keywordData;
@@ -28,25 +29,30 @@ namespace Battle
         private IDisposable _endTurnToken;
         public ITokenReciever CardExecutedTokenMachine => _cardExecutedTokenMachine;
         public bool IsQueueEmpty => _queue.IsEmpty;
-
+    
         public IReadOnlyList<KeywordData> KeywordDatas => _keywordData;
         public int CurrentKeywordIndex => _currentKeywordIndex;
 
         public CardsExecutionOrder(IPlayer player)
         {
+
             _character = player;
             _cardExecutedTokenMachine = new TokenMachine(MoveNext);
-
             _queue = new SortedQueue<CardAction>();
             _keywordData = new List<KeywordData>();
             _cardActionPool = new CardActionPool(poolSize: 5);
             _character.MyTurn.EndTurnOperations.Register(FinishExecution, -1, OrderType.Before);
+            var animatorController = _character.VisualCharacter.AnimatorController;
+            animatorController.OnAnimationExecuteKeyword += OnKeywordEvent;
+            OnCardExecute += animatorController.PlayAnimation;
+            animatorController.OnAnimationEnding += FinishAnimation;
         }
-        public void AddToQueue(CardData card, int priority)
+        public void AddToQueue(CardData card, int priority,bool updateCraftingSlots)
         {
-            _queue.Add(_cardActionPool.GetAction(card, priority));
+            _queue.Add(_cardActionPool.GetAction(card, priority,updateCraftingSlots));
             MoveNext();
         }
+     
         public void MoveNext()
         {
             if (IsQueueEmpty)
@@ -61,13 +67,20 @@ namespace Battle
                 _isExecuting = true;
 
             CardAction nextAction = _queue.Pop();
+            var cardData = nextAction.CardData;
 
-            _character.CraftingHandler.AddFront(nextAction.CardData, true);
+            SortKeywords(cardData);
+            if (nextAction.ToUpdateCraftingSlots)
+                _character.CraftingHandler.AddFront(cardData, true);
+            else
+                _character.CraftingHandler.DetectCombo();
 
-            if (nextAction.CardData.CardSO.AnimationBundle.AttackAnimation == string.Empty)
+            if (cardData.CardSO.AnimationBundle.AttackAnimation == string.Empty)
                 InstantExecution(nextAction);
             else
                 AnimationExcecution(nextAction);
+
+
         }
 
         public void ResetExecutions()
@@ -86,8 +99,9 @@ namespace Battle
 
         private void SortKeywords(CardData cardData)
         {
-            if (!IsQueueEmpty && cardData != null)
+            if (cardData != null)
             {
+                _currentKeywordIndex = 0;
                 //clearing the list
                 // registering the keywords
                 // sorting it by the animation index
@@ -154,12 +168,23 @@ namespace Battle
         }
         private void AnimationExcecution(CardAction nextAction)
         {
-            SortKeywords(nextAction.CardData);
+
             using (CardExecutedTokenMachine.GetToken())
             {
                 OnCardExecute?.Invoke(nextAction.CardData, CardExecutedTokenMachine);
             }
             _cardActionPool.AddToPool(nextAction);
+        }
+
+        public void Dispose()
+        {
+            if (_character != null)
+            {
+                var animatorController = _character.VisualCharacter.AnimatorController;
+                animatorController.OnAnimationExecuteKeyword -= OnKeywordEvent;
+                OnCardExecute += animatorController.PlayAnimation;
+                animatorController.OnAnimationEnding += FinishAnimation;
+            }
         }
     }
 
@@ -173,14 +198,14 @@ namespace Battle
             for (int i = 0; i < poolSize; i++)
                 GenerateNewCardAction();
         }
-        public CardAction GetAction(CardData cardData, int priority)
+        public CardAction GetAction(CardData cardData, int priority,bool updateCraftingSlots)
         {
             if (_availableActions.Count == 0)
                 GenerateNewCardAction();
 
             CardAction cardAction = _availableActions.Dequeue();
 
-            cardAction.Init(cardData, priority);
+            cardAction.Init(cardData, priority, updateCraftingSlots);
 
             return cardAction;
 
@@ -203,14 +228,15 @@ namespace Battle
     {
         public CardData CardData;
         public int Priority;
-
+        public bool ToUpdateCraftingSlots;
         public CardAction()
       => Dispose();
-        public void Init(CardData cardData, int priority)
+        public void Init(CardData cardData, int priority, bool toUpdateCraftingSlots)
         {
             Dispose();
             CardData = cardData;
             Priority = priority;
+            ToUpdateCraftingSlots = toUpdateCraftingSlots;
         }
 
         public int CompareTo(CardAction other)

@@ -90,19 +90,21 @@ namespace Managers
             //Deck
             _deckHandler = new DeckHandler(this, battleManager);
 
-            //endturn;
-            _endTurnHandler = new EndTurnHandler(this, battleManager);
-
             // Turn
             GameTurnHandler turnHandler = battleManager.TurnHandler;
             _myTurn = turnHandler.GetCharacterTurn(IsLeft);
-            _staminaHandler.OnStaminaDepleted += turnHandler.MoveToNextTurn;
+
             _myTurn.StartTurnOperations.Register(DrawHands);
             _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
 
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
             //Excecution
             _executionOrder = new CardsExecutionOrder(this);
+
+
+            //endturn
+            _endTurnHandler = new EndTurnHandler(this, battleManager);
+
         }
 
 
@@ -119,8 +121,8 @@ namespace Managers
         private void BeforeDestroy(IBattleManager battleManager)
         {
             battleManager.OnBattleManagerDestroyed -= BeforeDestroy;
-
-            _staminaHandler.OnStaminaDepleted -= battleManager.TurnHandler.MoveToNextTurn;
+            _endTurnHandler.Dispose();
+            _executionOrder.Dispose();
         }
         private void DrawHands(ITokenReciever tokenMachine)
             => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);

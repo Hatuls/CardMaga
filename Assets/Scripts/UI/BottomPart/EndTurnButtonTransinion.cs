@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
-using Sirenix.OdinInspector;
 
-public class EndTurnButtonTransinion: MonoBehaviour
+public class EndTurnButtonTransinion : MonoBehaviour
 {
     [Header("TransitionPackSO")]
     [SerializeField] private TransitionPackSO _buttonTransitionPackSO;
@@ -12,7 +10,7 @@ public class EndTurnButtonTransinion: MonoBehaviour
     //The objects that will be effected by the animations
     [SerializeField] private RectTransform _currentRectTransform;
     [SerializeField] private RectTransform _destinationRectTransform;
-    
+
     [Button]
     public void Scale()
     {

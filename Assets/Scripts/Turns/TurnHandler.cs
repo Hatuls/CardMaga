@@ -622,9 +622,18 @@ namespace Battle.Turns
             _player.MyTurn.OnTurnActive += StartTurn;
             _player.StaminaHandler.OnStaminaDepleted += StaminaIsEmpty;
         }
-        private void StartTurn() => _endTurnToken = _endTurnTokenMachine.GetToken();
-        private void ForceEndTurn() => _endTurnToken?.Dispose();
-
+        private void StartTurn() 
+        {
+            _endTurnToken = _endTurnTokenMachine.GetToken();
+            if (_staminaCoroutine != null)
+                _sceneObject.StopCoroutine(_staminaCoroutine);
+        }
+        private void ForceEndTurn()
+        {
+            _endTurnToken?.Dispose();
+            if (_staminaCoroutine != null)
+                _sceneObject.StopCoroutine(_staminaCoroutine);
+        }
         private void StaminaIsEmpty()
         {
             if (_staminaCoroutine != null)
@@ -639,23 +648,32 @@ namespace Battle.Turns
         }
         private IEnumerator EndTurnCoroutine()
         {
-            while (IsExecutionAquiring && IsFinishedDetectingCombo)
+            yield return null;
+            yield return null;
+            while (!IsExecutionAquiring && IsFinishedDetectingCombo && !IsAnimationFinished)
             {
                 yield return null;
             }
+         //   yield return new WaitForSeconds(1f);
             ForceEndTurn();
         }
         private IEnumerator CheckStaminaEndTurn()
         {
             bool check = true;
+            yield return null;
+            yield return null;
             do
             {
                 check = IsStaminaIsZero;
                 if (!check)
                     yield break;
+
                 yield return null;
-                check &= IsExecutionAquiring && IsFinishedDetectingCombo;
+
+                check &= !IsExecutionAquiring && IsFinishedDetectingCombo && IsAnimationFinished;
+
             } while (!check);
+          //  yield return new WaitForSeconds(1f);
             ForceEndTurn();
         }
 
@@ -667,7 +685,7 @@ namespace Battle.Turns
                 _player.StaminaHandler.OnStaminaDepleted -= StaminaIsEmpty;
             }
         }
-
+        private bool IsAnimationFinished => _player.VisualCharacter.AnimatorController.IsCurrentlyIdle;
         private bool IsFinishedDetectingCombo => !_comboManager.IsTryingToDetect;
         private bool IsExecutionAquiring => !_player.ExecutionOrder.IsQueueEmpty;
         public bool IsStaminaIsZero => !_player.StaminaHandler.HasStamina;

@@ -109,7 +109,8 @@ namespace Battle
             }
         }
 
-        public  void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId,DetectRecipe, EndDetection));
+     //   public  void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId,DetectRecipe, EndDetection));
+        public  void StartDetection() => DetectRecipe();
         private  void EndDetection()
         {
             // need to change the logic!
@@ -170,7 +171,7 @@ namespace Battle
             {
                 CheckRecipe(craftingItems, isPlayer);
             }
-
+            EndDetection();
         }
          void CheckRecipe(IReadOnlyList<CardTypeData> craftingItems, bool isPlayer)
         {
@@ -192,7 +193,7 @@ namespace Battle
                 if (craftingItems.SequenceEqual(cardTypeDatas, _cardTypeComparer))
                 {
                     CardRecipeDetected = recipes[i];
-                    Thread.Sleep(100);
+                  //  Thread.Sleep(100);
                     return;
                 }
 

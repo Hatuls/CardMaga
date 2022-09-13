@@ -36,7 +36,7 @@ namespace CardMaga.UI.Card
 
         public override void ExitState(CardUI cardUI)
         {
-            _zoomToken.Dispose();
+            _zoomToken?.Dispose();
             base.ExitState(cardUI);
         }
 

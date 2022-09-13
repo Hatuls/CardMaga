@@ -44,8 +44,8 @@ public class EndTurnButton : ButtonUI, ISequenceOperation<IBattleManager>
     public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
 
-        OnEndTurnButtonClicked += data.TurnHandler.MoveToNextTurn;
-        var left = data.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
+        OnEndTurnButtonClicked += data.PlayersManager.GetCharacter(true).EndTurnHandler.EndTurnPressed;
+        GameTurn left = data.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
         left.OnTurnActive += ShowTurn;
         left.OnTurnExit += HideTurnButton;
         data.OnBattleManagerDestroyed += BeforeDestroyed;
@@ -57,7 +57,7 @@ public class EndTurnButton : ButtonUI, ISequenceOperation<IBattleManager>
     {
         BattleManager.OnGameEnded -= HideTurnButton;
         var _turnHandler = bm.TurnHandler;
-        OnEndTurnButtonClicked -= _turnHandler.MoveToNextTurn;
+        OnEndTurnButtonClicked -= bm.PlayersManager.GetCharacter(true).EndTurnHandler.EndTurnPressed;
         bm.OnBattleManagerDestroyed -= BeforeDestroyed;
         var left = _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
         left.OnTurnActive -= ShowTurn;

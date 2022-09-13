@@ -205,7 +205,7 @@ public class CraftingHandler
         if (!foundPlacement)
         {
             PushBack(true);
-            _craftingSlots[0].CardType = cardTypeData;
+            _craftingSlots[_craftingSlots.Length-1].CardType = cardTypeData;
         }
 
             OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
@@ -213,7 +213,7 @@ public class CraftingHandler
 
         _lastCardTypeData = cardTypeData;
         if (toNotify)
-            OnComboDetectionRequired?.Invoke();
+            DetectCombo();
     }
     public void AddBack(CardData cardTypeData, bool toNotify) => AddBack(cardTypeData?.CardTypeData, toNotify);
     public void AddBack(CardTypeData cardTypeData, bool toDetectCombo)
@@ -246,7 +246,7 @@ public class CraftingHandler
 
 
         if (toDetectCombo)
-            OnComboDetectionRequired?.Invoke();
+            DetectCombo();
     }
     #endregion
 
@@ -315,7 +315,7 @@ public class CraftingHandler
     }
     #endregion
 
-
+    public void DetectCombo() => OnComboDetectionRequired?.Invoke();
     public override string ToString()
     {
         if (_craftingSlots == null)

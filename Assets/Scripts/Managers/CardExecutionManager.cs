@@ -22,10 +22,10 @@ namespace Battle
    //
         public  event Action OnPlayerCardExecute;
         public  event Action<CardData> OnEnemyCardExecute;
-   //     public static event Action<List<KeywordData>> OnSortingKeywords;
-   //     public static event Action<int> OnAnimationIndexChange;
-   //     public static event Action OnInsantExecute;
-   //     public static event Action<bool, KeywordData> OnKeywordExecute;
+        //     public static event Action<List<KeywordData>> OnSortingKeywords;
+        //     public static event Action<int> OnAnimationIndexChange;
+        //     public static event Action OnInsantExecute;
+        //     public static event Action<bool, KeywordData> OnKeywordExecute;
         //public static bool FinishedAnimation
         //{
         //    get => _isFinishedAnimation;
@@ -36,16 +36,15 @@ namespace Battle
         //            Instance.DisposeEndTurnToken();
         //    }
         //}
-    //    static List<KeywordData> _keywordData = new List<KeywordData>();
-   //     private static bool _isFinishedAnimation;
-    //    static int currentKeywordIndex;
+        //    static List<KeywordData> _keywordData = new List<KeywordData>();
+        //     private static bool _isFinishedAnimation;
+        //    static int currentKeywordIndex;
         //[Sirenix.OdinInspector.ShowInInspector]
         //static Queue<CardData> _cardsQueue = new Queue<CardData>();
 
         //public static Queue<CardData> CardsQueue => _cardsQueue;
 
-      //  public static int CurrentKeywordIndex { get => currentKeywordIndex; }
-
+        //  public static int CurrentKeywordIndex { get => currentKeywordIndex; }
 
         private GameTurnHandler _turnHandler;
         private IPlayersManager _playersManager;
@@ -77,7 +76,7 @@ namespace Battle
             }
             var currentPlayer = GetPlayer(isLeft);
             // execute card
-            currentPlayer.StaminaHandler.ReduceStamina(card);
+           // currentPlayer.StaminaHandler.ReduceStamina(card);
             OnSuccessfullExecution?.Invoke();
 
 
@@ -94,8 +93,9 @@ namespace Battle
                 OnEnemyCardExecute?.Invoke(card);
             }
 
-            currentPlayer.ExecutionOrder.AddToQueue(card, 0);
-
+            currentPlayer.StaminaHandler.ReduceStamina(card);
+            currentPlayer.ExecutionOrder.AddToQueue(card, 0,true);
+         
             //RegisterCard(card, isLeft);
 
             //_playersManager.GetCharacter(isLeft).CraftingHandler.AddFront(card, true);
@@ -115,10 +115,10 @@ namespace Battle
         {
             // add to crafting slot
             var currentCharacter = GetPlayer(isPlayer);
-            currentCharacter.CraftingHandler.AddFront(card, false);
+
 
             //(_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
-            currentCharacter.ExecutionOrder.AddToQueue(card, -1);
+            currentCharacter.ExecutionOrder.AddToQueue(card,0,false);
 
             currentCharacter.ExecutionOrder.MoveNext();
             //RegisterCard(card);

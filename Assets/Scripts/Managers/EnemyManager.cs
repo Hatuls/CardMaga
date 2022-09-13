@@ -72,6 +72,7 @@ namespace Battle
 
         public void AssignCharacterData(IBattleManager battleManager, Character character)
         {
+            battleManager.OnBattleManagerDestroyed += BeforeGameExit;
             _myCharacter = character;
             //data from battledata
             CharacterBattleData characterdata = character.CharacterData;
@@ -108,7 +109,15 @@ namespace Battle
             _endTurnHandler = new EndTurnHandler(this, battleManager);
         }
 
+        private void BeforeGameExit(IBattleManager obj)
+        {
+            obj.OnBattleManagerDestroyed -= BeforeGameExit;
+            _endTurnHandler.Dispose();
+            _executionOrder.Dispose();
 
+            _myTurn.OnTurnActive -= CalculateEnemyMoves;
+            _myTurn = null;
+        }
 
         public void OnEndBattle()
         {
@@ -178,15 +187,11 @@ namespace Battle
     => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
         private void FinishTurn()
         {
-            _turnHandler.MoveToNextTurn();
+           _endTurnHandler.EndTurnPressed();
             AnimatorController.ResetToStartingPosition();
         }
 
-        private void OnDisable()
-        {
-            _myTurn.OnTurnActive -= CalculateEnemyMoves;
-            _myTurn = null;
-        }
+  
         #endregion
     }
 

@@ -26,6 +26,7 @@ public class VisualCharacter : MonoBehaviour
     public AnimationBodyPartSoundsHandler AnimationSound { get => _animationSound; }
     public bool IsLeft { get => _isLeft;private set => _isLeft = value; }
 
+
     public void InitVisuals(IPlayer player,CharacterSO characterSO, bool isTinted)
     {
         IsLeft = player.IsLeft;

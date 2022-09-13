@@ -1,4 +1,4 @@
-﻿using Managers;
+﻿using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,9 +43,32 @@ namespace ReiTools.TokenMachine
             int index = Count;
 
             Array.Resize(ref _items, index + 1);
-
             _items[index] = item;
             Sort();
+        }
+
+        /// <summary>
+        /// Add Item to the queue
+        /// </summary>
+        /// <param name="item"></param>
+        public void AddAt(TClass item, int indexRequired)
+        {
+            if (indexRequired >= Count || indexRequired < 0)
+                return;
+
+
+            int index = Count;
+
+            Array.Resize(ref _items, index + 1);
+            if (indexRequired != Count - 1)
+            {
+                for (int i = Count - 1; i > indexRequired; i--)
+                {
+                    _items[i] = _items[i - 1];
+                }
+            }
+            _items[indexRequired] = item;
+//Sort();
         }
 
         /// <summary>
@@ -181,15 +204,15 @@ namespace ReiTools.TokenMachine
 
             MoveNullsToTheBack();
             ShrinkNulls();
-
-            for (int i = 0; i < count - 1; i++)
-            {
-                if (_items[i].CompareTo(_items[i + 1]) < 0)
-                {
-                    SwitchPlaces(i, i + 1);
-                    i = -1;
-                }
-            }
+            _items.Sort();
+            //for (int i = 0; i < count - 1; i++)
+            //{
+            //    if (_items[i].CompareTo(_items[i + 1]) < 0)
+            //    {
+            //        SwitchPlaces(i, i + 1);
+            //        i = -1;
+            //    }
+            //}
 
             void SwitchPlaces(int A, int B)
             {

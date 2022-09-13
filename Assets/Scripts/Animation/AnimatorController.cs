@@ -1,28 +1,27 @@
 ﻿
+using Battle;
+using CardMaga.Animation;
+using CardMaga.Card;
+using Managers;
 using Rei.Utilities;
+using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using Unity.Events;
 using UnityEngine;
-using Battle;
-using Battle.Turns;
-using CardMaga.Animation;
-using ReiTools.TokenMachine;
-using Managers;
-using CardMaga.Card;
 
 public class AnimatorController : MonoBehaviour
 {
     #region Events
+    public event Action OnAnimationExecuteKeyword;
     public static event Action<bool> OnDeathAnimationFinished;
-    public static event Action OnAnimationEnding;
+    public  event Action OnAnimationEnding;
     public static event Action<TransitionCamera, Action> OnAnimationStart;
 
     [SerializeField] VoidEvent _movedToNextAnimation;
 
     [SerializeField] VoidEvent _onFinishedAnimation;
 
-    [SerializeField] VoidEvent _onAnimationDoKeyword;
     [SerializeField] IntEvent _moveCameraAngle;
     #endregion
 
@@ -60,24 +59,17 @@ public class AnimatorController : MonoBehaviour
     {
         get
         {
-            bool isEmptyList = _animationQueue.Count == 0;
-            bool isIdle = true;
+           
+            bool result = false;
             if (Animator.GetCurrentAnimatorClipInfo(0).Length > 0)
-            {
+                result = Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_2";
 
-                isIdle = Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
-            }
+            return result;
 
-
-            if (false == isIdle && isEmptyList == false)
-            {
-                Debug.Log("The Player is Not in  idle");
-            }
-            return isEmptyList && isIdle;
         }
     }
     public bool IsLeft => _player.IsLeft;
-    public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
+    public bool IsAnimationCurrentlyActive => _isAnimationPlaying;
     public AnimationBundle SetCurrentAnimationBundle { set => _currentAnimation = value; }
     #endregion
 
@@ -95,21 +87,17 @@ public class AnimatorController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
     }
 
-    public void OnDestroy()
-    {
-        if(_player!=null)
-        _player.ExecutionOrder.OnCardExecute -= PlayAnimation;
-    }
+    
     #endregion
 
 
     #region Public
-    public void Init(VisualCharacter vc,IPlayer player)
+    public void Init(VisualCharacter vc, IPlayer player)
     {
         _animator = vc.Animator;
         _player = player;
         ResetAnimator();
-        _player.ExecutionOrder.OnCardExecute += PlayAnimation;
+
     }
     public void ResetAnimator()
     {
@@ -156,9 +144,10 @@ public class AnimatorController : MonoBehaviour
     {
         //if (_animationQueue.Count == 0 && _currentAnimation == null)
         //{
-            OnAnimationEnding?.Invoke();
-            ReleaseToken();
-   //     }
+
+       
+     //   ReleaseToken();
+        //     }
 
         //if (_animationQueue.Count > 0)
         //{
@@ -172,7 +161,7 @@ public class AnimatorController : MonoBehaviour
         ReleaseToken();
         Animator.SetBool("IsWon", true);
         //_playerAnimator.SetInteger("AnimNum", -2);
-    //    transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
+        //    transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + Vector3.left, transform.position));
     }
     public void CharacterIsDead()
     {
@@ -218,7 +207,6 @@ public class AnimatorController : MonoBehaviour
     bool duplicate;
     public void PlayCrossAnimationQueue(AnimationBundle animationBundle)
     {
-
         _currentAnimation = animationBundle;
 
         if (_currentAnimation?.AttackAnimation == _previousAnimation?.AttackAnimation && duplicate)
@@ -232,6 +220,7 @@ public class AnimatorController : MonoBehaviour
             PlayAnimation(_currentAnimation.AttackAnimation.ToString());
         }
 
+        _isAnimationPlaying = true;
 
     }
 
@@ -252,10 +241,10 @@ public class AnimatorController : MonoBehaviour
     {
 
         transform.SetPositionAndRotation(startPos, ToolClass.RotateToLookTowards(targetToLookAt, transform));
-      
 
-            OnFinishAnimation();
- 
+
+        OnFinishAnimation();
+
 
 
         //if (CardExecutionManager.FinishedAnimation)
@@ -299,7 +288,7 @@ public class AnimatorController : MonoBehaviour
             _opponentController?.PlayAnimation(_currentAnimation?.GetHitAnimation.ToString(), true);
     }
 
-    public void ExecuteKeyword() => _onAnimationDoKeyword?.Raise();
+    public void ExecuteKeyword() => OnAnimationExecuteKeyword?.Invoke();
 
     public void ResetModelPosition() =>
         transform.position = startPos;
@@ -319,15 +308,12 @@ public class AnimatorController : MonoBehaviour
 
     #region Private
     private void ReleaseToken() => _animationToken?.Dispose();
-    private void AnimationToken(ITokenReciever token)
-    {
-        if(_animationQueue.Count>0)
-        _animationToken = token.GetToken();
-    }
     private void OnFinishAnimation()
     {
         ReleaseToken();
         ResetBothRotaionAndPosition();
+        OnAnimationEnding?.Invoke();
+        _isAnimationPlaying = false;
         //  isFirst = true;
         //   _onFinishedAnimation?.Raise();
         //  _currentAnimation = null;
@@ -343,9 +329,10 @@ public class AnimatorController : MonoBehaviour
     private void ReturnToIdle() => Animator.CrossFade("Idle_1", transitionToIdle);
 
 
-    private void PlayAnimation(CardData cardData, ITokenReciever tokenMachine)
+    public void PlayAnimation(CardData cardData, ITokenReciever tokenMachine)
     {
         _animationToken = tokenMachine.GetToken();
+    
         PlayCrossAnimationQueue(cardData.CardSO.AnimationBundle);
     }
     #endregion
