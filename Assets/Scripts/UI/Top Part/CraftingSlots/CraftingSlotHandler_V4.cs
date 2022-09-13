@@ -7,7 +7,7 @@ using CardMaga.UI.Card;
 using CardMaga.UI.Visuals;
 using UnityEngine;
 using DG.Tweening;
-
+using ReiTools.TokenMachine;
 
 namespace CardMaga.UI.Carfting
 {
@@ -76,6 +76,7 @@ namespace CardMaga.UI.Carfting
         
         public void ApplyEnemySlot(CardData cardData)
         {
+     
             _craftingSlotData = AssignCraftingSlotData(cardData.CardTypeData);
             
             AddCraftingSlot();

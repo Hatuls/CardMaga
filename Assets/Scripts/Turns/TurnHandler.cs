@@ -1,6 +1,9 @@
-﻿using ReiTools.TokenMachine;
+﻿using Managers;
+using ReiTools.TokenMachine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Battle.Turns
 {
@@ -522,7 +525,7 @@ namespace Battle.Turns
 
 
 
-        private SequenceHandler _startTurnOperations ;
+        private SequenceHandler _startTurnOperations;
         private SequenceHandler _endTurnOperations;
         private List<NextTurn> _nextTurn;
         private NextTurn _defaultNextTurn;
@@ -598,5 +601,75 @@ namespace Battle.Turns
             StartTurnOperations.OnDestroy();
             EndTurnOperations.OnDestroy();
         }
+    }
+
+
+    public class EndTurnHandler : IDisposable
+    {
+        private MonoBehaviour _sceneObject;
+        private readonly TokenMachine _endTurnTokenMachine;
+        private readonly IPlayer _player;
+        private readonly ComboManager _comboManager;
+        private IDisposable _endTurnToken;
+
+        private Coroutine _staminaCoroutine;
+        public EndTurnHandler(IPlayer player, IBattleManager ibattleManager)
+        {
+            _comboManager = ibattleManager.ComboManager;
+            _player = player;
+            _endTurnTokenMachine = new TokenMachine(ibattleManager.TurnHandler.MoveToNextTurn);
+            _sceneObject = ibattleManager.MonoBehaviour;
+            _player.MyTurn.OnTurnActive += StartTurn;
+            _player.StaminaHandler.OnStaminaDepleted += StaminaIsEmpty;
+        }
+        private void StartTurn() => _endTurnToken = _endTurnTokenMachine.GetToken();
+        private void ForceEndTurn() => _endTurnToken?.Dispose();
+
+        private void StaminaIsEmpty()
+        {
+            if (_staminaCoroutine != null)
+                _sceneObject.StopCoroutine(_staminaCoroutine);
+
+            _sceneObject.StartCoroutine(CheckStaminaEndTurn());
+        }
+
+        public void EndTurnPressed()
+        {
+            _sceneObject.StartCoroutine(EndTurnCoroutine());
+        }
+        private IEnumerator EndTurnCoroutine()
+        {
+            while (IsExecutionAquiring && IsFinishedDetectingCombo)
+            {
+                yield return null;
+            }
+            ForceEndTurn();
+        }
+        private IEnumerator CheckStaminaEndTurn()
+        {
+            bool check = true;
+            do
+            {
+                check = IsStaminaIsZero;
+                if (!check)
+                    yield break;
+                yield return null;
+                check &= IsExecutionAquiring && IsFinishedDetectingCombo;
+            } while (!check);
+            ForceEndTurn();
+        }
+
+        public void Dispose()
+        {
+            if (_player != null)
+            {
+                _player.MyTurn.OnTurnActive              -= StartTurn;
+                _player.StaminaHandler.OnStaminaDepleted -= StaminaIsEmpty;
+            }
+        }
+
+        private bool IsFinishedDetectingCombo => !_comboManager.IsTryingToDetect;
+        private bool IsExecutionAquiring => !_player.ExecutionOrder.IsQueueEmpty;
+        public bool IsStaminaIsZero => !_player.StaminaHandler.HasStamina;
     }
 }

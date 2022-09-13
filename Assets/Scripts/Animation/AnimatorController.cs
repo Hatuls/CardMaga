@@ -8,6 +8,8 @@ using Battle;
 using Battle.Turns;
 using CardMaga.Animation;
 using ReiTools.TokenMachine;
+using Managers;
+using CardMaga.Card;
 
 public class AnimatorController : MonoBehaviour
 {
@@ -41,20 +43,40 @@ public class AnimatorController : MonoBehaviour
 
     [SerializeField] float _transitionSpeedBetweenAnimations = 0.1f;
     [SerializeField] float transitionToIdle = 0.1f;
-    [SerializeField] bool _isPlayer;
+
     [SerializeField] bool _crossFadeBetweenAnimations = false;
     [SerializeField] Vector3 startPos;
     private bool _toLockAtPlace;
     private bool _isAnimationPlaying;
     private Animator _animator;
     private IDisposable _animationToken;
+    private IPlayer _player;
     #endregion
 
 
     #region Properties
     public Animator Animator => _animator;
+    public bool IsCurrentlyIdle
+    {
+        get
+        {
+            bool isEmptyList = _animationQueue.Count == 0;
+            bool isIdle = true;
+            if (Animator.GetCurrentAnimatorClipInfo(0).Length > 0)
+            {
 
-    public bool IsPlayersAnimator => _isPlayer;
+                isIdle = Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
+            }
+
+
+            if (false == isIdle && isEmptyList == false)
+            {
+                Debug.Log("The Player is Not in  idle");
+            }
+            return isEmptyList && isIdle;
+        }
+    }
+    public bool IsLeft => _player.IsLeft;
     public bool GetIsAnimationCurrentlyActive => _isAnimationPlaying;
     public AnimationBundle SetCurrentAnimationBundle { set => _currentAnimation = value; }
     #endregion
@@ -64,8 +86,8 @@ public class AnimatorController : MonoBehaviour
     #region MonoBehaviour Callbacks   
 
 
- 
-    private void Update()
+
+    public void Update()
     {
         RotateModel();
 
@@ -73,16 +95,21 @@ public class AnimatorController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
     }
 
-
+    public void OnDestroy()
+    {
+        if(_player!=null)
+        _player.ExecutionOrder.OnCardExecute -= PlayAnimation;
+    }
     #endregion
 
 
     #region Public
-    public void Init(VisualCharacter vc,GameTurn turn)
+    public void Init(VisualCharacter vc,IPlayer player)
     {
         _animator = vc.Animator;
-        turn.EndTurnOperations.Register(AnimationToken);
+        _player = player;
         ResetAnimator();
+        _player.ExecutionOrder.OnCardExecute += PlayAnimation;
     }
     public void ResetAnimator()
     {
@@ -96,6 +123,9 @@ public class AnimatorController : MonoBehaviour
         ReturnToIdle();
         _toLockAtPlace = false;
     }
+
+
+
 
     public void ResetToStartingPosition()
     {
@@ -113,9 +143,10 @@ public class AnimatorController : MonoBehaviour
     public void StartAnimation(AnimatorStateInfo info)
     {
 
-        if (_currentAnimation != null && _currentAnimation.CameraDetails != null && _currentAnimation.CameraDetails.CheckCameraDetails(_isPlayer))
+        if (_currentAnimation != null && _currentAnimation.CameraDetails != null && _currentAnimation.CameraDetails.CheckCameraDetails(IsLeft))
         {
-            TransitionCamera transitionCamera = _currentAnimation.CameraDetails.GetTransitionCamera(_isPlayer);
+            // move to camera!
+            TransitionCamera transitionCamera = _currentAnimation.CameraDetails.GetTransitionCamera(IsLeft);
             OnAnimationStart?.Invoke(transitionCamera, null);
         }
 
@@ -123,11 +154,11 @@ public class AnimatorController : MonoBehaviour
 
     internal void FinishAnimation(AnimatorStateInfo stateInfo)
     {
-        if (_animationQueue.Count == 0 && _currentAnimation == null)
-        {
+        //if (_animationQueue.Count == 0 && _currentAnimation == null)
+        //{
             OnAnimationEnding?.Invoke();
             ReleaseToken();
-        }
+   //     }
 
         //if (_animationQueue.Count > 0)
         //{
@@ -155,7 +186,7 @@ public class AnimatorController : MonoBehaviour
 
     public void DeathAnimationCompleted()
     {
-        OnDeathAnimationFinished?.Invoke(_isPlayer);
+        OnDeathAnimationFinished?.Invoke(IsLeft);
     }
 
 
@@ -170,18 +201,18 @@ public class AnimatorController : MonoBehaviour
     //{
     //    return (TurnHandler.IsPlayerTurn == _isPlayer);
     //}
-    public void PlayCrossAnimation()
-    {
-        var cardQueue = CardExecutionManager.CardsQueue;
+    //public void PlayCrossAnimation()
+    //{
+    //    var cardQueue = CardExecutionManager.CardsQueue;
 
-        if (cardQueue == null)
-            throw new System.Exception("Cannot Play animation from card\n CardExecutionManager.CardsQueue is null!!");
-        else if (cardQueue.Count == 0)
-            return;
+    //    if (cardQueue == null)
+    //        throw new System.Exception("Cannot Play animation from card\n CardExecutionManager.CardsQueue is null!!");
+    //    else if (cardQueue.Count == 0)
+    //        return;
 
-        PlayCrossAnimationQueue(cardQueue.Peek().CardSO.AnimationBundle);
+    //    PlayCrossAnimationQueue(cardQueue.Peek().CardSO.AnimationBundle);
 
-    }
+    //}
 
     const string duplicateAnimationAddOnString = " 0";
     bool duplicate;
@@ -221,38 +252,29 @@ public class AnimatorController : MonoBehaviour
     {
 
         transform.SetPositionAndRotation(startPos, ToolClass.RotateToLookTowards(targetToLookAt, transform));
-        //if (TurnHandler.IsPlayerTurn != _isPlayer)
-        //{
+      
 
-        //    _previousAnimation = null;
+            OnFinishAnimation();
+ 
+
+
+        //if (CardExecutionManager.FinishedAnimation)
+        //    CardExecutionManager.FinishedAnimation = false;
+        //else
         //    return;
+
+
+        //Debug.Log($"Dequeue animations {cardQueue.Peek().CardSO.CardName} and more animations: {cardQueue.Count}");
+        //_previousAnimation = cardQueue.Dequeue().CardSO.AnimationBundle;
+
+        //if (cardQueue.Count != 0)
+        //{
+        //    CardExecutionManager.Instance.CardFinishExecuting();
         //}
-
-        var cardQueue = CardExecutionManager.CardsQueue;
-        if (cardQueue.Count == 0)
-        {
-            OnFinishAnimation();
-            return;
-        }
-
-
-        if (CardExecutionManager.FinishedAnimation)
-            CardExecutionManager.FinishedAnimation = false;
-        else
-            return;
-
-
-        Debug.Log($"Dequeue animations {cardQueue.Peek().CardSO.CardName} and more animations: {cardQueue.Count}");
-        _previousAnimation = cardQueue.Dequeue().CardSO.AnimationBundle;
-
-        if (cardQueue.Count != 0)
-        {
-            CardExecutionManager.Instance.CardFinishExecuting();
-        }
-        else
-        {
-            OnFinishAnimation();
-        }
+        //else
+        //{
+        //    OnFinishAnimation();
+        //}
 
 
 
@@ -271,7 +293,7 @@ public class AnimatorController : MonoBehaviour
         _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
 
-        if (CardExecutionManager.Instance.CanDefendIncomingAttack(!_isPlayer))
+        if (CardExecutionManager.Instance.CanDefendIncomingAttack(!IsLeft))
             _opponentController?.PlayAnimation(_currentAnimation?.ShieldAnimation.ToString(), true);
         else
             _opponentController?.PlayAnimation(_currentAnimation?.GetHitAnimation.ToString(), true);
@@ -290,26 +312,7 @@ public class AnimatorController : MonoBehaviour
         ResetModelRotaion();
 
     }
-    public bool IsCurrentlyIdle
-    {
-        get
-        {
-            bool isEmptyList = _animationQueue.Count == 0;
-            bool isIdle = true;
-            if (Animator.GetCurrentAnimatorClipInfo(0).Length > 0)
-            {
 
-                isIdle = Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_1";
-            }
-
-
-            if (false == isIdle && isEmptyList == false)
-            {
-                Debug.Log("The Player is Not in  idle");
-            }
-            return isEmptyList && isIdle;
-        }
-    }
 
 
     #endregion
@@ -323,7 +326,6 @@ public class AnimatorController : MonoBehaviour
     }
     private void OnFinishAnimation()
     {
-        CardExecutionManager.FinishedAnimation = true;
         ReleaseToken();
         ResetBothRotaionAndPosition();
         //  isFirst = true;
@@ -336,9 +338,16 @@ public class AnimatorController : MonoBehaviour
         if (IsMyTurn)
             transform.rotation = Quaternion.Lerp(transform.rotation, ToolClass.RotateToLookTowards(targetToLookAt, transform), _rotationSpeed * Time.deltaTime);
         else
-            transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + (_isPlayer ? Vector3.left : Vector3.right), transform.position));
+            transform.rotation = Quaternion.LookRotation(ToolClass.GetDirection(transform.position + (IsLeft ? Vector3.left : Vector3.right), transform.position));
     }
     private void ReturnToIdle() => Animator.CrossFade("Idle_1", transitionToIdle);
+
+
+    private void PlayAnimation(CardData cardData, ITokenReciever tokenMachine)
+    {
+        _animationToken = tokenMachine.GetToken();
+        PlayCrossAnimationQueue(cardData.CardSO.AnimationBundle);
+    }
     #endregion
 
     #endregion

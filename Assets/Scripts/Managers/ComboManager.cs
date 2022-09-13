@@ -16,16 +16,21 @@ using System.Threading;
 
 namespace Battle
 {
-    public class ComboManager : MonoSingleton<ComboManager>, ISequenceOperation<BattleManager>
+    public class ComboManager : MonoSingleton<ComboManager>, ISequenceOperation<IBattleManager>
     {
 
-        #region Fields
+        #region Events
+        [SerializeField] VoidEvent _successCrafting;
+
         public event Action OnComboDetectedFinished;
         public event Action<CardData[]> OnCraftingComboToHand;
+        #endregion
+
+        #region Fields
 
         [SerializeField] Combo.Combo _cardRecipeDetected;
         [SerializeField] VFXSO _comboVFX;
-
+        private bool _isTryingToDetect;
         private IPlayersManager _playersManager;
         private GameTurnHandler _gameTurnHandler;
         private CardExecutionManager _cardExecutionManager;
@@ -33,12 +38,9 @@ namespace Battle
         private CardTypeComparer _cardTypeComparer = new CardTypeComparer();
         private Factory.GameFactory.CardFactory _cardFactory;
         #endregion
-        #region Events
-        [SerializeField] VoidEvent _successCrafting;
-        #endregion
 
         #region Properties
-
+        public bool IsTryingToDetect => _isTryingToDetect;
         public Battle.Combo.Combo CardRecipeDetected
         {
             get => _cardRecipeDetected;
@@ -95,7 +97,7 @@ namespace Battle
                     case DeckEnum.AutoActivate:
 
                         _cardExecutionManager.ExecuteCraftedCard(isPlayer,craftedCard);
-                        _playersManager.GetCharacter(isPlayer).CraftingHandler.AddFront(craftedCard, false);
+                
                         //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
                        // (deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(craftedCard, false);
                        deck.DrawHand( 1);
@@ -104,19 +106,7 @@ namespace Battle
                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
                         break;
                 }
-           
-                // Need To be Re-Done
-                //var battledata = Account.AccountManager.Instance.BattleData;
-                //var sounds = (isPlayer) ? battledata.Player.CharacterData.CharacterSO.ComboSounds : battledata.Opponent.CharacterData.CharacterSO.ComboSounds;
-                //sounds?.PlaySound();
             }
-
-            // CreateCard();
-
-            // get the crafting deck
-
-    
-       
         }
 
         public  void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId,DetectRecipe, EndDetection));
@@ -126,7 +116,6 @@ namespace Battle
 
             bool isPlayer = _gameTurnHandler.IsLeftCharacterTurn;
             DeckHandler deck = _playersManager.GetCharacter(isPlayer).DeckHandler;
-  
 
 
             if (_cardRecipeDetected == null || _cardRecipeDetected.ComboSO == null)
@@ -143,11 +132,13 @@ namespace Battle
 
                 _cardRecipeDetected = null;
             }
+            _isTryingToDetect = false;
             OnComboDetectedFinished?.Invoke();
         }
 
         private void DetectRecipe()
         {
+            _isTryingToDetect = true;
             bool isPlayer = _gameTurnHandler.IsLeftCharacterTurn;
             //coping the relevant crafting slots from the deck manager
 
@@ -209,7 +200,7 @@ namespace Battle
             CardRecipeDetected = null;
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
             _gameTurnHandler = data.TurnHandler;
             _cardExecutionManager = data.CardExecutionManager;
@@ -227,7 +218,7 @@ namespace Battle
             data.OnBattleManagerDestroyed += BattleManagerDestroyed;
         }
    
-        private void BattleManagerDestroyed(BattleManager bm)
+        private void BattleManagerDestroyed(IBattleManager bm)
         {
 
             bm.OnBattleManagerDestroyed -= BattleManagerDestroyed;

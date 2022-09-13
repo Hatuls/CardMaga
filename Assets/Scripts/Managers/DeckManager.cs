@@ -376,7 +376,7 @@ namespace Battle.Deck
 
 
 
-        public DeckHandler(IPlayer character, BattleManager battleManager)
+        public DeckHandler(IPlayer character, IBattleManager battleManager)
         {
             InitDeck(character.StartingCards);
             GameTurnHandler turnhandler = battleManager.TurnHandler;

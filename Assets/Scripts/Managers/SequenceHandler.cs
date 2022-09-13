@@ -158,6 +158,7 @@ namespace Battle
             Order = orderType;
             Priority = priorty;
         }
+     
         public OperationHandler<ISequenceOperation<T>> this[OrderType type]
         {
             get

@@ -19,7 +19,7 @@ namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : InputBehaviourHandler<CardUI>, ILockable, IGetCardsUI, ISequenceOperation<BattleManager>
+    public class HandUI : InputBehaviourHandler<CardUI>, ILockable, IGetCardsUI, ISequenceOperation<IBattleManager>
     {
         #region Events
 
@@ -356,7 +356,7 @@ namespace CardMaga.UI
             DiscardCards(tempCardUis);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
             _deckHandler = data.PlayersManager.GetCharacter(true).DeckHandler;
             _deckHandler.OnDrawCards += DrawCardsFromDrawDeck;

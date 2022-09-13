@@ -1,11 +1,13 @@
 ﻿using Battle;
 using Battle.Turns;
+using CardMaga.Card;
 using Keywords;
 using Managers;
 using ReiTools.TokenMachine;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-public class VFXController : MonoBehaviour , ISequenceOperation<BattleManager>
+public class VFXController : MonoBehaviour , ISequenceOperation<IBattleManager>
 {
 
     [SerializeField] bool _isPlayer;
@@ -23,19 +25,30 @@ public class VFXController : MonoBehaviour , ISequenceOperation<BattleManager>
 
     private GameTurnHandler _turnHandler;
 
+
+
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+    {
+        _turnHandler = data.TurnHandler;
+        data.OnBattleManagerDestroyed += BeforeExitGame;
+        var excecution = data.PlayersManager.GetCharacter(_isPlayer).ExecutionOrder;
+        excecution.OnCardInstantExecute += ExecuteAllKeywords;
+        excecution.OnKeywordsSorted += RecieveSortingKeywordsData;
+    }
+
+    private void BeforeExitGame(IBattleManager obj)
+    {
+        obj.OnBattleManagerDestroyed -= BeforeExitGame;
+        var excecution = obj.PlayersManager.GetCharacter(_isPlayer).ExecutionOrder;
+        excecution.OnCardInstantExecute -= ExecuteAllKeywords;
+        excecution.OnKeywordsSorted     -= RecieveSortingKeywordsData;
+    }
+
     private void Awake()
     {
-        CardExecutionManager.OnSortingKeywords += RecieveSortingKeywordsData;
-        CardExecutionManager.OnAnimationIndexChange += SortVFXFromListByAnimationIndex;
-        CardExecutionManager.OnInsantExecute += ExecuteAllKeywords;
         BattleManager.Register(this, OrderType.Default);
     }
-    private void OnDisable()
-    {
-        CardExecutionManager.OnInsantExecute -= ExecuteAllKeywords;
-        CardExecutionManager.OnAnimationIndexChange -= SortVFXFromListByAnimationIndex;
-        CardExecutionManager.OnSortingKeywords -= RecieveSortingKeywordsData;
-    }
+
     public void RegisterVFXQueue(KeywordSO keyword)
     {
         var vfx = keyword.GetVFX();
@@ -45,7 +58,7 @@ public class VFXController : MonoBehaviour , ISequenceOperation<BattleManager>
 
     private VFXSO DeQueue() => VFXQueue.Dequeue();
 
-    private void ExecuteAllKeywords()
+    private void ExecuteAllKeywords(CardData card)
     {
 
         while (VFXQueue.Count > 0)
@@ -53,7 +66,7 @@ public class VFXController : MonoBehaviour , ISequenceOperation<BattleManager>
             CreateVFX(VFXQueue.Peek().DefaultBodyPart);
         };
     }
-    private void RecieveSortingKeywordsData(List<KeywordData> keywords)
+    private void RecieveSortingKeywordsData(IReadOnlyList<KeywordData> keywords)
     {
         if (_isPlayer == _turnHandler.IsLeftCharacterTurn)
         {
@@ -191,10 +204,7 @@ public class VFXController : MonoBehaviour , ISequenceOperation<BattleManager>
     public void ApplyRecieveDamageLeftElbowArmVFX()
 => ActivateParticle(_avatarHandler.GetBodyPart(BodyPartEnum.LeftElbow), _recieivingDamageVFX);
 
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
-    {
-        _turnHandler = data.TurnHandler;
-    }
+
     #endregion
     #endregion
 

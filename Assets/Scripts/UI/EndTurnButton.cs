@@ -5,7 +5,7 @@ using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
 
-public class EndTurnButton : ButtonUI, ISequenceOperation<BattleManager>
+public class EndTurnButton : ButtonUI, ISequenceOperation<IBattleManager>
 {
     public static event Action OnEndTurnButtonClicked;
 
@@ -41,7 +41,7 @@ public class EndTurnButton : ButtonUI, ISequenceOperation<BattleManager>
 
     }
 
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
 
         OnEndTurnButtonClicked += data.TurnHandler.MoveToNextTurn;
@@ -53,7 +53,7 @@ public class EndTurnButton : ButtonUI, ISequenceOperation<BattleManager>
         HideTurnButton();
     }
 
-    private void BeforeDestroyed(BattleManager bm)
+    private void BeforeDestroyed(IBattleManager bm)
     {
         BattleManager.OnGameEnded -= HideTurnButton;
         var _turnHandler = bm.TurnHandler;

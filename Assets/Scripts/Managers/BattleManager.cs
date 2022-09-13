@@ -18,7 +18,7 @@ namespace Battle
     public class BattleManager : MonoSingleton<BattleManager>, IBattleManager
     {
         public static event Action OnGameEnded;
-        public event Action<BattleManager> OnBattleManagerDestroyed;
+        public event Action<IBattleManager> OnBattleManagerDestroyed;
 
 
         public static bool isGameEnded;
@@ -54,7 +54,7 @@ namespace Battle
 
         private BattleTutorial _battleTutorial;
         private IPlayersManager _playersManager;
-        private static SequenceHandler<BattleManager> _battleStarter = new SequenceHandler<BattleManager>();
+        private static SequenceHandler<IBattleManager> _battleStarter = new SequenceHandler<IBattleManager>();
         private GameTurnHandler _gameTurnHandler;
 
         #region Properties
@@ -67,6 +67,8 @@ namespace Battle
         public VFXManager VFXManager => _vFXManager;
         public CameraManager CameraManager => _cameraManager;
         public BattleData BattleData => BattleData.Instance;
+
+        public MonoBehaviour MonoBehaviour => this;
         #endregion
 
         private void ResetBattle()
@@ -118,7 +120,7 @@ namespace Battle
                 return;
 
             //    UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
-         _cardExecutionManager.ResetExecution();
+       //  _cardExecutionManager.ResetExecution();
             //CardUIManager.Instance.ResetCardUIManager();
 
 
@@ -184,9 +186,9 @@ namespace Battle
             OnPlayerDefeat?.Invoke();
         }
 
-        private void CreateTutorial(ITokenReciever tokenReciever, BattleManager battleManager)
+        private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
         {
-            if (BattleData.BattleConfigSO.BattleTutorial == null)
+            if (BattleData.BattleConfigSO?.BattleTutorial == null)
                 return;
 
             _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
@@ -194,9 +196,9 @@ namespace Battle
 
         #region Observer Pattern 
 
-        public static void Register(ISequenceOperation<BattleManager> battleStarter, OrderType order)
+        public static void Register(ISequenceOperation<IBattleManager> battleStarter, OrderType order)
             => _battleStarter.Register(battleStarter, order);
-        public static bool Remove(ISequenceOperation<BattleManager> battleStarter, OrderType order)
+        public static bool Remove(ISequenceOperation<IBattleManager> battleStarter, OrderType order)
             => _battleStarter.Remove(battleStarter, order);
 
 
@@ -225,7 +227,7 @@ namespace Battle
 
         public override void Awake()
         {
-            Register(new OperationTask<BattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
+            Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
             HealthStat.OnCharacterDeath += BattleEnded;
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
@@ -283,6 +285,7 @@ namespace Battle
 
     public interface IBattleManager
     {
+        event Action<IBattleManager> OnBattleManagerDestroyed;
         BattleData BattleData { get; }
         IPlayersManager PlayersManager { get; }
         CardExecutionManager CardExecutionManager { get; }
@@ -292,6 +295,7 @@ namespace Battle
         GameTurnHandler TurnHandler { get; }
         VFXManager VFXManager { get; }
         CameraManager CameraManager { get; }
+        MonoBehaviour MonoBehaviour { get; }
     }
 
     public interface IPlayersManager
@@ -302,7 +306,7 @@ namespace Battle
         IPlayer GetCharacter(bool IsLeftCharacter);
     }
 
-    public class PlayersManager : ISequenceOperation<BattleManager>, IPlayersManager
+    public class PlayersManager : ISequenceOperation<IBattleManager>, IPlayersManager
     {
         private IPlayer _leftCharacter;
         private IPlayer _rightCharacter;
@@ -329,7 +333,7 @@ namespace Battle
             BattleManager.Register(this, OrderType.Before);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager battleManager)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager battleManager)
         {
             IDisposable token = tokenMachine.GetToken();
             BattleData battleData = battleManager.BattleData;
@@ -338,13 +342,14 @@ namespace Battle
             RightCharacter.AssignCharacterData(battleManager, battleData.Right);
 
             //assign visuals
-            CharacterSO leftCharacter =  battleData.Left.CharacterData.CharacterSO;
-            CharacterSO rightCharacter = battleData.Right.CharacterData.CharacterSO;
-            ModelSO leftModel = leftCharacter.CharacterAvatar;
-            ModelSO rightModel = rightCharacter.CharacterAvatar;
+            CharacterSO leftCharacterSO =  battleData.Left.CharacterData.CharacterSO;
+            CharacterSO rightCharacterSO = battleData.Right.CharacterData.CharacterSO;
 
-            LeftCharacter.VisualCharacter.InitVisuals(LeftCharacter, leftCharacter, false, battleManager.TurnHandler.GetCharacterTurn(LeftCharacter.IsLeft));
-            RightCharacter.VisualCharacter.InitVisuals(RightCharacter, rightCharacter, rightModel == leftModel, battleManager.TurnHandler.GetCharacterTurn(RightCharacter.IsLeft));
+            ModelSO leftModel = leftCharacterSO.CharacterAvatar;
+            ModelSO rightModel = rightCharacterSO.CharacterAvatar;
+
+            LeftCharacter.VisualCharacter.InitVisuals(LeftCharacter, leftCharacterSO, false);
+            RightCharacter.VisualCharacter.InitVisuals(RightCharacter, rightCharacterSO, rightModel == leftModel);
 
             token.Dispose();
         }

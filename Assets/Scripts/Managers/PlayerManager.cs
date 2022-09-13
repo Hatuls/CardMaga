@@ -20,16 +20,19 @@ namespace Managers
         CardData[] StartingCards { get; }
         DeckHandler DeckHandler { get; }
         Combo[] Combos { get; }
+        CardsExecutionOrder ExecutionOrder { get; }
+        EndTurnHandler EndTurnHandler { get; }
         VisualCharacter VisualCharacter { get; }
         GameTurn MyTurn { get; }
         CraftingHandler CraftingHandler { get; }
-        void AssignCharacterData(BattleManager battleManager, Character characterData);
+        void AssignCharacterData(IBattleManager battleManager, Character characterData);
     }
 
 
     public class PlayerManager : MonoSingleton<PlayerManager>, IPlayer
     {
         #region Fields
+        private EndTurnHandler _endTurnHandler;
         private CraftingHandler _craftingHandler;
         private GameTurn _myTurn;
         private DeckHandler _deckHandler;
@@ -37,10 +40,10 @@ namespace Managers
         private CharacterStatsHandler _statsHandler;
         private CardData[] _playerDeck;
         private StaminaHandler _staminaHandler;
+        private CardsExecutionOrder _executionOrder;
         [SerializeField] VisualCharacter _visualCharacter;
-
         #endregion
-      
+
 
         public CardData[] StartingCards => _playerDeck;
         public Combo[] Combos => _character.CharacterData.ComboRecipe;
@@ -48,7 +51,7 @@ namespace Managers
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
 
         public CharacterStatsHandler StatsHandler { get => _statsHandler; }
-
+        public EndTurnHandler EndTurnHandler => _endTurnHandler;
         public VisualCharacter VisualCharacter => _visualCharacter;
 
         public DeckHandler DeckHandler => _deckHandler;
@@ -59,32 +62,47 @@ namespace Managers
 
         public CraftingHandler CraftingHandler => _craftingHandler;
 
-        public void AssignCharacterData(BattleManager battleManager,Character characterData)
+        public CardsExecutionOrder ExecutionOrder => _executionOrder;
+
+        public void AssignCharacterData(IBattleManager battleManager, Character characterData)
         {
             battleManager.OnBattleManagerDestroyed += BeforeDestroy;
             _character = characterData;
-            var data = characterData.CharacterData;
+            //data
+            CharacterBattleData data = characterData.CharacterData;
+
+            //Visuals
             VisualCharacter.AnimationSound.CurrentCharacter = data.CharacterSO;
-
+            //Deck
             int Length = data.CharacterDeck.Length;
-
             _playerDeck = new CardData[Length];
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
+            
+            //CraftingSlots
             _craftingHandler = new CraftingHandler();
+
+            //Stats
             _statsHandler = new CharacterStatsHandler(IsLeft, ref data.CharacterStats, _staminaHandler);
+
+            //Stamina
             _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
+
+            //Deck
             _deckHandler = new DeckHandler(this, battleManager);
 
-       
-           GameTurnHandler turnHandler = battleManager.TurnHandler;
+            //endturn;
+            _endTurnHandler = new EndTurnHandler(this, battleManager);
+
+            // Turn
+            GameTurnHandler turnHandler = battleManager.TurnHandler;
             _myTurn = turnHandler.GetCharacterTurn(IsLeft);
             _staminaHandler.OnStaminaDepleted += turnHandler.MoveToNextTurn;
             _myTurn.StartTurnOperations.Register(DrawHands);
             _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
 
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
-
-
+            //Excecution
+            _executionOrder = new CardsExecutionOrder(this);
         }
 
 
@@ -98,14 +116,14 @@ namespace Managers
         }
 
 
-        private void BeforeDestroy(BattleManager battleManager)
+        private void BeforeDestroy(IBattleManager battleManager)
         {
             battleManager.OnBattleManagerDestroyed -= BeforeDestroy;
-            
+
             _staminaHandler.OnStaminaDepleted -= battleManager.TurnHandler.MoveToNextTurn;
         }
         private void DrawHands(ITokenReciever tokenMachine)
-            => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);    
+            => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
 
     }
 

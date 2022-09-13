@@ -9,7 +9,7 @@ using ReiTools.TokenMachine;
 using Unity.Events;
 using UnityEngine;
 
-public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
+public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
 {
     public static event Action<CardUI> OnCardExecute;
     [Header("Scripts Reference")]
@@ -105,7 +105,7 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<BattleManager>
         return false;
     }
     
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
         _playerDeck = data.PlayersManager.GetCharacter(true).DeckHandler;
     }

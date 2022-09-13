@@ -7,7 +7,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
+public class TurnCounter : MonoBehaviour, ISequenceOperation<IBattleManager>
 {
     private static TokenMachine _timerTokenMachine;
     public static event Action OnCounterDepleted;
@@ -129,7 +129,7 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
         ContinueTimer();
         StartTime();
     }
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
         using (tokenMachine.GetToken())
         {
@@ -149,7 +149,7 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
         }
     }
 
-    public void Dispose(BattleManager bm)
+    public void Dispose(IBattleManager bm)
     {
         var turn = bm.TurnHandler;
         bm.OnBattleManagerDestroyed -= Dispose;

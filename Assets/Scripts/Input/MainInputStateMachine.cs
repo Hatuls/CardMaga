@@ -1,9 +1,8 @@
 ﻿using Battle;
 using Managers;
 using ReiTools.TokenMachine;
-using System.Collections;
 
-public class MainInputStateMachine : BaseStateMachine , ISequenceOperation<BattleManager>
+public class MainInputStateMachine : BaseStateMachine, ISequenceOperation<IBattleManager>
 {
     public int Priority => 1;
 
@@ -13,7 +12,7 @@ public class MainInputStateMachine : BaseStateMachine , ISequenceOperation<Battl
         throw new System.NotImplementedException();
     }
 
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager battleManager)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager battleManager)
     {
         using (tokenMachine.GetToken())
             InitStateMachine();

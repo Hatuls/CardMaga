@@ -12,7 +12,7 @@ namespace Keywords
 {
     [System.Serializable]
     public class KeywordEvent : UnityEvent<KeywordAbst> { }
-    public class KeywordManager : MonoBehaviour, ISequenceOperation<BattleManager>
+    public class KeywordManager : MonoBehaviour, ISequenceOperation<IBattleManager>
     {
         [SerializeField]
         KeywordEvent keywordEvent;
@@ -34,7 +34,7 @@ namespace Keywords
         #region public Functions
 
 
-        public void ExecuteTask(ITokenReciever token, BattleManager bm)
+        public void ExecuteTask(ITokenReciever token, IBattleManager bm)
         {
             using (token.GetToken())
             {
@@ -43,7 +43,12 @@ namespace Keywords
                 RegisterTurnEvents(_turnHandler.GetTurn(GameTurnType.LeftPlayerTurn));
                 RegisterTurnEvents(_turnHandler.GetTurn(GameTurnType.RightPlayerTurn));
                 _playersManager = bm.PlayersManager;
+
+                _playersManager.GetCharacter(true).ExecutionOrder.OnKeywordExecute += ActivateKeyword;
+                _playersManager.GetCharacter(false).ExecutionOrder.OnKeywordExecute += ActivateKeyword;
+                bm.OnBattleManagerDestroyed += BeforeBattleEnded;
             }
+
             void RegisterTurnEvents(GameTurn turn)
             {
                 turn.StartTurnOperations.Register(StartTurnKeywords);
@@ -94,22 +99,11 @@ namespace Keywords
 
             return isStunned;
         }
-        private void StartTurnKeywords(ITokenReciever token)
-        {
-            bool isPlayer = _turnHandler.IsLeftCharacterTurn;
-            var characterStats = _playersManager.GetCharacter(isPlayer).StatsHandler;
-            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the start of the turn");
 
 
+        #endregion
 
-            characterStats.ApplyBleed();
-            characterStats.ApplyHealRegeneration();
-
-
-            //  yield return Battles.Turns.Turn.WaitOneSecond;
-        }
-
-
+        #region Private Functions
         private void EndTurnKeywords(ITokenReciever token)
         {
             bool isPlayer = _turnHandler.IsLeftCharacterTurn;
@@ -126,10 +120,26 @@ namespace Keywords
 
 
         }
-        #endregion
+        private void StartTurnKeywords(ITokenReciever token)
+        {
+            bool isPlayer = _turnHandler.IsLeftCharacterTurn;
+            var characterStats = _playersManager.GetCharacter(isPlayer).StatsHandler;
+            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the start of the turn");
 
-        #region Private Functions
 
+
+            characterStats.ApplyBleed();
+            characterStats.ApplyHealRegeneration();
+
+
+            //  yield return Battles.Turns.Turn.WaitOneSecond;
+        }
+        private void BeforeBattleEnded(IBattleManager bm)
+        {
+            bm.OnBattleManagerDestroyed -= BeforeBattleEnded;
+            _playersManager.GetCharacter(false).ExecutionOrder.OnKeywordExecute -= ActivateKeyword;
+            _playersManager.GetCharacter(true).ExecutionOrder.OnKeywordExecute -= ActivateKeyword;
+        }
 
         private void InitParams()
         {
@@ -172,13 +182,8 @@ namespace Keywords
         public void Awake()
         {
             BattleManager.Register(this, OrderType.Before);
-            CardExecutionManager.OnKeywordExecute += ActivateKeyword;
         }
 
-        private void OnDestroy()
-        {
-            CardExecutionManager.OnKeywordExecute -= ActivateKeyword;
-        }
 
         #endregion
     }

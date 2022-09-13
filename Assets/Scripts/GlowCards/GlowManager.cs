@@ -10,7 +10,7 @@ using Managers;
 using Battle;
 using ReiTools.TokenMachine;
 
-public class GlowManager : MonoBehaviour ,ISequenceOperation<BattleManager>
+public class GlowManager : MonoBehaviour ,ISequenceOperation<IBattleManager>
 {
     IGetCardsUI cardUI;
     private StaminaHandler _playerStaminaHandler;
@@ -82,7 +82,7 @@ public class GlowManager : MonoBehaviour ,ISequenceOperation<BattleManager>
         HandUI.OnCardSelect -= DeactiveDeckCards;
     }
 
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
         _playerStaminaHandler = data.PlayersManager.GetCharacter(true).StaminaHandler;
     }
