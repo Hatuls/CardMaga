@@ -7,12 +7,25 @@ namespace CardMaga.Rules
     {
         [SerializeField] private BaseRuleLogicFactorySO _logicFactorySo;
 
-        public abstract BaseRuleListener RuleListener(BattleManager battleManager);
-    
-        public BaseRule CreateRule(BattleManager battleManager)
-        {
-            return new BaseRule(_logicFactorySo.CreateRuleLogic(battleManager), RuleListener(battleManager));
-        }
-    }    
-}
+        protected abstract BaseRuleListener CreateRuleListener(IBattleManager battleManager);
 
+        public Rule CreateRule(IBattleManager battleManager)
+        {
+            return new Rule(_logicFactorySo.CreateRuleLogic(battleManager), CreateRuleListener(battleManager),
+                battleManager);
+        }
+    }
+    
+    public abstract class BaseRuleListenerFactorySO<T> : ScriptableObject
+    {
+        [SerializeField] private BaseRuleLogicFactorySO<T> _logicFactorySo;
+
+        protected abstract BaseRuleListener<T> CreateRuleListener(IBattleManager battleManager);
+
+        public Rule<T> CreateRule(IBattleManager battleManager)
+        {
+            return new Rule<T>(_logicFactorySo.CreateRuleLogic(battleManager), CreateRuleListener(battleManager),
+                battleManager);
+        }
+    }
+}

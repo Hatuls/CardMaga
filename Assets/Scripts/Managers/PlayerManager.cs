@@ -40,8 +40,7 @@ namespace Managers
         [SerializeField] VisualCharacter _visualCharacter;
 
         #endregion
-      
-
+        
         public CardData[] StartingCards => _playerDeck;
         public Combo[] Combos => _character.CharacterData.ComboRecipe;
         public bool IsLeft => true;

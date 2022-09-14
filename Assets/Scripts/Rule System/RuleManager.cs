@@ -1,43 +1,40 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using Battle;
 
 namespace CardMaga.Rules
 {
     public class RuleManager
     {
+        private List<Rule> _activeRules;
+
+        private List<Rule> _baseRules;
+        private List<Rule> _endGameRules;
         public static event Action<bool> OnEndGameRule;
 
-        private List<BaseRule> _baseRules;
-        private List<BaseRule> _endGameRules;
-        private List<BaseRule> _activeRules;
-
-        public void InitRuleList(BaseRuleListenerFactorySO[] rules,BaseRuleListenerFactorySO[] endGameRules, BattleManager battleManager)
+        public void InitRuleList(BaseRuleListenerFactorySO[] rules, BaseRuleListenerFactorySO[] endGameRules,
+            IBattleManager battleManager)
         {
-            for (int i = 0; i < rules.Length; i++)
+            for (var i = 0; i < rules.Length; i++)
             {
-                BaseRule temp = rules[i].CreateRule(battleManager);
+                var temp = rules[i].CreateRule(battleManager);
                 _baseRules.Add(temp);
             }
 
-            for (int i = 0; i < endGameRules.Length; i++)
+            for (var i = 0; i < endGameRules.Length; i++)
             {
-                BaseRule temp = endGameRules[i].CreateRule(battleManager);
+                var temp = endGameRules[i].CreateRule(battleManager);
                 _endGameRules.Add(temp);
             }
         }
 
         private void DisposRules()
         {
-            for (int i = 0; i < _baseRules.Count; i++)
-            {
-                _baseRules[i].Dispose();
-            }  
+            for (var i = 0; i < _baseRules.Count; i++) _baseRules[i].Dispose();
         }
 
         private void GameEnd(bool isLeft)
         {
         }
     }
-
 }
