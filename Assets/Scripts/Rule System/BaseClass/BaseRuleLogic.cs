@@ -7,6 +7,8 @@ namespace CardMaga.Rules
     {
         public abstract void InitRuleLogic(IBattleManager battleManager);
 
+        public abstract bool CheckCondition();
+
         public abstract void UpDateRule();
 
         public abstract void DeActiveRule();
@@ -19,6 +21,8 @@ namespace CardMaga.Rules
     public abstract class BaseRuleLogic<T> : IDisposable
     {
         public abstract void InitRuleLogic(IBattleManager battleManager);
+        
+        public abstract bool CheckCondition();
 
         public abstract void UpDateRule();
 

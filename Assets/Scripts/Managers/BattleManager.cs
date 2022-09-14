@@ -9,6 +9,7 @@ using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
+using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -52,6 +53,7 @@ namespace Battle
         [SerializeField]
         private CameraManager _cameraManager;
 
+        private RuleManager _ruleManager;
         private BattleTutorial _battleTutorial;
         private IPlayersManager _playersManager;
         private static SequenceHandler<BattleManager> _battleStarter = new SequenceHandler<BattleManager>();
@@ -66,6 +68,7 @@ namespace Battle
         public KeywordManager KeywordManager => _keywordManager;
         public VFXManager VFXManager => _vFXManager;
         public CameraManager CameraManager => _cameraManager;
+        public RuleManager RuleManager => _ruleManager;
         public BattleData BattleData => BattleData.Instance;
         #endregion
 
@@ -74,15 +77,14 @@ namespace Battle
             ResetParams();
             InitParams();
             _battleStarter.StartAll(this, StartBattle);
-           
-
-
         }
 
         private void InitParams()
         {
             _gameTurnHandler = new GameTurnHandler();
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
+            _ruleManager.InitRuleList(BattleData.BattleConfigSO.GameRule,BattleData.BattleConfigSO.EndGameRule,this
+            );
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.BattleMusicParameter();
@@ -104,13 +106,8 @@ namespace Battle
             BattleData.Instance.PlayerWon = false;
 
             OnBattleStarts?.Invoke();
-
         }
-
-
-
-
-
+        
         // Need To be Re-Done
         public void BattleEnded(bool isPlayerDied)
         {
@@ -288,6 +285,7 @@ namespace Battle
         GameTurnHandler TurnHandler { get; }
         VFXManager VFXManager { get; }
         CameraManager CameraManager { get; }
+        RuleManager RuleManager { get; }
     }
 
     public interface IPlayersManager

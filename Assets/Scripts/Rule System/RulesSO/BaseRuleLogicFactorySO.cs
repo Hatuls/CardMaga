@@ -5,11 +5,11 @@ namespace CardMaga.Rules
 {
     public abstract class BaseRuleLogicFactorySO : ScriptableObject
     {
-        public abstract BaseRuleLogic CreateRuleLogic(IBattleManager battleManager);
+        public abstract BaseRuleLogic CreateRuleLogic(IBattleManager iBattleManager);
     }
     
     public abstract class BaseRuleLogicFactorySO<T> : ScriptableObject
     {
-        public abstract BaseRuleLogic<T> CreateRuleLogic(IBattleManager battleManager);
+        public abstract BaseRuleLogic<T> CreateRuleLogic(IBattleManager iBattleManager);
     }
 }

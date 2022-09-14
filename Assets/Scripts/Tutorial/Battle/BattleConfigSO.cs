@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Characters;
 using Account.GeneralData;
+using CardMaga.Rules;
 
 namespace CardMaga.BattleConfigSO
 {
     [CreateAssetMenu(fileName = "New Battle Config SO", menuName = "ScriptableObjects/Tutorial/Battle/Battle Config SO")]
     public class BattleConfigSO : ScriptableObject
     {
-        private int _maxCardsInHand;
-        private bool _isRandom;
-        private bool _isOverideCharacter;
-        private Character _player;
-        private Character _enemy;
-        private int _turnCountdown;
-        private bool _timerActive;
-        private bool _isPlayerStart;
+        [SerializeField] private int _maxCardsInHand;
+        [SerializeField] private bool _isRandom;
+        [SerializeField] private bool _isOverideCharacter;
+        [SerializeField] private Character _player;
+        [SerializeField] private Character _enemy;
+        [SerializeField] private int _turnCountdown;
+        [SerializeField] private bool _timerActive;
+        [SerializeField] private bool _isPlayerStart;
+        [SerializeField] private BaseRuleFactorySO[] _gameRules;
+        [SerializeField] private BaseRuleFactorySO<bool>[] _endGameRules; 
         [SerializeField] private BattleTutorial _battleTutorial;
 
         public int MaxCardsInHand => _maxCardsInHand;
@@ -27,6 +30,8 @@ namespace CardMaga.BattleConfigSO
         public int TurnCountdown => _turnCountdown;
         public bool TimerActive => _timerActive;
         public bool IsPlayerStart => _isPlayerStart;
+        public BaseRuleFactorySO[] GameRule => _gameRules;
+        public BaseRuleFactorySO<bool>[] EndGameRule => _endGameRules;
         public BattleTutorial BattleTutorial => _battleTutorial;
     }
 }
