@@ -11,26 +11,27 @@ namespace CardMaga.UI.Text
         //holds amount of card in deck
         [SerializeField] TextMeshProUGUI _deckText;
         BaseDeck _baseDeck;
-        public override void Init(BaseDeck baseDeck)
+        public override void Init(BaseDeck data)
+        {
+            data.OnAmountOfFilledSlotsChange += SetDeckText;
+            _baseDeck = data;
+        }
+
+        private void SetDeckText(int cardAmount)
+        {
+            _deckText.AssignText(cardAmount.ToString());
+        }
+
+        public override void CheckValidation()
         {
             if (_deckText == null)
                 throw new Exception("Deck has no Text");
-
-
-            baseDeck.OnAmountOfFilledSlotsChange += SetDeckText;
-            _baseDeck = baseDeck;
         }
 
-        public void SetDeckText(int cardAmount)
-        {
-            AssignText(_deckText, cardAmount.ToString());
-        }
-
-        public override void OnDestroy()
+        public override void Dispose()
         {
             if (_baseDeck != null)
-            _baseDeck.OnAmountOfFilledSlotsChange -= SetDeckText;
+                _baseDeck.OnAmountOfFilledSlotsChange -= SetDeckText;
         }
-
     }
 }

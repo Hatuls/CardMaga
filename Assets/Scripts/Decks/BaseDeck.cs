@@ -335,7 +335,7 @@ namespace Battle.Deck
         AutoActivate =4,
         Exhaust=5,
         Selected=6,
-        CraftingSlots=7,
+      //  CraftingSlots=7,
  
     };
     public interface IDeckHandler {

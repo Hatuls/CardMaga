@@ -1,15 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using CardMaga.UI.Card;
-using Battle.Combo;
+﻿using Battle.Combo;
+using CardMaga.UI.PopUp;
 
 namespace CardMaga.UI.Combos
-
 {
     public class ComboVisualHandler : BaseComboVisualHandler
     {
         CardVisualHandler _comboCard;
+        ComboDescriptionPopUp _comboPopUp;
 
         public override void CheckValidation()
         {
@@ -25,6 +22,5 @@ namespace CardMaga.UI.Combos
         {
             throw new System.NotImplementedException();
         }
-        //ComboDescriptionPopUp
     }
 }

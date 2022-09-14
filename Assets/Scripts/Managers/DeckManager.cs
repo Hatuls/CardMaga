@@ -462,9 +462,9 @@ namespace Battle.Deck
                 case DeckEnum.Selected:
                     this[DeckEnum.Exhaust].ResetDeck();
                     break;
-                case DeckEnum.CraftingSlots:
-                    this[DeckEnum.CraftingSlots].ResetDeck();
-                    break;
+                //case DeckEnum.CraftingSlots:
+                //    this[DeckEnum.CraftingSlots].ResetDeck();
+                   // break;
                 case DeckEnum.Hand:
                 default:
                     break;
@@ -482,7 +482,7 @@ namespace Battle.Deck
             _deckDictionary.Add(DeckEnum.Hand,          new PlayerHand(MAX_DECK_HAND_SIZE, this[DeckEnum.Discard] as Discard));
             _deckDictionary.Add(DeckEnum.Selected,      new Selected(1, this[DeckEnum.Discard] as Discard, this[DeckEnum.Hand] as PlayerHand, AddCardToDeck, TransferCard));
             _deckDictionary.Add(DeckEnum.Exhaust,       new Exhaust(MAX_DECK_HAND_SIZE));
-            _deckDictionary.Add(DeckEnum.CraftingSlots, new PlayerCraftingSlots(MAX_CRAFTING_SLOT_SIZE));
+            //_deckDictionary.Add(DeckEnum.CraftingSlots, new PlayerCraftingSlots(MAX_CRAFTING_SLOT_SIZE));
             ResetDecks();
         }
         private void EndTurn(ITokenReciever tokenMachine)
