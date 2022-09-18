@@ -33,21 +33,8 @@ namespace CardMaga.UI.Visuals
                 throw new Exception("CardBodyPartVisualAssigner has no BodyPartsImages");
 
             //in card SO
-            if (_bodyPartCardVisualSO.BodyPartsBG.Length == 0)
-                throw new Exception("CardBodyPartCardVisualSO has no BG Sprites");
+            _bodyPartCardVisualSO.CheckValidation();
 
-            if (_bodyPartCardVisualSO.BodyPartsInnerBG.Length == 0)
-                throw new Exception("CardBodyPartCardVisualSO has no InnerBG Sprites");
-
-            //in base SO
-            if (_bodyPartCardVisualSO.BaseSO.InnerBGColor.Length == 0)
-                throw new Exception("CardBodyPartVisualAssigner has no BG Color");
-
-            if (_bodyPartCardVisualSO.BaseSO.MainColor.Length == 0)
-                throw new Exception("CardBodyPartVisualAssigner has no Main Color");
-
-            if (_bodyPartCardVisualSO.BaseSO.BodyParts.Length == 0)
-                throw new Exception("CardBodyPartVisualAssigner has no BodyParts");
         }
 
         public override void Dispose()
