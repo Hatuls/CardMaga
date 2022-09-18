@@ -33,6 +33,7 @@ namespace Managers
     {
         #region Fields
         private EndTurnHandler _endTurnHandler;
+        [Sirenix.OdinInspector.ShowInInspector]
         private CraftingHandler _craftingHandler;
         private GameTurn _myTurn;
         private DeckHandler _deckHandler;
