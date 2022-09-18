@@ -30,6 +30,12 @@ namespace CardMaga.UI.Combos
             CheckValidation();
             Dispose();
             Init(_testCombo);
+            _comboPopUp.ActivatePopUP(true);
+        }
+        [Button]
+        public void OnActivatePopUp(bool toActivate)
+        {
+            _comboPopUp.ActivatePopUP(toActivate);
         }
 #endif
         public override void CheckValidation()
@@ -44,6 +50,8 @@ namespace CardMaga.UI.Combos
             _comboPopUp.Init(comboData);
             var cardData = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(comboData.CraftedCard,comboData.ComboCore.Level);
             _comboCard.Init(cardData);
+            _comboPopUp.ActivatePopUP(true);
+
         }
         public override void Dispose()
         {

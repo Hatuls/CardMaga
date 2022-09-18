@@ -19,7 +19,7 @@ namespace CardMaga.UI.PopUp
         }
         public override void Dispose()
         {
-
+            ActivatePopUP(false);
         }
     }
 }
