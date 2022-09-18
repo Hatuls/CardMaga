@@ -94,7 +94,7 @@ namespace CardMaga.CSV
                     if (card.ID == craftedCardsID)
                     {
                         recipe.CraftedCard = card;
-                        recipe.ComboName = card.CardName + " Recipe";
+                        recipe.ComboName = card.CardName + " Combo";
                         recipe.Image = card.CardSprite;
                         break;
                     }

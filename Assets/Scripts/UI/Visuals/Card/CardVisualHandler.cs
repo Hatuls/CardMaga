@@ -8,7 +8,6 @@ namespace CardMaga.UI
 {
     public class CardVisualHandler : BaseCardVisualHandler
     {
-
         [Header("General")]
         [SerializeField] CanvasGroup _canvasGroup;
 
@@ -30,28 +29,22 @@ namespace CardMaga.UI
         {
             get => _cardZoomHandler;
         }
+
+        public override BaseTextAssignerHandler<CardData> ComboTextAssignerHandler => _cardTextAssignerHandler;
+
+        public override BaseVisualAssignerHandler<CardData> ComboVisualAssignerHandler => _cardVisualAssignerHandler;
 #if UNITY_EDITOR
         [Header("Test")]
-        [SerializeField] CardMaga.Card.CardData _cardData;
-
-
+        [SerializeField] CardData _cardData;
 
         [Button]
         void OnTryCard()
         {
-            SetCardVisuals(_cardData);
+            Dispose();
+            CheckValidation();
+            Init(_cardData);
         }
 #endif
-        public void Start()
-        {
-            //Visuals
-            _cardVisualAssignerHandler.CheckValidation();
-            //Texts
-            _cardTextAssignerHandler.CheckValidation();
-
-            //ResetCard
-            _cardZoomHandler.ResetCardType();
-        }
         [Button]
         public override void ActivateGlow()
         {
@@ -66,38 +59,21 @@ namespace CardMaga.UI
         {
             _cardGlowHandler.DiscardGlowAlpha();
         }
-
-        public override void SetCardVisuals(CardData cardData)
+        public override void Init(CardData cardData)
         {
+            base.Init(cardData);
             //Zoom
             _cardZoomHandler.SetCardType(cardData);
-            //Visuals
-            _cardVisualAssignerHandler.Init(cardData);
-            //Texts
-            _cardTextAssignerHandler.Init(cardData);
         }
-
-        public override void OnDestroy()
+        public override void CheckValidation()
         {
-            _cardVisualAssignerHandler.Dispose();
-            _cardTextAssignerHandler.Dispose();
+            base.CheckValidation();
+            //ResetCard
+            _cardZoomHandler.ResetCardType();
         }
-    }
-
-    public abstract class BaseCardVisualHandler : MonoBehaviour
-    {
-        public abstract CardZoomHandler CardZoomHandler { get; }
-        public abstract void SetCardVisuals(CardMaga.Card.CardData cardData);
-
-        public virtual void SetExecutedCardVisuals()
+        public override void Dispose()
         {
+            base.Dispose();
         }
-        public virtual void ActivateGlow()
-        {
-        }
-        public virtual void DeactivateGlow()
-        {
-        }
-        public abstract void OnDestroy();
     }
 }

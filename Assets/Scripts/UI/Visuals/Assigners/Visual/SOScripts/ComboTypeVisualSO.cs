@@ -1,9 +1,9 @@
 ﻿using Battle.Deck;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CardMaga.UI.Visuals
 {
+    [CreateAssetMenu(fileName = "Combo Type Visual SO", menuName = "ScriptableObjects/UI/Visuals/ComboTypeVisualSO")]
     public class ComboTypeVisualSO: BaseVisualSO
     {
         [Tooltip("0 = Hand, 1 = Deck, 2 = Disacrd, 3 = Burst")]
