@@ -20,8 +20,7 @@ namespace Battle
     {
         public static event Action OnGameEnded;
         public event Action<BattleManager> OnBattleManagerDestroyed;
-
-
+        
         public static bool isGameEnded;
         [SerializeField, EventsGroup]
         private Unity.Events.StringEvent _playSound;
@@ -53,6 +52,7 @@ namespace Battle
         [SerializeField]
         private CameraManager _cameraManager;
 
+        private EndBattleHandler _endBattleHandler;
         private RuleManager _ruleManager;
         private BattleTutorial _battleTutorial;
         private IPlayersManager _playersManager;
@@ -81,10 +81,13 @@ namespace Battle
 
         private void InitParams()
         {
+            _endBattleHandler = new EndBattleHandler(this);
             _gameTurnHandler = new GameTurnHandler();
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
+            _ruleManager = new RuleManager();
             _ruleManager.InitRuleList(BattleData.BattleConfigSO.GameRule,BattleData.BattleConfigSO.EndGameRule,this
             );
+            _ruleManager.OnGameEnded += EndBattle;
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.BattleMusicParameter();
@@ -96,7 +99,7 @@ namespace Battle
                 AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
 
-
+        
         }
         // Need To be Re-Done
         public void StartBattle()
@@ -106,6 +109,12 @@ namespace Battle
             BattleData.Instance.PlayerWon = false;
 
             OnBattleStarts?.Invoke();
+        }
+
+        private void EndBattle(bool isLeftPlayerWon)
+        {
+            _endBattleHandler.EndBattle(isLeftPlayerWon);
+            OnGameEnded?.Invoke();
         }
         
         // Need To be Re-Done
@@ -202,10 +211,13 @@ namespace Battle
         {
             ThreadsHandler.ThreadHandler.TickThread();
         }
+        
         private void OnDestroy()
         {
             OnBattleManagerDestroyed?.Invoke(this);
             ThreadsHandler.ThreadHandler.ResetList();
+            
+            _ruleManager.OnGameEnded -= EndBattle;
 
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
             _battleStarter.Dispose();
@@ -222,11 +234,13 @@ namespace Battle
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
         }
+        
         private void Start()
         {
             ResetBattle();
            
         }
+        
         #endregion
         
         #region Analytics
@@ -270,10 +284,7 @@ namespace Battle
         #endregion
     }
 
-
-
-
-
+    
     public interface IBattleManager
     {
         BattleData BattleData { get; }
@@ -311,11 +322,7 @@ namespace Battle
         /// <param name="IsLeftCharacter"></param>
         /// <returns></returns>
         public IPlayer GetCharacter(bool IsLeftCharacter) => IsLeftCharacter ? LeftCharacter : RightCharacter;
-
-
-
-
-
+        
         public PlayersManager(IPlayer leftCharacter, IPlayer rightCharacter)
         {
             LeftCharacter = leftCharacter;
@@ -343,7 +350,4 @@ namespace Battle
             token.Dispose();
         }
     }
-
-
-
 }

@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Battle
 {
@@ -21,7 +22,7 @@ namespace Battle
 
         [Tooltip("Player Stats: ")]
         [SerializeField] AIBrain _brain;
-        [SerializeField] private Character _myCharacter;
+        [FormerlySerializedAs("_myCharacter")] [SerializeField] private Character _character;
         [SerializeField] VisualCharacter _visualCharacter;
         [SerializeField] TextMeshProUGUI _enemyNameText;
         [Space]
@@ -51,9 +52,11 @@ namespace Battle
         public VisualCharacter VisualCharacter => _visualCharacter;
         public CardData[] StartingCards => _deck;
         public AIBrain Brain => _brain;
+
+        public Character Character => _character; 
         public CharacterStatsHandler StatsHandler => _statsHandler;
         public DeckHandler DeckHandler => _deckHandler;
-        public Battle.Combo.Combo[] Combos => _myCharacter.CharacterData.ComboRecipe;
+        public Battle.Combo.Combo[] Combos => _character.CharacterData.ComboRecipe;
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
         public GameTurn MyTurn => _myTurn;
         public StaminaHandler StaminaHandler => _staminaHandler;
@@ -62,14 +65,10 @@ namespace Battle
         #endregion
 
         #region Public Methods
-
-
-
-
-
+        
         public void AssignCharacterData(BattleManager battleManager, Character character)
         {
-            _myCharacter = character;
+            _character = character;
             var characterdata = character.CharacterData;
 
             int deckLength = characterdata.CharacterDeck.Length;
@@ -94,15 +93,12 @@ namespace Battle
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
             _staminaHandler.OnStaminaDepleted += _turnHandler.MoveToNextTurn;
         }
-
-
-
+        
         public void OnEndBattle()
         {
             FinishTurn();
         }
-
-
+        
         public void CalculateEnemyMoves()
         {
             _aiHand.ResetData();
@@ -118,8 +114,7 @@ namespace Battle
                 _turnFinished?.Dispose();
             }
         }
-
-
+        
         public IEnumerator PlayTurnDelay()
         {
             const int NO_MORE_ACTION_TO_DO = -1;
@@ -142,13 +137,12 @@ namespace Battle
         public void EnemyWon()
         {
             VisualCharacter.AnimatorController.CharacterWon();
-            _myCharacter.CharacterData.CharacterSO.VictorySound.PlaySound();
+            _character.CharacterData.CharacterSO.VictorySound.PlaySound();
         }
 
         public void OnEndTurn()
         {
             VisualCharacter.AnimatorController.ResetLayerWeight();
-
         }
 
 
@@ -160,6 +154,7 @@ namespace Battle
         }
 
         #endregion
+        
         #region Private 
         private void DrawHands(ITokenReciever tokenMachine)
     => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
@@ -176,15 +171,14 @@ namespace Battle
         }
         #endregion
     }
-
-
-
+    
     public class AIHand
     {
         public NodeState Result;
         private List<AICard> _card;
         private AITree _tree;
         private BaseStat _drawStat;
+        
         public AIHand(AIBrain _brain, BaseStat drawStat)
         {
             _drawStat = drawStat;
@@ -203,13 +197,13 @@ namespace Battle
                     Result |= _tree.Evaluate(_card[i]);
             }
         }
-
-
+        
         public void AddCard(CardData[] cardData)
         {
             for (int i = 0; i < cardData.Length; i++)
                 AddCard(cardData[i]);
         }
+        
         public void AddCard(CardData cardData)
         {
             for (int i = 0; i < _card.Count; i++)
@@ -224,7 +218,9 @@ namespace Battle
             aicard.AssignCard(cardData);
             _card.Add(aicard);
         }
+        
         public void ResetData() => _card.ForEach(x => x.Reset());
+        
         public int TryGetHighestWeight(out AICard highestCard)
         {
             highestCard = null;
@@ -241,6 +237,7 @@ namespace Battle
             }
             return highestWeight;
         }
+        
         ~AIHand()
         {
             _card.Clear();

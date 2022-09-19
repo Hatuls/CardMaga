@@ -16,6 +16,7 @@ namespace Managers
     {
         bool IsLeft { get; }
         StaminaHandler StaminaHandler { get; }
+        Character Character { get; }
         CharacterStatsHandler StatsHandler { get; }
         CardData[] StartingCards { get; }
         DeckHandler DeckHandler { get; }
@@ -30,6 +31,7 @@ namespace Managers
     public class PlayerManager : MonoSingleton<PlayerManager>, IPlayer
     {
         #region Fields
+        
         private CraftingHandler _craftingHandler;
         private GameTurn _myTurn;
         private DeckHandler _deckHandler;
@@ -46,6 +48,10 @@ namespace Managers
         public bool IsLeft => true;
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
 
+        public Character Character
+        {
+            get => _character;
+        }
         public CharacterStatsHandler StatsHandler { get => _statsHandler; }
 
         public VisualCharacter VisualCharacter => _visualCharacter;
@@ -75,15 +81,13 @@ namespace Managers
             _deckHandler = new DeckHandler(this, battleManager);
 
        
-           GameTurnHandler turnHandler = battleManager.TurnHandler;
+            GameTurnHandler turnHandler = battleManager.TurnHandler;
             _myTurn = turnHandler.GetCharacterTurn(IsLeft);
             _staminaHandler.OnStaminaDepleted += turnHandler.MoveToNextTurn;
             _myTurn.StartTurnOperations.Register(DrawHands);
             _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
 
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
-
-
         }
 
 
