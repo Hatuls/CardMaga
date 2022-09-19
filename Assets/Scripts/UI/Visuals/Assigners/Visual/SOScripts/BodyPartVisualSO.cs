@@ -12,5 +12,15 @@ namespace CardMaga.UI.Visuals
 
         [Tooltip("Attack - 0, Defense - 1, Utility - 2")]
         public Sprite[] BodyPartsInnerBG;
+
+        public override void CheckValidation()
+        {
+            BaseSO.CheckValidation();
+
+            if(BodyPartsBG == null)
+                throw new System.Exception("BodyPartVisualSO has no BodyPartsBG");
+            if (BodyPartsInnerBG == null)
+                throw new System.Exception("BodyPartVisualSO has no BodyOartsInnerBG");
+        }
     }
 }

@@ -5,11 +5,19 @@ using UnityEngine.UI;
 namespace CardMaga.UI
 {
     [Serializable]
-    public abstract class BaseVisualHandler<T> : IDisposable
+    public abstract class BaseVisualHandler<T> : IInitializable<T>
     {
         public abstract void CheckValidation();
         public abstract void Init(T data);
         public abstract void Dispose();
+    }
+    public interface IInitializable<T> : IDisposable, ICheckValidation
+    {
+        void Init(T data);
+    }
+    public interface ICheckValidation
+    {
+        void CheckValidation();
     }
     public static class TextMeshProUGUIHelper
     {
