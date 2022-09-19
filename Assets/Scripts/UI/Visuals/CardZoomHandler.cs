@@ -84,7 +84,7 @@ namespace CardMaga.UI
                 _zoomSequence.Kill();
 
         }
-   //     [Button("Zoom In")]
+   //     [Button("HandZoom In")]
         private void ZoomIn()
         {
             KillTween();
@@ -110,7 +110,7 @@ namespace CardMaga.UI
             if(OnZoomInCompleted != null)
                 _zoomSequence.OnComplete(OnZoomInCompleted.Invoke);
         }
-  //      [Button("Zoom Out")]
+  //      [Button("HandZoom Out")]
         private void ZoomOut()
         {
             KillTween();

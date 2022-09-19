@@ -32,6 +32,7 @@ namespace CardMaga.Input
         [SerializeField,Tooltip("The delay between moving from point down to hold")] private float _holdDelay = .5f;
         [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
+        [SerializeField,Tooltip("The current input behaviour state")] [ReadOnly] private InputBehaviourState _currentInputBehaviourState;
 
         [ShowInInspector,ReadOnly] private InputBehaviour<T> _inputBehaviour;
         private InputBehaviour<T> _defaultInputBehaviour;
@@ -51,6 +52,11 @@ namespace CardMaga.Input
         
         public InputBehaviour<T> DefaultInputBehaviour => _defaultInputBehaviour;
         public State CurrentState => _currentState;
+
+        public InputBehaviourState CurrentInputBehaviourState
+        {
+            get => _currentInputBehaviourState;
+        }
 
         #endregion
 
@@ -273,6 +279,11 @@ namespace CardMaga.Input
 
         #region InputBehaviourManagement
 
+        public void ChangeState(InputBehaviourState state)
+        {
+            _currentInputBehaviourState = state;
+        }
+        
         public bool TrySetInputBehaviour(InputBehaviour<T> inputBehaviour)
         {
             if (inputBehaviour == null || _inputBehaviour == null)
@@ -294,8 +305,9 @@ namespace CardMaga.Input
             _inputBehaviour = inputBehaviour;
         }
 
-        public void ResetInputBehaviour()
+        public void ForceResetInputBehaviour()
         {
+            _currentInputBehaviourState = InputBehaviourState.Default;
             _inputBehaviour = _defaultInputBehaviour;
         }
 

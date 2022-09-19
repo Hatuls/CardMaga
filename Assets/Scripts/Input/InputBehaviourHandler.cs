@@ -7,28 +7,24 @@ using UnityEngine;
 public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBehaviour
 {
     private BaseHandUIState _currentState;
-    private HandState _currentStateID;
-    public enum HandState
-    {
-        Default,
-        Follow,
-        Zoom
-    };
+    private InputBehaviourState _currentStateID;
+    
+    protected Dictionary<InputBehaviourState, BaseHandUIState> _handUIStates;
 
-    protected Dictionary<HandState, BaseHandUIState> _handUIStates;
-
-    public HandState CurrentStateID
+    public InputBehaviourState CurrentStateID
     {
         get => _currentStateID;
     }
     
-    protected void SetState(HandState state,CardUI cardUI)
+    protected void SetState(InputBehaviourState state,CardUI cardUI)
     {
         if (_currentState == null)
         {
             _currentState = _handUIStates[state];
             
             _currentStateID = state;
+            
+            cardUI.Inputs.ChangeState(_currentStateID);
             
             _currentState.EnterState(cardUI);
         }
@@ -39,10 +35,12 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             _currentState = _handUIStates[state];
             
             _currentStateID = state;
+            
+            cardUI.Inputs.ChangeState(_currentStateID);
 
             if (_currentState == null)
             {
-                cardUI.Inputs.ResetInputBehaviour();
+                cardUI.Inputs.ForceResetInputBehaviour();
                 return;
             }
             
@@ -97,7 +95,16 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             if (touchableItems[i] == null)
                 continue;
             
-            touchableItems[i].ResetInputBehaviour();
+            touchableItems[i].ForceResetInputBehaviour();
         }
     }
 }
+
+public enum InputBehaviourState
+{
+    Default,
+    HandFollow,
+    HandZoom,
+    HandInDeck
+};
+

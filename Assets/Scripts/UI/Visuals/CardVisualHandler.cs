@@ -13,7 +13,7 @@ namespace CardMaga.UI
         [SerializeField] CanvasGroup _canvasGroup;
 
 
-        [Header("Zoom")]
+        [Header("HandZoom")]
         [SerializeField] CardZoomHandler _cardZoomHandler;
 
         [Header("Visuals")]
@@ -87,7 +87,7 @@ namespace CardMaga.UI
         {
             var cardTypeEnum = card.CardSO.CardTypeEnum;
             var cardLevel = card.CardLevel;
-            //Zoom
+            //HandZoom
             _cardZoomHandler.SetCardType(cardTypeEnum);
             //Visuals
             _cardBodyPartVisualAssigner.SetBodyPart((int)cardTypeEnum, (int)card.CardSO.BodyPartEnum);

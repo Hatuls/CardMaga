@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CardMaga.UI.Visuals
 {
-    [CreateAssetMenu(fileName = "Zoom Positions SO", menuName = "ScriptableObjects/UI/Visuals/ZoomPositionsSO")]
+    [CreateAssetMenu(fileName = "HandZoom Positions SO", menuName = "ScriptableObjects/UI/Visuals/ZoomPositionsSO")]
     public class ZoomPositionsSO : ScriptableObject
     {
         [Tooltip("Attack = 0, Defense = 1, Utility = 2")]

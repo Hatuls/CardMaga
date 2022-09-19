@@ -24,6 +24,7 @@ namespace Battle
 
         public event Action OnComboDetectedFinished;
         public event Action<CardData[]> OnCraftingComboToHand;
+        
         #endregion
 
         #region Fields

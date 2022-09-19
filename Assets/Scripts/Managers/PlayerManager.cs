@@ -44,13 +44,11 @@ namespace Managers
         private CardsExecutionOrder _executionOrder;
         [SerializeField] VisualCharacter _visualCharacter;
         #endregion
-
-
+        
         public CardData[] StartingCards => _playerDeck;
         public Combo[] Combos => _character.CharacterData.ComboRecipe;
         public bool IsLeft => true;
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
-
         public CharacterStatsHandler StatsHandler { get => _statsHandler; }
         public EndTurnHandler EndTurnHandler => _endTurnHandler;
         public VisualCharacter VisualCharacter => _visualCharacter;
