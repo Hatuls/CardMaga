@@ -10,7 +10,7 @@ using Unity.Events;
 using UnityEngine;
 using Battle.Combo;
 using CardMaga.Card;
-using Managers;
+using CardMaga.Sequence;
 using Battle.Turns;
 using System.Threading;
 
@@ -83,10 +83,9 @@ namespace Battle
                 switch (ComboSO.GoToDeckAfterCrafting)
                 {
                     case DeckEnum.Hand:
+                        deck.AddCardToDeck(craftedCard,DeckEnum.Hand);
                         if (isPlayer)
                             OnCraftingComboToHand?.Invoke(new CardData[]{craftedCard});
-
-                        deck.AddCardToDeck(craftedCard,DeckEnum.Hand);
                         break;
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Discard:

@@ -103,8 +103,8 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
 public enum InputBehaviourState
 {
     Default,
+    Hand,
     HandFollow,
     HandZoom,
-    HandInDeck
 };
 

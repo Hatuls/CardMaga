@@ -5,6 +5,7 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using CardMaga.Sequence;
 
 namespace Battle
 {
@@ -21,7 +22,6 @@ namespace Battle
         private readonly TokenMachine _cardExecutedTokenMachine;
         private readonly IPlayer _character;
 
-     
         private int _currentKeywordIndex;
         private SortedQueue<CardAction> _queue;
         private List<KeywordData> _keywordData;
@@ -35,7 +35,6 @@ namespace Battle
 
         public CardsExecutionOrder(IPlayer player)
         {
-
             _character = player;
             _cardExecutedTokenMachine = new TokenMachine(MoveNext);
             _queue = new SortedQueue<CardAction>();

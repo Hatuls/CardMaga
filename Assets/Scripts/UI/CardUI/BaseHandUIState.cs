@@ -54,10 +54,19 @@ public class BaseHandUIState : MonoBehaviour
         OnExitState?.Invoke();
     }
 
-    public virtual void ForceExitState(CardUI cardUI)
+    public virtual CardUI ForceExitState()
     {
-        _selectedCardUI = null;
+        CardUI temp = null;
+        
+        if (_selectedCardUI != null)
+        {
+            temp = _selectedCardUI;
+            _selectedCardUI.Inputs.ForceResetInputBehaviour();
+            _selectedCardUI = null;
+        }
+        
         OnExitState?.Invoke();
+        return temp;
     }
 
 

@@ -1,4 +1,5 @@
 ﻿using Managers;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections;
@@ -525,7 +526,7 @@ namespace Battle.Turns
 
 
 
-        private SequenceHandler _startTurnOperations;
+        private CardMaga.Sequence.SequenceHandler _startTurnOperations;
         private SequenceHandler _endTurnOperations;
         private List<NextTurn> _nextTurn;
         private NextTurn _defaultNextTurn;

@@ -25,7 +25,7 @@ namespace CardMaga.UI
         [SerializeField] RectTransform _cardName;
         [SerializeField] CanvasGroup _description;
 
-        Sequence _zoomSequence;
+        DG.Tweening.Sequence _zoomSequence;
         float _startPos;
         float _endPos;
 

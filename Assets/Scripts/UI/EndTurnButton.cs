@@ -1,6 +1,6 @@
 ﻿using Battle;
 using Battle.Turns;
-using Managers;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
 using System;
 using UnityEngine;

@@ -1,8 +1,7 @@
-﻿
-using Battle;
+﻿using Battle;
 using Battle.Turns;
 using Characters.Stats;
-using Managers;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;

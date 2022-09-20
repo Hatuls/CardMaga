@@ -4,14 +4,12 @@ using Battle.Deck;
 using CardMaga.UI;
 using CardMaga.UI.Card;
 using DG.Tweening;
-using Managers;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
-using Unity.Events;
 using UnityEngine;
 
 public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
 {
-    public static event Action<CardUI> OnCardExecute;
     [Header("Scripts Reference")]
     [SerializeField] private HandUI _handUI;
     [Header("TransitionPackSO")]
@@ -23,14 +21,6 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
     private float _executionBoundry_Y;
 
     private Vector2 _mousePosition;
-    private bool _isExecuted = false;
-    private DeckHandler _playerDeck;
-
-    public bool IsExecuted
-    {
-        get => _isExecuted;
-    }
-    
 
     private void Start()
     {
@@ -39,21 +29,15 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
         InputReciever.OnTouchDetectedLocation += GetMousePos;
         
         _inputBehaviour.OnHold += FollowHand;
-        _inputBehaviour.OnPointUp += ReturnToHandState;
+        _inputBehaviour.OnPointUp += ReleaseCardUI;
     }
 
     public void OnDestroy()
     {
         _inputBehaviour.OnHold -= FollowHand;
-        _inputBehaviour.OnPointUp -= ReturnToHandState;
+        _inputBehaviour.OnPointUp -= ReleaseCardUI;
         InputReciever.OnTouchDetectedLocation -= GetMousePos;
         KillTween();
-    }
-
-    public override void EnterState(CardUI cardUI)
-    {
-        base.EnterState(cardUI);
-        _isExecuted = false;
     }
 
     public override void ExitState(CardUI cardUI)
@@ -61,17 +45,19 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
         if (!ReferenceEquals(cardUI, SelectedCardUI))
             return;
 
-        if (cardUI.transform.position.y > _executionBoundry_Y)
-        {
-            ExecuteCardUI(cardUI);
-        }
-
         base.ExitState(cardUI);
     }
     
-    private void ReturnToHandState(CardUI cardUI)
+    private void ReleaseCardUI(CardUI cardUI)
     {
-        _handUI.ReturnCardToHand(cardUI);
+        if (cardUI.transform.position.y > _executionBoundry_Y)
+        {
+            ExitState(cardUI);
+            _handUI.TryExecuteCard(cardUI);
+            return;
+        }
+        
+        _handUI.SetToHandState(cardUI);
     }
     
     private void FollowHand(CardUI cardUI)
@@ -90,23 +76,7 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
         if (_currentSequence != null) _currentSequence.Kill();
     }
 
-    private bool ExecuteCardUI(CardUI cardUI)
-    {
-        _playerDeck.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.CardData);
-            
-        if (CardExecutionManager.Instance.TryExecuteCard(cardUI))
-        {
-            cardUI.Inputs.ForceChangeState(false);
-            OnCardExecute?.Invoke(cardUI);
-            _isExecuted = true;
-            return true;
-        }
-        _playerDeck.TransferCard(DeckEnum.Selected, DeckEnum.Hand, cardUI.CardData);
-        return false;
-    }
-    
     public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
-        _playerDeck = data.PlayersManager.GetCharacter(true).DeckHandler;
     }
 }

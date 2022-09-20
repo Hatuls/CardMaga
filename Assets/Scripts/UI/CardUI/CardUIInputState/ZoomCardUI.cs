@@ -13,18 +13,18 @@ namespace CardMaga.UI.Card
         [Header("RectTransforms")]
         [SerializeField] private RectTransform _zoomPosition;
 
-        private Sequence _currentSequence;
+        private DG.Tweening.Sequence _currentSequence;
 
         private IDisposable _zoomToken;
 
         private void Start()
         {
-            InputReciever.OnTouchDetected += ReturnToHandState;
+            _inputBehaviour.OnClick += ReturnToHandState;
         }
 
         private void OnDestroy()
         {
-            InputReciever.OnTouchDetected -= ReturnToHandState;
+            _inputBehaviour.OnClick -= ReturnToHandState;
         }
 
         public override void EnterState(CardUI cardUI)
@@ -40,15 +40,17 @@ namespace CardMaga.UI.Card
             base.ExitState(cardUI);
         }
 
-        private void ReturnToHandState()
+        private void ReturnToHandState(CardUI cardUI)
         {
-            _handUI.ReturnCardToHand(SelectedCardUI);
+            _handUI.SetToHandState(cardUI);
         }
 
-        public override void ForceExitState(CardUI cardUI)
+        public override CardUI ForceExitState()
         {
-            base.ForceExitState(cardUI);
-            _zoomToken.Dispose();
+            if (_zoomToken != null)
+                _zoomToken.Dispose();
+            
+            return base.ForceExitState();
         }
 
         private void InitZoom()

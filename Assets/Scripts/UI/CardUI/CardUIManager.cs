@@ -1,18 +1,13 @@
-
 using CardMaga.Card;
 using CardMaga.UI.Card;
-
-
+using CardMaga.Sequence;
 using Battle.Deck;
-
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using CardMaga.UI;
 using Battle;
-using Managers;
 
 namespace CardMaga.Battle.UI
 {

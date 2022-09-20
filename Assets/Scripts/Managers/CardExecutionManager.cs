@@ -1,4 +1,4 @@
-﻿using Battle;
+﻿using CardMaga.Sequence;
 using Battle.Deck;
 using Battle.Turns;
 using CardMaga.Card;

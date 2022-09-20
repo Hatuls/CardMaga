@@ -1,13 +1,11 @@
-﻿using Managers;
-using ReiTools.TokenMachine;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using ReiTools.TokenMachine;
 
-namespace Battle
+namespace CardMaga.Sequence
 {
     public enum OrderType { Before, Default, After }
-
-
+    
     public class SequenceHandler : ISequenceOperation
     {
         #region Fields
@@ -38,7 +36,6 @@ namespace Battle
         {
             get
             {
-
                 switch (type)
                 {
                     case OrderType.Default:
@@ -140,9 +137,7 @@ namespace Battle
         }
         #endregion
     }
-
-
-
+    
     public class SequenceHandler<T> : ISequenceOperation<T>, IDisposable
     {
         private OperationHandler<ISequenceOperation<T>> _early  ;
@@ -182,7 +177,7 @@ namespace Battle
         {
             if (this[to] == null)
                 InitList(to);
-         this[to].Add(sequenceOperation);
+            this[to].Add(sequenceOperation);
         }
 
 

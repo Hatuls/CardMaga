@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 5702666649216585369}
   - component: {fileID: 8813301573821374498}
   - component: {fileID: 5368535060217224795}
+  - component: {fileID: 5200766102474334544}
   - component: {fileID: 8694790356547147787}
   - component: {fileID: 1093964942527637542}
   - component: {fileID: 6721602299382048637}
@@ -324,6 +325,40 @@ MonoBehaviour:
   _handUI: {fileID: 8694790356547147787}
   _followHand: {fileID: 11400000, guid: 01dd9ea9487741d40802708138894a98, type: 2}
   _executionBoundry: {fileID: 4063326684566358454}
+--- !u!114 &5200766102474334544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702666649216585370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7190519864dd6e54994a400872975cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _drawMoveTransitionPackSo: {fileID: 11400000, guid: 0aad001d516b3514cab3d24103e7fc62,
+    type: 2}
+  _drawScaleTransitionPackSo: {fileID: 11400000, guid: dcac49625bc39824cbab22f225453fdf,
+    type: 2}
+  _discardMoveTransitionPackSo: {fileID: 11400000, guid: 8cabfc347f3a83e49b32bfd7851d0360,
+    type: 2}
+  _discardScaleTransitionPackSo: {fileID: 11400000, guid: 93c72aefa2c498a418f10d3a38558a67,
+    type: 2}
+  _reAlignTransitionPackSo: {fileID: 0}
+  _resetCardPositionPackSO: {fileID: 0}
+  _dicardExecutePositionPackSO: {fileID: 11400000, guid: eb9b2dae227c22644a7fef5f6e5f3548,
+    type: 2}
+  _delayBetweenCardDrawn: 0
+  _delayBetweenCardDiscard: 0
+  _discardPos: {fileID: 0}
+  _drawPos: {fileID: 0}
+  _tableCardSlot:
+    _middleHandPos: {fileID: 0}
+    _cardPaddingPrecentage: 0
+    _cardCenterOffSetPrecentage: 0
+    _cardSlots: []
+  _handUI: {fileID: 0}
 --- !u!114 &8694790356547147787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,10 +371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41a67a9d9c8b15a488db84ce8df29f35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _drawMoveTransitionPackSo: {fileID: 11400000, guid: 0aad001d516b3514cab3d24103e7fc62,
-    type: 2}
-  _drawScaleTransitionPackSo: {fileID: 11400000, guid: dcac49625bc39824cbab22f225453fdf,
-    type: 2}
   _discardMoveTransitionPackSo: {fileID: 11400000, guid: 8cabfc347f3a83e49b32bfd7851d0360,
     type: 2}
   _discardScaleTransitionPackSo: {fileID: 11400000, guid: 93c72aefa2c498a418f10d3a38558a67,
@@ -361,6 +392,7 @@ MonoBehaviour:
     _cardSlots: []
   _zoomUIState: {fileID: 8813301573821374498}
   _followUIState: {fileID: 5368535060217224795}
+  _handUIState: {fileID: 0}
   _delayBetweenCardDrawn: 0
   _delayBetweenCardDiscard: 0
 --- !u!114 &1093964942527637542
