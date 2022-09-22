@@ -7,9 +7,11 @@ namespace CardMaga.LiveObjects.Spaceships
     [System.Serializable]
     public class SpaceshipHandler : ICheckValidation
     {
+
         [SerializeField] SpaceshipVisualSO _spaceshipVisualSO;
         [SerializeField] SpaceshipStatsSO _spaceshipStatsSO;
         [SerializeField] List<Path> _avilablePaths;
+        [SerializeField] JetDirectionSO _jetDirection;
         [Sirenix.OdinInspector.ReadOnly] [SerializeField] List<Path> _activePaths;
         public void CheckValidation()
         {
@@ -18,6 +20,8 @@ namespace CardMaga.LiveObjects.Spaceships
 
             if (_avilablePaths == null)
                 throw new System.Exception("SpaceshipHandler has no Paths");
+            if (_jetDirection == null)
+                throw new System.Exception("SpaceshipHandler has no JetDirection");
         }
         public void SendSpaceship(Spaceship spaceship)
         {
@@ -43,7 +47,7 @@ namespace CardMaga.LiveObjects.Spaceships
         }
         void InitSpaceship(Spaceship spaceship, Path path)
         {
-            spaceship.Init(path, _spaceshipVisualSO.GetSpaceShipSprite(), _spaceshipVisualSO.GetJetSprite(),
+            spaceship.Init(path, _spaceshipVisualSO.GetSpaceShipSprite(), _spaceshipVisualSO.GetJetSprite(),_jetDirection,
                         _spaceshipStatsSO.GetSpeed(), _spaceshipStatsSO.GetAcceleration());
         }
         bool TryGetRandomPath(out Path path)

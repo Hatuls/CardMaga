@@ -1,5 +1,6 @@
 ﻿using CardMaga.UI;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,8 @@ namespace CardMaga.LiveObjects.Spaceships
         [Sirenix.OdinInspector.ReadOnly] [SerializeField] bool _canMove;
         [SerializeField] GameObject _spaceshipHolder;
         [SerializeField] SpriteRenderer _spaceshipSpriteRenderer;
-        [SerializeField] Jet _jet;
+        [SerializeField] List<Jet> _jets;
+        Jet _currentJet;
         [Sirenix.OdinInspector.ReadOnly] [SerializeField] public Path Path;
         public event Action<Spaceship> OnReachedDestination;
         public Vector3 CurrentDirection;
@@ -24,11 +26,24 @@ namespace CardMaga.LiveObjects.Spaceships
             CheckValidation();
             _spaceshipHolder.SetActive(false);
         }
+        private bool TryGetJet(JetDirectionSO jetDirection, out Jet jet)
+        {
+            jet = null;
+            foreach (var j in _jets)
+            {
+                if (jetDirection == j.JetDirectionSO)
+                {
+                    jet = j;
+                    return true;
+                }
+            }
+            return false;
+        }
         public void CheckValidation()
         {
             _canMove = false;
-            if (_jet == null)
-                throw new System.Exception("Spaceship Has no Jet");
+            if (_jets == null)
+                throw new System.Exception("Spaceship Has no Jets");
             if (Path == null)
                 throw new System.Exception("Spaceship Has no Path");
             if (_spaceshipSpriteRenderer == null)
@@ -36,16 +51,21 @@ namespace CardMaga.LiveObjects.Spaceships
             if (_spaceshipHolder == null)
                 throw new System.Exception("Spacship Has no Holder");
         }
-        public void Init(Path path, Sprite spaceshipSprite, Sprite jetSprite, float speed, float acceleration)
+        public void Init(Path path, Sprite spaceshipSprite, Sprite jetSprite, JetDirectionSO jetDirection, float speed, float acceleration)
         {
             Path = path;
             transform.position = Path.FirstWaypoint.position;
             Path.TryGetNextWaypoint(0, out NextWaypoint);
             CurrentDirection = Path.CalculateSpaceshipDirection(NextWaypoint);
             CheckIfLastPoint();
-
-            _jet.Init(jetSprite);
-
+            if (TryGetJet(jetDirection, out _currentJet))
+            {
+                _currentJet.Init(jetSprite);
+            }
+            else
+            {
+                throw new System.Exception("Spapcship has no Jet");
+            }
             _spaceshipSpriteRenderer.AssignSprite(spaceshipSprite);
             _speed = speed;
             _acceleration = acceleration;
@@ -63,7 +83,7 @@ namespace CardMaga.LiveObjects.Spaceships
                 IsLastPartOfPath = false;
             }
         }
-        private void FixedUpdate()
+        private void Update()
         {
             if (_canMove)
             {
@@ -82,7 +102,7 @@ namespace CardMaga.LiveObjects.Spaceships
                 }
                 if (NextWaypoint == Path.FinalWaypoint)
                 {
-                    _jet.ActivateJet(true);
+                    _currentJet.ActivateJet(true);
                 }
                 Move();
             }
@@ -100,9 +120,13 @@ namespace CardMaga.LiveObjects.Spaceships
         void StopSpaceship()
         {
             _canMove = false;
-            _jet.ActivateJet(false);
+            foreach (var j in _jets)
+            {
+                j.ActivateJet(false);
+            }
             _spaceshipHolder.SetActive(false);
             OnReachedDestination.Invoke(this);
+
         }
         private void OnDisable()
         {

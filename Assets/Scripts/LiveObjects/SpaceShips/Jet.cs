@@ -6,6 +6,9 @@ namespace CardMaga.LiveObjects.Spaceships
     public class Jet : MonoBehaviour, ICheckValidation
     {
         [SerializeField] SpriteRenderer _jetSprite;
+
+        [SerializeField] JetDirectionSO _jetDirectionSO;
+        public JetDirectionSO JetDirectionSO => _jetDirectionSO;
         private void Start()
         {
             CheckValidation();
@@ -22,7 +25,7 @@ namespace CardMaga.LiveObjects.Spaceships
         }
         public void ActivateJet(bool toActivate)
         {
-            _jetSprite.transform.gameObject.SetActive(toActivate);
+            _jetSprite.gameObject.SetActive(toActivate);
         }
         private void OnDisable()
         {
