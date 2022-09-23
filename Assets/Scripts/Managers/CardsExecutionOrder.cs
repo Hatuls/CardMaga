@@ -78,8 +78,6 @@ namespace Battle
                 InstantExecution(nextAction);
             else
                 AnimationExcecution(nextAction);
-
-
         }
 
         public void ResetExecutions()
@@ -156,7 +154,7 @@ namespace Battle
         private void FinishAnimation()
         {
             _isExecuting = false;
-            MoveNext();
+            //MoveNext(); //???
         }
         private void InstantExecution(CardAction nextAction)
         {
@@ -181,8 +179,8 @@ namespace Battle
             {
                 var animatorController = _character.VisualCharacter.AnimatorController;
                 animatorController.OnAnimationExecuteKeyword -= OnKeywordEvent;
-                OnCardExecute += animatorController.PlayAnimation;
-                animatorController.OnAnimationEnding += FinishAnimation;
+                OnCardExecute -= animatorController.PlayAnimation;
+               animatorController.OnAnimationEnding -= FinishAnimation;
             }
         }
     }

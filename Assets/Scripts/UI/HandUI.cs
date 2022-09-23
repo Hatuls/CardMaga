@@ -226,11 +226,12 @@ namespace CardMaga.UI
             {
                 _playerDeck.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.CardData);
                 _handUIState.RemoveCardUI(cardUI);
-                DiscardCardAfterExecute(cardUI);
                 
                 if (_cardExecutionManager.TryExecuteCard(cardUI)) 
                 {
-                    OnCardExecute?.Invoke(cardUI); return true;
+                    DiscardCardAfterExecute(cardUI);
+                    OnCardExecute?.Invoke(cardUI); 
+                    return true;
                 }
             }
             

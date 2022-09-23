@@ -188,6 +188,7 @@ namespace CardMaga.UI
                     {
                         if (!_cardSlots[j].IsHaveValue)
                         {
+                            Debug.Log("CardAddToHandSlot");
                             _cardSlots[j].AssignCardUI(cardUI[i]);
                             break;
                         }

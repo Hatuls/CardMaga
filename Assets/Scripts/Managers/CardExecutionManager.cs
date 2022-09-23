@@ -68,7 +68,7 @@ namespace Battle
                 // not enough stamina 
                 if (isLeft)
                 {
-                    //    _staminaBtn.PlayRejectAnimation();
+                    // _staminaBtn.PlayRejectAnimation();
                     OnFailedToExecute?.Invoke();
                 }
 
@@ -120,7 +120,7 @@ namespace Battle
             //(_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
             currentCharacter.ExecutionOrder.AddToQueue(card,0,false);
 
-            currentCharacter.ExecutionOrder.MoveNext();
+            //currentCharacter.ExecutionOrder.MoveNext();
             //RegisterCard(card);
 
         }

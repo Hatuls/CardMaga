@@ -34,8 +34,7 @@ public class AnimatorController : MonoBehaviour
     AnimationBundle _previousAnimation;
     AnimationBundle _currentAnimation;
     Queue<AnimationBundle> _animationQueue = new Queue<AnimationBundle>();
-
-
+    
     [SerializeField] float _rotationSpeed;
     [SerializeField] float _positionSpeed;
     public bool IsMyTurn;
@@ -76,9 +75,7 @@ public class AnimatorController : MonoBehaviour
     #region Methods
 
     #region MonoBehaviour Callbacks   
-
-
-
+    
     public void Update()
     {
         RotateModel();
@@ -86,7 +83,6 @@ public class AnimatorController : MonoBehaviour
         if (!_toLockAtPlace)
             transform.position = Vector3.MoveTowards(transform.position, startPos, _positionSpeed * Time.deltaTime);
     }
-
     
     #endregion
 
@@ -101,7 +97,6 @@ public class AnimatorController : MonoBehaviour
     }
     public void ResetAnimator()
     {
-
         startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         _isAnimationPlaying = false;
         Animator.SetBool("IsDead", false);
@@ -111,10 +106,7 @@ public class AnimatorController : MonoBehaviour
         ReturnToIdle();
         _toLockAtPlace = false;
     }
-
-
-
-
+    
     public void ResetToStartingPosition()
     {
         if (Animator == null)
@@ -130,7 +122,6 @@ public class AnimatorController : MonoBehaviour
 
     public void StartAnimation(AnimatorStateInfo info)
     {
-
         if (_currentAnimation != null && _currentAnimation.CameraDetails != null && _currentAnimation.CameraDetails.CheckCameraDetails(IsLeft))
         {
             // move to camera!
@@ -239,14 +230,10 @@ public class AnimatorController : MonoBehaviour
 
     public void TranstionToNextAnimation()
     {
-
         transform.SetPositionAndRotation(startPos, ToolClass.RotateToLookTowards(targetToLookAt, transform));
-
-
+        
         OnFinishAnimation();
-
-
-
+        
         //if (CardExecutionManager.FinishedAnimation)
         //    CardExecutionManager.FinishedAnimation = false;
         //else
@@ -310,10 +297,10 @@ public class AnimatorController : MonoBehaviour
     private void ReleaseToken() => _animationToken?.Dispose();
     private void OnFinishAnimation()
     {
-        ReleaseToken();
         ResetBothRotaionAndPosition();
         OnAnimationEnding?.Invoke();
         _isAnimationPlaying = false;
+        ReleaseToken();
         //  isFirst = true;
         //   _onFinishedAnimation?.Raise();
         //  _currentAnimation = null;
