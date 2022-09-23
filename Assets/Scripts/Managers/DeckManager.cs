@@ -557,6 +557,7 @@ namespace Battle.Deck
 
             }
 
+            Debug.Log("DrawHand");
             OnDrawCards?.Invoke(cardsDraw.ToArray());
         }
         public void TransferCard(DeckEnum from, DeckEnum to, CardData card)

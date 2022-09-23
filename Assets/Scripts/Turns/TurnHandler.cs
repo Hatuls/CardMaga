@@ -661,8 +661,9 @@ namespace Battle.Turns
         private IEnumerator CheckStaminaEndTurn()
         {
             bool check = true;
+            
             yield return null;
-            yield return null;
+            
             do
             {
                 check = IsStaminaIsZero;
@@ -674,7 +675,7 @@ namespace Battle.Turns
                 check &= !IsExecutionAquiring && IsFinishedDetectingCombo && IsAnimationFinished;
 
             } while (!check);
-          //  yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.35f);
             ForceEndTurn();
         }
 
@@ -682,7 +683,7 @@ namespace Battle.Turns
         {
             if (_player != null)
             {
-                _player.MyTurn.OnTurnActive              -= StartTurn;
+                _player.MyTurn.OnTurnActive -= StartTurn;
                 _player.StaminaHandler.OnStaminaDepleted -= StaminaIsEmpty;
             }
         }

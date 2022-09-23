@@ -91,6 +91,7 @@ namespace Battle
                     case DeckEnum.Discard:
                         var gotolocation = ComboSO.GoToDeckAfterCrafting;
                         deck.AddCardToDeck( craftedCard, gotolocation);
+                        Debug.Log("DrawFrom 1");
                         deck.DrawHand( 1);
                         break;
 
@@ -100,7 +101,8 @@ namespace Battle
                 
                         //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
                        // (deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(craftedCard, false);
-                       deck.DrawHand( 1);
+                        Debug.Log("DrawFrom 2");
+	                    deck.DrawHand( 1);
                         break;
                     default:
                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
@@ -122,7 +124,8 @@ namespace Battle
             if (_cardRecipeDetected == null || _cardRecipeDetected.ComboSO == null)
             {
                 FoundCombo = false;
-               deck.DrawHand( 1);
+                Debug.Log("DrawFrom 3");
+                deck.DrawHand( 1);
             }
             else
             {
@@ -212,7 +215,7 @@ namespace Battle
             OnComboDetectedFinished +=right.StaminaHandler.CheckStaminaEmpty;
 
             left.CraftingHandler.OnComboDetectionRequired += StartDetection;
-            right.CraftingHandler.OnComboDetectionRequired += StartDetection;
+            //right.CraftingHandler.OnComboDetectionRequired += StartDetection;
           
 
 
@@ -230,7 +233,7 @@ namespace Battle
             OnComboDetectedFinished -= right.StaminaHandler.CheckStaminaEmpty;
 
             left.CraftingHandler.OnComboDetectionRequired  -= StartDetection;
-            right.CraftingHandler.OnComboDetectionRequired -= StartDetection;
+            //right.CraftingHandler.OnComboDetectionRequired -= StartDetection;
 
         }
     }

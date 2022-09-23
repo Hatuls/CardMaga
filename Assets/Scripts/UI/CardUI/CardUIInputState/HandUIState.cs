@@ -17,12 +17,9 @@ namespace CardMaga.UI
     [Header("TransitionPackSO")] 
     [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
     [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;
-    [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
-    [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
     [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
     [SerializeField] private TransitionPackSO _resetCardPositionPackSO;
-    [SerializeField] private TransitionPackSO _dicardExecutePositionPackSO;
-    
+
     [Header("Parameters")]
     [SerializeField] private float _delayBetweenCardDrawn;
 
@@ -68,14 +65,7 @@ namespace CardMaga.UI
     public override void ExitState(CardUI cardUI)
     {
         if (_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
-        {
             cardUI.transform.SetAsLastSibling();
-
-            // if (!_tableCardSlot.RemoveCardUI(cardUI))
-            // {
-            //     Debug.LogError("Failed To Remove " + cardUI.name + "From Hand");
-            // }
-        }
     }
     
     public CardUI[] RemoveAllCardUIFromHand()

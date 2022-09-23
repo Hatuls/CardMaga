@@ -71,8 +71,8 @@ namespace Battle
             SortKeywords(cardData);
             if (nextAction.ToUpdateCraftingSlots)
                 _character.CraftingHandler.AddFront(cardData, true);
-            else
-                _character.CraftingHandler.DetectCombo();
+            //else
+              //  _character.CraftingHandler.DetectCombo();//need to check rei
 
             if (cardData.CardSO.AnimationBundle.AttackAnimation == string.Empty)
                 InstantExecution(nextAction);
@@ -125,7 +125,7 @@ namespace Battle
                 return;
 
 
-            Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
+//            Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
             bool currentTurn = _character.IsLeft;
             KeywordData keyword = null;
 

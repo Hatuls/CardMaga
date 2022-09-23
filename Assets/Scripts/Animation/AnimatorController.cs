@@ -227,7 +227,7 @@ public class AnimatorController : MonoBehaviour
 
     private void PlayAnimation(string name, bool toCrossFade = false)
     {
-        Debug.Log("Play Anim " + name);
+//        Debug.Log("Play Anim " + name);
         if (_crossFadeBetweenAnimations || toCrossFade)
             Animator.CrossFade(name, _transitionSpeedBetweenAnimations);
         else

@@ -81,7 +81,7 @@ namespace CardMaga.Input
             OnClick?.Invoke(_touchableItem);
             _inputBehaviour.Click(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " Click");
+	        //Debug.Log(_touchableItem.name + GetInstanceID() + " Click");
 #endif
         }
         
@@ -90,7 +90,7 @@ namespace CardMaga.Input
             OnBeginHold?.Invoke(_touchableItem);
             _inputBehaviour.BeginHold(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " BeginHold");
+	        // Debug.Log(_touchableItem.name + GetInstanceID() + " BeginHold");
 #endif
         }
         
@@ -99,7 +99,7 @@ namespace CardMaga.Input
             OnEndHold?.Invoke(_touchableItem);
             _inputBehaviour.EndHold(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " EndHold");
+	        // Debug.Log(_touchableItem.name + GetInstanceID() + " EndHold");
 #endif
         }
         
@@ -110,7 +110,7 @@ namespace CardMaga.Input
 #if UNITY_EDITOR
             if (_holdLogCount % 10 == 0)
             {
-                Debug.Log(_touchableItem.name + GetInstanceID() + " Hold");
+	            //Debug.Log(_touchableItem.name + GetInstanceID() + " Hold");
             }
             _holdLogCount++;
 
@@ -122,7 +122,7 @@ namespace CardMaga.Input
             OnPointDown?.Invoke(_touchableItem);
             _inputBehaviour.PointDown(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " PointDown");
+	        //Debug.Log(_touchableItem.name + GetInstanceID() + " PointDown");
 #endif
         }
         
@@ -131,7 +131,7 @@ namespace CardMaga.Input
             OnPointUp?.Invoke(_touchableItem);
             _inputBehaviour.PointUp(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " PointUp");
+	        //Debug.Log(_touchableItem.name + GetInstanceID() + " PointUp");
 #endif
         }
 

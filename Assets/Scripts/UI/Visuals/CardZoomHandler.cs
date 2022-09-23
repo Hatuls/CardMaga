@@ -76,7 +76,7 @@ namespace CardMaga.UI
             int cardType = (int)type - 1;
             _startPos = _zoomPositionsSO.YStartPosition[cardType];
             _endPos = _zoomPositionsSO.YEndPosition[cardType];
-            Debug.Log("Recived ZoomData");
+	        //Debug.Log("Recived ZoomData");
         }
         public void KillTween()
         {

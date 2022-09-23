@@ -307,7 +307,7 @@ namespace Battle
 
         #region Private 
         private IPlayer GetPlayer(bool isLeft) => _playersManager.GetCharacter(isLeft);
-        private bool CanPlayCard(bool isLeft, CardData card) => (card == null) ? false : GetPlayer(isLeft).StaminaHandler.CanPlayCard(card);
+        public bool CanPlayCard(bool isLeft, CardData card) => (card == null) ? false : GetPlayer(isLeft).StaminaHandler.CanPlayCard(card);
 
 
 
