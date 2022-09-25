@@ -62,14 +62,18 @@ namespace CardMaga.LiveObjects.Spaceships
 
         void CheckForNextSpaceship()
         {
-            if (_activeSpaceships.Count <= _spaceshipManagerSO.MinShips)
+            if (_activeSpaceships.Count < _spaceshipManagerSO.MinShips)
             {
                 SendSpaceship();
+            }
+            else if (_activeSpaceships.Count < _spaceshipManagerSO.MaxShips)
+            {
+                StartCoroutine(StartSpaceshipCooldown(_spaceshipManagerSO.GetCooldown()));
             }
         }
         void SendSpaceship()
         {
-            if(_availableSpaceships.Count>0)
+            if(_availableSpaceships.Count > 0)
             {
                 var randomHandler = Random.Range(0, _spaceshipHandlers.Count);
                 _spaceshipHandlers[randomHandler].SendSpaceship(_availableSpaceships[0]);
@@ -81,8 +85,6 @@ namespace CardMaga.LiveObjects.Spaceships
                 CreateSpaceship();
                 SendSpaceship();
             }
-
-            //StartCoroutine(StartSpaceshipCooldown(_spaceshipManagerSO.GetCooldown()));
             //check if avilable
             //if true send spaceship to a random handler
             //if false create a spaceship and then send it
