@@ -78,6 +78,5 @@ namespace CardMaga.Rules
 
         public abstract void Dispose();
     }
-
 }
 

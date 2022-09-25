@@ -12,4 +12,9 @@ namespace CardMaga.Rules
     {
         public abstract BaseRuleLogic<T> CreateRuleLogic(IBattleManager iBattleManager);
     }
+
+    public abstract class BaseBoolRuleLogicFactorySO : BaseRuleLogicFactorySO<bool>
+    {
+        
+    }
 }

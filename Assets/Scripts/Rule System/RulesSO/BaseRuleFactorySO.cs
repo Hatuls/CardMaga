@@ -28,18 +28,18 @@ namespace CardMaga.Rules
     
     public abstract class BaseRuleFactorySO<T> : ScriptableObject
     {
-        [SerializeField] private BaseRuleLogicFactorySO<T>[] _logicFactorySo;
+        public abstract BaseRuleLogicFactorySO<T>[] BaseRuleLogicFactorySo { get; }
 
         protected abstract BaseRule<T> CreateRuleListener(IBattleManager battleManager);
 
         public BaseRule<T> CreateRule(IBattleManager battleManager)
         {
-            BaseRuleLogic<T>[] ruleLogics = new BaseRuleLogic<T>[_logicFactorySo.Length];
+            BaseRuleLogic<T>[] ruleLogics = new BaseRuleLogic<T>[BaseRuleLogicFactorySo.Length];
             BaseRule<T> baseRule = CreateRuleListener(battleManager);
 
-            for (int i = 0; i < _logicFactorySo.Length; i++)
+            for (int i = 0; i < BaseRuleLogicFactorySo.Length; i++)
             {
-                ruleLogics[i] = _logicFactorySo[i].CreateRuleLogic(battleManager);
+                ruleLogics[i] = BaseRuleLogicFactorySo[i].CreateRuleLogic(battleManager);
                 ruleLogics[i].InitRuleLogic(battleManager);
             }
             
@@ -48,5 +48,9 @@ namespace CardMaga.Rules
             return baseRule;
         }
     }
+    
+	public abstract class BaseBoolRuleFactorySO : BaseRuleFactorySO<bool>{
+        
+	}
 
 }

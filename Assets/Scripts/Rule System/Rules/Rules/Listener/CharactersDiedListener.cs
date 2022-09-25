@@ -9,8 +9,9 @@ public class CharactersDiedListener : BaseRule<bool>
     private IPlayer _leftPlayerHeal;
     private IPlayer _rightPlayerHeal;
 
-    public void InitRuleListener(IBattleManager battleManager)
+    public override void InitRuleListener(IBattleManager battleManager, BaseRuleLogic<bool>[] ruleLogics)
     {
+        base.InitRuleListener(battleManager,ruleLogics);
         _leftPlayerHeal = battleManager.PlayersManager.LeftCharacter;
         _leftPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged += CheckLeftPlayerCondition;
         
@@ -22,7 +23,7 @@ public class CharactersDiedListener : BaseRule<bool>
     {
         if (playerHp < 0)
         {
-            Active(true);
+            Active(false);
         }
     }
     
@@ -30,7 +31,7 @@ public class CharactersDiedListener : BaseRule<bool>
     {
         if (playerHp < 0)
         {
-            Active(false);
+            Active(true);
         }
     }
 

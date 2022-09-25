@@ -1,21 +1,17 @@
 ﻿using Battle.Data;
-using Battle.Deck;
 using Battle.Turns;
 using CardMaga.Battle.UI;
-using Characters.Stats;
 using Keywords;
 using Managers;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Battle
 {
-
     public class BattleManager : MonoSingleton<BattleManager>, IBattleManager
     {
         public static event Action OnGameEnded;
@@ -81,12 +77,11 @@ namespace Battle
 
         private void InitParams()
         {
-            _endBattleHandler = new EndBattleHandler(this);
             _gameTurnHandler = new GameTurnHandler();
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
             _ruleManager = new RuleManager();
-            _ruleManager.InitRuleList(BattleData.BattleConfigSO.GameRule,BattleData.BattleConfigSO.EndGameRule,this
-            );
+            _endBattleHandler = new EndBattleHandler(this);
+            
             _ruleManager.OnGameEnded += EndBattle;
 
             if (AudioManager.Instance != null)
@@ -106,6 +101,7 @@ namespace Battle
         {
             StopAllCoroutines();
             TurnHandler.Start();
+            
             BattleData.Instance.PlayerWon = false;
 
             OnBattleStarts?.Invoke();
@@ -116,76 +112,19 @@ namespace Battle
             _endBattleHandler.EndBattle(isLeftPlayerWon);
             OnGameEnded?.Invoke();
         }
-        
-        // Need To be Re-Done
-        public void BattleEnded(bool isPlayerDied)
-        {
-            if (isGameEnded == true)
-                return;
-
-            //    UI.StatsUIManager.Instance.UpdateHealthBar(isPlayerDied, 0);
-         _cardExecutionManager.ResetExecution();
-            //CardUIManager.Instance.ResetCardUIManager();
-
-
-            if (isPlayerDied)
-                PlayerDied();
-            else
-                EnemyDied();
-
-
-            //TextPopUpHandler.Instance.CreatePopUpText(UI.TextType.Money, UI.TextPopUpHandler.TextPosition(isPlayerDied), "K.O.");
-
-            BattleData.Instance.PlayerWon = !isPlayerDied;
-
-
-            _playerManager.AnimatorController.ResetLayerWeight();
-            _enemyManager.AnimatorController.ResetLayerWeight();
-
-            isGameEnded = true;
-
-            OnGameEnded?.Invoke();
-        }
 
         // Need To be Re-Done
         public void DeathAnimationFinished(bool isPlayer)
         {
             //if (isPlayer || (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType == CharacterTypeEnum.Tutorial))
             //    Account.AccountManager.Instance.BattleData.IsFinishedPlaying = true;
-
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
-
             MoveToNextScene();
         }
 
         private void MoveToNextScene()
         {
             OnBattleFinished?.Invoke();
-        }
-
-        // Need To be Re-Done
-        private void EnemyDied()
-        {
-            _playerManager.PlayerWin();
-            _enemyManager.AnimatorController.CharacterIsDead();
-            BattleData.PlayerWon = true;
-            //     SendAnalyticWhenGameEnded("player_won", battleData);
-            //    AddRewards();
-            //    _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Player);
-            //    OnPlayerVictory?.Invoke();
-        }
-
-
-        // Need To be Re-Done
-        private void PlayerDied()
-        {
-            //  var battleData = Account.AccountManager.Instance.BattleData;
-            _playerManager.AnimatorController.CharacterIsDead();
-            _enemyManager.EnemyWon();
-            BattleData.PlayerWon = false;
-            //      _cameraController.MoveCameraAnglePos((int)CameraController.CameraAngleLookAt.Enemy);
-            //    SendAnalyticWhenGameEnded("player_defeated", battleData);
-            OnPlayerDefeat?.Invoke();
         }
 
         private void CreateTutorial(ITokenReciever tokenReciever, BattleManager battleManager)
@@ -216,13 +155,12 @@ namespace Battle
         {
             OnBattleManagerDestroyed?.Invoke(this);
             ThreadsHandler.ThreadHandler.ResetList();
-            
+            _ruleManager.DisposeRules();
             _ruleManager.OnGameEnded -= EndBattle;
 
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
             _battleStarter.Dispose();
-           
-            HealthStat.OnCharacterDeath -= BattleEnded;
+            
             TurnHandler.Dispose();
             _gameTurnHandler = null;
         }
@@ -230,7 +168,6 @@ namespace Battle
         public override void Awake()
         {
             Register(new OperationTask<BattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
-            HealthStat.OnCharacterDeath += BattleEnded;
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
         }

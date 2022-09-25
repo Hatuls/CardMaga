@@ -19,7 +19,7 @@ namespace CardMaga.BattleConfigSO
         [SerializeField] private bool _timerActive;
         [SerializeField] private bool _isPlayerStart;
         [SerializeField] private BaseRuleFactorySO[] _gameRules;
-        [SerializeField] private BaseRuleFactorySO<bool>[] _endGameRules; 
+        [SerializeField] private BaseBoolRuleFactorySO[] _endGameRules; 
         [SerializeField] private BattleTutorial _battleTutorial;
 
         public int MaxCardsInHand => _maxCardsInHand;
