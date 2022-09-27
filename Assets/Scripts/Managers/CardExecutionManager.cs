@@ -111,7 +111,7 @@ namespace Battle
             return isExecuted;
         }
 
-        public void ExecuteCraftedCard(bool isPlayer, CardData card)
+        public void ForceExecuteCard(bool isPlayer, CardData card)
         {
             // add to crafting slot
             var currentCharacter = GetPlayer(isPlayer);

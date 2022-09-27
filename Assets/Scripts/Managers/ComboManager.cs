@@ -96,7 +96,7 @@ namespace Battle
 
                     case DeckEnum.AutoActivate:
 
-                        _cardExecutionManager.ExecuteCraftedCard(isPlayer,craftedCard);
+                        _cardExecutionManager.ForceExecuteCard(isPlayer,craftedCard);
                 
                         //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
                        // (deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(craftedCard, false);
@@ -224,7 +224,7 @@ namespace Battle
 
             bm.OnBattleManagerDestroyed -= BattleManagerDestroyed;
 
-            var left = _playersManager.GetCharacter(true);
+            var left =  _playersManager.GetCharacter(true);
             var right = _playersManager.GetCharacter(false);
             OnComboDetectedFinished -= left.StaminaHandler.CheckStaminaEmpty;
             OnComboDetectedFinished -= right.StaminaHandler.CheckStaminaEmpty;
