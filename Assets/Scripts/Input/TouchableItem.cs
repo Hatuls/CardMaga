@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 namespace CardMaga.Input
 { 
@@ -212,7 +211,6 @@ namespace CardMaga.Input
         private IEnumerator ProcessHoldTouchCoroutine(PointerEventData eventData)
         {
             BeginHold();
-            _holdLogCount = 0;
             
             while (_isHold)
             {
