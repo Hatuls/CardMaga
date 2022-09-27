@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CardMaga.Input;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class ClickHelper : MonoBehaviour
 {
