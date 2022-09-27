@@ -16,7 +16,7 @@ namespace Managers
     {
         bool IsLeft { get; }
         StaminaHandler StaminaHandler { get; }
-        Character Character { get; }
+        CharacterSO CharacterSO { get; }
         CharacterStatsHandler StatsHandler { get; }
         CardData[] StartingCards { get; }
         DeckHandler DeckHandler { get; }
@@ -52,6 +52,7 @@ namespace Managers
         public bool IsLeft => true;
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
 
+        public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
         public CharacterStatsHandler StatsHandler { get => _statsHandler; }
         public EndTurnHandler EndTurnHandler => _endTurnHandler;
         public VisualCharacter VisualCharacter => _visualCharacter;

@@ -52,6 +52,7 @@ namespace CardMaga.UI
         [SerializeField] private ZoomCardUI _zoomUIState;
         [SerializeField] private FollowCardUI _followUIState;
         [SerializeField] private HandUIState _handUIState;
+        [SerializeField] private ClickHelper _clickHelper;
         
         [Header("Parameters")]
         [SerializeField] private float _delayBetweenCardDiscard;
@@ -157,6 +158,7 @@ namespace CardMaga.UI
 
         public void SetToZoomState(CardUI cardUI)
         {
+            _clickHelper.LoadObject(true,true,() => SetToHandState(cardUI),cardUI.RectTransform);
             SetState(InputBehaviourState.HandZoom,cardUI);
             OnCardSelect?.Invoke(cardUI);
         }

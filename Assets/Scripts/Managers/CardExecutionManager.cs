@@ -323,6 +323,12 @@ namespace Battle
 
 
         #endregion
+
+        public void ResetExecution()
+        {
+            _playersManager.GetCharacter(true).ExecutionOrder.ResetExecutions();
+            _playersManager.GetCharacter(false).ExecutionOrder.ResetExecutions();
+        }
     }
 
 }

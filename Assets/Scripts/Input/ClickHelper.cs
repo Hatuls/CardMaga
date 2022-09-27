@@ -61,6 +61,7 @@ public class ClickHelper : MonoBehaviour
     {
         _canvas.gameObject.SetActive(true);
     }
+    
     /// <summary>
     /// A function that loads the objects in the list and initializes the panel
     /// </summary>

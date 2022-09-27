@@ -55,14 +55,14 @@ public class EndBattleHandler
     private void LeftPlayerWon()
     {
         _playersManager.LeftCharacter.VisualCharacter.AnimatorController.CharacterWon();
-        _playersManager.LeftCharacter.Character.CharacterData.CharacterSO.VictorySound.PlaySound();
+        _playersManager.LeftCharacter.CharacterSO.VictorySound.PlaySound();
         _playersManager.RightCharacter.VisualCharacter.AnimatorController.CharacterIsDead();
     }
 
     private void RightPlayerWon()
     {
         _playersManager.RightCharacter.VisualCharacter.AnimatorController.CharacterWon();
-        _playersManager.RightCharacter.Character.CharacterData.CharacterSO.VictorySound.PlaySound();
+        _playersManager.RightCharacter.CharacterSO.VictorySound.PlaySound();
         _playersManager.LeftCharacter.VisualCharacter.AnimatorController.CharacterIsDead();
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Battle;
-using Managers;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
 namespace CardMaga.Rules
 {
-    public class RuleManager : ISequenceOperation<BattleManager>
+    public class RuleManager : ISequenceOperation<IBattleManager>
     {
         public event Action<bool> OnGameEnded; 
 
@@ -39,7 +39,7 @@ namespace CardMaga.Rules
             OnGameEnded?.Invoke(isLeft);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
             BaseRuleFactorySO[] rules = data.BattleData.BattleConfigSO.GameRule;
             BaseRuleFactorySO<bool>[] endGameRules = data.BattleData.BattleConfigSO.EndGameRule;

@@ -49,13 +49,18 @@ namespace Battle
         private VFXManager _vFXManager;
         [SerializeField]
         private CameraManager _cameraManager;
-
+#if UNITY_EDITOR
+        [Header("Editor:")]
+        [SerializeField] private bool _hideTutorial;
+#endif
+        
         private EndBattleHandler _endBattleHandler;
         private RuleManager _ruleManager;
         private BattleTutorial _battleTutorial;
         private IPlayersManager _playersManager;
         private static SequenceHandler<IBattleManager> _battleStarter = new SequenceHandler<IBattleManager>();
         private GameTurnHandler _gameTurnHandler;
+
 
         #region Properties
         public GameTurnHandler TurnHandler => _gameTurnHandler; 
@@ -131,6 +136,11 @@ namespace Battle
 
         private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
         {
+#if UNITY_EDITOR
+            if (_hideTutorial)
+                return;
+#endif
+            
             if (BattleData.BattleConfigSO?.BattleTutorial == null)
                 return;
 

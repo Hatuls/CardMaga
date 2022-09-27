@@ -53,8 +53,7 @@ namespace Battle
         public VisualCharacter VisualCharacter => _visualCharacter;
         public CardData[] StartingCards => _deck;
         public AIBrain Brain => _brain;
-
-        public Character Character => _character; 
+        public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
         public CharacterStatsHandler StatsHandler => _statsHandler;
         public DeckHandler DeckHandler => _deckHandler;
         public Battle.Combo.Combo[] Combos => _character.CharacterData.ComboRecipe;
