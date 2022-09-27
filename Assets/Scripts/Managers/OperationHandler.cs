@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CardMaga.Sequence
+namespace CardMaga.SequenceOperation
 {
     public class OperationHandler<T> : IEnumerator<T>, ICollection<T>, IComparer<T>
         where T : IOrderable

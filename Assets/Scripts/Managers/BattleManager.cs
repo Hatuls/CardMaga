@@ -1,5 +1,5 @@
 ﻿using Battle.Data;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using Battle.Turns;
 using CardMaga.Battle.UI;
 using Characters.Stats;

@@ -5,7 +5,7 @@ using CardMaga.Battle.UI;
 using CardMaga.Card;
 using CardMaga.UI.Card;
 using DG.Tweening;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections;

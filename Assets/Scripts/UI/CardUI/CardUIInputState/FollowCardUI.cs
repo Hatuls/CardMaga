@@ -4,7 +4,7 @@ using Battle.Deck;
 using CardMaga.UI;
 using CardMaga.UI.Card;
 using DG.Tweening;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using UnityEngine;
 

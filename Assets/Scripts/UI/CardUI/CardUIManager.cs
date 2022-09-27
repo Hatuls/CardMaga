@@ -1,6 +1,6 @@
 using CardMaga.Card;
 using CardMaga.UI.Card;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using Battle.Deck;
 using ReiTools.TokenMachine;
 using System;

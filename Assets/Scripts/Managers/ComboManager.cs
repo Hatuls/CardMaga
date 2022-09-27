@@ -10,7 +10,7 @@ using Unity.Events;
 using UnityEngine;
 using Battle.Combo;
 using CardMaga.Card;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using Battle.Turns;
 using System.Threading;
 

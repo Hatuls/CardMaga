@@ -161,6 +161,8 @@ namespace CardMaga.Card
         {
             var newCore = new CardCore(_cardSO.ID, _cardCoreInfo?.Level ?? 0, _cardCoreInfo?.Exp ?? 0);
             _cardCoreInfo = new CardInstanceID(newCore);
+
+            _cardTypeData= _cardSO.CardType;
         }
 
 #endif

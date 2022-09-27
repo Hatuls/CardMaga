@@ -1,7 +1,7 @@
 ﻿using Battle;
 using CardMaga.UI;
 using CardMaga.UI.Carfting;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using System;
 using UnityEngine;

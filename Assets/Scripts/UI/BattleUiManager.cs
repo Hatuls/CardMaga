@@ -1,6 +1,6 @@
 ﻿using Characters.Stats;
 using Keywords;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using Unity.Events;
 using UnityEngine;
 

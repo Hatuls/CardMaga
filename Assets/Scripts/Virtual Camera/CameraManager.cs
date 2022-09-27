@@ -1,7 +1,7 @@
 ﻿using Battle;
 using Battle.Turns;
 using Cinemachine;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;

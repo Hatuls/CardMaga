@@ -8,7 +8,7 @@ using Characters.Stats;
 using CardMaga.UI.Card;
 using Managers;
 using Battle;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 
 public class GlowManager : MonoBehaviour ,ISequenceOperation<IBattleManager>

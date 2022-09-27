@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ReiTools.TokenMachine;
 
-namespace CardMaga.Sequence
+namespace CardMaga.SequenceOperation
 {
     public enum OrderType { Before, Default, After }
     

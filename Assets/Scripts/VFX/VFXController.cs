@@ -2,7 +2,7 @@
 using Battle.Turns;
 using CardMaga.Card;
 using Keywords;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;

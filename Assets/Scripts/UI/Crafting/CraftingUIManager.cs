@@ -1,5 +1,5 @@
 ﻿using Battle.Deck;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using UnityEngine;
 

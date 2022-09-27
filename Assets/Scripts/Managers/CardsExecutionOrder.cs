@@ -5,7 +5,7 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using CardMaga.Sequence;
+using CardMaga.SequenceOperation;
 
 namespace Battle
 {

@@ -1,7 +1,8 @@
-﻿using CardMaga.Sequence;
+﻿using Battle;
 using Battle.Deck;
 using Battle.Turns;
 using CardMaga.Card;
+using CardMaga.SequenceOperation;
 using CardMaga.UI.Card;
 using Characters.Stats;
 using Keywords;
@@ -58,7 +59,7 @@ namespace Battle
         public int Priority => 0;
 
 
-
+        public bool CanPlayCard(bool isLeft, CardData card) => (card == null) ? false : GetPlayer(isLeft).StaminaHandler.CanPlayCard(card);
         public bool TryExecuteCard(bool isLeft, CardData card)
         {
             if (card == null)
@@ -68,7 +69,7 @@ namespace Battle
                 // not enough stamina 
                 if (isLeft)
                 {
-                    // _staminaBtn.PlayRejectAnimation();
+                    //    _staminaBtn.PlayRejectAnimation();
                     OnFailedToExecute?.Invoke();
                 }
 
@@ -119,8 +120,6 @@ namespace Battle
 
             //(_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
             currentCharacter.ExecutionOrder.AddToQueue(card,0,false);
-
-            //currentCharacter.ExecutionOrder.MoveNext();
             //RegisterCard(card);
 
         }
@@ -307,7 +306,7 @@ namespace Battle
 
         #region Private 
         private IPlayer GetPlayer(bool isLeft) => _playersManager.GetCharacter(isLeft);
-        public bool CanPlayCard(bool isLeft, CardData card) => (card == null) ? false : GetPlayer(isLeft).StaminaHandler.CanPlayCard(card);
+
 
 
 
