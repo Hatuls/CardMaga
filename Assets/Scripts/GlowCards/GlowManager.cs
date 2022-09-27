@@ -8,9 +8,10 @@ using Characters.Stats;
 using CardMaga.UI.Card;
 using Managers;
 using Battle;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 
-public class GlowManager : MonoBehaviour ,ISequenceOperation<BattleManager>
+public class GlowManager : MonoBehaviour ,ISequenceOperation<IBattleManager>
 {
     IGetCardsUI cardUI;
     private StaminaHandler _playerStaminaHandler;
@@ -23,7 +24,7 @@ public class GlowManager : MonoBehaviour ,ISequenceOperation<BattleManager>
         HandUI.OnCardsAddToHand += CheckCardToGlow;
         HandUI.OnCardsExecuteGetCards += CheckCardGlowAfterExecute;
         HandUI.OnCardSelect += ActiveDeckCardsGlow;
-        HandUI.OnCardReturnToHand += DeactiveDeckCards;
+        HandUI.OnCardSetToHandState += DeactiveDeckCards;
     }
 
     public void CheckCardToGlow(IReadOnlyList<CardUI> cards)
@@ -82,7 +83,7 @@ public class GlowManager : MonoBehaviour ,ISequenceOperation<BattleManager>
         HandUI.OnCardSelect -= DeactiveDeckCards;
     }
 
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
         _playerStaminaHandler = data.PlayersManager.GetCharacter(true).StaminaHandler;
     }

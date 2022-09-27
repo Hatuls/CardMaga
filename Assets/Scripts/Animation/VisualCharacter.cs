@@ -26,9 +26,11 @@ public class VisualCharacter : MonoBehaviour
     public AnimationBodyPartSoundsHandler AnimationSound { get => _animationSound; }
     public bool IsLeft { get => _isLeft;private set => _isLeft = value; }
 
-    public void InitVisuals(IPlayer player,CharacterSO characterSO, bool isTinted, GameTurn gameTurn)
+
+    public void InitVisuals(IPlayer player,CharacterSO characterSO, bool isTinted)
     {
         IsLeft = player.IsLeft;
+        AnimatorController.Init(this, player);
 
         ModelSO modelSO = characterSO.CharacterAvatar;
         AvatarHandler = Instantiate(modelSO.Model, _visual.position, Quaternion.identity, _visual);
@@ -38,7 +40,6 @@ public class VisualCharacter : MonoBehaviour
         
         VfxController.AvatarHandler = AvatarHandler;
         Animator.avatar = AvatarHandler.Avatar;
-        AnimatorController.Init(this, gameTurn);
         AnimationSound.CurrentCharacter = characterSO;
 
 #if UNITY_EDITOR

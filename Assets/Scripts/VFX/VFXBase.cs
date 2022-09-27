@@ -1,4 +1,4 @@
-﻿
+﻿using Temp;
 using UnityEngine;
 
 public abstract class VFXBase : MonoBehaviour

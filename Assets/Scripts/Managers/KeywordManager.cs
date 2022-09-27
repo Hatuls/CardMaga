@@ -1,8 +1,7 @@
-﻿
-using Battle;
+﻿using Battle;
 using Battle.Turns;
 using Characters.Stats;
-using Managers;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +11,7 @@ namespace Keywords
 {
     [System.Serializable]
     public class KeywordEvent : UnityEvent<KeywordAbst> { }
-    public class KeywordManager : MonoBehaviour, ISequenceOperation<BattleManager>
+    public class KeywordManager : MonoBehaviour, ISequenceOperation<IBattleManager>
     {
         [SerializeField]
         KeywordEvent keywordEvent;
@@ -34,7 +33,7 @@ namespace Keywords
         #region public Functions
 
 
-        public void ExecuteTask(ITokenReciever token, BattleManager bm)
+        public void ExecuteTask(ITokenReciever token, IBattleManager bm)
         {
             using (token.GetToken())
             {
@@ -43,7 +42,12 @@ namespace Keywords
                 RegisterTurnEvents(_turnHandler.GetTurn(GameTurnType.LeftPlayerTurn));
                 RegisterTurnEvents(_turnHandler.GetTurn(GameTurnType.RightPlayerTurn));
                 _playersManager = bm.PlayersManager;
+
+                _playersManager.GetCharacter(true).ExecutionOrder.OnKeywordExecute += ActivateKeyword;
+                _playersManager.GetCharacter(false).ExecutionOrder.OnKeywordExecute += ActivateKeyword;
+                bm.OnBattleManagerDestroyed += BeforeBattleEnded;
             }
+
             void RegisterTurnEvents(GameTurn turn)
             {
                 turn.StartTurnOperations.Register(StartTurnKeywords);
@@ -94,6 +98,27 @@ namespace Keywords
 
             return isStunned;
         }
+
+
+        #endregion
+
+        #region Private Functions
+        private void EndTurnKeywords(ITokenReciever token)
+        {
+            bool isPlayer = _turnHandler.IsLeftCharacterTurn;
+//            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the end of the turn");
+            var characterStats = _playersManager.GetCharacter(isPlayer).StatsHandler;
+            var vulnrable = characterStats.GetStats(KeywordTypeEnum.Vulnerable);
+            if (vulnrable.Amount > 0)
+                vulnrable.Reduce(1);
+
+            var Weak = characterStats.GetStats(KeywordTypeEnum.Weak);
+            if (Weak.Amount > 0)
+                Weak.Reduce(1);
+
+
+
+        }
         private void StartTurnKeywords(ITokenReciever token)
         {
             bool isPlayer = _turnHandler.IsLeftCharacterTurn;
@@ -108,28 +133,12 @@ namespace Keywords
 
             //  yield return Battles.Turns.Turn.WaitOneSecond;
         }
-
-
-        private void EndTurnKeywords(ITokenReciever token)
+        private void BeforeBattleEnded(IBattleManager bm)
         {
-            bool isPlayer = _turnHandler.IsLeftCharacterTurn;
-            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the end of the turn");
-            var characterStats = _playersManager.GetCharacter(isPlayer).StatsHandler;
-            var vulnrable = characterStats.GetStats(KeywordTypeEnum.Vulnerable);
-            if (vulnrable.Amount > 0)
-                vulnrable.Reduce(1);
-
-            var Weak = characterStats.GetStats(KeywordTypeEnum.Weak);
-            if (Weak.Amount > 0)
-                Weak.Reduce(1);
-
-
-
+            bm.OnBattleManagerDestroyed -= BeforeBattleEnded;
+            _playersManager.GetCharacter(false).ExecutionOrder.OnKeywordExecute -= ActivateKeyword;
+            _playersManager.GetCharacter(true).ExecutionOrder.OnKeywordExecute -= ActivateKeyword;
         }
-        #endregion
-
-        #region Private Functions
-
 
         private void InitParams()
         {
@@ -172,13 +181,8 @@ namespace Keywords
         public void Awake()
         {
             BattleManager.Register(this, OrderType.Before);
-            CardExecutionManager.OnKeywordExecute += ActivateKeyword;
         }
 
-        private void OnDestroy()
-        {
-            CardExecutionManager.OnKeywordExecute -= ActivateKeyword;
-        }
 
         #endregion
     }

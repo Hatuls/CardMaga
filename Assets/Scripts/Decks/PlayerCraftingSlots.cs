@@ -114,14 +114,14 @@ using System.Collections.Generic;
 //}
 
 
-
+[Serializable]
 public class CraftingHandler
 {
     public event Action OnCraftingSlotsReset;
     public event Action OnComboDetectionRequired;
     public event Action<CardTypeData, IEnumerable<CardTypeData>> OnSlotMoved;
 
-
+    [UnityEngine.SerializeField]
     private CraftingSlot[] _craftingSlots;
     private CardTypeData _lastCardTypeData;
     public CardTypeData LastCardTypeData => _lastCardTypeData;
@@ -205,15 +205,15 @@ public class CraftingHandler
         if (!foundPlacement)
         {
             PushBack(true);
-            _craftingSlots[0].CardType = cardTypeData;
+            _craftingSlots[_craftingSlots.Length-1].CardType = cardTypeData;
         }
 
-            OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
+        OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
 
 
         _lastCardTypeData = cardTypeData;
         if (toNotify)
-            OnComboDetectionRequired?.Invoke();
+            DetectCombo();
     }
     public void AddBack(CardData cardTypeData, bool toNotify) => AddBack(cardTypeData?.CardTypeData, toNotify);
     public void AddBack(CardTypeData cardTypeData, bool toDetectCombo)
@@ -241,12 +241,12 @@ public class CraftingHandler
             PushFront(true);
             _craftingSlots[CraftingSlots.Count - 1].CardType = cardTypeData;
         }
-
-         OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
+        
+        OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
 
 
         if (toDetectCombo)
-            OnComboDetectionRequired?.Invoke();
+            DetectCombo();
     }
     #endregion
 
@@ -272,8 +272,12 @@ public class CraftingHandler
         int count = CraftingSlots.Count;
         CardTypeData lastSlot = CraftingSlots[count - 1].CardType;
 
-        for (int i = 0; i < count - 1; i++)
-            _craftingSlots[i + 1].CardType = _craftingSlots[i].CardType;
+        for (int i = count - 1; i > 0; i--)
+            _craftingSlots[i].CardType = _craftingSlots[i-1].CardType;
+
+
+        //for (int i = 0; i < count - 1; i++)
+        //    _craftingSlots[i + 1].CardType = _craftingSlots[i].CardType;
 
         _craftingSlots[0].Reset();
 
@@ -289,10 +293,10 @@ public class CraftingHandler
     public void PushBack(bool toNotify)
     {
         int count = CraftingSlots.Count;
-        CardTypeData firstSlot = CraftingSlots[count - 1].CardType;
+        CardTypeData firstSlot = CraftingSlots[0].CardType;
 
-        for (int i = count - 1; i >= 1; i--)
-            _craftingSlots[i - 1].CardType = _craftingSlots[i].CardType;
+        for (int i = 0; i < count - 1; i++)
+            _craftingSlots[i] = _craftingSlots[i + 1];
 
         _craftingSlots[count - 1].Reset();
 
@@ -315,7 +319,7 @@ public class CraftingHandler
     }
     #endregion
 
-
+    public void DetectCombo() => OnComboDetectionRequired?.Invoke();
     public override string ToString()
     {
         if (_craftingSlots == null)
@@ -332,9 +336,10 @@ public class CraftingHandler
         return result;
     }
 }
-
+[System.Serializable]
 public class CraftingSlot
 {
+    [UnityEngine.SerializeField]
     private CardTypeData _cardType;
     public CardTypeData CardType { get => _cardType; set => _cardType = value; }
     public bool IsEmpty => CardType == null;

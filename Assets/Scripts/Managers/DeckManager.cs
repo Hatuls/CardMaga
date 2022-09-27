@@ -376,7 +376,7 @@ namespace Battle.Deck
 
 
 
-        public DeckHandler(IPlayer character, BattleManager battleManager)
+        public DeckHandler(IPlayer character, IBattleManager battleManager)
         {
             InitDeck(character.StartingCards);
             GameTurnHandler turnhandler = battleManager.TurnHandler;
@@ -556,7 +556,7 @@ namespace Battle.Deck
                     Debug.LogError($"DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card {cardCache} \n " + fromBaseDeck.ToString());
 
             }
-
+            
             OnDrawCards?.Invoke(cardsDraw.ToArray());
         }
         public void TransferCard(DeckEnum from, DeckEnum to, CardData card)

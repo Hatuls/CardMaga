@@ -1,13 +1,13 @@
 ﻿
 using Battle;
 using Characters.Stats;
-using Managers;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class StaminaTextManager : MonoBehaviour, ISequenceOperation<BattleManager>
+public class StaminaTextManager : MonoBehaviour, ISequenceOperation<IBattleManager>
 {
     [SerializeField] private TextMeshProUGUI _currentStamimaText;
     [SerializeField] private TextMeshProUGUI _maxStamimaText;
@@ -83,7 +83,7 @@ public class StaminaTextManager : MonoBehaviour, ISequenceOperation<BattleManage
         ChangeTextColor(_staminaText, _newColor);
         _currentStamimaText.text = (_currentStamina).ToString();
     }
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
         _playerStaminaHandler = data.PlayersManager.GetCharacter(true).StaminaHandler;
         _playerStaminaHandler.OnStaminaValueChanged += UpdateCurrentStamina;

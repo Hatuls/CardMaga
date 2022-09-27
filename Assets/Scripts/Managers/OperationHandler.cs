@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Managers
+namespace CardMaga.SequenceOperation
 {
     public class OperationHandler<T> : IEnumerator<T>, ICollection<T>, IComparer<T>
         where T : IOrderable
@@ -81,9 +81,9 @@ namespace Managers
         public event Action OnDispose;
 
         public int Priority { get; private set; }
-        public Battle.OrderType Order { get; private set; }
+        public OrderType Order { get; private set; }
 
-        public BaseOperationTask(int priority = 0, Battle.OrderType orderType = Battle.OrderType.Default)
+        public BaseOperationTask(int priority = 0, OrderType orderType = OrderType.Default)
         {
             Priority = priority;
             Order = orderType;
@@ -94,7 +94,7 @@ namespace Managers
     public class OperationTask<T> : BaseOperationTask, ISequenceOperation<T>
     {
         public event Action<ITokenReciever,T> OnExecuteTask;
-        public OperationTask(Action<ITokenReciever,T> onExecuteTask, int priority = 0, Battle.OrderType orderType = Battle.OrderType.Default) : base(priority, orderType)
+        public OperationTask(Action<ITokenReciever,T> onExecuteTask, int priority = 0, OrderType orderType = OrderType.Default) : base(priority, orderType)
         {
             OnExecuteTask = onExecuteTask;
         }
@@ -105,7 +105,7 @@ namespace Managers
     public class OperationTask : BaseOperationTask, ISequenceOperation
     {
         public  event Action<ITokenReciever> OnExecuteTask;
-        public OperationTask(Action<ITokenReciever> onExecuteTask,int priority = 0, Battle.OrderType orderType = Battle.OrderType.Default):base(priority, orderType)
+        public OperationTask(Action<ITokenReciever> onExecuteTask,int priority = 0, OrderType orderType = OrderType.Default):base(priority, orderType)
         {
             OnExecuteTask = onExecuteTask;
         }

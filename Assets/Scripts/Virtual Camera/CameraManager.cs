@@ -1,15 +1,15 @@
-﻿
-using Battle;
+﻿using Battle;
 using Battle.Turns;
 using Cinemachine;
-using Managers;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
+
+public class CameraManager : MonoBehaviour, ISequenceOperation<IBattleManager>
 {
     [SerializeField]
     private CinemachineBrain _cinemachineBrain;
@@ -228,14 +228,14 @@ public class CameraManager : MonoBehaviour, ISequenceOperation<BattleManager>
         _counter = 0;
     }
 
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
        var _turnHandler = data.TurnHandler;
         _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit += ReturnToDefaultCamera;
         _turnHandler.GetTurn(GameTurnType.RightPlayerTurn).OnTurnExit += ReturnToDefaultCamera;
         data.OnBattleManagerDestroyed += GameDestroyed;
     }
-    private void GameDestroyed(BattleManager bm)
+    private void GameDestroyed(IBattleManager bm)
     {
         var _turnHandler = bm.TurnHandler;
         _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit  -= ReturnToDefaultCamera;

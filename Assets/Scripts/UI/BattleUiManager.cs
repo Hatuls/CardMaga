@@ -1,7 +1,6 @@
 ﻿using Characters.Stats;
 using Keywords;
-using Managers;
-using ReiTools.TokenMachine;
+using CardMaga.SequenceOperation;
 using Unity.Events;
 using UnityEngine;
 

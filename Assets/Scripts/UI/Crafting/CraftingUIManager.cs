@@ -1,11 +1,11 @@
 ﻿using Battle.Deck;
-using Managers;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
 namespace Battle.UI
 {
-    public class CraftingUIManager : MonoBehaviour, ISequenceOperation<BattleManager>
+    public class CraftingUIManager : MonoBehaviour, ISequenceOperation<IBattleManager>
     {
         [SerializeField] private CraftingSlotUI[] _playerCraftingSlotsUI;
         [SerializeField] private RectTransform _playersfirstSlotTransform;
@@ -42,7 +42,7 @@ namespace Battle.UI
             BattleManager.Register(this, OrderType.Before);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine,BattleManager battleManager)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager battleManager)
         {
             using (tokenMachine.GetToken())
             {

@@ -1,22 +1,17 @@
-
 using CardMaga.Card;
 using CardMaga.UI.Card;
-
-
+using CardMaga.SequenceOperation;
 using Battle.Deck;
-
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using CardMaga.UI;
 using Battle;
-using Managers;
 
 namespace CardMaga.Battle.UI
 {
-    public class CardUIManager : MonoSingleton<CardUIManager>, ISequenceOperation<BattleManager>
+    public class CardUIManager : MonoSingleton<CardUIManager>, ISequenceOperation<IBattleManager>
     {
         #region Field
         private IPlayersManager _players;
@@ -115,16 +110,16 @@ namespace CardMaga.Battle.UI
             _cardPool.Init();
         }
         
-        public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
             _players = data.PlayersManager;
-            CardExecutionManager.OnEnemyCardExecute += PlayEnemyCard;
+            data.CardExecutionManager.OnEnemyCardExecute += PlayEnemyCard;
             data.TurnHandler.GetCharacterTurn(false).EndTurnOperations.Register((x) => ActivateEnemyCardUI(false));
-
+            data.OnBattleManagerDestroyed += BeforeBattleManagerDestroyed;
         }
-        private void OnDestroy()
-        {
-            CardExecutionManager.OnEnemyCardExecute -= PlayEnemyCard;
+        private void BeforeBattleManagerDestroyed(IBattleManager bm)
+        { 
+          bm.CardExecutionManager.OnEnemyCardExecute -= PlayEnemyCard;
         }
         #endregion
     }

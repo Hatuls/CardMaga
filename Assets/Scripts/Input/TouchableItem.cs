@@ -34,6 +34,7 @@ namespace CardMaga.Input
         [SerializeField,Tooltip("The delay between moving from point down to hold")] private float _holdDelay = .5f;
         [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
+        [SerializeField,Tooltip("The current input behaviour state")] [ReadOnly] private InputBehaviourState _currentInputBehaviourState;
 
         private InputBehaviour<T> _inputBehaviour;
         private InputBehaviour<T> _defaultInputBehaviour;
@@ -53,6 +54,11 @@ namespace CardMaga.Input
         
         public InputBehaviour<T> DefaultInputBehaviour => _defaultInputBehaviour;
         public State CurrentState => _currentState;
+
+        public InputBehaviourState CurrentInputBehaviourState
+        {
+            get => _currentInputBehaviourState;
+        }
 
         #endregion
 
@@ -77,7 +83,7 @@ namespace CardMaga.Input
             OnClick?.Invoke(_touchableItem);
             _inputBehaviour.Click(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " Click");
+	        //Debug.Log(_touchableItem.name + GetInstanceID() + " Click");
 #endif
         }
         
@@ -86,7 +92,7 @@ namespace CardMaga.Input
             OnBeginHold?.Invoke(_touchableItem);
             _inputBehaviour.BeginHold(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " BeginHold");
+	        // Debug.Log(_touchableItem.name + GetInstanceID() + " BeginHold");
 #endif
         }
         
@@ -95,7 +101,7 @@ namespace CardMaga.Input
             OnEndHold?.Invoke(_touchableItem);
             _inputBehaviour.EndHold(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " EndHold");
+	        // Debug.Log(_touchableItem.name + GetInstanceID() + " EndHold");
 #endif
         }
         
@@ -106,7 +112,7 @@ namespace CardMaga.Input
 #if UNITY_EDITOR
             if (_holdLogCount % 10 == 0)
             {
-                Debug.Log(_touchableItem.name + GetInstanceID() + " Hold");
+	            //Debug.Log(_touchableItem.name + GetInstanceID() + " Hold");
             }
             _holdLogCount++;
 
@@ -118,7 +124,7 @@ namespace CardMaga.Input
             OnPointDown?.Invoke(_touchableItem);
             _inputBehaviour.PointDown(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " PointDown");
+	        //Debug.Log(_touchableItem.name + GetInstanceID() + " PointDown");
 #endif
         }
         
@@ -127,7 +133,7 @@ namespace CardMaga.Input
             OnPointUp?.Invoke(_touchableItem);
             _inputBehaviour.PointUp(_touchableItem);
 #if UNITY_EDITOR
-            Debug.Log(_touchableItem.name + GetInstanceID() + " PointUp");
+	        //Debug.Log(_touchableItem.name + GetInstanceID() + " PointUp");
 #endif
         }
 
@@ -280,6 +286,11 @@ namespace CardMaga.Input
 
         #region InputBehaviourManagement
 
+        public void ChangeState(InputBehaviourState state)
+        {
+            _currentInputBehaviourState = state;
+        }
+        
         public bool TrySetInputBehaviour(InputBehaviour<T> inputBehaviour)
         {
             if (inputBehaviour == null || _inputBehaviour == null)
@@ -301,8 +312,9 @@ namespace CardMaga.Input
             _inputBehaviour = inputBehaviour;
         }
 
-        public void ResetInputBehaviour()
+        public void ForceResetInputBehaviour()
         {
+            _currentInputBehaviourState = InputBehaviourState.Default;
             _inputBehaviour = _defaultInputBehaviour;
         }
 

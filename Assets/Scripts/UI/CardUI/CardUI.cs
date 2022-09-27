@@ -32,7 +32,7 @@ namespace CardMaga.UI.Card
         public void AssignCard(CardMaga.Card.CardData card)
         {
             CardData = card;
-            CardVisuals.SetCardVisuals(card);
+            CardVisuals.Init(card);
         }
 
         #region Ipoolable Implementation

@@ -11,6 +11,7 @@ namespace CardMaga.Input
         public event Action<T> OnHold;
         public event Action<T> OnPointDown;
         public event Action<T> OnPointUp;
+        
     
         public virtual void Click(T obj)
         {
