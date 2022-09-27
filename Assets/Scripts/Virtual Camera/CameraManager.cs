@@ -1,14 +1,14 @@
-﻿
-using Battle;
+﻿using Battle;
 using Battle.Turns;
 using Cinemachine;
-using Managers;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class CameraManager : MonoBehaviour, ISequenceOperation<IBattleManager>
 {
     [SerializeField]

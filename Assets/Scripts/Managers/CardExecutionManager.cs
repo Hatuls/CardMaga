@@ -1,4 +1,4 @@
-﻿using Battle;
+﻿using CardMaga.Sequence;
 using Battle.Deck;
 using Battle.Turns;
 using CardMaga.Card;
@@ -68,7 +68,7 @@ namespace Battle
                 // not enough stamina 
                 if (isLeft)
                 {
-                    //    _staminaBtn.PlayRejectAnimation();
+                    // _staminaBtn.PlayRejectAnimation();
                     OnFailedToExecute?.Invoke();
                 }
 
@@ -120,7 +120,7 @@ namespace Battle
             //(_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
             currentCharacter.ExecutionOrder.AddToQueue(card,0,false);
 
-            currentCharacter.ExecutionOrder.MoveNext();
+            //currentCharacter.ExecutionOrder.MoveNext();
             //RegisterCard(card);
 
         }
@@ -307,7 +307,7 @@ namespace Battle
 
         #region Private 
         private IPlayer GetPlayer(bool isLeft) => _playersManager.GetCharacter(isLeft);
-        private bool CanPlayCard(bool isLeft, CardData card) => (card == null) ? false : GetPlayer(isLeft).StaminaHandler.CanPlayCard(card);
+        public bool CanPlayCard(bool isLeft, CardData card) => (card == null) ? false : GetPlayer(isLeft).StaminaHandler.CanPlayCard(card);
 
 
 

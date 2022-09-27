@@ -1130,12 +1130,12 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _player._characterData._characterStats._health
-      value: 90
+      value: 99999
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterStats._health
-      value: 90
+      value: 999999
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -1145,7 +1145,7 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _player._characterData._characterStats._maxHealth
-      value: 90
+      value: 99999
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -1155,7 +1155,7 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _opponent._characterData._characterStats._maxHealth
-      value: 90
+      value: 999999
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -2858,6 +2858,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Environment_01
       objectReference: {fileID: 0}
+    - target: {fileID: 819656651655796557, guid: 117e1c48040d74d4995824e56dc578f3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 819656651922549521, guid: 117e1c48040d74d4995824e56dc578f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4280,6 +4285,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bed9d87420c3bf94cae7328383200408, type: 3}
+--- !u!114 &1961310652 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5200766102474334544, guid: e85af4287e4c649448566fa0a5af3d8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5702666649249262307}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7190519864dd6e54994a400872975cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1965439369
 GameObject:
   m_ObjectHideFlags: 0
@@ -5135,6 +5152,11 @@ PrefabInstance:
       objectReference: {fileID: 921050850}
     - target: {fileID: 5313819635375779531, guid: 353491b6d4691024a960a6196cac83bf,
         type: 3}
+      propertyPath: _cardUIManager
+      value: 
+      objectReference: {fileID: 2064259212}
+    - target: {fileID: 5313819635375779531, guid: 353491b6d4691024a960a6196cac83bf,
+        type: 3}
       propertyPath: _playerManager
       value: 
       objectReference: {fileID: 223992439}
@@ -5793,6 +5815,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 482083833}
     m_Modifications:
+    - target: {fileID: 5200766102474334544, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: _handUI
+      value: 
+      objectReference: {fileID: 5702666649249262310}
+    - target: {fileID: 5200766102474334544, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: _delayBetweenCardDrawn
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200766102474334544, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: _tableCardSlot._middleHandPos
+      value: 
+      objectReference: {fileID: 1417368370}
+    - target: {fileID: 5200766102474334544, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: _tableCardSlot._cardPaddingPrecentage
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200766102474334544, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: _tableCardSlot._cardCenterOffSetPrecentage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5368535060217224795, guid: e85af4287e4c649448566fa0a5af3d8c,
         type: 3}
       propertyPath: _handUI
@@ -5918,6 +5965,11 @@ PrefabInstance:
       propertyPath: _discardPos
       value: 
       objectReference: {fileID: 226503774}
+    - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: _handUIState
+      value: 
+      objectReference: {fileID: 1961310652}
     - target: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,
         type: 3}
       propertyPath: _zoomUIState

@@ -208,7 +208,7 @@ public class CraftingHandler
             _craftingSlots[_craftingSlots.Length-1].CardType = cardTypeData;
         }
 
-            OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
+        OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
 
 
         _lastCardTypeData = cardTypeData;
@@ -241,8 +241,8 @@ public class CraftingHandler
             PushFront(true);
             _craftingSlots[CraftingSlots.Count - 1].CardType = cardTypeData;
         }
-
-         OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
+        
+        OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
 
 
         if (toDetectCombo)

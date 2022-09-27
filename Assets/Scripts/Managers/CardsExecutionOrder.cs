@@ -5,6 +5,7 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using CardMaga.Sequence;
 
 namespace Battle
 {
@@ -21,7 +22,6 @@ namespace Battle
         private readonly TokenMachine _cardExecutedTokenMachine;
         private readonly IPlayer _character;
 
-     
         private int _currentKeywordIndex;
         private SortedQueue<CardAction> _queue;
         private List<KeywordData> _keywordData;
@@ -35,7 +35,6 @@ namespace Battle
 
         public CardsExecutionOrder(IPlayer player)
         {
-
             _character = player;
             _cardExecutedTokenMachine = new TokenMachine(MoveNext);
             _queue = new SortedQueue<CardAction>();
@@ -72,15 +71,13 @@ namespace Battle
             SortKeywords(cardData);
             if (nextAction.ToUpdateCraftingSlots)
                 _character.CraftingHandler.AddFront(cardData, true);
-            else
-                _character.CraftingHandler.DetectCombo();
+            //else
+              //  _character.CraftingHandler.DetectCombo();//need to check rei
 
             if (cardData.CardSO.AnimationBundle.AttackAnimation == string.Empty)
                 InstantExecution(nextAction);
             else
                 AnimationExcecution(nextAction);
-
-
         }
 
         public void ResetExecutions()
@@ -126,7 +123,7 @@ namespace Battle
                 return;
 
 
-            Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
+//            Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
             bool currentTurn = _character.IsLeft;
             KeywordData keyword = null;
 
@@ -157,7 +154,7 @@ namespace Battle
         private void FinishAnimation()
         {
             _isExecuting = false;
-            MoveNext();
+            //MoveNext(); //???
         }
         private void InstantExecution(CardAction nextAction)
         {
@@ -182,8 +179,8 @@ namespace Battle
             {
                 var animatorController = _character.VisualCharacter.AnimatorController;
                 animatorController.OnAnimationExecuteKeyword -= OnKeywordEvent;
-                OnCardExecute += animatorController.PlayAnimation;
-                animatorController.OnAnimationEnding += FinishAnimation;
+                OnCardExecute -= animatorController.PlayAnimation;
+               animatorController.OnAnimationEnding -= FinishAnimation;
             }
         }
     }

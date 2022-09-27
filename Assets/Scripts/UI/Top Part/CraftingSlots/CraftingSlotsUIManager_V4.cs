@@ -1,7 +1,7 @@
 ﻿using Battle;
 using CardMaga.UI;
 using CardMaga.UI.Carfting;
-using Managers;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
@@ -25,7 +25,7 @@ public class CraftingSlotsUIManager_V4 : MonoBehaviour, ISequenceOperation<IBatt
         data.CardExecutionManager.OnEnemyCardExecute += _enemySlots.ApplyEnemySlot;
         data.OnBattleManagerDestroyed += BeforeGameFinished;
         HandUI.OnCardSelect += _playerSlots.LoadCraftingSlot;
-        HandUI.OnCardReturnToHand += _playerSlots.CancelLoadSlot;
+        HandUI.OnCardSetToHandState += _playerSlots.CancelLoadSlot;
     }
 
     private void BeforeGameFinished(IBattleManager data)
@@ -34,7 +34,7 @@ public class CraftingSlotsUIManager_V4 : MonoBehaviour, ISequenceOperation<IBatt
         data.CardExecutionManager.OnPlayerCardExecute -= _playerSlots.ApplySlot;
         data.CardExecutionManager.OnEnemyCardExecute  -= _enemySlots.ApplyEnemySlot;
         HandUI.OnCardSelect -= _playerSlots.LoadCraftingSlot;
-        HandUI.OnCardReturnToHand -= _playerSlots.CancelLoadSlot;
+        HandUI.OnCardSetToHandState -= _playerSlots.CancelLoadSlot;
         _playersManager.GetCharacter(true).CraftingHandler.OnCraftingSlotsReset -= _playerSlots.RestCraftingSlots;
         _playersManager.GetCharacter(false).CraftingHandler.OnCraftingSlotsReset -= _enemySlots.RestCraftingSlots;
     }

@@ -25,7 +25,7 @@ namespace CardMaga.UI
         [SerializeField] RectTransform _cardName;
         [SerializeField] CanvasGroup _description;
 
-        Sequence _zoomSequence;
+        DG.Tweening.Sequence _zoomSequence;
         float _startPos;
         float _endPos;
 
@@ -76,7 +76,7 @@ namespace CardMaga.UI
             int cardType = (int)type - 1;
             _startPos = _zoomPositionsSO.YStartPosition[cardType];
             _endPos = _zoomPositionsSO.YEndPosition[cardType];
-            Debug.Log("Recived ZoomData");
+	        //Debug.Log("Recived ZoomData");
         }
         public void KillTween()
         {
@@ -84,7 +84,7 @@ namespace CardMaga.UI
                 _zoomSequence.Kill();
 
         }
-   //     [Button("Zoom In")]
+   //     [Button("HandZoom In")]
         private void ZoomIn()
         {
             KillTween();
@@ -110,7 +110,7 @@ namespace CardMaga.UI
             if(OnZoomInCompleted != null)
                 _zoomSequence.OnComplete(OnZoomInCompleted.Invoke);
         }
-  //      [Button("Zoom Out")]
+  //      [Button("HandZoom Out")]
         private void ZoomOut()
         {
             KillTween();

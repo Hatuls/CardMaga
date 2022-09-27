@@ -8,6 +8,7 @@ using Characters.Stats;
 using CardMaga.UI.Card;
 using Managers;
 using Battle;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
 
 public class GlowManager : MonoBehaviour ,ISequenceOperation<IBattleManager>
@@ -23,7 +24,7 @@ public class GlowManager : MonoBehaviour ,ISequenceOperation<IBattleManager>
         HandUI.OnCardsAddToHand += CheckCardToGlow;
         HandUI.OnCardsExecuteGetCards += CheckCardGlowAfterExecute;
         HandUI.OnCardSelect += ActiveDeckCardsGlow;
-        HandUI.OnCardReturnToHand += DeactiveDeckCards;
+        HandUI.OnCardSetToHandState += DeactiveDeckCards;
     }
 
     public void CheckCardToGlow(IReadOnlyList<CardUI> cards)

@@ -1,7 +1,7 @@
 ﻿using Battle;
 using Battle.Turns;
 using DG.Tweening;
-using Managers;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections;

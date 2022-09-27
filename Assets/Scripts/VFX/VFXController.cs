@@ -2,11 +2,11 @@
 using Battle.Turns;
 using CardMaga.Card;
 using Keywords;
-using Managers;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class VFXController : MonoBehaviour , ISequenceOperation<IBattleManager>
 {
 

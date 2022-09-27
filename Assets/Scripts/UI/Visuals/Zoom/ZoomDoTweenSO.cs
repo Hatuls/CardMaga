@@ -2,7 +2,7 @@
 
 namespace CardMaga.UI.Visuals
 {
-    [CreateAssetMenu(fileName = "Zoom DoTween SO", menuName = "ScriptableObjects/UI/Visuals/ZoomDoTweenSO")]
+    [CreateAssetMenu(fileName = "HandZoom DoTween SO", menuName = "ScriptableObjects/UI/Visuals/ZoomDoTweenSO")]
 
     public class ZoomDoTweenSO : ScriptableObject
     {

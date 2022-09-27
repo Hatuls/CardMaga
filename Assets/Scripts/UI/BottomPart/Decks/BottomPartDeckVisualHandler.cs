@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using System;
 using ReiTools.TokenMachine;
 using Battle;
+using CardMaga.Sequence;
 using Managers;
 
 namespace CardMaga.UI

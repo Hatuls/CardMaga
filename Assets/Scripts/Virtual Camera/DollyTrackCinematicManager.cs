@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Battle;
-using Managers;
+using CardMaga.Sequence;
 
 public class DollyTrackCinematicManager : MonoBehaviour
 {

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections;
-using Battle;
-using Battle.Deck;
+﻿using System.Collections;
 using CardMaga.Card;
 using CardMaga.UI.Card;
 using CardMaga.UI.Visuals;
 using UnityEngine;
 using DG.Tweening;
-using ReiTools.TokenMachine;
 
 namespace CardMaga.UI.Carfting
 {

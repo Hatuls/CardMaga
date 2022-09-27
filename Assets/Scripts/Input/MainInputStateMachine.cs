@@ -1,4 +1,5 @@
 ﻿using Battle;
+using CardMaga.Sequence;
 using Managers;
 using ReiTools.TokenMachine;
 
