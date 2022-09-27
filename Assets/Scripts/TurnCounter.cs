@@ -2,13 +2,13 @@
 using Battle.Turns;
 using CardMaga.UI;
 using DG.Tweening;
-using Managers;
+using CardMaga.Sequence;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
+public class TurnCounter : MonoBehaviour, ISequenceOperation<IBattleManager>
 {
     private static TokenMachine _timerTokenMachine;
     public static event Action OnCounterDepleted;
@@ -36,7 +36,7 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
     private TransitionPackSO _timerTextTransition;
 
 
-
+    private IPlayersManager _playersManager;
     private GameTurnHandler _gameTurnHandler;
     private int _textTime;
     private float _counter;
@@ -130,31 +130,34 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<BattleManager>
         ContinueTimer();
         StartTime();
     }
-    public void ExecuteTask(ITokenReciever tokenMachine, BattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
         using (tokenMachine.GetToken())
         {
-            var turn = data.TurnHandler;
-            OnCounterDepleted += turn.MoveToNextTurn;
-            var leftTurn = turn.GetTurn(GameTurnType.LeftPlayerTurn);
+            _gameTurnHandler = data.TurnHandler;
+            OnCounterDepleted += EndTurn;
+            var leftTurn = _gameTurnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
             leftTurn.OnTurnExit += StopTimer;
             leftTurn.OnTurnActive += StartTurn;
             BattleManager.OnGameEnded += StopTimer;
 
-            var rightTurn = turn.GetTurn(GameTurnType.RightPlayerTurn);
+            var rightTurn = _gameTurnHandler.GetTurn(GameTurnType.RightPlayerTurn);
             rightTurn.OnTurnActive += StartTurn;
             rightTurn.OnTurnEnter += StopTimer;
             data.OnBattleManagerDestroyed += Dispose;
-
-            turn.GetTurn(GameTurnType.ExitBattle).OnTurnActive += StopTimer;
+            _playersManager = data.PlayersManager;
+            _gameTurnHandler.GetTurn(GameTurnType.ExitBattle).OnTurnActive += StopTimer;
         }
     }
-
-    public void Dispose(BattleManager bm)
+    private void EndTurn() {
+        var currentPlayer = _gameTurnHandler.IsLeftCharacterTurn;
+                _playersManager.GetCharacter(currentPlayer).EndTurnHandler.EndTurnPressed();
+    }
+    public void Dispose(IBattleManager bm)
     {
         var turn = bm.TurnHandler;
         bm.OnBattleManagerDestroyed -= Dispose;
-        OnCounterDepleted -= turn.MoveToNextTurn;
+        OnCounterDepleted -= EndTurn;
         var leftTurn = turn.GetTurn(GameTurnType.LeftPlayerTurn);
         leftTurn.OnTurnExit -= StopTimer;
         leftTurn.OnTurnActive -= StartTurn;

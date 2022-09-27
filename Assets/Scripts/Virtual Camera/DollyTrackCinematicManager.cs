@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Battle;
-using Managers;
+using CardMaga.Sequence;
 
 public class DollyTrackCinematicManager : MonoBehaviour
 {
@@ -30,12 +30,12 @@ public class DollyTrackCinematicManager : MonoBehaviour
             _dollyTrack = _cinematicCam.GetCinemachineComponent<CinemachineTrackedDolly>();
         _cinematicCam.gameObject.SetActive(false);
         const int order = 2;
-        BattleManager.Register(new OperationTask<BattleManager>(StartCinematicTrack, order), OrderType.After);
+        BattleManager.Register(new OperationTask<IBattleManager>(StartCinematicTrack, order), OrderType.After);
     }
 
  
 
-    public void StartCinematicTrack(ITokenReciever tokenMachine,BattleManager battleManager)
+    public void StartCinematicTrack(ITokenReciever tokenMachine, IBattleManager battleManager)
     {
         _token = tokenMachine.GetToken();
 

@@ -6,11 +6,12 @@ using Sirenix.OdinInspector;
 using System;
 using ReiTools.TokenMachine;
 using Battle;
+using CardMaga.Sequence;
 using Managers;
 
 namespace CardMaga.UI
 {
-    public class BottomPartDeckVisualHandler : MonoBehaviour , ISequenceOperation<BattleManager>
+    public class BottomPartDeckVisualHandler : MonoBehaviour , ISequenceOperation<IBattleManager>
     {
 #if UNITY_EDITOR
         //[Header("Test")]
@@ -75,7 +76,7 @@ namespace CardMaga.UI
             BattleManager.Register(this, OrderType.Before);
         }
   
-        public void ExecuteTask(ITokenReciever tokenMachine,BattleManager battleManager)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager battleManager)
         {
          
             using (tokenMachine.GetToken())

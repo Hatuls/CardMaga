@@ -108,5 +108,4 @@ namespace ReiTools.TokenMachine
             OnRelease?.Invoke(this);
         }
     }
-
 }

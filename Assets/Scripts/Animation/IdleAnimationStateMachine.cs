@@ -15,7 +15,7 @@ public class IdleAnimationStateMachine : CharacterBaseStateMachine
         }
 
         if (isPlayer == null)
-            isPlayer = GetAnimatorController(animator).IsPlayersAnimator;
+            isPlayer = GetAnimatorController(animator).IsLeft;
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -25,7 +25,7 @@ public class IdleAnimationStateMachine : CharacterBaseStateMachine
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (GetAnimatorController(animator).IsPlayersAnimator)
+        if (GetAnimatorController(animator).IsLeft)
                    CheckPlayerTurn();
 
     }

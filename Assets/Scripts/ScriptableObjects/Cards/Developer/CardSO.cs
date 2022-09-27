@@ -11,8 +11,6 @@ namespace CardMaga.Card
     [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
     public class CardSO : ScriptableObject
     {
-
-
         #region Fields
         [TitleGroup("CardData", BoldTitle = true, Alignment = TitleAlignments.Centered)]
 
@@ -138,7 +136,6 @@ namespace CardMaga.Card
 
         #endregion
 
-
         #region Methods
         public PerLevelUpgrade GetLevelUpgrade(int level)
         {
@@ -183,7 +180,6 @@ namespace CardMaga.Card
         }
 
         #endregion
-
     }
 
     public enum LevelUpgradeEnum
@@ -194,7 +190,6 @@ namespace CardMaga.Card
         ConditionReduction = 3,
         ToRemoveExhaust = 4,
         BodyPart = 5,
-
     }
 
     public enum RarityEnum

@@ -34,7 +34,8 @@ namespace Battle
         private CharacterStatsHandler _statsHandler;
         private CardData[] _deck;
         private AIHand _aiHand;
-
+        private CardsExecutionOrder _executionOrder;
+        private EndTurnHandler _endTurnHandler;
 
 
 
@@ -57,8 +58,10 @@ namespace Battle
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
         public GameTurn MyTurn => _myTurn;
         public StaminaHandler StaminaHandler => _staminaHandler;
-
+        public EndTurnHandler EndTurnHandler => _endTurnHandler;
         public CraftingHandler CraftingHandler => _craftingHandler;
+
+        public CardsExecutionOrder ExecutionOrder => _executionOrder;
         #endregion
 
         #region Public Methods
@@ -67,35 +70,54 @@ namespace Battle
 
 
 
-        public void AssignCharacterData(BattleManager battleManager, Character character)
+        public void AssignCharacterData(IBattleManager battleManager, Character character)
         {
+            battleManager.OnBattleManagerDestroyed += BeforeGameExit;
             _myCharacter = character;
-            var characterdata = character.CharacterData;
-
+            //data from battledata
+            CharacterBattleData characterdata = character.CharacterData;
+            //Deck
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new CardData[deckLength];
             Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
-
-            _craftingHandler = new CraftingHandler();
             _deckHandler = new DeckHandler(this, battleManager);
+            //CraftingSlots
+            _craftingHandler = new CraftingHandler();
+      
+            //Stats
             _statsHandler = new CharacterStatsHandler(IsLeft, ref characterdata.CharacterStats, StaminaHandler);
+
+            //Stamina
             _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
 
-            _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw));
 
-
+            //Turn
             _turnHandler = battleManager.TurnHandler;
             _myTurn = _turnHandler.GetCharacterTurn(IsLeft);
-           _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
-           _myTurn.StartTurnOperations.Register(DrawHands);
-           _myTurn.OnTurnActive += PlayEnemyTurn;
+            _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
+            _myTurn.StartTurnOperations.Register(DrawHands);
+            _myTurn.OnTurnActive += PlayEnemyTurn;
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
-  
+            //AI 
+            _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw));
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
-            _staminaHandler.OnStaminaDepleted += _turnHandler.MoveToNextTurn;
+            
+            //Excecution
+            _executionOrder = new CardsExecutionOrder(this);
+            _staminaHandler.OnStaminaDepleted +=_executionOrder.CheckExcecution;
+
+            _endTurnHandler = new EndTurnHandler(this, battleManager);
         }
 
+        private void BeforeGameExit(IBattleManager obj)
+        {
+            obj.OnBattleManagerDestroyed -= BeforeGameExit;
+            _endTurnHandler.Dispose();
+            _executionOrder.Dispose();
 
+            _myTurn.OnTurnActive -= CalculateEnemyMoves;
+            _myTurn = null;
+        }
 
         public void OnEndBattle()
         {
@@ -165,15 +187,11 @@ namespace Battle
     => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
         private void FinishTurn()
         {
-            _turnHandler.MoveToNextTurn();
+           _endTurnHandler.EndTurnPressed();
             AnimatorController.ResetToStartingPosition();
         }
 
-        private void OnDisable()
-        {
-            _myTurn.OnTurnActive -= CalculateEnemyMoves;
-            _myTurn = null;
-        }
+  
         #endregion
     }
 
