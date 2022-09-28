@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using CardMaga.Input;
-using UnityEngine;
+﻿using CardMaga.Input;
 
 public class Clicker : TouchableItem<Clicker>
 {
-    private void Start()
+    private void Awake()
     {
         ForceChangeState(true);
     }

@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class ClickHelper : MonoBehaviour
 {
+    static ClickHelper _instance;
+    public static ClickHelper Instance { get { return _instance; } }
+
     #region Fields
 
     [SerializeField] private Clicker _clicker;
     [SerializeField] private RectTransform _panel;
     [SerializeField] private RectTransform _canvas;
+    [SerializeField] private ClickBlocker _clickBlocker;
     
     private Action _action;
     
@@ -16,6 +20,14 @@ public class ClickHelper : MonoBehaviour
     private List<RectTransform> _loadedObjectParents;
 
     private bool _closeOnClick = false;
+
+
+    #endregion
+
+    #region Properties
+
+    public ClickBlocker ClickBlocker { get {return _clickBlocker; } }
+    public Clicker Clicker { get {return _clicker; } }
 
     #endregion
 
@@ -26,6 +38,8 @@ public class ClickHelper : MonoBehaviour
         _loadedObjects = new List<RectTransform>();
         _loadedObjectParents = new List<RectTransform>();
         _clicker.OnClick += Click;
+        _instance = this;
+        _clickBlocker.Init(this);
     }
 
     private void OnDestroy()
@@ -34,11 +48,13 @@ public class ClickHelper : MonoBehaviour
     }
 
     #endregion
-    
+
     #region PublicFunction
     /// <summary>
     /// A function that returns all loaded objects to their original position in the hierarchy, and closes the panel
     /// </summary>
+    /// 
+
     public void Close()
     {
         if(!_canvas.gameObject.activeSelf)
@@ -85,6 +101,7 @@ public class ClickHelper : MonoBehaviour
         _action = action;
         _closeOnClick = closeOnClick;
     }
+    
 
     #endregion
 
@@ -92,11 +109,11 @@ public class ClickHelper : MonoBehaviour
 
     private void Click(Clicker clicker)
     {
-        if (_action != null)
-            _action?.Invoke();
-        
-        if (_closeOnClick)
-            Close();
+            if (_action != null)
+                _action?.Invoke();
+
+            if (_closeOnClick)
+                Close();
     }
     #endregion
 }
