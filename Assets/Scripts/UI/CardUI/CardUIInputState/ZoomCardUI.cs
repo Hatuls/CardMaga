@@ -1,41 +1,46 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
+
 namespace CardMaga.UI.Card
 {
     public class ZoomCardUI : BaseHandUIState
     {
         [Header("Scripts Reference")] 
         [SerializeField] private HandUI _handUI;
+        [SerializeField] private ClickHelper _clickHelper;
         [Header("TransitionPackSO")]
         [SerializeField] private TransitionPackSO _zoomCard;
         [SerializeField] private TransitionPackSO _resetZoomCard;
         [Header("RectTransforms")]
         [SerializeField] private RectTransform _zoomPosition;
 
-        private DG.Tweening.Sequence _currentSequence;
+        private Sequence _currentSequence;
 
         private IDisposable _zoomToken;
 
         private void Start()
         {
             _inputBehaviour.OnClick += ReturnToHandState;
+            _inputBehaviour.OnBeginHold += SetToFallowState;
         }
 
         private void OnDestroy()
         {
             _inputBehaviour.OnClick -= ReturnToHandState;
+            _inputBehaviour.OnBeginHold -= SetToFallowState;
         }
 
         public override void EnterState(CardUI cardUI)
         {
             base.EnterState(cardUI);
-            
+            _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
             MoveToZoomPosition(cardUI);
         }
 
         public override void ExitState(CardUI cardUI)
         {
+            _clickHelper.Close();
             _zoomToken?.Dispose();
             base.ExitState(cardUI);
         }
@@ -43,6 +48,11 @@ namespace CardMaga.UI.Card
         private void ReturnToHandState(CardUI cardUI)
         {
             _handUI.SetToHandState(cardUI);
+        }
+
+        private void SetToFallowState(CardUI cardUI)
+        {
+            _handUI.SetToFollowState(cardUI);
         }
 
         public override CardUI ForceExitState()
