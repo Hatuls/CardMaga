@@ -86,7 +86,7 @@ namespace Battle
 
         private void InitParams()
         {
-            _gameTurnHandler = new GameTurnHandler();
+            _gameTurnHandler = new GameTurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);
@@ -102,8 +102,6 @@ namespace Battle
             if (AudioManager.Instance != null)
                 AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
-
-        
         }
         // Need To be Re-Done
         public void StartBattle()

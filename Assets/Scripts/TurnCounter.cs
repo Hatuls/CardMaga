@@ -20,10 +20,7 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<IBattleManager>
     private TextMeshProUGUI _timerText;
     [SerializeField]
     private RectTransform _textScaler;
-    [SerializeField, Tooltip("The Turn Time (when depeleted it will end the turn)")]
-    private float _timeTillEndTurn;
-
-
+    
     [SerializeField, Tooltip("The Color when the timer is under the limit time")]
     private Color _lowTextColor;
     [SerializeField, Tooltip("The Color when the timer is above the limit time")]
@@ -35,7 +32,8 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<IBattleManager>
     [SerializeField]
     private TransitionPackSO _timerTextTransition;
 
-
+    private bool _isTimerActive;
+    private float _timeTillEndTurn;
     private IPlayersManager _playersManager;
     private GameTurnHandler _gameTurnHandler;
     private int _textTime;
@@ -127,6 +125,9 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<IBattleManager>
     private void StopTimer() => _toStopTimer = true;
     private void StartTurn()
     {
+        if (!_isTimerActive)
+            return;
+        
         ContinueTimer();
         StartTime();
     }
@@ -134,6 +135,8 @@ public class TurnCounter : MonoBehaviour, ISequenceOperation<IBattleManager>
     {
         using (tokenMachine.GetToken())
         {
+            _isTimerActive = data.BattleData.BattleConfigSO.TimerActive;
+            _timeTillEndTurn = data.BattleData.BattleConfigSO.TimerCountdown;
             _gameTurnHandler = data.TurnHandler;
             OnCounterDepleted += EndTurn;
             var leftTurn = _gameTurnHandler.GetTurn(GameTurnType.LeftPlayerTurn);

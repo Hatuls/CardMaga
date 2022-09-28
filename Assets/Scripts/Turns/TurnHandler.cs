@@ -402,11 +402,11 @@ namespace Battle.Turns
         public bool IsRightCharacterTurn => CurrentTurn == GameTurnType.RightPlayerTurn;
         public ITokenReciever TurnChangeTokenMachine => _turnStarterTurnMachine;
 
-        public GameTurnHandler() //will need to enter turn logic here 
+        public GameTurnHandler(GameTurnType startGameTurnType) //will need to enter turn logic here 
         {
             _gameTurnsDictionary = new Dictionary<GameTurnType, GameTurn>()
             {
-                { GameTurnType.EnterBattle,     new GameTurn(new NextTurn(/*Start Turn Logic Enter here*/ GameTurnType.LeftPlayerTurn, 0)) },
+                { GameTurnType.EnterBattle,     new GameTurn(new NextTurn(startGameTurnType, 0)) },
                 { GameTurnType.LeftPlayerTurn,  new GameTurn(new NextTurn( GameTurnType.RightPlayerTurn, 0))},
                 { GameTurnType.RightPlayerTurn, new GameTurn(new NextTurn( GameTurnType.LeftPlayerTurn, 0)) },
                 { GameTurnType.ExitBattle,      new GameTurn(null) },

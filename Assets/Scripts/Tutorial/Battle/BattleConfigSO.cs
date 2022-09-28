@@ -15,9 +15,9 @@ namespace CardMaga.BattleConfigSO
         [SerializeField] private bool _isOverideCharacter;
         [SerializeField] private Character _player;
         [SerializeField] private Character _enemy;
-        [SerializeField] private int _turnCountdown;
         [SerializeField] private bool _timerActive;
-        [SerializeField] private bool _isPlayerStart;
+        [SerializeField] private int _timerCountdown;
+        [SerializeField] private CharacterSelecter _characterSelecter;
         [SerializeField] private BaseRuleFactorySO[] _gameRules;
         [SerializeField] private BaseEndGameRuleFactorySO[] _endGameRules; 
         [SerializeField] private BattleTutorial _battleTutorial;
@@ -27,9 +27,9 @@ namespace CardMaga.BattleConfigSO
         public bool IsOverideCharacter => _isOverideCharacter;
         public Character Player => _player;
         public Character Enemy => _enemy;
-        public int TurnCountdown => _turnCountdown;
+        public int TimerCountdown => _timerCountdown;
         public bool TimerActive => _timerActive;
-        public bool IsPlayerStart => _isPlayerStart;
+        public CharacterSelecter CharacterSelecter => _characterSelecter;
         public BaseRuleFactorySO[] GameRule => _gameRules;
         public BaseEndGameRuleFactorySO[] EndGameRule => _endGameRules;
         public BattleTutorial BattleTutorial => _battleTutorial;
