@@ -53,7 +53,7 @@ namespace CardMaga.Rules
             _ruleLogics = ruleLogics;
         }
 
-        protected void Active(T obj)
+        protected virtual void Active(T obj)
         {
             OnActive?.Invoke(obj);
 
@@ -66,7 +66,7 @@ namespace CardMaga.Rules
             }
         }
 
-        protected void DeActive(T obj)
+        protected virtual void DeActive(T obj)
         {
             OnDeActive?.Invoke(obj);
            
@@ -77,6 +77,29 @@ namespace CardMaga.Rules
         }
 
         public abstract void Dispose();
+    }
+
+    public abstract class BaseEndGameRule : BaseRule<bool>
+    {
+        public event Action<float, bool> OnEndGameRuleActive; 
+
+        private float _delayToEndGame;
+
+        public float DelayToEndGame
+        {
+            get => _delayToEndGame;
+        }
+        
+        public BaseEndGameRule(float delayToEndGame)
+        {
+            _delayToEndGame = delayToEndGame;
+        }
+
+        protected override void Active(bool obj)
+        {
+            base.Active(obj);
+            OnEndGameRuleActive?.Invoke(_delayToEndGame,obj);
+        }
     }
 }
 

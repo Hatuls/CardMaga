@@ -1,5 +1,6 @@
 ﻿using Battle;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CardMaga.Rules
 {
@@ -49,8 +50,14 @@ namespace CardMaga.Rules
         }
     }
     
-	public abstract class BaseBoolRuleFactorySO : BaseRuleFactorySO<bool>{
-        
-	}
+	public abstract class BaseEndGameRuleFactorySO : BaseRuleFactorySO<bool>
+    {
+       [SerializeField] private float _delayToEndGame;
+
+        public float DelayToEndGame
+        {
+            get => _delayToEndGame;
+        }
+    }
 
 }
