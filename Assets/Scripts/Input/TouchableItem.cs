@@ -64,7 +64,7 @@ namespace CardMaga.Input
 
         #region UnityCallBack
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (_defaultInputBehaviour != null)
                 return;
@@ -81,6 +81,8 @@ namespace CardMaga.Input
         protected virtual void Click()
         {
             OnClick?.Invoke(_touchableItem);
+            Debug.LogError(transform.parent.name);
+
             _inputBehaviour.Click(_touchableItem);
 #if UNITY_EDITOR
 	        //Debug.Log(_touchableItem.name + GetInstanceID() + " Click");

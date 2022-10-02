@@ -2,8 +2,9 @@
 
 public class Clicker : TouchableItem<Clicker>
 {
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         ForceChangeState(true);
     }
 }

@@ -145,6 +145,7 @@ namespace Battle
                 return;
 
             _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
+            _battleTutorial.StartTutorial();
         }
 
         #region Observer Pattern 
