@@ -15,7 +15,7 @@ public class CardUIFilterScreen : UIFilterScreen<CardUI, CardData>
     // Need To be Re-Done
     protected override void CreatePool()
     {
-        //var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
+        //var deck = Account.AccountManager.Instance.BattleData.LeftPlayer.CharacterData.CharacterDeck;
         //while (deck.Length > _collection.Count)
         //{
         //    var card = Instantiate(_cardUIPrefab, this.transform).GetComponent<CardUI>();

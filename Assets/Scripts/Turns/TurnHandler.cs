@@ -206,7 +206,7 @@ namespace Battle.Turns
     //        OnStartTurn?.Invoke();
     //        StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
 
-    //        Debug.Log("Enemy Drawing Cards!");
+    //        Debug.Log("RightPlayer Drawing Cards!");
 
     //        base.PlayTurn();
     //        // Activate Previous Action if not null
@@ -233,7 +233,7 @@ namespace Battle.Turns
     //    {
     //        /*
     //         * Activate the enemy keywords 
-    //         * Remove The Player Defense
+    //         * Remove The LeftPlayer Defense
     //         */
     //        //GameEventsInvoker.Instance.OnEndTurn?.Invoke();
     //        // CardUIManager.Instance.RemoveHands();
@@ -278,7 +278,7 @@ namespace Battle.Turns
     //        //redoooo
     //        // yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
 
-    //        Debug.Log("Player Drawing Cards!");
+    //        Debug.Log("LeftPlayer Drawing Cards!");
     //        MoveToNextTurnState();
     //    }
 
@@ -295,7 +295,7 @@ namespace Battle.Turns
     //    public override IEnumerator PlayTurn()
     //    {
     //        base.PlayTurn();
-    //        // unlock Player Inputs 
+    //        // unlock LeftPlayer Inputs 
     //        TurnHandler.IsTurnFinished = false;
     //        bool isPlayerTurn = true;
     //        // redo!

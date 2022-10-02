@@ -20,7 +20,7 @@ namespace Battle
         #region Fields
         //   [UnityEngine.SerializeField] Opponents EnemyAI;
 
-        [Tooltip("Player Stats: ")]
+        [Tooltip("LeftPlayer Stats: ")]
         [SerializeField] AIBrain _brain;
         [FormerlySerializedAs("_myCharacter")] [SerializeField] private Character _character;
         [SerializeField] VisualCharacter _visualCharacter;
@@ -171,7 +171,7 @@ namespace Battle
 
         public void PlayEnemyTurn()
         {
-            Debug.Log("Enemy Attack!");
+            Debug.Log("RightPlayer Attack!");
 
             _turnFinished = _aiTokenMachine.GetToken();
         }

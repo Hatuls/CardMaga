@@ -25,8 +25,7 @@ namespace Battle.Data
         public Character Left { get => _player; set => _player = value; }
         public Character Right { get => _opponent; set => _opponent = value; }
         public bool PlayerWon { get => _isPlayerWon; set => _isPlayerWon = value; }
-
-
+        
         public void ResetData()
         {
             _player = null;
@@ -43,8 +42,7 @@ namespace Battle.Data
             else
                 _opponent = new Character(displayName, data);
         }
-
-
+        
         public void Awake()
         {
             if (_instance == null)
@@ -54,8 +52,5 @@ namespace Battle.Data
 
             DontDestroyOnLoad(this.gameObject);
         }
-
     }
-
-  
 }

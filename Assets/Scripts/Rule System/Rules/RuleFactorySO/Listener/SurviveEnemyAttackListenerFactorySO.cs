@@ -3,7 +3,7 @@ using Battle.Combo;
 using CardMaga.Rules;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SurviveEnemyAttackListenerFactorySO", menuName = "ScriptableObjects/Rule System/Survive Enemy Attack Listener FactorySO")]
+[CreateAssetMenu(fileName = "SurviveEnemyAttackListenerFactorySO", menuName = "ScriptableObjects/Rule System/Survive RightPlayer Attack Listener FactorySO")]
 public class SurviveEnemyAttackListenerFactorySO : BaseEndGameRuleFactorySO
 {
     [SerializeField] private BaseBoolRuleLogicFactorySO[] _logicFactorySo;

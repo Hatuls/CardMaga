@@ -63,7 +63,7 @@ namespace Battle
         public bool TryExecuteCard(bool isLeft, CardData card)
         {
             if (card == null)
-                throw new System.Exception("Card cannot be executed card is null\n Player " + isLeft + " Tried to play a null Card");
+                throw new System.Exception("Card cannot be executed card is null\n LeftPlayer " + isLeft + " Tried to play a null Card");
             if (CanPlayCard(isLeft, card) == false)
             {
                 // not enough stamina 

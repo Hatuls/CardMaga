@@ -84,9 +84,9 @@ namespace Art
         #endregion
 
 
-        #region Enemy Action Icon
+        #region RightPlayer Action Icon
         [InfoBox("0 - Background\n1 - Image\n2 - Text\n3 - Decoration")]
-        [TabGroup("Icons Color/Colors", "Enemy Icon")]
+        [TabGroup("Icons Color/Colors", "RightPlayer Icon")]
         [SerializeField]
         ColorSettings _enemyIcon;
 

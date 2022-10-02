@@ -1,16 +1,12 @@
-﻿
-using Account.GeneralData;
+﻿using Account.GeneralData;
 using Battle.Data;
 using Battle.MatchMaking;
 using ReiTools.TokenMachine;
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class MatchMakingManager : MonoBehaviour
 {
-
-
     [SerializeField] OperationManager _lookForMatchOperation;
     private TokenMachine _tokenMachine;
     [SerializeField, EventsGroup]

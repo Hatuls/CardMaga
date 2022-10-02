@@ -111,11 +111,11 @@ namespace Account
             if (LoginResult.NewlyCreated)
             {
                 _accountData = new AccountData();
-                UpdatePlayName("New Player");
+                UpdatePlayName("New LeftPlayer");
             }
             else
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
-            _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New Player";
+            _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New LeftPlayer";
 
             UpdateRank(null);
             SendAccountData();
@@ -125,7 +125,7 @@ namespace Account
     [System.Serializable]
     public class AccountData
     {
-        [SerializeField] private string _displayName = "New Player";
+        [SerializeField] private string _displayName = "New LeftPlayer";
         [SerializeField] private AccountGeneralData _accountGeneralData;
         [SerializeField] private CharactersData _charactersData;
 

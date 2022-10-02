@@ -101,7 +101,7 @@ namespace Account.GeneralData
     //    {
     //        var factory = Factory.GameFactory.Instance;
     //        var currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
-    //        var so = factory.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.Player);
+    //        var so = factory.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.LeftPlayer);
     //        foreach (var item in so)
     //        {
     //            if (currentLevel >= item.UnlockAtLevel)

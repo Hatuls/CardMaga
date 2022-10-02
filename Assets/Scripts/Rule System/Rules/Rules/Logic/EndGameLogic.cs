@@ -26,7 +26,7 @@ public class EndGameLogic : BaseRuleLogic<bool>
 
     public override void ActiveRule(bool obj)
     {
-        Debug.LogError("Player died" + "is left player: " + obj);
+        Debug.LogError("LeftPlayer died" + "is left player: " + obj);
     }
 
     public override void Dispose()

@@ -2,18 +2,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Battle;
 using UnityEngine;
 using Battle.Data;
+using ReiTools.TokenMachine;
+using Object = UnityEngine.Object;
 
 public class TutorialManager : MonoBehaviour
 {
+    [SerializeField] private List<TutorialConfigSO> _tutorialConfig;
+
     private MainMenuTutorial _mianMenuTutorial;
 
-    private List<BattleConfigSO> _battleConfigSOs;
+    private TutorialConfigSO _currentTutorialConfig;
+    private Object _battleTutorial;
 
-    private BattleConfigSO _currentBattleConfig;
-
-    private BattleData TryGetBattleData()
+    private TutorialConfigSO TryGetBattleData()
     {
         throw new NotImplementedException();
     }
@@ -27,4 +31,17 @@ public class TutorialManager : MonoBehaviour
     {
         throw new NotImplementedException();
     }
+    
+//     private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
+//     {
+// #if UNITY_EDITOR
+//         if (_hideTutorial)
+//             return;
+// #endif
+//             
+//         if (BattleData.BattleConfigSO?.BattleTutorial == null)
+//             return;
+//
+//         _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
+//     }
 }

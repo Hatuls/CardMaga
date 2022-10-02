@@ -17,8 +17,7 @@ namespace Battle
     {
         public static event Action OnGameEnded;
         public event Action<IBattleManager> OnBattleManagerDestroyed;
-
-
+        
         public static bool isGameEnded;
         [SerializeField, EventsGroup]
         private Unity.Events.StringEvent _playSound;
@@ -131,20 +130,7 @@ namespace Battle
         {
             OnBattleFinished?.Invoke();
         }
-
-        private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
-        {
-#if UNITY_EDITOR
-            if (_hideTutorial)
-                return;
-#endif
-            
-            if (BattleData.BattleConfigSO?.BattleTutorial == null)
-                return;
-
-            _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
-        }
-
+        
         #region Observer Pattern 
 
         public static void Register(ISequenceOperation<IBattleManager> battleStarter, OrderType order)
@@ -178,7 +164,7 @@ namespace Battle
 
         public override void Awake()
         {
-            Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
+            //Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
 
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
