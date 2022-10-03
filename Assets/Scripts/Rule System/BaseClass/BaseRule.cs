@@ -50,13 +50,17 @@ namespace CardMaga.Rules
 
         public virtual void InitRuleListener(IBattleManager battleManager, BaseRuleLogic<T>[] ruleLogics)
         {
-            _ruleLogics = ruleLogics;
+            if (ruleLogics != null)
+                _ruleLogics = ruleLogics;
         }
 
         protected virtual void Active(T obj)
         {
             OnActive?.Invoke(obj);
 
+            if (_ruleLogics == null)
+                return;
+            
             for (int i = 0; i < _ruleLogics.Length; i++)
             {
                 if (_ruleLogics[i].CheckCondition())
@@ -70,6 +74,9 @@ namespace CardMaga.Rules
         {
             OnDeActive?.Invoke(obj);
            
+            if (_ruleLogics == null)
+                return;
+            
             for (int i = 0; i < _ruleLogics.Length; i++)
             {
                 _ruleLogics[i].DeActiveRule(obj);

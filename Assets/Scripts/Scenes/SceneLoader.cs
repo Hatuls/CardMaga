@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+
 namespace CardMaga.Core
 {
     public enum SceneLoadMode { NextInBuild = 0, ByName = 1, ByIndex = 2,  None = 4 }

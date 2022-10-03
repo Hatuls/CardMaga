@@ -10,7 +10,7 @@ namespace CardMaga.Rules
 {
     public class RuleManager : ISequenceOperation<IBattleManager>
     {
-        public event Action<bool> OnGameEnded;
+        public static event Action<bool> OnGameEnded;
 
         private MonoBehaviour _monoBehaviour;
         private List<BaseRule> _activeRules;
@@ -70,7 +70,7 @@ namespace CardMaga.Rules
             {
                 for (var i = 0; i < endGameRules.Length; i++)
                 {
-                    BaseEndGameRule temp = (BaseEndGameRule)endGameRules[i].CreateRule(data);
+                    BaseEndGameRule temp = endGameRules[i].CreateRule(data);
                     temp.OnEndGameRuleActive += GameEnd;
                     _endGameRules.Add(temp);
                 }    

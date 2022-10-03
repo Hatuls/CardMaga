@@ -49,14 +49,25 @@ namespace CardMaga.Rules
             return baseRule;
         }
     }
-    
-	public abstract class BaseEndGameRuleFactorySO : BaseRuleFactorySO<bool>
+
+    public abstract class BaseEndGameRuleFactorySO : ScriptableObject
     {
-       [SerializeField] private float _delayToEndGame;
+        [SerializeField] protected float _delayToEndGame;
 
         public float DelayToEndGame
         {
             get => _delayToEndGame;
+        }
+        
+        protected abstract BaseEndGameRule CreateRuleListener(IBattleManager battleManager);
+
+        public BaseEndGameRule CreateRule(IBattleManager battleManager)
+        {
+            BaseEndGameRule baseRule = CreateRuleListener(battleManager);
+            
+            baseRule.InitRuleListener(battleManager, null);
+
+            return baseRule;
         }
     }
 

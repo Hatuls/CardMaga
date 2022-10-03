@@ -29,6 +29,8 @@ namespace Battle
         private UnityEvent OnBattleStarts;
         [SerializeField]
         private UnityEvent OnBattleFinished;
+        [SerializeField]
+        private UnityEvent OnBattleTutorialFinished;
 
         [SerializeField]
         private DollyTrackCinematicManager _cinematicManager;
@@ -76,6 +78,8 @@ namespace Battle
         public MonoBehaviour MonoBehaviour => this;
         #endregion
 
+        #region BattleManagnent
+
         private void ResetBattle()
         {
             ResetParams();
@@ -89,8 +93,8 @@ namespace Battle
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);
-            
-            _ruleManager.OnGameEnded += EndBattle;
+
+            _endBattleHandler.OnBattleEnded += EndBattle;
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.BattleMusicParameter();
@@ -113,9 +117,13 @@ namespace Battle
             OnBattleStarts?.Invoke();
         }
 
+        #endregion
+        
+
+        #region EndBattleLogic
+
         private void EndBattle(bool isLeftPlayerWon)
         {
-            _endBattleHandler.EndBattle(isLeftPlayerWon);
             OnGameEnded?.Invoke();
         }
 
@@ -123,13 +131,41 @@ namespace Battle
         public void DeathAnimationFinished(bool isPlayer)
         {
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
-            MoveToNextScene();
+
+            if (Data.BattleData.Instance.BattleConfigSO.BattleTutorial != null)
+            {
+                MoveToTutorialProgress();
+            }
+            else
+            {
+                MoveToNextScene();
+            }
         }
 
         private void MoveToNextScene()
         {
             OnBattleFinished?.Invoke();
         }
+        
+        private void MoveToTutorialProgress()
+        {
+            OnBattleTutorialFinished?.Invoke();
+        }
+
+        #endregion
+        
+          private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
+    {
+#if UNITY_EDITOR
+        if (_hideTutorial)
+            return;
+#endif
+            
+        if (BattleData.BattleConfigSO?.BattleTutorial == null)
+            return;
+
+        _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);  
+    }
         
         #region Observer Pattern 
 
@@ -142,7 +178,7 @@ namespace Battle
         #endregion
         
         #region MonoBehaviour Callbacks
-
+        
         private void Update()
         {
             ThreadsHandler.ThreadHandler.TickThread();
@@ -153,8 +189,9 @@ namespace Battle
             OnBattleManagerDestroyed?.Invoke(this);
             ThreadsHandler.ThreadHandler.ResetList();
             _ruleManager.DisposeRules();
-            _ruleManager.OnGameEnded -= EndBattle;
-
+            _endBattleHandler.OnBattleEnded -= EndBattle;
+            _endBattleHandler.DeConstrctor();
+            
             AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
             _battleStarter.Dispose();
             
@@ -164,7 +201,7 @@ namespace Battle
 
         public override void Awake()
         {
-            //Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
+            Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
 
             AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
@@ -173,7 +210,6 @@ namespace Battle
         private void Start()
         {
             ResetBattle();
-           
         }
         
         #endregion

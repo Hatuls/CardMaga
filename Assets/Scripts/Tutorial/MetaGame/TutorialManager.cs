@@ -1,47 +1,83 @@
-﻿using CardMaga.BattleConfigSO;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Battle;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using Account;
 using Battle.Data;
-using ReiTools.TokenMachine;
-using Object = UnityEngine.Object;
+using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
+    private static int _currentTutorialIndex = 0;
+    
     [SerializeField] private List<TutorialConfigSO> _tutorialConfig;
+    [SerializeField] private BattleData _battleDataPrefab;
+    [SerializeField] private TutorialBadge[] _badges;
 
-    private MainMenuTutorial _mianMenuTutorial;
+    private MainMenuTutorial _mainMenuTutorial;
 
     private TutorialConfigSO _currentTutorialConfig;
-    private Object _battleTutorial;
 
-    private TutorialConfigSO TryGetBattleData()
+    #region PublicFunction
+
+    public void NextTutorial()
     {
-        throw new NotImplementedException();
+        _currentTutorialIndex++;
+        
+        UpdateCurrentBattleConfig();
+    }
+
+    #endregion
+
+    #region PrivateFunction
+
+    private void GetBattleData()
+    {
+        _battleDataPrefab = Instantiate(_battleDataPrefab); 
+        
+        _battleDataPrefab.AssginBattleTutorialData(_currentTutorialConfig);
     }
 
     private void UpdateCurrentBattleConfig()
     {
-        throw new NotImplementedException();
+        _currentTutorialConfig = _tutorialConfig[_currentTutorialIndex];
+
+        for (int i = 0; i < _badges.Length; i++)
+        {
+            _badges[i].Init();
+        }
+        
+        CheckTutorialBadges();
+        
+        GetBattleData();
+    }
+    
+    private void CheckTutorialBadges()
+    {
+        for (int i = 0; i < _currentTutorialIndex; i++)
+        {
+            _badges[i].TurnOn();
+        }
     }
 
     private void StartTutorial()
     {
-        throw new NotImplementedException();
+        _currentTutorialConfig = _tutorialConfig[_currentTutorialIndex];
+
+        for (int i = 0; i < _badges.Length; i++)
+        {
+            _badges[i].Init();
+        }
+        
+        GetBattleData();
     }
-    
-//     private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
-//     {
-// #if UNITY_EDITOR
-//         if (_hideTutorial)
-//             return;
-// #endif
-//             
-//         if (BattleData.BattleConfigSO?.BattleTutorial == null)
-//             return;
-//
-//         _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
-//     }
+
+    #endregion
+
+    #region UnityCallback
+
+    private void Awake()//temp!
+    {
+        _currentTutorialIndex = AccountManager.Instance.Data.AccountTutorialData.TutorialProgress;
+        StartTutorial();
+    }
+
+    #endregion
 }

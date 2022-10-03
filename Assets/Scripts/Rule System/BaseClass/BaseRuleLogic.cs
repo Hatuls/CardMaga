@@ -32,10 +32,5 @@ namespace CardMaga.Rules
 
         public abstract void Dispose();
     }
-    
-	public abstract class BaseBoolRuleLogic : BaseRuleLogic<bool>
-	{
-		
-	}
 }
 

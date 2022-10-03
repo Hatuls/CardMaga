@@ -9,7 +9,6 @@ using UnityEngine;
 
 namespace Battle.MatchMaking
 {
-
     public class LookForOpponent : MonoBehaviour
     {
         public static event Action OnStartLooking;

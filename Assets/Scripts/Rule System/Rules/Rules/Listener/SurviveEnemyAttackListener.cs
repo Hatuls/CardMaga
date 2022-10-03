@@ -47,6 +47,6 @@ public class SurviveEnemyAttackListener : BaseEndGameRule
 
     public override void Dispose()
     {
-        throw new System.NotImplementedException();
+        _comboManager.OnComboSucceeded -= CheckCombo;
     }
 }

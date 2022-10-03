@@ -5,14 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharactersDiedRuleFactory", menuName = "ScriptableObjects/Rule System/Characters Died Rule Factory")]
 public class CharactersDiedRuleFactorySO : BaseEndGameRuleFactorySO
 {
-    [SerializeField] private BaseBoolRuleLogicFactorySO[] _logicFactorySo;
-    public override BaseRuleLogicFactorySO<bool>[] BaseRuleLogicFactorySo
+    protected override BaseEndGameRule CreateRuleListener(IBattleManager battleManager)
     {
-        get => _logicFactorySo;
-    }
-
-    protected override BaseRule<bool> CreateRuleListener(IBattleManager battleManager)
-    {
-        return new CharactersDiedListener();
+        return new CharactersDiedListener(_delayToEndGame);
     }
 }

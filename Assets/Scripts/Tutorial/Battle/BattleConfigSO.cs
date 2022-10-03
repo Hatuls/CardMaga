@@ -9,7 +9,7 @@ namespace CardMaga.BattleConfigSO
     {
         [Header("Deck configuration:")]
         [SerializeField,Tooltip("Determines whether drawing cards from the deck will be random")] 
-        private bool _isShuffleCard;
+        private bool _isShuffleCard;//done
         [Header("Character configuration:")]
         [SerializeField,Tooltip("Determines which character will start the battle")] 
         private CharacterSelecter _characterSelecter;//done
@@ -20,6 +20,8 @@ namespace CardMaga.BattleConfigSO
         [SerializeField,Tooltip("A list of the rules of the game")] private BaseRuleFactorySO[] _gameRules;//done
         [SerializeField,Tooltip("A list of endgame rules, these rules once their conditions are met they will end the game")] 
         private BaseEndGameRuleFactorySO[] _endGameRules;//done 
+        [Header("Tutorial:")]
+        [SerializeField,Tooltip("Tutorial configuration:")] private BattleTutorial _battleTutorial;//done
         
         public bool IsShuffleCard => _isShuffleCard;
         public int TimerCountdown => _timerCountdown;
@@ -27,6 +29,7 @@ namespace CardMaga.BattleConfigSO
         public CharacterSelecter CharacterSelecter => _characterSelecter;
         public BaseRuleFactorySO[] GameRule => _gameRules;
         public BaseEndGameRuleFactorySO[] EndGameRule => _endGameRules;
+        public BattleTutorial BattleTutorial => _battleTutorial;
        
     }
 }

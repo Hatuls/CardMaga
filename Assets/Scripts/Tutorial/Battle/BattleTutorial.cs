@@ -5,7 +5,6 @@ using System;
 
 public class BattleTutorial : MonoBehaviour
 {
-    //private RuleManager _ruleManager;
     [SerializeField]
     private OperationManager _operationManager;
 

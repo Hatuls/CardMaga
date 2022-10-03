@@ -12,7 +12,7 @@ namespace Battle.Data
     {
         private static BattleData _instance;
     
-        public static BattleData Instance =>_instance;
+        public static BattleData Instance => _instance;
         [SerializeField]
         private Character _player = null;
         [SerializeField]
@@ -33,14 +33,26 @@ namespace Battle.Data
             _isPlayerWon = false;
         }
 
+        public void AssginBattleTutorialData(TutorialConfigSO tutorialConfigSo)
+        {
+            AssginCharacter(true,tutorialConfigSo.LeftCharacter);
+            AssginCharacter(false,tutorialConfigSo.RightCharacter);
+
+            _battleConfigSo = tutorialConfigSo.BattleConfig;
+        }
+
         public void AssginCharacter(in bool isPlayer, CharacterSO characterSO)
             => AssginCharacter(isPlayer, characterSO.CharacterName, new Account.GeneralData.Character(characterSO));
         public void AssginCharacter(in bool isPlayer,string displayName, Account.GeneralData.Character data)
         {
+            AssginCharacter(isPlayer,new Character(displayName,data));
+        }
+        private void AssginCharacter(in bool isPlayer, Battle.Characters.Character character)
+        {
             if (isPlayer)
-                _player = new Character(displayName,data);
+                _player = character;
             else
-                _opponent = new Character(displayName, data);
+                _opponent = character;
         }
         
         public void Awake()

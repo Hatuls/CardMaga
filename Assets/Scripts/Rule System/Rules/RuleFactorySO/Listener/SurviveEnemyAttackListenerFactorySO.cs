@@ -6,14 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SurviveEnemyAttackListenerFactorySO", menuName = "ScriptableObjects/Rule System/Survive RightPlayer Attack Listener FactorySO")]
 public class SurviveEnemyAttackListenerFactorySO : BaseEndGameRuleFactorySO
 {
-    [SerializeField] private BaseBoolRuleLogicFactorySO[] _logicFactorySo;
     [SerializeField] private ComboSO _comboToCheck;
-
-    public override BaseRuleLogicFactorySO<bool>[] BaseRuleLogicFactorySo
-    {
-        get => _logicFactorySo;
-    }
-    protected override BaseRule<bool> CreateRuleListener(IBattleManager battleManager)
+    
+    protected override BaseEndGameRule CreateRuleListener(IBattleManager battleManager)
     {
         return new SurviveEnemyAttackListener(_comboToCheck,DelayToEndGame);
     }
