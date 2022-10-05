@@ -81,7 +81,6 @@ namespace CardMaga.Input
         protected virtual void Click()
         {
             OnClick?.Invoke(_touchableItem);
-            Debug.LogError(transform.parent.name);
 
             _inputBehaviour.Click(_touchableItem);
 #if UNITY_EDITOR

@@ -22,6 +22,12 @@ public class DialoguesFlow : MonoBehaviour
     private IDisposable _token;
 
     #endregion
+    #region Events
+    [SerializeField] UnityEvent OnFlowStart;
+    [SerializeField] UnityEvent OnDialoguesUpdate;
+    [SerializeField] UnityEvent OnAfterDelay;
+    [SerializeField] UnityEvent OnFlowEnd;
+    #endregion
 
     #region PrivateFunction
 
@@ -38,8 +44,10 @@ public class DialoguesFlow : MonoBehaviour
         UpdateDialogues(_currentDialogue);
         SendDialogue();
     }
+
     private void UpdateDialogues(int position)
     {
+        OnDialoguesUpdate.Invoke();
         _currentCharacterImage.sprite = _dialoguesList[position]._characterSprite;
         _currentCharacterText.text = _dialoguesList[position]._characterText;
     }
@@ -52,7 +60,7 @@ public class DialoguesFlow : MonoBehaviour
 
     private void StartDelay()
     {
-        _clickHelper.ClickBlocker.BlockInputForSeconds(_dialoguesList[_currentDialogue]._delayTimeForClick);
+        _clickHelper.ClickBlocker.BlockInputForSeconds(_dialoguesList[_currentDialogue]._delayTimeForClick, AfterDelay);
     }
 
     private void MoveNextDialogues()
@@ -80,6 +88,12 @@ public class DialoguesFlow : MonoBehaviour
 
         else
             Debug.LogError("No token to release");
+    }
+
+    private void AfterDelay()
+    {
+        if(OnAfterDelay!=null)
+        OnAfterDelay.Invoke();
     }
 
     #endregion

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [System.Serializable]
 public class ClickBlocker 
@@ -22,15 +22,19 @@ public class ClickBlocker
         _clickHelper.Clicker.ForceChangeState(true);
     }
 
-    public void BlockInputForSeconds(float seconds)
+    public void BlockInputForSeconds(float seconds, Action onComplete= null)
     {
-        _clickHelper.StartCoroutine(BlockForSeconds(seconds));
+        _clickHelper.StartCoroutine(BlockForSeconds(seconds, onComplete));
+
     }
 
-    private IEnumerator BlockForSeconds(float seconds)
+    private IEnumerator BlockForSeconds(float seconds, Action onComplete= null)
     {
         BlockInput();
         yield return new WaitForSeconds(seconds);
+        if(onComplete!=null)
+        onComplete.Invoke();
+
         UnblockInput();
     }
 
