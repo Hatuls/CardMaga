@@ -2,7 +2,7 @@
 using CardMaga.BattleConfigSO;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Tutorial Config SO", menuName = "ScriptableObjects/Battle/Tutorial/New Tutorial Config SO")]
+[CreateAssetMenu(fileName = "New Tutorial Config SO", menuName = "ScriptableObjects/Battle Config/Tutorial/New Tutorial Config SO")]
 public class TutorialConfigSO : ScriptableObject
 {
     [Header("Character configuration:")]

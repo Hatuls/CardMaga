@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class TutorialBadge 
 {
     [SerializeField] private Image image;
-    
-    private Color _offColor = Color.red;
-    private Color _onColor = Color.green;
+    [SerializeField] private Color _offColor = Color.red;
+    [SerializeField] private Color _onColor = Color.green;
 
     public void Init()
     {

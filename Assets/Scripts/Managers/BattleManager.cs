@@ -7,6 +7,7 @@ using Managers;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
+using Account;
 using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,11 +28,10 @@ namespace Battle
         private UnityEvent OnPlayerVictory;
         [SerializeField, EventsGroup]
         private UnityEvent OnBattleStarts;
-        [SerializeField]
+        [SerializeField,EventsGroup]
         private UnityEvent OnBattleFinished;
-        [SerializeField]
+        [SerializeField,EventsGroup]
         private UnityEvent OnBattleTutorialFinished;
-
         [SerializeField]
         private DollyTrackCinematicManager _cinematicManager;
         [SerializeField]
@@ -93,7 +93,9 @@ namespace Battle
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);
-
+            
+            _endBattleHandler.OnBattleAnimatonEnd += MoveToNextScene;
+            _endBattleHandler.OnTutorialAnimatonEnd += MoveToTutorialProgress;
             _endBattleHandler.OnBattleEnded += EndBattle;
 
             if (AudioManager.Instance != null)
@@ -106,6 +108,7 @@ namespace Battle
                 AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
         }
+        
         // Need To be Re-Done
         public void StartBattle()
         {
@@ -119,27 +122,11 @@ namespace Battle
 
         #endregion
         
-
         #region EndBattleLogic
 
         private void EndBattle(bool isLeftPlayerWon)
         {
             OnGameEnded?.Invoke();
-        }
-
-        // Need To be Re-Done
-        public void DeathAnimationFinished(bool isPlayer)
-        {
-            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
-
-            if (Data.BattleData.Instance.BattleConfigSO.BattleTutorial != null)
-            {
-                MoveToTutorialProgress();
-            }
-            else
-            {
-                MoveToNextScene();
-            }
         }
 
         private void MoveToNextScene()
@@ -149,6 +136,7 @@ namespace Battle
         
         private void MoveToTutorialProgress()
         {
+            AccountManager.Instance.Data.AccountTutorialData.UpdateToNextTutorial();
             OnBattleTutorialFinished?.Invoke();
         }
 
@@ -190,9 +178,11 @@ namespace Battle
             ThreadsHandler.ThreadHandler.ResetList();
             _ruleManager.DisposeRules();
             _endBattleHandler.OnBattleEnded -= EndBattle;
+            _endBattleHandler.OnBattleAnimatonEnd -= MoveToNextScene;
+            _endBattleHandler.OnTutorialAnimatonEnd -= MoveToTutorialProgress;
             _endBattleHandler.DeConstrctor();
-            
-            AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
+
+
             _battleStarter.Dispose();
             
             TurnHandler.Dispose();
@@ -201,9 +191,8 @@ namespace Battle
 
         public override void Awake()
         {
-            Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
+            Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After), OrderType.After);
 
-            AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
         }
         

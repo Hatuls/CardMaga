@@ -173,7 +173,7 @@ namespace Account
         public AccountData(Dictionary<string, UserDataRecord> data)
         {
             var convertedDict = new Dictionary<string, string>();
-
+            _accountTutorialData = new AccountTutorialData(0, false);//temp_Test
             foreach (var item in data)
                 convertedDict.Add(item.Key, item.Value?.Value);
 

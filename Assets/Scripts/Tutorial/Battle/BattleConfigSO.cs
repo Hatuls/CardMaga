@@ -4,7 +4,7 @@ using CardMaga.Rules;
 
 namespace CardMaga.BattleConfigSO
 {
-    [CreateAssetMenu(fileName = "New Battle Config SO", menuName = "ScriptableObjects/Battle/New Battle Config SO")]
+    [CreateAssetMenu(fileName = "New Battle Config SO", menuName = "ScriptableObjects/Battle Config/New Battle Config SO")]
     public class BattleConfigSO : ScriptableObject
     {
         [Header("Deck configuration:")]

@@ -7,6 +7,9 @@ public class EndBattleHandler
 {
     public event Action<bool> OnBattleEnded;
 
+    public event Action OnTutorialAnimatonEnd;
+    public event Action OnBattleAnimatonEnd;
+
     private readonly IPlayersManager _playersManager;
     private readonly BattleData _battleData;
     private readonly CardExecutionManager _cardExecutionManager;
@@ -24,6 +27,7 @@ public class EndBattleHandler
         _playersManager = battleManager.PlayersManager;
         _cardExecutionManager = battleManager.CardExecutionManager;
         RuleManager.OnGameEnded += EndBattle;
+        AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
         
         _isGameEnded = false;
     }
@@ -31,6 +35,7 @@ public class EndBattleHandler
     public void DeConstrctor()//need work
     {
         RuleManager.OnGameEnded -= EndBattle;
+        AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
     }
 
     public void EndBattle(bool isLeftPlayerWon)
@@ -59,7 +64,21 @@ public class EndBattleHandler
         OnBattleEnded?.Invoke(isLeftPlayerWon);
 
     }
+        
+    private void DeathAnimationFinished(bool isPlayer)
+    {
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
 
+        if (BattleData.Instance.BattleConfigSO.BattleTutorial != null)
+        {
+            OnTutorialAnimatonEnd?.Invoke();
+        }
+        else
+        {
+            OnBattleAnimatonEnd?.Invoke();
+        }
+    }
+    
     private void LeftPlayerWon()
     {
         _playersManager.LeftCharacter.VisualCharacter.AnimatorController.CharacterWon();

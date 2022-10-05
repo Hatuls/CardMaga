@@ -26,4 +26,9 @@ public class AccountTutorialData
         _isCompletedTutorial = isCompletedTutorial;
         _tutorialProgress = tutorialProgress;
     }
+
+    public void UpdateToNextTutorial()
+    {
+        _tutorialProgress++;
+    }
 }
