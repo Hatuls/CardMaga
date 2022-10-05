@@ -33,12 +33,14 @@ public class DialoguesFlow : MonoBehaviour
 
     public void StartFlow(ITokenReciever tokenReciever)
     {
+        gameObject.SetActive(true);
         _token = tokenReciever.GetToken();
         FirstDialogue();
     }
 
     public void FirstDialogue()
     {
+        OnFlowStart.Invoke();
         _currentDialogue = 0;
         _clickHelper = ClickHelper.Instance;
         UpdateDialogues(_currentDialogue);
@@ -61,6 +63,7 @@ public class DialoguesFlow : MonoBehaviour
     private void StartDelay()
     {
         _clickHelper.ClickBlocker.BlockInputForSeconds(_dialoguesList[_currentDialogue]._delayTimeForClick, AfterDelay);
+        OnAfterDelay.Invoke();
     }
 
     private void MoveNextDialogues()
@@ -77,7 +80,9 @@ public class DialoguesFlow : MonoBehaviour
             if (ClosePanelAtEnding)
                 _clickHelper.Close();
 
+            OnFlowEnd.Invoke();
             ReleaseToken();
+            gameObject.SetActive(false);
         }
     }
 

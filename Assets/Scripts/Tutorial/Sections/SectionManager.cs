@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Section1 : MonoBehaviour
+public class SectionManager : MonoBehaviour
 {
     [SerializeField] OperationManager _operationManager;
     private TokenMachine _tokenMachine;

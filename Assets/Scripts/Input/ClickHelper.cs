@@ -67,7 +67,6 @@ public class ClickHelper : MonoBehaviour
 
         _loadedObjects.Clear();
         _loadedObjectParents.Clear();
-        
         _canvas.gameObject.SetActive(false);
     }
 
@@ -85,6 +84,7 @@ public class ClickHelper : MonoBehaviour
     /// <param name="objects">Objects to load into the panel</param>
     public void LoadObject(bool openOnLoad, bool closeOnClick, Action action, params RectTransform[] objects)
     {
+        Debug.Log("Load Object");
         if (openOnLoad)
         {
             Open();

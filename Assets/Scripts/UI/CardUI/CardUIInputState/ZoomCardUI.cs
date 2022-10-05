@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
+using Battle.Data;
 
 namespace CardMaga.UI.Card
 {
@@ -14,6 +15,9 @@ namespace CardMaga.UI.Card
         [SerializeField] private TransitionPackSO _resetZoomCard;
         [Header("RectTransforms")]
         [SerializeField] private RectTransform _zoomPosition;
+
+        public static event Action OnZoomInTutorial;
+        public static event Action OnZoomOutTutorial;
 
         private Sequence _currentSequence;
 
@@ -36,13 +40,15 @@ namespace CardMaga.UI.Card
             base.EnterState(cardUI);
             _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
             MoveToZoomPosition(cardUI);
+            OnZoomInTutorial.Invoke();
         }
 
         public override void ExitState(CardUI cardUI)
         {
-            _clickHelper.Close();
-            _zoomToken?.Dispose();
-            base.ExitState(cardUI);
+                _clickHelper.Close();
+                _zoomToken?.Dispose();
+                base.ExitState(cardUI);
+                OnZoomOutTutorial.Invoke();
         }
 
         private void ReturnToHandState(CardUI cardUI)
@@ -84,5 +90,6 @@ namespace CardMaga.UI.Card
         {
             if (_currentSequence != null) _currentSequence.Kill();
         }
+
     }
 }
