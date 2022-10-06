@@ -39,11 +39,43 @@ public class ClickHelper : MonoBehaviour
     /// <summary>
     /// A function that returns all loaded objects to their original position in the hierarchy, and closes the panel
     /// </summary>
+    public void Close(params RectTransform[] UnloadObject)//need Re_work (5.10.22)
+    {
+        if(!_canvas.gameObject.activeSelf)
+            return;
+
+        for (int i = 0; i < _loadedObjects.Count; i++)
+        {
+            bool toRemoveObj = false;
+            
+            foreach (var unLoadObject in UnloadObject)
+            {
+                if (unLoadObject == _loadedObjects[i])
+                {
+                    toRemoveObj = true;
+                    break;
+                }
+            }
+
+            if (!toRemoveObj)
+                return;
+            
+            _loadedObjects[i].SetParent(_loadedObjectParents[i]);
+            
+            _loadedObjects.Remove(_loadedObjects[i]);
+            _loadedObjectParents.Remove(_loadedObjectParents[i]);
+        }
+
+        
+        if (_loadedObjects.Count == 0)
+         _canvas.gameObject.SetActive(false);
+    }
+    
     public void Close()
     {
         if(!_canvas.gameObject.activeSelf)
             return;
-        
+
         for (int i = 0; i < _loadedObjects.Count; i++)
         {
             _loadedObjects[i].SetParent(_loadedObjectParents[i]);
@@ -51,8 +83,20 @@ public class ClickHelper : MonoBehaviour
 
         _loadedObjects.Clear();
         _loadedObjectParents.Clear();
-        
         _canvas.gameObject.SetActive(false);
+    }
+
+    private bool IsInList(RectTransform obj)
+    {
+        foreach (var loadedObject in _loadedObjects)
+        {
+            if (loadedObject == obj)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void Open()

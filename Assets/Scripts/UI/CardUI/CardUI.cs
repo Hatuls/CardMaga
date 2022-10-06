@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using CardMaga.Input;
 using Sirenix.OdinInspector;
 
 namespace CardMaga.UI.Card
 {
-    public class CardUI : MonoBehaviour, IPoolable<CardUI>
+    public class CardUI : MonoBehaviour, IPoolable<CardUI> , IShowableUI
     {
         #region Fields
 
@@ -50,7 +52,11 @@ namespace CardMaga.UI.Card
         }
 
         #endregion
-
+        
+        public void Show()
+        {
+            Init();
+        }
     }
 }
 

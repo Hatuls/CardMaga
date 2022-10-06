@@ -86,7 +86,10 @@ namespace Battle
             _statsHandler = new CharacterStatsHandler(IsLeft, ref characterdata.CharacterStats, StaminaHandler);
 
             //Stamina
-            _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
+            if (!battleManager.TurnHandler.IsLeftPlayerStart)
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
+            else
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
 
 
             //Turn

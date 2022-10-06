@@ -91,6 +91,7 @@ namespace Battle
         {
             _gameTurnHandler = new GameTurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
+            
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);
             
@@ -289,6 +290,7 @@ namespace Battle
         {
             LeftCharacter = leftCharacter;
             RightCharacter = rightCharacter;
+
             BattleManager.Register(this, OrderType.Before);
         }
 

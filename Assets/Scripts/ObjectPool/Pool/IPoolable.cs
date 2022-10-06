@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class PoolObject<T> : MonoBehaviour, IPoolObject<T> where T : MonoBehaviour, IPoolable<T>
+public class ObjectPool<T> :  IPoolObject<T> where T : MonoBehaviour, IPoolable<T>
 {
-    [SerializeField]
     protected T _prefabOfType;
 
     private Stack<T> _poolToType = new Stack<T>();
 
-    [SerializeField] private List<T> _totalPoolType = new List<T>();
+    private List<T> _totalPoolType = new List<T>();
+    
+    private Transform _parent;
+    
+    public ObjectPool(T objectToPool,Transform parent)
+    {
+        _parent = parent;
+        _prefabOfType = objectToPool;
+    }
+
     public T Pull()
     {
         T cache = null;
@@ -27,7 +34,14 @@ public class PoolObject<T> : MonoBehaviour, IPoolObject<T> where T : MonoBehavio
 
     private T GenerateNewOfType()
     {
-        T cache = MonoBehaviour.Instantiate(_prefabOfType);
+        T cache = MonoBehaviour.Instantiate(_prefabOfType, _parent);
+
+        if (cache == null)
+        {
+            Debug.LogError($"Failed to Pull object, { typeof(T) } is null");
+            return null;
+        }
+        
         cache.OnDisposed += AddToQueue;
         _totalPoolType.Add(_prefabOfType);
         return cache;
@@ -44,7 +58,7 @@ public class PoolObject<T> : MonoBehaviour, IPoolObject<T> where T : MonoBehavio
             _totalPoolType[i].Dispose();
     }
 
-    ~PoolObject()
+    ~ObjectPool()
     {
         for (int i = 0; i < _totalPoolType.Count; i++)
             _totalPoolType[i].OnDisposed -= AddToQueue;
