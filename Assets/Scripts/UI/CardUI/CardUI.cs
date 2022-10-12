@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using CardMaga.Input;
-using Sirenix.OdinInspector;
+using CardMaga.UI.ScrollPanel;
 
 namespace CardMaga.UI.Card
 {

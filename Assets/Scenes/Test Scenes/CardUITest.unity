@@ -127,6 +127,86 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3072060386892982022}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1329765080 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3072060387875958664, guid: 2c0f2c8e35f616041a7ec9790ae3fc62,
+    type: 3}
+  m_PrefabInstance: {fileID: 3072060386892982022}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1329765081 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4801425542832199367, guid: 2c0f2c8e35f616041a7ec9790ae3fc62,
+    type: 3}
+  m_PrefabInstance: {fileID: 3072060386892982022}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329765080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 204e681d5e2e85d4bacf8f7a485150e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1329765082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329765080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f876bf8224a57b746b95a7b9a43a574f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardUIPrefab: {fileID: 1304183681161663716, guid: 8dc4e00dfaa6753418c1d5056be43434,
+    type: 3}
+  _parent: {fileID: 1928888599}
+--- !u!114 &1329765083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329765080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2673bf97a7e7bf143bebf13987906adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scrollPanel: {fileID: 1329765081}
+  _cardUiPool: {fileID: 1329765082}
+  _cardDatas:
+  - _cardSO: {fileID: 11400000, guid: c7f9a484e5b955b43be9cd30c64f955a, type: 2}
+    _cardCoreInfo:
+      _coreData:
+        _iD: 30
+        _level: 0
+        _expierence: 0
+      _instanceID: 1
+    toExhaust: 0
+    _cardTypeData:
+      _bodyPart: 6
+      _cardType: 1
+    _cardKeyword: []
+    staminaCost: 0
+  - _cardSO: {fileID: 11400000, guid: c7f9a484e5b955b43be9cd30c64f955a, type: 2}
+    _cardCoreInfo:
+      _coreData:
+        _iD: 0
+        _level: 0
+        _expierence: 0
+      _instanceID: 0
+    toExhaust: 0
+    _cardTypeData:
+      _bodyPart: 6
+      _cardType: 1
+    _cardKeyword: []
+    staminaCost: 0
+--- !u!224 &1928888599 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3072060385993385983, guid: 2c0f2c8e35f616041a7ec9790ae3fc62,
+    type: 3}
+  m_PrefabInstance: {fileID: 3072060386892982022}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1960956845
 GameObject:
   m_ObjectHideFlags: 0

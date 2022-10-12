@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace CardMaga.Input
@@ -10,7 +11,14 @@ namespace CardMaga.Input
         where T : MonoBehaviour
     {
         #region Events
-
+        [Header("Unity Events")]
+        [SerializeField] private UnityEvent OnClickEvent;
+        [SerializeField] private UnityEvent OnBeginHoldEvent;
+        [SerializeField] private UnityEvent OnEndHoldEvent;
+        [SerializeField] private UnityEvent OnHoldEvent;
+        [SerializeField] private UnityEvent OnPointDownEvent;
+        [SerializeField] private UnityEvent OnPointUpEvent;
+        
         public virtual event Action<T> OnClick;
         public virtual event Action<T> OnBeginHold;
         public virtual event Action<T> OnEndHold;
@@ -27,7 +35,7 @@ namespace CardMaga.Input
             Lock,
             UnLock
         }
-
+        [Header("Touchable Item configuration")]
         [Tooltip("Disable Hold")] public bool DisableHold = false;
         
         [SerializeField,Tooltip("The Touchable Item")] T _touchableItem;
@@ -81,6 +89,7 @@ namespace CardMaga.Input
         protected virtual void Click()
         {
             OnClick?.Invoke(_touchableItem);
+            OnClickEvent?.Invoke();
             _inputBehaviour.Click(_touchableItem);
 #if UNITY_EDITOR
 	        //Debug.Log(_touchableItem.name + GetInstanceID() + " Click");
@@ -90,6 +99,7 @@ namespace CardMaga.Input
         protected virtual void BeginHold()
         {
             OnBeginHold?.Invoke(_touchableItem);
+            OnBeginHoldEvent?.Invoke();
             _inputBehaviour.BeginHold(_touchableItem);
 #if UNITY_EDITOR
 	        // Debug.Log(_touchableItem.name + GetInstanceID() + " BeginHold");
@@ -99,6 +109,7 @@ namespace CardMaga.Input
         protected virtual void EndHold()
         {
             OnEndHold?.Invoke(_touchableItem);
+            OnEndHoldEvent?.Invoke();
             _inputBehaviour.EndHold(_touchableItem);
 #if UNITY_EDITOR
 	        // Debug.Log(_touchableItem.name + GetInstanceID() + " EndHold");
@@ -108,6 +119,7 @@ namespace CardMaga.Input
         protected virtual void Hold()
         {
             OnHold?.Invoke(_touchableItem);
+            OnHoldEvent?.Invoke();
             _inputBehaviour.Hold(_touchableItem);
 #if UNITY_EDITOR
             if (_holdLogCount % 10 == 0)
@@ -122,6 +134,7 @@ namespace CardMaga.Input
         protected virtual void PointDown()
         {
             OnPointDown?.Invoke(_touchableItem);
+            OnPointDownEvent?.Invoke();
             _inputBehaviour.PointDown(_touchableItem);
 #if UNITY_EDITOR
 	        //Debug.Log(_touchableItem.name + GetInstanceID() + " PointDown");
@@ -131,6 +144,7 @@ namespace CardMaga.Input
         protected virtual void PointUp()
         {
             OnPointUp?.Invoke(_touchableItem);
+            OnPointUpEvent?.Invoke();
             _inputBehaviour.PointUp(_touchableItem);
 #if UNITY_EDITOR
 	        //Debug.Log(_touchableItem.name + GetInstanceID() + " PointUp");
@@ -270,7 +284,7 @@ namespace CardMaga.Input
             else if (_currentState == State.UnLock) ChangeState(State.Lock);
         }
 
-        public void ForceChangeState(bool isTouchable)
+        public void ChangeState(bool isTouchable)
         {
             if (isTouchable)
                 ChangeState(State.UnLock);

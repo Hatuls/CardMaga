@@ -8,6 +8,6 @@ public class Clicker : TouchableItem<Clicker>
 {
     private void Start()
     {
-        ForceChangeState(true);
+        ChangeState(true);
     }
 }

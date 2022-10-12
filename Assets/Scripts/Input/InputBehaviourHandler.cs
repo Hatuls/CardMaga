@@ -55,7 +55,7 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             if (touchableItems[i] == null)
                 continue;
             
-            touchableItems[i].ForceChangeState(isTouchable);
+            touchableItems[i].ChangeState(isTouchable);
         }
     }
     
@@ -84,7 +84,7 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             if (isExcept)
                 continue;            
             
-            touchableItems[i].ForceChangeState(isTouchable);
+            touchableItems[i].ChangeState(isTouchable);
         }
     }
 
