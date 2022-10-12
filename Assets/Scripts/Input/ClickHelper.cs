@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UI;
 
 public class ClickHelper : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class ClickHelper : MonoBehaviour
     #region Fields
 
     [SerializeField] private Clicker _clicker;
-    [SerializeField] private RectTransform _panel;
-    [SerializeField] private RectTransform _canvas;
+    [SerializeField] public RectTransform _panel;
+    [SerializeField] private Canvas _canavs;
     [SerializeField] private ClickBlocker _clickBlocker;
     
     private Action _action;
@@ -27,7 +28,7 @@ public class ClickHelper : MonoBehaviour
     #region Properties
 
     public ClickBlocker ClickBlocker { get {return _clickBlocker; } }
-    public Clicker Clicker { get {return _clicker; } }
+    public Clicker ZoomInClicker { get {return _clicker; } }
 
     #endregion
 
@@ -39,7 +40,7 @@ public class ClickHelper : MonoBehaviour
         _loadedObjectParents = new List<RectTransform>();
         _clicker.OnClick += Click;
         _instance = this;
-        _clickBlocker.Init(this);
+        _clickBlocker.InitClickHelper(this);
     }
 
     private void OnDestroy()
@@ -57,7 +58,7 @@ public class ClickHelper : MonoBehaviour
 
     public void Close()
     {
-        if(!_canvas.gameObject.activeSelf)
+        if(!_canavs.gameObject.activeSelf)
             return;
         
         for (int i = 0; i < _loadedObjects.Count; i++)
@@ -67,14 +68,15 @@ public class ClickHelper : MonoBehaviour
 
         _loadedObjects.Clear();
         _loadedObjectParents.Clear();
-        _canvas.gameObject.SetActive(false);
+        _canavs.gameObject.SetActive(false);
     }
 
-    public void Open()
+
+    public void Open(GameObject canvas)
     {
-        _canvas.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(true);
     }
-    
+
     /// <summary>
     /// A function that loads the objects in the list and initializes the panel
     /// </summary>
@@ -82,26 +84,24 @@ public class ClickHelper : MonoBehaviour
     /// <param name="closeOnClick">Close the panel right after the first click</param>
     /// <param name="action">An action or function to be performed at the moment of a click</param>
     /// <param name="objects">Objects to load into the panel</param>
-    public void LoadObject(bool openOnLoad, bool closeOnClick, Action action, params RectTransform[] objects)
+    public void LoadObject(bool openOnLoad, bool closeOnClick , Action action, params RectTransform[] objects)
     {
         Debug.Log("Load Object");
         if (openOnLoad)
         {
-            Open();
+                Open(_canavs.gameObject);
         }
         
         for (int i = 0; i <  objects.Length; i++)
         {
             _loadedObjectParents.Add(objects[i].parent as RectTransform);
             _loadedObjects.Add(objects[i]);
-                
             objects[i].SetParent(_panel.transform);
         }
 
         _action = action;
         _closeOnClick = closeOnClick;
     }
-    
 
     #endregion
 

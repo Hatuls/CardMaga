@@ -20,6 +20,7 @@ namespace CardMaga.UI.Card
         public static event Action OnZoomOutTutorial;
 
         private Sequence _currentSequence;
+        [SerializeField] private bool _isOnDialogue;
 
         private IDisposable _zoomToken;
 
@@ -40,15 +41,17 @@ namespace CardMaga.UI.Card
             base.EnterState(cardUI);
             _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
             MoveToZoomPosition(cardUI);
-            OnZoomInTutorial.Invoke();
+            if (OnZoomOutTutorial.GetInvocationList().Length != 0)
+                OnZoomOutTutorial.Invoke();
         }
 
         public override void ExitState(CardUI cardUI)
         {
-                _clickHelper.Close();
-                _zoomToken?.Dispose();
-                base.ExitState(cardUI);
-                OnZoomOutTutorial.Invoke();
+             _clickHelper.Close();
+            _zoomToken?.Dispose();
+            base.ExitState(cardUI);
+            if(OnZoomInTutorial.GetInvocationList() != null)
+                OnZoomInTutorial.Invoke();
         }
 
         private void ReturnToHandState(CardUI cardUI)

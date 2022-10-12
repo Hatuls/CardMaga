@@ -7,7 +7,7 @@ namespace CardMaga.Trackers
         private TrackerID _trackID;
         [SerializeField]
         private RectTransform _rectTransform;
-        public RectTransform RectTransform => _rectTransform;
+        public virtual RectTransform RectTransform => _rectTransform;
 
         public TrackerID TrackerID => _trackID;
 
@@ -17,4 +17,15 @@ namespace CardMaga.Trackers
         }
 
     }
+
+    //public class HandUIFirstCardTracker: Tracker
+    //{
+    //    [SerializeField]private UI.HandUI _handUI;
+    //    public override RectTransform RectTransform => base.RectTransform;
+
+    //    private RectTransform FirstCard()
+    //    {
+    //        //return _handUI.
+    //    }
+    //}
 }

@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using CardMaga.UI.Card;
 
-public class MaskInstruction : MonoBehaviour
+public class BaseMaskInstruction : MonoBehaviour
 {
     #region Fields
     [SerializeField] OperationManager _operationManager;
@@ -23,8 +22,7 @@ public class MaskInstruction : MonoBehaviour
         _token = tokenReciever.GetToken();
         _clickHelper = ClickHelper.Instance;
         gameObject.SetActive(true);
-        ZoomCardUI.OnZoomInTutorial += CloseCanvas;
-        ZoomCardUI.OnZoomOutTutorial += CloseCanvas;
+        SubscribeEvent();
         DisplayCanvas();
     }
 
@@ -34,10 +32,11 @@ public class MaskInstruction : MonoBehaviour
         //_clickHelper.LoadObject(true, false, null, _maskTransform);
     }
 
-    private void CloseCanvas()
+    protected void CloseCanvas()
     {
-        _maskGameobject.SetActive(false);
+        UnsubscribeEvent();
         ReleaseToken();
+        _maskGameobject.SetActive(false);
     }
 
     private void ReleaseToken()
@@ -51,7 +50,15 @@ public class MaskInstruction : MonoBehaviour
 
     private void OnDestroy()
     {
-        ZoomCardUI.OnZoomInTutorial -= CloseCanvas;
-        ZoomCardUI.OnZoomOutTutorial -= CloseCanvas;
+    }
+
+    protected virtual void UnsubscribeEvent()
+    {
+
+    }
+
+    protected virtual void SubscribeEvent()
+    {
+
     }
 }

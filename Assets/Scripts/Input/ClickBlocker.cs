@@ -5,21 +5,22 @@ using System;
 [System.Serializable]
 public class ClickBlocker 
 {
-    [SerializeField] CanvasGroup _canvasGroup;
     private ClickHelper _clickHelper;
-    public void Init(ClickHelper clickHelper)
+    public void InitClickHelper(ClickHelper clickHelper)
     {
         _clickHelper = clickHelper;
     }
 
     public void BlockInput()
     {
-        _clickHelper.Clicker.ForceChangeState(false);
+        Debug.Log("Input blocked");
+        _clickHelper.ZoomInClicker.ForceChangeState(false);
     }
 
     public void UnblockInput()
     {
-        _clickHelper.Clicker.ForceChangeState(true);
+        Debug.Log("Input unlocked");
+        _clickHelper.ZoomInClicker.ForceChangeState(true);
     }
 
     public void BlockInputForSeconds(float seconds, Action onComplete= null)

@@ -40,9 +40,9 @@ public class DialoguesFlow : MonoBehaviour
 
     public void FirstDialogue()
     {
-        OnFlowStart.Invoke();
         _currentDialogue = 0;
         _clickHelper = ClickHelper.Instance;
+        OnFlowStart.Invoke();
         UpdateDialogues(_currentDialogue);
         SendDialogue();
     }
@@ -56,8 +56,8 @@ public class DialoguesFlow : MonoBehaviour
 
     private void SendDialogue()
     {
-        StartDelay();
-        _clickHelper.LoadObject(true, false, MoveNextDialogues, _dialoguesFlow);
+        //StartDelay();
+        _clickHelper.LoadObject(true, false ,MoveNextDialogues, _dialoguesFlow);
     }
 
     private void StartDelay()
@@ -72,7 +72,7 @@ public class DialoguesFlow : MonoBehaviour
         if (_currentDialogue <= _dialoguesList.Count - 1)
         {
             UpdateDialogues(_currentDialogue);
-            StartDelay();
+            //StartDelay();
         }
 
         else
