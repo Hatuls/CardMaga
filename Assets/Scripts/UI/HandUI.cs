@@ -276,6 +276,11 @@ namespace CardMaga.UI
             MoveCardToDiscardAfterExecute(cardUI);
             //OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
         }
+
+        public IReadOnlyList<CardUI>  GetCardUIFromHand()
+        {
+            return _handUIState.CardsUI;
+        }
         
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {

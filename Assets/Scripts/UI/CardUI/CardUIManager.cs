@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Battle;
+using CardMaga.UI;
 
 namespace CardMaga.Battle.UI
 {
@@ -17,6 +18,7 @@ namespace CardMaga.Battle.UI
         private IPlayersManager _players;
         [SerializeField] private CardUIPool _cardPool;
         [SerializeField] private CardUI _enemyCardUI;
+        [SerializeField] private HandUI _handUI;
         #endregion
 
         #region Events
@@ -100,7 +102,10 @@ namespace CardMaga.Battle.UI
             OnPlayerRemoveHand?.Invoke();
         }
 
-   
+        public IReadOnlyList<CardUI>  GetCardUiFromHand()
+        {
+            return _handUI.GetCardUIFromHand();
+        }
 
 
         public override void Awake()
