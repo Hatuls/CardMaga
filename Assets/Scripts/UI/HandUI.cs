@@ -16,7 +16,7 @@ namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : InputBehaviourHandler<CardUI>, ILockable, ISequenceOperation<IBattleManager>
+    public class HandUI : InputBehaviourHandler<CardUI>, ISequenceOperation<IBattleManager>
     {
         #region Events
         public static event Action<CardUI> OnCardExecute;

@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace CardMaga.Input
 { 
-    public class TouchableItem<T> : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public class TouchableItem<T> : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , ILockable
         where T : MonoBehaviour
     {
         #region Events
@@ -333,10 +333,30 @@ namespace CardMaga.Input
         }
 
         #endregion
+
+        #region ILockable
+
+        public void Lock()
+        {
+            ChangeState(false);
+        }
+
+        public void UnLock()
+        {
+            ChangeState(true);
+        }
+
+        #endregion
         
         private void OnDrawGizmosSelected()
         {
             Gizmos.DrawWireSphere(transform.position,_holdDistance);
         }
+    }
+
+    public interface ILockable
+    {
+        void Lock();
+        void UnLock();
     }
 }
