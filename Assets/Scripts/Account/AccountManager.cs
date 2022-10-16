@@ -23,7 +23,6 @@ namespace Account
     }
     public class AccountManager : MonoBehaviour
     {
-
         #region Singleton
         private static AccountManager _instance;
         public static AccountManager Instance
@@ -37,6 +36,7 @@ namespace Account
             }
         }
         #endregion
+        
         [NonSerialized,Sirenix.OdinInspector.ShowInInspector]
         private AccountData _accountData;
         public LoginResult LoginResult { get; private set; }
@@ -52,8 +52,7 @@ namespace Account
         {
             _instance = this;
         }
-
-
+        
         private void OnError(PlayFabError playFabError)
         {
             _loginDisposable.Dispose();
@@ -61,7 +60,6 @@ namespace Account
 
         public void SendAccountData(ITokenReciever tokenReciever = null)
         {
-           
             PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
             //.UpdateUserData(_accountData.GetUpdateRequest(), null, OnError);
 
@@ -91,7 +89,7 @@ namespace Account
             PlayFabClientAPI.UpdatePlayerStatistics(request, OnCompletedSuccessfully, OnError);
         }
 
- public void UpdatePlayName(string name)
+        public void UpdatePlayName(string name)
         {
             {
                 PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest
@@ -106,16 +104,16 @@ namespace Account
 
         public void OnLogin(LoginResult loginResult)
         {
-         
             LoginResult = loginResult;
+            
             if (LoginResult.NewlyCreated)
             {
                 _accountData = new AccountData();
-                UpdatePlayName("New Player");
+                UpdatePlayName("New LeftPlayer");
             }
             else
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
-            _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New Player";
+            _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New LeftPlayer";
 
             UpdateRank(null);
             SendAccountData();
@@ -125,18 +123,23 @@ namespace Account
     [System.Serializable]
     public class AccountData
     {
-        [SerializeField] private string _displayName = "New Player";
+        [SerializeField] private string _displayName = "New LeftPlayer";
         [SerializeField] private AccountGeneralData _accountGeneralData;
         [SerializeField] private CharactersData _charactersData;
-
+        
         [SerializeField] private LevelData _accountLevel;
         [SerializeField] private AccountResources _accountResources;
 
         [SerializeField] private ArenaData _arenaData;
 
+        private AccountTutorialData _accountTutorialData;
+
+        public AccountTutorialData AccountTutorialData
+        {
+            get => _accountTutorialData;
+        }
         public bool IsFirstTimeUser { get; private set; }
         public string DisplayName { get => _displayName; set => _displayName = value; }
-
 
         public AccountGeneralData AccountGeneralData { get => _accountGeneralData; }
         public LevelData AccountLevel { get => _accountLevel;}
@@ -158,16 +161,19 @@ namespace Account
             CreateNewLevelData();
             CreateNewCharacterData();
             CreateNewGeneralData();
+            _accountTutorialData = new AccountTutorialData(0, false);
             IsFirstTimeUser = true;
         }
+        
         public AccountData(Dictionary<string, string> data)
         {
             AssignValues(data);
         }
+        
         public AccountData(Dictionary<string, UserDataRecord> data)
         {
             var convertedDict = new Dictionary<string, string>();
-
+            _accountTutorialData = new AccountTutorialData(0, false);//temp_Test
             foreach (var item in data)
                 convertedDict.Add(item.Key, item.Value?.Value);
 

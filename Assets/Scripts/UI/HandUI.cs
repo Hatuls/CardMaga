@@ -16,7 +16,7 @@ namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : InputBehaviourHandler<CardUI>, ILockable, ISequenceOperation<IBattleManager>
+    public class HandUI : InputBehaviourHandler<CardUI>, ISequenceOperation<IBattleManager>
     {
         #region Events
         public static event Action<CardUI> OnCardExecute;
@@ -83,7 +83,7 @@ namespace CardMaga.UI
                 { InputBehaviourState.Hand, _handUIState } ,{ InputBehaviourState.Default ,null }
             };
 
-            BattleManager.Register(this, OrderType.After);
+            BattleManager.Register(this, OrderType.Default);
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += DiscardAllCards;
             _handUIState.OnCardDrawnAndAlign += UnLockInput;
@@ -103,16 +103,16 @@ namespace CardMaga.UI
 
         #endregion
 
-        #region Input
+        #region InputIdentificationSO
 
         public void LockInput()
         {
-            LockAllTouchableItems(_handUIState.CardUIsInput,false);
+            //ChangeTouchableItemsState(_handUIState.CardUIsInput,false);
         }
 
         public void UnLockInput()
         {
-            LockAllTouchableItems(_handUIState.CardUIsInput,true);
+            //ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
         }
 
         #endregion
@@ -275,6 +275,11 @@ namespace CardMaga.UI
             cardUI.CardVisuals.SetExecutedCardVisuals();
             MoveCardToDiscardAfterExecute(cardUI);
             //OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
+        }
+
+        public IReadOnlyList<CardUI>  GetCardUIFromHand()
+        {
+            return _handUIState.CardsUI;
         }
         
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)

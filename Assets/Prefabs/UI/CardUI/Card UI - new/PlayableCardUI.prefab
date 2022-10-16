@@ -102,11 +102,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d148a8a06c0b03b4a81bc8569b714c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _touchableItem: {fileID: 1304183681161663716}
+  OnClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBeginHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEndHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableHold: 0
   _holdDelay: 0.5
   _holdDistance: 300
   _currentState: 0
+  _touchableItem: {fileID: 1304183681161663716}
   _currentInputBehaviourState: 0
+  _inputIdentificationSo: {fileID: 11400000, guid: 1ea302a8fc124d84e90ee8fd5a293bd3,
+    type: 2}
 --- !u!1001 &8985172838431535954
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -308,6 +329,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4831315560352688621, guid: bd36032e49a557545a600c7d0ccf2374,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5747508604021146252, guid: bd36032e49a557545a600c7d0ccf2374,
         type: 3}

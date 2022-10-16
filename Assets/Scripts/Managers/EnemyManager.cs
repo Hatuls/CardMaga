@@ -20,7 +20,7 @@ namespace Battle
         #region Fields
         //   [UnityEngine.SerializeField] Opponents EnemyAI;
 
-        [Tooltip("Player Stats: ")]
+        [Tooltip("LeftPlayer Stats: ")]
         [SerializeField] AIBrain _brain;
         [FormerlySerializedAs("_myCharacter")] [SerializeField] private Character _character;
         [SerializeField] VisualCharacter _visualCharacter;
@@ -86,7 +86,10 @@ namespace Battle
             _statsHandler = new CharacterStatsHandler(IsLeft, ref characterdata.CharacterStats, StaminaHandler);
 
             //Stamina
-            _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
+            if (!battleManager.TurnHandler.IsLeftPlayerStart)
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
+            else
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
 
 
             //Turn
@@ -171,7 +174,7 @@ namespace Battle
 
         public void PlayEnemyTurn()
         {
-            Debug.Log("Enemy Attack!");
+            Debug.Log("RightPlayer Attack!");
 
             _turnFinished = _aiTokenMachine.GetToken();
         }

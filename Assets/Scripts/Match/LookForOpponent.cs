@@ -6,9 +6,9 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace Battle.MatchMaking
 {
-
     public class LookForOpponent : MonoBehaviour
     {
         public static event Action OnStartLooking;
@@ -29,18 +29,15 @@ namespace Battle.MatchMaking
 
 
         private string _opponentDisplayName;
-
-
-
+        
         public void Init(ITokenReciever tokenReceiver)
         {
             _token = tokenReceiver.GetToken();
             LookForOpponentOnServer();
             OnStartLooking?.Invoke();
         }
-
-
-
+        
+        
         private void LookForOpponentOnServer()
         {
 

@@ -7,6 +7,7 @@ using Managers;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
+using Account;
 using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,8 +18,7 @@ namespace Battle
     {
         public static event Action OnGameEnded;
         public event Action<IBattleManager> OnBattleManagerDestroyed;
-
-
+        
         public static bool isGameEnded;
         [SerializeField, EventsGroup]
         private Unity.Events.StringEvent _playSound;
@@ -28,9 +28,10 @@ namespace Battle
         private UnityEvent OnPlayerVictory;
         [SerializeField, EventsGroup]
         private UnityEvent OnBattleStarts;
-        [SerializeField]
+        [SerializeField,EventsGroup]
         private UnityEvent OnBattleFinished;
-
+        [SerializeField,EventsGroup]
+        private UnityEvent OnBattleTutorialFinished;
         [SerializeField]
         private DollyTrackCinematicManager _cinematicManager;
         [SerializeField]
@@ -49,6 +50,8 @@ namespace Battle
         private VFXManager _vFXManager;
         [SerializeField]
         private CameraManager _cameraManager;
+
+        [SerializeField] private LockAndUnlockSystem _lockAndUnlockSystem;
 #if UNITY_EDITOR
         [Header("Editor:")]
         [SerializeField] private bool _hideTutorial;
@@ -77,6 +80,8 @@ namespace Battle
         public MonoBehaviour MonoBehaviour => this;
         #endregion
 
+        #region BattleManagnent
+
         private void ResetBattle()
         {
             ResetParams();
@@ -86,12 +91,17 @@ namespace Battle
 
         private void InitParams()
         {
-            _gameTurnHandler = new GameTurnHandler();
+            _gameTurnHandler = new GameTurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
+            //_lockAndUnlockSystem = new LockAndUnlockSystem();
+            _lockAndUnlockSystem.Init();
+            
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);
             
-            _ruleManager.OnGameEnded += EndBattle;
+            _endBattleHandler.OnBattleAnimatonEnd += MoveToNextScene;
+            _endBattleHandler.OnTutorialAnimatonEnd += MoveToTutorialProgress;
+            _endBattleHandler.OnBattleEnded += EndBattle;
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.BattleMusicParameter();
@@ -102,9 +112,8 @@ namespace Battle
             if (AudioManager.Instance != null)
                 AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
-
-        
         }
+        
         // Need To be Re-Done
         public void StartBattle()
         {
@@ -116,37 +125,41 @@ namespace Battle
             OnBattleStarts?.Invoke();
         }
 
+        #endregion
+        
+        #region EndBattleLogic
+
         private void EndBattle(bool isLeftPlayerWon)
         {
-            _endBattleHandler.EndBattle(isLeftPlayerWon);
             OnGameEnded?.Invoke();
-        }
-
-        // Need To be Re-Done
-        public void DeathAnimationFinished(bool isPlayer)
-        {
-            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
-            MoveToNextScene();
         }
 
         private void MoveToNextScene()
         {
             OnBattleFinished?.Invoke();
         }
-
-        private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
+        
+        private void MoveToTutorialProgress()
         {
-#if UNITY_EDITOR
-            if (_hideTutorial)
-                return;
-#endif
-            
-            if (BattleData.BattleConfigSO?.BattleTutorial == null)
-                return;
-
-            _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
+            AccountManager.Instance.Data.AccountTutorialData.UpdateToNextTutorial();
+            OnBattleTutorialFinished?.Invoke();
         }
 
+        #endregion
+        
+          private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
+    {
+#if UNITY_EDITOR
+        if (_hideTutorial)
+            return;
+#endif
+            
+        if (BattleData.BattleConfigSO?.BattleTutorial == null)
+            return;
+
+        _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);  
+    }
+        
         #region Observer Pattern 
 
         public static void Register(ISequenceOperation<IBattleManager> battleStarter, OrderType order)
@@ -158,7 +171,7 @@ namespace Battle
         #endregion
         
         #region MonoBehaviour Callbacks
-
+        
         private void Update()
         {
             ThreadsHandler.ThreadHandler.TickThread();
@@ -169,9 +182,12 @@ namespace Battle
             OnBattleManagerDestroyed?.Invoke(this);
             ThreadsHandler.ThreadHandler.ResetList();
             _ruleManager.DisposeRules();
-            _ruleManager.OnGameEnded -= EndBattle;
+            _endBattleHandler.OnBattleEnded -= EndBattle;
+            _endBattleHandler.OnBattleAnimatonEnd -= MoveToNextScene;
+            _endBattleHandler.OnTutorialAnimatonEnd -= MoveToTutorialProgress;
+            _endBattleHandler.DeConstrctor();
 
-            AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
+
             _battleStarter.Dispose();
             
             TurnHandler.Dispose();
@@ -180,16 +196,14 @@ namespace Battle
 
         public override void Awake()
         {
-            Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After),OrderType.After);
+            Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After), OrderType.After);
 
-            AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
             base.Awake();
         }
         
         private void Start()
         {
             ResetBattle();
-           
         }
         
         #endregion
@@ -280,6 +294,7 @@ namespace Battle
         {
             LeftCharacter = leftCharacter;
             RightCharacter = rightCharacter;
+
             BattleManager.Register(this, OrderType.Before);
         }
 

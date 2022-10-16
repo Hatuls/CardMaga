@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+
 namespace Account.GeneralData
 {
     [Serializable]
@@ -144,7 +145,7 @@ namespace Account.GeneralData
         //  #region PublicMethods
         //  public CharacterData(CardInstanceID[] startingDeck ,CharacterEnum characterEnum, byte deckAmount = 4)
         //  {
-        //      if (characterEnum == CharacterEnum.Enemy)
+        //      if (characterEnum == CharacterEnum.RightPlayer)
         //      {
         //          throw new Exception("CharacterData inserted an enemy instead of a player character");
         //      }

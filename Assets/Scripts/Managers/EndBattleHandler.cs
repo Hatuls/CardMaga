@@ -1,16 +1,21 @@
 ﻿using System;
 using Battle;
 using Battle.Data;
+using CardMaga.Rules;
 
 public class EndBattleHandler
 {
-    public static event Action<bool> OnBattleEnded;
+    public event Action<bool> OnBattleEnded;
+
+    public event Action OnTutorialAnimatonEnd;
+    public event Action OnBattleAnimatonEnd;
 
     private readonly IPlayersManager _playersManager;
     private readonly BattleData _battleData;
     private readonly CardExecutionManager _cardExecutionManager;
 
     private bool _isGameEnded = false;
+    private bool _isInTutorial = false;
 
     public bool IsGameEnded
     {
@@ -20,10 +25,17 @@ public class EndBattleHandler
     public EndBattleHandler(IBattleManager battleManager)
     {
         _playersManager = battleManager.PlayersManager;
-        _battleData = battleManager.BattleData;
         _cardExecutionManager = battleManager.CardExecutionManager;
-
+        RuleManager.OnGameEnded += EndBattle;
+        AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
+        
         _isGameEnded = false;
+    }
+
+    public void DeConstrctor()//need work
+    {
+        RuleManager.OnGameEnded -= EndBattle;
+        AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
     }
 
     public void EndBattle(bool isLeftPlayerWon)
@@ -45,13 +57,28 @@ public class EndBattleHandler
         _playersManager.LeftCharacter.VisualCharacter.AnimatorController.ResetLayerWeight();
         _playersManager.RightCharacter.VisualCharacter.AnimatorController.ResetLayerWeight();
 
-        _battleData.PlayerWon = isLeftPlayerWon;
+        BattleData.Instance.PlayerWon = isLeftPlayerWon;
         
         _isGameEnded = true;
         
         OnBattleEnded?.Invoke(isLeftPlayerWon);
-    }
 
+    }
+        
+    private void DeathAnimationFinished(bool isPlayer)
+    {
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
+
+        if (BattleData.Instance.BattleConfigSO.BattleTutorial != null)
+        {
+            OnTutorialAnimatonEnd?.Invoke();
+        }
+        else
+        {
+            OnBattleAnimatonEnd?.Invoke();
+        }
+    }
+    
     private void LeftPlayerWon()
     {
         _playersManager.LeftCharacter.VisualCharacter.AnimatorController.CharacterWon();

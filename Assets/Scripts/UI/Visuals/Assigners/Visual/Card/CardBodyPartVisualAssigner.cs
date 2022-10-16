@@ -67,7 +67,6 @@ namespace CardMaga.UI.Visuals
 
         private void SetActiveObject(int cardType)
         {
-
             if (_bodyPartActivationObject[cardType].activeSelf)
             {
                 //gameobject is already active

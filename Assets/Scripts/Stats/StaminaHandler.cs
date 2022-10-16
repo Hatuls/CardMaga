@@ -43,7 +43,6 @@ namespace Characters.Stats
 
         public StaminaHandler(int startAmount, int stamminaShards, int staminaAddition = 0)
         {
-
             StaminaAddition = staminaAddition;
             StartStamina = startAmount;
             StaminaShards = stamminaShards;

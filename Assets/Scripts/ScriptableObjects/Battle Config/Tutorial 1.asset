@@ -12,34 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab52da9c943a5442be1843e31908fb2, type: 3}
   m_Name: Tutorial 1
   m_EditorClassIdentifier: 
-  _maxCardsInHand: 0
-  _isRandom: 0
-  _isOverideCharacter: 0
-  _player:
-    _id: 0
-    _currentSkin: 0
-    _exp: 0
-    _skillPoint: 0
-    _rank: 0
-    _deckAmount: 0
-    _mainDeck: 0
-    _availableSkins: 
-    _deck: []
-  _enemy:
-    _id: 0
-    _currentSkin: 0
-    _exp: 0
-    _skillPoint: 0
-    _rank: 0
-    _deckAmount: 0
-    _mainDeck: 0
-    _availableSkins: 
-    _deck: []
-  _turnCountdown: 0
+  _isShuffleCard: 1
+  _characterSelecter: {fileID: 11400000, guid: 4756477162ed91e46892adbcd6949b43, type: 2}
   _timerActive: 0
-  _isPlayerStart: 0
+  _timerCountdown: 0
   _gameRules: []
   _endGameRules:
+  - {fileID: 11400000, guid: 09c4d2ebdafd6004395d0375b6577832, type: 2}
   - {fileID: 11400000, guid: bab284dc7433ce04f99568243632a0e2, type: 2}
   _battleTutorial: {fileID: 1325237754633721910, guid: 5637fd857bed5c14589d381027c9c408,
     type: 3}

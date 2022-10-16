@@ -33,7 +33,7 @@
 //        }
 //        public void AddChatacterToDictionary(CharacterEnum character)
 //        {
-//            if (character == CharacterEnum.Enemy)
+//            if (character == CharacterEnum.RightPlayer)
 //            {
 //                throw new Exception("AccountCharacters enemy can not be added to dictionary");
 //            }
@@ -60,7 +60,7 @@
 //        public void NewLoad()
 //        {
 //            int currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
-//            var characters = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.Player);
+//            var characters = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.LeftPlayer);
 //            int length = characters.Length;
 //            _characterDatas = new CharacterData[0];
 //            SelectedCharacter = CharacterEnum.Chiara;

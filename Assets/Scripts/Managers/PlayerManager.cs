@@ -88,8 +88,11 @@ namespace Managers
             _statsHandler = new CharacterStatsHandler(IsLeft, ref data.CharacterStats, _staminaHandler);
 
             //Stamina
-            _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
-
+            if (battleManager.TurnHandler.IsLeftPlayerStart)
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
+            else
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
+            
             //Deck
             _deckHandler = new DeckHandler(this, battleManager);
 

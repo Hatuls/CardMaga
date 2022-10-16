@@ -26,7 +26,7 @@ namespace Meta
         public static bool TryUpgradeCombo(CardUpgradeCostSO upgrade, Combo combo, ResourceEnum resourceenum)
         {
             return true;
-            //Characters.Character battleData = Account.AccountManager.Instance.BattleData.Player;
+            //Characters.Character battleData = Account.AccountManager.Instance.BattleData.LeftPlayer;
             //int gold = battleData.CharacterData.CharacterStats.Gold;
 
             //int Cost = upgrade.NextCardValue(combo.ComboSO().CraftedCard, combo.Level);
@@ -72,7 +72,7 @@ namespace Meta
         private static bool TryUpgradeInMap(CardUpgradeCostSO cardUpgradeCostSO, CardData card, ResourceEnum resourceEnum, AccountManager account)
         {
             return true;
-            //var player = account.BattleData.Player;
+            //var player = account.BattleData.LeftPlayer;
             //int gold = player.CharacterData.CharacterStats.Gold;
             //int Cost = cardUpgradeCostSO.NextCardValue(card, resourceEnum);
             //if (gold >= Cost)

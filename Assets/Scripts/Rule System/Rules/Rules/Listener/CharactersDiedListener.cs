@@ -4,7 +4,7 @@ using Characters.Stats;
 using Keywords;
 using Managers;
 
-public class CharactersDiedListener : BaseRule<bool>
+public class CharactersDiedListener : BaseEndGameRule
 {
     private IPlayer _leftPlayerHeal;
     private IPlayer _rightPlayerHeal;
@@ -39,5 +39,9 @@ public class CharactersDiedListener : BaseRule<bool>
     {
         _rightPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged -= CheckRightPlayerCondition;
         _leftPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged -= CheckLeftPlayerCondition;
+    }
+
+    public CharactersDiedListener(float delayToEndGame) : base(delayToEndGame)
+    {
     }
 }
