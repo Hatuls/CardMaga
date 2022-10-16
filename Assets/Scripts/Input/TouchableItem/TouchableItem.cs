@@ -6,12 +6,11 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace CardMaga.Input
-{ 
-    public abstract class TouchableItem<T> : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , ILockable
-        where T : MonoBehaviour
+{
+    public abstract class TouchableItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ILockable
     {
         #region Events
-        
+
         [Header("Unity Events")]
         [SerializeField] private UnityEvent OnClickEvent;
         [SerializeField] private UnityEvent OnBeginHoldEvent;
@@ -20,12 +19,12 @@ namespace CardMaga.Input
         [SerializeField] private UnityEvent OnPointDownEvent;
         [SerializeField] private UnityEvent OnPointUpEvent;
         
-        public virtual event Action<T> OnClick;
-        public virtual event Action<T> OnBeginHold;
-        public virtual event Action<T> OnEndHold;
-        public virtual event Action<T> OnHold;
-        public virtual event Action<T> OnPointDown;
-        public virtual event Action<T> OnPointUp;
+        public event Action OnClick;
+        public event Action OnBeginHold;
+        public event Action OnEndHold;
+        public event Action OnHold;
+        public event Action OnPointDown;
+        public event Action OnPointUp;
 
         #endregion
 
@@ -36,21 +35,18 @@ namespace CardMaga.Input
             Lock,
             UnLock
         }
+        
         [Header("Touchable Item configuration")]
         [Tooltip("Disable Hold")] public bool DisableHold = false;
         
-        [SerializeField,Tooltip("The Touchable Item")] T _touchableItem;
         [SerializeField,Tooltip("The delay between moving from point down to hold")] private float _holdDelay = .5f;
         [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
-        [SerializeField,Tooltip("The current input behaviour state")] [ReadOnly] private InputBehaviourState _currentInputBehaviourState;
 
-        private InputBehaviour<T> _inputBehaviour;
-        private InputBehaviour<T> _defaultInputBehaviour;
         private Vector2 _startPosition;
         private bool _isHold;
         private bool _isTouchable;
-
+        
 #if UNITY_EDITOR
         private int _holdLogCount;
 #endif
@@ -60,76 +56,57 @@ namespace CardMaga.Input
         #region Prop
 
         public abstract InputIdentificationSO InputIdentification { get; }
-
-        public InputBehaviour<T> InputBehaviour => _inputBehaviour;
         
-        public InputBehaviour<T> DefaultInputBehaviour => _defaultInputBehaviour;
         public State CurrentState => _currentState;
 
-        public InputBehaviourState CurrentInputBehaviourState
-        {
-            get => _currentInputBehaviourState;
-        }
-
         #endregion
-
+        
         #region UnityCallBack
 
         private void Awake()
         {
             Lock(); //start Lock
-            
-            if (_defaultInputBehaviour != null)
-                return;
-
-            _defaultInputBehaviour = new InputBehaviour<T>();
-
-            _inputBehaviour = _defaultInputBehaviour;
         }
-
+        
         #endregion
 
         #region EventCallBack
 
         protected virtual void Click()
         {
-            OnClick?.Invoke(_touchableItem);
+            OnClick?.Invoke();
             OnClickEvent?.Invoke();
-            _inputBehaviour.Click(_touchableItem);
 #if UNITY_EDITOR
-	        //Debug.Log(_touchableItem.name + GetInstanceID() + " Click");
+            //Debug.Log(_touchableItem.name + GetInstanceID() + " Click");
 #endif
         }
         
         protected virtual void BeginHold()
         {
-            OnBeginHold?.Invoke(_touchableItem);
+            OnBeginHold?.Invoke();
             OnBeginHoldEvent?.Invoke();
-            _inputBehaviour.BeginHold(_touchableItem);
 #if UNITY_EDITOR
-	        // Debug.Log(_touchableItem.name + GetInstanceID() + " BeginHold");
+            // Debug.Log(_touchableItem.name + GetInstanceID() + " BeginHold");
 #endif
         }
         
         protected virtual void EndHold()
         {
-            OnEndHold?.Invoke(_touchableItem);
+            OnEndHold?.Invoke();
             OnEndHoldEvent?.Invoke();
-            _inputBehaviour.EndHold(_touchableItem);
 #if UNITY_EDITOR
-	        // Debug.Log(_touchableItem.name + GetInstanceID() + " EndHold");
+            // Debug.Log(_touchableItem.name + GetInstanceID() + " EndHold");
 #endif
         }
         
         protected virtual void Hold()
         {
-            OnHold?.Invoke(_touchableItem);
+            OnHold?.Invoke();
             OnHoldEvent?.Invoke();
-            _inputBehaviour.Hold(_touchableItem);
 #if UNITY_EDITOR
             if (_holdLogCount % 10 == 0)
             {
-	            //Debug.Log(_touchableItem.name + GetInstanceID() + " Hold");
+                //Debug.Log(_touchableItem.name + GetInstanceID() + " Hold");
             }
             _holdLogCount++;
 
@@ -138,26 +115,24 @@ namespace CardMaga.Input
         
         protected virtual void PointDown()
         {
-            OnPointDown?.Invoke(_touchableItem);
+            OnPointDown?.Invoke();
             OnPointDownEvent?.Invoke();
-            _inputBehaviour.PointDown(_touchableItem);
 #if UNITY_EDITOR
-	        //Debug.Log(_touchableItem.name + GetInstanceID() + " PointDown");
+            //Debug.Log(_touchableItem.name + GetInstanceID() + " PointDown");
 #endif
         }
         
         protected virtual void PointUp()
         {
-            OnPointUp?.Invoke(_touchableItem);
+            OnPointUp?.Invoke();
             OnPointUpEvent?.Invoke();
-            _inputBehaviour.PointUp(_touchableItem);
 #if UNITY_EDITOR
-	        //Debug.Log(_touchableItem.name + GetInstanceID() + " PointUp");
+            //Debug.Log(_touchableItem.name + GetInstanceID() + " PointUp");
 #endif
         }
 
         #endregion
-
+        
         #region TouchProcess
 
         public void OnPointerDown(PointerEventData eventData)
@@ -259,7 +234,7 @@ namespace CardMaga.Input
 
 
         #endregion
-
+        
         #region StateManagement
 
         private void ChangeState(State state)
@@ -303,6 +278,123 @@ namespace CardMaga.Input
 
         #endregion
 
+        #region ILockable
+
+        public void Lock()
+        {
+            ChangeState(false);
+        }
+
+        public void UnLock()
+        {
+            ChangeState(true);
+        }
+
+        #endregion
+        
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawWireSphere(transform.position,_holdDistance);
+        }        
+    }
+
+    public abstract class TouchableItem<T> : TouchableItem
+        where T : MonoBehaviour
+    {
+        #region Events
+        
+        public event Action<T> OnClick;
+        public event Action<T> OnBeginHold;
+        public event Action<T> OnEndHold;
+        public event Action<T> OnHold;
+        public event Action<T> OnPointDown;
+        public event Action<T> OnPointUp;
+
+        #endregion
+
+        #region Fields
+
+        [SerializeField,Tooltip("The Touchable Item")] T _touchableItem;
+        [SerializeField,Tooltip("The current input behaviour state")] [ReadOnly] private InputBehaviourState _currentInputBehaviourState;
+
+        private InputBehaviour<T> _inputBehaviour;
+        private InputBehaviour<T> _defaultInputBehaviour;
+        
+        #endregion
+
+        #region Prop
+        
+        public InputBehaviour<T> InputBehaviour => _inputBehaviour;
+        
+        public InputBehaviour<T> DefaultInputBehaviour => _defaultInputBehaviour;
+
+        public InputBehaviourState CurrentInputBehaviourState
+        {
+            get => _currentInputBehaviourState;
+        }
+
+        #endregion
+
+        #region UnityCallBack
+
+        private void Awake()
+        {
+            if (_defaultInputBehaviour != null)
+                return;
+
+            _defaultInputBehaviour = new InputBehaviour<T>();
+
+            _inputBehaviour = _defaultInputBehaviour;
+        }
+
+        #endregion
+
+        #region EventCallBack
+
+        protected override void Click()
+        {
+            base.Click();
+            OnClick?.Invoke(_touchableItem);
+            _inputBehaviour.Click(_touchableItem);
+        }
+
+        protected override void BeginHold()
+        {
+            base.BeginHold();
+            OnBeginHold?.Invoke(_touchableItem);
+            _inputBehaviour.BeginHold(_touchableItem);
+        }
+
+        protected override void Hold()
+        {
+            base.Hold();
+            OnHold?.Invoke(_touchableItem);
+            _inputBehaviour.Hold(_touchableItem);
+        }
+
+        protected override void EndHold()
+        {
+            base.EndHold();
+            OnEndHold?.Invoke(_touchableItem);
+            _inputBehaviour.EndHold(_touchableItem);
+        }
+
+        protected override void PointDown()
+        {
+            base.PointDown();
+            OnPointDown?.Invoke(_touchableItem);
+            _inputBehaviour.PointDown(_touchableItem);
+        }
+
+        protected override void PointUp()
+        {
+            base.PointUp();
+            OnPointUp?.Invoke(_touchableItem);
+            _inputBehaviour.PointUp(_touchableItem);
+        }
+
+        #endregion
+        
         #region InputBehaviourManagement
 
         public void ChangeState(InputBehaviourState state)
@@ -338,25 +430,6 @@ namespace CardMaga.Input
         }
 
         #endregion
-
-        #region ILockable
-
-        public void Lock()
-        {
-            ChangeState(false);
-        }
-
-        public void UnLock()
-        {
-            ChangeState(true);
-        }
-
-        #endregion
-        
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawWireSphere(transform.position,_holdDistance);
-        }
     }
 
     public interface ILockable

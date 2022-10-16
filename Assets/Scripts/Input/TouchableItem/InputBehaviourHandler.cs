@@ -47,54 +47,7 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             _currentState.EnterState(cardUI);
         }
     }
-
-    protected void LockAllTouchableItems(TouchableItem<T>[] touchableItems,bool isTouchable)
-    {
-        for (int i = 0; i < touchableItems.Length; i++)
-        {
-            if (touchableItems[i] == null)
-                continue;
-
-            if (isTouchable)
-                touchableItems[i].UnLock();
-            else
-                touchableItems[i].Lock();
-            
-        }
-    }
     
-    protected void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T> touchableItem,bool isTouchable)
-    {
-        TouchableItem<T>[] tempArray = new TouchableItem<T>[] { touchableItem };
-        
-        LockAllTouchableItemsExcept(touchableItems,tempArray,isTouchable);
-    }
-    
-    protected void LockAllTouchableItemsExcept(TouchableItem<T>[] touchableItems, TouchableItem<T>[] exceptTouchableItem,bool isTouchable)
-    {
-        for (int i = 0; i < touchableItems.Length; i++)
-        {
-            bool isExcept = false;
-            
-            if (touchableItems[i] == null)
-                continue;
-
-            for (int j = 0; j < exceptTouchableItem.Length; j++)
-            {
-                isExcept = touchableItems[i] == exceptTouchableItem[j];
-                break;
-            }
-
-            if (isExcept)
-                continue;            
-            
-            if (isTouchable)
-                touchableItems[i].UnLock();
-            else
-                touchableItems[i].Lock();
-        }
-    }
-
     protected void SetAllTouchableItemsToDefault(TouchableItem<T>[] touchableItems)
     {
         for (int i = 0; i < touchableItems.Length; i++)

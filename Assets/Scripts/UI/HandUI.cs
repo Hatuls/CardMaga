@@ -83,7 +83,7 @@ namespace CardMaga.UI
                 { InputBehaviourState.Hand, _handUIState } ,{ InputBehaviourState.Default ,null }
             };
 
-            BattleManager.Register(this, OrderType.After);
+            BattleManager.Register(this, OrderType.Default);
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += DiscardAllCards;
             _handUIState.OnCardDrawnAndAlign += UnLockInput;
@@ -107,12 +107,12 @@ namespace CardMaga.UI
 
         public void LockInput()
         {
-            LockAllTouchableItems(_handUIState.CardUIsInput,false);
+            //ChangeTouchableItemsState(_handUIState.CardUIsInput,false);
         }
 
         public void UnLockInput()
         {
-            LockAllTouchableItems(_handUIState.CardUIsInput,true);
+            //ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
         }
 
         #endregion

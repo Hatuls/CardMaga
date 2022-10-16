@@ -4,5 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Input Group", menuName = "ScriptableObjects/Input/Input Identification/New Input Group")]
 public class InputGroup : ScriptableObject
 {
-   [SerializeField] private List<InputIdentificationSO> _inputs;
+   [SerializeField] private InputIdentificationSO[] _inputIDs;
+
+   public InputIdentificationSO[] InputIDs
+   {
+      get => _inputIDs;
+   }
 }
