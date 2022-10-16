@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using CardMaga.Card;
 
-
 public class TestFilter : BaseFilter<CardData>
 {
     public override bool Filter(CardData obj)
@@ -10,8 +9,6 @@ public class TestFilter : BaseFilter<CardData>
         {
             return true;
         }
-        
-        obj.
 
         return false;
     }

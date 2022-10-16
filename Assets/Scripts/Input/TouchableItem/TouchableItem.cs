@@ -7,10 +7,11 @@ using UnityEngine.EventSystems;
 
 namespace CardMaga.Input
 { 
-    public class TouchableItem<T> : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , ILockable
+    public abstract class TouchableItem<T> : MonoBehaviour, IPointerDownHandler, IPointerUpHandler , ILockable
         where T : MonoBehaviour
     {
         #region Events
+        
         [Header("Unity Events")]
         [SerializeField] private UnityEvent OnClickEvent;
         [SerializeField] private UnityEvent OnBeginHoldEvent;
@@ -58,6 +59,8 @@ namespace CardMaga.Input
 
         #region Prop
 
+        public abstract InputIdentificationSO InputIdentification { get; }
+
         public InputBehaviour<T> InputBehaviour => _inputBehaviour;
         
         public InputBehaviour<T> DefaultInputBehaviour => _defaultInputBehaviour;
@@ -74,6 +77,8 @@ namespace CardMaga.Input
 
         private void Awake()
         {
+            Lock(); //start Lock
+            
             if (_defaultInputBehaviour != null)
                 return;
 
@@ -284,7 +289,7 @@ namespace CardMaga.Input
             else if (_currentState == State.UnLock) ChangeState(State.Lock);
         }
 
-        public void ChangeState(bool isTouchable)
+        private void ChangeState(bool isTouchable)
         {
             if (isTouchable)
                 ChangeState(State.UnLock);

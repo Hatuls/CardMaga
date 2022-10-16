@@ -79,6 +79,6 @@ public abstract class BaseFilterSystem<T> : MonoBehaviour
 
     private void LoadFilters()
     {
-
+        
     }
 }

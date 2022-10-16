@@ -103,7 +103,7 @@ namespace CardMaga.UI
 
         #endregion
 
-        #region Input
+        #region InputIdentificationSO
 
         public void LockInput()
         {

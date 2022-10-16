@@ -54,7 +54,7 @@ namespace CardMaga.UI
         
         if (!cardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
         {
-            Debug.LogError(name + "Failed To Set Input Behaviour");
+            Debug.LogError(name + "Failed To Set InputIdentificationSO Behaviour");
             return;
         }
         

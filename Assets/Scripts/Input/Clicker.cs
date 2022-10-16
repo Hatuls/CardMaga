@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using CardMaga.Input;
-using UnityEngine;
+﻿using CardMaga.Input;
 
 public class Clicker : TouchableItem<Clicker>
 {
     private void Start()
     {
-        ChangeState(true);
+        UnLock();
     }
+
+    public override InputIdentificationSO InputIdentification { get; }
 }

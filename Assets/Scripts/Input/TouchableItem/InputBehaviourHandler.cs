@@ -54,8 +54,12 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
         {
             if (touchableItems[i] == null)
                 continue;
+
+            if (isTouchable)
+                touchableItems[i].UnLock();
+            else
+                touchableItems[i].Lock();
             
-            touchableItems[i].ChangeState(isTouchable);
         }
     }
     
@@ -84,7 +88,10 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour  where T : MonoBe
             if (isExcept)
                 continue;            
             
-            touchableItems[i].ChangeState(isTouchable);
+            if (isTouchable)
+                touchableItems[i].UnLock();
+            else
+                touchableItems[i].Lock();
         }
     }
 
