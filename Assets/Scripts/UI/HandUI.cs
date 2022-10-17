@@ -10,6 +10,7 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CardMaga.Input;
 using UnityEngine;
 
 namespace CardMaga.UI
@@ -107,12 +108,12 @@ namespace CardMaga.UI
 
         public void LockInput()
         {
-            //ChangeTouchableItemsState(_handUIState.CardUIsInput,false);
+            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,false);
         }
 
         public void UnLockInput()
         {
-            //ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
+            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
         }
 
         #endregion

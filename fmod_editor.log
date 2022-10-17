@@ -2,12 +2,13 @@
 [LOG] Manager::init                            : maxchannels = 256 studioflags = 00000006 flags 00000000 extradriverdata 0000000000000000.
 [LOG] SystemI::init                            : Initialize version=20111 (118066), maxchannels=256, flags=0x00020000
 [LOG] SystemI::setOutputInternal               : Setting output to 'FMOD WASAPI Output'
-[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEX): wFormatTag=0xFFFE, nChannels=2, nSamplesPerSec=48000, nAvgBytesPerSec=384000, nBlockAlign=8, wBitsPerSample=32, cbSize=22.
+[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEX): wFormatTag=0xFFFE, nChannels=2, nSamplesPerSec=44100, nAvgBytesPerSec=352800, nBlockAlign=8, wBitsPerSample=32, cbSize=22.
 [LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEXTENSIBLE): wValidBitsPerSample=32, dwChannelMask=0x00000003, SubFormat=00000003-0000-0010-8000-00AA00389B71.
-[LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
+[LOG] OutputWASAPI::init                       : Output buffer size: 3760 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
+[LOG] SystemI::init                            : Output requires a sample rate of 44100Hz, resampling will occur.
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000001C3C5A57D08 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000026BF4EF0078 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -18,36 +19,19 @@
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
-[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 000001C4AB347F68 : node = 000001C496E81710
-[LOG] SystemI::createSound                     : add node to async list : head = 000001C3C0700438.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001C4AB347F68
-[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
-[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
-[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
-[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001C496E81820
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 581
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Combat 2 - V4', format=5, channels=2, frequency=48000, lengthbytes=2567296, lengthpcm=9478060, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.940186.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001C4AB347F68
 [LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
 [LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Short 6', format=5, channels=2, frequency=48000, lengthbytes=2336, lengthpcm=12538, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.691040.
@@ -56,14 +40,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Mid 2', format=5, channels=2, frequency=48000, lengthbytes=4832, lengthpcm=23823, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.448975.
@@ -72,14 +56,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Long 5', format=5, channels=2, frequency=48000, lengthbytes=4800, lengthpcm=23823, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.531586.
@@ -88,14 +72,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Long 3', format=5, channels=2, frequency=48000, lengthbytes=4928, lengthpcm=23823, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.457245.
@@ -104,14 +88,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Short 4', format=5, channels=2, frequency=48000, lengthbytes=2208, lengthpcm=12538, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.488556.
@@ -120,14 +104,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Short 2', format=5, channels=2, frequency=48000, lengthbytes=2624, lengthpcm=13792, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.586426.
@@ -136,14 +120,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Mid 3', format=5, channels=2, frequency=48000, lengthbytes=3968, lengthpcm=20062, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.696503.
@@ -152,14 +136,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Long 2', format=5, channels=2, frequency=48000, lengthbytes=5216, lengthpcm=26331, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.440186.
@@ -168,14 +152,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Short 3', format=5, channels=2, frequency=48000, lengthbytes=2304, lengthpcm=12538, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.469940.
@@ -184,14 +168,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Mid 1', format=5, channels=2, frequency=48000, lengthbytes=3744, lengthpcm=20062, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.555267.
@@ -200,14 +184,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Short 5', format=5, channels=2, frequency=48000, lengthbytes=2464, lengthpcm=13792, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.559662.
@@ -216,14 +200,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Long 1', format=5, channels=2, frequency=48000, lengthbytes=4608, lengthpcm=23823, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.597687.
@@ -232,14 +216,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Long 4', format=5, channels=2, frequency=48000, lengthbytes=4864, lengthpcm=23823, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.605072.
@@ -248,14 +232,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Short 1', format=5, channels=2, frequency=48000, lengthbytes=2912, lengthpcm=15046, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.567291.
@@ -264,14 +248,14 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EF558
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A979908
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Hit Mid 4', format=5, channels=2, frequency=48000, lengthbytes=3520, lengthpcm=18808, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.400543.
@@ -280,255 +264,358 @@
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EFD98
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A97B5E8
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Kick 1', format=5, channels=2, frequency=48000, lengthbytes=5344, lengthpcm=23823, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.924988.
 [LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
 [LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Short 3', format=5, channels=2, frequency=48000, lengthbytes=3392, lengthpcm=16300, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.399170.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Short 4', format=5, channels=2, frequency=48000, lengthbytes=4384, lengthpcm=21315, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.313171.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Short 5', format=5, channels=2, frequency=48000, lengthbytes=3712, lengthpcm=18808, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.460358.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Long 1', format=5, channels=2, frequency=48000, lengthbytes=9120, lengthpcm=42631, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.565063.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Long 2', format=5, channels=2, frequency=48000, lengthbytes=9792, lengthpcm=43885, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.470367.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Short 1', format=5, channels=2, frequency=48000, lengthbytes=2912, lengthpcm=13792, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.385651.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Mid 2', format=5, channels=2, frequency=48000, lengthbytes=6144, lengthpcm=28839, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.533325.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Mid 1', format=5, channels=2, frequency=48000, lengthbytes=5504, lengthpcm=27585, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.253967.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Long 4', format=5, channels=2, frequency=48000, lengthbytes=11744, lengthpcm=56424, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.367737.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Mid 4', format=5, channels=2, frequency=48000, lengthbytes=6976, lengthpcm=32600, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.519196.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Long 3', format=5, channels=2, frequency=48000, lengthbytes=11136, lengthpcm=48901, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.501617.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Short 2', format=5, channels=2, frequency=48000, lengthbytes=3200, lengthpcm=16300, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.245117.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Mid 5', format=5, channels=2, frequency=48000, lengthbytes=6656, lengthpcm=31346, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.572998.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A9773E8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Mid 3', format=5, channels=2, frequency=48000, lengthbytes=6080, lengthpcm=30093, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.385284.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 105600
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 9856
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EEF28
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C0A97B5E8
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Special Card 1', format=5, channels=2, frequency=48000, lengthbytes=17024, lengthpcm=72724, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.697571.
 [LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
 [LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EEF28
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Enemy 1 - Damage Short 3', format=5, channels=2, frequency=48000, lengthbytes=3584, lengthpcm=17554, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.401642.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EEF28
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Enemy 1 - Damage Long 2', format=5, channels=2, frequency=48000, lengthbytes=13120, lengthpcm=62693, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.461639.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EEF28
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Enemy 1 - Damage Short 4', format=5, channels=2, frequency=48000, lengthbytes=5216, lengthpcm=25077, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.216339.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EEF28
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Enemy 1 - Damage Long 1', format=5, channels=2, frequency=48000, lengthbytes=11968, lengthpcm=58932, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.422089.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EEF28
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Enemy 1 - Damage Mid 2', format=5, channels=2, frequency=48000, lengthbytes=7776, lengthpcm=38870, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.384094.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EEF28
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Enemy 1 - Damage Short 1', format=5, channels=2, frequency=48000, lengthbytes=3264, lengthpcm=17554, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.238251.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EEF28
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Enemy 1 - Damage Short 2', format=5, channels=2, frequency=48000, lengthbytes=4096, lengthpcm=21315, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.297485.
-[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
-[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 000001C4B7FC1B48 : node = 000001C3F0805310
-[LOG] SystemI::createSound                     : add node to async list : head = 000001C3C0700438.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001C4B7FC1B48
-[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
-[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
-[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
-[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001C3F0805420
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 1237
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Combat 2 - V4', format=5, channels=2, frequency=48000, lengthbytes=2567296, lengthpcm=9478060, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.940186.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001C4B7FC1B48
-[LOG] SoundI::release                          : Menu V2 (000001C3C44197C8)
-[LOG] SoundI::release                          :     Menu V2 (000001C3C0A63308)
-[LOG] SoundI::release                          :     Menu V2 (000001C3F0E3D3E8)
-[LOG] SoundI::release                          : Combat 2 - V4 (000001C4AB347F68)
-[LOG] SoundI::release                          :     Combat 2 - V4 (000001C3C0A651E8)
-[LOG] SoundI::release                          :     Combat 2 - V4 (000001C3F0E3D598)
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C4BA4EFD98
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Punch 3', format=5, channels=2, frequency=48000, lengthbytes=4160, lengthpcm=20062, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
 [LOG] SystemI::createSoundInternal             : exinfo->length             = 105600
 [LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 9856
 [LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000082952CF5D8
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
 [LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
 [LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFCD3AD60E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFCD3AD60B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFCD3AD61B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFCD3AD6270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000001C3A68DB8A8
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C6E18A3F8
 [LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
 [LOG] SystemI::createSoundInternal             : Sample 0/1: name='Shield 10', format=5, channels=2, frequency=48000, lengthbytes=18016, lengthpcm=70217, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.150452.
-[LOG] SoundI::release                          : Combat 2 - V4 (000001C4B7FC1B48)
-[LOG] SoundI::release                          :     Combat 2 - V4 (000001C3C93F60D8)
-[LOG] SoundI::release                          :     Combat 2 - V4 (000001C3F0E3CD28)
-[LOG] SoundI::release                          :  (000001C4AEAB8C38)
-[LOG] SoundI::release                          :     Special Card 1 (000001C3C0A69968)
-[LOG] SoundI::release                          :  (000001C3C46798B8)
-[LOG] SoundI::release                          :     Shield 10 (000001C3C93F65B8)
-[LOG] SoundI::release                          :  (000001C4AEAB87E8)
-[LOG] SoundI::release                          :     Chiara Hit Short 1 (000001C3C0A66708)
-[LOG] SoundI::release                          :  (000001C4AB4ADB88)
-[LOG] SoundI::release                          :     Chiara Hit Short 2 (000001C3C0A68108)
-[LOG] SoundI::release                          :  (000001C4AB4AD178)
-[LOG] SoundI::release                          :     Chiara Hit Short 3 (000001C3C0A65A08)
-[LOG] SoundI::release                          :  (000001C4AB4AD5C8)
-[LOG] SoundI::release                          :     Chiara Hit Short 4 (000001C3C0A64348)
-[LOG] SoundI::release                          :  (000001C4AB4AD458)
-[LOG] SoundI::release                          :     Chiara Hit Short 5 (000001C3C0A65D48)
-[LOG] SoundI::release                          :  (000001C496932AD8)
-[LOG] SoundI::release                          :     Chiara Hit Short 6 (000001C3C0A64008)
-[LOG] SoundI::release                          :  (000001C496932DB8)
-[LOG] SoundI::release                          :     Chiara Hit Long 5 (000001C3C0A64D08)
-[LOG] SoundI::release                          :  (000001C4AB4AD8A8)
-[LOG] SoundI::release                          :     Chiara Hit Long 1 (000001C3C0A66088)
-[LOG] SoundI::release                          :  (000001C4AB4AD008)
-[LOG] SoundI::release                          :     Chiara Hit Long 2 (000001C3C0A68FA8)
-[LOG] SoundI::release                          :  (000001C4AB4ACE98)
-[LOG] SoundI::release                          :     Chiara Hit Long 3 (000001C3C0A67408)
-[LOG] SoundI::release                          :  (000001C4AB4ADA18)
-[LOG] SoundI::release                          :     Chiara Hit Long 4 (000001C3C0A66568)
-[LOG] SoundI::release                          :  (000001C4AB4AD2E8)
-[LOG] SoundI::release                          :     Chiara Hit Mid 1 (000001C3C0A682A8)
-[LOG] SoundI::release                          :  (000001C496932C48)
-[LOG] SoundI::release                          :     Chiara Hit Mid 2 (000001C3C0A68788)
-[LOG] SoundI::release                          :  (000001C4AB4AD738)
-[LOG] SoundI::release                          :     Chiara Hit Mid 3 (000001C3C0A65868)
-[LOG] SoundI::release                          :  (000001C4AEAB8DA8)
-[LOG] SoundI::release                          :     Chiara Hit Mid 4 (000001C3C0A68C68)
-[LOG] SoundI::release                          :  (000001C4AEAB8AC8)
-[LOG] SoundI::release                          :     Kick 1 (000001C3C0A68E08)
-[LOG] SoundI::release                          :  (000001C4AEAB8958)
-[LOG] SoundI::release                          :     Enemy 1 - Damage Mid 2 (000001C3C93F8158)
-[LOG] SoundI::release                          :  (000001C4AEAB8678)
-[LOG] SoundI::release                          :     Enemy 1 - Damage Short 1 (000001C3C93F6A98)
-[LOG] SoundI::release                          :  (000001C4AA97E3B8)
-[LOG] SoundI::release                          :     Enemy 1 - Damage Short 2 (000001C3C93F5238)
-[LOG] SoundI::release                          :  (000001C4AEAB80B8)
-[LOG] SoundI::release                          :     Enemy 1 - Damage Short 3 (000001C3C0A6A188)
-[LOG] SoundI::release                          :  (000001C4AEAB8508)
-[LOG] SoundI::release                          :     Enemy 1 - Damage Short 4 (000001C3C0A668A8)
-[LOG] SoundI::release                          :  (000001C4AEAB8398)
-[LOG] SoundI::release                          :     Enemy 1 - Damage Long 1 (000001C3C0A66A48)
-[LOG] SoundI::release                          :  (000001C4AEAB8228)
-[LOG] SoundI::release                          :     Enemy 1 - Damage Long 2 (000001C3C0A6A668)
-[LOG] SoundI::release                          :  (000001C4AA97E808)
-[LOG] SoundI::release                          :     Punch 3 (000001C3C93F6278)
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000D83E9FEF28
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFA660960E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFA660960B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFA660961B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFA66096270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 0000026C614F0FE8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Punch 3', format=5, channels=2, frequency=48000, lengthbytes=4160, lengthpcm=20062, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.999969.
+[LOG] SoundI::release                          : Combat 2 - V4 (0000026C69914E08)
+[LOG] SoundI::release                          :     Combat 2 - V4 (0000026C65F972A8)
+[LOG] SoundI::release                          :     Combat 2 - V4 (0000026C699148F8)
+[LOG] SoundI::release                          :  (0000026CBBA27968)
+[LOG] SoundI::release                          :     Special Card 1 (0000026C62A94AD8)
+[LOG] SoundI::release                          :  (00000269A4295278)
+[LOG] SoundI::release                          :     Shield 10 (0000026BCC464AC8)
+[LOG] SoundI::release                          :  (0000026C66412BF8)
+[LOG] SoundI::release                          :     Chiara Hit Short 1 (0000026CBBC98718)
+[LOG] SoundI::release                          :  (0000026C66412ED8)
+[LOG] SoundI::release                          :     Chiara Hit Short 2 (0000026C660CFB38)
+[LOG] SoundI::release                          :  (0000026C664117D8)
+[LOG] SoundI::release                          :     Chiara Hit Short 3 (0000026BCAE9C328)
+[LOG] SoundI::release                          :  (0000026C66412358)
+[LOG] SoundI::release                          :     Chiara Hit Short 4 (0000026C660CF658)
+[LOG] SoundI::release                          :  (0000026C66412078)
+[LOG] SoundI::release                          :     Chiara Hit Short 5 (0000026BCAE9C668)
+[LOG] SoundI::release                          :  (0000026C66411D98)
+[LOG] SoundI::release                          :     Chiara Hit Short 6 (0000026C660CEFD8)
+[LOG] SoundI::release                          :  (0000026C66412D68)
+[LOG] SoundI::release                          :     Chiara Hit Long 5 (0000026C660CF998)
+[LOG] SoundI::release                          :  (0000026C66412918)
+[LOG] SoundI::release                          :     Chiara Hit Long 1 (0000026BCAE9C9A8)
+[LOG] SoundI::release                          :  (0000026C66411388)
+[LOG] SoundI::release                          :     Chiara Hit Long 2 (0000026BCAE9C808)
+[LOG] SoundI::release                          :  (0000026C664121E8)
+[LOG] SoundI::release                          :     Chiara Hit Long 3 (0000026C660CF4B8)
+[LOG] SoundI::release                          :  (0000026C66412A88)
+[LOG] SoundI::release                          :     Chiara Hit Long 4 (0000026BCAE9BCA8)
+[LOG] SoundI::release                          :  (0000026C664127A8)
+[LOG] SoundI::release                          :     Chiara Hit Mid 1 (0000026BCAE9C4C8)
+[LOG] SoundI::release                          :  (0000026C664124C8)
+[LOG] SoundI::release                          :     Chiara Hit Mid 2 (0000026C660CF318)
+[LOG] SoundI::release                          :  (0000026C66412638)
+[LOG] SoundI::release                          :     Chiara Hit Mid 3 (0000026BCAE9BE48)
+[LOG] SoundI::release                          :  (0000026C664110A8)
+[LOG] SoundI::release                          :     Chiara Hit Mid 4 (0000026CBBC98A58)
+[LOG] SoundI::release                          :  (0000026C66411218)
+[LOG] SoundI::release                          :     Kick 1 (0000026CBBC97D58)
+[LOG] SoundI::release                          :  (0000026C771F6AA8)
+[LOG] SoundI::release                          :     Chiara Damage Mid 1 (0000026C62A94118)
+[LOG] SoundI::release                          :  (0000026C771F6938)
+[LOG] SoundI::release                          :     Chiara Damage Mid 2 (0000026C62A94E18)
+[LOG] SoundI::release                          :  (0000026CBBA27AD8)
+[LOG] SoundI::release                          :     Chiara Damage Mid 3 (0000026C62A94798)
+[LOG] SoundI::release                          :  (0000026C771F6D88)
+[LOG] SoundI::release                          :     Chiara Damage Mid 4 (0000026C62A942B8)
+[LOG] SoundI::release                          :  (0000026CBBA28208)
+[LOG] SoundI::release                          :     Chiara Damage Mid 5 (0000026C62A945F8)
+[LOG] SoundI::release                          :  (0000026C771F6098)
+[LOG] SoundI::release                          :     Chiara Damage Long 1 (0000026CBBC98238)
+[LOG] SoundI::release                          :  (0000026C771F6658)
+[LOG] SoundI::release                          :     Chiara Damage Long 2 (0000026CBBC983D8)
+[LOG] SoundI::release                          :  (0000026C771F6C18)
+[LOG] SoundI::release                          :     Chiara Damage Long 3 (0000026C62A94C78)
+[LOG] SoundI::release                          :  (0000026C771F6378)
+[LOG] SoundI::release                          :     Chiara Damage Long 4 (0000026C62A94938)
+[LOG] SoundI::release                          :  (0000026C771F67C8)
+[LOG] SoundI::release                          :     Chiara Damage Short 1 (0000026CBBC98578)
+[LOG] SoundI::release                          :  (0000026C771F6208)
+[LOG] SoundI::release                          :     Chiara Damage Short 2 (0000026C62A94458)
+[LOG] SoundI::release                          :  (0000026C664114F8)
+[LOG] SoundI::release                          :     Chiara Damage Short 3 (0000026CBBC97EF8)
+[LOG] SoundI::release                          :  (0000026C66411668)
+[LOG] SoundI::release                          :     Chiara Damage Short 4 (0000026CBBC988B8)
+[LOG] SoundI::release                          :  (0000026C771F64E8)
+[LOG] SoundI::release                          :     Chiara Damage Short 5 (0000026CBBC98098)
+[LOG] SoundI::release                          :  (0000026C01075008)
+[LOG] SoundI::release                          :     Punch 3 (0000026CB8576438)
 [LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Profile::disconnectAll                   : Profiler disconnecting all clients

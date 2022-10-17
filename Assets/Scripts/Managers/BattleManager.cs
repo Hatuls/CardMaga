@@ -8,6 +8,7 @@ using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using Account;
+using CardMaga.Input;
 using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;
@@ -50,8 +51,7 @@ namespace Battle
         private VFXManager _vFXManager;
         [SerializeField]
         private CameraManager _cameraManager;
-
-        [SerializeField] private LockAndUnlockSystem _lockAndUnlockSystem;
+        
 #if UNITY_EDITOR
         [Header("Editor:")]
         [SerializeField] private bool _hideTutorial;
@@ -94,13 +94,11 @@ namespace Battle
             _gameTurnHandler = new GameTurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
             //_lockAndUnlockSystem = new LockAndUnlockSystem();
-            _lockAndUnlockSystem.Init();
             
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);
             
-            _endBattleHandler.OnBattleAnimatonEnd += MoveToNextScene;
-            _endBattleHandler.OnTutorialAnimatonEnd += MoveToTutorialProgress;
+            _endBattleHandler.OnBattleAnimatonEnd += OpenVictoryAndDefeatScreen;
             _endBattleHandler.OnBattleEnded += EndBattle;
 
             if (AudioManager.Instance != null)
@@ -134,17 +132,27 @@ namespace Battle
             OnGameEnded?.Invoke();
         }
 
-        private void MoveToNextScene()
+        private void MoveToNextScene(bool isInTutorial)
         {
-            OnBattleFinished?.Invoke();
-        }
-        
-        private void MoveToTutorialProgress()
-        {
-            AccountManager.Instance.Data.AccountTutorialData.UpdateToNextTutorial();
-            OnBattleTutorialFinished?.Invoke();
+            if (isInTutorial)
+            {
+                AccountManager.Instance.Data.AccountTutorialData.UpdateToNextTutorial();
+                OnBattleTutorialFinished?.Invoke();
+            }
+            else
+            {
+                OnBattleFinished?.Invoke();
+            }
         }
 
+        private void OpenVictoryAndDefeatScreen()
+        {
+            if (BattleData.PlayerWon)
+                OnPlayerVictory?.Invoke();
+            else
+                OnPlayerDefeat?.Invoke();
+        }
+        
         #endregion
         
           private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
@@ -183,11 +191,9 @@ namespace Battle
             ThreadsHandler.ThreadHandler.ResetList();
             _ruleManager.DisposeRules();
             _endBattleHandler.OnBattleEnded -= EndBattle;
-            _endBattleHandler.OnBattleAnimatonEnd -= MoveToNextScene;
-            _endBattleHandler.OnTutorialAnimatonEnd -= MoveToTutorialProgress;
-            _endBattleHandler.DeConstrctor();
-
-
+            _endBattleHandler.OnBattleAnimatonEnd -= OpenVictoryAndDefeatScreen;
+            _endBattleHandler.Dispose();
+            
             _battleStarter.Dispose();
             
             TurnHandler.Dispose();

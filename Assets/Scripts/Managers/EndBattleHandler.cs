@@ -3,11 +3,10 @@ using Battle;
 using Battle.Data;
 using CardMaga.Rules;
 
-public class EndBattleHandler
+
+public class EndBattleHandler : IDisposable
 {
     public event Action<bool> OnBattleEnded;
-
-    public event Action OnTutorialAnimatonEnd;
     public event Action OnBattleAnimatonEnd;
 
     private readonly IPlayersManager _playersManager;
@@ -32,13 +31,7 @@ public class EndBattleHandler
         _isGameEnded = false;
     }
 
-    public void DeConstrctor()//need work
-    {
-        RuleManager.OnGameEnded -= EndBattle;
-        AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
-    }
-
-    public void EndBattle(bool isLeftPlayerWon)
+    private void EndBattle(bool isLeftPlayerWon)
     {
         if (_isGameEnded)
             return;
@@ -69,14 +62,7 @@ public class EndBattleHandler
     {
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
 
-        if (BattleData.Instance.BattleConfigSO.BattleTutorial != null)
-        {
-            OnTutorialAnimatonEnd?.Invoke();
-        }
-        else
-        {
-            OnBattleAnimatonEnd?.Invoke();
-        }
+        OnBattleAnimatonEnd?.Invoke();
     }
     
     private void LeftPlayerWon()
@@ -91,5 +77,11 @@ public class EndBattleHandler
         _playersManager.RightCharacter.VisualCharacter.AnimatorController.CharacterWon();
         _playersManager.RightCharacter.CharacterSO.VictorySound.PlaySound();
         _playersManager.LeftCharacter.VisualCharacter.AnimatorController.CharacterIsDead();
+    }
+
+    public void Dispose()
+    {
+        RuleManager.OnGameEnded -= EndBattle;
+        AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
     }
 }

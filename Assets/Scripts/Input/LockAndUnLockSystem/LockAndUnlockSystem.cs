@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Battle;
-using CardMaga.Input;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
-[Serializable]
-public class LockAndUnlockSystem : ISequenceOperation<IBattleManager>
+namespace CardMaga.Input
+{ 
+    [Serializable]
+public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>, ISequenceOperation<IBattleManager>
 {
     [SerializeField] private InputGroup[] _inputGroups;
 
@@ -18,7 +19,7 @@ public class LockAndUnlockSystem : ISequenceOperation<IBattleManager>
     [ContextMenu("Test FindTouchableItemByID")]
     private void FindTouchableItem()
     {
-        _touchableItems = MonoBehaviour.FindObjectsOfType<TouchableItem>();
+        _touchableItems = FindObjectsOfType<TouchableItem>();
 
         foreach (var item in _touchableItems)
         {
@@ -128,3 +129,5 @@ public class LockAndUnlockSystem : ISequenceOperation<IBattleManager>
 
     public int Priority { get; }
 }
+}
+

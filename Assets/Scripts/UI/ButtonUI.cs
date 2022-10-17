@@ -7,15 +7,15 @@ public class ButtonUI : MonoBehaviour
 {
 
     [SerializeField] UnityEvent _onBtnPressed;
-    [SerializeField] private Button btn;
+    [SerializeField] private UnityEngine.UI.Button btn;
 
-    protected Button Btn
+    protected UnityEngine.UI.Button Btn
     {
         get
         {
             if (btn == null)
             {
-                btn = GetComponent<Button>();
+                btn = GetComponent<UnityEngine.UI.Button>();
             }
             return btn;
         }
