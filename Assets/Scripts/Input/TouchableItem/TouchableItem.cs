@@ -56,6 +56,11 @@ namespace CardMaga.Input
         #region Prop
 
         public abstract InputIdentificationSO InputIdentification { get; }
+
+        public bool IsTouchable
+        {
+            get => _isTouchable;
+        }
         
         public State CurrentState => _currentState;
 
@@ -63,11 +68,22 @@ namespace CardMaga.Input
         
         #region UnityCallBack
 
-        private void Awake()
+        protected virtual void Awake()
         {
             Lock(); //start Lock
         }
-        
+
+        protected virtual void OnEnable()
+        {
+            LockAndUnlockSystem.Instance.AddTouchableItemToList(this);
+        }
+
+        protected virtual void OnDisable()
+        {
+            LockAndUnlockSystem.Instance.RemoveTouchableItemToList(this);
+            Lock();
+        }
+
         #endregion
 
         #region EventCallBack
@@ -337,8 +353,10 @@ namespace CardMaga.Input
 
         #region UnityCallBack
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             if (_defaultInputBehaviour != null)
                 return;
 

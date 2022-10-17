@@ -93,7 +93,6 @@ namespace Battle
         {
             _gameTurnHandler = new GameTurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
-            //_lockAndUnlockSystem = new LockAndUnlockSystem();
             
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);

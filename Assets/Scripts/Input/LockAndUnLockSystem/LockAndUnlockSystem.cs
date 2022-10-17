@@ -1,46 +1,87 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Battle;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
 namespace CardMaga.Input
-{ 
-    [Serializable]
-public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>, ISequenceOperation<IBattleManager>
 {
-    [SerializeField] private InputGroup[] _inputGroups;
-
-    private InputGroup _currentInputGroup;
-    
-    [SerializeField] TouchableItem[] _touchableItems;
-    
-    [ContextMenu("Test FindTouchableItemByID")]
-    private void FindTouchableItem()
+    public class LockAndUnlockSystem : MonoBehaviour, ISequenceOperation<IBattleManager>
     {
-        _touchableItems = FindObjectsOfType<TouchableItem>();
+        #region Singelton
 
-        foreach (var item in _touchableItems)
+        private static LockAndUnlockSystem _instance;
+
+        public static LockAndUnlockSystem Instance
         {
-            Debug.Log(item);
+            get => _instance;
         }
+
+        #endregion
+
+        #region Fields
+
+        [SerializeField] private InputGroup[] _inputGroups;
+    
+        private readonly List<TouchableItem> _touchableItems = new List<TouchableItem>();
+    
+        private List<TouchableItem> _activeTouchableItems = new List<TouchableItem>();
+    
+        private InputGroup _currentInputGroup;
+
+        #endregion
+    
+
+    public void Awake()
+    {
+        Debug.Log(isActiveAndEnabled);
+        if (_instance == null)
+            _instance = this;
+        else
+            Destroy(this);
+        
+        BattleManager.Register(this,OrderType.After);
     }
 
-    public void Init()
+    public void AddTouchableItemToList(TouchableItem touchableItem)
     {
-        BattleManager.Register(this,OrderType.After);
+        if (touchableItem == null)
+            return;
+        
+        _touchableItems.Add(touchableItem);
+
+        if (FindTouchableItemInCurrentInputIDList(touchableItem))
+        {
+            UpdateInputState();
+        }
+    }
+    
+    public void RemoveTouchableItemToList(TouchableItem touchableItem)
+    {
+        if (touchableItem == null)
+            return;
+        
+        _touchableItems.Remove(touchableItem);
+
+        if (_activeTouchableItems.Contains(touchableItem))
+        {
+            _activeTouchableItems.Remove(touchableItem);
+        }
     }
 
     private void SetInputState()
     {
-        ChangeTouchableItemsState(FindTouchableItemByID(_currentInputGroup).ToArray(),true);
+        FindTouchableItemByID(_currentInputGroup);
+        ChangeTouchableItemsState(_activeTouchableItems.ToArray(),true);
     }
 
-    private List<TouchableItem> FindTouchableItemByID(InputGroup inputGroup)
+    private void UpdateInputState()
     {
-        List<TouchableItem> output = new List<TouchableItem>(inputGroup.InputIDs.Length);
+        ChangeTouchableItemsState(_activeTouchableItems.ToArray(),true);
+    }
 
+    private void FindTouchableItemByID(InputGroup inputGroup)
+    {
         foreach (var touchableItem in _touchableItems)
         {
             if (touchableItem.InputIdentification == null)
@@ -50,13 +91,28 @@ public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>, ISequence
             {
                 if (touchableItem.InputIdentification == inputId)
                 {
-                    output.Add(touchableItem);
+                    _activeTouchableItems.Add(touchableItem);
                     break;
                 }
             }
         }
+    }
 
-        return output;
+    private bool FindTouchableItemInCurrentInputIDList(TouchableItem touchableItem)
+    {
+        if (_currentInputGroup == null)
+            return false;
+        
+        foreach (var inputID in _currentInputGroup.InputIDs)
+        {
+            if (inputID == touchableItem.InputIdentification)
+            {
+                _activeTouchableItems.Add(touchableItem);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #region LockAndUnlockAll
@@ -67,18 +123,21 @@ public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>, ISequence
         {
             if (touchableItems[i] == null)
                 continue;
-
+            if (isTouchable && touchableItems[i].IsTouchable)
+                continue;
+            if (!isTouchable && !touchableItems[i].IsTouchable)
+                continue;
+            
             if (isTouchable)
                 touchableItems[i].UnLock();
             else
                 touchableItems[i].Lock();
-            
         }
     }
 
     public void ChangeAllTouchableItemsState(bool isTouchable)
     {
-        for (int i = 0; i < _touchableItems.Length; i++)
+        for (int i = 0; i < _touchableItems.Count; i++)
         {
             if (_touchableItems[i] == null)
                 continue;
@@ -93,7 +152,7 @@ public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>, ISequence
 
     public void ChangeAllTouchableItemsStateExcept(bool isTouchable,params TouchableItem[] exceptTouchableItem)
     {
-        for (int i = 0; i < _touchableItems.Length; i++)
+        for (int i = 0; i < _touchableItems.Count; i++)
         {
             bool isExcept = false;
             
@@ -123,7 +182,6 @@ public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>, ISequence
     public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
         _currentInputGroup = _inputGroups[0];
-        FindTouchableItem();
         SetInputState();
     }
 
