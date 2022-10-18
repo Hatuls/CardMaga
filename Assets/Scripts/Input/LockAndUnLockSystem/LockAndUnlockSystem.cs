@@ -6,73 +6,85 @@ using UnityEngine;
 
 namespace CardMaga.Input
 {
-    public class LockAndUnlockSystem : MonoBehaviour, ISequenceOperation<IBattleManager>
+    public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>, ISequenceOperation<IBattleManager>
     {
-        #region Singelton
-
-        private static LockAndUnlockSystem _instance;
-
-        public static LockAndUnlockSystem Instance
-        {
-            get => _instance;
-        }
-
-        #endregion
-
         #region Fields
 
         [SerializeField] private InputGroup[] _inputGroups;
     
-        private readonly List<TouchableItem> _touchableItems = new List<TouchableItem>();
+        private  List<TouchableItem> _touchableItems = new List<TouchableItem>();
     
         private List<TouchableItem> _activeTouchableItems = new List<TouchableItem>();
     
         private InputGroup _currentInputGroup;
 
+        private int _inputGroupIndex;
+
         #endregion
-    
-
-    public void Awake()
-    {
-        Debug.Log(isActiveAndEnabled);
-        if (_instance == null)
-            _instance = this;
-        else
-            Destroy(this);
         
-        BattleManager.Register(this,OrderType.After);
-    }
-
+        public override void Awake()
+        {
+            base.Awake();
+            BattleManager.Register(this,OrderType.After);
+        }
+        
     public void AddTouchableItemToList(TouchableItem touchableItem)
     {
         if (touchableItem == null)
             return;
         
         _touchableItems.Add(touchableItem);
+    }
 
+    public void AddTouchableItemToActiveList(TouchableItem touchableItem)
+    {
         if (FindTouchableItemInCurrentInputIDList(touchableItem))
         {
+            _activeTouchableItems.Add(touchableItem);
             UpdateInputState();
         }
     }
-    
-    public void RemoveTouchableItemToList(TouchableItem touchableItem)
-    {
-        if (touchableItem == null)
-            return;
-        
-        _touchableItems.Remove(touchableItem);
 
+    public void RemoveTouchableItemToActiveList(TouchableItem touchableItem)
+    {
         if (_activeTouchableItems.Contains(touchableItem))
         {
             _activeTouchableItems.Remove(touchableItem);
         }
     }
-
-    private void SetInputState()
+    
+    public void RemoveTouchableItemFromAllLists(TouchableItem touchableItem)
     {
+        if (touchableItem == null)
+            return;
+        
+        if (_activeTouchableItems.Contains(touchableItem))
+        {
+            _activeTouchableItems.Remove(touchableItem);
+        }
+        
+        _touchableItems.Remove(touchableItem);
+    }
+
+    public void MoveToNextInputGroup()
+    {
+        _currentInputGroup = _inputGroups[_inputGroupIndex++];
+        
+        SetNewInputGroup(_currentInputGroup);
+    }
+
+    public void SetInputGroup(InputGroup inputGroup)
+    {
+        SetNewInputGroup(inputGroup);
+    }
+
+    private void SetNewInputGroup(InputGroup inputGroup)
+    {
+        _currentInputGroup = inputGroup;
+        
+        ResetActiveList();
         FindTouchableItemByID(_currentInputGroup);
-        ChangeTouchableItemsState(_activeTouchableItems.ToArray(),true);
+        UpdateInputState();
     }
 
     private void UpdateInputState()
@@ -107,12 +119,16 @@ namespace CardMaga.Input
         {
             if (inputID == touchableItem.InputIdentification)
             {
-                _activeTouchableItems.Add(touchableItem);
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void ResetActiveList()
+    {
+        _activeTouchableItems.Clear();
     }
 
     #region LockAndUnlockAll
@@ -181,8 +197,8 @@ namespace CardMaga.Input
 
     public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
     {
-        _currentInputGroup = _inputGroups[0];
-        SetInputState();
+        _inputGroupIndex = 0;
+        SetNewInputGroup(_inputGroups[_inputGroupIndex]);
     }
 
     public int Priority { get; }

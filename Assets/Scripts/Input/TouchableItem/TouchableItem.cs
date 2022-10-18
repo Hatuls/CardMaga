@@ -73,15 +73,30 @@ namespace CardMaga.Input
             Lock(); //start Lock
         }
 
-        protected virtual void OnEnable()
+        protected virtual void Start()
         {
             LockAndUnlockSystem.Instance.AddTouchableItemToList(this);
         }
 
-        protected virtual void OnDisable()
+        private void OnDisable()
         {
-            LockAndUnlockSystem.Instance.RemoveTouchableItemToList(this);
-            Lock();
+            if (InputIdentification == null)
+                return;
+            
+            LockAndUnlockSystem.Instance.RemoveTouchableItemToActiveList(this);
+        }
+
+        private void OnEnable()
+        {
+            if (InputIdentification == null || LockAndUnlockSystem.Instance == null)
+                return;
+
+            LockAndUnlockSystem.Instance.AddTouchableItemToActiveList(this);
+        }
+
+        protected virtual void OnDestroy()
+        {
+            LockAndUnlockSystem.Instance.RemoveTouchableItemFromAllLists(this);
         }
 
         #endregion
@@ -364,7 +379,7 @@ namespace CardMaga.Input
 
             _inputBehaviour = _defaultInputBehaviour;
         }
-
+        
         #endregion
 
         #region EventCallBack
