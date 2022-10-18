@@ -6,9 +6,15 @@ using System;
 public class ClickBlocker 
 {
     private ClickHelper _clickHelper;
+    private TutorialClickHelper _tutorialClickHelper;
     public void InitClickHelper(ClickHelper clickHelper)
     {
         _clickHelper = clickHelper;
+    }
+
+    public void InitTutorialClickHelper(TutorialClickHelper tutorialClickHelper)
+    {
+        _tutorialClickHelper = tutorialClickHelper;
     }
 
     public void BlockInput()

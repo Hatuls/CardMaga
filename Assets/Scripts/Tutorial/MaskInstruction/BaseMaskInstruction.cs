@@ -10,7 +10,10 @@ public class BaseMaskInstruction : MonoBehaviour
     [SerializeField] OperationManager _operationManager;
     [SerializeField] private GameObject _maskGameobject;
     [SerializeField] private RectTransform _maskTransform;
+    [SerializeField] private bool CloseOnClick;
+    [SerializeField] private bool _loadOnTutorialPanel;
     private ClickHelper _clickHelper;
+    private TutorialClickHelper _tutorialClickHelper;
     private IDisposable _token;
     #endregion
 
@@ -21,6 +24,7 @@ public class BaseMaskInstruction : MonoBehaviour
     {
         _token = tokenReciever.GetToken();
         _clickHelper = ClickHelper.Instance;
+        _tutorialClickHelper = TutorialClickHelper.Instance;
         gameObject.SetActive(true);
         SubscribeEvent();
         DisplayCanvas();
@@ -28,12 +32,43 @@ public class BaseMaskInstruction : MonoBehaviour
 
     private void DisplayCanvas()
     {
-        _maskGameobject.SetActive(true);
-        //_clickHelper.LoadObject(true, false, null, _maskTransform);
+        if(CloseOnClick)
+        {
+            if(_loadOnTutorialPanel)
+                _tutorialClickHelper.LoadObject(true, false, CloseCanvas, _maskTransform);
+
+            else
+                _clickHelper.LoadObject(true, false, CloseCanvas, _maskTransform);
+        }
+
+        else
+        {
+            if (_loadOnTutorialPanel)
+                _tutorialClickHelper.LoadObject(true, false, ReturnCanvasObjects, _maskTransform);
+
+            else
+                _clickHelper.LoadObject(true, false, ReturnCanvasObjects, _maskTransform);
+        }
+        
     }
 
     protected void CloseCanvas()
     {
+        if (_loadOnTutorialPanel)
+            _tutorialClickHelper.Close();
+        else
+           _clickHelper.Close();
+        UnsubscribeEvent();
+        ReleaseToken();
+        _maskGameobject.SetActive(false);
+    }
+
+    protected void ReturnCanvasObjects()
+    {
+        if (_loadOnTutorialPanel)
+            _tutorialClickHelper.ReturnObjects();
+        else
+            _clickHelper.Close();
         UnsubscribeEvent();
         ReleaseToken();
         _maskGameobject.SetActive(false);
@@ -46,10 +81,6 @@ public class BaseMaskInstruction : MonoBehaviour
 
         else
             Debug.LogError("No token to release");
-    }
-
-    private void OnDestroy()
-    {
     }
 
     protected virtual void UnsubscribeEvent()

@@ -16,8 +16,10 @@ public class DialoguesFlow : MonoBehaviour
     [SerializeField] private List<DialogueSO> _dialoguesList;
     [SerializeField] private Image _currentCharacterImage;
     [SerializeField] private TextMeshProUGUI _currentCharacterText;
-    [SerializeField] private bool ClosePanelAtEnding;
+    [SerializeField] private bool _closePanelAtEnding;
+    [SerializeField] private bool _loadOnTutorialPanel;
     private ClickHelper _clickHelper;
+    private TutorialClickHelper _tutorialClickHelper;
     private int _currentDialogue;
     private IDisposable _token;
 
@@ -42,6 +44,7 @@ public class DialoguesFlow : MonoBehaviour
     {
         _currentDialogue = 0;
         _clickHelper = ClickHelper.Instance;
+        _tutorialClickHelper = TutorialClickHelper.Instance;
         OnFlowStart.Invoke();
         UpdateDialogues(_currentDialogue);
         SendDialogue();
@@ -57,6 +60,9 @@ public class DialoguesFlow : MonoBehaviour
     private void SendDialogue()
     {
         //StartDelay();
+        if(_loadOnTutorialPanel)
+            _tutorialClickHelper.LoadObject(true, false, MoveNextDialogues, _dialoguesFlow);
+        else
         _clickHelper.LoadObject(true, false ,MoveNextDialogues, _dialoguesFlow);
     }
 
@@ -77,8 +83,13 @@ public class DialoguesFlow : MonoBehaviour
 
         else
         {
-            if (ClosePanelAtEnding)
-                _clickHelper.Close();
+            if (_closePanelAtEnding)
+            {
+                if (_loadOnTutorialPanel)
+                    _tutorialClickHelper.Close();
+                else
+                    _clickHelper.Close();
+            }
 
             OnFlowEnd.Invoke();
             ReleaseToken();

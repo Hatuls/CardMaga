@@ -21,7 +21,6 @@ namespace CardMaga.UI.Card
 
         private Sequence _currentSequence;
         [SerializeField] private bool _isOnDialogue;
-
         private IDisposable _zoomToken;
 
         private void Start()

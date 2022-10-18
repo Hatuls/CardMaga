@@ -69,6 +69,8 @@ namespace CardMaga.UI
         
         public int Priority => 0;
 
+        public HandUIState HandUIState { get => _handUIState; }
+
         #endregion
 
         #region UnityCallBack

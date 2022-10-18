@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Battle;
+using CardMaga.UI;
 
 namespace CardMaga.Battle.UI
 {
@@ -17,6 +18,7 @@ namespace CardMaga.Battle.UI
         private IPlayersManager _players;
         [SerializeField] private CardUIPool _cardPool;
         [SerializeField] private CardUI _enemyCardUI;
+        [SerializeField] private HandUI _handUI;
         #endregion
 
         #region Events
@@ -29,7 +31,7 @@ namespace CardMaga.Battle.UI
 
         #region Properties
         public int Priority => 0;
-
+        public HandUI HandUI { get => _handUI; }
 
         internal void UpdateHand(bool isPlayer)
         {
