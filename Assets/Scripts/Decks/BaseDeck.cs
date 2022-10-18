@@ -1,5 +1,6 @@
 ﻿using CardMaga.Card;
 using System;
+
 namespace Battle.Deck
 {
     public abstract class BaseDeck : IDeckHandler
@@ -9,6 +10,7 @@ namespace Battle.Deck
 
         private CardData[] _deckCards;
         private int _amountOfFilledSlots = 0;
+        
         #region Properties
         public int AmountOfFilledSlots { 
             get
@@ -322,7 +324,6 @@ namespace Battle.Deck
             }
 
             return ToString;
-
         }
     }
 
@@ -338,8 +339,8 @@ namespace Battle.Deck
       //  CraftingSlots=7,
  
     };
+    
     public interface IDeckHandler {
-      
         bool DiscardCard(in CardData card);
         void ResetDeck();
         bool AddCard(CardData card);
