@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class TestCards : BaseView
 {
-    [SerializeField] private Button _button;
+    [SerializeField] private UnityEngine.UI.Button _button;
     public override void Init()
     {
         _button.onClick.AddListener(Back);

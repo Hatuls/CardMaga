@@ -1,16 +1,20 @@
 ﻿using System;
 using Battle;
 using Battle.Data;
+using CardMaga.Rules;
 
-public class EndBattleHandler
+
+public class EndBattleHandler : IDisposable
 {
-    public static event Action<bool> OnBattleEnded;
+    public event Action<bool> OnBattleEnded;
+    public event Action OnBattleAnimatonEnd;
 
     private readonly IPlayersManager _playersManager;
     private readonly BattleData _battleData;
     private readonly CardExecutionManager _cardExecutionManager;
 
     private bool _isGameEnded = false;
+    private bool _isInTutorial = false;
 
     public bool IsGameEnded
     {
@@ -20,13 +24,14 @@ public class EndBattleHandler
     public EndBattleHandler(IBattleManager battleManager)
     {
         _playersManager = battleManager.PlayersManager;
-        _battleData = battleManager.BattleData;
         _cardExecutionManager = battleManager.CardExecutionManager;
-
+        RuleManager.OnGameEnded += EndBattle;
+        AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
+        
         _isGameEnded = false;
     }
 
-    public void EndBattle(bool isLeftPlayerWon)
+    private void EndBattle(bool isLeftPlayerWon)
     {
         if (_isGameEnded)
             return;
@@ -45,13 +50,21 @@ public class EndBattleHandler
         _playersManager.LeftCharacter.VisualCharacter.AnimatorController.ResetLayerWeight();
         _playersManager.RightCharacter.VisualCharacter.AnimatorController.ResetLayerWeight();
 
-        _battleData.PlayerWon = isLeftPlayerWon;
+        BattleData.Instance.PlayerWon = isLeftPlayerWon;
         
         _isGameEnded = true;
         
         OnBattleEnded?.Invoke(isLeftPlayerWon);
-    }
 
+    }
+        
+    private void DeathAnimationFinished(bool isPlayer)
+    {
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
+
+        OnBattleAnimatonEnd?.Invoke();
+    }
+    
     private void LeftPlayerWon()
     {
         _playersManager.LeftCharacter.VisualCharacter.AnimatorController.CharacterWon();
@@ -64,5 +77,11 @@ public class EndBattleHandler
         _playersManager.RightCharacter.VisualCharacter.AnimatorController.CharacterWon();
         _playersManager.RightCharacter.CharacterSO.VictorySound.PlaySound();
         _playersManager.LeftCharacter.VisualCharacter.AnimatorController.CharacterIsDead();
+    }
+
+    public void Dispose()
+    {
+        RuleManager.OnGameEnded -= EndBattle;
+        AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
     }
 }

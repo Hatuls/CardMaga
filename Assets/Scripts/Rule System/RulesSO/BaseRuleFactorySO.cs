@@ -1,5 +1,6 @@
 ﻿using Battle;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CardMaga.Rules
 {
@@ -48,9 +49,26 @@ namespace CardMaga.Rules
             return baseRule;
         }
     }
-    
-	public abstract class BaseBoolRuleFactorySO : BaseRuleFactorySO<bool>{
+
+    public abstract class BaseEndGameRuleFactorySO : ScriptableObject
+    {
+        [SerializeField] protected float _delayToEndGame;
+
+        public float DelayToEndGame
+        {
+            get => _delayToEndGame;
+        }
         
-	}
+        protected abstract BaseEndGameRule CreateRuleListener(IBattleManager battleManager);
+
+        public BaseEndGameRule CreateRule(IBattleManager battleManager)
+        {
+            BaseEndGameRule baseRule = CreateRuleListener(battleManager);
+            
+            baseRule.InitRuleListener(battleManager, null);
+
+            return baseRule;
+        }
+    }
 
 }

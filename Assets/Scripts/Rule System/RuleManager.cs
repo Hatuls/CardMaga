@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Battle;
 using CardMaga.SequenceOperation;
@@ -9,12 +10,13 @@ namespace CardMaga.Rules
 {
     public class RuleManager : ISequenceOperation<IBattleManager>
     {
-        public event Action<bool> OnGameEnded; 
+        public static event Action<bool> OnGameEnded;
 
+        private MonoBehaviour _monoBehaviour;
         private List<BaseRule> _activeRules;
-
+        
         private List<BaseRule> _baseRules;
-        private List<BaseRule<bool>> _endGameRules;
+        private List<BaseEndGameRule> _endGameRules;
         
         public int Priority
         {
@@ -28,24 +30,32 @@ namespace CardMaga.Rules
         
         public void DisposeRules()
         {
-            for(var j = 0; j < _endGameRules.Count; j++) _endGameRules[j].OnActive -= GameEnd;
+            for(var j = 0; j < _endGameRules.Count; j++) _endGameRules[j].OnEndGameRuleActive -= GameEnd;
             
             for (var i = 0; i < _baseRules.Count; i++) _baseRules[i].Dispose();
         }
 
-        private void GameEnd(bool isLeft)
+        private void GameEnd(float delay,bool isLeft)
         {
-            Debug.Log("GameEnded");
+            _monoBehaviour.StartCoroutine(EndGameCountDown(delay, isLeft));
+        }
+
+        private IEnumerator EndGameCountDown(float delay,bool isLeft)
+        {
+            WaitForSeconds waitForSeconds =  new WaitForSeconds(delay);
+            yield return waitForSeconds;
             OnGameEnded?.Invoke(isLeft);
         }
 
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
+            _monoBehaviour = data.MonoBehaviour;
+            
             BaseRuleFactorySO[] rules = data.BattleData.BattleConfigSO.GameRule;
-            BaseRuleFactorySO<bool>[] endGameRules = data.BattleData.BattleConfigSO.EndGameRule;
+            BaseEndGameRuleFactorySO[] endGameRules = data.BattleData.BattleConfigSO.EndGameRule;
             
             _baseRules = new List<BaseRule>();
-            _endGameRules = new List<BaseRule<bool>>();
+            _endGameRules = new List<BaseEndGameRule>();
             
             if (rules.Length > 0)
             {
@@ -60,8 +70,8 @@ namespace CardMaga.Rules
             {
                 for (var i = 0; i < endGameRules.Length; i++)
                 {
-                    var temp = endGameRules[i].CreateRule(data);
-                    temp.OnActive += GameEnd;
+                    BaseEndGameRule temp = endGameRules[i].CreateRule(data);
+                    temp.OnEndGameRuleActive += GameEnd;
                     _endGameRules.Add(temp);
                 }    
             }

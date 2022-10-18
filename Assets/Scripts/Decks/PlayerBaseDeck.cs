@@ -8,10 +8,12 @@ namespace Battle.Deck
     public class PlayerBaseDeck : BaseDeck
     {
         public event Action OnShuffleDeck;
+
+        private bool _toShuffleDeck = true;
    
-        public PlayerBaseDeck( CardData[] deckCards) : base( deckCards)
+        public PlayerBaseDeck(CardData[] deckCards,bool toShuffleDeck) : base( deckCards)
         {
-    
+            _toShuffleDeck = toShuffleDeck;
         }
         public override bool AddCard(CardData card)
         {
@@ -57,7 +59,9 @@ namespace Battle.Deck
         }
         public void Shuffle()
         {
-
+            if (!_toShuffleDeck)
+                return;
+            
             OrderDeck();
             var list = new List<CardData>(AmountOfFilledSlots);
             for (int i = 0; i < AmountOfFilledSlots; i++)
@@ -74,9 +78,8 @@ namespace Battle.Deck
                 GetDeck[i] = list[index];
                 list.RemoveAt(index);
             }
-                OnShuffleDeck?.Invoke();
-
-         
+            
+            OnShuffleDeck?.Invoke();
         }
     }
 }

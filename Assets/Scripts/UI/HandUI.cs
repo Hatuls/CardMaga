@@ -10,13 +10,14 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CardMaga.Input;
 using UnityEngine;
 
 namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : InputBehaviourHandler<CardUI>, ILockable, ISequenceOperation<IBattleManager>
+    public class HandUI : InputBehaviourHandler<CardUI>, ISequenceOperation<IBattleManager>
     {
         #region Events
         public static event Action<CardUI> OnCardExecute;
@@ -67,6 +68,11 @@ namespace CardMaga.UI
 
         #region Prop
         
+        public IReadOnlyList<CardUI>  GetCardUIFromHand()
+        {
+            return _handUIState.CardsUI;
+        }
+        
         public int Priority => 0;
 
         public HandUIState HandUIState { get => _handUIState; }
@@ -85,7 +91,7 @@ namespace CardMaga.UI
                 { InputBehaviourState.Hand, _handUIState } ,{ InputBehaviourState.Default ,null }
             };
 
-            BattleManager.Register(this, OrderType.After);
+            BattleManager.Register(this, OrderType.Default);
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += DiscardAllCards;
             _handUIState.OnCardDrawnAndAlign += UnLockInput;
@@ -105,16 +111,16 @@ namespace CardMaga.UI
 
         #endregion
 
-        #region Input
+        #region InputIdentificationSO
 
         public void LockInput()
         {
-            LockAllTouchableItems(_handUIState.CardUIsInput,false);
+            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,false);
         }
 
         public void UnLockInput()
         {
-            LockAllTouchableItems(_handUIState.CardUIsInput,true);
+            //LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
         }
 
         #endregion
@@ -278,7 +284,7 @@ namespace CardMaga.UI
             MoveCardToDiscardAfterExecute(cardUI);
             //OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
         }
-        
+
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
             _playerDeck = data.PlayersManager.GetCharacter(true).DeckHandler;

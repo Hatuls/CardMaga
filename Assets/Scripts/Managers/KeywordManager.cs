@@ -106,7 +106,7 @@ namespace Keywords
         private void EndTurnKeywords(ITokenReciever token)
         {
             bool isPlayer = _turnHandler.IsLeftCharacterTurn;
-//            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the end of the turn");
+//            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "LeftPlayer" : "RightPlayer") + " that are activated on the end of the turn");
             var characterStats = _playersManager.GetCharacter(isPlayer).StatsHandler;
             var vulnrable = characterStats.GetStats(KeywordTypeEnum.Vulnerable);
             if (vulnrable.Amount > 0)
@@ -123,7 +123,7 @@ namespace Keywords
         {
             bool isPlayer = _turnHandler.IsLeftCharacterTurn;
             var characterStats = _playersManager.GetCharacter(isPlayer).StatsHandler;
-            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "Player" : "Enemy") + " that are activated on the start of the turn");
+            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "LeftPlayer" : "RightPlayer") + " that are activated on the start of the turn");
 
 
 

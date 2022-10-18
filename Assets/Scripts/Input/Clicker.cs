@@ -2,9 +2,10 @@
 
 public class Clicker : TouchableItem<Clicker>
 {
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-        ForceChangeState(true);
+        UnLock();
     }
+
+    public override InputIdentificationSO InputIdentification { get; }
 }

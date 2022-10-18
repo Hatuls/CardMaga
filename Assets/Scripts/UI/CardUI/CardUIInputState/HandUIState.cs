@@ -60,7 +60,7 @@ namespace CardMaga.UI
         
         if (!cardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
         {
-            Debug.LogError(name + "Failed To Set Input Behaviour");
+            Debug.LogError(name + "Failed To Set InputIdentificationSO Behaviour");
             return;
         }
         
@@ -194,7 +194,6 @@ namespace CardMaga.UI
                     {
                         if (!_cardSlots[j].IsHaveValue)
                         {
-                            Debug.Log("CardAddToHandSlot");
                             _cardSlots[j].AssignCardUI(cardUI[i]);
                             break;
                         }

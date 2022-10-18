@@ -58,13 +58,11 @@ public class AnimatorController : MonoBehaviour
     {
         get
         {
-           
             bool result = false;
             if (Animator.GetCurrentAnimatorClipInfo(0).Length > 0)
                 result = Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle_2";
 
             return result;
-
         }
     }
     public bool IsLeft => _player.IsLeft;

@@ -36,8 +36,7 @@ public class OperationManager : MonoBehaviour, IOperationBehaviour
     private OperationEnumerable _operationsEnumerable;
     public event Action OnCompleted;
     IDisposable _disposable;
-
-
+    
     public void Completed()
     {
         OnCompleted?.Invoke();
@@ -53,14 +52,12 @@ public class OperationManager : MonoBehaviour, IOperationBehaviour
         _disposable = tokenReciever?.GetToken();
         _operationsEnumerable.OnCompleted += Completed;
     }
-
-
+    
     public void StartOperation()
     {
         _operationsEnumerable.StartOperation();
     }
 }
-
 
 public interface IOperationBehaviour
 {
@@ -74,7 +71,6 @@ public interface IOperationBehaviour
 #endif
 
 }
-
 
 public abstract class BaseOperation : MonoBehaviour, IOperationBehaviour
 {

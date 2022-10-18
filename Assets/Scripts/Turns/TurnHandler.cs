@@ -4,6 +4,7 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Battle.Turns
@@ -206,7 +207,7 @@ namespace Battle.Turns
     //        OnStartTurn?.Invoke();
     //        StaminaHandler.Instance.OnStartTurn(isPlayerTurn);
 
-    //        Debug.Log("Enemy Drawing Cards!");
+    //        Debug.Log("RightPlayer Drawing Cards!");
 
     //        base.PlayTurn();
     //        // Activate Previous Action if not null
@@ -233,7 +234,7 @@ namespace Battle.Turns
     //    {
     //        /*
     //         * Activate the enemy keywords 
-    //         * Remove The Player Defense
+    //         * Remove The LeftPlayer Defense
     //         */
     //        //GameEventsInvoker.Instance.OnEndTurn?.Invoke();
     //        // CardUIManager.Instance.RemoveHands();
@@ -278,7 +279,7 @@ namespace Battle.Turns
     //        //redoooo
     //        // yield return KeywordManager.Instance.OnStartTurnKeywords(isPlayerTurn);
 
-    //        Debug.Log("Player Drawing Cards!");
+    //        Debug.Log("LeftPlayer Drawing Cards!");
     //        MoveToNextTurnState();
     //    }
 
@@ -295,7 +296,7 @@ namespace Battle.Turns
     //    public override IEnumerator PlayTurn()
     //    {
     //        base.PlayTurn();
-    //        // unlock Player Inputs 
+    //        // unlock LeftPlayer Inputs 
     //        TurnHandler.IsTurnFinished = false;
     //        bool isPlayerTurn = true;
     //        // redo!
@@ -392,6 +393,7 @@ namespace Battle.Turns
         private int _turnCount;
         private TokenMachine _turnStarterTurnMachine;
         private bool _canChangeTurn;
+        private bool _isLeftPlayerStart = false;
 
 
 
@@ -400,13 +402,16 @@ namespace Battle.Turns
         public int TurnCount => _turnCount;
         public bool IsLeftCharacterTurn => CurrentTurn == GameTurnType.LeftPlayerTurn;
         public bool IsRightCharacterTurn => CurrentTurn == GameTurnType.RightPlayerTurn;
+        public bool IsLeftPlayerStart => _isLeftPlayerStart;
         public ITokenReciever TurnChangeTokenMachine => _turnStarterTurnMachine;
 
-        public GameTurnHandler() //will need to enter turn logic here 
+        public GameTurnHandler(GameTurnType startGameTurnType) //will need to enter turn logic here 
         {
+            _isLeftPlayerStart = startGameTurnType == GameTurnType.LeftPlayerTurn;
+            
             _gameTurnsDictionary = new Dictionary<GameTurnType, GameTurn>()
             {
-                { GameTurnType.EnterBattle,     new GameTurn(new NextTurn(/*Start Turn Logic Enter here*/ GameTurnType.LeftPlayerTurn, 0)) },
+                { GameTurnType.EnterBattle,     new GameTurn(new NextTurn(startGameTurnType, 0)) },
                 { GameTurnType.LeftPlayerTurn,  new GameTurn(new NextTurn( GameTurnType.RightPlayerTurn, 0))},
                 { GameTurnType.RightPlayerTurn, new GameTurn(new NextTurn( GameTurnType.LeftPlayerTurn, 0)) },
                 { GameTurnType.ExitBattle,      new GameTurn(null) },

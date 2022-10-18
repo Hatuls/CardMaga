@@ -102,7 +102,10 @@ namespace CardMaga.Battle.UI
             OnPlayerRemoveHand?.Invoke();
         }
 
-   
+        public IReadOnlyList<CardUI>  GetCardUiFromHand()
+        {
+            return _handUI.GetCardUIFromHand();
+        }
 
 
         public override void Awake()

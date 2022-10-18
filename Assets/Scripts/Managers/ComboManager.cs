@@ -21,7 +21,7 @@ namespace Battle
 
         #region Events
         [SerializeField] VoidEvent _successCrafting;
-
+        public event Action<Combo.Combo> OnComboSucceeded;
         public event Action OnComboDetectedFinished;
         public event Action<CardData[]> OnCraftingComboToHand;
         
@@ -130,6 +130,7 @@ namespace Battle
             else
             {
                 FoundCombo = true;
+                OnComboSucceeded?.Invoke(_cardRecipeDetected);
                // _craftingUIHandler.MarkSlotsDetected();
                 _playersManager.GetCharacter(isPlayer).CraftingHandler.ResetCraftingSlots();
                 TryForge(isPlayer);

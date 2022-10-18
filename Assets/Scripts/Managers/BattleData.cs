@@ -12,7 +12,7 @@ namespace Battle.Data
     {
         private static BattleData _instance;
     
-        public static BattleData Instance =>_instance;
+        public static BattleData Instance => _instance;
         [SerializeField]
         private Character _player = null;
         [SerializeField]
@@ -25,8 +25,7 @@ namespace Battle.Data
         public Character Left { get => _player; set => _player = value; }
         public Character Right { get => _opponent; set => _opponent = value; }
         public bool PlayerWon { get => _isPlayerWon; set => _isPlayerWon = value; }
-
-
+        
         public void ResetData()
         {
             _player = null;
@@ -34,17 +33,28 @@ namespace Battle.Data
             _isPlayerWon = false;
         }
 
+        public void AssginBattleTutorialData(TutorialConfigSO tutorialConfigSo)
+        {
+            AssginCharacter(true,tutorialConfigSo.LeftCharacter);
+            AssginCharacter(false,tutorialConfigSo.RightCharacter);
+
+            _battleConfigSo = tutorialConfigSo.BattleConfig;
+        }
+
         public void AssginCharacter(in bool isPlayer, CharacterSO characterSO)
             => AssginCharacter(isPlayer, characterSO.CharacterName, new Account.GeneralData.Character(characterSO));
         public void AssginCharacter(in bool isPlayer,string displayName, Account.GeneralData.Character data)
         {
-            if (isPlayer)
-                _player = new Character(displayName,data);
-            else
-                _opponent = new Character(displayName, data);
+            AssginCharacter(isPlayer,new Character(displayName,data));
         }
-
-
+        private void AssginCharacter(in bool isPlayer, Battle.Characters.Character character)
+        {
+            if (isPlayer)
+                _player = character;
+            else
+                _opponent = character;
+        }
+        
         public void Awake()
         {
             if (_instance == null)
@@ -54,8 +64,5 @@ namespace Battle.Data
 
             DontDestroyOnLoad(this.gameObject);
         }
-
     }
-
-  
 }
