@@ -68,7 +68,7 @@ namespace CardMaga.UI
 
         #region Prop
         
-        public IReadOnlyList<CardUI>  GetCardUIFromHand()
+        public IReadOnlyList<CardUI> GetCardUIFromHand()
         {
             return _handUIState.CardsUI;
         }

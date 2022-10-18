@@ -13,8 +13,8 @@ public class TutorialClickHelper : MonoBehaviour
     [SerializeField] private Clicker _clicker;
     [SerializeField] public RectTransform _tutorialPanel;
     [SerializeField] private Canvas _canavs;
-    
-    private ClickBlocker _clickBlocker;
+    [SerializeField]private ClickBlocker _clickBlocker;
+
     private Action _action;
 
     private List<RectTransform> _loadedObjects;

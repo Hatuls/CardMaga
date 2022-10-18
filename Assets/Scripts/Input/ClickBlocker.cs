@@ -20,13 +20,13 @@ public class ClickBlocker
     public void BlockInput()
     {
         Debug.Log("Input blocked");
-        _clickHelper.ZoomInClicker.ForceChangeState(false);
+        _clickHelper.ZoomInClicker.Lock();
     }
 
     public void UnblockInput()
     {
         Debug.Log("Input unlocked");
-        _clickHelper.ZoomInClicker.ForceChangeState(true);
+        _clickHelper.ZoomInClicker.UnLock();
     }
 
     public void BlockInputForSeconds(float seconds, Action onComplete= null)

@@ -127,7 +127,7 @@ namespace CardMaga.UI
 
         public IReadOnlyList<CardUI> CardsUI
         {
-            get => _tableCardSlot.GetCardUIsFromTable();
+            get => _tableCardSlot.GetCardUIsFromTable().ToList();
         }
 
         public TouchableItem<CardUI>[] CardUIsInput

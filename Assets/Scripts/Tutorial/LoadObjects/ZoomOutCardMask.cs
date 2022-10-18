@@ -12,14 +12,14 @@ public class ZoomOutCardMask : MonoBehaviour
     private TutorialClickHelper _tutorialClickHelper;
     private HandUI handUI;
     private BattleManager _battleManager;
-    private CardUI[] _cards;
+    private IReadOnlyList<CardUI> _cards;
 
     public void GetCard()
     {
         _clickHelper = ClickHelper.Instance;
         _tutorialClickHelper = TutorialClickHelper.Instance;
         _battleManager = BattleManager.Instance;
-        _cards = _battleManager.CardUIManager.HandUI.HandUIState.TableCardSlot.GetCardUIsFromTable();
+        _cards = _battleManager.CardUIManager.HandUI.GetCardUIFromHand();
     }    
 
     public void LoadCardOnPanel()
@@ -34,11 +34,11 @@ public class ZoomOutCardMask : MonoBehaviour
 
     public void StopCardInput()
     {
-        _cards[0].Inputs.ForceChangeState(false);
+        _cards[0].Inputs.Lock();
     }
 
     public void ReturnCardInput()
     {
-        _cards[0].Inputs.ForceChangeState(true);
+        _cards[0].Inputs.UnLock();
     }
 }
