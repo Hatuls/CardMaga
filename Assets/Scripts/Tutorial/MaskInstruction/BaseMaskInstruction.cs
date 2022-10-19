@@ -29,10 +29,10 @@ public class BaseMaskInstruction : MonoBehaviour
         _clickHelper = ClickHelper.Instance;
         _tutorialClickHelper = TutorialClickHelper.Instance;
         gameObject.SetActive(true);
-        if (OnMaskStart != null)
-            OnMaskStart.Invoke();
         SubscribeEvent();
         DisplayCanvas();
+        if (OnMaskStart != null)
+            OnMaskStart.Invoke();
     }
 
     private void DisplayCanvas()
@@ -90,6 +90,7 @@ public class BaseMaskInstruction : MonoBehaviour
         else
             Debug.LogError("No token to release");
     }
+
 
     protected virtual void UnsubscribeEvent()
     {

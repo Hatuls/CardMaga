@@ -16,8 +16,9 @@ namespace CardMaga.UI.Card
         [Header("RectTransforms")]
         [SerializeField] private RectTransform _zoomPosition;
 
-        public static event Action OnZoomInTutorial;
-        public static event Action OnZoomOutTutorial;
+        public static event Action OnEnterZoomTutorial;
+        public static event Action OnZoomInLocation;
+        public static event Action OnExitZoomTutorial;
 
         private Sequence _currentSequence;
         [SerializeField] private bool _isOnDialogue;
@@ -40,8 +41,8 @@ namespace CardMaga.UI.Card
             base.EnterState(cardUI);
             _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
             MoveToZoomPosition(cardUI);
-            if (OnZoomOutTutorial != null)
-                OnZoomOutTutorial.Invoke();
+            if (OnExitZoomTutorial != null)
+                OnExitZoomTutorial.Invoke();
         }
 
         public override void ExitState(CardUI cardUI)
@@ -49,8 +50,8 @@ namespace CardMaga.UI.Card
              _clickHelper.Close();
             _zoomToken?.Dispose();
             base.ExitState(cardUI);
-            if(OnZoomInTutorial != null)
-                OnZoomInTutorial.Invoke();
+            if(OnEnterZoomTutorial != null)
+                OnEnterZoomTutorial.Invoke();
         }
 
         public void ReturnToHandState(CardUI cardUI)
@@ -75,7 +76,9 @@ namespace CardMaga.UI.Card
         {
             if (SelectedCardUI == null)
                 return;
-            
+
+            if (OnZoomInLocation != null)
+                OnZoomInLocation.Invoke();
             _zoomToken = SelectedCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
         

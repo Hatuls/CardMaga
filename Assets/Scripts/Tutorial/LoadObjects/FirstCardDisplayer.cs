@@ -35,9 +35,4 @@ public class FirstCardDisplayer : MonoBehaviour
     {
         _battleManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
     }
-
-    public void ReturnCardInput()
-    {
-        _cards[0].Inputs.UnLock();
-    }
 }
