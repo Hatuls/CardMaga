@@ -4,10 +4,10 @@ public class ZoomOutCardMaskInstruction : BaseMaskInstruction
 {
     protected override void UnsubscribeEvent()
     {
-        ZoomCardUI.OnZoomOutTutorial -= CloseCanvas;
+        ZoomCardUI.OnExitZoomTutorial -= CloseCanvas;
     }
     protected override void SubscribeEvent()
     {
-        ZoomCardUI.OnZoomOutTutorial += CloseCanvas;
+        ZoomCardUI.OnExitZoomTutorial += CloseCanvas;
     }
 }

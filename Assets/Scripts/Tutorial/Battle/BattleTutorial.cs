@@ -9,6 +9,8 @@ public class BattleTutorial : MonoBehaviour
     [SerializeField]
     private OperationManager _operationManager;
     private TokenMachine _tokenMachine;
+
+    public static event Action OnTutorialFinished;
     public void StartTutorial()
     {
         _tokenMachine = new TokenMachine(TutorialCompleted);
@@ -30,6 +32,7 @@ public class BattleTutorial : MonoBehaviour
 
     private void TutorialCompleted()
     {
-
+        if(OnTutorialFinished!=null)
+        OnTutorialFinished.Invoke();
     }
 }

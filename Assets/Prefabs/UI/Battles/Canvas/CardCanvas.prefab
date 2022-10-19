@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 8694790356547147787}
   - component: {fileID: 1093964942527637542}
   - component: {fileID: 6721602299382048637}
+  - component: {fileID: 9130358000835297193}
   m_Layer: 5
   m_Name: CardCanvas
   m_TagString: Untagged
@@ -311,6 +312,7 @@ MonoBehaviour:
   _zoomCard: {fileID: 11400000, guid: a551b5cc623c9304fb2c04e985dfd214, type: 2}
   _resetZoomCard: {fileID: 11400000, guid: 59267d57b7168cb4fa9fec5a38c79d70, type: 2}
   _zoomPosition: {fileID: 210326852}
+  _isOnDialogue: 0
 --- !u!114 &5368535060217224795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,6 +409,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff1ed58d7af3a745b085f83de146a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9130358000835297193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702666649216585370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7446aaaad721141815cd4a4c02ff55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackID: {fileID: 11400000, guid: 96fd0c85d06ae2340930addba818ad35, type: 2}
+  _rectTransform: {fileID: 0}
+  _handUI: {fileID: 8694790356547147787}
 --- !u!61 &2073322607921475126
 BoxCollider2D:
   m_ObjectHideFlags: 0

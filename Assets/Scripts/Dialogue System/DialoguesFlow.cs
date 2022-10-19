@@ -25,30 +25,13 @@ public class DialoguesFlow : MonoBehaviour
 
     #endregion
     #region Events
-    [SerializeField] UnityEvent OnFlowStart;
-    [SerializeField] UnityEvent OnDialoguesUpdate;
-    [SerializeField] UnityEvent OnAfterDelay;
-    [SerializeField] UnityEvent OnFlowEnd;
+    [SerializeField] private UnityEvent OnFlowStart;
+    [SerializeField] private UnityEvent OnDialoguesUpdate;
+    [SerializeField] private UnityEvent OnAfterDelay;
+    [SerializeField] private UnityEvent OnFlowEnd;
     #endregion
 
     #region PrivateFunction
-
-    public void StartFlow(ITokenReciever tokenReciever)
-    {
-        gameObject.SetActive(true);
-        _token = tokenReciever.GetToken();
-        FirstDialogue();
-    }
-
-    public void FirstDialogue()
-    {
-        _currentDialogue = 0;
-        _clickHelper = ClickHelper.Instance;
-        _tutorialClickHelper = TutorialClickHelper.Instance;
-        OnFlowStart.Invoke();
-        UpdateDialogues(_currentDialogue);
-        SendDialogue();
-    }
 
     private void UpdateDialogues(int position)
     {
@@ -91,9 +74,7 @@ public class DialoguesFlow : MonoBehaviour
                     _clickHelper.Close();
             }
 
-            OnFlowEnd.Invoke();
-            ReleaseToken();
-            gameObject.SetActive(false);
+            EndFlow();
         }
     }
 
@@ -110,6 +91,31 @@ public class DialoguesFlow : MonoBehaviour
     {
         if(OnAfterDelay!=null)
         OnAfterDelay.Invoke();
+    }
+
+    #endregion
+
+    #region PublicFunctions
+    public void StartFlow(ITokenReciever tokenReciever)
+    {
+        gameObject.SetActive(true);
+        _token = tokenReciever.GetToken();
+        FirstDialogue();
+    }
+    public void FirstDialogue()
+    {
+        _currentDialogue = 0;
+        _clickHelper = ClickHelper.Instance;
+        _tutorialClickHelper = TutorialClickHelper.Instance;
+        OnFlowStart.Invoke();
+        UpdateDialogues(_currentDialogue);
+        SendDialogue();
+    }
+    public void EndFlow()
+    {
+        OnFlowEnd.Invoke();
+        ReleaseToken();
+        gameObject.SetActive(false);
     }
 
     #endregion

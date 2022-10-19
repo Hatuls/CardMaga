@@ -17,15 +17,4 @@ namespace CardMaga.Trackers
         }
 
     }
-
-    //public class HandUIFirstCardTracker: Tracker
-    //{
-    //    [SerializeField]private UI.HandUI _handUI;
-    //    public override RectTransform RectTransform => base.RectTransform;
-
-    //    private RectTransform FirstCard()
-    //    {
-    //        //return _handUI.
-    //    }
-    //}
 }

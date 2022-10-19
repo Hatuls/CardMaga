@@ -2,24 +2,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StrechMaskBackground : MonoBehaviour
 {
-    [SerializeField] RectTransform _holder;
-    [SerializeField] RectTransform _background;
-    [SerializeField] RectTransform _hole;
-    [SerializeField] RectTransform _maskHolder;
-    [SerializeField] TrackerHandler _trackerHandler;
-    [SerializeField] TrackerID _trackerID;
-
+    [SerializeField] private RectTransform _background;
+    [SerializeField] private RectTransform _hole;
+    [SerializeField] private RectTransform _maskHolder;
+    [SerializeField] private TrackerID _trackerID;
+    [SerializeField] private bool _strechOnEnable;
+    private TrackerHandler _trackerHandler;
+    
     private void OnEnable()
     {
-        if(_trackerID!=null)
-        _holder = _trackerHandler.GetTracker(_trackerID).RectTransform;
+        if (_strechOnEnable)
+            StrechMask();
+    }
+
+    public void StrechMask()
+    {
+        _trackerHandler = TrackerHandler.Instance;
+        if (_trackerID != null)
+            _maskHolder = _trackerHandler.GetTracker(_trackerID).RectTransform;
         SetParent(_maskHolder);
         ResetRectScale();
         transform.SetParent(_hole);
     }
+
     private void SetParent(RectTransform rectTransform)
     {
         transform.SetParent(rectTransform);
