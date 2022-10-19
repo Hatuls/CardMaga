@@ -77,6 +77,8 @@ namespace CardMaga.UI
 
         public HandUIState HandUIState { get => _handUIState; }
 
+        public ZoomCardUI ZoomCardUI { get => _zoomUIState; }
+
         #endregion
 
         #region UnityCallBack

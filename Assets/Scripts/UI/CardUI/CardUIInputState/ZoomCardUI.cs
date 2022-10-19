@@ -26,13 +26,13 @@ namespace CardMaga.UI.Card
         private void Start()
         {
             _inputBehaviour.OnClick += ReturnToHandState;
-            _inputBehaviour.OnBeginHold += SetToFallowState;
+            _inputBehaviour.OnBeginHold += SetToFollowState;
         }
 
         private void OnDestroy()
         {
             _inputBehaviour.OnClick -= ReturnToHandState;
-            _inputBehaviour.OnBeginHold -= SetToFallowState;
+            _inputBehaviour.OnBeginHold -= SetToFollowState;
         }
 
         public override void EnterState(CardUI cardUI)
@@ -40,7 +40,7 @@ namespace CardMaga.UI.Card
             base.EnterState(cardUI);
             _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
             MoveToZoomPosition(cardUI);
-            if (OnZoomOutTutorial.GetInvocationList().Length != 0)
+            if (OnZoomOutTutorial != null)
                 OnZoomOutTutorial.Invoke();
         }
 
@@ -49,16 +49,16 @@ namespace CardMaga.UI.Card
              _clickHelper.Close();
             _zoomToken?.Dispose();
             base.ExitState(cardUI);
-            if(OnZoomInTutorial.GetInvocationList() != null)
+            if(OnZoomInTutorial != null)
                 OnZoomInTutorial.Invoke();
         }
 
-        private void ReturnToHandState(CardUI cardUI)
+        public void ReturnToHandState(CardUI cardUI)
         {
             _handUI.SetToHandState(cardUI);
         }
 
-        private void SetToFallowState(CardUI cardUI)
+        private void SetToFollowState(CardUI cardUI)
         {
             _handUI.SetToFollowState(cardUI);
         }

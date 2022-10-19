@@ -6,11 +6,10 @@ using Battle;
 using Cards;
 using CardMaga.UI.Card;
 
-public class ZoomOutCardMask : MonoBehaviour
+public class FirstCardDisplayer : MonoBehaviour
 {
     private ClickHelper _clickHelper;
     private TutorialClickHelper _tutorialClickHelper;
-    private HandUI handUI;
     private BattleManager _battleManager;
     private IReadOnlyList<CardUI> _cards;
 
@@ -27,14 +26,14 @@ public class ZoomOutCardMask : MonoBehaviour
         _tutorialClickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
     }
 
-    public void ReturnToOriginal()
+    public void ZoomInCard()
     {
-        _tutorialClickHelper.ReturnObjects();
+        _clickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
     }
 
-    public void StopCardInput()
+    public void ReturnToHand()
     {
-        _cards[0].Inputs.Lock();
+        _battleManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
     }
 
     public void ReturnCardInput()

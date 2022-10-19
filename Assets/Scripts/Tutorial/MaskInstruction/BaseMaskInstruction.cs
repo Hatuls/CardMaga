@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class BaseMaskInstruction : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class BaseMaskInstruction : MonoBehaviour
     #endregion
 
     #region Events
+    [SerializeField] private UnityEvent OnMaskStart;
+    [SerializeField] private UnityEvent OnMaskEnd;
     #endregion
 
     public void StartInstruction(ITokenReciever tokenReciever)
@@ -26,6 +29,8 @@ public class BaseMaskInstruction : MonoBehaviour
         _clickHelper = ClickHelper.Instance;
         _tutorialClickHelper = TutorialClickHelper.Instance;
         gameObject.SetActive(true);
+        if (OnMaskStart != null)
+            OnMaskStart.Invoke();
         SubscribeEvent();
         DisplayCanvas();
     }
@@ -52,8 +57,11 @@ public class BaseMaskInstruction : MonoBehaviour
         
     }
 
-    protected void CloseCanvas()
+    public void CloseCanvas()
     {
+        if (OnMaskEnd != null)
+            OnMaskEnd.Invoke();
+
         if (_loadOnTutorialPanel)
             _tutorialClickHelper.Close();
         else
@@ -68,7 +76,7 @@ public class BaseMaskInstruction : MonoBehaviour
         if (_loadOnTutorialPanel)
             _tutorialClickHelper.ReturnObjects();
         else
-            _clickHelper.Close();
+            _clickHelper.ReturnObjects();
         UnsubscribeEvent();
         ReleaseToken();
         _maskGameobject.SetActive(false);

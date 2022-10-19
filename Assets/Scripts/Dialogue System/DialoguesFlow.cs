@@ -25,10 +25,10 @@ public class DialoguesFlow : MonoBehaviour
 
     #endregion
     #region Events
-    [SerializeField] UnityEvent OnFlowStart;
-    [SerializeField] UnityEvent OnDialoguesUpdate;
-    [SerializeField] UnityEvent OnAfterDelay;
-    [SerializeField] UnityEvent OnFlowEnd;
+    [SerializeField] private UnityEvent OnFlowStart;
+    [SerializeField] private UnityEvent OnDialoguesUpdate;
+    [SerializeField] private UnityEvent OnAfterDelay;
+    [SerializeField] private UnityEvent OnFlowEnd;
     #endregion
 
     #region PrivateFunction
