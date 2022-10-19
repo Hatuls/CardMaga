@@ -4,7 +4,7 @@ namespace CardMaga.UI.Visuals
 {
     public class BodyPartVisualSO : BaseVisualSO
     {
-        [Tooltip("Base SO that holds body parts and colors")]
+        [Tooltip("BasePoolObject SO that holds body parts and colors")]
         public BodyPartBaseVisualSO BaseSO;
 
         [Tooltip("Attack - 0, Defense - 1, Utility - 2")]

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7649892478470960334}
   - component: {fileID: 5101991205476173902}
+  - component: {fileID: 60558684545161753}
   m_Layer: 5
   m_Name: Combo Collection UI
   m_TagString: Untagged
@@ -49,9 +50,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dff4657ac5dcba41a2bfa5c89ded7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _comboUIPrefab: {fileID: 3206936471709618092, guid: 21bce7691797c9f45a5df134ed319d0d,
+  _objectPrefab: {fileID: 3206936471709618092, guid: 21bce7691797c9f45a5df134ed319d0d,
     type: 3}
   _parent: {fileID: 6866022036156728560}
+--- !u!114 &60558684545161753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7649892478470960329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d902b612ee4118a4fa737d54b91db141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scrollPanel: {fileID: 3983771526218331592}
+  _comboUIPool: {fileID: 5101991205476173902}
+  _comboData:
+  - _comboCore:
+      _id: 0
+      _level: 0
+    _comboSO: {fileID: 11400000, guid: e731eb9606088c94c9dbb13f7faf2558, type: 2}
+  - _comboCore:
+      _id: 0
+      _level: 0
+    _comboSO: {fileID: 11400000, guid: 75de8b3fa4e3a5640bf4f126de1ac6f2, type: 2}
 --- !u!1001 &8496924768917725967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -233,6 +257,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8496924768917725967}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3983771526218331592 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4801425542832199367, guid: 2c0f2c8e35f616041a7ec9790ae3fc62,
+    type: 3}
+  m_PrefabInstance: {fileID: 8496924768917725967}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 204e681d5e2e85d4bacf8f7a485150e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6866022036156728560 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3072060385993385983, guid: 2c0f2c8e35f616041a7ec9790ae3fc62,

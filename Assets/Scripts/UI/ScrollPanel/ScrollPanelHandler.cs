@@ -12,6 +12,11 @@ namespace CardMaga.UI.ScrollPanel
     
         #endregion
 
+        public List<IShowableUI> LoadedObject
+        {
+            get => _loadedObjects;
+        }
+
         private void Awake()
         {
             _loadedObjects = new List<IShowableUI>();

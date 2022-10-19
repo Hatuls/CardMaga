@@ -4,17 +4,12 @@ using CardMaga.UI.Combos;
 using CardMaga.UI.ScrollPanel;
 using UnityEngine;
 
-public class ComboUI : MonoBehaviour , IShowableUI , IPoolable<ComboUI>
+public class ComboUI : MonoBehaviour , IShowableUI , IPoolable<ComboUI> , IVisualAssign<Combo>
 {
     public event Action<ComboUI> OnDisposed;
     
     [SerializeField] private ComboVisualHandler _comboVisual;
-    
-    public void AssignComboData(Combo comboData)
-    {
-        _comboVisual.Init(comboData);
-    }
-    
+
     public void Dispose()
     {
         _comboVisual.Dispose();
@@ -28,5 +23,10 @@ public class ComboUI : MonoBehaviour , IShowableUI , IPoolable<ComboUI>
     public void Init()
     {
         gameObject.SetActive(true);
+    }
+
+    public void AssingVisual(Combo data)
+    {
+        _comboVisual.Init(data);
     }
 }
