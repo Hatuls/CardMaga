@@ -21,7 +21,7 @@ namespace Battle
 
         #region Events
         [SerializeField] VoidEvent _successCrafting;
-        public event Action<Combo.Combo> OnComboSucceeded;
+        public event Action<Combo.ComboData> OnComboSucceeded;
         public event Action OnComboDetectedFinished;
         public event Action<CardData[]> OnCraftingComboToHand;
         
@@ -29,7 +29,7 @@ namespace Battle
 
         #region Fields
 
-        [SerializeField] Combo.Combo _cardRecipeDetected;
+        [SerializeField] Combo.ComboData _cardRecipeDetected;
         [SerializeField] VFXSO _comboVFX;
         private bool _isTryingToDetect;
         private IPlayersManager _playersManager;
@@ -42,7 +42,7 @@ namespace Battle
 
         #region Properties
         public bool IsTryingToDetect => _isTryingToDetect;
-        public Battle.Combo.Combo CardRecipeDetected
+        public Battle.Combo.ComboData CardRecipeDetected
         {
             get => _cardRecipeDetected;
             set

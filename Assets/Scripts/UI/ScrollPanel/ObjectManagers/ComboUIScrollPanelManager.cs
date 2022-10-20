@@ -1,50 +1,24 @@
 ﻿using Battle;
 using Battle.Combo;
-using CardMaga.SequenceOperation;
-using ReiTools.TokenMachine;
 using UnityEngine;
 
-public class ComboUIScrollPanelManager : BaseScrollPanelManager<ComboUI,Combo> , ISequenceOperation<IBattleManager>
+public class ComboUIScrollPanelManager : BaseScrollPanelManager<ComboUI,ComboData>
 {
     [SerializeField] private ComboUIPool _comboUIPool;
-
-    private Combo[] _combos;
-    public override BasePoolObject<ComboUI, Combo> ObjectPool
+    
+    protected override BasePoolObject<ComboUI, ComboData> ObjectPool
     {
         get => _comboUIPool;
     }
 
-    #region Test
-
-    [Header("Testing")] [SerializeField] private Combo[] _comboData;
-    
-    [ContextMenu("TestAddComboToPanel")]
-    public void TestAddComboToPanel()
+    public override void Init()
     {
-        AddObjectToPanel(_comboData);
+        base.Init();
+        _comboUIPool.Init();
     }
 
-    #endregion
-
-    private void Awake()
-    {
-        BattleManager.Register(this,OrderType.After);
-    }
-
-    private void OnEnable()
-    {
-        AddObjectToPanel(_combos);
-    }
-
-    private void OnDisable()
+    private void OnDestroy()
     {
         RemoveAllObjectsFromPanel();
     }
-
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
-    {
-        _combos = data.PlayersManager.LeftCharacter.Combos;
-    }
-
-    public int Priority { get; }
 }

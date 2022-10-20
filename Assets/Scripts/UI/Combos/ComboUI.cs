@@ -4,7 +4,7 @@ using CardMaga.UI.Combos;
 using CardMaga.UI.ScrollPanel;
 using UnityEngine;
 
-public class ComboUI : MonoBehaviour , IShowableUI , IPoolable<ComboUI> , IVisualAssign<Combo>
+public class ComboUI : MonoBehaviour , IShowableUI , IPoolable<ComboUI> , IVisualAssign<ComboData>
 {
     public event Action<ComboUI> OnDisposed;
     
@@ -25,7 +25,7 @@ public class ComboUI : MonoBehaviour , IShowableUI , IPoolable<ComboUI> , IVisua
         gameObject.SetActive(true);
     }
 
-    public void AssingVisual(Combo data)
+    public void AssingVisual(ComboData data)
     {
         _comboVisual.Init(data);
     }

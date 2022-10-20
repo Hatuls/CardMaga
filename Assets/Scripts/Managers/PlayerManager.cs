@@ -20,7 +20,7 @@ namespace Managers
         CharacterStatsHandler StatsHandler { get; }
         CardData[] StartingCards { get; }
         DeckHandler DeckHandler { get; }
-        Combo[] Combos { get; }
+        ComboData[] Combos { get; }
         CardsExecutionOrder ExecutionOrder { get; }
         EndTurnHandler EndTurnHandler { get; }
         VisualCharacter VisualCharacter { get; }
@@ -48,7 +48,7 @@ namespace Managers
         #endregion
         
         public CardData[] StartingCards => _playerDeck;
-        public Combo[] Combos => _character.CharacterData.ComboRecipe;
+        public ComboData[] Combos => _character.CharacterData.ComboRecipe;
         public bool IsLeft => true;
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
 

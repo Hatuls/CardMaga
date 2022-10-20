@@ -1,13 +1,25 @@
 ﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using Enumerable = System.Linq.Enumerable;
+using Object = UnityEngine.Object;
 
-public abstract class BaseFilterSystem<T> : MonoBehaviour
+public abstract class BaseFilterSystem<T_Filter,T_FilterRef> : MonoBehaviour where T_FilterRef :  Object , IFilter<T_Filter>
 {
-    private List<BaseFilter<T>> _filters;
-    private List<BaseFilter<T>> _activeFilters;
-    
+    [SerializeField] protected List<T_FilterRef> _filters;
 
-    public void AddFilter(BaseFilter<T> filter)
+    private List<T_FilterRef> _activeFilters;
+
+    private const string Resources_Path = "FilterSO";
+
+   // protected abstract List<BaseFilter<T_Filter>> Filters { get; }
+    
+    protected virtual void Awake()
+    {
+        _activeFilters = new List<T_FilterRef>();
+    }
+
+    public void AddFilter(T_FilterRef filter)
     {
         if (filter == null)
         {
@@ -30,7 +42,7 @@ public abstract class BaseFilterSystem<T> : MonoBehaviour
         _activeFilters.Add(filter);
     }
     
-    public void RemoveFilter(BaseFilter<T> filter)
+    public void RemoveFilter(T_FilterRef filter)
     {
         if (filter == null)
         {
@@ -53,10 +65,13 @@ public abstract class BaseFilterSystem<T> : MonoBehaviour
         _activeFilters.Remove(filter);
     }
 
-    public List<T> Filter(List<T> objects)
+    public List<T_Filter> Filter(List<T_Filter> objects)
     {
-        List<T> output = new List<T>(objects.Count);
+        List<T_Filter> output = new List<T_Filter>(objects.Count);
 
+        if (_activeFilters.Count == 0)
+            return objects;
+        
         foreach (var obj in objects)
         {
             foreach (var filter in _activeFilters)
@@ -76,9 +91,10 @@ public abstract class BaseFilterSystem<T> : MonoBehaviour
     {
         _activeFilters.Clear();
     }
-
+    
+    [Button("Load Filters")]
     private void LoadFilters()
     {
-        
+       _filters = Enumerable.ToList(Resources.LoadAll<T_FilterRef>(Resources_Path));
     }
 }

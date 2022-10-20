@@ -1,6 +1,5 @@
 ﻿using Battle;
 using CardMaga.Rules;
-using Characters.Stats;
 using Keywords;
 using Managers;
 

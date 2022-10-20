@@ -54,7 +54,7 @@ public class ComboRecipeDisplayer : MonoBehaviour, IPointerClickHandler
             page = 1;
 
         var recipes = Managers.PlayerManager.Instance.Combos;
-        Combo[] playerRecipe = new Combo[recipes.Length];
+        ComboData[] playerRecipe = new ComboData[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
         {
             playerRecipe[i] = recipes[i];

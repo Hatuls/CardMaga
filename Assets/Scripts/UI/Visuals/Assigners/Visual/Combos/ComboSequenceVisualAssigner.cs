@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class ComboSequenceVisualAssigner : BaseVisualAssigner<Combo>
+    public class ComboSequenceVisualAssigner : BaseVisualAssigner<ComboData>
     {
         [SerializeField] BodyPartComboVisualSO _bodyPartComboVisualSO;
         [SerializeField] Image[] _comboSequenceBodyParts;
@@ -24,23 +24,23 @@ namespace CardMaga.UI.Visuals
             if (_comboSequenceInnerBackgrounds == null)
                 throw new System.Exception("ComboSequenceVisualAssigner has no _comboSequenceInnerBackgrounds");
         }
-        public override void Init(Combo comboData)
+        public override void Init(ComboData comboDataData)
         {
-            for (int i = 0; i < comboData.ComboSequence.Length; i++)
+            for (int i = 0; i < comboDataData.ComboSequence.Length; i++)
             {
-            int cardType = (int)comboData.ComboSequence[i].CardType - 1;
+            int cardType = (int)comboDataData.ComboSequence[i].CardType - 1;
 
                 //Set Combo BG Sprite
                 var sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _bodyPartComboVisualSO.BodyPartsBG);
                 _comboSequenceBackgrounds[i].AssignSprite(sprite);
-                _comboSequenceBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetInnerColor(comboData.ComboSequence[i].CardType));
+                _comboSequenceBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetInnerColor(comboDataData.ComboSequence[i].CardType));
                 //Set Card Inner BG sprites and color
                 sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _bodyPartComboVisualSO.BodyPartsInnerBG);
                 _comboSequenceInnerBackgrounds[i].AssignSprite(sprite);
-                _comboSequenceInnerBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(comboData.ComboSequence[i].CardType));
+                _comboSequenceInnerBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(comboDataData.ComboSequence[i].CardType));
                 //Set body part and color
-                _comboSequenceBodyParts[i].AssignSprite(_bodyPartComboVisualSO.BaseSO.GetBodyPartSprite(comboData.ComboSequence[i].BodyPart));
-                _comboSequenceBodyParts[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(comboData.ComboSequence[i].CardType));
+                _comboSequenceBodyParts[i].AssignSprite(_bodyPartComboVisualSO.BaseSO.GetBodyPartSprite(comboDataData.ComboSequence[i].BodyPart));
+                _comboSequenceBodyParts[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(comboDataData.ComboSequence[i].CardType));
             }
         }
         public override void Dispose()

@@ -20,7 +20,7 @@ namespace UI
         [SerializeField]
         CardUI _cardUI;
         [SerializeField]
-        Combo _combo;
+        ComboData comboData;
 
         [SerializeField]
         Image _innerImage;
@@ -58,8 +58,8 @@ namespace UI
         byte activePlaceHolders = 0;
 
         public CardUI CardUI { get => _cardUI; set => _cardUI = value; }
-        public ComboSO ComboRecipe { get => _combo.ComboSO; }
-        public Combo Combo { get => _combo; set => _combo = value; }
+        public ComboSO ComboRecipe { get => comboData.ComboSO; }
+        public ComboData ComboData { get => comboData; set => comboData = value; }
     
 
         private void Start()
@@ -73,11 +73,11 @@ namespace UI
         public void RemoveFunctionality(UnityAction<ComboRecipeUI> combo) => _event.RemoveListener(combo);
         public void OnClick()
             => _event?.Invoke(this);
-        public void InitRecipe(Combo combo)
+        public void InitRecipe(ComboData comboData)
         {
-            _combo = combo;
+            this.comboData = comboData;
          
-            var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(combo.ComboSO.CraftedCard, combo.Level);
+            var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(comboData.ComboSO.CraftedCard, comboData.Level);
             _cardUI.AssingVisual(craftedCard);
             ActivatedPlaceHolders(ComboRecipe);
             SetVisual(ComboRecipe);

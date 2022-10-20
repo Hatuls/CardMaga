@@ -2,15 +2,23 @@
 using CardMaga.UI.ScrollPanel;
 using UnityEngine;
 
-public abstract class BaseScrollPanelManager<T1,T2> : MonoBehaviour where T1 : MonoBehaviour , IShowableUI , IPoolable<T1> , IVisualAssign<T2>
+public abstract class BaseScrollPanelManager<T_visual,T_data> : MonoBehaviour where T_visual : MonoBehaviour , IShowableUI , IPoolable<T_visual> , IVisualAssign<T_data>
 {
     [SerializeField] private ScrollPanelHandler _scrollPanel;
 
-    public abstract BasePoolObject<T1,T2> ObjectPool { get; }
+    protected abstract BasePoolObject<T_visual,T_data> ObjectPool { get; }
 
-    public void AddObjectToPanel(params T2[] data)
+    public virtual void Init()
     {
-        List<T1> cache = ObjectPool.PullObjects(data);
+        _scrollPanel.Init();
+    }
+ 
+    public void AddObjectToPanel(List<T_data> data)
+    {
+        if (data.Count <= 0)
+            return;
+        
+        List<T_visual> cache = ObjectPool.PullObjects(data);
         
         IShowableUI[] showableUis = new IShowableUI[cache.Count];
 
@@ -22,7 +30,7 @@ public abstract class BaseScrollPanelManager<T1,T2> : MonoBehaviour where T1 : M
         _scrollPanel.LoadObject(showableUis);
     }
     
-    public void RemoveAllObjectsFromPanel()
+    protected void RemoveAllObjectsFromPanel()
     {
         _scrollPanel.UnLoadAllObjects();
     }

@@ -1,28 +1,28 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BasePoolObject<T1,T2> : MonoBehaviour where T1 : MonoBehaviour ,IPoolable<T1> , IVisualAssign<T2>
+public abstract class BasePoolObject<T_visual,T_data> : MonoBehaviour where T_visual : MonoBehaviour ,IPoolable<T_visual> , IVisualAssign<T_data>
 {
-    [SerializeField] private T1 _objectPrefab;
+    [SerializeField] private T_visual _objectPrefab;
     [SerializeField] private RectTransform _parent;
 
-    private ObjectPool<T1> _objectPool;
+    private ObjectPool<T_visual> _objectPool;
 
-    private void Awake()
+    public virtual void Init()
     {
-        _objectPool = new ObjectPool<T1>(_objectPrefab, _parent);
+        _objectPool = new ObjectPool<T_visual>(_objectPrefab, _parent);
     }
 
-    public List<T1> PullObjects(params T2[] objectData)
+    public List<T_visual> PullObjects(List<T_data> objectData)
     {
-        if (objectData == null || objectData.Length == 0)
+        if (objectData == null || objectData.Count == 0)
             return null;
             
-        List<T1> output = new List<T1>(objectData.Length);
+        List<T_visual> output = new List<T_visual>(objectData.Count);
 
-        for (int i = 0; i < objectData.Length; i++)
+        for (int i = 0; i < objectData.Count; i++)
         {
-            T1 cache = _objectPool.Pull();
+            T_visual cache = _objectPool.Pull();
             
             cache.AssingVisual(objectData[i]);
             
