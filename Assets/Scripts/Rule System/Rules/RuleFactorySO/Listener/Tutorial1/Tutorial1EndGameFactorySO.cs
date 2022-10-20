@@ -2,8 +2,8 @@
 using CardMaga.Rules;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ComboRuleListenerFactorySO", menuName = "ScriptableObjects/Rule System/Tutorial1EndGameFactory")]
-public class Tutorial1EndGameFactory : BaseEndGameRuleFactorySO
+[CreateAssetMenu(fileName = "Tutorial1EndGameFactorySO", menuName = "ScriptableObjects/Rule System/Tutorial1EndGameFactorySO")]
+public class Tutorial1EndGameFactorySO : BaseEndGameRuleFactorySO
 {
     protected override BaseEndGameRule CreateRuleListener(IBattleManager battleManager)
     {
