@@ -31,7 +31,7 @@ namespace CardMaga.Battle.UI
 
         #region Properties
         public int Priority => 0;
-
+        public HandUI HandUI { get => _handUI; }
 
         internal void UpdateHand(bool isPlayer)
         {

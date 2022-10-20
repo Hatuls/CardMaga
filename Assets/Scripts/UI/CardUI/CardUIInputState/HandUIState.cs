@@ -30,8 +30,14 @@ namespace CardMaga.UI
     private WaitForSeconds _waitForCardDrawnDelay;
 
     private DG.Tweening.Sequence _currentSequence;
-    
-    private void Start()
+
+        #region Prop
+
+        public TableCardSlot TableCardSlot { get => _tableCardSlot; }
+
+        #endregion
+
+        private void Start()
     {
         _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
 
@@ -121,7 +127,7 @@ namespace CardMaga.UI
 
         public IReadOnlyList<CardUI> CardsUI
         {
-            get => _tableCardSlot.GetCardUIsFromTable();
+            get => _tableCardSlot.GetCardUIsFromTable().ToList();
         }
 
         public TouchableItem<CardUI>[] CardUIsInput

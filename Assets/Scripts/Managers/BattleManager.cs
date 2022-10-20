@@ -161,10 +161,11 @@ namespace Battle
             return;
 #endif
             
-        if (BattleData.BattleConfigSO?.BattleTutorial == null)
-            return;
+            if (BattleData.BattleConfigSO?.BattleTutorial == null)
+                return;
 
-        _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);  
+            _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
+            _battleTutorial.StartTutorial();
     }
         
         #region Observer Pattern 

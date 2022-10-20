@@ -87,11 +87,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dfe67a3fb4a3bb49991e96240f80a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBeginHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEndHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
   DisableHold: 1
-  _touchableItem: {fileID: 7654181851960245366}
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0
+  _touchableItem: {fileID: 7654181851960245366}
+  _currentInputBehaviourState: 0
 --- !u!1 &4617993672635384773
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,6 +123,7 @@ GameObject:
   - component: {fileID: 6943953576236721689}
   - component: {fileID: 1354988215945649173}
   - component: {fileID: 8724185107592363380}
+  - component: {fileID: 8512022971918252836}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -191,6 +211,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 1847
+--- !u!225 &8512022971918252836
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4617993672635384773}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &9220076736879324935
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,4 +269,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clicker: {fileID: 7654181851960245366}
   _panel: {fileID: 3188057709559118198}
-  _canvas: {fileID: 1388563122544898564}
+  _canavs: {fileID: 6943953576236721689}

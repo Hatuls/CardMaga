@@ -1,10 +1,9 @@
-﻿using Managers;
-using CardMaga.SequenceOperation;
+﻿using CardMaga.SequenceOperation;
+using Managers;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace Battle.Turns
@@ -408,7 +407,7 @@ namespace Battle.Turns
         public GameTurnHandler(GameTurnType startGameTurnType) //will need to enter turn logic here 
         {
             _isLeftPlayerStart = startGameTurnType == GameTurnType.LeftPlayerTurn;
-            
+
             _gameTurnsDictionary = new Dictionary<GameTurnType, GameTurn>()
             {
                 { GameTurnType.EnterBattle,     new GameTurn(new NextTurn(startGameTurnType, 0)) },
@@ -627,7 +626,7 @@ namespace Battle.Turns
             _player.MyTurn.OnTurnActive += StartTurn;
             _player.StaminaHandler.OnStaminaDepleted += StaminaIsEmpty;
         }
-        private void StartTurn() 
+        private void StartTurn()
         {
             _endTurnToken = _endTurnTokenMachine.GetToken();
             if (_staminaCoroutine != null)
@@ -659,15 +658,15 @@ namespace Battle.Turns
             {
                 yield return null;
             }
-         //   yield return new WaitForSeconds(1f);
+            //   yield return new WaitForSeconds(1f);
             ForceEndTurn();
         }
         private IEnumerator CheckStaminaEndTurn()
         {
             bool check = true;
-            
+
             yield return null;
-            
+
             do
             {
                 check = IsStaminaIsZero;

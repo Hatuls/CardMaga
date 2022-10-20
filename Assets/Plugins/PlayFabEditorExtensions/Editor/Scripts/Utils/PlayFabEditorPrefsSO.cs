@@ -35,7 +35,7 @@ namespace PlayFab.PfEditor
                 // consider moving this above the if directory exists so we can do the same logic beforehand.
                 Directory.GetFiles(Application.dataPath, "PlayFabEditor.cs");
 
-                AssetDatabase.CreateAsset(_instance, "Assets/PlayFabEditorExtensions/Editor/Resources/PlayFabEditorPrefsSO.asset");
+                AssetDatabase.CreateAsset(_instance, "Assets/Plugins/PlayFabEditorExtensions/Editor/Resources/PlayFabEditorPrefsSO.asset");
                 AssetDatabase.SaveAssets();
                 Debug.LogWarning("Created missing PlayFabEditorPrefsSO file");
                 return _instance;

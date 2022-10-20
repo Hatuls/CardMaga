@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 8694790356547147787}
   - component: {fileID: 1093964942527637542}
   - component: {fileID: 6721602299382048637}
+  - component: {fileID: 9130358000835297193}
   m_Layer: 5
   m_Name: CardCanvas
   m_TagString: Untagged
@@ -222,7 +223,7 @@ RectTransform:
   m_GameObject: {fileID: 5702666649216585370}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.37638888, y: 0.37638888, z: 0.37638888}
   m_Children:
   - {fileID: 5702666648958164327}
   - {fileID: 4063326684566358454}
@@ -231,9 +232,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 540, y: 960}
+  m_SizeDelta: {x: 2869.3728, y: 5101.107}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5702666649216585375
 Canvas:
   m_ObjectHideFlags: 0
@@ -311,6 +312,7 @@ MonoBehaviour:
   _zoomCard: {fileID: 11400000, guid: a551b5cc623c9304fb2c04e985dfd214, type: 2}
   _resetZoomCard: {fileID: 11400000, guid: 59267d57b7168cb4fa9fec5a38c79d70, type: 2}
   _zoomPosition: {fileID: 210326852}
+  _isOnDialogue: 0
 --- !u!114 &5368535060217224795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,6 +409,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff1ed58d7af3a745b085f83de146a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9130358000835297193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702666649216585370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7446aaaad721141815cd4a4c02ff55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackID: {fileID: 11400000, guid: 96fd0c85d06ae2340930addba818ad35, type: 2}
+  _rectTransform: {fileID: 0}
+  _handUI: {fileID: 8694790356547147787}
 --- !u!61 &2073322607921475126
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -440,6 +457,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 723770074}
     m_Modifications:
+    - target: {fileID: 1304183681161663716, guid: 8dc4e00dfaa6753418c1d5056be43434,
+        type: 3}
+      propertyPath: _cardVisuals
+      value: 
+      objectReference: {fileID: 7842380640283192488}
     - target: {fileID: 1355791699624250066, guid: 8dc4e00dfaa6753418c1d5056be43434,
         type: 3}
       propertyPath: m_Enabled
@@ -448,7 +470,7 @@ PrefabInstance:
     - target: {fileID: 2229796832149641529, guid: 8dc4e00dfaa6753418c1d5056be43434,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4405328268795982148, guid: 8dc4e00dfaa6753418c1d5056be43434,
         type: 3}
@@ -653,6 +675,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 4236783183102882492}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7842380640283192488 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6204175228487654932, guid: 8dc4e00dfaa6753418c1d5056be43434,
+    type: 3}
+  m_PrefabInstance: {fileID: 4236783183102882492}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49858b630249d0a46a190292d61032dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6390343756530299313 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7089541100094718733, guid: 8dc4e00dfaa6753418c1d5056be43434,

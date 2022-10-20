@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UI;
+using UnityEngine.UI;
 
 public class ClickHelper : MonoBehaviour
 {
+    static ClickHelper _instance;
+    public static ClickHelper Instance { get { return _instance; } }
+
     #region Fields
 
     [SerializeField] private Clicker _clicker;
-    [SerializeField] private RectTransform _panel;
-    [SerializeField] private RectTransform _canvas;
+    [SerializeField] public RectTransform _panel;
+    [SerializeField] private Canvas _canavs;
+    [SerializeField] private Image _image;
+    [SerializeField] private ClickBlocker _clickBlocker;
     
     private Action _action;
     
@@ -16,6 +23,14 @@ public class ClickHelper : MonoBehaviour
     private List<RectTransform> _loadedObjectParents;
 
     private bool _closeOnClick = false;
+
+
+    #endregion
+
+    #region Properties
+
+    public ClickBlocker ClickBlocker { get {return _clickBlocker; } }
+    public Clicker ZoomInClicker { get {return _clicker; } }
 
     #endregion
 
@@ -26,6 +41,8 @@ public class ClickHelper : MonoBehaviour
         _loadedObjects = new List<RectTransform>();
         _loadedObjectParents = new List<RectTransform>();
         _clicker.OnClick += Click;
+        _instance = this;
+        _clickBlocker.InitClickHelper(this);
     }
 
     private void OnDestroy()
@@ -34,76 +51,46 @@ public class ClickHelper : MonoBehaviour
     }
 
     #endregion
-    
+
     #region PublicFunction
     /// <summary>
     /// A function that returns all loaded objects to their original position in the hierarchy, and closes the panel
     /// </summary>
-    public void Close(params RectTransform[] UnloadObject)//need Re_work (5.10.22)
-    {
-        if(!_canvas.gameObject.activeSelf)
-            return;
+    /// 
 
-        for (int i = 0; i < _loadedObjects.Count; i++)
-        {
-            bool toRemoveObj = false;
-            
-            foreach (var unLoadObject in UnloadObject)
-            {
-                if (unLoadObject == _loadedObjects[i])
-                {
-                    toRemoveObj = true;
-                    break;
-                }
-            }
-
-            if (!toRemoveObj)
-                return;
-            
-            _loadedObjects[i].SetParent(_loadedObjectParents[i]);
-            
-            _loadedObjects.Remove(_loadedObjects[i]);
-            _loadedObjectParents.Remove(_loadedObjectParents[i]);
-        }
-
-        
-        if (_loadedObjects.Count == 0)
-         _canvas.gameObject.SetActive(false);
-    }
-    
     public void Close()
     {
-        if(!_canvas.gameObject.activeSelf)
+        if(!_canavs.gameObject.activeSelf)
             return;
 
-        for (int i = 0; i < _loadedObjects.Count; i++)
-        {
-            _loadedObjects[i].SetParent(_loadedObjectParents[i]);
-        }
+        ReturnObjects();
 
         _loadedObjects.Clear();
         _loadedObjectParents.Clear();
-        _canvas.gameObject.SetActive(false);
+        _canavs.gameObject.SetActive(false);
     }
 
-    private bool IsInList(RectTransform obj)
+    public void ReturnObjects()
     {
-        foreach (var loadedObject in _loadedObjects)
+
+        for (int i = 0; i < _loadedObjects.Count; i++)
         {
-            if (loadedObject == obj)
-            {
-                return true;
-            }
+            _loadedObjects[i].SetParent(_loadedObjectParents[i]);
         }
-
-        return false;
     }
 
-    public void Open()
+    public void ChangeAlpha(float alpha)
     {
-        _canvas.gameObject.SetActive(true);
+        Color color = _image.color;
+        color.a = alpha;
+        _image.color = color;
     }
-    
+
+    public void Open(GameObject canvas)
+    {
+        canvas.gameObject.SetActive(true);
+    }
+
     /// <summary>
     /// A function that loads the objects in the list and initializes the panel
     /// </summary>
@@ -111,18 +98,18 @@ public class ClickHelper : MonoBehaviour
     /// <param name="closeOnClick">Close the panel right after the first click</param>
     /// <param name="action">An action or function to be performed at the moment of a click</param>
     /// <param name="objects">Objects to load into the panel</param>
-    public void LoadObject(bool openOnLoad, bool closeOnClick, Action action, params RectTransform[] objects)
+    public void LoadObject(bool openOnLoad, bool closeOnClick , Action action, params RectTransform[] objects)
     {
+        Debug.Log("Load Object");
         if (openOnLoad)
         {
-            Open();
+                Open(_canavs.gameObject);
         }
         
         for (int i = 0; i <  objects.Length; i++)
         {
             _loadedObjectParents.Add(objects[i].parent as RectTransform);
             _loadedObjects.Add(objects[i]);
-                
             objects[i].SetParent(_panel.transform);
         }
 
@@ -136,11 +123,11 @@ public class ClickHelper : MonoBehaviour
 
     private void Click(Clicker clicker)
     {
-        if (_action != null)
-            _action?.Invoke();
-        
-        if (_closeOnClick)
-            Close();
+            if (_action != null)
+                _action?.Invoke();
+
+            if (_closeOnClick)
+                Close();
     }
     #endregion
 }
