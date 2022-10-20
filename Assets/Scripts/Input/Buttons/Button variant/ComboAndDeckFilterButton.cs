@@ -1,16 +1,15 @@
 ﻿using CardMaga.Input;
 
-public class ComboAndDeckButton : ButtonGenaric
+public class ComboAndDeckFilterButton : Button
 {
-    private InputBehaviour<ButtonGenaric> _comboState;
-    private InputBehaviour<ButtonGenaric> _deckState;
+    private InputBehaviour _comboState;
+    private InputBehaviour _deckState;
 
-    public InputBehaviour<ButtonGenaric> ComboState
+    public InputBehaviour ComboState
     {
         get => _comboState;
     }
-
-    public InputBehaviour<ButtonGenaric> DeckState
+    public InputBehaviour DeckState
     {
         get => _deckState;
     }
@@ -18,11 +17,11 @@ public class ComboAndDeckButton : ButtonGenaric
     protected override void Awake()
     {
         base.Awake();
-        _comboState = new InputBehaviour<ButtonGenaric>();
-        _deckState = new InputBehaviour<ButtonGenaric>();
+        _comboState = new InputBehaviour();
+        _deckState = new InputBehaviour();
         SetToComboState();
     }
-
+    
     public void SetToComboState()
     {
         TrySetInputBehaviour(_comboState);

@@ -30,7 +30,7 @@ public abstract class BaseScrollPanelManager<T_visual,T_data> : MonoBehaviour wh
         _scrollPanel.LoadObject(showableUis);
     }
     
-    protected void RemoveAllObjectsFromPanel()
+    public void RemoveAllObjectsFromPanel()
     {
         _scrollPanel.UnLoadAllObjects();
     }

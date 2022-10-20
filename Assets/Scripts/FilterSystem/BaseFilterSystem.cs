@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Enumerable = System.Linq.Enumerable;
@@ -6,17 +7,22 @@ using Object = UnityEngine.Object;
 
 public abstract class BaseFilterSystem<T_Filter,T_FilterRef> : MonoBehaviour where T_FilterRef :  Object , IFilter<T_Filter>
 {
+    public event Action OnCycleFilter;
+    
+    private const string Resources_Path = "FilterSO";
+    
     [SerializeField] protected List<T_FilterRef> _filters;
 
     private List<T_FilterRef> _activeFilters;
 
-    private const string Resources_Path = "FilterSO";
+    private int _currentFilterIndex;
 
    // protected abstract List<BaseFilter<T_Filter>> Filters { get; }
     
     protected virtual void Awake()
     {
         _activeFilters = new List<T_FilterRef>();
+        _currentFilterIndex = 0;
     }
 
     public void AddFilter(T_FilterRef filter)
@@ -87,8 +93,32 @@ public abstract class BaseFilterSystem<T_Filter,T_FilterRef> : MonoBehaviour whe
         return output;
     }
 
+    public void CycleFilter()
+    {
+        if (_activeFilters.Count == 0)
+        {
+            _activeFilters.Add(_filters[_currentFilterIndex]);
+            OnCycleFilter?.Invoke();
+            return;
+        }
+
+        _activeFilters.Remove(_filters[_currentFilterIndex]);
+
+        if (_currentFilterIndex == _filters.Count - 1)
+        {
+            Reset();
+            OnCycleFilter?.Invoke();
+            return;
+        }
+        
+        _currentFilterIndex++;
+        _activeFilters.Add(_filters[_currentFilterIndex]);
+        OnCycleFilter?.Invoke();
+    }
+
     public void Reset()
     {
+        _currentFilterIndex = 0;
         _activeFilters.Clear();
     }
     

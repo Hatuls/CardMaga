@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Battle.Combo;
 using CardMaga.Card;
-using TMPro;
 using UnityEngine;
 
 namespace CardMaga.UI.ScrollPanel
 {
     public class ComboAndDeckCollictonMainHandler : MonoBehaviour
     {
-        [SerializeField] private GameObject _deckCollection;
-        [SerializeField] private GameObject _comboCollection;
-        [SerializeField] private TMP_Text _comboAndDecksButtonText;
-        [SerializeField] private ComboAndDeckButton _comboAndDeckButton;
+        [Header("Scripts Reference")]
         [SerializeField] private ComboUIScrollPanelManager _comboUIScroll;
         [SerializeField] private CardUIScrollPanelManager _cardUIScroll;
         [SerializeField] private CardDataFilterSystem _cardDataFilter;
         [SerializeField] private ComboDataFilterSystem _comboDataFilter;
-        
-        [SerializeField] private CardDataFilter _test;
 
+        [Header("Filter Button")] [SerializeField]
+        private ComboAndDeckFilterButton _filterButton;
+        
         private CardDataSort _cardDataSort;
         private ComboDataSort _comboDataSort;
         
@@ -34,21 +30,41 @@ namespace CardMaga.UI.ScrollPanel
 
         private void Start()
         {
-            _comboAndDeckButton.ComboState.OnClick += SetToDeckScreen;
-            _comboAndDeckButton.DeckState.OnClick += SetToComboScreen;
-            ShowObjects();
+            _filterButton.ComboState.OnClick += FilterCombos;
+            _filterButton.DeckState.OnClick += FilterCard;
+            
+            ShowCombo();
+            ShowCard();
         }
 
-        private void ShowObjects()
+        private void FilterCombos()
         {
-            _cardUIScroll.AddObjectToPanel(_cardDataSort.SortCardData(_cardDataFilter.Filter(_cardDatas)));
+            _comboDataFilter.CycleFilter();
+            ShowCombo();
+        }
+
+        private void FilterCard()
+        {
+            _cardDataFilter.CycleFilter();
+            ShowCard();
+        }
+
+        private void ShowCombo()
+        {
+            _comboUIScroll.RemoveAllObjectsFromPanel();
             _comboUIScroll.AddObjectToPanel(_comboDataSort.SortComboData(_comboDataFilter.Filter(_comboDatas)));
+        }
+
+        private void ShowCard()
+        {
+            _cardUIScroll.RemoveAllObjectsFromPanel();
+            _cardUIScroll.AddObjectToPanel(_cardDataSort.SortCardData(_cardDataFilter.Filter(_cardDatas)));
         }
 
         private void OnDestroy()
         {
-            _comboAndDeckButton.ComboState.OnClick -= SetToDeckScreen;
-            _comboAndDeckButton.DeckState.OnClick -= SetToComboScreen;
+            _filterButton.ComboState.OnClick -= _comboDataFilter.CycleFilter;
+            _filterButton.DeckState.OnClick -= _cardDataFilter.CycleFilter;
         }
 
         public void Init(List<CardData> cardDatas, List<ComboData> comboDatas)
@@ -57,22 +73,6 @@ namespace CardMaga.UI.ScrollPanel
             _comboDatas = comboDatas;
             _cardUIScroll.Init();
             _comboUIScroll.Init();
-        }
-
-        private void SetToComboScreen(ButtonGenaric buttonGenaric)
-        {
-            _deckCollection.SetActive(false);
-            _comboCollection.SetActive(true);
-            _comboAndDecksButtonText.text = "Decks";
-            _comboAndDeckButton.SetToComboState();
-        }
-
-        private void SetToDeckScreen(ButtonGenaric buttonGenaric)
-        {
-            _deckCollection.SetActive(true);
-            _comboCollection.SetActive(false);
-            _comboAndDecksButtonText.text = "Combo";
-            _comboAndDeckButton.SetToDeckState();
         }
     }
 }
