@@ -6,23 +6,25 @@ using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using CardMaga.Commands;
 
 namespace Keywords
 {
     [System.Serializable]
-    public class KeywordEvent : UnityEvent<KeywordAbst> { }
+    public class KeywordEvent : UnityEvent<BaseKeywordLogic> { }
     public class KeywordManager : MonoBehaviour, ISequenceOperation<IBattleManager>
     {
         [SerializeField]
         KeywordEvent keywordEvent;
         #region Fields
-        private  Dictionary<KeywordTypeEnum, KeywordAbst> _keywordDict;
+        private  Dictionary<KeywordTypeEnum, BaseKeywordLogic> _keywordDict;
 
 
 
         public int Priority => 0;
         private GameTurnHandler _turnHandler;
         private IPlayersManager _playersManager;
+
         #endregion
 
 
@@ -32,7 +34,7 @@ namespace Keywords
 
         #region public Functions
 
-
+       
         public void ExecuteTask(ITokenReciever token, IBattleManager bm)
         {
             using (token.GetToken())
@@ -43,8 +45,7 @@ namespace Keywords
                 RegisterTurnEvents(_turnHandler.GetTurn(GameTurnType.RightPlayerTurn));
                 _playersManager = bm.PlayersManager;
 
-                _playersManager.GetCharacter(true).ExecutionOrder.OnKeywordExecute += ActivateKeyword;
-                _playersManager.GetCharacter(false).ExecutionOrder.OnKeywordExecute += ActivateKeyword;
+    
                 bm.OnBattleManagerDestroyed += BeforeBattleEnded;
             }
 
@@ -77,7 +78,7 @@ namespace Keywords
                 return;
             }
 
-            if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.KeywordSO.GetKeywordType, out KeywordAbst keywordEffect))
+            if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keyword.KeywordSO.GetKeywordType, out BaseKeywordLogic keywordEffect))
             {
                 keywordEffect.ProcessOnTarget(isPlayerTurn, keyword, _playersManager);
 
@@ -99,7 +100,13 @@ namespace Keywords
             return isStunned;
         }
 
-
+        public IKeyword GetLogic(KeywordSO keywordSO) => GetLogic(keywordSO.GetKeywordType);
+        public IKeyword GetLogic(KeywordTypeEnum keywordType)
+        {
+            if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keywordType, out BaseKeywordLogic keywordEffect))
+                return keywordEffect;
+            throw new System.Exception($"KeywordManager does not find the logic of {keywordType.ToString()}");
+        }
         #endregion
 
         #region Private Functions
@@ -136,16 +143,15 @@ namespace Keywords
         private void BeforeBattleEnded(IBattleManager bm)
         {
             bm.OnBattleManagerDestroyed -= BeforeBattleEnded;
-            _playersManager.GetCharacter(false).ExecutionOrder.OnKeywordExecute -= ActivateKeyword;
-            _playersManager.GetCharacter(true).ExecutionOrder.OnKeywordExecute -= ActivateKeyword;
+
         }
 
         private void InitParams()
         {
             if (_keywordDict == null)
             {
-                _keywordDict = new Dictionary<KeywordTypeEnum, KeywordAbst>() {
-                {KeywordTypeEnum.Attack , new AttackKeyword() },
+                _keywordDict = new Dictionary<KeywordTypeEnum, BaseKeywordLogic>() {
+                {KeywordTypeEnum.Attack , new AttackKeywordLogic() },
                 {KeywordTypeEnum.Heal , new HealKeyword() },
                 {KeywordTypeEnum.Shield , new DefenseKeyword() },
                 {KeywordTypeEnum.Strength , new StrengthKeyword() },
@@ -154,7 +160,7 @@ namespace Keywords
                 {KeywordTypeEnum.Dexterity, new DexterityKeyword() },
                 {KeywordTypeEnum.Regeneration, new HealthRegenerationKeyword() },
                 {KeywordTypeEnum.MaxHealth, new MaxHealthKeyword() },
-                {KeywordTypeEnum.Coins, new CoinKeyword() },
+            //    {KeywordTypeEnum.Coins, new DoubleKeyword() },
                 {KeywordTypeEnum.MaxStamina, new MaxStaminaKeyword() },
                 {KeywordTypeEnum.Interupt, new InteruptKeyword() },
                 {KeywordTypeEnum.Draw, new DrawKeyword() },
@@ -207,7 +213,7 @@ namespace Keywords
         LifeSteal = 15,
         Remove = 16,
         Counter = 17,
-        Coins = 18,
+        //Coins = 18,
         StaminaShards = 19,
         Discard = 20,
         Double = 21,

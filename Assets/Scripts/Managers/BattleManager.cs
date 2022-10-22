@@ -12,6 +12,7 @@ using CardMaga.Input;
 using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;
+using CardMaga.Commands;
 
 namespace Battle
 {
@@ -51,7 +52,7 @@ namespace Battle
         private VFXManager _vFXManager;
         [SerializeField]
         private CameraManager _cameraManager;
-        
+
 #if UNITY_EDITOR
         [Header("Editor:")]
         [SerializeField] private bool _hideTutorial;
@@ -78,6 +79,7 @@ namespace Battle
         public BattleData BattleData => BattleData.Instance;
 
         public MonoBehaviour MonoBehaviour => this;
+
         #endregion
 
         #region BattleManagnent
@@ -255,7 +257,7 @@ namespace Battle
         #endregion
     }
 
-    
+
     public interface IBattleManager
     {
         event Action<IBattleManager> OnBattleManagerDestroyed;

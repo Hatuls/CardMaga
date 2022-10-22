@@ -1,9 +1,8 @@
 ﻿using Battle;
-using Characters.Stats;
 
 namespace Keywords
 {
-    public class StaminaKeyword : KeywordAbst
+    public class StaminaKeyword : BaseKeywordLogic
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Stamina;
 
@@ -23,17 +22,26 @@ namespace Keywords
 
             data.KeywordSO.SoundEventSO.PlaySound();
         }
+
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        {
+
+            var target = data.GetTarget;
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStamina(-data.GetAmountToApply);
+
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStamina(-data.GetAmountToApply);
+        }
     }
 
-    public class ShuffleKeyword : KeywordAbst
+    public class ShuffleKeyword : BaseKeywordLogic
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Shuffle;
 
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
         {
 
-            if (data != null)
-            {
              //   UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
                 data.KeywordSO.SoundEventSO.PlaySound();
             
@@ -43,13 +51,12 @@ namespace Keywords
 
                 if (target == TargetEnum.Opponent || target == TargetEnum.All)
                     playersManager.GetCharacter(!currentPlayer).DeckHandler.ResetDeck(Battle.Deck.DeckEnum.Discard);
-            }
-            else
-            {
-                throw new System.Exception($"ShuffleKeyword Data Is null!\nplayer: {currentPlayer}");
-            }
 
+        }
 
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        {
+           // implement logic
         }
     }
 }

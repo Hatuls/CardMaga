@@ -31,17 +31,13 @@ public class VFXController : MonoBehaviour , ISequenceOperation<IBattleManager>
     {
         _turnHandler = data.TurnHandler;
         data.OnBattleManagerDestroyed += BeforeExitGame;
-        var excecution = data.PlayersManager.GetCharacter(_isPlayer).ExecutionOrder;
-        excecution.OnCardInstantExecute += ExecuteAllKeywords;
-        excecution.OnKeywordsSorted += RecieveSortingKeywordsData;
+
     }
 
     private void BeforeExitGame(IBattleManager obj)
     {
         obj.OnBattleManagerDestroyed -= BeforeExitGame;
-        var excecution = obj.PlayersManager.GetCharacter(_isPlayer).ExecutionOrder;
-        excecution.OnCardInstantExecute -= ExecuteAllKeywords;
-        excecution.OnKeywordsSorted     -= RecieveSortingKeywordsData;
+
     }
 
     private void Awake()

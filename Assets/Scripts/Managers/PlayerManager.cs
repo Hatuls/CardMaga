@@ -21,7 +21,7 @@ namespace Managers
         CardData[] StartingCards { get; }
         DeckHandler DeckHandler { get; }
         Combo[] Combos { get; }
-        CardsExecutionOrder ExecutionOrder { get; }
+
         EndTurnHandler EndTurnHandler { get; }
         VisualCharacter VisualCharacter { get; }
         GameTurn MyTurn { get; }
@@ -43,7 +43,6 @@ namespace Managers
         private CharacterStatsHandler _statsHandler;
         private CardData[] _playerDeck;
         private StaminaHandler _staminaHandler;
-        private CardsExecutionOrder _executionOrder;
         [SerializeField] VisualCharacter _visualCharacter;
         #endregion
         
@@ -64,9 +63,6 @@ namespace Managers
         public GameTurn MyTurn => _myTurn;
 
         public CraftingHandler CraftingHandler => _craftingHandler;
-
-        public CardsExecutionOrder ExecutionOrder => _executionOrder;
-
         public void AssignCharacterData(IBattleManager battleManager, Character characterData)
         {
             battleManager.OnBattleManagerDestroyed += BeforeDestroy;
@@ -104,9 +100,7 @@ namespace Managers
 
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
 
-            //Excecution
-            _executionOrder = new CardsExecutionOrder(this);
-
+            
 
             //endturn
             _endTurnHandler = new EndTurnHandler(this, battleManager);
@@ -127,7 +121,6 @@ namespace Managers
         {
             battleManager.OnBattleManagerDestroyed -= BeforeDestroy;
             _endTurnHandler.Dispose();
-            _executionOrder.Dispose();
         }
         private void DrawHands(ITokenReciever tokenMachine)
             => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);

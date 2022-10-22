@@ -3,7 +3,7 @@ using CardMaga.Battle.UI;
 
 namespace Keywords
 {
-    public class DrawKeyword : KeywordAbst
+    public class DrawKeyword : BaseKeywordLogic
     {
         public override KeywordTypeEnum Keyword =>   KeywordTypeEnum.Draw;
 
@@ -21,6 +21,11 @@ namespace Keywords
             }
             else
                 throw new System.Exception("Keyword Draw: Illegal action - Target is opponent\n cannot draw cards when its not your turn!");
+        }
+
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        {
+           // Undo Logic missing
         }
     }
 }

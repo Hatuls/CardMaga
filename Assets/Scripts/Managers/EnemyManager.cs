@@ -35,7 +35,6 @@ namespace Battle
         private CharacterStatsHandler _statsHandler;
         private CardData[] _deck;
         private AIHand _aiHand;
-        private CardsExecutionOrder _executionOrder;
         private EndTurnHandler _endTurnHandler;
 
 
@@ -63,7 +62,6 @@ namespace Battle
         public EndTurnHandler EndTurnHandler => _endTurnHandler;
         public CraftingHandler CraftingHandler => _craftingHandler;
 
-        public CardsExecutionOrder ExecutionOrder => _executionOrder;
         #endregion
 
         #region Public Methods
@@ -102,10 +100,6 @@ namespace Battle
             //AI 
             _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw));
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
-            
-            //Excecution
-            _executionOrder = new CardsExecutionOrder(this);
-            _staminaHandler.OnStaminaDepleted +=_executionOrder.CheckExcecution;
 
             _endTurnHandler = new EndTurnHandler(this, battleManager);
         }
@@ -114,7 +108,6 @@ namespace Battle
         {
             obj.OnBattleManagerDestroyed -= BeforeGameExit;
             _endTurnHandler.Dispose();
-            _executionOrder.Dispose();
 
             _myTurn.OnTurnActive -= CalculateEnemyMoves;
             _myTurn = null;

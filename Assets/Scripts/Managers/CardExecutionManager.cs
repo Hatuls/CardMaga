@@ -1,7 +1,7 @@
-﻿using Battle;
-using Battle.Deck;
+﻿using Battle.Deck;
 using Battle.Turns;
 using CardMaga.Card;
+using CardMaga.Commands;
 using CardMaga.SequenceOperation;
 using CardMaga.UI.Card;
 using Characters.Stats;
@@ -20,43 +20,31 @@ namespace Battle
 
     public class CardExecutionManager : MonoSingleton<CardExecutionManager>, ISequenceOperation<IBattleManager>
     {
-   //
-        public  event Action OnPlayerCardExecute;
-        public  event Action<CardData> OnEnemyCardExecute;
-        //     public static event Action<List<KeywordData>> OnSortingKeywords;
-        //     public static event Action<int> OnAnimationIndexChange;
-        //     public static event Action OnInsantExecute;
-        //     public static event Action<bool, KeywordData> OnKeywordExecute;
-        //public static bool FinishedAnimation
-        //{
-        //    get => _isFinishedAnimation;
-        //    set
-        //    {
-        //        _isFinishedAnimation = value;
-        //        if (_isFinishedAnimation)
-        //            Instance.DisposeEndTurnToken();
-        //    }
-        //}
-        //    static List<KeywordData> _keywordData = new List<KeywordData>();
-        //     private static bool _isFinishedAnimation;
-        //    static int currentKeywordIndex;
-        //[Sirenix.OdinInspector.ShowInInspector]
-        //static Queue<CardData> _cardsQueue = new Queue<CardData>();
 
-        //public static Queue<CardData> CardsQueue => _cardsQueue;
+        public event Action OnPlayerCardExecute;
+        public event Action<CardData> OnEnemyCardExecute;
+        [SerializeField] UnityEvent OnSuccessfullExecution;
+        [SerializeField] UnityEvent OnFailedToExecute;
 
-        //  public static int CurrentKeywordIndex { get => currentKeywordIndex; }
-
+        private KeywordManager _keywordManager;
         private GameTurnHandler _turnHandler;
         private IPlayersManager _playersManager;
         private IDisposable _endTurnToken;
- 
 
+        //Handling the data
+        private CommandHandler<ICommand> _dataCommands;
+        //Handling the animation of the character
+        private VisualCommandHandler _animationCommands;
+        //Handling the keywords animation
+        private KeywordVisualCommandHandler _keywordVisualCommandsHandler;
 
-
-        [SerializeField] UnityEvent OnSuccessfullExecution;
-        [SerializeField] UnityEvent OnFailedToExecute;
+        #region Properties
         public int Priority => 0;
+        public CommandHandler<ICommand> DataCommands => _dataCommands;
+        public KeywordVisualCommandHandler KeywordVisualCommandHandler => _keywordVisualCommandsHandler;
+        public VisualCommandHandler AnimationCommands => _animationCommands;
+
+        #endregion
 
 
         public bool CanPlayCard(bool isLeft, CardData card) => (card == null) ? false : GetPlayer(isLeft).StaminaHandler.CanPlayCard(card);
@@ -77,7 +65,7 @@ namespace Battle
             }
             var currentPlayer = GetPlayer(isLeft);
             // execute card
-           // currentPlayer.StaminaHandler.ReduceStamina(card);
+            // currentPlayer.StaminaHandler.ReduceStamina(card);
             OnSuccessfullExecution?.Invoke();
 
 
@@ -93,10 +81,13 @@ namespace Battle
             {
                 OnEnemyCardExecute?.Invoke(card);
             }
+            card.InitCommands(isLeft, _playersManager, _keywordManager);
 
-            currentPlayer.StaminaHandler.ReduceStamina(card);
-            currentPlayer.ExecutionOrder.AddToQueue(card, 0,true);
-         
+            _dataCommands.AddCommand(card.CardDataCommand);
+            _animationCommands.AddCommand(card.AnimationVisualCommand);
+            //  currentPlayer.StaminaHandler.ReduceStamina(card);
+            // currentPlayer.ExecutionOrder.AddToQueue(card, 0,true);
+
             //RegisterCard(card, isLeft);
 
             //_playersManager.GetCharacter(isLeft).CraftingHandler.AddFront(card, true);
@@ -115,189 +106,52 @@ namespace Battle
         public void ForceExecuteCard(bool isPlayer, CardData card)
         {
             // add to crafting slot
-            var currentCharacter = GetPlayer(isPlayer);
 
+
+            card.InitCommands(isPlayer, _playersManager, _keywordManager);
+
+            _dataCommands.AddCommand(card.CardDataCommand);
+            _animationCommands.AddCommand(card.AnimationVisualCommand);
 
             //(_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
-            currentCharacter.ExecutionOrder.AddToQueue(card,0,false);
+            //currentCharacter.ExecutionOrder.AddToQueue(card,0,false);
             //RegisterCard(card);
 
         }
-
-        //public void RegisterCard(CardData card, bool isPlayer = true)
-        //{
-
-        //    if (BattleManager.isGameEnded)
-        //        return;
-
-        //    var currentCard = card;
-
-        //    if (currentCard == null)
-        //        throw new System.Exception($"Cannot Execute Card that is null!!!!");
-
-
-        //    AddToQueue(card);
-        //}
-
-        //private void ExecuteInstantly()
-        //{
-
-        //    OnKeywordEvent();
-        //    OnInsantExecute?.Invoke();
-        //    _cardsQueue.Dequeue();
-        //}
-
-
-
-
-        //public void AddToQueue(CardData card)
-        //{
-        //    if (BattleManager.isGameEnded)
-        //        return;
-        //    EnqueueCard(card);
-        //    bool firstCard = _cardsQueue.Count == 1;
-        //    Debug.Log($"<a>Register card queue has {_cardsQueue.Count} cards in it\nIs First Card {firstCard}</a>");
-
-        //    if (firstCard)
-        //    {
-        //        ActivateCard();
-        //    }
-
-        //}
-
-        //private void EnqueueCard(CardData card)
-        //{
-        //    _cardsQueue.Enqueue(card);
-
-        //}
-
-        //public void ActivateCard()
-        //{
-        //    // play the card animation
-        //    if (_cardsQueue.Count == 0 || BattleManager.isGameEnded)
-        //    {
-        //        DisposeEndTurnToken();
-        //        return;
-        //    }
-        //    Debug.Log("<a>Activating Card</a>");
-
-        //    SortKeywords();
-        //    var card = _cardsQueue.Peek();
-        //    currentKeywordIndex = 0;
-        //    OnAnimationIndexChange?.Invoke(currentKeywordIndex);
-        //    if (card.CardSO.AnimationBundle.AttackAnimation == string.Empty)
-        //    {
-        //        ExecuteInstantly();
-        //    }
-        //    else
-        //    {
-
-        //        _playersManager.GetCharacter(_turnHandler.IsLeftCharacterTurn).VisualCharacter.AnimatorController.PlayCrossAnimation();
-        //    }
-
-        //}
-
+        // Remake it so it has based the visual stats
         internal bool CanDefendIncomingAttack(bool Reciever)
         {
             IPlayer currentPlayer = GetPlayer(Reciever);
             BaseStat shieldStat = currentPlayer.StatsHandler.GetStats(KeywordTypeEnum.Shield);
-            CardsExecutionOrder executionOrder = currentPlayer.ExecutionOrder;
-            IReadOnlyList<KeywordData> keywordList = executionOrder.KeywordDatas;
+            Debug.LogError("No visual stats yet");
+            //IReadOnlyList<KeywordData> keywordList = executionOrder.KeywordDatas;
 
-            for (int i = 0; i < keywordList.Count; i++)
-            {
-                if (executionOrder.CurrentKeywordIndex == keywordList[i].AnimationIndex)
-                {
-                    if (keywordList[i].KeywordSO.GetKeywordType == KeywordTypeEnum.Attack)
-                        return shieldStat.Amount >= keywordList[i].GetAmountToApply;              
-                }
-            }
+            //for (int i = 0; i < keywordList.Count; i++)
+            //{
+            //    if (executionOrder.CurrentKeywordIndex == keywordList[i].AnimationIndex)
+            //    {
+            //        if (keywordList[i].KeywordSO.GetKeywordType == KeywordTypeEnum.Attack)
+            //            return shieldStat.Amount >= keywordList[i].GetAmountToApply;
+            //    }
+            //}
             return false;
         }
 
-        //private void SortKeywords()
-        //{
-        //    if (_cardsQueue.Count > 0)
-        //    {
-        //        //clearing the list
-        //        // registering the keywords
-        //        // sorting it by the animation index
-        //        //  Debug.Log("<a>Keywords Cleared</a>");
-        //        _keywordData.Clear();
-
-        //        var currentCard = _cardsQueue.Peek().CardKeywords;
-        //        //   Debug.Log($"<a>sorting keywords {_cardsQueue.Count} cards left to be executed </a>");
-
-        //        for (int i = 0; i < currentCard.Length; i++)
-        //        {
-        //            _keywordData.Add(currentCard[i]);
-
-        //        }
-        //        _keywordData.Sort();
-
-        //        OnSortingKeywords?.Invoke(_keywordData);
-        //    }
-
-        //}
-        ////public void CardFinishExecuting()
-        ////{
-        ////    if (_cardsQueue.Count > 0)
-        ////    {
-        ////        Debug.Log("<a>Activating Next card</a>");
-        ////        ActivateCard();
-
-        ////    }
-        ////    FinishedAnimation = true;
-        ////}
-
-        //public void OnKeywordEvent()
-        //{
-        //    if (BattleManager.isGameEnded)
-        //        return;
-
-
-        //    Debug.Log($"<a>Executing Kewords with {_keywordData.Count} keywords to be executed</a>");
-        //    bool currentTurn = _turnHandler.IsLeftCharacterTurn;
-
-
-        //    for (int i = 0; i < _keywordData.Count; i++)
-        //    {
-        //        if (CurrentKeywordIndex == _keywordData[i].AnimationIndex)
-        //        {
-        //            var keyword = _keywordData[i];
-        //            //remove from the list
-        //            _keywordData.Remove(_keywordData[i]);
-        //            i--;
-        //            // activate the keyword
-        //            OnKeywordExecute?.Invoke(currentTurn, keyword);
-
-        //        }
-        //    }
-        //    currentKeywordIndex++;
-        //    OnAnimationIndexChange?.Invoke(currentKeywordIndex);
-        //}
-        //private void ResetExecutionData()
-        //{
-        //    FinishedAnimation = true;
-        //    _cardsQueue.Clear();
-        //    _keywordData.Clear();
-        //    _endTurnToken = null;
-        //}
-        //private void RecieveToken(ITokenReciever endTurnToken)
-        //{
-        //    if (_cardsQueue.Count > 0 && !BattleManager.isGameEnded)
-        //        _endTurnToken = endTurnToken.GetToken();
-        //}
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
             _turnHandler = data.TurnHandler;
             _playersManager = data.PlayersManager;
-
+            _keywordManager = data.KeywordManager;
             //_turnHandler.GetCharacterTurn(true).EndTurnOperations.Register(RecieveToken);
             //_turnHandler.GetCharacterTurn(false).EndTurnOperations.Register(RecieveToken);
             data.OnBattleManagerDestroyed += FinishBattle;
         }
-
+        public void ResetAll()
+        {
+            _dataCommands.ResetCommands();
+            _animationCommands.ResetCommands();
+            _keywordVisualCommandsHandler.ResetCommands();
+        }
         private void FinishBattle(IBattleManager battleManager)
         {
             battleManager.OnBattleManagerDestroyed -= FinishBattle;
@@ -324,11 +178,7 @@ namespace Battle
 
         #endregion
 
-        public void ResetExecution()
-        {
-            _playersManager.GetCharacter(true).ExecutionOrder.ResetExecutions();
-            _playersManager.GetCharacter(false).ExecutionOrder.ResetExecutions();
-        }
+
     }
 
 }

@@ -1,9 +1,8 @@
 ﻿using Battle;
-using Characters.Stats;
 
 namespace Keywords
 {
-    public class DefenseKeyword : KeywordAbst
+    public class DefenseKeyword : BaseKeywordLogic
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Shield;
 
@@ -38,6 +37,33 @@ namespace Keywords
                         );
                 }
                 data.KeywordSO.SoundEventSO.PlaySound();
+            }
+        }
+
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        {
+            var target = data.GetTarget;
+
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+            {
+                var characterStatHandler = playersManager.GetCharacter(currentPlayer).StatsHandler;
+                var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
+
+                characterStatHandler.GetStats(Keyword)
+                    .Reduce(
+                      dexterity + data.GetAmountToApply
+                    );
+            }
+
+            if (target == TargetEnum.All || target == TargetEnum.Opponent)
+            {
+                var characterStatHandler = playersManager.GetCharacter(!currentPlayer).StatsHandler;
+                var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
+
+                characterStatHandler.GetStats(Keyword)
+                    .Reduce(
+                      dexterity + data.GetAmountToApply
+                    );
             }
         }
     }

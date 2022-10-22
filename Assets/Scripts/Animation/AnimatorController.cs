@@ -91,7 +91,7 @@ public class AnimatorController : MonoBehaviour
         _animator = vc.Animator;
         _player = player;
         ResetAnimator();
-
+       
     }
     public void ResetAnimator()
     {
@@ -320,8 +320,9 @@ public class AnimatorController : MonoBehaviour
     
         PlayCrossAnimationQueue(cardData.CardSO.AnimationBundle);
     }
-    #endregion
 
     #endregion
 
+    #endregion
+    
 }

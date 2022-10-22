@@ -1,6 +1,7 @@
 ﻿using Account.GeneralData;
+using Battle;
 using CardMaga.Card;
-using Cards;
+using CardMaga.Commands;
 using Keywords;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using UnityEngine;
 namespace CardMaga.Card
 {
     public enum CardTypeEnum { Utility = 3, Defend = 2, Attack = 1, None = 0, };
-    
+
     public enum BodyPartEnum { None = 0, Empty = 1, Head = 2, Elbow = 3, Hand = 4, Knee = 5, Leg = 6, Joker = 7 };
-    
+
     [Serializable]
     public class CardData : IEquatable<CardData>
     {
@@ -20,7 +21,7 @@ namespace CardMaga.Card
         [SerializeField]
         private CardInstanceID _cardCoreInfo;
         [SerializeField]
-        private bool toExhaust = false;
+        private bool _toExhaust = false;
 
 
         [SerializeField]
@@ -30,7 +31,11 @@ namespace CardMaga.Card
         private KeywordData[] _cardKeyword;
 
         [SerializeField]
-        private int staminaCost;
+        private int _staminaCost;
+
+
+        private AnimationVisualCommand _animationVisualCommand ;
+        private CardDataCommand _cardDataCommand ;
         #endregion
 
         #region Properties
@@ -38,14 +43,21 @@ namespace CardMaga.Card
         public CardTypeData CardTypeData
         {
             get => _cardTypeData;
-        }      
-        public bool IsExhausted { get => toExhaust; }
+        }
+        public bool IsExhausted { get => _toExhaust; }
         public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
         public int CardInstanceID => _cardCoreInfo.InstanceID;
         public int CardLevel => _cardCoreInfo.Level;
         public int CardEXP => _cardCoreInfo.Exp;
         public bool CardsAtMaxLevel { get => _cardSO.CardsMaxLevel - 1 == CardLevel; }
-        public int StaminaCost { get => staminaCost; private set => staminaCost = value; }
+        public int StaminaCost { get => _staminaCost; private set => _staminaCost = value; }
+        public CardDataCommand CardDataCommand
+        {
+            get => _cardDataCommand;
+
+            private set => _cardDataCommand = value;
+        }
+
 
         public CardSO CardSO
         {
@@ -64,28 +76,12 @@ namespace CardMaga.Card
             }
         }
 
-        public CardInstanceID CardCoreInfo { get => _cardCoreInfo; }
+        public CardInstanceID CardCoreInfo  => _cardCoreInfo; 
+        public AnimationVisualCommand AnimationVisualCommand { get => _animationVisualCommand;private set => _animationVisualCommand = value; }
 
-        public bool TryGetKeyword(KeywordTypeEnum keyword,out int amount)
-        {
-            amount = 0;
-            var keywords = CardKeywords;
-            KeywordData current;
-            bool found = false;
-            for (int i = 0; i < keywords.Length; i++)
-            {
-                current = keywords[i];
-               bool result = current.KeywordSO.GetKeywordType == keyword;
-                if (result)
-                {
-                    amount += current.GetAmountToApply;
-                    found |= result;
-                }
-            }
-            return found;
-        }
+     
         #endregion
-        
+
         #region Functions
         public CardData()
         {
@@ -93,12 +89,24 @@ namespace CardMaga.Card
         }
         public CardData(CardInstanceID cardAccountInfo)
         {
-            if (cardAccountInfo == null)
-                throw new Exception($"Card: Card Info is null!");
-            _cardCoreInfo = cardAccountInfo;
+            _cardCoreInfo = cardAccountInfo ?? throw new Exception($"Card: Card Info is null!");
+
             InitCard(Factory.GameFactory.Instance.CardFactoryHandler.GetCard(_cardCoreInfo.ID), _cardCoreInfo.Level);
         }
         public void InitCard(CardSO _card, int cardsLevel)
+        {
+            _cardSO = _card;
+            _cardKeyword = CreateKeywords(_cardSO, cardsLevel).ToArray();
+
+            CardDataCommand = new CardDataCommand(this);
+            AnimationVisualCommand = new AnimationVisualCommand(_card, CommandType.AfterPrevious);
+        }
+        internal void InitCommands(bool isLeft, IPlayersManager playersManager, KeywordManager _keywordManager)
+        {
+            CardDataCommand.Init(isLeft, playersManager, _keywordManager);
+            AnimationVisualCommand.Init(playersManager.GetCharacter(isLeft).VisualCharacter.AnimatorController);
+        }
+        private List<KeywordData> CreateKeywords(CardSO _card, int cardsLevel)
         {
             var levelUpgrade = _card.GetLevelUpgrade(cardsLevel);
             List<KeywordData> keywordsList = new List<KeywordData>(1);
@@ -118,7 +126,7 @@ namespace CardMaga.Card
                     case LevelUpgradeEnum.ConditionReduction:
                         break;
                     case LevelUpgradeEnum.ToRemoveExhaust:
-                        toExhaust = upgrade.Amount == 1 ? true : false;
+                        _toExhaust = upgrade.Amount == 1 ? true : false;
                         break;
                     case LevelUpgradeEnum.BodyPart:
                         _cardTypeData = upgrade.CardTypeData;
@@ -128,8 +136,8 @@ namespace CardMaga.Card
                         break;
                 }
             }
-            _cardKeyword = keywordsList.ToArray();
-            _cardSO = _card;
+
+            return keywordsList;
         }
 
         public int GetKeywordAmount(KeywordTypeEnum keyword)
@@ -146,13 +154,32 @@ namespace CardMaga.Card
             return amount;
         }
 
-        public bool Equals(CardData other)
+        public bool Equals(CardData other) => _cardCoreInfo.Equals(other._cardCoreInfo);
+        public bool TryGetKeyword(KeywordTypeEnum keyword, out int amount)
         {
-            return _cardCoreInfo == other._cardCoreInfo;
+            amount = 0;
+            var keywords = CardKeywords;
+            KeywordData current;
+            bool found = false;
+            for (int i = 0; i < keywords.Length; i++)
+            {
+                current = keywords[i];
+                bool result = current.KeywordSO.GetKeywordType == keyword;
+                if (result)
+                {
+                    amount += current.GetAmountToApply;
+                    found |= result;
+                }
+            }
+            return found;
         }
+
+    
 
         public CardData Clone()
        => new CardData(new CardInstanceID(_cardCoreInfo.GetCardCore()));
+
+
 
 
 #if UNITY_EDITOR
@@ -162,7 +189,7 @@ namespace CardMaga.Card
             var newCore = new CardCore(_cardSO.ID, _cardCoreInfo?.Level ?? 0, _cardCoreInfo?.Exp ?? 0);
             _cardCoreInfo = new CardInstanceID(newCore);
 
-            _cardTypeData= _cardSO.CardType;
+            _cardTypeData = _cardSO.CardType;
         }
 
 #endif

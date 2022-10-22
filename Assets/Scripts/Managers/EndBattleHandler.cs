@@ -35,8 +35,8 @@ public class EndBattleHandler : IDisposable
     {
         if (_isGameEnded)
             return;
-        
-        _cardExecutionManager.ResetExecution();
+
+        _cardExecutionManager.ResetAll();
         
         if (isLeftPlayerWon)
         {

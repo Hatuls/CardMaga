@@ -2,7 +2,7 @@
 
 namespace Keywords
 {
-    public class DexterityKeyword : KeywordAbst
+    public class DexterityKeyword : BaseKeywordLogic
     {
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Dexterity;
 
@@ -20,6 +20,17 @@ namespace Keywords
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
                 playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
             data.KeywordSO.SoundEventSO.PlaySound();
+        }
+
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        {
+            var target = data.GetTarget;
+
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+
+            if (target == TargetEnum.All || target == TargetEnum.Opponent)
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
         }
     }
 }

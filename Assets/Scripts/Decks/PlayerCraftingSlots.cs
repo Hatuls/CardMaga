@@ -174,7 +174,11 @@ public class CraftingHandler
             _craftingSlots[i] = new CraftingSlot();
     }
 
-
+    public void AssignCraftingSlots(List<CardTypeData> cardTypeDatas)
+    {
+        for (int i = 0; i < CraftingSlots.Count; i++)
+            CraftingSlots[i].CardType = cardTypeDatas[i];
+    }
     public void ResetCraftingSlots()
     {
         for (int i = 0; i < CraftingSlots.Count; i++)

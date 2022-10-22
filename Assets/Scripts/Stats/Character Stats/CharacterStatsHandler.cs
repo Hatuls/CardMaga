@@ -16,7 +16,7 @@ namespace Characters.Stats
             ShieldStat _defense = new ShieldStat(_health,isPlayer, stats.Shield);
             BleedStat _bleed = new BleedStat(isPlayer, stats.Bleed);
             HealthRegenerationStat _regen = new HealthRegenerationStat(isPlayer, stats.RegenerationPoints);
-            CoinStat _coin = new CoinStat(isPlayer, stats.Gold);
+           // CoinStat _coin = new CoinStat(isPlayer, stats.Gold);
             StaminaStat _stamina = new StaminaStat(isPlayer, stats.StartStamina);
             DrawCardStat _draw = new DrawCardStat(isPlayer, stats.DrawCardsAmount);
             RageStat _rage = new RageStat(isPlayer, stats.RagePoint);
@@ -44,7 +44,7 @@ namespace Characters.Stats
                 {_dex.Keyword,_dex },
                 {_bleed.Keyword,_bleed },
                 {_regen.Keyword,_regen },
-                {_coin.Keyword,_coin },
+              //  {_coin.Keyword,_coin },
                 {_stamina.Keyword,_stamina },
                 {_draw.Keyword,_draw },
                 {_rage.Keyword,_rage },
@@ -92,6 +92,7 @@ namespace Characters.Stats
             else
                 GetStats(KeywordTypeEnum.Shield).Reduce(amount);
         }
+
 
 
     }
