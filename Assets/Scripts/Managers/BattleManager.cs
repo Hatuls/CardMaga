@@ -95,7 +95,6 @@ namespace Battle
         {
             _gameTurnHandler = new GameTurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
-            //_lockAndUnlockSystem = new LockAndUnlockSystem();
             
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);
@@ -164,10 +163,11 @@ namespace Battle
             return;
 #endif
             
-        if (BattleData.BattleConfigSO?.BattleTutorial == null)
-            return;
+            if (BattleData.BattleConfigSO?.BattleTutorial == null)
+                return;
 
-        _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);  
+            _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
+            _battleTutorial.StartTutorial();
     }
         
         #region Observer Pattern 

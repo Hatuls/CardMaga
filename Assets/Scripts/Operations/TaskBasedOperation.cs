@@ -17,7 +17,7 @@ public class TaskBasedOperation : BaseOperation
     {
         _token = tokenReciever.GetToken();
         _tokenMachine = new TokenMachine(Completed);
-        StartOperation();
+        //StartOperation();
     }
 
     public override void StartOperation()

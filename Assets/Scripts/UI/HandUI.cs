@@ -68,7 +68,16 @@ namespace CardMaga.UI
 
         #region Prop
         
+        public IReadOnlyList<CardUI> GetCardUIFromHand()
+        {
+            return _handUIState.CardsUI;
+        }
+        
         public int Priority => 0;
+
+        public HandUIState HandUIState { get => _handUIState; }
+
+        public ZoomCardUI ZoomCardUI { get => _zoomUIState; }
 
         #endregion
 
@@ -113,7 +122,7 @@ namespace CardMaga.UI
 
         public void UnLockInput()
         {
-            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
+            //LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
         }
 
         #endregion
@@ -278,11 +287,6 @@ namespace CardMaga.UI
             //OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
         }
 
-        public IReadOnlyList<CardUI>  GetCardUIFromHand()
-        {
-            return _handUIState.CardsUI;
-        }
-        
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
             _playerDeck = data.PlayersManager.GetCharacter(true).DeckHandler;

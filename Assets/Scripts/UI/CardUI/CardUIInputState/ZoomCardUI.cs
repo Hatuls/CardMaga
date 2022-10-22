@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
+using Battle.Data;
 
 namespace CardMaga.UI.Card
 {
@@ -15,20 +16,24 @@ namespace CardMaga.UI.Card
         [Header("RectTransforms")]
         [SerializeField] private RectTransform _zoomPosition;
 
-        private Sequence _currentSequence;
+        public static event Action OnEnterZoomTutorial;
+        public static event Action OnZoomInLocation;
+        public static event Action OnExitZoomTutorial;
 
+        private Sequence _currentSequence;
+        [SerializeField] private bool _isOnDialogue;
         private IDisposable _zoomToken;
 
         private void Start()
         {
             _inputBehaviour.OnClick += ReturnToHandState;
-            _inputBehaviour.OnBeginHold += SetToFallowState;
+            _inputBehaviour.OnBeginHold += SetToFollowState;
         }
 
         private void OnDestroy()
         {
             _inputBehaviour.OnClick -= ReturnToHandState;
-            _inputBehaviour.OnBeginHold -= SetToFallowState;
+            _inputBehaviour.OnBeginHold -= SetToFollowState;
         }
 
         public override void EnterState(CardUI cardUI)
@@ -36,21 +41,25 @@ namespace CardMaga.UI.Card
             base.EnterState(cardUI);
             _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
             MoveToZoomPosition(cardUI);
+            if (OnExitZoomTutorial != null)
+                OnExitZoomTutorial.Invoke();
         }
 
         public override void ExitState(CardUI cardUI)
         {
-            _clickHelper.Close();
+             _clickHelper.Close();
             _zoomToken?.Dispose();
             base.ExitState(cardUI);
+            if(OnEnterZoomTutorial != null)
+                OnEnterZoomTutorial.Invoke();
         }
 
-        private void ReturnToHandState(CardUI cardUI)
+        public void ReturnToHandState(CardUI cardUI)
         {
             _handUI.SetToHandState(cardUI);
         }
 
-        private void SetToFallowState(CardUI cardUI)
+        private void SetToFollowState(CardUI cardUI)
         {
             _handUI.SetToFollowState(cardUI);
         }
@@ -67,7 +76,9 @@ namespace CardMaga.UI.Card
         {
             if (SelectedCardUI == null)
                 return;
-            
+
+            if (OnZoomInLocation != null)
+                OnZoomInLocation.Invoke();
             _zoomToken = SelectedCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
         
@@ -84,5 +95,6 @@ namespace CardMaga.UI.Card
         {
             if (_currentSequence != null) _currentSequence.Kill();
         }
+
     }
 }

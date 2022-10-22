@@ -7,7 +7,7 @@ namespace CardMaga.Trackers
         private TrackerID _trackID;
         [SerializeField]
         private RectTransform _rectTransform;
-        public RectTransform RectTransform => _rectTransform;
+        public virtual RectTransform RectTransform => _rectTransform;
 
         public TrackerID TrackerID => _trackID;
 

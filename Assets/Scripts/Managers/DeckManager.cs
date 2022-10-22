@@ -13,9 +13,135 @@ namespace Battle.Deck
         public const int MAX_DECK_HAND_SIZE = 10;
         public const int MAX_CRAFTING_SLOT_SIZE = 3;
         public event Action<CardData[]> OnDrawCards;
-
+        
         private Dictionary<DeckEnum, BaseDeck> _deckDictionary;
 
+        #region CardDataProprty
+
+        public IEnumerable<CardData> GetAllCardData
+        {
+            get
+            {
+                foreach (var cardData in GetHandDeck)
+                {
+                    yield return cardData;
+                }
+                foreach (var cardData in GetPlayerDeck)
+                {
+                    yield return cardData;
+                }
+                foreach (var cardData in GetDiscardDeck)
+                {
+                    yield return cardData;
+                }
+                foreach (var cardData in GetExhaustDeck)
+                {
+                    yield return cardData;
+                }
+                foreach (var cardData in GetSelectedDeck)
+                {
+                    yield return cardData;
+                }
+            }
+        }
+
+        public IEnumerable<CardData> GetHandDeck
+        {
+            get
+            {
+                BaseDeck deck = this[DeckEnum.Hand];
+
+                CardData[] cardDatas = deck.GetDeck;
+                int length = cardDatas.Length;
+                
+                for (int i = 0; i < length; i++)
+                {
+                    if (cardDatas[i] != null)
+                        yield return cardDatas[i];
+                    else
+                        yield break;
+                }
+            }
+        }
+
+        public IEnumerable<CardData> GetPlayerDeck
+        {
+            get
+            {
+                BaseDeck deck = this[DeckEnum.PlayerDeck];
+
+                CardData[] cardDatas = deck.GetDeck;
+                int length = cardDatas.Length;
+                
+                for (int i = 0; i < length; i++)
+                {
+                    if (cardDatas[i] != null)
+                        yield return cardDatas[i];
+                    else
+                        yield break;
+                }
+            }
+        }
+
+        public IEnumerable<CardData> GetDiscardDeck
+        {
+            get
+            {
+                BaseDeck deck = this[DeckEnum.Discard];
+
+                CardData[] cardDatas = deck.GetDeck;
+                int length = cardDatas.Length;
+                
+                for (int i = 0; i < length; i++)
+                {
+                    if (cardDatas[i] != null)
+                        yield return cardDatas[i];
+                    else
+                        yield break;
+                }
+            }
+        }
+
+        public IEnumerable<CardData> GetExhaustDeck
+        {
+            get
+            {
+                BaseDeck deck = this[DeckEnum.Exhaust];
+
+                CardData[] cardDatas = deck.GetDeck;
+                int length = cardDatas.Length;
+                
+                for (int i = 0; i < length; i++)
+                {
+                    if (cardDatas[i] != null)
+                        yield return cardDatas[i];
+                    else
+                        yield break;
+                }
+            }
+        }
+
+        public IEnumerable<CardData> GetSelectedDeck
+        {
+            get
+            {
+                BaseDeck deck = this[DeckEnum.Selected];
+
+                CardData[] cardDatas = deck.GetDeck;
+                int length = cardDatas.Length;
+                
+                for (int i = 0; i < length; i++)
+                {
+                    if (cardDatas[i] != null)
+                        yield return cardDatas[i];
+                    else
+                        yield break;
+                }
+            }
+        }
+
+        #endregion
+        
         public BaseDeck this[DeckEnum deckEnum]
         {
             get
@@ -46,14 +172,12 @@ namespace Battle.Deck
 
             if (fromBaseDeckCache.AmountOfFilledSlots >= amount)
             {
-
                 for (int i = 0; i < amount; i++)
                 {
                     if (fromBaseDeckCache.DiscardCard(fromBaseDeckCache.GetFirstCard()))
                         toBaseDeckCache.AddCard(toBaseDeckCache.GetFirstCard());
                     // ui Transfer
                 }
-
             }
             else
             {
@@ -61,35 +185,29 @@ namespace Battle.Deck
 
                 for (int i = 0; i < fromBaseDeckCache.AmountOfFilledSlots; i++)
                 {
-
                     if (fromBaseDeckCache.DiscardCard(fromBaseDeckCache.GetFirstCard()))
                         toBaseDeckCache.AddCard(toBaseDeckCache.GetFirstCard());
-
-
-
+                    
                     // ui Transfer
                 }
-
-
+                
                 if (from == DeckEnum.PlayerDeck)
                     RefillDeck(from);
 
                 TransferCard(from, to, remainTransfer);
-
             }
         }
         private void ResetDecks()
         {
-
             foreach (var item in _deckDictionary)
             {
                 if (!(item.Value is PlayerBaseDeck))
                     item.Value.EmptySlots();
                 else
                     ResetDeck(DeckEnum.PlayerDeck);
-
             }
         }
+        
         private void RefillDeck(DeckEnum deck)
         {
             switch (deck)
@@ -118,6 +236,7 @@ namespace Battle.Deck
                     break;
             }
         }
+        
         private void InitDeck(CardData[] deck,bool toShuffleDeck)
         {
             const int size = 6;
@@ -132,6 +251,7 @@ namespace Battle.Deck
             //_deckDictionary.Add(DeckEnum.CraftingSlots, new PlayerCraftingSlots(MAX_CRAFTING_SLOT_SIZE));
             ResetDecks();
         }
+        
         private void EndTurn(ITokenReciever tokenMachine)
         {
             using (tokenMachine.GetToken())
@@ -140,6 +260,7 @@ namespace Battle.Deck
                 ResetDeck(DeckEnum.Hand);
             }
         }
+        
         public void ResetDeck(DeckEnum deck)
         => this[deck].ResetDeck();
         #endregion
@@ -165,8 +286,7 @@ namespace Battle.Deck
              * if we found a card that is null its mean the deck is empty so we want to restore the cards from 
              * the disposal deck and redraw the amount we need
             */
-
-
+            
             else if (drawAmount < 1)
             {
                 Debug.LogError("DeckManager :Cannot draw - draw amount is less than 1!");
@@ -200,14 +320,12 @@ namespace Battle.Deck
                 }
                 else
                     Debug.LogError($"DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card {cardCache} \n " + fromBaseDeck.ToString());
-
             }
             
             OnDrawCards?.Invoke(cardsDraw.ToArray());
         }
         public void TransferCard(DeckEnum from, DeckEnum to, CardData card)
         {
-
             if (card == null && !this[from].IsTheCardInDeck(card))
                 return;
 
@@ -217,12 +335,12 @@ namespace Battle.Deck
             if (fromBaseDeckCache.DiscardCard(card))
                 toBaseDeckCache.AddCard(card);
         }
+        
         public CardData[] GetCardsFromDeck(DeckEnum from)
          => this[from]?.GetDeck;
 
         public CardData GetCardFromDeck(int index, DeckEnum from)
         {
-
             var cache = this[from];
 
             if (cache == null || cache.GetDeck.Length <= 0)
@@ -232,6 +350,7 @@ namespace Battle.Deck
 
             return null;
         }
+        
         #endregion
     }
 }
