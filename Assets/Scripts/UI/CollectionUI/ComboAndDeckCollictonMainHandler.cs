@@ -30,25 +30,15 @@ namespace CardMaga.UI.ScrollPanel
 
         private void Start()
         {
-            _filterButton.ComboState.OnClick += FilterCombos;
-            _filterButton.DeckState.OnClick += FilterCard;
+            _filterButton.ComboState.OnClick += _comboDataFilter.CycleFilter;
+            _filterButton.DeckState.OnClick += _cardDataFilter.CycleFilter;
+            _cardDataFilter.OnCycleFilter += ShowCard;
+            _comboDataFilter.OnCycleFilter += ShowCombo;
             
             ShowCombo();
             ShowCard();
         }
-
-        private void FilterCombos()
-        {
-            _comboDataFilter.CycleFilter();
-            ShowCombo();
-        }
-
-        private void FilterCard()
-        {
-            _cardDataFilter.CycleFilter();
-            ShowCard();
-        }
-
+        
         private void ShowCombo()
         {
             _comboUIScroll.RemoveAllObjectsFromPanel();
@@ -65,6 +55,8 @@ namespace CardMaga.UI.ScrollPanel
         {
             _filterButton.ComboState.OnClick -= _comboDataFilter.CycleFilter;
             _filterButton.DeckState.OnClick -= _cardDataFilter.CycleFilter;
+            _cardDataFilter.OnCycleFilter -= ShowCard;
+            _comboDataFilter.OnCycleFilter -= ShowCombo;
         }
 
         public void Init(List<CardData> cardDatas, List<ComboData> comboDatas)
