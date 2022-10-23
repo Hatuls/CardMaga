@@ -34,8 +34,7 @@ namespace CardMaga.Card
         private int _staminaCost;
 
 
-        private AnimationVisualCommand _animationVisualCommand ;
-        private CardDataCommand _cardDataCommand ;
+        private CardCommandsHolder _cardCommandsHolder;
         #endregion
 
         #region Properties
@@ -51,11 +50,11 @@ namespace CardMaga.Card
         public int CardEXP => _cardCoreInfo.Exp;
         public bool CardsAtMaxLevel { get => _cardSO.CardsMaxLevel - 1 == CardLevel; }
         public int StaminaCost { get => _staminaCost; private set => _staminaCost = value; }
-        public CardDataCommand CardDataCommand
+        public CardCommandsHolder CardCommands
         {
-            get => _cardDataCommand;
+            get => _cardCommandsHolder;
 
-            private set => _cardDataCommand = value;
+            private set => _cardCommandsHolder = value;
         }
 
 
@@ -76,10 +75,9 @@ namespace CardMaga.Card
             }
         }
 
-        public CardInstanceID CardCoreInfo  => _cardCoreInfo; 
-        public AnimationVisualCommand AnimationVisualCommand { get => _animationVisualCommand;private set => _animationVisualCommand = value; }
+        public CardInstanceID CardCoreInfo => _cardCoreInfo;
 
-     
+
         #endregion
 
         #region Functions
@@ -98,13 +96,17 @@ namespace CardMaga.Card
             _cardSO = _card;
             _cardKeyword = CreateKeywords(_cardSO, cardsLevel).ToArray();
 
-            CardDataCommand = new CardDataCommand(this);
-            AnimationVisualCommand = new AnimationVisualCommand(_card, CommandType.AfterPrevious);
+            _cardCommandsHolder = new CardCommandsHolder(this);
         }
         internal void InitCommands(bool isLeft, IPlayersManager playersManager, KeywordManager _keywordManager)
         {
-            CardDataCommand.Init(isLeft, playersManager, _keywordManager);
-            AnimationVisualCommand.Init(playersManager.GetCharacter(isLeft).VisualCharacter.AnimatorController);
+            if (CardCommands == null)
+                InitCard(CardSO, CardLevel);
+
+            var player = playersManager.GetCharacter(isLeft);
+            CardCommands.CardsKeywords.Init(isLeft, playersManager, _keywordManager);
+            CardCommands.CardTypeCommand.Init(player.CraftingHandler);
+            CardCommands.AnimationCommand.Init(player.VisualCharacter.AnimatorController);
         }
         private List<KeywordData> CreateKeywords(CardSO _card, int cardsLevel)
         {
@@ -174,7 +176,7 @@ namespace CardMaga.Card
             return found;
         }
 
-    
+
 
         public CardData Clone()
        => new CardData(new CardInstanceID(_cardCoreInfo.GetCardCore()));
@@ -197,6 +199,22 @@ namespace CardMaga.Card
     #endregion
 }
 
+public class CardCommandsHolder
+{
+    private CardTypeCommand _cardTypeCommand;
+    private CardsKeywords _cardsKeywords;
+    private AnimationVisualCommand _animationCommand;
+    public CardsKeywords CardsKeywords { get => _cardsKeywords; private set => _cardsKeywords = value; }
+    public AnimationVisualCommand AnimationCommand { get => _animationCommand; private set => _animationCommand = value; }
+    public CardTypeCommand CardTypeCommand { get => _cardTypeCommand; private set => _cardTypeCommand = value; }
+
+    public CardCommandsHolder(CardData cardData)
+    {
+        CardTypeCommand = new CardTypeCommand(cardData);
+        CardsKeywords = new CardsKeywords(cardData);
+        AnimationCommand = new AnimationVisualCommand(cardData.CardSO, CommandType.AfterPrevious);
+    }
+}
 public static class CardHelper
 {
     public static CardData[] CloneCards(this CardData[] cards)

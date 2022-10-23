@@ -15,7 +15,7 @@ namespace Keywords
                 deck.ResetDeck(Battle.Deck.DeckEnum.Hand);
                 CardUIManager.Instance.RemoveHands();
                 deck.DrawHand(-
-                 playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Amount
+                 playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Amount
                     );
                 data.KeywordSO.SoundEventSO.PlaySound();
             }

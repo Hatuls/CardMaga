@@ -1,6 +1,7 @@
 ﻿using System;
 using Battle;
 using Battle.Data;
+using CardMaga.Battle.Visual;
 using CardMaga.Rules;
 
 
@@ -8,10 +9,9 @@ public class EndBattleHandler : IDisposable
 {
     public event Action<bool> OnBattleEnded;
     public event Action OnBattleAnimatonEnd;
-
+    private readonly GameCommands _gameCommands;
     private readonly IPlayersManager _playersManager;
     private readonly BattleData _battleData;
-    private readonly CardExecutionManager _cardExecutionManager;
 
     private bool _isGameEnded = false;
     private bool _isInTutorial = false;
@@ -24,7 +24,8 @@ public class EndBattleHandler : IDisposable
     public EndBattleHandler(IBattleManager battleManager)
     {
         _playersManager = battleManager.PlayersManager;
-        _cardExecutionManager = battleManager.CardExecutionManager;
+        _gameCommands = battleManager.GameCommands;
+
         RuleManager.OnGameEnded += EndBattle;
         AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
         
@@ -36,8 +37,9 @@ public class EndBattleHandler : IDisposable
         if (_isGameEnded)
             return;
 
-        _cardExecutionManager.ResetAll();
-        
+        _gameCommands.Dispose();
+
+
         if (isLeftPlayerWon)
         {
             LeftPlayerWon();

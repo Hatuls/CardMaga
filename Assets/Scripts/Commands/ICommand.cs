@@ -1,83 +1,56 @@
-﻿
-using Battle;
+﻿using Battle.Deck;
 using CardMaga.Card;
-using Characters.Stats;
-using Keywords;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CardMaga.Commands
 {
-
-    public class StaminaCommand : ICommand
+    public class AddNewCardToDeck : ICommand
     {
-        private CardData _staminaCost;
-        private StaminaHandler _staminaHandler;
-
-
-        public StaminaCommand(CardData staminaCost)
+        private readonly DeckHandler _deckHandler;
+        private readonly DeckEnum _toDeck;
+        private readonly CardData _newCard;
+        public AddNewCardToDeck(DeckEnum toDeck, CardData newCard, DeckHandler deckHandler)
         {
-            _staminaCost = staminaCost;
-        }
-        public void Init(StaminaHandler staminaHandler)
-        {
-            _staminaHandler = staminaHandler;
+            _deckHandler = deckHandler;
+            _toDeck = toDeck;
+            _newCard = newCard;
         }
         public void Execute()
         {
-            _staminaHandler.ReduceStamina(_staminaCost);
+            _deckHandler.AddCardToDeck(_newCard, _toDeck);
         }
 
         public void Undo()
         {
-            _staminaHandler.AddStamina(_staminaCost.StaminaCost);
+            _deckHandler[_toDeck].RemoveCard(_newCard);
         }
     }
-    public class CardDataCommand : ICommand
+    public class ResetCraftingSlotCommand : ICommand
     {
-        private StaminaCommand _staminaCommand;
-        private KeywordCommand[] _keywordCommand;
-        public CardDataCommand(CardData cardData)
+        private readonly CraftingHandler _craftingHandler;
+        private List<CardTypeData> _cardTypeDatas;
+        public ResetCraftingSlotCommand(CraftingHandler craftingHandler)
         {
-            Keywords.KeywordData[] keywords = cardData.CardKeywords;
-
-            for (int i = 0; i < keywords.Length; i++)
-                _keywordCommand[i] = new KeywordCommand(keywords[i]);
-
-            _staminaCommand = new StaminaCommand(cardData);
+            this._craftingHandler = craftingHandler;
         }
 
-        public void Init(bool isLeft, IPlayersManager _playersManager,KeywordManager keywordManager )
-        {
-            var currentPlayer = _playersManager.GetCharacter(isLeft);
-            _staminaCommand.Init(currentPlayer.StaminaHandler);
-
-            for (int i = 0; i < _keywordCommand.Length; i++)
-                _keywordCommand[i].InitKeywordLogic(currentPlayer, keywordManager.GetLogic(_keywordCommand[i].KeywordType), _playersManager);
-        }
         public void Execute()
         {
-            _staminaCommand.Execute();
-            for (int i = 0; i < _keywordCommand.Length; i++)
-                _keywordCommand[i].Execute();
+            var datas = _craftingHandler.CardsTypeData;
+            _cardTypeDatas = new List<CardTypeData>(datas.Count());
+            foreach (var item in datas)
+                _cardTypeDatas.Add(item);
+
+            _craftingHandler.ResetCraftingSlots();
         }
 
         public void Undo()
         {
-            for (int i = _keywordCommand.Length - 1; i >= 0; i--)
-                _keywordCommand[i].Undo();
-
-
-            _staminaCommand.Undo();
+            _craftingHandler.AssignCraftingSlots(_cardTypeDatas);
         }
     }
-
-
-
-
-
-
-
 
     public interface ICommand
     {
@@ -101,10 +74,15 @@ namespace CardMaga.Commands
         public virtual event Action OnCommandAdded;
         public virtual event Action OnCommandUndo;
         protected Stack<T> _commandStack = new Stack<T>();
-
+        public IReadOnlyCollection<T> CommandStack => _commandStack;
         public virtual void ResetCommands()
         {
             _commandStack.Clear();
+        }
+        public virtual void AddCommand(params T[] command)
+        {
+            for (int i = 0; i < command.Length; i++)
+                AddCommand(command[i]);
         }
         public virtual void AddCommand(T command)
         {
@@ -129,11 +107,12 @@ namespace CardMaga.Commands
         }
     }
 
-    public class KeywordVisualCommandHandler : CommandHandler<ISequenceCommand>
+    public class KeywordCommandHandler : CommandHandler<ISequenceCommand>
     {
         public override event Action OnCommandAdded;
 
         private List<ISequenceCommand> _visualCommands = new List<ISequenceCommand>();
+
         public override void AddCommand(ISequenceCommand command)
         {
             switch (command.CommandType)
@@ -151,7 +130,7 @@ namespace CardMaga.Commands
 
             OnCommandAdded?.Invoke();
             _commandStack.Push(command);
-   
+
         }
         public void ExecuteKeywords()
         {

@@ -23,14 +23,14 @@ namespace Battle.UI
         private void InitStatUI(bool isPlayer, CharacterStatsHandler character)
         {
             HealthBarUI healthBar = HealthBar(isPlayer);
-            BaseStat health = character.GetStats(Keywords.KeywordTypeEnum.Heal);
-            BaseStat maxHealth = character.GetStats(Keywords.KeywordTypeEnum.MaxHealth);
+            BaseStat health = character.GetStat(Keywords.KeywordTypeEnum.Heal);
+            BaseStat maxHealth = character.GetStat(Keywords.KeywordTypeEnum.MaxHealth);
             healthBar.InitHealthBar(health.Amount, maxHealth.Amount);
             health.OnValueChanged += healthBar.ChangeHealth;
             maxHealth.OnValueChanged += healthBar.ChangeMaxHealth;
 
 
-            BaseStat armour = character.GetStats(Keywords.KeywordTypeEnum.Shield);
+            BaseStat armour = character.GetStat(Keywords.KeywordTypeEnum.Shield);
             armour.OnValueChanged += Armour(isPlayer).SetArmor;
         }
         private TopPartArmorUI Armour(bool isPlayer) => isPlayer ? _leftShieldUI : _rightShieldUI;
@@ -49,9 +49,9 @@ namespace Battle.UI
                 if (stats == null)
                     return;
                 HealthBarUI healthBar = HealthBar(isPlayer);
-                BaseStat health = stats.GetStats(Keywords.KeywordTypeEnum.Heal);
-                BaseStat maxHealth = stats.GetStats(Keywords.KeywordTypeEnum.MaxHealth);
-                BaseStat armour = stats.GetStats(Keywords.KeywordTypeEnum.Shield);
+                BaseStat health = stats.GetStat(Keywords.KeywordTypeEnum.Heal);
+                BaseStat maxHealth = stats.GetStat(Keywords.KeywordTypeEnum.MaxHealth);
+                BaseStat armour = stats.GetStat(Keywords.KeywordTypeEnum.Shield);
                 health.OnValueChanged -= healthBar.ChangeHealth;
                 maxHealth.OnValueChanged -= healthBar.ChangeMaxHealth;
                 armour.OnValueChanged -= Armour(isPlayer).SetArmor;

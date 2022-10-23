@@ -1,4 +1,6 @@
 ﻿using Keywords;
+using System.Collections.Generic;
+
 namespace Characters.Stats
 {
     public class CharacterStatsHandler
@@ -61,7 +63,9 @@ namespace Characters.Stats
             OnStatAssigned?.Invoke(isPlayer, this);
         }
 
-        public BaseStat GetStats(KeywordTypeEnum keyword)
+
+        public IReadOnlyDictionary<KeywordTypeEnum,BaseStat> StatDictionary => _statsDictionary;
+        public BaseStat GetStat(KeywordTypeEnum keyword)
         {
             if (_statsDictionary.TryGetValue(keyword, out BaseStat stat))
                 return stat;
@@ -88,9 +92,9 @@ namespace Characters.Stats
         public void RecieveDamage(int amount, bool pierceThroughTheArmour = false)
         {
             if (pierceThroughTheArmour)
-                GetStats(KeywordTypeEnum.Heal).Reduce(amount);
+                GetStat(KeywordTypeEnum.Heal).Reduce(amount);
             else
-                GetStats(KeywordTypeEnum.Shield).Reduce(amount);
+                GetStat(KeywordTypeEnum.Shield).Reduce(amount);
         }
 
 

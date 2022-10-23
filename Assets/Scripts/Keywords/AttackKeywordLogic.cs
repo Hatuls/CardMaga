@@ -8,13 +8,13 @@ namespace Keywords
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Attack;
 
         private void ApplyDamage(CharacterStatsHandler reciever, int amount)
-        =>  reciever.GetStats(KeywordTypeEnum.Shield).Reduce(amount);
+        =>  reciever.GetStat(KeywordTypeEnum.Shield).Reduce(amount);
         private int CalculateDamage(KeywordData data, CharacterStatsHandler reciver, CharacterStatsHandler applier)
         {
             int finalDamage;
-            int recieverVulnerable = reciver.GetStats(KeywordTypeEnum.Vulnerable).Amount;
-            int applierStrength = applier.GetStats(KeywordTypeEnum.Strength).Amount;
-            int applierWeakend = applier.GetStats(KeywordTypeEnum.Weak).Amount;
+            int recieverVulnerable = reciver.GetStat(KeywordTypeEnum.Vulnerable).Amount;
+            int applierStrength = applier.GetStat(KeywordTypeEnum.Strength).Amount;
+            int applierWeakend = applier.GetStat(KeywordTypeEnum.Weak).Amount;
 
 
             finalDamage = data.GetAmountToApply + applierStrength + recieverVulnerable - applierWeakend;

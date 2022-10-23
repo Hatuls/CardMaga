@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CardMaga.Battle.Visual;
 
 public class CameraManager : MonoBehaviour, ISequenceOperation<IBattleManager>
 {

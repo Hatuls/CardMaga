@@ -13,11 +13,11 @@ namespace Keywords
             var target = data.GetTarget;
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
             
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
         }
 
         public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
@@ -25,11 +25,11 @@ namespace Keywords
             var target = data.GetTarget;
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
 
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
         }
     }
         public class RageShardKeyword : BaseKeywordLogic
@@ -43,11 +43,11 @@ namespace Keywords
                 var target = data.GetTarget;
 
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                    playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                    playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
                 
 
                 if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                    playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                    playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
             }
 
         public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
@@ -55,11 +55,11 @@ namespace Keywords
             var target = data.GetTarget;
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
 
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
         }
     }
         public class ProtectionShardKeyword : BaseKeywordLogic
@@ -73,10 +73,10 @@ namespace Keywords
                 var target = data.GetTarget;
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
 
-                    playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                    playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
 
                 if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                    playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                    playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
             }
 
         public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
@@ -84,10 +84,10 @@ namespace Keywords
             var target = data.GetTarget;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
 
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Reduce(-data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(-data.GetAmountToApply);
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
         }
     }
     }

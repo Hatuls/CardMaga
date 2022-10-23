@@ -10,13 +10,13 @@ namespace Keywords
         {
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
             }
 
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
             {
 
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
             }
         }
 
@@ -24,13 +24,13 @@ namespace Keywords
         {
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
             }
 
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
             {
 
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
             }
         }
     }
@@ -46,13 +46,13 @@ namespace Keywords
 
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
             }
 
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
             {
 
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
             }
             data.KeywordSO.SoundEventSO.PlaySound();
         }
@@ -62,14 +62,14 @@ namespace Keywords
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
                 playersManager.GetCharacter(currentPlayer).StatsHandler
-             .GetStats(Keyword)
+             .GetStat(Keyword)
              .Reduce(data.GetAmountToApply);
             }
 
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
             {
 
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword)
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword)
                 .Reduce(data.GetAmountToApply);
             }
         }

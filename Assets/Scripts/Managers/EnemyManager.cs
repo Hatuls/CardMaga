@@ -2,7 +2,9 @@
 using Battle.Deck;
 using Battle.Turns;
 using CardMaga.AI;
+using CardMaga.Battle.Visual;
 using CardMaga.Card;
+using CardMaga.Commands;
 using Characters.Stats;
 using Managers;
 using ReiTools.TokenMachine;
@@ -36,7 +38,7 @@ namespace Battle
         private CardData[] _deck;
         private AIHand _aiHand;
         private EndTurnHandler _endTurnHandler;
-
+        private GameCommands _gameCommands;
 
 
         //   private bool _isStillThinking;
@@ -56,7 +58,6 @@ namespace Battle
         public CharacterStatsHandler StatsHandler => _statsHandler;
         public DeckHandler DeckHandler => _deckHandler;
         public Battle.Combo.Combo[] Combos => _character.CharacterData.ComboRecipe;
-        public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
         public GameTurn MyTurn => _myTurn;
         public StaminaHandler StaminaHandler => _staminaHandler;
         public EndTurnHandler EndTurnHandler => _endTurnHandler;
@@ -85,10 +86,11 @@ namespace Battle
 
             //Stamina
             if (!battleManager.TurnHandler.IsLeftPlayerStart)
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
             else
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
-
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordTypeEnum.StaminaShards).Amount);
+            //Game Commands
+            _gameCommands = battleManager.GameCommands;
 
             //Turn
             _turnHandler = battleManager.TurnHandler;
@@ -98,7 +100,7 @@ namespace Battle
             _myTurn.OnTurnActive += PlayEnemyTurn;
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
             //AI 
-            _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw));
+            _aiHand = new AIHand(_brain, StatsHandler.GetStat(Keywords.KeywordTypeEnum.Draw));
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
 
             _endTurnHandler = new EndTurnHandler(this, battleManager);
@@ -140,7 +142,8 @@ namespace Battle
 
             if (_aiHand.TryGetHighestWeight(out AICard card) > NO_MORE_ACTION_TO_DO && !BattleManager.isGameEnded)
             {
-                _deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, card.Card);
+                _gameCommands.DataCommands.AddCommand(new TransferSingleCardCommand(DeckHandler, DeckEnum.Hand, DeckEnum.Selected, card.Card));
+                //_deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, card.Card);
                 CardExecutionManager.Instance.TryExecuteCard(IsLeft, card.Card);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(_delayTime.x, _delayTime.y));
                 CalculateEnemyMoves();
@@ -176,11 +179,11 @@ namespace Battle
         
         #region Private 
         private void DrawHands(ITokenReciever tokenMachine)
-    => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
+    => DeckHandler.DrawHand(StatsHandler.GetStat(Keywords.KeywordTypeEnum.Draw).Amount);
         private void FinishTurn()
         {
            _endTurnHandler.EndTurnPressed();
-            AnimatorController.ResetToStartingPosition();
+            VisualCharacter.AnimatorController.ResetToStartingPosition();
         }
 
   

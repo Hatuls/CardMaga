@@ -18,9 +18,9 @@ namespace Keywords
                 if (target == TargetEnum.All || target == TargetEnum.MySelf)
                 {
                     var characterStatHandler = playersManager.GetCharacter(currentPlayer).StatsHandler;
-                    var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
+                    var dexterity = characterStatHandler.GetStat(KeywordTypeEnum.Dexterity).Amount;
 
-                    characterStatHandler.GetStats(Keyword)
+                    characterStatHandler.GetStat(Keyword)
                         .Add(
                           dexterity + data.GetAmountToApply
                         );
@@ -29,9 +29,9 @@ namespace Keywords
                 if (target == TargetEnum.All || target == TargetEnum.Opponent)
                 {
                     var characterStatHandler = playersManager.GetCharacter(!currentPlayer).StatsHandler;
-                    var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
+                    var dexterity = characterStatHandler.GetStat(KeywordTypeEnum.Dexterity).Amount;
 
-                    characterStatHandler.GetStats(Keyword)
+                    characterStatHandler.GetStat(Keyword)
                         .Add(
                           dexterity + data.GetAmountToApply
                         );
@@ -47,9 +47,9 @@ namespace Keywords
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
                 var characterStatHandler = playersManager.GetCharacter(currentPlayer).StatsHandler;
-                var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
+                var dexterity = characterStatHandler.GetStat(KeywordTypeEnum.Dexterity).Amount;
 
-                characterStatHandler.GetStats(Keyword)
+                characterStatHandler.GetStat(Keyword)
                     .Reduce(
                       dexterity + data.GetAmountToApply
                     );
@@ -58,9 +58,9 @@ namespace Keywords
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
             {
                 var characterStatHandler = playersManager.GetCharacter(!currentPlayer).StatsHandler;
-                var dexterity = characterStatHandler.GetStats(KeywordTypeEnum.Dexterity).Amount;
+                var dexterity = characterStatHandler.GetStat(KeywordTypeEnum.Dexterity).Amount;
 
-                characterStatHandler.GetStats(Keyword)
+                characterStatHandler.GetStat(Keyword)
                     .Reduce(
                       dexterity + data.GetAmountToApply
                     );

@@ -66,14 +66,41 @@ public class ObjectPool<T> :  IPoolObject<T> where T : MonoBehaviour, IPoolable<
 }
 
 
-public interface IPoolObject<T> where T : MonoBehaviour, IPoolable<T>
+public interface IPoolObject<T> where T : IPoolable<T>
 {
     T Pull();
     void ResetPool();
 }
 
-public interface IPoolable<T> : IDisposable where T : MonoBehaviour
+public interface IPoolMBObject<T> where T :MonoBehaviour, IPoolableMB<T>
+{
+
+}
+
+public interface IPoolable<T> : IDisposable
 {
     event Action<T> OnDisposed;
     void Init();
+}
+
+
+public interface IPoolableMB<T> : IPoolable<T> where T: MonoBehaviour
+{
+
+}
+public interface IPoolableClass<T> : IDisposable where T : new()
+{
+    event Action<T> OnDisposed;
+}
+
+public class PoolClass<T>
+{
+
+    private Stack<T> _stackPool;
+    public PoolClass()
+    {
+        _stackPool = new Stack<T>();
+
+
+    }
 }

@@ -13,10 +13,10 @@ public class CharactersDiedListener : BaseEndGameRule
     {
         base.InitRuleListener(battleManager,ruleLogics);
         _leftPlayerHeal = battleManager.PlayersManager.LeftCharacter;
-        _leftPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged += CheckLeftPlayerCondition;
+        _leftPlayerHeal.StatsHandler.GetStat(KeywordTypeEnum.Heal).OnValueChanged += CheckLeftPlayerCondition;
         
         _rightPlayerHeal = battleManager.PlayersManager.RightCharacter;
-        _rightPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged += CheckRightPlayerCondition;
+        _rightPlayerHeal.StatsHandler.GetStat(KeywordTypeEnum.Heal).OnValueChanged += CheckRightPlayerCondition;
     }
 
     private void CheckLeftPlayerCondition(int playerHp)
@@ -37,8 +37,8 @@ public class CharactersDiedListener : BaseEndGameRule
 
     public override void Dispose()
     {
-        _rightPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged -= CheckRightPlayerCondition;
-        _leftPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged -= CheckLeftPlayerCondition;
+        _rightPlayerHeal.StatsHandler.GetStat(KeywordTypeEnum.Heal).OnValueChanged -= CheckRightPlayerCondition;
+        _leftPlayerHeal.StatsHandler.GetStat(KeywordTypeEnum.Heal).OnValueChanged -= CheckLeftPlayerCondition;
     }
 
     public CharactersDiedListener(float delayToEndGame) : base(delayToEndGame)

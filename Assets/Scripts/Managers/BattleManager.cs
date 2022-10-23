@@ -64,7 +64,7 @@ namespace Battle
         private IPlayersManager _playersManager;
         private static SequenceHandler<IBattleManager> _battleStarter = new SequenceHandler<IBattleManager>();
         private GameTurnHandler _gameTurnHandler;
-
+        private GameCommands _gameCommands;
 
         #region Properties
         public GameTurnHandler TurnHandler => _gameTurnHandler; 
@@ -77,7 +77,7 @@ namespace Battle
         public CameraManager CameraManager => _cameraManager;
         public RuleManager RuleManager => _ruleManager;
         public BattleData BattleData => BattleData.Instance;
-
+        public GameCommands GameCommands => _gameCommands;
         public MonoBehaviour MonoBehaviour => this;
 
         #endregion
@@ -95,7 +95,7 @@ namespace Battle
         {
             _gameTurnHandler = new GameTurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
-            
+            _gameCommands = new GameCommands(PlayersManager, KeywordManager);
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);
             
@@ -271,6 +271,7 @@ namespace Battle
         VFXManager VFXManager { get; }
         CameraManager CameraManager { get; }
         RuleManager RuleManager { get; }
+        GameCommands GameCommands { get; }
         MonoBehaviour MonoBehaviour { get; }
     }
 

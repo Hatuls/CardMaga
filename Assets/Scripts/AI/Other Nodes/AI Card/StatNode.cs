@@ -26,7 +26,7 @@ namespace CardMaga.AI
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
             CharacterStatsHandler statsHandler = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StatsHandler; 
-            int stat = statsHandler.GetStats(KeywordType).Amount;
+            int stat = statsHandler.GetStat(KeywordType).Amount;
             NodeState = (Operator.Evaluate(stat, Amount)) ? NodeState.Success : NodeState.Failure;
             return NodeState;
         }
@@ -56,8 +56,8 @@ namespace CardMaga.AI
         {
             CharacterStatsHandler statsHandler = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StatsHandler;
 
-            int amountA = statsHandler.GetStats(KeywordA).Amount;
-            int amountB = statsHandler.GetStats(KeywordB).Amount;
+            int amountA = statsHandler.GetStat(KeywordA).Amount;
+            int amountB = statsHandler.GetStat(KeywordB).Amount;
 
             NodeState = (Operator.Evaluate(amountA,amountB)) ? NodeState.Success : NodeState.Failure;
             return NodeState;

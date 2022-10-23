@@ -1,4 +1,5 @@
 ﻿
+using CardMaga.Battle.Visual;
 using UnityEngine;
 
 public class IdleAnimationStateMachine : CharacterBaseStateMachine

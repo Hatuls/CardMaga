@@ -1,5 +1,8 @@
 ﻿
+using CardMaga.Battle.Visual;
 using CardMaga.Card;
+using Keywords;
+using Managers;
 using System;
 
 namespace CardMaga.Commands
@@ -25,12 +28,18 @@ namespace CardMaga.Commands
         }
         public void Execute()
         {
-            _animatorController.PlayCrossAnimationQueue(_currentCard.AnimationBundle);
-            _animatorController.OnAnimationEnding += FinishAnimation;
+            if (_currentCard.AnimationBundle.AttackAnimation.Length != 0)
+            {
+                _animatorController.PlayCrossAnimationQueue(_currentCard.AnimationBundle);
+                _animatorController.OnAnimationEnding += FinishAnimation;
+            }
+            else
+                FinishAnimation();
         }
         private void FinishAnimation()
         {
-            _animatorController.OnAnimationEnding -= FinishAnimation;
+            if (_currentCard.AnimationBundle.AttackAnimation.Length != 0)
+                _animatorController.OnAnimationEnding -= FinishAnimation;
             OnFinishExecute?.Invoke();
         }
 
@@ -41,6 +50,35 @@ namespace CardMaga.Commands
     }
 
 
- 
 
+    public class VisualKeywordCommand : ISequenceCommand
+    {
+        public event Action OnFinishExecute;
+        public int Amount;
+        public KeywordTypeEnum KeywordType;
+        private CommandType _commandType;
+        private VisualStatHandler _visualStatHandler;
+        public VisualKeywordCommand(CommandType commandType, KeywordTypeEnum keywordType, int amount, IPlayer player) : this(commandType, keywordType, amount, player.VisualCharacter.VisualStats) { }
+    
+        public VisualKeywordCommand(CommandType commandType, KeywordTypeEnum keywordType, int amount, VisualStatHandler visualStat)
+        {
+            _commandType = commandType;
+            KeywordType = keywordType;
+            Amount = amount;
+            _visualStatHandler = visualStat;
+        }
+        public CommandType CommandType => _commandType;
+
+        public void Execute()
+        {
+
+            _visualStatHandler.VisualStatsDictionary[KeywordType].Amount += Amount;
+            OnFinishExecute?.Invoke();
+        }
+
+        public void Undo()
+        {
+            _visualStatHandler.VisualStatsDictionary[KeywordType].Amount -= Amount;
+        }
+    }
 }

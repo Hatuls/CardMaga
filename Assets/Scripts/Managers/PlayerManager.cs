@@ -4,6 +4,7 @@ using Battle.Characters;
 using Battle.Combo;
 using Battle.Deck;
 using Battle.Turns;
+using CardMaga.Battle.Visual;
 using CardMaga.Card;
 using Characters.Stats;
 using ReiTools.TokenMachine;
@@ -85,9 +86,9 @@ namespace Managers
 
             //Stamina
             if (battleManager.TurnHandler.IsLeftPlayerStart)
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
             else
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordTypeEnum.StaminaShards).Amount);
             
             //Deck
             _deckHandler = new DeckHandler(this, battleManager);
@@ -123,7 +124,7 @@ namespace Managers
             _endTurnHandler.Dispose();
         }
         private void DrawHands(ITokenReciever tokenMachine)
-            => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
+            => DeckHandler.DrawHand(StatsHandler.GetStat(Keywords.KeywordTypeEnum.Draw).Amount);
 
     }
 

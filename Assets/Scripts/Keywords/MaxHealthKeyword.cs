@@ -12,7 +12,7 @@ namespace Keywords
             var target = data.GetTarget;
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
             {
-                var maxHealth = playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword);
+                var maxHealth = playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword);
                 if (data.GetAmountToApply > 0)
                     maxHealth.Add(data.GetAmountToApply);
                 else
@@ -21,7 +21,7 @@ namespace Keywords
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
-                var maxHealth = playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword);
+                var maxHealth = playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword);
                 if (data.GetAmountToApply > 0)
                     maxHealth.Add(data.GetAmountToApply);
                 else
@@ -35,7 +35,7 @@ namespace Keywords
             var target = data.GetTarget;
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
             {
-                var maxHealth = playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword);
+                var maxHealth = playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword);
                 if (data.GetAmountToApply > 0)
                     maxHealth.Reduce(data.GetAmountToApply);
                 else
@@ -44,7 +44,7 @@ namespace Keywords
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
-                var maxHealth = playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword);
+                var maxHealth = playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword);
                 if (data.GetAmountToApply > 0)
                     maxHealth.Reduce(data.GetAmountToApply);
                 else

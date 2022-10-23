@@ -13,6 +13,7 @@ using CardMaga.Card;
 using CardMaga.SequenceOperation;
 using Battle.Turns;
 using System.Threading;
+using CardMaga.Commands;
 
 namespace Battle
 {
@@ -35,6 +36,7 @@ namespace Battle
         private IPlayersManager _playersManager;
         private GameTurnHandler _gameTurnHandler;
         private CardExecutionManager _cardExecutionManager;
+        private GameCommands _gameCommands;
         static byte threadId;
         private CardTypeComparer _cardTypeComparer = new CardTypeComparer();
         private Factory.GameFactory.CardFactory _cardFactory;
@@ -80,19 +82,26 @@ namespace Battle
 
                 _successCrafting?.Raise();
                 DeckHandler deck = _playersManager.GetCharacter(isPlayer).DeckHandler;
+                ICommand command;
                 switch (ComboSO.GoToDeckAfterCrafting)
                 {
                     case DeckEnum.Hand:
-                        deck.AddCardToDeck(craftedCard,DeckEnum.Hand);
+                        command = new AddNewCardToDeck(DeckEnum.Hand, craftedCard, deck);
+                        _gameCommands.DataCommands.AddCommand(command);
+                       // deck.AddCardToDeck(craftedCard,DeckEnum.Hand);
                         if (isPlayer)
                             OnCraftingComboToHand?.Invoke(new CardData[]{craftedCard});
                         break;
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Discard:
                         var gotolocation = ComboSO.GoToDeckAfterCrafting;
-                        deck.AddCardToDeck( craftedCard, gotolocation);
-                        Debug.Log("DrawFrom 1");
-                        deck.DrawHand( 1);
+                         command = new AddNewCardToDeck(gotolocation, craftedCard, deck);
+                        _gameCommands.DataCommands.AddCommand(command);
+                        command = new DrawHandCommand(deck, 1);
+                        _gameCommands.DataCommands.AddCommand(command);
+
+                     //   deck.AddCardToDeck( craftedCard, gotolocation);
+//                        deck.DrawHand( 1);
                         break;
 
                     case DeckEnum.AutoActivate:
@@ -124,15 +133,14 @@ namespace Battle
             if (_cardRecipeDetected == null || _cardRecipeDetected.ComboSO == null)
             {
                 FoundCombo = false;
-                Debug.Log("DrawFrom 3");
                 deck.DrawHand( 1);
             }
             else
             {
                 FoundCombo = true;
                 OnComboSucceeded?.Invoke(_cardRecipeDetected);
-               // _craftingUIHandler.MarkSlotsDetected();
-                _playersManager.GetCharacter(isPlayer).CraftingHandler.ResetCraftingSlots();
+                ResetCraftingSlotCommand resetCraftingCommands = new ResetCraftingSlotCommand(_playersManager.GetCharacter(isPlayer).CraftingHandler);
+                _gameCommands.DataCommands.AddCommand(resetCraftingCommands);
                 TryForge(isPlayer);
 
                 _cardRecipeDetected = null;
@@ -217,8 +225,8 @@ namespace Battle
 
             left.CraftingHandler.OnComboDetectionRequired += StartDetection;
             //right.CraftingHandler.OnComboDetectionRequired += StartDetection;
-          
 
+            _gameCommands = data.GameCommands;
 
             data.OnBattleManagerDestroyed += BattleManagerDestroyed;
         }

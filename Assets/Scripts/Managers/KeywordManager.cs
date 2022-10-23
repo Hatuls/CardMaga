@@ -92,7 +92,7 @@ namespace Keywords
         public bool IsCharcterIsStunned(bool isPlayer)
         {
             bool isStunned;
-            var stunStat = _playersManager.GetCharacter(isPlayer).StatsHandler.GetStats(KeywordTypeEnum.Stun);
+            var stunStat = _playersManager.GetCharacter(isPlayer).StatsHandler.GetStat(KeywordTypeEnum.Stun);
             isStunned = stunStat.HasValue();
 
             stunStat.Reset();
@@ -115,11 +115,11 @@ namespace Keywords
             bool isPlayer = _turnHandler.IsLeftCharacterTurn;
 //            Debug.Log("Activating Keywords Effect on " + (isPlayer ? "LeftPlayer" : "RightPlayer") + " that are activated on the end of the turn");
             var characterStats = _playersManager.GetCharacter(isPlayer).StatsHandler;
-            var vulnrable = characterStats.GetStats(KeywordTypeEnum.Vulnerable);
+            var vulnrable = characterStats.GetStat(KeywordTypeEnum.Vulnerable);
             if (vulnrable.Amount > 0)
                 vulnrable.Reduce(1);
 
-            var Weak = characterStats.GetStats(KeywordTypeEnum.Weak);
+            var Weak = characterStats.GetStat(KeywordTypeEnum.Weak);
             if (Weak.Amount > 0)
                 Weak.Reduce(1);
 

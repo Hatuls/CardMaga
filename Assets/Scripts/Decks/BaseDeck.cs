@@ -179,7 +179,24 @@ namespace Battle.Deck
 
             //  CountCards();
         }
-
+        /// <summary>
+        /// **Warning 
+        /// this function will make the slot null! and cause unexpected behaviour when used incorrectly
+        /// if you want to transfer a card from deck to deck please use the function TransferCard from the DeckHandler class
+        /// </summary>
+        /// <param name="cardData"></param>
+        public void RemoveCard(CardData cardData)
+        {
+            for (int i = 0; i < _deckCards.Length; i++)
+            {
+                if (_deckCards[i].Equals(cardData))
+                {
+                    _deckCards[i] = null;
+                    return;
+                }
+            }
+            UnityEngine.Debug.LogError($"Deck Could not remove the requested card because it could not found it inside the deck\nRequested Card: {cardData.CardSO.CardName}");
+        }
         public abstract void ResetDeck();
         public void PrintDecks(DeckEnum deck)
         {

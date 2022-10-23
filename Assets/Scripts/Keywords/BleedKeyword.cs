@@ -14,10 +14,10 @@ namespace Keywords
 
             var target = data.GetTarget;
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
 
             data.KeywordSO.SoundEventSO.PlaySound();
         }
@@ -26,10 +26,10 @@ namespace Keywords
         {
             var target = data.GetTarget;
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
 
         }
     }

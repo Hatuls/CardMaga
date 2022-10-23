@@ -14,11 +14,11 @@ namespace Keywords
 
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
 
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
         }
 
         public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
@@ -28,11 +28,11 @@ namespace Keywords
 
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
 
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Reduce(data.GetAmountToApply);
+                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
         }
     }
 }

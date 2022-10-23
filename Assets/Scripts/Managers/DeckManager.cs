@@ -1,5 +1,6 @@
 using Battle.Turns;
 using CardMaga.Card;
+using CardMaga.Commands;
 using Managers;
 using ReiTools.TokenMachine;
 using System;
@@ -15,7 +16,7 @@ namespace Battle.Deck
         public event Action<CardData[]> OnDrawCards;
         
         private Dictionary<DeckEnum, BaseDeck> _deckDictionary;
-
+        private GameCommands _gameCommands;
         #region CardDataProprty
 
         public IEnumerable<CardData> GetAllCardData
@@ -156,6 +157,7 @@ namespace Battle.Deck
         {
             InitDeck(character.StartingCards,battleManager.BattleData.BattleConfigSO.IsShuffleCard);
             GameTurnHandler turnhandler = battleManager.TurnHandler;
+            _gameCommands = battleManager.GameCommands;
             var playersTurn = turnhandler.GetCharacterTurn(character.IsLeft);
             playersTurn.EndTurnOperations.Register(EndTurn);
         }
@@ -278,51 +280,9 @@ namespace Battle.Deck
         {
             if (BattleManager.isGameEnded)
                 return;
-            /*
-             * check if everything is valid
-             * cache the relevante decks (hand and player deck)
-             * for each card we draw :
-             * if there is still cards in the deck we want to transfer them to the hand one by one
-             * if we found a card that is null its mean the deck is empty so we want to restore the cards from 
-             * the disposal deck and redraw the amount we need
-            */
-            
-            else if (drawAmount < 1)
-            {
-                Debug.LogError("DeckManager :Cannot draw - draw amount is less than 1!");
-                return;
-            }
-
-            BaseDeck fromBaseDeck = this[DeckEnum.PlayerDeck];
-            BaseDeck toBaseDeck = this[DeckEnum.Hand];
-
-            List<CardData> cardsDraw = new List<CardData>();
-
-            CardData cardCache;
-
-            for (int i = 0; i < drawAmount; i++)
-            {
-                cardCache = fromBaseDeck.GetFirstCard();
-
-                if (cardCache == null)
-                {
-                    this[DeckEnum.Discard].ResetDeck();
-                    cardCache = fromBaseDeck.GetFirstCard();
-                }
-
-                if (cardCache != null)
-                {
-                    if (toBaseDeck.AddCard(cardCache))
-                    {
-                        cardsDraw.Add(cardCache);
-                        fromBaseDeck.DiscardCard(cardCache);
-                    }
-                }
-                else
-                    Debug.LogError($"DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card {cardCache} \n " + fromBaseDeck.ToString());
-            }
-            
-            OnDrawCards?.Invoke(cardsDraw.ToArray());
+            DrawHandCommand drawCommand = new DrawHandCommand(this, drawAmount);
+            _gameCommands.DataCommands.AddCommand(drawCommand);
+            OnDrawCards?.Invoke(drawCommand.CardsDraw);
         }
         public void TransferCard(DeckEnum from, DeckEnum to, CardData card)
         {
@@ -335,7 +295,22 @@ namespace Battle.Deck
             if (fromBaseDeckCache.DiscardCard(card))
                 toBaseDeckCache.AddCard(card);
         }
-        
+        public void TransferCardOnTopOfDeck(DeckEnum from, DeckEnum to,params CardData[] cards)
+        {
+            for (int i = 0; i < cards.Length; i++)
+                TransferCardOnTopOfDeck(from, to, cards[i]);
+        }
+        public void TransferCardOnTopOfDeck(DeckEnum from, DeckEnum to, CardData card)
+        {
+            if (card == null && !this[from].IsTheCardInDeck(card))
+                return;
+
+            BaseDeck fromBaseDeckCache = this[from];
+            BaseDeck toBaseDeckCache = this[to];
+
+            if (fromBaseDeckCache.DiscardCard(card))
+                toBaseDeckCache.AddCardAtFirstPosition(card);
+        }
         public CardData[] GetCardsFromDeck(DeckEnum from)
          => this[from]?.GetDeck;
 
