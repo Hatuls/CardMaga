@@ -50,7 +50,7 @@ namespace Account.GeneralData
 namespace Battle.Combo
 {
     [Serializable]
-    public class Combo
+    public class ComboData
     {
         [SerializeField,Sirenix.OdinInspector.ReadOnly]
         private Account.GeneralData.ComboCore _comboCore;
@@ -58,7 +58,7 @@ namespace Battle.Combo
         private ComboSO _comboSO;
 
 
-        public Combo(ComboSO comboSO, int level)
+        public ComboData(ComboSO comboSO, int level)
         {
             ComboSO = comboSO;
             _comboCore = new Account.GeneralData.ComboCore(comboSO, level);

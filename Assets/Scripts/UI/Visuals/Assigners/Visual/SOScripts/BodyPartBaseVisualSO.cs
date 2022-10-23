@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CardMaga.UI.Visuals
 {
-    [CreateAssetMenu(fileName = "Body Parts Base SO", menuName = "ScriptableObjects/UI/Visuals/Body Part base Visual SO")]
+    [CreateAssetMenu(fileName = "Body Parts BasePoolObject SO", menuName = "ScriptableObjects/UI/Visuals/Body Part base Visual SO")]
     public class BodyPartBaseVisualSO : ScriptableObject, ICheckValidation
     {
         [Tooltip("Empty = 0, Head = 1, Elbow = 2, Hand = 3, Knee = 4, Leg = 5, Joker = 6")]

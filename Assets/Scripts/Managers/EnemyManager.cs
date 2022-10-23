@@ -57,7 +57,8 @@ namespace Battle
         public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
         public CharacterStatsHandler StatsHandler => _statsHandler;
         public DeckHandler DeckHandler => _deckHandler;
-        public Battle.Combo.Combo[] Combos => _character.CharacterData.ComboRecipe;
+        public Battle.Combo.ComboData[] Combos => _character.CharacterData.ComboRecipe;
+
         public GameTurn MyTurn => _myTurn;
         public StaminaHandler StaminaHandler => _staminaHandler;
         public EndTurnHandler EndTurnHandler => _endTurnHandler;

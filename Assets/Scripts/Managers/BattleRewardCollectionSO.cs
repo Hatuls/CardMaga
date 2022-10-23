@@ -12,7 +12,7 @@ namespace Rewards
         BattleRewardSO[] _reward;
         public void Init(BattleRewardSO[] rewardSOs)
             => _reward = rewardSOs;
-        public BattleReward GetReward(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Combo> workOnCombo)
+        public BattleReward GetReward(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<ComboData> workOnCombo)
         {
             return BattleReward(characterTypeEnum).CreateReward(act,workOnCombo);
         }
@@ -22,7 +22,7 @@ namespace Rewards
         }
         public RunReward GetRunReward(CharacterTypeEnum characterType, ActsEnum act)
             => BattleReward(characterType).CreateRunReward(act);
-        public Combo[] GetRewardCombos(ActsEnum act, byte amount, IEnumerable<Combo> workOnCombo)
+        public ComboData[] GetRewardCombos(ActsEnum act, byte amount, IEnumerable<ComboData> workOnCombo)
         {
             return BattleReward(CharacterTypeEnum.Elite_Enemy).GenerateComboReward(act,workOnCombo, amount);
         }

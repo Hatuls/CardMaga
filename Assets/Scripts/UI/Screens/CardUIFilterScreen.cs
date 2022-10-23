@@ -25,7 +25,7 @@ public class CardUIFilterScreen : UIFilterScreen<CardUI, CardData>
 
     protected override void OnActivate(IEnumerable<CardData> sortedDeck, int i)
     {
-        _collection[i].AssignCard(sortedDeck.ElementAt(i));
+        _collection[i].AssingVisual(sortedDeck.ElementAt(i));
         _collection[i].transform.localScale = Vector3.one * _cardsSize;
     }
 }

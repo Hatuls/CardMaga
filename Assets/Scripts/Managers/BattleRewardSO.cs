@@ -77,11 +77,11 @@ namespace Rewards
             throw new System.Exception($"BattleRewardSO: CurrencyEnum is not a valid type {currencyEnum}!");
         }
 
-        public BattleReward CreateReward(ActsEnum actsEnum, IEnumerable<Battle.Combo.Combo> workOnCombo)
+        public BattleReward CreateReward(ActsEnum actsEnum, IEnumerable<Battle.Combo.ComboData> workOnCombo)
         {
             CardData[] rewardCards = GenerateCardsRewards(actsEnum);
 
-            Battle.Combo.Combo[] combo = null;
+            Battle.Combo.ComboData[] combo = null;
             if (_characterDifficultyEnum >= CharacterTypeEnum.Elite_Enemy)
             {
                 combo = GenerateComboReward(actsEnum, workOnCombo);
@@ -181,7 +181,7 @@ namespace Rewards
             return rewardCards;
         }
         //refactor this method
-        public Battle.Combo.Combo[] GenerateComboReward(ActsEnum actsEnum, IEnumerable<Battle.Combo.Combo> workOnCombo, byte amount = 1)
+        public Battle.Combo.ComboData[] GenerateComboReward(ActsEnum actsEnum, IEnumerable<Battle.Combo.ComboData> workOnCombo, byte amount = 1)
         {
             // roll combos from rarity 
             // check if the combo is optional to be reward based on interface
@@ -197,7 +197,7 @@ namespace Rewards
 
             var comboIDs = workOnCombo.Select(x => new { ID = x.ID });
 
-            Battle.Combo.Combo[] combo = new Battle.Combo.Combo[amount];
+            Battle.Combo.ComboData[] combo = new Battle.Combo.ComboData[amount];
             List<int> allPossibleCombosIDFromChances = new List<int>();
             byte[] chances = new byte[comboChances.Length];
             for (int j = 0; j < chances.Length; j++)
