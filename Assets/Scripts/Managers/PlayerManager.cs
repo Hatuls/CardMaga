@@ -1,7 +1,5 @@
-﻿
-using Battle;
+﻿using Battle;
 using Battle.Characters;
-using Battle.Combo;
 using Battle.Deck;
 using Battle.Turns;
 using CardMaga.Card;
@@ -20,7 +18,7 @@ namespace Managers
         CharacterStatsHandler StatsHandler { get; }
         CardData[] StartingCards { get; }
         DeckHandler DeckHandler { get; }
-        ComboData[] Combos { get; }
+        PlayerComboContainer Combos { get; }
         CardsExecutionOrder ExecutionOrder { get; }
         EndTurnHandler EndTurnHandler { get; }
         VisualCharacter VisualCharacter { get; }
@@ -44,14 +42,18 @@ namespace Managers
         private CardData[] _playerDeck;
         private StaminaHandler _staminaHandler;
         private CardsExecutionOrder _executionOrder;
+        private PlayerComboContainer _comboContainer;
         [SerializeField] VisualCharacter _visualCharacter;
         #endregion
         
         public CardData[] StartingCards => _playerDeck;
-        public ComboData[] Combos => _character.CharacterData.ComboRecipe;
+        
         public bool IsLeft => true;
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
-
+        public PlayerComboContainer Combos
+        {
+            get => _comboContainer;
+        }
         public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
         public CharacterStatsHandler StatsHandler { get => _statsHandler; }
         public EndTurnHandler EndTurnHandler => _endTurnHandler;
@@ -73,7 +75,7 @@ namespace Managers
             _character = characterData;
             //data
             CharacterBattleData data = characterData.CharacterData;
-
+            
             //Visuals
             VisualCharacter.AnimationSound.CurrentCharacter = data.CharacterSO;
             //Deck
@@ -93,9 +95,10 @@ namespace Managers
             else
                 _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
             
-            //Deck
+            //Deck and Combos
             _deckHandler = new DeckHandler(this, battleManager);
-
+            _comboContainer = new PlayerComboContainer(_character.CharacterData.ComboRecipe);
+            
             GameTurnHandler turnHandler = battleManager.TurnHandler;
             _myTurn = turnHandler.GetCharacterTurn(IsLeft);
 

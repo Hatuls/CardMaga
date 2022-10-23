@@ -37,7 +37,7 @@ namespace Battle
         private AIHand _aiHand;
         private CardsExecutionOrder _executionOrder;
         private EndTurnHandler _endTurnHandler;
-
+        private PlayerComboContainer _comboContainer;
 
 
         //   private bool _isStillThinking;
@@ -56,7 +56,7 @@ namespace Battle
         public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
         public CharacterStatsHandler StatsHandler => _statsHandler;
         public DeckHandler DeckHandler => _deckHandler;
-        public Battle.Combo.ComboData[] Combos => _character.CharacterData.ComboRecipe;
+        public PlayerComboContainer Combos => _comboContainer;
         public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
         public GameTurn MyTurn => _myTurn;
         public StaminaHandler StaminaHandler => _staminaHandler;
@@ -74,11 +74,14 @@ namespace Battle
             _character = character;
             //data from battledata
             CharacterBattleData characterdata = character.CharacterData;
-            //Deck
+            
+            //Deck and Combo
+            _comboContainer = new PlayerComboContainer(_character.CharacterData.ComboRecipe);
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new CardData[deckLength];
             Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
             _deckHandler = new DeckHandler(this, battleManager);
+          
             //CraftingSlots
             _craftingHandler = new CraftingHandler();
       
@@ -90,8 +93,7 @@ namespace Battle
                 _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
             else
                 _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
-
-
+            
             //Turn
             _turnHandler = battleManager.TurnHandler;
             _myTurn = _turnHandler.GetCharacterTurn(IsLeft);

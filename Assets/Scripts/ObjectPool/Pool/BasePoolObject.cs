@@ -8,6 +8,11 @@ public abstract class BasePoolObject<T_visual,T_data> : MonoBehaviour where T_vi
 
     private ObjectPool<T_visual> _objectPool;
 
+    public RectTransform Parent
+    {
+        get => _parent;
+    }
+
     public virtual void Init()
     {
         _objectPool = new ObjectPool<T_visual>(_objectPrefab, _parent);
@@ -23,6 +28,8 @@ public abstract class BasePoolObject<T_visual,T_data> : MonoBehaviour where T_vi
         for (int i = 0; i < objectData.Count; i++)
         {
             T_visual cache = _objectPool.Pull();
+            
+            cache.transform.SetSiblingIndex(i);
             
             cache.AssingVisual(objectData[i]);
             

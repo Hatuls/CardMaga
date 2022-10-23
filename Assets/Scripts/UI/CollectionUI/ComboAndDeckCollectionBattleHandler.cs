@@ -1,14 +1,13 @@
-﻿using System.Linq;
-using Battle;
+﻿using Battle;
 using CardMaga.SequenceOperation;
 using CardMaga.UI.ScrollPanel;
 using Managers;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
-public class ComboAndDeckCollictionBattleHandler : MonoBehaviour , ISequenceOperation<IBattleManager>
+public class ComboAndDeckCollectionBattleHandler : MonoBehaviour , ISequenceOperation<IBattleManager>
 {
-    [SerializeField] private ComboAndDeckCollictonMainHandler _collicton;
+    [SerializeField] private ComboAndDeckCollectionMainHandler _collection;
 
     private void Awake()
     {
@@ -19,7 +18,7 @@ public class ComboAndDeckCollictionBattleHandler : MonoBehaviour , ISequenceOper
     {
         IPlayer player = data.PlayersManager.RightCharacter;
         
-        _collicton.Init(player.DeckHandler.GetAllCardData.ToList(),player.Combos.ToList());        
+        _collection.Init(player.DeckHandler,player.Combos);        
     }
 
     public int Priority
