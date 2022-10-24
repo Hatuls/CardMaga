@@ -8,7 +8,6 @@ using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using Account;
-using CardMaga.Input;
 using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;

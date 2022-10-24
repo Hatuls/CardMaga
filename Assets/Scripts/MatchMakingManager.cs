@@ -1,4 +1,5 @@
-﻿using Account.GeneralData;
+﻿using System;
+using Account.GeneralData;
 using Battle.Data;
 using Battle.MatchMaking;
 using ReiTools.TokenMachine;
@@ -7,6 +8,8 @@ using UnityEngine.Events;
 
 public class MatchMakingManager : MonoBehaviour
 {
+    public static event Action<Battle.Characters.Character> OnOpponentAssign;
+
     [SerializeField] OperationManager _lookForMatchOperation;
     private TokenMachine _tokenMachine;
     [SerializeField, EventsGroup]
@@ -27,6 +30,8 @@ public class MatchMakingManager : MonoBehaviour
     {
         bool isPlayer = false;
           BattleData.Instance.AssginCharacter(isPlayer, name, obj.GetMainCharacter);
+          
+          OnOpponentAssign?.Invoke(BattleData.Instance.Right);
     }
 
     public void StartLooking()

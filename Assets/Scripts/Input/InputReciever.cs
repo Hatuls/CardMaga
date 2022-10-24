@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class InputReciever : MonoBehaviour
+public class InputReciever : MonoSingleton<InputReciever>
 {
     #region Events
 

@@ -41,7 +41,7 @@ namespace CardMaga.UI
        
         [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
-        [SerializeField] private TransitionPackSO _dicardExecutePositionPackSO;
+        [SerializeField] private TransitionPackSO _dicardExecuteTransitionPackSo;
         
         [Header("RectTransforms")] 
         [SerializeField] private RectTransform _discardPos;
@@ -153,7 +153,7 @@ namespace CardMaga.UI
 
         private void MoveCardToDiscardAfterExecute(CardUI cardUI)
         {
-            cardUI.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo, cardUI.Dispose);
+            cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
         }
 
         private void KillTween()

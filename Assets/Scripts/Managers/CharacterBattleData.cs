@@ -31,15 +31,16 @@ namespace Battle.Characters
         public CharacterSO CharacterSO { get => _characterSO; internal set => _characterSO = value; }
  
         public CharacterBattleData() { }
+        
         public CharacterBattleData(Account.GeneralData.Character data)
         {
-            var factory =       Factory.GameFactory.Instance;
-            var selectedDeck =  data.Deck[data.MainDeck];
+            var factory = Factory.GameFactory.Instance;
+            var selectedDeck = data.Deck[data.MainDeck];
 
-            CharacterSO =       factory.CharacterFactoryHandler.GetCharacterSO(data.Id);
-            CharacterDeck =    factory.CardFactoryHandler.CreateDeck(selectedDeck.Cards);
-            ComboRecipe =      factory.ComboFactoryHandler.CreateCombos(selectedDeck.Combos);
-            _characterStats =   CharacterSO.CharacterStats;
+            CharacterSO = factory.CharacterFactoryHandler.GetCharacterSO(data.Id);
+            CharacterDeck = factory.CardFactoryHandler.CreateDeck(selectedDeck.Cards);
+            ComboRecipe = factory.ComboFactoryHandler.CreateCombos(selectedDeck.Combos);
+            _characterStats = CharacterSO.CharacterStats;
         }
 
         #region Editor
@@ -61,8 +62,8 @@ namespace Battle.Characters
                 throw e;
             }
 
-
-             CardData[] CreateDeck(CharacterSO characterSO)
+            CardData[] CreateDeck(CharacterSO characterSO)
+            
             {
                 var deck = characterSO.Deck;
                 CardData[] cards = new CardData[deck.Length];

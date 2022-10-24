@@ -1,10 +1,8 @@
 ﻿using Account.GeneralData;
-using Battle;
 using CardMaga.Card;
 using System;
 using System.Linq;
 using UnityEngine;
-
 
 namespace Battle.Characters
 {
@@ -47,6 +45,7 @@ namespace Battle.Characters
        
             return false;
         }
+        
         public bool RemoveCardFromDeck(int InstanceID)
         {
             var deckList = _characterData.CharacterDeck.ToList();
@@ -58,7 +57,9 @@ namespace Battle.Characters
                 _characterData.CharacterDeck = deckList.ToArray();
             return check;
         }
+        
         public bool AddCardToDeck(CardCore card) => AddCardToDeck(card.CardSO(), card.Level);
+        
         public bool AddCardToDeck(CardSO card, int level = 0)
         {
             if (card == null)
@@ -68,6 +69,7 @@ namespace Battle.Characters
 
             return AddCardToDeck(cardCreated);
         }
+        
         public bool AddCardToDeck(CardData card)
         {
             if (card == null)
@@ -81,8 +83,7 @@ namespace Battle.Characters
 
             return card != null;
         }
-
-
+        
         public bool AddComboRecipe(Battle.Combo.ComboData comboData)
         {
             bool hasThisCombo = false;
@@ -114,6 +115,5 @@ namespace Battle.Characters
 
             return hasThisCombo;
         }
-
     }
 }

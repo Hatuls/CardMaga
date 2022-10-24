@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public enum CharacterEnum
 {
     Enemy = 0,
@@ -21,9 +21,12 @@ namespace Account
         bool IsCorrupted();
         void NewLoad();
     }
+    
     public class AccountManager : MonoBehaviour
     {
+        
         #region Singleton
+        
         private static AccountManager _instance;
         public static AccountManager Instance
         {
@@ -35,6 +38,7 @@ namespace Account
                 return _instance;
             }
         }
+        
         #endregion
         
         [NonSerialized,Sirenix.OdinInspector.ShowInInspector]
@@ -113,6 +117,7 @@ namespace Account
             }
             else
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
+            
             _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New LeftPlayer";
 
             UpdateRank(null);
@@ -151,9 +156,9 @@ namespace Account
         //    if (_characterData.Find(x => x.Id == newCharacter.ID) == null)
         //        _characterData.Add(new Character(newCharacter));
         //}
-
-
+        
         #region Constructors
+        
         public AccountData()
         {
             CreateNewArenaData();
@@ -243,7 +248,6 @@ namespace Account
         {
             return new UpdateUserDataRequest()
             {
-                 
                 Data = new Dictionary<string, string>()
                 {
                     { AccountGeneralData.PlayFabKeyName, JsonUtility.ToJson(_accountGeneralData) },
@@ -254,7 +258,9 @@ namespace Account
                 }, Permission = UserDataPermission.Public
             };
         }
+        
         #region Create Account Data
+        
         private void CreateNewArenaData()
         {
             _arenaData = new ArenaData();
@@ -278,6 +284,7 @@ namespace Account
             _accountGeneralData = new AccountGeneralData();
 
         }
+        
         #endregion
     }
 }

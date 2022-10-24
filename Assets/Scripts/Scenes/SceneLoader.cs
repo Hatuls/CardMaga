@@ -62,6 +62,7 @@ namespace CardMaga.Core
         [Tooltip("Recocking means to enable ")]
         [SerializeField, ShowIf("_lockAtLoad")]
         private bool _unlockAfterUnload = true;
+        
         #region Events
         [SerializeField, EventsGroup]
         private UnityEvent OnStartLoadingScene;
@@ -74,6 +75,7 @@ namespace CardMaga.Core
         #endregion
 
         private bool _locked = false;
+        
         #region SceneLoad
         public void LoadScene() => LoadScene(null);
         public void LoadScene(Action callback) => LoadScene(_loadSceneMode, callback);
@@ -224,11 +226,12 @@ namespace CardMaga.Core
                     if (_sceneUnloadMode == SceneUnloadMode.Manually)
                         UnloadManualy();
                     else
-                    UnloadScene();
+                     UnloadScene();
                 }
             }
         }
         #endregion
+        
         #region Unload
         public void UnloadManualy()
         {
@@ -311,6 +314,7 @@ namespace CardMaga.Core
             OnFinishedUnloadingScene?.Invoke();
         }
         #endregion
+        
 #if UNITY_EDITOR
 
         private string[] ScenesNames

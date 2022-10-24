@@ -1,5 +1,4 @@
 ﻿using Account.GeneralData;
-using Battle.Data;
 using PlayFab;
 using PlayFab.ClientModels;
 using ReiTools.TokenMachine;

@@ -13,9 +13,6 @@ namespace Battle
     [CreateAssetMenu(fileName = "CharacterSO", menuName = "ScriptableObjects/Characters/CharacterSO")]
     public class CharacterSO : ScriptableObject
     {
-
-
-      
         [SerializeField]
         private CharacterStats _characterStats;
 
@@ -34,7 +31,6 @@ namespace Battle
         private ModelSO _characterVisual;
         public ModelSO CharacterAvatar { get => _characterVisual; private set => _characterVisual = value; }
 
-        
         [PreviewField(75f)]
         public GameObject Model => _characterVisual?.Model?.gameObject ?? null; 
         [SerializeField]
@@ -84,7 +80,6 @@ namespace Battle
         {
             ID = id;
 
-
             //CharacterType
             const int CharacterTypeIndex = 1;
             const int CharacterEnumIndex = 2;
@@ -102,10 +97,7 @@ namespace Battle
             const int CharacterDeckIndex = 14;
             const int CharacterRecipeIndex = 15;
             const int RewardTypeIndex = 16;
-
-
-
-
+            
             if (Enum.TryParse<CharacterTypeEnum>(row[CharacterTypeIndex].Replace(' ', '_'), out CharacterTypeEnum cte))
             {
                 CharacterType = cte;
@@ -230,11 +222,7 @@ namespace Battle
             }
             else
                 Debug.LogError($"Coulmne B: ID= {ID} Character type is not a  ENUM!! - {row[CharacterTypeIndex]}");
-
-
-
-
-
+            
             return false;
         }
 
@@ -249,10 +237,7 @@ namespace Battle
             const int IndexVictorySound = 20;
             const int IndexComboSound = 21;
             const int IndexTauntSound = 22;
-
-
-
-
+            
             string fileName = row[IndexSoundOnAttack];
             string path = string.Concat(folderPath, fileName);
             SoundOnAttack = Resources.Load< SoundEventWithParamsSO>(path);
@@ -276,14 +261,12 @@ namespace Battle
             fileName = row[IndexTauntSound];
             path = string.Concat(folderPath,  fileName);
             TauntSounds = Resources.Load<SoundEventSO>(path);
-
-
+            
         }
 
 #endif
     }
-
-
+    
     public enum CharacterTypeEnum
     {
         None = 0,
@@ -293,8 +276,7 @@ namespace Battle
         Elite_Enemy = 4,
         Boss_Enemy = 5,
     }
-
-
+    
     [System.Flags]
     public enum RewardTypeEnum
     {
@@ -303,6 +285,4 @@ namespace Battle
         CardReward = 2 << 1,
         Recipe = 3 << 2,
     }
-
-
 }
