@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Battle.Combo;
+﻿using Battle.Combo;
 using CardMaga.Card;
+using CardMaga.Collection;
 using UnityEngine;
 
 namespace CardMaga.UI.ScrollPanel
 {
-    public class ComboAndDeckCollictonMainHandler : MonoBehaviour
+    public class ComboAndDeckCollectionMainHandler : MonoBehaviour
     {
         [Header("Scripts Reference")]
         [SerializeField] private ComboUIScrollPanelManager _comboUIScroll;
@@ -19,8 +19,8 @@ namespace CardMaga.UI.ScrollPanel
         private CardDataSort _cardDataSort;
         private ComboDataSort _comboDataSort;
         
-        private List<CardData> _cardDatas;
-        private List<ComboData> _comboDatas;
+        private IGetSourceCollection<CardData> _cardDatas;
+        private IGetSourceCollection<ComboData> _comboDatas;
 
         private void Awake()
         {
@@ -42,13 +42,13 @@ namespace CardMaga.UI.ScrollPanel
         private void ShowCombo()
         {
             _comboUIScroll.RemoveAllObjectsFromPanel();
-            _comboUIScroll.AddObjectToPanel(_comboDataSort.SortComboData(_comboDataFilter.Filter(_comboDatas)));
+            _comboUIScroll.AddObjectToPanel(_comboDataSort.SortComboData(_comboDataFilter.Filter(_comboDatas.GetCollection)));
         }
 
         private void ShowCard()
         {
             _cardUIScroll.RemoveAllObjectsFromPanel();
-            _cardUIScroll.AddObjectToPanel(_cardDataSort.SortCardData(_cardDataFilter.Filter(_cardDatas)));
+            _cardUIScroll.AddObjectToPanel(_cardDataSort.SortCardData(_cardDataFilter.Filter(_cardDatas.GetCollection)));
         }
 
         private void OnDestroy()
@@ -59,7 +59,7 @@ namespace CardMaga.UI.ScrollPanel
             _comboDataFilter.OnCycleFilter -= ShowCombo;
         }
 
-        public void Init(List<CardData> cardDatas, List<ComboData> comboDatas)
+        public void Init(IGetSourceCollection<CardData> cardDatas, IGetSourceCollection<ComboData> comboDatas)
         {
             _cardDatas = cardDatas;
             _comboDatas = comboDatas;

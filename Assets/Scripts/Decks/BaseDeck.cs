@@ -31,15 +31,12 @@ namespace Battle.Deck
         
         public CardData[] SetDeck
         {
-            
             set
             {
-
                 if (value != null)
                     _deckCards = value;
 
-                    CountCards();
-                
+                CountCards();
                 OrderDeck();
             }
         }
@@ -68,8 +65,6 @@ namespace Battle.Deck
         public void CountCards()
         {
             // count for the amount of empty and not empty slots 
-
-
             int currentAmountOfFilledSlots = AmountOfFilledSlots;
             AmountOfEmptySlots = 0;
             AmountOfFilledSlots = 0;

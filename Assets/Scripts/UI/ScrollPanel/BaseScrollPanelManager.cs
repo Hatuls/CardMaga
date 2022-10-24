@@ -17,7 +17,7 @@ public abstract class BaseScrollPanelManager<T_visual,T_data> : MonoBehaviour wh
     {
         if (data.Count <= 0)
             return;
-        
+
         List<T_visual> cache = ObjectPool.PullObjects(data);
         
         IShowableUI[] showableUis = new IShowableUI[cache.Count];
@@ -26,7 +26,7 @@ public abstract class BaseScrollPanelManager<T_visual,T_data> : MonoBehaviour wh
         {
             showableUis[i] = cache[i];
         }
-        
+
         _scrollPanel.LoadObject(showableUis);
     }
     

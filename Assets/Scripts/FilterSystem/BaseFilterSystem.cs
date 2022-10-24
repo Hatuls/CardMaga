@@ -71,12 +71,12 @@ public abstract class BaseFilterSystem<T_Filter,T_FilterRef> : MonoBehaviour whe
         _activeFilters.Remove(filter);
     }
 
-    public List<T_Filter> Filter(List<T_Filter> objects)
+    public IEnumerable<T_Filter> Filter(IEnumerable<T_Filter> objects)
     {
-        List<T_Filter> output = new List<T_Filter>(objects.Count);
-
         if (_activeFilters.Count == 0)
             return objects;
+
+        List<T_Filter> output = new List<T_Filter>();
         
         foreach (var obj in objects)
         {

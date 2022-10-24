@@ -223,7 +223,7 @@ RectTransform:
   m_GameObject: {fileID: 5702666649216585370}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.37638888, y: 0.37638888, z: 0.37638888}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 5702666648958164327}
   - {fileID: 4063326684566358454}
@@ -254,7 +254,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &5702666649216585368
 MonoBehaviour:
@@ -351,8 +351,8 @@ MonoBehaviour:
   _delayBetweenCardDrawn: 0
   _tableCardSlot:
     _middleHandPos: {fileID: 0}
-    _cardPaddingPrecentage: 0
-    _cardCenterOffSetPrecentage: 0
+    _cardPaddingPrecentage: 10
+    _cardCenterOffSetPrecentage: -0.75
     _cardSlots: []
   _handUI: {fileID: 8694790356547147787}
 --- !u!114 &8694790356547147787
@@ -616,6 +616,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8258599519189630728, guid: 8dc4e00dfaa6753418c1d5056be43434,
+        type: 3}
+      propertyPath: _inputIdentificationSo
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8383090159215045993, guid: 8dc4e00dfaa6753418c1d5056be43434,
         type: 3}

@@ -1,6 +1,5 @@
 ﻿using System;
 using Battle.Deck;
-using Battle.UI;
 using Cards;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
@@ -8,11 +7,9 @@ using System.Linq;
 using ThreadsHandler;
 using Unity.Events;
 using UnityEngine;
-using Battle.Combo;
 using CardMaga.Card;
 using CardMaga.SequenceOperation;
 using Battle.Turns;
-using System.Threading;
 
 namespace Battle
 {
@@ -180,7 +177,7 @@ namespace Battle
          void CheckRecipe(IReadOnlyList<CardTypeData> craftingItems, bool isPlayer)
         {
             // need to make algorithem better!!! 
-            var recipes = _playersManager.GetCharacter(isPlayer).Combos;
+            var recipes = _playersManager.GetCharacter(isPlayer).Combos.GetCollection.ToArray();
 
         
             CardTypeData[] cardTypeDatas;
