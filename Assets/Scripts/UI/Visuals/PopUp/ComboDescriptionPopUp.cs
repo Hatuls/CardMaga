@@ -15,6 +15,7 @@ namespace CardMaga.UI.PopUp
         }
         public override void Init(ComboData comboDataData)
         {
+            ActivatePopUP(true);
             PopUpText.AssignText(_comboTypeVisualSO.GetTypeDescription(comboDataData.GoToDeckAfterCrafting));
         }
         public override void Dispose()
