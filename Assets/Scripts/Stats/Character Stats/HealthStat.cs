@@ -5,10 +5,12 @@ namespace Characters.Stats
     public class HealthStat : BaseStat
     {
         public static event Action<bool> OnCharacterDeath;
+        private  MaxHealthStat _maxHealthStats;
+        private bool _isPlayer;
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Heal;
-        MaxHealthStat _maxHealthStats;
-        public HealthStat(MaxHealthStat maxHealth, bool isPlayer, int amount) : base(isPlayer, amount)
+        public HealthStat(MaxHealthStat maxHealth,bool isPlayer, int amount) : base(amount)
         {
+            _isPlayer = isPlayer;
             _maxHealthStats = maxHealth;
         }
         public override void Reset(int value = 0)
@@ -21,7 +23,7 @@ namespace Characters.Stats
             if (Amount > _maxHealthStats.Amount)
                 Amount = _maxHealthStats.Amount;
 
-            OnStatsUpdated.Invoke(isPlayer, Amount, Keyword);
+            InvokeStatUpdate();
         }
         public override void Reduce(int amount)
         {
@@ -31,7 +33,7 @@ namespace Characters.Stats
             base.Reduce(amount);
 
             if (Amount <= 0)
-                OnCharacterDeath?.Invoke(isPlayer);
+                OnCharacterDeath?.Invoke(_isPlayer);
             
 
         }

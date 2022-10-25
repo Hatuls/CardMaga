@@ -22,7 +22,7 @@ namespace Managers
         CardData[] StartingCards { get; }
         DeckHandler DeckHandler { get; }
         ComboData[] Combos { get; }
-
+        
         EndTurnHandler EndTurnHandler { get; }
         VisualCharacter VisualCharacter { get; }
         GameTurn MyTurn { get; }

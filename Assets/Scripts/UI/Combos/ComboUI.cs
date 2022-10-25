@@ -1,10 +1,11 @@
 ﻿using System;
 using Battle.Combo;
-using CardMaga.UI.Combos;
+using CardMaga.Tools.Pools;
 using CardMaga.UI.ScrollPanel;
 using UnityEngine;
-
-public class ComboUI : MonoBehaviour , IShowableUI , IPoolable<ComboUI> , IVisualAssign<ComboData>
+namespace CardMaga.UI.Combos
+{ 
+public class ComboUI : MonoBehaviour , IShowableUI , IPoolableMB<ComboUI> , IVisualAssign<ComboData>
 {
     public event Action<ComboUI> OnDisposed;
     
@@ -29,4 +30,6 @@ public class ComboUI : MonoBehaviour , IShowableUI , IPoolable<ComboUI> , IVisua
     {
         _comboVisual.Init(data);
     }
+}
+
 }

@@ -1,12 +1,11 @@
 ﻿using Account.GeneralData;
+using Characters.Stats;
 using Collections;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Battle.Combo;
-using Characters.Stats;
-using UnityEditor;
 
 namespace Battle
 {
@@ -15,7 +14,7 @@ namespace Battle
     {
 
 
-      
+
         [SerializeField]
         private CharacterStats _characterStats;
 
@@ -34,9 +33,9 @@ namespace Battle
         private ModelSO _characterVisual;
         public ModelSO CharacterAvatar { get => _characterVisual; private set => _characterVisual = value; }
 
-        
+
         [PreviewField(75f)]
-        public GameObject Model => _characterVisual?.Model?.gameObject ?? null; 
+        public GameObject Model => _characterVisual?.Model?.gameObject ?? null;
         [SerializeField]
         private Sprite _characterSprite;
         public Sprite CharacterSprite => _characterSprite;
@@ -72,10 +71,10 @@ namespace Battle
 
         public SoundEventWithParamsSO SoundOnAttack; // parameter "Voice"
         public SoundEventWithParamsSO GetHitSounds;//Parameter "Get Hit"
-        public SoundEventSO VictorySound; 
-        public SoundEventSO TauntSounds; 
-        public SoundEventSO DeathSounds; 
-        public SoundEventSO ComboSounds; 
+        public SoundEventSO VictorySound;
+        public SoundEventSO TauntSounds;
+        public SoundEventSO DeathSounds;
+        public SoundEventSO ComboSounds;
 
 
 
@@ -122,9 +121,9 @@ namespace Battle
                         {
                             CharacterName = row[CharacterNameIndex];
                             Debug.Log(Application.dataPath);
-                            
+
                             //AssetDatabase.LoadAssetAtPath(Application.dataPath, typeof(Material))
-                            ModelSO characterModel =  Resources.Load<ModelSO>($"Art/Models/SO/{row[CharacterModelIndex]}");
+                            ModelSO characterModel = Resources.Load<ModelSO>($"Art/Models/SO/{row[CharacterModelIndex]}");
                             if (row[CharacterModelIndex].Length != 0 && characterModel != null)
                             {
                                 CharacterAvatar = characterModel;
@@ -148,13 +147,15 @@ namespace Battle
                                 const int iD = 0, Level = 1;
                                 //deck cards
                                 string[] Cards = row[CharacterDeckIndex].Split('&');
-                                _deck = new CardCore[Cards.Length];
+                                var _deckList = new List<CardCore>();
                                 for (int i = 0; i < Cards.Length; i++)
                                 {
                                     string[] data = Cards[i].Split('^');
 
-                                    if (ushort.TryParse(data[iD], out ushort rID))
+                                    if (int.TryParse(data[iD], out int rID))
                                     {
+                                        if (rID == -1)
+                                            break;
                                         _iD = rID;
                                     }
                                     else
@@ -166,14 +167,16 @@ namespace Battle
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
-                                    _deck[i] = new CardCore(cardCollection.GetAllCards.First(x=>x.ID==_iD).ID, _level,0);
+                                    _deckList.Add( new CardCore(cardCollection.GetAllCards.First(x => x.ID == _iD).ID, _level, 0));
 
                                 }
+                                _deck = _deckList.ToArray();
+
 
                                 //Recipes / Combos
                                 string[] Recipe = row[CharacterRecipeIndex].Split('&');
-                                _combos = new Account.GeneralData.ComboCore[Recipe.Length];
-
+                                //_combos = new Account.GeneralData.ComboCore[Recipe.Length];
+                                var comboList = new List<ComboCore>();
                                 for (int i = 0; i < Recipe.Length; i++)
                                 {
                                     string[] data = Recipe[i].Split('^');
@@ -183,7 +186,8 @@ namespace Battle
                                         _iD = rID;
                                     }
                                     else
-                                        throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid ID! ({data[iD]})");
+                                        break;
+                                      //  throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid ID! ({data[iD]})");
 
 
                                     if (int.TryParse(data[Level], out int lvl))
@@ -195,13 +199,10 @@ namespace Battle
 
 
 
-                                    _combos[i] = new Account.GeneralData.ComboCore(recipeCollections.AllCombos.First(x=>x.ID==_iD), _level);
+                                    comboList.Add( new Account.GeneralData.ComboCore(recipeCollections.AllCombos.First(x => x.ID == _iD), _level));
 
-
-                                    if (_combos[i] == null)
-                                        Debug.LogError("!");
                                 }
-
+                                _combos = comboList.ToArray();
 
                                 if (int.TryParse(row[RewardTypeIndex], out int RewardInt))
                                 {
@@ -255,7 +256,7 @@ namespace Battle
 
             string fileName = row[IndexSoundOnAttack];
             string path = string.Concat(folderPath, fileName);
-            SoundOnAttack = Resources.Load< SoundEventWithParamsSO>(path);
+            SoundOnAttack = Resources.Load<SoundEventWithParamsSO>(path);
 
             fileName = row[IndexDamageSound];
             path = string.Concat(folderPath, fileName);
@@ -274,7 +275,7 @@ namespace Battle
             ComboSounds = Resources.Load<SoundEventSO>(path);
 
             fileName = row[IndexTauntSound];
-            path = string.Concat(folderPath,  fileName);
+            path = string.Concat(folderPath, fileName);
             TauntSounds = Resources.Load<SoundEventSO>(path);
 
 

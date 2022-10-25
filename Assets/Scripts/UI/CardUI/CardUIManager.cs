@@ -108,16 +108,10 @@ namespace CardMaga.Battle.UI
         }
 
 
-        public override void Awake()
-        {
-            base.Awake();
-            BattleManager.Register(this, OrderType.After);
-            _cardPool.Init();
-        }
-        
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
             _players = data.PlayersManager;
+            _cardPool.Init();
             data.CardExecutionManager.OnEnemyCardExecute += PlayEnemyCard;
             data.TurnHandler.GetCharacterTurn(false).EndTurnOperations.Register((x) => ActivateEnemyCardUI(false));
             data.OnBattleManagerDestroyed += BeforeBattleManagerDestroyed;

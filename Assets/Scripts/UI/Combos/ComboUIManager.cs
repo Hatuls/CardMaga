@@ -4,19 +4,20 @@ using System.Collections.Generic;
 using Battle;
 using CardMaga.Battle.UI;
 using CardMaga.Card;
+using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using CardMaga.UI.Card;
+using ReiTools.TokenMachine;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class ComboUIManager : MonoBehaviour
+public class ComboUIManager : MonoBehaviour , ISequenceOperation<IBattleManager>
 {
    public event Action<CardUI[]> OnCardComboDone; 
 
    [Header("Scripts Reference")]
    [SerializeField] private CardUIManager _cardUIManager;
    [SerializeField] private HandUI _handUI;
-   [SerializeField] private ComboManager _comboManager;
 
    [Header("RectTransforms")] 
    [SerializeField] private RectTransform _drawPosition;
@@ -32,21 +33,13 @@ public class ComboUIManager : MonoBehaviour
    
    private WaitForSeconds _waitForDrawBetweenCards;
 
-   private void Start()
-   {
-      _comboManager.OnCraftingComboToHand += CraftComboCards;
-      _waitForDrawBetweenCards = new WaitForSeconds(_delaybetweenDrawCards);
-   }
+    public int Priority => 0;
 
-   private void OnDestroy()
-   {
-      _comboManager.OnCraftingComboToHand -= CraftComboCards;
-   }
 
    private void CraftComboCards(params CardData[] cardDatas)
    {
       CardUI[] cardUis = _cardUIManager.GetCardsUI(cardDatas);
-      
+
       SetCardUisAtPosition(_drawPosition,cardUis);
    }
 
@@ -60,15 +53,18 @@ public class ComboUIManager : MonoBehaviour
       OnCardComboDone?.Invoke(cardUis);
    }
 
-   private IEnumerator MoveCardsUiToPosition(RectTransform destination, params CardUI[] cardUis)
-   {
-      for (int i = 0; i < cardUis.Length; i++)
-      {
-         cardUis[i].Init();
-         cardUis[i].RectTransform.Transition(destination, _drawMoveTransitionPackSo);
-         cardUis[i].VisualsRectTransform.Transition( _drawScaleTransitionPackSo);
-         yield return _waitForDrawBetweenCards;
-         
-      }
-   }
+
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+    {
+        data.OnBattleManagerDestroyed += BeforeBattleFinished;
+        data.ComboManager.OnCraftingComboToHand += CraftComboCards;
+        _waitForDrawBetweenCards = new WaitForSeconds(_delaybetweenDrawCards);
+    }
+
+    private void BeforeBattleFinished(IBattleManager battleManager)
+    {
+        battleManager.OnBattleManagerDestroyed -= BeforeBattleFinished;
+        battleManager.ComboManager.OnCraftingComboToHand -= CraftComboCards;
+    }
+   
 }

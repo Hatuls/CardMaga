@@ -281,7 +281,7 @@ namespace Battle.Deck
             if (BattleManager.isGameEnded)
                 return;
             DrawHandCommand drawCommand = new DrawHandCommand(this, drawAmount);
-            _gameCommands.DataCommands.AddCommand(drawCommand);
+            _gameCommands.GameDataCommands.DataCommands.AddCommand(drawCommand);
             OnDrawCards?.Invoke(drawCommand.CardsDraw);
         }
         public void TransferCard(DeckEnum from, DeckEnum to, CardData card)

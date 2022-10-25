@@ -3,10 +3,11 @@ using CardMaga.Card;
 using UnityEngine;
 using CardMaga.Input;
 using CardMaga.UI.ScrollPanel;
+using CardMaga.Tools.Pools;
 
 namespace CardMaga.UI.Card
 {
-    public class CardUI : MonoBehaviour, IPoolable<CardUI> , IShowableUI , IVisualAssign<CardData>
+    public class CardUI : MonoBehaviour, IPoolableMB<CardUI> , IShowableUI , IVisualAssign<CardData>
     {
         
         #region Fields

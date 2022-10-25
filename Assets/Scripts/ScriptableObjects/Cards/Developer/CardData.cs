@@ -3,8 +3,10 @@ using Battle;
 using CardMaga.Card;
 using CardMaga.Commands;
 using Keywords;
+using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace CardMaga.Card
 {
@@ -98,15 +100,15 @@ namespace CardMaga.Card
 
             _cardCommandsHolder = new CardCommandsHolder(this);
         }
-        internal void InitCommands(bool isLeft, IPlayersManager playersManager, KeywordManager _keywordManager)
+        internal void InitCommands(bool isLeft, IPlayersManager playersManager, KeywordManager keywordManager)
         {
             if (CardCommands == null)
                 InitCard(CardSO, CardLevel);
 
             var player = playersManager.GetCharacter(isLeft);
-            CardCommands.CardsKeywords.Init(isLeft, playersManager, _keywordManager);
+            CardCommands.InitCardKeywords(isLeft, playersManager, keywordManager);
             CardCommands.CardTypeCommand.Init(player.CraftingHandler);
-            CardCommands.AnimationCommand.Init(player.VisualCharacter.AnimatorController);
+            CardCommands.StaminaCostCommand.Init(player.StaminaHandler);
         }
         private List<KeywordData> CreateKeywords(CardSO _card, int cardsLevel)
         {
@@ -199,30 +201,63 @@ namespace CardMaga.Card
     #endregion
 }
 
-public class CardCommandsHolder
+public class CardCommandsHolder : ICommand
 {
+    private StaminaCostCommand _staminaCostCommand;
     private CardTypeCommand _cardTypeCommand;
-    private CardsKeywords _cardsKeywords;
-    private AnimationVisualCommand _animationCommand;
-    public CardsKeywords CardsKeywords { get => _cardsKeywords; private set => _cardsKeywords = value; }
-    public AnimationVisualCommand AnimationCommand { get => _animationCommand; private set => _animationCommand = value; }
+    private CardsKeywordsCommands[] _cardsKeywords;
+    public StaminaCostCommand StaminaCostCommand { get => _staminaCostCommand; private set => _staminaCostCommand = value; }
+    public CardsKeywordsCommands[] CardsKeywords { get => _cardsKeywords; private set => _cardsKeywords = value; }
     public CardTypeCommand CardTypeCommand { get => _cardTypeCommand; private set => _cardTypeCommand = value; }
 
     public CardCommandsHolder(CardData cardData)
     {
+        StaminaCostCommand = new StaminaCostCommand(cardData);
         CardTypeCommand = new CardTypeCommand(cardData);
-        CardsKeywords = new CardsKeywords(cardData);
-        AnimationCommand = new AnimationVisualCommand(cardData.CardSO, CommandType.AfterPrevious);
-    }
-}
-public static class CardHelper
-{
-    public static CardData[] CloneCards(this CardData[] cards)
-    {
-        CardData[] newArray = new CardData[cards.Length];
-        for (int i = 0; i < newArray.Length; i++)
-            newArray[i] = cards[i].Clone();
 
-        return newArray;
+
+        KeywordData[] keywords = cardData.CardKeywords;
+        keywords.Sort(OrderKeywords);
+
+        int highestAnimationIndex = keywords[keywords.Length - 1].AnimationIndex + 1;
+        CardsKeywords = new CardsKeywordsCommands[highestAnimationIndex];
+        for (int i = 0; i < highestAnimationIndex; i++)
+        {
+            IEnumerable<KeywordData> animationIndexList = keywords.Where(x => x.AnimationIndex == i);
+            CardsKeywords[i] = new CardsKeywordsCommands(animationIndexList , cardData.CardSO.AnimationBundle.AttackAnimation.Length ==0 ? CommandType.WithPrevious : CommandType.AfterPrevious);
+        }
+    }
+
+    public void InitCardKeywords(bool isLeft, IPlayersManager playersManager, KeywordManager keywordManager)
+    {
+        for (int i = 0; i < CardsKeywords.Length; i++)
+            CardsKeywords[i].Init(isLeft, playersManager, keywordManager);
+    }
+
+
+    private int OrderKeywords(KeywordData myself, KeywordData other)
+    {
+        if (myself.AnimationIndex == other.AnimationIndex)
+            return 0;
+        else if (myself.AnimationIndex < other.AnimationIndex)
+            return -1;
+        else return 1;
+    }
+
+
+    public void Execute()
+    {
+        for (int i = 0; i < CardsKeywords.Length; i++)
+            CardsKeywords[i].Execute();
+
+
+        CardTypeCommand.Execute();
+    }
+
+    public void Undo()
+    {
+        for (int i = CardsKeywords.Length - 1; i >= 0; i--)
+            CardsKeywords[i].Undo();
+        CardTypeCommand.Undo();
     }
 }

@@ -3,7 +3,7 @@ namespace Characters.Stats
 {
     public class RageStat : BaseStat
     {
-        public RageStat(bool isPlayer, int amount) : base(isPlayer, amount)
+        public RageStat( int amount) : base( amount)
         {
         }
 

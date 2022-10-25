@@ -11,6 +11,9 @@ namespace Keywords
         =>  reciever.GetStat(KeywordTypeEnum.Shield).Reduce(amount);
         private int CalculateDamage(KeywordData data, CharacterStatsHandler reciver, CharacterStatsHandler applier)
         {
+            // damage + opponent strength + my Vulnerable -  opponent weakend  
+            // damage + applier strenght + reciever Vulnerable - applier weakend
+
             int finalDamage;
             int recieverVulnerable = reciver.GetStat(KeywordTypeEnum.Vulnerable).Amount;
             int applierStrength = applier.GetStat(KeywordTypeEnum.Strength).Amount;
@@ -27,10 +30,6 @@ namespace Keywords
 
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
-
-                // damage + opponent strength + my Vulnerable -  opponent weakend  
-                // damage + applier strenght + reciever Vulnerable - applier weakend
-
                 CharacterStatsHandler reciver = playersManager.GetCharacter(currentPlayer).StatsHandler;
                 CharacterStatsHandler applier = playersManager.GetCharacter(!currentPlayer).StatsHandler;
                 int finalDamage = CalculateDamage(data, reciver, applier);
@@ -41,8 +40,8 @@ namespace Keywords
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
             {
 
-                var reciver = playersManager.GetCharacter(!currentPlayer).StatsHandler;
-                var applier = playersManager.GetCharacter(currentPlayer).StatsHandler;
+                CharacterStatsHandler reciver = playersManager.GetCharacter(!currentPlayer).StatsHandler;
+                CharacterStatsHandler applier = playersManager.GetCharacter(currentPlayer).StatsHandler;
                 int finalDamage = CalculateDamage(data, reciver, applier);
 
                 ApplyDamage(reciver, finalDamage);

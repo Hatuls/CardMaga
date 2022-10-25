@@ -5,7 +5,7 @@ namespace Characters.Stats
     {
         byte _maxShardSize;
         private RageStat _rageStat;
-        public RageShard(bool isPlayer, int amount,RageStat rageStat) : base(isPlayer, amount)
+        public RageShard(int amount,RageStat rageStat) : base( amount)
         {
             _maxShardSize = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(Keyword).InfoAmount;
             _rageStat = rageStat;

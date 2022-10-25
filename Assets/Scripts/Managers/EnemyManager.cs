@@ -86,10 +86,8 @@ namespace Battle
             _statsHandler = new CharacterStatsHandler(IsLeft, ref characterdata.CharacterStats, StaminaHandler);
 
             //Stamina
-            if (!battleManager.TurnHandler.IsLeftPlayerStart)
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
-            else
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordTypeEnum.StaminaShards).Amount);
+            int additionStamina = !battleManager.TurnHandler.IsLeftPlayerStart ? -1 : 0;
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordTypeEnum.StaminaShards).Amount, additionStamina);
             //Game Commands
             _gameCommands = battleManager.GameCommands;
 
@@ -143,7 +141,7 @@ namespace Battle
 
             if (_aiHand.TryGetHighestWeight(out AICard card) > NO_MORE_ACTION_TO_DO && !BattleManager.isGameEnded)
             {
-                _gameCommands.DataCommands.AddCommand(new TransferSingleCardCommand(DeckHandler, DeckEnum.Hand, DeckEnum.Selected, card.Card));
+                _gameCommands.GameDataCommands.DataCommands.AddCommand(new TransferSingleCardCommand(DeckHandler, DeckEnum.Hand, DeckEnum.Selected, card.Card));
                 //_deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, card.Card);
                 CardExecutionManager.Instance.TryExecuteCard(IsLeft, card.Card);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(_delayTime.x, _delayTime.y));

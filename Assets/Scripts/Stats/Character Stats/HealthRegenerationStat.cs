@@ -4,7 +4,7 @@ namespace Characters.Stats
 {
     public class HealthRegenerationStat : BaseStat
     {
-        public HealthRegenerationStat(bool isPlayer,  int amount) : base(isPlayer,  amount)
+        public HealthRegenerationStat(int amount) : base( amount)
         {
         }
 

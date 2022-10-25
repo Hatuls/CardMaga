@@ -3,7 +3,7 @@ namespace Characters.Stats
 {
     public class StrengthStat : BaseStat
     {
-        public StrengthStat(bool isPlayer,  int amount) : base(isPlayer,  amount)
+        public StrengthStat(int amount) : base(amount)
         {
         }
 

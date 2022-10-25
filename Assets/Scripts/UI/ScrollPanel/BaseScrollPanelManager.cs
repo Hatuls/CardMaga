@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using CardMaga.Tools.Pools;
 using CardMaga.UI.ScrollPanel;
 using UnityEngine;
 
-public abstract class BaseScrollPanelManager<T_visual,T_data> : MonoBehaviour where T_visual : MonoBehaviour , IShowableUI , IPoolable<T_visual> , IVisualAssign<T_data>
+public abstract class BaseScrollPanelManager<T_visual,T_data> : MonoBehaviour where T_visual : MonoBehaviour , IShowableUI , IPoolableMB<T_visual> , IVisualAssign<T_data> ,new()
 {
     [SerializeField] private ScrollPanelHandler _scrollPanel;
 

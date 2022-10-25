@@ -3,8 +3,8 @@ using Battle.Turns;
 using CardMaga.Card;
 using CardMaga.Commands;
 using CardMaga.SequenceOperation;
+using CardMaga.Tools.Pools;
 using CardMaga.UI.Card;
-using Characters.Stats;
 using Keywords;
 using Managers;
 using ReiTools.TokenMachine;
@@ -29,7 +29,7 @@ namespace Battle
         private GameTurnHandler _turnHandler;
         private IDisposable _endTurnToken;
         private GameCommands _gameCommands;
-
+        private KeywordManager _keywordManager;
 
         #region Properties
         public int Priority => 0;
@@ -69,19 +69,6 @@ namespace Battle
             OnSuccessfullExecution?.Invoke();
 
 
-            var deckHandler = currentPlayer.DeckHandler;
-            var transferCommand = new TransferSingleCardCommand(deckHandler, DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, card);
-            //  deckHandler.TransferCard(DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, card);
-            //Transfer Card Command;
-            GameCommands.DataCommands.AddCommand(transferCommand);
-
-            //Logic Commands
-            GameCommands.InsertCardsCommands(isLeft, card);
-
-            //Crafting Command
-            var cardTypeCommand = card.CardCommands.CardTypeCommand;
-            cardTypeCommand.ToNotify = true;
-            GameCommands.DataCommands.AddCommand(cardTypeCommand);
             if (isLeft)
             {
                 OnPlayerCardExecute?.Invoke();
@@ -91,12 +78,24 @@ namespace Battle
             {
                 OnEnemyCardExecute?.Invoke(card);
             }
-            //  currentPlayer.StaminaHandler.ReduceStamina(card);
-            // currentPlayer.ExecutionOrder.AddToQueue(card, 0,true);
 
-            //RegisterCard(card, isLeft);
 
-            //_playersManager.GetCharacter(isLeft).CraftingHandler.AddFront(card, true);
+
+            var deckHandler = currentPlayer.DeckHandler;
+            var transferCommand = new TransferSingleCardCommand(deckHandler, DeckEnum.Selected, card.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, card);
+
+            var dataCommands = GameCommands.GameDataCommands.DataCommands;
+
+            //Transfer Card Command;
+            dataCommands.AddCommand(transferCommand);
+
+            card.InitCommands(isLeft, _playersManager, _keywordManager);
+            //Visuals
+            GameCommands.GameVisualCommands.InsertCardsCommands(isLeft, card);
+            //Logic Commands
+            GameCommands.GameDataCommands.InsertCardDataCommand(card,true, true);
+
+
 
             return true;
         }
@@ -104,30 +103,43 @@ namespace Battle
 
         public void ForceExecuteCard(bool isPlayer, CardData card)
         {
-
-            GameCommands.InsertCardsCommands(isPlayer, card);
-            var cardTypeCommand = card.CardCommands.CardTypeCommand;
-            cardTypeCommand.ToNotify = false;
-            GameCommands.DataCommands.AddCommand(cardTypeCommand);
-            // add to crafting slot
-            //(_playersManager.GetCharacter(isPlayer).DeckHandler[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(card);
-            //currentCharacter.ExecutionOrder.AddToQueue(card,0,false);
-            //RegisterCard(card);
-
+            card.InitCommands(isPlayer, _playersManager, _keywordManager);
+       
+            GameCommands.GameVisualCommands.InsertCardsCommands(isPlayer, card);
+            GameCommands.GameDataCommands.InsertCardDataCommand(card,false, false);
         }
         // Remake it so it has based the visual stats
         internal bool CanDefendIncomingAttack(bool Reciever)
         {
-            IPlayer currentPlayer = GetPlayer(Reciever);
-            BaseStat shieldStat = currentPlayer.StatsHandler.GetStat(KeywordTypeEnum.Shield);
-          //  Debug.LogError("No visual stats yet");
-            var historyCommands = _gameCommands.KeywordCommandHandler.CommandStack;
+          //  IPlayer currentPlayer = GetPlayer(Reciever);
+         //   var shieldStat = currentPlayer.VisualCharacter.VisualStats.VisualStatsDictionary[KeywordTypeEnum.Shield];
+
+           // Debug.LogError("No visual stats yet");
+            var historyCommands = _gameCommands.GameVisualCommands.VisualKeywordCommandHandler.CommandStack;
+
 
             foreach (var item in historyCommands)
             {
-                if (item is KeywordCommand keywordCommand && keywordCommand.KeywordType == KeywordTypeEnum.Attack)
-                    return keywordCommand.KeywordData.GetAmountToApply <= shieldStat.Amount;
+                switch (item)
+                {
+                    case VisualKeywordCommand cmd:
+                        if (cmd.KeywordType == KeywordTypeEnum.Shield)
+                            return cmd.Amount > 0;
+                        break;
+                    case VisualKeywordsPackCommands pack:
+                        foreach (var visualkeword in pack.VisualKeywordCommands)
+                        {
+                            if (visualkeword.KeywordType == KeywordTypeEnum.Shield)
+                                return visualkeword.Amount > 0;
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
             }
+
+
             return false;
         }
 
@@ -136,6 +148,7 @@ namespace Battle
             _turnHandler = data.TurnHandler;
             _playersManager = data.PlayersManager;
             GameCommands = data.GameCommands;
+            _keywordManager = data.KeywordManager;
             //_turnHandler.GetCharacterTurn(true).EndTurnOperations.Register(RecieveToken);
             //_turnHandler.GetCharacterTurn(false).EndTurnOperations.Register(RecieveToken);
             data.OnBattleManagerDestroyed += FinishBattle;
@@ -174,68 +187,133 @@ namespace Battle
     }
 
 
-
     public class GameCommands : IDisposable
     {
-        //Handling the data
-        private CommandHandler<ICommand> _dataCommands;
+        private readonly GameDataCommands _gameDataCommands;
+        private readonly GameVisualCommands _gameVisualCommands;
+
+        public GameCommands(IBattleManager battleManager)
+        {
+            _gameDataCommands = new GameDataCommands(battleManager.PlayersManager, battleManager.KeywordManager);
+            _gameVisualCommands = new GameVisualCommands(battleManager);
+        }
+
+        public GameDataCommands GameDataCommands => _gameDataCommands;
+        public GameVisualCommands GameVisualCommands => _gameVisualCommands;
+
+        public void Dispose()
+        {
+            GameDataCommands.Dispose();
+            GameVisualCommands.Dispose();
+        }
+    }
+
+    public class GameVisualCommands : IDisposable
+    {
+
+        public readonly IPoolObject<AnimationVisualCommand> ModelAnimationCommandsPool;
+        public readonly IPoolObject<VisualKeywordCommand> VisualKeywordCommandsPool;
+
         //Handling the animation of the character
         private VisualCommandHandler _animationCommands;
-        //Handling the keywords animation
-        private KeywordCommandHandler _keywordsCommand;
+        private VisualKeywordCommandHandler _visualKeywordCommandHandler;
 
-        private KeywordManager _keywordManager;
         private IPlayersManager _playersManager;
 
-        public CommandHandler<ICommand> DataCommands => _dataCommands;
-        public KeywordCommandHandler KeywordCommandHandler => _keywordsCommand;
+
+
+
         public VisualCommandHandler AnimationCommands => _animationCommands;
 
+        public VisualKeywordCommandHandler VisualKeywordCommandHandler { get => _visualKeywordCommandHandler; }
 
-        public GameCommands(IPlayersManager playersManager, KeywordManager keywordManager)
+
+        public GameVisualCommands(IBattleManager battleManager)
         {
-            _playersManager = playersManager;
-            _keywordManager = keywordManager;
+            _playersManager = battleManager.PlayersManager;
+
             bool isLeft = true;
-            playersManager.GetCharacter(isLeft).VisualCharacter.AnimatorController.OnAnimationExecuteKeyword += ExecuteKeywords;
-            playersManager.GetCharacter(!isLeft).VisualCharacter.AnimatorController.OnAnimationExecuteKeyword += ExecuteKeywords;
+            _playersManager.GetCharacter(isLeft).VisualCharacter.AnimatorController.OnAnimationExecuteKeyword += ExecuteKeywords;
+            _playersManager.GetCharacter(!isLeft).VisualCharacter.AnimatorController.OnAnimationExecuteKeyword += ExecuteKeywords;
 
-            _dataCommands = new CommandHandler<ICommand>();
-            _keywordsCommand = new KeywordCommandHandler();
+
+
+
+            ModelAnimationCommandsPool = new ObjectPool<AnimationVisualCommand>(5);
+            VisualKeywordCommandsPool = new ObjectPool<VisualKeywordCommand>(5);
+
+
             _animationCommands = new VisualCommandHandler();
+            _visualKeywordCommandHandler = new VisualKeywordCommandHandler();
         }
-
         public void InsertCardsCommands(bool isLeft, CardData card)
         {
-            card.InitCommands(isLeft, _playersManager, _keywordManager);
-            var cardCommands = card.CardCommands;
+            AnimationVisualCommand visualCommand = ModelAnimationCommandsPool.Pull();
+            visualCommand.Init(_playersManager.GetCharacter(isLeft).VisualCharacter.AnimatorController, card.CardSO, CommandType.AfterPrevious);
+            _animationCommands.AddCommand(visualCommand);
 
-            _dataCommands.AddCommand(cardCommands.CardsKeywords.StaminaCommand);
-            _keywordsCommand.AddCommand(cardCommands.CardsKeywords.KeywordCommand);
-            _animationCommands.AddCommand(cardCommands.AnimationCommand);
-
-            if (_animationCommands.IsEmpty && card.CardSO.AnimationBundle.AttackAnimation.Length == 0)
-                _keywordsCommand.ExecuteKeywords();
         }
 
-        public void ResetAll()
-        {
-            _dataCommands.ResetCommands();
-            _animationCommands.ResetCommands();
-            _keywordsCommand.ResetCommands();
-        }
+
+
+
 
         public void ExecuteKeywords()
         {
-            _keywordsCommand.ExecuteKeywords();
+            _visualKeywordCommandHandler.ExecuteKeywords();
         }
 
         public void Dispose()
         {
-            ResetAll();
+            VisualKeywordCommandHandler.ResetCommands();
+            AnimationCommands.ResetCommands();
+
             bool isLeft = true;
             _playersManager.GetCharacter(isLeft).VisualCharacter.AnimatorController.OnAnimationExecuteKeyword -= ExecuteKeywords;
             _playersManager.GetCharacter(!isLeft).VisualCharacter.AnimatorController.OnAnimationExecuteKeyword -= ExecuteKeywords;
         }
     }
+
+    public class GameDataCommands : IDisposable
+    {
+        //Handling the data
+        private CommandHandler<ICommand> _dataCommands;
+
+        private KeywordManager _keywordManager;
+        private IPlayersManager _playersManager;
+
+        public CommandHandler<ICommand> DataCommands => _dataCommands;
+
+
+
+        public GameDataCommands(IPlayersManager playersManager, KeywordManager keywordManager)
+        {
+            _playersManager = playersManager;
+            _keywordManager = keywordManager;
+            _dataCommands = new CommandHandler<ICommand>();
+        }
+
+   
+        public void InsertCardDataCommand(CardData card,bool toReduceStamina, bool toDetectCombo)
+        {
+            CardCommandsHolder cardCommands = card.CardCommands;
+            if (toReduceStamina)
+                _dataCommands.AddCommand(cardCommands.StaminaCostCommand);
+            cardCommands.CardTypeCommand.ToNotify = toDetectCombo;
+            _dataCommands.AddCommand(cardCommands);
+        }
+        public void ResetAll()
+        {
+            _dataCommands.ResetCommands();
+        }
+
+
+        public void Dispose()
+        {
+            ResetAll();
+
+        }
+    }
+
+
 }

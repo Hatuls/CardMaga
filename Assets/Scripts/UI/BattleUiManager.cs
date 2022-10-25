@@ -1,85 +1,112 @@
-﻿using Characters.Stats;
-using Keywords;
+﻿using Battle;
 using CardMaga.SequenceOperation;
-using Unity.Events;
+using CardMaga.UI;
+using Keywords;
+using ReiTools.TokenMachine;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace Battle.UI
+namespace CardMaga.Battle.UI
 {
-    public class UpdateUiStats : UnityEngine.Events.UnityEvent<bool, int, KeywordTypeEnum> { }
-    public class BattleUiManager :MonoBehaviour 
+
+    public class BattleUiManager : MonoBehaviour, ISequenceOperation<IBattleManager>
     {
         #region Fields
+        [SerializeField]
+        private HandUI _handUI;
 
+        [SerializeField]
+        private CardUIManager _cardUIManager;
+
+        [SerializeField]
+        private EndTurnButton _endTurnButton;
+
+        [SerializeField]
+        private StatsUIManager _statsUIManager;
+
+        [SerializeField]
+        private ComboUIManager _comboUIManager;
+
+        [SerializeField]
+        private BuffIconManager _buffIconManager;
+
+        [SerializeField]
+        private CraftingSlotsUIManager_V4 _craftingSlotsUIManager;
+
+        
+        private VisualKeywordsHandler _visualKeywordsHandler;
         #endregion
 
 
         #region Events
-        [SerializeField] VoidEvent _endTurn;
 
-        public static System.Action<bool, int, KeywordTypeEnum> _buffEvent;
 
-        public int Priority => throw new System.NotImplementedException();
+        #endregion
 
-        public OrderType Order => throw new System.NotImplementedException();
+        #region Properties
+
+        public IEnumerable<ISequenceOperation<IBattleManager>> VisualInitializers
+        {
+            get
+            {
+                yield return _statsUIManager;
+                yield return _visualKeywordsHandler;
+                yield return _cardUIManager;
+                yield return _handUI;
+                yield return _comboUIManager;
+                yield return _endTurnButton;
+                yield return _buffIconManager;
+                yield return _craftingSlotsUIManager;
+            }
+        }
+        public int Priority => 0;
+
+        public HandUI HandUI { get => _handUI; }
+        public CardUIManager CardUIManager { get => _cardUIManager; }
+        public EndTurnButton EndTurnButton { get => _endTurnButton; }
+        public StatsUIManager StatsUIManager { get => _statsUIManager; }
+        public ComboUIManager ComboUIManager { get => _comboUIManager; }
+        public BuffIconManager BuffIconManager { get => _buffIconManager; }
+        public CraftingSlotsUIManager_V4 CraftingSlotsUIManager { get => _craftingSlotsUIManager; }
+        #endregion
+
+        #region UnityCallBacks
+        private void Awake()
+        {
+            _visualKeywordsHandler = new VisualKeywordsHandler();
+            BattleManager.Register(this, OrderType.After);
+        }
+        #endregion
+        #region Functions
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+        {
+            IDisposable token = tokenMachine.GetToken();
+
+            foreach (var uiElement in VisualInitializers)
+                uiElement.ExecuteTask(tokenMachine, data);
+
+            token.Dispose();
+        }
         #endregion
 
 
-        public void EndTurn()
+
+        #region Editor
+#if UNITY_EDITOR
+        [ContextMenu("Find Values And Assign")]
+        private void AssignFields()
         {
-            _endTurn?.Raise();
+            _handUI = FindObjectOfType<HandUI>();
+            _comboUIManager = FindObjectOfType<ComboUIManager>();
+            _cardUIManager = FindObjectOfType<CardUIManager>();
+            _endTurnButton = FindObjectOfType<EndTurnButton>();
+            _statsUIManager = FindObjectOfType<StatsUIManager>();
+            _craftingSlotsUIManager = FindObjectOfType<CraftingSlotsUIManager_V4>();
+            _buffIconManager.AssignBuffsFields();
         }
-
-        public void UpdateUiStats(bool isPlayer, int Amount, KeywordTypeEnum actionTypeEnum)
-        {
-            switch (actionTypeEnum)
-            {
-                case KeywordTypeEnum.Shield:
-
-                    //   _textEvent?.Raise(TextType.Shield, TextPopUpHandler.TextPosition(isPlayer), Amount.ToString());
-                   // StatsUIManager.Instance.UpdateShieldBar(isPlayer, Amount);
-
-                    break;
-        
-                case KeywordTypeEnum.Burn:
-                case KeywordTypeEnum.Protected:
-                case KeywordTypeEnum.Rage:
-                case KeywordTypeEnum.Weak:
-                case KeywordTypeEnum.Vulnerable:
-                case KeywordTypeEnum.Bleed:
-                case KeywordTypeEnum.Strength:
-                case KeywordTypeEnum.Dexterity:
-                case KeywordTypeEnum.Regeneration:
-                case KeywordTypeEnum.StaminaShards:
-                case KeywordTypeEnum.StunShard:
-                case KeywordTypeEnum.Stun:
-                case KeywordTypeEnum.RageShard:
-                case KeywordTypeEnum.ProtectionShard:
-                    _buffEvent.Invoke(isPlayer, Amount, actionTypeEnum);
-                    break;
-
-                case KeywordTypeEnum.MaxHealth:
-                    break;
-                case KeywordTypeEnum.Attack:
-                case KeywordTypeEnum.Heal:
-                default:
-                    break;
-            }
-        }
-
-        #region Monobehaviour Callbacks
-
-        private void Awake()
-        {
-            BaseStat.OnStatsUpdated += UpdateUiStats;
-        }
-        private void OnDestroy()
-        {
-            BaseStat.OnStatsUpdated -= UpdateUiStats;
-        }
+#endif
         #endregion
     }
 }
-
-
 

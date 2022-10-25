@@ -45,6 +45,11 @@ namespace CardMaga.UI.Visuals
         {
             int cardType = (int)cardData.CardTypeData.CardType - 1;
             int bodyPart = (int)cardData.CardTypeData.BodyPart - 1;
+
+#if UNITY_EDITOR
+            if (cardType == -1)
+                Debug.LogError("Card type is -1! " + cardData.CardSO.CardName);
+#endif
             //Set Card Type object On
             SetActiveObject(cardType);
 

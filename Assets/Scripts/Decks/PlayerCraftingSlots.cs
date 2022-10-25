@@ -177,7 +177,7 @@ public class CraftingHandler
     public void AssignCraftingSlots(List<CardTypeData> cardTypeDatas)
     {
         for (int i = 0; i < CraftingSlots.Count; i++)
-            CraftingSlots[i].CardType = cardTypeDatas[i];
+            CraftingSlots[i].CardType.CopyValues(cardTypeDatas[i]);
     }
     public void ResetCraftingSlots()
     {
@@ -201,7 +201,7 @@ public class CraftingHandler
                 continue;
 
             foundPlacement = true;
-            _craftingSlots[i].CardType = cardTypeData;
+            _craftingSlots[i].CardType.CopyValues(cardTypeData);
             break;
         }
 
@@ -209,7 +209,7 @@ public class CraftingHandler
         if (!foundPlacement)
         {
             PushBack(true);
-            _craftingSlots[_craftingSlots.Length-1].CardType = cardTypeData;
+            _craftingSlots[_craftingSlots.Length-1].CardType.CopyValues(cardTypeData); 
         }
 
         OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
@@ -235,7 +235,7 @@ public class CraftingHandler
 
             // found empty slot
             foundPlacement = true;
-            _craftingSlots[i].CardType = cardTypeData;
+            _craftingSlots[i].CardType.CopyValues(cardTypeData); ;
             break;
         }
 
@@ -243,7 +243,7 @@ public class CraftingHandler
         if (!foundPlacement)
         {
             PushFront(true);
-            _craftingSlots[CraftingSlots.Count - 1].CardType = cardTypeData;
+            _craftingSlots[CraftingSlots.Count - 1].CardType.CopyValues(cardTypeData); ;
         }
         
         OnSlotMoved?.Invoke(cardTypeData, CardsTypeData);
@@ -277,7 +277,7 @@ public class CraftingHandler
         CardTypeData lastSlot = CraftingSlots[count - 1].CardType;
 
         for (int i = count - 1; i > 0; i--)
-            _craftingSlots[i].CardType = _craftingSlots[i-1].CardType;
+            _craftingSlots[i].CardType.CopyValues( _craftingSlots[i-1].CardType);
 
 
         //for (int i = 0; i < count - 1; i++)
@@ -300,7 +300,7 @@ public class CraftingHandler
         CardTypeData firstSlot = CraftingSlots[0].CardType;
 
         for (int i = 0; i < count - 1; i++)
-            _craftingSlots[i] = _craftingSlots[i + 1];
+            _craftingSlots[i].CardType.CopyValues(_craftingSlots[i + 1].CardType);
 
         _craftingSlots[count - 1].Reset();
 
@@ -346,9 +346,16 @@ public class CraftingSlot
     [UnityEngine.SerializeField]
     private CardTypeData _cardType;
     public CardTypeData CardType { get => _cardType; set => _cardType = value; }
-    public bool IsEmpty => CardType == null;
+    public bool IsEmpty => CardType.BodyPart == CardMaga.Card.BodyPartEnum.Empty;
+
+    public CraftingSlot()
+    {
+        CardType = new CardTypeData();
+        Reset();
+    }
     public void Reset()
     {
-        _cardType = null;
+        _cardType.BodyPart = CardMaga.Card.BodyPartEnum.Empty;
+        _cardType.CardType = CardTypeEnum.None;
     }
 }

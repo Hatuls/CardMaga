@@ -3,7 +3,7 @@ namespace Characters.Stats
 {
     public class ProtectedStat : BaseStat
     {
-        public ProtectedStat(bool isPlayer, int amount) : base(isPlayer, amount)
+        public ProtectedStat(int amount) : base(amount)
         {
         }
 
@@ -15,31 +15,18 @@ namespace Characters.Stats
     {
         VFXController _vfxController;
         ParticleSystemVFX _vulnerableVFX;
-        public WeakStat(bool isPlayer, int amount) : base(isPlayer, amount)
+        public WeakStat(int amount) : base(amount)
         {
         }
 
         public override KeywordTypeEnum Keyword => KeywordTypeEnum.Weak;
-        public override void Add(int amount)
-        {
- 
-            base.Add(amount);
-        }
-        public override void Reduce(int amount)
-        {
-            base.Reduce(amount);
-      
-        }
-        public override void Reset(int value = 0)
-        {
-            base.Reset(value);
-        }
+
     }
     public class VulnerableKeyword : BaseStat
     {
         VFXController _vfxController;
         ParticleSystemVFX _weakParticleVFX;
-        public VulnerableKeyword(bool isPlayer, int amount) : base(isPlayer, amount)
+        public VulnerableKeyword(int amount) : base(amount)
         {
         }
         public override void Add(int amount)

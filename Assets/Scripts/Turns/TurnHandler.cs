@@ -693,7 +693,7 @@ namespace Battle.Turns
         }
         private bool IsAnimationFinished => _player.VisualCharacter.AnimatorController.IsCurrentlyIdle;
         private bool IsFinishedDetectingCombo => !_comboManager.IsTryingToDetect;
-        private bool IsExecutionAquiring => !_cardExecutionManager.GameCommands.AnimationCommands.IsEmpty;
+        private bool IsExecutionAquiring => !_cardExecutionManager.GameCommands.GameVisualCommands.AnimationCommands.IsEmpty;
         public bool IsStaminaIsZero => !_player.StaminaHandler.HasStamina;
     }
 }

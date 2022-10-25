@@ -95,7 +95,7 @@ namespace Battle
         {
             _gameTurnHandler = new GameTurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
             _playersManager = new PlayersManager(_playerManager, _enemyManager);
-            _gameCommands = new GameCommands(PlayersManager, KeywordManager);
+            _gameCommands = new GameCommands(this);
             _ruleManager = new RuleManager();
             _endBattleHandler = new EndBattleHandler(this);
             
@@ -325,7 +325,15 @@ namespace Battle
             LeftCharacter.VisualCharacter.InitVisuals(LeftCharacter, leftCharacterSO, false);
             RightCharacter.VisualCharacter.InitVisuals(RightCharacter, rightCharacterSO, rightModel == leftModel);
 
+            battleManager.OnBattleManagerDestroyed += BattleManager_OnBattleManagerDestroyed;
+
             token.Dispose();
+        }
+
+        private void BattleManager_OnBattleManagerDestroyed(IBattleManager obj)
+        {
+            LeftCharacter.VisualCharacter.Dispose(LeftCharacter);
+            LeftCharacter.VisualCharacter.Dispose(LeftCharacter);
         }
     }
 }

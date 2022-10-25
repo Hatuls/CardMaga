@@ -2,105 +2,135 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> :  IPoolObject<T> where T : MonoBehaviour, IPoolable<T>
+namespace CardMaga.Tools.Pools
 {
-    protected T _prefabOfType;
-
-    private Stack<T> _poolToType = new Stack<T>();
-
-    private List<T> _totalPoolType = new List<T>();
-    
-    private Transform _parent;
-    
-    public ObjectPool(T objectToPool,Transform parent)
+    public class MBPool<T> : ObjectPool<T>, IPoolMBObject<T> where T : MonoBehaviour, IPoolableMB<T>, new()
     {
-        _parent = parent;
-        _prefabOfType = objectToPool;
-    }
+        protected T _prefabOfType;
+        private Transform _parent;
 
-    public T Pull()
-    {
-        T cache = null;
-
-        if (_poolToType.Count > 0)
-            cache = _poolToType.Pop();
-        else
-            cache = GenerateNewOfType();
-
-        cache.Init();
-
-        return cache;
-    }
-
-    private T GenerateNewOfType()
-    {
-        T cache = MonoBehaviour.Instantiate(_prefabOfType, _parent);
-
-        if (cache == null)
+        public MBPool(T prefabOfType, Transform parent)
         {
-            Debug.LogError($"Failed to Pull object, { typeof(T) } is null");
-            return null;
+            _prefabOfType = prefabOfType;
+            _parent = parent;
         }
-        
-        cache.OnDisposed += AddToQueue;
-        _totalPoolType.Add(_prefabOfType);
-        return cache;
+
+        public override T Pull()
+        {
+            T type = base.Pull();
+            type.Init();
+            return type;
+        }
+        protected override void AddToQueue(T type)
+        {
+            base.AddToQueue(type);
+            type.gameObject.SetActive(false);
+        }
+
+        protected override T GenerateNewOfType()
+        {
+            T cache = MonoBehaviour.Instantiate(_prefabOfType, _parent);
+
+            if (cache == null)
+            {
+                Debug.LogError($"Failed to Pull object, { typeof(T) } is null");
+                return null;
+            }
+
+            cache.OnDisposed += AddToQueue;
+            _totalPoolType.Add(cache);
+            return cache;
+        }
     }
 
-    private void AddToQueue(T type)
+
+    public class ObjectPool<T> : IPoolObject<T> where T : class, IPoolable<T>, new()
     {
-        _poolToType.Push(type);
-        type.gameObject.SetActive(false);
+
+        protected Stack<T> _poolToType = new Stack<T>();
+
+        protected List<T> _totalPoolType = new List<T>();
+
+        public ObjectPool()
+        {
+
+        }
+
+        public ObjectPool(int amount)
+        {
+            for (int i = 0; i < amount; i++)
+                Pull();
+
+            ResetPool();
+        }
+
+        public virtual T Pull()
+        {
+            T cache = null;
+
+            if (_poolToType.Count > 0)
+                cache = _poolToType.Pop();
+            else
+                cache = GenerateNewOfType();
+
+            return cache;
+        }
+
+        protected virtual T GenerateNewOfType()
+        {
+            T cache = new T();
+
+            if (cache == null)
+            {
+                Debug.LogError($"Failed to Pull object, { typeof(T) } is null");
+                return null;
+            }
+
+            cache.OnDisposed += AddToQueue;
+            _totalPoolType.Add(cache);
+            return cache;
+        }
+
+        protected virtual void AddToQueue(T type)
+        {
+            _poolToType.Push(type);
+        }
+        public void ResetPool()
+        {
+            for (int i = 0; i < _totalPoolType.Count; i++)
+                _totalPoolType[i].Dispose();
+        }
+
+        ~ObjectPool()
+        {
+            for (int i = 0; i < _totalPoolType.Count; i++)
+                _totalPoolType[i].OnDisposed -= AddToQueue;
+        }
     }
-    public void ResetPool()
+
+
+    public interface IPoolObject<T> where T : IPoolable<T>
     {
-        for (int i = 0; i < _totalPoolType.Count; i++)
-            _totalPoolType[i].Dispose();
+        T Pull();
+
+        void ResetPool();
     }
 
-    ~ObjectPool()
+    public interface IPoolMBObject<T> : IPoolObject<T> where T : MonoBehaviour, IPoolableMB<T>
     {
-        for (int i = 0; i < _totalPoolType.Count; i++)
-            _totalPoolType[i].OnDisposed -= AddToQueue;
+
     }
-}
 
-
-public interface IPoolObject<T> where T : IPoolable<T>
-{
-    T Pull();
-    void ResetPool();
-}
-
-public interface IPoolMBObject<T> where T :MonoBehaviour, IPoolableMB<T>
-{
-
-}
-
-public interface IPoolable<T> : IDisposable
-{
-    event Action<T> OnDisposed;
-    void Init();
-}
-
-
-public interface IPoolableMB<T> : IPoolable<T> where T: MonoBehaviour
-{
-
-}
-public interface IPoolableClass<T> : IDisposable where T : new()
-{
-    event Action<T> OnDisposed;
-}
-
-public class PoolClass<T>
-{
-
-    private Stack<T> _stackPool;
-    public PoolClass()
+    public interface IPoolable<T> : IDisposable
     {
-        _stackPool = new Stack<T>();
-
-
+        event Action<T> OnDisposed;
     }
+
+
+    public interface IPoolableMB<T> : IPoolable<T> where T : MonoBehaviour
+    {
+        void Init();
+    }
+
+
 }

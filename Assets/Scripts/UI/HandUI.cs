@@ -93,7 +93,6 @@ namespace CardMaga.UI
                 { InputBehaviourState.Hand, _handUIState } ,{ InputBehaviourState.Default ,null }
             };
 
-            BattleManager.Register(this, OrderType.Default);
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += DiscardAllCards;
             _handUIState.OnCardDrawnAndAlign += UnLockInput;
@@ -207,6 +206,9 @@ namespace CardMaga.UI
 
         private void GetCardsFromCombo(params CardUI[] cards)
         {
+            for (int i = 0; i < cards.Length; i++)
+                cards[i].Init();
+
             OnCardsAddToHand?.Invoke(cards);
 
             for (int i = 0; i < cards.Length; i++)

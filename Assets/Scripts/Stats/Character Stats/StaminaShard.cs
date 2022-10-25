@@ -6,7 +6,7 @@ namespace Characters.Stats
         byte _maxShardSize;
         private StaminaHandler _staminaHandler;
         private StaminaStat _staminaStat;
-        public StaminaShard(bool isPlayer, int amount, StaminaHandler staminaHandler,StaminaStat staminaStat) : base(isPlayer, amount)
+        public StaminaShard(int amount, StaminaHandler staminaHandler,StaminaStat staminaStat) : base(amount)
         {
             _maxShardSize = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(Keyword).InfoAmount;
             _staminaHandler = staminaHandler;

@@ -13,5 +13,11 @@ namespace CardMaga.Card
         private CardTypeEnum _cardType;
         public CardTypeEnum CardType { get => _cardType; set => _cardType = value; }
 
+
+        public void CopyValues(CardTypeData other)
+        {
+            BodyPart = other.BodyPart;
+            CardType = other.CardType;
+        }
     }
 }

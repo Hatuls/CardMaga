@@ -1,5 +1,6 @@
 ﻿using Battle;
 using Managers;
+using System;
 using UnityEngine;
 namespace CardMaga.Battle.Visual
 {
@@ -44,7 +45,7 @@ namespace CardMaga.Battle.Visual
             if (isTinted)
                 AvatarHandler.Mesh.material = modelSO.GetRandomTintedMaterials();
 
-
+            //Assign Avatar
             VfxController.AvatarHandler = AvatarHandler;
             Animator.avatar = AvatarHandler.Avatar;
             AnimationSound.CurrentCharacter = characterSO;
@@ -57,6 +58,10 @@ namespace CardMaga.Battle.Visual
 #endif
         }
 
+        internal void Dispose(IPlayer leftCharacter)
+        {
+            _visualStats.Dispose(leftCharacter);
+        }
 
         #region Editor
         [Header("Editor")]
@@ -79,6 +84,7 @@ namespace CardMaga.Battle.Visual
                 Gizmos.DrawWireMesh(_mesh, _visual.position, Quaternion.Euler(_rotation), _meshScale);
             }
         }
+
         #endregion
     }
 }

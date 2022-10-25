@@ -5,7 +5,7 @@ namespace Characters.Stats
 {
     public class StaminaStat : BaseStat
     {
-        public StaminaStat(bool isPalyer,  int amount) : base(isPalyer,  amount)
+        public StaminaStat(int amount) : base(amount)
         {
         }
 

@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Battle.Combo;
 using Battle.Deck;
-using Battle.UI;
+using Battle.Turns;
+using CardMaga.Card;
+using CardMaga.Commands;
+using CardMaga.SequenceOperation;
 using Cards;
 using ReiTools.TokenMachine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ThreadsHandler;
 using Unity.Events;
 using UnityEngine;
-using Battle.Combo;
-using CardMaga.Card;
-using CardMaga.SequenceOperation;
-using Battle.Turns;
-using System.Threading;
-using CardMaga.Commands;
 
 namespace Battle
 {
@@ -25,7 +23,7 @@ namespace Battle
         public event Action<Combo.ComboData> OnComboSucceeded;
         public event Action OnComboDetectedFinished;
         public event Action<CardData[]> OnCraftingComboToHand;
-        
+
         #endregion
 
         #region Fields
@@ -62,10 +60,10 @@ namespace Battle
         public override void Awake()
         {
             base.Awake();
-        
+
             BattleManager.Register(this, OrderType.Default);
         }
-    
+
         public void Start()
         {
             threadId = ThreadHandler.GetNewID;
@@ -77,41 +75,42 @@ namespace Battle
             var ComboSO = _cardRecipeDetected.ComboSO;
             if (_cardRecipeDetected != null && ComboSO != null)
             {
-                 
+
                 var craftedCard = _cardFactory.CreateCard(ComboSO.CraftedCard.ID, _cardRecipeDetected.Level);
 
                 _successCrafting?.Raise();
                 DeckHandler deck = _playersManager.GetCharacter(isPlayer).DeckHandler;
                 ICommand command;
+                var dataCommandsHandler = _gameCommands.GameDataCommands.DataCommands;
                 switch (ComboSO.GoToDeckAfterCrafting)
                 {
                     case DeckEnum.Hand:
                         command = new AddNewCardToDeck(DeckEnum.Hand, craftedCard, deck);
-                        _gameCommands.DataCommands.AddCommand(command);
-                       // deck.AddCardToDeck(craftedCard,DeckEnum.Hand);
+                        dataCommandsHandler.AddCommand(command);
+                        // deck.AddCardToDeck(craftedCard,DeckEnum.Hand);
                         if (isPlayer)
-                            OnCraftingComboToHand?.Invoke(new CardData[]{craftedCard});
+                            OnCraftingComboToHand?.Invoke(new CardData[] { craftedCard });
                         break;
                     case DeckEnum.PlayerDeck:
                     case DeckEnum.Discard:
                         var gotolocation = ComboSO.GoToDeckAfterCrafting;
-                         command = new AddNewCardToDeck(gotolocation, craftedCard, deck);
-                        _gameCommands.DataCommands.AddCommand(command);
+                        command = new AddNewCardToDeck(gotolocation, craftedCard, deck);
+                        dataCommandsHandler.AddCommand(command);
                         command = new DrawHandCommand(deck, 1);
-                        _gameCommands.DataCommands.AddCommand(command);
+                        dataCommandsHandler.AddCommand(command);
 
-                     //   deck.AddCardToDeck( craftedCard, gotolocation);
-//                        deck.DrawHand( 1);
+                        //   deck.AddCardToDeck( craftedCard, gotolocation);
+                        //                        deck.DrawHand( 1);
                         break;
 
                     case DeckEnum.AutoActivate:
 
-                        _cardExecutionManager.ForceExecuteCard(isPlayer,craftedCard);
-                
+                        _cardExecutionManager.ForceExecuteCard(isPlayer, craftedCard);
+
                         //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
-                       // (deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(craftedCard, false);
+                        // (deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(craftedCard, false);
                         Debug.Log("DrawFrom 2");
-	                    deck.DrawHand( 1);
+                        deck.DrawHand(1);
                         break;
                     default:
                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
@@ -120,9 +119,9 @@ namespace Battle
             }
         }
 
-     //   public  void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId,DetectRecipe, EndDetection));
-        public  void StartDetection() => DetectRecipe();
-        private  void EndDetection()
+        //   public  void StartDetection() => ThreadHandler.StartThread(new ThreadList(threadId,DetectRecipe, EndDetection));
+        public void StartDetection() => DetectRecipe();
+        private void EndDetection()
         {
             // need to change the logic!
 
@@ -133,14 +132,14 @@ namespace Battle
             if (_cardRecipeDetected == null || _cardRecipeDetected.ComboSO == null)
             {
                 FoundCombo = false;
-                deck.DrawHand( 1);
+                deck.DrawHand(1);
             }
             else
             {
                 FoundCombo = true;
                 OnComboSucceeded?.Invoke(_cardRecipeDetected);
                 ResetCraftingSlotCommand resetCraftingCommands = new ResetCraftingSlotCommand(_playersManager.GetCharacter(isPlayer).CraftingHandler);
-                _gameCommands.DataCommands.AddCommand(resetCraftingCommands);
+                _gameCommands.GameDataCommands.DataCommands.AddCommand(resetCraftingCommands);
                 TryForge(isPlayer);
 
                 _cardRecipeDetected = null;
@@ -157,60 +156,50 @@ namespace Battle
 
             var data = _playersManager.GetCharacter(isPlayer).CraftingHandler;
 
-            CardTypeData[] craftingSlots = new CardTypeData[data.LengthSize];
+            CheckRecipe(data.CardsTypeData, isPlayer);
 
-            System.Array.Copy(data.CardsTypeData.ToArray(), craftingSlots, data.LengthSize);
-
-            //  System.Array.Reverse(craftingSlots);
-
-            // checking how many of them are not null
-            int amountCache = 0;
-            for (int i = 0; i < craftingSlots.Length; i++)
-            {
-                if (craftingSlots[i] != null)
-                    amountCache++;
-            }
-
-            List<CardTypeData> craftingItems = new List<CardTypeData>(amountCache);
-
-            for (int i = 0; i < craftingSlots.Length; i++)
-            {
-                if (craftingSlots[i] != null)
-                    craftingItems.Add(craftingSlots[i]);
-
-            }
-            if (amountCache > 1)
-            {
-                CheckRecipe(craftingItems, isPlayer);
-            }
             EndDetection();
         }
-         void CheckRecipe(IReadOnlyList<CardTypeData> craftingItems, bool isPlayer)
+        void CheckRecipe(IEnumerable<CardTypeData> craftingItems, bool isPlayer)
         {
             // need to make algorithem better!!! 
             var recipes = _playersManager.GetCharacter(isPlayer).Combos;
 
-        
-            CardTypeData[] cardTypeDatas;
+
+            //  CardTypeData[] cardTypeDatas;
             for (int i = 0; i < recipes.Length; i++)
             {
                 var comboSO = recipes[i].ComboSO;
-                cardTypeDatas = new CardTypeData[comboSO.ComboSequence.Length];
+                //  cardTypeDatas = new CardTypeData[comboSO.ComboSequence.Length];
 
-                for (int j = 0; j < comboSO.ComboSequence.Length; j++)
-                {
-                    cardTypeDatas[j] = comboSO.ComboSequence[j];
-                    //nextRecipe.Add(combo[i].ComboSequance[j]);
-                }
-                if (craftingItems.SequenceEqual(cardTypeDatas, _cardTypeComparer))
+                var toList = craftingItems.ToList();
+                if (SequenceEquals(craftingItems,comboSO.ComboSequence))
                 {
                     CardRecipeDetected = recipes[i];
-                  //  Thread.Sleep(100);
+                    //  Thread.Sleep(100);
                     return;
                 }
 
             }
+
             CardRecipeDetected = null;
+
+            bool SequenceEquals(IEnumerable<CardTypeData> current, IEnumerable<CardTypeData> other)
+            {
+                int length = current.Count();
+                bool match = true;
+                CardTypeData A;
+                CardTypeData B;
+                for (int i = 0; i < length; i++)
+                {
+                     A = current.ElementAt(i);
+                     B = other.ElementAt(i);
+                    match &= _cardTypeComparer.Equals(A,B);
+                    if (!match)
+                        break;
+                }
+                return match;
+            }
         }
 
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
@@ -221,7 +210,7 @@ namespace Battle
             var left = _playersManager.GetCharacter(true);
             var right = _playersManager.GetCharacter(false);
             OnComboDetectedFinished += left.StaminaHandler.CheckStaminaEmpty;
-            OnComboDetectedFinished +=right.StaminaHandler.CheckStaminaEmpty;
+            OnComboDetectedFinished += right.StaminaHandler.CheckStaminaEmpty;
 
             left.CraftingHandler.OnComboDetectionRequired += StartDetection;
             //right.CraftingHandler.OnComboDetectionRequired += StartDetection;
@@ -230,18 +219,18 @@ namespace Battle
 
             data.OnBattleManagerDestroyed += BattleManagerDestroyed;
         }
-   
+
         private void BattleManagerDestroyed(IBattleManager bm)
         {
 
             bm.OnBattleManagerDestroyed -= BattleManagerDestroyed;
 
-            var left =  _playersManager.GetCharacter(true);
+            var left = _playersManager.GetCharacter(true);
             var right = _playersManager.GetCharacter(false);
             OnComboDetectedFinished -= left.StaminaHandler.CheckStaminaEmpty;
             OnComboDetectedFinished -= right.StaminaHandler.CheckStaminaEmpty;
 
-            left.CraftingHandler.OnComboDetectionRequired  -= StartDetection;
+            left.CraftingHandler.OnComboDetectionRequired -= StartDetection;
             //right.CraftingHandler.OnComboDetectionRequired -= StartDetection;
 
         }

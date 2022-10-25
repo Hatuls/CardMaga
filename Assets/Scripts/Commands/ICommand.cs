@@ -107,10 +107,9 @@ namespace CardMaga.Commands
         }
     }
 
-    public class KeywordCommandHandler : CommandHandler<ISequenceCommand>
+    public class VisualKeywordCommandHandler : CommandHandler<ISequenceCommand>
     {
         public override event Action OnCommandAdded;
-
         private List<ISequenceCommand> _visualCommands = new List<ISequenceCommand>();
 
         public override void AddCommand(ISequenceCommand command)
@@ -121,6 +120,11 @@ namespace CardMaga.Commands
                     command.Execute();
                     break;
                 case CommandType.WithPrevious:
+                    if (_visualCommands.Count == 0)
+                        command.Execute();
+                    else
+                        _visualCommands.Add(command);
+                    break;
                 case CommandType.AfterPrevious:
                     _visualCommands.Add(command);
                     break;
@@ -195,8 +199,8 @@ namespace CardMaga.Commands
                 return;
             _isExecuting = true;
             ISequenceCommand current = _visualCommands[0];
-            current.Execute();
             current.OnFinishExecute += FinishExecution;
+            current.Execute();
 
             //Execute all
             ExecuteWithPreviousCommand();

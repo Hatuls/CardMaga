@@ -1,40 +1,48 @@
 ﻿using Keywords;
+using System;
 using System.Collections.Generic;
 
 namespace Characters.Stats
 {
-    public class CharacterStatsHandler
+    public class CharacterStatsHandler : IDisposable
     {
-        public static event System.Action<bool, CharacterStatsHandler> OnStatAssigned;
-
+        private readonly bool IsPlayer;
+        public event System.Action<bool, CharacterStatsHandler> OnStatAssigned;
+        public event System.Action<bool, KeywordTypeEnum, int> OnStatValueChanged;
+        public event Action OnUpdateStatNeeded;
         private System.Collections.Generic.Dictionary<KeywordTypeEnum, BaseStat> _statsDictionary;
+
+        public IReadOnlyDictionary<KeywordTypeEnum, BaseStat> StatDictionary => _statsDictionary;
+
+
+
         public CharacterStatsHandler(bool isPlayer, ref CharacterStats stats, StaminaHandler staminaHandler)
         {
             //stats
-            MaxHealthStat _max = new MaxHealthStat(isPlayer, stats.MaxHealth);
+            MaxHealthStat _max = new MaxHealthStat(stats.MaxHealth);
             HealthStat _health = new HealthStat(_max, isPlayer, stats.Health); ;
-            StrengthStat _str = new StrengthStat(isPlayer, stats.Strength);
-            DexterityStat _dex = new DexterityStat(isPlayer, stats.Dexterity);
-            ShieldStat _defense = new ShieldStat(_health,isPlayer, stats.Shield);
-            BleedStat _bleed = new BleedStat(isPlayer, stats.Bleed);
-            HealthRegenerationStat _regen = new HealthRegenerationStat(isPlayer, stats.RegenerationPoints);
-           // CoinStat _coin = new CoinStat(isPlayer, stats.Gold);
-            StaminaStat _stamina = new StaminaStat(isPlayer, stats.StartStamina);
-            DrawCardStat _draw = new DrawCardStat(isPlayer, stats.DrawCardsAmount);
-            RageStat _rage = new RageStat(isPlayer, stats.RagePoint);
-            ProtectedStat _protected = new ProtectedStat(isPlayer, stats.ProtectionPoints);
-            WeakStat _weakStat = new WeakStat(isPlayer, stats.Weakend);
-            VulnerableKeyword _vulnerableKeyword = new VulnerableKeyword(isPlayer, stats.Weakend);
+            StrengthStat _str = new StrengthStat(stats.Strength);
+            DexterityStat _dex = new DexterityStat(stats.Dexterity);
+            ShieldStat _defense = new ShieldStat(_health, stats.Shield);
+            BleedStat _bleed = new BleedStat(stats.Bleed);
+            HealthRegenerationStat _regen = new HealthRegenerationStat(stats.RegenerationPoints);
+            // CoinStat _coin = new CoinStat(isPlayer, stats.Gold);
+            StaminaStat _stamina = new StaminaStat(stats.StartStamina);
+            DrawCardStat _draw = new DrawCardStat(stats.DrawCardsAmount);
+            RageStat _rage = new RageStat(stats.RagePoint);
+            ProtectedStat _protected = new ProtectedStat(stats.ProtectionPoints);
+            WeakStat _weakStat = new WeakStat(stats.Weakend);
+            VulnerableKeyword _vulnerableKeyword = new VulnerableKeyword(stats.Weakend);
             //Effects
-            StunStat _stun = new StunStat(isPlayer);
+            StunStat _stun = new StunStat();
 
             //shards
-            StaminaShard _staminaShards = new StaminaShard(isPlayer, stats.StaminaShard, staminaHandler, _stamina);
-            StunShard _stunShards = new StunShard(isPlayer, stats.StunShard,_stun);
-            RageShard _rageShard = new RageShard(isPlayer, stats.RageShard,_rage);
-            ProtectionShard _protectionShard = new ProtectionShard(isPlayer, stats.ProtectionShards,_protected);
+            StaminaShard _staminaShards = new StaminaShard(stats.StaminaShard, staminaHandler, _stamina);
+            StunShard _stunShards = new StunShard(stats.StunShard, _stun);
+            RageShard _rageShard = new RageShard(stats.RageShard, _rage);
+            ProtectionShard _protectionShard = new ProtectionShard(stats.ProtectionShards, _protected);
 
-            _max._healthStat = _health;
+            _max.HealthStat = _health;
 
             const int StatsCapacity = 20;
 
@@ -59,12 +67,19 @@ namespace Characters.Stats
                 {_weakStat.Keyword,_weakStat },
                 {_vulnerableKeyword.Keyword,_vulnerableKeyword  },
             };
-            
-            OnStatAssigned?.Invoke(isPlayer, this);
+
+            IsPlayer = isPlayer;
+
+            foreach (var item in StatDictionary)
+                item.Value.OnStatsUpdated += StatChangedDetected;
+
+
+
+            OnStatAssigned?.Invoke(IsPlayer, this);
         }
 
 
-        public IReadOnlyDictionary<KeywordTypeEnum,BaseStat> StatDictionary => _statsDictionary;
+
         public BaseStat GetStat(KeywordTypeEnum keyword)
         {
             if (_statsDictionary.TryGetValue(keyword, out BaseStat stat))
@@ -79,6 +94,7 @@ namespace Characters.Stats
             {
                 _statsDictionary[KeywordTypeEnum.Heal].Add(_statsDictionary[KeywordTypeEnum.Regeneration].Amount);
                 _statsDictionary[KeywordTypeEnum.Regeneration].Reduce(1);
+                OnUpdateStatNeeded?.Invoke();
             }
         }
         public void ApplyBleed()
@@ -87,6 +103,7 @@ namespace Characters.Stats
             {
                 _statsDictionary[KeywordTypeEnum.Heal].Reduce(_statsDictionary[KeywordTypeEnum.Bleed].Amount);
                 _statsDictionary[KeywordTypeEnum.Bleed].Reduce(1);
+                OnUpdateStatNeeded?.Invoke();
             }
         }
         public void RecieveDamage(int amount, bool pierceThroughTheArmour = false)
@@ -95,9 +112,19 @@ namespace Characters.Stats
                 GetStat(KeywordTypeEnum.Heal).Reduce(amount);
             else
                 GetStat(KeywordTypeEnum.Shield).Reduce(amount);
+
+            OnUpdateStatNeeded?.Invoke();
         }
 
+        private void StatChangedDetected(int value, KeywordTypeEnum keywordTypeEnum)
+        => OnStatValueChanged?.Invoke(IsPlayer, keywordTypeEnum, value);
 
+        public void Dispose()
+        {
 
+            foreach (var item in StatDictionary)
+                item.Value.OnStatsUpdated -= StatChangedDetected;
+
+        }
     }
 }
