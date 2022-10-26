@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace CardMaga.Input
 {
+    [DefaultExecutionOrder(-1000)]
     public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>
     {
         #region Fields
@@ -20,58 +20,51 @@ namespace CardMaga.Input
 
         #endregion
 
-
-        private void Start()
+        public override void Awake()
         {
+            base.Awake();
             _inputGroupIndex = 0;
             _currentInputGroup = _inputGroups[_inputGroupIndex];
         }
-        
+
+        #region TouchableItemManagment
+
         public void AddTouchableItemToList(TouchableItem touchableItem)
-    {
-        if (touchableItem == null)
-            return;
-        
-        _touchableItems.Add(touchableItem);
-
-        if (FindTouchableItemInCurrentInputIDList(touchableItem))
         {
-            AddTouchableItemToActiveList(touchableItem);
+            if (touchableItem == null)
+                return;
+
+            if (!_touchableItems.Contains(touchableItem))
+                _touchableItems.Add(touchableItem);
+
+            UpdateInputState();
+            // if (FindTouchableItemInCurrentInputIDList(touchableItem))
+            // {
+            //     AddTouchableItemToActiveList(touchableItem);
+            // }
         }
-    }
 
-    private void AddTouchableItemToActiveList(TouchableItem touchableItem)
-    {
-        _activeTouchableItems.Add(touchableItem);
-        UpdateInputState();
-    }
-
-    public void RemoveTouchableItemToActiveList(TouchableItem touchableItem)
-    {
-        if (_activeTouchableItems.Contains(touchableItem))
+        public void RemoveTouchableItemFromAllLists(TouchableItem touchableItem)
         {
-            _activeTouchableItems.Remove(touchableItem);
-        }
-    }
-    
-    public void RemoveTouchableItemFromAllLists(TouchableItem touchableItem)
-    {
-        if (touchableItem == null)
-            return;
+            if (touchableItem == null)
+                return;
         
-        if (_activeTouchableItems.Contains(touchableItem))
-        {
-            _activeTouchableItems.Remove(touchableItem);
-        }
+            if (_activeTouchableItems.Contains(touchableItem))
+            {
+                _activeTouchableItems.Remove(touchableItem);
+            }
         
-        _touchableItems.Remove(touchableItem);
-    }
+            _touchableItems.Remove(touchableItem);
+        }
 
-    #region InputGroup
+        #endregion
+        
+        #region InputGroup
 
     public void MoveToNextInputGroup()
     {
-        _currentInputGroup = _inputGroups[_inputGroupIndex++];
+        _inputGroupIndex++;
+        _currentInputGroup = _inputGroups[_inputGroupIndex];
         
         SetNewInputGroup(_currentInputGroup);
     }
@@ -92,114 +85,121 @@ namespace CardMaga.Input
     
     #endregion
     
-    private void UpdateInputState()
-    {
-        ChangeTouchableItemsState(_activeTouchableItems.ToArray(),true);
-    }
-
-    private void FindTouchableItemByID(InputGroup inputGroup)
-    {
-        foreach (var touchableItem in _touchableItems)
+        private void UpdateInputState()
         {
-            if (touchableItem.InputIdentification == null)
-                continue;
-
-            foreach (var inputId in inputGroup.InputIDs)
+            FindTouchableItemByID(_currentInputGroup);
+            ChangeTouchableItemsState(_activeTouchableItems.ToArray(),true);
+        }
+        
+        private void FindTouchableItemByID(InputGroup inputGroup)
+        {
+            foreach (var touchableItem in _touchableItems)
             {
-                if (touchableItem.InputIdentification == inputId)
+                if (touchableItem.InputIdentification == null)
+                    continue;
+                
+                if (_activeTouchableItems.Contains(touchableItem))
+                    continue;
+                
+                foreach (var inputId in inputGroup.InputIDs)
                 {
-                    _activeTouchableItems.Add(touchableItem);
-                    break;
+                    if (touchableItem.InputIdentification == inputId)
+                    {
+                        _activeTouchableItems.Add(touchableItem);
+                        break;
+                    }
                 }
             }
         }
-    }
-
-    private bool FindTouchableItemInCurrentInputIDList(TouchableItem touchableItem)
-    {
-        if (_currentInputGroup == null)
-            return false;
         
-        foreach (var inputID in _currentInputGroup.InputIDs)
+        private bool FindTouchableItemInCurrentInputIDList(TouchableItem touchableItem)
         {
-            if (inputID == touchableItem.InputIdentification)
+            if (_currentInputGroup == null)
+                return false;
+            
+            foreach (var inputID in _currentInputGroup.InputIDs)
             {
-                return true;
+                if (inputID == touchableItem.InputIdentification)
+                {
+                    return true;
+                }
             }
+        
+            return false;
         }
-
-        return false;
-    }
-
-    private void ResetActiveList()
-    {
-        _activeTouchableItems.Clear();
-    }
-
-    #region LockAndUnlockAll
-    
-    public void ChangeTouchableItemsState(TouchableItem[] touchableItems,bool isTouchable)
-    {
-        for (int i = 0; i < touchableItems.Length; i++)
+        
+        private void ResetActiveList()
         {
-            if (touchableItems[i] == null)
-                continue;
-            if (isTouchable && touchableItems[i].IsTouchable)
-                continue;
-            if (!isTouchable && !touchableItems[i].IsTouchable)
-                continue;
-            
-            if (isTouchable)
-                touchableItems[i].UnLock();
-            else
-                touchableItems[i].Lock();
+            _activeTouchableItems.Clear();
         }
-    }
-
-    public void ChangeAllTouchableItemsState(bool isTouchable)
-    {
-        for (int i = 0; i < _touchableItems.Count; i++)
+        
+        #region LockAndUnlockAll
+        
+        public void ChangeTouchableItemsState(TouchableItem[] touchableItems,bool isTouchable)
         {
-            if (_touchableItems[i] == null)
-                continue;
-
-            if (isTouchable)
-                _touchableItems[i].UnLock();
-            else
-                _touchableItems[i].Lock();
-            
-        }
-    }
-
-    public void ChangeAllTouchableItemsStateExcept(bool isTouchable,params TouchableItem[] exceptTouchableItem)
-    {
-        for (int i = 0; i < _touchableItems.Count; i++)
-        {
-            bool isExcept = false;
-            
-            if (_touchableItems[i] == null)
-                continue;
-
-            for (int j = 0; j < exceptTouchableItem.Length; j++)
+            for (int i = 0; i < touchableItems.Length; i++)
             {
-                isExcept = _touchableItems[i] == exceptTouchableItem[j];
+                if (touchableItems[i] == null)
+                    continue;
+                if (!touchableItems[i].gameObject.activeSelf)
+                    continue;
+                if (isTouchable && touchableItems[i].IsTouchable)
+                    continue;
+                if (!isTouchable && !touchableItems[i].IsTouchable)
+                    continue;
                 
-                if (isExcept)
-                    break;  
+                if (isTouchable)
+                    touchableItems[i].UnLock();
+                else
+                    touchableItems[i].Lock();
             }
-            
-            if (!isExcept)
-                continue;  
-            
-            if (isTouchable)
-                _touchableItems[i].UnLock();
-            else
-                _touchableItems[i].Lock();
         }
-    }
-
-    #endregion
-    
-    }
-}
-
+        
+        public void ChangeAllTouchableItemsState(bool isTouchable)
+        {
+            for (int i = 0; i < _touchableItems.Count; i++)
+            {
+                if (_touchableItems[i] == null)
+                    continue;
+        
+                if (isTouchable)
+                    _touchableItems[i].UnLock();
+                else
+                    _touchableItems[i].Lock();
+                
+            }
+        }
+        
+        public void ChangeAllTouchableItemsStateExcept(bool isTouchable,params TouchableItem[] exceptTouchableItem)
+        {
+            for (int i = 0; i < _touchableItems.Count; i++)
+            {
+                bool isExcept = false;
+                
+                if (_touchableItems[i] == null)
+                    continue;
+        
+                for (int j = 0; j < exceptTouchableItem.Length; j++)
+                {
+                    isExcept = _touchableItems[i] == exceptTouchableItem[j];
+                    
+                    if (isExcept)
+                        break;  
+                }
+                
+                if (!isExcept)
+                    continue;  
+                
+                if (isTouchable)
+                    _touchableItems[i].UnLock();
+                else
+                    _touchableItems[i].Lock();
+            }
+        }
+        
+        #endregion
+        
+        }
+}       
+        
+        

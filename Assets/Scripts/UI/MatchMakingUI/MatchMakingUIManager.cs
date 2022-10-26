@@ -14,8 +14,21 @@ namespace CardMaga.UI.MatchMMaking
 
         private void Start()
         {
-            MatchMakingManager.OnOpponentAssign += OpponentFound;
+            Init(!(BattleData.Instance.BattleConfigSO.BattleTutorial == null));
+        }
+
+        private void Init(bool isInTutorial)
+        {
             _mainCharacterAssginer.AssingCharecter(BattleData.Instance.Left);
+            
+            if (isInTutorial)
+            {
+                OpponentFound(BattleData.Instance.Right);
+            }
+            else
+            {
+                MatchMakingManager.OnOpponentAssign += OpponentFound;
+            }
         }
 
         private void OnDestroy()
@@ -23,7 +36,7 @@ namespace CardMaga.UI.MatchMMaking
             MatchMakingManager.OnOpponentAssign -= OpponentFound;
         }
 
-        public void OpponentFound(Character character)
+        private void OpponentFound(Character character)
         {
             _lookingForOpponentUI.SetActive(false);
             

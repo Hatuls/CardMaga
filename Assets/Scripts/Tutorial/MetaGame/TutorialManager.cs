@@ -41,7 +41,7 @@ public class TutorialManager : MonoBehaviour
     {
         for (int i = 0; i < _currentTutorialIndex; i++)
         {
-            _badges[i].TurnOn();
+            _badges[i].Completed();
         }
     }
 
@@ -53,6 +53,7 @@ public class TutorialManager : MonoBehaviour
             EndTutorial();
             return;
         }
+        
         UpdateTutorialBadges();
         UpdateCurrentBattleConfig();
     }
@@ -74,7 +75,7 @@ public class TutorialManager : MonoBehaviour
 
     #region UnityCallback
 
-    private void Awake()//temp!
+    private void Start()//temp!
     {
         if (BattleData.Instance != null)
         {
@@ -88,6 +89,12 @@ public class TutorialManager : MonoBehaviour
         
         for (int i = 0; i < _badges.Length; i++)
         {
+            if (i == _currentTutorialIndex)
+            {
+                _badges[i].Open();
+                continue;
+            }
+            
             _badges[i].Init();
         }
         

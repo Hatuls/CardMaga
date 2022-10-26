@@ -11,11 +11,7 @@ namespace CardMaga.UI.ScrollPanel
         [SerializeField] private ComboUIScrollPanelManager _comboUIScroll;
         [SerializeField] private CardUIScrollPanelManager _cardUIScroll;
         [SerializeField] private CardDataFilterSystem _cardDataFilter;
-        [SerializeField] private ComboDataFilterSystem _comboDataFilter;
 
-        [Header("Filter Button")] [SerializeField]
-        private ComboAndDeckFilterButton _filterButton;
-        
         private CardDataSort _cardDataSort;
         private ComboDataSort _comboDataSort;
         
@@ -30,10 +26,7 @@ namespace CardMaga.UI.ScrollPanel
 
         private void Start()
         {
-            _filterButton.ComboState.OnClick += _comboDataFilter.CycleFilter;
-            _filterButton.DeckState.OnClick += _cardDataFilter.CycleFilter;
             _cardDataFilter.OnCycleFilter += ShowCard;
-            _comboDataFilter.OnCycleFilter += ShowCombo;
             
             ShowCombo();
             ShowCard();
@@ -42,7 +35,7 @@ namespace CardMaga.UI.ScrollPanel
         private void ShowCombo()
         {
             _comboUIScroll.RemoveAllObjectsFromPanel();
-            _comboUIScroll.AddObjectToPanel(_comboDataSort.SortComboData(_comboDataFilter.Filter(_comboDatas.GetCollection)));
+            _comboUIScroll.AddObjectToPanel(_comboDataSort.SortComboData(_comboDatas.GetCollection));
         }
 
         private void ShowCard()
@@ -53,10 +46,7 @@ namespace CardMaga.UI.ScrollPanel
 
         private void OnDestroy()
         {
-            _filterButton.ComboState.OnClick -= _comboDataFilter.CycleFilter;
-            _filterButton.DeckState.OnClick -= _cardDataFilter.CycleFilter;
             _cardDataFilter.OnCycleFilter -= ShowCard;
-            _comboDataFilter.OnCycleFilter -= ShowCombo;
         }
 
         public void Init(IGetSourceCollection<CardData> cardDatas, IGetSourceCollection<ComboData> comboDatas)

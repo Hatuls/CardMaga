@@ -76,6 +76,9 @@ namespace CardMaga.Input
         {
             Lock();//start Lock
             
+            if (!(InputIdentification == null) && !(LockAndUnlockSystem.Instance == null))
+                LockAndUnlockSystem.Instance.AddTouchableItemToList(this);
+                
             if (_defaultInputBehaviour != null)
                 return;
 
@@ -89,7 +92,7 @@ namespace CardMaga.Input
             if (InputIdentification == null)
                 return;
             
-            LockAndUnlockSystem.Instance.RemoveTouchableItemToActiveList(this);
+           // LockAndUnlockSystem.Instance.RemoveTouchableItemToActiveList(this);
         }
 
         private void OnEnable()
@@ -97,7 +100,7 @@ namespace CardMaga.Input
             if (InputIdentification == null || LockAndUnlockSystem.Instance == null)
                 return;
 
-            LockAndUnlockSystem.Instance.AddTouchableItemToList(this);
+           // LockAndUnlockSystem.Instance.AddTouchableItemToList(this);
         }
 
         protected virtual void OnDestroy()

@@ -9,8 +9,11 @@ namespace CardMaga.UI.MatchMMaking
 
         public void AssingCombosUI(ComboData[] comboDatas)
         {
-            for (int i = 0; i < _combos.Length; i++)
+            for (int i = 0; i < comboDatas.Length; i++)
             {
+                if (comboDatas[i] == null)
+                    continue;
+                    
                 _combos[i].AssingVisual(comboDatas[i]);       
             }
         }
