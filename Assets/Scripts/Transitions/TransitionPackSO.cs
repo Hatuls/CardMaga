@@ -1,5 +1,4 @@
-﻿using FMOD;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Transition SO", menuName = "ScriptableObjects/Transitions/New Transition SO")]
 public class TransitionPackSO : ScriptableObject

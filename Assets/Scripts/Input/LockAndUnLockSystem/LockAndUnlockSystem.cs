@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Battle;
-using CardMaga.SequenceOperation;
-using ReiTools.TokenMachine;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CardMaga.Input
 {
-    public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>, ISequenceOperation<IBattleManager>
+    public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>
     {
         #region Fields
 
@@ -21,28 +19,31 @@ namespace CardMaga.Input
         private int _inputGroupIndex;
 
         #endregion
-        
-        public override void Awake()
+
+
+        private void Start()
         {
-            base.Awake();
-            BattleManager.Register(this,OrderType.After);
+            _inputGroupIndex = 0;
+            _currentInputGroup = _inputGroups[_inputGroupIndex];
         }
         
-    public void AddTouchableItemToList(TouchableItem touchableItem)
+        public void AddTouchableItemToList(TouchableItem touchableItem)
     {
         if (touchableItem == null)
             return;
         
         _touchableItems.Add(touchableItem);
-    }
 
-    public void AddTouchableItemToActiveList(TouchableItem touchableItem)
-    {
         if (FindTouchableItemInCurrentInputIDList(touchableItem))
         {
-            _activeTouchableItems.Add(touchableItem);
-            UpdateInputState();
+            AddTouchableItemToActiveList(touchableItem);
         }
+    }
+
+    private void AddTouchableItemToActiveList(TouchableItem touchableItem)
+    {
+        _activeTouchableItems.Add(touchableItem);
+        UpdateInputState();
     }
 
     public void RemoveTouchableItemToActiveList(TouchableItem touchableItem)
@@ -66,6 +67,8 @@ namespace CardMaga.Input
         _touchableItems.Remove(touchableItem);
     }
 
+    #region InputGroup
+
     public void MoveToNextInputGroup()
     {
         _currentInputGroup = _inputGroups[_inputGroupIndex++];
@@ -86,7 +89,9 @@ namespace CardMaga.Input
         FindTouchableItemByID(_currentInputGroup);
         UpdateInputState();
     }
-
+    
+    #endregion
+    
     private void UpdateInputState()
     {
         ChangeTouchableItemsState(_activeTouchableItems.ToArray(),true);
@@ -194,14 +199,7 @@ namespace CardMaga.Input
     }
 
     #endregion
-
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
-    {
-        _inputGroupIndex = 0;
-        SetNewInputGroup(_inputGroups[_inputGroupIndex]);
-    }
-
-    public int Priority => 0;
+    
     }
 }
 

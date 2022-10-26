@@ -2,19 +2,27 @@
 using Battle;
 using Battle.Data;
 using CardMaga.Rules;
+using UnityEngine;
+using UnityEngine.Events;
 
 
+[Serializable]
 public class EndBattleHandler : IDisposable
 {
     public event Action<bool> OnBattleEnded;
     public event Action OnBattleAnimatonEnd;
+    
+    [SerializeField, EventsGroup]
+    private UnityEvent OnPlayerDefeat;
+    [SerializeField, EventsGroup]
+    private UnityEvent OnPlayerVictory;
 
     private readonly IPlayersManager _playersManager;
     private readonly BattleData _battleData;
     private readonly CardExecutionManager _cardExecutionManager;
 
     private bool _isGameEnded = false;
-    private bool _isInTutorial = false;
+    private bool _isLeftPlayerWon;
 
     public bool IsGameEnded
     {
@@ -35,6 +43,8 @@ public class EndBattleHandler : IDisposable
     {
         if (_isGameEnded)
             return;
+
+        _isLeftPlayerWon = isLeftPlayerWon;
         
         _cardExecutionManager.ResetExecution();
         

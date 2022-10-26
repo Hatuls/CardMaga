@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Battle.Data;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
@@ -12,7 +13,7 @@ public class VictoryAndDefeatHandler : MonoBehaviour
 
     [SerializeField] private PlayableDirector _LeftPlayerWinDirector;
     [SerializeField] private PlayableDirector _rightPlayerWinDirector;
-    
+
     public void OpenScreen(bool isLeftPlayerWon)
     {
         if (isLeftPlayerWon)
