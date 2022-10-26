@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 namespace CardMaga.Trackers
 {
@@ -19,6 +20,11 @@ namespace CardMaga.Trackers
                 }
             }
             throw new System.Exception("TrackerHandler: Tracker Was not found");
+        }
+
+        internal void RemoveTracker(Tracker tracker)
+        {
+            _trackers.Remove(tracker);
         }
 
         public void AddTracker(Tracker tracker)
