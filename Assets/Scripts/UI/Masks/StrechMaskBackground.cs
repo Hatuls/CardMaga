@@ -11,6 +11,8 @@ public class StrechMaskBackground : MonoBehaviour
     [SerializeField] private RectTransform _maskHolder;
     [SerializeField] private TrackerID _trackerID;
     [SerializeField] private bool _strechOnEnable;
+    [SerializeField] private bool _loadMaskOnTutorial;
+    private TutorialClickHelper _tutorialClickHelper;
     private TrackerHandler _trackerHandler;
     
     private void OnEnable()
@@ -23,7 +25,17 @@ public class StrechMaskBackground : MonoBehaviour
     {
         _trackerHandler = TrackerHandler.Instance;
         if (_trackerID != null)
+        {
             _maskHolder = _trackerHandler.GetTracker(_trackerID).RectTransform;
+            //RectTransform _maskParent = _maskHolder.transform.parent;
+            
+            //_maskHolder = _maskParent.getre
+        }
+        //if (_loadMaskOnTutorial)
+        //{
+        //    _tutorialClickHelper = TutorialClickHelper.Instance;
+        //    _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);
+        //}
         SetParent(_maskHolder);
         ResetRectScale();
         transform.SetParent(_hole);
