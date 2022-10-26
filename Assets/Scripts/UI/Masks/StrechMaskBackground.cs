@@ -20,19 +20,15 @@ public class StrechMaskBackground : MonoBehaviour
 
     public void StrechMask()
     {
+        _tutorialClickHelper = TutorialClickHelper.Instance;
         _trackerHandler = TrackerHandler.Instance;
-        if (_trackerID != null)
-        {
-            _maskHolder = _trackerHandler.GetTracker(_trackerID).RectTransform;
-            //RectTransform _maskParent = _maskHolder.transform.parent;
 
-            //_maskHolder = _maskParent.getre
-        }
-        //if (_loadMaskOnTutorial)
-        //{
-        //    _tutorialClickHelper = TutorialClickHelper.Instance;
-        //    _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);
-        //}
+        if (_trackerID != null)
+            _maskHolder = _trackerHandler.GetTracker(_trackerID).RectTransform;
+
+        if (_loadMaskOnTutorial)
+            _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);
+
         SetParent(_maskHolder);
         ResetRectScale();
         transform.SetParent(_hole);
