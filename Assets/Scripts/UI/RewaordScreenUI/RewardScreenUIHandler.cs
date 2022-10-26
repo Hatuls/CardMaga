@@ -9,6 +9,11 @@ public class RewardScreenUIHandler : MonoBehaviour
     [SerializeField] private PlayableDirector _firstWinCoin;
     [SerializeField] private PlayableDirector _additionalFirstWinBaseCoin;
 
+    private void OnEnable()
+    {
+        GiveBaseReward(false);
+    }
+
     public void GiveBaseReward(bool isFirstWin)
     {
         _baseCoin.Play();

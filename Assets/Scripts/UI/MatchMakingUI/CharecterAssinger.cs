@@ -14,7 +14,7 @@ namespace CardMaga.UI.MatchMMaking
             CharacterBattleData data = character.CharacterData;
             
             _comboAssinger.AssingCombosUI(data.ComboRecipe);
-            _charecterPortraitAssinger.AssignCharacter(data.CharacterSO.CharacterSprite,data.CharacterSO.CharacterName);
+            _charecterPortraitAssinger.AssignCharacter(data.CharacterSO.CharacterSprite,character.DisplayName);
         }
     }
 

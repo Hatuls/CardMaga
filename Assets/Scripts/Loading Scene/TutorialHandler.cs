@@ -33,7 +33,7 @@ public class TutorialHandler : MonoBehaviour
    
    public void CheckIfFirstLogin()
    {
-      if (true)//!AccountManager.Instance.Data.AccountTutorialData.IsCompletedTutorial || _loginResult.NewlyCreated
+      if (false)//!AccountManager.Instance.Data.AccountTutorialData.IsCompletedTutorial || _loginResult.NewlyCreated
       {
          OnFirstLogin?.Invoke();
          Debug.Log("FirstLogin");

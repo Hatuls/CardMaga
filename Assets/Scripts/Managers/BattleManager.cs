@@ -44,7 +44,8 @@ namespace Battle
         private VFXManager _vFXManager;
         [SerializeField]
         private CameraManager _cameraManager;
-        [SerializeField] private EndBattleHandler _endBattleHandler;
+        [SerializeField] 
+        private EndBattleHandler _endBattleHandler;
         
 #if UNITY_EDITOR
         [Header("Editor:")]
