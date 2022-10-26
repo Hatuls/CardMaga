@@ -20,7 +20,7 @@ public class CharactersDiedListener : BaseEndGameRule
 
     private void CheckLeftPlayerCondition(int playerHp)
     {
-        if (playerHp < 0)
+        if (playerHp <= 0)
         {
             Active(false);
         }
@@ -28,7 +28,7 @@ public class CharactersDiedListener : BaseEndGameRule
     
     private void CheckRightPlayerCondition(int playerHp)
     {
-        if (playerHp < 0)
+        if (playerHp <= 0)
         {
             Active(true);
         }

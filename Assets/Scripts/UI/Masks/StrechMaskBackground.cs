@@ -1,8 +1,5 @@
 ﻿using CardMaga.Trackers;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class StrechMaskBackground : MonoBehaviour
 {
@@ -14,7 +11,7 @@ public class StrechMaskBackground : MonoBehaviour
     [SerializeField] private bool _loadMaskOnTutorial;
     private TutorialClickHelper _tutorialClickHelper;
     private TrackerHandler _trackerHandler;
-    
+
     private void OnEnable()
     {
         if (_strechOnEnable)
@@ -23,19 +20,15 @@ public class StrechMaskBackground : MonoBehaviour
 
     public void StrechMask()
     {
+        _tutorialClickHelper = TutorialClickHelper.Instance;
         _trackerHandler = TrackerHandler.Instance;
+
         if (_trackerID != null)
-        {
             _maskHolder = _trackerHandler.GetTracker(_trackerID).RectTransform;
-            //RectTransform _maskParent = _maskHolder.transform.parent;
-            
-            //_maskHolder = _maskParent.getre
-        }
-        //if (_loadMaskOnTutorial)
-        //{
-        //    _tutorialClickHelper = TutorialClickHelper.Instance;
-        //    _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);
-        //}
+
+        if (_loadMaskOnTutorial)
+            _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);
+
         SetParent(_maskHolder);
         ResetRectScale();
         transform.SetParent(_hole);

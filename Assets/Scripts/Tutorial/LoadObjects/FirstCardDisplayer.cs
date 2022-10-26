@@ -5,6 +5,7 @@ using CardMaga.UI;
 using Battle;
 using Cards;
 using CardMaga.UI.Card;
+using CardMaga.Input;
 
 public class FirstCardDisplayer : MonoBehaviour
 {
@@ -34,5 +35,15 @@ public class FirstCardDisplayer : MonoBehaviour
     public void ReturnToHand()
     {
         _battleManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
+    }
+
+    public void BlockCardHold()
+    {
+        _cards[0].Inputs.DisableHold = true;
+    }
+
+    public void UnBlockCardHold()
+    {
+        _cards[0].Inputs.DisableHold = false;
     }
 }
