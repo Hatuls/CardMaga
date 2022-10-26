@@ -1,12 +1,14 @@
 ﻿using System;
+using CardMaga.Card;
 using UnityEngine;
 using CardMaga.Input;
 using CardMaga.UI.ScrollPanel;
 
 namespace CardMaga.UI.Card
 {
-    public class CardUI : MonoBehaviour, IPoolable<CardUI> , IShowableUI
+    public class CardUI : MonoBehaviour, IPoolable<CardUI> , IShowableUI , IVisualAssign<CardData>
     {
+        
         #region Fields
 
         [SerializeField] private RectTransform _rectTransform;
@@ -21,18 +23,18 @@ namespace CardMaga.UI.Card
 
 
         #endregion
+        
         public BaseCardVisualHandler CardVisuals => _cardVisuals;
         public CardUIInputHandler Inputs => _inputs;
         public RectTransform RectTransform => _rectTransform;
         public RectTransform VisualsRectTransform => _visualsRectTransform;
 
         public CardMaga.Card.CardData CardData { get => _cardData; private set => _cardData = value; }
-
-
-        public void AssignCard(CardMaga.Card.CardData card)
+        
+        public void AssingVisual(CardData data)
         {
-            CardData = card;
-            CardVisuals.Init(card);
+            CardData = data;
+            CardVisuals.Init(data);
         }
 
         #region Ipoolable Implementation
@@ -55,6 +57,8 @@ namespace CardMaga.UI.Card
         {
             Init();
         }
+
+        
     }
 }
 

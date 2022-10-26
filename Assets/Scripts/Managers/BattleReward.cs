@@ -8,9 +8,9 @@ namespace Rewards
         public ushort CreditReward { get; private set; }
         public ushort GoldReward { get; private set; }
         public CardData[] RewardCards { get; private set; }
-        public Combo[] RewardCombos { get; private set; }
+        public ComboData[] RewardCombos { get; private set; }
 
-        public BattleReward(ushort Credit , ushort Gold, CardData[] cards,Combo[] combos= null)
+        public BattleReward(ushort Credit , ushort Gold, CardData[] cards,ComboData[] combos= null)
         {
             CreditReward = Credit;
          

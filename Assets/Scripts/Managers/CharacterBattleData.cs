@@ -22,11 +22,11 @@ namespace Battle.Characters
         public CardData[] CharacterDeck { get => _characterDeck; internal set => _characterDeck = value; }
 
         [SerializeField]
-        private Battle.Combo.Combo[] _comboRecipe;
+        private Battle.Combo.ComboData[] _comboRecipe;
    
       //  private Account.GeneralData.Character _data;
 
-        public Battle.Combo.Combo[] ComboRecipe { get => _comboRecipe; internal set => _comboRecipe = value; }
+        public Battle.Combo.ComboData[] ComboRecipe { get => _comboRecipe; internal set => _comboRecipe = value; }
 
         public CharacterSO CharacterSO { get => _characterSO; internal set => _characterSO = value; }
  
@@ -72,13 +72,13 @@ namespace Battle.Characters
                 }
                 return cards;
             }
-             Combo.Combo[] CreateCombos(CharacterSO characterSO)
+             Combo.ComboData[] CreateCombos(CharacterSO characterSO)
             {
                 var characterCombos = characterSO.Combos;
-                Combo.Combo[] combos = new Combo.Combo[characterCombos.Length];
+                Combo.ComboData[] combos = new Combo.ComboData[characterCombos.Length];
                 for (int i = 0; i < characterCombos.Length; i++)
                 {
-                    combos[i] = new Combo.Combo(characterCombos[i].ComboSO(), 0);
+                    combos[i] = new Combo.ComboData(characterCombos[i].ComboSO(), 0);
                 }
                 return combos;
             }

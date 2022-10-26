@@ -77,7 +77,7 @@ namespace Factory
                 BattleRewardCollection = battleRewardCollectionSO;
             }
 
-            public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Battle.Combo.Combo> workOnCombo)
+            public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Battle.Combo.ComboData> workOnCombo)
            => BattleRewardCollection.GetReward(characterTypeEnum, act, workOnCombo);
 
             public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
@@ -170,11 +170,11 @@ namespace Factory
                     _comboDictionary.Add(combos[i].ID, combos[i]);
 
             }
-            public Combo[] CreateCombos(ComboCore[] combosSO)
+            public ComboData[] CreateCombos(ComboCore[] combosSO)
             {
                 if (combosSO != null)
                 {
-                    List<Combo> combos = new List<Combo>();
+                    List<ComboData> combos = new List<ComboData>();
                     for (int i = 0; i < combosSO.Length; i++)
                     {
                         if(combosSO[i].ID!= 0)
@@ -186,8 +186,8 @@ namespace Factory
                 return null;
             }
 
-            public Combo CreateCombo(ComboSO comboSO, int level = 0)
-               => new Combo(comboSO, level);
+            public ComboData CreateCombo(ComboSO comboSO, int level = 0)
+               => new ComboData(comboSO, level);
 
             public ComboSO[] GetComboSOFromIDs(IEnumerable<int> ids)
             {

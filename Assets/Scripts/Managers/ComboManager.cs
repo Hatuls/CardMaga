@@ -1,6 +1,5 @@
 ﻿using System;
 using Battle.Deck;
-using Battle.UI;
 using Cards;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
@@ -8,11 +7,9 @@ using System.Linq;
 using ThreadsHandler;
 using Unity.Events;
 using UnityEngine;
-using Battle.Combo;
 using CardMaga.Card;
 using CardMaga.SequenceOperation;
 using Battle.Turns;
-using System.Threading;
 
 namespace Battle
 {
@@ -21,7 +18,7 @@ namespace Battle
 
         #region Events
         [SerializeField] VoidEvent _successCrafting;
-        public event Action<Combo.Combo> OnComboSucceeded;
+        public event Action<Combo.ComboData> OnComboSucceeded;
         public event Action OnComboDetectedFinished;
         public event Action<CardData[]> OnCraftingComboToHand;
         
@@ -29,7 +26,7 @@ namespace Battle
 
         #region Fields
 
-        [SerializeField] Combo.Combo _cardRecipeDetected;
+        [SerializeField] Combo.ComboData _cardRecipeDetected;
         [SerializeField] VFXSO _comboVFX;
         private bool _isTryingToDetect;
         private IPlayersManager _playersManager;
@@ -42,7 +39,7 @@ namespace Battle
 
         #region Properties
         public bool IsTryingToDetect => _isTryingToDetect;
-        public Battle.Combo.Combo CardRecipeDetected
+        public Battle.Combo.ComboData CardRecipeDetected
         {
             get => _cardRecipeDetected;
             set
@@ -180,7 +177,7 @@ namespace Battle
          void CheckRecipe(IReadOnlyList<CardTypeData> craftingItems, bool isPlayer)
         {
             // need to make algorithem better!!! 
-            var recipes = _playersManager.GetCharacter(isPlayer).Combos;
+            var recipes = _playersManager.GetCharacter(isPlayer).Combos.GetCollection.ToArray();
 
         
             CardTypeData[] cardTypeDatas;

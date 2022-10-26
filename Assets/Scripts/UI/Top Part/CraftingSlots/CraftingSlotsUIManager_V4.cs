@@ -41,8 +41,6 @@ public class CraftingSlotsUIManager_V4 : MonoBehaviour, ISequenceOperation<IBatt
 
     public void Awake()
     {
-
-
         BattleManager.Register(this, OrderType.Default);
 
     }

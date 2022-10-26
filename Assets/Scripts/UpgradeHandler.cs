@@ -15,15 +15,15 @@ namespace Meta
 
             return Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(card.CardSO, (byte)(card.CardLevel + 1));
         }
-        public static Combo GetUpgradedComboVersion(Combo combo)
+        public static ComboData GetUpgradedComboVersion(ComboData comboData)
         {
-            var ComboSO = combo.ComboSO;
-            if (combo.Level == ComboSO.CraftedCard.CardsMaxLevel)
+            var ComboSO = comboData.ComboSO;
+            if (comboData.Level == ComboSO.CraftedCard.CardsMaxLevel)
                 return null;
 
-            return Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(ComboSO, combo.Level + 1);
+            return Factory.GameFactory.Instance.ComboFactoryHandler.CreateCombo(ComboSO, comboData.Level + 1);
         }
-        public static bool TryUpgradeCombo(CardUpgradeCostSO upgrade, Combo combo, ResourceEnum resourceenum)
+        public static bool TryUpgradeCombo(CardUpgradeCostSO upgrade, ComboData comboData, ResourceEnum resourceenum)
         {
             return true;
             //Characters.Character battleData = Account.AccountManager.Instance.BattleData.LeftPlayer;
@@ -114,16 +114,16 @@ namespace Meta
                 );
         }
 
-        private static void SendComboDataAnalyticEvent(Combo combo)
+        private static void SendComboDataAnalyticEvent(ComboData comboData)
         {
             UnityAnalyticHandler.SendEvent("combo_upgraded_in_dojo", new System.Collections.Generic.Dictionary<string, object>()
                     {
-                        {"combo_name", combo.ComboSO.ComboName.Replace(' ', '_')},
-                        {"combo_level", combo.Level},
+                        {"combo_name", comboData.ComboSO.ComboName.Replace(' ', '_')},
+                        {"combo_level", comboData.Level},
                     });
             FireBaseHandler.SendEvent("combo_upgraded_in_dojo",
-                new Firebase.Analytics.Parameter("combo_name", combo.ComboSO.ComboName.Replace(' ', '_')),
-                new Firebase.Analytics.Parameter("combo_level", combo.Level)
+                new Firebase.Analytics.Parameter("combo_name", comboData.ComboSO.ComboName.Replace(' ', '_')),
+                new Firebase.Analytics.Parameter("combo_level", comboData.Level)
                 );
         }
 

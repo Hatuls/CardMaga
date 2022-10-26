@@ -5,17 +5,19 @@ using UnityEngine;
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class ComboVisualAssignerHandler : BaseVisualAssignerHandler<Combo>
+    public class ComboVisualAssignerHandler : BaseVisualAssignerHandler<ComboData>
     {
         [Header("Visuals")]
-        [SerializeField] ComboTypeVisualAssigner _comboTypeVisualAssigners;
+        [SerializeField] ComboTypeVisualAssigner _comboTypeVisualAssigner;
         [SerializeField] ComboSequenceVisualAssigner _comboSequenceVisualAssigner;
-        public override IEnumerable<BaseVisualAssigner<Combo>> VisualAssigners
+        [SerializeField] ComboTitleAndArrowVisualAssigner _comboTitleAndArrowVisualAssigner;
+        public override IEnumerable<BaseVisualAssigner<ComboData>> VisualAssigners
         {
              get
             {
-                yield return _comboTypeVisualAssigners;
+                yield return _comboTypeVisualAssigner;
                 yield return _comboSequenceVisualAssigner;
+                yield return _comboTitleAndArrowVisualAssigner;
             }
         }
     }

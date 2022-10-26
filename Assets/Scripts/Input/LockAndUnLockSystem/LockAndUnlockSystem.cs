@@ -201,7 +201,7 @@ namespace CardMaga.Input
         SetNewInputGroup(_inputGroups[_inputGroupIndex]);
     }
 
-    public int Priority { get; }
-}
+    public int Priority => 0;
+    }
 }
 

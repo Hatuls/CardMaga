@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
-    public class ComboNameTextAssigner : BaseTextAssigner<Combo>
+    public class ComboNameTextAssigner : BaseTextAssigner<ComboData>
     {
         [SerializeField]TextMeshProUGUI _comboNameText;
         public override void CheckValidation()
@@ -19,9 +19,9 @@ namespace CardMaga.UI.Text
 
         }
 
-        public override void Init(Combo comboData)
+        public override void Init(ComboData comboDataData)
         {
-            _comboNameText.AssignText(comboData.ComboSO.ComboName);
+            _comboNameText.AssignText(comboDataData.ComboSO.ComboName);
         }
     }
 }

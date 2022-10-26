@@ -4,6 +4,7 @@ using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CardMaga.UI.Combos
 {
@@ -13,23 +14,24 @@ namespace CardMaga.UI.Combos
         [SerializeField] ComboDescriptionPopUp _comboPopUp;
         [SerializeField] ComboTextAssignerHandler _comboTextAssignerHandler;
         [SerializeField] ComboVisualAssignerHandler _comboVisualAssignerHandler;
-        public override BaseVisualAssignerHandler<Combo> ComboVisualAssignerHandler => _comboVisualAssignerHandler;
-        public override BaseTextAssignerHandler<Combo> ComboTextAssignerHandler => _comboTextAssignerHandler;
+        public override BaseVisualAssignerHandler<ComboData> ComboVisualAssignerHandler => _comboVisualAssignerHandler;
+        public override BaseTextAssignerHandler<ComboData> ComboTextAssignerHandler => _comboTextAssignerHandler;
 #if UNITY_EDITOR
+        [FormerlySerializedAs("_testCombo")]
         [Header("Test")]
-        [SerializeField] Combo _testCombo;
+        [SerializeField] ComboData testComboData;
 
         [Button]
         public void OnTryCombo()
         {
-            if (_testCombo == null)
+            if (testComboData == null)
             {
                 new System.Exception("TestFailed, Enter A combo to the Test Combo Slot");
                 return;
             }
             CheckValidation();
             Dispose();
-            Init(_testCombo);
+            Init(testComboData);
             _comboPopUp.ActivatePopUP(true);
         }
         [Button]
@@ -44,14 +46,13 @@ namespace CardMaga.UI.Combos
             _comboPopUp.CheckValidation();
             _comboCard.CheckValidation();
         }
-        public override void Init(Combo comboData)
+        public override void Init(ComboData comboDataData)
         {
-            base.Init(comboData);
-            _comboPopUp.Init(comboData);
-            var cardData = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(comboData.CraftedCard,comboData.ComboCore.Level);
+            base.Init(comboDataData);
+            _comboPopUp.Init(comboDataData);
+            var cardData = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(comboDataData.CraftedCard,comboDataData.ComboCore.Level);
             _comboCard.Init(cardData);
             _comboPopUp.ActivatePopUP(true);
-
         }
         public override void Dispose()
         {

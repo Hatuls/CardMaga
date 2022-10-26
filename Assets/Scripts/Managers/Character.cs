@@ -83,18 +83,18 @@ namespace Battle.Characters
         }
 
 
-        public bool AddComboRecipe(Battle.Combo.Combo combo)
+        public bool AddComboRecipe(Battle.Combo.ComboData comboData)
         {
             bool hasThisCombo = false;
             var comboRecipe = _characterData.ComboRecipe;
             for (int i = 0; i < comboRecipe.Length; i++)
             {
-                hasThisCombo = comboRecipe[i].ID == combo.ID;
+                hasThisCombo = comboRecipe[i].ID == comboData.ID;
 
                 if (hasThisCombo)
                 {
-                    if (combo.Level > comboRecipe[i].Level)
-                        comboRecipe[i] = combo;
+                    if (comboData.Level > comboRecipe[i].Level)
+                        comboRecipe[i] = comboData;
                     else
                         return false;
 
@@ -106,7 +106,7 @@ namespace Battle.Characters
             if (hasThisCombo == false)
             {
                 Array.Resize(ref comboRecipe, comboRecipe.Length + 1);
-                comboRecipe[comboRecipe.Length - 1] = combo;
+                comboRecipe[comboRecipe.Length - 1] = comboData;
 
                 hasThisCombo = true;
             }

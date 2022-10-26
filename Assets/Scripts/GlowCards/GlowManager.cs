@@ -19,7 +19,7 @@ public class GlowManager : MonoBehaviour ,ISequenceOperation<IBattleManager>
 
     private void Awake()
     {
-        BattleManager.Register(this, OrderType.After);
+        BattleManager.Register(this, OrderType.Before);
         cardUI = GetComponent<IGetCardsUI>();
         HandUI.OnCardsAddToHand += CheckCardToGlow;
         HandUI.OnCardsExecuteGetCards += CheckCardGlowAfterExecute;
