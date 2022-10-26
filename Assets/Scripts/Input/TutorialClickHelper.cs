@@ -14,7 +14,6 @@ public class TutorialClickHelper : MonoBehaviour
     [SerializeField] private Clicker _clicker;
     [SerializeField] public RectTransform _tutorialPanel;
     [SerializeField] private Canvas _canavs;
-    [SerializeField] private Image _image;
     [SerializeField] private ClickBlocker _clickBlocker;
 
     private Action _action;
@@ -57,13 +56,6 @@ public class TutorialClickHelper : MonoBehaviour
     /// A function that returns all loaded objects to their original position in the hierarchy, and closes the panel
     /// </summary>
     /// 
-
-    public void ChangeAlpha(float alpha)
-    {
-        Color color = _image.color;
-        color.a = alpha;
-        _image.color = color;
-    }
 
     public void Close()
     {

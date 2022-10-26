@@ -1,8 +1,5 @@
 ﻿using CardMaga.Trackers;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class StrechMaskBackground : MonoBehaviour
 {
@@ -14,7 +11,7 @@ public class StrechMaskBackground : MonoBehaviour
     [SerializeField] private bool _loadMaskOnTutorial;
     private TutorialClickHelper _tutorialClickHelper;
     private TrackerHandler _trackerHandler;
-    
+
     private void OnEnable()
     {
         if (_strechOnEnable)
@@ -28,7 +25,7 @@ public class StrechMaskBackground : MonoBehaviour
         {
             _maskHolder = _trackerHandler.GetTracker(_trackerID).RectTransform;
             //RectTransform _maskParent = _maskHolder.transform.parent;
-            
+
             //_maskHolder = _maskParent.getre
         }
         //if (_loadMaskOnTutorial)

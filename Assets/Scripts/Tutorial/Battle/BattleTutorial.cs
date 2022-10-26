@@ -32,7 +32,9 @@ public class BattleTutorial : MonoBehaviour
 
     private void TutorialCompleted()
     {
-        if(OnTutorialFinished!=null)
-        OnTutorialFinished.Invoke();
+        //if(OnTutorialFinished!=null)
+        //OnTutorialFinished.Invoke();
+
+        Debug.Log("Tutorial finished");
     }
 }

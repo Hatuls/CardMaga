@@ -14,7 +14,6 @@ public class ClickHelper : MonoBehaviour
     [SerializeField] private Clicker _clicker;
     [SerializeField] public RectTransform _panel;
     [SerializeField] private Canvas _canavs;
-    [SerializeField] private Image _image;
     [SerializeField] private ClickBlocker _clickBlocker;
     
     private Action _action;
@@ -77,13 +76,6 @@ public class ClickHelper : MonoBehaviour
         {
             _loadedObjects[i].SetParent(_loadedObjectParents[i]);
         }
-    }
-
-    public void ChangeAlpha(float alpha)
-    {
-        Color color = _image.color;
-        color.a = alpha;
-        _image.color = color;
     }
 
     public void Open(GameObject canvas)
