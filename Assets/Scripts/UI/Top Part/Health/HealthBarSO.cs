@@ -4,9 +4,9 @@ namespace CardMaga.UI.Bars
     [CreateAssetMenu(fileName = "Health Bar SO", menuName = "ScriptableObjects/UI/Bars/HealthBarSO")]
     public class HealthBarSO : ScriptableObject
     {
-        public Color HealthColor;
-        public Color FillDownColor;
-        public Color FillUpColor;
+        public Sprite BaseHealthSprite;
+        public Sprite FillDownHealthSprite;
+        public Sprite FillUpHealthSprite;
         public AnimationCurve HealthStartCurve;
         public float HealthStartLength = 0.3f;
         public AnimationCurve ChangeHealthCurve;

@@ -59,8 +59,7 @@ namespace CardMaga.UI.Bars
         }
         private void Start()
         {
-            SetBarColor(_healthImage, _healthBarSO.HealthColor);
-            SetBarColor(_healthInnerImage, _healthBarSO.FillDownColor);
+            _healthImage.sprite = _healthBarSO.BaseHealthSprite;
         }
         public void InitHealthBar(int currentHealth, int maxHealth)
         {
@@ -102,12 +101,12 @@ namespace CardMaga.UI.Bars
             if (_currentHealth < _healthBarSlider.value)
             {
             //    Debug.Log("Lowering Health");
-                StartHealthChange(_healthBarSlider, _healthBarSO.FillDownColor, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
+                StartHealthChange(_healthBarSlider, _healthBarSO.FillDownHealthSprite, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
             }
             else if (_currentHealth > _healthBarSlider.value)
             {
           //      Debug.Log("Increacing Health");
-                StartHealthChange(_healthBarInnerSlider, _healthBarSO.FillUpColor, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
+                StartHealthChange(_healthBarInnerSlider, _healthBarSO.FillUpHealthSprite, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
             }
         }
         public void ChangeMaxHealth(int maxHealth)
@@ -132,9 +131,9 @@ namespace CardMaga.UI.Bars
             SetMaxValue(_healthBarSlider, _maxHealth);
             SetText(_currentHealth,_maxHealth);
         }
-        private void StartHealthChange(Slider slider,Color color,float transitionLength,AnimationCurve animCurve)
+        private void StartHealthChange(Slider slider,Sprite sprite,float transitionLength,AnimationCurve animCurve)
         {
-            _healthInnerImage.color = color;
+            _healthInnerImage.sprite = sprite;
             DoMoveSlider(slider, _currentHealth, transitionLength, animCurve);
             ResetCounter();
             StartCoroutine(StartTimer());
