@@ -53,7 +53,6 @@ namespace CardMaga.UI.Combos
             var cardData = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(comboDataData.CraftedCard,comboDataData.ComboCore.Level);
             _comboCard.Init(cardData);
             _comboPopUp.ActivatePopUP(true);
-
         }
         public override void Dispose()
         {

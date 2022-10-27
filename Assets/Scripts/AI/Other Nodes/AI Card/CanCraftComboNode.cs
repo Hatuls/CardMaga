@@ -1,8 +1,6 @@
 ﻿using Battle;
-using Battle.Deck;
 using CardMaga.Card;
 using Cards;
-using Managers;
 using System.Collections.Generic;
 using System.Linq;
 namespace CardMaga.AI
@@ -58,7 +56,7 @@ namespace CardMaga.AI
             void CheckRecipe()
             {
                 // need to make algorithem better!!! 
-                var recipes = BM.PlayersManager.GetCharacter(IsPlayer).Combos;
+                var recipes = BM.PlayersManager.GetCharacter(IsPlayer).Combos.GetCollection.ToArray();
 
                 var comparer = new CardTypeComparer();
                 CardTypeData[] cardTypeDatas;

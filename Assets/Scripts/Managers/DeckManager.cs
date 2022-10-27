@@ -5,11 +5,12 @@ using Managers;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
+using CardMaga.Collection;
 using UnityEngine;
 
 namespace Battle.Deck
 {
-    public class DeckHandler
+    public class DeckHandler : IGetSourceCollection<CardData>
     {
         public const int MAX_DECK_HAND_SIZE = 10;
         public const int MAX_CRAFTING_SLOT_SIZE = 3;
@@ -18,8 +19,8 @@ namespace Battle.Deck
         private Dictionary<DeckEnum, BaseDeck> _deckDictionary;
         private GameCommands _gameCommands;
         #region CardDataProprty
-
-        public IEnumerable<CardData> GetAllCardData
+        
+        public IEnumerable<CardData> GetCollection 
         {
             get
             {
@@ -327,5 +328,7 @@ namespace Battle.Deck
         }
         
         #endregion
+
+       
     }
 }

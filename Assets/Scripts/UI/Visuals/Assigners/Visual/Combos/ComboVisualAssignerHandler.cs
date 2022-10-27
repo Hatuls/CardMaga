@@ -8,14 +8,16 @@ namespace CardMaga.UI.Visuals
     public class ComboVisualAssignerHandler : BaseVisualAssignerHandler<ComboData>
     {
         [Header("Visuals")]
-        [SerializeField] ComboTypeVisualAssigner _comboTypeVisualAssigners;
+        [SerializeField] ComboTypeVisualAssigner _comboTypeVisualAssigner;
         [SerializeField] ComboSequenceVisualAssigner _comboSequenceVisualAssigner;
+        [SerializeField] ComboTitleAndArrowVisualAssigner _comboTitleAndArrowVisualAssigner;
         public override IEnumerable<BaseVisualAssigner<ComboData>> VisualAssigners
         {
              get
             {
-                yield return _comboTypeVisualAssigners;
+                yield return _comboTypeVisualAssigner;
                 yield return _comboSequenceVisualAssigner;
+                yield return _comboTitleAndArrowVisualAssigner;
             }
         }
     }
