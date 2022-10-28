@@ -11,7 +11,7 @@ public class RewardScreenUIHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        GiveBaseReward(false);
+       // GiveBaseReward(false);
     }
 
     public void GiveBaseReward(bool isFirstWin)

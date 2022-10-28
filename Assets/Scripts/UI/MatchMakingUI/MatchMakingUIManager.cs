@@ -6,11 +6,14 @@ namespace CardMaga.UI.MatchMMaking
 {
     public class MatchMakingUIManager : MonoBehaviour
     {
+        [SerializeField] private TimeBasedOperation _matchMackingOperation;
         [SerializeField] private CharecterAssinger _mainCharacterAssginer;
         [SerializeField] private CharecterAssinger _opponentCharacterAssginer;
         
         [SerializeField] private GameObject _lookingForOpponentUI;
         [SerializeField] private GameObject _matchFoundUI;
+        [Header("Tutorial")]
+        [SerializeField] private float _delayVsScreen;
 
         private void Start()
         {
@@ -24,6 +27,7 @@ namespace CardMaga.UI.MatchMMaking
             if (isInTutorial)
             {
                 OpponentFound(BattleData.Instance.Right);
+                _matchMackingOperation.DelayBeforeOperation = _delayVsScreen;
             }
             else
             {

@@ -8,6 +8,8 @@ using Rei.Utilities;
 
 public class TimeBasedOperation : BaseOperation
 {
+    public override event Action OnCompleted;
+    
     [SerializeField, EventsGroup]
     private UnityTokenMachineEvent OnOperationStarting;
     [SerializeField, EventsGroup]
@@ -23,7 +25,15 @@ public class TimeBasedOperation : BaseOperation
     private bool _isCancelled;
     private bool _isExecute;
 
-    public override event Action OnCompleted;
+    public float DelayBeforeOperation
+    {
+        set
+        {
+            _delayBeforeOperation.x = value;
+            _delayBeforeOperation.y = value;
+        } 
+    }
+
     public override void Completed()
     {
         if (_isCancelled)
