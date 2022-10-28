@@ -1,32 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using CardMaga.Card;
-using System;
-
-public class RewardPack : MonoBehaviour
-{
-    private int _diamonds;
-    private int _experience;
-    private CardData[] _cards;
-
-    public void Init(int diamonds, int experience, CardData[] cards)
-    {
-        throw new NotImplementedException();
-    }
-
-    public int Diamonds
-    {
-        get { return _diamonds; }
-    }
-
-    public int Experience
-    {
-        get { return _experience; }
-    }
-
-    public CardData[] Cards
-    {
-        get { return _cards; }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a261f0ff7644461c038ecea12ac76b4722a25c81dfd834a1ed5ca5120af9e401
+size 626

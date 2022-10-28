@@ -1,21 +1,3 @@
-using ReiTools.TokenMachine;
-using UnityEngine;
-
-public abstract class MonoSingleton<T> : MonoBehaviour where T : Component
-{
-        private static T _instance;
-        public static T Instance => _instance;
-
-        public virtual void Awake() {
-
-            if (isActiveAndEnabled)
-            {
-                if (Instance == null)
-                    _instance = this as T;
-                else if (Instance != this as T)
-                    Destroy(this);
-            }
-        }
-    
-    
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c6aac70eaee4861e2b2a8eb4bb015a3c027edf081e6fce80ef59a3b631f7f2d0
+size 520

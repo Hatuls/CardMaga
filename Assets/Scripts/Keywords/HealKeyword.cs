@@ -1,30 +1,3 @@
-﻿using Battle;
-
-namespace Keywords
-{
-    public class HealKeyword : BaseKeywordLogic
-    {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Heal;
-
-
-
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-        {
-            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
-
-            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
-            data.KeywordSO.SoundEventSO.PlaySound();
-        }
-
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-        {
-            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
-
-            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:35a9c34f379f918cb303cc2cbfb1fb1e08cbbc9904c531edbcf819a70254d71e
+size 1404

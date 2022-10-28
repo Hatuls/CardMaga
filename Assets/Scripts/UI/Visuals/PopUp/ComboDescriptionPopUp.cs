@@ -1,26 +1,3 @@
-﻿using Battle.Combo;
-using CardMaga.UI.Visuals;
-using UnityEngine;
-
-namespace CardMaga.UI.PopUp
-{
-    [System.Serializable]
-    public class ComboDescriptionPopUp : BaseDescriptionPopUp<ComboData>
-    {
-        [SerializeField] ComboTypeVisualSO _comboTypeVisualSO;
-        public override void CheckValidation()
-        {
-            base.CheckValidation();
-            _comboTypeVisualSO.CheckValidation();
-        }
-        public override void Init(ComboData comboDataData)
-        {
-            ActivatePopUP(true);
-            PopUpText.AssignText(_comboTypeVisualSO.GetTypeDescription(comboDataData.GoToDeckAfterCrafting));
-        }
-        public override void Dispose()
-        {
-            ActivatePopUP(false);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:8086f7c294f38fb294ec1be669f8f5f3a5fef939953355be6ff1122b40d746b0
+size 770

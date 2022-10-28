@@ -1,33 +1,3 @@
-﻿using Battle.Combo;
-using UnityEngine.UI;
-using UnityEngine;
-
-namespace CardMaga.UI.Visuals
-{
-    [System.Serializable]
-    public class ComboTitleAndArrowVisualAssigner : BaseVisualAssigner<ComboData>
-    {
-        [SerializeField] TitleAndArrowComboVisualSO _titleAndArrowComboVisualSO;
-        [SerializeField] Image _arrowImage;
-        [SerializeField] Image _titleImage;
-
-        public override void CheckValidation()
-        {
-            if (_arrowImage == null)
-                throw new System.Exception("ComboArrowVisualAssigner has no arrow image");
-            if (_titleImage == null)
-                throw new System.Exception("ComboArrowVisualAssigner has no title image");
-            _titleAndArrowComboVisualSO.CheckValidation();
-        }
-        
-        public override void Dispose()
-        {
-        }
-
-        public override void Init(ComboData comboData)
-        {
-            _arrowImage.AssignSprite(_titleAndArrowComboVisualSO.GetArrowSprite(comboData.CraftedCard.CardTypeEnum));
-            _titleImage.AssignSprite(_titleAndArrowComboVisualSO.GetTitleSprite(comboData.CraftedCard.CardTypeEnum));
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:ad80708d85a3463daf5122b7284e412f826e4a518f56bbe5f547c4edbf1854b2
+size 1182

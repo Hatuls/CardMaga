@@ -1,31 +1,3 @@
-﻿using System.Collections.Generic;
-
-namespace CardMaga.UI.Text
-{
-    [System.Serializable]
-    public abstract class BaseTextAssignerHandler<T> : BaseVisualHandler<T>
-    {
-        public abstract IEnumerable<BaseTextAssigner<T>> TextAssigners { get; }
-        public override void Init(T data)
-        {
-            foreach (var assigner in TextAssigners)
-            {
-                assigner.Init(data);
-            }
-        }
-        public override void CheckValidation()
-        {
-            foreach (var assigner in TextAssigners)
-            {
-                assigner.CheckValidation();
-            }
-        }
-        public override void Dispose()
-        {
-            foreach (var assigner in TextAssigners)
-            {
-                assigner.Dispose();
-            }
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:47373404092e8be18feb2a7f99a504ff14619d61c4f3cc305324cc4cd4843acd
+size 839

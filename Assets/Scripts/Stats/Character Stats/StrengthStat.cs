@@ -1,22 +1,3 @@
-﻿using Keywords;
-namespace Characters.Stats
-{
-    public class StrengthStat : BaseStat
-    {
-        public StrengthStat(int amount) : base(amount)
-        {
-        }
-
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Strength;
-
-        public override void Reduce(int amount)
-        {
-            base.Reduce(amount);
-
-            if (Amount < 0)
-                Amount = 0;
-        }
-
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5a32cb57ef511b5a7d0907951997cf435b6838a79243acd23c7c4a554a0929bb
+size 463

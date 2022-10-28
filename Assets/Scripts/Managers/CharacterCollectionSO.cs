@@ -1,20 +1,3 @@
-﻿using Battle;
-using UnityEngine;
-
-namespace Collections
-{
-    [CreateAssetMenu(fileName = "CharacterCollection", menuName = "ScriptableObjects/Collection")]
-    public class CharacterCollectionSO : ScriptableObject
-    {
-        [SerializeField]
-        private CharacterSO[] _charactersSO;
-        public CharacterSO[] CharactersSO { get => _charactersSO; }
-
-
-
-        public void Init(CharacterSO[] characterSOs)
-            => _charactersSO = characterSOs;
-
-
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f9ac1de1de710005e08640c961608e1c021b6c582b0a4aa88a345fc21b456bfe
+size 493

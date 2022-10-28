@@ -1,20 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class BasicSwitch : MonoBehaviour
-{
-    [SerializeField]
-    GameObject _onButtonSwitchObject;
-    public void OnSwitch()
-    {
-        if(_onButtonSwitchObject.activeSelf == true)
-        {
-            _onButtonSwitchObject.SetActive(false);
-        }
-        else
-        {
-            _onButtonSwitchObject.SetActive(true);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:8fccf4ee7a2f691d798f35bd631d00e3f126c6e5b759ad4e69a15e5ab4cc9409
+size 455

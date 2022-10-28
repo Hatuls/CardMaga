@@ -1,22 +1,3 @@
-﻿
-using UnityEngine;
-
-using UnityEngine.EventSystems;
-namespace Battle.UI
-{
-    [RequireComponent(typeof(EventTrigger))]
-    public class MiddleBoxDrop : MonoBehaviour { 
-        [SerializeField] BoxCollider2D boxCollider2D;
-        [SerializeField] Unity.Events.StringEvent _playSound;
-
-  //      public void OnPointerExit() => CardUIManager.Instance.IsTryingToPlace = false;
-        public void OnDrop()
-        {
-
-        }
-
-
-    }
-
-}
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:d60401649de30dd7b906c3f1e44cef03a485bb22d267689062d7a90b067c1d95
+size 463

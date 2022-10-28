@@ -1,31 +1,3 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using Characters.Stats;
-
-public class StaminaUI : MonoBehaviour
-{
-    [SerializeField] TMPro.TextMeshProUGUI _text;
-    [SerializeField] Image _backgroundImage;
-    [SerializeField] Image _decorate;
-    [SerializeField] Animator _animator;
-
-    int ScaleAnimation = Animator.StringToHash("Scale");
-    int RejectAnimation = Animator.StringToHash("StaminaIcon_Reject");
-    private void Start()
-    {
-        //StaminaHandler.StaminaUI = this;
-
-        if (_animator == null)
-            _animator = GetComponent<Animator>();
-    }
-
-    public void PlayRejectAnimation()
-    {
-        _animator.Play(RejectAnimation);
-    }
-    public void SetText(int stamina) {
-        _animator.Play("Scale");
-        _text.text = (stamina).ToString(); 
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e0a45e94861858294cc0a29c05a7d0e98697c4a3032d4fccac142fc5f9365c99
+size 848

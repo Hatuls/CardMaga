@@ -1,36 +1,3 @@
-﻿using Keywords;
-
-namespace Characters.Stats
-{
-    public class MaxHealthStat : BaseStat
-    {
-        private HealthStat _healthStat;
-
-        public HealthStat HealthStat { get => _healthStat; set => _healthStat = value; }
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.MaxHealth;
-        public MaxHealthStat(int amount) : base(amount)
-        {
-
-        }
-        public override void Reduce(int amount)
-        {
-            base.Reduce(amount);
-            if (Amount <= 0)
-                Amount = 1;
-
-            if (HealthStat.Amount > Amount)
-            {
-                HealthStat.Reset(Amount);
-            }
-            // if amount is less than hp reduce the hp 
-        }
-        public override void Add(int amount)
-        {
-            base.Add(amount);
-
-            HealthStat.Add(amount);
-        }
-
-
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e288860fda28633037f22cee4471d0ff303710b4221baeccd8b30d7ead115a42
+size 896

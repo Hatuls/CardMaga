@@ -343,14 +343,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _cinematicManager: {fileID: 0}
-  _playerManager: {fileID: 4865128171655590735}
   _enemyManager: {fileID: 516472383804032214}
   _cardExecutionManager: {fileID: 8513023217717614139}
-  _cardUIManager: {fileID: 0}
-  _comboManager: {fileID: 1511457884063859248}
+  _battleUIManager: {fileID: 0}
   _keywordManager: {fileID: 7806606445429385597}
   _vFXManager: {fileID: 5572394969957932758}
-  _cameraManager: {fileID: 0}
   _hideTutorial: 1
 --- !u!1 &4147605569478178821
 GameObject:
@@ -585,7 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2db113313ec01458da1a18f23e83b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 01936ff9a3ed66e47b1d9e213f25f55e, type: 2}
+  _gameEvent: {fileID: 0}
   _unityEventResponse:
     m_PersistentCalls:
       m_Calls: []
@@ -648,13 +645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d4f06ddf8dcfd049af82a33878db572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _successCrafting: {fileID: 11400000, guid: 01936ff9a3ed66e47b1d9e213f25f55e, type: 2}
-  _cardRecipeDetected:
-    _comboCore:
-      _id: 0
-      _level: 0
-    _comboSO: {fileID: 0}
-  _comboVFX: {fileID: 11400000, guid: 763c3728a051fe74492e38f16fb4222b, type: 2}
 --- !u!1 &5847196689953200342
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +713,7 @@ MonoBehaviour:
       _characterDeck: []
       _comboRecipe: []
     _displayName: 
+    _playerTags: []
   _visualCharacter: {fileID: 0}
   _enemyNameText: {fileID: 0}
   _delayTime: {x: 1.1857294, y: 2.32832}
@@ -735,7 +726,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2166197952052620344}
-  - component: {fileID: 4865128171655590735}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -757,16 +747,3 @@ Transform:
   m_Father: {fileID: 560829604320045288}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4865128171655590735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8357264424072378610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ebff4e7f2aa32d4aa82a0da132088ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _visualCharacter: {fileID: 0}

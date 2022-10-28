@@ -1,36 +1,3 @@
-﻿using Battle;
-
-namespace Keywords
-{
-    public class DexterityKeyword : BaseKeywordLogic
-    {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Dexterity;
-
-
-
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-        {
-            UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount " + data.GetAmountToApply);
-
-            var target = data.GetTarget;
-
-            if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
-
-            if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
-            data.KeywordSO.SoundEventSO.PlaySound();
-        }
-
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-        {
-            var target = data.GetTarget;
-
-            if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
-
-            if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:40c7b1f5e234fa08aab22d42a5c6ac2bb1e04047609b1da7cf7a9899137f4b8b
+size 1653

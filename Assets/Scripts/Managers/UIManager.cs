@@ -1,27 +1,3 @@
-﻿
-using Battle;
-using Managers;
-using ReiTools.TokenMachine;
-using UnityEngine;
-
-
-public class UIManager : MonoBehaviour
-{
-    #region Fields
-    public static Vector2 MiddleScreenPosition = new Vector2(Screen.width / 2, Screen.height / 2);
-
-    public int Priority =>99;
-    #endregion
-
-
-    #region Monobehaviour Callbacks 
-    public  void Awake()
-    {
-#if !UNITY_EDITOR
-                Cursor.lockState = CursorLockMode.Confined;
-#endif
-    }
-
-   
-    #endregion
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:7b1d6a7182d0a761a26284150df3780e31c818c68fd6aeaa3365b4e3676eba07
+size 432

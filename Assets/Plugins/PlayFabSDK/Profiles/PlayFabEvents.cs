@@ -1,24 +1,3 @@
-#if !DISABLE_PLAYFABENTITY_API
-using PlayFab.ProfilesModels;
-
-namespace PlayFab.Events
-{
-    public partial class PlayFabEvents
-    {
-        public event PlayFabRequestEvent<GetGlobalPolicyRequest> OnProfilesGetGlobalPolicyRequestEvent;
-        public event PlayFabResultEvent<GetGlobalPolicyResponse> OnProfilesGetGlobalPolicyResultEvent;
-        public event PlayFabRequestEvent<GetEntityProfileRequest> OnProfilesGetProfileRequestEvent;
-        public event PlayFabResultEvent<GetEntityProfileResponse> OnProfilesGetProfileResultEvent;
-        public event PlayFabRequestEvent<GetEntityProfilesRequest> OnProfilesGetProfilesRequestEvent;
-        public event PlayFabResultEvent<GetEntityProfilesResponse> OnProfilesGetProfilesResultEvent;
-        public event PlayFabRequestEvent<GetTitlePlayersFromMasterPlayerAccountIdsRequest> OnProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequestEvent;
-        public event PlayFabResultEvent<GetTitlePlayersFromMasterPlayerAccountIdsResponse> OnProfilesGetTitlePlayersFromMasterPlayerAccountIdsResultEvent;
-        public event PlayFabRequestEvent<SetGlobalPolicyRequest> OnProfilesSetGlobalPolicyRequestEvent;
-        public event PlayFabResultEvent<SetGlobalPolicyResponse> OnProfilesSetGlobalPolicyResultEvent;
-        public event PlayFabRequestEvent<SetProfileLanguageRequest> OnProfilesSetProfileLanguageRequestEvent;
-        public event PlayFabResultEvent<SetProfileLanguageResponse> OnProfilesSetProfileLanguageResultEvent;
-        public event PlayFabRequestEvent<SetEntityProfilePolicyRequest> OnProfilesSetProfilePolicyRequestEvent;
-        public event PlayFabResultEvent<SetEntityProfilePolicyResponse> OnProfilesSetProfilePolicyResultEvent;
-    }
-}
-#endif
+version https://git-lfs.github.com/spec/v1
+oid sha256:021dee3bbe3f6b9c6c0a1fa5df5365ad7d1f69a7beb838506cc2c01432e831c6
+size 1718

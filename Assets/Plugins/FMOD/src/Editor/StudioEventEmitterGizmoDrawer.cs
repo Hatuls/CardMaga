@@ -1,14 +1,3 @@
-﻿using UnityEngine;
-using UnityEditor;
-
-namespace FMODUnity
-{
-    public class StudioEventEmitterGizoDrawer
-    {
-        [DrawGizmo(GizmoType.Selected | GizmoType.Active | GizmoType.NotInSelectionHierarchy | GizmoType.Pickable)]
-        static void DrawGizmo(StudioEventEmitter studioEmitter, GizmoType gizmoType)
-        {
-            Gizmos.DrawIcon(studioEmitter.transform.position, "FMOD/FMODEmitter.tiff", true);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:566094cbda3819076711414cd82db12070247ce2c04179b7b27b28602cdb2987
+size 453

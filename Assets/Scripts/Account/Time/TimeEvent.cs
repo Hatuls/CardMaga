@@ -1,22 +1,3 @@
-﻿using System;
-
-namespace Account
-{
-    public class TimeEvent
-    {
-        #region Fields
-        public DateTime _finishTime;
-        public Action ExecuteOnFinish;
-        #endregion
-        #region Public Methods
-        public TimeEvent(DateTime dateTime, Action action)
-        {
-
-        }
-        public bool CheckIfFinished(DateTime dateTime)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:682e95e45ee380920dd27aac6d464380638830d824c40998657601abc06c86d9
+size 473

@@ -1,14 +1,3 @@
-#if !DISABLE_PLAYFABENTITY_API
-using PlayFab.EventsModels;
-
-namespace PlayFab.Events
-{
-    public partial class PlayFabEvents
-    {
-        public event PlayFabRequestEvent<WriteEventsRequest> OnEventsWriteEventsRequestEvent;
-        public event PlayFabResultEvent<WriteEventsResponse> OnEventsWriteEventsResultEvent;
-        public event PlayFabRequestEvent<WriteEventsRequest> OnEventsWriteTelemetryEventsRequestEvent;
-        public event PlayFabResultEvent<WriteEventsResponse> OnEventsWriteTelemetryEventsResultEvent;
-    }
-}
-#endif
+version https://git-lfs.github.com/spec/v1
+oid sha256:97bfcadac7e4121e656a376ac7d35bef310f3b8667eff9c372e8657268c21ebe
+size 539

@@ -1,29 +1,3 @@
-﻿using ReiTools.TokenMachine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-
-public class SectionManager : MonoBehaviour
-{
-    [SerializeField] OperationManager _operationManager;
-    private TokenMachine _tokenMachine;
-    private IDisposable _token; 
-
-    public void StartOperations(ITokenReciever tokenReciever)
-    {
-        _token = tokenReciever.GetToken();
-        _tokenMachine = new TokenMachine(ReleaseToken);
-        _operationManager.Init(_tokenMachine);
-        _operationManager.StartOperation();
-    }
-
-    private void ReleaseToken()
-    {
-        if (_token != null)
-            _token.Dispose();
-
-        else
-            Debug.LogError("No token to release");
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:bf71cafb4b38f54a31dc07034f80986fcc7796dffa024c950a61d82a2d12e5a9
+size 766

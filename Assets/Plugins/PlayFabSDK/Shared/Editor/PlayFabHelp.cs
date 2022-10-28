@@ -1,26 +1,3 @@
-using UnityEditor;
-using UnityEngine;
-
-namespace PlayFab.PfEditor
-{
-    public static class PlayFabHelp
-    {
-        [MenuItem("PlayFab/GettingStarted")]
-        private static void GettingStarted()
-        {
-            Application.OpenURL("https://docs.microsoft.com/en-us/gaming/playfab/index#pivot=documentation&panel=quickstarts");
-        }
-
-        [MenuItem("PlayFab/Docs")]
-        private static void Documentation()
-        {
-            Application.OpenURL("https://docs.microsoft.com/en-us/gaming/playfab/api-references/");
-        }
-
-        [MenuItem("PlayFab/Dashboard")]
-        private static void Dashboard()
-        {
-            Application.OpenURL("https://developer.playfab.com/");
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:eb60c305672f284f58f2e23991487bb0d3b03c14d5f34cd9c8d59abc958fc9ef
+size 724

@@ -1,32 +1,3 @@
-﻿using Cinemachine;
-using UnityEngine;
-public class VirtualCamera : MonoBehaviour
-{
-    [SerializeField] private CameraIdentification _cameraIdentification;
-    [SerializeField] private CinemachineVirtualCamera _virtualCamera;
-
-    public CameraIdentification GetCameraID
-    {
-        get { return _cameraIdentification; }
-    }
-
-    public CinemachineVirtualCamera GetVirtualCamera
-    {
-        get { return _virtualCamera; }
-    }
-
-    public void ChangePriority(int priority)
-    {
-        _virtualCamera.m_Priority = priority;
-    }
-
-    public void OnEnable()
-    {
-        CameraManager.Register(this);
-    }
-
-    public void OnDisable()
-    {
-        CameraManager.Unregister(this);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6a80944fac89d7d841cd72d71e6a6cb129d25838a026e8474a4af6284815c71b
+size 881

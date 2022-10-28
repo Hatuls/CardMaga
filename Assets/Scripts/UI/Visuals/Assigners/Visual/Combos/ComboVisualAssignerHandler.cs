@@ -1,24 +1,3 @@
-﻿using Battle.Combo;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace CardMaga.UI.Visuals
-{
-    [System.Serializable]
-    public class ComboVisualAssignerHandler : BaseVisualAssignerHandler<ComboData>
-    {
-        [Header("Visuals")]
-        [SerializeField] ComboTypeVisualAssigner _comboTypeVisualAssigner;
-        [SerializeField] ComboSequenceVisualAssigner _comboSequenceVisualAssigner;
-        [SerializeField] ComboTitleAndArrowVisualAssigner _comboTitleAndArrowVisualAssigner;
-        public override IEnumerable<BaseVisualAssigner<ComboData>> VisualAssigners
-        {
-             get
-            {
-                yield return _comboTypeVisualAssigner;
-                yield return _comboSequenceVisualAssigner;
-                yield return _comboTitleAndArrowVisualAssigner;
-            }
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:1b7a41e2a97566ae4f1c353674ea0cd827c1a25017a02dd4bc949a4eed5d3cf0
+size 859

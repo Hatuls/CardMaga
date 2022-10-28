@@ -1,21 +1,3 @@
-﻿using Keywords;
-namespace Characters.Stats
-{
-    public class DexterityStat : BaseStat
-    {
-        public DexterityStat(int amount) : base(amount)
-        {
-
-        }
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Dexterity;
-
-        public override void Reduce(int amount)
-        {
-            if (Amount - amount <= 0)
-                base.Reset();
-            else
-                base.Reduce(amount);
-
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:baeb6a7a3aa7da5d3784a69197e82a611f656df4940ccbd4310c1042c7ff8493
+size 496

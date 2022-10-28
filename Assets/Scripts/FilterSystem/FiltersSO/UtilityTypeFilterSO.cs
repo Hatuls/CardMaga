@@ -1,16 +1,3 @@
-﻿using CardMaga.Card;
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "UtilityTypeFilterSO", menuName = "ScriptableObjects/Filter/CardData/UtilityTypeFilterSO")]
-public class UtilityTypeFilterSO : CardDataFilter
-{
-    public override bool Filter(CardData obj)
-    {
-        if (obj.CardSO.CardType.CardType == CardTypeEnum.Utility)
-        {
-            return true;
-        }
-
-        return false;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:25349ccbf4727efb5961ce17992c39842d035518bc649bd18fe79724dff98b92
+size 426

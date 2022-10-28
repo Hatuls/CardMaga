@@ -1,19 +1,3 @@
-﻿using Battle;
-using CardMaga.UI.Card;
-using System.Collections.Generic;
-using UnityEngine;
-namespace CardMaga.Trackers
-{
-    public class HandUIFirstCardTracker : Tracker
-    {
-        [SerializeField] private UI.HandUI _handUI;
-        private IReadOnlyList<CardUI> _cards;
-        public override RectTransform RectTransform => FirstCardRectTransform();
-
-        private RectTransform FirstCardRectTransform()
-        {
-            _cards = _handUI.GetCardUIFromHand();
-            return _cards[0].RectTransform;
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:bd73fa73f58f9ddfacd930d48b857cd01e67c7d57d539dc582cdd706b910cbef
+size 554

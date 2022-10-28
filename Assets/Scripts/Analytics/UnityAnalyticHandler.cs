@@ -1,23 +1,3 @@
-﻿using UnityEngine.Analytics;
-public static class UnityAnalyticHandler
-{
-    public static void SendEvent(string EventName)
-    {
-#if !UNITY_EDITOR 
-        CheckWarning(Analytics.CustomEvent(EventName));
-#endif
-    }
-
-    public static void SendEvent(string EventName, System.Collections.Generic.Dictionary<string, object> dictionary)
-    {
-#if !UNITY_EDITOR
-        CheckWarning(Analytics.CustomEvent(EventName, dictionary));
-#endif
-    }
-    private static void CheckWarning(AnalyticsResult data)
-    {
-        if (data != AnalyticsResult.Ok)
-            UnityEngine.Debug.LogError($"Analytic was not sent!\nResult is : {data}");
-
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:184e713f68e3cfaf55fda105b1876d967180a385a2c9633c84ff712d4f6c77c9
+size 667

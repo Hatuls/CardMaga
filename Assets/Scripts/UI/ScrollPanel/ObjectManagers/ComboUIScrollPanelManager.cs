@@ -1,25 +1,3 @@
-﻿using Battle;
-using Battle.Combo;
-using CardMaga.UI.Combos;
-using UnityEngine;
-
-public class ComboUIScrollPanelManager : BaseScrollPanelManager<ComboUI,ComboData>
-{
-    [SerializeField] private ComboUIPool _comboUIPool;
-    
-    protected override BasePoolObject<ComboUI, ComboData> ObjectPool
-    {
-        get => _comboUIPool;
-    }
-
-    public override void Init()
-    {
-        base.Init();
-        _comboUIPool.Init();
-    }
-
-    private void OnDestroy()
-    {
-        RemoveAllObjectsFromPanel();
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a6211bd6a4a069b64c60b8089cea4415b7fb1d4b58eba404ca2ecdaf71159a1c
+size 539

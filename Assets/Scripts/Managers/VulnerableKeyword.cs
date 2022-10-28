@@ -1,36 +1,3 @@
-﻿using Battle;
-using Characters.Stats;
-
-namespace Keywords
-{
-    public class VulnerableKeyword : BaseKeywordLogic
-    {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Vulnerable;
-
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-        {
-   
-            var target = data.GetTarget;
-            data.KeywordSO.SoundEventSO.PlaySound();
-            if (target == TargetEnum.All || target == TargetEnum.MySelf)
-            {
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
-            }
-
-            if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
-        }
-
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-        {
-            var target = data.GetTarget;
-            if (target == TargetEnum.All || target == TargetEnum.MySelf)
-            {
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
-            }
-
-            if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:b9f63970c10be9435db5fbb9842fb963342ccd5a97fc6109439508cb1bc40d0c
+size 1477

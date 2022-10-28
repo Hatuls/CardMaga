@@ -1,18 +1,3 @@
-#if ENABLE_PLAYFABSERVER_API
-using PlayFab.MatchmakerModels;
-
-namespace PlayFab.Events
-{
-    public partial class PlayFabEvents
-    {
-        public event PlayFabRequestEvent<AuthUserRequest> OnMatchmakerAuthUserRequestEvent;
-        public event PlayFabResultEvent<AuthUserResponse> OnMatchmakerAuthUserResultEvent;
-        public event PlayFabRequestEvent<PlayerJoinedRequest> OnMatchmakerPlayerJoinedRequestEvent;
-        public event PlayFabResultEvent<PlayerJoinedResponse> OnMatchmakerPlayerJoinedResultEvent;
-        public event PlayFabRequestEvent<PlayerLeftRequest> OnMatchmakerPlayerLeftRequestEvent;
-        public event PlayFabResultEvent<PlayerLeftResponse> OnMatchmakerPlayerLeftResultEvent;
-        public event PlayFabRequestEvent<UserInfoRequest> OnMatchmakerUserInfoRequestEvent;
-        public event PlayFabResultEvent<UserInfoResponse> OnMatchmakerUserInfoResultEvent;
-    }
-}
-#endif
+version https://git-lfs.github.com/spec/v1
+oid sha256:f8e7c9f4135c28ad6a03c9d07f408edea826cd11e585de9a8c6e4ecee097001d
+size 905

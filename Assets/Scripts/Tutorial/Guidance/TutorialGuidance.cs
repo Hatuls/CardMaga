@@ -1,34 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-
-public class TutorialGuidance : MonoBehaviour
-{
-    public void Init()
-    {
-    }
-
-    public void StartGuidance()
-    {
-    }
-
-    public void StopGuidance()
-    {
-    }
-
-    public void StartGuidanceAfterSeconds(float seconds, Action onComplete = null)
-    {
-        StartCoroutine(GuidanceAfterSeconds(seconds, onComplete));
-    }
-
-    private IEnumerator GuidanceAfterSeconds(float seconds, Action onComplete = null)
-    {
-        StartGuidance();
-        yield return new WaitForSeconds(seconds);
-        if (onComplete != null)
-            onComplete.Invoke();
-
-        StopGuidance();
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:00a69ba5805a5cbcc0ec6f77123253f2915aaf53fbd909bc6604f887005d7374
+size 732

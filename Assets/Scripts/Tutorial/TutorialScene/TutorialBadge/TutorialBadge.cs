@@ -1,21 +1,3 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
-
-[Serializable]
-public class TutorialBadge 
-{
-    [SerializeField] private Image image;
-    [SerializeField] private Color _offColor = Color.red;
-    [SerializeField] private Color _onColor = Color.green;
-
-    public void Init()
-    {
-        image.color = _offColor;
-    }
-
-    public void TurnOn()
-    {
-        image.color = _onColor;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:43b0897aa6b35c63aaa65b611dece472b4561810f114d7f43fa1451e97589d1f
+size 425

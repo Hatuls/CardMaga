@@ -1,15 +1,3 @@
-﻿using UnityEngine;
-
-[CreateAssetMenu(fileName = "New Sound Event SO", menuName = "Cfir/SoundEventSO")]
-public class SoundEventSO : ScriptableObject
-{
-    [SerializeField]
-    public string EventPathName;
-
-    public bool IsStackable = true;
-#if UNITY_EDITOR
-    [Sirenix.OdinInspector.ShowInInspector] public string FullEventName => string.Concat(AudioManager.FmodEventString, EventPathName);
-#endif
-    
-    public virtual void PlaySound() => AudioManager.Instance.PlaySoundEvent(this);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:73bee53d534a589b176d094473378d16d31dc08d2fef21ed249d816f73a4ab4d
+size 508

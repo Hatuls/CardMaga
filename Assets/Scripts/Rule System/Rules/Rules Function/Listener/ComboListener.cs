@@ -1,34 +1,3 @@
-﻿using Battle;
-using Battle.Combo;
-using CardMaga.Rules;
-
-public class ComboListener : BaseEndGameRule
-{
-    private ComboManager _comboManager;
-    private ComboSO _comboToCheck;
-
-    public ComboListener(ComboSO combo,float delayToEndGame) : base(delayToEndGame)
-    {
-        _comboToCheck = combo;
-    }
-    
-    public override void InitRuleListener(IBattleManager battleManager, BaseRuleLogic<bool>[] ruleLogics)
-    {
-        base.InitRuleListener(battleManager, ruleLogics);
-        _comboManager = battleManager.ComboManager;
-        _comboManager.OnComboSucceeded += CheckCombo;
-    }
-
-    private void CheckCombo(ComboData comboData)
-    {
-        if (comboData.ComboSO == _comboToCheck)
-        {
-            Active(true);
-        }
-    }
-
-    public override void Dispose()
-    {
-        _comboManager.OnComboSucceeded -= CheckCombo;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:990e8b287070a4856bc5220b789de2e8d673bf4ec5001dacf7a32f00af3f05d7
+size 915

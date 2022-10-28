@@ -1,28 +1,3 @@
-﻿using Battle;
-using CardMaga.SequenceOperation;
-using CardMaga.UI.ScrollPanel;
-using Managers;
-using ReiTools.TokenMachine;
-using UnityEngine;
-
-public class ComboAndDeckCollectionBattleHandler : MonoBehaviour , ISequenceOperation<IBattleManager>
-{
-    [SerializeField] private ComboAndDeckCollectionMainHandler _collection;
-
-    private void Awake()
-    {
-        BattleManager.Register(this,OrderType.After);
-    }
-    
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
-    {
-        IPlayer player = data.PlayersManager.RightCharacter;
-        
-        _collection.Init(player.DeckHandler,player.Combos);        
-    }
-
-    public int Priority
-    {
-        get => 0;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:87e7b429a9cdf9d848f505c9d2c07b2ffea9c5f1b46e473d4ce90aa90460a295
+size 672

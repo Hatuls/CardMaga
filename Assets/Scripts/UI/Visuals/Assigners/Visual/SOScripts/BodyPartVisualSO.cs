@@ -1,26 +1,3 @@
-﻿using UnityEngine;
-
-namespace CardMaga.UI.Visuals
-{
-    public class BodyPartVisualSO : BaseVisualSO
-    {
-        [Tooltip("BasePoolObject SO that holds body parts and colors")]
-        public BodyPartBaseVisualSO BaseSO;
-
-        [Tooltip("Attack - 0, Defense - 1, Utility - 2")]
-        public Sprite[] BodyPartsBG;
-
-        [Tooltip("Attack - 0, Defense - 1, Utility - 2")]
-        public Sprite[] BodyPartsInnerBG;
-
-        public override void CheckValidation()
-        {
-            BaseSO.CheckValidation();
-
-            if(BodyPartsBG == null)
-                throw new System.Exception("BodyPartVisualSO has no BodyPartsBG");
-            if (BodyPartsInnerBG == null)
-                throw new System.Exception("BodyPartVisualSO has no BodyOartsInnerBG");
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4f3bab5822ec2084aa3fa9beb0c8da62662e25b995aa71706a69675575055f15
+size 813

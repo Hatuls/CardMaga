@@ -1,28 +1,3 @@
-﻿using Battle.Data;
-using UnityEngine;
-using Account;
-
-public class TempPlayButton : MonoBehaviour
-{
-    [SerializeField]
-    private GameObject _battleDataPrefab;
-    private AccountManager _account;
-    
-    private void Awake()
-    {
-        _account = AccountManager.Instance;
-    }
-
-    private void Start()
-    {
-        if (BattleData.Instance != null)
-            Destroy(BattleData.Instance.gameObject);
-    }
-    
-    public void Play()
-    {
-        BattleData battleData = Instantiate(_battleDataPrefab).GetComponent<BattleData>();
-        Account.GeneralData.Character mainCharacter = _account.Data.CharactersData.GetMainCharacter;
-        battleData.AssginCharacter(true,_account.Data.DisplayName,mainCharacter);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c51fe782e4bffab8e06e4fc46805fab5ba2e2adb5b62e564a8ca3192a2eb2aee
+size 765

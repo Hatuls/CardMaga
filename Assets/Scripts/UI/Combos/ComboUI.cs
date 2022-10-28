@@ -1,35 +1,3 @@
-﻿using System;
-using Battle.Combo;
-using CardMaga.Tools.Pools;
-using CardMaga.UI.ScrollPanel;
-using UnityEngine;
-namespace CardMaga.UI.Combos
-{ 
-public class ComboUI : MonoBehaviour , IShowableUI , IPoolableMB<ComboUI> , IVisualAssign<ComboData>
-{
-    public event Action<ComboUI> OnDisposed;
-    
-    [SerializeField] private ComboVisualHandler _comboVisual;
-
-    public void Dispose()
-    {
-        _comboVisual.Dispose();
-    }
-
-    public void Show()
-    {
-        Init();
-    }
-
-    public void Init()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void AssingVisual(ComboData data)
-    {
-        _comboVisual.Init(data);
-    }
-}
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:948a4169225fb65e4b5c5e6bdc3160d286b8bdc79db3cfa487312e9ca3bf998d
+size 686

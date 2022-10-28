@@ -1,34 +1,3 @@
-﻿using UnityEngine;
-
-public class AccountTutorialData 
-{
-    private int _tutorialProgress;
-    private bool _isCompletedTutorial;
-
-    public bool IsCompletedTutorial
-    {
-        get => _isCompletedTutorial;
-    }
-
-    public int TutorialProgress
-    {
-        get => _tutorialProgress;
-    }
-
-    public AccountTutorialData(int tutorialProgress, bool isCompletedTutorial)
-    {
-        _isCompletedTutorial = isCompletedTutorial;
-        _tutorialProgress = tutorialProgress;
-    }
-
-    public void AssignedData(int tutorialProgress, bool isCompletedTutorial)
-    {
-        _isCompletedTutorial = isCompletedTutorial;
-        _tutorialProgress = tutorialProgress;
-    }
-
-    public void UpdateToNextTutorial()
-    {
-        _tutorialProgress++;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3d6973915b16be7e907204364a258c2ce61c18fed2c4d9317cdb78e69be0e208
+size 793

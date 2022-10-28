@@ -1,26 +1,3 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
-
-public class EndTurnButtonTransinion : MonoBehaviour
-{
-    [Header("TransitionPackSO")]
-    [SerializeField] private TransitionPackSO _buttonTransitionPackSO;
-
-    [Header("RectTransforms")]
-    //The objects that will be effected by the animations
-    [SerializeField] private RectTransform _currentRectTransform;
-    [SerializeField] private RectTransform _destinationRectTransform;
-
-    [Button]
-    public void Scale()
-    {
-        _currentRectTransform.Scale(_buttonTransitionPackSO);
-    }
-
-    [Button]
-    public void Transition()
-    {
-        _currentRectTransform.Transition(_destinationRectTransform, _buttonTransitionPackSO);
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c4c6a62bfac63023b6ddb580beeb1cccdfbd88f82658008d092747bc36d2446a
+size 727

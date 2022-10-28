@@ -1,10 +1,3 @@
-﻿using UnityEngine;
-
-namespace CardMaga.UI.Visuals
-{
-    [CreateAssetMenu(fileName = "Body Parts Card SO", menuName = "ScriptableObjects/UI/Visuals/Body Part Card Visual SO")]
-    public class BodyPartCardVisualSO : BodyPartVisualSO
-    {
-        //any addition specific for cards will be implemented here
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4a746281d13a843cbc53836aac14c22555559e2553d7ff39cecd1efdfd618cc4
+size 326

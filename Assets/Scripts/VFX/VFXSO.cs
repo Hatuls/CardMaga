@@ -1,27 +1,3 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "New VFX SO", menuName = "ScriptableObjects/VFX/VFX SO")]
-public class VFXSO : ScriptableObject , IStayOnTarget
-{
-    [PreviewField(100f)]
-    [SerializeField] GameObject _vfxPrefab;
-    public GameObject VFXPrefab => _vfxPrefab;
-
-    [SerializeField]
-    BodyPartEnum _defaultBodyPart;
-
-
-    [SerializeField]
-    bool toUseTransformRotation;
-
-    [SerializeField]
-    bool _isFromAnimation;
-
-    public bool IsFromAnimation => _isFromAnimation;
-
-
-    public bool ToUseBodyRotation => toUseTransformRotation;
-
-    public BodyPartEnum DefaultBodyPart => _defaultBodyPart;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:398dae1ef2324ac02e878d846dc5bb3f33b74603a506a6aa99ef3bf987b21f8e
+size 680

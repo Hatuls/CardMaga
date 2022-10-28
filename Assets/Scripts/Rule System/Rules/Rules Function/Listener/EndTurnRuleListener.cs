@@ -1,35 +1,3 @@
-﻿using Battle;
-using Battle.Turns;
-using CardMaga.Rules;
-using UnityEngine;
-
-public class EndTurnRuleListener : BaseEndGameRule
-{
-    private GameTurnHandler _turnHandler;
-    
-    public override void InitRuleListener(IBattleManager battleManager, BaseRuleLogic<bool>[] ruleLogics)
-    {
-        base.InitRuleListener(battleManager, ruleLogics);
-        _turnHandler = battleManager.TurnHandler;
-        _turnHandler.OnTurnCountChange += CheckTurnCount;
-    }
-
-    private void CheckTurnCount(int count)
-    {
-        Debug.Log(count);
-        
-        if (count > 1)
-        {
-            Active(true);
-        }
-    }
-
-    public override void Dispose()
-    {
-        _turnHandler.OnTurnCountChange -= CheckTurnCount;
-    }
-
-    public EndTurnRuleListener(float delayToEndGame) : base(delayToEndGame)
-    {
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:b255b2093dfce6c0693bccdc85f464bdcfb12671d7c3aadf00fe96e781671ad0
+size 875

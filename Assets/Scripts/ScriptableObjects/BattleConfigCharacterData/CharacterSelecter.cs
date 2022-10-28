@@ -1,28 +1,3 @@
-﻿using Battle.Turns;
-using UnityEngine;
-
-public abstract class CharacterSelecter : ScriptableObject
-{
-    protected abstract bool IsRandom { get;}
-    protected abstract GameTurnType GameTurnType { get;}
-    
-    public GameTurnType GetTurnType()
-    {
-        if (IsRandom)
-        {
-            switch (Random.Range(0,2))
-            {
-                case 0:
-                    return GameTurnType.LeftPlayerTurn;
-                case 1:
-                    return GameTurnType.RightPlayerTurn;
-            }
-        }
-        else
-        {
-            return GameTurnType;
-        }
-
-        return GameTurnType.LeftPlayerTurn;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:65bed09c284e77b0c1429dfbb6040a1f4377871f5350beaf832b63438eecabb3
+size 672

@@ -1,21 +1,3 @@
-﻿using CardMaga.Card;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace CardMaga.UI.Text
-{
-    [System.Serializable]
-    public class CardTextAssignerHandler : BaseTextAssignerHandler<CardData>
-    {
-        [SerializeField] CardNameTextAssigner _cardNameTextAssigner;
-        [SerializeField] CardStaminaTextAssigner _cardStaminaTextAssigner;
-        [SerializeField] CardDescriptionAssigner _cardDescriptionAssigner;
-        public override IEnumerable<BaseTextAssigner<CardData>> TextAssigners {
-            get {
-                yield return _cardNameTextAssigner;
-                yield return _cardStaminaTextAssigner;
-                yield return _cardDescriptionAssigner;
-            }
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f254e7724128d981d6ba0503b7f142aa11b288a4e9bfb3b1482f467a547cd611
+size 748

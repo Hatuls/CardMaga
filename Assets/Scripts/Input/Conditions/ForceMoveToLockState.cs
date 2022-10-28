@@ -1,33 +1,3 @@
-﻿using Battle;
-using Battle.Turns;
-using UnityEngine;
-
-public class ForceMoveToLockState : BaseCondition
-{
-    [SerializeField]
-    private BattleManager _battleManager;
-    private GameTurnHandler _turnHandler;
-    private void Start()
-    {
-        _turnHandler = _battleManager.TurnHandler;
-    }
-    public override bool CheckCondition()
-    {
-        return _moveCondition;
-    }
-
-    public override void InitCondition()
-    {
-        _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit += ChangeState;
-        _turnHandler.GetTurn(GameTurnType.ExitBattle).OnTurnEnter    += ChangeState;
-        BattleManager.OnGameEnded += ChangeState;
-    }
-
-    private void ChangeState()
-    {
-        _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnExit -= ChangeState;
-        _turnHandler.GetTurn(GameTurnType.ExitBattle).OnTurnEnter    -= ChangeState;
-        BattleManager.OnGameEnded -= ChangeState;
-        _moveCondition = true;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:698c546ebab8133bf0e15d51b7ce65fe3d631d2d2f3eb91818a1e92924de58cb
+size 964

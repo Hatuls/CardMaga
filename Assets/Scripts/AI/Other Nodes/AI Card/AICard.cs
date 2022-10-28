@@ -1,19 +1,3 @@
-﻿using CardMaga.Card;
-using System;
-namespace CardMaga.AI
-{
-    [Serializable]
-    public class AICard : IWeightable
-    {
-        public CardData Card { get; private set; }
-        public int Weight { get; set; }
-
-        public void AssignCard(CardData card) => Card = card;
-        public void Reset()
-        {
-            Card = null;
-            Weight = 0;
-        }
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a3996b21e91668bf115c6e0ad96475790973b72d62384c88664c63f7a3612029
+size 402

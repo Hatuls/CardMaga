@@ -1,24 +1,3 @@
-#if !DISABLE_PLAYFABENTITY_API
-using PlayFab.DataModels;
-
-namespace PlayFab.Events
-{
-    public partial class PlayFabEvents
-    {
-        public event PlayFabRequestEvent<AbortFileUploadsRequest> OnDataAbortFileUploadsRequestEvent;
-        public event PlayFabResultEvent<AbortFileUploadsResponse> OnDataAbortFileUploadsResultEvent;
-        public event PlayFabRequestEvent<DeleteFilesRequest> OnDataDeleteFilesRequestEvent;
-        public event PlayFabResultEvent<DeleteFilesResponse> OnDataDeleteFilesResultEvent;
-        public event PlayFabRequestEvent<FinalizeFileUploadsRequest> OnDataFinalizeFileUploadsRequestEvent;
-        public event PlayFabResultEvent<FinalizeFileUploadsResponse> OnDataFinalizeFileUploadsResultEvent;
-        public event PlayFabRequestEvent<GetFilesRequest> OnDataGetFilesRequestEvent;
-        public event PlayFabResultEvent<GetFilesResponse> OnDataGetFilesResultEvent;
-        public event PlayFabRequestEvent<GetObjectsRequest> OnDataGetObjectsRequestEvent;
-        public event PlayFabResultEvent<GetObjectsResponse> OnDataGetObjectsResultEvent;
-        public event PlayFabRequestEvent<InitiateFileUploadsRequest> OnDataInitiateFileUploadsRequestEvent;
-        public event PlayFabResultEvent<InitiateFileUploadsResponse> OnDataInitiateFileUploadsResultEvent;
-        public event PlayFabRequestEvent<SetObjectsRequest> OnDataSetObjectsRequestEvent;
-        public event PlayFabResultEvent<SetObjectsResponse> OnDataSetObjectsResultEvent;
-    }
-}
-#endif
+version https://git-lfs.github.com/spec/v1
+oid sha256:3824e40e42e09f8ec3ff9496efbf37f8878a484ec2ead4c492e97f9be90d5891
+size 1490

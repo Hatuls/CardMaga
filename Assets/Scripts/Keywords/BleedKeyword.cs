@@ -1,36 +1,3 @@
-﻿using Battle;
-
-namespace Keywords
-{
-    public class BleedKeyword : BaseKeywordLogic
-    {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Bleed;
-
-
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-        {
-
-            UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
-
-            var target = data.GetTarget;
-            if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
-
-            if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Add(data.GetAmountToApply);
-
-            data.KeywordSO.SoundEventSO.PlaySound();
-        }
-
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-        {
-            var target = data.GetTarget;
-            if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
-
-            if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(Keyword).Reduce(data.GetAmountToApply);
-
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:b36e04c1048aaf317ac953adc80447df18e1803e664bde85417e9fcab8de8b0e
+size 1648

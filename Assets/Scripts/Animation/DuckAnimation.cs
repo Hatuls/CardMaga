@@ -1,15 +1,3 @@
-﻿
-using UnityEngine;
-
-public class DuckAnimation : CharacterBaseStateMachine
-{
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        GetAnimatorController(animator).StartAnimation(stateInfo);
-    }
-   
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        GetAnimatorController(animator).FinishAnimation(stateInfo);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:eb587909512637c08e40f2327bc4fddc301bfbfb86504abcee9e57ef22c1f7b2
+size 464

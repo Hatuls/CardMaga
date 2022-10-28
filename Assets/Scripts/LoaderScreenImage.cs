@@ -1,16 +1,3 @@
-﻿
-using UnityEngine;
-using UnityEngine.UI;
-
-public class LoaderScreenImage : MonoBehaviour
-{
-    [SerializeField] Image img;
-
-    [SerializeField] Sprite[] _sprites;
-
-    void Start()
-    {
-        img.sprite = _sprites[Random.Range(0, _sprites.Length)];
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:fb8cf4de3fac8c6cc96150ec10f1679f6ba84120944f62c60511c56cae06af7d
+size 282

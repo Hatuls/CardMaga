@@ -1,16 +1,3 @@
-﻿using Battle;
-using Characters.Stats;
-namespace CardMaga.AI
-{
-    public class HaveEnoughStaminaNode : BaseNode<AICard>
-    {
-        public bool IsPlayer { get; set; }
-
-        public override NodeState Evaluate(AICard basedEvaluationObject)
-        {
-            var character = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer);
-            NodeState = character.StaminaHandler.CanPlayCard(basedEvaluationObject.Card) ? NodeState.Success : NodeState.Failure;
-            return NodeState;
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:8e31bbf40d66742505a5051a4e17a9e89eb86d5875957db523ba7ddd1d16dfc2
+size 522

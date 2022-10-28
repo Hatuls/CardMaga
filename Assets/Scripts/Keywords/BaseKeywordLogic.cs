@@ -1,26 +1,3 @@
-﻿using Battle;
-using System;
-
-namespace Keywords
-{
-
-    public abstract class BaseKeywordLogic : IKeyword
-    {
-      
-        public abstract KeywordTypeEnum Keyword { get; }
-        public abstract void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager);
-        public abstract void UnProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager);
-
-    }
-
-
-    public interface IKeyword
-    {
-        KeywordTypeEnum Keyword { get; }
-        void UnProcessOnTarget(bool isFromPlayer, KeywordData keywordData, IPlayersManager playersManager);
-        void ProcessOnTarget(bool isFromPlayer, KeywordData keywordData, IPlayersManager playersManager);
-        
-    }
-
-    
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:7492c4816eb9d78687ea38bfc4a77cf645a3463c8946d09cc74b0538dfb15b6b
+size 744

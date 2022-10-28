@@ -1,15 +1,3 @@
-﻿using Battle;
-using Battle.Combo;
-using CardMaga.Rules;
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "ComboRuleListenerFactorySO", menuName = "ScriptableObjects/Rule System/Combo Rule Listener FactorySO")]
-public class ComboRuleListenerFactorySO : BaseEndGameRuleFactorySO
-{
-    [SerializeField] private ComboSO _comboToCheck;
-    
-    protected override BaseEndGameRule CreateRuleListener(IBattleManager battleManager)
-    {
-        return new ComboListener(_comboToCheck,DelayToEndGame);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6cbf73a3273b340006d00511d6cad80ac52715d4da01cae7a40d82b0b3237e7f
+size 525

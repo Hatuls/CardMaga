@@ -1,21 +1,3 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-namespace CardMaga.UI
-{
-    public class SortByCharacterDeckRemaining : CardSort
-    {
-        [SerializeField]
-        byte deckIndex;
-        // need to be redone
-        public override IEnumerable<CardMaga.Card.CardData> Sort()
-        {
-
-            //var deck = account.AccountCharacters.GetCharacterData(account.AccountCharacters.SelectedCharacter).Decks[deckIndex].Cards;
-            //var sortedDeck = account.AccountCards.CardList.Where(c => deck.All((c2) => !c2.Equals(c)));
-            //var result = Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(sortedDeck.ToArray());
-            //return result;
-            throw new System.NotImplementedException();
-        }
-
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f55f67f64997d9756f557115d345dd274627acb4d6886b4e8df6005aa5905bd5
+size 774

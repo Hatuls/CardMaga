@@ -1,27 +1,3 @@
-﻿using ReiTools.TokenMachine;
-using System;
-using UnityEngine;
-
-public class TaskBasedOperation : BaseOperation
-{
-    public override event Action OnCompleted;
-    [SerializeField]
-    private UnityTokenMachineEvent _tokenEvent;
-    public override void Completed()
-    {
-        _token.Dispose();
-       OnCompleted?.Invoke();
-    }
-
-    public override void Init(ITokenReciever tokenReciever)
-    {
-        _token = tokenReciever.GetToken();
-        _tokenMachine = new TokenMachine(Completed);
-        //StartOperation();
-    }
-
-    public override void StartOperation()
-    {
-        _tokenEvent?.Invoke(_tokenMachine);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:398085e7a684e94db957c0389e410391f8744987937fa838a3aac7f256438adb
+size 661

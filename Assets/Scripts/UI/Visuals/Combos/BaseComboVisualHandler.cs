@@ -1,30 +1,3 @@
-﻿using Battle.Combo;
-using CardMaga.UI.Text;
-using CardMaga.UI.Visuals;
-using UnityEngine;
-
-namespace CardMaga.UI
-{
-    [System.Serializable]
-    public abstract class BaseComboVisualHandler : MonoBehaviour,IInitializable<ComboData>
-    {
-        public abstract BaseTextAssignerHandler<ComboData> ComboTextAssignerHandler { get; }
-        public abstract BaseVisualAssignerHandler<ComboData> ComboVisualAssignerHandler { get; }
-
-        public virtual void CheckValidation()
-        {
-            ComboTextAssignerHandler.CheckValidation();
-            ComboVisualAssignerHandler.CheckValidation();
-        }
-        public virtual void Dispose()
-        {
-            ComboTextAssignerHandler.Dispose();
-            ComboVisualAssignerHandler.Dispose();
-        }
-        public virtual void Init(ComboData comboDataData)
-        {
-            ComboTextAssignerHandler.Init(comboDataData);
-            ComboVisualAssignerHandler.Init(comboDataData);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:62a85d96d36f6cae1c54aaee1e9b8ee2edda0301bce703167e1f50193517ef1d
+size 1002

@@ -1,30 +1,3 @@
-﻿using Battle.Combo;
-using CardMaga.UI.Visuals;
-using TMPro;
-using UnityEngine;
-
-namespace CardMaga.UI.Text
-{
-    [System.Serializable]
-    public class ComboTypeTextAssigner : BaseTextAssigner<ComboData>
-    {
-        [SerializeField]ComboTypeVisualSO _comboTypeVisualSO;
-        [SerializeField]TextMeshProUGUI _comboTypeNameText;
-        public override void CheckValidation()
-        {
-            _comboTypeVisualSO.CheckValidation();
-
-            if (_comboTypeNameText == null)
-                throw new System.Exception("ComboTypeTextAssigner has no comboTypeNameText");
-        }
-        public override void Init(ComboData comboDataData)
-        {
-            _comboTypeNameText.AssignText(_comboTypeVisualSO.GetTypeName(comboDataData.GoToDeckAfterCrafting));
-        }
-
-        public override void Dispose()
-        {
-
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c12d6927ec7cb833ca2b58ebee67b1a741be736b16d57d3ba0f508e530152d38
+size 879
