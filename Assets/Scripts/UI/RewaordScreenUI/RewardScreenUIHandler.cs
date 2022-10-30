@@ -1,32 +1,33 @@
-﻿using UnityEngine;
-using UnityEngine.Playables;
+﻿using System;
+using CardMaga.CinematicSystem;
+using UnityEngine;
 
 public class RewardScreenUIHandler : MonoBehaviour
 {
-    [Header("Playable Director")]
-    [SerializeField] private PlayableDirector _baseCoin;
-    [SerializeField] private PlayableDirector _additionalBaseCoin;
-    [SerializeField] private PlayableDirector _firstWinCoin;
-    [SerializeField] private PlayableDirector _additionalFirstWinBaseCoin;
-
-    private void OnEnable()
-    {
-       // GiveBaseReward(false);
-    }
-
-    public void GiveBaseReward(bool isFirstWin)
-    {
-        _baseCoin.Play();
-
-        if (isFirstWin)
-            _firstWinCoin.Play();
-    }
+    public event Action OnRewardEnded;
     
-    public void GiveAdditionalReward(bool isFirstWin)
-    {
-        _additionalBaseCoin.Play();
+    [SerializeField] private CinematicManager _baseCinematicManager;
+    [SerializeField] private CinematicManager _AdditionalCinematicManager;
+    [SerializeField] private ClickHelper _clickHelper;
 
-        if (isFirstWin)
-            _additionalFirstWinBaseCoin.Play();
+    private void Start()
+    {
+        _baseCinematicManager.StartCinematicSequence();
+    }
+
+    public void OpenClickHelper()
+    {
+        _clickHelper.Open(EndReward);
+    }
+
+    private void EndReward()
+    {
+        OnRewardEnded?.Invoke();
+    }
+
+    public void CheckFirstWin(CinematicManager cinematicManager)
+    {
+        if (true)
+            cinematicManager.ResumeCinematicSequence();
     }
 }

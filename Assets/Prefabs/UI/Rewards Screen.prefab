@@ -901,8 +901,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4427331066539935471}
-  - component: {fileID: 2944312694250701224}
   - component: {fileID: 8913093722162433647}
+  - component: {fileID: 5761728930606590771}
   m_Layer: 5
   m_Name: Rewards Screen
   m_TagString: Untagged
@@ -930,22 +930,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2944312694250701224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4427331066539935470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3a0ed82f2874f449bb8357e00d3b51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _baseCoin: {fileID: 4427331066159192519}
-  _additionalBaseCoin: {fileID: 8142855943667732969}
-  _firstWinCoin: {fileID: 6716336637574408056}
-  _additionalFirstWinBaseCoin: {fileID: 5507306341438737411}
 --- !u!114 &8913093722162433647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,10 +942,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5d8c42676329346851378115be6544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnAllCinematicStart:
+  OnCinematicSequenceStart:
     m_PersistentCalls:
       m_Calls: []
-  OnAllCinematicEnd:
+  OnCinematicSequencePause:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCinematicSequenceResume:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCinematicSequenceEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  _cinematic:
+  - OnCinematicStart:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCinematicEnd:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: CheckFirstWin
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8913093722162433647}
+            m_ObjectArgumentAssemblyTypeName: CardMaga.CinematicSystem.CinematicManager,
+              CardMaga
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    _cinematicName: 
+    _delayBeforeCinematic: {x: 0, y: 0}
+    _delayAfterCinematic: {x: 0, y: 0}
+    isPuseCinematicSequenceOnEndSequenceOnEnd: 1
+    _isDisableSkip: 0
+    _playableDirector: {fileID: 4427331066159192519}
+  - OnCinematicStart:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCinematicEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    _cinematicName: 
+    _delayBeforeCinematic: {x: 0, y: 0}
+    _delayAfterCinematic: {x: 0, y: 0}
+    isPuseCinematicSequenceOnEndSequenceOnEnd: 0
+    _isDisableSkip: 0
+    _playableDirector: {fileID: 8142855943667732969}
+--- !u!114 &5761728930606590771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427331066539935470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b5d8c42676329346851378115be6544, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnCinematicSequenceStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCinematicSequencePause:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCinematicSequenceResume:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCinematicSequenceEnd:
     m_PersistentCalls:
       m_Calls: []
   _cinematic:
@@ -972,22 +1023,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     _cinematicName: 
-    _playableDirector: {fileID: 4427331066159192519}
-  - OnCinematicStart:
-      m_PersistentCalls:
-        m_Calls: []
-    OnCinematicEnd:
-      m_PersistentCalls:
-        m_Calls: []
-    _cinematicName: 
-    _playableDirector: {fileID: 8142855943667732969}
-  - OnCinematicStart:
-      m_PersistentCalls:
-        m_Calls: []
-    OnCinematicEnd:
-      m_PersistentCalls:
-        m_Calls: []
-    _cinematicName: 
+    _delayBeforeCinematic: {x: 0, y: 0}
+    _delayAfterCinematic: {x: 0, y: 0}
+    isPuseCinematicSequenceOnEndSequenceOnEnd: 1
+    _isDisableSkip: 0
     _playableDirector: {fileID: 6716336637574408056}
   - OnCinematicStart:
       m_PersistentCalls:
@@ -996,6 +1035,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     _cinematicName: 
+    _delayBeforeCinematic: {x: 0, y: 0}
+    _delayAfterCinematic: {x: 0, y: 0}
+    isPuseCinematicSequenceOnEndSequenceOnEnd: 0
+    _isDisableSkip: 0
     _playableDirector: {fileID: 5507306341438737411}
 --- !u!1 &4427331066883814157
 GameObject:

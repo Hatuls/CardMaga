@@ -2,11 +2,14 @@
 using System.Collections;
 using Rei.Utilities;
 using Sirenix.OdinInspector;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 
-[Serializable]
+namespace CardMaga.CinematicSystem
+{
+    [Serializable]
 public class CinematicHandler
 {
     public event Action<CinematicHandler> OnCinematicCompleted;
@@ -14,24 +17,22 @@ public class CinematicHandler
     [SerializeField, EventsGroup] private UnityEvent OnCinematicStart;
     [SerializeField, EventsGroup] private UnityEvent OnCinematicEnd;
 
-    [SerializeField] private string _cinematicName;
-    [SerializeField,MinMaxSlider(0,20f), Tooltip("The delay before the operation will be executed")]
+    [SerializeField,Tooltip("Name for editor use")] private string _cinematicName;
+    
+    [SerializeField,MinMaxSlider(0,20f), Tooltip("The delay before the cinematic will be executed")]
     private Vector2 _delayBeforeCinematic;
-    [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay after the operation was executed\nNote: Will not have effect if the operation that will take the token wont release it before this delay")]
+    [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay after the cinematic was executed")]
     private Vector2 _delayAfterCinematic;
 
-    [SerializeField] private bool isPuseCinematicSequenceOnEndSequenceOnEnd;
+    [SerializeField,Tooltip("Immediately start the next cinematic at the end of this one")] private bool isPuseCinematicSequenceOnEndSequenceOnEnd;
+    [SerializeField, Tooltip("Disable the ability to skip the cinematic")] private bool _isDisableSkip;
     [SerializeField] private PlayableDirector _playableDirector;
 
-    private double _duration;
     private int _cinematicID;
+    private double _duration;
     private bool _isCompleted;
-
-    public PlayableDirector PlayableDirector
-    {
-        get => _playableDirector;
-    }
-
+    private MonoBehaviour _monoBehaviour;
+    
     public double CinematicTime
     {
         get => _playableDirector.time;
@@ -52,26 +53,26 @@ public class CinematicHandler
         get => isPuseCinematicSequenceOnEndSequenceOnEnd;
     }
 
-    public void Init(int cinematicId)
+    public void Init(int cinematicId,MonoBehaviour monoBehaviour)
     {
         _cinematicID = cinematicId;
         _duration = _playableDirector.duration;
-
+        _monoBehaviour = monoBehaviour;
     }
 
-    private void StartCinematic()
+    public Coroutine StartCinematic()
     {
-        _playableDirector.Play();
-        OnCinematicStart?.Invoke();
+        return _monoBehaviour.StartCoroutine(RunCinematic());
     }
 
-    public IEnumerator RunCinematic()
+    private IEnumerator RunCinematic()
     {
         if (_delayBeforeCinematic != Vector2.zero)
             yield return new WaitForSeconds(_delayBeforeCinematic.GetRandomValue());
         
-        StartCinematic();
-        
+        OnCinematicStart?.Invoke();
+        _playableDirector.Play();
+
         while (_playableDirector.time < _duration && !_isCompleted)
         {
             yield return null;
@@ -79,13 +80,29 @@ public class CinematicHandler
         
         if (_delayAfterCinematic != Vector2.zero)
             yield return new WaitForSeconds(_delayAfterCinematic.GetRandomValue());
-        
+
+        if (!_isCompleted)
+            CompleteCinematic();
+    }
+
+    private void CompleteCinematic()
+    {
         _isCompleted = true;
+        OnCinematicEnd?.Invoke();
         OnCinematicCompleted?.Invoke(this);
     }
     
     public void SkipCinematic()
     {
+        if (_isDisableSkip)
+            return;
+        
+        _monoBehaviour.StopAllCoroutines();
+        
         _playableDirector.time = _duration - Time.deltaTime;
+
+        CompleteCinematic();
     }
+}
+
 }

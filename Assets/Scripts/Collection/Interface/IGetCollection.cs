@@ -2,7 +2,7 @@
 
 namespace CardMaga.Collection
 {
-    public interface IGetSourceCollection<T>
+    public interface IGetCollection<T>
     {
         IEnumerable<T> GetCollection { get; }
     }

@@ -60,11 +60,6 @@ namespace CardMaga.Input
         #region Prop
 
         public abstract InputIdentificationSO InputIdentification { get; }
-
-        public bool IsTouchable
-        {
-            get => _isTouchable;
-        }
         
         public State CurrentState => _currentState;
 
@@ -346,6 +341,13 @@ namespace CardMaga.Input
 
         #region ILockable
 
+        public bool IsUnlock
+        {
+            get => _isTouchable;
+        }
+
+        public bool IsLock { get; }
+
         public void Lock()
         {
             ChangeState(false);
@@ -502,6 +504,7 @@ namespace CardMaga.Input
 
     public interface ILockable
     {
+        bool IsUnlock { get; }
         void Lock();
         void UnLock();
     }

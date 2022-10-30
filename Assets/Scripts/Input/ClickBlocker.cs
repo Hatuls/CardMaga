@@ -40,7 +40,7 @@ public class ClickBlocker
         BlockInput();
         yield return new WaitForSeconds(seconds);
         if(onComplete!=null)
-        onComplete.Invoke();
+            onComplete.Invoke();
 
         UnblockInput();
     }

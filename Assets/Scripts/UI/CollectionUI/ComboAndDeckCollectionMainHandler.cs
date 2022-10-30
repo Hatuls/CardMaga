@@ -1,4 +1,5 @@
 ﻿using Battle.Combo;
+using Battle.Deck;
 using CardMaga.Card;
 using CardMaga.Collection;
 using UnityEngine;
@@ -15,23 +16,9 @@ namespace CardMaga.UI.ScrollPanel
         private CardDataSort _cardDataSort;
         private ComboDataSort _comboDataSort;
         
-        private IGetSourceCollection<CardData> _cardDatas;
-        private IGetSourceCollection<ComboData> _comboDatas;
+        private IGetCollection<CardData> _cardDatas;
+        private IGetCollection<ComboData> _comboDatas;
 
-        private void Awake()
-        {
-            _cardDataSort = new CardDataSort();
-            _comboDataSort = new ComboDataSort();
-        }
-
-        private void Start()
-        {
-            _cardDataFilter.OnCycleFilter += ShowCard;
-            
-            ShowCombo();
-            ShowCard();
-        }
-        
         private void ShowCombo()
         {
             _comboUIScroll.RemoveAllObjectsFromPanel();
@@ -49,10 +36,24 @@ namespace CardMaga.UI.ScrollPanel
             _cardDataFilter.OnCycleFilter -= ShowCard;
         }
 
-        public void Init(IGetSourceCollection<CardData> cardDatas, IGetSourceCollection<ComboData> comboDatas)
+        public void AssignCardData(IGetCollection<CardData> cardDatas)
         {
             _cardDatas = cardDatas;
+            ShowCard();
+        }
+        
+        public void AssignComboData(IGetCollection<ComboData> comboDatas)
+        {
             _comboDatas = comboDatas;
+            ShowCombo();
+        }
+        
+        public void Init()
+        {
+            _cardDataSort = new CardDataSort();
+            _comboDataSort = new ComboDataSort();
+            _cardDataFilter.OnCycleFilter += ShowCard;
+            
             _cardUIScroll.Init();
             _comboUIScroll.Init();
         }

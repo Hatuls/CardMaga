@@ -1,9 +1,11 @@
 ﻿using CardMaga.Card;
 using System;
+using System.Collections.Generic;
+using CardMaga.Collection;
 
 namespace Battle.Deck
 {
-    public abstract class BaseDeck : IDeckHandler
+    public abstract class BaseDeck : IDeckHandler ,IGetCollection<CardData>
     {
         public event Action<int> OnAmountOfFilledSlotsChange;
         public virtual event Action OnResetDeck;
@@ -12,6 +14,23 @@ namespace Battle.Deck
         private int _amountOfFilledSlots = 0;
         
         #region Properties
+
+        public IEnumerable<CardData> GetCollection
+        {
+            get
+            {
+                int length = _deckCards.Length;
+                
+                for (int i = 0; i < length; i++)
+                {
+                    if (_deckCards[i] != null)
+                        yield return _deckCards[i];
+                    else
+                        yield break;
+                }
+            }
+        }
+
         public int AmountOfFilledSlots { 
             get
             {
@@ -320,6 +339,8 @@ namespace Battle.Deck
 
             return ToString;
         }
+
+        
     }
 
     public enum DeckEnum
