@@ -56,7 +56,6 @@ public class ClickHelper : MonoBehaviour
 
     public void Close()
     {
-        Debug.LogError("Well hello there");
         if(!_canavs.gameObject.activeSelf)
             return;
 
