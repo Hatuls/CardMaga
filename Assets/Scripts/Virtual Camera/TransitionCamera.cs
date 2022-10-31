@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6e727084a1f4003b21f2ee5a149e8c9eb114e1d6395d1c510364d65ac0b6c640
-size 781
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Cinemachine;
+
+[Serializable]
+public class TransitionCamera
+{
+    [SerializeField]
+    private CameraIdentification _nextCamID;
+    [SerializeField]
+    private CinemachineBlenderSettings _cinemachineBlenderSettings;
+
+    public TransitionCamera(CameraIdentification nextCamID, CinemachineBlenderSettings cinemachineBlenderSettings)
+    {
+        _nextCamID = nextCamID;
+        _cinemachineBlenderSettings = cinemachineBlenderSettings;
+    }
+
+    public CameraIdentification NextCamID
+    {
+        get { return _nextCamID; }
+    }
+
+    public CinemachineBlenderSettings CustomBlend
+    {
+        get { return _cinemachineBlenderSettings; }
+    }
+}

@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:46256541802ff4ef557d9644de83784e366d34be39cd9f5dd35b571eadfb0394
-size 485
+﻿using UnityEngine;
+
+namespace CardMaga.UI.Visuals
+{
+    [CreateAssetMenu(fileName = "Rarity Card SO", menuName = "ScriptableObjects/UI/Visuals/Rarity Card Visual SO")]
+    public class RarityCardVisualSO : ScriptableObject
+    {
+        [Tooltip("Common = 0, Uncommon = 1, Rare = 2, Epic = 3, Legendery = 4")]
+        public Sprite[] _rarityBG;
+        [Tooltip("Common = 0, Uncommon = 1, Rare = 2, Epic = 3, Legendery = 4")]
+        public Sprite[] _rarities;
+    }
+}

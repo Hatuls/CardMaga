@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d3ac2e30a40f92beac306c08c007fc1eeaaf56e999101632201f9f8149c7ce90
-size 853
+﻿using TMPro;
+using UnityEngine;
+namespace CardMaga.UI.PopUp
+{
+    [System.Serializable]
+    public abstract class BaseDescriptionPopUp<T> : BaseVisualHandler<T>,IPopUp
+    {
+        public GameObject PopUpHolder;
+        public TextMeshProUGUI PopUpText;
+
+        public virtual void ActivatePopUP(bool toActivate)
+        {
+            PopUpHolder.SetActive(toActivate);
+        }
+
+        public override void CheckValidation()
+        {
+            if (PopUpHolder == null)
+                throw new System.Exception($"ComboDescriptionPopUp of {this.ToString()}has no Holder");
+            if (PopUpText == null)
+                throw new System.Exception($"ComboDescriptionPopUp of {this.ToString()} has no Text");
+        }
+    }
+    public interface IPopUp
+    {
+        void ActivatePopUP(bool toActivate);
+    }
+}

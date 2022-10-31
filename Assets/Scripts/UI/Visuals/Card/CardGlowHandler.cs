@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:81fa3ed3ba2ed4df9f0989c4933e6687d805a66ede200a9164087463cfd0b8d8
-size 736
+﻿using CardMaga.UI.Visuals;
+using DG.Tweening;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace CardMaga.UI
+{
+    [System.Serializable]
+    public class CardGlowHandler
+    {
+        [SerializeField] GlowCardSO _glowCardSO;
+        [SerializeField] Image _glowImage;
+        public void ChangeGlowState(bool toActivate)
+        {
+            _glowImage.gameObject.SetActive(toActivate);
+        }
+
+        public void DiscardGlowAlpha()
+        {
+            _glowImage.DOFade(_glowCardSO.DiscardAplha, _glowCardSO.DiscardAplhaDuration);
+        }
+
+        public void ResetGlowAlpha()
+        {
+            _glowImage.color = _glowImage.color.GetColorAlpha(_glowCardSO.DefaultAplha);
+        }
+    }
+}

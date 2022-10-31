@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a3222b9dafa24ad61e81b147acaa72bdcbca5bb600f9e77c0effda1c5dda326b
-size 330
+﻿using UnityEngine;
+
+namespace CardMaga.UI.Visuals
+{
+    [CreateAssetMenu(fileName = "Body Parts Combo SO", menuName = "ScriptableObjects/UI/Visuals/Body Part Combo Visual SO")]
+    public class BodyPartComboVisualSO : BodyPartVisualSO
+    {
+        //any addition specific for Combos will be implemented here
+    }
+}

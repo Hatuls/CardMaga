@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9c313c175f97b63d35502d0afae4822a14af2fbb38b069d395c3297ae63affd6
-size 505
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace CardMaga.UI.Visuals
+{
+    [CreateAssetMenu(fileName = "HandZoom Positions SO", menuName = "ScriptableObjects/UI/Visuals/ZoomPositionsSO")]
+    public class ZoomPositionsSO : ScriptableObject
+    {
+        [Tooltip("Attack = 0, Defense = 1, Utility = 2")]
+        public float[] YStartPosition;
+        [Tooltip("Attack = 0, Defense = 1, Utility = 2")]
+        public float[] YEndPosition;
+    }
+}

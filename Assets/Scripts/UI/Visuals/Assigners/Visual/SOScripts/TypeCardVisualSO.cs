@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf29789c2f80fcc6147b832795a7829a0526f4fa41a23d559eec43709cd4bb69
-size 434
+﻿using UnityEngine;
+
+namespace CardMaga.UI.Visuals
+{
+    [CreateAssetMenu(fileName = "Type Card SO", menuName = "ScriptableObjects/UI/Visuals/Type Card Visual SO")]
+    public class TypeCardVisualSO : ScriptableObject
+    {
+        [Tooltip("Attack = 0, Defense = 1, Utility = 2")]
+        public Sprite[] Frames;
+
+        [Tooltip("Attack = 0, Defense = 1, Utility = 2")]
+        public Sprite[] InnerFrames;
+    }
+}

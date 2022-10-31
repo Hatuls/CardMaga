@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f6eaa1afa08d2293a4889051670eecc4c435ea50750cba7c6f7106379dda4347
-size 516
+﻿using UnityEngine;
+
+namespace CardMaga.UI.Visuals
+{
+    [CreateAssetMenu(fileName = "Level Card SO", menuName = "ScriptableObjects/UI/Visuals/Level SO")]
+    public class LevelCardVisualSO : ScriptableObject
+    {
+        public LevelBGCardVisualSO LevelBGCardVisualSO;
+        public Sprite[] OuterLevel;
+        public Sprite[] InnerLevel;
+        public Sprite[] EmptyOuterLevel;
+        public Sprite[] EmptyInnerLevel;
+        public Color EmptyColor;
+        public Color FullColor;
+    }
+}
