@@ -2,7 +2,7 @@
 using Battle.Combo;
 using CardMaga.Collection;
 
-public class PlayerComboContainer : IGetSourceCollection<ComboData>
+public class PlayerComboContainer : IGetCollection<ComboData>
 {
     private IEnumerable<ComboData> _comboDatas;
     

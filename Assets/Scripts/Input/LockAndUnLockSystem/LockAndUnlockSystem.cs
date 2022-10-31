@@ -143,9 +143,9 @@ namespace CardMaga.Input
                     continue;
                 if (!touchableItems[i].gameObject.activeSelf)
                     continue;
-                if (isTouchable && touchableItems[i].IsTouchable)
+                if (isTouchable && touchableItems[i].IsUnlock)
                     continue;
-                if (!isTouchable && !touchableItems[i].IsTouchable)
+                if (!isTouchable && !touchableItems[i].IsUnlock)
                     continue;
                 
                 if (isTouchable)

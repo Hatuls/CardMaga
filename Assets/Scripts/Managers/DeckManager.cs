@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Battle.Deck
 {
-    public class DeckHandler : IGetSourceCollection<CardData>
+    public class DeckHandler : IGetCollection<CardData>
     {
         public const int MAX_DECK_HAND_SIZE = 10;
         public const int MAX_CRAFTING_SLOT_SIZE = 3;
@@ -23,124 +23,16 @@ namespace Battle.Deck
         {
             get
             {
-                foreach (var cardData in GetHandDeck)
+                foreach (var deck in _deckDictionary)
                 {
-                    yield return cardData;
-                }
-                foreach (var cardData in GetPlayerDeck)
-                {
-                    yield return cardData;
-                }
-                foreach (var cardData in GetDiscardDeck)
-                {
-                    yield return cardData;
-                }
-                foreach (var cardData in GetExhaustDeck)
-                {
-                    yield return cardData;
-                }
-                foreach (var cardData in GetSelectedDeck)
-                {
-                    yield return cardData;
+                    foreach (var data in deck.Value.GetCollection)
+                    {
+                        yield return data;
+                    }
                 }
             }
         }
-
-        public IEnumerable<CardData> GetHandDeck
-        {
-            get
-            {
-                BaseDeck deck = this[DeckEnum.Hand];
-
-                CardData[] cardDatas = deck.GetDeck;
-                int length = cardDatas.Length;
-                
-                for (int i = 0; i < length; i++)
-                {
-                    if (cardDatas[i] != null)
-                        yield return cardDatas[i];
-                    else
-                        yield break;
-                }
-            }
-        }
-
-        public IEnumerable<CardData> GetPlayerDeck
-        {
-            get
-            {
-                BaseDeck deck = this[DeckEnum.PlayerDeck];
-
-                CardData[] cardDatas = deck.GetDeck;
-                int length = cardDatas.Length;
-                
-                for (int i = 0; i < length; i++)
-                {
-                    if (cardDatas[i] != null)
-                        yield return cardDatas[i];
-                    else
-                        yield break;
-                }
-            }
-        }
-
-        public IEnumerable<CardData> GetDiscardDeck
-        {
-            get
-            {
-                BaseDeck deck = this[DeckEnum.Discard];
-
-                CardData[] cardDatas = deck.GetDeck;
-                int length = cardDatas.Length;
-                
-                for (int i = 0; i < length; i++)
-                {
-                    if (cardDatas[i] != null)
-                        yield return cardDatas[i];
-                    else
-                        yield break;
-                }
-            }
-        }
-
-        public IEnumerable<CardData> GetExhaustDeck
-        {
-            get
-            {
-                BaseDeck deck = this[DeckEnum.Exhaust];
-
-                CardData[] cardDatas = deck.GetDeck;
-                int length = cardDatas.Length;
-                
-                for (int i = 0; i < length; i++)
-                {
-                    if (cardDatas[i] != null)
-                        yield return cardDatas[i];
-                    else
-                        yield break;
-                }
-            }
-        }
-
-        public IEnumerable<CardData> GetSelectedDeck
-        {
-            get
-            {
-                BaseDeck deck = this[DeckEnum.Selected];
-
-                CardData[] cardDatas = deck.GetDeck;
-                int length = cardDatas.Length;
-                
-                for (int i = 0; i < length; i++)
-                {
-                    if (cardDatas[i] != null)
-                        yield return cardDatas[i];
-                    else
-                        yield break;
-                }
-            }
-        }
-
+        
         #endregion
         
         public BaseDeck this[DeckEnum deckEnum]

@@ -12,12 +12,12 @@ namespace CardMaga.Input
         #region Events
 
         [Header("Unity Events")]
-        [SerializeField] private UnityEvent OnClickEvent;
-        [SerializeField] private UnityEvent OnBeginHoldEvent;
-        [SerializeField] private UnityEvent OnEndHoldEvent;
-        [SerializeField] private UnityEvent OnHoldEvent;
-        [SerializeField] private UnityEvent OnPointDownEvent;
-        [SerializeField] private UnityEvent OnPointUpEvent;
+        [SerializeField,EventsGroup] private UnityEvent OnClickEvent;
+        [SerializeField,EventsGroup] private UnityEvent OnBeginHoldEvent;
+        [SerializeField,EventsGroup] private UnityEvent OnEndHoldEvent;
+        [SerializeField,EventsGroup] private UnityEvent OnHoldEvent;
+        [SerializeField,EventsGroup] private UnityEvent OnPointDownEvent;
+        [SerializeField,EventsGroup] private UnityEvent OnPointUpEvent;
         
         public event Action OnClick;
         public event Action OnBeginHold;
@@ -60,11 +60,6 @@ namespace CardMaga.Input
         #region Prop
 
         public abstract InputIdentificationSO InputIdentification { get; }
-
-        public bool IsTouchable
-        {
-            get => _isTouchable;
-        }
         
         public State CurrentState => _currentState;
 
@@ -301,15 +296,6 @@ namespace CardMaga.Input
             }
         }
         
-        [ContextMenu("ToggleState")]
-        public void ToggleState()
-        {
-            if (_currentState == State.Lock)
-                ChangeState(State.UnLock);
-
-            else if (_currentState == State.UnLock) ChangeState(State.Lock);
-        }
-
         private void ChangeState(bool isTouchable)
         {
             if (isTouchable)
@@ -345,6 +331,13 @@ namespace CardMaga.Input
         #endregion
 
         #region ILockable
+
+        public bool IsUnlock
+        {
+            get => _isTouchable;
+        }
+
+        public bool IsLock { get; }
 
         public void Lock()
         {
@@ -502,6 +495,7 @@ namespace CardMaga.Input
 
     public interface ILockable
     {
+        bool IsUnlock { get; }
         void Lock();
         void UnLock();
     }

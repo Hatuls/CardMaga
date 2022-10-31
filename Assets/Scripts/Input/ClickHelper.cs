@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UI;
-using UnityEngine.UI;
 
 public class ClickHelper : MonoBehaviour
 {
@@ -22,8 +20,7 @@ public class ClickHelper : MonoBehaviour
     private List<RectTransform> _loadedObjectParents;
 
     private bool _closeOnClick = false;
-
-
+    
     #endregion
 
     #region Properties
@@ -65,23 +62,38 @@ public class ClickHelper : MonoBehaviour
 
         ReturnObjects();
 
-        _loadedObjects.Clear();
-        _loadedObjectParents.Clear();
+        
         _canavs.gameObject.SetActive(false);
     }
 
     public void ReturnObjects()
     {
-
         for (int i = 0; i < _loadedObjects.Count; i++)
         {
             _loadedObjects[i].SetParent(_loadedObjectParents[i]);
         }
+        
+        _loadedObjects.Clear();
+        _loadedObjectParents.Clear();
     }
 
     public void Open(GameObject canvas)
     {
         canvas.gameObject.SetActive(true);
+    }
+    
+    public void Open()
+    {
+        _canavs.gameObject.SetActive(true);
+    }
+    /// <summary>
+    /// Open The ClickHelper and load a action when click
+    /// </summary>
+    /// <param name="action">The action that will Invoke when click</param>
+    public void Open(Action action)
+    {
+        _canavs.gameObject.SetActive(true);
+        _action = action;
     }
 
     /// <summary>
@@ -93,11 +105,9 @@ public class ClickHelper : MonoBehaviour
     /// <param name="objects">Objects to load into the panel</param>
     public void LoadObject(bool openOnLoad, bool closeOnClick , Action action, params RectTransform[] objects)
     {
-        Debug.LogError("Loaded object" + objects);
-        Debug.Log("Load Object");
         if (openOnLoad)
         {
-                Open(_canavs.gameObject);
+            Open(_canavs.gameObject);
         }
         
         for (int i = 0; i <  objects.Length; i++)
