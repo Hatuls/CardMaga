@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ComboAndDeckCollectionBattleHandler : MonoBehaviour , ISequenceOperation<IBattleManager>
 {
-    [SerializeField] private ComboAndDeckCollectionMainHandler _collection;
+    [SerializeField] private ComboAndDeckCollectionHandler _collection;
 
     private DeckHandler _deckHandler;
     private PlayerComboContainer _playerComboContainer;

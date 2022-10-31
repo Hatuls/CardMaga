@@ -73,7 +73,7 @@ public abstract class BaseFilterSystem<T_Filter,T_FilterRef> : MonoBehaviour whe
 
     public IEnumerable<T_Filter> Filter(IEnumerable<T_Filter> objects)
     {
-        if (_activeFilters.Count == 0)
+        if (_activeFilters == null || _activeFilters.Count == 0)
             return objects;
 
         List<T_Filter> output = new List<T_Filter>();

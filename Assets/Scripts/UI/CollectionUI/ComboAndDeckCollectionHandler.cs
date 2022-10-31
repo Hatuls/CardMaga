@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CardMaga.UI.ScrollPanel
 {
-    public class ComboAndDeckCollectionMainHandler : MonoBehaviour
+    public class ComboAndDeckCollectionHandler : MonoBehaviour
     {
         [Header("Scripts Reference")]
         [SerializeField] private ComboUIScrollPanelManager _comboUIScroll;
