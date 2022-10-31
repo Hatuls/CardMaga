@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:facf3fad735d3cffa1c489a493a6db2f9231e3bcb60649ed9fe4da9f084305c9
-size 342
+﻿using CardMaga.Input;
+using UnityEngine;
+using UnityEngine.UI;
+
+public abstract class ButtonGenaric<T> : TouchableItem<T> where T : MonoBehaviour
+{
+    [SerializeField] private InputIdentificationSO _inputID;
+    [SerializeField] private Image _ButtonImage;
+
+    private Color _baseColor;
+    private Color _pressColor;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _baseColor = _ButtonImage.color;
+        _pressColor = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 0.5f);
+    }
+
+    public override InputIdentificationSO InputIdentification
+    {
+        get => _inputID;
+    }
+
+    protected override void PointDown()
+    {
+        base.PointDown();
+        _ButtonImage.color = _pressColor;
+    }
+
+    protected override void PointUp()
+    {
+        base.PointUp();
+        _ButtonImage.color = _baseColor;
+    }
+}

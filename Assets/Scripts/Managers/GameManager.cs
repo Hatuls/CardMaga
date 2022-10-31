@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2055eb0fac3d465e9910bf0c4f7131e92390f6ab40e62093eed0701632f1508b
-size 1012
+﻿using ReiTools.TokenMachine;
+using System;
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace CardMaga.Managers.GameManager
+{
+    public class GameManager : MonoBehaviour
+    {
+        TokenMachine _tokenMachine;
+
+        public static event Action<ITokenReciever> OnEnteringTheGame;
+        [SerializeField] private UnityEvent OnApplicationStart;
+        
+        private void Start()
+        {
+         //   OnApplicationStart?.Invoke();
+           _tokenMachine = new TokenMachine( OnFirstEnterTheGame);
+           
+           using (_tokenMachine.GetToken())
+           {
+               if (AudioManager.Instance == null)
+                   Debug.Log("Creating Audio Manager");
+
+               OnEnteringTheGame?.Invoke(_tokenMachine);
+           }
+        }
+        
+        private void OnFirstEnterTheGame()
+        {
+            // _loader.LoadScenes(null, _firstScene.SceneBuildIndex);
+            OnApplicationStart?.Invoke();
+        }
+    }
+}

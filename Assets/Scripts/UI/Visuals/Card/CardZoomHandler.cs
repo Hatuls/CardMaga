@@ -13,6 +13,7 @@ namespace CardMaga.UI
     {
         public event Action OnZoomInCompleted;
         public event Action OnZoomOutCompleted;
+        public static event Action OnZoomInLocation;
 
         [SerializeField] ZoomPositionsSO _zoomPositionsSO;
         [SerializeField] ZoomDoTweenSO _zoomDoTweenSO;

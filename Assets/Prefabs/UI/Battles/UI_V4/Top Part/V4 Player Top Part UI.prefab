@@ -85,6 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5980422002172854170}
+  - component: {fileID: 4483548470915074818}
   m_Layer: 5
   m_Name: V4 Player Top Part UI
   m_TagString: Untagged
@@ -112,6 +113,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 667, y: 209}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4483548470915074818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5980422002172854171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af523d7d6db93042bc127bf40da4293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackID: {fileID: 11400000, guid: fa2dcf94de69e7f449d9e0e33fa7f645, type: 2}
+  _rectTransform: {fileID: 5980422002172854170}
 --- !u!1 &8361552513829840337
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +191,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -8413147521928269558, guid: 235e55c54dc827d42b4ff6c7ebeae3e8,
+  m_Sprite: {fileID: -6283269574223502002, guid: 407c1f551ff1faf47adcdb8557936a71,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -251,7 +266,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4541752569864749454, guid: 235e55c54dc827d42b4ff6c7ebeae3e8,
+  m_Sprite: {fileID: -4961826875666177472, guid: 407c1f551ff1faf47adcdb8557936a71,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -529,6 +544,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8402223831580294195, guid: fde9e7acfb8b9a34db20ae82a83aac66,
+        type: 3}
+      propertyPath: _breakArmorTransitionSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 0332199de2daf264a9e7a3be01cd9118,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fde9e7acfb8b9a34db20ae82a83aac66, type: 3}
 --- !u!224 &42190263414013499 stripped

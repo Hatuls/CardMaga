@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:43b0897aa6b35c63aaa65b611dece472b4561810f114d7f43fa1451e97589d1f
-size 425
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
+using CardMaga.Input;
+
+[Serializable]
+public class TutorialBadge : MonoBehaviour
+{
+    [SerializeField] private Image image;
+    [SerializeField] private Color _offColor = Color.red;
+    [SerializeField] private Color _onColor = Color.green;
+    [SerializeField] private Color _openColor = Color.blue;
+    [SerializeField] private TouchableItem _Input;
+
+    private bool _IsCompleted;
+
+    public void Init()
+    {
+        _IsCompleted = false;
+        image.color = _offColor;
+    }
+
+    public void Completed()
+    {
+        image.color = _onColor;
+        _IsCompleted = true;
+    }
+
+    public void Open()
+    {
+        image.color = _openColor;
+        _Input.UnLock();
+    }
+}

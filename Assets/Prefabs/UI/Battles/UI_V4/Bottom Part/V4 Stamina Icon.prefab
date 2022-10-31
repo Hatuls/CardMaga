@@ -313,6 +313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7178484877920051462}
+  - component: {fileID: 6470086475367606119}
   m_Layer: 5
   m_Name: Holder
   m_TagString: Untagged
@@ -343,6 +344,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6470086475367606119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2537285407583888324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af523d7d6db93042bc127bf40da4293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackID: {fileID: 11400000, guid: 2ae669c791620934a85f8a6928d7cb64, type: 2}
+  _rectTransform: {fileID: 7178484877920051462}
 --- !u!1 &3502051499544760318
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,10 +390,10 @@ RectTransform:
   m_Father: {fileID: 7178484877920051462}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 321, y: 140}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2086981045371147032
 CanvasRenderer:
@@ -407,7 +422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -8164031341609811722, guid: 235e55c54dc827d42b4ff6c7ebeae3e8,
+  m_Sprite: {fileID: -7935302286994396545, guid: 407c1f551ff1faf47adcdb8557936a71,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -454,7 +469,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 347, y: 131.0463}
+  m_SizeDelta: {x: 322, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3412060582252905910
 MonoBehaviour:
@@ -471,12 +486,18 @@ MonoBehaviour:
   MaxStaminaRectTransform: {fileID: 520665998210426782}
   CurrentStaminaRectTransform: {fileID: 2105663142941395555}
   StaminaIconsRectTransform: {fileID: 7178484877920051462}
-  _gainStaminaTextTransition: {fileID: 0}
-  _reduceStaminaTextTransition: {fileID: 0}
-  _gainStaminaIconTransition: {fileID: 0}
-  _reduceStaminaIconTransition: {fileID: 0}
-  _gainMaxStaminaIconTransition: {fileID: 0}
-  _reduceMaxStaminaIconTransition: {fileID: 0}
+  _gainStaminaTextTransition: {fileID: 11400000, guid: 81b3ba20a4838e845be2fce17fc6f082,
+    type: 2}
+  _reduceStaminaTextTransition: {fileID: 11400000, guid: 4885bb10c55d1804aa9f9a3c244aed3a,
+    type: 2}
+  _gainStaminaIconTransition: {fileID: 11400000, guid: aef655ab19cd4f94689fcffa1ab979b6,
+    type: 2}
+  _reduceStaminaIconTransition: {fileID: 11400000, guid: 9ad4646e56d1bb14cabd1bcac8c37514,
+    type: 2}
+  _gainMaxStaminaIconTransition: {fileID: 11400000, guid: aef655ab19cd4f94689fcffa1ab979b6,
+    type: 2}
+  _reduceMaxStaminaIconTransition: {fileID: 11400000, guid: 9ad4646e56d1bb14cabd1bcac8c37514,
+    type: 2}
 --- !u!114 &6616703309459634206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,7 +548,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 316, y: 137}
+  m_SizeDelta: {x: 313, y: 136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8524802811007025200
 CanvasRenderer:
@@ -556,7 +577,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7178608526891683138, guid: 235e55c54dc827d42b4ff6c7ebeae3e8,
+  m_Sprite: {fileID: -8762122480634341351, guid: 407c1f551ff1faf47adcdb8557936a71,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
