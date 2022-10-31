@@ -65,17 +65,7 @@ public class DialoguesFlow : MonoBehaviour
         }
 
         else
-        {
-            if (_closePanelAtEnding)
-            {
-                if (_loadOnTutorialPanel)
-                    _tutorialClickHelper.Close();
-                else
-                    _clickHelper.Close();
-            }
-
             EndFlow();
-        }
     }
 
     private void ReleaseToken()
@@ -91,6 +81,32 @@ public class DialoguesFlow : MonoBehaviour
     {
         if(OnAfterDelay!=null)
         OnAfterDelay.Invoke();
+    }
+
+    private void ClosePanel()
+    {
+        if (_closePanelAtEnding)
+        {
+            if (_loadOnTutorialPanel)
+                _tutorialClickHelper.Close();
+
+            else
+                _clickHelper.Close();
+        }
+    }
+
+    private void CheckActivation()
+    {
+        if (_loadOnTutorialPanel)
+        {
+            if (!_tutorialClickHelper.gameObject.activeSelf)
+                _tutorialClickHelper.gameObject.SetActive(true);
+        }
+        else
+        {
+            if (!_clickHelper.gameObject.activeSelf)
+                _clickHelper.gameObject.SetActive(true);
+        }
     }
 
     #endregion
@@ -111,9 +127,12 @@ public class DialoguesFlow : MonoBehaviour
         UpdateDialogues(_currentDialogue);
         SendDialogue();
     }
+
     public void EndFlow()
     {
+        CheckActivation();
         OnFlowEnd.Invoke();
+        ClosePanel();
         ReleaseToken();
         gameObject.SetActive(false);
     }

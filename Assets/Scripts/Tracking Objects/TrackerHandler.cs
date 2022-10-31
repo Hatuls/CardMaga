@@ -22,6 +22,18 @@ namespace CardMaga.Trackers
             throw new System.Exception("TrackerHandler: Tracker Was not found");
         }
 
+        public bool CheckTrackerRegistered(TrackerID trackerID)
+        {
+            for (int i = 0; i < _trackers.Count; i++)
+            {
+                if (_trackers[i].TrackerID == trackerID)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         internal void RemoveTracker(Tracker tracker)
         {
             _trackers.Remove(tracker);

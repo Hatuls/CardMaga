@@ -16,6 +16,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public void GetCard()
     {
+        ZoomCardUI.OnEnterZoomTutorial += ReturnToHand;
         _clickHelper = ClickHelper.Instance;
         _tutorialClickHelper = TutorialClickHelper.Instance;
         _battleManager = BattleManager.Instance;
@@ -29,12 +30,18 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public void ZoomInCard()
     {
+        _clickHelper.ZoomInClicker.Lock();
         _clickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
     }
 
     public void ReturnToHand()
     {
-        _battleManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
+        //_clickHelper.Close();
+        //_battleManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
+        _tutorialClickHelper.gameObject.SetActive(true);
+        _battleManager.CardUIManager.HandUI.SetToHandState(_cards[0]);
+        _tutorialClickHelper.Close();
+        
     }
 
     public void BlockCardHold()

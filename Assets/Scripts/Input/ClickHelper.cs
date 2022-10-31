@@ -59,6 +59,7 @@ public class ClickHelper : MonoBehaviour
 
     public void Close()
     {
+        Debug.LogError("Well hello there");
         if(!_canavs.gameObject.activeSelf)
             return;
 
@@ -92,6 +93,7 @@ public class ClickHelper : MonoBehaviour
     /// <param name="objects">Objects to load into the panel</param>
     public void LoadObject(bool openOnLoad, bool closeOnClick , Action action, params RectTransform[] objects)
     {
+        Debug.LogError("Loaded object" + objects);
         Debug.Log("Load Object");
         if (openOnLoad)
         {

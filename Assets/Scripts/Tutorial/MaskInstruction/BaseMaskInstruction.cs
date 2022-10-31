@@ -91,7 +91,6 @@ public class BaseMaskInstruction : MonoBehaviour
             Debug.LogError("No token to release");
     }
 
-
     protected virtual void UnsubscribeEvent()
     {
 
