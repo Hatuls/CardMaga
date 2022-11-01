@@ -57,6 +57,8 @@ namespace CardMaga.UI
                 Debug.LogWarning($"BaseVisualSO has asked image num: {imageIndex} ,it is bigger than the array, taking {sprites[0].name} at location 0");
                 return sprites[0];
             }
+            else if (imageIndex == -1)
+                throw new System.Exception("Image index is -1! (it is not a valid sprite)");
             else
             {
                 return sprites[spriteIndex];

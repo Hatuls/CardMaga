@@ -12,12 +12,14 @@ using System.Collections;
 using System.Collections.Generic;
 using CardMaga.Input;
 using UnityEngine;
+using CardMaga.Battle;
+using CardMaga.Battle.Execution;
 
 namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : InputBehaviourHandler<CardUI>, ISequenceOperation<IBattleManager>
+    public class HandUI : InputBehaviourHandler<CardUI>, ISequenceOperation<IBattleUIManager>
     {
         #region Events
         public static event Action<CardUI> OnCardExecute;
@@ -35,7 +37,7 @@ namespace CardMaga.UI
 
         #endregion
 
-        #region Fielde
+        #region Field
 
         [Header("TransitionPackSO")] 
        
@@ -93,7 +95,6 @@ namespace CardMaga.UI
                 { InputBehaviourState.Hand, _handUIState } ,{ InputBehaviourState.Default ,null }
             };
 
-            BattleManager.Register(this, OrderType.Default);
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += DiscardAllCards;
             _handUIState.OnCardDrawnAndAlign += UnLockInput;
@@ -282,13 +283,14 @@ namespace CardMaga.UI
             
             //SetState(InputBehaviourState.Hand,cardUI);
             cardUI.Inputs.ForceResetInputBehaviour();
-            cardUI.CardVisuals.SetExecutedCardVisuals();
             MoveCardToDiscardAfterExecute(cardUI);
+            cardUI.CardVisuals.SetExecutedCardVisuals();
             //OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
         {
+            var data = battleUIManager.BattleDataManager;
             _playerDeck = data.PlayersManager.GetCharacter(true).DeckHandler;
             _deckHandler = data.PlayersManager.GetCharacter(true).DeckHandler;
             _deckHandler.OnDrawCards += DrawCardsFromDrawDeck;

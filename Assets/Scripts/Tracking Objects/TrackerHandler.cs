@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 namespace CardMaga.Trackers
 {
 
-    public class TrackerHandler : MonoBehaviour
+    public static class TrackerHandler
     {
-        private static TrackerHandler _instance;
-        public static TrackerHandler Instance => _instance;
-        private List<Tracker> _trackers = new List<Tracker>();
+        private static List<Tracker> _trackers = new List<Tracker>();
 
-        public Tracker GetTracker(TrackerID trackerID)
+        public static Tracker GetTracker(TrackerID trackerID)
         {
             for (int i = 0; i < _trackers.Count; i++)
             {
@@ -22,21 +18,13 @@ namespace CardMaga.Trackers
             throw new System.Exception("TrackerHandler: Tracker Was not found");
         }
 
-        internal void RemoveTracker(Tracker tracker)
+        internal static void RemoveTracker(Tracker tracker)
         {
             _trackers.Remove(tracker);
         }
 
-        public void AddTracker(Tracker tracker)
+        public static void AddTracker(Tracker tracker)
             => _trackers.Add(tracker);
-        private void Awake()
-        {
-            _trackers.Clear();
-            _instance = this;
-        }
-        private void OnDestroy()
-        {
-            _instance = null;
-        }
+
     }
 }

@@ -1,11 +1,12 @@
 using Battle.Turns;
 using CardMaga.Card;
-using Managers;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using CardMaga.Collection;
 using UnityEngine;
+using CardMaga.Battle.Players;
+using CardMaga.Battle;
 
 namespace Battle.Deck
 {
@@ -47,12 +48,22 @@ namespace Battle.Deck
         
         public DeckHandler(IPlayer character, IBattleManager battleManager)
         {
-            InitDeck(character.StartingCards,battleManager.BattleData.BattleConfigSO.IsShuffleCard);
-            GameTurnHandler turnhandler = battleManager.TurnHandler;
+            InitDeck(character.StartingCards,battleManager.BattleData.BattleConfigSO.IsShufflingCards);
+            TurnHandler turnhandler = battleManager.TurnHandler;
             var playersTurn = turnhandler.GetCharacterTurn(character.IsLeft);
             playersTurn.EndTurnOperations.Register(EndTurn);
         }
-        
+        internal void TransferCardOnTopOfDeck(DeckEnum from, DeckEnum to, CardData[] cards)
+        {
+            BaseDeck fromDeck = this[from];
+            BaseDeck toDeck = this[to];
+
+            for (int i = 0; i < cards.Length; i++)
+            {
+              if(toDeck.DiscardCard(cards[i]))
+                fromDeck.AddCardAtFirstPosition(cards[i]);
+            }
+        }
         #region Private Functions
 
         private void TransferCard(DeckEnum from, DeckEnum to, int amount)
@@ -90,6 +101,9 @@ namespace Battle.Deck
                 TransferCard(from, to, remainTransfer);
             }
         }
+
+    
+
         private void ResetDecks()
         {
             foreach (var item in _deckDictionary)

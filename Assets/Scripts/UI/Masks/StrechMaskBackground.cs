@@ -10,7 +10,7 @@ public class StrechMaskBackground : MonoBehaviour
     [SerializeField] private bool _strechOnEnable;
     [SerializeField] private bool _loadMaskOnTutorial;
     private TutorialClickHelper _tutorialClickHelper;
-    private TrackerHandler _trackerHandler;
+
 
     private void OnEnable()
     {
@@ -21,10 +21,10 @@ public class StrechMaskBackground : MonoBehaviour
     public void StrechMask()
     {
         _tutorialClickHelper = TutorialClickHelper.Instance;
-        _trackerHandler = TrackerHandler.Instance;
+
 
         if (_trackerID != null)
-            _maskHolder = _trackerHandler.GetTracker(_trackerID).RectTransform;
+            _maskHolder = TrackerHandler.GetTracker(_trackerID).RectTransform;
 
         if (_loadMaskOnTutorial)
             _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);

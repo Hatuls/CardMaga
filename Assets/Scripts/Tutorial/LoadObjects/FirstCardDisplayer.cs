@@ -1,26 +1,22 @@
-﻿using System.Collections;
+﻿using CardMaga.Battle.UI;
+using CardMaga.UI.Card;
 using System.Collections.Generic;
 using UnityEngine;
-using CardMaga.UI;
-using Battle;
-using Cards;
-using CardMaga.UI.Card;
-using CardMaga.Input;
 
 public class FirstCardDisplayer : MonoBehaviour
 {
     private ClickHelper _clickHelper;
     private TutorialClickHelper _tutorialClickHelper;
-    private BattleManager _battleManager;
+    private BattleUiManager _battleUIManager;
     private IReadOnlyList<CardUI> _cards;
 
     public void GetCard()
     {
         _clickHelper = ClickHelper.Instance;
         _tutorialClickHelper = TutorialClickHelper.Instance;
-        _battleManager = BattleManager.Instance;
-        _cards = _battleManager.CardUIManager.HandUI.GetCardUIFromHand();
-    }    
+        _battleUIManager = BattleUiManager.Instance;
+        _cards = _battleUIManager.CardUIManager.HandUI.GetCardUIFromHand();
+    }
 
     public void LoadCardOnPanel()
     {
@@ -34,7 +30,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public void ReturnToHand()
     {
-        _battleManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
+        _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
     }
 
     public void BlockCardHold()
