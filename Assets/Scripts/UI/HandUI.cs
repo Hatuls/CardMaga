@@ -215,6 +215,7 @@ namespace CardMaga.UI
         {
             for (int i = 0; i < cards.Length; i++)
                 cards[i].Init();
+
                 OnCardsAddToHand?.Invoke(cards);
 
             for (int i = 0; i < cards.Length; i++)
