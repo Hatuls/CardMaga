@@ -12,6 +12,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public void GetCard()
     {
+        ZoomCardUI.OnEnterZoomTutorial += ReturnToHand;
         _clickHelper = ClickHelper.Instance;
         _tutorialClickHelper = TutorialClickHelper.Instance;
         _battleUIManager = BattleUiManager.Instance;
@@ -25,6 +26,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public void ZoomInCard()
     {
+        _clickHelper.ZoomInClicker.Lock();
         _clickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
     }
 
