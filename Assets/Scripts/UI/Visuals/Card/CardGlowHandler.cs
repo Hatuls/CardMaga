@@ -22,7 +22,7 @@ namespace CardMaga.UI
 
         public void ResetGlowAlpha()
         {
-            _glowImage.color = _glowImage.color.GetColorAlpha(_glowCardSO.DefaultAplha);
+            _glowImage.color = _glowImage.color.SetColorAlpha(_glowCardSO.DefaultAplha);
         }
     }
 }
