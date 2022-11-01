@@ -219,6 +219,8 @@ namespace CardMaga.Commands
         private void FinishExecution()
         {
             _isExecuting = false;
+            if (_visualCommands.Count == 0)
+                return;
             ISequenceCommand current = _visualCommands[0];
             _visualCommands.RemoveAt(0);
             current.OnFinishExecute -= FinishExecution;

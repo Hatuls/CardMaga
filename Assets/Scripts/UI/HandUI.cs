@@ -43,7 +43,8 @@ namespace CardMaga.UI
        
         [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
-        [SerializeField] private TransitionPackSO _dicardExecuteTransitionPackSo;
+        [SerializeField] private TransitionPackSO _discardExecutionMoveTransitionPackSo;
+      
         
         [Header("RectTransforms")] 
         [SerializeField] private RectTransform _discardPos;
@@ -110,6 +111,8 @@ namespace CardMaga.UI
                 _leftPlayerGameTurn.OnTurnExit -= DiscardAllCards;
             if(_deckHandler != null)
                 _deckHandler.OnDrawCards -= DrawCardsFromDrawDeck; //need to check rei
+
+            KillTween();
         }
 
         #endregion
@@ -154,7 +157,9 @@ namespace CardMaga.UI
 
         private void MoveCardToDiscardAfterExecute(CardUI cardUI)
         {
-            cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
+         //   cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
+            cardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo, cardUI.Dispose);
+            cardUI.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
         }
 
         private void KillTween()
@@ -208,25 +213,19 @@ namespace CardMaga.UI
 
         private void GetCardsFromCombo(params CardUI[] cards)
         {
-            OnCardsAddToHand?.Invoke(cards);
+            for (int i = 0; i < cards.Length; i++)
+                cards[i].Init();
+                OnCardsAddToHand?.Invoke(cards);
 
             for (int i = 0; i < cards.Length; i++)
             {
                 cards[i].Inputs.ForceResetInputBehaviour();
-            }
-
-            for (int i = 0; i < cards.Length; i++)
-            {
-                SetState(InputBehaviourState.Hand,cards[i]);
+                SetState(InputBehaviourState.Hand, cards[i]);
             }
         }
 
         private CardUI[] GetCardsUI(params CardData[] cardDatas)
-        {
-            CardUI[] _handCards = _cardUIManager.GetCardsUI(cardDatas);
-
-            return _handCards;
-        }
+        => _cardUIManager.GetCardsUI(cardDatas);
 
         public bool TryExecuteCard(CardUI cardUI)
         {
