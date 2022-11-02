@@ -125,7 +125,7 @@ namespace CardMaga.UI
 
         public void UnLockInput()
         {
-            //LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
+            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
         }
 
         #endregion

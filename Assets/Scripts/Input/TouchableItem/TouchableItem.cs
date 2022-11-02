@@ -42,6 +42,7 @@ namespace CardMaga.Input
         [SerializeField,Tooltip("The delay between moving from point down to hold")] private float _holdDelay = .5f;
         [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
         [SerializeField,Tooltip("The current input state")] [ReadOnly] private State _currentState;
+        [SerializeField, Tooltip("Need to add tooltip")] private InputIdentificationSO _identification;
 
         private InputBehaviour _inputBehaviour;
         private InputBehaviour _defaultInputBehaviour;
@@ -58,8 +59,7 @@ namespace CardMaga.Input
         #endregion
 
         #region Prop
-
-        public abstract InputIdentificationSO InputIdentification { get; }
+        
         
         public State CurrentState => _currentState;
 
@@ -82,22 +82,6 @@ namespace CardMaga.Input
             _inputBehaviour = _defaultInputBehaviour;
         }
         
-        private void OnDisable()
-        {
-            if (InputIdentification == null)
-                return;
-            
-           // LockAndUnlockSystem.Instance.RemoveTouchableItemToActiveList(this);
-        }
-
-        private void OnEnable()
-        {
-            if (InputIdentification == null || LockAndUnlockSystem.Instance == null)
-                return;
-
-           // LockAndUnlockSystem.Instance.AddTouchableItemToList(this);
-        }
-
         protected virtual void OnDestroy()
         {
             LockAndUnlockSystem.Instance.RemoveTouchableItemFromAllLists(this);
@@ -337,7 +321,10 @@ namespace CardMaga.Input
             get => _isTouchable;
         }
 
-        public bool IsLock { get; }
+        public InputIdentificationSO InputIdentification
+        {
+            get => _identification;
+        }
 
         public void Lock()
         {
@@ -496,6 +483,7 @@ namespace CardMaga.Input
     public interface ILockable
     {
         bool IsUnlock { get; }
+        InputIdentificationSO InputIdentification { get; }
         void Lock();
         void UnLock();
     }

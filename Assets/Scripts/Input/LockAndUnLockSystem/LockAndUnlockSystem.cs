@@ -10,9 +10,9 @@ namespace CardMaga.Input
 
         [SerializeField] private InputGroup[] _inputGroups;
     
-        private  List<TouchableItem> _touchableItems = new List<TouchableItem>();
+        private  List<ILockable> _touchableItems = new List<ILockable>();
     
-        private List<TouchableItem> _activeTouchableItems = new List<TouchableItem>();
+        private List<ILockable> _activeTouchableItems = new List<ILockable>();
     
         private InputGroup _currentInputGroup;
 
@@ -34,14 +34,12 @@ namespace CardMaga.Input
             if (touchableItem == null)
                 return;
 
-            if (!_touchableItems.Contains(touchableItem))
-                _touchableItems.Add(touchableItem);
+            if (_touchableItems.Contains(touchableItem))
+                return;
 
-            UpdateInputState();
-            // if (FindTouchableItemInCurrentInputIDList(touchableItem))
-            // {
-            //     AddTouchableItemToActiveList(touchableItem);
-            // }
+            _touchableItems.Add(touchableItem);
+
+            UpdateInputState(true);
         }
 
         public void RemoveTouchableItemFromAllLists(TouchableItem touchableItem)
@@ -63,44 +61,41 @@ namespace CardMaga.Input
 
     public void MoveToNextInputGroup()
     {
+        ResetActiveList();
+        
         _inputGroupIndex++;
         _currentInputGroup = _inputGroups[_inputGroupIndex];
         
-        SetNewInputGroup(_currentInputGroup);
+        UpdateInputState(true);
     }
 
-    public void SetInputGroup(InputGroup inputGroup)
+    public void SetNewInputGroup(InputGroup inputGroup)
     {
-        SetNewInputGroup(inputGroup);
-    }
-
-    private void SetNewInputGroup(InputGroup inputGroup)
-    {
+        ResetActiveList();
+        
         _currentInputGroup = inputGroup;
         
-        ResetActiveList();
-        FindTouchableItemByID(_currentInputGroup);
-        UpdateInputState();
+        UpdateInputState(true);
     }
     
     #endregion
     
-        private void UpdateInputState()
+        private void UpdateInputState(bool isLock)
         {
-            FindTouchableItemByID(_currentInputGroup);
-            ChangeTouchableItemsState(_activeTouchableItems.ToArray(),true);
+            AddTouchableItemToActiveListByID(_currentInputGroup);
+            ChangeTouchableItemsState(_activeTouchableItems.ToArray(),isLock);
         }
         
-        private void FindTouchableItemByID(InputGroup inputGroup)
+        private void AddTouchableItemToActiveListByID(InputGroup inputGroup)
         {
             foreach (var touchableItem in _touchableItems)
             {
-                if (touchableItem.InputIdentification == null)
-                    continue;
-                
                 if (_activeTouchableItems.Contains(touchableItem))
                     continue;
                 
+                if (touchableItem.InputIdentification == null)
+                    continue;
+
                 foreach (var inputId in inputGroup.InputIDs)
                 {
                     if (touchableItem.InputIdentification == inputId)
@@ -112,7 +107,7 @@ namespace CardMaga.Input
             }
         }
         
-        private bool FindTouchableItemInCurrentInputIDList(TouchableItem touchableItem)
+        private bool FindTouchableItemInCurrentInputIDList(ILockable touchableItem)
         {
             if (_currentInputGroup == null)
                 return false;
@@ -130,18 +125,19 @@ namespace CardMaga.Input
         
         private void ResetActiveList()
         {
+            if (_currentInputGroup != null)
+                ChangeTouchableItemsState(_activeTouchableItems.ToArray(),false);
+            
             _activeTouchableItems.Clear();
         }
         
         #region LockAndUnlockAll
         
-        public void ChangeTouchableItemsState(TouchableItem[] touchableItems,bool isTouchable)
+        public void ChangeTouchableItemsState(ILockable[] touchableItems,bool isTouchable)
         {
             for (int i = 0; i < touchableItems.Length; i++)
             {
                 if (touchableItems[i] == null)
-                    continue;
-                if (!touchableItems[i].gameObject.activeSelf)
                     continue;
                 if (isTouchable && touchableItems[i].IsUnlock)
                     continue;
@@ -170,7 +166,7 @@ namespace CardMaga.Input
             }
         }
         
-        public void ChangeAllTouchableItemsStateExcept(bool isTouchable,params TouchableItem[] exceptTouchableItem)
+        public void ChangeAllTouchableItemsStateExcept(bool isTouchable,params ILockable[] exceptTouchableItem)
         {
             for (int i = 0; i < _touchableItems.Count; i++)
             {
@@ -199,7 +195,7 @@ namespace CardMaga.Input
         
         #endregion
         
-        }
+    }
 }       
         
         
