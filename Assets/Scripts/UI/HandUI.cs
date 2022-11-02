@@ -148,10 +148,15 @@ namespace CardMaga.UI
                 if (cardUI[i] == null)
                     continue;
 
-                var sequence = cardUI[i].VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
-                sequence.Join(cardUI[i].RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo));
-                sequence.OnComplete(cardUI[i].Dispose);
+                Transition(cardUI[i]);
                 yield return _waitForCardDiscardDelay;
+            }
+
+            void Transition(CardUI card)
+            {
+                var sequence = card.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
+                sequence.Join(card.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo));
+                sequence.OnComplete(card.Dispose);
             }
         }
 
@@ -250,7 +255,7 @@ namespace CardMaga.UI
                 }
             }
 
-            SetState(InputBehaviourState.Hand, cardUI);
+            SetToHandState(cardUI);
             return false;
         }
 
