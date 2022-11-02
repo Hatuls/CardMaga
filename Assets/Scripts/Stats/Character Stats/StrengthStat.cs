@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:273ac42603bff9cec5fb42832cb34260029c517781b1349a1ac346d7e6f29f64
-size 455
+﻿using CardMaga.Keywords;
+using Keywords;
+namespace Characters.Stats
+{
+    public class StrengthStat : BaseStat
+    {
+        public StrengthStat(int amount) : base(amount)
+        {
+        }
+
+        public override KeywordType Keyword => KeywordType.Strength;
+
+        public override void Reduce(int amount)
+        {
+            base.Reduce(amount);
+
+            if (Amount < 0)
+                Amount = 0;
+        }
+
+    }
+
+}

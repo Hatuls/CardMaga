@@ -1,3 +1,125 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ab143c22befc8d5f622c09151005ae83e74193395faa8e5de6e30ac7b02fa439
-size 3426
+using CardMaga.Card;
+using CardMaga.UI.Card;
+using CardMaga.SequenceOperation;
+using Battle.Deck;
+using ReiTools.TokenMachine;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using Battle;
+using CardMaga.UI;
+
+namespace CardMaga.Battle.UI
+{
+    public class CardUIManager : MonoSingleton<CardUIManager>, ISequenceOperation<IBattleUIManager>
+    {
+        #region Field
+        private IPlayersManager _players;
+        [SerializeField] private CardUIPool _cardPool;
+        [SerializeField] private CardUI _enemyCardUI;
+        [SerializeField] private HandUI _handUI;
+        #endregion
+
+        #region Events
+        [SerializeField]
+        UnityEvent OnPlayerRemoveHand;
+        [SerializeField]
+        UnityEvent OnDrawCard;
+
+        #endregion
+
+        #region Properties
+        public int Priority => 0;
+        public HandUI HandUI { get => _handUI; }
+
+        internal void UpdateHand(bool isPlayer)
+        {
+            GetCardsUI(_players.GetCharacter(isPlayer).DeckHandler.GetCardsFromDeck( DeckEnum.Hand));
+        }
+
+        internal void PlayEnemyCard(CardData card)
+        {
+            AssignDataToCardUI(_enemyCardUI, card);
+                ActivateEnemyCardUI(true);
+
+        }
+
+        public void ActivateEnemyCardUI(bool state)
+            => _enemyCardUI.gameObject.SetActive(state);
+
+
+        #endregion
+
+        #region Monobehaviour Callbacks 
+  
+
+        #endregion
+
+        #region Private Methods
+
+
+
+        public void AssignDataToCardUI(CardUI card, CardData cardData)
+        {
+            card.AssingVisual(cardData);
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public CardUI[] GetCardsUI(params CardData[] cardData)
+        {
+            if (cardData == null)
+            {
+                throw new Exception(name + " CardData is null");
+            }
+
+            List<CardUI> tempCardUI = new List<CardUI>();
+
+            for (int i = 0; i < cardData.Length; i++)
+            {
+                if (cardData[i] == null)
+                {
+                    Debug.LogError(name + " CardData in index " + i + " in null");
+                }
+
+                CardUI cache = _cardPool.Pull();
+
+                AssignDataToCardUI(cache, cardData[i]);
+
+                tempCardUI.Add(cache);
+            }
+
+            return tempCardUI.ToArray();
+        }
+
+
+        public void RemoveHands()
+        {
+            //_handUI.DiscardHand();
+            OnPlayerRemoveHand?.Invoke();
+        }
+
+        public IReadOnlyList<CardUI>  GetCardUiFromHand() => _handUI.GetCardUIFromHand();
+        
+
+
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+        {
+            var data = battleUIManager.BattleDataManager;
+            _players = data.PlayersManager;
+            _cardPool.Init();
+            data.CardExecutionManager.OnEnemyCardExecute += PlayEnemyCard;
+            data.TurnHandler.GetCharacterTurn(false).EndTurnOperations.Register((x) => ActivateEnemyCardUI(false));
+            data.OnBattleManagerDestroyed += BeforeBattleManagerDestroyed;
+        }
+        private void BeforeBattleManagerDestroyed(IBattleManager bm)
+        { 
+          bm.CardExecutionManager.OnEnemyCardExecute -= PlayEnemyCard;
+        }
+        #endregion
+    }
+
+}

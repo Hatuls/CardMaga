@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:22423e6566952028bfdfbea64ed6461a3e5b02b209a0308fb926fef43a72a556
-size 477
+﻿using System;
+using UnityEngine;
+namespace UI
+{
+    public class EventNotifier : BaseEventNotifier
+    {
+        [Range(0, byte.MaxValue)]
+        [SerializeField]
+        private float _loopTime;
+
+        public float Counter { get; private set; }
+
+        public override bool ConditionsMet()
+        {
+            bool result = Counter >= _loopTime;
+
+            if (result)
+                Counter = 0;
+
+            return result;
+        }
+    }
+}

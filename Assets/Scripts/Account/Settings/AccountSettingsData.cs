@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d6b2e0f39f1bdb5ffefda9679a692b750a4becd6c103297d258a79fb1bad0693
-size 671
+﻿namespace Account.Settings
+{
+    public class AccountSettingsData
+    {
+        #region Fields
+        bool _musicSwitch;
+        bool _sfxSwitch;
+        bool _screenShake;
+        #endregion
+        #region Properties
+        public bool MusicSwitch { get => _musicSwitch; set => _musicSwitch = value; }
+        public bool SFXSwitch { get => _sfxSwitch; set => _sfxSwitch = value; }
+        public bool ScreenShake { get => _screenShake; set => _screenShake = value; }
+        #endregion
+        #region PublicMethods
+        public void InitData(AccountSettingsData accountSettingsData = null)
+        {
+
+        }
+        #endregion
+    }
+}

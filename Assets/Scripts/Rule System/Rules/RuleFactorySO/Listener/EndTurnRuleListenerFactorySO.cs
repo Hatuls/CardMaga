@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7bc93aea311d7eb8dc3d0b525d0e3764fe5e89347634f0f260c394421ed37f35
-size 447
+﻿using CardMaga.Battle;
+using CardMaga.Rules;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "EndTurnRuleListenerFactorySO", menuName = "ScriptableObjects/Rule System/End Turn Rule Listener FactorySO")]
+public class EndTurnRuleListenerFactorySO : BaseEndGameRuleFactorySO
+{
+    protected override BaseEndGameRule CreateRuleListener(IBattleManager battleManager)
+    {
+        return new EndTurnRuleListener(DelayToEndGame);
+    }
+}

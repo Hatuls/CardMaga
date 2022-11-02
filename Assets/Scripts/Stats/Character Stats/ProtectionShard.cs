@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4aa86ea268439104b37592bf8ea96e112580efcb2bc6cd2f3f149f69b76ae83a
-size 1014
+﻿using CardMaga.Keywords;
+namespace Characters.Stats
+{
+    public class ProtectionShard : BaseStat
+    {
+        byte _maxShardSize;
+        private ProtectedStat _protectionStat;
+        public ProtectionShard(int amount, ProtectedStat protectedStat) : base(amount)
+        {
+            _protectionStat = protectedStat;
+            _maxShardSize = Factory.GameFactory.Instance.KeywordFactoryHandler.GetKeywordSO(Keyword).InfoAmount;
+        }
+
+        public override KeywordType Keyword => KeywordType.ProtectionShard;
+
+        public override void Add(int amount)
+        {
+            base.Add(amount);
+
+            if (Amount >= _maxShardSize)
+            {
+                _protectionStat.Add(1);
+                Reset();
+            }
+        }
+        public override void Reduce(int value)
+        {
+            if (Amount - value <= 0)
+            {
+                Reset();
+                return;
+            }
+            base.Reduce(value);
+
+        }
+    }
+
+}

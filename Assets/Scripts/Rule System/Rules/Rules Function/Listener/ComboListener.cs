@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:710907b172f50d436d19e1b9b7c10bc67f73a414adcc1a31a98df847198997ae
-size 930
+﻿using Battle.Combo;
+using CardMaga.Battle;
+using CardMaga.Battle.Combo;
+using CardMaga.Rules;
+
+public class ComboListener : BaseEndGameRule
+{
+    private ComboManager _comboManager;
+    private ComboSO _comboToCheck;
+
+    public ComboListener(ComboSO combo,float delayToEndGame) : base(delayToEndGame)
+    {
+        _comboToCheck = combo;
+    }
+    
+    public override void InitRuleListener(IBattleManager battleManager, BaseRuleLogic<bool>[] ruleLogics)
+    {
+        base.InitRuleListener(battleManager, ruleLogics);
+        _comboManager = battleManager.ComboManager;
+        _comboManager.OnComboSucceeded += CheckCombo;
+    }
+
+    private void CheckCombo(ComboData comboData)
+    {
+        if (comboData.ComboSO == _comboToCheck)
+        {
+            Active(true);
+        }
+    }
+
+    public override void Dispose()
+    {
+        _comboManager.OnComboSucceeded -= CheckCombo;
+    }
+}

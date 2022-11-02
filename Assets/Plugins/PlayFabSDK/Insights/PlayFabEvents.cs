@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:abbfac080067bd834184bd765d9d22ebf0b75a3e526a7441d1c67ffb5ddeade6
-size 1463
+#if !DISABLE_PLAYFABENTITY_API
+using PlayFab.InsightsModels;
+
+namespace PlayFab.Events
+{
+    public partial class PlayFabEvents
+    {
+        public event PlayFabRequestEvent<InsightsEmptyRequest> OnInsightsGetDetailsRequestEvent;
+        public event PlayFabResultEvent<InsightsGetDetailsResponse> OnInsightsGetDetailsResultEvent;
+        public event PlayFabRequestEvent<InsightsEmptyRequest> OnInsightsGetLimitsRequestEvent;
+        public event PlayFabResultEvent<InsightsGetLimitsResponse> OnInsightsGetLimitsResultEvent;
+        public event PlayFabRequestEvent<InsightsGetOperationStatusRequest> OnInsightsGetOperationStatusRequestEvent;
+        public event PlayFabResultEvent<InsightsGetOperationStatusResponse> OnInsightsGetOperationStatusResultEvent;
+        public event PlayFabRequestEvent<InsightsGetPendingOperationsRequest> OnInsightsGetPendingOperationsRequestEvent;
+        public event PlayFabResultEvent<InsightsGetPendingOperationsResponse> OnInsightsGetPendingOperationsResultEvent;
+        public event PlayFabRequestEvent<InsightsSetPerformanceRequest> OnInsightsSetPerformanceRequestEvent;
+        public event PlayFabResultEvent<InsightsOperationResponse> OnInsightsSetPerformanceResultEvent;
+        public event PlayFabRequestEvent<InsightsSetStorageRetentionRequest> OnInsightsSetStorageRetentionRequestEvent;
+        public event PlayFabResultEvent<InsightsOperationResponse> OnInsightsSetStorageRetentionResultEvent;
+    }
+}
+#endif

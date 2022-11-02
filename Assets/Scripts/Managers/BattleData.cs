@@ -1,3 +1,68 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:024c7086829bf7afa2f8aae385087083938c33704808e5c87793cec535294e9e
-size 2351
+﻿
+using Battle.Characters;
+using CardMaga.BattleConfigSO;
+using System;
+using UnityEngine;
+
+namespace Battle.Data
+{
+    [DefaultExecutionOrder(-9999)]
+    [Serializable]
+    public class BattleData : MonoBehaviour
+    {
+        private static BattleData _instance;
+    
+        public static BattleData Instance => _instance;
+        [SerializeField]
+        private Character _player = null;
+        [SerializeField]
+        private Character _opponent = null;
+        [SerializeField, Sirenix.OdinInspector.ReadOnly]
+        private bool _isPlayerWon = false;
+        [SerializeField] private BattleConfigSO _battleConfigSo;
+        public BattleConfigSO BattleConfigSO { get => _battleConfigSo; }
+
+        public Character Left { get => _player; set => _player = value; }
+        public Character Right { get => _opponent; set => _opponent = value; }
+        public bool PlayerWon { get => _isPlayerWon; set => _isPlayerWon = value; }
+        
+        public void ResetData()
+        {
+            _player = null;
+            _opponent = null;
+            _isPlayerWon = false;
+        }
+
+        public void AssginBattleTutorialData(TutorialConfigSO tutorialConfigSo)
+        {
+            AssginCharacter(true,tutorialConfigSo.LeftCharacter);
+            AssginCharacter(false,tutorialConfigSo.RightCharacter);
+
+            _battleConfigSo = tutorialConfigSo.BattleConfig;
+        }
+
+        public void AssginCharacter(in bool isPlayer, CharacterSO characterSO)
+            => AssginCharacter(isPlayer, characterSO.CharacterName, new Account.GeneralData.Character(characterSO));
+        public void AssginCharacter(in bool isPlayer,string displayName, Account.GeneralData.Character data)
+        {
+            AssginCharacter(isPlayer,new Character(displayName,data));
+        }
+        private void AssginCharacter(in bool isPlayer, Battle.Characters.Character character)
+        {
+            if (isPlayer)
+                _player = character;
+            else
+                _opponent = character;
+        }
+        
+        public void Awake()
+        {
+            if (_instance == null)
+                _instance = this;
+            else if (_instance != this)
+                Destroy(this.gameObject);
+
+            DontDestroyOnLoad(this.gameObject);
+        }
+    }
+}

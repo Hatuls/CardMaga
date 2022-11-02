@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:52f1f3f27cb0a15cda7089458dbdb02ec7636f1ba1240d65acab7bda76025822
-size 276
+﻿
+using CardMaga.Keywords;
+
+namespace Unity.Events
+{
+    [UnityEngine.CreateAssetMenu(fileName = "New Bool_KeywordEnum Event", menuName = "Unity Events/Bool_KeywordEnum Event")]
+    public class BoolKeywordEnumEvent : BaseGameEvent<bool,KeywordType>
+    {
+    }
+}

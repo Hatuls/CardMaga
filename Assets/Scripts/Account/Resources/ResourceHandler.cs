@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3f47c94140cb3819b693f79f8376bbcbb8c0b8725e0a947078e92e2347d1c797
-size 363
+﻿namespace Meta.Resources
+{
+    public abstract class ResourceHandler<T> where T:struct
+    {
+        #region Public Methods
+        public abstract int Stat(T amount);
+        public abstract void AddAmount(T amount);
+        public abstract void ReduceAmount(T amount);
+        public abstract bool HasAmount(T amount);
+        #endregion
+    }
+}

@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a3fe9768ee812601057a3046f7b6ee6e5fc44843f6a8a6d09d997505276a0bbe
-size 720
+#if !DISABLE_PLAYFABENTITY_API
+using System;
+using System.Collections.Generic;
+using PlayFab.SharedModels;
+
+namespace PlayFab.LocalizationModels
+{
+    [Serializable]
+    public class GetLanguageListRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+    }
+
+    [Serializable]
+    public class GetLanguageListResponse : PlayFabResultCommon
+    {
+        /// <summary>
+        /// The list of allowed languages, in BCP47 two-letter format
+        /// </summary>
+        public List<string> LanguageList;
+    }
+}
+#endif

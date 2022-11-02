@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7f054b273be6c961676c4ccd9c8e71ccd6ced9e19d1576395e02692dba0203f0
-size 666
+﻿
+using Battle.Combo;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace CardMaga.UI.Text
+{
+    [System.Serializable]
+    public class ComboTextAssignerHandler : BaseTextAssignerHandler<ComboData>
+    {
+        [Header("Texts")]
+        [SerializeField] ComboNameTextAssigner _comboNameTextAssigner;
+        [SerializeField] ComboTypeTextAssigner _comboTypeTextAssigner;
+        public override IEnumerable<BaseTextAssigner<ComboData>> TextAssigners
+        {
+            get
+            {
+                yield return _comboNameTextAssigner;
+                yield return _comboTypeTextAssigner;
+            }
+        }
+    }
+}

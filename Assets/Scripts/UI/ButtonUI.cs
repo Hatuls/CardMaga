@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:433c08e490a218b5dd8d76bfe81ebe5d29cd04bd592ae4f1be8cc5e428b6a13b
-size 790
+﻿using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
+
+
+public class ButtonUI : MonoBehaviour
+{
+
+    [SerializeField] UnityEvent _onBtnPressed;
+    [SerializeField] private UnityEngine.UI.Button btn;
+
+    protected UnityEngine.UI.Button Btn
+    {
+        get
+        {
+            if (btn == null)
+            {
+                btn = GetComponent<UnityEngine.UI.Button>();
+            }
+            return btn;
+        }
+        private set => btn = value;
+    }
+
+
+    private void OnEnable()
+    {
+        Btn.onClick.AddListener(ButtonPressed);
+    }
+    private void OnDisable()
+    {
+        Btn.onClick.RemoveListener(ButtonPressed);
+    }
+
+    public virtual void ButtonPressed()
+    {
+        _onBtnPressed?.Invoke();
+
+    }
+}

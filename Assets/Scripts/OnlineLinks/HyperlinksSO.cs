@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b763ed704066e61e7371a0b39659157c18559294d8f0ffbb608ac288a3c3f413
-size 477
+﻿using UnityEngine;
+using Sirenix.OdinInspector;
+[CreateAssetMenu(fileName = "Hyperlinks", menuName = "ScriptableObjects/Hyperlinks")]
+public class HyperlinksSO : ScriptableObject
+{
+    public const int DiscordChannel = 0;
+    public const int GooglePlayLink = 1;
+
+    [SerializeField] [InfoBox("0 = Discord\n1 = Google Play Store")]
+    string[] _links;
+    public void UseLink(int linkNumber)
+    {
+        Application.OpenURL(_links[linkNumber]);
+    }
+
+}

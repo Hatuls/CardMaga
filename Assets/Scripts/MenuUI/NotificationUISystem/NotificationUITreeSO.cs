@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:42b32a40323aa52643b12460af4760687b7117f1f3b1315e64a4cf5184e955d3
-size 447
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Serialization;
+
+[CreateAssetMenu(fileName = "New NotificationUITree", menuName = "ScriptableObjects/UI/Notification System/New NotificationUITree")]
+public class NotificationUITreeSO : ScriptableObject
+{
+    [FormerlySerializedAs("_notificationUIElement")] [SerializeField] private BaseNotificationUIElement baseNotificationUIElement;
+}

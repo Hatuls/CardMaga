@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bb114d53c7a6ef3a9f908067ac8b9131b879991573bd459f1df45adcb6fc95b6
-size 488
+﻿using CardMaga.Keywords;
+using Keywords;
+namespace Characters.Stats
+{
+    public class DexterityStat : BaseStat
+    {
+        public DexterityStat(int amount) : base(amount)
+        {
+
+        }
+        public override KeywordType Keyword => KeywordType.Dexterity;
+
+        public override void Reduce(int amount)
+        {
+            if (Amount - amount <= 0)
+                base.Reset();
+            else
+                base.Reduce(amount);
+
+        }
+    }
+}

@@ -1,3 +1,125 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5bad6120b038cd5c2229bc93d509b46e610fb7e772dea03d716294c5b2933877
-size 4155
+﻿using Battle;
+using CardMaga.Battle.Players;
+using CardMaga.Battle.UI;
+using CardMaga.SequenceOperation;
+using ReiTools.TokenMachine;
+using System;
+using UnityEngine;
+namespace CardMaga.Battle.Visual
+{
+    public interface IVisualPlayer
+    {
+        IPlayer PlayerData { get; }
+        AnimatorController AnimatorController { get; }
+        AvatarHandler AvatarHandler { get; }
+        Animator Animator { get; }
+        AnimationBodyPartSoundsHandler AnimationSound { get; }
+        VisualStatHandler VisualStats { get; }
+        VFXController VfxController { get; }
+    }
+
+    public class VisualCharacter : MonoBehaviour, IVisualPlayer, ISequenceOperation<IBattleUIManager>
+    {
+        #region Fields
+        [SerializeField]
+        private AnimatorController _animatorController;
+        [SerializeField]
+        private VFXController _vfxController;
+        [SerializeField]
+        private AnimationBodyPartSoundsHandler _animationSound;
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
+        private AvatarHandler _avatarHandler;
+        [SerializeField]
+        private Animator _animator;
+        [SerializeField]
+        private Transform _visual;
+        private bool _isLeft;
+        private VisualStatHandler _visualStats;
+        private IPlayer _playerData;
+        #endregion
+
+
+        #region Properties
+        public AvatarHandler AvatarHandler { get => _avatarHandler; private set => _avatarHandler = value; }
+        public AnimatorController AnimatorController => _animatorController;
+        public Animator Animator => _animator;
+        public VFXController VfxController => _vfxController;
+        public AnimationBodyPartSoundsHandler AnimationSound { get => _animationSound; }
+        public bool IsLeft { get => _isLeft; private set => _isLeft = value; }
+        public VisualStatHandler VisualStats { get => _visualStats; }
+
+        public IPlayer PlayerData => _playerData;
+
+        public int Priority =>0;
+
+        #endregion
+
+        public void InitVisuals(IPlayer player,EndBattleHandler endBattleHandler, CharacterSO characterSO, bool isTinted)
+        {
+            //I want to remove this later
+            _playerData = player;
+
+
+            IsLeft = player.IsLeft;
+            AnimatorController.Init(this, endBattleHandler);
+
+            // Instantiate Model
+            ModelSO modelSO = characterSO.CharacterAvatar;
+            AvatarHandler = Instantiate(modelSO.Model, _visual.position, Quaternion.identity, _visual);
+            if (isTinted)
+                AvatarHandler.Mesh.material = modelSO.GetRandomTintedMaterials();
+
+            //Assign Avatar
+            VfxController.AvatarHandler = AvatarHandler;
+            Animator.avatar = AvatarHandler.Avatar;
+            AnimationSound.CurrentCharacter = characterSO;
+
+            //Sound
+            AnimationSound.CurrentCharacter = characterSO;
+
+      
+
+            //Visual Stats
+            _visualStats = new VisualStatHandler(this);
+
+#if UNITY_EDITOR
+            DrawMesh = false;
+#endif
+        }
+
+        internal void Dispose()
+        {
+            AnimatorController.BeforeDestroy(this);
+            _visualStats.Dispose(this);
+        }
+
+        #region Editor
+        [Header("Editor")]
+        [SerializeField, Tooltip("The Mesh that will be seen in the scene view")]
+        private Mesh _mesh;
+        [SerializeField]
+        private Color _gizmoColor;
+        [SerializeField]
+        private Vector3 _meshScale = Vector3.one;
+        [SerializeField]
+        private Vector3 _rotation = Vector3.one;
+        public bool DrawMesh;
+
+
+        private void OnDrawGizmos()
+        {
+            if (DrawMesh)
+            {
+                Gizmos.color = _gizmoColor;
+                Gizmos.DrawWireMesh(_mesh, _visual.position, Quaternion.Euler(_rotation), _meshScale);
+            }
+        }
+
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+}

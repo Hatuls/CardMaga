@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b0dae9c4156e7b85d72bad796fc6dbc0ac0aeb0774bd00c80af5cea3abe8e3fe
-size 587
+﻿using System;
+namespace Account.GeneralData
+{
+    public class TimeSpanStat : Stat<TimeSpan>
+    {
+        public TimeSpanStat(TimeSpan val) : base(val)
+        {
+        }
+
+        public override bool AddValue(TimeSpan value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CheckStat(TimeSpan value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ReduceValue(TimeSpan value)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+}

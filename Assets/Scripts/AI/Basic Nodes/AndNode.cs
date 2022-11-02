@@ -1,3 +1,44 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:70b68b2848abd4444b7ca8f42d6dfd86424278df9b8744a04752b54d113c42c9
-size 1400
+﻿using UnityEngine;
+
+namespace CardMaga.AI
+{
+    /// <summary>
+    /// AND Logic
+    /// other name is Sequence
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+
+    public class AndNode<T> : BaseNode<T>
+    {
+        /// <summary>
+        /// Work as an AND Logic
+        /// </summary>
+        /// <param name="currentNode"></param>
+        /// <param name="basedEvaluationObject"></param>
+        /// <returns></returns>
+        public override NodeState Evaluate(T basedEvaluationObject)
+        {
+            bool anyChildIsRunning = false;
+            for (int i = 0; i < Children.Length; i++)
+            {
+                switch (Children[i].Evaluate(basedEvaluationObject))
+                {
+                    case NodeState.Success:
+                        continue;
+                    case NodeState.Failure:
+                        NodeState = NodeState.Failure;
+                        return NodeState;
+                    case NodeState.Running:
+                        anyChildIsRunning = true;
+                        break;
+                    default:
+                        NodeState = NodeState.Success;
+                        return NodeState.Success;
+                }
+
+            }
+            NodeState = (anyChildIsRunning) ? NodeState.Running : NodeState.Success;
+            return NodeState;
+        }
+    }
+}

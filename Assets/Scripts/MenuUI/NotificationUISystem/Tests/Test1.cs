@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:97f44348467a978c402faf739e9eb054b7254fad08430985ced47526f4a304a6
-size 323
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Test1 : BaseNotificationUIElement
+{
+    protected override void Dirty()
+    {
+        Debug.Log(name + "SetDirty");
+    }
+
+    protected override void Clean()
+    {
+        Debug.Log(name + "SetClean");
+    }
+}

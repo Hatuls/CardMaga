@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8f4e57ad56bc44beaf84c5bbf658beb959b680190c3dd9cd9ada8c768dca8c1a
-size 763
+﻿using Characters.Stats;
+
+namespace CardMaga.Commands
+{
+    public class StatCommand : ICommand
+    {
+        private readonly int _amount;
+        private readonly BaseStat _baseStat;
+
+        public StatCommand(BaseStat baseStat, int amount)
+        {
+            _baseStat = baseStat;
+            _amount = amount;
+        }
+        public void Execute()
+        {
+            if (_amount > 0)
+                _baseStat.Add(_amount);
+            else if (_amount < 0)
+                _baseStat.Reduce(_amount);
+
+        }
+
+        public void Undo()
+        {
+            if (_amount < 0)
+                _baseStat.Add(_amount);
+            else if (_amount > 0)
+                _baseStat.Reduce(_amount);
+
+        }
+    }
+
+}

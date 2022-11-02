@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:da17415fb2631b575d06dbacbcd1df49bf4016029a6981827fc0845b1c522240
-size 517
+﻿using UnityEngine;
+using Conditions;
+
+[System.Serializable]
+public class ComboCondition : ConditionAbst
+{
+    #region Fields
+    [Tooltip("What Are the Combo Body Parts Order?")]
+    [SerializeField] CardMaga.Card.BodyPartEnum[] _bodyPartEnum;
+    #endregion
+    #region Properties
+    public CardMaga.Card.BodyPartEnum[] GetBodyPartEnum => _bodyPartEnum;
+    #endregion
+    public override bool IsConditionMet()
+    {
+        Debug.Log("Always true need to fix!");
+        return true;
+    }
+}

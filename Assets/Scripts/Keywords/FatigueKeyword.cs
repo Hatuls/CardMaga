@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4333ede0eabcf37141812611487b26b298950929ba47610bca5fd7bfee095355
-size 1458
+﻿using CardMaga.Battle;
+
+namespace CardMaga.Keywords
+{
+
+    public class FatigueKeyword : BaseKeywordLogic
+    {
+        public FatigueKeyword(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
+        {
+        }
+
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
+            {
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(-data.GetAmountToApply);
+            }
+
+            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
+            {
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(-data.GetAmountToApply);
+            }
+        }
+
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
+            {
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(data.GetAmountToApply);
+            }
+
+            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
+            {
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(data.GetAmountToApply);
+            }
+        }
+
+    }
+
+}

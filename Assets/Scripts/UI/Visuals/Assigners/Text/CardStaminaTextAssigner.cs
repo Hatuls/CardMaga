@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:667685122451a8f4c8d3faaf297790004250c0f41075d19b5912993bf46a3fa8
-size 663
+﻿using UnityEngine;
+using TMPro;
+using CardMaga.Card;
+
+namespace CardMaga.UI.Text
+{
+    [System.Serializable]
+    public class CardStaminaTextAssigner : BaseTextAssigner<CardData>
+    {
+        [SerializeField] TextMeshProUGUI _staminaCost;
+
+        public override void CheckValidation()
+        {
+            if (_staminaCost == null)
+                throw new System.Exception("stamina cost is Null");
+        }
+        public override void Init(CardData cardData)
+        {
+            _staminaCost.AssignText(cardData.CardSO.StaminaCost.ToString());
+        }
+
+        public override void Dispose()
+        {
+        }
+
+    }
+}

@@ -1,3 +1,50 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e08a82d47bd8f14157be5dc9e3159e0db2acff209a1ccb915dc8f44e02e6a219
-size 1351
+﻿using System;
+using System.Collections.Generic;
+using CardMaga.Input;
+using CardMaga.UI.Card;
+using UnityEngine;
+
+public class CardUiInputBehaviourHandler : InputBehaviourHandler<CardUI>
+{
+    [SerializeField] private BaseHandUIState _handUIState;
+    [SerializeField] private BaseHandUIState _zoomUIState;
+    [SerializeField] private BaseHandUIState _followUIState;
+    
+    [SerializeField] private BaseHandUIState _defualtState;
+    private BaseHandUIState _currentState;
+    
+    public enum HandState
+    {
+        Hand,
+        Follow,
+        Zoom
+    };
+
+    private Dictionary<HandState, BaseHandUIState> _handUIStates;
+
+    private void Awake()
+    {
+        _handUIStates = new Dictionary<HandState, BaseHandUIState>()
+        {
+            {HandState.Zoom, _zoomUIState}, {HandState.Follow, _followUIState}, { HandState.Hand ,_handUIState},
+        };
+    }
+
+    public void SetState(HandState state,CardUI cardUI)
+    {
+        if (_currentState == null)
+        {
+            _currentState = _handUIStates[state];
+        
+            _currentState.EnterState(cardUI);
+        }
+        else
+        {
+            _currentState.ExitState(cardUI);
+            
+            _currentState = _handUIStates[state];
+        
+            _currentState.EnterState(cardUI);
+        }
+    }
+}

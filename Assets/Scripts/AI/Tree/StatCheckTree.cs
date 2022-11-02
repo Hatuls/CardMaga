@@ -1,3 +1,168 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8e8e7b816f8b7cea2104ed682476c74d937d5b03b5c8a13a53fb78612d4bfb8b
-size 6201
+﻿namespace CardMaga.AI
+{
+    public class StatCheckTree : Tree<AICard>
+    {
+        public bool IsPlayer { get; set; }
+        public OperatorType Operator { get; set; }
+        public Keywords.KeywordType Keyword { get; set; }
+
+        public int Amount;
+
+        public  int AttackComboWeight { get; set; }
+        public  int UtilityComboWeight { get; set; }
+        public  int DefenseComboWeight { get; set; }
+
+        public int AttackWeight { get; set; }
+        public int UtilityWeight { get; set; }
+        public int DefenseWeight { get; set; }
+        public override void SetupTree()
+        {
+            Children = new IEvaluator<AICard>[]
+            {
+                new AndNode<AICard>
+                {
+                   Children =new IEvaluator<AICard>[]
+                   {
+                       new StatNode()
+                       {
+                           IsPlayer = IsPlayer,
+                           Operator = Operator,
+                           KeywordType = Keyword,
+                           Amount = Amount
+                       },
+                      new TryPlayCardTree
+                      {
+                           IsPlayer = IsPlayer,
+                           AttackComboWeight = AttackComboWeight,
+                           DefenseComboWeight = DefenseComboWeight,
+                           UtilityComboWeight = UtilityComboWeight,
+                           AttackWeight = AttackWeight,
+                           DefenseWeight = DefenseWeight,
+                           UtilityWeight = UtilityWeight
+                      }
+                   }
+                }
+            };
+        }
+    }
+
+    public class CardDoKeywordTree : Tree<AICard>
+    {
+        public bool IsPlayer { get; set; }
+        public Keywords.KeywordType Keyword { get; set; }
+        public int AttackComboWeight { get; set; }
+        public int UtilityComboWeight { get; set; }
+        public int DefenseComboWeight { get; set; }
+
+        public int DefenseWeight { get; set; }
+        public int UtilityWeight { get; set; }
+        public int AttackWeight {get;set;}
+        public override void SetupTree()
+        {
+            Children = new IEvaluator<AICard>[]
+             {
+                new AndNode<AICard>
+                {
+                   Children =new IEvaluator<AICard>[]
+                   {
+                       new CardCanDoKeywordNode()
+                       {
+                            Keyword =Keyword
+                       },
+                       new TryPlayCardTree
+                       {
+                           IsPlayer = IsPlayer,
+                           AttackComboWeight = AttackComboWeight,
+                           DefenseComboWeight = DefenseComboWeight,
+                           UtilityComboWeight = UtilityComboWeight,
+                           AttackWeight = AttackWeight,
+                           DefenseWeight = DefenseWeight,
+                           UtilityWeight = UtilityWeight
+                       }
+                   }
+                }
+             };
+        }
+    }
+
+    public class CharacterHealthTree : Tree<AICard>
+    {
+        public bool IsPlayer { get; set; }
+        public OperatorType Operator { get; set; }
+        public float Precentage { get; set; }
+        public int  AttackComboWeight { get; set; }
+        public int UtilityComboWeight { get; set; }
+        public int DefenseComboWeight { get; set; }
+        public int AttackWeight { get; set; }
+        public int UtilityWeight { get; set; }
+        public int DefenseWeight { get; set; }
+        public override void SetupTree()
+        {
+            Children = new IEvaluator<AICard>[]
+            {
+                new AndNode<AICard>
+                {
+                   Children =new IEvaluator<AICard>[]
+                   {
+                       new HealthPrecentageNode()
+                       {
+                           IsPlayer = IsPlayer,
+                           Operator = Operator,
+                           Precentage = Precentage
+                       },
+                       new TryPlayCardTree
+                       {
+                           IsPlayer = IsPlayer,
+                           AttackComboWeight = AttackComboWeight,
+                           DefenseComboWeight = DefenseComboWeight,
+                           UtilityComboWeight = UtilityComboWeight,
+                           AttackWeight = AttackWeight,
+                           DefenseWeight = DefenseWeight,
+                           UtilityWeight = UtilityWeight
+                       }
+                   }
+                }
+            };
+        }
+    }
+
+    public class WillFinishStaminaTree : Tree<AICard>
+    {
+        public bool IsPlayer { get; set; }
+        public int AttackComboWeight { get; set; }
+        public int UtilityComboWeight { get; set; }
+        public int DefenseComboWeight { get; set; }
+        public int AttackWeight { get; set; }
+        public int DefenseWeight { get; set; }
+        public int UtilityWeight { get; set; }
+
+
+
+        public override void SetupTree()
+        {
+            Children = new IEvaluator<AICard>[]
+            {
+                new AndNode<AICard>
+                {
+                   Children =new IEvaluator<AICard>[]
+                   {
+                       new IsGoingToFinishStamina()
+                       {
+                         IsPlayer = IsPlayer
+                       },
+                       new TryPlayCardTree
+                       {
+                           IsPlayer = IsPlayer,
+                           AttackComboWeight = AttackComboWeight,
+                           DefenseComboWeight = DefenseComboWeight,
+                           UtilityComboWeight = UtilityComboWeight,
+                           AttackWeight = AttackWeight,
+                           DefenseWeight = DefenseWeight,
+                           UtilityWeight = UtilityWeight,
+                       }
+                   }
+                }
+            };
+        }
+    }
+}

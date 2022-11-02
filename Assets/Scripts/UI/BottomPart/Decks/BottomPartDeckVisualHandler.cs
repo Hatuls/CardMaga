@@ -1,3 +1,115 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b377311d60fa11390bb8d96b09330740ddb27c15e38fa8a31352d764cb5f8701
-size 4032
+﻿using Battle.Deck;
+using CardMaga.Battle;
+using CardMaga.Battle.UI;
+using CardMaga.SequenceOperation;
+using CardMaga.UI.Text;
+using DG.Tweening;
+using ReiTools.TokenMachine;
+using Sirenix.OdinInspector;
+using System;
+using UnityEngine;
+
+namespace CardMaga.UI
+{
+    public class BottomPartDeckVisualHandler : MonoBehaviour, ISequenceOperation<IBattleUIManager>
+    {
+#if UNITY_EDITOR
+        //[Header("Test")]
+        [Button]
+        public void TestAnimation()
+        {
+            MoveCardsToDrawPileAnim();
+        }
+        [Button]
+        public void TestReset()
+        {
+            ResetDeckPosition();
+        }
+        [Button]
+        public void TestForceReset()
+        {
+            ForceResetDecksPosition();
+        }
+
+#endif
+        [Header("General")]
+        [SerializeField] float _resetDuration = 0.3f;
+
+        [Header("Draw Deck")]
+        [SerializeField] DeckTextAssigner _drawDeckTextAssigner;
+        [SerializeField] TransitionPackSO _drawDeckTransitionPackSO;
+        [SerializeField] RectTransform _drawDeckRectTransform;
+        Vector3 _drawDeckStartPos;
+
+
+        [Header("Discard Deck")]
+        [SerializeField] DeckTextAssigner _discardDeckTextAssigner;
+        [SerializeField] TransitionPackSO _discardDeckTransitionPackSO;
+        [SerializeField] RectTransform _discardDeckRectTransform;
+        Vector3 _discardDeckStartPos;
+        BaseDeck _discardDeck;
+
+        public int Priority => 10;
+
+
+        //handles deck visuals
+        //need to know how to add/remove cards from deck
+        //need to know to init deck
+        //need to know how to shuffle between decks
+        private void Awake()
+        {
+            if (_drawDeckRectTransform == null)
+                throw new Exception("BottomPartDeckVisualHandler has no Draw Rect Transform");
+            else
+                _drawDeckStartPos = _drawDeckRectTransform.position;
+
+            if (_discardDeckRectTransform == null)
+                throw new Exception("BottomPartDeckVisualHandler has no discard Rect Transform");
+            else
+                _discardDeckStartPos = _discardDeckRectTransform.position;
+
+            if (_drawDeckTransitionPackSO == null)
+                throw new Exception("BottomPartDeckVisualHandler has no Draw Transition SO");
+            if (_discardDeckTransitionPackSO == null)
+                throw new Exception("BottomPartDeckVisualHandler has no Discard Transition SO");
+
+        }
+
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)
+        {
+
+            using (tokenMachine.GetToken())
+            {
+                var deckHandler = battleManager.BattleDataManager.PlayersManager.GetCharacter(true).DeckHandler;
+                _drawDeckTextAssigner.Init(deckHandler[DeckEnum.PlayerDeck]);
+                _discardDeck = deckHandler[DeckEnum.Discard];
+                _discardDeckTextAssigner.Init(_discardDeck);
+                _discardDeck.OnResetDeck += MoveCardsToDrawPileAnim;
+            }
+        }
+        void MoveCardsToDrawPileAnim()
+        {
+            _drawDeckRectTransform.Transition(_drawDeckTransitionPackSO).
+                Join(_discardDeckRectTransform.Transition(_discardDeckTransitionPackSO));
+        }
+        public void ResetDeckPosition()
+        {
+            _drawDeckRectTransform.DOMove(_drawDeckStartPos, _resetDuration);
+            _discardDeckRectTransform.DOMove(_discardDeckStartPos, _resetDuration);
+        }
+        public void ForceResetDecksPosition()
+        {
+            _drawDeckRectTransform.position = _drawDeckStartPos;
+            _discardDeckRectTransform.position = _discardDeckStartPos;
+        }
+        private void OnDestroy()
+        {
+            if (_discardDeck != null)
+                _discardDeck.OnResetDeck -= MoveCardsToDrawPileAnim;
+
+            _drawDeckTextAssigner?.Dispose();
+            _discardDeckTextAssigner?.Dispose();
+
+        }
+    }
+}

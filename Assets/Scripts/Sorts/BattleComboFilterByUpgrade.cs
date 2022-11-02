@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bb6991eec4b6fa53fc6f463954dbbf3e914ad266fb4e6c85bce3654cbd0f4771
-size 384
+﻿using Battle.Combo;
+using CardMaga.UI;
+using System.Collections.Generic;
+using System.Linq;
+
+public class BattleComboFilterByUpgrade : ComboSort
+{
+    public override IEnumerable<ComboData> Sort()
+    {
+        var deck = GetCollection();
+        var sortedDeck = deck.Where(x => x.Level < (x.ComboSO.CraftedCard.CardsMaxLevel - 1));
+        return sortedDeck;
+    }
+}

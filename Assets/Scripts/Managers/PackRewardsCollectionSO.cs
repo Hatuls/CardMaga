@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5c77d05318baab10ca2ca0516681f6b3e7c8dc3ab9e3e73b3a7fad4acf179415
-size 497
+﻿using UnityEngine;
+namespace Rewards
+{
+    [CreateAssetMenu(fileName = "Pack Reward Collection", menuName = "ScriptableObjects/Collection/Pack Rewards Collection")]
+    public class PackRewardsCollectionSO : ScriptableObject
+    {
+
+        [SerializeField]
+        private PackRewardSO[] _packs;
+
+
+        public void Init(PackRewardSO[] packRewardSOs)
+        {
+            _packs = packRewardSOs;
+        }
+        public PackRewardSO[] PacksRewardSO => _packs;
+
+    }
+
+}

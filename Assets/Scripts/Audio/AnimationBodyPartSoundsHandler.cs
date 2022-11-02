@@ -1,3 +1,70 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:37a01cf666c1bbf08441b24cec7c2af13b4f5cfe5f94adc629308fb624c0bd1c
-size 2367
+﻿using Battle;
+using UnityEngine;
+
+public class AnimationBodyPartSoundsHandler : MonoBehaviour
+{
+    [SerializeField]
+    SoundEventSO OnBlockDamage; // shield damage
+    [SerializeField]
+    SoundEventSO SoundOnPunch; // punch damage
+    [SerializeField]
+    SoundEventSO SoundOnKick; // kick damage
+
+    CharacterSO _currentCharacter;
+ 
+    public CharacterSO CurrentCharacter { get => _currentCharacter; set => _currentCharacter = value; }
+
+    public void PlayKickSound()
+        => SoundOnKick.PlaySound();
+    public void PlayPunchSound()
+        => SoundOnPunch.PlaySound();
+    public void PlayBlockDamage()
+        => OnBlockDamage.PlaySound();
+
+    public void PlayHitSound(float param)
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have GetHitSounds!");
+        else
+            CurrentCharacter.GetHitSounds.PlaySound(param); 
+    }
+    public void PlayVoiceSound(float param)
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have SoundOnAttack!");
+        else
+
+            CurrentCharacter.SoundOnAttack.PlaySound(param); 
+    }
+    public void PlayComboSound()
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have ComboSounds!");
+        else
+            CurrentCharacter.ComboSounds.PlaySound();
+    }
+    public void PlayVictorySound()
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have VictorySound!");
+        else
+            CurrentCharacter.VictorySound.PlaySound(); 
+    }
+
+    public void PlayKOSound()
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have DeathSounds!");
+        else
+            CurrentCharacter.DeathSounds.PlaySound();
+    }
+    public void PlayTauntSound()
+    {
+        if (CurrentCharacter.SoundOnAttack == null)
+            Debug.LogError($"Character: {CurrentCharacter.CharacterName} doenst have TauntSounds!");
+        else
+            CurrentCharacter.TauntSounds.PlaySound();
+    }
+
+    
+}

@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0e36d717b6f85b2048bcb8afd1b0e31604ec79fa053e7aa5a118205d79f8eac8
-size 406
+﻿using Battle.Combo;
+using Rei.Utilities;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+namespace CardMaga.UI
+{
+    public class SortComboByLength : ComboSort
+    {
+        [SerializeField] int length;
+        public override IEnumerable<ComboData> Sort()
+        { 
+            return GetCollection().Where(x=>x.ComboSequence.Length == length);
+        }
+    }
+}

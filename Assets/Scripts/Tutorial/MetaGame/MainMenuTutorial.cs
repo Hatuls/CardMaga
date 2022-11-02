@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dea18cd84d43253cddc3df80c66d695629ed97a19b9375ffcb73e97c98dfa450
-size 363
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using CardMaga.BattleConfigSO;
+
+public class MainMenuTutorial : MonoBehaviour
+{
+   private List<BattleConfigSO> _battleConfigs;
+
+    public void InitBattleConfigSO(BattleConfigSO battleConfigSO)
+    {
+
+    }
+
+    private void MoveToNextTutorial()
+    {
+
+    }
+}

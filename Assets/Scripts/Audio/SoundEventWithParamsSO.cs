@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c3c3fd87aec9b327d663322fd600250fed96384bed5d4f6b80a1ae4397dc5d7c
-size 366
+﻿using UnityEngine;
+
+[CreateAssetMenu(fileName = "New Sound Event SO", menuName = "Cfir/SoundEventSO With Parameter")]
+public class SoundEventWithParamsSO : SoundEventSO
+{
+    public string ParameterName;
+    public bool IgnoreSeekReed;
+    public  void PlaySound(float value)
+    {
+        AudioManager.Instance.PlaySoundEvent(this, value);
+
+    }
+}

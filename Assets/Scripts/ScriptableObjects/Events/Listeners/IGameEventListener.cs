@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:520f9ed0148399182811acd8b64182d46152abd19b2b832ebbb063f97275903b
-size 365
+﻿namespace Unity.Events
+{
+    public interface IGameEventListener<T>
+    {
+        void OnEventRaised(T item);
+    } 
+    public interface IGameEventListener<T1 , T2>
+    {
+        void OnEventRaised(T1 item1, T2 item2);
+    }
+    public interface IGameEventListener<T1, T2,T3>
+    {
+        void OnEventRaised(T1 item1, T2 item2, T3 item3);
+    }
+}

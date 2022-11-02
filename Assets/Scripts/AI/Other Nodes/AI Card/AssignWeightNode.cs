@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ad2810b3e0be82de3fc10f19436349814ccac10776b48980f03138499256ae55
-size 1173
+﻿namespace CardMaga.AI
+{
+    public class AssignWeightNode : BaseNode<AICard>
+    {
+        public int Weight { get; set; }
+        public override NodeState Evaluate(AICard basedEvaluationObject)
+        {
+            basedEvaluationObject.Weight = Weight;
+            NodeState = NodeState.Success;
+            return NodeState;
+        }
+    }
+
+    public class UseCardsValueAsWeightNode : BaseNode<AICard>
+    {
+        public override NodeState Evaluate(AICard basedEvaluationObject)
+        {
+            basedEvaluationObject.Weight = basedEvaluationObject.Card.CardSO.GetCardValue(basedEvaluationObject.Card.CardLevel);
+            NodeState = NodeState.Success;
+            return NodeState;
+        }
+    }
+
+    public class AddWeightToCardsWeightNode : BaseNode<AICard>
+    {
+        public int Weight { get; set; }
+        public override NodeState Evaluate(AICard basedEvaluationObject)
+        {
+            basedEvaluationObject.Weight = basedEvaluationObject.Card.CardSO.GetCardValue(basedEvaluationObject.Card.CardLevel) + Weight;
+            NodeState = NodeState.Success;
+            return NodeState;
+        }
+    }
+}

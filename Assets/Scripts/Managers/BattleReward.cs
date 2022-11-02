@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8620bdda4825203bce6d9dc06709bf75ccaf95583e566aafa8733512469c8933
-size 970
+﻿using Battle.Combo;
+using CardMaga.Card;
+
+namespace Rewards
+{
+    public class BattleReward
+    {
+        public ushort CreditReward { get; private set; }
+        public ushort GoldReward { get; private set; }
+        public CardData[] RewardCards { get; private set; }
+        public ComboData[] RewardCombos { get; private set; }
+
+        public BattleReward(ushort Credit , ushort Gold, CardData[] cards,ComboData[] combos= null)
+        {
+            CreditReward = Credit;
+         
+            GoldReward = Gold;
+  
+
+            RewardCards = cards;
+            RewardCombos = combos;
+        }
+    }
+
+    public class RunReward
+    {
+        public ushort EXPReward { get; private set; }
+        public ushort DiamondsReward { get; private set; }
+        public RunReward(ushort eXPReward, ushort diamondsReward)
+        {
+            EXPReward = eXPReward;
+            DiamondsReward = diamondsReward;
+        }
+    }
+
+}
+

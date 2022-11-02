@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:948414193ef89347a6940b5195b1ea95d194b7ac88596e63533dfaf5453a48b2
-size 886
+﻿using CardMaga.Card;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace CardMaga.UI.Visuals
+{
+    [System.Serializable]
+    public class CardFrameVisualAssigner : BaseVisualAssigner<CardData>
+    {
+        [SerializeField] FrameCardVisualSO _frameCardVisualSO;
+        [SerializeField] Image _frame;
+
+        public override void CheckValidation()
+        {
+            if (_frameCardVisualSO.Frames.Length == 0)
+                throw new System.Exception("FrameCardVisualSO has no Frames");
+        }
+        public override void Init(CardData cardData)
+        {
+            //hard Coded value
+            var frameType = 0;
+
+            var sprite = BaseVisualSO.GetSpriteToAssign(frameType, frameType, _frameCardVisualSO.Frames);
+            _frame.AssignSprite(sprite);
+        }
+        public override void Dispose()
+        {
+        }
+    }
+}

@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8249517ca4aed12443e3cdb1657d10f8d2a3a2de9d7314fc86612792b307f15a
-size 465
+﻿using Battle;
+using UnityEngine;
+using Rei.Utilities;
+using System.Collections.Generic;
+using System.Linq;
+using CardMaga.UI;
+using CardMaga.Card;
+
+public class BattleDeckFilterByUpgrade : CardSort
+{    // Need To be Re-Done
+    public override IEnumerable<CardData> Sort()
+    {
+        var deck = GetCollection();
+        var sortedDeck = deck.Where(x => x.CardLevel < (x.CardSO.CardsMaxLevel - 1));
+        return sortedDeck;
+  
+    }
+
+
+}

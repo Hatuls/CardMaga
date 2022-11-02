@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a8356d31625a5bd06a459b6bd8c767543f194487faff8be679ff877ec80bc5fc
-size 675
+﻿namespace CardMaga.AI
+{
+    public class ComboFilledSlotsCountLogic : BaseNode<AICard>
+    {
+        private CraftingHandler _craftingHandler;
+        private int _amountOfFilledSlots;
+
+        public CraftingHandler CraftingHandler { get => _craftingHandler; set => _craftingHandler = value; }
+        public int AmountOfFilledSlots { get => _amountOfFilledSlots; set => _amountOfFilledSlots = value; }
+        public override NodeState Evaluate(AICard basedEvaluationObject)
+        {
+
+            NodeState = (AmountOfFilledSlots == CraftingHandler.CountFullSlots) ? NodeState.Success : NodeState.Failure;
+            return NodeState;
+        }
+    }
+}

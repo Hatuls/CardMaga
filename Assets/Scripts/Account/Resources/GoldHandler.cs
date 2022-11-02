@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a6bd433b7a3aec1501de11131d21cbfe37ba2e81a2885a8f946156f7c1a8192f
-size 629
+﻿namespace Meta.Resources
+{
+    public class GoldHandler : ResourceHandler<int>
+    {
+        public override void AddAmount(int amount)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool HasAmount(int amount)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ReduceAmount(int amount)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override int Stat(int amount)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+}

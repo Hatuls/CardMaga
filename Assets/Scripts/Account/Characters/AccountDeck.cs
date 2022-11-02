@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:08da3b88e800895df0285ca749b1c189547f3fe86e6cf3b25347122352c42e36
-size 720
+﻿using UnityEngine;
+namespace Account.GeneralData
+{
+    [System.Serializable]
+    public class AccountDeck
+    {
+        #region Fields
+        [SerializeField]
+        CardInstanceID[] _cards;
+        [SerializeField]
+        string _deckName;
+        #endregion
+        #region Properties
+        public CardInstanceID[] Cards { get => _cards;  set => _cards = value; }
+        public string DeckName { get => _deckName; set => _deckName = value; }
+        #endregion
+        #region PublicMethods
+        public AccountDeck()
+        {
+
+        }
+        public AccountDeck(CardInstanceID[] accountCards)
+        {
+            _cards = accountCards;
+        }
+        #endregion
+    }
+}

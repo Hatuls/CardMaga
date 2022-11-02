@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:efede009c3ae8c6fb58f97c0b72c9107dd058929d0871c8aabd2a2fd2875e8dd
-size 904
+﻿using Battle;
+using CardMaga.Battle;
+using Characters.Stats;
+
+namespace CardMaga.AI
+{
+    public class CardCanDoKeywordNode : BaseNode<AICard>
+    {
+        public Keywords.KeywordType Keyword { get; set; }
+        public override NodeState Evaluate(AICard evaluateObject)
+        {
+            NodeState = evaluateObject.Card.TryGetKeyword(Keyword, out int amount) ? NodeState.Success : NodeState.Failure;
+            return NodeState;
+        }
+    }
+
+    public class IsGoingToFinishStamina : BaseNode<AICard>
+    {
+public bool IsPlayer { get; set; }
+        public override NodeState Evaluate(AICard evaluateObject)
+        {
+          
+            NodeState = (BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StaminaHandler.Stamina == evaluateObject.Card.StaminaCost) ? NodeState.Success: NodeState.Failure;
+            return NodeState;
+        }
+    }
+}

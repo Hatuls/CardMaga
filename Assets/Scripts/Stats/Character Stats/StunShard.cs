@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f95399bf4f446358f676132b1bf520319574e47f00792cafbadc70ade68abaa6
-size 957
+﻿using CardMaga.Keywords;
+namespace Characters.Stats
+{
+    public class StunShard : BaseStat
+    {
+        int _maxShardSize;
+        StunStat _stunStat;
+        public StunShard(int amount, StunStat stun) : base(amount)
+        {
+            _stunStat = stun;
+            _maxShardSize = Factory.GameFactory.Instance.KeywordFactoryHandler.GetKeywordSO(Keyword).InfoAmount;
+        }
+
+        public override KeywordType Keyword => KeywordType.StunShard;
+
+        public override void Add(int amount)
+        {
+            base.Add(amount);
+
+            if (Amount >= _maxShardSize)
+            {
+
+                _stunStat.Add(1);
+                Reduce(_maxShardSize);
+            }
+        }
+        public override void Reduce(int value)
+        {
+            if (Amount - value <= 0)
+            {
+                Reset();
+                return;
+            }
+            base.Reduce(value);
+
+        }
+    }
+
+}

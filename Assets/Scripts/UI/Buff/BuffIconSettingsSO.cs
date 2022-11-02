@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6ce12f4f2d1a5af21f42f12891426ec038212851611c41a5cad21f09a468a58c
-size 916
+﻿using UnityEngine;
+
+[CreateAssetMenu(fileName = "BuffIconSettingsSO", menuName = "ScriptableObjects/Settings/Tweens/Buff Icons")]
+public class BuffIconSettingsSO : ScriptableObject {
+    [SerializeField] float _scaleExitTime;
+    [SerializeField] float _scaleEntranceTime;
+    [SerializeField] float _scaleAmount;
+    [SerializeField] float _alphaExitTime;
+    [SerializeField] float _alphaEntranceTime;
+    [SerializeField] AnimationCurve _exitCurve;
+    [SerializeField] AnimationCurve _entranceCurve;
+
+    public float ScaleExitTime => _scaleExitTime;
+    public float ScaleEntranceTime => _scaleEntranceTime;
+    public float ScaleAmount => _scaleAmount;
+    public float AlphaExitTime => _alphaExitTime;
+    public float AlphaEntranceTime => _alphaEntranceTime;
+    public AnimationCurve ExitTypeTweenType => _exitCurve;
+    public AnimationCurve EntranceTypeTweenType => _entranceCurve;
+}

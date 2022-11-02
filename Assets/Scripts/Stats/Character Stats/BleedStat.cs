@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:69c5e3e2547ccba829e2a20f2225feb5d81e5c5620a978a777b7d2a6160d7d14
-size 410
+﻿using CardMaga.Keywords;
+
+namespace Characters.Stats
+{
+    public class BleedStat : BaseStat
+    {
+        public override KeywordType Keyword => KeywordType.Bleed;
+        public BleedStat(int amount) : base(amount)
+        {
+        }
+
+        public override void Reduce(int amount)
+        {
+            if (Amount - amount >= 0)
+                base.Reduce(amount);
+        }
+    }
+
+}

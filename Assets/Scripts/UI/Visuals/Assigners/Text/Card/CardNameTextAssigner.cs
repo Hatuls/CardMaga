@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d62c1b40f5ac8918071846444aeb13200dc7bacc952f608e062779a62cc67f6a
-size 627
+﻿using UnityEngine;
+using TMPro;
+using CardMaga.Card;
+
+namespace CardMaga.UI.Text
+{
+    [System.Serializable]
+    public class CardNameTextAssigner : BaseTextAssigner<CardData>
+    {
+        [SerializeField] TextMeshProUGUI _cardName;
+        public override void CheckValidation()
+        {
+            if (_cardName == null)
+                throw new System.Exception("CardTextAssigner");
+        }
+        public override void Init(CardData cardData)
+        {
+            _cardName.AssignText(cardData.CardSO.CardName);
+        }
+        public override void Dispose()
+        {
+        }
+    }
+}

@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f284ced063647b66328d4ee665dc19cacbf0a0f126483c84e01ab35fbe9b5e74
-size 480
+﻿namespace PlayFab
+{
+    /// <summary>
+    /// Interface of any data serializer SDK plugin.
+    /// </summary>
+    public interface ISerializerPlugin : IPlayFabPlugin
+    {
+        T DeserializeObject<T>(string serialized);
+        T DeserializeObject<T>(string serialized, object serializerStrategy);
+        object DeserializeObject(string serialized);
+
+        string SerializeObject(object obj);
+        string SerializeObject(object obj, object serializerStrategy);
+    }
+}

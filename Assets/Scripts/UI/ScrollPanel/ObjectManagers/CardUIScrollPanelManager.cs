@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d4d841e3afe1e38edd02ec40b185ef24ce2a5b718add72a1557a31b068f908c4
-size 666
+﻿using System.Collections.Generic;
+using CardMaga.Card;
+using CardMaga.UI.Card;
+using UnityEngine;
+
+namespace CardMaga.UI.ScrollPanel
+{
+    public class CardUIScrollPanelManager : BaseScrollPanelManager<CardUI,CardData>
+    {
+        [SerializeField] private CardUiPool _cardUiPool;
+
+        protected override BasePoolObject<CardUI, CardData> ObjectPool
+        {
+            get => _cardUiPool;
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            _cardUiPool.Init();
+        }
+
+        private void OnDestroy()
+        {
+            RemoveAllObjectsFromPanel();
+        }
+        
+    }
+}
+

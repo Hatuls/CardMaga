@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:861e056d35a88968d18fbe480e66857f19ef26c71c04e6cc4d836081c3b51893
-size 666
+﻿
+using CardMaga.Battle.UI;
+using CardMaga.SequenceOperation;
+using ReiTools.TokenMachine;
+
+public class MainInputStateMachine : BaseStateMachine, ISequenceOperation<IBattleUIManager>
+{
+    public int Priority => 1;
+
+
+    public void Dispose()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)
+    {
+        using (tokenMachine.GetToken())
+            InitStateMachine();
+    }
+
+    public void Update()
+    {
+        if (_currentState == null)
+            return;
+
+        TryChangeState(_currentState.OnHoldState());
+    }
+
+  
+}

@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1dcdea193b1994d5581e005021e78d100578ccc9a23aede9ce966739d6d5bf37
-size 476
+﻿using CardMaga.Keywords;
+namespace Characters.Stats
+{
+    public class DefenseStat : BaseStat
+    {
+        public DefenseStat(int amount) : base(amount)
+        {
+        }
+
+        public override KeywordType Keyword => KeywordType.Shield;
+
+        public override void Reduce(int amount)
+        {
+            base.Reduce(amount);
+
+            if (Amount < 0)
+                Amount = 0;
+
+            // transfer damage to Health
+        }
+    }
+
+}

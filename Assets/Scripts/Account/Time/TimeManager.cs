@@ -1,3 +1,55 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dd54d2f55a5a240070e6cf51ecf215d069d7a64cf801d400298f82a990544764
-size 1260
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Account
+{
+    public class TimeManager : MonoBehaviour
+    {
+        #region Singleton
+        private static TimeManager _instance;
+        public static TimeManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    Debug.LogError("TimeManager is null!");
+
+                return _instance;
+            }
+        }
+        private void Awake()
+        {
+            _instance = this;
+        }
+        #endregion
+        #region Fields
+        static List<TimeEvent> _timeEvents;
+        #endregion
+        #region Private Methods
+        bool CheckIfComplete(TimeEvent timeEvent)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+        #region Public Methods
+        public void Init()
+        {
+            
+        }
+        public DateTime GetCurrentTime()
+        {
+            Debug.Log($"{DateTime.Now}");
+            return DateTime.Now;
+        }
+        public void Update()
+        {
+            
+        }
+        public void RegisterTimeEvent(TimeEvent timeEvent)
+        {
+
+        }
+        #endregion
+    }
+}

@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cb8a66b4b195af3d1fd1e5733b70679ec38d0c57e944e8d5a4a6865a14a43d99
-size 753
+﻿
+using System.Collections.Generic;
+using UnityEngine;
+namespace CardMaga.UI
+{
+    public class SortByCharacterDeck : CardSort
+    {
+        [SerializeField]
+        int deckIndex;
+        // Need To be Re-Done
+        public override IEnumerable<CardMaga.Card.CardData> Sort()
+        {
+            var deck = GetCollection();
+            // var account = Account.AccountManager.Instance.AccountCharacters;
+            // var currentDeck = account.GetCharacterData(account.SelectedCharacter).GetDeckAt(deckIndex);
+            //int i = currentDeck.Cards.Length;
+            // return Factory.GameFactory.Instance.CardFactoryHandler.CreateDeck(currentDeck);
+            throw new System.NotImplementedException();
+        }
+    }
+}
