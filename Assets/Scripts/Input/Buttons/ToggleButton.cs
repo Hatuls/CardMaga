@@ -7,26 +7,25 @@ public class ToggleButton : TouchableItem
 {
     public event Action<bool> OnValueChanage;
     
-    [SerializeField] private InputIdentificationSO _inputIdentification;
     [Header("Toggle configuration")]
     [SerializeField] private bool _startState;
+
+    [Header("Visual configuration")] [SerializeField]
+    private Image _button;
+    [SerializeField] private Sprite _onSprite;
+    [SerializeField] private Sprite _offSprite;
 
     private bool _isOn;
     
     public bool ButtonState
     {
         get => _isOn;
-    }    
-
-    public override InputIdentificationSO InputIdentification
-    {
-        get => _inputIdentification;
     }
 
     protected override void Awake()
     {
         base.Awake();
-
+        
         if (_startState)
             SetToOnState();
         else
@@ -36,11 +35,15 @@ public class ToggleButton : TouchableItem
     private void SetToOnState()
     {
         _isOn = true;
+
+        _button.sprite = _onSprite;
     }
 
     private void SetToOffState()
     {
         _isOn = false;
+
+        _button.sprite = _offSprite;
     }
 
     private void ToggleState()

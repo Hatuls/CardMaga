@@ -6,6 +6,4 @@ public class Clicker : TouchableItem<Clicker>
     {
         UnLock();
     }
-
-    public override InputIdentificationSO InputIdentification { get; }
 }
