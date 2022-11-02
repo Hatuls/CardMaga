@@ -12,7 +12,7 @@ namespace Factory
         [SerializeField] CardsCollectionSO _cards;
         [SerializeField] ComboCollectionSO _combos;
         [SerializeField] CharacterCollectionSO _characters;
-        [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
+   //     [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
         public static bool flag;
 
         public void Init(ITokenReciever tokenReciever)
@@ -46,12 +46,12 @@ namespace Factory
                             throw new System.Exception("Characters Collection Was Not Assigned!");
                     }
 
-                    if (_rewards == null)
-                    {
-                        _rewards = Resources.Load<Rewards.BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
-                        if (_rewards == null)
-                            throw new System.Exception("Reward Collection Was Not Assigned!");
-                    }
+                    //if (_rewards == null)
+                    //{
+                    //    _rewards = Resources.Load<Rewards.BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
+                    //    if (_rewards == null)
+                    //        throw new System.Exception("Reward Collection Was Not Assigned!");
+                    //}
 
 
                     if (_keywords == null)
@@ -62,7 +62,7 @@ namespace Factory
                     }
 
 
-                    new GameFactory(_cards, _combos, _characters, _rewards,  _keywords);
+                    new GameFactory(_cards, _combos, _characters,  _keywords);
                 }
 
                 Destroy(this.gameObject);

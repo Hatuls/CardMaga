@@ -1,5 +1,6 @@
-﻿using Battle;
-using Battle.Combo;
+﻿using Battle.Combo;
+using CardMaga.Battle;
+using CardMaga.Battle.Combo;
 using CardMaga.Rules;
 
 public class ComboListener : BaseEndGameRule

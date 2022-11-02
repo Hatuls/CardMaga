@@ -1,32 +1,36 @@
 ﻿using Cinemachine;
 using UnityEngine;
-public class VirtualCamera : MonoBehaviour
+namespace CardMaga.Battle.Visual.Camera
 {
-    [SerializeField] private CameraIdentification _cameraIdentification;
-    [SerializeField] private CinemachineVirtualCamera _virtualCamera;
 
-    public CameraIdentification GetCameraID
+    public class VirtualCamera : MonoBehaviour
     {
-        get { return _cameraIdentification; }
-    }
+        [SerializeField] private CameraIdentification _cameraIdentification;
+        [SerializeField] private CinemachineVirtualCamera _virtualCamera;
 
-    public CinemachineVirtualCamera GetVirtualCamera
-    {
-        get { return _virtualCamera; }
-    }
+        public CameraIdentification GetCameraID
+        {
+            get { return _cameraIdentification; }
+        }
 
-    public void ChangePriority(int priority)
-    {
-        _virtualCamera.m_Priority = priority;
-    }
+        public CinemachineVirtualCamera GetVirtualCamera
+        {
+            get { return _virtualCamera; }
+        }
 
-    public void OnEnable()
-    {
-        CameraManager.Register(this);
-    }
+        public void ChangePriority(int priority)
+        {
+            _virtualCamera.m_Priority = priority;
+        }
 
-    public void OnDisable()
-    {
-        CameraManager.Unregister(this);
+        public void OnEnable()
+        {
+            CameraManager.Register(this);
+        }
+
+        public void OnDisable()
+        {
+            CameraManager.Unregister(this);
+        }
     }
 }

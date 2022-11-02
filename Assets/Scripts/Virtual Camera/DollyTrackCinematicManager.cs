@@ -8,8 +8,12 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Battle;
 using CardMaga.SequenceOperation;
+using CardMaga.Battle.UI;
+namespace CardMaga.Battle.Visual.Camera
+{
 
-public class DollyTrackCinematicManager : MonoBehaviour
+}
+public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBattleUIManager>
 {
     [FormerlySerializedAs("_introCinematicCam")] [SerializeField] CinemachineVirtualCamera _cinematicCam;
     CinemachineTrackedDolly _dollyTrack;
@@ -24,18 +28,19 @@ public class DollyTrackCinematicManager : MonoBehaviour
     private CinemachineSmoothPath _outroLosePath;
     System.IDisposable _token;
 
+    public int Priority => 0;
     private void Awake()
     {
         if (_dollyTrack == null)
             _dollyTrack = _cinematicCam.GetCinemachineComponent<CinemachineTrackedDolly>();
         _cinematicCam.gameObject.SetActive(false);
-        const int order = 2;
-        BattleManager.Register(new OperationTask<IBattleManager>(StartCinematicTrack, order), OrderType.After);
+
+       // BattleManager.Register(new OperationTask<IBattleManager>(StartCinematicTrack, order), OrderType.After);
     }
 
  
 
-    public void StartCinematicTrack(ITokenReciever tokenMachine, IBattleManager battleManager)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)
     {
         _token = tokenMachine.GetToken();
 

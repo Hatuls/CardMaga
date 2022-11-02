@@ -6,8 +6,11 @@ using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
+using CardMaga.Battle.UI;
+using CardMaga.Keywords;
 
-public class VFXController : MonoBehaviour , ISequenceOperation<IBattleManager>
+//Need REMAKE
+public class VFXController : MonoBehaviour
 {
 
     [SerializeField] bool _isPlayer;
@@ -23,31 +26,17 @@ public class VFXController : MonoBehaviour , ISequenceOperation<IBattleManager>
 
     private Queue<VFXSO> VFXQueue = new Queue<VFXSO>();
 
-    private GameTurnHandler _turnHandler;
+    private TurnHandler _turnHandler;
 
 
 
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
-    {
-        _turnHandler = data.TurnHandler;
-        data.OnBattleManagerDestroyed += BeforeExitGame;
-        var excecution = data.PlayersManager.GetCharacter(_isPlayer).ExecutionOrder;
-        excecution.OnCardInstantExecute += ExecuteAllKeywords;
-        excecution.OnKeywordsSorted += RecieveSortingKeywordsData;
-    }
+    //public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+    //{
+    //    _turnHandler = data.TurnHandler;
+    //    data.OnBattleManagerDestroyed += BeforeExitGame;
 
-    private void BeforeExitGame(IBattleManager obj)
-    {
-        obj.OnBattleManagerDestroyed -= BeforeExitGame;
-        var excecution = obj.PlayersManager.GetCharacter(_isPlayer).ExecutionOrder;
-        excecution.OnCardInstantExecute -= ExecuteAllKeywords;
-        excecution.OnKeywordsSorted     -= RecieveSortingKeywordsData;
-    }
+    //}
 
-    private void Awake()
-    {
-        BattleManager.Register(this, OrderType.Default);
-    }
 
     public void RegisterVFXQueue(KeywordSO keyword)
     {

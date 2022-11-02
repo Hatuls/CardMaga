@@ -1,11 +1,11 @@
-﻿using Battle.Deck;
+﻿using Battle.UI;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
-namespace Battle.UI
+namespace CardMaga.Battle.UI
 {
-    public class CraftingUIManager : MonoBehaviour, ISequenceOperation<IBattleManager>
+    public class CraftingUIManager : MonoBehaviour, ISequenceOperation<IBattleUIManager>
     {
         [SerializeField] private CraftingSlotUI[] _playerCraftingSlotsUI;
         [SerializeField] private RectTransform _playersfirstSlotTransform;
@@ -23,30 +23,26 @@ namespace Battle.UI
 
         const int ORDER = 4;
         public int Priority => ORDER;
-       
+
 
 
 
         public CraftingUIHandler GetCharacterUIHandler(bool players)
         {
-           // Init();
+            // Init();
             return players ? _playerCraftingUIHandler : _opponentCraftingUIHandler;
         }
 
 
-   
+
 
         #region Monobehaviour Callbacks
-        public void Awake()
-        {
-            BattleManager.Register(this, OrderType.Before);
-        }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager battleManager)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)
         {
             using (tokenMachine.GetToken())
             {
-                Init(battleManager.PlayersManager);
+                Init(battleManager.BattleDataManager.PlayersManager);
             }
         }
 

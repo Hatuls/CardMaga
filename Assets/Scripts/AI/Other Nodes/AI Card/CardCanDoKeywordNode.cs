@@ -1,11 +1,12 @@
 ﻿using Battle;
+using CardMaga.Battle;
 using Characters.Stats;
 
 namespace CardMaga.AI
 {
     public class CardCanDoKeywordNode : BaseNode<AICard>
     {
-        public Keywords.KeywordTypeEnum Keyword { get; set; }
+        public Keywords.KeywordType Keyword { get; set; }
         public override NodeState Evaluate(AICard evaluateObject)
         {
             NodeState = evaluateObject.Card.TryGetKeyword(Keyword, out int amount) ? NodeState.Success : NodeState.Failure;

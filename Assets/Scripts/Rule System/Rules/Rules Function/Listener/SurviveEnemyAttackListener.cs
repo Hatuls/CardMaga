@@ -1,12 +1,13 @@
-﻿using Battle;
-using Battle.Combo;
+﻿using Battle.Combo;
 using Battle.Turns;
+using CardMaga.Battle;
+using CardMaga.Battle.Combo;
 using CardMaga.Rules;
 
 public class SurviveEnemyAttackListener : BaseEndGameRule
 {
     private ComboManager _comboManager;
-    private GameTurnHandler _turnHandler;
+    private TurnHandler _turnHandler;
     private ComboSO _comboToCheck;
 
     private bool _didTheRightCombo = false;

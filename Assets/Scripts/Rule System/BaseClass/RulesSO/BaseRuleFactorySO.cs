@@ -1,4 +1,5 @@
 ﻿using Battle;
+using CardMaga.Battle;
 using UnityEngine;
 using UnityEngine.Serialization;
 

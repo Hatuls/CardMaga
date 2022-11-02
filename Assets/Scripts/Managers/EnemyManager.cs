@@ -2,9 +2,14 @@
 using Battle.Deck;
 using Battle.Turns;
 using CardMaga.AI;
+using CardMaga.Battle;
+using CardMaga.Battle.Execution;
+using CardMaga.Battle.Players;
+using CardMaga.Battle.Visual;
 using CardMaga.Card;
+using CardMaga.Commands;
+using CardMaga.Keywords;
 using Characters.Stats;
-using Managers;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections;
@@ -27,7 +32,7 @@ namespace Battle
         [SerializeField] TextMeshProUGUI _enemyNameText;
         [Space]
         int _cardAction;
-        private GameTurnHandler _turnHandler;
+        private TurnHandler _turnHandler;
         private DeckHandler _deckHandler;
         private CraftingHandler _craftingHandler;
         private GameTurn _myTurn;
@@ -35,12 +40,10 @@ namespace Battle
         private CharacterStatsHandler _statsHandler;
         private CardData[] _deck;
         private AIHand _aiHand;
-        private CardsExecutionOrder _executionOrder;
         private EndTurnHandler _endTurnHandler;
+        private GameCommands _gameCommands;
         private PlayerComboContainer _comboContainer;
-
-
-        //   private bool _isStillThinking;
+        private CardExecutionManager _cardExecutionManager;
         private TokenMachine _aiTokenMachine;
         private IDisposable _turnFinished;
 
@@ -56,14 +59,17 @@ namespace Battle
         public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
         public CharacterStatsHandler StatsHandler => _statsHandler;
         public DeckHandler DeckHandler => _deckHandler;
-        public PlayerComboContainer Combos => _comboContainer;
-        public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
+        //    public Battle.Combo.ComboData[] Combos => _character.CharacterData.ComboRecipe;
+
         public GameTurn MyTurn => _myTurn;
         public StaminaHandler StaminaHandler => _staminaHandler;
         public EndTurnHandler EndTurnHandler => _endTurnHandler;
         public CraftingHandler CraftingHandler => _craftingHandler;
 
-        public CardsExecutionOrder ExecutionOrder => _executionOrder;
+        public PlayerComboContainer Combos => _comboContainer;
+
+        public IReadOnlyList<PlayerTagSO> PlayerTags => _character.PlayerTags;
+
         #endregion
 
         #region Public Methods
@@ -72,28 +78,31 @@ namespace Battle
         {
             battleManager.OnBattleManagerDestroyed += BeforeGameExit;
             _character = character;
+
             //data from battledata
             CharacterBattleData characterdata = character.CharacterData;
-            
-            //Deck and Combo
-            _comboContainer = new PlayerComboContainer(_character.CharacterData.ComboRecipe);
+            //Deck
             int deckLength = characterdata.CharacterDeck.Length;
             _deck = new CardData[deckLength];
             Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
             _deckHandler = new DeckHandler(this, battleManager);
-          
+
+
+            _comboContainer = new PlayerComboContainer(_character.CharacterData.ComboRecipe);
             //CraftingSlots
             _craftingHandler = new CraftingHandler();
-      
+
             //Stats
             _statsHandler = new CharacterStatsHandler(IsLeft, ref characterdata.CharacterStats, StaminaHandler);
 
             //Stamina
-            if (!battleManager.TurnHandler.IsLeftPlayerStart)
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
-            else
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
-            
+            int additionStamina = !battleManager.TurnHandler.IsLeftPlayerStart ? -1 : 0;
+            _staminaHandler = new StaminaHandler(_statsHandler.GetStat(KeywordType.Stamina).Amount, _statsHandler.GetStat(KeywordType.StaminaShards).Amount, additionStamina);
+            //Game Commands
+            _gameCommands = battleManager.GameCommands;
+
+            //Execution
+            _cardExecutionManager = battleManager.CardExecutionManager;
             //Turn
             _turnHandler = battleManager.TurnHandler;
             _myTurn = _turnHandler.GetCharacterTurn(IsLeft);
@@ -102,12 +111,8 @@ namespace Battle
             _myTurn.OnTurnActive += PlayEnemyTurn;
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
             //AI 
-            _aiHand = new AIHand(_brain, StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw));
+            _aiHand = new AIHand(_brain, StatsHandler.GetStat(KeywordType.Draw));
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
-            
-            //Excecution
-            _executionOrder = new CardsExecutionOrder(this);
-            _staminaHandler.OnStaminaDepleted +=_executionOrder.CheckExcecution;
 
             _endTurnHandler = new EndTurnHandler(this, battleManager);
         }
@@ -116,7 +121,6 @@ namespace Battle
         {
             obj.OnBattleManagerDestroyed -= BeforeGameExit;
             _endTurnHandler.Dispose();
-            _executionOrder.Dispose();
 
             _myTurn.OnTurnActive -= CalculateEnemyMoves;
             _myTurn = null;
@@ -126,7 +130,7 @@ namespace Battle
         {
             FinishTurn();
         }
-        
+
         public void CalculateEnemyMoves()
         {
             _aiHand.ResetData();
@@ -142,15 +146,16 @@ namespace Battle
                 _turnFinished?.Dispose();
             }
         }
-        
+
         public IEnumerator PlayTurnDelay()
         {
             const int NO_MORE_ACTION_TO_DO = -1;
 
             if (_aiHand.TryGetHighestWeight(out AICard card) > NO_MORE_ACTION_TO_DO && !BattleManager.isGameEnded)
             {
-                _deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, card.Card);
-                CardExecutionManager.Instance.TryExecuteCard(IsLeft, card.Card);
+                _gameCommands.GameDataCommands.DataCommands.AddCommand(new TransferSingleCardCommand(DeckHandler, DeckEnum.Hand, DeckEnum.Selected, card.Card));
+                //_deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, card.Card);
+                _cardExecutionManager.TryExecuteCard(IsLeft, card.Card);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(_delayTime.x, _delayTime.y));
                 CalculateEnemyMoves();
             }
@@ -160,6 +165,7 @@ namespace Battle
 
         public void DoAction()
         {
+            if(gameObject.activeSelf)
             StartCoroutine(PlayTurnDelay());
         }
         public void EnemyWon()
@@ -182,27 +188,27 @@ namespace Battle
         }
 
         #endregion
-        
+
         #region Private 
         private void DrawHands(ITokenReciever tokenMachine)
-    => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
+    => DeckHandler.DrawHand(StatsHandler.GetStat(KeywordType.Draw).Amount);
         private void FinishTurn()
         {
-           _endTurnHandler.EndTurnPressed();
-            AnimatorController.ResetToStartingPosition();
+            _endTurnHandler.EndTurnPressed();
+            VisualCharacter.AnimatorController.ResetToStartingPosition();
         }
 
-  
+
         #endregion
     }
-    
+
     public class AIHand
     {
         public NodeState Result;
         private List<AICard> _card;
         private AITree _tree;
         private BaseStat _drawStat;
-        
+
         public AIHand(AIBrain _brain, BaseStat drawStat)
         {
             _drawStat = drawStat;
@@ -221,13 +227,13 @@ namespace Battle
                     Result |= _tree.Evaluate(_card[i]);
             }
         }
-        
+
         public void AddCard(CardData[] cardData)
         {
             for (int i = 0; i < cardData.Length; i++)
                 AddCard(cardData[i]);
         }
-        
+
         public void AddCard(CardData cardData)
         {
             for (int i = 0; i < _card.Count; i++)
@@ -242,9 +248,9 @@ namespace Battle
             aicard.AssignCard(cardData);
             _card.Add(aicard);
         }
-        
+
         public void ResetData() => _card.ForEach(x => x.Reset());
-        
+
         public int TryGetHighestWeight(out AICard highestCard)
         {
             highestCard = null;
@@ -261,7 +267,7 @@ namespace Battle
             }
             return highestWeight;
         }
-        
+
         ~AIHand()
         {
             _card.Clear();

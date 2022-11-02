@@ -1,4 +1,5 @@
 ﻿using CardMaga.Card;
+using CardMaga.Keywords;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace UI
         private void SortKeywords(CardData card)
         {
             var keywords = card.CardKeywords;
-            List<Keywords.KeywordTypeEnum> list = new List<Keywords.KeywordTypeEnum>();
+            List<KeywordType> list = new List<KeywordType>();
 
 
 
@@ -80,10 +81,10 @@ namespace UI
             }
         }
         public void CloseComboUIScreen() => gameObject.SetActive(false);
-        private async void AssignKeywords(Keywords.KeywordData[] keywords, Keywords.KeywordTypeEnum keywordTypeEnum, int i)
+        private async void AssignKeywords(KeywordData[] keywords, KeywordType keywordTypeEnum, int i)
         {
 
-            List<Keywords.KeywordData> listCache = new List<Keywords.KeywordData>();
+            List<KeywordData> listCache = new List<KeywordData>();
             listCache = keywords.Where((x) => x.KeywordSO.GetKeywordType == keywordTypeEnum).ToList();
 
 

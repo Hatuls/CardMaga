@@ -1,4 +1,5 @@
 ﻿
+using CardMaga.Keywords;
 using System.Linq;
 using UnityEngine;
 namespace Keywords
@@ -13,7 +14,7 @@ namespace Keywords
             => _keywords = keywords;
 
 
-        public KeywordSO GetKeywordSO(KeywordTypeEnum keyword)
+        public KeywordSO GetKeywordSO(KeywordType keyword)
             => _keywords.FirstOrDefault(k => k.GetKeywordType == keyword);
     }
 

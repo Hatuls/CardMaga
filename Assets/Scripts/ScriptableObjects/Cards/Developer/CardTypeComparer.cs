@@ -20,9 +20,10 @@ namespace Cards
                 return false;
 
 
-
             //Check whether the products' properties are equal.
-            return x.BodyPart == y.BodyPart && x.CardType == y.CardType;
+            bool matchingBodyPart = x.BodyPart == y.BodyPart;
+            bool matchingCardType = x.CardType == y.CardType || y.CardType == CardTypeEnum.None || x.CardType == CardTypeEnum.None;
+            return (matchingCardType && matchingBodyPart);
 
         }
 

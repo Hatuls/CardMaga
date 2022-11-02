@@ -6,12 +6,13 @@ using CardMaga.Card;
 using Characters.Stats;
 using ReiTools.TokenMachine;
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 
-namespace Managers
+namespace CardMaga.Battle.Players
 {
     public interface IPlayer
     {
+        IReadOnlyList<PlayerTagSO> PlayerTags { get; }
         bool IsLeft { get; }
         StaminaHandler StaminaHandler { get; }
         CharacterSO CharacterSO { get; }
@@ -19,21 +20,18 @@ namespace Managers
         CardData[] StartingCards { get; }
         DeckHandler DeckHandler { get; }
         PlayerComboContainer Combos { get; }
-        CardsExecutionOrder ExecutionOrder { get; }
         EndTurnHandler EndTurnHandler { get; }
-        VisualCharacter VisualCharacter { get; }
         GameTurn MyTurn { get; }
         CraftingHandler CraftingHandler { get; }
         void AssignCharacterData(IBattleManager battleManager, Character characterData);
     }
 
 
-    public class PlayerManager : MonoSingleton<PlayerManager>, IPlayer
+    public class PlayerManager : IPlayer
     {
         #region Fields
 
         private EndTurnHandler _endTurnHandler;
-        [Sirenix.OdinInspector.ShowInInspector]
         private CraftingHandler _craftingHandler;
         private GameTurn _myTurn;
         private DeckHandler _deckHandler;
@@ -41,23 +39,15 @@ namespace Managers
         private CharacterStatsHandler _statsHandler;
         private CardData[] _playerDeck;
         private StaminaHandler _staminaHandler;
-        private CardsExecutionOrder _executionOrder;
         private PlayerComboContainer _comboContainer;
-        [SerializeField] VisualCharacter _visualCharacter;
         #endregion
-        
+
         public CardData[] StartingCards => _playerDeck;
-        
         public bool IsLeft => true;
-        public AnimatorController AnimatorController => VisualCharacter.AnimatorController;
-        public PlayerComboContainer Combos
-        {
-            get => _comboContainer;
-        }
+        public PlayerComboContainer Combos => _comboContainer;
         public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
-        public CharacterStatsHandler StatsHandler { get => _statsHandler; }
+        public CharacterStatsHandler StatsHandler => _statsHandler;
         public EndTurnHandler EndTurnHandler => _endTurnHandler;
-        public VisualCharacter VisualCharacter => _visualCharacter;
 
         public DeckHandler DeckHandler => _deckHandler;
 
@@ -67,7 +57,7 @@ namespace Managers
 
         public CraftingHandler CraftingHandler => _craftingHandler;
 
-        public CardsExecutionOrder ExecutionOrder => _executionOrder;
+        public IReadOnlyList<PlayerTagSO> PlayerTags => _character.PlayerTags;
 
         public void AssignCharacterData(IBattleManager battleManager, Character characterData)
         {
@@ -75,14 +65,13 @@ namespace Managers
             _character = characterData;
             //data
             CharacterBattleData data = characterData.CharacterData;
-            
-            //Visuals
-            VisualCharacter.AnimationSound.CurrentCharacter = data.CharacterSO;
+
+
             //Deck
             int Length = data.CharacterDeck.Length;
             _playerDeck = new CardData[Length];
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
-            
+
             //CraftingSlots
             _craftingHandler = new CraftingHandler();
 
@@ -91,24 +80,22 @@ namespace Managers
 
             //Stamina
             if (battleManager.TurnHandler.IsLeftPlayerStart)
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount,-1);
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordType.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordType.StaminaShards).Amount, -1);
             else
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStats(Keywords.KeywordTypeEnum.Stamina).Amount, _statsHandler.GetStats(Keywords.KeywordTypeEnum.StaminaShards).Amount);
-            
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordType.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordType.StaminaShards).Amount);
+
             //Deck and Combos
             _deckHandler = new DeckHandler(this, battleManager);
             _comboContainer = new PlayerComboContainer(_character.CharacterData.ComboRecipe);
-            
-            GameTurnHandler turnHandler = battleManager.TurnHandler;
+
+            TurnHandler turnHandler = battleManager.TurnHandler;
             _myTurn = turnHandler.GetCharacterTurn(IsLeft);
 
-            _myTurn.StartTurnOperations.Register(DrawHands);
             _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
+            _myTurn.StartTurnOperations.Register(DrawHands);
 
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
 
-            //Excecution
-            _executionOrder = new CardsExecutionOrder(this);
 
 
             //endturn
@@ -116,25 +103,17 @@ namespace Managers
         }
 
 
-        public void OnEndTurn()
-            => VisualCharacter.AnimatorController.ResetLayerWeight();
-
-        public void PlayerWin()
-        {
-            VisualCharacter.AnimatorController.CharacterWon();
-            _character.CharacterData.CharacterSO.VictorySound.PlaySound();
-        }
-
 
         private void BeforeDestroy(IBattleManager battleManager)
         {
             battleManager.OnBattleManagerDestroyed -= BeforeDestroy;
             _endTurnHandler.Dispose();
-            _executionOrder.Dispose();
         }
         private void DrawHands(ITokenReciever tokenMachine)
-            => DeckHandler.DrawHand(StatsHandler.GetStats(Keywords.KeywordTypeEnum.Draw).Amount);
+            => DeckHandler.DrawHand(StatsHandler.GetStat(Keywords.KeywordType.Draw).Amount);
 
     }
 
 }
+
+

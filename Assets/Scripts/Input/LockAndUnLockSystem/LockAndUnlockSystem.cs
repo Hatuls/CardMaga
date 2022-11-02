@@ -4,7 +4,7 @@ using UnityEngine;
 namespace CardMaga.Input
 {
     [DefaultExecutionOrder(-1000)]
-    public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem>
+    public class LockAndUnlockSystem : MonoSingleton<LockAndUnlockSystem> 
     {
         #region Fields
 

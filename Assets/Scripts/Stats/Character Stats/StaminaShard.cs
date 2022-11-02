@@ -1,4 +1,4 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
 namespace Characters.Stats
 {
     public class StaminaShard : BaseStat
@@ -6,14 +6,14 @@ namespace Characters.Stats
         byte _maxShardSize;
         private StaminaHandler _staminaHandler;
         private StaminaStat _staminaStat;
-        public StaminaShard(bool isPlayer, int amount, StaminaHandler staminaHandler,StaminaStat staminaStat) : base(isPlayer, amount)
+        public StaminaShard(int amount, StaminaHandler staminaHandler, StaminaStat staminaStat) : base(amount)
         {
-            _maxShardSize = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(Keyword).InfoAmount;
+            _maxShardSize = Factory.GameFactory.Instance.KeywordFactoryHandler.GetKeywordSO(Keyword).InfoAmount;
             _staminaHandler = staminaHandler;
             _staminaStat = staminaStat;
         }
 
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.StaminaShards;
+        public override KeywordType Keyword => KeywordType.StaminaShards;
 
         public override void Add(int amount)
         {

@@ -28,19 +28,26 @@ namespace CardMaga.UI.Visuals
         {
             for (int i = 0; i < comboDataData.ComboSequence.Length; i++)
             {
-            int cardType = (int)comboDataData.ComboSequence[i].CardType - 1;
+                var cardType = comboDataData.ComboSequence[i].CardType;
 
                 //Set Combo BG Sprite
-                var sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _bodyPartComboVisualSO.BodyPartsBG);
-                _comboSequenceBackgrounds[i].AssignSprite(sprite);
+                _comboSequenceBackgrounds[i].AssignSprite(_bodyPartComboVisualSO.GetBodyPartBG(cardType));
                 _comboSequenceBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetInnerColor(comboDataData.ComboSequence[i].CardType));
                 //Set Card Inner BG sprites and color
-                sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _bodyPartComboVisualSO.BodyPartsInnerBG);
-                _comboSequenceInnerBackgrounds[i].AssignSprite(sprite);
+                _comboSequenceInnerBackgrounds[i].AssignSprite(_bodyPartComboVisualSO.GetBodyPartInnerBG(cardType));
                 _comboSequenceInnerBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(comboDataData.ComboSequence[i].CardType));
                 //Set body part and color
                 _comboSequenceBodyParts[i].AssignSprite(_bodyPartComboVisualSO.BaseSO.GetBodyPartSprite(comboDataData.ComboSequence[i].BodyPart));
-                _comboSequenceBodyParts[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(comboDataData.ComboSequence[i].CardType));
+
+                if (comboDataData.ComboSequence[i].BodyPart == CardMaga.Card.BodyPartEnum.Empty)
+                {
+                    _comboSequenceBodyParts[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(comboDataData.ComboSequence[i].CardType).SetColorAlpha(0));
+                }
+                else
+                {
+                    _comboSequenceBodyParts[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(comboDataData.ComboSequence[i].CardType).SetColorAlpha(1));
+                }
+
             }
         }
         public override void Dispose()
@@ -48,3 +55,4 @@ namespace CardMaga.UI.Visuals
         }
     }
 }
+

@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using CardMaga.Tools.Pools;
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BasePoolObject<T_visual,T_data> : MonoBehaviour where T_visual : MonoBehaviour ,IPoolable<T_visual> , IVisualAssign<T_data>
+public abstract class BasePoolObject<T_visual,T_data> : MonoBehaviour where T_visual : MonoBehaviour ,IPoolableMB<T_visual> , IVisualAssign<T_data> ,new()
 {
     [SerializeField] private T_visual _objectPrefab;
     [SerializeField] private RectTransform _parent;
 
-    private ObjectPool<T_visual> _objectPool;
+    private IPoolMBObject<T_visual> _objectPool;
 
     public RectTransform Parent
     {
@@ -15,7 +16,7 @@ public abstract class BasePoolObject<T_visual,T_data> : MonoBehaviour where T_vi
 
     public virtual void Init()
     {
-        _objectPool = new ObjectPool<T_visual>(_objectPrefab, _parent);
+        _objectPool = new MBPool<T_visual>(_objectPrefab, _parent);
     }
 
     public List<T_visual> PullObjects(List<T_data> objectData)

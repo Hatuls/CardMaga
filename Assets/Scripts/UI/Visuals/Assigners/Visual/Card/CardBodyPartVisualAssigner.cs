@@ -43,26 +43,39 @@ namespace CardMaga.UI.Visuals
 
         public override void Init(CardData cardData)
         {
-            int cardType = (int)cardData.CardTypeData.CardType - 1;
-            int bodyPart = (int)cardData.CardTypeData.BodyPart - 1;
+            var cardType = cardData.CardTypeData.CardType;
+            var cardTypeMinusOne = (int)cardData.CardTypeData.CardType - 1;
+            var bodyPart = cardData.CardTypeData.BodyPart;
+
+
+#if UNITY_EDITOR
+            if (cardTypeMinusOne == -1)
+                Debug.LogError("Card type is -1! " + cardData.CardSO.CardName);
+#endif
             //Set Card Type object On
-            SetActiveObject(cardType);
+            SetActiveObject(cardTypeMinusOne);
 
             //Set Card BG Sprites
-            var sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _bodyPartCardVisualSO.BodyPartsBG);
-            _bGImages[cardType].AssignSprite(sprite);
+            _bGImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.GetBodyPartBG(cardType));
 
             //Set Card Inner BG sprites and color
-            sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _bodyPartCardVisualSO.BodyPartsInnerBG);
-            _innerBGImages[cardType].AssignSprite(sprite);
-            var color = BaseVisualSO.GetColorToAssign(cardType, _bodyPartCardVisualSO.BaseSO.InnerBGColor);
-            _innerBGImages[cardType].AssignColor(color);
+            _innerBGImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.GetBodyPartInnerBG(cardType));
+            var color = BaseVisualSO.GetColorToAssign((int)cardType, _bodyPartCardVisualSO.BaseSO.InnerBGColor);
+            _innerBGImages[cardTypeMinusOne].AssignColor(color);
 
             //Set body part and color
-            sprite = BaseVisualSO.GetSpriteToAssign(cardType, bodyPart, _bodyPartCardVisualSO.BaseSO.BodyParts);
-            _bodyPartsImages[cardType].AssignSprite(sprite);
-            color = BaseVisualSO.GetColorToAssign(cardType, bodyPart, _bodyPartCardVisualSO.BaseSO.MainColor);
-            _bodyPartsImages[cardType].AssignColor(color);
+            _bodyPartsImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.BaseSO.GetBodyPartSprite(cardData.BodyPartEnum));
+
+            color = BaseVisualSO.GetColorToAssign((int)cardType, (int)cardType, _bodyPartCardVisualSO.BaseSO.MainColor);
+
+            if (cardData.BodyPartEnum == CardMaga.Card.BodyPartEnum.Empty)
+            {
+                _bodyPartsImages[cardTypeMinusOne].AssignColor(color.SetColorAlpha(0));
+            }
+            else
+            {
+                _bodyPartsImages[cardTypeMinusOne].AssignColor(color.SetColorAlpha(1));
+            }
         }
 
         private void SetActiveObject(int cardType)

@@ -1,12 +1,12 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
 namespace Characters.Stats
 {
     public class RageStat : BaseStat
     {
-        public RageStat(bool isPlayer, int amount) : base(isPlayer, amount)
+        public RageStat(int amount) : base(amount)
         {
         }
 
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Rage;
+        public override KeywordType Keyword => KeywordType.Rage;
     }
 }

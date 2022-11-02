@@ -4,64 +4,62 @@ using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
-
-public class EndTurnButton : ButtonUI, ISequenceOperation<IBattleManager>
+namespace CardMaga.Battle.UI
 {
-    public static event Action OnEndTurnButtonClicked;
 
-    [SerializeField]
-    private GameObject _visualizer;
-    [SerializeField]
-    SoundEventSO OnRejectSound;
-
-    public int Priority => 0;
-    private bool _isDirty;
-    private void Awake()
+    public class EndTurnButton : ButtonUI, ISequenceOperation<IBattleUIManager>
     {
-        BattleManager.Register(this, OrderType.Before);
-    }
+        public static event Action OnEndTurnButtonClicked;
 
+        [SerializeField]
+        private GameObject _visualizer;
+        [SerializeField]
+        SoundEventSO OnRejectSound;
 
-    private void ShowTurn()
-    {
-        _visualizer.SetActive(true);
-        _isDirty = false;
-    }
-    private void HideTurnButton() => _visualizer.SetActive(false);
+        public int Priority => 0;
+        private bool _isDirty;
 
-    public override void ButtonPressed()
-    {
-        if (!_isDirty)
+        private void ShowTurn()
         {
-            _isDirty = true;
-            OnEndTurnButtonClicked?.Invoke();
+            _visualizer.SetActive(true);
+            _isDirty = false;
+        }
+        private void HideTurnButton() => _visualizer.SetActive(false);
+
+        public override void ButtonPressed()
+        {
+            if (!_isDirty)
+            {
+                _isDirty = true;
+                OnEndTurnButtonClicked?.Invoke();
+            }
+
+            //   OnRejectSound?.PlaySound();
+
         }
 
-        //   OnRejectSound?.PlaySound();
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+        {
+            var data = battleUIManager.BattleDataManager;
+            OnEndTurnButtonClicked += data.PlayersManager.GetCharacter(true).EndTurnHandler.EndTurnPressed;
+            GameTurn left = data.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
+            left.OnTurnActive += ShowTurn;
+            left.OnTurnExit += HideTurnButton;
+            data.OnBattleManagerDestroyed += BeforeDestroyed;
+            BattleManager.OnGameEnded += HideTurnButton;
+            HideTurnButton();
+        }
 
-    }
-
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
-    {
-
-        OnEndTurnButtonClicked += data.PlayersManager.GetCharacter(true).EndTurnHandler.EndTurnPressed;
-        GameTurn left = data.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
-        left.OnTurnActive += ShowTurn;
-        left.OnTurnExit += HideTurnButton;
-        data.OnBattleManagerDestroyed += BeforeDestroyed;
-        BattleManager.OnGameEnded += HideTurnButton;
-        HideTurnButton();
-    }
-
-    private void BeforeDestroyed(IBattleManager bm)
-    {
-        BattleManager.OnGameEnded -= HideTurnButton;
-        var _turnHandler = bm.TurnHandler;
-        OnEndTurnButtonClicked -= bm.PlayersManager.GetCharacter(true).EndTurnHandler.EndTurnPressed;
-        bm.OnBattleManagerDestroyed -= BeforeDestroyed;
-        var left = _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
-        left.OnTurnActive -= ShowTurn;
-        left.OnTurnExit   -= HideTurnButton;
-        _turnHandler = null;
+        private void BeforeDestroyed(IBattleManager bm)
+        {
+            BattleManager.OnGameEnded -= HideTurnButton;
+            var _turnHandler = bm.TurnHandler;
+            OnEndTurnButtonClicked -= bm.PlayersManager.GetCharacter(true).EndTurnHandler.EndTurnPressed;
+            bm.OnBattleManagerDestroyed -= BeforeDestroyed;
+            var left = _turnHandler.GetTurn(GameTurnType.LeftPlayerTurn);
+            left.OnTurnActive -= ShowTurn;
+            left.OnTurnExit -= HideTurnButton;
+            _turnHandler = null;
+        }
     }
 }

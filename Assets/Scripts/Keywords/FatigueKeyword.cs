@@ -1,24 +1,40 @@
-﻿using Battle;
-using Keywords;
+﻿using CardMaga.Battle;
 
-public class FatigueKeyword : KeywordAbst
+namespace CardMaga.Keywords
 {
 
-    public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+    public class FatigueKeyword : BaseKeywordLogic
     {
-        if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
+        public FatigueKeyword(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
         {
-            playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(-data.GetAmountToApply);
         }
 
-        if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
-            playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(-data.GetAmountToApply);
+            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
+            {
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(-data.GetAmountToApply);
+            }
+
+            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
+            {
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(-data.GetAmountToApply);
+            }
         }
+
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
+            {
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(data.GetAmountToApply);
+            }
+
+            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
+            {
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(data.GetAmountToApply);
+            }
+        }
+
     }
 
-    public override KeywordTypeEnum Keyword
-    {
-        get { return KeywordTypeEnum.Fatigue; }
-    }
 }

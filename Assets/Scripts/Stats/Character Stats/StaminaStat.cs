@@ -1,14 +1,13 @@
-﻿
-using Keywords;
+﻿using CardMaga.Keywords;
 
 namespace Characters.Stats
 {
     public class StaminaStat : BaseStat
     {
-        public StaminaStat(bool isPalyer,  int amount) : base(isPalyer,  amount)
+        public StaminaStat(int amount) : base(amount)
         {
         }
 
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Stamina;
+        public override KeywordType Keyword => KeywordType.Stamina;
     }
 }

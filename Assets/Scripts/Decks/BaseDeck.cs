@@ -193,7 +193,17 @@ namespace Battle.Deck
 
             //  CountCards();
         }
+        public void AddCardAtFirstPosition(CardData card)
+        {
+            CardData[] cardDatas = new CardData[GetDeck.Length + 1];
+            Array.Copy(GetDeck, cardDatas, 1);
 
+            GetDeck = cardDatas;
+            GetDeck[0] = card;
+
+            OrderDeck();
+            CountCards();
+        }
         public abstract void ResetDeck();
         public void PrintDecks(DeckEnum deck)
         {
@@ -312,17 +322,7 @@ namespace Battle.Deck
             CountCards();
         }
 
-        public void AddCardAtFirstPosition(CardData card)
-        {
-            CardData[] cardDatas = new CardData[GetDeck.Length + 1];
-            Array.Copy(GetDeck,cardDatas,1);
-
-            GetDeck = cardDatas;
-            GetDeck[0] = card;
-            
-            OrderDeck();
-            CountCards();
-        }
+    
         #endregion
         
         public override string ToString()

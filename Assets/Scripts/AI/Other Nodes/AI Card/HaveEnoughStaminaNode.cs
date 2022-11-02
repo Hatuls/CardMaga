@@ -1,5 +1,4 @@
-﻿using Battle;
-using Characters.Stats;
+﻿using CardMaga.Battle;
 namespace CardMaga.AI
 {
     public class HaveEnoughStaminaNode : BaseNode<AICard>

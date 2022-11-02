@@ -9,12 +9,12 @@ namespace CardMaga.BattleConfigSO
     {
         [Header("Deck configuration:")]
         [SerializeField,Tooltip("Determines whether drawing cards from the deck will be random")] 
-        private bool _isShuffleCard;//done
+        private bool _isShuffleCards;//done
         [Header("Character configuration:")]
         [SerializeField,Tooltip("Determines which character will start the battle")] 
         private CharacterSelecter _characterSelecter;//done
         [Header("Timer configuration:")]
-        [SerializeField,Tooltip("Set if there is a timer in the battle")] private bool _timerActive;//done
+        [SerializeField,Tooltip("Set if there is a timer in the battle")] private bool _isTimerActive;//done
         [SerializeField,Tooltip("Set the duration of the timer for each turn")] private int _timerCountdown;//done
         [Header("Game rules:")]
         [SerializeField,Tooltip("A list of the rules of the game")] private BaseRuleFactorySO[] _gameRules;//done
@@ -23,9 +23,9 @@ namespace CardMaga.BattleConfigSO
         [Header("Tutorial:")]
         [SerializeField,Tooltip("Tutorial configuration:")] private BattleTutorial _battleTutorial;//done
         
-        public bool IsShuffleCard => _isShuffleCard;
+        public bool IsShufflingCards => _isShuffleCards;
         public int TimerCountdown => _timerCountdown;
-        public bool TimerActive => _timerActive;
+        public bool TimerActive => _isTimerActive;
         public CharacterSelecter CharacterSelecter => _characterSelecter;
         public BaseRuleFactorySO[] GameRule => _gameRules;
         public BaseEndGameRuleFactorySO[] EndGameRule => _endGameRules;

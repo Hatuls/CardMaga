@@ -1,8 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using CardMaga.Battle;
 using Conditions;
+using System;
+using UnityEngine;
 
-namespace Keywords
+
+namespace CardMaga.Keywords
 {
 
     [Serializable]
@@ -10,7 +12,7 @@ namespace Keywords
     {
 
         public KeywordData() { }
-        public KeywordData(KeywordSO keywords,TargetEnum targetEnum, int amount,int animationIndex)
+        public KeywordData(KeywordSO keywords, TargetEnum targetEnum, int amount, int animationIndex)
         {
             _keywordBase = keywords;
             _target = targetEnum;
@@ -38,10 +40,14 @@ namespace Keywords
         #endregion
         #region Properties
         public int AnimationIndex => _animationIndex;
-        public Condition GetConditions=> _conditions;
-        public  TargetEnum GetTarget => _target;
+        public Condition GetConditions => _conditions;
+        public TargetEnum GetTarget => _target;
         public int GetAmountToApply { get => _amountToApply; set => _amountToApply = value; }
         public KeywordSO KeywordSO => _keywordBase;
+
+        #endregion
+
+
 
         public int CompareTo(KeywordData other)
         {
@@ -51,9 +57,8 @@ namespace Keywords
                 return -1;
             else return 0;
         }
-
-
-        #endregion
-
     }
+
+
+
 }

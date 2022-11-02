@@ -1,9 +1,14 @@
 ﻿using System;
 using Battle;
 using Battle.Data;
+using CardMaga.Battle.Execution;
+using CardMaga.Battle.Visual;
 using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;
+
+namespace CardMaga.Battle
+{
 
 
 [Serializable]
@@ -11,6 +16,12 @@ public class EndBattleHandler : IDisposable
 {
     public event Action<bool> OnBattleEnded;
     public event Action OnBattleAnimatonEnd;
+    public event Action OnLeftPlayerWon;
+    public event Action OnRightPlayerWon;
+    public event Action OnBattleFinished;
+
+
+
     
     [SerializeField, EventsGroup]
     private UnityEvent OnPlayerDefeat;
@@ -19,7 +30,7 @@ public class EndBattleHandler : IDisposable
 
     private readonly IPlayersManager _playersManager;
     private readonly BattleData _battleData;
-    private readonly CardExecutionManager _cardExecutionManager;
+    private readonly IDisposable _gameCommands;
 
     private bool _isGameEnded = false;
     private bool _isLeftPlayerWon;
@@ -32,7 +43,7 @@ public class EndBattleHandler : IDisposable
     public EndBattleHandler(IBattleManager battleManager)
     {
         _playersManager = battleManager.PlayersManager;
-        _cardExecutionManager = battleManager.CardExecutionManager;
+            _gameCommands = battleManager.GameCommands;
         RuleManager.OnGameEnded += EndBattle;
         AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
         
@@ -45,8 +56,8 @@ public class EndBattleHandler : IDisposable
             return;
 
         _isLeftPlayerWon = isLeftPlayerWon;
-        
-        _cardExecutionManager.ResetExecution();
+
+            _gameCommands.Dispose();
         
         if (isLeftPlayerWon)
         {
@@ -57,9 +68,7 @@ public class EndBattleHandler : IDisposable
             RightPlayerWon();
         }
 
-        _playersManager.LeftCharacter.VisualCharacter.AnimatorController.ResetLayerWeight();
-        _playersManager.RightCharacter.VisualCharacter.AnimatorController.ResetLayerWeight();
-
+            OnBattleFinished?.Invoke();
         BattleData.Instance.PlayerWon = isLeftPlayerWon;
         
         _isGameEnded = true;
@@ -77,16 +86,14 @@ public class EndBattleHandler : IDisposable
     
     private void LeftPlayerWon()
     {
-        _playersManager.LeftCharacter.VisualCharacter.AnimatorController.CharacterWon();
+            OnLeftPlayerWon?.Invoke();
         _playersManager.LeftCharacter.CharacterSO.VictorySound.PlaySound();
-        _playersManager.RightCharacter.VisualCharacter.AnimatorController.CharacterIsDead();
     }
 
     private void RightPlayerWon()
     {
-        _playersManager.RightCharacter.VisualCharacter.AnimatorController.CharacterWon();
+            OnRightPlayerWon?.Invoke();
         _playersManager.RightCharacter.CharacterSO.VictorySound.PlaySound();
-        _playersManager.LeftCharacter.VisualCharacter.AnimatorController.CharacterIsDead();
     }
 
     public void Dispose()
@@ -94,4 +101,5 @@ public class EndBattleHandler : IDisposable
         RuleManager.OnGameEnded -= EndBattle;
         AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
     }
+}
 }

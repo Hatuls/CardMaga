@@ -77,7 +77,7 @@ namespace CardMaga.UI
             int cardType = (int)cardData.CardTypeData.CardType - 1;
             _startPos = _zoomPositionsSO.YStartPosition[cardType];
             _endPos = _zoomPositionsSO.YEndPosition[cardType];
-            Debug.Log("Recived ZoomData");
+
         }
         public void ResetCardType()
         {

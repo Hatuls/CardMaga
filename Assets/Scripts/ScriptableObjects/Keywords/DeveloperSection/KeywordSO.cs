@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-namespace Keywords
+
+namespace CardMaga.Keywords
 {
     [CreateAssetMenu(fileName = "KeywordSO", menuName = "ScriptableObjects/Keywords")]
     public class KeywordSO : ScriptableObject
@@ -9,10 +10,10 @@ namespace Keywords
         [SerializeField]
         private int _iD;
         [SerializeField]
-        bool _ignoreInfoAmmount;
+        bool _ignoreInfoAmount;
 
         [Tooltip("what duration is it ?")]
-        [SerializeField] DurationEnum _durationEnum;
+        [SerializeField] EffectType _durationEnum;
 
         [Tooltip("If this keyword exist should it be added to the previous one?")]
         [SerializeField] bool _isStackable;
@@ -21,7 +22,7 @@ namespace Keywords
         [SerializeField] bool _isPrecentage;
 
         [Tooltip("What Effect does it do")]
-        [SerializeField] KeywordTypeEnum _keyword;
+        [SerializeField] KeywordType _keyword;
 
         [SerializeField] byte _infoAmount;
 
@@ -38,11 +39,11 @@ namespace Keywords
         public byte InfoAmount => _infoAmount;
         public bool GetIsStackable => _isStackable;
         public bool GetIsPrecentage => _isPrecentage;
-        public DurationEnum GetDurationEnum => _durationEnum;
-        public KeywordTypeEnum GetKeywordType => _keyword;
+        public EffectType GetDurationEnum => _durationEnum;
+        public KeywordType GetKeywordType => _keyword;
         public string KeywordName => _keyword.ToString();
 
-        public bool IgnoreInfoAmount => _ignoreInfoAmmount;
+        public bool IgnoreInfoAmount => _ignoreInfoAmount;
         public VFXSO GetVFX() => _vfx;
         public string GetDescription(params int[] amount)
         {
@@ -83,13 +84,13 @@ namespace Keywords
             if (int.TryParse(Data[IDIndex], out int keywordID))
             {
                 _iD = keywordID;
-                _keyword = (KeywordTypeEnum)keywordID;
+                _keyword = (KeywordType)keywordID;
             }
             else
                 return false;
 
             if (int.TryParse(Data[DurationIndex], out int duration))
-                _durationEnum = (DurationEnum)duration;
+                _durationEnum = (EffectType)duration;
             else
                 throw new System.Exception($"ID:{_iD}, Keyword: {_keyword}\nDuration is not a valid number!");
 
@@ -107,7 +108,7 @@ namespace Keywords
                 _infoAmount = amount;
 
             if (byte.TryParse(Data[IgnoreInfoAmountIndex], out byte toIgnore))
-                _ignoreInfoAmmount = System.Convert.ToBoolean(toIgnore);
+                _ignoreInfoAmount = System.Convert.ToBoolean(toIgnore);
             else
                 throw new System.Exception($"KeywordsSO:\nID: {_iD}\n Ignore info amount on keyword is not a valid number!");
 
@@ -130,12 +131,13 @@ namespace Keywords
         Opponent = 2,
         All = 3,
     };
-    public enum DurationEnum
+    public enum EffectType
     {
-        Permanent,
-        Instant,
-        OverTurns,
-        OverBattles
+        OnActivate = 0,
+        OnMyStartTurn,
+        OnMyEndTurn,
+        OnOpponentStartTurn,
+        OnOpponentEndTurn,
     };
 
 

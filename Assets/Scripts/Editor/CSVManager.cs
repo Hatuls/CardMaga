@@ -1,5 +1,6 @@
 ﻿
 using Collections;
+using Keywords;
 using Rewards;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -14,7 +15,7 @@ namespace CardMaga.CSV
         public static CharacterCollectionSO _characterCollection;
         public static ComboCollectionSO _comboCollection;
         public static CardsCollectionSO _cardCollection;
-        public static Keywords.KeywordsCollectionSO _keywordsSO;
+        public static KeywordsCollectionSO _keywordsSO;
         public static Sprite[] cardsPictures;
         public static BattleRewardCollectionSO _battleRewards;
         public static CardUpgradeCostSO _upgradeCardCostSO;
@@ -68,13 +69,13 @@ namespace CardMaga.CSV
         private async static Task LoadMetaBattleData()
         {
             CSVAbst[] metacsv = new CSVAbst[] {
-         new CSVToPackReward(),
+     //    new CSVToPackReward(),
          new CSVToUpgradeAndDismental(),
         };
 
             string[] metaurls = new string[]
             {
-        _driveURLOfPackRewards,
+      //  _driveURLOfPackRewards,
         _driveURLOfDismentalAndUpgrades,
             };
 

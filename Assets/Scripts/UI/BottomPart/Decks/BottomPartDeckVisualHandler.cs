@@ -1,17 +1,17 @@
-﻿using UnityEngine;
+﻿using Battle.Deck;
+using CardMaga.Battle;
+using CardMaga.Battle.UI;
+using CardMaga.SequenceOperation;
 using CardMaga.UI.Text;
-using Battle.Deck;
 using DG.Tweening;
+using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
-using ReiTools.TokenMachine;
-using Battle;
-using CardMaga.SequenceOperation;
-using Managers;
+using UnityEngine;
 
 namespace CardMaga.UI
 {
-    public class BottomPartDeckVisualHandler : MonoBehaviour , ISequenceOperation<IBattleManager>
+    public class BottomPartDeckVisualHandler : MonoBehaviour, ISequenceOperation<IBattleUIManager>
     {
 #if UNITY_EDITOR
         //[Header("Test")]
@@ -34,7 +34,7 @@ namespace CardMaga.UI
 #endif
         [Header("General")]
         [SerializeField] float _resetDuration = 0.3f;
-  
+
         [Header("Draw Deck")]
         [SerializeField] DeckTextAssigner _drawDeckTextAssigner;
         [SerializeField] TransitionPackSO _drawDeckTransitionPackSO;
@@ -73,15 +73,14 @@ namespace CardMaga.UI
             if (_discardDeckTransitionPackSO == null)
                 throw new Exception("BottomPartDeckVisualHandler has no Discard Transition SO");
 
-            BattleManager.Register(this, OrderType.Before);
         }
-  
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager battleManager)
+
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)
         {
-         
+
             using (tokenMachine.GetToken())
             {
-                var deckHandler = battleManager.PlayersManager.GetCharacter(true).DeckHandler;
+                var deckHandler = battleManager.BattleDataManager.PlayersManager.GetCharacter(true).DeckHandler;
                 _drawDeckTextAssigner.Init(deckHandler[DeckEnum.PlayerDeck]);
                 _discardDeck = deckHandler[DeckEnum.Discard];
                 _discardDeckTextAssigner.Init(_discardDeck);
@@ -105,12 +104,12 @@ namespace CardMaga.UI
         }
         private void OnDestroy()
         {
-            if(_discardDeck != null)
-            _discardDeck.OnResetDeck -= MoveCardsToDrawPileAnim;
-     
+            if (_discardDeck != null)
+                _discardDeck.OnResetDeck -= MoveCardsToDrawPileAnim;
+
             _drawDeckTextAssigner?.Dispose();
             _discardDeckTextAssigner?.Dispose();
-                
+
         }
     }
 }

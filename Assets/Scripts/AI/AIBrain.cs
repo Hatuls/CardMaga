@@ -1,4 +1,5 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
+using Keywords;
 using System;
 using UnityEngine;
 namespace CardMaga.AI
@@ -88,7 +89,7 @@ namespace CardMaga.AI
     [Serializable]
     public class ContainKeyword
     {
-        public KeywordTypeEnum Keyword;
+        public KeywordType Keyword;
         public WeightAdditionForCardsAndCombos Weights;
     }
     [Serializable]

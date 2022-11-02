@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Keywords;
 using UnityEditor;
 using System.Collections.Generic;
+using CardMaga.Keywords;
+
 namespace CardMaga.CSV
 {
     public class CSVToKeywordsSO : CSVAbst
@@ -31,8 +33,8 @@ namespace CardMaga.CSV
                 string[] line = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
                 if (int.TryParse(line[0], out int id))
                 {
-                    Debug.Log(System.Enum.GetNames(typeof(KeywordTypeEnum)));
-                    Debug.Log((KeywordTypeEnum)id);
+                    Debug.Log(System.Enum.GetNames(typeof(KeywordType)));
+                    Debug.Log((KeywordType)id);
                     KeywordSO keyword = ScriptableObject.CreateInstance<KeywordSO>();
                     keyword.Init(line);
 

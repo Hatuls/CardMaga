@@ -53,30 +53,30 @@ namespace CardMaga.UI.Visuals
             switch (cardTypeEnum)
             {
                 case CardTypeEnum.Utility:
-                    return MainColor[2];
+                    return MainColor[3];
                 case CardTypeEnum.Defend:
-                    return MainColor[1];
+                    return MainColor[2];
                 case CardTypeEnum.Attack:
-                    return MainColor[0];
+                    return MainColor[1];
                 case CardTypeEnum.None:
-                    return Color.clear;
+                    return MainColor[0];
                 default:
                     throw new ArgumentOutOfRangeException(nameof(cardTypeEnum), cardTypeEnum, null);
             }
         }
-        
+
         public Color GetInnerColor(CardTypeEnum cardTypeEnum)
         {
             switch (cardTypeEnum)
             {
                 case CardTypeEnum.Utility:
-                    return InnerBGColor[2];
+                    return InnerBGColor[3];
                 case CardTypeEnum.Defend:
-                    return InnerBGColor[1];
+                    return InnerBGColor[2];
                 case CardTypeEnum.Attack:
-                    return InnerBGColor[0];
+                    return InnerBGColor[1];
                 case CardTypeEnum.None:
-                    return Color.clear;
+                    return InnerBGColor[0];
                 default:
                     throw new ArgumentOutOfRangeException(nameof(cardTypeEnum), cardTypeEnum, null);
             }

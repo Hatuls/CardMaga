@@ -13,14 +13,13 @@ namespace CardMaga.Trackers
 
         private void Start()
         {
-            TrackerHandler.Instance.AddTracker(this);
+            TrackerHandler.AddTracker(this);
         }
 
-        //private void OnDestroy()
-        //{
-        //    if(TrackerHandler.Instance.CheckTrackerRegistered(TrackerID))
-        //    TrackerHandler.Instance.RemoveTracker(this);
-        //}
+        private void OnDestroy()
+        {
+            TrackerHandler.RemoveTracker(this);
+        }
 
     }
 }

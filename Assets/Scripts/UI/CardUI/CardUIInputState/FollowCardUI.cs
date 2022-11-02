@@ -1,14 +1,9 @@
-﻿using System;
-using Battle;
-using Battle.Deck;
-using CardMaga.UI;
+﻿using CardMaga.UI;
 using CardMaga.UI.Card;
 using DG.Tweening;
-using CardMaga.SequenceOperation;
-using ReiTools.TokenMachine;
 using UnityEngine;
 
-public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
+public class FollowCardUI : BaseHandUIState
 {
     [Header("Scripts Reference")]
     [SerializeField] private HandUI _handUI;
@@ -25,9 +20,8 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
     private void Start()
     {
         _executionBoundry_Y = _executionBoundry.position.y;
-        BattleManager.Register(this, OrderType.Default);
         InputReciever.OnTouchDetectedLocation += GetMousePos;
-        
+
         _inputBehaviour.OnHold += FollowHand;
         _inputBehaviour.OnPointUp += ReleaseCardUI;
     }
@@ -47,7 +41,7 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
 
         base.ExitState(cardUI);
     }
-    
+
     private void ReleaseCardUI(CardUI cardUI)
     {
         if (cardUI.transform.position.y > _executionBoundry_Y)
@@ -56,10 +50,10 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
             _handUI.TryExecuteCard(cardUI);
             return;
         }
-        
+
         _handUI.SetToHandState(cardUI);
     }
-    
+
     private void FollowHand(CardUI cardUI)
     {
         KillTween();
@@ -76,7 +70,5 @@ public class FollowCardUI : BaseHandUIState, ISequenceOperation<IBattleManager>
         if (_currentSequence != null) _currentSequence.Kill();
     }
 
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
-    {
-    }
+
 }

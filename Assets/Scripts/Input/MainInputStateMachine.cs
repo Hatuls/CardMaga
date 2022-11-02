@@ -1,9 +1,9 @@
-﻿using Battle;
+﻿
+using CardMaga.Battle.UI;
 using CardMaga.SequenceOperation;
-using Managers;
 using ReiTools.TokenMachine;
 
-public class MainInputStateMachine : BaseStateMachine, ISequenceOperation<IBattleManager>
+public class MainInputStateMachine : BaseStateMachine, ISequenceOperation<IBattleUIManager>
 {
     public int Priority => 1;
 
@@ -13,7 +13,7 @@ public class MainInputStateMachine : BaseStateMachine, ISequenceOperation<IBattl
         throw new System.NotImplementedException();
     }
 
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager battleManager)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)
     {
         using (tokenMachine.GetToken())
             InitStateMachine();
@@ -27,8 +27,5 @@ public class MainInputStateMachine : BaseStateMachine, ISequenceOperation<IBattl
         TryChangeState(_currentState.OnHoldState());
     }
 
-    private void Awake()
-    {
-        BattleManager.Register(this, OrderType.After);
-    }
+  
 }

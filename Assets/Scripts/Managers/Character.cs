@@ -1,6 +1,8 @@
 ﻿using Account.GeneralData;
+using CardMaga.Battle.Players;
 using CardMaga.Card;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -14,12 +16,15 @@ namespace Battle.Characters
 
         [SerializeField] 
         private string _displayName;
-
+        [SerializeField]
+        private PlayerTagSO[] _playerTagSOs;
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
         public string DisplayName { get => _displayName; }
 
         private int _model = 0;
         public int Model { get => _model; }
+        public IReadOnlyList<PlayerTagSO> PlayerTags => _playerTagSOs;
+
         public Character() { }
 
         public Character(string displayName,  Account.GeneralData.Character data)

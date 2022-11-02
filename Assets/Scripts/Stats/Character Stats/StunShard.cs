@@ -1,17 +1,17 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
 namespace Characters.Stats
 {
     public class StunShard : BaseStat
     {
-         int _maxShardSize;
-        StunStat _stunStat; 
-        public StunShard(bool isPlayer, int amount,StunStat stun) : base(isPlayer, amount)
+        int _maxShardSize;
+        StunStat _stunStat;
+        public StunShard(int amount, StunStat stun) : base(amount)
         {
             _stunStat = stun;
-            _maxShardSize = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(Keyword).InfoAmount;
+            _maxShardSize = Factory.GameFactory.Instance.KeywordFactoryHandler.GetKeywordSO(Keyword).InfoAmount;
         }
 
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.StunShard;
+        public override KeywordType Keyword => KeywordType.StunShard;
 
         public override void Add(int amount)
         {

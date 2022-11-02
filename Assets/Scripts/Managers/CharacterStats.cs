@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardMaga.Keywords;
+using System;
 using UnityEngine;
 namespace Characters.Stats
 {
@@ -61,8 +62,8 @@ namespace Characters.Stats
             set
             {
                 _staminaShard = value;
-                var keywordHandler = Factory.GameFactory.Instance.KeywordSOHandler;
-                int maxAmount = keywordHandler.GetKeywordSO(Keywords.KeywordTypeEnum.StaminaShards).InfoAmount;
+                var keywordHandler = Factory.GameFactory.Instance.KeywordFactoryHandler;
+                int maxAmount = keywordHandler.GetKeywordSO(KeywordType.StaminaShards).InfoAmount;
 
                 if (_staminaShard / maxAmount > 0)
                 {
@@ -78,8 +79,8 @@ namespace Characters.Stats
             set
             {
                 _rageShard = value;
-                var keywordHandler = Factory.GameFactory.Instance.KeywordSOHandler;
-                int maxAmount = keywordHandler.GetKeywordSO(Keywords.KeywordTypeEnum.RageShard).InfoAmount;
+                var keywordHandler = Factory.GameFactory.Instance.KeywordFactoryHandler;
+                int maxAmount = keywordHandler.GetKeywordSO(KeywordType.RageShard).InfoAmount;
 
                 if (_rageShard / maxAmount > 0)
                 {
@@ -94,8 +95,8 @@ namespace Characters.Stats
             get => _protectionShard; private set
             {
                 _protectionShard = value;
-                var keywordHandler = Factory.GameFactory.Instance.KeywordSOHandler;
-                int maxAmount = keywordHandler.GetKeywordSO(Keywords.KeywordTypeEnum.ProtectionShard).InfoAmount;
+                var keywordHandler = Factory.GameFactory.Instance.KeywordFactoryHandler;
+                int maxAmount = keywordHandler.GetKeywordSO(KeywordType.ProtectionShard).InfoAmount;
 
                 if (_protectionShard / maxAmount > 0)
                 {

@@ -1,19 +1,15 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
+using Keywords;
 namespace Characters.Stats
 {
     public class DexterityStat : BaseStat
     {
-        public DexterityStat(bool isPlayer ,  int amount) : base(isPlayer,  amount)
+        public DexterityStat(int amount) : base(amount)
         {
 
         }
+        public override KeywordType Keyword => KeywordType.Dexterity;
 
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Dexterity;
-
-        public override void Add(int amount)
-        {
-            base.Add(amount);
-        }
         public override void Reduce(int amount)
         {
             if (Amount - amount <= 0)
@@ -22,7 +18,5 @@ namespace Characters.Stats
                 base.Reduce(amount);
 
         }
-
     }
-
 }

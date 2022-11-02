@@ -1,30 +1,27 @@
-﻿using System.Collections;
-using System;
+﻿using CardMaga.Battle.UI;
+using CardMaga.SequenceOperation;
+using CardMaga.UI;
+using CardMaga.UI.Card;
+using Characters.Stats;
+using ReiTools.TokenMachine;
 using System.Collections.Generic;
 using UnityEngine;
-using CardMaga.UI;
-using CardMaga.Card;
-using Characters.Stats;
-using CardMaga.UI.Card;
-using Managers;
-using Battle;
-using CardMaga.SequenceOperation;
-using ReiTools.TokenMachine;
 
-public class GlowManager : MonoBehaviour ,ISequenceOperation<IBattleManager>
+public class GlowManager : MonoBehaviour, ISequenceOperation<IBattleUIManager>
 {
-    IGetCardsUI cardUI;
+
+    private HandUI _handUI;
+    private IGetCardsUI _cardSlots;
     private StaminaHandler _playerStaminaHandler;
     public int Priority => 0;
 
     private void Awake()
     {
-        BattleManager.Register(this, OrderType.Before);
-        cardUI = GetComponent<IGetCardsUI>();
-        HandUI.OnCardsAddToHand += CheckCardToGlow;
-        HandUI.OnCardsExecuteGetCards += CheckCardGlowAfterExecute;
-        HandUI.OnCardSelect += ActiveDeckCardsGlow;
-        HandUI.OnCardSetToHandState += DeactiveDeckCards;
+        _cardSlots = GetComponent<IGetCardsUI>();
+       // HandUI.OnCardsAddToHand += CheckCardToGlow;
+       // HandUI.OnCardsExecuteGetCards += CheckCardToGlow;
+       // HandUI.OnCardSelect += ActiveDeckCardsGlow;
+       // HandUI.OnCardSetToHandState += DeactiveDeckCards;
     }
 
     public void CheckCardToGlow(IReadOnlyList<CardUI> cards)
@@ -40,25 +37,27 @@ public class GlowManager : MonoBehaviour ,ISequenceOperation<IBattleManager>
                 cards[i].CardVisuals.DeactivateGlow();
         }
     }
-
-    public void CheckCardGlowAfterExecute(IReadOnlyList<CardUI> cards)
+    private void UpdateCardsGlow()
     {
+        var cards = _cardSlots.CardsUI;
         for (int i = 0; i < cards.Count; i++)
         {
-            if (_playerStaminaHandler.CanPlayCard(cards[i].CardData))
-                cards[i].CardVisuals.ActivateGlow();
+            CardUI cardUI = cards[i];
 
+            if (_playerStaminaHandler.CanPlayCard(cardUI.CardData))
+                cardUI.CardVisuals.ActivateGlow();
             else
-                cards[i].CardVisuals.DeactivateGlow();
+                cardUI.CardVisuals.DeactivateGlow();
         }
     }
+   
 
     public void ActiveDeckCardsGlow(CardUI selectedCard)
     {
-        for (int i = 0; i < cardUI.CardsUI.Count; i++)
+        for (int i = 0; i < _cardSlots.CardsUI.Count; i++)
         {
-            if(selectedCard!=cardUI.CardsUI[i])
-                cardUI.CardsUI[i].CardVisuals.DeactivateGlow();
+            if (selectedCard != _cardSlots.CardsUI[i])
+                _cardSlots.CardsUI[i].CardVisuals.DeactivateGlow();
         }
     }
 
@@ -66,25 +65,31 @@ public class GlowManager : MonoBehaviour ,ISequenceOperation<IBattleManager>
     {
         if (_playerStaminaHandler.CanPlayCard(selectedCard.CardData))
             selectedCard.CardVisuals.ActivateGlow();
-            
-        for (int i = 0; i < cardUI.CardsUI.Count; i++)
+
+        for (int i = 0; i < _cardSlots.CardsUI.Count; i++)
         {
-            if (_playerStaminaHandler.CanPlayCard(cardUI.CardsUI[i].CardData))
-                cardUI.CardsUI[i].CardVisuals.ActivateGlow();
+            if (_playerStaminaHandler.CanPlayCard(_cardSlots.CardsUI[i].CardData))
+                _cardSlots.CardsUI[i].CardVisuals.ActivateGlow();
         }
 
     }
 
     private void OnDestroy()
     {
-        HandUI.OnCardsAddToHand -= CheckCardToGlow;
-        HandUI.OnCardsExecuteGetCards -= CheckCardGlowAfterExecute;
-        HandUI.OnCardSelect -= ActiveDeckCardsGlow;
-        HandUI.OnCardSelect -= DeactiveDeckCards;
+        // HandUI.OnCardsAddToHand -= CheckCardToGlow;
+        // HandUI.OnCardsExecuteGetCards -= CheckCardToGlow;
+        // HandUI.OnCardSelect -= ActiveDeckCardsGlow;
+        _handUI.OnCardSelect -= DeactiveDeckCards;
+        _handUI.OnCardSelect -= ActiveDeckCardsGlow;
+        _handUI.OnHandUICardsUpdated -= UpdateCardsGlow;
     }
 
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
     {
-        _playerStaminaHandler = data.PlayersManager.GetCharacter(true).StaminaHandler;
+        _playerStaminaHandler = data.BattleDataManager.PlayersManager.GetCharacter(true).StaminaHandler;
+        _handUI = data.HandUI;
+        _handUI.OnHandUICardsUpdated += UpdateCardsGlow;
+        _handUI.OnCardSelect += ActiveDeckCardsGlow;
+        _handUI.OnCardSelect += DeactiveDeckCards;
     }
 }

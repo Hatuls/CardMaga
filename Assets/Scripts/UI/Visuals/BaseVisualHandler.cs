@@ -41,7 +41,7 @@ namespace CardMaga.UI
     }
     public static class ColorHelper
     {
-        public static Color GetColorAlpha(this Color baseColor, float alpha)
+        public static Color SetColorAlpha(this Color baseColor, float alpha)
         {
             Color color = baseColor;
             color.a = alpha;

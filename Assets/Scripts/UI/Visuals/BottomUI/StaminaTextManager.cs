@@ -6,8 +6,14 @@ using ReiTools.TokenMachine;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using CardMaga.Battle;
+using CardMaga.Battle.UI;
 
-public class StaminaTextManager : MonoBehaviour, ISequenceOperation<IBattleManager>
+namespace CardMaga.UI.Text
+{
+
+
+public class StaminaTextManager : MonoBehaviour, ISequenceOperation<IBattleUIManager>
 {
     [SerializeField] private TextMeshProUGUI _currentStamimaText;
     [SerializeField] private TextMeshProUGUI _maxStamimaText;
@@ -17,12 +23,6 @@ public class StaminaTextManager : MonoBehaviour, ISequenceOperation<IBattleManag
 
     public int Priority => 0;
 
-    private void Awake()
-    {
-
-        BattleManager.Register(this, OrderType.Before);
-
-    }
 
     public void UpdateCurrentStamina(int stamina)
     {
@@ -83,9 +83,9 @@ public class StaminaTextManager : MonoBehaviour, ISequenceOperation<IBattleManag
         ChangeTextColor(_staminaText, _newColor);
         _currentStamimaText.text = (_currentStamina).ToString();
     }
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
     {
-        _playerStaminaHandler = data.PlayersManager.GetCharacter(true).StaminaHandler;
+        _playerStaminaHandler = data.BattleDataManager.PlayersManager.GetCharacter(true).StaminaHandler;
         _playerStaminaHandler.OnStaminaValueChanged += UpdateCurrentStamina;
         ResetStamina();
        // data.PlayersManager.GetCharacter(true).
@@ -109,4 +109,5 @@ public class StaminaTextManager : MonoBehaviour, ISequenceOperation<IBattleManag
 
  
 #endif
+}
 }

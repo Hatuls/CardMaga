@@ -1,5 +1,6 @@
 ﻿
 using Battle;
+using CardMaga.Battle;
 using Characters.Stats;
 namespace CardMaga.AI
 {
@@ -13,7 +14,7 @@ namespace CardMaga.AI
         /// <summary>
         /// The keyword you want to check
         /// </summary>
-        public Keywords.KeywordTypeEnum KeywordType { get; set; }
+        public Keywords.KeywordType KeywordType { get; set; }
         /// <summary>
         /// The Math operator
         /// </summary>
@@ -26,7 +27,7 @@ namespace CardMaga.AI
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
             CharacterStatsHandler statsHandler = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StatsHandler; 
-            int stat = statsHandler.GetStats(KeywordType).Amount;
+            int stat = statsHandler.GetStat(KeywordType).Amount;
             NodeState = (Operator.Evaluate(stat, Amount)) ? NodeState.Success : NodeState.Failure;
             return NodeState;
         }
@@ -49,15 +50,15 @@ namespace CardMaga.AI
     public class CompareBetweenKeywordsNode : BaseNode<AICard>
     {
         public bool IsPlayer { get; set; }
-        public Keywords.KeywordTypeEnum KeywordA { get; set; }
-        public Keywords.KeywordTypeEnum KeywordB { get; set; }
+        public Keywords.KeywordType KeywordA { get; set; }
+        public Keywords.KeywordType KeywordB { get; set; }
         public OperatorType Operator { get; set; }
         public override NodeState Evaluate(AICard evaluateObject)
         {
             CharacterStatsHandler statsHandler = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StatsHandler;
 
-            int amountA = statsHandler.GetStats(KeywordA).Amount;
-            int amountB = statsHandler.GetStats(KeywordB).Amount;
+            int amountA = statsHandler.GetStat(KeywordA).Amount;
+            int amountB = statsHandler.GetStat(KeywordB).Amount;
 
             NodeState = (Operator.Evaluate(amountA,amountB)) ? NodeState.Success : NodeState.Failure;
             return NodeState;

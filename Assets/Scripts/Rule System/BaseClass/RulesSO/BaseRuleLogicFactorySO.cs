@@ -1,4 +1,4 @@
-﻿using Battle;
+﻿using CardMaga.Battle;
 using UnityEngine;
 
 namespace CardMaga.Rules
@@ -7,7 +7,7 @@ namespace CardMaga.Rules
     {
         public abstract BaseRuleLogic CreateRuleLogic(IBattleManager iBattleManager);
     }
-    
+
     public abstract class BaseRuleLogicFactorySO<T> : ScriptableObject
     {
         public abstract BaseRuleLogic<T> CreateRuleLogic(IBattleManager iBattleManager);
@@ -15,6 +15,6 @@ namespace CardMaga.Rules
 
     public abstract class BaseBoolRuleLogicFactorySO : BaseRuleLogicFactorySO<bool>
     {
-        
+
     }
 }

@@ -1,12 +1,12 @@
-﻿using Battle;
+﻿using CardMaga.Battle;
+using CardMaga.Battle.UI;
+using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using CardMaga.UI.Carfting;
-using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
-using System;
 using UnityEngine;
 
-public class CraftingSlotsUIManager_V4 : MonoBehaviour, ISequenceOperation<IBattleManager>
+public class CraftingSlotsUIManager_V4 : MonoBehaviour, ISequenceOperation<IBattleUIManager>
 {
     [SerializeField] private CraftingSlotHandler_V4 _playerSlots;
     [SerializeField] private CraftingSlotHandler_V4 _enemySlots;
@@ -14,8 +14,10 @@ public class CraftingSlotsUIManager_V4 : MonoBehaviour, ISequenceOperation<IBatt
 
     public int Priority => 0;
     private IPlayersManager _playersManager;
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
     {
+        var data = battleUIManager.BattleDataManager;
+
         _playersManager = data.PlayersManager;
         var left = _playersManager.GetCharacter(true);
         var right = _playersManager.GetCharacter(false);
@@ -24,7 +26,7 @@ public class CraftingSlotsUIManager_V4 : MonoBehaviour, ISequenceOperation<IBatt
         data.CardExecutionManager.OnPlayerCardExecute += _playerSlots.ApplySlot;
         data.CardExecutionManager.OnEnemyCardExecute += _enemySlots.ApplyEnemySlot;
         data.OnBattleManagerDestroyed += BeforeGameFinished;
-        HandUI.OnCardSelect += _playerSlots.LoadCraftingSlot;
+        battleUIManager.HandUI.OnCardSelect += _playerSlots.LoadCraftingSlot;
         HandUI.OnCardSetToHandState += _playerSlots.CancelLoadSlot;
     }
 
@@ -32,18 +34,14 @@ public class CraftingSlotsUIManager_V4 : MonoBehaviour, ISequenceOperation<IBatt
     {
         data.OnBattleManagerDestroyed -= BeforeGameFinished;
         data.CardExecutionManager.OnPlayerCardExecute -= _playerSlots.ApplySlot;
-        data.CardExecutionManager.OnEnemyCardExecute  -= _enemySlots.ApplyEnemySlot;
-        HandUI.OnCardSelect -= _playerSlots.LoadCraftingSlot;
+        data.CardExecutionManager.OnEnemyCardExecute -= _enemySlots.ApplyEnemySlot;
+        data.BattleUIManager.HandUI.OnCardSelect -= _playerSlots.LoadCraftingSlot;
         HandUI.OnCardSetToHandState -= _playerSlots.CancelLoadSlot;
         _playersManager.GetCharacter(true).CraftingHandler.OnCraftingSlotsReset -= _playerSlots.RestCraftingSlots;
         _playersManager.GetCharacter(false).CraftingHandler.OnCraftingSlotsReset -= _enemySlots.RestCraftingSlots;
     }
 
-    public void Awake()
-    {
-        BattleManager.Register(this, OrderType.Default);
 
-    }
 
 
 
