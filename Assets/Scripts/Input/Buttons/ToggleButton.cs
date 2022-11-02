@@ -1,5 +1,6 @@
 ﻿using System;
 using CardMaga.Input;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,10 +11,15 @@ public class ToggleButton : TouchableItem
     [Header("Toggle configuration")]
     [SerializeField] private bool _startState;
 
-    [Header("Visual configuration")] [SerializeField]
-    private Image _button;
+    [Header("Visual configuration")]
+    [SerializeField] private Image _buttonImage;
+    [SerializeField] TextMeshProUGUI _buttonText;
+
     [SerializeField] private Sprite _onSprite;
     [SerializeField] private Sprite _offSprite;
+
+    [SerializeField] private string _onText;
+    [SerializeField] private string _offText;
 
     private bool _isOn;
     
@@ -35,15 +41,15 @@ public class ToggleButton : TouchableItem
     private void SetToOnState()
     {
         _isOn = true;
-
-        _button.sprite = _onSprite;
+        _buttonText.text = _onText;
+        _buttonImage.sprite = _onSprite;
     }
 
     private void SetToOffState()
     {
         _isOn = false;
-
-        _button.sprite = _offSprite;
+        _buttonText.text = _offText;
+        _buttonImage.sprite = _offSprite;
     }
 
     private void ToggleState()
