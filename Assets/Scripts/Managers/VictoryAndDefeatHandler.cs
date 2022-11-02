@@ -24,6 +24,7 @@ public class VictoryAndDefeatHandler : MonoBehaviour
         else
         {
             OnRightPlayerWin?.Invoke();
+            if(gameObject.activeSelf)
             StartCoroutine(PlayTimelineRoutine(_rightPlayerWinDirector,AnimationDone));
         }
     }

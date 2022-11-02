@@ -1,3 +1,119 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:198529d8cb35e18c57dd378f1b5c847a0c4b9932c18da8cdc206e502d20d6691
-size 4310
+﻿using Battle;
+using Battle.Characters;
+using Battle.Deck;
+using Battle.Turns;
+using CardMaga.Card;
+using Characters.Stats;
+using ReiTools.TokenMachine;
+using System;
+using System.Collections.Generic;
+
+namespace CardMaga.Battle.Players
+{
+    public interface IPlayer
+    {
+        IReadOnlyList<PlayerTagSO> PlayerTags { get; }
+        bool IsLeft { get; }
+        StaminaHandler StaminaHandler { get; }
+        CharacterSO CharacterSO { get; }
+        CharacterStatsHandler StatsHandler { get; }
+        CardData[] StartingCards { get; }
+        DeckHandler DeckHandler { get; }
+        PlayerComboContainer Combos { get; }
+        EndTurnHandler EndTurnHandler { get; }
+        GameTurn MyTurn { get; }
+        CraftingHandler CraftingHandler { get; }
+        void AssignCharacterData(IBattleManager battleManager, Character characterData);
+    }
+
+
+    public class PlayerManager : IPlayer
+    {
+        #region Fields
+
+        private EndTurnHandler _endTurnHandler;
+        private CraftingHandler _craftingHandler;
+        private GameTurn _myTurn;
+        private DeckHandler _deckHandler;
+        private Character _character;
+        private CharacterStatsHandler _statsHandler;
+        private CardData[] _playerDeck;
+        private StaminaHandler _staminaHandler;
+        private PlayerComboContainer _comboContainer;
+        #endregion
+
+        public CardData[] StartingCards => _playerDeck;
+        public bool IsLeft => true;
+        public PlayerComboContainer Combos => _comboContainer;
+        public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
+        public CharacterStatsHandler StatsHandler => _statsHandler;
+        public EndTurnHandler EndTurnHandler => _endTurnHandler;
+
+        public DeckHandler DeckHandler => _deckHandler;
+
+        public StaminaHandler StaminaHandler => _staminaHandler;
+
+        public GameTurn MyTurn => _myTurn;
+
+        public CraftingHandler CraftingHandler => _craftingHandler;
+
+        public IReadOnlyList<PlayerTagSO> PlayerTags => _character.PlayerTags;
+
+        public void AssignCharacterData(IBattleManager battleManager, Character characterData)
+        {
+            battleManager.OnBattleManagerDestroyed += BeforeDestroy;
+            _character = characterData;
+            //data
+            CharacterBattleData data = characterData.CharacterData;
+
+
+            //Deck
+            int Length = data.CharacterDeck.Length;
+            _playerDeck = new CardData[Length];
+            Array.Copy(data.CharacterDeck, _playerDeck, Length);
+
+            //CraftingSlots
+            _craftingHandler = new CraftingHandler();
+
+            //Stats
+            _statsHandler = new CharacterStatsHandler(IsLeft, ref data.CharacterStats, _staminaHandler);
+
+            //Stamina
+            if (battleManager.TurnHandler.IsLeftPlayerStart)
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordType.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordType.StaminaShards).Amount, -1);
+            else
+                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordType.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordType.StaminaShards).Amount);
+
+            //Deck and Combos
+            _deckHandler = new DeckHandler(this, battleManager);
+            _comboContainer = new PlayerComboContainer(_character.CharacterData.ComboRecipe);
+
+            TurnHandler turnHandler = battleManager.TurnHandler;
+            _myTurn = turnHandler.GetCharacterTurn(IsLeft);
+
+            _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
+            _myTurn.StartTurnOperations.Register(DrawHands);
+
+            _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
+
+
+
+            //endturn
+            _endTurnHandler = new EndTurnHandler(this, battleManager);
+        }
+
+
+
+        private void BeforeDestroy(IBattleManager battleManager)
+        {
+            battleManager.OnBattleManagerDestroyed -= BeforeDestroy;
+            _endTurnHandler.Dispose();
+        }
+        private void DrawHands(ITokenReciever tokenMachine)
+            => DeckHandler.DrawHand(StatsHandler.GetStat(Keywords.KeywordType.Draw).Amount);
+
+    }
+
+}
+
+

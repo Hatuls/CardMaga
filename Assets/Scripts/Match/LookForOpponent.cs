@@ -1,4 +1,5 @@
-﻿using Account.GeneralData;
+﻿using Account;
+using Account.GeneralData;
 using PlayFab;
 using PlayFab.ClientModels;
 using ReiTools.TokenMachine;
@@ -88,7 +89,7 @@ namespace Battle.MatchMaking
 
                 string player = obj.Leaderboard[i].PlayFabId;
 
-                if (player == "")
+                if (player == "" ||string.Equals( player, AccountManager.Instance.LoginResult.PlayFabId, StringComparison.Ordinal))
                     continue;
             
                 //un comment when you have answer for no players

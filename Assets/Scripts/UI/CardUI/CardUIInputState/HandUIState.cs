@@ -99,12 +99,13 @@ namespace CardMaga.UI
         {
             for (var i = 0; i < cardSlots.Count; i++)
             {
-                if (!cardSlots[i].IsHaveValue)
+                CardSlot currentSlot = cardSlots[i];
+                if (!currentSlot.IsHaveValue)
                     continue;
-                
-                cardSlots[i].CardUI.transform.SetAsLastSibling();
-                cardSlots[i].CardUI.RectTransform.Transition(cardSlots[i].CardPos, _drawMoveTransitionPackSo, OnCardDrawnAndAlign); //Plaster!!!
-                cardSlots[i].CardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo);
+
+                currentSlot.CardUI.transform.SetAsLastSibling();
+                currentSlot.CardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo, OnCardDrawnAndAlign); //Plaster!!!
+                currentSlot.CardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo);
                 yield return _waitForCardDrawnDelay;
             }
 
@@ -127,7 +128,7 @@ namespace CardMaga.UI
 
         public IReadOnlyList<CardUI> CardsUI
         {
-            get => _tableCardSlot.GetCardUIsFromTable().ToList();
+            get => _tableCardSlot.GetCardUIsFromTable();
         }
 
         public TouchableItem<CardUI>[] CardUIsInput

@@ -213,14 +213,12 @@ namespace CardMaga.Battle.Execution
         //Handling the animation of the character
         private VisualCommandHandler _animationCommands;
         private VisualKeywordCommandHandler _visualKeywordCommandHandler;
-
+        private VisualCommandHandler _cardUIAnimationCommands;
+       
 
         private VisualCharactersManager _visualCharactersManager;
-
-
-
         public VisualCommandHandler AnimationCommands => _animationCommands;
-
+        public VisualCommandHandler CardUIAnimationCommands => _cardUIAnimationCommands;
         public VisualKeywordCommandHandler VisualKeywordCommandHandler { get => _visualKeywordCommandHandler; }
 
 

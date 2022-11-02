@@ -15,6 +15,7 @@ using CardMaga.Battle.Execution;
 using CardMaga.Battle.Combo;
 using CardMaga.Keywords;
 using CardMaga.Battle.Visual.Camera;
+using CardMaga.Commands;
 
 namespace CardMaga.Battle
 {
@@ -22,24 +23,24 @@ namespace CardMaga.Battle
     {
         public static event Action OnGameEnded;
         public event Action<IBattleManager> OnBattleManagerDestroyed;
-        
+
         public static bool isGameEnded;
         [SerializeField, EventsGroup]
         private Unity.Events.StringEvent _playSound;
         [SerializeField, EventsGroup]
         private UnityEvent OnBattleStarts;
-        [SerializeField,EventsGroup]
+        [SerializeField, EventsGroup]
         private UnityEvent OnBattleFinished;
 
         [SerializeField]
         private EnemyManager _enemyManager;
 
-   
+
         [SerializeField]
         private BattleUiManager _battleUiManager;
-     
 
-        
+
+
 #if UNITY_EDITOR
         [Header("Editor:")]
         [SerializeField] private bool _hideTutorial;
@@ -58,16 +59,16 @@ namespace CardMaga.Battle
         private bool _isInTutorial;
 
         #region Properties
-        public IPlayersManager PlayersManager => _playersManager; 
+        public IPlayersManager PlayersManager => _playersManager;
         public IBattleUIManager BattleUIManager => _battleUiManager;
         public CardExecutionManager CardExecutionManager => _cardExecutionManager;
-        public TurnHandler TurnHandler => _gameTurnHandler; 
+        public TurnHandler TurnHandler => _gameTurnHandler;
         public ComboManager ComboManager => _comboManager;
         public KeywordManager KeywordManager => _keywordManager;
         public GameCommands GameCommands => _gameCommands;
         public RuleManager RuleManager => _ruleManager;
         public BattleData BattleData => BattleData.Instance;
-        public EndBattleHandler EndBattleHandler =>_endBattleHandler;
+        public EndBattleHandler EndBattleHandler => _endBattleHandler;
 
         public MonoBehaviour MonoBehaviour => this;
 
@@ -87,16 +88,16 @@ namespace CardMaga.Battle
             _gameCommands = new GameCommands(this);
             _gameTurnHandler = new TurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
             _playerManager = new PlayerManager();
-            _playersManager = new PlayersManager(this,_playerManager, _enemyManager);
+            _playersManager = new PlayersManager(this, _playerManager, _enemyManager);
             _keywordManager = new KeywordManager(this);
             _ruleManager = new RuleManager(this);
             _endBattleHandler = new EndBattleHandler(this);
             _cardExecutionManager = new CardExecutionManager(this);
             _comboManager = new ComboManager(this);
-           
+
 
             _isInTutorial = !(BattleData.BattleConfigSO.BattleTutorial == null);
-            
+
             _endBattleHandler.OnBattleEnded += EndBattle;
             _endBattleHandler.OnBattleAnimatonEnd += MoveToNextScene;
 
@@ -110,20 +111,20 @@ namespace CardMaga.Battle
                 AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
         }
-        
+
         // Need To be Re-Done
         public void StartBattle()
         {
             StopAllCoroutines();
             TurnHandler.Start();
-            
+
             BattleData.Instance.PlayerWon = false;
 
             OnBattleStarts?.Invoke();
         }
 
         #endregion
-        
+
         #region EndBattleLogic
 
         private void EndBattle(bool isLeftPlayerWon)
@@ -137,20 +138,20 @@ namespace CardMaga.Battle
         }
 
         #endregion
-        
-          private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
-    {
+
+        private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
+        {
 #if UNITY_EDITOR
-        if (_hideTutorial)
-            return;
+            if (_hideTutorial)
+                return;
 #endif
-            
+
             if (BattleData.BattleConfigSO?.BattleTutorial == null)
                 return;
 
             _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
             _battleTutorial.StartTutorial();
-    }
+        }
 
         #region Observer Pattern 
         public void Register(ISequenceOperation<IBattleManager> sequenceOperation, OrderType orderType)
@@ -165,7 +166,7 @@ namespace CardMaga.Battle
         {
             ThreadsHandler.ThreadHandler.TickThread();
         }
-        
+
         private void OnDestroy()
         {
             OnBattleManagerDestroyed?.Invoke(this);
@@ -173,9 +174,9 @@ namespace CardMaga.Battle
             _ruleManager.DisposeRules();
             _endBattleHandler.OnBattleEnded -= EndBattle;
             _endBattleHandler.Dispose();
-            
+
             _battleStarter.Dispose();
-            
+
             TurnHandler.Dispose();
             _gameTurnHandler = null;
         }
@@ -186,14 +187,14 @@ namespace CardMaga.Battle
 
             base.Awake();
         }
-        
+
         private void Start()
         {
             ResetBattle();
         }
-        
+
         #endregion
-        
+
         #region Analytics
 
         private void SendAnalyticWhenGameEnded(string eventName, BattleData battleData)
@@ -226,13 +227,26 @@ namespace CardMaga.Battle
 #if UNITY_EDITOR
         [Button]
         public void KillEnemy()
-        => _playersManager.GetCharacter(false).StatsHandler?.RecieveDamage(1000000);
+        {
+            var keywordFactory = Factory.GameFactory.Instance.KeywordFactoryHandler;
+            var keywordSO = keywordFactory.GetKeywordSO(KeywordType.Attack);
+            var keywordCommand = new CardsKeywordsCommands(new KeywordData[1] { new KeywordData(keywordSO, TargetEnum.Opponent, 100000, 0)}, CommandType.Instant);
+            keywordCommand.Init(_playerManager.IsLeft,  PlayersManager, KeywordManager);
+            GameCommands.GameDataCommands.DataCommands.AddCommand(keywordCommand);
+        
+        }
 
         [Button]
         public void KillPlayer()
-           => _playersManager.GetCharacter(true).StatsHandler?.RecieveDamage(1000000);
+        {
+            var keywordFactory = Factory.GameFactory.Instance.KeywordFactoryHandler;
+            var keywordSO = keywordFactory.GetKeywordSO(KeywordType.Attack);
+            var keywordCommand = new CardsKeywordsCommands(new KeywordData[1] { new KeywordData(keywordSO, TargetEnum.MySelf, 100000, 0) }, CommandType.Instant);
+            keywordCommand.Init(_playerManager.IsLeft, PlayersManager, KeywordManager);
+            GameCommands.GameDataCommands.DataCommands.AddCommand(keywordCommand);
 
-     
+        }
+
 #endif
         #endregion
     }
