@@ -29,7 +29,7 @@ namespace CardMaga.Trackers
             return false;
         }
         internal static void RemoveTracker(Tracker tracker)
-=> _trackers.Remove(tracker);
+        => _trackers.Remove(tracker);
 
 
         public static void AddTracker(Tracker tracker)
