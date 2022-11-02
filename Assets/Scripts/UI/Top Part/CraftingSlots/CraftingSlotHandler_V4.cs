@@ -41,7 +41,10 @@ namespace CardMaga.UI.Carfting
             
             GetDistance();
         }
-
+        private void OnDestroy()
+        {
+            StopAllCoroutines();
+        }
         #endregion
 
         #region PublicFunctions
