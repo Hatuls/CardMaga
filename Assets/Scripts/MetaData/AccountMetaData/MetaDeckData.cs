@@ -1,5 +1,7 @@
 using System.Collections.Generic;
-using Battle.Deck;
+using Account.GeneralData;
+using Battle.Combo;
+using CardMaga.Card;
 
 namespace CardMaga.Meta.AccountMetaData
 {
@@ -22,9 +24,35 @@ namespace CardMaga.Meta.AccountMetaData
             return true;
         }
 
-        public MetaDeckData(BaseDeck baseDeck)
+        public MetaDeckData(DeckData deckData)
         {
+            _id = deckData.Id;
+            _deckName = deckData.Name;
+
+            CardCore[] tempCardCore = deckData.Cards;
+            int cardLength = tempCardCore.Length;
             
+            _cardDatas = new List<MetaCardData>(cardLength);
+
+            for (int i = 0; i < cardLength; i++)
+            {
+                CardInstanceID instanceID = Factory.GameFactory.Instance.CardFactoryHandler.CreateCardInstance(tempCardCore[i]);
+                CardSO cardSo = Factory.GameFactory.Instance.CardFactoryHandler.GetCard(tempCardCore[i].ID);
+
+                _cardDatas[i] = new MetaCardData(instanceID,cardSo);
+            }
+
+            ComboCore[] tempComboCores = deckData.Combos;
+            int comboLength = tempComboCores.Length;
+
+            _comboDatas = new List<MetaComboData>(comboLength);
+
+            for (int i = 0; i < comboLength; i++)
+            {
+                ComboSO comboSo = Factory.GameFactory.Instance.ComboFactoryHandler.GetComboSO(tempComboCores[i].ID);//need To check rei______
+
+                _comboDatas[i] = new MetaComboData(tempComboCores[i]);
+            }
         }
     }
 }

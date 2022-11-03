@@ -10,7 +10,9 @@ namespace CardMaga.Meta.AccountMetaData
         
         public AccountDataAccess(AccountData accountData)
         {
-            _metaAccountData = new MetaAccountData();
+            _metaAccountData = new MetaAccountData(accountData);
+
+            _accountData = accountData;
         }
     }
 }

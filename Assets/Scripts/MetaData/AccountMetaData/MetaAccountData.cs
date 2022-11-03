@@ -27,9 +27,13 @@ namespace CardMaga.Meta.AccountMetaData
 
         #endregion
 
-        public MetaAccountData()
+        public MetaAccountData(AccountData accountData)
         {
-            
+            _accountData = accountData;
+            _charactersHandler = new MetaCharactersHandler(_accountData.CharactersData.Characters);
+            _accountResources = new AccountResources();//Need to have a way to add value
+            //need to add _accountCard To add All the account cards
+            //need to add accountLevel Support
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CardMaga.Meta.AccountMetaData
     public class MetaCardData
     {
         private CardSO _cardSO;
-        private CardInstanceID _cardCoreInfo;
+        private CardInstanceID _cardInstanceID;
         private bool _toExhaust = false;
         private CardTypeData _cardTypeData;
         private KeywordData[] _cardKeyword;
@@ -17,10 +17,16 @@ namespace CardMaga.Meta.AccountMetaData
         public CardTypeData CardTypeData => _cardTypeData;
         public bool IsExhausted => _toExhaust;
         public Card.BodyPartEnum BodyPartEnum => _cardTypeData.BodyPart;
-        public int CardInstanceID => _cardCoreInfo.InstanceID;
-        public int CardLevel => _cardCoreInfo.Level;
-        public int CardEXP => _cardCoreInfo.Exp;
+        public int CardInstanceID => _cardInstanceID.InstanceID;
+        public int CardLevel => _cardInstanceID.Level;
+        public int CardEXP => _cardInstanceID.Exp;
         public bool CardsAtMaxLevel => _cardSO.CardsMaxLevel - 1 == CardLevel; 
-        public int StaminaCost => _staminaCost; 
+        public int StaminaCost => _staminaCost;
+
+        public MetaCardData(CardInstanceID instanceID, CardSO cardSo)
+        {
+            _cardSO = cardSo;
+            _cardInstanceID = instanceID;
+        }
     }
 }

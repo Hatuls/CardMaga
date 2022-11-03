@@ -14,9 +14,9 @@ namespace CardMaga.Meta.AccountMetaData
         private int _rank;
         private int _deckAmount = 1;
         private int _mainDeck;
-        
-        private List<int> _availableSkins = new List<int>();
-        private List<MetaDeckData> _decks = new List<MetaDeckData>();
+
+        private List<int> _availableSkins;
+        private List<MetaDeckData> _decks;
 
         #endregion
 
@@ -36,7 +36,27 @@ namespace CardMaga.Meta.AccountMetaData
 
         public MetaCharacterData(Character character)
         {
-            
+            _id = character.Id;
+            _currentSkin = character.CurrentSkin;
+            _exp = character.Exp;
+            _skillPoint = character.SkillPoint;
+            _rank = character.Rank;
+            _deckAmount = character.DeckLimit; //need to check rei _____
+            _mainDeck = character.MainDeck;
+
+            _availableSkins = new List<int>(character.AvailableSkins.Count);
+
+            for (int i = 0; i < character.AvailableSkins.Count; i++)
+            {
+                _availableSkins[i] = character.AvailableSkins[i];
+            }
+
+            _decks = new List<MetaDeckData>(character.Deck.Count);
+
+            for (int i = 0; i < character.Deck.Count; i++)
+            {
+                _decks[i] = new MetaDeckData(character.Deck[i]);
+            }
         }
     }
 }

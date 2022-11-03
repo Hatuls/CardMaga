@@ -13,9 +13,13 @@ namespace CardMaga.Meta.AccountMetaData
 
         #endregion
 
-        public MetaCharactersHandler(List<Character> characters)
+        public MetaCharactersHandler(IReadOnlyList<Character> characters)
         {
-            
+            foreach (var character in characters)
+            {
+                MetaCharacterData data = new MetaCharacterData(character);
+                _characterDatas.Add(character.Id,data);
+            }
         }
     }
 }
