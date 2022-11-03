@@ -153,6 +153,34 @@ MonoBehaviour:
   _holdDistance: 0.5
   _currentState: 0
   _identification: {fileID: 11400000, guid: 5d1303e07fdd8724e9f1f484ea4f5085, type: 2}
+  OnDeckCollectionOpen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6528336433005645212}
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: CARDS
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnComboCollectionOpen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6528336433005645212}
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: COMBOS
+          m_BoolArgument: 0
+        m_CallState: 2
   _deckCollection: {fileID: 5292550443911182377}
   _comboCollection: {fileID: 6528336432309314277}
   _comboAndDecksButtonText: {fileID: 3231723041481195856}
@@ -215,14 +243,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.972549}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8a8d8b04136c57641899a3fa95d216a2, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -637,7 +665,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TITLE
+  m_text: COMBOS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c52da5e7055c01d42a5be7ef755b7777, type: 2}
   m_sharedMaterial: {fileID: -8056079009074899800, guid: c52da5e7055c01d42a5be7ef755b7777,
@@ -1693,7 +1721,7 @@ PrefabInstance:
     - target: {fileID: 1417588515958652229, guid: 986291517997e5844af92d82cb21aee5,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -2192.963
+      value: -2592.963
       objectReference: {fileID: 0}
     - target: {fileID: 1417588516318504073, guid: 986291517997e5844af92d82cb21aee5,
         type: 3}
