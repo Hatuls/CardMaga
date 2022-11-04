@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Account.GeneralData;
-using Battle.Combo;
 using CardMaga.Card;
 
 namespace CardMaga.Meta.AccountMetaData
@@ -9,11 +8,11 @@ namespace CardMaga.Meta.AccountMetaData
     public class MetaDeckData : IEquatable<MetaDeckData>
     {
         #region Events
-
-        public event Action<MetaCardData> OnCardAdd; 
-        public event Action<string> OnCardAddFaild; 
+        
+        public event Action<MetaCardData> OnCardAdd;
+        public event Action<string> OnCardAddFaild;
         public event Action<MetaCardData> OnCardRemove; 
-        public event Action<MetaComboData> OnComboAdd; 
+        public event Action<MetaComboData> OnComboAdd;
         public event Action<string> OnComboAddFaild; 
         public event Action<MetaComboData> OnComboRemove; 
 
@@ -36,7 +35,7 @@ namespace CardMaga.Meta.AccountMetaData
         public List<MetaComboData> Combos => _comboDatas;
 
         #endregion
-        \
+        
         public MetaDeckData(DeckData deckData)
         {
             _id = deckData.Id;
@@ -49,7 +48,7 @@ namespace CardMaga.Meta.AccountMetaData
 
             for (int i = 0; i < cardLength; i++)
             {
-                CardInstanceID instanceID = Factory.GameFactory.Instance.CardFactoryHandler.CreateCardInstance(tempCardCore[i]);
+                CardInstanceID instanceID = Factory.GameFactory.Instance.CardFactoryHandler.CreateCardInstance(tempCardCore[i]);//need to cache
                 CardSO cardSo = Factory.GameFactory.Instance.CardFactoryHandler.GetCard(tempCardCore[i].ID);
 
                 _cardDatas[i] = new MetaCardData(instanceID,cardSo);
@@ -62,8 +61,6 @@ namespace CardMaga.Meta.AccountMetaData
 
             for (int i = 0; i < comboLength; i++)
             {
-                ComboSO comboSo = Factory.GameFactory.Instance.ComboFactoryHandler.GetComboSO(tempComboCores[i].ID);//need To check rei______
-
                 _comboDatas[i] = new MetaComboData(tempComboCores[i]);
             }
         }
@@ -85,7 +82,7 @@ namespace CardMaga.Meta.AccountMetaData
             
         }
         
-        public void RemoveCard(int cardIndex)
+        public void RemoveCard(int cardIndex)//instanceID
         {
             
         }

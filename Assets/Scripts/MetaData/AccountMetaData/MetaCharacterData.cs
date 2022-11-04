@@ -32,7 +32,7 @@ namespace CardMaga.Meta.AccountMetaData
         public int Id { get => _id; private set => _id = value; }
         public IReadOnlyList<int> AvailableSkins => _availableSkins;
         public IReadOnlyList<MetaDeckData> Decks => _decks; 
-        public int DeckLimit => _deckAmount;
+        public int DeckLimit => _deckAmount;//limit
 
         #endregion
 

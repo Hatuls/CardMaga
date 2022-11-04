@@ -1,6 +1,5 @@
 using Account;
 using Account.GeneralData;
-using UnityEditor.Graphs;
 
 namespace CardMaga.Meta.AccountMetaData
 {
@@ -24,9 +23,9 @@ namespace CardMaga.Meta.AccountMetaData
 
         public MetaCardData[] AccountCards => _accountCards;
 
-        public AccountResources Resources => _accountResources;
+        public AccountResources Resources => _accountResources;//need to re work
 
-        public AccountLevelData AccountLevel => _accountLevel;
+        public AccountLevelData AccountLevel => _accountLevel; // need to re work
 
         #endregion
 
