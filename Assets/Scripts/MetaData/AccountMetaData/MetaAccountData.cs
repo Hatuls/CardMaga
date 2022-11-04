@@ -1,5 +1,6 @@
 using Account;
 using Account.GeneralData;
+using UnityEditor.Graphs;
 
 namespace CardMaga.Meta.AccountMetaData
 {
@@ -17,6 +18,8 @@ namespace CardMaga.Meta.AccountMetaData
         
         #region Prop
 
+        public string AccountName => _accountData.DisplayName;
+        
         public MetaCharactersHandler CharacterDatas => _charactersHandler;
 
         public MetaCardData[] AccountCards => _accountCards;

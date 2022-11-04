@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Account.GeneralData;
 using Battle.Combo;
@@ -5,25 +6,37 @@ using CardMaga.Card;
 
 namespace CardMaga.Meta.AccountMetaData
 {
-    public class MetaDeckData
+    public class MetaDeckData : IEquatable<MetaDeckData>
     {
+        #region Events
+
+        public event Action<MetaCardData> OnCardAdd; 
+        public event Action<string> OnCardAddFaild; 
+        public event Action<MetaCardData> OnCardRemove; 
+        public event Action<MetaComboData> OnComboAdd; 
+        public event Action<string> OnComboAddFaild; 
+        public event Action<MetaComboData> OnComboRemove; 
+
+        #endregion
+
+        #region Fields
+
         private int _id;
         private string _deckName;
         private List<MetaCardData> _cardDatas;
         private List<MetaComboData> _comboDatas;
-        
+
+        #endregion
+
+        #region Prop
+
         public int Id  => _id; 
         public string DeckName  => _deckName;
-        public List<MetaCardData> Cards { get => _cardDatas; set => _cardDatas = value; }
-        public List<MetaComboData> Combos { get => _comboDatas; set => _comboDatas = value; }
+        public List<MetaCardData> Cards => _cardDatas; 
+        public List<MetaComboData> Combos => _comboDatas;
 
-        public bool TryEditDeckName(string name)
-        {
-            _deckName = name;//add name vaild
-
-            return true;
-        }
-
+        #endregion
+        \
         public MetaDeckData(DeckData deckData)
         {
             _id = deckData.Id;
@@ -53,6 +66,51 @@ namespace CardMaga.Meta.AccountMetaData
 
                 _comboDatas[i] = new MetaComboData(tempComboCores[i]);
             }
+        }
+        
+        public bool TryEditDeckName(string name)
+        {
+            _deckName = name;//add name vaild
+
+            return true;
+        }
+
+        public bool TryAddCard(MetaCardData cardData)
+        {
+            return true;
+        }
+        
+        public void RemoveCard(MetaCardData cardData)
+        {
+            
+        }
+        
+        public void RemoveCard(int cardIndex)
+        {
+            
+        }
+        
+        public bool TryAddCombo(MetaComboData comboData)
+        {
+            return true;
+        }
+        
+        public void RemoveCombo(MetaComboData comboData)
+        {
+            
+        }
+        
+        public void RemoveCombo(int comboIndex)
+        {
+            
+        }
+
+        public bool Equals(MetaDeckData other)
+        {
+            if (other == null)
+                return false;
+
+            return Id == other.Id;
         }
     }
 }

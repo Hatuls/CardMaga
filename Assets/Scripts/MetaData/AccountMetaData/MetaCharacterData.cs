@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Account.GeneralData;
+using UnityEngine;
 
 namespace CardMaga.Meta.AccountMetaData
 {
@@ -14,6 +15,7 @@ namespace CardMaga.Meta.AccountMetaData
         private int _rank;
         private int _deckAmount = 1;
         private int _mainDeck;
+        private int _maxDeckLimit;
 
         private List<int> _availableSkins;
         private List<MetaDeckData> _decks;
@@ -41,7 +43,8 @@ namespace CardMaga.Meta.AccountMetaData
             _exp = character.Exp;
             _skillPoint = character.SkillPoint;
             _rank = character.Rank;
-            _deckAmount = character.DeckLimit; //need to check rei _____
+            _deckAmount = character.Deck.Count; //need to check rei _____
+            _maxDeckLimit = character.DeckLimit;
             _mainDeck = character.MainDeck;
 
             _availableSkins = new List<int>(character.AvailableSkins.Count);
@@ -57,6 +60,18 @@ namespace CardMaga.Meta.AccountMetaData
             {
                 _decks[i] = new MetaDeckData(character.Deck[i]);
             }
+        }
+
+        public bool TryAddDeck()
+        {
+            if (_decks.Count >= _maxDeckLimit)
+            {
+                Debug.LogWarning("Max number of decks");
+                return false;
+            }
+            
+            _decks.Add(new MetaDeckData(new DeckData(_decks.Count)));
+            return true;
         }
     }
 }

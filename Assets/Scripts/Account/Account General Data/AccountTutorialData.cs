@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 public class AccountTutorialData 
 {
     private int _tutorialProgress;

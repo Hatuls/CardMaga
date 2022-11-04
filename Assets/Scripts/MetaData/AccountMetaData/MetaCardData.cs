@@ -1,10 +1,11 @@
+using System;
 using Account.GeneralData;
 using CardMaga.Card;
 using CardMaga.Keywords;
 
 namespace CardMaga.Meta.AccountMetaData
 {
-    public class MetaCardData
+    public class MetaCardData : IEquatable<MetaCardData>
     {
         private CardSO _cardSO;
         private CardInstanceID _cardInstanceID;
@@ -27,6 +28,14 @@ namespace CardMaga.Meta.AccountMetaData
         {
             _cardSO = cardSo;
             _cardInstanceID = instanceID;
+        }
+
+        public bool Equals(MetaCardData other)
+        {
+            if (other == null)
+                return false;
+            
+            return CardInstanceID == other.CardInstanceID;
         }
     }
 }
