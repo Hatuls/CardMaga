@@ -1,9 +1,16 @@
 ﻿using CardMaga.Input;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ComboAndDeckExitButton : Button
 {
+    [EventsGroup,SerializeField]
+    private UnityEvent OnDeckCollectionOpen;
+    [EventsGroup,SerializeField]
+    private UnityEvent OnComboCollectionOpen;
+
+
     [Header("Collection Reference")]
     [SerializeField] private GameObject _deckCollection;
     [SerializeField] private GameObject _comboCollection;
@@ -13,6 +20,9 @@ public class ComboAndDeckExitButton : Button
     
     private InputBehaviour _comboState;
     private InputBehaviour _deckState;
+
+
+
 
     protected override void Awake()
     {
@@ -33,6 +43,7 @@ public class ComboAndDeckExitButton : Button
 
     private void SetToComboState()
     {
+        OnComboCollectionOpen?.Invoke();
         _deckCollection.SetActive(false);
         _comboCollection.SetActive(true);
         _comboAndDecksButtonText.text = "Decks";
@@ -42,6 +53,7 @@ public class ComboAndDeckExitButton : Button
 
     private void SetToDeckState()
     {
+        OnDeckCollectionOpen?.Invoke();
         _deckCollection.SetActive(true);
         _comboCollection.SetActive(false);
         _comboAndDecksButtonText.text = "Combo";
