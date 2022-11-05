@@ -60,10 +60,6 @@ namespace Battle
         public CardCore[] Deck { get => _deck; }
 
 
-        [SerializeField]
-        private RewardTypeEnum _rewardType;
-        public RewardTypeEnum RewardType { get => _rewardType; private set => _rewardType = value; }
-
 
         public ref CharacterStats CharacterStats { get => ref _characterStats; }
 
@@ -202,10 +198,7 @@ namespace Battle
                                 }
                                 _combos = comboCores.ToArray();
 
-                                if (int.TryParse(row[RewardTypeIndex], out int RewardInt))
-                                {
-                                    RewardType = (RewardTypeEnum)RewardInt;
-                                }
+                          
 
 
                                 if (byte.TryParse(row[CharacterUnlockLevel], out byte level))
@@ -283,13 +276,5 @@ namespace Battle
         Elite_Enemy = 4,
         Boss_Enemy = 5,
     }
-    
-    [System.Flags]
-    public enum RewardTypeEnum
-    {
-        None = 0,
-        Gold = 1 << 0,
-        CardReward = 2 << 1,
-        Recipe = 3 << 2,
-    }
+
 }

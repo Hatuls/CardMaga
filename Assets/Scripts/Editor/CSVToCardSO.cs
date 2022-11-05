@@ -45,15 +45,6 @@ namespace CardMaga.CSV
             List<CardSO> cardList = new List<CardSO>();
 
 
-
-            List<ushort> commonList = new List<ushort>(); ;
-            List<ushort> unCommonList = new List<ushort>();
-            List<ushort> rareList = new List<ushort>();
-            List<ushort> epicList = new List<ushort>();
-            List<ushort> legendReiList = new List<ushort>();
-
-
-
             //0 is the headers
             // 1 is example card
             const int firstCardsIndex = 3;
@@ -73,59 +64,14 @@ namespace CardMaga.CSV
                 if (cardCache == null)
                     continue;
                 else
-                {
                     cardList.Add(cardCache);
 
-                    // battle reward sort
-
-                    // is reward card
-                    //if (cardCache.IsBattleReward)
-                    //{
-
-                    //    switch (cardCache.Rarity)
-                    //    {
-
-                    //        case RarityEnum.Common:
-                    //            commonList.Add(cardCache.ID);
-                    //            break;
-                    //        case RarityEnum.Uncommon:
-                    //            unCommonList.Add(cardCache.ID);
-                    //            break;
-                    //        case RarityEnum.Rare:
-                    //            rareList.Add(cardCache.ID);
-                    //            break;
-                    //        case RarityEnum.Epic:
-                    //            epicList.Add(cardCache.ID);
-                    //            break;
-                    //        case RarityEnum.LegendREI:
-                    //            legendReiList.Add(cardCache.ID);
-                    //            break;
-                    //        case RarityEnum.None:
-                    //        default:
-                    //            throw new Exception("Rarity card is None or not acceptabl\ncard id" + +cardCache.ID);
-                    //    }
-
-                 //   }
-
-                }
+                
             }
 
-
-
             await Task.Yield();
-            var _rarity = new CardsCollectionSO.RarityCards[]
-            {
-        new  CardsCollectionSO.RarityCards(commonList.ToArray(), RarityEnum.Common),
-        new  CardsCollectionSO.RarityCards(unCommonList.ToArray(), RarityEnum.Uncommon),
-        new  CardsCollectionSO.RarityCards(rareList.ToArray(), RarityEnum.Rare),
-        new  CardsCollectionSO.RarityCards(epicList.ToArray(), RarityEnum.Epic),
-        new  CardsCollectionSO.RarityCards(legendReiList.ToArray(), RarityEnum.LegendREI),
-            };
 
-
-
-
-            CSVManager._cardCollection.Init(cardList.ToArray(), _rarity);
+            CSVManager._cardCollection.Init(cardList.ToArray());
             AssetDatabase.CreateAsset(CSVManager._cardCollection, $"Assets/Resources/Collection SO/CardCollection.asset");
             AssetDatabase.SaveAssets();
             Debug.Log("Cards Updated Completed!");
@@ -353,7 +299,7 @@ namespace CardMaga.CSV
 
             } while (true);
             card.PerLevelUpgrade = _PerLevelUpgrade.ToArray();
-
+            card.CreateCardCoreInfo();
 
             //string[] rewardType = cardSO[IsRewardType].Split('&');
             //if (byte.TryParse(rewardType[0], out byte isBattleReward))

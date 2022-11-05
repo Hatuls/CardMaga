@@ -61,7 +61,7 @@ namespace CardMaga.CSV
         private void CreateUpgradesSO(string[] MapupgradeCost, string[] upgradeChipCost)
         {
             CSVManager._upgradeCardCostSO = ScriptableObject.CreateInstance<CardUpgradeCostSO>();
-            CSVManager._upgradeCardCostSO.Init(MapupgradeCost, upgradeChipCost);
+         //   CSVManager._upgradeCardCostSO.Init(MapupgradeCost, upgradeChipCost);
             AssetDatabase.CreateAsset(CSVManager._upgradeCardCostSO, $"Assets/Resources/MetaGameData/UpgradeCostSO.asset");
 
         }

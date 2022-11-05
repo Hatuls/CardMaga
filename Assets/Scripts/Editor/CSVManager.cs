@@ -2,6 +2,7 @@
 using Collections;
 using Keywords;
 using Rewards;
+using System;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -33,12 +34,12 @@ namespace CardMaga.CSV
         const string _driveURLOfCharacterSO = "945070348";
         const string _driveURLOfKeywordsSO = "116208579";
         const string _driveURLOfBattleRewardSO = "39048757";
+        const string _driveURLOfPackRewards = "1123662053";
         #endregion
 
 
         #region Meta CSV
         const string _driveMetaURL = "https://docs.google.com/spreadsheets/d/11FQ280bkkd9J-UZpHKlLdKnLdoULX4MI3md1trWPArI/export?format=csv&gid=";
-        const string _driveURLOfPackRewards = "463836199";
         const string _driveURLOfDismentalAndUpgrades = "26424949";
         const string _driveURLOfDiffculty = "1834560392";
         #endregion
@@ -47,10 +48,19 @@ namespace CardMaga.CSV
         [MenuItem("Google Drive/Update All ScriptableObjects!")]
         public static void Start()
         {
-            Debug.ClearDeveloperConsole();
-            System.Console.Clear();
+            ClearConsole();
+
             BattleDataAsync();
         }
+
+        private static void ClearConsole()
+        {
+            // This simply does "LogEntries.Clear()" the long way:
+            var logEntries = System.Type.GetType("UnityEditorInternal.LogEntries,UnityEditor.dll");
+            var clearMethod = logEntries?.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+            clearMethod?.Invoke(null, null);
+        }
+
         public async static void BattleDataAsync()
         {
             await LoadBattleData();
@@ -69,13 +79,13 @@ namespace CardMaga.CSV
         private async static Task LoadMetaBattleData()
         {
             CSVAbst[] metacsv = new CSVAbst[] {
-     //    new CSVToPackReward(),
+       
          new CSVToUpgradeAndDismental(),
         };
 
             string[] metaurls = new string[]
             {
-      //  _driveURLOfPackRewards,
+     //   _driveURLOfPackRewards,
         _driveURLOfDismentalAndUpgrades,
             };
 
@@ -89,6 +99,7 @@ namespace CardMaga.CSV
         _driveURLOfCardSO,
         _driveURLOfRecipeSO,
         _driveURLOfCharacterSO,
+          _driveURLOfPackRewards,
         _driveURLOfBattleRewardSO
             };
 
@@ -96,7 +107,8 @@ namespace CardMaga.CSV
             new CSVToKeywordsSO(),
             new CSVToCardSO(),
             new CSVTORecipeSO(),
-            new CSVToCharacterSO (),
+            new CSVToCharacterSO(),
+            new CSVToPackReward(),
             new CSVToBattleReward()
         };
 
