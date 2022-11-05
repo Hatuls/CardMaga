@@ -18,7 +18,6 @@ public class DialoguesFlow : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _currentCharacterText;
     [SerializeField] private bool _closePanelAtEnding;
     [SerializeField] private bool _loadOnTutorialPanel;
-    private ClickHelper _clickHelper;
     private TutorialClickHelper _tutorialClickHelper;
     private int _currentDialogue;
     private IDisposable _token;
@@ -33,6 +32,12 @@ public class DialoguesFlow : MonoBehaviour
 
     #region PrivateFunction
 
+    private void Awake()
+    {
+        _tutorialClickHelper = TutorialClickHelper.Instance;
+    }
+
+
     private void UpdateDialogues(int position)
     {
         OnDialoguesUpdate.Invoke();
@@ -43,15 +48,12 @@ public class DialoguesFlow : MonoBehaviour
     private void SendDialogue()
     {
         //StartDelay();
-        if(_loadOnTutorialPanel)
             _tutorialClickHelper.LoadObject(true, false, MoveNextDialogues, _dialoguesFlow);
-        else
-        _clickHelper.LoadObject(true, false ,MoveNextDialogues, _dialoguesFlow);
+
     }
 
     private void StartDelay()
     {
-        _clickHelper.ClickBlocker.BlockInputForSeconds(_dialoguesList[_currentDialogue]._delayTimeForClick, AfterDelay);
         OnAfterDelay.Invoke();
     }
 
@@ -87,26 +89,15 @@ public class DialoguesFlow : MonoBehaviour
     {
         if (_closePanelAtEnding)
         {
-            if (_loadOnTutorialPanel)
                 _tutorialClickHelper.Close();
-
-            else
-                _clickHelper.Close();
         }
     }
 
     private void CheckActivation()
     {
-        if (_loadOnTutorialPanel)
-        {
             if (!_tutorialClickHelper.gameObject.activeSelf)
                 _tutorialClickHelper.gameObject.SetActive(true);
-        }
-        else
-        {
-            if (!_clickHelper.gameObject.activeSelf)
-                _clickHelper.gameObject.SetActive(true);
-        }
+
     }
 
     #endregion
@@ -121,8 +112,6 @@ public class DialoguesFlow : MonoBehaviour
     public void FirstDialogue()
     {
         _currentDialogue = 0;
-        _clickHelper = ClickHelper.Instance;
-        _tutorialClickHelper = TutorialClickHelper.Instance;
         OnFlowStart.Invoke();
         UpdateDialogues(_currentDialogue);
         SendDialogue();

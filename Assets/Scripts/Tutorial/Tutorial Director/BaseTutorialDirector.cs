@@ -11,21 +11,23 @@ namespace TutorialDirector
     public class BaseTutorialDirector : MonoBehaviour
     {
         [SerializeField] private PlayableDirector _playableDirector;
-        [SerializeField] private RectTransform _directorRect;
+        [SerializeField] protected RectTransform _directorRect;
         
         [SerializeField] private UnityEvent OnDirectorStart;
         [SerializeField] private UnityEvent OnDirectorEnd;
 
         private IDisposable _token;
         private TutorialClickHelper _tutorialClickHelper;
+
         
         public void StartAnimation(ITokenReciever tokenReciever)
         {
             _token = tokenReciever.GetToken();
             _tutorialClickHelper = TutorialClickHelper.Instance;
             gameObject.SetActive(true);
-            _tutorialClickHelper.LoadObject(true, false, null, _directorRect);
             SubscribeEvent();
+            _tutorialClickHelper.LoadObject(true, false, null, _directorRect);
+            MoveDirectorPosition();
             _playableDirector.Play();
             if (OnDirectorStart != null)
                 OnDirectorStart.Invoke();
@@ -50,6 +52,11 @@ namespace TutorialDirector
         }
 
         protected virtual void SubscribeEvent()
+        {
+
+        }
+
+        protected virtual void MoveDirectorPosition()
         {
 
         }

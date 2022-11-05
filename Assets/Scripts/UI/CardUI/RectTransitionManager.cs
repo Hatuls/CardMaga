@@ -10,13 +10,13 @@ public static class RectTransitionManager
     
     public static Sequence Transition(this RectTransform rectTransform ,TransitionPackSO transitionPackSo, Action onComplete = null)
     {
-        Vector3 destination = (Vector3)rectTransform.GetWordPosition() + transitionPackSo.MoveOffSet;
+        Vector3 destination = (Vector3)rectTransform.GetWorldPosition() + transitionPackSo.MoveOffSet;
         return rectTransform.Transition(destination, transitionPackSo, onComplete);
     }
     
     public static Sequence Transition(this RectTransform rectTransform , RectTransform destination, TransitionPackSO transitionPackSo, Action onComplete = null)
     {
-        return rectTransform.Transition(destination.GetWordPosition(), transitionPackSo, onComplete);
+        return rectTransform.Transition(destination.GetWorldPosition(), transitionPackSo, onComplete);
     }
 
     public static Sequence Transition(this RectTransform rectTransform ,Vector2 destination, TransitionPackSO transitionPackSo, Action onComplete = null)
@@ -56,7 +56,7 @@ public static class RectTransitionManager
 
     public static Sequence SetPosition(this RectTransform rectTransform ,RectTransform destination, Action onComplete = null)
     {
-        return rectTransform.SetPosition(destination.GetWordPosition(),onComplete);
+        return rectTransform.SetPosition(destination.GetWorldPosition(),onComplete);
     }
 
     public static Sequence SetPosition(this RectTransform rectTransform ,Vector3 destination, Action onComplete = null)
@@ -80,13 +80,13 @@ public static class RectTransitionManager
     
     public static Sequence Move(this RectTransform rectTransform, TransitionPackSO transitionPackSo, Action onComplete = null)
     {
-        Vector3 destination = (Vector3)rectTransform.GetWordPosition() + transitionPackSo.MoveOffSet;
+        Vector3 destination = (Vector3)rectTransform.GetWorldPosition() + transitionPackSo.MoveOffSet;
         return rectTransform.Move(destination, transitionPackSo, onComplete);
     }
     
     public static Sequence Move(this RectTransform rectTransform,RectTransform destination, TransitionPackSO transitionPackSo, Action onComplete = null)
     {
-        return rectTransform.Move(destination.GetWordPosition(), transitionPackSo, onComplete);
+        return rectTransform.Move(destination.GetWorldPosition(), transitionPackSo, onComplete);
     }
 
     public static Sequence Move(this RectTransform rectTransform,Vector2 destination, TransitionPackSO transitionPackSo, Action onComplete = null)
@@ -418,7 +418,7 @@ public static class RectTransformHelper
         return rectTransform.transform.localPosition;
     }
 
-    public static Vector2 GetWordPosition(this RectTransform rectTransform)
+    public static Vector2 GetWorldPosition(this RectTransform rectTransform)
     {
         return rectTransform.transform.TransformPoint(rectTransform.rect.center);
     }

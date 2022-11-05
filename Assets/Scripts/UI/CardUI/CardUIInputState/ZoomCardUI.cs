@@ -16,8 +16,8 @@ namespace CardMaga.UI.Card
         [Header("RectTransforms")]
         [SerializeField] private RectTransform _zoomPosition;
 
-        public static event Action OnEnterZoomTutorial;
         public static event Action OnZoomInLocation;
+        public static event Action OnEnterZoomTutorial;
         public static event Action OnExitZoomTutorial;
 
         private Sequence _currentSequence;
@@ -41,8 +41,6 @@ namespace CardMaga.UI.Card
             base.EnterState(cardUI);
             _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
             MoveToZoomPosition(cardUI);
-            if (OnExitZoomTutorial != null)
-                OnExitZoomTutorial.Invoke();
         }
 
         public override void ExitState(CardUI cardUI)
@@ -50,8 +48,8 @@ namespace CardMaga.UI.Card
              _clickHelper.Close();
             _zoomToken?.Dispose();
             base.ExitState(cardUI);
-            if(OnEnterZoomTutorial != null)
-                OnEnterZoomTutorial.Invoke();
+
+            
         }
 
         public void ReturnToHandState(CardUI cardUI)
@@ -68,7 +66,10 @@ namespace CardMaga.UI.Card
         {
             if (_zoomToken != null)
                 _zoomToken.Dispose();
-            
+
+            if (OnExitZoomTutorial != null)
+                OnExitZoomTutorial.Invoke();
+
             return base.ForceExitState();
         }
 
@@ -82,13 +83,14 @@ namespace CardMaga.UI.Card
             _zoomToken = SelectedCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
         
-        private void MoveToZoomPosition(CardUI cardUI)
+        public void MoveToZoomPosition(CardUI cardUI)
         {
-            if (SelectedCardUI != null)
-            {
+            if (SelectedCardUI == null)
+                SetCardUI(cardUI);
                 KillTween();
                 _currentSequence = cardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
-            }
+            if (OnEnterZoomTutorial != null)
+                OnEnterZoomTutorial.Invoke();
         }
 
         private void KillTween()

@@ -8,6 +8,7 @@ public class TutorialHandler : MonoBehaviour
 {
    [SerializeField] private UnityEvent OnFirstLogin;
    [SerializeField] private UnityEvent OnNotFirstLogin;
+    [SerializeField] private bool TempFirstLogin;
 
    private LoginResult _loginResult;
 
@@ -33,7 +34,7 @@ public class TutorialHandler : MonoBehaviour
    
    public void CheckIfFirstLogin()
    {
-      if (false)//!AccountManager.Instance.Data.AccountTutorialData.IsCompletedTutorial || _loginResult.NewlyCreated
+      if (TempFirstLogin)//!AccountManager.Instance.Data.AccountTutorialData.IsCompletedTutorial || _loginResult.NewlyCreated
       {
          OnFirstLogin?.Invoke();
          Debug.Log("FirstLogin");

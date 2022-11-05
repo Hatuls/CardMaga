@@ -12,8 +12,6 @@ public class BaseMaskInstruction : MonoBehaviour
     [SerializeField] private GameObject _maskGameobject;
     [SerializeField] private RectTransform _maskTransform;
     [SerializeField] private bool CloseOnClick;
-    [SerializeField] private bool _loadOnTutorialPanel;
-    private ClickHelper _clickHelper;
     private TutorialClickHelper _tutorialClickHelper;
     private IDisposable _token;
     #endregion
@@ -26,7 +24,6 @@ public class BaseMaskInstruction : MonoBehaviour
     public void StartInstruction(ITokenReciever tokenReciever)
     {
         _token = tokenReciever.GetToken();
-        _clickHelper = ClickHelper.Instance;
         _tutorialClickHelper = TutorialClickHelper.Instance;
         gameObject.SetActive(true);
         SubscribeEvent();
@@ -38,22 +35,10 @@ public class BaseMaskInstruction : MonoBehaviour
     private void DisplayCanvas()
     {
         if(CloseOnClick)
-        {
-            if(_loadOnTutorialPanel)
                 _tutorialClickHelper.LoadObject(true, false, CloseCanvas, _maskTransform);
 
-            else
-                _clickHelper.LoadObject(true, false, CloseCanvas, _maskTransform);
-        }
-
         else
-        {
-            if (_loadOnTutorialPanel)
                 _tutorialClickHelper.LoadObject(true, false, ReturnCanvasObjects, _maskTransform);
-
-            else
-                _clickHelper.LoadObject(true, false, ReturnCanvasObjects, _maskTransform);
-        }
         
     }
 
@@ -62,10 +47,7 @@ public class BaseMaskInstruction : MonoBehaviour
         if (OnMaskEnd != null)
             OnMaskEnd.Invoke();
 
-        if (_loadOnTutorialPanel)
-            _tutorialClickHelper.Close();
-        else
-           _clickHelper.Close();
+        _tutorialClickHelper.Close();
         UnsubscribeEvent();
         ReleaseToken();
         _maskGameobject.SetActive(false);
@@ -73,10 +55,7 @@ public class BaseMaskInstruction : MonoBehaviour
 
     protected void ReturnCanvasObjects()
     {
-        if (_loadOnTutorialPanel)
             _tutorialClickHelper.ReturnObjects();
-        else
-            _clickHelper.ReturnObjects();
         UnsubscribeEvent();
         ReleaseToken();
         _maskGameobject.SetActive(false);

@@ -69,6 +69,9 @@ public class BaseHandUIState : MonoBehaviour
         return temp;
     }
 
-
+    protected void SetCardUI(CardUI cardUI)
+    {
+        _selectedCardUI = cardUI;
+    }
 
 }
