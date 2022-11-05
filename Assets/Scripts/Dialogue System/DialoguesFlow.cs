@@ -1,13 +1,11 @@
-
-﻿using System.Collections;
-using UnityEngine.Events;
-using System.Collections.Generic;
-using UnityEngine;
 using CardMaga.DialogueSO;
-using TMPro;
-using UnityEngine.UI;
-using System;
 using ReiTools.TokenMachine;
+using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class DialoguesFlow : MonoBehaviour
 {
@@ -48,9 +46,7 @@ public class DialoguesFlow : MonoBehaviour
 
     private void SendDialogue()
     {
-        //StartDelay();
-            _tutorialClickHelper.LoadObject(true, false, MoveNextDialogues, _dialoguesFlow);
-
+        _tutorialClickHelper.LoadObject(true, false, MoveNextDialogues, _dialoguesFlow);
     }
 
     private void StartDelay()
@@ -58,13 +54,12 @@ public class DialoguesFlow : MonoBehaviour
         OnAfterDelay.Invoke();
     }
 
-    private void MoveNextDialogues()
+    public void MoveNextDialogues()
     {
         _currentDialogue++;
         if (_currentDialogue <= _dialoguesList.Count - 1)
         {
             UpdateDialogues(_currentDialogue);
-            //StartDelay();
         }
 
         else
@@ -82,22 +77,32 @@ public class DialoguesFlow : MonoBehaviour
 
     private void AfterDelay()
     {
-        if(OnAfterDelay!=null)
-        OnAfterDelay.Invoke();
+        if (OnAfterDelay != null)
+            OnAfterDelay.Invoke();
     }
 
     private void ClosePanel()
     {
         if (_closePanelAtEnding)
         {
-                _tutorialClickHelper.Close();
+            _tutorialClickHelper.Close();
         }
     }
 
     private void CheckActivation()
     {
-            if (!_tutorialClickHelper.gameObject.activeSelf)
-                _tutorialClickHelper.gameObject.SetActive(true);
+        if (!_tutorialClickHelper.gameObject.activeSelf)
+            _tutorialClickHelper.gameObject.SetActive(true);
+
+    }
+
+    protected virtual void UnsubscribeEvent()
+    {
+
+    }
+
+    protected virtual void SubscribeEvent()
+    {
 
     }
 
@@ -108,6 +113,7 @@ public class DialoguesFlow : MonoBehaviour
     {
         gameObject.SetActive(true);
         _token = tokenReciever.GetToken();
+        SubscribeEvent();
         FirstDialogue();
     }
     public void FirstDialogue()
@@ -123,6 +129,7 @@ public class DialoguesFlow : MonoBehaviour
         CheckActivation();
         OnFlowEnd.Invoke();
         ClosePanel();
+        UnsubscribeEvent();
         ReleaseToken();
         gameObject.SetActive(false);
     }

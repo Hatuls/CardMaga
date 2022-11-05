@@ -145,6 +145,7 @@ namespace CardMaga.Battle.UI
         {
             _visualKeywordsHandler = new VisualKeywordsHandler();
             _battleManager.Register(this, OrderType.After);
+            base.Awake();
         }
         #endregion
         #region Functions

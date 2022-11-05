@@ -9,8 +9,6 @@ public class StrechMaskBackground : MonoBehaviour
     [SerializeField] private TrackerID _trackerID;
     [SerializeField] private bool _strechOnEnable;
     private TutorialClickHelper _tutorialClickHelper;
-    private TrackerHandler _trackerHandler;
-
 
     private void OnEnable()
     {
@@ -18,6 +16,7 @@ public class StrechMaskBackground : MonoBehaviour
             StrechMask();
     }
 
+    [Sirenix.OdinInspector.Button]
     public void StrechMask()
     {
         GetInstances();
@@ -47,18 +46,16 @@ public class StrechMaskBackground : MonoBehaviour
     private void GetInstances()
     {
         _tutorialClickHelper = TutorialClickHelper.Instance;
-        _trackerHandler = TrackerHandler.Instance;
-
     }
 
     private void LoadObject()
     {
-            _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);
+        _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);
     }
 
     public void ReturnObject()
     {
-            _tutorialClickHelper.ReturnObjects();
+        _tutorialClickHelper.ReturnObjects();
 
     }
 

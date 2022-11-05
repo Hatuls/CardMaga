@@ -3,16 +3,14 @@ using CardMaga.UI.Card;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using CardMaga.UI;
-using Battle;
-using Cards;
-using CardMaga.UI.Card;
 using CardMaga.Input;
 
 public class FirstCardDisplayer : MonoBehaviour
 {
     [SerializeField] private UnityEvent OnReturnCard;
-
+    [SerializeField] private DialoguesFlow _dialoguesFlow3;
+    [SerializeField] private DialoguesFlow _dialoguesFlow4;
+    [SerializeField] private DialoguesFlow _dialoguesFlow5;
     private TutorialClickHelper _tutorialClickHelper;
     private BattleUiManager _battleUIManager;
     private IReadOnlyList<CardUI> _cards;
@@ -23,7 +21,7 @@ public class FirstCardDisplayer : MonoBehaviour
     {
         _tutorialClickHelper = TutorialClickHelper.Instance;
         _battleUIManager = BattleUiManager.Instance;
-        _cards = _battleUIManager.CardUIManager.HandUI.GetCardUIFromHand();
+        _cards = _battleUIManager.HandUI.GetCardUIFromHand();
         InputBehaviour<CardUI> tutorialZoomOutInputBehaviour = new InputBehaviour<CardUI>();
         tutorialZoomOutInputBehaviour.OnClick += ZoomInCardInput;
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomOutInputBehaviour);
@@ -39,17 +37,43 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public void ZoomInCardInput(CardUI cardUI)
     {
-        _battleManager.CardUIManager.HandUI.ZoomCardUI.EnterState(_cards[0]);
+        _battleUIManager.CardUIManager.HandUI.ZoomCardUI.MoveToZoomPosition(_cards[0]);
         InputBehaviour<CardUI> tutorialZoomInInputBehaviour = new InputBehaviour<CardUI>();
-        //tutorialZoomInInputBehaviour.OnClick += ReturnToHand;
+        
+        tutorialZoomInInputBehaviour.OnClick += MoveNextDialogues;
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomInInputBehaviour);
     }
 
-    public void ReturnToHand(CardUI cardUI)
+    private void MoveNextDialogues(CardUI cardUI)
+    {
+        if (_dialoguesFlow3.gameObject.activeSelf)
+            _dialoguesFlow3.MoveNextDialogues();
+
+        else if (_dialoguesFlow4.gameObject.activeSelf)
+            _dialoguesFlow4.MoveNextDialogues();
+
+        else if (_dialoguesFlow5.gameObject.activeSelf)
+            _dialoguesFlow5.MoveNextDialogues();
+
+        else
+        {
+            InputBehaviour<CardUI> returnCardInputBehaviour = new InputBehaviour<CardUI>();
+            returnCardInputBehaviour.OnClick += ReturnCardToHand;
+            _cards[0].Inputs.TrySetInputBehaviour(returnCardInputBehaviour);
+        }
+    }
+
+    [Sirenix.OdinInspector.Button]
+    public void ReturnCard()
+    {
+        ReturnCardToHand(_cards[0]);
+    }
+
+    private void ReturnCardToHand(CardUI cardUI)
     {
         _cards[0].Inputs.ForceResetInputBehaviour();
-        _battleManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
-        _battleManager.CardUIManager.HandUI.SetToHandState(cardUI);
+        _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
+        _battleUIManager.CardUIManager.HandUI.SetToHandState(cardUI);
         _tutorialClickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
         OnReturnCard.Invoke();
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
@@ -74,4 +98,10 @@ public class FirstCardDisplayer : MonoBehaviour
     {
         _cards[0].Inputs.Lock();
     }
+
+    private void OnDestroy()
+    {
+        
+    }
+
 }

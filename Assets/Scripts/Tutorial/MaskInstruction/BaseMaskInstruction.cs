@@ -56,7 +56,7 @@ public class BaseMaskInstruction : MonoBehaviour
 
     protected void ReturnCanvasObjects()
     {
-            _tutorialClickHelper.ReturnObjects();
+        _tutorialClickHelper.ReturnObjects();
         UnsubscribeEvent();
         ReleaseToken();
         _maskGameobject.SetActive(false);
