@@ -1,17 +1,18 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
+using Keywords;
 namespace Characters.Stats
 {
     public class RageShard : BaseStat
     {
         byte _maxShardSize;
         private RageStat _rageStat;
-        public RageShard(bool isPlayer, int amount,RageStat rageStat) : base(isPlayer, amount)
+        public RageShard(int amount,RageStat rageStat) : base( amount)
         {
-            _maxShardSize = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(Keyword).InfoAmount;
+            _maxShardSize = Factory.GameFactory.Instance.KeywordFactoryHandler.GetKeywordSO(Keyword).InfoAmount;
             _rageStat = rageStat;
         }
 
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.RageShard;
+        public override KeywordType Keyword => KeywordType.RageShard;
 
         public override void Add(int amount)
         {

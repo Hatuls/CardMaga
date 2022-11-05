@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using CardMaga.Card;
+using CardMaga.Keywords;
+using Keywords;
 
 namespace Factory
 {
@@ -34,22 +36,21 @@ namespace Factory
             CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
             ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
             CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
-            BattleRewardCollectionSO battleRewardsCollection = Resources.Load<BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
-     
+           
             Keywords.KeywordsCollectionSO keywordsCollection = Resources.Load<Keywords.KeywordsCollectionSO>("Collection SO/KeywordSOCollection");
-            _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, battleRewardsCollection,  keywordsCollection);
+            _instance = new GameFactory(cardCollections, recipeCollection, characterCollection,  keywordsCollection);
         }
 
         public ComboFactory ComboFactoryHandler { get; private set; }
         public CardFactory CardFactoryHandler { get; private set; }
         public CharacterFactory CharacterFactoryHandler { get; private set; }
         public RewardFactory RewardFactoryHandler { get; private set; }
-        public KeywordFactory KeywordSOHandler { get; private set; }
+        public KeywordFactory KeywordFactoryHandler { get; private set; }
 
 
-        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, BattleRewardCollectionSO rewards,  Keywords.KeywordsCollectionSO keywords)
+        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters  ,KeywordsCollectionSO keywords)
         {
-            if (cards == null || comboCollectionSO == null || characters == null || rewards == null )
+            if (cards == null || comboCollectionSO == null || characters == null )
                 throw new Exception("Collections is null!!");
 
            
@@ -57,8 +58,8 @@ namespace Factory
             CardFactoryHandler = new CardFactory(cards);
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
-            RewardFactoryHandler = new RewardFactory(rewards);
-            KeywordSOHandler = new KeywordFactory(keywords);
+         //   RewardFactoryHandler = new RewardFactory(rewards);
+            KeywordFactoryHandler = new KeywordFactory(keywords);
             Debug.Log("Factory Created<a>!</a>");
 
             _instance = this;
@@ -342,7 +343,7 @@ namespace Factory
             {
                 _keywordCollection = keyword;
             }
-            public Keywords.KeywordSO GetKeywordSO(Keywords.KeywordTypeEnum type)
+            public KeywordSO GetKeywordSO(KeywordType type)
                 => _keywordCollection.GetKeywordSO(type);
         }
     }

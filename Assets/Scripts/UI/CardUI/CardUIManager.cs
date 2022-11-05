@@ -12,7 +12,7 @@ using CardMaga.UI;
 
 namespace CardMaga.Battle.UI
 {
-    public class CardUIManager : MonoSingleton<CardUIManager>, ISequenceOperation<IBattleManager>
+    public class CardUIManager : MonoSingleton<CardUIManager>, ISequenceOperation<IBattleUIManager>
     {
         #region Field
         private IPlayersManager _players;
@@ -102,22 +102,15 @@ namespace CardMaga.Battle.UI
             OnPlayerRemoveHand?.Invoke();
         }
 
-        public IReadOnlyList<CardUI>  GetCardUiFromHand()
-        {
-            return _handUI.GetCardUIFromHand();
-        }
-
-
-        public override void Awake()
-        {
-            base.Awake();
-            BattleManager.Register(this, OrderType.After);
-            _cardPool.Init();
-        }
+        public IReadOnlyList<CardUI>  GetCardUiFromHand() => _handUI.GetCardUIFromHand();
         
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+
+
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
         {
+            var data = battleUIManager.BattleDataManager;
             _players = data.PlayersManager;
+            _cardPool.Init();
             data.CardExecutionManager.OnEnemyCardExecute += PlayEnemyCard;
             data.TurnHandler.GetCharacterTurn(false).EndTurnOperations.Register((x) => ActivateEnemyCardUI(false));
             data.OnBattleManagerDestroyed += BeforeBattleManagerDestroyed;

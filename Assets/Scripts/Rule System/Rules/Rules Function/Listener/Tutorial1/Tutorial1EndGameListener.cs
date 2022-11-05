@@ -1,8 +1,5 @@
-﻿using Battle;
+﻿using CardMaga.Battle;
 using CardMaga.Rules;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Tutorial1EndGameListener : BaseEndGameRule
 {
@@ -17,9 +14,9 @@ public class Tutorial1EndGameListener : BaseEndGameRule
         BattleTutorial.OnTutorialFinished += WaitForTutorialToComplete;
     }
 
-    public Tutorial1EndGameListener(float delayToEndGame) : base (delayToEndGame)
+    public Tutorial1EndGameListener(float delayToEndGame) : base(delayToEndGame)
     {
-         
+
     }
 
     private void WaitForTutorialToComplete()

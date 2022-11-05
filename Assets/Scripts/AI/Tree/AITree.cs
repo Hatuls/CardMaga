@@ -45,7 +45,7 @@
                                                      new StatNode
                                                      {
                                                        IsPlayer = _amIPlayerLeft,
-                                                       KeywordType= Keywords.KeywordTypeEnum.Bleed,
+                                                       KeywordType= Keywords.KeywordType.Bleed,
                                                        Operator = OperatorType.BiggerThan,
                                                        Amount = 0
                                                      },
@@ -60,8 +60,8 @@
                                                                      new CompareBetweenKeywordsNode()
                                                                      {
                                                                            IsPlayer = _amIPlayerLeft,
-                                                                           KeywordA = Keywords.KeywordTypeEnum.Bleed,
-                                                                           KeywordB = Keywords.KeywordTypeEnum.Heal,
+                                                                           KeywordA = Keywords.KeywordType.Bleed,
+                                                                           KeywordB = Keywords.KeywordType.Heal,
                                                                            Operator = OperatorType.BiggerThanOrEqualTo,
                                                                      },
                                                                      new ORNode<AICard>//8

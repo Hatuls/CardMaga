@@ -1,60 +1,70 @@
-﻿using CardMaga.UI.Bars;
+﻿using Battle;
+using CardMaga.Battle.Visual;
+using CardMaga.SequenceOperation;
+using CardMaga.UI.Bars;
 using CardMaga.UI.Visuals;
-using Characters.Stats;
+using ReiTools.TokenMachine;
 using UnityEngine;
-namespace Battle.UI
+namespace CardMaga.Battle.UI
 {
-    public class StatsUIManager : MonoBehaviour
+    public class StatsUIManager : MonoBehaviour, ISequenceOperation<IBattleUIManager>
     {
         [Header("Health Bars:")]
         [SerializeField] private HealthBarUI _leftHealthBarUI;
         [SerializeField] private HealthBarUI _rightHealthBarUI;
 
         [Header("Shield Bars:")]
-        [SerializeField]private TopPartArmorUI _leftShieldUI;
-        [SerializeField]private TopPartArmorUI _rightShieldUI;
+        [SerializeField] private TopPartArmorUI _leftShieldUI;
+        [SerializeField] private TopPartArmorUI _rightShieldUI;
+       private VisualCharactersManager _visualCharactersManager;
+        public int Priority => 0;
 
-        private void Awake()
+        private TopPartArmorUI Armour(bool isLeft) => isLeft ? _leftShieldUI : _rightShieldUI;
+        private HealthBarUI HealthBar(bool isLeft) => isLeft ? _leftHealthBarUI : _rightHealthBarUI;
+
+        private void InitStatUI(bool isLeft, VisualStatHandler character)
         {
-            CharacterStatsHandler.OnStatAssigned += InitStatUI;
-
-        }
-
-        private void InitStatUI(bool isPlayer, CharacterStatsHandler character)
-        {
-            HealthBarUI healthBar = HealthBar(isPlayer);
-            BaseStat health = character.GetStats(Keywords.KeywordTypeEnum.Heal);
-            BaseStat maxHealth = character.GetStats(Keywords.KeywordTypeEnum.MaxHealth);
+            HealthBarUI healthBar = HealthBar(isLeft);
+            VisualStat health = character.VisualStatsDictionary[Keywords.KeywordType.Heal];
+            VisualStat maxHealth = character.VisualStatsDictionary[Keywords.KeywordType.MaxHealth];
             healthBar.InitHealthBar(health.Amount, maxHealth.Amount);
             health.OnValueChanged += healthBar.ChangeHealth;
             maxHealth.OnValueChanged += healthBar.ChangeMaxHealth;
 
 
-            BaseStat armour = character.GetStats(Keywords.KeywordTypeEnum.Shield);
-            armour.OnValueChanged += Armour(isPlayer).SetArmor;
+            VisualStat armour = character.VisualStatsDictionary[Keywords.KeywordType.Shield];
+            armour.OnValueChanged += Armour(isLeft).SetArmor;
         }
-        private TopPartArmorUI Armour(bool isPlayer) => isPlayer ? _leftShieldUI : _rightShieldUI;
-        private HealthBarUI HealthBar(bool isPlayer) => isPlayer ? _leftHealthBarUI : _rightHealthBarUI;
 
-        private void OnDestroy()
+
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
         {
-            UnSubscribe(true);
-            UnSubscribe(false);
+            bool isLeft = true;
+            _visualCharactersManager = data.VisualCharactersManager;
+            InitStatUI(isLeft,  _visualCharactersManager.GetVisualCharacter(isLeft).VisualStats);
+            InitStatUI(!isLeft, _visualCharactersManager.GetVisualCharacter(!isLeft).VisualStats);
 
-            CharacterStatsHandler.OnStatAssigned -= InitStatUI;
+            data.BattleDataManager.OnBattleManagerDestroyed += BeforeDestroy;
+        }
 
-            void UnSubscribe(bool isPlayer)
+        private void BeforeDestroy(IBattleManager obj)
+        {
+            IPlayersManager playerManager = obj.PlayersManager;
+            bool isLeftPlayer = true;
+            UnSubscribe(isLeftPlayer);
+            UnSubscribe(!isLeftPlayer);
+            void UnSubscribe(bool isLeft)
             {
-                var stats = BattleManager.Instance.PlayersManager.GetCharacter(isPlayer).StatsHandler;
+                var stats = _visualCharactersManager.GetVisualCharacter(isLeft).VisualStats;
                 if (stats == null)
                     return;
-                HealthBarUI healthBar = HealthBar(isPlayer);
-                BaseStat health = stats.GetStats(Keywords.KeywordTypeEnum.Heal);
-                BaseStat maxHealth = stats.GetStats(Keywords.KeywordTypeEnum.MaxHealth);
-                BaseStat armour = stats.GetStats(Keywords.KeywordTypeEnum.Shield);
+                HealthBarUI healthBar = HealthBar(isLeft);
+                VisualStat health = stats.VisualStatsDictionary[Keywords.KeywordType.Heal];
+                VisualStat maxHealth = stats.VisualStatsDictionary[Keywords.KeywordType.MaxHealth];
+                VisualStat armour = stats.VisualStatsDictionary[Keywords.KeywordType.Shield];
                 health.OnValueChanged -= healthBar.ChangeHealth;
                 maxHealth.OnValueChanged -= healthBar.ChangeMaxHealth;
-                armour.OnValueChanged -= Armour(isPlayer).SetArmor;
+                armour.OnValueChanged -= Armour(isLeft).SetArmor;
             }
         }
     }

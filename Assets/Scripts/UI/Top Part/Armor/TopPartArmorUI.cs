@@ -36,6 +36,8 @@ namespace CardMaga.UI.Visuals
                 Debug.LogWarning("TopPartArmorUI has no BreakArmorImage");
             if (_armorAmountText == null)
                 throw new Exception("TopPartArmorUI has no armor text");
+            _currentArmor = 0;
+            SetText(_currentArmor);
         }
         
         public void SetArmor(int amount)

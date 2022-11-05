@@ -1,0 +1,54 @@
+diff a/Assets/Scripts/Managers/ComboManager.cs b/Assets/Scripts/Managers/ComboManager.cs	(rejected hunks)
+@@ -72,42 +72,34 @@
+             var ComboSO = _cardRecipeDetected.ComboSO;
+             if (_cardRecipeDetected != null && ComboSO != null)
+             {
+-
++                 
+                 var craftedCard = _cardFactory.CreateCard(ComboSO.CraftedCard.ID, _cardRecipeDetected.Level);
+ 
+                 _successCrafting?.Raise();
+                 DeckHandler deck = _playersManager.GetCharacter(isPlayer).DeckHandler;
+-                ICommand command;
+-                var dataCommandsHandler = _gameCommands.GameDataCommands.DataCommands;
+                 switch (ComboSO.GoToDeckAfterCrafting)
+                 {
+                     case DeckEnum.Hand:
+-                        command = new AddNewCardToDeck(DeckEnum.Hand, craftedCard, deck);
+-                        dataCommandsHandler.AddCommand(command);
+-                        // deck.AddCardToDeck(craftedCard,DeckEnum.Hand);
++                        deck.AddCardToDeck(craftedCard,DeckEnum.Hand);
+                         if (isPlayer)
+-                            OnCraftingComboToHand?.Invoke(new CardData[] { craftedCard });
++                            OnCraftingComboToHand?.Invoke(new CardData[]{craftedCard});
+                         break;
+                     case DeckEnum.PlayerDeck:
+                     case DeckEnum.Discard:
+                         var gotolocation = ComboSO.GoToDeckAfterCrafting;
+-                        command = new AddNewCardToDeck(gotolocation, craftedCard, deck);
+-                        dataCommandsHandler.AddCommand(command);
+-                        command = new DrawHandCommand(deck, 1);
+-                        dataCommandsHandler.AddCommand(command);
+-
+-                        //   deck.AddCardToDeck( craftedCard, gotolocation);
+-                        //                        deck.DrawHand( 1);
++                        deck.AddCardToDeck( craftedCard, gotolocation);
++                        Debug.Log("DrawFrom 1");
++                        deck.DrawHand( 1);
+                         break;
+ 
+                     case DeckEnum.AutoActivate:
+ 
+-                        _cardExecutionManager.ForceExecuteCard(isPlayer, craftedCard);
+-
++                        _cardExecutionManager.ForceExecuteCard(isPlayer,craftedCard);
++                
+                         //  DeckManager.AddToCraftingSlot(isPlayer, craftedCard);
+-                        // (deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(craftedCard, false);
++                       // (deck[DeckEnum.CraftingSlots] as PlayerCraftingSlots).AddCard(craftedCard, false);
+                         Debug.Log("DrawFrom 2");
+-                        deck.DrawHand(1);
++	                    deck.DrawHand( 1);
+                         break;
+                     default:
+                         Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());

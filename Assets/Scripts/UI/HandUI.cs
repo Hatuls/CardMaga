@@ -1,29 +1,30 @@
-using Battle;
 using Battle.Deck;
 using Battle.Turns;
+using CardMaga.Battle;
+using CardMaga.Battle.Execution;
 using CardMaga.Battle.UI;
 using CardMaga.Card;
+using CardMaga.Input;
+using CardMaga.SequenceOperation;
 using CardMaga.UI.Card;
 using DG.Tweening;
-using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using CardMaga.Input;
 using UnityEngine;
 
 namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : InputBehaviourHandler<CardUI>, ISequenceOperation<IBattleManager>
+    public class HandUI : InputBehaviourHandler<CardUI>, ISequenceOperation<IBattleUIManager>
     {
         #region Events
+
         public static event Action<CardUI> OnCardExecute;
         public static event Action OnCardDrawnAndAlign;
         public static event Action OnDiscardAllCards;
-        public static event Action<CardUI> OnCardSelect;
         public static event Action<CardUI> OnCardSetToHandState;
 
         public static event Action<IReadOnlyList<CardUI>>
@@ -32,18 +33,20 @@ namespace CardMaga.UI
         public static event Action<IReadOnlyList<CardUI>>
             OnCardsExecuteGetCards; //when card execute, and passes all the cards that are in the hand
 
-
+        public event Action<CardUI> OnCardSelect;
+        public event Action OnHandUICardsUpdated;
         #endregion
 
-        #region Fielde
+        #region Field
 
-        [Header("TransitionPackSO")] 
-       
+        [Header("TransitionPackSO")]
+
         [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
-        [SerializeField] private TransitionPackSO _dicardExecuteTransitionPackSo;
-        
-        [Header("RectTransforms")] 
+        [SerializeField] private TransitionPackSO _discardExecutionMoveTransitionPackSo;
+
+
+        [Header("RectTransforms")]
         [SerializeField] private RectTransform _discardPos;
         [SerializeField] private RectTransform _drawPos;
 
@@ -56,23 +59,22 @@ namespace CardMaga.UI
 
         [Header("Parameters")]
         [SerializeField] private float _delayBetweenCardDiscard;
-        
+
         private CardExecutionManager _cardExecutionManager;
         private WaitForSeconds _waitForCardDiscardDelay;
         private DG.Tweening.Sequence _currentSequence;
         private DeckHandler _deckHandler;
         private GameTurn _leftPlayerGameTurn;
-        private DeckHandler _playerDeck;
 
         #endregion
 
         #region Prop
-        
+
         public IReadOnlyList<CardUI> GetCardUIFromHand()
         {
             return _handUIState.CardsUI;
         }
-        
+
         public int Priority => 0;
 
         public HandUIState HandUIState { get => _handUIState; }
@@ -86,29 +88,30 @@ namespace CardMaga.UI
         private void Awake()
         {
             _waitForCardDiscardDelay = new WaitForSeconds(_delayBetweenCardDiscard);
-            
+
             _handUIStates = new Dictionary<InputBehaviourState, BaseHandUIState>()
             {
                 {InputBehaviourState.HandZoom, _zoomUIState}, {InputBehaviourState.HandFollow, _followUIState},
                 { InputBehaviourState.Hand, _handUIState } ,{ InputBehaviourState.Default ,null }
             };
 
-            BattleManager.Register(this, OrderType.Default);
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += DiscardAllCards;
             _handUIState.OnCardDrawnAndAlign += UnLockInput;
         }
-        
+
         private void OnDestroy()
         {
             _comboUIManager.OnCardComboDone -= GetCardsFromCombo;
             BattleManager.OnGameEnded -= DiscardAllCards;
             _handUIState.OnCardDrawnAndAlign -= UnLockInput;
-            
-            if(_leftPlayerGameTurn != null)
+
+            if (_leftPlayerGameTurn != null)
                 _leftPlayerGameTurn.OnTurnExit -= DiscardAllCards;
-            if(_deckHandler != null)
+            if (_deckHandler != null)
                 _deckHandler.OnDrawCards -= DrawCardsFromDrawDeck; //need to check rei
+
+            KillTween();
         }
 
         #endregion
@@ -117,7 +120,7 @@ namespace CardMaga.UI
 
         public void LockInput()
         {
-            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,false);
+            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput, false);
         }
 
         public void UnLockInput()
@@ -128,7 +131,7 @@ namespace CardMaga.UI
         #endregion
 
         #region Transitions
-        
+
         private void SetCardAtDrawPos(params CardUI[] cards)
         {
             for (var i = 0; i < cards.Length; i++)
@@ -137,23 +140,31 @@ namespace CardMaga.UI
                 cards[i].VisualsRectTransform.SetScale(0.1f);
             }
         }
-        
+
         private IEnumerator MoveCardToTheDiscardPosition(params CardUI[] cardUI)
         {
             for (var i = 0; i < cardUI.Length; i++)
             {
                 if (cardUI[i] == null)
                     continue;
-                
-                cardUI[i].RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo, cardUI[i].Dispose);
-                cardUI[i].VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
+
+                Transition(cardUI[i]);
                 yield return _waitForCardDiscardDelay;
+            }
+
+            void Transition(CardUI card)
+            {
+                var sequence = card.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
+                sequence.Join(card.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo));
+                sequence.OnComplete(card.Dispose);
             }
         }
 
         private void MoveCardToDiscardAfterExecute(CardUI cardUI)
         {
-            cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
+            //   cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
+            var sequence = cardUI.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
+            sequence.Join(cardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo)); sequence.OnComplete(cardUI.Dispose);
         }
 
         private void KillTween()
@@ -167,65 +178,63 @@ namespace CardMaga.UI
 
         public void SetToZoomState(CardUI cardUI)
         {
-            SetState(InputBehaviourState.HandZoom,cardUI);
+            SetState(InputBehaviourState.HandZoom, cardUI);
             OnCardSelect?.Invoke(cardUI);
         }
 
         public void SetToFollowState(CardUI cardUI)
         {
-            SetState(InputBehaviourState.HandFollow,cardUI);
+            SetState(InputBehaviourState.HandFollow, cardUI);
             OnCardSelect?.Invoke(cardUI);
         }
-        
+
         public void SetToHandState(CardUI cardUI)
         {
-            SetState(InputBehaviourState.Hand,cardUI);
+            SetState(InputBehaviourState.Hand, cardUI);
             OnCardSetToHandState?.Invoke(cardUI);
         }
 
         #endregion
-        
+
         #region CardUIManagnent
-        
+
         private void DrawCardsFromDrawDeck(params CardData[] cards)
         {
-            CardUI[] _handCards;
+            CardUI[] handCards;
 
-            _handCards = GetCardsUI(cards);
-            
-            SetCardAtDrawPos(_handCards);
-            
-            for (int i = 0; i < _handCards.Length; i++)
+            handCards = GetCardsUI(cards);
+
+            SetCardAtDrawPos(handCards);
+
+            for (int i = 0; i < handCards.Length; i++)
             {
                 //_handCards[i].Inputs.ForceResetInputBehaviour();
-                _handCards[i].Init();
-                SetState(InputBehaviourState.Hand,_handCards[i]);
+                handCards[i].Init();
+                SetState(InputBehaviourState.Hand, handCards[i]);
             }
-            
-            OnCardsAddToHand?.Invoke(_handCards);
+
+           // OnCardsAddToHand?.Invoke(handCards);
+            OnHandUICardsUpdated?.Invoke();
         }
 
         private void GetCardsFromCombo(params CardUI[] cards)
         {
+            for (int i = 0; i < cards.Length; i++)
+                cards[i].Init();
+
             OnCardsAddToHand?.Invoke(cards);
 
             for (int i = 0; i < cards.Length; i++)
             {
-                cards[i].Inputs.ForceResetInputBehaviour();
+                //cards[i].Inputs.ForceResetInputBehaviour();
+                SetState(InputBehaviourState.Hand, cards[i]);
             }
-
-            for (int i = 0; i < cards.Length; i++)
-            {
-                SetState(InputBehaviourState.Hand,cards[i]);
-            }
+            OnCardsAddToHand?.Invoke(cards);
+            OnHandUICardsUpdated?.Invoke();
         }
 
         private CardUI[] GetCardsUI(params CardData[] cardDatas)
-        {
-            CardUI[] _handCards = _cardUIManager.GetCardsUI(cardDatas);
-
-            return _handCards;
-        }
+        => _cardUIManager.GetCardsUI(cardDatas);
 
         public bool TryExecuteCard(CardUI cardUI)
         {
@@ -234,18 +243,19 @@ namespace CardMaga.UI
 
             if (canPlayCard)
             {
-                _playerDeck.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.CardData);
+                _deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.CardData);
                 _handUIState.RemoveCardUI(cardUI);
-                
-                if (_cardExecutionManager.TryExecuteCard(cardUI)) 
+
+                if (_cardExecutionManager.TryExecuteCard(cardUI))
                 {
                     DiscardCardAfterExecute(cardUI);
-                    OnCardExecute?.Invoke(cardUI); 
+                    OnCardExecute?.Invoke(cardUI);
+                    OnHandUICardsUpdated?.Invoke();
                     return true;
                 }
             }
-            
-            SetState(InputBehaviourState.Hand,cardUI);
+
+            SetToHandState(cardUI);
             return false;
         }
 
@@ -253,12 +263,12 @@ namespace CardMaga.UI
         {
             CardUI[] handCardUis = _handUIState.RemoveAllCardUIFromHand();
             CardUI[] combineCardUis = new CardUI[handCardUis.Length + 1];
-            
-            Array.Copy(handCardUis,combineCardUis,handCardUis.Length);
-            
+
+            Array.Copy(handCardUis, combineCardUis, handCardUis.Length);
+
             CardUI tempZoom = _zoomUIState.ForceExitState();
             CardUI tempFollow = _followUIState.ForceExitState();
-            
+
             if (tempZoom != null)
             {
                 if (combineCardUis[combineCardUis.Length - 1] == null)
@@ -279,17 +289,17 @@ namespace CardMaga.UI
         {
             if (cardUI == null)
                 return;
-            
+
             //SetState(InputBehaviourState.Hand,cardUI);
             cardUI.Inputs.ForceResetInputBehaviour();
-            cardUI.CardVisuals.SetExecutedCardVisuals();
             MoveCardToDiscardAfterExecute(cardUI);
+            cardUI.CardVisuals.SetExecutedCardVisuals();
             //OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
         {
-            _playerDeck = data.PlayersManager.GetCharacter(true).DeckHandler;
+            var data = battleUIManager.BattleDataManager;
             _deckHandler = data.PlayersManager.GetCharacter(true).DeckHandler;
             _deckHandler.OnDrawCards += DrawCardsFromDrawDeck;
             _leftPlayerGameTurn = data.TurnHandler.GetCharacterTurn(true);
@@ -302,7 +312,6 @@ namespace CardMaga.UI
     #endregion
 }
 
-    
-    
-    
-   
+
+
+

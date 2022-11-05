@@ -1,78 +1,125 @@
 ﻿using Battle;
-using Battle.Turns;
-using Managers;
+using CardMaga.Battle.Players;
+using CardMaga.Battle.UI;
+using CardMaga.SequenceOperation;
+using ReiTools.TokenMachine;
+using System;
 using UnityEngine;
-#if UNITY_EDITOR
-#endif
-public class VisualCharacter : MonoBehaviour
+namespace CardMaga.Battle.Visual
 {
-    [SerializeField]
-    private AnimatorController _animatorController;
-    [SerializeField]
-    private VFXController _vfxController;
-    [SerializeField]
-    private AnimationBodyPartSoundsHandler _animationSound;
-    [Sirenix.OdinInspector.ShowInInspector,Sirenix.OdinInspector.ReadOnly]
-    private AvatarHandler _avatarHandler;
-    [SerializeField]
-    private Animator _animator;
-    [SerializeField]
-    private Transform _visual;
-    private bool _isLeft;
-    public AvatarHandler AvatarHandler { get => _avatarHandler; private set => _avatarHandler = value; }
-    public AnimatorController AnimatorController => _animatorController;
-    public Animator Animator => _animator;
-    public VFXController VfxController => _vfxController;
-    public AnimationBodyPartSoundsHandler AnimationSound { get => _animationSound; }
-    public bool IsLeft { get => _isLeft;private set => _isLeft = value; }
-
-
-    public void InitVisuals(IPlayer player,CharacterSO characterSO, bool isTinted)
+    public interface IVisualPlayer
     {
-        IsLeft = player.IsLeft;
-        AnimatorController.Init(this, player);
+        IPlayer PlayerData { get; }
+        AnimatorController AnimatorController { get; }
+        AvatarHandler AvatarHandler { get; }
+        Animator Animator { get; }
+        AnimationBodyPartSoundsHandler AnimationSound { get; }
+        VisualStatHandler VisualStats { get; }
+        VFXController VfxController { get; }
+    }
 
-        ModelSO modelSO = characterSO.CharacterAvatar;
-        AvatarHandler = Instantiate(modelSO.Model, _visual.position, Quaternion.identity, _visual);
-        if (isTinted)
-            AvatarHandler.Mesh.material = modelSO.GetRandomTintedMaterials();
+    public class VisualCharacter : MonoBehaviour, IVisualPlayer, ISequenceOperation<IBattleUIManager>
+    {
+        #region Fields
+        [SerializeField]
+        private AnimatorController _animatorController;
+        [SerializeField]
+        private VFXController _vfxController;
+        [SerializeField]
+        private AnimationBodyPartSoundsHandler _animationSound;
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
+        private AvatarHandler _avatarHandler;
+        [SerializeField]
+        private Animator _animator;
+        [SerializeField]
+        private Transform _visual;
+        private bool _isLeft;
+        private VisualStatHandler _visualStats;
+        private IPlayer _playerData;
+        #endregion
 
-        
-        VfxController.AvatarHandler = AvatarHandler;
-        Animator.avatar = AvatarHandler.Avatar;
-        AnimationSound.CurrentCharacter = characterSO;
+
+        #region Properties
+        public AvatarHandler AvatarHandler { get => _avatarHandler; private set => _avatarHandler = value; }
+        public AnimatorController AnimatorController => _animatorController;
+        public Animator Animator => _animator;
+        public VFXController VfxController => _vfxController;
+        public AnimationBodyPartSoundsHandler AnimationSound { get => _animationSound; }
+        public bool IsLeft { get => _isLeft; private set => _isLeft = value; }
+        public VisualStatHandler VisualStats { get => _visualStats; }
+
+        public IPlayer PlayerData => _playerData;
+
+        public int Priority =>0;
+
+        #endregion
+
+        public void InitVisuals(IPlayer player,EndBattleHandler endBattleHandler, CharacterSO characterSO, bool isTinted)
+        {
+            //I want to remove this later
+            _playerData = player;
+
+
+            IsLeft = player.IsLeft;
+            AnimatorController.Init(this, endBattleHandler);
+
+            // Instantiate Model
+            ModelSO modelSO = characterSO.CharacterAvatar;
+            AvatarHandler = Instantiate(modelSO.Model, _visual.position, Quaternion.identity, _visual);
+            if (isTinted)
+                AvatarHandler.Mesh.material = modelSO.GetRandomTintedMaterials();
+
+            //Assign Avatar
+            VfxController.AvatarHandler = AvatarHandler;
+            Animator.avatar = AvatarHandler.Avatar;
+            AnimationSound.CurrentCharacter = characterSO;
+
+            //Sound
+            AnimationSound.CurrentCharacter = characterSO;
+
+      
+
+            //Visual Stats
+            _visualStats = new VisualStatHandler(this);
 
 #if UNITY_EDITOR
-        DrawMesh = false;
+            DrawMesh = false;
 #endif
-    }
-
-
-
-
-
-
-
-    #region Editor
-    [Header("Editor")]
-    [SerializeField, Tooltip("The Mesh that will be seen in the scene view")]
-    private Mesh _mesh;
-    [SerializeField]
-    private Color _gizmoColor;
-    [SerializeField]
-    private Vector3 _meshScale = Vector3.one;
-    [SerializeField]
-    private Vector3 _rotation = Vector3.one;
-    public bool DrawMesh;
-
-
-    private void OnDrawGizmos()
-    {
-        if (DrawMesh)
-        {
-            Gizmos.color = _gizmoColor;
-            Gizmos.DrawWireMesh(_mesh, _visual.position, Quaternion.Euler(_rotation), _meshScale);
         }
+
+        internal void Dispose()
+        {
+            AnimatorController.BeforeDestroy(this);
+            _visualStats.Dispose(this);
+        }
+
+        #region Editor
+        [Header("Editor")]
+        [SerializeField, Tooltip("The Mesh that will be seen in the scene view")]
+        private Mesh _mesh;
+        [SerializeField]
+        private Color _gizmoColor;
+        [SerializeField]
+        private Vector3 _meshScale = Vector3.one;
+        [SerializeField]
+        private Vector3 _rotation = Vector3.one;
+        public bool DrawMesh;
+
+
+        private void OnDrawGizmos()
+        {
+            if (DrawMesh)
+            {
+                Gizmos.color = _gizmoColor;
+                Gizmos.DrawWireMesh(_mesh, _visual.position, Quaternion.Euler(_rotation), _meshScale);
+            }
+        }
+
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
-    #endregion
 }

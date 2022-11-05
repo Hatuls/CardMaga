@@ -1,4 +1,4 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
 using System;
 using UnityEngine;
 
@@ -7,7 +7,7 @@ public class BuffIconInteraction : MonoBehaviour
 {
 
     #region Events
-    public static event Action<KeywordTypeEnum> OnBuffIconHold;
+    public static event Action<KeywordType> OnBuffIconHold;
     public static event Action OnRelease;
     #endregion
     [SerializeField] BuffIcon _buffIcon;

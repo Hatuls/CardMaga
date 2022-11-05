@@ -1,55 +1,66 @@
-﻿using Battle;
-using Characters.Stats;
+﻿using Battle.Deck;
+using CardMaga.Battle;
 
-namespace Keywords
+namespace CardMaga.Keywords
 {
-    public class StaminaKeyword : KeywordAbst
+    public class StaminaKeyword : BaseKeywordLogic
     {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Stamina;
-
-
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        public StaminaKeyword(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
         {
-       
-                UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
+        }
 
- 
-                var target = data.GetTarget;
-                if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStamina(data.GetAmountToApply);
-   
-                if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStamina(data.GetAmountToApply);
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+
+            UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
+
+
+            var target = data.GetTarget;
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStamina(data.GetAmountToApply);
+
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStamina(data.GetAmountToApply);
 
             data.KeywordSO.SoundEventSO.PlaySound();
         }
-    }
 
-    public class ShuffleKeyword : KeywordAbst
-    {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Shuffle;
-
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
         {
 
-            if (data != null)
-            {
-             //   UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
-                data.KeywordSO.SoundEventSO.PlaySound();
-            
-                var target = data.GetTarget;
-                if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                    playersManager.GetCharacter(currentPlayer).DeckHandler.ResetDeck( Battle.Deck.DeckEnum.Discard);
+            var target = data.GetTarget;
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStamina(-data.GetAmountToApply);
 
-                if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                    playersManager.GetCharacter(!currentPlayer).DeckHandler.ResetDeck(Battle.Deck.DeckEnum.Discard);
-            }
-            else
-            {
-                throw new System.Exception($"ShuffleKeyword Data Is null!\nplayer: {currentPlayer}");
-            }
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStamina(-data.GetAmountToApply);
+        }
+    }
 
+    public class ShuffleKeyword : BaseKeywordLogic
+    {
+        public ShuffleKeyword(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
+        {
+        }
 
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+
+            //   UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
+            data.KeywordSO.SoundEventSO.PlaySound();
+
+            var target = data.GetTarget;
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                _playersManager.GetCharacter(currentPlayer).DeckHandler.ResetDeck(DeckEnum.Discard);
+
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                _playersManager.GetCharacter(!currentPlayer).DeckHandler.ResetDeck(DeckEnum.Discard);
+
+        }
+
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            // implement logic
         }
     }
 }

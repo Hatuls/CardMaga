@@ -1,17 +1,17 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
 namespace Characters.Stats
 {
     public class ProtectionShard : BaseStat
     {
         byte _maxShardSize;
         private ProtectedStat _protectionStat;
-        public ProtectionShard(bool isPlayer, int amount, ProtectedStat protectedStat) : base(isPlayer, amount)
+        public ProtectionShard(int amount, ProtectedStat protectedStat) : base(amount)
         {
             _protectionStat = protectedStat;
-            _maxShardSize = Factory.GameFactory.Instance.KeywordSOHandler.GetKeywordSO(Keyword).InfoAmount;
+            _maxShardSize = Factory.GameFactory.Instance.KeywordFactoryHandler.GetKeywordSO(Keyword).InfoAmount;
         }
 
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.ProtectionShard;
+        public override KeywordType Keyword => KeywordType.ProtectionShard;
 
         public override void Add(int amount)
         {
@@ -19,7 +19,7 @@ namespace Characters.Stats
 
             if (Amount >= _maxShardSize)
             {
-               _protectionStat.Add(1);
+                _protectionStat.Add(1);
                 Reset();
             }
         }

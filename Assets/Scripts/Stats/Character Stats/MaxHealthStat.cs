@@ -1,12 +1,14 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
 
 namespace Characters.Stats
 {
     public class MaxHealthStat : BaseStat
     {
-        public HealthStat _healthStat { get; set; }
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.MaxHealth;
-        public MaxHealthStat(bool isPlayer, int amount) : base(isPlayer, amount)
+        private HealthStat _healthStat;
+
+        public HealthStat HealthStat { get => _healthStat; set => _healthStat = value; }
+        public override KeywordType Keyword => KeywordType.MaxHealth;
+        public MaxHealthStat(int amount) : base(amount)
         {
 
         }
@@ -16,9 +18,9 @@ namespace Characters.Stats
             if (Amount <= 0)
                 Amount = 1;
 
-            if (_healthStat.Amount > Amount)
+            if (HealthStat.Amount > Amount)
             {
-                _healthStat.Reset(Amount);
+                HealthStat.Reset(Amount);
             }
             // if amount is less than hp reduce the hp 
         }
@@ -26,7 +28,7 @@ namespace Characters.Stats
         {
             base.Add(amount);
 
-            _healthStat.Add(amount);
+            HealthStat.Add(amount);
         }
 
 

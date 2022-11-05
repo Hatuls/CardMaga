@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
 using Keywords;
+using CardMaga.Keywords;
+
 namespace Art
 {
     [CreateAssetMenu(fileName = "Buff Palette", menuName = "ScriptableObjects/Art/Buff Palette")]
@@ -41,23 +43,23 @@ namespace Art
 
 
 
-        public Color GetBuffIconFromColor(KeywordTypeEnum keywordTypeEnum)
+        public Color GetBuffIconFromColor(KeywordType keywordTypeEnum)
         {
             Color clr = Color.black;
             switch (keywordTypeEnum)
-            {   case KeywordTypeEnum.MaxHealth:
-                case KeywordTypeEnum.Attack:
-                case KeywordTypeEnum.Heal:
+            {   case KeywordType.MaxHealth:
+                case KeywordType.Attack:
+                case KeywordType.Heal:
                default:
                     break;
 
-                case KeywordTypeEnum.Shield:
+                case KeywordType.Shield:
                     clr = _buffImageColors.Colors[2];
                     break;
-                case KeywordTypeEnum.Strength:
+                case KeywordType.Strength:
                     clr = _buffImageColors.Colors[0];
                     break;
-                case KeywordTypeEnum.Bleed:
+                case KeywordType.Bleed:
                     clr = _buffImageColors.Colors[1];
                     break;
                 

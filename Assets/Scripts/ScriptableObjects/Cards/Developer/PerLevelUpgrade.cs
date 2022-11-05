@@ -1,4 +1,5 @@
 ﻿using CardMaga.Card;
+using CardMaga.Keywords;
 using Keywords;
 using System.Collections.Generic;
 using System.Linq;

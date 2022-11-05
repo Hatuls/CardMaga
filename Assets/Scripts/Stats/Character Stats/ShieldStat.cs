@@ -1,4 +1,5 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
+using Keywords;
 namespace Characters.Stats
 {
     public class ShieldStat : BaseStat
@@ -6,8 +7,8 @@ namespace Characters.Stats
 
         HealthStat _health;
        
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Shield;
-        public ShieldStat(HealthStat health, bool isPlayer,  int amount) : base(isPlayer,  amount)
+        public override KeywordType Keyword => KeywordType.Shield;
+        public ShieldStat(HealthStat health, int amount) : base(amount)
         {
             _health = health;
          

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Battle;
+using CardMaga.Battle;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using UnityEngine;
@@ -20,19 +21,22 @@ namespace CardMaga.Rules
         
         public int Priority
         {
-            get { return 0; }
+            get { return 1001; }
         }
 
-        public RuleManager()
+        public RuleManager(IBattleManager battleManager)
         {
-            BattleManager.Register(this,OrderType.After);
+            battleManager.Register(this,OrderType.After);
         }
         
         public void DisposeRules()
         {
-            for(var j = 0; j < _endGameRules.Count; j++) _endGameRules[j].OnEndGameRuleActive -= GameEnd;
-            
-            for (var i = 0; i < _baseRules.Count; i++) _baseRules[i].Dispose();
+            if (_endGameRules != null)
+            for(var j = 0; j < _endGameRules.Count; j++)
+                _endGameRules[j].OnEndGameRuleActive -= GameEnd;
+            if(_baseRules != null)
+            for (var i = 0; i < _baseRules.Count; i++) 
+                _baseRules[i].Dispose();
         }
 
         private void GameEnd(float delay,bool isLeft)
@@ -61,8 +65,8 @@ namespace CardMaga.Rules
             {
                 for (var i = 0; i < rules.Length; i++)
                 {
-                    var temp = rules[i].CreateRule(data);
-                    _baseRules.Add(temp);
+                    BaseRule rule = rules[i].CreateRule(data);
+                    _baseRules.Add(rule);
                 }    
             }
 
@@ -70,9 +74,9 @@ namespace CardMaga.Rules
             {
                 for (var i = 0; i < endGameRules.Length; i++)
                 {
-                    BaseEndGameRule temp = endGameRules[i].CreateRule(data);
-                    temp.OnEndGameRuleActive += GameEnd;
-                    _endGameRules.Add(temp);
+                    BaseEndGameRule endGameRule = endGameRules[i].CreateRule(data);
+                    endGameRule.OnEndGameRuleActive += GameEnd;
+                    _endGameRules.Add(endGameRule);
                 }    
             }
         }

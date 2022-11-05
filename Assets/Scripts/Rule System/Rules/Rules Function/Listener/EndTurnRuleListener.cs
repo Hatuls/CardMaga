@@ -1,11 +1,12 @@
 ﻿using Battle;
 using Battle.Turns;
+using CardMaga.Battle;
 using CardMaga.Rules;
 using UnityEngine;
 
 public class EndTurnRuleListener : BaseEndGameRule
 {
-    private GameTurnHandler _turnHandler;
+    private TurnHandler _turnHandler;
     
     public override void InitRuleListener(IBattleManager battleManager, BaseRuleLogic<bool>[] ruleLogics)
     {

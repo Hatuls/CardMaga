@@ -1,10 +1,11 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
+
 namespace Characters.Stats
 {
     public class BleedStat : BaseStat
     {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Bleed;
-        public BleedStat(bool isPlayer, int amount) : base(isPlayer, amount)
+        public override KeywordType Keyword => KeywordType.Bleed;
+        public BleedStat(int amount) : base(amount)
         {
         }
 

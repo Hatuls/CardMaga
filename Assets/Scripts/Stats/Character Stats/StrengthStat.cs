@@ -1,13 +1,14 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
+using Keywords;
 namespace Characters.Stats
 {
     public class StrengthStat : BaseStat
     {
-        public StrengthStat(bool isPlayer,  int amount) : base(isPlayer,  amount)
+        public StrengthStat(int amount) : base(amount)
         {
         }
 
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Strength;
+        public override KeywordType Keyword => KeywordType.Strength;
 
         public override void Reduce(int amount)
         {

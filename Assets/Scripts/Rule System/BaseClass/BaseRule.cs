@@ -1,5 +1,6 @@
 ﻿using System;
 using Battle;
+using CardMaga.Battle;
 
 namespace CardMaga.Rules
 {

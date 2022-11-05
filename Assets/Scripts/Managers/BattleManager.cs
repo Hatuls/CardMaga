@@ -2,8 +2,6 @@
 using CardMaga.SequenceOperation;
 using Battle.Turns;
 using CardMaga.Battle.UI;
-using Keywords;
-using Managers;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
@@ -11,68 +9,69 @@ using Account;
 using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;
+using CardMaga.Battle.Players;
+using Battle;
+using CardMaga.Battle.Execution;
+using CardMaga.Battle.Combo;
+using CardMaga.Keywords;
+using CardMaga.Battle.Visual.Camera;
+using CardMaga.Commands;
 
-namespace Battle
+namespace CardMaga.Battle
 {
     public class BattleManager : MonoSingleton<BattleManager>, IBattleManager
     {
         public static event Action OnGameEnded;
         public event Action<IBattleManager> OnBattleManagerDestroyed;
-        
+
         public static bool isGameEnded;
         [SerializeField, EventsGroup]
         private Unity.Events.StringEvent _playSound;
         [SerializeField, EventsGroup]
         private UnityEvent OnBattleStarts;
-        [SerializeField,EventsGroup]
+        [SerializeField, EventsGroup]
         private UnityEvent OnBattleFinished;
-        [SerializeField]
-        private DollyTrackCinematicManager _cinematicManager;
-        [SerializeField]
-        private PlayerManager _playerManager;
+
         [SerializeField]
         private EnemyManager _enemyManager;
+
+
         [SerializeField]
-        private CardExecutionManager _cardExecutionManager;
-        [SerializeField]
-        private CardUIManager _cardUIManager;
-        [SerializeField]
-        private ComboManager _comboManager;
-        [SerializeField]
-        private KeywordManager _keywordManager;
-        [SerializeField]
-        private VFXManager _vFXManager;
-        [SerializeField]
-        private CameraManager _cameraManager;
-        [SerializeField] 
-        private EndBattleHandler _endBattleHandler;
-        
+        private BattleUiManager _battleUiManager;
+
+
+
 #if UNITY_EDITOR
         [Header("Editor:")]
         [SerializeField] private bool _hideTutorial;
 #endif
-        
+        private ComboManager _comboManager;
+        private KeywordManager _keywordManager;
+        private EndBattleHandler _endBattleHandler;
+        private CardExecutionManager _cardExecutionManager;
+        private PlayerManager _playerManager;
         private RuleManager _ruleManager;
         private BattleTutorial _battleTutorial;
+        private TurnHandler _gameTurnHandler;
+        private GameCommands _gameCommands;
         private IPlayersManager _playersManager;
         private static SequenceHandler<IBattleManager> _battleStarter = new SequenceHandler<IBattleManager>();
-        private GameTurnHandler _gameTurnHandler;
         private bool _isInTutorial;
 
-
         #region Properties
-        public GameTurnHandler TurnHandler => _gameTurnHandler; 
-        public IPlayersManager PlayersManager => _playersManager; 
+        public IPlayersManager PlayersManager => _playersManager;
+        public IBattleUIManager BattleUIManager => _battleUiManager;
         public CardExecutionManager CardExecutionManager => _cardExecutionManager;
-        public CardUIManager CardUIManager => _cardUIManager;
+        public TurnHandler TurnHandler => _gameTurnHandler;
         public ComboManager ComboManager => _comboManager;
         public KeywordManager KeywordManager => _keywordManager;
-        public VFXManager VFXManager => _vFXManager;
-        public CameraManager CameraManager => _cameraManager;
+        public GameCommands GameCommands => _gameCommands;
         public RuleManager RuleManager => _ruleManager;
         public BattleData BattleData => BattleData.Instance;
+        public EndBattleHandler EndBattleHandler => _endBattleHandler;
 
         public MonoBehaviour MonoBehaviour => this;
+
         #endregion
 
         #region BattleManagnent
@@ -86,14 +85,19 @@ namespace Battle
 
         private void InitParams()
         {
-            _gameTurnHandler = new GameTurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
-            _playersManager = new PlayersManager(_playerManager, _enemyManager);
-            
-            _ruleManager = new RuleManager();
+            _gameCommands = new GameCommands(this);
+            _gameTurnHandler = new TurnHandler(BattleData.BattleConfigSO.CharacterSelecter.GetTurnType());
+            _playerManager = new PlayerManager();
+            _playersManager = new PlayersManager(this, _playerManager, _enemyManager);
+            _keywordManager = new KeywordManager(this);
+            _ruleManager = new RuleManager(this);
             _endBattleHandler = new EndBattleHandler(this);
+            _cardExecutionManager = new CardExecutionManager(this);
+            _comboManager = new ComboManager(this);
+
 
             _isInTutorial = !(BattleData.BattleConfigSO.BattleTutorial == null);
-            
+
             _endBattleHandler.OnBattleEnded += EndBattle;
             _endBattleHandler.OnBattleAnimatonEnd += MoveToNextScene;
 
@@ -107,20 +111,20 @@ namespace Battle
                 AudioManager.Instance.StopAllSounds();
             isGameEnded = false;
         }
-        
+
         // Need To be Re-Done
         public void StartBattle()
         {
             StopAllCoroutines();
             TurnHandler.Start();
-            
+
             BattleData.Instance.PlayerWon = false;
 
             OnBattleStarts?.Invoke();
         }
 
         #endregion
-        
+
         #region EndBattleLogic
 
         private void EndBattle(bool isLeftPlayerWon)
@@ -134,38 +138,35 @@ namespace Battle
         }
 
         #endregion
-        
-          private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
-    {
+
+        private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
+        {
 #if UNITY_EDITOR
-        if (_hideTutorial)
-            return;
+            if (_hideTutorial)
+                return;
 #endif
-            
+
             if (BattleData.BattleConfigSO?.BattleTutorial == null)
                 return;
 
             _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
             _battleTutorial.StartTutorial();
-    }
-        
+        }
+
         #region Observer Pattern 
-
-        public static void Register(ISequenceOperation<IBattleManager> battleStarter, OrderType order)
-            => _battleStarter.Register(battleStarter, order);
-        public static bool Remove(ISequenceOperation<IBattleManager> battleStarter, OrderType order)
-            => _battleStarter.Remove(battleStarter, order);
-
-
+        public void Register(ISequenceOperation<IBattleManager> sequenceOperation, OrderType orderType)
+        {
+            _battleStarter.Register(sequenceOperation, orderType);
+        }
         #endregion
-        
+
         #region MonoBehaviour Callbacks
-        
+
         private void Update()
         {
             ThreadsHandler.ThreadHandler.TickThread();
         }
-        
+
         private void OnDestroy()
         {
             OnBattleManagerDestroyed?.Invoke(this);
@@ -173,27 +174,27 @@ namespace Battle
             _ruleManager.DisposeRules();
             _endBattleHandler.OnBattleEnded -= EndBattle;
             _endBattleHandler.Dispose();
-            
+
             _battleStarter.Dispose();
-            
+
             TurnHandler.Dispose();
             _gameTurnHandler = null;
         }
 
         public override void Awake()
         {
-            Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After), OrderType.After);
+            this.Register(new OperationTask<IBattleManager>(CreateTutorial, 0, OrderType.After), OrderType.After);
 
             base.Awake();
         }
-        
+
         private void Start()
         {
             ResetBattle();
         }
-        
+
         #endregion
-        
+
         #region Analytics
 
         private void SendAnalyticWhenGameEnded(string eventName, BattleData battleData)
@@ -226,11 +227,26 @@ namespace Battle
 #if UNITY_EDITOR
         [Button]
         public void KillEnemy()
-        => _playersManager.GetCharacter(false).StatsHandler?.RecieveDamage(1000000);
+        {
+            var keywordFactory = Factory.GameFactory.Instance.KeywordFactoryHandler;
+            var keywordSO = keywordFactory.GetKeywordSO(KeywordType.Attack);
+            var keywordCommand = new CardsKeywordsCommands(new KeywordData[1] { new KeywordData(keywordSO, TargetEnum.Opponent, 100000, 0)}, CommandType.Instant);
+            keywordCommand.Init(_playerManager.IsLeft,  PlayersManager, KeywordManager);
+            GameCommands.GameDataCommands.DataCommands.AddCommand(keywordCommand);
+        
+        }
 
         [Button]
         public void KillPlayer()
-           => _playersManager.GetCharacter(true).StatsHandler?.RecieveDamage(1000000);
+        {
+            var keywordFactory = Factory.GameFactory.Instance.KeywordFactoryHandler;
+            var keywordSO = keywordFactory.GetKeywordSO(KeywordType.Attack);
+            var keywordCommand = new CardsKeywordsCommands(new KeywordData[1] { new KeywordData(keywordSO, TargetEnum.MySelf, 100000, 0) }, CommandType.Instant);
+            keywordCommand.Init(_playerManager.IsLeft, PlayersManager, KeywordManager);
+            GameCommands.GameDataCommands.DataCommands.AddCommand(keywordCommand);
+
+        }
+
 #endif
         #endregion
     }
@@ -239,17 +255,18 @@ namespace Battle
     public interface IBattleManager
     {
         event Action<IBattleManager> OnBattleManagerDestroyed;
+        IBattleUIManager BattleUIManager { get; }
         BattleData BattleData { get; }
         IPlayersManager PlayersManager { get; }
         CardExecutionManager CardExecutionManager { get; }
-        CardUIManager CardUIManager { get; }
+        EndBattleHandler EndBattleHandler { get; }
         ComboManager ComboManager { get; }
         KeywordManager KeywordManager { get; }
-        GameTurnHandler TurnHandler { get; }
-        VFXManager VFXManager { get; }
-        CameraManager CameraManager { get; }
+        TurnHandler TurnHandler { get; }
         RuleManager RuleManager { get; }
         MonoBehaviour MonoBehaviour { get; }
+        GameCommands GameCommands { get; }
+        void Register(ISequenceOperation<IBattleManager> sequenceOperation, OrderType orderType);
     }
 
     public interface IPlayersManager
@@ -276,12 +293,12 @@ namespace Battle
         /// <returns></returns>
         public IPlayer GetCharacter(bool IsLeftCharacter) => IsLeftCharacter ? LeftCharacter : RightCharacter;
         
-        public PlayersManager(IPlayer leftCharacter, IPlayer rightCharacter)
+        public PlayersManager(IBattleManager battleManager,IPlayer leftCharacter, IPlayer rightCharacter)
         {
             LeftCharacter = leftCharacter;
             RightCharacter = rightCharacter;
 
-            BattleManager.Register(this, OrderType.Before);
+            battleManager.Register(this, OrderType.Before);
         }
 
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager battleManager)
@@ -299,8 +316,8 @@ namespace Battle
             ModelSO leftModel = leftCharacterSO.CharacterAvatar;
             ModelSO rightModel = rightCharacterSO.CharacterAvatar;
 
-            LeftCharacter.VisualCharacter.InitVisuals(LeftCharacter, leftCharacterSO, false);
-            RightCharacter.VisualCharacter.InitVisuals(RightCharacter, rightCharacterSO, rightModel == leftModel);
+            //LeftCharacter.VisualCharacter.InitVisuals(LeftCharacter, leftCharacterSO, false);
+            //RightCharacter.VisualCharacter.InitVisuals(RightCharacter, rightCharacterSO, rightModel == leftModel);
 
             token.Dispose();
         }

@@ -1,5 +1,9 @@
 ﻿using Battle.Combo;
-
-public class ComboUIPool : BasePoolObject<ComboUI,ComboData>
+namespace CardMaga.UI.Combos
 {
+
+    public class ComboUIPool : BasePoolObject<ComboUI, ComboData>
+    {
+    }
+
 }

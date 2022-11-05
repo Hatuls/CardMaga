@@ -1,46 +1,61 @@
-﻿using Battle;
-using CardMaga.Rules;
-using Keywords;
-using Managers;
+﻿using CardMaga.Battle;
+using CardMaga.Battle.UI;
+using CardMaga.Battle.Visual;
+using CardMaga.Keywords;
+using Characters.Stats;
 
-public class CharactersDiedListener : BaseEndGameRule
+namespace CardMaga.Rules
 {
-    private IPlayer _leftPlayerHeal;
-    private IPlayer _rightPlayerHeal;
-
-    public override void InitRuleListener(IBattleManager battleManager, BaseRuleLogic<bool>[] ruleLogics)
+    public class CharactersDiedListener : BaseEndGameRule
     {
-        base.InitRuleListener(battleManager,ruleLogics);
-        _leftPlayerHeal = battleManager.PlayersManager.LeftCharacter;
-        _leftPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged += CheckLeftPlayerCondition;
-        
-        _rightPlayerHeal = battleManager.PlayersManager.RightCharacter;
-        _rightPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged += CheckRightPlayerCondition;
-    }
+        private BaseStat _leftPlayerHeal;
+        private BaseStat _rightPlayerHeal;
+        private VisualStat _leftVisualStat;
+        private VisualStat _rightVisualStat;
 
-    private void CheckLeftPlayerCondition(int playerHp)
-    {
-        if (playerHp <= 0)
+        public CharactersDiedListener(float delayToEndGame) : base(delayToEndGame)
         {
-            Active(false);
         }
-    }
-    
-    private void CheckRightPlayerCondition(int playerHp)
-    {
-        if (playerHp <= 0)
+        public override void InitRuleListener(IBattleManager battleManager, BaseRuleLogic<bool>[] ruleLogics)
         {
-            Active(true);
+            base.InitRuleListener(battleManager, ruleLogics);
+            //Data
+            _leftPlayerHeal = battleManager.PlayersManager.GetCharacter(true).StatsHandler.GetStat(KeywordType.Heal);
+            _rightPlayerHeal = battleManager.PlayersManager.GetCharacter(false).StatsHandler.GetStat(KeywordType.Heal);
+
+            //Visual
+            VisualCharactersManager visualCharactersManager = battleManager.BattleUIManager.VisualCharactersManager;
+            _leftVisualStat = visualCharactersManager.GetVisualCharacter(true).VisualStats.GetStat(KeywordType.Heal);
+            _rightVisualStat = visualCharactersManager.GetVisualCharacter(false).VisualStats.GetStat(KeywordType.Heal);
+
+
+            _leftVisualStat.OnValueChanged += CheckLeftPlayerCondition;
+            _rightVisualStat.OnValueChanged += CheckRightPlayerCondition;
         }
-    }
 
-    public override void Dispose()
-    {
-        _rightPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged -= CheckRightPlayerCondition;
-        _leftPlayerHeal.StatsHandler.GetStats(KeywordTypeEnum.Heal).OnValueChanged -= CheckLeftPlayerCondition;
-    }
+        private void CheckLeftPlayerCondition(int playerHp)
+        {
+            if (playerHp <= 0 && _leftPlayerHeal.IsEmpty)
+            {
+                Active(false);
+            }
+        }
 
-    public CharactersDiedListener(float delayToEndGame) : base(delayToEndGame)
-    {
+        private void CheckRightPlayerCondition(int playerHp)
+        {
+            if (playerHp <= 0 && _rightPlayerHeal.IsEmpty)
+            {
+                Active(true);
+            }
+        }
+
+        public override void Dispose()
+        {
+
+            _leftVisualStat.OnValueChanged  -= CheckLeftPlayerCondition;
+            _rightVisualStat.OnValueChanged -= CheckRightPlayerCondition;
+        }
+
+      
     }
 }

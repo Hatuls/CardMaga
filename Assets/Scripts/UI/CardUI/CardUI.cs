@@ -3,12 +3,13 @@ using CardMaga.Card;
 using UnityEngine;
 using CardMaga.Input;
 using CardMaga.UI.ScrollPanel;
+using CardMaga.Tools.Pools;
 
 namespace CardMaga.UI.Card
 {
-    public class CardUI : MonoBehaviour, IPoolable<CardUI> , IShowableUI , IVisualAssign<CardData>
+    public class CardUI : MonoBehaviour, IPoolableMB<CardUI> , IShowableUI , IVisualAssign<CardData>
     {
-        
+        public event Action<CardUI> OnDisposed;
         #region Fields
 
         [SerializeField] private RectTransform _rectTransform;
@@ -41,14 +42,14 @@ namespace CardMaga.UI.Card
 
         public void Dispose()
         {
-            OnDisposed?.Invoke(this);
             gameObject.SetActive(false);
+            OnDisposed?.Invoke(this);
         }
-        public event Action<CardUI> OnDisposed;
+ 
         public void Init()
         {
             gameObject.SetActive(true);
-            _inputs.DisableHold = false;
+            _inputs.DisableHold = false; // Look into it yonatan
         }
 
         #endregion

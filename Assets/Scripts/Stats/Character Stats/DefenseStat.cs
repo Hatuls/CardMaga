@@ -1,15 +1,13 @@
-﻿using Keywords;
+﻿using CardMaga.Keywords;
 namespace Characters.Stats
 {
     public class DefenseStat : BaseStat
     {
-        public DefenseStat(bool isPlayer,  int amount) : base(isPlayer,  amount)
+        public DefenseStat(int amount) : base(amount)
         {
         }
 
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.Shield;
-
-
+        public override KeywordType Keyword => KeywordType.Shield;
 
         public override void Reduce(int amount)
         {

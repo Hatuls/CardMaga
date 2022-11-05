@@ -4,7 +4,7 @@
     {
         public bool IsPlayer { get; set; }
         public OperatorType Operator { get; set; }
-        public Keywords.KeywordTypeEnum Keyword { get; set; }
+        public Keywords.KeywordType Keyword { get; set; }
 
         public int Amount;
 
@@ -49,7 +49,7 @@
     public class CardDoKeywordTree : Tree<AICard>
     {
         public bool IsPlayer { get; set; }
-        public Keywords.KeywordTypeEnum Keyword { get; set; }
+        public Keywords.KeywordType Keyword { get; set; }
         public int AttackComboWeight { get; set; }
         public int UtilityComboWeight { get; set; }
         public int DefenseComboWeight { get; set; }

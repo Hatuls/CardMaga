@@ -7,6 +7,7 @@ using UnityEngine;
 using Battle.Combo;
 using Characters.Stats;
 using UnityEditor;
+using System.Collections.Generic;
 
 namespace Battle
 {
@@ -139,14 +140,17 @@ namespace Battle
 
                                 const int iD = 0, Level = 1;
                                 //deck cards
-                                string[] Cards = row[CharacterDeckIndex].Split('&');
-                                _deck = new CardCore[Cards.Length];
+                                string[] Cards = row[CharacterDeckIndex].Trim().Split('&');
+                                List<CardCore> cardCores = new List<CardCore>();
+                        
                                 for (int i = 0; i < Cards.Length; i++)
                                 {
                                     string[] data = Cards[i].Split('^');
 
-                                    if (ushort.TryParse(data[iD], out ushort rID))
+                                    if (int.TryParse(data[iD], out int rID))
                                     {
+                                        if (rID == -1)
+                                            break;
                                         _iD = rID;
                                     }
                                     else
@@ -158,13 +162,16 @@ namespace Battle
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
-                                    _deck[i] = new CardCore(cardCollection.GetAllCards.First(x=>x.ID==_iD).ID, _level,0);
+                                    cardCores.Add(new CardCore(cardCollection.GetAllCards.First(x=>x.ID==_iD).ID, _level,0));
 
                                 }
+                                _deck = cardCores.ToArray();
+
 
                                 //Recipes / Combos
                                 string[] Recipe = row[CharacterRecipeIndex].Split('&');
-                                _combos = new Account.GeneralData.ComboCore[Recipe.Length];
+                                List<ComboCore> comboCores = new List<ComboCore>();
+                           
 
                                 for (int i = 0; i < Recipe.Length; i++)
                                 {
@@ -172,6 +179,8 @@ namespace Battle
 
                                     if (int.TryParse(data[iD], out int rID))
                                     {
+                                        if (rID == -1)
+                                            break;
                                         _iD = rID;
                                     }
                                     else
@@ -187,13 +196,11 @@ namespace Battle
 
 
 
-                                    _combos[i] = new Account.GeneralData.ComboCore(recipeCollections.AllCombos.First(x=>x.ID==_iD), _level);
+                                    comboCores.Add(new Account.GeneralData.ComboCore(recipeCollections.AllCombos.First(x=>x.ID==_iD), _level));
 
 
-                                    if (_combos[i] == null)
-                                        Debug.LogError("!");
                                 }
-
+                                _combos = comboCores.ToArray();
 
                                 if (int.TryParse(row[RewardTypeIndex], out int RewardInt))
                                 {

@@ -11,6 +11,7 @@ public class StrechMaskBackground : MonoBehaviour
     private TutorialClickHelper _tutorialClickHelper;
     private TrackerHandler _trackerHandler;
 
+
     private void OnEnable()
     {
         if (_strechOnEnable)
@@ -37,7 +38,7 @@ public class StrechMaskBackground : MonoBehaviour
     private void GetMaskHolder()
     {
         if (_trackerID != null)
-            _maskHolder = _trackerHandler.GetTracker(_trackerID).RectTransform;
+            _maskHolder = TrackerHandler.GetTracker(_trackerID).RectTransform;
 
         else
             Debug.Log("There is no tracker here");
@@ -47,6 +48,7 @@ public class StrechMaskBackground : MonoBehaviour
     {
         _tutorialClickHelper = TutorialClickHelper.Instance;
         _trackerHandler = TrackerHandler.Instance;
+
     }
 
     private void LoadObject()

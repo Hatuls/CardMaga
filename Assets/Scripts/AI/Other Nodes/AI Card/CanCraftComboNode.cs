@@ -1,4 +1,5 @@
 ﻿using Battle;
+using CardMaga.Battle;
 using CardMaga.Card;
 using Cards;
 using System.Collections.Generic;
@@ -7,9 +8,12 @@ namespace CardMaga.AI
 {
     public class CanCraftComboNode : BaseNode<AICard>
     {
-        public bool IsPlayer { get; set; }
-        public BattleManager BM { get; set; }
+        public bool IsPlayer { get => _isPlayer; set => _isPlayer = value; }
+        public IBattleManager BM { get => _bM; set => _bM = value; }
         private CraftingHandler _craftingHandler;
+        private IBattleManager _bM;
+        private bool _isPlayer;
+
         public CanCraftComboNode() : base()
         {
             if (BM == null)
@@ -21,12 +25,12 @@ namespace CardMaga.AI
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
 
-            CardTypeData[] craftingSlots = new CardTypeData[_craftingHandler.CardsTypeData.Count()+1];
+            CardTypeData[] craftingSlots = new CardTypeData[_craftingHandler.CardsTypeData.Count() + 1];
             System.Array.Copy(_craftingHandler.CardsTypeData.ToArray(), craftingSlots, 0);
-           // CardData[] craftingSlots = new CardData[deck.GetDeck.Length + 1];
+            // CardData[] craftingSlots = new CardData[deck.GetDeck.Length + 1];
 
-          //  System.Array.Copy(deck.GetDeck, craftingSlots, deck.GetDeck.Length);
-           craftingSlots[craftingSlots.Length - 1] = basedEvaluationObject.Card.CardTypeData;
+            //  System.Array.Copy(deck.GetDeck, craftingSlots, deck.GetDeck.Length);
+            craftingSlots[craftingSlots.Length - 1] = basedEvaluationObject.Card.CardTypeData;
 
             // checking how many of them are not null
             List<CardTypeData> craftingItems;
@@ -42,7 +46,7 @@ namespace CardMaga.AI
             int GetCraftingSlotsFilled()
             {
                 int amountCache = _craftingHandler.CountFullSlots;
-           
+
                 craftingItems = new List<CardTypeData>(amountCache);
 
                 for (int i = 0; i < craftingSlots.Length; i++)

@@ -1,64 +1,99 @@
-﻿using Battle;
+﻿using CardMaga.Battle;
 
-namespace Keywords
+namespace CardMaga.Keywords
 {
-    public class StunShardKeyword : KeywordAbst
+    public class StunShardKeyword : BaseKeywordLogic
     {
-        public override KeywordTypeEnum Keyword => KeywordTypeEnum.StunShard;
-
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
+        public StunShardKeyword(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
         {
+        }
 
-            var target = data.GetTarget;
-
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
 
             data.KeywordSO.SoundEventSO.PlaySound();
+            var target = data.GetTarget;
+
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-            {
-                playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
-            }
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
+
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
+        }
+
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            var target = data.GetTarget;
+
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
+
+
+            if (target == TargetEnum.All || target == TargetEnum.Opponent)
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
         }
     }
-        public class RageShardKeyword : KeywordAbst
+    public class RageShardKeyword : BaseKeywordLogic
+    {
+        public RageShardKeyword(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
         {
-            public override KeywordTypeEnum Keyword => KeywordTypeEnum.RageShard;
-
-            public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-            {
-
-                var target = data.GetTarget;
-
-                data.KeywordSO.SoundEventSO.PlaySound();
-                if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                {
-                    playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
-                }
-
-                if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                    playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
-            }
         }
-        public class ProtectionShardKeyword : KeywordAbst
+
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
-            public override KeywordTypeEnum Keyword => KeywordTypeEnum.ProtectionShard;
 
-            public override void ProcessOnTarget(bool currentPlayer, KeywordData data, IPlayersManager playersManager)
-            {
+            data.KeywordSO.SoundEventSO.PlaySound();
+            var target = data.GetTarget;
 
-                var target = data.GetTarget;
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
 
 
-                data.KeywordSO.SoundEventSO.PlaySound();
-                if (target == TargetEnum.All || target == TargetEnum.MySelf)
+            if (target == TargetEnum.All || target == TargetEnum.Opponent)
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
+        }
 
-                    playersManager.GetCharacter(currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            var target = data.GetTarget;
 
-                if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                    playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStats(Keyword).Add(data.GetAmountToApply);
-            }
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
 
+
+            if (target == TargetEnum.All || target == TargetEnum.Opponent)
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
         }
     }
+    public class ProtectionShardKeyword : BaseKeywordLogic
+    {
+        public ProtectionShardKeyword(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
+        {
+        }
+
+        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+
+            data.KeywordSO.SoundEventSO.PlaySound();
+            var target = data.GetTarget;
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
+
+            if (target == TargetEnum.All || target == TargetEnum.Opponent)
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
+        }
+
+        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        {
+            var target = data.GetTarget;
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(-data.GetAmountToApply);
+
+            if (target == TargetEnum.All || target == TargetEnum.Opponent)
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
+        }
+    }
+}

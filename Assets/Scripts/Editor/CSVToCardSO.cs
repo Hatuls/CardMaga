@@ -56,7 +56,7 @@ namespace CardMaga.CSV
 
             //0 is the headers
             // 1 is example card
-            const int firstCardsIndex = 2;
+            const int firstCardsIndex = 3;
             const int IsBattleReward = 25;
 
             for (int i = firstCardsIndex; i < csv.GetLength(0); i++)
@@ -79,33 +79,33 @@ namespace CardMaga.CSV
                     // battle reward sort
 
                     // is reward card
-                    if (cardCache.IsBattleReward)
-                    {
+                    //if (cardCache.IsBattleReward)
+                    //{
 
-                        switch (cardCache.Rarity)
-                        {
+                    //    switch (cardCache.Rarity)
+                    //    {
 
-                            case RarityEnum.Common:
-                                commonList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.Uncommon:
-                                unCommonList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.Rare:
-                                rareList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.Epic:
-                                epicList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.LegendREI:
-                                legendReiList.Add(cardCache.ID);
-                                break;
-                            case RarityEnum.None:
-                            default:
-                                throw new Exception("Rarity card is None or not acceptabl\ncard id" + +cardCache.ID);
-                        }
+                    //        case RarityEnum.Common:
+                    //            commonList.Add(cardCache.ID);
+                    //            break;
+                    //        case RarityEnum.Uncommon:
+                    //            unCommonList.Add(cardCache.ID);
+                    //            break;
+                    //        case RarityEnum.Rare:
+                    //            rareList.Add(cardCache.ID);
+                    //            break;
+                    //        case RarityEnum.Epic:
+                    //            epicList.Add(cardCache.ID);
+                    //            break;
+                    //        case RarityEnum.LegendREI:
+                    //            legendReiList.Add(cardCache.ID);
+                    //            break;
+                    //        case RarityEnum.None:
+                    //        default:
+                    //            throw new Exception("Rarity card is None or not acceptabl\ncard id" + +cardCache.ID);
+                    //    }
 
-                    }
+                 //   }
 
                 }
             }
@@ -203,8 +203,8 @@ namespace CardMaga.CSV
             const int IDThatCraftMe = 22;
             const int UpgradeToCardID = 23;
             const int IsExhausted = 24;
-            const int IsRewardType = 25;
-            const int CardValueIndex = 26;
+            //const int IsRewardType = 25;
+            const int CardValueIndex = 25;
 
             card.ID = ushort.Parse(cardSO[ID]);
 
@@ -304,8 +304,18 @@ namespace CardMaga.CSV
                 Debug.LogError($"CardID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
             //Upgrade Value
-            if (!int.TryParse(cardSO[CardValueIndex], out int cardValue))
-                Debug.LogError($"CSVTOCARDSO: Card ID - {card.ID} : Card Value is not valid!\nInput: {cardSO[CardValueIndex]}");
+            int cardValue = 0;
+            try
+            {
+                if (!int.TryParse(cardSO[CardValueIndex], out cardValue))
+                    Debug.LogError($"CSVTOCARDSO: Card ID - {card.ID} : Card Value is not valid!\nInput: {cardSO[CardValueIndex]}");
+            }
+            catch (Exception)
+            {
+                throw new Exception($"{cardSO[CardName]}");
+            }
+
+
             //Description
             List<string[]> description = GetDescription(cardSO[CardDescription]);
 
@@ -345,16 +355,16 @@ namespace CardMaga.CSV
             card.PerLevelUpgrade = _PerLevelUpgrade.ToArray();
 
 
-            string[] rewardType = cardSO[IsRewardType].Split('&');
-            if (byte.TryParse(rewardType[0], out byte isBattleReward))
-                card.IsBattleReward = isBattleReward == 1;
-            else
-                throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[0]}");
+            //string[] rewardType = cardSO[IsRewardType].Split('&');
+            //if (byte.TryParse(rewardType[0], out byte isBattleReward))
+            //    card.IsBattleReward = isBattleReward == 1;
+            //else
+            //    throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[0]}");
 
-            if (byte.TryParse(rewardType[1], out byte isPackReward))
-                card.IsPackReward = isPackReward == 1;
-            else
-                throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[1]}");
+            //if (byte.TryParse(rewardType[1], out byte isPackReward))
+            //    card.IsPackReward = isPackReward == 1;
+            //else
+            //    throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[1]}");
 
 
 
@@ -491,7 +501,7 @@ namespace CardMaga.CSV
                 {
                     if (IKeywordsType == 0)
                         continue;
-                    keywordSO = CSVManager._keywordsSO.GetKeywordSO((Keywords.KeywordTypeEnum)IKeywordsType);
+                    keywordSO = CSVManager._keywordsSO.GetKeywordSO((Keywords.KeywordType)IKeywordsType);
 
 
                     if (int.TryParse(SSeperationAmountKeywords[i], out ISeperationAmountKeywords))

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using CardMaga.Battle.UI;
+using CardMaga.UI.Card;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,7 +14,7 @@ public class FirstCardDisplayer : MonoBehaviour
     [SerializeField] private UnityEvent OnReturnCard;
 
     private TutorialClickHelper _tutorialClickHelper;
-    private BattleManager _battleManager;
+    private BattleUiManager _battleUIManager;
     private IReadOnlyList<CardUI> _cards;
 
     public IReadOnlyList<CardUI> FirstCard { get => _cards;}
@@ -21,13 +22,14 @@ public class FirstCardDisplayer : MonoBehaviour
     public void GetCard()
     {
         _tutorialClickHelper = TutorialClickHelper.Instance;
-        _battleManager = BattleManager.Instance;
-        _cards = _battleManager.CardUIManager.HandUI.GetCardUIFromHand();
+        _battleUIManager = BattleUiManager.Instance;
+        _cards = _battleUIManager.CardUIManager.HandUI.GetCardUIFromHand();
         InputBehaviour<CardUI> tutorialZoomOutInputBehaviour = new InputBehaviour<CardUI>();
         tutorialZoomOutInputBehaviour.OnClick += ZoomInCardInput;
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomOutInputBehaviour);
         Debug.Log(_cards[0].Inputs.CurrentInputBehaviourState);
     }    
+        
 
     public void LoadCardOnPanel()
     {
@@ -45,12 +47,12 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public void ReturnToHand(CardUI cardUI)
     {
-        //_clickHelper.Close();
         _cards[0].Inputs.ForceResetInputBehaviour();
         _battleManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
         _battleManager.CardUIManager.HandUI.SetToHandState(cardUI);
         _tutorialClickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
         OnReturnCard.Invoke();
+        _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
     }
 
     public void BlockCardHold()
