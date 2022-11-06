@@ -10,6 +10,7 @@ namespace CardMaga.UI.Card
     public class CardUI : MonoBehaviour, IPoolableMB<CardUI> , IShowableUI , IVisualAssign<CardData>
     {
         public event Action<CardUI> OnDisposed;
+        
         #region Fields
 
         [SerializeField] private RectTransform _rectTransform;
@@ -49,7 +50,6 @@ namespace CardMaga.UI.Card
         public void Init()
         {
             gameObject.SetActive(true);
-            _inputs.DisableHold = false; // Look into it yonatan
         }
 
         #endregion

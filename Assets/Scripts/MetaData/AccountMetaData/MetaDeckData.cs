@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Account.GeneralData;
 using CardMaga.Card;
+using Factory;
 
 namespace CardMaga.Meta.AccountMetaData
 {
@@ -46,12 +47,15 @@ namespace CardMaga.Meta.AccountMetaData
             
             _cardDatas = new List<MetaCardData>(cardLength);
 
+            GameFactory.CardFactory cardFactory = GameFactory.Instance.CardFactoryHandler;
+
             for (int i = 0; i < cardLength; i++)
             {
-                CardInstanceID instanceID = Factory.GameFactory.Instance.CardFactoryHandler.CreateCardInstance(tempCardCore[i]);//need to cache
-                CardSO cardSo = Factory.GameFactory.Instance.CardFactoryHandler.GetCard(tempCardCore[i].ID);
+                CardInstanceID instanceID = cardFactory.CreateCardInstance(tempCardCore[i]);
+                CardSO cardSo = cardFactory.GetCard(tempCardCore[i].ID);
+                CardData cardData = cardFactory.CreateCard(instanceID);
 
-                _cardDatas[i] = new MetaCardData(instanceID,cardSo);
+                _cardDatas[i] = new MetaCardData(instanceID,cardSo,cardData);//need To remove carddata
             }
 
             ComboCore[] tempComboCores = deckData.Combos;

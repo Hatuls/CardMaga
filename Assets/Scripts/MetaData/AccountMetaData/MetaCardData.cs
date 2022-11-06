@@ -9,6 +9,7 @@ namespace CardMaga.Meta.AccountMetaData
     {
         private CardSO _cardSO;
         private CardInstanceID _cardInstanceID;
+        private CardData _cardData;
         private bool _toExhaust = false;
         private CardTypeData _cardTypeData;
         private KeywordData[] _cardKeyword;
@@ -24,8 +25,9 @@ namespace CardMaga.Meta.AccountMetaData
         public bool CardsAtMaxLevel => _cardSO.CardsMaxLevel - 1 == CardLevel; 
         public int StaminaCost => _staminaCost;
 
-        public MetaCardData(CardInstanceID instanceID, CardSO cardSo)
+        public MetaCardData(CardInstanceID instanceID, CardSO cardSo,CardData cardData)
         {
+            _cardData = cardData;
             _cardSO = cardSo;
             _cardInstanceID = instanceID;
         }
