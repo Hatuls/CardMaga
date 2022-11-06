@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using CardMaga.UI.ScrollPanel;
 using UnityEngine;
 
 public class PlayableMetaCollection : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private ScrollPanelHandler _comboScrollPanelHandler;
+    [SerializeField] private ScrollPanelHandler _cardScrollPanelHandler;
+    
     void Start()
     {
         
