@@ -240,9 +240,7 @@ namespace Factory
 
                 throw new System.Exception($"Card SO Could not been found from ID \nID is {ID}\nCheck Collection For card SO");
             }
-       
             
-
             public CardData[] CreateDeck(CardCore[] cardsInfo)
             {
                 if (cardsInfo != null && cardsInfo.Length != 0)

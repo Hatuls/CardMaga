@@ -17,20 +17,15 @@ namespace Account.GeneralData
     {
         [NonSerialized]
         public const string PlayFabKeyName = "GeneralData";
-
         [SerializeField] private int _rank = 0;
-        [SerializeField] private bool _isFinishedTutorial = false;
         [SerializeField] private AccountType _accountType;
 
         public int Rank { get => _rank; set => _rank = value; }
-        public bool IsFinishedTutorial { get => _isFinishedTutorial; set => _isFinishedTutorial = value; }
         public AccountType AccountType { get => _accountType; set => _accountType = value; }
         public AccountGeneralData()
         {
-            _isFinishedTutorial = false;
             _rank = 0;
             _accountType = AccountType.Normal;
-
         }
 
         internal bool IsValid()

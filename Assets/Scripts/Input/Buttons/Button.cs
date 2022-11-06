@@ -1,5 +1,8 @@
-﻿using CardMaga.Input;
-
-public class Button : TouchableItem
+﻿
+namespace CardMaga.Input
 {
+    public class Button : TouchableItem
+    {
+    }    
 }
+
