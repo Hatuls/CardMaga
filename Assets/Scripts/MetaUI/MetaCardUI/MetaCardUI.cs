@@ -15,16 +15,12 @@ namespace MetaUI.MetaCardUI
         public event Action<CardData> OnRemoveCard; 
 
         [SerializeField] private CardUI _cardUI;
-        [SerializeField] private Button _plusBuuton;
-        [SerializeField] private Button _minusBuuton;
 
         private CardData _cardData;
         
         public void Init()
         {
             _cardUI.Init();
-            _plusBuuton.OnClick += AddToDeck;
-            _minusBuuton.OnClick += RemoveFromDeck;
         }
 
         public void Dispose()
@@ -46,12 +42,12 @@ namespace MetaUI.MetaCardUI
             _cardUI.AssingVisual(data);
         }
 
-        private void AddToDeck()
+        public void AddToDeck()
         {
             OnAddCard?.Invoke(_cardData);   
         }
 
-        private void RemoveFromDeck()
+        public void RemoveFromDeck()
         {
             OnRemoveCard?.Invoke(_cardData);
         }
