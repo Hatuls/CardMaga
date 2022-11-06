@@ -55,7 +55,7 @@ namespace CardMaga.Meta.AccountMetaData
                 CardSO cardSo = cardFactory.GetCard(tempCardCore[i].ID);
                 CardData cardData = cardFactory.CreateCard(instanceID);
 
-                _cardDatas[i] = new MetaCardData(instanceID,cardSo,cardData);//need To remove carddata
+                _cardDatas.Add(new MetaCardData(instanceID,cardSo,cardData));//need To remove carddata
             }
 
             ComboCore[] tempComboCores = deckData.Combos;
@@ -65,7 +65,7 @@ namespace CardMaga.Meta.AccountMetaData
 
             for (int i = 0; i < comboLength; i++)
             {
-                _comboDatas[i] = new MetaComboData(tempComboCores[i]);
+                _comboDatas.Add(new MetaComboData(tempComboCores[i]));
             }
         }
         

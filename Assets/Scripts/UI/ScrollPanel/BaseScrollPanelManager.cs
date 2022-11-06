@@ -11,6 +11,7 @@ public abstract class BaseScrollPanelManager<T_visual,T_data> : MonoBehaviour wh
 
     public virtual void Init()
     {
+        ObjectPool.Init();
         _scrollPanel.Init();
     }
  

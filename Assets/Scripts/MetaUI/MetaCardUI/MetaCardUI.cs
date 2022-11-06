@@ -1,6 +1,7 @@
 using System;
 using CardMaga.Card;
 using CardMaga.Input;
+using CardMaga.Meta.AccountMetaData;
 using CardMaga.Tools.Pools;
 using CardMaga.UI.Card;
 using CardMaga.UI.ScrollPanel;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace MetaUI.MetaCardUI
 {
-    public class MetaCardUI : MonoBehaviour, IPoolableMB<MetaCardUI>,IShowableUI,IVisualAssign<CardData>//need to change to MetaCardData 
+    public class MetaCardUI : MonoBehaviour, IPoolableMB<MetaCardUI>,IShowableUI,IVisualAssign<MetaCardData>//need to change to MetaCardData 
     {
         public event Action<MetaCardUI> OnDisposed;
         public event Action<CardData> OnAddCard; 
@@ -36,10 +37,10 @@ namespace MetaUI.MetaCardUI
             _cardUI.Init();
         }
 
-        public void AssingVisual(CardData data)
+        public void AssingVisual(MetaCardData data)
         {
-            _cardData = data;
-            _cardUI.AssingVisual(data);
+            _cardData = data.CardData;
+            _cardUI.AssingVisual(data.CardData);
         }
 
         public void AddToDeck()

@@ -3,7 +3,7 @@ using Battle.Combo;
 using CardMaga.UI.Combos;
 using UnityEngine;
 
-public class ComboUIScrollPanelManager : BaseScrollPanelManager<ComboUI,ComboData>
+public class ComboUIScrollPanelHandler : BaseScrollPanelManager<ComboUI,ComboData>
 {
     [SerializeField] private ComboUIPool _comboUIPool;
     

@@ -14,8 +14,9 @@ namespace CardMaga.Meta.AccountMetaData
         private CardTypeData _cardTypeData;
         private KeywordData[] _cardKeyword;
         private int _staminaCost;
-        
-        
+
+
+        public CardData CardData => _cardData; //need to by remove
         public CardTypeData CardTypeData => _cardTypeData;
         public bool IsExhausted => _toExhaust;
         public Card.BodyPartEnum BodyPartEnum => _cardTypeData.BodyPart;

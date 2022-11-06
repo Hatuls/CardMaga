@@ -15,13 +15,24 @@ namespace CardMaga.Meta.AccountMetaData
 
         #endregion
 
+        #region Prop
+
+        public MetaCharacterData CharacterData => _mainMetaCharacterData;
+
+        #endregion
+
         public MetaCharactersHandler(IReadOnlyList<Character> characters)
         {
+            _characterDatas = new Dictionary<int, MetaCharacterData>();
+            
             foreach (var character in characters)
             {
                 MetaCharacterData data = new MetaCharacterData(character);
                 _characterDatas.Add(character.Id,data);
             }
+
+            if (_characterDatas.TryGetValue(1, out MetaCharacterData metaCharacterData))//need to re done
+                _mainMetaCharacterData = metaCharacterData;
         }
 
         public bool TryAddCharacter()//need to work on

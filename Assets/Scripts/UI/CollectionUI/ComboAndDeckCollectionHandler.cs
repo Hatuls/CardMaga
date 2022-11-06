@@ -9,7 +9,7 @@ namespace CardMaga.UI.ScrollPanel
     public class ComboAndDeckCollectionHandler : MonoBehaviour
     {
         [Header("Scripts Reference")]
-        [SerializeField] private ComboUIScrollPanelManager _comboUIScroll;
+        [SerializeField] private ComboUIScrollPanelHandler _comboUIScroll;
         [SerializeField] private CardUIScrollPanelManager _cardUIScroll;
         [SerializeField] private CardDataFilterSystem _cardDataFilter;
 
