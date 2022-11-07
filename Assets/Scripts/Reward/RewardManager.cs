@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class RewardManager : MonoBehaviour
+﻿using UnityEngine;
+namespace CardMaga.Rewards
 {
-    private RewardPack _lostReward;
-    private RewardPack _winReward;
+    public class RewardManager : MonoBehaviour
+    {
+        private PackReward _lostReward;
+        private PackReward _winReward;
+    }
 }

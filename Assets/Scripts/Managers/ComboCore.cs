@@ -37,9 +37,8 @@ namespace Account.GeneralData
             }
             return true;
         }
-
-
     }
+    
     public static class ComboHelper
     {
         public static ComboSO ComboSO(this ComboCore c)

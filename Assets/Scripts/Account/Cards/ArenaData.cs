@@ -31,7 +31,6 @@ namespace Account.GeneralData
     [Serializable]
     public class AccountResources
     {
-
         [NonSerialized] public const string PlayFabKeyName = "ResourcesData";
         [SerializeField] private int _gold;
         [SerializeField] private int _diamonds;
