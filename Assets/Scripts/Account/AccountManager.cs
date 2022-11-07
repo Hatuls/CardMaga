@@ -3,6 +3,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using ReiTools.TokenMachine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -136,7 +137,8 @@ namespace Account
         [SerializeField] private AccountResources _accountResources;
 
         [SerializeField] private ArenaData _arenaData;
-
+        [SerializeField] private AccountCards _accountCards;
+        [SerializeField] private AccountCombos _accountCombos;
         private AccountTutorialData _accountTutorialData;
 
         public AccountTutorialData AccountTutorialData
@@ -145,7 +147,8 @@ namespace Account
         }
         public bool IsFirstTimeUser { get; private set; }
         public string DisplayName { get => _displayName; set => _displayName = value; }
-
+        public AccountCombos AccountCombos => _accountCombos;
+        public AccountCards AccountCards => _accountCards;
         public AccountGeneralData AccountGeneralData { get => _accountGeneralData; }
         public LevelData AccountLevel { get => _accountLevel;}
         public CharactersData CharactersData { get => _charactersData; }
@@ -289,4 +292,21 @@ namespace Account
     }
 }
 
+[Serializable]
+public class AccountCards
+{
+    private List<int> _cardsIDs = new List<int>();
+    public IReadOnlyList<int> CardsIDs => _cardsIDs;
 
+    public void AddCard(int cardID) => _cardsIDs.Add(cardID);
+    public void RemoveCard(int cardID) => _cardsIDs.Remove(cardID);
+}
+[Serializable]
+public class AccountCombos
+{
+    private List<int> _combosIDs = new List<int>();
+    public IReadOnlyList<int> CombosIDs => _combosIDs;
+
+    public void AddCombo(int cardID) => _combosIDs.Add(cardID);
+    public void RemoveCombo(int cardID) => _combosIDs.Remove(cardID);
+}
