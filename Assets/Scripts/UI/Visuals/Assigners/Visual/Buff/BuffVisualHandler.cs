@@ -12,18 +12,7 @@ namespace CardMaga.UI.Buff
     public class BuffVisualHandler : BaseBuffVisualHandler
     {
 
-#if UNITY_EDITOR
-        [FormerlySerializedAs("_testBuff")]
-        [Header("Test")]
-        [SerializeField] BuffVisualData testBuffData;
-
-        [Button]
-        public void Test()
-        {
-            CheckValidation();
-            Init(testBuffData);
-        }
-#endif
+        [SerializeField] GameObject _holder;
 
         BuffDescriptionPopUp _buffDescriptionPopUp;
 
@@ -43,11 +32,29 @@ namespace CardMaga.UI.Buff
         public override void Init(BuffVisualData buffData)
         {
             base.Init(buffData);
+            ActivateHolder(true);
         }
         public override void Dispose()
         {
             base.Dispose();
+            ActivateHolder(false);
         }
+        public void ActivateHolder(bool toActivate)
+        {
+            _holder.SetActive(toActivate);
+        }
+#if UNITY_EDITOR
+        [FormerlySerializedAs("_testBuff")]
+        [Header("Test")]
+        [SerializeField] BuffVisualData testBuffData;
+
+        [Button]
+        public void Test()
+        {
+            CheckValidation();
+            Init(testBuffData);
+        }
+#endif
     }
 
 }
