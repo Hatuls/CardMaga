@@ -1,15 +1,17 @@
 ﻿using Battle.Combo;
+using CardMaga.Tools.Pools;
 using CardMaga.UI.PopUp;
 using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
 using Sirenix.OdinInspector;
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace CardMaga.UI.Buff
 {
    
-    public class BuffVisualHandler : BaseBuffVisualHandler
+    public class BuffVisualHandler : BaseBuffVisualHandler , IPoolableMB<BuffVisualHandler>
     {
 
         [SerializeField] GameObject _holder;
@@ -34,9 +36,12 @@ namespace CardMaga.UI.Buff
             base.Init(buffData);
             ActivateHolder(true);
         }
+        public void Init() { }
+        
         public override void Dispose()
         {
             base.Dispose();
+            OnDisposed?.Invoke(this);
             ActivateHolder(false);
         }
         public void ActivateHolder(bool toActivate)
@@ -48,12 +53,16 @@ namespace CardMaga.UI.Buff
         [Header("Test")]
         [SerializeField] BuffVisualData testBuffData;
 
+        public event Action<BuffVisualHandler> OnDisposed;
+
         [Button]
         public void Test()
         {
             CheckValidation();
             Init(testBuffData);
         }
+
+      
 #endif
     }
 

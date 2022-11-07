@@ -1,4 +1,7 @@
 ﻿using CardMaga.SequenceOperation;
+using CardMaga.Tools.Pools;
+using CardMaga.UI.Buff;
+using CardMaga.UI.Visuals;
 using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
@@ -15,15 +18,30 @@ namespace CardMaga.Battle.UI
 
         public int Priority => 0;
 
+        [SerializeField]
+        private BuffVisualHandler _prefab;
+        [SerializeField]
+        private Transform _buffParent;
+
+
+        private IPoolObject<BuffVisualData> _dataPool;
+        private IPoolMBObject<BuffVisualHandler> _visualPool;
+     
+
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
         {
+            const int SIZE = 5;
+            _dataPool = new ObjectPool<BuffVisualData>(SIZE);
+            _visualPool = new MBPool<BuffVisualHandler>(_prefab, null, SIZE);
+
+
             var leftCharacter = data.VisualCharactersManager.GetVisualCharacter(true);
             var rightCharacter = data.VisualCharactersManager.GetVisualCharacter(false);
 
             var visualStat = leftCharacter.VisualStats;
-            _leftBuffIconHandler.Init(visualStat);
+            _leftBuffIconHandler.Init(visualStat, _dataPool, _visualPool);
             visualStat = rightCharacter.VisualStats;
-            _leftBuffIconHandler.Init(visualStat);
+            _leftBuffIconHandler.Init(visualStat, _dataPool, _visualPool);
             // if need to be initalize
         }
 
