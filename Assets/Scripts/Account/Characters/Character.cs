@@ -14,7 +14,7 @@ namespace Account.GeneralData
         private List<Character> _characters = new List<Character>();
         [SerializeField]
         private int _mainCharacter = 0;
-
+        
         public IReadOnlyList<Character> Characters => _characters;
         public int MainCharacter { get => _mainCharacter; set => _mainCharacter = value; }
         public Character GetMainCharacter => Characters[MainCharacter];
@@ -197,6 +197,10 @@ namespace Account.GeneralData
   [Serializable]
     public class DeckData
     {
+        private const string DEFAULT_DECK_NAME = "New Deck";
+        private const int NUMBER_OF_CARDS_IN_DECK = 8;
+        private const int NUMBER_OF_COMBO_IN_DECK = 3;
+        
         [SerializeField]  private int _id;
         [SerializeField]  private string _name;
         [SerializeField]  private CardCore[] _cards;
@@ -208,6 +212,14 @@ namespace Account.GeneralData
             _name = name;
             _cards = cards;
             _combos = combos;
+        }
+
+        public DeckData(int id)
+        {
+            _id = id;
+            _name = DEFAULT_DECK_NAME;
+            _cards = new CardCore[NUMBER_OF_CARDS_IN_DECK];
+            _combos = new ComboCore[NUMBER_OF_COMBO_IN_DECK];
         }
 
         public int Id { get => _id; set => _id = value; }

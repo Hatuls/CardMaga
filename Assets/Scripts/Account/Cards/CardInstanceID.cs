@@ -3,9 +3,6 @@ using System;
 using UnityEngine;
 namespace Account.GeneralData
 {
-
-
-
     [Serializable]
     public class CardInstanceID : IEquatable<CardInstanceID>, IDisposable
     {
@@ -45,9 +42,8 @@ namespace Account.GeneralData
             _coreData.Dispose();
         }
         #endregion
-
-
     }
+    
     [Serializable]
     public class CardCore : IDisposable
     {
