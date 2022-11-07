@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+#if UNITY_EDITOR
+using System.Linq;
+#endif
 using UnityEngine;
 namespace CardMaga.Rewards.Factory.Handlers
 {
@@ -8,16 +11,7 @@ namespace CardMaga.Rewards.Factory.Handlers
 
         [SerializeField]
         private RewardFactoryHandlerSO[] _factories;
-        public BaseRewardFactorySO[] GetRewardFactorySOs(params RewardTypeAndID[] rewardTypeAndIDs)
-        {
-            List<BaseRewardFactorySO> factorys = new List<BaseRewardFactorySO>();
-            for (int i = 0; i < rewardTypeAndIDs.Length; i++)
-                factorys.Add(GetRewardFactory(rewardTypeAndIDs[i]));
 
-            return factorys.ToArray();
-        }
-        public BaseRewardFactorySO GetRewardFactory(RewardTypeAndID rewardTypeAndID)
-            => GetRewardFactory(rewardTypeAndID.RewardTypeID, rewardTypeAndID.RewardID);
         public BaseRewardFactorySO GetRewardFactory(int rewardTypeID, int id) 
             => GetRewardFactoryHandler(rewardTypeID)?.GetRewardFactory(id);
 
@@ -30,5 +24,16 @@ namespace CardMaga.Rewards.Factory.Handlers
             }
             throw new System.Exception($"RewardFactoryManagerSO - Could not find request ID = {rewardTypeID}\n");
         }
+
+#if UNITY_EDITOR
+        public void Add(RewardFactoryHandlerSO rewardFactoryHandlerSOs)
+        {
+            if (_factories == null)
+                _factories = new RewardFactoryHandlerSO[0];
+            List<RewardFactoryHandlerSO> list = _factories.ToList();
+            list.Add(rewardFactoryHandlerSOs);
+            _factories = list.ToArray();
+        }
+#endif
     }
 }

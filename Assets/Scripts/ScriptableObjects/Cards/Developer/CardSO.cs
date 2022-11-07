@@ -104,6 +104,22 @@ namespace CardMaga.Card
         #endregion
 
         #region Properties
+        public IEnumerable<CardCoreInfo> CardsCoreInfo
+        {
+            get
+            {
+                for (int i = 0; i < _cardCoreInfo.Length; i++)
+                    yield return _cardCoreInfo[i];
+            }
+        }
+        public IEnumerable<int> CardsID
+        {
+           get
+            {
+                for (int i = 0; i < _cardCoreInfo.Length; i++)
+                    yield return _cardCoreInfo[i].CardCore.ID;
+            }
+        }
         public bool IsFusedCard => _isFuseCard;
         public bool IsCombo => _isCombo;
         public ushort ID { get => _id; set => _id = value; }

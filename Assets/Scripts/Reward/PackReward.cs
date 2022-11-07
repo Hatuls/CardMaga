@@ -38,7 +38,19 @@ namespace CardMaga.Rewards
     }
  
 
-
+    public enum RewardType
+    {
+        Currency =0,
+        Character = 1,
+        Pack = 2,
+        Gift = 3,
+        Bundle = 4,
+        Arena = 5,
+        Arena_Skin = 6,
+        Character_Skin= 7,
+        Character_Color = 8,
+        Account_Icons = 9,
+    }
     public enum CurrencyType
     {
         None = 0,
@@ -46,6 +58,6 @@ namespace CardMaga.Rewards
         Diamonds = 2,
         Chips = 3,
         Account_EXP = 4,
-        Free = 0 
+        Free = 5
     }
 }

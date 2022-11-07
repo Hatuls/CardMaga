@@ -39,7 +39,7 @@ namespace Collections
          */
 
         public RarityCardsContainer[] RarityCardsContainer => _rarityCardsContainer;
-        public CardSO[] GetAllCards
+        public CardSO[] GetAllCardsSO
         {
             get
             {
@@ -50,6 +50,24 @@ namespace Collections
                     Debug.LogError("Error Getting All Cards");
                     return null;
                 }
+            }
+        }
+        public IEnumerable<int> AllCardsID
+        {
+            get
+            {
+                for (int i = 0; i < GetAllCardsSO.Length; i++)
+                    foreach (var cardID in GetAllCardsSO[i].CardsID)
+                        yield return cardID;
+            }
+        }
+        public IEnumerable<CardCoreInfo> AllCardsCoreInfo
+        {
+            get
+            {
+                for (int i = 0; i < GetAllCardsSO.Length; i++)
+                    foreach (var cardID in GetAllCardsSO[i].CardsCoreInfo)
+                        yield return cardID;
             }
         }
 #if UNITY_EDITOR
@@ -99,9 +117,13 @@ namespace Collections
 #if UNITY_EDITOR
         public void AssignValues(RarityEnum rarityEnum, List<int> cardCores)
         {
-            _cardsID = cardCores;
-            _rarity = rarityEnum;
+            AssignCards( cardCores);
+            AssignRarity(rarityEnum);
         }
+        public void AssignRarity(RarityEnum rarityEnum)
+            => _rarity = rarityEnum;
+        public void AssignCards(List<int> cardCores)
+            => _cardsID = cardCores;
 #endif
     }
 

@@ -25,14 +25,14 @@ namespace CardMaga.Rewards
 
 
 
-    [Serializable]
-    public class RewardTypeAndID
-    {
-        [SerializeField]
-        private int rewardTypeID;
-        [SerializeField] private int rewardID;
+    //[Serializable]
+    //public class RewardTypeAndID
+    //{
+    //    [SerializeField]
+    //    private int rewardTypeID;
+    //    [SerializeField] private int rewardID;
 
-        public int RewardID { get => rewardID; }
-        public int RewardTypeID { get => rewardTypeID; }
-    }
+    //    public int RewardID { get => rewardID; }
+    //    public int RewardTypeID { get => rewardTypeID; }
+    //}
 }

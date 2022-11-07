@@ -213,7 +213,7 @@ namespace Factory
             public CardFactory(CardsCollectionSO cards)
             {
                 CardCollection = cards;
-                var allCards = CardCollection.GetAllCards;
+                var allCards = CardCollection.GetAllCardsSO;
                 int length = allCards.Length;
                 _cardCollectionDictionary = new Dictionary<int, CardSO>(length);
 

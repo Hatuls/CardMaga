@@ -158,7 +158,7 @@ namespace Battle
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
-                                    cardCores.Add(new CardCore(cardCollection.GetAllCards.First(x=>x.ID==_iD).ID, _level,0));
+                                    cardCores.Add(new CardCore(cardCollection.GetAllCardsSO.First(x=>x.ID==_iD).ID, _level,0));
 
                                 }
                                 _deck = cardCores.ToArray();

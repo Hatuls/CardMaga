@@ -10,23 +10,23 @@ namespace CardMaga.Rewards
     public class GiftRewardFactorySO : BaseRewardFactorySO
     {
         [SerializeField]
-        private RewardTypeAndID[] _rewardsIDs;
+        private BaseRewardFactorySO[] _rewardsIDs;
 
-        [SerializeField] RewardFactoryManagerSO _rewardFactoyManager;
+
         public override IRewardable GenerateReward()
         {
-            var factorys = _rewardFactoyManager.GetRewardFactorySOs(_rewardsIDs);
-            IRewardable[] rewardables = new IRewardable[factorys.Length];
 
-            for (int i = 0; i < factorys.Length; i++)
-                rewardables[i] = factorys[i].GenerateReward();
+            IRewardable[] rewardables = new IRewardable[_rewardsIDs.Length];
+
+            for (int i = 0; i < _rewardsIDs.Length; i++)
+                rewardables[i] = _rewardsIDs[i].GenerateReward();
 
             var reward = new GiftReward(rewardables);
  
             return reward;
         }
 #if UNITY_EDITOR
-        public void Init(RewardTypeAndID[] rewardsIDs)
+        public void Init(BaseRewardFactorySO[] rewardsIDs)
         {
             _rewardsIDs = rewardsIDs; 
         }

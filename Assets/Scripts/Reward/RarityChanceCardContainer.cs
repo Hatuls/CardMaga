@@ -16,7 +16,7 @@ namespace CardMaga.Rewards
         public RarityCardsContainer PackCardsRewards { get => _packCardsRewards; }
 
 #if UNITY_EDITOR
-        public void Init(float chance , RarityCardsContainer rarityCardsContainer)
+        public void InitChance(float chance , RarityCardsContainer rarityCardsContainer)
         {
             _chance = chance;
             _packCardsRewards = rarityCardsContainer;
