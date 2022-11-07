@@ -26,9 +26,15 @@ namespace CardMaga.Meta.AccountMetaData
         public bool CardsAtMaxLevel => _cardSO.CardsMaxLevel - 1 == CardLevel; 
         public int StaminaCost => _staminaCost;
 
-        public MetaCardData(CardInstanceID instanceID, CardSO cardSo,CardData cardData)
+        public MetaCardData(CardInstanceID instanceID, CardSO cardSo,CardData cardData)//temp
         {
             _cardData = cardData;
+            _cardSO = cardSo;
+            _cardInstanceID = instanceID;
+        }
+        
+        public MetaCardData(CardInstanceID instanceID, CardSO cardSo)
+        {
             _cardSO = cardSo;
             _cardInstanceID = instanceID;
         }

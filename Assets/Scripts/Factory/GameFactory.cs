@@ -10,6 +10,7 @@ using System.Linq;
 using UnityEngine;
 using CardMaga.Card;
 using CardMaga.Keywords;
+using CardMaga.Meta.AccountMetaData;
 using Keywords;
 
 namespace Factory
@@ -239,6 +240,14 @@ namespace Factory
                     return card;
 
                 throw new System.Exception($"Card SO Could not been found from ID \nID is {ID}\nCheck Collection For card SO");
+            }
+
+            public MetaCardData GetMetaCardData(int cardId)
+            {
+                MetaCardData cache;
+
+                CardSO cardSo = GetCard(cardId);
+                
             }
             
             public CardData[] CreateDeck(CardCore[] cardsInfo)

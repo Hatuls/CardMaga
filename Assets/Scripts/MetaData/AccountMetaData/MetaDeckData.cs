@@ -76,14 +76,14 @@ namespace CardMaga.Meta.AccountMetaData
             return true;
         }
 
-        public bool TryAddCard(MetaCardData cardData)
+        public void AddCard(MetaCardData cardData)
         {
-            return true;
+            _cardDatas.Add(cardData);
         }
         
         public void RemoveCard(MetaCardData cardData)
         {
-            
+            _cardDatas.Remove(cardData);
         }
         
         public void RemoveCard(int cardIndex)//instanceID
@@ -91,9 +91,9 @@ namespace CardMaga.Meta.AccountMetaData
             
         }
         
-        public bool TryAddCombo(MetaComboData comboData)
+        public void AddCombo(MetaComboData comboData)
         {
-            return true;
+            _comboDatas.Add(comboData);
         }
         
         public void RemoveCombo(MetaComboData comboData)

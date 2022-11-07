@@ -1,6 +1,5 @@
 using System;
 using CardMaga.Card;
-using CardMaga.Input;
 using CardMaga.Meta.AccountMetaData;
 using CardMaga.Tools.Pools;
 using CardMaga.UI.Card;
@@ -45,6 +44,7 @@ namespace MetaUI.MetaCardUI
 
         public void AddToDeck()
         {
+            Debug.Log("AddCard"+ this.name);
             OnAddCard?.Invoke(_cardData);   
         }
 
