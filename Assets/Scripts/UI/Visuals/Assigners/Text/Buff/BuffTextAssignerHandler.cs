@@ -7,8 +7,7 @@ namespace CardMaga.UI.Text
     [System.Serializable]
     public class BuffTextAssignerHandler : BaseTextAssignerHandler<BuffVisualData>
     {
-        [Header("Texts")]
-        BuffAmountTextAssigner _buffAmountTextAssigner;
+        [SerializeField] BuffAmountTextAssigner _buffAmountTextAssigner;
         public override IEnumerable<BaseTextAssigner<BuffVisualData>> TextAssigners
         { 
             get 

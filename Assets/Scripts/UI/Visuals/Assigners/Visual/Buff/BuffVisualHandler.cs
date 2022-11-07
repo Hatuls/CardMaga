@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 
 namespace CardMaga.UI.Buff
 {
+   
     public class BuffVisualHandler : BaseBuffVisualHandler
     {
 
