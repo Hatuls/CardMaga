@@ -23,7 +23,7 @@ namespace CardMaga.Battle.Players
         EndTurnHandler EndTurnHandler { get; }
         GameTurn MyTurn { get; }
         CraftingHandler CraftingHandler { get; }
-        void AssignCharacterData(IBattleManager battleManager, Character characterData);
+        void AssignCharacterData(IBattleManager battleManager, BattleCharacter characterData);
     }
 
 
@@ -35,7 +35,7 @@ namespace CardMaga.Battle.Players
         private CraftingHandler _craftingHandler;
         private GameTurn _myTurn;
         private DeckHandler _deckHandler;
-        private Character _character;
+        private BattleCharacter _character;
         private CharacterStatsHandler _statsHandler;
         private CardData[] _playerDeck;
         private StaminaHandler _staminaHandler;
@@ -59,7 +59,7 @@ namespace CardMaga.Battle.Players
 
         public IReadOnlyList<PlayerTagSO> PlayerTags => _character.PlayerTags;
 
-        public void AssignCharacterData(IBattleManager battleManager, Character characterData)
+        public void AssignCharacterData(IBattleManager battleManager, BattleCharacter characterData)
         {
             battleManager.OnBattleManagerDestroyed += BeforeDestroy;
             _character = characterData;

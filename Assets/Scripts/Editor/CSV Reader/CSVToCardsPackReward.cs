@@ -118,7 +118,7 @@ namespace CardMaga.CSV
 
             var cardCollection = CSVManager._cardCollection;
             var allSpecialRewardsCards = cardCollection.AllCardsCoreInfo.Where(x => x.IsSpecialReward);
-            var allSpecialRewardsCardsID = allSpecialRewardsCards.Select(x => x.CardCore.ID);
+            var allSpecialRewardsCardsID = allSpecialRewardsCards.Select(x => x.CardCore.CardID);
 
             var results = SeperateCardsIDToRarirty(allSpecialRewardsCardsID.ToArray());
 
@@ -144,7 +144,7 @@ namespace CardMaga.CSV
 
             var cardCollection = CSVManager._cardCollection;
             var allSpecialRewardsCards = cardCollection.AllCardsCoreInfo.Where(x => x.IsBasicReward);
-            var allSpecialRewardsCardsID = allSpecialRewardsCards.Select(x => x.CardCore.ID);
+            var allSpecialRewardsCardsID = allSpecialRewardsCards.Select(x => x.CardCore.CardID);
 
             var results = SeperateCardsIDToRarirty(allSpecialRewardsCardsID.ToArray());
 

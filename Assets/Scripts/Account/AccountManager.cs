@@ -60,14 +60,14 @@ namespace Account
         
         private void OnError(PlayFabError playFabError)
         {
-            _loginDisposable.Dispose();
+            Debug.LogError($"{playFabError.ErrorMessage}");
+            _loginDisposable?.Dispose();
         }
 
         public void SendAccountData(ITokenReciever tokenReciever = null)
         {
-            PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
-            //.UpdateUserData(_accountData.GetUpdateRequest(), null, OnError);
 
+            UpdateDataOnServer();
             if (tokenReciever != null)
                 _loginDisposable = tokenReciever.GetToken();
         }
@@ -76,7 +76,11 @@ namespace Account
         {
             _loginDisposable?.Dispose();
         }
-
+        [Sirenix.OdinInspector.Button()]
+        public void UpdateDataOnServer()
+        {
+            PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
+        }
         public void UpdateRank(Action<UpdatePlayerStatisticsResult> OnCompletedSuccessfully)
         {
             var request = new UpdatePlayerStatisticsRequest
@@ -114,12 +118,12 @@ namespace Account
             if (LoginResult.NewlyCreated)
             {
                 _accountData = new AccountData();
-                UpdatePlayName("New LeftPlayer");
+                UpdatePlayName("New User");
             }
             else
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
             
-            _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New LeftPlayer";
+            _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
 
             UpdateRank(null);
             SendAccountData();
@@ -129,7 +133,7 @@ namespace Account
     [System.Serializable]
     public class AccountData
     {
-        [SerializeField] private string _displayName = "New LeftPlayer";
+        [SerializeField] private string _displayName = "New User";
         [SerializeField] private AccountGeneralData _accountGeneralData;
         [SerializeField] private CharactersData _charactersData;
         
@@ -147,19 +151,14 @@ namespace Account
         }
         public bool IsFirstTimeUser { get; private set; }
         public string DisplayName { get => _displayName; set => _displayName = value; }
-        public AccountCombos AccountCombos => _accountCombos;
-        public AccountCards AccountCards => _accountCards;
+        public AccountCombos AllCombos => _accountCombos;
+        public AccountCards AllCards => _accountCards;
         public AccountGeneralData AccountGeneralData { get => _accountGeneralData; }
         public LevelData AccountLevel { get => _accountLevel;}
         public CharactersData CharactersData { get => _charactersData; }
         public ArenaData ArenaData { get => _arenaData;  }
 
-        //public void AddCharacter(CharacterSO newCharacter)
-        //{
-        //    if (_characterData.Find(x => x.Id == newCharacter.ID) == null)
-        //        _characterData.Add(new Character(newCharacter));
-        //}
-        
+
         #region Constructors
         
         public AccountData()
@@ -169,8 +168,11 @@ namespace Account
             CreateNewLevelData();
             CreateNewCharacterData();
             CreateNewGeneralData();
+            CreateNewCombosData();
+            CreateNewCardsData();
             _accountTutorialData = new AccountTutorialData(0, false);
             IsFirstTimeUser = true;
+            Debug.Log("Creating new Account");
         }
         
         public AccountData(Dictionary<string, string> data)
@@ -242,6 +244,27 @@ namespace Account
             else
                 CreateNewResourcesData();
 
+            // Combos  
+            if (data.TryGetValue(AccountCombos.PlayFabKeyName, out result))
+            {
+                _accountCombos = JsonUtility.FromJson<AccountCombos>(result);
+                if (_accountCombos == null || !_accountCombos.IsValid())
+                    CreateNewResourcesData();
+            }
+            else
+                CreateNewCombosData();
+
+            // Cards
+            if (data.TryGetValue(AccountCards.PlayFabKeyName, out result))
+            {
+                _accountCards = JsonUtility.FromJson<AccountCards>(result);
+                if (_accountCards == null || !_accountCards.IsValid())
+                    CreateNewResourcesData();
+            }
+            else
+                CreateNewCardsData();
+
+
             IsFirstTimeUser = false;
         }
 
@@ -258,12 +281,29 @@ namespace Account
                     { LevelData.PlayFabKeyName, JsonUtility.ToJson(_accountLevel) },
                     { AccountResources.PlayFabKeyName, JsonUtility.ToJson(_accountResources) },
                     { ArenaData.PlayFabKeyName, JsonUtility.ToJson(_arenaData) },
+                    { AccountCombos.PlayFabKeyName, JsonUtility.ToJson(_accountCombos) },
+                    { AccountCards.PlayFabKeyName, JsonUtility.ToJson(_accountCards) }
                 }, Permission = UserDataPermission.Public
             };
         }
-        
+
         #region Create Account Data
-        
+        private void CreateNewCardsData()
+        {
+            _accountCards = new AccountCards();
+            foreach (var character in CharactersData.Characters)
+                foreach (var deck in character.Deck)
+                    foreach (var card in deck.Cards)
+                        _accountCards.AddCard(card);
+        }
+        private void CreateNewCombosData()
+        {
+            _accountCombos = new AccountCombos();
+            foreach (var character in CharactersData.Characters)
+                foreach (var deck in character.Deck)
+                    foreach (var combo in deck.Combos)
+                        _accountCombos.AddCombo(combo);
+        }
         private void CreateNewArenaData()
         {
             _arenaData = new ArenaData();
@@ -295,18 +335,38 @@ namespace Account
 [Serializable]
 public class AccountCards
 {
-    private List<int> _cardsIDs = new List<int>();
-    public IReadOnlyList<int> CardsIDs => _cardsIDs;
+    public const string PlayFabKeyName = "Cards";
+    [SerializeField]
+    private List<CoreID> _cardsIDs = new List<CoreID>();
+    public IReadOnlyList<CoreID> CardsIDs => _cardsIDs;
 
-    public void AddCard(int cardID) => _cardsIDs.Add(cardID);
-    public void RemoveCard(int cardID) => _cardsIDs.Remove(cardID);
+    public void AddCard(CoreID cardID) => _cardsIDs.Add(cardID);
+    public void RemoveCard(CoreID cardID) => _cardsIDs.Remove(cardID);
+    internal bool IsValid() => true;
+
+
+#if UNITY_EDITOR
+    [SerializeField]
+    private CardCore CardCore;
+    [Sirenix.OdinInspector.Button]
+    public void AddCard()
+    {
+        AddCard(new CoreID(CardCore.CardID));
+    }
+#endif
 }
 [Serializable]
 public class AccountCombos
 {
-    private List<int> _combosIDs = new List<int>();
-    public IReadOnlyList<int> CombosIDs => _combosIDs;
+    public const string PlayFabKeyName = "Combos";
+    [SerializeField]
+    private List<ComboCore> _combosIDs = new List<ComboCore>();
+    public IReadOnlyList<ComboCore> CombosIDs => _combosIDs;
 
-    public void AddCombo(int cardID) => _combosIDs.Add(cardID);
-    public void RemoveCombo(int cardID) => _combosIDs.Remove(cardID);
+    public void AddCombo(ComboCore cardID) => _combosIDs.Add(cardID);
+    public void RemoveCombo(ComboCore cardID) => _combosIDs.Remove(cardID);
+    internal bool IsValid()
+    {
+        return true;
+    }
 }

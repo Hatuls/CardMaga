@@ -207,12 +207,12 @@ namespace CardMaga.Battle.UI
 
         public int Priority => 0;
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
         {
 
             IDisposable token = tokenMachine.GetToken();
 
-            var playersDataManager = data.BattleDataManager.PlayersManager;
+            var playersDataManager = battleUIManager.BattleDataManager.PlayersManager;
 
             var leftPlayerData = playersDataManager.GetCharacter(true);
             var rightPlayerData = playersDataManager.GetCharacter(false);
@@ -223,10 +223,12 @@ namespace CardMaga.Battle.UI
             ModelSO leftModel = leftCharacterSO.CharacterAvatar;
             ModelSO rightModel = rightCharacterSO.CharacterAvatar;
 
-            EndBattleHandler endBattleHandler = data.BattleDataManager.EndBattleHandler;
 
-            _leftVisualCharacter.InitVisuals(leftPlayerData, endBattleHandler, leftCharacterSO, false);
-            _rightVisualCharacter.InitVisuals(rightPlayerData, endBattleHandler, rightCharacterSO, rightModel == leftModel);
+            _leftVisualCharacter.InitVisuals(leftPlayerData, leftCharacterSO, false);
+            _leftVisualCharacter.ExecuteTask(null, battleUIManager);
+
+            _rightVisualCharacter.InitVisuals(rightPlayerData, rightCharacterSO, rightModel == leftModel);
+            _rightVisualCharacter.ExecuteTask(null, battleUIManager);
 
 
             token.Dispose();

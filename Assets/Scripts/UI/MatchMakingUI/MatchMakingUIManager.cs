@@ -40,7 +40,7 @@ namespace CardMaga.UI.MatchMMaking
             MatchMakingManager.OnOpponentAssign -= OpponentFound;
         }
 
-        private void OpponentFound(Character character)
+        private void OpponentFound(BattleCharacter character)
         {
             _lookingForOpponentUI.SetActive(false);
             

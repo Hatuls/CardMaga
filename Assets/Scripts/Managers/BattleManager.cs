@@ -1,21 +1,19 @@
-﻿using Battle.Data;
-using CardMaga.SequenceOperation;
+﻿using Battle;
+using Battle.Data;
 using Battle.Turns;
+using CardMaga.Battle.Combo;
+using CardMaga.Battle.Execution;
+using CardMaga.Battle.Players;
 using CardMaga.Battle.UI;
+using CardMaga.Commands;
+using CardMaga.Keywords;
+using CardMaga.Rules;
+using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
-using Account;
-using CardMaga.Rules;
 using UnityEngine;
 using UnityEngine.Events;
-using CardMaga.Battle.Players;
-using Battle;
-using CardMaga.Battle.Execution;
-using CardMaga.Battle.Combo;
-using CardMaga.Keywords;
-using CardMaga.Battle.Visual.Camera;
-using CardMaga.Commands;
 
 namespace CardMaga.Battle
 {
@@ -74,7 +72,7 @@ namespace CardMaga.Battle
 
         #endregion
 
-        #region BattleManagnent
+        #region BattleManagment
 
         private void ResetBattle()
         {
@@ -230,10 +228,10 @@ namespace CardMaga.Battle
         {
             var keywordFactory = Factory.GameFactory.Instance.KeywordFactoryHandler;
             var keywordSO = keywordFactory.GetKeywordSO(KeywordType.Attack);
-            var keywordCommand = new CardsKeywordsCommands(new KeywordData[1] { new KeywordData(keywordSO, TargetEnum.Opponent, 100000, 0)}, CommandType.Instant);
-            keywordCommand.Init(_playerManager.IsLeft,  PlayersManager, KeywordManager);
+            var keywordCommand = new CardsKeywordsCommands(new KeywordData[1] { new KeywordData(keywordSO, TargetEnum.Opponent, 100000, 0) }, CommandType.Instant);
+            keywordCommand.Init(_playerManager.IsLeft, PlayersManager, KeywordManager);
             GameCommands.GameDataCommands.DataCommands.AddCommand(keywordCommand);
-        
+
         }
 
         [Button]
@@ -251,7 +249,7 @@ namespace CardMaga.Battle
         #endregion
     }
 
-    
+
     public interface IBattleManager
     {
         event Action<IBattleManager> OnBattleManagerDestroyed;
@@ -292,8 +290,8 @@ namespace CardMaga.Battle
         /// <param name="IsLeftCharacter"></param>
         /// <returns></returns>
         public IPlayer GetCharacter(bool IsLeftCharacter) => IsLeftCharacter ? LeftCharacter : RightCharacter;
-        
-        public PlayersManager(IBattleManager battleManager,IPlayer leftCharacter, IPlayer rightCharacter)
+
+        public PlayersManager(IBattleManager battleManager, IPlayer leftCharacter, IPlayer rightCharacter)
         {
             LeftCharacter = leftCharacter;
             RightCharacter = rightCharacter;
@@ -310,7 +308,7 @@ namespace CardMaga.Battle
             RightCharacter.AssignCharacterData(battleManager, battleData.Right);
 
             //assign visuals
-            CharacterSO leftCharacterSO =  battleData.Left.CharacterData.CharacterSO;
+            CharacterSO leftCharacterSO = battleData.Left.CharacterData.CharacterSO;
             CharacterSO rightCharacterSO = battleData.Right.CharacterData.CharacterSO;
 
             ModelSO leftModel = leftCharacterSO.CharacterAvatar;

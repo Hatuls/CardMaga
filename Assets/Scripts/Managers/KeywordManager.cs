@@ -313,7 +313,7 @@ namespace CardMaga.Keywords
             if (_current == null)
                 DrawNewVisualKeywordCommandPack(CommandType.Instant);
 
-              VisualKeywordCommand cmd = VisualKeywordCommandsPool.Pull();
+            VisualKeywordCommand cmd = VisualKeywordCommandsPool.Pull();
             cmd.Init(keywordTypeEnum, value, _visualCharactersManager.GetVisualCharacter(isPlayer).VisualStats);
 
             _current.AddVisualKeywordCommands(cmd);

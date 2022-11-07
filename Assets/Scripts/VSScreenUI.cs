@@ -63,7 +63,7 @@ public class OpponentUI
     //AddComboThingy
 
 
-    public void AssignCharacterVisuals(Battle.Characters.Character player)
+    public void AssignCharacterVisuals(Battle.Characters.BattleCharacter player)
     {
         _name.text = player.DisplayName;
     }

@@ -70,14 +70,14 @@ namespace Account.GeneralData
 
         public bool AddNewDeck(CardInstanceID[] deckCards,ComboCore[] deckCombos)
         {
-            CardCore[] cards = new CardCore[deckCards.Length];
+            CoreID[] cards = new CoreID[deckCards.Length];
 
             for (int i = 0; i < cards.Length; i++)
-                cards[i] = deckCards[i].GetCardCore();
+                cards[i] = new CoreID(deckCards[i].ID);
 
             return AddNewDeck(cards,deckCombos);
         }      
-        public bool AddNewDeck(CardCore[] deckCards,ComboCore[] deckCombos)
+        public bool AddNewDeck(CoreID[] deckCards,ComboCore[] deckCombos)
         {
             bool _canAddDeck = _deck.Count < _deckAmount;
             if (_canAddDeck)
@@ -203,10 +203,10 @@ namespace Account.GeneralData
         
         [SerializeField]  private int _id;
         [SerializeField]  private string _name;
-        [SerializeField]  private CardCore[] _cards;
+        [SerializeField]  private CoreID[] _cards;
         [SerializeField] private ComboCore[] _combos;
 
-        public DeckData(int id, string name, CardCore[] cards, ComboCore[] combos)
+        public DeckData(int id, string name, CoreID[] cards, ComboCore[] combos)
         {
             _id = id;
             _name = name;
@@ -218,13 +218,13 @@ namespace Account.GeneralData
         {
             _id = id;
             _name = DEFAULT_DECK_NAME;
-            _cards = new CardCore[NUMBER_OF_CARDS_IN_DECK];
+            _cards = new CoreID[NUMBER_OF_CARDS_IN_DECK];
             _combos = new ComboCore[NUMBER_OF_COMBO_IN_DECK];
         }
 
         public int Id { get => _id; set => _id = value; }
         public string Name { get => _name; set => _name = value; }
-        public CardCore[] Cards { get => _cards; set => _cards = value; }
+        public CoreID[] Cards { get => _cards; set => _cards = value; }
         public ComboCore[] Combos { get => _combos; set => _combos = value; }
     }
 }

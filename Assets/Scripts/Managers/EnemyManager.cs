@@ -27,7 +27,7 @@ namespace Battle
 
         [Tooltip("LeftPlayer Stats: ")]
         [SerializeField] AIBrain _brain;
-        [FormerlySerializedAs("_myCharacter")] [SerializeField] private Character _character;
+        [FormerlySerializedAs("_myCharacter")] [SerializeField] private BattleCharacter _character;
         [SerializeField] VisualCharacter _visualCharacter;
         [SerializeField] TextMeshProUGUI _enemyNameText;
         [Space]
@@ -74,7 +74,7 @@ namespace Battle
 
         #region Public Methods
 
-        public void AssignCharacterData(IBattleManager battleManager, Character character)
+        public void AssignCharacterData(IBattleManager battleManager, BattleCharacter character)
         {
             battleManager.OnBattleManagerDestroyed += BeforeGameExit;
             _character = character;
