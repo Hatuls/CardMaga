@@ -72,17 +72,17 @@ namespace Factory
      
         public class RewardFactory
         {
-            public BattleRewardCollectionSO BattleRewardCollection { get; private set; }
-            public RewardFactory(BattleRewardCollectionSO battleRewardCollectionSO)
-            {
-                BattleRewardCollection = battleRewardCollectionSO;
-            }
+           // public BattleRewardCollectionSO BattleRewardCollection { get; private set; }
+           // public RewardFactory(BattleRewardCollectionSO battleRewardCollectionSO)
+           // {
+           //     BattleRewardCollection = battleRewardCollectionSO;
+           // }
 
-            public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Battle.Combo.ComboData> workOnCombo)
-           => BattleRewardCollection.GetReward(characterTypeEnum, act, workOnCombo);
+           // public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Battle.Combo.ComboData> workOnCombo)
+           //=> BattleRewardCollection.GetReward(characterTypeEnum, act, workOnCombo);
 
-            public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
-                => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
+           // public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
+           //     => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
         }
         public class CharacterFactory
         {
@@ -213,7 +213,7 @@ namespace Factory
             public CardFactory(CardsCollectionSO cards)
             {
                 CardCollection = cards;
-                var allCards = CardCollection.GetAllCards;
+                var allCards = CardCollection.GetAllCardsSO;
                 int length = allCards.Length;
                 _cardCollectionDictionary = new Dictionary<int, CardSO>(length);
 
