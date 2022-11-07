@@ -8,7 +8,9 @@ namespace CardMaga.Battle.Visual
         public event Action<int> OnValueReduced;
         public event Action<int> OnValueAdded;
         public event Action<int> OnValueChanged;
+        public event Action<KeywordType,int> OnKeywordValueChanged;
         private int _amount;
+        private KeywordType _keywordType;
         public int Amount
         {
             get => _amount; set
@@ -21,12 +23,14 @@ namespace CardMaga.Battle.Visual
                     return;
 
                 _amount = value;
+                OnKeywordValueChanged?.Invoke(_keywordType,_amount);
                 OnValueChanged?.Invoke(_amount);
             }
         }
-
-        public VisualStat(int amount)
+        public KeywordType KeywordType => _keywordType;
+        public VisualStat(KeywordType keywprdType,int amount)
         {
+            _keywordType = keywprdType;
             Amount = amount;
         }
 
@@ -46,7 +50,7 @@ namespace CardMaga.Battle.Visual
             _visualStatsDictionary = new Dictionary<KeywordType, VisualStat>(dictionary.Count);
             foreach (var stat in dictionary)
             {
-                _visualStatsDictionary.Add(stat.Key, new VisualStat(stat.Value.Amount));
+                _visualStatsDictionary.Add(stat.Key, new VisualStat(stat.Key,stat.Value.Amount));
 
             }
         }
