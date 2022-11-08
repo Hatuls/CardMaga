@@ -56,8 +56,8 @@ namespace Battle
         private Account.GeneralData.ComboCore[] _combos;
         public Account.GeneralData.ComboCore[] Combos => _combos;
         [SerializeField]
-        private CardCore[] _deck;
-        public CardCore[] Deck { get => _deck; }
+        private CoreID[] _deck;
+        public CoreID[] Deck { get => _deck; }
 
 
 
@@ -137,8 +137,8 @@ namespace Battle
                                 const int iD = 0, Level = 1;
                                 //deck cards
                                 string[] Cards = row[CharacterDeckIndex].Trim().Split('&');
-                                List<CardCore> cardCores = new List<CardCore>();
-                        
+                                List<CoreID> cardCores = new List<CoreID>();
+
                                 for (int i = 0; i < Cards.Length; i++)
                                 {
                                     string[] data = Cards[i].Split('^');
@@ -158,7 +158,7 @@ namespace Battle
                                     }
                                     else
                                         throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
-                                    cardCores.Add(new CardCore(cardCollection.GetAllCardsSO.First(x=>x.ID==_iD).ID, _level,0));
+                                    cardCores.Add(new CoreID(_iD + _level));
 
                                 }
                                 _deck = cardCores.ToArray();

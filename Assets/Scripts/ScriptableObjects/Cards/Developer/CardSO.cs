@@ -117,7 +117,7 @@ namespace CardMaga.Card
            get
             {
                 for (int i = 0; i < _cardCoreInfo.Length; i++)
-                    yield return _cardCoreInfo[i].CardCore.ID;
+                    yield return _cardCoreInfo[i].CardCore.CardID;
             }
         }
         public bool IsFusedCard => _isFuseCard;
@@ -204,21 +204,21 @@ namespace CardMaga.Card
 
             return _keywords.ToArray();
         }
-
-        #endregion
-#if UNITY_EDITOR
-        #region Editor
-        public bool ContainID (int id)
+        public bool ContainID(int id)
         {
-      
+
             for (int i = 0; i < _cardCoreInfo.Length; i++)
             {
-            
-                if (_cardCoreInfo[i].CardCore.ID == id)
+
+                if (_cardCoreInfo[i].CardCore.CardID == id)
                     return true;
             }
             return false;
         }
+        #endregion
+#if UNITY_EDITOR
+        #region Editor
+
         public void CreateCardCoreInfo()
         {
             _cardCoreInfo = new CardCoreInfo[CardsMaxLevel];
@@ -226,7 +226,7 @@ namespace CardMaga.Card
             for (int i = 0; i < _cardCoreInfo.Length; i++)
             {
                 _cardCoreInfo[i] = new CardCoreInfo();
-                _cardCoreInfo[i].InitCardData(ID + i, i + 1);
+                _cardCoreInfo[i].InitCardData(ID + i, this);
             }
         }
         public void AssignRewardData(int iD, bool isBasicPack, bool isSpecialPack, bool isArenaReward = false)
@@ -240,7 +240,7 @@ namespace CardMaga.Card
             {
                 for (int i = 0; i < _cardCoreInfo.Length; i++)
                 {
-                    if (_cardCoreInfo[i].CardCore.ID == id)
+                    if (_cardCoreInfo[i].CardCore.CardID == id)
                         return _cardCoreInfo[i];
                 }
                 throw new Exception($"CARDSO: Cardcore could not be found\nID - {id}");
@@ -291,9 +291,9 @@ namespace CardMaga.Card
         
 
         #region UNITY_EDITOR
-        public void InitCardData(int id, int level)
+        public void InitCardData(int id, CardSO cardSO)
         {
-            _cardCore = new CardCore(id, level);
+            _cardCore = new CardCore(new CoreID(id), cardSO);
         }
         public void InitRewardData(bool isSpecialReward, bool isBasicReward,bool isArenaReward)
         {

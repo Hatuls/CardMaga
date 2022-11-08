@@ -1,6 +1,6 @@
 ﻿using Battle.Characters;
 using UnityEngine;
-using Character = Battle.Characters.Character;
+using BattleCharacter = Battle.Characters.BattleCharacter;
 
 namespace CardMaga.UI.MatchMMaking
 {
@@ -9,7 +9,7 @@ namespace CardMaga.UI.MatchMMaking
         [SerializeField] private ComboAssinger _comboAssinger;
         [SerializeField] private CharecterPortraitAssinger _charecterPortraitAssinger;
 
-        public void AssingCharecter(Character character)
+        public void AssingCharecter(BattleCharacter character)
         {
             CharacterBattleData data = character.CharacterData;
             

@@ -8,13 +8,23 @@ namespace CardMaga.Tools.Pools
     {
         protected T _prefabOfType;
         private Transform _parent;
-
+        public MBPool(T prefabOfType, Transform parent, int startSize) : this(prefabOfType, parent)
+        {
+            InitSize(startSize);
+        }
         public MBPool(T prefabOfType, Transform parent)
         {
             _prefabOfType = prefabOfType;
             _parent = parent;
         }
+      
+        private void InitSize(int amount)
+        {
+            for (int i = 0; i < amount; i++)
+                Pull();
 
+            ResetPool();
+        }
         public override T Pull()
         {
             T type = base.Pull();

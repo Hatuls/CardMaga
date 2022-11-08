@@ -1,6 +1,9 @@
 ﻿using Battle;
+using CardMaga.Battle.Execution;
 using CardMaga.Battle.Players;
 using CardMaga.Battle.UI;
+using CardMaga.Commands;
+using CardMaga.Keywords;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using System;
@@ -34,6 +37,7 @@ namespace CardMaga.Battle.Visual
         [SerializeField]
         private Transform _visual;
         private bool _isLeft;
+   
         private VisualStatHandler _visualStats;
         private IPlayer _playerData;
         #endregion
@@ -50,19 +54,17 @@ namespace CardMaga.Battle.Visual
 
         public IPlayer PlayerData => _playerData;
 
-        public int Priority =>0;
+        public int Priority => 0;
 
         #endregion
 
-        public void InitVisuals(IPlayer player,EndBattleHandler endBattleHandler, CharacterSO characterSO, bool isTinted)
+        public void InitVisuals(IPlayer player, CharacterSO characterSO, bool isTinted)
         {
             //I want to remove this later
             _playerData = player;
 
 
             IsLeft = player.IsLeft;
-            AnimatorController.Init(this, endBattleHandler);
-
             // Instantiate Model
             ModelSO modelSO = characterSO.CharacterAvatar;
             AvatarHandler = Instantiate(modelSO.Model, _visual.position, Quaternion.identity, _visual);
@@ -79,14 +81,11 @@ namespace CardMaga.Battle.Visual
 
       
 
-            //Visual Stats
-            _visualStats = new VisualStatHandler(this);
-
 #if UNITY_EDITOR
             DrawMesh = false;
 #endif
         }
-
+   
         internal void Dispose()
         {
             AnimatorController.BeforeDestroy(this);
@@ -115,9 +114,12 @@ namespace CardMaga.Battle.Visual
             }
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
         {
-            throw new NotImplementedException();
+            var data = battleUIManager.BattleDataManager;
+            AnimatorController.Init(this, data.EndBattleHandler, data.GameCommands.GameVisualCommands);
+            //Visual Stats
+            _visualStats = new VisualStatHandler(this);
         }
 
         #endregion

@@ -1,216 +1,138 @@
-﻿using Battle;
+﻿using CardMaga.Battle.Visual;
 using CardMaga.Keywords;
-using CardMaga.SequenceOperation;
-using Keywords;
-using ReiTools.TokenMachine;
-using System;
+using CardMaga.Tools.Pools;
+using CardMaga.UI.Buff;
+using CardMaga.UI.Visuals;
+using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace CardMaga.Battle.UI
 {
-    [Serializable]
-    public class BuffIconManager :ISequenceOperation<IBattleUIManager>
-    {
-        [SerializeField]
-        private BuffIconsHandler _rightBuffIconHandler;
-        [SerializeField]
-        private BuffIconsHandler _leftBuffIconHandler;
 
-        public int Priority => 0;
-
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
-        {
-            // if need to be initalize
-        }
-
-        public BuffIconsHandler GetBuffIconsHandler(bool isLeft) => isLeft ? _leftBuffIconHandler : _rightBuffIconHandler;
-
-
-#if UNITY_EDITOR
-        public void AssignBuffsFields()
-        {
-            var allBuffs = MonoBehaviour.FindObjectsOfType<BuffIconsHandler>();
-
-            for (int i = 0; i < allBuffs.Length; i++)
-            {
-                if (allBuffs[i].gameObject.name.Contains("Player"))
-                    _leftBuffIconHandler = allBuffs[i];
-                else if (allBuffs[i].gameObject.name.Contains("Enemy"))
-                    _rightBuffIconHandler = allBuffs[i];
-                else
-                    throw new Exception("More than 2 BuffIconHandler found in scene!\nCheck this object -> " + allBuffs[i].gameObject.name);
-            }
-        }
-#endif
-    }
-    public class RemoveUIIcon : UnityEvent<bool, KeywordType> { }
     public class BuffIconsHandler : MonoBehaviour
     {
-#region Fields
+        #region Fields
 
+        [ReadOnly]
+        Dictionary<BuffVisualData, BuffVisualHandler> _activeBuffs;
+        [SerializeField] BuffCollectionVisualSO _buffCollectionVisualSO;
 
-        [SerializeField] BuffIcon armourIcon;
-        [SerializeField]
-        BuffIcon[] _buffSlots;
+        private IPoolObject<BuffVisualData> _dataPool;
+        private IPoolMBObject<BuffVisualHandler> _visualPool;
 
-        [SerializeField] BuffIcon _enemyOpponentActionUI;
-
-        [SerializeField] bool isPlayer;
-
-        [SerializeField] GameObject _buffIconSlotPrefab;
-
-#endregion
+        private VisualStatHandler _visualStatHandler;
+        #endregion
 
         private void Awake()
         {
-            Init();
+
+            _activeBuffs = new Dictionary<BuffVisualData, BuffVisualHandler>();
         }
 
-
-        private void Init()//check for bugs
+        private void OnDestroy()
         {
-            if (_buffSlots != null && _buffSlots.Length > 0)
-            {
-                for (int i = 0; i < _buffSlots.Length; i++)
-                {
-                    if (_buffSlots[i] != null && _buffSlots[i].gameObject.activeSelf)
-                    {
-                        _buffSlots[i].ResetEnumType();
-                        if (_buffSlots[i].gameObject.activeSelf)
-                            _buffSlots[i].gameObject.SetActive(false);
-                    }
-                }
-            }
-
-        }
-        BuffIcon GetFreeSlot()
-        {
-            if (_buffSlots != null && _buffSlots.Length > 0)
-            {
-                for (int i = 0; i < _buffSlots.Length; i++)
-                {
-                    if (_buffSlots[i] != null && !_buffSlots[i].gameObject.activeSelf)
-                    {
-                        return _buffSlots[i];
-                    }
-                }
-            }
-
-            return CreateBuffIconSlot();
-        }
-
-
-        private BuffIcon CreateBuffIconSlot()
-        {
-            Array.Resize(ref _buffSlots, _buffSlots.Length + 1);
-            int lastIndex = _buffSlots.Length - 1;
-            _buffSlots[lastIndex] = GameObject.Instantiate(_buffIconSlotPrefab, this.transform).GetComponent<BuffIcon>();
-            return _buffSlots[lastIndex];
-        }
-        public void SetBuffIcon(int amount, KeywordType icon)
-        {
-
-
-            if (amount == 0)
-            {
-                RemoveBuffIcon(icon);
+            if (_visualStatHandler == null)
                 return;
-            }
-
-
-            if (CheckForDuplicates(icon))
+            foreach (var element in _visualStatHandler.VisualStatsDictionary)
             {
-                GetDuplicate(icon).SetAmount(amount);
-                //set text
-                return;
+                var visualStat = element.Value;
+                if (_buffCollectionVisualSO.IsBuffSOExists(visualStat.KeywordType))
+                    visualStat.OnKeywordValueChanged -= VisualStatUpdated;
             }
-            var buffSlot = GetFreeSlot();
-            buffSlot.KeywordType = icon;
+            ResetBuffs();
+        }
+        private void ResetBuffs()
+        {
+            BuffVisualHandler visualBuffHandler;
+            BuffVisualData buffDataVisual;
+            foreach (var buff in _activeBuffs)
+            {
+                visualBuffHandler = buff.Value;
+                buffDataVisual = buff.Key;
+
+                visualBuffHandler.Dispose();
+                buffDataVisual.Dispose();
+            }
         }
 
-        internal void UpdateArmour(int amount)
+        public void Init(VisualStatHandler visualStatHandler, IPoolObject<BuffVisualData> dataPool, IPoolMBObject<BuffVisualHandler> visualPool)
         {
-            armourIcon.SetAmount(amount);
-        }
 
-        public void RemoveBuffIcon(KeywordType icon)
-        {
-            if (_buffSlots != null && _buffSlots.Length > 0)
+            _visualStatHandler = visualStatHandler;
+            foreach (var element in visualStatHandler.VisualStatsDictionary)
             {
-                for (int i = 0; i < _buffSlots.Length; i++)
+                var visualStat = element.Value;
+                if (_buffCollectionVisualSO.IsBuffSOExists(visualStat.KeywordType))
+                    visualStat.OnKeywordValueChanged += VisualStatUpdated;
+            }
+            _visualPool = visualPool;
+            _dataPool = dataPool;
+            ResetBuffs();
+        }
+        private void VisualStatUpdated(KeywordType keywordType, int amount)
+        {
+            if (!IsBuffExists(keywordType, out BuffVisualData buffVisualData))
+                CreateNewBuffVisualData(keywordType, amount);
+            else
+                UpdateActiveBuff(buffVisualData, amount);
+        }
+        bool IsBuffExists(KeywordType keywordType, out BuffVisualData buffVisualData)
+        {
+            foreach (var activeBuff in _activeBuffs)
+            {
+                if (activeBuff.Key.KeywordType == keywordType)
                 {
-                    if (_buffSlots[i].KeywordType == icon)
-                    {
-                        _buffSlots[i].ResetEnumType();
-                        OrderArray();
-                        return;
-                    }
+                    buffVisualData = activeBuff.Key;
+                    return true;
                 }
             }
-        }
-        private bool CheckForDuplicates(KeywordType icon)
-        {
-            if (_buffSlots != null && _buffSlots.Length > 0)
-            {
-                for (int i = 0; i < _buffSlots.Length; i++)
-                {
-                    if (_buffSlots[i].KeywordType == icon)
-                    {
-                        return true;
-                    }
-                }
-            }
+            buffVisualData = null;
             return false;
         }
-        void OrderArray()
+        void UpdateActiveBuff(BuffVisualData buffVisualData, int amount)
         {
-            for (int i = 0; i < _buffSlots.Length - 1; i++)
+            if (amount == 0)
             {
-                if (_buffSlots[i].gameObject.activeSelf)
-                    continue;
-
-                for (int j = i + 1; j < _buffSlots.Length; j++)
-                {
-                    if (_buffSlots[j].gameObject.activeSelf)
-                    {
-
-                        // _buffSlots[j].transform.SetParent(null);
-
-                        _buffSlots[j].transform.SetAsFirstSibling();
-                        //  _buffSlots[i].InitIconData(_buffCollection.GetIconData(_buffSlots[j].GetSetName.GetValueOrDefault()));
-                        //  _buffSlots[j].ResetEnumType();
-                        break;
-                    }
-
-                    if (j == _buffSlots.Length - 1)
-                        return;
-
-                }
-
+                //if went down to 0 doesnt need to be active
+                RemoveBuff(buffVisualData);
+                return;
             }
+            //need to update amount
+            UpdateValue(buffVisualData, amount);
         }
 
-
-        BuffIcon GetDuplicate(KeywordType icon)
+        private void UpdateValue(BuffVisualData buffVisualData, int amount)
         {
-            if (_buffSlots != null && _buffSlots.Length > 0)
-            {
-                for (int i = 0; i < _buffSlots.Length; i++)
-                {
-                    if (_buffSlots[i].KeywordType == icon)
-                    {
-                        return _buffSlots[i];
-                    }
-                }
-            }
-            Debug.LogError("Error in GetDuplicate");
-            return null;
+            if (!_activeBuffs.TryGetValue(buffVisualData, out BuffVisualHandler visual))
+                throw new System.Exception("Cannot update BuffVisualData because it is not found in dictionary");
+
+            buffVisualData.AssignValues(buffVisualData.KeywordType, amount);
+            visual.Init(buffVisualData);
         }
-        //accses to all icons and colors
-        //Array of Icons
-        //void(Enum)add
-        //void(Enum)remove
+
+        private void RemoveBuff(BuffVisualData buffVisualData)
+        {
+            if (!_activeBuffs.TryGetValue(buffVisualData, out BuffVisualHandler visual))
+                throw new System.Exception("Cannot remove BuffVisualData because it is not found in dictionary");
+
+            visual.Dispose();
+            buffVisualData.Dispose();
+            _activeBuffs.Remove(buffVisualData);
+        }
+
+        void CreateNewBuffVisualData(KeywordType keywordType, int amount)
+        {
+            if (amount == 0)
+                return;
+
+            var buffVisualData = _dataPool.Pull();
+            buffVisualData.AssignValues(keywordType, amount);
+            var visualBuffHandler = _visualPool.Pull();
+            visualBuffHandler.transform.SetParent(this.transform);
+            visualBuffHandler.Init(buffVisualData);
+            _activeBuffs.Add(buffVisualData, visualBuffHandler);
+        }
     }
 
 }

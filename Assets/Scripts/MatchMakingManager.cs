@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public class MatchMakingManager : MonoBehaviour
 {
-    public static event Action<Battle.Characters.Character> OnOpponentAssign;
+    public static event Action<Battle.Characters.BattleCharacter> OnOpponentAssign;
 
     [SerializeField] OperationManager _lookForMatchOperation;
     private TokenMachine _tokenMachine;

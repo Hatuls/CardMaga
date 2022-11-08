@@ -69,7 +69,7 @@ namespace Battle.Characters
                 CardData[] cards = new CardData[deck.Length];
                 for (int i = 0; i < deck.Length; i++)
                 {
-                    cards[i] = new CardData(deck[i].CreateInstance());
+                    cards[i] = new CardData(new CardInstanceID(new CardCore(deck[i].ID)));
                 }
                 return cards;
             }

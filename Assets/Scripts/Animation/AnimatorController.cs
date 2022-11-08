@@ -1,6 +1,8 @@
 ﻿using CardMaga.Animation;
 using CardMaga.Battle.Execution;
 using CardMaga.Card;
+using CardMaga.Commands;
+using CardMaga.Keywords;
 using Rei.Utilities;
 using ReiTools.TokenMachine;
 using System;
@@ -49,7 +51,8 @@ namespace CardMaga.Battle.Visual
         private Animator _animator;
         private IDisposable _animationToken;
         private EndBattleHandler _endBattleHandler;
-        private CardExecutionManager _cardExecutionManager;
+        private GameVisualCommands _visualCommandHandler;
+
         #endregion
 
 
@@ -87,8 +90,9 @@ namespace CardMaga.Battle.Visual
 
 
         #region Public
-        public void Init(IVisualPlayer visualPlayer, EndBattleHandler endBattleHandler)
+        public void Init(IVisualPlayer visualPlayer, EndBattleHandler endBattleHandler, GameVisualCommands gameVisualCommands)
         {
+            _visualCommandHandler = gameVisualCommands;
             _animator = visualPlayer.Animator;
             ResetAnimator();
             _isLeft = visualPlayer.PlayerData.IsLeft;
@@ -249,12 +253,36 @@ namespace CardMaga.Battle.Visual
         {
             _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
-            if (CardExecutionManager.Instance.CanDefendIncomingAttack(!IsLeft)) // need to remake
+            if (CanDefendIncomingAttack())
                 _opponentController?.PlayAnimation(_currentAnimation?.ShieldAnimation.ToString(), true);
             else
                 _opponentController?.PlayAnimation(_currentAnimation?.GetHitAnimation.ToString(), true);
         }
+        public bool CanDefendIncomingAttack()
+        {
+            System.Collections.Generic.IReadOnlyCollection<ISequenceCommand> commandStack = _visualCommandHandler.VisualKeywordCommandHandler.CommandStack;
+            foreach (var item in commandStack)
+            {
+                switch (item)
+                {
+                    case VisualKeywordCommand cmd:
+                        if (cmd.KeywordType == KeywordType.Shield)
+                            return cmd.Amount > 0;
+                        break;
+                    case VisualKeywordsPackCommands pack:
+                        foreach (var visualkeword in pack.VisualKeywordCommands)
+                        {
+                            if (visualkeword.KeywordType == KeywordType.Shield)
+                                return visualkeword.Amount > 0;
+                        }
 
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return false;
+        }
         public void ExecuteKeyword() => OnAnimationExecuteKeyword?.Invoke();
 
         public void ResetModelPosition() =>
