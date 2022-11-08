@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
 namespace CardMaga.Card
 {
+    [Serializable]
     public enum CardTypeEnum { Utility = 3, Defend = 2, Attack = 1, None = 0, };
 
     public enum BodyPartEnum { None = 0, Empty = 1, Head = 2, Elbow = 3, Hand = 4, Knee = 5, Leg = 6, Joker = 7 };
@@ -18,16 +20,15 @@ namespace CardMaga.Card
     public class CardData : IEquatable<CardData>
     {
         #region Fields
+
         [SerializeField]
-        private CardSO _cardSO;
-        [SerializeField]
-        private CardInstanceID _cardInstanceID;
+        private CardInstanceID _cardInstance;
         [SerializeField]
         private bool _toExhaust = false;
 
 
         [SerializeField]
-        CardTypeData _cardTypeData;
+        private CardTypeData _cardTypeData;
 
         [SerializeField]
         private KeywordData[] _cardKeyword;
@@ -41,16 +42,15 @@ namespace CardMaga.Card
 
         #region Properties
 
-        public CardTypeData CardTypeData
-        {
-            get => _cardTypeData;
-        }
+        public CardTypeData CardTypeData => _cardTypeData;
+        public CardInstanceID CardInstance => _cardInstance;
         public bool IsExhausted { get => _toExhaust; }
         public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
-        public int InstanceID => _cardInstanceID.InstanceID;
-        public int CardLevel => _cardInstanceID.Level;
-        public int CardEXP => _cardInstanceID.Exp;
-        public bool CardsAtMaxLevel { get => _cardSO.CardsMaxLevel - 1 == CardLevel; }
+
+        public int CardInstanceID => _cardInstance.InstanceID;
+        public int CardLevel => _cardInstance.Level;
+        public CardSO CardSO => _cardInstance.CardSO;
+        public bool CardsAtMaxLevel { get => CardSO.CardsMaxLevel - 1 == CardLevel; }
         public int StaminaCost { get => _staminaCost; private set => _staminaCost = value; }
         public CardCommandsHolder CardCommands
         {
@@ -59,57 +59,44 @@ namespace CardMaga.Card
             private set => _cardCommandsHolder = value;
         }
 
-
-        public CardSO CardSO
-        {
-            private set => _cardSO = value;
-            get => _cardSO;
-        }
-
         public KeywordData[] CardKeywords
         {
             get
             {
                 if (_cardKeyword == null || _cardKeyword.Length == 0)
-                    _cardKeyword = _cardSO.CardSOKeywords;
+                    _cardKeyword = CardSO.CardSOKeywords;
 
                 return _cardKeyword;
             }
         }
 
-        public CardInstanceID CardInstanceID => _cardInstanceID;
-
-
         #endregion
 
         #region Functions
-        public CardData()
-        {
 
-        }
         public CardData(CardInstanceID cardAccountInfo)
         {
-            _cardInstanceID = cardAccountInfo ?? throw new Exception($"Card: Card Info is null!");
-
-            InitCard(Factory.GameFactory.Instance.CardFactoryHandler.GetCard(_cardInstanceID.ID), _cardInstanceID.Level);
+            _cardInstance = cardAccountInfo ?? throw new Exception($"Card: Card Info is null!");
+            InitCard();
         }
-        public void InitCard(CardSO _card, int cardsLevel)
-        {
-            _cardSO = _card;
-            _cardKeyword = CreateKeywords(_cardSO, cardsLevel).ToArray();
 
+        public void InitCard()
+        {
+            _cardKeyword = CreateKeywords(CardSO, _cardInstance.Level).ToArray();
             _cardCommandsHolder = new CardCommandsHolder(this);
         }
+
         internal void InitCommands(bool isLeft, IPlayersManager playersManager, KeywordManager keywordManager)
         {
             if (CardCommands == null)
-                InitCard(CardSO, CardLevel);
+                InitCard();
 
             var player = playersManager.GetCharacter(isLeft);
             CardCommands.InitCardKeywords(isLeft, playersManager, keywordManager);
             CardCommands.CardTypeCommand.Init(player.CraftingHandler);
             CardCommands.StaminaCostCommand.Init(player.StaminaHandler);
         }
+
         private List<KeywordData> CreateKeywords(CardSO _card, int cardsLevel)
         {
             var levelUpgrade = _card.GetLevelUpgrade(cardsLevel);
@@ -147,7 +134,7 @@ namespace CardMaga.Card
         public int GetKeywordAmount(KeywordType keyword)
         {
             int amount = 0;
-            if (_cardSO != null && _cardSO.CardSOKeywords.Length > 0)
+            if (CardSO != null && CardSO.CardSOKeywords.Length > 0)
             {
                 for (int i = 0; i < CardKeywords.Length; i++)
                 {
@@ -158,7 +145,8 @@ namespace CardMaga.Card
             return amount;
         }
 
-        public bool Equals(CardData other) => _cardInstanceID.Equals(other._cardInstanceID);
+        public bool Equals(CardData other) => _cardInstance.Equals(other._cardInstance);
+
         public bool TryGetKeyword(KeywordType keyword, out int amount)
         {
             amount = 0;
@@ -178,24 +166,33 @@ namespace CardMaga.Card
             return found;
         }
 
-
-
         public CardData Clone()
-       => new CardData(new CardInstanceID(_cardInstanceID.GetCardCore()));
 
-
-
+       => new CardData(new CardInstanceID(_cardInstance.GetCardCore()));
 
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]
-        private void Refresh()
+        private void RefreshFromCoreID()
         {
+<<<<<<< HEAD
             var newCore = new CardCore(_cardSO.ID, _cardInstanceID?.Level ?? 0, _cardInstanceID?.Exp ?? 0);
             _cardInstanceID = new CardInstanceID(newCore);
+=======
+            _cardInstance = new CardInstanceID(new CardCore(new CoreID(_cardInstance.ID)));
+>>>>>>> Clean-Up-Branch
 
-            _cardTypeData = _cardSO.CardType;
+             _cardTypeData = CardSO.CardType;
         }
+        [Sirenix.OdinInspector.Button]
+        private void RefreshFromSOAndLevel()
+        {
+            _cardInstance = new CardInstanceID(new CardCore(CardSO.ID+ _cardInstance.Level) );
+            _cardTypeData = CardSO.CardType;
+        }
+        public CardData()
+        {
 
+        }
 #endif
     }
     #endregion
