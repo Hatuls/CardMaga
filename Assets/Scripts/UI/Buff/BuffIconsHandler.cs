@@ -14,8 +14,9 @@ namespace CardMaga.Battle.UI
     {
         #region Fields
 
-        [ReadOnly] 
-        Dictionary<BuffVisualData, BuffVisualHandler> _buffs;
+        [ReadOnly]
+        Dictionary<BuffVisualData, BuffVisualHandler> _activeBuffs;
+        [SerializeField] BuffCollectionVisualSO _buffCollectionVisualSO;
 
         private IPoolObject<BuffVisualData> _dataPool;
         private IPoolMBObject<BuffVisualHandler> _visualPool;
@@ -26,15 +27,18 @@ namespace CardMaga.Battle.UI
         private void Awake()
         {
 
-            _buffs = new Dictionary<BuffVisualData, BuffVisualHandler>();
+            _activeBuffs = new Dictionary<BuffVisualData, BuffVisualHandler>();
         }
 
         private void OnDestroy()
         {
+            if (_visualStatHandler == null)
+                return;
             foreach (var element in _visualStatHandler.VisualStatsDictionary)
             {
                 var visualStat = element.Value;
-                visualStat.OnKeywordValueChanged -= VisualStatUpdated;
+                if (_buffCollectionVisualSO.IsBuffSOExists(visualStat.KeywordType))
+                    visualStat.OnKeywordValueChanged -= VisualStatUpdated;
             }
             ResetBuffs();
         }
@@ -42,10 +46,10 @@ namespace CardMaga.Battle.UI
         {
             BuffVisualHandler visualBuffHandler;
             BuffVisualData buffDataVisual;
-            foreach (var buff in _buffs)
+            foreach (var buff in _activeBuffs)
             {
-                 visualBuffHandler = buff.Value;
-                 buffDataVisual = buff.Key;
+                visualBuffHandler = buff.Value;
+                buffDataVisual = buff.Key;
 
                 visualBuffHandler.Dispose();
                 buffDataVisual.Dispose();
@@ -54,11 +58,13 @@ namespace CardMaga.Battle.UI
 
         public void Init(VisualStatHandler visualStatHandler, IPoolObject<BuffVisualData> dataPool, IPoolMBObject<BuffVisualHandler> visualPool)
         {
+
             _visualStatHandler = visualStatHandler;
             foreach (var element in visualStatHandler.VisualStatsDictionary)
             {
                 var visualStat = element.Value;
-                visualStat.OnKeywordValueChanged += VisualStatUpdated;
+                if (_buffCollectionVisualSO.IsBuffSOExists(visualStat.KeywordType))
+                    visualStat.OnKeywordValueChanged += VisualStatUpdated;
             }
             _visualPool = visualPool;
             _dataPool = dataPool;
@@ -73,11 +79,11 @@ namespace CardMaga.Battle.UI
         }
         bool IsBuffExists(KeywordType keywordType, out BuffVisualData buffVisualData)
         {
-            foreach (var activeBuff in _buffs)
+            foreach (var activeBuff in _activeBuffs)
             {
                 if (activeBuff.Key.KeywordType == keywordType)
                 {
-                    buffVisualData= activeBuff.Key; 
+                    buffVisualData = activeBuff.Key;
                     return true;
                 }
             }
@@ -98,7 +104,7 @@ namespace CardMaga.Battle.UI
 
         private void UpdateValue(BuffVisualData buffVisualData, int amount)
         {
-            if (!_buffs.TryGetValue(buffVisualData, out BuffVisualHandler visual))
+            if (!_activeBuffs.TryGetValue(buffVisualData, out BuffVisualHandler visual))
                 throw new System.Exception("Cannot update BuffVisualData because it is not found in dictionary");
 
             buffVisualData.AssignValues(buffVisualData.KeywordType, amount);
@@ -107,12 +113,12 @@ namespace CardMaga.Battle.UI
 
         private void RemoveBuff(BuffVisualData buffVisualData)
         {
-            if (!_buffs.TryGetValue(buffVisualData, out BuffVisualHandler visual))
+            if (!_activeBuffs.TryGetValue(buffVisualData, out BuffVisualHandler visual))
                 throw new System.Exception("Cannot remove BuffVisualData because it is not found in dictionary");
-
 
             visual.Dispose();
             buffVisualData.Dispose();
+            _activeBuffs.Remove(buffVisualData);
         }
 
         void CreateNewBuffVisualData(KeywordType keywordType, int amount)
@@ -123,14 +129,10 @@ namespace CardMaga.Battle.UI
             var buffVisualData = _dataPool.Pull();
             buffVisualData.AssignValues(keywordType, amount);
             var visualBuffHandler = _visualPool.Pull();
+            visualBuffHandler.transform.SetParent(this.transform);
             visualBuffHandler.Init(buffVisualData);
-            _buffs.Add(buffVisualData, visualBuffHandler);
+            _activeBuffs.Add(buffVisualData, visualBuffHandler);
         }
-        void UpdateVisuals()
-        {
-
-        }
-
     }
 
 }
