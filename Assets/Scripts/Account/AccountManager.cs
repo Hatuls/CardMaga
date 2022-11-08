@@ -47,6 +47,7 @@ namespace Account
         public LoginResult LoginResult { get; private set; }
 
         private IDisposable _loginDisposable;
+        private IDisposable _requestFromServerDisposable;
 
         public string SessionTicket => LoginResult.SessionTicket;
         public string EntityID => LoginResult.EntityToken.Entity.Id;
@@ -61,7 +62,24 @@ namespace Account
         private void OnError(PlayFabError playFabError)
         {
             Debug.LogError($"{playFabError.ErrorMessage}");
+            _requestFromServerDisposable?.Dispose();
             _loginDisposable?.Dispose();
+        }
+        public void RequestAccoundData(ITokenReciever tokenReciever=null)
+        {
+            _requestFromServerDisposable= tokenReciever?.GetToken();
+            PlayFabClientAPI.GetUserData(new GetUserDataRequest
+            {
+                PlayFabId = LoginResult.PlayFabId,
+                Keys = null,
+
+            }, UserDataSucess, OnError) ;
+        }
+
+        private void UserDataSucess(GetUserDataResult obj)
+        {
+            _accountData = new AccountData(obj.Data);
+            _requestFromServerDisposable?.Dispose();
         }
 
         public void SendAccountData(ITokenReciever tokenReciever = null)
@@ -78,9 +96,8 @@ namespace Account
         }
         [Sirenix.OdinInspector.Button()]
         public void UpdateDataOnServer()
-        {
-            PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
-        }
+        =>           PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
+        
         public void UpdateRank(Action<UpdatePlayerStatisticsResult> OnCompletedSuccessfully)
         {
             var request = new UpdatePlayerStatisticsRequest
@@ -157,10 +174,11 @@ namespace Account
         public LevelData AccountLevel { get => _accountLevel;}
         public CharactersData CharactersData { get => _charactersData; }
         public ArenaData ArenaData { get => _arenaData;  }
+        public AccountResources AccountResources { get => _accountResources;  }
 
 
         #region Constructors
-        
+
         public AccountData()
         {
             CreateNewArenaData();
@@ -319,8 +337,10 @@ namespace Account
         private void CreateNewCharacterData()
         {
             _charactersData = new CharactersData();
-            Battle.CharacterSO firstCharacter = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
-            CharactersData.AddCharacter(new Character(firstCharacter));
+            Battle.CharacterSO characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
+            var firstCharacter = new Character(characterSO);
+            firstCharacter.AddNewDeck(characterSO.Deck, characterSO.Combos);
+            CharactersData.AddCharacter(firstCharacter);
         }
         private void CreateNewGeneralData()
         {
