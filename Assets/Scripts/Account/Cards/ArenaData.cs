@@ -55,20 +55,20 @@ namespace Account.GeneralData
     //[Serializable]
     //public class AccountCards : ILoadFirstTime
     //{
-    //    public static Action<CardInstanceID> OnUpgrade;
+    //    public static Action<InstanceID> OnUpgrade;
     //    #region Fields
     //    [SerializeField]
-    //    List<CardInstanceID> _cardList = new List<CardInstanceID>();
+    //    List<InstanceID> _cardList = new List<InstanceID>();
     //    #endregion
     //    #region Properties
-    //    public List<CardInstanceID> CardList => _cardList;
+    //    public List<InstanceID> CardList => _cardList;
 
     //    #endregion
     //    #region PublicMethods
-    //    public void AddCard(CardInstanceID core)
+    //    public void AddCard(InstanceID core)
     //        => _cardList.Add(core);
     //    public void AddCard(Cards.Card card)
-    //    => AddCard(card.CardCoreInfo);
+    //    => AddCard(card.InstanceID);
 
     //    public bool RemoveCard(int instanceId)
     //    {

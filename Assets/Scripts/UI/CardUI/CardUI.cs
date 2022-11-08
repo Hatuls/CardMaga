@@ -19,11 +19,9 @@ namespace CardMaga.UI.Card
 
         [SerializeField] private CardUIInputHandler _inputs;
 
-
         private CardAnimator _cardAnimator;
         private CardMaga.Card.CardData _cardData;
-
-
+        
         #endregion
         
         public BaseCardVisualHandler CardVisuals => _cardVisuals;

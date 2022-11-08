@@ -21,7 +21,7 @@ namespace CardMaga.Card
         [SerializeField]
         private CardSO _cardSO;
         [SerializeField]
-        private CardInstanceID _cardCoreInfo;
+        private CardInstanceID _cardInstanceID;
         [SerializeField]
         private bool _toExhaust = false;
 
@@ -47,9 +47,9 @@ namespace CardMaga.Card
         }
         public bool IsExhausted { get => _toExhaust; }
         public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
-        public int CardInstanceID => _cardCoreInfo.InstanceID;
-        public int CardLevel => _cardCoreInfo.Level;
-        public int CardEXP => _cardCoreInfo.Exp;
+        public int InstanceID => _cardInstanceID.InstanceID;
+        public int CardLevel => _cardInstanceID.Level;
+        public int CardEXP => _cardInstanceID.Exp;
         public bool CardsAtMaxLevel { get => _cardSO.CardsMaxLevel - 1 == CardLevel; }
         public int StaminaCost { get => _staminaCost; private set => _staminaCost = value; }
         public CardCommandsHolder CardCommands
@@ -77,7 +77,7 @@ namespace CardMaga.Card
             }
         }
 
-        public CardInstanceID CardCoreInfo => _cardCoreInfo;
+        public CardInstanceID CardInstanceID => _cardInstanceID;
 
 
         #endregion
@@ -89,9 +89,9 @@ namespace CardMaga.Card
         }
         public CardData(CardInstanceID cardAccountInfo)
         {
-            _cardCoreInfo = cardAccountInfo ?? throw new Exception($"Card: Card Info is null!");
+            _cardInstanceID = cardAccountInfo ?? throw new Exception($"Card: Card Info is null!");
 
-            InitCard(Factory.GameFactory.Instance.CardFactoryHandler.GetCard(_cardCoreInfo.ID), _cardCoreInfo.Level);
+            InitCard(Factory.GameFactory.Instance.CardFactoryHandler.GetCard(_cardInstanceID.ID), _cardInstanceID.Level);
         }
         public void InitCard(CardSO _card, int cardsLevel)
         {
@@ -158,7 +158,7 @@ namespace CardMaga.Card
             return amount;
         }
 
-        public bool Equals(CardData other) => _cardCoreInfo.Equals(other._cardCoreInfo);
+        public bool Equals(CardData other) => _cardInstanceID.Equals(other._cardInstanceID);
         public bool TryGetKeyword(KeywordType keyword, out int amount)
         {
             amount = 0;
@@ -181,7 +181,7 @@ namespace CardMaga.Card
 
 
         public CardData Clone()
-       => new CardData(new CardInstanceID(_cardCoreInfo.GetCardCore()));
+       => new CardData(new CardInstanceID(_cardInstanceID.GetCardCore()));
 
 
 
@@ -190,8 +190,8 @@ namespace CardMaga.Card
         [Sirenix.OdinInspector.Button]
         private void Refresh()
         {
-            var newCore = new CardCore(_cardSO.ID, _cardCoreInfo?.Level ?? 0, _cardCoreInfo?.Exp ?? 0);
-            _cardCoreInfo = new CardInstanceID(newCore);
+            var newCore = new CardCore(_cardSO.ID, _cardInstanceID?.Level ?? 0, _cardInstanceID?.Exp ?? 0);
+            _cardInstanceID = new CardInstanceID(newCore);
 
             _cardTypeData = _cardSO.CardType;
         }

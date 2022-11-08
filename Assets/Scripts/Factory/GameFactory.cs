@@ -1,9 +1,7 @@
 ﻿using Account.GeneralData;
 using Battle;
-using CardMaga;
 using Collections;
 using Battle.Combo;
-using Rewards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,9 +51,7 @@ namespace Factory
         {
             if (cards == null || comboCollectionSO == null || characters == null )
                 throw new Exception("Collections is null!!");
-
-           
-
+            
             CardFactoryHandler = new CardFactory(cards);
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
@@ -67,10 +63,7 @@ namespace Factory
 
             OnFactoryFinishedLoading?.Invoke();
         }
-
-
-
-     
+        
         public class RewardFactory
         {
            // public BattleRewardCollectionSO BattleRewardCollection { get; private set; }
@@ -85,6 +78,7 @@ namespace Factory
            // public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
            //     => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
         }
+        
         public class CharacterFactory
         {
             public CharacterCollectionSO CharacterCollection { get; private set; }
@@ -101,6 +95,7 @@ namespace Factory
                 for (int i = 0; i < length; i++)
                     _charactersDictionary.Add(collection[i].ID, collection[i]);
             }
+            
             public CharacterSO GetCharacterSO(CharacterTypeEnum type)
             {
                 var _charactersSO = CharacterCollection.CharactersSO;
@@ -113,8 +108,7 @@ namespace Factory
 
                 throw new Exception($"Could not find the character type: {type}\nin the character collections");
             }
-
-       
+            
             public CharacterSO[] GetCharactersSO(CharacterTypeEnum type) => CharacterCollection.CharactersSO.Where(character => (character.CharacterType == type)).ToArray();
 
             public CharacterSO GetCharacterSO(CharacterEnum characterEnum)
@@ -170,17 +164,35 @@ namespace Factory
 
                 for (int i = 0; i < combosLength; i++)
                     _comboDictionary.Add(combos[i].ID, combos[i]);
-
             }
+
+            public MetaComboData GetMetaComboData(ComboCore comboCore)
+            {
+                return new MetaComboData(comboCore);
+            }
+
+            public List<MetaComboData> GetMetaComboData(ComboCore[] comboCores)
+            {
+                List<MetaComboData> output = new List<MetaComboData>(comboCores.Length);
+
+                foreach (var comboCore in comboCores)
+                {
+                    output.Add(new MetaComboData(comboCore));
+                }
+
+                return output;
+            }
+
             public ComboData[] CreateCombos(ComboCore[] combosSO)
             {
                 if (combosSO != null)
                 {
                     List<ComboData> combos = new List<ComboData>();
+                    
                     for (int i = 0; i < combosSO.Length; i++)
                     {
                         if(combosSO[i].ID!= 0)
-                        combos.Add(CreateCombo(combosSO[i].ComboSO()));
+                         combos.Add(CreateCombo(combosSO[i].ComboSO()));
                     }
 
                     return combos.ToArray();
@@ -242,12 +254,33 @@ namespace Factory
                 throw new System.Exception($"Card SO Could not been found from ID \nID is {ID}\nCheck Collection For card SO");
             }
 
-            public MetaCardData GetMetaCardData(int cardId)
+            public MetaCardData GetMetaCardData(CardCore cardCore)
             {
-                MetaCardData cache;
+                CardSO cardSo = GetCard(cardCore.ID);
 
-                CardSO cardSo = GetCard(cardId);
+                CardInstanceID instanceID = CreateCardInstance(cardCore);
                 
+                CardData cardData = CreateCard(instanceID);
+
+                return new MetaCardData(instanceID, cardSo, cardData);
+            }
+            
+            public List<MetaCardData> GetMetaCardData(CardCore[] cardCores)
+            {
+                List<MetaCardData> output = new List<MetaCardData>(cardCores.Length);
+
+                foreach (var cardCore in cardCores)
+                {
+                    CardSO cardSo = GetCard(cardCore.ID);
+
+                    CardInstanceID instanceID = CreateCardInstance(cardCore);
+                
+                    CardData cardData = CreateCard(instanceID);
+                    
+                    output.Add(new MetaCardData(instanceID, cardSo, cardData));
+                }
+                
+                return output;
             }
             
             public CardData[] CreateDeck(CardCore[] cardsInfo)
@@ -280,7 +313,7 @@ namespace Factory
             public CardData CreateCard(CardInstanceID _data)
             {
                 if (_data == null)
-                    throw new Exception($"CardFactory: CardCoreInfo is null!");
+                    throw new Exception($"CardFactory: InstanceID is null!");
                 return new CardData(_data);
             }
             public CardData CreateCard(int CardSOID, int level = 0)
@@ -302,7 +335,7 @@ namespace Factory
                 for (int i = 0; i < c.Length; i++)
                 {
                     c[i] = CreateCard(cards[i]);
-                    cards[i].InstanceID = c[i].CardInstanceID;
+                    cards[i].InstanceID = c[i].CardInstanceID.InstanceID;
                 }
                 return c;
             }

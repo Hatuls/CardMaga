@@ -55,7 +55,7 @@ namespace Battle.Characters
         {
             var deckList = _characterData.CharacterDeck.ToList();
 
-            CardData card = deckList.Find((x) => x.CardInstanceID == InstanceID);
+            CardData card = deckList.Find((x) => x.CardInstanceID.InstanceID == InstanceID);
            
             bool check = deckList.Remove(card);
             if (check)

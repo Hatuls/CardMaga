@@ -1,13 +1,16 @@
-﻿using CardMaga.Meta.AccountMetaData;
-using CardMaga.UI.ScrollPanel;
+﻿using System.Collections.Generic;
+using CardMaga.Meta.AccountMetaData;
 using UnityEngine;
+using System.Linq;
 
 public class PlayableMetaCollection : MonoBehaviour
 {
     [SerializeField] private MetaComboUIScrollHandler _comboScrollPanelHandler;
     [SerializeField] private MetaCardUIScrollHandler _cardScrollPanelHandler;
     [SerializeField] private AccountDataAccess _accountDataAccess;
-    
+
+    private List<MetaCardData> _cardDatas;
+
     void Start()
     {
         _cardScrollPanelHandler.Init();
@@ -16,9 +19,9 @@ public class PlayableMetaCollection : MonoBehaviour
         _comboScrollPanelHandler.AddObjectToPanel(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Combos);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SortMetaCardData()
     {
+        _cardDatas = _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards;
         
     }
 }

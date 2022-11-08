@@ -288,8 +288,7 @@ namespace CardMaga.Card
         public bool IsArenaReward => _isArenaReward; 
         public bool IsBasicReward => _isBasicReward;
         public CardCore CardCore => _cardCore;
-
-
+        
 
         #region UNITY_EDITOR
         public void InitCardData(int id, int level)

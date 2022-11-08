@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Account;
 using Account.GeneralData;
 
@@ -20,7 +19,6 @@ namespace CardMaga.Meta.AccountMetaData
         #region Prop
 
         public string AccountName => _accountData.DisplayName;
-        
         public MetaCharactersHandler CharacterDatas => _charactersHandler;
         public MetaCardData[] AccountCards => _accountCards;
         public MetaComboData[] AccountCombos => _accountCombos;
@@ -37,7 +35,7 @@ namespace CardMaga.Meta.AccountMetaData
             //need to add _accountCard To add All the account cards
             //need to add accountLevel Support
             
-            Factory.GameFactory.Instance.CardFactoryHandler
+            //Factory.GameFactory.Instance.CardFactoryHandler.GetMetaCardData()
         }
     }
 }

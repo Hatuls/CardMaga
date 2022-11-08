@@ -8,9 +8,6 @@ using System.Linq;
 #endif
 namespace Collections
 {
-
-
-
     [CreateAssetMenu(fileName = ("CardsCollections"), menuName = ("ScriptableObjects/Collections/CardsCollections"))]
     public class CardsCollectionSO : ScriptableObject
     {
