@@ -19,7 +19,18 @@ namespace CardMaga.UI.Visuals
                 if(BuffsVisualSos[i].KeywordType == keywordType)
                     return BuffsVisualSos[i];
             }
+
             throw new System.Exception("BuffCollectionVisualSO GetBuffSO Could not find the Keyword Type In it's Collection");
+        }
+
+        public bool IsBuffSOExists(KeywordType keywordType)
+        {
+            for (int i = 0; i < BuffsVisualSos.Length; i++)
+            {
+                if (BuffsVisualSos[i].KeywordType == keywordType)
+                    return true;
+            }
+            return false;
         }
     }
 }

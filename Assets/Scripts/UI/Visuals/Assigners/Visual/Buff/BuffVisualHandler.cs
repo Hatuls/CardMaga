@@ -13,9 +13,6 @@ namespace CardMaga.UI.Buff
    
     public class BuffVisualHandler : BaseBuffVisualHandler , IPoolableMB<BuffVisualHandler>
     {
-
-        [SerializeField] GameObject _holder;
-
         BuffDescriptionPopUp _buffDescriptionPopUp;
 
         [SerializeField] BuffVisualAssignerHandler _buffVisualAssignerHandler;
@@ -34,19 +31,14 @@ namespace CardMaga.UI.Buff
         public override void Init(BuffVisualData buffData)
         {
             base.Init(buffData);
-            ActivateHolder(true);
         }
-        public void Init() { }
+        public void Init() { gameObject.SetActive(true); }
         
         public override void Dispose()
         {
             base.Dispose();
             OnDisposed?.Invoke(this);
-            ActivateHolder(false);
-        }
-        public void ActivateHolder(bool toActivate)
-        {
-            _holder.SetActive(toActivate);
+            gameObject.SetActive(false);
         }
 #if UNITY_EDITOR
         [FormerlySerializedAs("_testBuff")]

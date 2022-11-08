@@ -30,7 +30,7 @@ namespace CardMaga.Battle.UI
 
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
         {
-            const int SIZE = 5;
+            const int SIZE = 6;
             _dataPool = new ObjectPool<BuffVisualData>(SIZE);
             _visualPool = new MBPool<BuffVisualHandler>(_prefab, null, SIZE);
 
@@ -41,7 +41,7 @@ namespace CardMaga.Battle.UI
             var visualStat = leftCharacter.VisualStats;
             _leftBuffIconHandler.Init(visualStat, _dataPool, _visualPool);
             visualStat = rightCharacter.VisualStats;
-            _leftBuffIconHandler.Init(visualStat, _dataPool, _visualPool);
+            _rightBuffIconHandler.Init(visualStat, _dataPool, _visualPool);
             // if need to be initalize
         }
 
