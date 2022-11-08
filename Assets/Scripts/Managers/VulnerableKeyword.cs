@@ -36,7 +36,7 @@ namespace CardMaga.Keywords
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
         }
-        public override void EndTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands)
+        public override void StartTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands)
         {
             var characterStats = currentCharacterTurn.StatsHandler;
             var vulnrable = characterStats.GetStat(KeywordType.Vulnerable);
@@ -47,5 +47,6 @@ namespace CardMaga.Keywords
                 InvokeOnKeywordFinished();
             }
         }
+    
     }
 }

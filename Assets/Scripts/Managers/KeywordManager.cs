@@ -22,7 +22,7 @@ namespace CardMaga.Keywords
         public event Action OnStartTurnKeywordEffectExecuted;
         public event Action OnStartTurnKeywordEffectFinished;
 
-        public event Action<CommandType> OnEndtTurnKeywordEffect;
+        public event Action<CommandType> OnEndTurnKeywordEffect;
         public event Action OnEndTurnKeywordEffectExecuted;
         public event Action OnEndTurnKeywordEffectFinished;
 
@@ -59,7 +59,7 @@ namespace CardMaga.Keywords
         {
             bool leftHasValue = HasValue(_playersManager.GetCharacter(true));
             bool rightHasValue = HasValue(_playersManager.GetCharacter(false));
-            bool isStillNeeded = (rightHasValue && leftHasValue);
+            bool isStillNeeded = (rightHasValue || leftHasValue);
 
             if (isStillNeeded == false)
                 _activeTurnKeywords.Remove(baseKeywordLogic);
@@ -118,7 +118,7 @@ namespace CardMaga.Keywords
             for (int i = 0; i < _activeTurnKeywords.Count; i++)
             {
                 //Filter keywords based on the enum effect type
-                OnEndtTurnKeywordEffect?.Invoke(CommandType.AfterPrevious);
+                OnEndTurnKeywordEffect?.Invoke(CommandType.AfterPrevious);
                 _activeTurnKeywords[i].EndTurnEffect(currentPlayer, _dataCommands);
                 OnEndTurnKeywordEffectExecuted?.Invoke();
             }
@@ -140,36 +140,7 @@ namespace CardMaga.Keywords
             }
 
             OnStartTurnKeywordEffectFinished?.Invoke();
-            //var characterStats = currentPlayer.StatsHandler;
-            //Debug.Log("Activating Keywords Effect on " + (isPlayer ? "LeftPlayer" : "RightPlayer") + " that are activated on the start of the turn");
-
-            //KeywordData keyword;
-            //KeywordCommand command;
-            //BaseStat stat = characterStats.GetStat(KeywordType.Bleed);
-            //if (stat.Amount > 0)
-            //{
-            //    keyword = new KeywordData(_keywordFactory.GetKeywordSO(KeywordType.PierceDamage), TargetEnum.MySelf, stat.Amount, 0);
-            //    command = new KeywordCommand(keyword, CommandType.WithPrevious);
-            //    command.InitKeywordLogic(currentPlayer, GetLogic(KeywordType.PierceDamage), _playersManager);
-            //    _dataCommands.DataCommands.AddCommand(command);
-
-            //    keyword = new KeywordData(_keywordFactory.GetKeywordSO(KeywordType.Bleed), TargetEnum.MySelf, -1, 0);
-            //    command = new KeywordCommand(keyword, CommandType.WithPrevious);
-            //    command.InitKeywordLogic(currentPlayer, GetLogic(KeywordType.Bleed), _playersManager);
-
-            //    _dataCommands.DataCommands.AddCommand(new KeywordCommand(keyword, CommandType.WithPrevious));
-
-            //}
-
-
-            //stat = characterStats.GetStat(KeywordType.Regeneration);
-            //if (stat.Amount > 0)
-            //{
-            //    keyword = new KeywordData(_keywordFactory.GetKeywordSO(KeywordType.Heal), TargetEnum.MySelf, stat.Amount, 0);
-            //    _dataCommands.DataCommands.AddCommand(new KeywordCommand(keyword, CommandType.WithPrevious));
-            //    keyword = new KeywordData(_keywordFactory.GetKeywordSO(KeywordType.Regeneration), TargetEnum.MySelf, -1, 0);
-            //    _dataCommands.DataCommands.AddCommand(new KeywordCommand(keyword, CommandType.WithPrevious));
-            //}
+   
         }
 
 
@@ -272,7 +243,7 @@ namespace CardMaga.Keywords
             CardsKeywordsCommands.OnCardsKeywordsStartedExecuted += DrawNewVisualKeywordCommandPack;
             CardsKeywordsCommands.OnCardsKeywordsFinishedExecuted += RegisterVisualCommand;
 
-            data.KeywordManager.OnEndtTurnKeywordEffect += DrawNewVisualKeywordCommandPack;
+            data.KeywordManager.OnEndTurnKeywordEffect += DrawNewVisualKeywordCommandPack;
             data.KeywordManager.OnEndTurnKeywordEffectExecuted += RegisterVisualCommand;
             data.KeywordManager.OnEndTurnKeywordEffectFinished += _gameVisualCommands.ExecuteKeywords;
 
@@ -292,7 +263,7 @@ namespace CardMaga.Keywords
             CardsKeywordsCommands.OnCardsKeywordsFinishedExecuted -= RegisterVisualCommand;
 
 
-            obj.KeywordManager.OnEndtTurnKeywordEffect -= DrawNewVisualKeywordCommandPack;
+            obj.KeywordManager.OnEndTurnKeywordEffect -= DrawNewVisualKeywordCommandPack;
             obj.KeywordManager.OnEndTurnKeywordEffectExecuted -= RegisterVisualCommand;
             obj.KeywordManager.OnEndTurnKeywordEffectFinished -= _gameVisualCommands.ExecuteKeywords;
 
