@@ -52,7 +52,7 @@ namespace Account.GeneralData
             _skillPoint = 0;
             _rank = 0;
             _deckAmount = 1;
-            _deck.Add(new DeckData(_deck.Count, "Default Deck", newCharacter.Deck, newCharacter.Combos));
+         //   _deck.Add(new DeckData(_deck.Count, "Default Deck",null,null));
             _mainDeck = 0;
         }
 

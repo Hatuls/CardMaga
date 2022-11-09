@@ -11,8 +11,6 @@ namespace CardMaga.CSV
 
     public class CSVManager
     {
-
-        public static PackRewardsCollectionSO _packRewardsCollectionSO;
         public static CharacterCollectionSO _characterCollection;
         public static ComboCollectionSO _comboCollection;
         public static CardsCollectionSO _cardCollection;

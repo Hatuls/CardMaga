@@ -117,9 +117,10 @@ namespace CardMaga.Battle.Visual
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
         {
             var data = battleUIManager.BattleDataManager;
-            AnimatorController.Init(this, data.EndBattleHandler, data.GameCommands.GameVisualCommands);
             //Visual Stats
             _visualStats = new VisualStatHandler(this);
+            //AnimatorController
+            AnimatorController.Init(this, data.EndBattleHandler);
         }
 
         #endregion

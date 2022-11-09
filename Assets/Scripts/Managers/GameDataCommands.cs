@@ -10,17 +10,12 @@ namespace CardMaga.Battle.Execution
         //Handling the data
         private CommandHandler<ICommand> _dataCommands;
 
-        private KeywordManager _keywordManager;
-        private IPlayersManager _playersManager;
-
         public CommandHandler<ICommand> DataCommands => _dataCommands;
 
 
 
-        public GameDataCommands(IPlayersManager playersManager, KeywordManager keywordManager)
+        public GameDataCommands()
         {
-            _playersManager = playersManager;
-            _keywordManager = keywordManager;
             _dataCommands = new CommandHandler<ICommand>();
         }
 
