@@ -1,6 +1,6 @@
-﻿using CardMaga.MetaData.Collection;
-using CardMaga.UI.MetaUI;
+﻿using CardMaga.Meta.AccountMetaData;
+using MetaUI.MetaCardUI;
 
-public class MetaCardUIPool : BasePoolObject<MetaCollectionCardUI, MetaCollectionCardData>
+public class MetaCardUIPool : BasePoolObject<MetaCardUI, MetaCardData>
 {
 }

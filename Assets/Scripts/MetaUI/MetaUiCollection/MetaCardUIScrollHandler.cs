@@ -8,8 +8,8 @@ namespace CardMaga.UI.ScrollPanel
     public class MetaCardUIScrollHandler : BaseScrollPanelManager<MetaCollectionCardUI,MetaCollectionCardData>
     {
 
-        [SerializeField] private MetaCardUIPool _metaCardUIPool;
-        protected override BasePoolObject<MetaCollectionCardUI, MetaCollectionCardData> ObjectPool => _metaCardUIPool;
+        [SerializeField] private MetaCollectionCardUIPool metaCollectionCardUIPool;
+        protected override BasePoolObject<MetaCollectionCardUI, MetaCollectionCardData> ObjectPool => metaCollectionCardUIPool;
     }
 }
 

@@ -1,15 +1,7 @@
-
 using System;
 using CardMaga.Meta.AccountMetaData;
 using CardMaga.Tools.Pools;
-using CardMaga.UI.Card;
-using CardMaga.UI.ScrollPanel;
-using CardMaga.Meta.AccountMetaData;
-using CardMaga.Tools.Pools;
-using System;
-using System.Collections.Generic;
 using CardMaga.UI;
-using TMPro;
 using UnityEngine;
 
 namespace MetaUI.MetaCardUI

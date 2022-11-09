@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using CardMaga.Meta.AccountMetaData;
 using CardMaga.MetaData.Collection;
 using CardMaga.Tools.Pools;
-using CardMaga.UI.ScrollPanel;
 using TMPro;
 using UnityEngine;
 

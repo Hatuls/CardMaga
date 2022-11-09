@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class MetaCollectionManager : MonoBehaviour
 {
+    [SerializeField] private AccountDataAccess _accountDataAccess;
     [SerializeField] private MetaComboUIScrollHandler _comboScrollPanelHandler;
     [SerializeField] private MetaCardUIScrollHandler _cardScrollPanelHandler;
-    [SerializeField] private AccountDataAccess _accountDataAccess;
+    [SerializeField] private MetaCardUIPool _cardUIPool;
     private MetaCardDataHelper _cardDataHelper;
     
     void Start()
@@ -16,11 +17,13 @@ public class MetaCollectionManager : MonoBehaviour
         _cardDataHelper = new MetaCardDataHelper(_accountDataAccess);
         _cardScrollPanelHandler.Init();
         _comboScrollPanelHandler.Init();
+        _cardUIPool.Init();
         LoadObjects();
     }
 
     public void LoadObjects()
     {
+        _cardUIPool.PullObjects(_cardDataHelper.DeckData);
         _cardScrollPanelHandler.AddObjectToPanel(_cardDataHelper.CollectionCardDatas);
         _comboScrollPanelHandler.AddObjectToPanel(_accountDataAccess.AccountData.AccountCombos);//need to move from start
     }

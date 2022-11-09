@@ -15,6 +15,14 @@ namespace CardMaga.MetaData.Collection
 
         public List<MetaCollectionCardData> CollectionCardDatas => _collectionCardDatas;
 
+        public List<MetaCardData> DeckData
+        {
+            get
+            {
+                return _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards;
+            }
+        }
+
         public MetaCardDataHelper(AccountDataAccess accountDataAccess)
         {
             _collectionCardDatas = new List<MetaCollectionCardData>();
