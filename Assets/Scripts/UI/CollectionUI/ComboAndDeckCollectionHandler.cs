@@ -17,7 +17,7 @@ namespace CardMaga.UI.Collections
         private ComboDataSort _comboDataSort;
         
         private IGetCollection<BattleCardData> _cardDatas;
-        private IGetCollection<ComboData> _comboDatas;
+        private IGetCollection<BattleComboData> _comboDatas;
 
         private void ShowCombo()
         {
@@ -42,7 +42,7 @@ namespace CardMaga.UI.Collections
             ShowCard();
         }
         
-        public void AssignComboData(IGetCollection<ComboData> comboDatas)
+        public void AssignComboData(IGetCollection<BattleComboData> comboDatas)
         {
             _comboDatas = comboDatas;
             ShowCombo();

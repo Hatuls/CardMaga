@@ -4,7 +4,7 @@ using Battle.Combo;
 
 public class ComboDataSort
 {
-    public List<ComboData> SortComboData(IEnumerable<ComboData> comboDatas)
+    public List<BattleComboData> SortComboData(IEnumerable<BattleComboData> comboDatas)
     {
         return comboDatas.OrderBy(datas => datas.CraftedCard.CardTypeEnum).ThenBy(datas => datas.Level).ToList();
     } 

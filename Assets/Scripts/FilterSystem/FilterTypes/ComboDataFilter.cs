@@ -1,5 +1,5 @@
 ﻿using Battle.Combo;
 
-public abstract class ComboDataFilter : BaseFilter<ComboData>
+public abstract class ComboDataFilter : BaseFilter<BattleComboData>
 {
 }

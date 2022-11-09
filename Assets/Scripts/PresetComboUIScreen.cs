@@ -32,7 +32,7 @@ namespace UI
 
         public void OpenComboUIscreen(ComboRecipeUI combo)
         {
-            _comboScreen.InitRecipe(combo.ComboData);
+            _comboScreen.InitRecipe(combo.BattleComboData);
             BattleCardData battleCard = combo.BattleCardUI.BattleCardData;
    
             for (int i = 0; i < _keywordsInfo.Count; i++)

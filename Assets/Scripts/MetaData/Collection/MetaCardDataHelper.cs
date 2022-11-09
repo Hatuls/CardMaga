@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using CardMaga.Meta.AccountMetaData;
-using UnityEngine;
 using System.Linq;
 
 namespace CardMaga.MetaData.Collection
