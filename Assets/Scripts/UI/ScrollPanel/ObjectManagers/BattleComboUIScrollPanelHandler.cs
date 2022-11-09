@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace CardMaga.UI.ScrollPanel
 {
-    public class BattleComboUIScrollPanelHandler : BaseScrollPanelManager<ComboUI,ComboData>
+    public class BattleComboUIScrollPanelHandler : BaseScrollPanelManager<BattleComboUI,BattleComboData>
     {
         [SerializeField] private ComboUIPool _comboUIPool;
     
-        protected override BasePoolObject<ComboUI, ComboData> ObjectPool
+        protected override BasePoolObject<BattleComboUI, BattleComboData> ObjectPool
         {
             get => _comboUIPool;
         }

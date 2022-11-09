@@ -31,8 +31,9 @@ namespace CardMaga.Meta.AccountMetaData
 
         public MetaAccountData(AccountData accountData)
         {
-            _accountCards = Factory.GameFactory.Instance.CardFactoryHandler.GetMetaCardData(accountData.AllCards.CardsIDs.ToArray()); 
-            
+            _accountCards = Factory.GameFactory.Instance.CardFactoryHandler.GetMetaCardData(accountData.AllCards.CardsIDs.ToArray());
+            _accountCombos =
+                Factory.GameFactory.Instance.ComboFactoryHandler.GetMetaComboData(accountData.AllCombos.CombosIDs.ToArray());
             _accountData = accountData;
             _charactersHandler = new MetaCharactersHandler(_accountData.CharactersData.Characters);
             _accountResources = new AccountResources();//Need to have a way to add value

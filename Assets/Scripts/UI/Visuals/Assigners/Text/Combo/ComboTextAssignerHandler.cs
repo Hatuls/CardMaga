@@ -6,12 +6,12 @@ using UnityEngine;
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
-    public class ComboTextAssignerHandler : BaseTextAssignerHandler<ComboData>
+    public class ComboTextAssignerHandler : BaseTextAssignerHandler<BattleComboData>
     {
         [Header("Texts")]
         [SerializeField] ComboNameTextAssigner _comboNameTextAssigner;
         [SerializeField] ComboTypeTextAssigner _comboTypeTextAssigner;
-        public override IEnumerable<BaseTextAssigner<ComboData>> TextAssigners
+        public override IEnumerable<BaseTextAssigner<BattleComboData>> TextAssigners
         {
             get
             {

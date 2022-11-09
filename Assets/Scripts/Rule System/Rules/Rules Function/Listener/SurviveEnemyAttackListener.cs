@@ -30,9 +30,9 @@ public class SurviveEnemyAttackListener : BaseEndGameRule
 
     }
 
-    private void CheckCombo(ComboData comboData)
+    private void CheckCombo(BattleComboData battleComboData)
     {
-        if (comboData.ComboSO == _comboToCheck)
+        if (battleComboData.ComboSO == _comboToCheck)
         {
             _didTheRightCombo = true;
         }

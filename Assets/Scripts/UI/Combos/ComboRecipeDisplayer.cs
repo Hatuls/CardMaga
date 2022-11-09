@@ -54,7 +54,7 @@ public class ComboRecipeDisplayer : MonoBehaviour, IPointerClickHandler
             page = 1;
         var leftplayer = BattleUiManager.Instance.BattleDataManager.PlayersManager.GetCharacter(true);
         var recipes = leftplayer.Combos.GetCollection.ToArray();
-        ComboData[] playerRecipe = new ComboData[recipes.Length];
+        BattleComboData[] playerRecipe = new BattleComboData[recipes.Length];
         for (int i = 0; i < playerRecipe.Length; i++)
         {
             playerRecipe[i] = recipes[i];

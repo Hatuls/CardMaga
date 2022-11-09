@@ -188,11 +188,11 @@ namespace Factory
                 return output;
             }
 
-            public ComboData[] CreateCombos(ComboCore[] combosSO)
+            public BattleComboData[] CreateCombos(ComboCore[] combosSO)
             {
                 if (combosSO != null)
                 {
-                    List<ComboData> combos = new List<ComboData>();
+                    List<BattleComboData> combos = new List<BattleComboData>();
                     
                     for (int i = 0; i < combosSO.Length; i++)
                     {
@@ -205,8 +205,8 @@ namespace Factory
                 return null;
             }
 
-            public ComboData CreateCombo(ComboSO comboSO, int level = 0)
-               => new ComboData(comboSO, level);
+            public BattleComboData CreateCombo(ComboSO comboSO, int level = 0)
+               => new BattleComboData(comboSO, level);
 
             public ComboSO[] GetComboSOFromIDs(IEnumerable<int> ids)
             {

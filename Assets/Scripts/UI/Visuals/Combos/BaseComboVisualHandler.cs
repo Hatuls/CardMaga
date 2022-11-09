@@ -6,10 +6,10 @@ using UnityEngine;
 namespace CardMaga.UI
 {
     [System.Serializable]
-    public abstract class BaseComboVisualHandler : MonoBehaviour,IInitializable<ComboData>
+    public abstract class BaseComboVisualHandler : MonoBehaviour,IInitializable<BattleComboData>
     {
-        public abstract BaseTextAssignerHandler<ComboData> ComboTextAssignerHandler { get; }
-        public abstract BaseVisualAssignerHandler<ComboData> ComboVisualAssignerHandler { get; }
+        public abstract BaseTextAssignerHandler<BattleComboData> ComboTextAssignerHandler { get; }
+        public abstract BaseVisualAssignerHandler<BattleComboData> ComboVisualAssignerHandler { get; }
 
         public virtual void CheckValidation()
         {
@@ -21,10 +21,10 @@ namespace CardMaga.UI
             ComboTextAssignerHandler.Dispose();
             ComboVisualAssignerHandler.Dispose();
         }
-        public virtual void Init(ComboData comboDataData)
+        public virtual void Init(BattleComboData battleComboDataData)
         {
-            ComboTextAssignerHandler.Init(comboDataData);
-            ComboVisualAssignerHandler.Init(comboDataData);
+            ComboTextAssignerHandler.Init(battleComboDataData);
+            ComboVisualAssignerHandler.Init(battleComboDataData);
         }
     }
 }

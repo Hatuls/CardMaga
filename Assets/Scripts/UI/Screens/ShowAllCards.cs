@@ -8,7 +8,7 @@ using UnityEngine;
 namespace CardMaga.UI
 {
     [System.Serializable]
-    public class SortComboEvent : UnityEvent<ISort<ComboData>> { }
+    public class SortComboEvent : UnityEvent<ISort<BattleComboData>> { }
     [System.Serializable]
     public class SortCardEvent : UnityEvent<ISort<CardMaga.Card.BattleCardData>> { }
     public class ShowAllCards : CardSort
@@ -25,7 +25,7 @@ namespace CardMaga.UI
         public override void SortRequest() => _cardEvent?.Invoke(this);
     }
 
-    public abstract class ComboSort : SortAbst<ComboData>
+    public abstract class ComboSort : SortAbst<BattleComboData>
     {
         [SerializeField]
         protected SortComboEvent _comboEvent;

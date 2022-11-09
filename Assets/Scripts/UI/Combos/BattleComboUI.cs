@@ -2,11 +2,12 @@
 using CardMaga.Tools.Pools;
 using System;
 using UnityEngine;
+
 namespace CardMaga.UI.Combos
 {
-    public class ComboUI : MonoBehaviour, IUIElement, IPoolableMB<ComboUI>, IVisualAssign<ComboData>
+    public class BattleComboUI : MonoBehaviour, IUIElement, IPoolableMB<BattleComboUI>, IVisualAssign<BattleComboData>
     {
-        public event Action<ComboUI> OnDisposed;
+        public event Action<BattleComboUI> OnDisposed;
         public event Action OnShow;
         public event Action OnHide;
         public event Action OnInitializable;
@@ -22,17 +23,12 @@ namespace CardMaga.UI.Combos
         public void Show()
         {
             OnShow?.Invoke();
-            gameObject.SetActive(true); 
+            gameObject.SetActive(true);
         }
 
         public void Init()
         {
             OnInitializable?.Invoke();
-        }
-
-        public void AssingVisual(ComboData data)
-        {
-            _comboVisual.Init(data);
         }
 
         public void Hide()
@@ -41,6 +37,10 @@ namespace CardMaga.UI.Combos
             if (gameObject.activeSelf)
                 gameObject.SetActive(false);
         }
-    }
 
+        public void AssignVisual(BattleComboData data)
+        {
+            _comboVisual.Init(data);
+        }
+    }
 }
