@@ -49,7 +49,7 @@ public class EndBattleHandler : IDisposable
         
         _isGameEnded = false;
     }
-
+    public void ForceEndBattle(bool isLeftWon) => EndBattle(isLeftWon);
     private void EndBattle(bool isLeftPlayerWon)
     {
         if (_isGameEnded)

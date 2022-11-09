@@ -6,10 +6,15 @@ using System.Linq;
 
 namespace CardMaga.Commands
 {
-    public interface ICommand
+    public interface ICommand : IExecutableTask
+    {
+     
+        void Undo();
+    }
+
+    public interface IExecutableTask 
     {
         void Execute();
-        void Undo();
     }
     public class AddNewCardToDeck : ICommand
     {

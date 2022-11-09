@@ -43,6 +43,8 @@ namespace CardMaga.Keywords
             battleManager.Register(this, OrderType.Before);
             _keywordFactory = Factory.GameFactory.Instance.KeywordFactoryHandler;
             _activeTurnKeywords = new List<BaseKeywordLogic>();
+
+  
         }
 
 

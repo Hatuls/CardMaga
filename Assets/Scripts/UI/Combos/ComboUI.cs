@@ -1,35 +1,44 @@
-﻿using System;
-using Battle.Combo;
+﻿using Battle.Combo;
 using CardMaga.Tools.Pools;
-using CardMaga.UI.ScrollPanel;
+using System;
 using UnityEngine;
 namespace CardMaga.UI.Combos
-{ 
-public class ComboUI : MonoBehaviour , IShowableUI , IPoolableMB<ComboUI> , IVisualAssign<ComboData>
 {
-    public event Action<ComboUI> OnDisposed;
-    
-    [SerializeField] private ComboVisualHandler _comboVisual;
-
-    public void Dispose()
+    public class ComboUI : MonoBehaviour, IUIElement, IPoolableMB<ComboUI>, IVisualAssign<ComboData>
     {
-        _comboVisual.Dispose();
-    }
+        public event Action<ComboUI> OnDisposed;
+        public event Action OnShow;
+        public event Action OnHide;
+        public event Action OnInitializable;
 
-    public void Show()
-    {
-        Init();
-    }
+        [SerializeField] private ComboVisualHandler _comboVisual;
 
-    public void Init()
-    {
-        gameObject.SetActive(true);
-    }
+        public void Dispose()
+        {
+            OnDisposed?.Invoke(this);
+            Hide();
+        }
 
-    public void AssignVisual(ComboData data)
-    {
-        _comboVisual.Init(data);
-    }
-}
+        public void Show()
+        {
+            OnShow?.Invoke();
+            gameObject.SetActive(true);
+        }
 
-}
+        public void Init()
+        {
+            OnInitializable?.Invoke();
+        }
+
+        public void AssingVisual(ComboData data)
+        {
+            _comboVisual.Init(data);
+        }
+
+        public void Hide()
+        {
+            OnHide?.Invoke();
+            if (gameObject.activeSelf)
+                gameObject.SetActive(false);
+        }
+    }

@@ -55,7 +55,8 @@ namespace Account.GeneralData
     [Serializable]
     public class CardCore : IDisposable
     {
-        [SerializeField,Sirenix.OdinInspector.InlineProperty] private CoreID _coreID;
+        [SerializeField,Sirenix.OdinInspector.InlineProperty] 
+        private CoreID _coreID;
 
         [SerializeField] private CardSO _cardSO;
         [SerializeField] private int _level;

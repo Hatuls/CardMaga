@@ -8,23 +8,23 @@ namespace CardMaga.UI.ScrollPanel
     {
         #region Fields
     
-        private List<IShowableUI> _loadedObjects;
+        private List<IUIElement> _loadedObjects;
     
         #endregion
 
-        public List<IShowableUI> LoadedObject
+        public List<IUIElement> LoadedObject
         {
             get => _loadedObjects;
         }
 
         public void Init()
         {
-            _loadedObjects = new List<IShowableUI>();
+            _loadedObjects = new List<IUIElement>();
         }
 
         #region PublicFunction
     
-        internal void LoadObject(params IShowableUI[] objects)
+        internal void LoadObject(params IUIElement[] objects)
         {
             foreach (var obj in objects)
             {
@@ -43,7 +43,7 @@ namespace CardMaga.UI.ScrollPanel
             _loadedObjects.Clear();
         }
         
-        internal void UnLoadObjects(params IShowableUI[] objects)
+        internal void UnLoadObjects(params IUIElement[] objects)
         {
             foreach (var obj in objects)
             {
@@ -58,12 +58,13 @@ namespace CardMaga.UI.ScrollPanel
         
         #region PrivateFunction
     
-        private void RemoveLoadObject(IShowableUI obj)
+        private void RemoveLoadObject(IUIElement obj)
         {
-            obj.Dispose();
+            obj.Hide();
+          //  obj.Dispose();
         }
     
-        private bool FindObjectInLoadedObjects(IShowableUI obj)
+        private bool FindObjectInLoadedObjects(IUIElement obj)
         {
             foreach (var loadedObject in _loadedObjects)
             {
@@ -80,9 +81,5 @@ namespace CardMaga.UI.ScrollPanel
         
     }
     
-    public interface IShowableUI : IDisposable
-    {
-        void Show();
-    }
+   
 }
-
