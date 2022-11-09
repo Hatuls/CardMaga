@@ -14,16 +14,16 @@ namespace Battle.Data
     
         public static BattleData Instance => _instance;
         [SerializeField]
-        private Character _player = null;
+        private BattleCharacter _player = null;
         [SerializeField]
-        private Character _opponent = null;
+        private BattleCharacter _opponent = null;
         [SerializeField, Sirenix.OdinInspector.ReadOnly]
         private bool _isPlayerWon = false;
         [SerializeField] private BattleConfigSO _battleConfigSo;
         public BattleConfigSO BattleConfigSO { get => _battleConfigSo; }
 
-        public Character Left { get => _player; set => _player = value; }
-        public Character Right { get => _opponent; set => _opponent = value; }
+        public BattleCharacter Left { get => _player; set => _player = value; }
+        public BattleCharacter Right { get => _opponent; set => _opponent = value; }
         public bool PlayerWon { get => _isPlayerWon; set => _isPlayerWon = value; }
         
         public void ResetData()
@@ -45,9 +45,9 @@ namespace Battle.Data
             => AssginCharacter(isPlayer, characterSO.CharacterName, new Account.GeneralData.Character(characterSO));
         public void AssginCharacter(in bool isPlayer,string displayName, Account.GeneralData.Character data)
         {
-            AssginCharacter(isPlayer,new Character(displayName,data));
+            AssginCharacter(isPlayer,new BattleCharacter(displayName,data));
         }
-        private void AssginCharacter(in bool isPlayer, Battle.Characters.Character character)
+        private void AssginCharacter(in bool isPlayer, Battle.Characters.BattleCharacter character)
         {
             if (isPlayer)
                 _player = character;

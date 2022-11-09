@@ -17,12 +17,15 @@ namespace CardMaga.Rewards
         {
             return true;
         }
-
-#if UNITY_EDITOR
-        public void Init(string name, int[] cardsID)
+        public PackReward(string name, int[] cardsID)
         {
             _packName = name;
             _cardsID = cardsID;
+        }
+#if UNITY_EDITOR
+        public void Init(string name, int[] cardsID)
+        {
+   
         }
 #endif
     }

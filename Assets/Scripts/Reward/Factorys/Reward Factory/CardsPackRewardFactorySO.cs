@@ -13,8 +13,7 @@ namespace CardMaga.Rewards
         private RarityChanceCardContainer[] _packRewards;
         public override IRewardable GenerateReward()
         {
-            var _packReward = new PackReward();
-            _packReward.Init(Name, GenerateCards());
+            var _packReward = new PackReward(Name, GenerateCards());
             return _packReward;
         }
 
@@ -35,7 +34,7 @@ namespace CardMaga.Rewards
             float chance = UnityEngine.Random.Range(0f, 100f);
             for (int i = 0; i < _packRewards.Length; i++)
             {
-                if (chance < _packRewards[i].Chance)
+                if (chance < previousValue+ _packRewards[i].Chance)
                    return _packRewards[i];
                 previousValue += _packRewards[i].Chance;
             }

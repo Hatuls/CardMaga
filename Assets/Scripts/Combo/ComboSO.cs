@@ -67,11 +67,15 @@ namespace Battle.Combo
         [TabGroup("Recipe/General Info", "Data")]
         [SerializeField]
         private CardSO _craftedCard;
-        public CardSO CraftedCard { get => _craftedCard; set=> _craftedCard =value; }
+        public CardSO CraftedCard { get => _craftedCard;
+#if UNITY_EDITOR
+            set => _craftedCard = value;
+#endif
+        }
 
 
 
-        #endregion
+#endregion
 
         #region Properties
 

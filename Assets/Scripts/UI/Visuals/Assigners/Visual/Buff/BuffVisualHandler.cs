@@ -1,30 +1,18 @@
 ﻿using Battle.Combo;
+using CardMaga.Tools.Pools;
 using CardMaga.UI.PopUp;
 using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
 using Sirenix.OdinInspector;
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace CardMaga.UI.Buff
 {
    
-    public class BuffVisualHandler : BaseBuffVisualHandler
+    public class BuffVisualHandler : BaseBuffVisualHandler , IPoolableMB<BuffVisualHandler>
     {
-
-#if UNITY_EDITOR
-        [FormerlySerializedAs("_testBuff")]
-        [Header("Test")]
-        [SerializeField] BuffVisualData testBuffData;
-
-        [Button]
-        public void Test()
-        {
-            CheckValidation();
-            Init(testBuffData);
-        }
-#endif
-
         BuffDescriptionPopUp _buffDescriptionPopUp;
 
         [SerializeField] BuffVisualAssignerHandler _buffVisualAssignerHandler;
@@ -44,10 +32,30 @@ namespace CardMaga.UI.Buff
         {
             base.Init(buffData);
         }
+        public void Init() { gameObject.SetActive(true); }
+        
         public override void Dispose()
         {
             base.Dispose();
+            OnDisposed?.Invoke(this);
+            gameObject.SetActive(false);
         }
+#if UNITY_EDITOR
+        [FormerlySerializedAs("_testBuff")]
+        [Header("Test")]
+        [SerializeField] BuffVisualData testBuffData;
+
+        public event Action<BuffVisualHandler> OnDisposed;
+
+        [Button]
+        public void Test()
+        {
+            CheckValidation();
+            Init(testBuffData);
+        }
+
+      
+#endif
     }
 
 }

@@ -42,17 +42,17 @@ namespace CardMaga.Meta.AccountMetaData
             _id = deckData.Id;
             _deckName = deckData.Name;
 
-            CardCore[] tempCardCore = deckData.Cards;
+            GameFactory.CardFactory cardFactory = GameFactory.Instance.CardFactoryHandler;
+
+            CardCore[] tempCardCore = cardFactory.CreateCardCores(deckData.Cards);
             int cardLength = tempCardCore.Length;
             
             _cardDatas = new List<MetaCardData>(cardLength);
 
-            GameFactory.CardFactory cardFactory = GameFactory.Instance.CardFactoryHandler;
-
             for (int i = 0; i < cardLength; i++)
             {
                 CardInstanceID instanceID = cardFactory.CreateCardInstance(tempCardCore[i]);
-                CardSO cardSo = cardFactory.GetCard(tempCardCore[i].ID);
+                CardSO cardSo = cardFactory.GetCard(tempCardCore[i].CardID);
                 CardData cardData = cardFactory.CreateCard(instanceID);
 
                 _cardDatas[i] = new MetaCardData(instanceID,cardSo,cardData);//need To remove carddata
