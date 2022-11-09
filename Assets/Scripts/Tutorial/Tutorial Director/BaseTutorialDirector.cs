@@ -10,7 +10,7 @@ namespace TutorialDirector
 {
     public class BaseTutorialDirector : MonoBehaviour
     {
-        [SerializeField] private PlayableDirector _playableDirector;
+        [SerializeField] protected PlayableDirector _playableDirector;
         [SerializeField] protected RectTransform _directorRect;
         
         [SerializeField] private UnityEvent OnDirectorStart;
@@ -28,7 +28,6 @@ namespace TutorialDirector
             SubscribeEvent();
             _tutorialClickHelper.LoadObject(true, false, null, _directorRect);
             MoveDirectorPosition();
-            _playableDirector.Play();
             if (OnDirectorStart != null)
                 OnDirectorStart.Invoke();
         }
@@ -58,7 +57,7 @@ namespace TutorialDirector
 
         protected virtual void MoveDirectorPosition()
         {
-
+            _playableDirector.Play();
         }
 
         private void ReleaseToken()
