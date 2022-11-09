@@ -55,9 +55,9 @@ namespace Battle.Characters
         {
             var deckList = _characterData.CharacterDeck.ToList();
 
-            CardData card = deckList.Find((x) => x.CardInstanceID.InstanceID == InstanceID);
+            BattleCardData battleCard = deckList.Find((x) => x.CardInstance.InstanceID == InstanceID);
            
-            bool check = deckList.Remove(card);
+            bool check = deckList.Remove(battleCard);
             if (check)
                 _characterData.CharacterDeck = deckList.ToArray();
             return check;
@@ -68,25 +68,25 @@ namespace Battle.Characters
         public bool AddCardToDeck(CardSO card, int level = 0)
         {
             if (card == null)
-                throw new Exception("Cannot add card to deck the card you tried to add is null!");
+                throw new Exception("Cannot add battleCard to deck the battleCard you tried to add is null!");
 
             var cardCreated = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(card, level);
 
             return AddCardToDeck(cardCreated);
         }
         
-        public bool AddCardToDeck(CardData card)
+        public bool AddCardToDeck(BattleCardData battleCard)
         {
-            if (card == null)
-                throw new Exception("Character Class : Card is null");
+            if (battleCard == null)
+                throw new Exception("Character Class : BattleCard is null");
 
             var deck = _characterData.CharacterDeck;
             int length = _characterData.CharacterDeck.Length;
             Array.Resize(ref deck, length + 1);
-            deck[length] = card;
+            deck[length] = battleCard;
             _characterData.CharacterDeck = deck;
 
-            return card != null;
+            return battleCard != null;
         }
         
         public bool AddComboRecipe(Battle.Combo.ComboData comboData)

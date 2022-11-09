@@ -8,12 +8,12 @@ public class BaseHandUIState : MonoBehaviour
     public event Action OnEnterState;
     public event Action OnExitState;
 
-    protected InputBehaviour<CardUI> _inputBehaviour;
+    protected InputBehaviour<BattleCardUI> _inputBehaviour;
 
-    protected CardUI _selectedCardUI;
+    protected BattleCardUI _selectedCardUI;
 
 
-    public CardUI SelectedCardUI
+    public BattleCardUI SelectedBattleCardUI
     {
         get => _selectedCardUI;
     }
@@ -22,29 +22,29 @@ public class BaseHandUIState : MonoBehaviour
     {
         if (_inputBehaviour == null)
         {
-            _inputBehaviour = new InputBehaviour<CardUI>();
+            _inputBehaviour = new InputBehaviour<BattleCardUI>();
         }
     }
 
-    public virtual void EnterState(CardUI cardUI)
+    public virtual void EnterState(BattleCardUI battleCardUI)
     {
         if (_selectedCardUI != null)
             return;
 
-        if (!cardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
+        if (!battleCardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
         {
             Debug.LogError(name + "Failed To Set InputIdentificationSO Behaviour");
             return;
         }
 
-        _selectedCardUI = cardUI;
+        _selectedCardUI = battleCardUI;
 
         OnEnterState?.Invoke();
     }
 
-    public virtual void ExitState(CardUI cardUI)
+    public virtual void ExitState(BattleCardUI battleCardUI)
     {
-        if (!ReferenceEquals(cardUI, SelectedCardUI))
+        if (!ReferenceEquals(battleCardUI, SelectedBattleCardUI))
         {
             Debug.LogError(name + "CardUI Not equal To the Selected CardUI");
             return;
@@ -54,9 +54,9 @@ public class BaseHandUIState : MonoBehaviour
         OnExitState?.Invoke();
     }
 
-    public virtual CardUI ForceExitState()
+    public virtual BattleCardUI ForceExitState()
     {
-        CardUI temp = null;
+        BattleCardUI temp = null;
         
         if (_selectedCardUI != null)
         {

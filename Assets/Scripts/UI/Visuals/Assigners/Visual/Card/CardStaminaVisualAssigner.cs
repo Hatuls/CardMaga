@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardStaminaVisualAssigner : BaseVisualAssigner<CardData>
+    public class CardStaminaVisualAssigner : BaseVisualAssigner<BattleCardData>
     {
         [SerializeField] StaminaCardSO _staminaCardSO;
         [SerializeField] Image _staminaBG;
@@ -29,7 +29,7 @@ namespace CardMaga.UI.Visuals
         {
         }
 
-        public override void Init(CardData cardData)
+        public override void Init(BattleCardData battleCardData)
         {
             //Hard Coded Value
             var staminaType = 0;

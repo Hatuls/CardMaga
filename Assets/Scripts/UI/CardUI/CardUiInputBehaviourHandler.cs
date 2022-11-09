@@ -4,7 +4,7 @@ using CardMaga.Input;
 using CardMaga.UI.Card;
 using UnityEngine;
 
-public class CardUiInputBehaviourHandler : InputBehaviourHandler<CardUI>
+public class CardUiInputBehaviourHandler : InputBehaviourHandler<BattleCardUI>
 {
     [SerializeField] private BaseHandUIState _handUIState;
     [SerializeField] private BaseHandUIState _zoomUIState;
@@ -30,21 +30,21 @@ public class CardUiInputBehaviourHandler : InputBehaviourHandler<CardUI>
         };
     }
 
-    public void SetState(HandState state,CardUI cardUI)
+    public void SetState(HandState state,BattleCardUI battleCardUI)
     {
         if (_currentState == null)
         {
             _currentState = _handUIStates[state];
         
-            _currentState.EnterState(cardUI);
+            _currentState.EnterState(battleCardUI);
         }
         else
         {
-            _currentState.ExitState(cardUI);
+            _currentState.ExitState(battleCardUI);
             
             _currentState = _handUIStates[state];
         
-            _currentState.EnterState(cardUI);
+            _currentState.EnterState(battleCardUI);
         }
     }
 }

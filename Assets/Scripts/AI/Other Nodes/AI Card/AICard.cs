@@ -5,13 +5,13 @@ namespace CardMaga.AI
     [Serializable]
     public class AICard : IWeightable
     {
-        public CardData Card { get; private set; }
+        public BattleCardData BattleCard { get; private set; }
         public int Weight { get; set; }
 
-        public void AssignCard(CardData card) => Card = card;
+        public void AssignCard(BattleCardData battleCard) => BattleCard = battleCard;
         public void Reset()
         {
-            Card = null;
+            BattleCard = null;
             Weight = 0;
         }
     }

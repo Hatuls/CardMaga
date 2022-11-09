@@ -1,5 +1,5 @@
 ﻿using CardMaga.Card;
 
-public abstract class CardDataFilter : BaseFilter<CardData>
+public abstract class CardDataFilter : BaseFilter<BattleCardData>
 {
 }

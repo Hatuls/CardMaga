@@ -8,14 +8,14 @@ public class DismentalCostsSO : ScriptableObject
 
     public RarirtyLevelCosts[] DismentalCosts { get => _dismentalCosts; }
 
-    public ushort GetCardDismentalCost(CardData card)
+    public ushort GetCardDismentalCost(BattleCardData battleCard)
     {
         for (int i = 0; i < _dismentalCosts.Length; i++)
         {
-            if (_dismentalCosts[i].Rarity == card.CardSO.Rarity)
-                return _dismentalCosts[i].Costs[card.CardLevel];
+            if (_dismentalCosts[i].Rarity == battleCard.CardSO.Rarity)
+                return _dismentalCosts[i].Costs[battleCard.CardLevel];
         }
-        throw new System.Exception($"DismentalCosts: Rarity Was Not Found: {card.CardSO.Rarity}");
+        throw new System.Exception($"DismentalCosts: Rarity Was Not Found: {battleCard.CardSO.Rarity}");
     }
 
 #if UNITY_EDITOR

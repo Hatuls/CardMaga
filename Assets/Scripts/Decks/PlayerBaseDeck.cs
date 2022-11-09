@@ -11,13 +11,13 @@ namespace Battle.Deck
 
         private bool _toShuffleDeck = true;
    
-        public PlayerBaseDeck(CardData[] deckCards,bool toShuffleDeck) : base( deckCards)
+        public PlayerBaseDeck(BattleCardData[] deckCards,bool toShuffleDeck) : base( deckCards)
         {
             _toShuffleDeck = toShuffleDeck;
         }
-        public override bool AddCard(CardData card)
+        public override bool AddCard(BattleCardData battleCard)
         {
-         bool added =   base.AddCard(card);
+         bool added =   base.AddCard(battleCard);
 
             //if (isPlayer)
             //    _deckIcon?.SetAmount(AmountOfFilledSlots);
@@ -26,7 +26,7 @@ namespace Battle.Deck
         }
 
 
-        public override CardData GetFirstCard()
+        public override BattleCardData GetFirstCard()
         {
             var card = base.GetFirstCard();
             if (card ==  null)
@@ -49,9 +49,9 @@ namespace Battle.Deck
 
             CountCards();
         }
-        public override bool DiscardCard(in CardData card)
+        public override bool DiscardCard(in BattleCardData battleCard)
         {
-            bool succeed = base.DiscardCard(card);
+            bool succeed = base.DiscardCard(battleCard);
     //        OnAmountOfFilledSlotsChange?.Invoke(AmountOfEmptySlots);
             //if (isPlayer)
             //    _deckIcon?.SetAmount(AmountOfFilledSlots);
@@ -63,7 +63,7 @@ namespace Battle.Deck
                 return;
             
             OrderDeck();
-            var list = new List<CardData>(AmountOfFilledSlots);
+            var list = new List<BattleCardData>(AmountOfFilledSlots);
             for (int i = 0; i < AmountOfFilledSlots; i++)
             {
                 list.Add(GetDeck[i]);

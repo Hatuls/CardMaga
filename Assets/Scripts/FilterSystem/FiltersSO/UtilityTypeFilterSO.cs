@@ -1,10 +1,10 @@
 ﻿using CardMaga.Card;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "UtilityTypeFilterSO", menuName = "ScriptableObjects/Filter/CardData/UtilityTypeFilterSO")]
+[CreateAssetMenu(fileName = "UtilityTypeFilterSO", menuName = "ScriptableObjects/Filter/BattleCardData/UtilityTypeFilterSO")]
 public class UtilityTypeFilterSO : CardDataFilter
 {
-    public override bool Filter(CardData obj)
+    public override bool Filter(BattleCardData obj)
     {
         if (obj.CardSO.CardType.CardType == CardTypeEnum.Utility)
         {

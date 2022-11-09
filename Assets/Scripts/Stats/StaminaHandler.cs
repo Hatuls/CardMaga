@@ -67,8 +67,8 @@ namespace Characters.Stats
         public void AddStartStamina(int startStamina) => StartStamina += startStamina;
         public void ResetStamina() => Stamina = 0;
         public void ResetStaminaAddition() => StaminaAddition = 0;
-        public bool CanPlayCard(CardData card) => card.StaminaCost <= Stamina;
-        public void ReduceStamina(CardData card) => Stamina -= card.StaminaCost;
+        public bool CanPlayCard(BattleCardData battleCard) => battleCard.StaminaCost <= Stamina;
+        public void ReduceStamina(BattleCardData battleCard) => Stamina -= battleCard.StaminaCost;
    
         public void CheckStaminaEmpty()
         {
@@ -165,13 +165,13 @@ namespace Characters.Stats
     //        if (isPlayer)
     //            _staminaTextManager?.UpdateCurrentStamina(charactersStamina.Stamina);
     //    }
-    //    public bool IsEnoughStamina(bool isPlayer, CardData card)
-    //     => GetCharacterStamina(isPlayer).Stamina >= card.StaminaCost;
+    //    public bool IsEnoughStamina(bool isPlayer, BattleCardData battleCard)
+    //     => GetCharacterStamina(isPlayer).Stamina >= battleCard.StaminaCost;
     //    public bool HasStamina(bool isPlayer) => GetCharacterStamina(isPlayer).Stamina > 0;
-    //    public void ReduceStamina(bool isPlayer, CardData card)
+    //    public void ReduceStamina(bool isPlayer, BattleCardData battleCard)
     //    {
     //        var character = GetCharacterStamina(isPlayer);
-    //        character.Stamina -= card.StaminaCost;
+    //        character.Stamina -= battleCard.StaminaCost;
 
     //        if (isPlayer)
     //            _staminaTextManager?.UpdateCurrentStamina(character.Stamina);

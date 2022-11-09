@@ -12,9 +12,9 @@ namespace CardMaga.Commands
 
         public bool ToNotify { get => _toNotify; set => _toNotify = value; }
 
-        public CardTypeCommand(CardData card)
+        public CardTypeCommand(BattleCardData battleCard)
         {
-            _cardTypeData = card.CardTypeData;
+            _cardTypeData = battleCard.CardTypeData;
         }
 
         public void Init(CraftingHandler craftingHandler)

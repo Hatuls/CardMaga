@@ -33,7 +33,7 @@ namespace CardMaga.UI.Visuals
                 //Set Combo BG Sprite
                 _comboSequenceBackgrounds[i].AssignSprite(_bodyPartComboVisualSO.GetBodyPartBG(cardType));
                 _comboSequenceBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetInnerColor(comboDataData.ComboSequence[i].CardType));
-                //Set Card Inner BG sprites and color
+                //Set BattleCard Inner BG sprites and color
                 _comboSequenceInnerBackgrounds[i].AssignSprite(_bodyPartComboVisualSO.GetBodyPartInnerBG(cardType));
                 _comboSequenceInnerBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(comboDataData.ComboSequence[i].CardType));
                 //Set body part and color

@@ -36,19 +36,19 @@ public class BuffIcon : MonoBehaviour
     public KeywordType KeywordType { get => _name; set => _name = value; }
     #endregion
 
-    //public virtual void InitIconData(CardData card)
+    //public virtual void InitIconData(BattleCardData battleCard)
     //{
     //    var _cardTypePalette = art.GetPallette<CardTypePalette>();
-    //    _icon.sprite = art.GetSpriteCollections<CardIconCollectionSO>().GetSprite(card.CardSO.BodyPartEnum);
+    //    _icon.sprite = art.GetSpriteCollections<CardIconCollectionSO>().GetSprite(battleCard.CardSO.BodyPartEnum);
 
     //    _background.color = art.GetPallette<BuffUIPalette>().CardDefaultBackground;
 
-    //    Color clr = _cardTypePalette.GetIconBodyPartColorFromEnum(card.CardSO.CardTypeEnum);
+    //    Color clr = _cardTypePalette.GetIconBodyPartColorFromEnum(battleCard.CardSO.CardTypeEnum);
     //    _icon.color = clr;
 
 
-    //    _decor.color = _cardTypePalette.GetDecorationColorFromEnum(card.CardSO.CardTypeEnum);
-    //    SetText(card.CardSO.CardSOKeywords[0].GetAmountToApply.ToString());
+    //    _decor.color = _cardTypePalette.GetDecorationColorFromEnum(battleCard.CardSO.CardTypeEnum);
+    //    SetText(battleCard.CardSO.CardSOKeywords[0].GetAmountToApply.ToString());
 
     //    _iconText.color = clr;
     //}

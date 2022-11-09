@@ -11,7 +11,7 @@ using UnityEngine.Serialization;
 
 public class ComboUIManager : MonoBehaviour, ISequenceOperation<IBattleUIManager>
 {
-    public event Action<CardUI[]> OnCardComboDone;
+    public event Action<BattleCardUI[]> OnCardComboDone;
 
     [Header("Scripts Reference")]
     [SerializeField] private CardUIManager _cardUIManager;
@@ -34,14 +34,14 @@ public class ComboUIManager : MonoBehaviour, ISequenceOperation<IBattleUIManager
     public int Priority => 0;
 
 
-    private void CraftComboCards(params CardData[] cardDatas)
+    private void CraftComboCards(params BattleCardData[] cardDatas)
     {
-        CardUI[] cardUis = _cardUIManager.GetCardsUI(cardDatas);
+        BattleCardUI[] cardUis = _cardUIManager.GetCardsUI(cardDatas);
 
         SetCardUisAtPosition(_drawPosition, cardUis);
     }
 
-    private void SetCardUisAtPosition(RectTransform destination, params CardUI[] cardUis)
+    private void SetCardUisAtPosition(RectTransform destination, params BattleCardUI[] cardUis)
     {
         for (int i = 0; i < cardUis.Length; i++)
         {

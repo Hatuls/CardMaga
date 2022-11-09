@@ -7,9 +7,9 @@ using CardMaga.Tools.Pools;
 
 namespace CardMaga.UI.Card
 {
-    public class CardUI : MonoBehaviour, IPoolableMB<CardUI> , IShowableUI , IVisualAssign<CardData>
+    public class BattleCardUI : MonoBehaviour, IPoolableMB<BattleCardUI> , IShowableUI , IVisualAssign<BattleCardData>
     {
-        public event Action<CardUI> OnDisposed;
+        public event Action<BattleCardUI> OnDisposed;
         
         #region Fields
 
@@ -20,7 +20,7 @@ namespace CardMaga.UI.Card
         [SerializeField] private CardUIInputHandler _inputs;
 
         private CardAnimator _cardAnimator;
-        private CardMaga.Card.CardData _cardData;
+        private CardMaga.Card.BattleCardData _battleCardData;
         
         #endregion
         
@@ -29,11 +29,11 @@ namespace CardMaga.UI.Card
         public RectTransform RectTransform => _rectTransform;
         public RectTransform VisualsRectTransform => _visualsRectTransform;
 
-        public CardMaga.Card.CardData CardData { get => _cardData; private set => _cardData = value; }
+        public CardMaga.Card.BattleCardData BattleCardData { get => _battleCardData; private set => _battleCardData = value; }
         
-        public void AssingVisual(CardData data)
+        public void AssingVisual(BattleCardData data)
         {
-            CardData = data;
+            BattleCardData = data;
             CardVisuals.Init(data);
         }
 

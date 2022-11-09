@@ -25,9 +25,9 @@ namespace CardMaga.Battle.Execution
         }
 
 
-        public void InsertCardDataCommand(CardData card, bool toReduceStamina, bool toDetectCombo)
+        public void InsertCardDataCommand(BattleCardData battleCard, bool toReduceStamina, bool toDetectCombo)
         {
-            CardCommandsHolder cardCommands = card.CardCommands;
+            CardCommandsHolder cardCommands = battleCard.CardCommands;
 
             if (toReduceStamina)
                 _dataCommands.AddCommand(cardCommands.StaminaCostCommand);

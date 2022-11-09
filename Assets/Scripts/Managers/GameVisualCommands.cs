@@ -43,10 +43,10 @@ namespace CardMaga.Battle.Execution
             _animationCommands = new VisualCommandHandler();
             _visualKeywordCommandHandler = new VisualKeywordCommandHandler();
         }
-        public void InsertCardsCommands(bool isLeft, CardData card)
+        public void InsertCardsCommands(bool isLeft, BattleCardData battleCard)
         {
             AnimationVisualCommand visualCommand = ModelAnimationCommandsPool.Pull();
-            visualCommand.Init(_visualCharactersManager.GetVisualCharacter(isLeft).AnimatorController, card.CardSO, CommandType.AfterPrevious);
+            visualCommand.Init(_visualCharactersManager.GetVisualCharacter(isLeft).AnimatorController, battleCard.CardSO, CommandType.AfterPrevious);
             _animationCommands.AddCommand(visualCommand);
 
         }

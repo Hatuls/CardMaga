@@ -2,7 +2,7 @@
 
 namespace CardMaga.UI.Visuals
 {
-    [CreateAssetMenu(fileName = "Stamin Card SO", menuName = "ScriptableObjects/UI/Visuals/Stamina Card Visual SO")]
+    [CreateAssetMenu(fileName = "Stamin BattleCard SO", menuName = "ScriptableObjects/UI/Visuals/Stamina BattleCard Visual SO")]
     public class StaminaCardSO : ScriptableObject
     {
         public Sprite[] StaminaBG;

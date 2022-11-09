@@ -10,21 +10,21 @@ namespace CardMaga.Commands
     {
         private readonly DeckHandler _deckHandler;
         private readonly DeckEnum _toDeck;
-        private readonly CardData _newCard;
-        public AddNewCardToDeck(DeckEnum toDeck, CardData newCard, DeckHandler deckHandler)
+        private readonly BattleCardData _newBattleCard;
+        public AddNewCardToDeck(DeckEnum toDeck, BattleCardData newBattleCard, DeckHandler deckHandler)
         {
             _deckHandler = deckHandler;
             _toDeck = toDeck;
-            _newCard = newCard;
+            _newBattleCard = newBattleCard;
         }
         public void Execute()
         {
-            _deckHandler.AddCardToDeck(_newCard, _toDeck);
+            _deckHandler.AddCardToDeck(_newBattleCard, _toDeck);
         }
 
         public void Undo()
         {
-            _deckHandler[_toDeck].DiscardCard(_newCard);
+            _deckHandler[_toDeck].DiscardCard(_newBattleCard);
         }
     }
     public class ResetCraftingSlotCommand : ICommand

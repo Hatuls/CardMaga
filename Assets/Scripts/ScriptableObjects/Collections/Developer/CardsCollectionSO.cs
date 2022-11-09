@@ -24,7 +24,7 @@ namespace Collections
                     if (_cardCollection[i].ContainID(cardSO))
                         return _cardCollection[i];
                 }
-                throw new Exception("CardsCollectionSO: Card id was not found in collection\nID: " + cardSO);
+                throw new Exception("CardsCollectionSO: BattleCard id was not found in collection\nID: " + cardSO);
             }
         }
         /*

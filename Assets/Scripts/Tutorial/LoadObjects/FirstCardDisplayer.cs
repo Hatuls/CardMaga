@@ -8,7 +8,7 @@ public class FirstCardDisplayer : MonoBehaviour
     private ClickHelper _clickHelper;
     private TutorialClickHelper _tutorialClickHelper;
     private BattleUiManager _battleUIManager;
-    private IReadOnlyList<CardUI> _cards;
+    private IReadOnlyList<BattleCardUI> _cards;
 
     public void GetCard()
     {

@@ -260,18 +260,18 @@ namespace Factory
                 if (_cardCollectionDictionary.TryGetValue(ID, out CardSO card))
                     return card;
 
-                throw new System.Exception($"Card SO Could not been found from ID \nID is {ID}\nCheck Collection For card SO");
+                throw new System.Exception($"BattleCard SO Could not been found from ID \nID is {ID}\nCheck Collection For battleCard SO");
             }
 
             public MetaCardData GetMetaCardData(CardCore cardCore)
             {
-                CardSO cardSo = GetCard(cardCore.ID);
+                CardSO cardSo = GetCard(cardCore.CardID);
 
-                CardInstanceID instanceID = CreateCardInstance(cardCore);
+                CardInstance instance = CreateCardInstance(cardCore);
                 
-                CardData cardData = CreateCard(instanceID);
+                BattleCardData battleCardData = CreateCard(instance);
 
-                return new MetaCardData(instanceID, cardSo, cardData);
+                return new MetaCardData(instance, cardSo, battleCardData);
             }
             
             public List<MetaCardData> GetMetaCardData(CardCore[] cardCores)
@@ -280,19 +280,19 @@ namespace Factory
 
                 foreach (var cardCore in cardCores)
                 {
-                    CardSO cardSo = GetCard(cardCore.ID);
+                    CardSO cardSo = GetCard(cardCore.CardID);
 
-                    CardInstanceID instanceID = CreateCardInstance(cardCore);
+                    CardInstance instance = CreateCardInstance(cardCore);
                 
-                    CardData cardData = CreateCard(instanceID);
+                    BattleCardData battleCardData = CreateCard(instance);
                     
-                    output.Add(new MetaCardData(instanceID, cardSo, cardData));
+                    output.Add(new MetaCardData(instance, cardSo, battleCardData));
                 }
                 
                 return output;
             }
             
-            public CardData[] CreateDeck(CoreID[] coreIDs)
+            public BattleCardData[] CreateDeck(CoreID[] coreIDs)
             {
                 CardCore[] cards = new CardCore[coreIDs.Length];
                 for (int i = 0; i < cards.Length; i++)
@@ -301,11 +301,11 @@ namespace Factory
                 return CreateDeck(cards);
             }
 
-            public CardData[] CreateDeck(CardCore[] cardsInfo)
+            public BattleCardData[] CreateDeck(CardCore[] cardsInfo)
             {
                 if (cardsInfo != null && cardsInfo.Length != 0)
                 {
-                    CardData[] cards = new CardData[cardsInfo.Length];
+                    BattleCardData[] cards = new BattleCardData[cardsInfo.Length];
 
                     for (int i = 0; i < cards.Length; i++)
                     {
@@ -322,66 +322,66 @@ namespace Factory
                 _battleCardIdList.Clear();
                 _battleCardIdList.Clear();
             }
-            public CardInstanceID CreateCardInstance(CardSO cardSO, int level = 0)
+            public CardInstance CreateCardInstance(CardSO cardSO, int level = 0)
                 => CreateCardInstance(cardSO.ID, level);
 
-            public CardInstanceID CreateCardInstance(int cardSOID, int level = 0)
+            public CardInstance CreateCardInstance(int cardSOID, int level = 0)
              => CreateCardInstance(cardSOID + level);
-            public CardInstanceID CreateCardInstance(int cardID)
+            public CardInstance CreateCardInstance(int cardID)
             => CreateCardInstance(new CardCore(cardID));
-            public CardInstanceID CreateCardInstance(CardCore core)
-            => new CardInstanceID(core);
-            public CardData CreateCard(CardInstanceID _data)
+            public CardInstance CreateCardInstance(CardCore core)
+            => new CardInstance(core);
+            public BattleCardData CreateCard(CardInstance _data)
             {
                 if (_data == null)
                     throw new Exception($"CardFactory: InstanceID is null!");
-                return new CardData(_data);
+                return new BattleCardData(_data);
             }
-            public CardData CreateCard(int CardSOID, int level = 0)
+            public BattleCardData CreateCard(int CardSOID, int level = 0)
              => CreateCard(GetCard(CardSOID), level);
 
-            public CardData CreateCard(CardSO cardSO, int level = 0)
+            public BattleCardData CreateCard(CardSO cardSO, int level = 0)
             {
 
                 if (cardSO != null && (level >= 0 && level <= cardSO.CardsMaxLevel))
                 {
                     return CreateCard(CreateCardInstance(cardSO, level));
                 }
-                throw new Exception($" card was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
+                throw new Exception($" battleCard was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
 
             }
-            public CardData[] CreateDeck(CardInstanceID[] cards)
+            public BattleCardData[] CreateDeck(CardInstance[] cards)
             {
-                CardData[] c = new CardData[cards.Length];
+                BattleCardData[] c = new BattleCardData[cards.Length];
                 for (int i = 0; i < c.Length; i++)
                 {
                     c[i] = CreateCard(cards[i]);
 
-                   // cards[i].InstanceID = c[i].CardInstanceID.InstanceID;
+                   // cards[i].InstanceID = c[i].CardInstance.InstanceID;
                 }
                 return c;
             }
 
-            internal CardData[] CreateDeck(AccountDeck deck)
+            internal BattleCardData[] CreateDeck(AccountDeck deck)
             {
                 if (deck == null)
-                    throw new Exception("Card Factory: AccountDeck is null!");
+                    throw new Exception("BattleCard Factory: AccountDeck is null!");
 
                 int length = deck.Cards.Length;
                 var cardsDataHolder = deck.Cards;
-                CardData[] cards = new CardData[length];
+                BattleCardData[] cards = new BattleCardData[length];
 
                 for (int i = 0; i < length; i++)
                 {
                     var cardContainer = cardsDataHolder[i];
 
                     if (cardContainer == null)
-                        throw new Exception($"CardFactory: card was not created!\nCard at index: {i}  is null!");
+                        throw new Exception($"CardFactory: battleCard was not created!\nCard at index: {i}  is null!");
 
                     cards[i] = CreateCard(cardContainer);
 
                     if (cards[i] == null)
-                        throw new Exception($"Card Factory: Card Was Not Created From:\n ID: {cardContainer.ID}\nLevel: {cardContainer.Level}");
+                        throw new Exception($"BattleCard Factory: BattleCard Was Not Created From:\n ID: {cardContainer.ID}\nLevel: {cardContainer.Level}");
 
                 }
 

@@ -11,43 +11,43 @@ using UnityEngine;
 
 namespace CardMaga.Card
 {
-    [CreateAssetMenu(fileName = "CardData", menuName = "ScriptableObjects/Cards")]
+    [CreateAssetMenu(fileName = "BattleCardData", menuName = "ScriptableObjects/Cards")]
     public class CardSO : ScriptableObject
     {
         #region Fields
-        [TitleGroup("CardData", BoldTitle = true, Alignment = TitleAlignments.Centered)]
+        [TitleGroup("BattleCardData", BoldTitle = true, Alignment = TitleAlignments.Centered)]
 
-        [HorizontalGroup("CardData/Info/Display")]
+        [HorizontalGroup("BattleCardData/Info/Display")]
 
 
-        [VerticalGroup("CardData/Info/Display/Coulmn 1")]
+        [VerticalGroup("BattleCardData/Info/Display/Coulmn 1")]
         [PreviewField(100, Alignment = ObjectFieldAlignment.Right)]
         [SerializeField]
         private Sprite _cardSprite;
 
 
-        [VerticalGroup("CardData/Info/Display/Coulmn 2")]
+        [VerticalGroup("BattleCardData/Info/Display/Coulmn 2")]
         [LabelWidth(90f)]
         [SerializeField]
         private string _cardName;
   
 
-        [TabGroup("CardData/Info", "Animation")]
+        [TabGroup("BattleCardData/Info", "Animation")]
         [SerializeField]
         private AnimationBundle _animationBundle;
      
 
-        [TabGroup("CardData/Info", "Camera")]
+        [TabGroup("BattleCardData/Info", "Camera")]
         [SerializeField]
         private CameraDetails cameraDetails;
 
 
-        [TabGroup("CardData/Info", "Data")]
+        [TabGroup("BattleCardData/Info", "Data")]
         [SerializeField]
         private RarityEnum _rarity;
 
 
-        [TabGroup("CardData/Info", "Data")]
+        [TabGroup("BattleCardData/Info", "Data")]
 
         [ShowInInspector]
         public CardTypeData CardType => PerLevelUpgrade[0]?.UpgradesPerLevel[0]?.CardTypeData;
@@ -57,47 +57,47 @@ namespace CardMaga.Card
 
 
 
-        [TabGroup("CardData/Info", "Data")]
+        [TabGroup("BattleCardData/Info", "Data")]
         [SerializeField]
         private byte _stamina;
 
-        [TabGroup("CardData/Info", "Data")]
+        [TabGroup("BattleCardData/Info", "Data")]
         private bool _isFuseCard;
-        [TabGroup("CardData/Info", "Data")]
+        [TabGroup("BattleCardData/Info", "Data")]
         private bool _isCombo;
 
 
 
-        [TabGroup("CardData/Info", "Data")]
-        [Tooltip("How much coins the card cost")]
+        [TabGroup("BattleCardData/Info", "Data")]
+        [Tooltip("How much coins the battleCard cost")]
         [SerializeField]
         ushort _salvageCost = 1;
 
-        [TabGroup("CardData/Info", "Data")]
+        [TabGroup("BattleCardData/Info", "Data")]
         [SerializeField]
         private ushort _id;
 
 
      
-        [TabGroup("CardData/Info", "Data")]
+        [TabGroup("BattleCardData/Info", "Data")]
         [SerializeField]
         bool _isPackReward;
 
-        [TabGroup("CardData/Info", "Keywords")]
+        [TabGroup("BattleCardData/Info", "Keywords")]
         [SerializeField]
         private KeywordData[] _cardKeywordsData;
  
 
-        [TabGroup("CardData/Info", "Levels")]
+        [TabGroup("BattleCardData/Info", "Levels")]
         [SerializeField]
         private PerLevelUpgrade[] _perLevelUpgrades;
 
 
-        [TabGroup("CardData/Info", "Crafting")]
+        [TabGroup("BattleCardData/Info", "Crafting")]
         [SerializeField]
         private ushort[] _cardsFusesFrom;
 
-        [TabGroup("CardData/Info", "Instances")]
+        [TabGroup("BattleCardData/Info", "Instances")]
         [SerializeField]
         private CardCoreInfo[] _cardCoreInfo;
 

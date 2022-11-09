@@ -67,8 +67,8 @@ namespace Account.GeneralData
     //    #region PublicMethods
     //    public void AddCard(InstanceID core)
     //        => _cardList.Add(core);
-    //    public void AddCard(Cards.Card card)
-    //    => AddCard(card.InstanceID);
+    //    public void AddCard(Cards.BattleCard battleCard)
+    //    => AddCard(battleCard.InstanceID);
 
     //    public bool RemoveCard(int instanceId)
     //    {

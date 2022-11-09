@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using CardMaga.Meta.AccountMetaData;
 using CardMaga.Tools.Pools;
-using CardMaga.UI;
 using CardMaga.UI.ScrollPanel;
 using TMPro;
 using UnityEngine;
 
-namespace MetaUI.MetaCardUI
+namespace CardMaga.UI.MetaUI
 {
     public class MetaCardUI : MonoBehaviour, IPoolableMB<MetaCardUI>,IShowableUI,IVisualAssign<MetaCardData>//need to change to MetaCardData 
     {
@@ -42,9 +41,9 @@ namespace MetaUI.MetaCardUI
 
         public void AssingVisual(MetaCardData data)
         {
-            _cardLevel = data.CardData.CardInstanceID.Level;
-            _cardId = data.CardData.CardInstanceID.ID;
-            _cardVisuals.Init(data.CardData);
+            _cardLevel = data.BattleCardData.CardInstance.Level;
+            _cardId = data.BattleCardData.CardInstance.ID;
+            _cardVisuals.Init(data.BattleCardData);
         }
 
         public void AddToDeck()

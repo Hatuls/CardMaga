@@ -5,7 +5,7 @@ using CardMaga.UI.Combos;
 using CardMaga.UI.ScrollPanel;
 using UnityEngine;
 
-namespace MetaUI.MetaComboUI
+namespace CardMaga.UI.MetaUI
 {
     public class MetaComboUI : MonoBehaviour, IPoolableMB<MetaComboUI>,IShowableUI,IVisualAssign<MetaComboData>
     {

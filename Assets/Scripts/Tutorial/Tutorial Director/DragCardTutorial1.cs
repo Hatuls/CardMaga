@@ -17,7 +17,7 @@ namespace TutorialDirector
             HandUI.OnCardExecute += CardExecute;
         }
 
-        private void CardExecute(CardUI cardUI)
+        private void CardExecute(BattleCardUI battleCardUI)
         {
             StopDirector();
         }

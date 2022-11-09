@@ -68,7 +68,7 @@ namespace Account.GeneralData
 
        
 
-        public bool AddNewDeck(CardInstanceID[] deckCards,ComboCore[] deckCombos)
+        public bool AddNewDeck(CardInstance[] deckCards,ComboCore[] deckCombos)
         {
             CoreID[] cards = new CoreID[deckCards.Length];
 

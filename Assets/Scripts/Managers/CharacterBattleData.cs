@@ -18,8 +18,8 @@ namespace Battle.Characters
         public ref CharacterStats CharacterStats { get => ref _characterStats; }
 
         [SerializeField]
-        private CardData[] _characterDeck;
-        public CardData[] CharacterDeck { get => _characterDeck; internal set => _characterDeck = value; }
+        private BattleCardData[] _characterDeck;
+        public BattleCardData[] CharacterDeck { get => _characterDeck; internal set => _characterDeck = value; }
 
         [SerializeField]
         private Battle.Combo.ComboData[] _comboRecipe;
@@ -62,14 +62,14 @@ namespace Battle.Characters
                 throw e;
             }
 
-            CardData[] CreateDeck(CharacterSO characterSO)
+            BattleCardData[] CreateDeck(CharacterSO characterSO)
             
             {
                 var deck = characterSO.Deck;
-                CardData[] cards = new CardData[deck.Length];
+                BattleCardData[] cards = new BattleCardData[deck.Length];
                 for (int i = 0; i < deck.Length; i++)
                 {
-                    cards[i] = new CardData(new CardInstanceID(new CardCore(deck[i].ID)));
+                    cards[i] = new BattleCardData(new CardInstance(new CardCore(deck[i].ID)));
                 }
                 return cards;
             }

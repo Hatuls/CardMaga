@@ -10,15 +10,15 @@ namespace CardMaga.UI
     [System.Serializable]
     public class SortComboEvent : UnityEvent<ISort<ComboData>> { }
     [System.Serializable]
-    public class SortCardEvent : UnityEvent<ISort<CardMaga.Card.CardData>> { }
+    public class SortCardEvent : UnityEvent<ISort<CardMaga.Card.BattleCardData>> { }
     public class ShowAllCards : CardSort
     {
-        public override IEnumerable<CardMaga.Card.CardData> Sort()
+        public override IEnumerable<CardMaga.Card.BattleCardData> Sort()
          => GetCollection();
     }
 
 
-    public abstract  class CardSort : SortAbst<CardMaga.Card.CardData>
+    public abstract  class CardSort : SortAbst<CardMaga.Card.BattleCardData>
     {
         [SerializeField]
         protected SortCardEvent _cardEvent;

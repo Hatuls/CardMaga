@@ -5,17 +5,17 @@ using CardMaga.Collection;
 
 namespace Battle.Deck
 {
-    public abstract class BaseDeck : IDeckHandler ,IGetCollection<CardData>
+    public abstract class BaseDeck : IDeckHandler ,IGetCollection<BattleCardData>
     {
         public event Action<int> OnAmountOfFilledSlotsChange;
         public virtual event Action OnResetDeck;
 
-        private CardData[] _deckCards;
+        private BattleCardData[] _deckCards;
         private int _amountOfFilledSlots = 0;
         
         #region Properties
 
-        public IEnumerable<CardData> GetCollection
+        public IEnumerable<BattleCardData> GetCollection
         {
             get
             {
@@ -45,10 +45,10 @@ namespace Battle.Deck
                 }
             }
         }
-        public ref CardData[] GetDeck
+        public ref BattleCardData[] GetDeck
             => ref _deckCards; 
         
-        public CardData[] SetDeck
+        public BattleCardData[] SetDeck
         {
             set
             {
@@ -64,7 +64,7 @@ namespace Battle.Deck
         #endregion
 
         #region Public Functions
-        public BaseDeck(CardData[] deckCards)
+        public BaseDeck(BattleCardData[] deckCards)
         {
             SetDeck = deckCards;
 
@@ -78,7 +78,7 @@ namespace Battle.Deck
         {
             // assign new deck in the legnth we want
 
-            SetDeck = new CardData[length];
+            SetDeck = new BattleCardData[length];
         }
 
         public void CountCards()
@@ -104,9 +104,9 @@ namespace Battle.Deck
                 OnAmountOfFilledSlotsChange.Invoke(AmountOfFilledSlots);
 
         }
-        public virtual CardData GetFirstCard()
+        public virtual BattleCardData GetFirstCard()
         {
-            // return the Card from the first slot in the array
+            // return the BattleCard from the first slot in the array
 
 
             if (_deckCards != null && _deckCards.Length > 0)
@@ -114,9 +114,9 @@ namespace Battle.Deck
 
             return null;
         }
-        public virtual bool AddCard(CardData card)
+        public virtual bool AddCard(BattleCardData battleCard)
         {
-            //  add card to the deck
+            //  add battleCard to the deck
             // if its not assigned then create a deck of 5 cards
             // search for the first empty spots
             // order the deck so there wont be gaps between cards and nulls
@@ -128,7 +128,7 @@ namespace Battle.Deck
             if (ExpandingDeckPolicy())
             {
                 int index = GetIndexOfFirstNull();
-                _deckCards[index] = card;
+                _deckCards[index] = battleCard;
 
                 OrderDeck();
                 AmountOfEmptySlots--;
@@ -139,22 +139,22 @@ namespace Battle.Deck
             return false;
         }
         public virtual bool ExpandingDeckPolicy() => true;
-        public virtual bool DiscardCard(in CardData card)
+        public virtual bool DiscardCard(in BattleCardData battleCard)
         {
             /*
-             * check if the deck and card is valids
-             * loop throught the decks and search this card by matching id between the card in the deck and the one we check
+             * check if the deck and battleCard is valids
+             * loop throught the decks and search this battleCard by matching id between the battleCard in the deck and the one we check
              * if we found then reset him to null 
              * and reoder and recount
              */
             bool foundCard= false;
 
-            if (_deckCards != null && card != null && _deckCards.Length > 0)
+            if (_deckCards != null && battleCard != null && _deckCards.Length > 0)
             {
                 for (int i = 0; i < _deckCards.Length; i++)
                 {
                     if (_deckCards[i] != null
-                       && _deckCards[i].CardInstanceID == card.CardInstanceID)
+                       && _deckCards[i].CardInstance.InstanceID == battleCard.CardInstance.InstanceID)
                     {
                         _deckCards[i] = null;
                         AmountOfEmptySlots++;
@@ -193,13 +193,13 @@ namespace Battle.Deck
 
             //  CountCards();
         }
-        public void AddCardAtFirstPosition(CardData card)
+        public void AddCardAtFirstPosition(BattleCardData battleCard)
         {
-            CardData[] cardDatas = new CardData[GetDeck.Length + 1];
+            BattleCardData[] cardDatas = new BattleCardData[GetDeck.Length + 1];
             Array.Copy(GetDeck, cardDatas, 1);
 
             GetDeck = cardDatas;
-            GetDeck[0] = card;
+            GetDeck[0] = battleCard;
 
             OrderDeck();
             CountCards();
@@ -224,21 +224,21 @@ namespace Battle.Deck
             }
             UnityEngine.Debug.Log(deck.ToString() + "Amount OF ACTUALLY CARDS IN DECK : " + counter);
         }
-        public bool IsTheCardInDeck(in CardData card)
+        public bool IsTheCardInDeck(in BattleCardData battleCard)
          {
             /*
-             *Check if specific card is in the deck
+             *Check if specific battleCard is in the deck
              *check by matching ID
              */
 
-            if (_deckCards == null|| card== null || _deckCards.Length == 0)
+            if (_deckCards == null|| battleCard== null || _deckCards.Length == 0)
                 return false;
 
             bool cardFound = false;
 
             for (int i = 0; i < _deckCards.Length; i++)
             {
-                if (_deckCards[i].CardInstanceID == card.CardInstanceID)
+                if (_deckCards[i].CardInstance.InstanceID == battleCard.CardInstance.InstanceID)
                 {
                     cardFound = true;
                     break;
@@ -254,7 +254,7 @@ namespace Battle.Deck
         protected void OrderDeck()
         {
             /*
-             * go each card on deck
+             * go each battleCard on deck
              * if found null spot 
              * then exchange the indexes
              * if not then there is no more cards in the deck so exit the function
@@ -332,9 +332,9 @@ namespace Battle.Deck
             for (int i = 0; i < _deckCards.Length; i++)
             {
                 if (_deckCards[i] != null)
-                    ToString += $" Card Number {i + 1} is {_deckCards[i]}  {_deckCards[i].CardSO.CardName}\n";
+                    ToString += $" BattleCard Number {i + 1} is {_deckCards[i]}  {_deckCards[i].CardSO.CardName}\n";
                 else
-                    ToString += $"Card Number {i + 1} is NULL!";
+                    ToString += $"BattleCard Number {i + 1} is NULL!";
             }
 
             return ToString;
@@ -357,9 +357,9 @@ namespace Battle.Deck
     };
     
     public interface IDeckHandler {
-        bool DiscardCard(in CardData card);
+        bool DiscardCard(in BattleCardData battleCard);
         void ResetDeck();
-        bool AddCard(CardData card);
+        bool AddCard(BattleCardData battleCard);
         void InitDeck(int length);
     }
 }

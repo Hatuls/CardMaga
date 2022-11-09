@@ -17,12 +17,12 @@ namespace CardMaga.Card
     public enum BodyPartEnum { None = 0, Empty = 1, Head = 2, Elbow = 3, Hand = 4, Knee = 5, Leg = 6, Joker = 7 };
 
     [Serializable]
-    public class CardData : IEquatable<CardData>
+    public class BattleCardData : IEquatable<BattleCardData>
     {
         #region Fields
 
         [SerializeField]
-        private CardInstanceID _cardInstance;
+        private CardInstance _cardInstance;
         [SerializeField]
         private bool _toExhaust = false;
 
@@ -43,11 +43,9 @@ namespace CardMaga.Card
         #region Properties
 
         public CardTypeData CardTypeData => _cardTypeData;
-        public CardInstanceID CardInstance => _cardInstance;
+        public CardInstance CardInstance => _cardInstance;
         public bool IsExhausted { get => _toExhaust; }
         public BodyPartEnum BodyPartEnum { get => _cardTypeData.BodyPart; }
-
-        public int CardInstanceID => _cardInstance.InstanceID;
         public int CardLevel => _cardInstance.Level;
         public CardSO CardSO => _cardInstance.CardSO;
         public bool CardsAtMaxLevel { get => CardSO.CardsMaxLevel - 1 == CardLevel; }
@@ -74,9 +72,9 @@ namespace CardMaga.Card
 
         #region Functions
 
-        public CardData(CardInstanceID cardAccountInfo)
+        public BattleCardData(CardInstance cardAccountInfo)
         {
-            _cardInstance = cardAccountInfo ?? throw new Exception($"Card: Card Info is null!");
+            _cardInstance = cardAccountInfo ?? throw new Exception($"BattleCard: BattleCard Info is null!");
             InitCard();
         }
 
@@ -145,7 +143,7 @@ namespace CardMaga.Card
             return amount;
         }
 
-        public bool Equals(CardData other) => _cardInstance.Equals(other._cardInstance);
+        public bool Equals(BattleCardData other) => _cardInstance.Equals(other._cardInstance);
 
         public bool TryGetKeyword(KeywordType keyword, out int amount)
         {
@@ -166,30 +164,25 @@ namespace CardMaga.Card
             return found;
         }
 
-        public CardData Clone()
+        public BattleCardData Clone()
 
-       => new CardData(new CardInstanceID(_cardInstance.GetCardCore()));
+       => new BattleCardData(new CardInstance(_cardInstance.GetCardCore()));
 
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]
         private void RefreshFromCoreID()
         {
-<<<<<<< HEAD
-            var newCore = new CardCore(_cardSO.ID, _cardInstanceID?.Level ?? 0, _cardInstanceID?.Exp ?? 0);
-            _cardInstanceID = new CardInstanceID(newCore);
-=======
-            _cardInstance = new CardInstanceID(new CardCore(new CoreID(_cardInstance.ID)));
->>>>>>> Clean-Up-Branch
-
+            _cardInstance = new CardInstance(new CardCore(new CoreID(_cardInstance.ID)));
+            
              _cardTypeData = CardSO.CardType;
         }
         [Sirenix.OdinInspector.Button]
         private void RefreshFromSOAndLevel()
         {
-            _cardInstance = new CardInstanceID(new CardCore(CardSO.ID+ _cardInstance.Level) );
+            _cardInstance = new CardInstance(new CardCore(CardSO.ID+ _cardInstance.Level) );
             _cardTypeData = CardSO.CardType;
         }
-        public CardData()
+        public BattleCardData()
         {
 
         }
@@ -207,13 +200,13 @@ public class CardCommandsHolder : ICommand
     public CardsKeywordsCommands[] CardsKeywords { get => _cardsKeywords; private set => _cardsKeywords = value; }
     public CardTypeCommand CardTypeCommand { get => _cardTypeCommand; private set => _cardTypeCommand = value; }
 
-    public CardCommandsHolder(CardData cardData)
+    public CardCommandsHolder(BattleCardData battleCardData)
     {
-        StaminaCostCommand = new StaminaCostCommand(cardData);
-        CardTypeCommand = new CardTypeCommand(cardData);
+        StaminaCostCommand = new StaminaCostCommand(battleCardData);
+        CardTypeCommand = new CardTypeCommand(battleCardData);
 
 
-        KeywordData[] keywords = cardData.CardKeywords;
+        KeywordData[] keywords = battleCardData.CardKeywords;
         keywords.Sort(OrderKeywords);
 
         int highestAnimationIndex = keywords[keywords.Length - 1].AnimationIndex + 1;
@@ -221,7 +214,7 @@ public class CardCommandsHolder : ICommand
         for (int i = 0; i < highestAnimationIndex; i++)
         {
             IEnumerable<KeywordData> animationIndexList = keywords.Where(x => x.AnimationIndex == i);
-            CardsKeywords[i] = new CardsKeywordsCommands(animationIndexList, cardData.CardSO.AnimationBundle.AttackAnimation.Length == 0 ? CommandType.WithPrevious : CommandType.AfterPrevious);
+            CardsKeywords[i] = new CardsKeywordsCommands(animationIndexList, battleCardData.CardSO.AnimationBundle.AttackAnimation.Length == 0 ? CommandType.WithPrevious : CommandType.AfterPrevious);
         }
     }
 

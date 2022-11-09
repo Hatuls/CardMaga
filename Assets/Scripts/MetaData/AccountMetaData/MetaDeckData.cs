@@ -108,7 +108,7 @@ namespace CardMaga.Meta.AccountMetaData
         {
             for (int i = 0; i < _cardDatas.Count; i++)
             {
-                if (_cardDatas[i].CardData.CardInstanceID.ID == cardCoreId)
+                if (_cardDatas[i].BattleCardData.CardInstance.ID == cardCoreId)
                 {
                     metaCardData = _cardDatas[i];
                     return true;

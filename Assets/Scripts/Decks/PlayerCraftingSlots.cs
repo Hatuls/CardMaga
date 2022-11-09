@@ -10,18 +10,18 @@ using System.Collections.Generic;
 //    public override event Action OnResetDeck;
 //    public static event Action OnDetectComboRequire;
 //    // CraftingUIHandler _playerCraftingUIHandler;
-//    CardData _lastCardEntered;
-//    public CardData LastCardEntered => _lastCardEntered;
+//    BattleCardData _lastCardEntered;
+//    public BattleCardData LastCardEntered => _lastCardEntered;
 //    public PlayerCraftingSlots(int cardsLength) : base(cardsLength)
 //    {
 //        // _playerCraftingUIHandler = CraftingUIManager.Instance.GetCharacterUIHandler(isPlayer);
 //    }
 
-//    private bool AddCardToEmptySlot(CardData card)
+//    private bool AddCardToEmptySlot(BattleCardData battleCard)
 //    {
-//        _lastCardEntered = card;
-//        var bodypartEnum = card.BodyPartEnum;
-//        if (bodypartEnum == CardMaga.Card.BodyPartEnum.Empty || bodypartEnum == CardMaga.Card.BodyPartEnum.None)
+//        _lastCardEntered = battleCard;
+//        var bodypartEnum = battleCard.BodyPartEnum;
+//        if (bodypartEnum == CardMaga.BattleCard.BodyPartEnum.Empty || bodypartEnum == CardMaga.BattleCard.BodyPartEnum.None)
 //            return true;
 
 //        bool foundEmptySlots = false;
@@ -30,29 +30,29 @@ using System.Collections.Generic;
 //            if (GetDeck[i] == null)
 //            {
 //                foundEmptySlots = true;
-//                GetDeck[i] = card;
+//                GetDeck[i] = battleCard;
 //                //_playerCraftingUIHandler.PlaceOnPlaceHolder(i, GetDeck[i]);
 //                break;
 //            }
 //        }
 //        return foundEmptySlots;
 //    }
-//    public override bool AddCard(CardData card)
+//    public override bool AddCard(BattleCardData battleCard)
 //    {
-//        _lastCardEntered = card;
-//        var cardBodyPartEnum = card.BodyPartEnum;
-//        if (!(cardBodyPartEnum == CardMaga.Card.BodyPartEnum.Empty || cardBodyPartEnum == CardMaga.Card.BodyPartEnum.None))
+//        _lastCardEntered = battleCard;
+//        var cardBodyPartEnum = battleCard.BodyPartEnum;
+//        if (!(cardBodyPartEnum == CardMaga.BattleCard.BodyPartEnum.Empty || cardBodyPartEnum == CardMaga.BattleCard.BodyPartEnum.None))
 //        {
 
-//            if (AddCardToEmptySlot(card) == false)
+//            if (AddCardToEmptySlot(battleCard) == false)
 //            {
-//                CardData removingCard = GetDeck[0];
+//                BattleCardData removingCard = GetDeck[0];
 
 //                for (int i = 1; i < GetDeck.Length; i++)
 //                    GetDeck[i - 1] = GetDeck[i];
 
-//                GetDeck[GetDeck.Length - 1] = card;
-//                OnCardExecute?.Invoke(card.CardTypeData);
+//                GetDeck[GetDeck.Length - 1] = battleCard;
+//                OnCardExecute?.Invoke(battleCard.CardTypeData);
 //                //_playerCraftingUIHandler.ChangeSlotsPos(GetDeck, removingCard);
 //            }
 //        }
@@ -63,7 +63,7 @@ using System.Collections.Generic;
 
 //    public void PushSlots()
 //    {
-//        CardData removingCard = GetDeck[0];
+//        BattleCardData removingCard = GetDeck[0];
 
 //        for (int i = 1; i < GetDeck.Length; i++)
 //            GetDeck[i - 1] = GetDeck[i];
@@ -73,14 +73,14 @@ using System.Collections.Generic;
 //        OnPushedSlots?.Invoke();
 //        CountCards();
 //    }
-//    public void AddCard(CardData card, bool toDetect)
+//    public void AddCard(BattleCardData battleCard, bool toDetect)
 //    {
-//        _lastCardEntered = card;
-//        var bodypartEnum = card.BodyPartEnum;
-//        if (bodypartEnum == CardMaga.Card.BodyPartEnum.Empty || bodypartEnum == CardMaga.Card.BodyPartEnum.None)
+//        _lastCardEntered = battleCard;
+//        var bodypartEnum = battleCard.BodyPartEnum;
+//        if (bodypartEnum == CardMaga.BattleCard.BodyPartEnum.Empty || bodypartEnum == CardMaga.BattleCard.BodyPartEnum.None)
 //            return;
 
-//        CardData lastCardInDeck = null;
+//        BattleCardData lastCardInDeck = null;
 
 //        for (int i = GetDeck.Length - 1; i >= 1; i--)
 //        {
@@ -89,7 +89,7 @@ using System.Collections.Generic;
 //            else GetDeck[i] = GetDeck[i - 1];
 //        }
 
-//        GetDeck[0] = card;
+//        GetDeck[0] = battleCard;
 
 
 //        CountCards();
@@ -188,11 +188,11 @@ public class CraftingHandler
 
 
     #region Add
-    public void AddFront(CardData card, bool toNotify) => AddFront(card?.CardTypeData, toNotify);
+    public void AddFront(BattleCardData battleCard, bool toNotify) => AddFront(battleCard?.CardTypeData, toNotify);
     public void AddFront(CardTypeData cardTypeData, bool toNotify)
     {
         if (cardTypeData == null)
-            throw new Exception($"CraftingHandler: cardTypeData is null!");
+            throw new Exception($"CraftingHandler: battleCardTypeData is null!");
 
         bool foundPlacement = false;
         for (int i = 0; i < CraftingSlots.Count; i++)
@@ -219,11 +219,11 @@ public class CraftingHandler
         if (toNotify)
             DetectCombo();
     }
-    public void AddBack(CardData cardTypeData, bool toNotify) => AddBack(cardTypeData?.CardTypeData, toNotify);
+    public void AddBack(BattleCardData battleCardTypeData, bool toNotify) => AddBack(battleCardTypeData?.CardTypeData, toNotify);
     public void AddBack(CardTypeData cardTypeData, bool toDetectCombo)
     {
         if (cardTypeData == null)
-            throw new Exception($"CraftingHandler: cardTypeData is null!");
+            throw new Exception($"CraftingHandler: battleCardTypeData is null!");
 
 
         bool foundPlacement = false;
@@ -256,7 +256,7 @@ public class CraftingHandler
 
     #region Push
     /// <summary>
-    /// Push multiple time the card type data from the start to the end
+    /// Push multiple time the battleCard type data from the start to the end
     /// </summary>
     /// <param name="toNotify"></param>
     /// <param name="length"></param>
@@ -268,7 +268,7 @@ public class CraftingHandler
         if (toNotify) { }
     }
     /// <summary>
-    /// Push once the card type data from teh start to the end
+    /// Push once the battleCard type data from teh start to the end
     /// </summary>
     /// <param name="toNotify"></param>
     public void PushFront(bool toNotify)
@@ -291,7 +291,7 @@ public class CraftingHandler
 
 
     /// <summary>
-    /// Push once the card type data from the end to the start
+    /// Push once the battleCard type data from the end to the start
     /// </summary>
     /// <param name="toNotify"></param>
     public void PushBack(bool toNotify)
@@ -309,7 +309,7 @@ public class CraftingHandler
 
     }
     /// <summary>
-    /// Push multiple times the card type data from the end to the start
+    /// Push multiple times the battleCard type data from the end to the start
     /// </summary>
     /// <param name="toNotify"></param>
     /// <param name="length"></param>

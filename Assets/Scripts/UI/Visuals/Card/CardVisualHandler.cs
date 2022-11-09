@@ -30,19 +30,19 @@ namespace CardMaga.UI
             get => _cardZoomHandler;
         }
 
-        public override BaseTextAssignerHandler<CardData> ComboTextAssignerHandler => _cardTextAssignerHandler;
+        public override BaseTextAssignerHandler<BattleCardData> ComboTextAssignerHandler => _cardTextAssignerHandler;
 
-        public override BaseVisualAssignerHandler<CardData> ComboVisualAssignerHandler => _cardVisualAssignerHandler;
+        public override BaseVisualAssignerHandler<BattleCardData> ComboVisualAssignerHandler => _cardVisualAssignerHandler;
 #if UNITY_EDITOR
         [Header("Test")]
-        [SerializeField] CardData _cardData;
+        [SerializeField] BattleCardData battleCardData;
 
         [Button]
         void OnTryCard()
         {
             Dispose();
             CheckValidation();
-            Init(_cardData);
+            Init(battleCardData);
         }
 #endif
         [Button]
@@ -59,11 +59,11 @@ namespace CardMaga.UI
         {
             _cardGlowHandler.DiscardGlowAlpha();
         }
-        public override void Init(CardData cardData)
+        public override void Init(BattleCardData battleCardData)
         {
-            base.Init(cardData);
+            base.Init(battleCardData);
             //Zoom
-            _cardZoomHandler.SetCardType(cardData);
+            _cardZoomHandler.SetCardType(battleCardData);
         }
         public override void CheckValidation()
         {

@@ -8,28 +8,28 @@ public class CardUpgradeCostSO : ScriptableObject
     ushort[] _upgradecostInMainMenu;
 //   // [SerializeField]
 //  //  Collections.CardsCollectionSO.RarityCards[] _rarityCards;
-//    public int NextCardValue(CardData card, ResourceEnum resourceType)
+//    public int NextCardValue(BattleCardData battleCard, ResourceEnum resourceType)
 //    {
 //        if (resourceType == ResourceEnum.Chips)
-//            return _upgradecostInMainMenu[card.CardLevel];
+//            return _upgradecostInMainMenu[battleCard.CardLevel];
 //        else
 //        {
-//            return NextCardValue(card.CardSO, card.CardLevel);
+//            return NextCardValue(battleCard.CardSO, battleCard.CardLevel);
 //        }
 //        throw new System.Exception($"CardUpgradeCostSO : Rarity was not valid!");
 //    }
 
-//    public ushort NextCardValue(CardSO card, int level)
+//    public ushort NextCardValue(CardSO battleCard, int level)
 //    {
 
 //        for (int i = 0; i < _rarityCards.Length; i++)
 //        {
-//            if (_rarityCards[i].Rarity == card.Rarity)
+//            if (_rarityCards[i].Rarity == battleCard.Rarity)
 //            {
 //                return _rarityCards[i].CardsID[level];
 //            }
 //        }
-//        throw new System.Exception($"CardUpgradeCostSO: Next Card Value Was not found!");
+//        throw new System.Exception($"CardUpgradeCostSO: Next BattleCard Value Was not found!");
 //    }
 
 

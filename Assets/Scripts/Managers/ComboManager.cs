@@ -21,7 +21,7 @@ namespace CardMaga.Battle.Combo
         public event Action OnComboDetectedFinished;
         public event Action OnComboCraftSucceeded;
         public event Action<ComboData> OnComboSucceeded;
-        public event Action<CardData[]> OnCraftingComboToHand;
+        public event Action<BattleCardData[]> OnCraftingComboToHand;
         #endregion
 
         #region Fields
@@ -147,7 +147,7 @@ namespace CardMaga.Battle.Combo
 
                     dataCommandsHandler.AddCommand(command);
                     if (isPlayer.IsLeft)
-                        OnCraftingComboToHand?.Invoke(new CardData[] { craftedCard });
+                        OnCraftingComboToHand?.Invoke(new BattleCardData[] { craftedCard });
 
                     break;
 
@@ -168,7 +168,7 @@ namespace CardMaga.Battle.Combo
                     deck.DrawHand(1);
                     break;
                 default:
-                    Debug.LogWarning("crafting card Detected but the deck that he go after that is " + comboData.ComboSO.GoToDeckAfterCrafting.ToString());
+                    Debug.LogWarning("crafting battleCard Detected but the deck that he go after that is " + comboData.ComboSO.GoToDeckAfterCrafting.ToString());
                     break;
             }
 
@@ -191,7 +191,7 @@ namespace CardMaga.Battle.Combo
         //            case DeckEnum.Hand:
         //                deck.AddCardToDeck(craftedCard, DeckEnum.Hand);
         //                if (isPlayer)
-        //                    OnCraftingComboToHand?.Invoke(new CardData[] { craftedCard });
+        //                    OnCraftingComboToHand?.Invoke(new BattleCardData[] { craftedCard });
         //                break;
         //            case DeckEnum.PlayerDeck:
         //            case DeckEnum.Discard:
@@ -211,7 +211,7 @@ namespace CardMaga.Battle.Combo
         //                deck.DrawHand(1);
         //                break;
         //            default:
-        //                Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
+        //                Debug.LogWarning("crafting battleCard Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
         //                break;
         //        }
         //    }

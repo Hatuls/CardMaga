@@ -7,10 +7,10 @@ namespace Rewards
     {
         public ushort CreditReward { get; private set; }
         public ushort GoldReward { get; private set; }
-        public CardData[] RewardCards { get; private set; }
+        public BattleCardData[] RewardCards { get; private set; }
         public ComboData[] RewardCombos { get; private set; }
 
-        public BattleReward(ushort Credit , ushort Gold, CardData[] cards,ComboData[] combos= null)
+        public BattleReward(ushort Credit , ushort Gold, BattleCardData[] cards,ComboData[] combos= null)
         {
             CreditReward = Credit;
          

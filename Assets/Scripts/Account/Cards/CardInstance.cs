@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Account.GeneralData
 {
     [Serializable]
-    public class CardInstanceID : IEquatable<CardInstanceID>, IDisposable
+    public class CardInstance : IEquatable<CardInstance>, IDisposable
     {
         private static int _uniqueID = 0;
         private static int UniqueID => _uniqueID++;
@@ -22,13 +22,13 @@ namespace Account.GeneralData
         public int Level { get => _coreData.Level; }
         public int InstanceID { get => _instanceID; }
 
-        public CardInstanceID(CardCore card)
+        public CardInstance(CardCore card)
         {
             _coreData = card;
             _instanceID = UniqueID;
         }
 
-        public bool Equals(CardInstanceID other)
+        public bool Equals(CardInstance other)
         {
             return other.InstanceID == _instanceID;
         }
@@ -45,7 +45,7 @@ namespace Account.GeneralData
 
 
 #if UNITY_EDITOR
-        public CardInstanceID()
+        public CardInstance()
         {
 
         }
@@ -64,9 +64,7 @@ namespace Account.GeneralData
         public int CardID => _coreID.ID;
         public CardSO CardSO => _cardSO;
         public int Level => _level;
-
-
-        public CardCore(CardInstanceID cardInstanceID) : this(cardInstanceID.ID) { }
+        
         public CardCore(int iD) : this(new CoreID(iD)) { }
 
         public CardCore(CoreID coreID)
@@ -76,14 +74,12 @@ namespace Account.GeneralData
             _level = CardHelper.GetLevel(CardID);
             Factory.GameFactory.CardFactory.Register(this);
         }
-
-
+        
         public void Dispose()
         {
             Factory.GameFactory.CardFactory.Remove(this);
         }
-
-
+        
 #if UNITY_EDITOR
         public CardCore() { }
     
@@ -131,7 +127,7 @@ namespace Account.GeneralData
 
 
       
-        public static CardSO CardSO(this CardInstanceID card)
+        public static CardSO CardSO(this CardInstance card)
     => CardSO(card.ID);
         public static CardSO CardSO(this CardCore card)
             => CardSO(card.CardID);

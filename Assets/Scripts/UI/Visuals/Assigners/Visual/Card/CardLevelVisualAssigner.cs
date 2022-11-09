@@ -6,7 +6,7 @@ using CardMaga.Card;
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardLevelVisualAssigner : BaseVisualAssigner<CardData>
+    public class CardLevelVisualAssigner : BaseVisualAssigner<BattleCardData>
     {
         [Header("SO")]
         [SerializeField] LevelCardVisualSO[] _levelsSO;
@@ -74,11 +74,11 @@ namespace CardMaga.UI.Visuals
             if (_legendary.Length == 0)
                 throw new Exception("Legendary has no Parts");
         }
-        public override void Init(CardData cardData)
+        public override void Init(BattleCardData battleCardData)
         {
-            //(int)card.CardSO.Rarity, cardLevel, 1
-            int cardRarity = (int)cardData.CardSO.Rarity - 1;
-            var cardLevel = cardData.CardLevel;
+            //(int)battleCard.CardSO.Rarity, cardLevel, 1
+            int cardRarity = (int)battleCardData.CardSO.Rarity - 1;
+            var cardLevel = battleCardData.CardLevel;
             //Hard Coded Value
             var levelType = 0;
 

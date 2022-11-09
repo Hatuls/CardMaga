@@ -8,7 +8,7 @@ using CardMaga.Card;
 
 public class BattleDeckFilterByUpgrade : CardSort
 {    // Need To be Re-Done
-    public override IEnumerable<CardData> Sort()
+    public override IEnumerable<BattleCardData> Sort()
     {
         var deck = GetCollection();
         var sortedDeck = deck.Where(x => x.CardLevel < (x.CardSO.CardsMaxLevel - 1));

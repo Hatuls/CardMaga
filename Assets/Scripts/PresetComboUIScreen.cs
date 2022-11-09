@@ -33,19 +33,19 @@ namespace UI
         public void OpenComboUIscreen(ComboRecipeUI combo)
         {
             _comboScreen.InitRecipe(combo.ComboData);
-            CardData card = combo.CardUI.CardData;
+            BattleCardData battleCard = combo.BattleCardUI.BattleCardData;
    
             for (int i = 0; i < _keywordsInfo.Count; i++)
             {
                 if (_keywordsInfo[i].gameObject.activeSelf)
                     _keywordsInfo[i].gameObject.SetActive(false);
             }
-            SortKeywords(card);
+            SortKeywords(battleCard);
             _gameObject.SetActive(true);
         }
-        private void SortKeywords(CardData card)
+        private void SortKeywords(BattleCardData battleCard)
         {
-            var keywords = card.CardKeywords;
+            var keywords = battleCard.CardKeywords;
             List<KeywordType> list = new List<KeywordType>();
 
 
@@ -70,7 +70,7 @@ namespace UI
 
             }
 
-            if (card.IsExhausted)
+            if (battleCard.IsExhausted)
             {
                 var lastKeyword = _keywordsInfo[_keywordsInfo.Count - 1];
                 if (!lastKeyword.gameObject.activeSelf)

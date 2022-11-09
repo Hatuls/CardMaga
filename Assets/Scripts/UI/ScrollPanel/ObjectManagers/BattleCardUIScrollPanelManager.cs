@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace CardMaga.UI.ScrollPanel
 {
-    public class CardUIScrollPanelManager : BaseScrollPanelManager<CardUI,CardData>
+    public class BattleCardUIScrollPanelManager : BaseScrollPanelManager<BattleCardUI,BattleCardData>
     {
         [SerializeField] private CardUiPool _cardUiPool;
 
-        protected override BasePoolObject<CardUI, CardData> ObjectPool
+        protected override BasePoolObject<BattleCardUI, BattleCardData> ObjectPool
         {
             get => _cardUiPool;
         }

@@ -29,7 +29,7 @@ namespace Factory
                     {
                         _cards = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
                         if (_cards == null)
-                            throw new System.Exception("Card Collection Was Not Assigned!");
+                            throw new System.Exception("BattleCard Collection Was Not Assigned!");
                     }
 
                     if (_combos == null)

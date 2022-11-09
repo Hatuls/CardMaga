@@ -26,31 +26,31 @@ namespace Battle.Deck
             _playerBaseDeck.Shuffle();
             OnResetDeck?.Invoke();
         }
-        public override bool AddCard(CardData card)
+        public override bool AddCard(BattleCardData battleCard)
         {
-            if (CheckDuplicate(card))
+            if (CheckDuplicate(battleCard))
                 return false;
 
-          bool added =   base.AddCard(card);
+            bool added =   base.AddCard(battleCard);
 
             return added;
         }
-        public override bool DiscardCard(in CardData card)
+        public override bool DiscardCard(in BattleCardData battleCard)
         {
-            bool succeed = base.DiscardCard(card);
+            bool succeed = base.DiscardCard(battleCard);
             return succeed;
         }
        
-        private bool CheckDuplicate(CardData card)
+        private bool CheckDuplicate(BattleCardData battleCard)
         {
-            if (card == null)
+            if (battleCard == null)
                 return false;
             for (int i = 0; i < GetDeck.Length; i++)
             {
                 if (GetDeck[i] == null)
                     continue;
 
-                if (card.CardInstanceID == GetDeck[i].CardInstanceID)
+                if (battleCard.CardInstance.InstanceID == GetDeck[i].CardInstance.InstanceID)
                     return true;
             }
             return false;

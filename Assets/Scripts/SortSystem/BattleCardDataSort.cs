@@ -2,9 +2,9 @@
 using System.Linq;
 using CardMaga.Card;
 
-public class CardDataSort
+public class BattleCardDataSort
 {
-   public List<CardData> SortCardData(IEnumerable<CardData> cardDatas)
+   public List<BattleCardData> SortCardData(IEnumerable<BattleCardData> cardDatas)
    {
       return cardDatas.OrderBy(cardData => cardData.CardTypeData.CardType)
          .ThenBy(cardData => cardData.CardSO.Rarity).ThenBy(cardData => cardData.CardSO.CardName).ToList();

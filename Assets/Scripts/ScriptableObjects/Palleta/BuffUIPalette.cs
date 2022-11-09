@@ -20,7 +20,7 @@ namespace Art
 
 
 
-        #region Card UI BackGround
+        #region BattleCard UI BackGround
         [TabGroup("Buff UI/Colors", "Background")]
         [InfoBox("0 - Background")]
         [SerializeField]
@@ -31,7 +31,7 @@ namespace Art
         public Color CardDefaultBackground => _backGroundColors.Colors[0];
         #endregion
 
-        #region Card UI Images
+        #region BattleCard UI Images
         [TabGroup("Buff UI/Colors", "Image")]
         [InfoBox("0 - Strength\n1 - Bleed")]
         [SerializeField]
@@ -69,7 +69,7 @@ namespace Art
         }
         #endregion
 
-        #region Card UI Text
+        #region BattleCard UI Text
         [TabGroup("Buff UI/Colors", "Text")]
         [InfoBox("0 - Default Text")]
         [SerializeField]
@@ -80,7 +80,7 @@ namespace Art
         public Color CardDefaultTextColor => _textColors.Colors[0];
         #endregion
 
-        #region Card UI Decorate
+        #region BattleCard UI Decorate
         [TabGroup("Buff UI/Colors", "Decorate")]
         [InfoBox("0 - Default Decorate")]
         [SerializeField]

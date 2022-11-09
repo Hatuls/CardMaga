@@ -13,12 +13,12 @@ namespace CardMaga.UI.Card
 
         [SerializeField] private RectTransform _parent;
 
-        private Stack<CardUI> _poolToType = new Stack<CardUI>();
+        private Stack<BattleCardUI> _poolToType = new Stack<BattleCardUI>();
 
-        [SerializeField] private List<CardUI> _totalPoolType = new List<CardUI>();
-        public CardUI Pull()
+        [SerializeField] private List<BattleCardUI> _totalPoolType = new List<BattleCardUI>();
+        public BattleCardUI Pull()
         {
-            CardUI cache = null;
+            BattleCardUI cache = null;
 
             if (_poolToType.Count > 0)
                 cache = _poolToType.Pop();
@@ -28,15 +28,15 @@ namespace CardMaga.UI.Card
             return cache;
         }
 
-        private CardUI GenerateNewOfType()
+        private BattleCardUI GenerateNewOfType()
         {
-            CardUI cache = MonoBehaviour.Instantiate(_prefabOfType, _parent).GetComponent<CardUI>();
+            BattleCardUI cache = MonoBehaviour.Instantiate(_prefabOfType, _parent).GetComponent<BattleCardUI>();
             cache.OnDisposed += AddToQueue;
             _totalPoolType.Add(cache);
             return cache;
         }
 
-        private void AddToQueue(CardUI type)
+        private void AddToQueue(BattleCardUI type)
         {
             _poolToType.Push(type);
             type.gameObject.SetActive(false);

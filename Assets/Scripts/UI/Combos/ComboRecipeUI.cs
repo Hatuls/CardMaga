@@ -18,7 +18,7 @@ namespace UI
 
         [BoxGroup("References")]
         [SerializeField]
-        CardUI _cardUI;
+        BattleCardUI battleCardUI;
         [SerializeField]
         ComboData comboData;
 
@@ -57,7 +57,7 @@ namespace UI
 
         byte activePlaceHolders = 0;
 
-        public CardUI CardUI { get => _cardUI; set => _cardUI = value; }
+        public BattleCardUI BattleCardUI { get => battleCardUI; set => battleCardUI = value; }
         public ComboSO ComboRecipe { get => comboData.ComboSO; }
         public ComboData ComboData { get => comboData; set => comboData = value; }
     
@@ -78,7 +78,7 @@ namespace UI
             this.comboData = comboData;
          
             var craftedCard = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(comboData.ComboSO.CraftedCard, comboData.Level);
-            _cardUI.AssingVisual(craftedCard);
+            battleCardUI.AssingVisual(craftedCard);
             ActivatedPlaceHolders(ComboRecipe);
             SetVisual(ComboRecipe);
             AssignComboCrafting();
