@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CardMaga.Input
 {
-    public class CardUIInputHandler : TouchableItem<CardUI>
+    public class CardUIInputHandler : TouchableItem<BattleCardUI>
     {
     }
 }

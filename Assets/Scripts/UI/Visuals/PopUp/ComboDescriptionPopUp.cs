@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CardMaga.UI.PopUp
 {
     [System.Serializable]
-    public class ComboDescriptionPopUp : BaseDescriptionPopUp<ComboData>
+    public class ComboDescriptionPopUp : BaseDescriptionPopUp<BattleComboData>
     {
         [SerializeField] ComboTypeVisualSO _comboTypeVisualSO;
         public override void CheckValidation()
@@ -13,10 +13,10 @@ namespace CardMaga.UI.PopUp
             base.CheckValidation();
             _comboTypeVisualSO.CheckValidation();
         }
-        public override void Init(ComboData comboDataData)
+        public override void Init(BattleComboData battleComboDataData)
         {
             ActivatePopUP(true);
-            PopUpText.AssignText(_comboTypeVisualSO.GetTypeDescription(comboDataData.GoToDeckAfterCrafting));
+            PopUpText.AssignText(_comboTypeVisualSO.GetTypeDescription(battleComboDataData.GoToDeckAfterCrafting));
         }
         public override void Dispose()
         {

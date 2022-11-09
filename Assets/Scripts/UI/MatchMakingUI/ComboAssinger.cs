@@ -6,16 +6,16 @@ namespace CardMaga.UI.MatchMMaking
 {
     public class ComboAssinger : MonoBehaviour
     {
-        [SerializeField] private ComboUI[] _combos;
+        [SerializeField] private BattleComboUI[] _combos;
 
-        public void AssingCombosUI(ComboData[] comboDatas)
+        public void AssingCombosUI(BattleComboData[] comboDatas)
         {
             for (int i = 0; i < comboDatas.Length; i++)
             {
                 if (comboDatas[i] == null)
                     continue;
                     
-                _combos[i].AssingVisual(comboDatas[i]);       
+                _combos[i].AssignVisual(comboDatas[i]);       
             }
         }
 

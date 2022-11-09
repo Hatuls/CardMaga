@@ -27,10 +27,10 @@ namespace CardMaga.AI
 
             CardTypeData[] craftingSlots = new CardTypeData[_craftingHandler.CardsTypeData.Count() + 1];
             System.Array.Copy(_craftingHandler.CardsTypeData.ToArray(), craftingSlots, 0);
-            // CardData[] craftingSlots = new CardData[deck.GetDeck.Length + 1];
+            // BattleCardData[] craftingSlots = new BattleCardData[deck.GetDeck.Length + 1];
 
             //  System.Array.Copy(deck.GetDeck, craftingSlots, deck.GetDeck.Length);
-            craftingSlots[craftingSlots.Length - 1] = basedEvaluationObject.Card.CardTypeData;
+            craftingSlots[craftingSlots.Length - 1] = basedEvaluationObject.BattleCard.CardTypeData;
 
             // checking how many of them are not null
             List<CardTypeData> craftingItems;

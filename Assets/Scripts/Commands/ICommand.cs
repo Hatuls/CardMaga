@@ -6,25 +6,35 @@ using System.Linq;
 
 namespace CardMaga.Commands
 {
+    public interface ICommand : IExecutableTask
+    {
+     
+        void Undo();
+    }
+
+    public interface IExecutableTask 
+    {
+        void Execute();
+    }
     public class AddNewCardToDeck : ICommand
     {
         private readonly DeckHandler _deckHandler;
         private readonly DeckEnum _toDeck;
-        private readonly CardData _newCard;
-        public AddNewCardToDeck(DeckEnum toDeck, CardData newCard, DeckHandler deckHandler)
+        private readonly BattleCardData _newBattleCard;
+        public AddNewCardToDeck(DeckEnum toDeck, BattleCardData newBattleCard, DeckHandler deckHandler)
         {
             _deckHandler = deckHandler;
             _toDeck = toDeck;
-            _newCard = newCard;
+            _newBattleCard = newBattleCard;
         }
         public void Execute()
         {
-            _deckHandler.AddCardToDeck(_newCard, _toDeck);
+            _deckHandler.AddCardToDeck(_newBattleCard, _toDeck);
         }
 
         public void Undo()
         {
-            _deckHandler[_toDeck].DiscardCard(_newCard);
+            _deckHandler[_toDeck].DiscardCard(_newBattleCard);
         }
     }
     public class ResetCraftingSlotCommand : ICommand
@@ -52,11 +62,7 @@ namespace CardMaga.Commands
         }
     }
 
-    public interface ICommand
-    {
-        void Execute();
-        void Undo();
-    }
+ 
     public interface ISequenceCommand : ICommand
     {
         event Action OnFinishExecute;
@@ -168,7 +174,7 @@ namespace CardMaga.Commands
         private List<ISequenceCommand> _visualCommands = new List<ISequenceCommand>();
         private bool _isExecuting;
         public bool IsExecuting => _isExecuting;
-        public bool IsEmpty => !IsExecuting && _visualCommands.Count == 0;
+        public bool IsEmpty() => !IsExecuting && _visualCommands.Count == 0;
         public override void AddCommand(ISequenceCommand command)
         {
             switch (command.CommandType)

@@ -51,14 +51,14 @@ namespace CardMaga.Meta.AccountMetaData
 
             for (int i = 0; i < character.AvailableSkins.Count; i++)
             {
-                _availableSkins[i] = character.AvailableSkins[i];
+                _availableSkins.Add(character.AvailableSkins[i]);
             }
 
             _decks = new List<MetaDeckData>(character.Deck.Count);
 
             for (int i = 0; i < character.Deck.Count; i++)
             {
-                _decks[i] = new MetaDeckData(character.Deck[i]);
+                _decks.Add(new MetaDeckData(character.Deck[i]));
             }
         }
 

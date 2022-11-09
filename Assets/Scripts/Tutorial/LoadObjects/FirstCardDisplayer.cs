@@ -13,7 +13,7 @@ public class FirstCardDisplayer : MonoBehaviour
     [SerializeField] private DialoguesFlow _dialoguesFlow5;
     private TutorialClickHelper _tutorialClickHelper;
     private BattleUiManager _battleUIManager;
-    private IReadOnlyList<CardUI> _cards;
+    private IReadOnlyList<BattleCardUI> _cards;
 
     public IReadOnlyList<CardUI> FirstCard { get => _cards;}
 

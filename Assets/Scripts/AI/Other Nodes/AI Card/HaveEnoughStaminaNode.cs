@@ -8,7 +8,7 @@ namespace CardMaga.AI
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
             var character = BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer);
-            NodeState = character.StaminaHandler.CanPlayCard(basedEvaluationObject.Card) ? NodeState.Success : NodeState.Failure;
+            NodeState = character.StaminaHandler.CanPlayCard(basedEvaluationObject.BattleCard) ? NodeState.Success : NodeState.Failure;
             return NodeState;
         }
     }

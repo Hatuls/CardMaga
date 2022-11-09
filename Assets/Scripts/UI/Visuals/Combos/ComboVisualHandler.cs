@@ -14,24 +14,24 @@ namespace CardMaga.UI.Combos
         [SerializeField] ComboDescriptionPopUp _comboPopUp;
         [SerializeField] ComboTextAssignerHandler _comboTextAssignerHandler;
         [SerializeField] ComboVisualAssignerHandler _comboVisualAssignerHandler;
-        public override BaseVisualAssignerHandler<ComboData> ComboVisualAssignerHandler => _comboVisualAssignerHandler;
-        public override BaseTextAssignerHandler<ComboData> ComboTextAssignerHandler => _comboTextAssignerHandler;
+        public override BaseVisualAssignerHandler<BattleComboData> ComboVisualAssignerHandler => _comboVisualAssignerHandler;
+        public override BaseTextAssignerHandler<BattleComboData> ComboTextAssignerHandler => _comboTextAssignerHandler;
 #if UNITY_EDITOR
         [FormerlySerializedAs("_testCombo")]
         [Header("Test")]
-        [SerializeField] ComboData testComboData;
+        [SerializeField] BattleComboData testBattleComboData;
 
         [Button]
         public void OnTryCombo()
         {
-            if (testComboData == null)
+            if (testBattleComboData == null)
             {
                 new System.Exception("TestFailed, Enter A combo to the Test Combo Slot");
                 return;
             }
             CheckValidation();
             Dispose();
-            Init(testComboData);
+            Init(testBattleComboData);
             _comboPopUp.ActivatePopUP(true);
         }
         [Button]
@@ -46,11 +46,11 @@ namespace CardMaga.UI.Combos
             _comboPopUp.CheckValidation();
             _comboCard.CheckValidation();
         }
-        public override void Init(ComboData comboDataData)
+        public override void Init(BattleComboData battleComboDataData)
         {
-            base.Init(comboDataData);
-            _comboPopUp.Init(comboDataData);
-            var cardData = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(comboDataData.CraftedCard,comboDataData.ComboCore.Level);
+            base.Init(battleComboDataData);
+            _comboPopUp.Init(battleComboDataData);
+            var cardData = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(battleComboDataData.CraftedCard,battleComboDataData.ComboCore.Level);
             _comboCard.Init(cardData);
             _comboPopUp.ActivatePopUP(true);
         }

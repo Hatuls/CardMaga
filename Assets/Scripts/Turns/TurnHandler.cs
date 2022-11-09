@@ -228,17 +228,16 @@ namespace Battle.Turns
     public class EndTurnHandler : IDisposable
     {
         public event Func<bool> IsCharacterPlayingIdleAnimation;
-
+        public event Func<bool> IsFinishedVisualAnimationCommands;
         private MonoBehaviour _sceneObject;
         private readonly TokenMachine _endTurnTokenMachine;
         private readonly IPlayer _player;
         private readonly ComboManager _comboManager;
-        private readonly CardExecutionManager _cardExecutionManager;
         private IDisposable _endTurnToken;
         private Coroutine _staminaCoroutine;
         public EndTurnHandler(IPlayer player, IBattleManager ibattleManager)
         {
-            _cardExecutionManager = ibattleManager.CardExecutionManager;
+
             _comboManager = ibattleManager.ComboManager;
             _player = player;
             _endTurnTokenMachine = new TokenMachine(ibattleManager.TurnHandler.MoveToNextTurn);
@@ -312,7 +311,7 @@ namespace Battle.Turns
         }
         private bool IsAnimationFinished => IsCharacterPlayingIdleAnimation?.Invoke() ?? true; //_player.VisualCharacter.AnimatorController.IsCurrentlyIdle;
         private bool IsFinishedDetectingCombo => !_comboManager.IsTryingToDetect;
-        private bool IsExecutionAquiring => !_cardExecutionManager.GameCommands.GameVisualCommands.AnimationCommands.IsEmpty;
+        private bool IsExecutionAquiring => !(IsFinishedVisualAnimationCommands?.Invoke() ?? false);
         public bool IsStaminaIsZero => !_player.StaminaHandler.HasStamina;
     }
 }

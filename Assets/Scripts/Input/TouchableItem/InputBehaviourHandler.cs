@@ -15,26 +15,26 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour where T : MonoBeh
         get => _currentStateID;
     }
 
-    protected void SetState(InputBehaviourState state, CardUI cardUI)
+    protected void SetState(InputBehaviourState state, BattleCardUI battleCardUI)
     {
         if (_currentState != null)
-            _currentState.ExitState(cardUI);
+            _currentState.ExitState(battleCardUI);
 
         _currentState = _handUIStates[state];
 
         _currentStateID = state;
 
-        cardUI.Inputs.ChangeState(_currentStateID);
+        battleCardUI.Inputs.ChangeState(_currentStateID);
 
 
         if (_currentState == null)
         {
-            cardUI.Inputs.ForceResetInputBehaviour();
+            battleCardUI.Inputs.ForceResetInputBehaviour();
             return;
         }
 
 
-        _currentState.EnterState(cardUI);
+        _currentState.EnterState(battleCardUI);
     }
 
     protected void SetAllTouchableItemsToDefault(TouchableItem<T>[] touchableItems)

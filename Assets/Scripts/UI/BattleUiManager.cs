@@ -1,4 +1,5 @@
 ﻿using Battle;
+using CardMaga.Battle.Execution;
 using CardMaga.Battle.Visual;
 using CardMaga.Battle.Visual.Camera;
 using CardMaga.Input;
@@ -26,6 +27,7 @@ namespace CardMaga.Battle.UI
         BottomPartDeckVisualHandler BottomPartDeckVisualHandler { get; }
         EndTurnButton EndTurnButton { get; }
         HandUI HandUI { get; }
+        GameVisualCommands GameVisualCommands { get; }
         GlowManager GlowManager { get; }
         StatsUIManager StatsUIManager { get; }
     }
@@ -62,8 +64,7 @@ namespace CardMaga.Battle.UI
         [SerializeField]
         private GlowManager _glowManager;
 
-        [SerializeField]
-        private MainInputStateMachine _mainInputStateMachine;
+       
 
         [SerializeField]
         private ComboAndDeckCollectionBattleHandler _comboAndDeckCollectionBattleHandler;
@@ -84,6 +85,10 @@ namespace CardMaga.Battle.UI
         [SerializeField]
         private BattleManager _battleManager;
         private VisualKeywordsHandler _visualKeywordsHandler;
+
+        //TO DO 
+        private GameVisualCommands _gameVisualCommands;
+
         #endregion
 
 
@@ -100,9 +105,7 @@ namespace CardMaga.Battle.UI
             { 
                 yield return VisualCharactersManager;
                 yield return StatsUIManager;
-                yield return VisualKeywordsHandler;
-                if (MainInputStateMachine != null)
-                yield return MainInputStateMachine;
+
                 yield return CardUIManager;
                 yield return GlowManager;
                 yield return CameraManager;
@@ -115,13 +118,14 @@ namespace CardMaga.Battle.UI
                 yield return CraftingSlotsUIManager;
                 yield return ComboAndDeckCollectionBattleHandler;
                 yield return TurnCounter;
+
                 if(_dollyTrackCinematicManager!=null)
                 yield return DollyTrackCinematicManager;
             }
         }
         public int Priority => 1000;
         public DollyTrackCinematicManager DollyTrackCinematicManager => _dollyTrackCinematicManager;
-        public MainInputStateMachine MainInputStateMachine => _mainInputStateMachine;
+
         public TurnCounter TurnCounter => _turnCounter;
         public HandUI HandUI { get => _handUI; }
         public CardUIManager CardUIManager { get => _cardUIManager; }
@@ -132,12 +136,13 @@ namespace CardMaga.Battle.UI
         public CraftingSlotsUIManager_V4 CraftingSlotsUIManager { get => _craftingSlotsUIManager; }
         public VisualCharactersManager VisualCharactersManager => _visualCharactersManager;
         public IBattleManager BattleDataManager => _battleManager;
-        public VisualKeywordsHandler VisualKeywordsHandler => _visualKeywordsHandler;
+
         public GlowManager GlowManager { get => _glowManager; }
         public ComboAndDeckCollectionBattleHandler ComboAndDeckCollectionBattleHandler =>_comboAndDeckCollectionBattleHandler;
         public BottomPartDeckVisualHandler BottomPartDeckVisualHandler => _bottomPartDeckVisualHandler;
         public StaminaTextManager StaminaTextManager => _staminaTextManager;
         public CameraManager CameraManager => _cameraManager;
+        public GameVisualCommands GameVisualCommands => _gameVisualCommands;
         #endregion
 
         #region UnityCallBacks
@@ -152,18 +157,21 @@ namespace CardMaga.Battle.UI
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
         {
             IDisposable token = tokenMachine.GetToken();
-        
             foreach (var uiElement in VisualInitializers)
                 uiElement.ExecuteTask(tokenMachine, this);
+            _gameVisualCommands = new GameVisualCommands(this);
+            _visualKeywordsHandler.ExecuteTask(tokenMachine, this);
 
-            _battleManager.OnBattleManagerDestroyed += _battleManager_OnBattleManagerDestroyed;
+
+            _battleManager.OnBattleManagerDestroyed += BattleManager_OnBattleManagerDestroyed;
             token.Dispose();
         }
 
-        private void _battleManager_OnBattleManagerDestroyed(IBattleManager obj)
+        private void BattleManager_OnBattleManagerDestroyed(IBattleManager obj)
         {
-            _battleManager.OnBattleManagerDestroyed -= _battleManager_OnBattleManagerDestroyed;
+            _battleManager.OnBattleManagerDestroyed -= BattleManager_OnBattleManagerDestroyed;
             VisualCharactersManager.Dispose(this);
+            GameVisualCommands.Dispose();
         }
         #endregion
 
@@ -174,7 +182,6 @@ namespace CardMaga.Battle.UI
         [ContextMenu("Find Values And Assign")]
         private void AssignFields()
         {
-            _mainInputStateMachine = FindObjectOfType<MainInputStateMachine>();
             _handUI = FindObjectOfType<HandUI>();
             _comboUIManager = FindObjectOfType<ComboUIManager>();
             _cardUIManager = FindObjectOfType<CardUIManager>();
@@ -188,7 +195,6 @@ namespace CardMaga.Battle.UI
             _cameraManager = FindObjectOfType<CameraManager>();
             _dollyTrackCinematicManager = FindObjectOfType<DollyTrackCinematicManager>();
             _glowManager = FindObjectOfType<GlowManager>();
-            _mainInputStateMachine = FindObjectOfType<MainInputStateMachine>();
             _battleManager = FindObjectOfType<BattleManager>();
 
             _buffIconManager.AssignBuffsFields();

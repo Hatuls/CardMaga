@@ -6,7 +6,7 @@ using UnityEngine;
 using CardMaga.UI.Card;
 using CardMaga.Card;
 
-public class CardUIFilterScreen : UIFilterScreen<CardUI, CardData>
+public class CardUIFilterScreen : UIFilterScreen<BattleCardUI, BattleCardData>
 {
     [SerializeReference]
     
@@ -18,14 +18,14 @@ public class CardUIFilterScreen : UIFilterScreen<CardUI, CardData>
         //var deck = Account.AccountManager.Instance.BattleData.LeftPlayer.CharacterData.CharacterDeck;
         //while (deck.Length > _collection.Count)
         //{
-        //    var card = Instantiate(_cardUIPrefab, this.transform).GetComponent<CardUI>();
-        //    _collection.Add(card);
+        //    var battleCard = Instantiate(_cardUIPrefab, this.transform).GetComponent<CardUI>();
+        //    _collection.Add(battleCard);
         //}
     }
 
-    protected override void OnActivate(IEnumerable<CardData> sortedDeck, int i)
+    protected override void OnActivate(IEnumerable<BattleCardData> sortedDeck, int i)
     {
-        _collection[i].AssingVisual(sortedDeck.ElementAt(i));
+        _collection[i].AssignVisual(sortedDeck.ElementAt(i));
         _collection[i].transform.localScale = Vector3.one * _cardsSize;
     }
 }

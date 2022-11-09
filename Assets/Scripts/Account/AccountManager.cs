@@ -1,9 +1,9 @@
 ﻿using Account.GeneralData;
 using PlayFab;
 using PlayFab.ClientModels;
+using PlayFab.Json;
 using ReiTools.TokenMachine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,12 +22,12 @@ namespace Account
         bool IsCorrupted();
         void NewLoad();
     }
-    
+
     public class AccountManager : MonoBehaviour
     {
-        
+
         #region Singleton
-        
+
         private static AccountManager _instance;
         public static AccountManager Instance
         {
@@ -39,14 +39,15 @@ namespace Account
                 return _instance;
             }
         }
-        
+
         #endregion
-        
-        [NonSerialized,Sirenix.OdinInspector.ShowInInspector]
+
+        [NonSerialized, Sirenix.OdinInspector.ShowInInspector]
         private AccountData _accountData;
         public LoginResult LoginResult { get; private set; }
 
         private IDisposable _loginDisposable;
+        private IDisposable _requestFromServerDisposable;
 
         public string SessionTicket => LoginResult.SessionTicket;
         public string EntityID => LoginResult.EntityToken.Entity.Id;
@@ -57,11 +58,28 @@ namespace Account
         {
             _instance = this;
         }
-        
+
         private void OnError(PlayFabError playFabError)
         {
             Debug.LogError($"{playFabError.ErrorMessage}");
+            _requestFromServerDisposable?.Dispose();
             _loginDisposable?.Dispose();
+        }
+        public void RequestAccoundData(ITokenReciever tokenReciever = null)
+        {
+            _requestFromServerDisposable = tokenReciever?.GetToken();
+            PlayFabClientAPI.GetUserData(new GetUserDataRequest
+            {
+                PlayFabId = LoginResult.PlayFabId,
+                Keys = null,
+
+            }, UserDataSucess, OnError);
+        }
+
+        private void UserDataSucess(GetUserDataResult obj)
+        {
+            _accountData = new AccountData(obj.Data);
+            _requestFromServerDisposable?.Dispose();
         }
 
         public void SendAccountData(ITokenReciever tokenReciever = null)
@@ -78,9 +96,8 @@ namespace Account
         }
         [Sirenix.OdinInspector.Button()]
         public void UpdateDataOnServer()
-        {
-            PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
-        }
+        => PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
+
         public void UpdateRank(Action<UpdatePlayerStatisticsResult> OnCompletedSuccessfully)
         {
             var request = new UpdatePlayerStatisticsRequest
@@ -114,7 +131,7 @@ namespace Account
         public void OnLogin(LoginResult loginResult)
         {
             LoginResult = loginResult;
-            
+
             if (LoginResult.NewlyCreated)
             {
                 _accountData = new AccountData();
@@ -122,7 +139,7 @@ namespace Account
             }
             else
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
-            
+
             _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
 
             UpdateRank(null);
@@ -136,7 +153,7 @@ namespace Account
         [SerializeField] private string _displayName = "New User";
         [SerializeField] private AccountGeneralData _accountGeneralData;
         [SerializeField] private CharactersData _charactersData;
-        
+
         [SerializeField] private LevelData _accountLevel;
         [SerializeField] private AccountResources _accountResources;
 
@@ -154,13 +171,14 @@ namespace Account
         public AccountCombos AllCombos => _accountCombos;
         public AccountCards AllCards => _accountCards;
         public AccountGeneralData AccountGeneralData { get => _accountGeneralData; }
-        public LevelData AccountLevel { get => _accountLevel;}
+        public LevelData AccountLevel { get => _accountLevel; }
         public CharactersData CharactersData { get => _charactersData; }
-        public ArenaData ArenaData { get => _arenaData;  }
+        public ArenaData ArenaData { get => _arenaData; }
+        public AccountResources AccountResources { get => _accountResources; }
 
 
         #region Constructors
-        
+
         public AccountData()
         {
             CreateNewArenaData();
@@ -174,12 +192,12 @@ namespace Account
             IsFirstTimeUser = true;
             Debug.Log("Creating new Account");
         }
-        
+
         public AccountData(Dictionary<string, string> data)
         {
             AssignValues(data);
         }
-        
+
         public AccountData(Dictionary<string, UserDataRecord> data)
         {
             var convertedDict = new Dictionary<string, string>();
@@ -197,7 +215,7 @@ namespace Account
             // Account General Data
             if (data.TryGetValue(AccountGeneralData.PlayFabKeyName, out result))
             {
-                _accountGeneralData = JsonUtility.FromJson<AccountGeneralData>(result);
+                _accountGeneralData = PlayFabSimpleJson.DeserializeObject<AccountGeneralData>(result);
                 if (_accountGeneralData == null || !_accountGeneralData.IsValid())
                     CreateNewGeneralData();
             }
@@ -206,7 +224,7 @@ namespace Account
 
             if (data.TryGetValue(ArenaData.PlayFabKeyName, out result))
             {
-                _arenaData = JsonUtility.FromJson<ArenaData>(result);
+                _arenaData = PlayFabSimpleJson.DeserializeObject<ArenaData>(result);
                 if (_arenaData == null || !_arenaData.IsValid())
                     CreateNewArenaData();
             }
@@ -216,7 +234,7 @@ namespace Account
             // Characters & Deck
             if (data.TryGetValue(CharactersData.PlayFabKeyName, out result))
             {
-               _charactersData = JsonUtility.FromJson<CharactersData>(result);
+                _charactersData = PlayFabSimpleJson.DeserializeObject<CharactersData>(result);
 
                 if (CharactersData == null || !CharactersData.IsValid())
                     CreateNewCharacterData();
@@ -227,7 +245,7 @@ namespace Account
             // Levels
             if (data.TryGetValue(LevelData.PlayFabKeyName, out result))
             {
-                _accountLevel = JsonUtility.FromJson<LevelData>(result);
+                _accountLevel = PlayFabSimpleJson.DeserializeObject<LevelData>(result);
                 if (_accountLevel == null || !_accountLevel.IsValid())
                     CreateNewLevelData();
             }
@@ -237,7 +255,7 @@ namespace Account
             // Resources
             if (data.TryGetValue(AccountResources.PlayFabKeyName, out result))
             {
-                _accountResources = JsonUtility.FromJson<AccountResources>(result);
+                _accountResources = PlayFabSimpleJson.DeserializeObject<AccountResources>(result);
                 if (_accountResources == null || !_accountResources.IsValid())
                     CreateNewResourcesData();
             }
@@ -247,7 +265,7 @@ namespace Account
             // Combos  
             if (data.TryGetValue(AccountCombos.PlayFabKeyName, out result))
             {
-                _accountCombos = JsonUtility.FromJson<AccountCombos>(result);
+                _accountCombos = PlayFabSimpleJson.DeserializeObject<AccountCombos>(result);
                 if (_accountCombos == null || !_accountCombos.IsValid())
                     CreateNewResourcesData();
             }
@@ -257,7 +275,7 @@ namespace Account
             // Cards
             if (data.TryGetValue(AccountCards.PlayFabKeyName, out result))
             {
-                _accountCards = JsonUtility.FromJson<AccountCards>(result);
+                _accountCards = PlayFabSimpleJson.DeserializeObject<AccountCards>(result);
                 if (_accountCards == null || !_accountCards.IsValid())
                     CreateNewResourcesData();
             }
@@ -272,18 +290,21 @@ namespace Account
 
         public UpdateUserDataRequest GetUpdateRequest()
         {
+
             return new UpdateUserDataRequest()
             {
+
                 Data = new Dictionary<string, string>()
                 {
-                    { AccountGeneralData.PlayFabKeyName, JsonUtility.ToJson(_accountGeneralData) },
-                    { CharactersData.PlayFabKeyName, JsonUtility.ToJson(CharactersData) },
-                    { LevelData.PlayFabKeyName, JsonUtility.ToJson(_accountLevel) },
-                    { AccountResources.PlayFabKeyName, JsonUtility.ToJson(_accountResources) },
-                    { ArenaData.PlayFabKeyName, JsonUtility.ToJson(_arenaData) },
-                    { AccountCombos.PlayFabKeyName, JsonUtility.ToJson(_accountCombos) },
-                    { AccountCards.PlayFabKeyName, JsonUtility.ToJson(_accountCards) }
-                }, Permission = UserDataPermission.Public
+                    { AccountGeneralData.PlayFabKeyName,    PlayFabSimpleJson.SerializeObject(_accountGeneralData) },
+                    { CharactersData.PlayFabKeyName,        PlayFabSimpleJson.SerializeObject(CharactersData) },
+                    { LevelData.PlayFabKeyName,             PlayFabSimpleJson.SerializeObject(_accountLevel) },
+                    { AccountResources.PlayFabKeyName,      PlayFabSimpleJson.SerializeObject(_accountResources) },
+                    { ArenaData.PlayFabKeyName,             PlayFabSimpleJson.SerializeObject(_arenaData) },
+                    { AccountCombos.PlayFabKeyName,         PlayFabSimpleJson.SerializeObject(_accountCombos) },
+                    { AccountCards.PlayFabKeyName,          PlayFabSimpleJson.SerializeObject(_accountCards) }
+                },
+                Permission = UserDataPermission.Public
             };
         }
 
@@ -319,15 +340,17 @@ namespace Account
         private void CreateNewCharacterData()
         {
             _charactersData = new CharactersData();
-            Battle.CharacterSO firstCharacter = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
-            CharactersData.AddCharacter(new Character(firstCharacter));
+            Battle.CharacterSO characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
+            var firstCharacter = new Character(characterSO);
+            firstCharacter.AddNewDeck(characterSO.Deck, characterSO.Combos);
+            CharactersData.AddCharacter(firstCharacter);
         }
         private void CreateNewGeneralData()
         {
             _accountGeneralData = new AccountGeneralData();
 
         }
-        
+
         #endregion
     }
 }
@@ -345,15 +368,15 @@ public class AccountCards
     internal bool IsValid() => true;
 
 
-#if UNITY_EDITOR
-    [SerializeField]
-    private CardCore CardCore;
-    [Sirenix.OdinInspector.Button]
-    public void AddCard()
-    {
-        AddCard(new CoreID(CardCore.CardID));
-    }
-#endif
+    //#if UNITY_EDITOR
+    //    [SerializeField]
+    //    private CardCore CardCore;
+    //    [Sirenix.OdinInspector.Button]
+    //    public void AddCard()
+    //    {
+    //        AddCard(new CoreID(CardCore.CardID));
+    //    }
+    //#endif
 }
 [Serializable]
 public class AccountCombos

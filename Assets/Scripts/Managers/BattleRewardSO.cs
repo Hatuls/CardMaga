@@ -1,5 +1,5 @@
 ﻿//using Battle;
-//using CardMaga.Card;
+//using CardMaga.BattleCard;
 //using System.Collections.Generic;
 //using System.Linq;
 //using UnityEngine;
@@ -79,7 +79,7 @@
 
 //        public BattleReward CreateReward(ActsEnum actsEnum, IEnumerable<Battle.Combo.ComboData> workOnCombo)
 //        {
-//            CardData[] rewardCards = GenerateCardsRewards(actsEnum);
+//            BattleCardData[] rewardCards = GenerateCardsRewards(actsEnum);
 
 //            Battle.Combo.ComboData[] combo = null;
 //            if (_characterDifficultyEnum >= CharacterTypeEnum.Elite_Enemy)
@@ -103,11 +103,11 @@
 //            return new RunReward(EXP, Diamonds);
 //        }
 //        //refactor this method
-//        public CardData[] GenerateCardsRewards(ActsEnum actsEnum, byte CardAmount = 3)
+//        public BattleCardData[] GenerateCardsRewards(ActsEnum actsEnum, byte CardAmount = 3)
 //        {
 //            var actCardChance = _cardChances.First(x => x.ActEnum == actsEnum);
 
-//            CardData[] rewardCards = new CardData[CardAmount];
+//            BattleCardData[] rewardCards = new BattleCardData[CardAmount];
 
 //            byte random;
 //            var cardFactoryHandler = Factory.GameFactory.Instance.CardFactoryHandler;
@@ -169,13 +169,13 @@
 //                        break;
 //                    }
 //                }
-//                var card = cardFactoryHandler.GetCard(CardId);
+//                var battleCard = cardFactoryHandler.GetCard(CardId);
 
-//                rewardCards[i] = cardFactoryHandler.CreateCard(card, (card.CardsMaxLevel < (byte)index) ? (byte)(card.CardsMaxLevel - 1) : (byte)index);
+//                rewardCards[i] = cardFactoryHandler.CreateCard(battleCard, (battleCard.CardsMaxLevel < (byte)index) ? (byte)(battleCard.CardsMaxLevel - 1) : (byte)index);
 
 
 //                if (rewardCards[i] == null)
-//                    throw new System.Exception("Card Created is Null!");
+//                    throw new System.Exception("BattleCard Created is Null!");
 //            }
 
 //            return rewardCards;
@@ -460,7 +460,7 @@
 
 
 
-//            //card Drop Chances
+//            //battleCard Drop Chances
 //            List<BattleDropChance> _battleDropChacnes = new List<BattleDropChance>();
 //            {
 //                string[] dropChanceString = row[DropChance].Split('^');

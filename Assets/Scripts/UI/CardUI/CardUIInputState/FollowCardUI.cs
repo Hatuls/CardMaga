@@ -34,30 +34,30 @@ public class FollowCardUI : BaseHandUIState
         KillTween();
     }
 
-    public override void ExitState(CardUI cardUI)
+    public override void ExitState(BattleCardUI battleCardUI)
     {
-        if (!ReferenceEquals(cardUI, SelectedCardUI))
+        if (!ReferenceEquals(battleCardUI, SelectedBattleCardUI))
             return;
 
-        base.ExitState(cardUI);
+        base.ExitState(battleCardUI);
     }
 
-    private void ReleaseCardUI(CardUI cardUI)
+    private void ReleaseCardUI(BattleCardUI battleCardUI)
     {
-        if (cardUI.transform.position.y > _executionBoundry_Y)
+        if (battleCardUI.transform.position.y > _executionBoundry_Y)
         {
-            ExitState(cardUI);
-            _handUI.TryExecuteCard(cardUI);
+            ExitState(battleCardUI);
+            _handUI.TryExecuteCard(battleCardUI);
             return;
         }
 
-        _handUI.SetToHandState(cardUI);
+        _handUI.SetToHandState(battleCardUI);
     }
 
-    private void FollowHand(CardUI cardUI)
+    private void FollowHand(BattleCardUI battleCardUI)
     {
         KillTween();
-        _currentSequence = cardUI.RectTransform.Move(_mousePosition, _followHand);
+        _currentSequence = battleCardUI.RectTransform.Move(_mousePosition, _followHand);
     }
 
     private void GetMousePos(Vector2 mousePos)

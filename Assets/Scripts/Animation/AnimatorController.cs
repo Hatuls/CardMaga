@@ -51,7 +51,7 @@ namespace CardMaga.Battle.Visual
         private Animator _animator;
         private IDisposable _animationToken;
         private EndBattleHandler _endBattleHandler;
-        private GameVisualCommands _visualCommandHandler;
+        private VisualStat _shieldStat;
 
         #endregion
 
@@ -90,10 +90,10 @@ namespace CardMaga.Battle.Visual
 
 
         #region Public
-        public void Init(IVisualPlayer visualPlayer, EndBattleHandler endBattleHandler, GameVisualCommands gameVisualCommands)
+        public void Init(IVisualPlayer visualPlayer, EndBattleHandler endBattleHandler)
         {
-            _visualCommandHandler = gameVisualCommands;
-            _animator = visualPlayer.Animator;
+            _shieldStat = visualPlayer.VisualStats.GetStat(KeywordType.Shield);
+               _animator = visualPlayer.Animator;
             ResetAnimator();
             _isLeft = visualPlayer.PlayerData.IsLeft;
             _endBattleHandler = endBattleHandler;
@@ -259,30 +259,7 @@ namespace CardMaga.Battle.Visual
                 _opponentController?.PlayAnimation(_currentAnimation?.GetHitAnimation.ToString(), true);
         }
         public bool CanDefendIncomingAttack()
-        {
-            System.Collections.Generic.IReadOnlyCollection<ISequenceCommand> commandStack = _visualCommandHandler.VisualKeywordCommandHandler.CommandStack;
-            foreach (var item in commandStack)
-            {
-                switch (item)
-                {
-                    case VisualKeywordCommand cmd:
-                        if (cmd.KeywordType == KeywordType.Shield)
-                            return cmd.Amount > 0;
-                        break;
-                    case VisualKeywordsPackCommands pack:
-                        foreach (var visualkeword in pack.VisualKeywordCommands)
-                        {
-                            if (visualkeword.KeywordType == KeywordType.Shield)
-                                return visualkeword.Amount > 0;
-                        }
-
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return false;
-        }
+        => _shieldStat.Amount > 0;
         public void ExecuteKeyword() => OnAnimationExecuteKeyword?.Invoke();
 
         public void ResetModelPosition() =>
@@ -321,11 +298,11 @@ namespace CardMaga.Battle.Visual
         private void ReturnToIdle() => Animator.CrossFade("Idle_1", transitionToIdle);
 
 
-        public void PlayAnimation(CardData cardData, ITokenReciever tokenMachine)
+        public void PlayAnimation(BattleCardData battleCardData, ITokenReciever tokenMachine)
         {
             _animationToken = tokenMachine.GetToken();
 
-            PlayCrossAnimationQueue(cardData.CardSO.AnimationBundle);
+            PlayCrossAnimationQueue(battleCardData.CardSO.AnimationBundle);
         }
 
         #endregion

@@ -10,24 +10,19 @@ namespace CardMaga.Battle.Execution
         //Handling the data
         private CommandHandler<ICommand> _dataCommands;
 
-        private KeywordManager _keywordManager;
-        private IPlayersManager _playersManager;
-
         public CommandHandler<ICommand> DataCommands => _dataCommands;
 
 
 
-        public GameDataCommands(IPlayersManager playersManager, KeywordManager keywordManager)
+        public GameDataCommands()
         {
-            _playersManager = playersManager;
-            _keywordManager = keywordManager;
             _dataCommands = new CommandHandler<ICommand>();
         }
 
 
-        public void InsertCardDataCommand(CardData card, bool toReduceStamina, bool toDetectCombo)
+        public void InsertCardDataCommand(BattleCardData battleCard, bool toReduceStamina, bool toDetectCombo)
         {
-            CardCommandsHolder cardCommands = card.CardCommands;
+            CardCommandsHolder cardCommands = battleCard.CardCommands;
 
             if (toReduceStamina)
                 _dataCommands.AddCommand(cardCommands.StaminaCostCommand);

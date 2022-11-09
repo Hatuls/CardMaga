@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardMaga.Rewards;
+using System;
 
 using UnityEngine;
 namespace Account.GeneralData
@@ -35,18 +36,37 @@ namespace Account.GeneralData
         [SerializeField] private int _gold;
         [SerializeField] private int _diamonds;
         [SerializeField] private int _tickets;
+        [SerializeField] private int _chips;
 
-        public int Gold { get => _gold; set => _gold = value; }
-        public int Diamonds { get => _diamonds; set => _diamonds = value; }
-        public int Tickets { get => _tickets; set => _tickets = value; }
+        public int Gold { get => _gold;         private  set => _gold = value; }
+        public int Diamonds { get => _diamonds; private set => _diamonds = value; }
+        public int Tickets { get => _tickets;   private set => _tickets = value; }
+        public int Chips { get => _chips;       private  set => _chips = value; }
 
         public AccountResources()
         {
+            _chips = 0;
             _gold = 0;
             _diamonds = 0;
             _tickets = 0;
         }
-
+        public void AddResource(CurrencyType currencyType, int amount)
+        {
+            switch (currencyType)
+            {
+           
+                case CurrencyType.Coins:
+                    Gold += amount;
+                    break;
+                case CurrencyType.Diamonds:
+                    Diamonds += amount;
+                    break;
+                case CurrencyType.Chips:
+                    Chips += amount;
+                    break;
+        
+            }
+        }
         internal bool IsValid()
         {
             return _gold >= 0 && _diamonds >= 0 && _tickets >= 0;
@@ -55,20 +75,20 @@ namespace Account.GeneralData
     //[Serializable]
     //public class AccountCards : ILoadFirstTime
     //{
-    //    public static Action<CardInstanceID> OnUpgrade;
+    //    public static Action<InstanceID> OnUpgrade;
     //    #region Fields
     //    [SerializeField]
-    //    List<CardInstanceID> _cardList = new List<CardInstanceID>();
+    //    List<InstanceID> _cardList = new List<InstanceID>();
     //    #endregion
     //    #region Properties
-    //    public List<CardInstanceID> CardList => _cardList;
+    //    public List<InstanceID> CardList => _cardList;
 
     //    #endregion
     //    #region PublicMethods
-    //    public void AddCard(CardInstanceID core)
+    //    public void AddCard(InstanceID core)
     //        => _cardList.Add(core);
-    //    public void AddCard(Cards.Card card)
-    //    => AddCard(card.CardCoreInfo);
+    //    public void AddCard(Cards.BattleCard battleCard)
+    //    => AddCard(battleCard.InstanceID);
 
     //    public bool RemoveCard(int instanceId)
     //    {

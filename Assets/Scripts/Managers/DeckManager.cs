@@ -12,17 +12,17 @@ using CardMaga.Battle.Execution;
 
 namespace Battle.Deck
 {
-    public class DeckHandler : IGetCollection<CardData>
+    public class DeckHandler : IGetCollection<BattleCardData>
     {
         public const int MAX_DECK_HAND_SIZE = 10;
         public const int MAX_CRAFTING_SLOT_SIZE = 3;
-        public event Action<CardData[]> OnDrawCards;
+        public event Action<BattleCardData[]> OnDrawCards;
         
         private Dictionary<DeckEnum, BaseDeck> _deckDictionary;
         private GameCommands _gameCommands;
         #region CardDataProprty
         
-        public IEnumerable<CardData> GetCollection 
+        public IEnumerable<BattleCardData> GetCollection 
         {
             get
             {
@@ -56,7 +56,7 @@ namespace Battle.Deck
             var playersTurn = turnhandler.GetCharacterTurn(character.IsLeft);
             playersTurn.EndTurnOperations.Register(EndTurn);
         }
-        internal void TransferCardOnTopOfDeck(DeckEnum from, DeckEnum to, CardData[] cards)
+        internal void TransferCardOnTopOfDeck(DeckEnum from, DeckEnum to, BattleCardData[] cards)
         {
             BaseDeck fromDeck = this[from];
             BaseDeck toDeck = this[to];
@@ -145,7 +145,7 @@ namespace Battle.Deck
             }
         }
         
-        private void InitDeck(CardData[] deck,bool toShuffleDeck)
+        private void InitDeck(BattleCardData[] deck,bool toShuffleDeck)
         {
             const int size = 6;
 
@@ -174,12 +174,12 @@ namespace Battle.Deck
         #endregion
         
         #region Public Functions
-        public void AddCardToDeck(CardData addedCard, DeckEnum toDeck)
+        public void AddCardToDeck(BattleCardData addedBattleCard, DeckEnum toDeck)
         {
-            if (addedCard == null || toDeck == DeckEnum.Selected)
+            if (addedBattleCard == null || toDeck == DeckEnum.Selected)
                 return;
 
-            this[toDeck].AddCard(addedCard);
+            this[toDeck].AddCard(addedBattleCard);
         }
 
         public void DrawHand(int drawAmount)
@@ -189,9 +189,9 @@ namespace Battle.Deck
             /*
              * check if everything is valid
              * cache the relevante decks (hand and player deck)
-             * for each card we draw :
+             * for each battleCard we draw :
              * if there is still cards in the deck we want to transfer them to the hand one by one
-             * if we found a card that is null its mean the deck is empty so we want to restore the cards from 
+             * if we found a battleCard that is null its mean the deck is empty so we want to restore the cards from 
              * the disposal deck and redraw the amount we need
             */
             
@@ -205,22 +205,22 @@ namespace Battle.Deck
             
             OnDrawCards?.Invoke(drawHandCommand.CardsDraw);
         }
-        public void TransferCard(DeckEnum from, DeckEnum to, CardData card)
+        public void TransferCard(DeckEnum from, DeckEnum to, BattleCardData battleCard)
         {
-            if (card == null && !this[from].IsTheCardInDeck(card))
+            if (battleCard == null && !this[from].IsTheCardInDeck(battleCard))
                 return;
 
             BaseDeck fromBaseDeckCache = this[from];
             BaseDeck toBaseDeckCache = this[to];
 
-            if (fromBaseDeckCache.DiscardCard(card))
-                toBaseDeckCache.AddCard(card);
+            if (fromBaseDeckCache.DiscardCard(battleCard))
+                toBaseDeckCache.AddCard(battleCard);
         }
         
-        public CardData[] GetCardsFromDeck(DeckEnum from)
+        public BattleCardData[] GetCardsFromDeck(DeckEnum from)
          => this[from]?.GetDeck;
 
-        public CardData GetCardFromDeck(int index, DeckEnum from)
+        public BattleCardData GetCardFromDeck(int index, DeckEnum from)
         {
             var cache = this[from];
 

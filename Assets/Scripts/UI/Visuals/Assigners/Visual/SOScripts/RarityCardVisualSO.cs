@@ -2,7 +2,7 @@
 
 namespace CardMaga.UI.Visuals
 {
-    [CreateAssetMenu(fileName = "Rarity Card SO", menuName = "ScriptableObjects/UI/Visuals/Rarity Card Visual SO")]
+    [CreateAssetMenu(fileName = "Rarity BattleCard SO", menuName = "ScriptableObjects/UI/Visuals/Rarity BattleCard Visual SO")]
     public class RarityCardVisualSO : ScriptableObject
     {
         [Tooltip("Common = 0, Uncommon = 1, Rare = 2, Epic = 3, Legendery = 4")]

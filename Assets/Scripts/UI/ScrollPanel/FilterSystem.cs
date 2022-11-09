@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class FilterSystem : MonoBehaviour
 {
-    private CardUI[] _carduis;
+    private BattleCardUI[] _carduis;
     
-    public void GetData(CardUI[] cardUis)
+    public void GetData(BattleCardUI[] cardUis)
     {
         _carduis = cardUis;
     }

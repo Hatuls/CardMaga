@@ -43,7 +43,7 @@
 //                if (_characterDatas[i] == null)
 //                {
 //                    var deck = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(character).Deck;
-//                    var list = AccountManager.Instance.AccountCards.CardList.Where((x) => deck.Any((y) => (x.ID == y.Card.ID && x.Level == y.Level)));
+//                    var list = AccountManager.Instance.AccountCards.CardList.Where((x) => deck.Any((y) => (x.ID == y.BattleCard.ID && x.Level == y.Level)));
 //                    _characterDatas[i] = new CharacterData(list.ToArray(), character);
 
 //                    return;

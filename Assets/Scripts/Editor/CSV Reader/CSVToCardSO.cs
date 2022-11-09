@@ -46,7 +46,7 @@ namespace CardMaga.CSV
 
 
             //0 is the headers
-            // 1 is example card
+            // 1 is example battleCard
             const int firstCardsIndex = 3;
             const int IsBattleReward = 25;
 
@@ -106,12 +106,12 @@ namespace CardMaga.CSV
 
 
 
-            // check if there is id to the card if we found '-' it means there is no need to check the rest of the lines
+            // check if there is id to the battleCard if we found '-' it means there is no need to check the rest of the lines
             const int ID = 0;
             if (CheckIfEmpty(cardSO[ID]))
                 return null;
 
-            // check if its the base card or if its a upgrade version of a previous card
+            // check if its the base battleCard or if its a upgrade version of a previous battleCard
             const int isCardUpgrade = 1;
 
             if (cardSO[isCardUpgrade] == "1")
@@ -122,7 +122,7 @@ namespace CardMaga.CSV
 
 
 
-            // create card
+            // create battleCard
             CardSO card = ScriptableObject.CreateInstance<CardSO>();
 
             // add indexes with name to the fields params
@@ -254,7 +254,7 @@ namespace CardMaga.CSV
             try
             {
                 if (!int.TryParse(cardSO[CardValueIndex], out cardValue))
-                    Debug.LogError($"CSVTOCARDSO: Card ID - {card.ID} : Card Value is not valid!\nInput: {cardSO[CardValueIndex]}");
+                    Debug.LogError($"CSVTOCARDSO: BattleCard ID - {card.ID} : BattleCard Value is not valid!\nInput: {cardSO[CardValueIndex]}");
             }
             catch (Exception)
             {
@@ -288,7 +288,7 @@ namespace CardMaga.CSV
                     description = GetDescription(getRow[CardDescription]);
 
                     if (!int.TryParse(getRow[CardValueIndex], out cardValue))
-                        Debug.LogError($"CSVTOCARDSO: Card ID - {myUpgradeVersionID} : Card Value is not valid!\nInput: {getRow[CardValueIndex]}");
+                        Debug.LogError($"CSVTOCARDSO: BattleCard ID - {myUpgradeVersionID} : BattleCard Value is not valid!\nInput: {getRow[CardValueIndex]}");
 
                     _PerLevelUpgrade.Add(new Cards.PerLevelUpgrade(GetCardsUpgrade(card, getRow, StaminaCost, BodyPart, CardType, IsExhausted), description, cost, cardValue));
                     firstCardId = getRow[UpgradeToCardID];
@@ -303,14 +303,14 @@ namespace CardMaga.CSV
 
             //string[] rewardType = cardSO[IsRewardType].Split('&');
             //if (byte.TryParse(rewardType[0], out byte isBattleReward))
-            //    card.IsBattleReward = isBattleReward == 1;
+            //    battleCard.IsBattleReward = isBattleReward == 1;
             //else
-            //    throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[0]}");
+            //    throw new Exception($"CardSO : ID {battleCard.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[0]}");
 
             //if (byte.TryParse(rewardType[1], out byte isPackReward))
-            //    card.IsPackReward = isPackReward == 1;
+            //    battleCard.IsPackReward = isPackReward == 1;
             //else
-            //    throw new Exception($"CardSO : ID {card.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[1]}");
+            //    throw new Exception($"CardSO : ID {battleCard.ID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[1]}");
 
 
 

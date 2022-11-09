@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
-    public class CardDescriptionAssigner : BaseTextAssigner<CardData>
+    public class CardDescriptionAssigner : BaseTextAssigner<BattleCardData>
     {
         [SerializeField] TextMeshProUGUI[] _keywordsDescription;
         [SerializeField] GameObject[] _rows;
@@ -19,9 +19,9 @@ namespace CardMaga.UI.Text
             if (_rows == null || _rows.Length < 2)
                 throw new System.Exception("CardDescriptionAssigner has no rows");
         }
-        public override void Init(CardData cardData)
+        public override void Init(BattleCardData battleCardData)
         {
-            List<string[]> keywords = cardData.CardSO.CardDescription(cardData.CardLevel);
+            List<string[]> keywords = battleCardData.CardSO.CardDescription(battleCardData.CardLevel);
 
             for (int i = 0; i < keywords.Count; i++)
             {

@@ -9,7 +9,7 @@ namespace CardMaga.AI
         public Keywords.KeywordType Keyword { get; set; }
         public override NodeState Evaluate(AICard evaluateObject)
         {
-            NodeState = evaluateObject.Card.TryGetKeyword(Keyword, out int amount) ? NodeState.Success : NodeState.Failure;
+            NodeState = evaluateObject.BattleCard.TryGetKeyword(Keyword, out int amount) ? NodeState.Success : NodeState.Failure;
             return NodeState;
         }
     }
@@ -20,7 +20,7 @@ public bool IsPlayer { get; set; }
         public override NodeState Evaluate(AICard evaluateObject)
         {
           
-            NodeState = (BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StaminaHandler.Stamina == evaluateObject.Card.StaminaCost) ? NodeState.Success: NodeState.Failure;
+            NodeState = (BattleManager.Instance.PlayersManager.GetCharacter(IsPlayer).StaminaHandler.Stamina == evaluateObject.BattleCard.StaminaCost) ? NodeState.Success: NodeState.Failure;
             return NodeState;
         }
     }

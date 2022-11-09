@@ -2,6 +2,7 @@
 using Account.GeneralData;
 using PlayFab;
 using PlayFab.ClientModels;
+using PlayFab.Json;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
@@ -89,7 +90,7 @@ namespace Battle.MatchMaking
 
                 string player = obj.Leaderboard[i].PlayFabId;
 
-                if (player == "" ||string.Equals( player, AccountManager.Instance.LoginResult.PlayFabId, StringComparison.Ordinal))
+                if (player == "" )//||string.Equals( player, AccountManager.Instance.LoginResult.PlayFabId, StringComparison.Ordinal))
                     continue;
             
                 //un comment when you have answer for no players
@@ -110,13 +111,13 @@ namespace Battle.MatchMaking
         private void OnOpponentsDataReceived(ExecuteCloudScriptResult obj)
         {
 
-            Rootobject charactersData = JsonUtility.FromJson<Rootobject>(obj.FunctionResult.ToString());
+            Rootobject charactersData = PlayFabSimpleJson.DeserializeObject<Rootobject>(obj.FunctionResult.ToString());
 
             // contain info about the characters and decks
-            var opponentCharacter = JsonUtility.FromJson<CharactersData>(charactersData.CharacterData);
+            var opponentCharacter = PlayFabSimpleJson.DeserializeObject<CharactersData>(charactersData.CharacterData);
 
             // Contain Info About the arena
-            var opponentArena = JsonUtility.FromJson<ArenaData>(charactersData.ArenaData);
+            var opponentArena = PlayFabSimpleJson.DeserializeObject<ArenaData>(charactersData.ArenaData);
 
 
             OnOpponentFound?.Invoke(_opponentDisplayName,opponentCharacter);

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace CardMaga.UI.Visuals
 {
     [Serializable]
-    public class CardBodyPartVisualAssigner : BaseVisualAssigner<CardData>
+    public class CardBodyPartVisualAssigner : BaseVisualAssigner<BattleCardData>
     {
         [SerializeField] BodyPartCardVisualSO _bodyPartCardVisualSO;
 
@@ -32,7 +32,7 @@ namespace CardMaga.UI.Visuals
             if (_bodyPartsImages.Length == 0)
                 throw new Exception("CardBodyPartVisualAssigner has no BodyPartsImages");
 
-            //in card SO
+            //in battleCard SO
             _bodyPartCardVisualSO.CheckValidation();
 
         }
@@ -41,34 +41,34 @@ namespace CardMaga.UI.Visuals
         {
         }
 
-        public override void Init(CardData cardData)
+        public override void Init(BattleCardData battleCardData)
         {
-            var cardType = cardData.CardTypeData.CardType;
-            var cardTypeMinusOne = (int)cardData.CardTypeData.CardType - 1;
-            var bodyPart = cardData.CardTypeData.BodyPart;
+            var cardType = battleCardData.CardTypeData.CardType;
+            var cardTypeMinusOne = (int)battleCardData.CardTypeData.CardType - 1;
+            var bodyPart = battleCardData.CardTypeData.BodyPart;
 
 
 #if UNITY_EDITOR
             if (cardTypeMinusOne == -1)
-                Debug.LogError("Card type is -1! " + cardData.CardSO.CardName);
+                Debug.LogError("BattleCard type is -1! " + battleCardData.CardSO.CardName);
 #endif
-            //Set Card Type object On
+            //Set BattleCard Type object On
             SetActiveObject(cardTypeMinusOne);
 
-            //Set Card BG Sprites
+            //Set BattleCard BG Sprites
             _bGImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.GetBodyPartBG(cardType));
 
-            //Set Card Inner BG sprites and color
+            //Set BattleCard Inner BG sprites and color
             _innerBGImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.GetBodyPartInnerBG(cardType));
             var color = BaseVisualSO.GetColorToAssign((int)cardType, _bodyPartCardVisualSO.BaseSO.InnerBGColor);
             _innerBGImages[cardTypeMinusOne].AssignColor(color);
 
             //Set body part and color
-            _bodyPartsImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.BaseSO.GetBodyPartSprite(cardData.BodyPartEnum));
+            _bodyPartsImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.BaseSO.GetBodyPartSprite(battleCardData.BodyPartEnum));
 
             color = BaseVisualSO.GetColorToAssign((int)cardType, (int)cardType, _bodyPartCardVisualSO.BaseSO.MainColor);
 
-            if (cardData.BodyPartEnum == CardMaga.Card.BodyPartEnum.Empty)
+            if (battleCardData.BodyPartEnum == CardMaga.Card.BodyPartEnum.Empty)
             {
                 _bodyPartsImages[cardTypeMinusOne].AssignColor(color.SetColorAlpha(0));
             }

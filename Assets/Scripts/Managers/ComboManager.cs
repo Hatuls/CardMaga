@@ -20,8 +20,8 @@ namespace CardMaga.Battle.Combo
         #region Events
         public event Action OnComboDetectedFinished;
         public event Action OnComboCraftSucceeded;
-        public event Action<ComboData> OnComboSucceeded;
-        public event Action<CardData[]> OnCraftingComboToHand;
+        public event Action<BattleComboData> OnComboSucceeded;
+        public event Action<BattleCardData[]> OnCraftingComboToHand;
         #endregion
 
         #region Fields
@@ -65,8 +65,8 @@ namespace CardMaga.Battle.Combo
 
             bool isPlayer = _gameTurnHandler.IsLeftCharacterTurn;
             IPlayer player = _playersManager.GetCharacter(isPlayer);
-            ComboData[] characterCombos = player.Combos.GetCollection.ToArray();
-            ComboData comboFound = null;
+            BattleComboData[] characterCombos = player.Combos.GetCollection.ToArray();
+            BattleComboData battleComboFound = null;
 
             if (characterCombos.Length > 0)
             {
@@ -77,18 +77,18 @@ namespace CardMaga.Battle.Combo
                 {
                     if (CheckRecipe(characterCombos[i], craftingCardType))
                     {
-                        comboFound = characterCombos[i];
+                        battleComboFound = characterCombos[i];
                         break;
                     }
                 }
             }
 
-            EndDetection(player, comboFound);
+            EndDetection(player, battleComboFound);
         }
 
-        private bool CheckRecipe(ComboData comboData, CardTypeData[] craftingCardType)
+        private bool CheckRecipe(BattleComboData battleComboData, CardTypeData[] craftingCardType)
         {
-            CardTypeData[] comboSequence = comboData.ComboSequence;
+            CardTypeData[] comboSequence = battleComboData.ComboSequence;
 
             bool comboFound = true;
             for (int i = 0; i < comboSequence.Length; i++)
@@ -103,11 +103,11 @@ namespace CardMaga.Battle.Combo
             return comboFound;
         }
 
-        private void EndDetection(IPlayer player, ComboData comboFound)
+        private void EndDetection(IPlayer player, BattleComboData battleComboFound)
         {
 
             DeckHandler deck = player.DeckHandler;
-            if (comboFound == null || comboFound.ComboSO == null)
+            if (battleComboFound == null || battleComboFound.ComboSO == null)
             {
                 FoundCombo = false;
                 deck.DrawHand(1);
@@ -117,9 +117,9 @@ namespace CardMaga.Battle.Combo
             {
                 FoundCombo = true;
                 OnComboCraftSucceeded?.Invoke();
-                OnComboSucceeded?.Invoke(comboFound);
+                OnComboSucceeded?.Invoke(battleComboFound);
 
-                TryForge(player, comboFound);
+                TryForge(player, battleComboFound);
 
                 ResetCraftingSlotCommand resetCraftingCommands = new ResetCraftingSlotCommand(player.CraftingHandler);
                 _gameCommands.GameDataCommands.DataCommands.AddCommand(resetCraftingCommands);
@@ -129,11 +129,11 @@ namespace CardMaga.Battle.Combo
             OnComboDetectedFinished?.Invoke();
         }
 
-        private void TryForge(IPlayer isPlayer, ComboData comboData)
+        private void TryForge(IPlayer isPlayer, BattleComboData battleComboData)
         {
-            var ComboSO = comboData.ComboSO;
+            var ComboSO = battleComboData.ComboSO;
 
-            var craftedCard = _cardFactory.CreateCard(ComboSO.CraftedCard.ID, comboData.Level);
+            var craftedCard = _cardFactory.CreateCard(ComboSO.CraftedCard.ID, battleComboData.Level);
 
 
             DeckHandler deck = isPlayer.DeckHandler;
@@ -147,7 +147,7 @@ namespace CardMaga.Battle.Combo
 
                     dataCommandsHandler.AddCommand(command);
                     if (isPlayer.IsLeft)
-                        OnCraftingComboToHand?.Invoke(new CardData[] { craftedCard });
+                        OnCraftingComboToHand?.Invoke(new BattleCardData[] { craftedCard });
 
                     break;
 
@@ -168,7 +168,7 @@ namespace CardMaga.Battle.Combo
                     deck.DrawHand(1);
                     break;
                 default:
-                    Debug.LogWarning("crafting card Detected but the deck that he go after that is " + comboData.ComboSO.GoToDeckAfterCrafting.ToString());
+                    Debug.LogWarning("crafting battleCard Detected but the deck that he go after that is " + battleComboData.ComboSO.GoToDeckAfterCrafting.ToString());
                     break;
             }
 
@@ -191,7 +191,7 @@ namespace CardMaga.Battle.Combo
         //            case DeckEnum.Hand:
         //                deck.AddCardToDeck(craftedCard, DeckEnum.Hand);
         //                if (isPlayer)
-        //                    OnCraftingComboToHand?.Invoke(new CardData[] { craftedCard });
+        //                    OnCraftingComboToHand?.Invoke(new BattleCardData[] { craftedCard });
         //                break;
         //            case DeckEnum.PlayerDeck:
         //            case DeckEnum.Discard:
@@ -211,7 +211,7 @@ namespace CardMaga.Battle.Combo
         //                deck.DrawHand(1);
         //                break;
         //            default:
-        //                Debug.LogWarning("crafting card Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
+        //                Debug.LogWarning("crafting battleCard Detected but the deck that he go after that is " + _cardRecipeDetected.ComboSO.GoToDeckAfterCrafting.ToString());
         //                break;
         //        }
         //    }

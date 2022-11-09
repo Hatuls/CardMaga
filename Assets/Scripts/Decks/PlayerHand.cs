@@ -24,7 +24,7 @@ namespace Battle.Deck
             }
             CountCards();
         }
-        public override CardData GetFirstCard()
+        public override BattleCardData GetFirstCard()
         {
             var deck = GetDeck;
             if (deck != null && deck.Length > 0)
@@ -37,7 +37,7 @@ namespace Battle.Deck
             }
             return null;
         }
-        public override bool AddCard(CardData card)
+        public override bool AddCard(BattleCardData battleCard)
         {
             bool added = false;
             var deck = GetDeck;
@@ -47,7 +47,7 @@ namespace Battle.Deck
             {
                 if (deck[i] == null)
                 {
-                    GetDeck[i]= card;
+                    GetDeck[i]= battleCard;
                     added = true;
                     break;
                 }
@@ -55,15 +55,15 @@ namespace Battle.Deck
                 CountCards();
             return added;
         }
-        public override bool DiscardCard(in CardData card)
+        public override bool DiscardCard(in BattleCardData battleCard)
         {
             bool found = false;
-            if (GetDeck != null && card != null && GetDeck.Length > 0)
+            if (GetDeck != null && battleCard != null && GetDeck.Length > 0)
             {
                 for (int i = 0; i < GetDeck.Length; i++)
                 {
                     if (GetDeck[i] != null
-                       && GetDeck[i].CardInstanceID == card.CardInstanceID)
+                       && GetDeck[i].CardInstance.InstanceID == battleCard.CardInstance.InstanceID)
                     {
                         found = true;
                         GetDeck[i] = null;

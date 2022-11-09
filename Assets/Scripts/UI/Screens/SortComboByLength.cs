@@ -8,7 +8,7 @@ namespace CardMaga.UI
     public class SortComboByLength : ComboSort
     {
         [SerializeField] int length;
-        public override IEnumerable<ComboData> Sort()
+        public override IEnumerable<BattleComboData> Sort()
         { 
             return GetCollection().Where(x=>x.ComboSequence.Length == length);
         }

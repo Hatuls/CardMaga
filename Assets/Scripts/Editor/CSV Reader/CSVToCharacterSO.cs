@@ -26,9 +26,9 @@ namespace CardMaga.CSV
             string[] rows = txt.Replace("\r", "").Split('\n');
 
             if (CSVManager._cardCollection == null || CSVManager._cardCollection.GetAllCardsSO.Length == 0)
-                Debug.LogError("Card Collection Is empty make sure you have cards in the Card Collection SO at \"Resources\\Collection SO\\CardCollection\"");
+                Debug.LogError("BattleCard Collection Is empty make sure you have cards in the BattleCard Collection SO at \"Resources\\Collection SO\\CardCollection\"");
             if (CSVManager._comboCollection == null || CSVManager._comboCollection.AllCombos.Length == 0)
-                Debug.LogError("Card Collection Is empty make sure you have combos in the recipe Collection SO at \"Resources\\Collection SO\\RecipeCollection\"");
+                Debug.LogError("BattleCard Collection Is empty make sure you have combos in the recipe Collection SO at \"Resources\\Collection SO\\RecipeCollection\"");
 
             CSVManager._characterCollection = ScriptableObject.CreateInstance<CharacterCollectionSO>();
             List<CharacterSO> charactersList = new List<CharacterSO>();

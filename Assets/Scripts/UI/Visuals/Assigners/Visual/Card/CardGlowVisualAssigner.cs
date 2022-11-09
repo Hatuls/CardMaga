@@ -6,7 +6,7 @@ using CardMaga.Card;
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardGlowVisualAssigner : BaseVisualAssigner<CardData>
+    public class CardGlowVisualAssigner : BaseVisualAssigner<BattleCardData>
     {
         [SerializeField] GlowCardSO _glowCardSO;
         [SerializeField] Image _glowImage;
@@ -17,7 +17,7 @@ namespace CardMaga.UI.Visuals
                 throw new System.Exception("CardGlowVisualAssigner has no cardGlow");
         }
 
-        public override void Init(CardData data)
+        public override void Init(BattleCardData data)
         {
             _glowImage.sprite = _glowCardSO.GlowSprite;
             _glowImage.color = _glowCardSO.GlowColor;

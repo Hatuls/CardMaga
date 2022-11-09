@@ -52,7 +52,7 @@ namespace Account.GeneralData
             _skillPoint = 0;
             _rank = 0;
             _deckAmount = 1;
-            _deck.Add(new DeckData(_deck.Count, "Default Deck", newCharacter.Deck, newCharacter.Combos));
+         //   _deck.Add(new DeckData(_deck.Count, "Default Deck",null,null));
             _mainDeck = 0;
         }
 
@@ -68,7 +68,7 @@ namespace Account.GeneralData
 
        
 
-        public bool AddNewDeck(CardInstanceID[] deckCards,ComboCore[] deckCombos)
+        public bool AddNewDeck(CardInstance[] deckCards,ComboCore[] deckCombos)
         {
             CoreID[] cards = new CoreID[deckCards.Length];
 
@@ -113,11 +113,11 @@ namespace Account.GeneralData
 
         //  #region PrivateMethods
 
-        //  void AssignDeck(CardInstanceID[] cardAccountInfos, byte deckAmount)
+        //  void AssignDeck(InstanceID[] cardAccountInfos, byte deckAmount)
         //  {
 
         //      _decks = new AccountDeck[deckAmount];
-        //      CardInstanceID[] tempCards = new CardInstanceID[cardAccountInfos.Length];
+        //      InstanceID[] tempCards = new InstanceID[cardAccountInfos.Length];
         //      for (int i = 0; i < cardAccountInfos.Length; i++)
         //      {
         //          tempCards[i] = cardAccountInfos[i];
@@ -143,7 +143,7 @@ namespace Account.GeneralData
         //  #endregion
 
         //  #region PublicMethods
-        //  public CharacterData(CardInstanceID[] startingDeck ,CharacterEnum characterEnum, byte deckAmount = 4)
+        //  public CharacterData(InstanceID[] startingDeck ,CharacterEnum characterEnum, byte deckAmount = 4)
         //  {
         //      if (characterEnum == CharacterEnum.RightPlayer)
         //      {
@@ -176,7 +176,7 @@ namespace Account.GeneralData
 
         //  }
 
-        //  public void CardUpgraded(CardInstanceID cardCoreInfo)
+        //  public void CardUpgraded(InstanceID cardCoreInfo)
         //  {
         //      for (int i = 0; i < _decks.Length; i++)
         //      {
