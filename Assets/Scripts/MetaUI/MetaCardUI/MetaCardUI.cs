@@ -1,19 +1,22 @@
-using System;
-using System.Collections.Generic;
 using CardMaga.Meta.AccountMetaData;
 using CardMaga.Tools.Pools;
-using CardMaga.UI.ScrollPanel;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 namespace CardMaga.UI.MetaUI
 {
-    public class MetaCardUI : MonoBehaviour, IPoolableMB<MetaCardUI>,IShowableUI,IVisualAssign<MetaCardData>//need to change to MetaCardData 
+
+    public class MetaCardUI : MonoBehaviour, IPoolableMB<MetaCardUI>, IUIElement, IVisualAssign<MetaCardData>//need to change to MetaCardData 
     {
         public event Action<MetaCardUI> OnDisposed;
-        public event Action<int> OnAddCard; 
-        public event Action<int> OnRemoveCard; 
-        
+        public event Action<int> OnAddCard;
+        public event Action<int> OnRemoveCard;
+        public event Action OnShow;
+        public event Action OnHide;
+        public event Action OnInitializable;
+
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private TMP_Text _cardNumberText;
         private List<MetaCardData> _cardDatas;
@@ -22,22 +25,19 @@ namespace CardMaga.UI.MetaUI
 
         public int CardID => _cardId;
         public int CardLevel => _cardLevel;
-        
+
         public void Init()
         {
-            gameObject.SetActive(true);
+            OnInitializable?.Invoke();
+            Show();
         }
 
         public void Dispose()
         {
-            gameObject.SetActive(false);
+            Hide();
             OnDisposed?.Invoke(this);
         }
 
-        public void Show()
-        {
-            Init();
-        }
 
         public void AssingVisual(MetaCardData data)
         {
@@ -49,8 +49,8 @@ namespace CardMaga.UI.MetaUI
         public void AddToDeck()
         {
             UpdateCardNumber();
-            Debug.Log("AddCard"+ this.name);
-            OnAddCard?.Invoke(_cardId);   
+            Debug.Log("AddCard" + this.name);
+            OnAddCard?.Invoke(_cardId);
         }
 
         public void RemoveFromDeck()
@@ -62,6 +62,22 @@ namespace CardMaga.UI.MetaUI
         private void UpdateCardNumber()
         {
             _cardNumberText.text = _cardDatas.Count.ToString();
+        }
+
+
+        public void Show()
+        {
+            OnShow?.Invoke();
+
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            OnHide?.Invoke();
+            if (gameObject.activeSelf)
+                gameObject.SetActive(false);
+
         }
     }
 }

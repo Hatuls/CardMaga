@@ -17,6 +17,12 @@ public class EndGameManager : MonoBehaviour
     private bool _isLeftPlayerWon;
     private ITokenReciever _rewardTokenMachine;
     private IDisposable _rewardToken;
+
+    private void Awake()
+    {
+        Resources.UnloadUnusedAssets();
+        GC.Collect();
+    }
     private void Start()
     {
         _isInTutorial = !(BattleData.Instance.BattleConfigSO.BattleTutorial == null);
@@ -29,11 +35,12 @@ public class EndGameManager : MonoBehaviour
 
     private void GenerateReward(BattleConfigSO battleConfigSO)
     {
-        var rewardFactory = _isLeftPlayerWon ? battleConfigSO.WinReward : battleConfigSO.LoseReward;
+        CardMaga.Rewards.BaseRewardFactorySO rewardFactory = _isLeftPlayerWon ? battleConfigSO.WinReward : battleConfigSO.LoseReward;
         _rewardToken = _rewardTokenMachine.GetToken();
 
         if (rewardFactory == null)
             return;
+
         var reward = rewardFactory.GenerateReward();
         reward.TryRecieveReward(_rewardTokenMachine);
     }

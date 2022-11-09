@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CardMaga.UI.ScrollPanel
 {
     public abstract class BaseScrollPanelManager<T_visual, T_data> : MonoBehaviour
-        where T_visual : MonoBehaviour, IShowableUI, IPoolableMB<T_visual>, IVisualAssign<T_data>, new()
+        where T_visual : MonoBehaviour, IUIElement, IPoolableMB<T_visual>, IVisualAssign<T_data>, new()
     {
         public event Action<List<T_visual>> OnObjectLoaded;
 
@@ -27,7 +27,7 @@ namespace CardMaga.UI.ScrollPanel
 
             List<T_visual> cache = ObjectPool.PullObjects(data);
 
-            IShowableUI[] showableUis = new IShowableUI[cache.Count];
+            IUIElement[] showableUis = new IUIElement[cache.Count];
 
             for (int i = 0; i < cache.Count; i++)
             {

@@ -7,10 +7,13 @@ using CardMaga.Tools.Pools;
 
 namespace CardMaga.UI.Card
 {
-    public class BattleCardUI : MonoBehaviour, IPoolableMB<BattleCardUI> , IShowableUI , IVisualAssign<BattleCardData>
+    public class BattleCardUI : MonoBehaviour, IPoolableMB<BattleCardUI> , IUIElement, IVisualAssign<BattleCardData>
     {
         public event Action<BattleCardUI> OnDisposed;
-        
+        public event Action OnShow;
+        public event Action OnHide;
+        public event Action OnInitializable;
+
         #region Fields
 
         [SerializeField] private RectTransform _rectTransform;
@@ -41,23 +44,30 @@ namespace CardMaga.UI.Card
 
         public void Dispose()
         {
-            gameObject.SetActive(false);
+            Hide();
             OnDisposed?.Invoke(this);
         }
  
         public void Init()
         {
-            gameObject.SetActive(true);
+            OnInitializable?.Invoke();
+            Show();
         }
 
         #endregion
         
         public void Show()
         {
-            Init();
+            OnShow?.Invoke();
+            gameObject.SetActive(true);
         }
 
-        
+        public void Hide()
+        {
+            OnHide?.Invoke();
+            if(gameObject.activeSelf)
+            gameObject.SetActive(false);
+        }
     }
 }
 
