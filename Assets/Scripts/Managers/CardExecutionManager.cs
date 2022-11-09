@@ -21,7 +21,10 @@ namespace CardMaga.Battle.Execution
         public event Action OnFailedToExecute;
         public event Action OnSuccessfullExecution;
         public event Action OnPlayerCardExecute;
-        public event Action<BattleCardData> OnEnemyCardExecute;
+
+        public event Action<CardData> OnEnemyCardExecute;
+        public event Action<bool, CardData> OnCardDataExecute;
+
         #endregion
         // REMOVE SINGLETON PATTERN LATER
         private static CardExecutionManager _instance;
@@ -93,7 +96,10 @@ namespace CardMaga.Battle.Execution
 
             battleCard.InitCommands(isLeft, _playersManager, _keywordManager);
             //Visuals
-            GameCommands.GameVisualCommands.InsertCardsCommands(isLeft, battleCard);
+
+            OnCardDataExecute?.Invoke(isLeft, card);
+
+
             //Logic Commands
             GameCommands.GameDataCommands.InsertCardDataCommand(battleCard, true, true);
 
@@ -103,12 +109,13 @@ namespace CardMaga.Battle.Execution
         }
 
 
-        public void ForceExecuteCard(bool isPlayer, BattleCardData battleCard)
-        {
-            battleCard.InitCommands(isPlayer, _playersManager, _keywordManager);
 
-            GameCommands.GameVisualCommands.InsertCardsCommands(isPlayer, battleCard);
-            GameCommands.GameDataCommands.InsertCardDataCommand(battleCard, false, false);
+        public void ForceExecuteCard(bool isLeft, CardData card)
+        {
+            card.InitCommands(isLeft, _playersManager, _keywordManager);
+
+            OnCardDataExecute?.Invoke(isLeft, card);
+            GameCommands.GameDataCommands.InsertCardDataCommand(card, false, false);
         }
         // Remake it so it has based the visual stats
        

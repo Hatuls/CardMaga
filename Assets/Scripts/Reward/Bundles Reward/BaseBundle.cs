@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReiTools.TokenMachine;
+using System;
 using UnityEngine;
 namespace CardMaga.Rewards.Bundles
 {
@@ -26,10 +27,31 @@ namespace CardMaga.Rewards.Bundles
 
         protected IRewardable[] _rewardables;
 
-        public virtual bool TryRecieveReward()
+        public event Action OnServerSuccessfullyAdded;
+        public event Action OnServerFailedToAdded;
+
+        private IDisposable _token;
+        public virtual void TryRecieveReward(ITokenReciever tokenMachine)
         {
-            throw new NotImplementedException();
+            _token = tokenMachine.GetToken();
+            var giftTokenMachine = new TokenMachine(Finished);
+
+            AddToDevicesData();
+
+            Account.AccountManager.Instance.RequestAccoundData(giftTokenMachine);
+             void Finished()
+            {
+                OnServerSuccessfullyAdded?.Invoke();
+                _token.Dispose();
+            }
         }
+
+        public void AddToDevicesData()
+        {
+            for (int i = 0; i < _rewardables.Length; i++)
+                _rewardables[i].AddToDevicesData();
+        }
+
         public GiftReward(IRewardable[] rewardables)
            => _rewardables = rewardables;
  

@@ -63,7 +63,7 @@ namespace CardMaga.Card
             {
                 if (_cardKeyword == null || _cardKeyword.Length == 0)
                     _cardKeyword = CardSO.CardSOKeywords;
-
+           
                 return _cardKeyword;
             }
         }

@@ -234,22 +234,26 @@ namespace CardMaga.Keywords
         }
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
         {
+            _gameVisualCommands = battleUIManager.GameVisualCommands;
+            _visualCharactersManager = battleUIManager.VisualCharactersManager;
             var data = battleUIManager.BattleDataManager;
-            _gameVisualCommands = data.GameCommands.GameVisualCommands;
             _playersManager = data.PlayersManager;
+
             _playersManager.GetCharacter(false).StatsHandler.OnStatValueChanged += StatChanged;
             _playersManager.GetCharacter(true).StatsHandler.OnStatValueChanged += StatChanged;
-            _visualCharactersManager = battleUIManager.VisualCharactersManager;
+
+      
+
             CardsKeywordsCommands.OnCardsKeywordsStartedExecuted += DrawNewVisualKeywordCommandPack;
             CardsKeywordsCommands.OnCardsKeywordsFinishedExecuted += RegisterVisualCommand;
 
-            data.KeywordManager.OnEndTurnKeywordEffect += DrawNewVisualKeywordCommandPack;
-            data.KeywordManager.OnEndTurnKeywordEffectExecuted += RegisterVisualCommand;
-            data.KeywordManager.OnEndTurnKeywordEffectFinished += _gameVisualCommands.ExecuteKeywords;
+            KeywordManager keywordManager = data.KeywordManager;
+            keywordManager.OnEndTurnKeywordEffect += DrawNewVisualKeywordCommandPack;
+            keywordManager.OnEndTurnKeywordEffectExecuted += RegisterVisualCommand;
 
-            data.KeywordManager.OnStartTurnKeywordEffect += DrawNewVisualKeywordCommandPack;
-            data.KeywordManager.OnStartTurnKeywordEffectExecuted += RegisterVisualCommand;
-            data.KeywordManager.OnStartTurnKeywordEffectFinished += _gameVisualCommands.ExecuteKeywords;
+            keywordManager.OnStartTurnKeywordEffect += DrawNewVisualKeywordCommandPack;
+            keywordManager.OnStartTurnKeywordEffectExecuted += RegisterVisualCommand;
+
 
             data.OnBattleManagerDestroyed += BeforeBattleDestroyed;
         }
@@ -263,13 +267,12 @@ namespace CardMaga.Keywords
             CardsKeywordsCommands.OnCardsKeywordsFinishedExecuted -= RegisterVisualCommand;
 
 
-            obj.KeywordManager.OnEndTurnKeywordEffect -= DrawNewVisualKeywordCommandPack;
-            obj.KeywordManager.OnEndTurnKeywordEffectExecuted -= RegisterVisualCommand;
-            obj.KeywordManager.OnEndTurnKeywordEffectFinished -= _gameVisualCommands.ExecuteKeywords;
+            KeywordManager keywordManager = obj.KeywordManager;
+            keywordManager.OnEndTurnKeywordEffect -= DrawNewVisualKeywordCommandPack;
+            keywordManager.OnEndTurnKeywordEffectExecuted -= RegisterVisualCommand;
 
-            obj.KeywordManager.OnStartTurnKeywordEffect -= DrawNewVisualKeywordCommandPack;
-            obj.KeywordManager.OnStartTurnKeywordEffectExecuted -= RegisterVisualCommand;
-            obj.KeywordManager.OnStartTurnKeywordEffectFinished -= _gameVisualCommands.ExecuteKeywords;
+            keywordManager.OnStartTurnKeywordEffect -= DrawNewVisualKeywordCommandPack;
+            keywordManager.OnStartTurnKeywordEffectExecuted -= RegisterVisualCommand;
         }
 
         private void DrawNewVisualKeywordCommandPack(CommandType command)

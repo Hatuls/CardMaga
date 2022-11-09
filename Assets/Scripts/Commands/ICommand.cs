@@ -6,6 +6,11 @@ using System.Linq;
 
 namespace CardMaga.Commands
 {
+    public interface ICommand
+    {
+        void Execute();
+        void Undo();
+    }
     public class AddNewCardToDeck : ICommand
     {
         private readonly DeckHandler _deckHandler;
@@ -52,11 +57,7 @@ namespace CardMaga.Commands
         }
     }
 
-    public interface ICommand
-    {
-        void Execute();
-        void Undo();
-    }
+ 
     public interface ISequenceCommand : ICommand
     {
         event Action OnFinishExecute;
@@ -168,7 +169,7 @@ namespace CardMaga.Commands
         private List<ISequenceCommand> _visualCommands = new List<ISequenceCommand>();
         private bool _isExecuting;
         public bool IsExecuting => _isExecuting;
-        public bool IsEmpty => !IsExecuting && _visualCommands.Count == 0;
+        public bool IsEmpty() => !IsExecuting && _visualCommands.Count == 0;
         public override void AddCommand(ISequenceCommand command)
         {
             switch (command.CommandType)

@@ -1,6 +1,8 @@
 ﻿using CardMaga.Battle.UI;
+using CardMaga.Battle.Visual;
 using CardMaga.Card;
 using CardMaga.Commands;
+using CardMaga.Keywords;
 using CardMaga.Tools.Pools;
 using System;
 
@@ -16,8 +18,8 @@ namespace CardMaga.Battle.Execution
         private VisualCommandHandler _animationCommands;
         private VisualKeywordCommandHandler _visualKeywordCommandHandler;
         private VisualCommandHandler _shieldKeywordCommands;
-       
-
+        private CardExecutionManager _cardExecutionManager;
+        private KeywordManager _keywordManager;
         private VisualCharactersManager _visualCharactersManager;
         public VisualCommandHandler AnimationCommands => _animationCommands;
         public VisualCommandHandler ShieldKeywordCommands => _shieldKeywordCommands;
@@ -26,22 +28,34 @@ namespace CardMaga.Battle.Execution
 
         public GameVisualCommands(IBattleUIManager battleManager)
         {
-
+            var dataManager = battleManager.BattleDataManager;
             _visualCharactersManager = battleManager.VisualCharactersManager;
-            bool isLeft = true;
+            _keywordManager = dataManager.KeywordManager;
 
-            _visualCharactersManager.GetVisualCharacter(isLeft).AnimatorController.OnAnimationExecuteKeyword += ExecuteKeywords;
-            _visualCharactersManager.GetVisualCharacter(!isLeft).AnimatorController.OnAnimationExecuteKeyword += ExecuteKeywords;
+            _cardExecutionManager = dataManager.CardExecutionManager;
+            _cardExecutionManager.OnCardDataExecute += InsertCardsCommands;
+        
+            _animationCommands = new VisualCommandHandler();
 
+            _shieldKeywordCommands = new VisualCommandHandler();
+            _visualKeywordCommandHandler = new VisualKeywordCommandHandler();
 
             const int SIZE = 5;
-
             ModelAnimationCommandsPool = new ObjectPool<AnimationVisualCommand>(SIZE);
             VisualKeywordCommandsPool = new ObjectPool<VisualKeywordCommand>(SIZE);
 
-            _shieldKeywordCommands = new VisualCommandHandler();
-            _animationCommands = new VisualCommandHandler();
-            _visualKeywordCommandHandler = new VisualKeywordCommandHandler();
+            bool isLeft = true;
+            RegisterCharacter(_visualCharactersManager.GetVisualCharacter(isLeft));
+            RegisterCharacter(_visualCharactersManager.GetVisualCharacter(!isLeft));
+
+            _keywordManager.OnEndTurnKeywordEffectFinished +=ExecuteKeywords;
+            _keywordManager.OnStartTurnKeywordEffectFinished += ExecuteKeywords;
+
+            void RegisterCharacter(IVisualPlayer visualPlayer)
+            {
+                visualPlayer.AnimatorController.OnAnimationExecuteKeyword += ExecuteKeywords;
+                visualPlayer.PlayerData.EndTurnHandler.IsFinishedVisualAnimationCommands += _animationCommands.IsEmpty;
+            }
         }
         public void InsertCardsCommands(bool isLeft, BattleCardData battleCard)
         {
@@ -65,10 +79,19 @@ namespace CardMaga.Battle.Execution
             VisualKeywordCommandHandler.ResetCommands();
             AnimationCommands.ResetCommands();
 
+            _keywordManager.OnEndTurnKeywordEffectFinished   -= ExecuteKeywords;
+            _keywordManager.OnStartTurnKeywordEffectFinished -= ExecuteKeywords;
             bool isLeft = true;
 
-            _visualCharactersManager.GetVisualCharacter(isLeft).AnimatorController.OnAnimationExecuteKeyword -= ExecuteKeywords;
-            _visualCharactersManager.GetVisualCharacter(!isLeft).AnimatorController.OnAnimationExecuteKeyword -= ExecuteKeywords;
+           UnRegisterCharacter(_visualCharactersManager.GetVisualCharacter(isLeft));
+           UnRegisterCharacter(_visualCharactersManager.GetVisualCharacter(!isLeft));
+            _cardExecutionManager.OnCardDataExecute -= InsertCardsCommands;
+
+            void UnRegisterCharacter(IVisualPlayer visualPlayer)
+            {
+                visualPlayer.AnimatorController.OnAnimationExecuteKeyword       -= ExecuteKeywords;
+                visualPlayer.PlayerData.EndTurnHandler.IsFinishedVisualAnimationCommands -= _animationCommands.IsEmpty;
+            }
         }
     }
 

@@ -33,6 +33,11 @@ namespace PlayFab
             PlayFabSettings.staticPlayer.ForgetAllCredentials();
         }
 
+        public static void ExecuteCloudScript(ExecuteCloudScriptRequest request, object onRewardReceived, Action<PlayFabError> onFailedToReceived)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Accepts an open trade (one that has not yet been accepted or cancelled), if the locally signed-in player is in the
         /// allowed player list for the trade, or it is open to all players. If the call is successful, the offered and accepted
