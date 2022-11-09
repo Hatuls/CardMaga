@@ -29,9 +29,9 @@ namespace CardMaga.UI.Card
         public RectTransform RectTransform => _rectTransform;
         public RectTransform VisualsRectTransform => _visualsRectTransform;
 
-        public CardMaga.Card.BattleCardData BattleCardData { get => _battleCardData; private set => _battleCardData = value; }
+        public BattleCardData BattleCardData { get => _battleCardData; private set => _battleCardData = value; }
         
-        public void AssingVisual(BattleCardData data)
+        public void AssignVisual(BattleCardData data)
         {
             BattleCardData = data;
             CardVisuals.Init(data);

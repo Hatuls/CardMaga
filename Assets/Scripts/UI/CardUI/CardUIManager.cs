@@ -62,7 +62,7 @@ namespace CardMaga.Battle.UI
 
         public void AssignDataToCardUI(BattleCardUI battleCard, BattleCardData battleCardData)
         {
-            battleCard.AssingVisual(battleCardData);
+            battleCard.AssignVisual(battleCardData);
         }
 
         #endregion

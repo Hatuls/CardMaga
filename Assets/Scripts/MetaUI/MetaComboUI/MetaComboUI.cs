@@ -29,9 +29,9 @@ namespace CardMaga.UI.MetaUI
             Init();
         }
 
-        public void AssingVisual(MetaComboData data)
+        public void AssignVisual(MetaComboData data)
         {
-            _comboUI.AssingVisual(data.ComboData);
+            _comboUI.AssignVisual(data.ComboData);
         }
     }
 }

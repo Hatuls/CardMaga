@@ -26,7 +26,7 @@ public class ComboUI : MonoBehaviour , IShowableUI , IPoolableMB<ComboUI> , IVis
         gameObject.SetActive(true);
     }
 
-    public void AssingVisual(ComboData data)
+    public void AssignVisual(ComboData data)
     {
         _comboVisual.Init(data);
     }
