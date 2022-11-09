@@ -17,13 +17,30 @@ public class EndGameManager : MonoBehaviour
     private bool _isLeftPlayerWon;
     private ITokenReciever _rewardTokenMachine;
     private IDisposable _rewardToken;
+#if UNITY_EDITOR
+    [Header("End Game Override")]
+    [SerializeField] private bool _isLeftPlayerWonOverride;
+    [SerializeField] private bool _isInTutorialOverride;
+#endif
+
     private void Start()
     {
+#if UNITY_EDITOR
+        if (BattleData.Instance == null)
+        {
+            _isInTutorial = _isInTutorialOverride;
+            _isLeftPlayerWon = _isLeftPlayerWonOverride;
+            _rewardTokenMachine = new TokenMachine(MoveToNextScene);
+            _victoryAndDefeat.OpenScreen(_isLeftPlayerWon);
+
+            return;
+        }
+#endif
         _isInTutorial = !(BattleData.Instance.BattleConfigSO.BattleTutorial == null);
         _isLeftPlayerWon = BattleData.Instance.PlayerWon;
         _rewardTokenMachine = new TokenMachine(MoveToNextScene);
         _victoryAndDefeat.OpenScreen(_isLeftPlayerWon);
-        
+
         GenerateReward(BattleData.Instance.BattleConfigSO);
     }
 
