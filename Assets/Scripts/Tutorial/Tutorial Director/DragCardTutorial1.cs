@@ -21,7 +21,14 @@ namespace TutorialDirector
 
         protected override void MoveDirectorPosition()
         {
-            _directorRect.transform.position= _firstCard.FirstCard[0].RectTransform.GetWorldPosition();
+            StartCoroutine(WaitFrame());
+        }
+        
+        IEnumerator WaitFrame()
+        {
+            yield return null;
+            yield return null;
+            _directorRect.transform.position = _firstCard.FirstCard[0].RectTransform.GetWorldPosition();
             Debug.Log(_directorRect.rect);
         }
 

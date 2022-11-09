@@ -63,7 +63,6 @@ public class FirstCardDisplayer : MonoBehaviour
         }
     }
 
-    [Sirenix.OdinInspector.Button]
     public void ReturnCard()
     {
         ReturnCardToHand(_cards[0]);
@@ -74,9 +73,14 @@ public class FirstCardDisplayer : MonoBehaviour
         _cards[0].Inputs.ForceResetInputBehaviour();
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
         _battleUIManager.CardUIManager.HandUI.SetToHandState(cardUI);
-        _tutorialClickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
         OnReturnCard.Invoke();
-        _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ReturnToHandState(_cards[0]);
+    }
+
+    public void PutInputBehaviourAfterZoomIn()
+    {
+        InputBehaviour<CardUI> afterZoomOut = new InputBehaviour<CardUI>();
+        _cards[0].Inputs.TrySetInputBehaviour(afterZoomOut);
+        afterZoomOut.OnBeginHold += _battleUIManager.HandUI.SetToFollowState;
     }
 
     public void BlockCardHold()
@@ -89,12 +93,12 @@ public class FirstCardDisplayer : MonoBehaviour
         _cards[0].Inputs.DisableHold = false;
     }
 
-    public void LockCard()
+    public void LockCardInput()
     {
         _cards[0].Inputs.Lock();
     }
 
-    public void UnlockCard()
+    public void UnlockCardInput()
     {
         _cards[0].Inputs.Lock();
     }
