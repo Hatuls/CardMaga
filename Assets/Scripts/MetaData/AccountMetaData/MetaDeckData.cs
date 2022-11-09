@@ -1,24 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Account.GeneralData;
-using CardMaga.Card;
 using Factory;
 
 namespace CardMaga.Meta.AccountMetaData
 {
     public class MetaDeckData : IEquatable<MetaDeckData>
     {
-        #region Events
-        
-        public event Action<MetaCardData> OnCardAdd;
-        public event Action<string> OnCardAddFaild;
-        public event Action<MetaCardData> OnCardRemove; 
-        public event Action<MetaComboData> OnComboAdd;
-        public event Action<string> OnComboAddFaild; 
-        public event Action<MetaComboData> OnComboRemove; 
-
-        #endregion
-
         #region Fields
 
         private int _id;
@@ -83,12 +71,7 @@ namespace CardMaga.Meta.AccountMetaData
         {
             _cardDatas.Remove(cardData);
         }
-        
-        public void RemoveCard(int cardIndex)//instanceID
-        {
-            
-        }
-        
+
         public void AddCombo(MetaComboData comboData)
         {
             _comboDatas.Add(comboData);
@@ -96,19 +79,14 @@ namespace CardMaga.Meta.AccountMetaData
         
         public void RemoveCombo(MetaComboData comboData)
         {
-            
-        }
-        
-        public void RemoveCombo(int comboIndex)
-        {
-            
+            _comboDatas.Remove(comboData);
         }
 
-        private bool FindMetaCardData(int cardCoreId, out MetaCardData metaCardData)
+        public bool FindMetaCardData(int cardCoreId, out MetaCardData metaCardData)
         {
             for (int i = 0; i < _cardDatas.Count; i++)
             {
-                if (_cardDatas[i].BattleCardData.CardInstance.ID == cardCoreId)
+                if (_cardDatas[i].Equals(cardCoreId))
                 {
                     metaCardData = _cardDatas[i];
                     return true;
@@ -116,6 +94,21 @@ namespace CardMaga.Meta.AccountMetaData
             }
 
             metaCardData = null;
+            return false;
+        }
+        
+        public bool FindMetaComboData(int cardCoreId, out MetaComboData metaComboData)
+        {
+            for (int i = 0; i < _comboDatas.Count; i++)
+            {
+                if (_comboDatas[i].Equals(cardCoreId))
+                {
+                    metaComboData = _comboDatas[i];
+                    return true;
+                }
+            }
+
+            metaComboData = null;
             return false;
         }
 

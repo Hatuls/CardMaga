@@ -1,9 +1,12 @@
-﻿using CardMaga.Tools.Pools;
+﻿using System;
+using CardMaga.Tools.Pools;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BasePoolObject<T_visual,T_data> : MonoBehaviour where T_visual : MonoBehaviour ,IPoolableMB<T_visual> , IVisualAssign<T_data> ,new()
 {
+    public event Action<List<T_visual>> OnObjectPulld;
+
     [SerializeField] private T_visual _objectPrefab;
     [SerializeField] private RectTransform _parent;
 
@@ -36,7 +39,8 @@ public abstract class BasePoolObject<T_visual,T_data> : MonoBehaviour where T_vi
             
             output.Add(cache);
         }
-
+        
+        OnObjectPulld?.Invoke(output);
         return output;
     }
 }

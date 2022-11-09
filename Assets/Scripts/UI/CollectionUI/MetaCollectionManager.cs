@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using CardMaga.Meta.AccountMetaData;
+﻿using CardMaga.Meta.AccountMetaData;
 using CardMaga.MetaData.Collection;
+using CardMaga.MetaData.DeckBuilder;
+using CardMaga.UI.MetaUI;
 using CardMaga.UI.ScrollPanel;
 using UnityEngine;
 
@@ -10,21 +11,29 @@ public class MetaCollectionManager : MonoBehaviour
     [SerializeField] private MetaComboUIScrollHandler _comboScrollPanelHandler;
     [SerializeField] private MetaCardUIScrollHandler _cardScrollPanelHandler;
     [SerializeField] private MetaCardUIPool _cardUIPool;
-    private MetaCardDataHelper _cardDataHelper;
+    [SerializeField] private MetaComboUIPool _comboUIPool;
+    private AccountDataHelper _accountDataHelper;
+    private DeckBuilder _deckBuilder;
+    private MetaCollectionDeckUIHandler _metaCollectionDeck;
     
     void Start()
     {
-        _cardDataHelper = new MetaCardDataHelper(_accountDataAccess);
+        _accountDataHelper = new AccountDataHelper(_accountDataAccess);
+        _deckBuilder = new DeckBuilder(_accountDataHelper);
+        _metaCollectionDeck = new MetaCollectionDeckUIHandler();
+        _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0]);
         _cardScrollPanelHandler.Init();
         _comboScrollPanelHandler.Init();
         _cardUIPool.Init();
+        _comboUIPool.Init();
         LoadObjects();
     }
 
     public void LoadObjects()
     {
-        _cardUIPool.PullObjects(_cardDataHelper.DeckData);
-        _cardScrollPanelHandler.AddObjectToPanel(_cardDataHelper.CollectionCardDatas);
+        _metaCollectionDeck.AddComboToSlot(_comboUIPool.PullObjects(_accountDataHelper.MetaComboDatas));
+        _metaCollectionDeck.AddCardToSlot(_cardUIPool.PullObjects(_accountDataHelper.DeckData));
+        _cardScrollPanelHandler.AddObjectToPanel(_accountDataHelper.CollectionCardDatas);
         _comboScrollPanelHandler.AddObjectToPanel(_accountDataAccess.AccountData.AccountCombos);//need to move from start
     }
     

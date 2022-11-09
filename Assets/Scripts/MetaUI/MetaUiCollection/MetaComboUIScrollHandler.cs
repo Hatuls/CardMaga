@@ -1,14 +1,15 @@
 ﻿using CardMaga.Meta.AccountMetaData;
-using CardMaga.UI.MetaUI;
+using CardMaga.MetaUI.MetaComboUI;
+using CardMaga.UI.Combos;
 using UnityEngine;
 
 namespace CardMaga.UI.ScrollPanel
 {
-    public class MetaComboUIScrollHandler : BaseScrollPanelManager<MetaComboUI,MetaComboData>
+    public class MetaComboUIScrollHandler : BaseScrollPanelManager<MetaCollectionComboUI,MetaComboData>
     {
-        [SerializeField] private MetaComboUIPool _metaComboUIPool;
+        [SerializeField] private MetaColletionComboUIPool _metaComboUIPool;
 
-        protected override BasePoolObject<MetaComboUI, MetaComboData> ObjectPool => _metaComboUIPool;
+        protected override BasePoolObject<MetaCollectionComboUI, MetaComboData> ObjectPool => _metaComboUIPool;
     }
 }
 

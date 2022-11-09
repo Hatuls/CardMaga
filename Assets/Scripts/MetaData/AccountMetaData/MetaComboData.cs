@@ -34,5 +34,10 @@ namespace CardMaga.Meta.AccountMetaData
             
             return _comboCore.ID == other.ID;
         }
+        
+        public bool Equals(int comboCoreId)
+        {
+            return _comboCore.ID == comboCoreId;
+        }
     }
 }

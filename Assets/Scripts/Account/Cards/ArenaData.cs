@@ -90,7 +90,7 @@ namespace Account.GeneralData
     //    public void AddCard(Cards.BattleCard battleCard)
     //    => AddCard(battleCard.InstanceID);
 
-    //    public bool RemoveCard(int instanceId)
+    //    public bool RemoveCombo(int instanceId)
     //    {
     //        int length = CardList.Count;
     //        for (int i = 0; i < length; i++)

@@ -1,4 +1,5 @@
 using System;
+using Account.GeneralData;
 using CardMaga.Meta.AccountMetaData;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
@@ -13,6 +14,8 @@ namespace MetaUI.MetaCardUI
         public event Action OnShow;
         public event Action OnHide;
         public event Action OnInitializable;
+
+        private CardInstance _cardInstance;
 
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
 
@@ -32,7 +35,7 @@ namespace MetaUI.MetaCardUI
         public void AssignVisual(MetaCardData data)
         {
             _cardVisuals.Init(data.BattleCardData);
-         
+            _cardInstance = data.CardInstance;
         }
 
         public void Show()

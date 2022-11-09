@@ -7,17 +7,17 @@ namespace CardMaga.UI.ScrollPanel
 {
     public class BattleCardUIScrollPanelManager : BaseScrollPanelManager<BattleCardUI,BattleCardData>
     {
-        [SerializeField] private CardUiPool _cardUiPool;
+        [SerializeField] private BattleCardUiPool battleCardUiPool;
 
         protected override BasePoolObject<BattleCardUI, BattleCardData> ObjectPool
         {
-            get => _cardUiPool;
+            get => battleCardUiPool;
         }
 
         public override void Init()
         {
             base.Init();
-            _cardUiPool.Init();
+            battleCardUiPool.Init();
         }
 
         private void OnDestroy()

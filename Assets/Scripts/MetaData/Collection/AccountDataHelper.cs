@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CardMaga.MetaData.Collection
 {
-    public class MetaCardDataHelper
+    public class AccountDataHelper
     {
         private AccountDataAccess _accountDataAccess;
         
@@ -23,7 +23,10 @@ namespace CardMaga.MetaData.Collection
             }
         }
 
-        public MetaCardDataHelper(AccountDataAccess accountDataAccess)
+        public List<MetaComboData> MetaComboDatas =>
+            _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Combos;
+
+        public AccountDataHelper(AccountDataAccess accountDataAccess)
         {
             _collectionCardDatas = new List<MetaCollectionCardData>();
             _deckCardDatas = new List<MetaCollectionCardData>();
@@ -42,7 +45,7 @@ namespace CardMaga.MetaData.Collection
             
             foreach (var x in result)
             {
-                metaCollectionCardDatas.Add(new MetaCollectionCardData(x.cardID,x.count,x.metaCard));
+                metaCollectionCardDatas.Add(new MetaCollectionCardData(x.count,x.metaCard));
             }
         }
 
