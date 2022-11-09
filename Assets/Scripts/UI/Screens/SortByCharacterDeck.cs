@@ -8,7 +8,7 @@ namespace CardMaga.UI
         [SerializeField]
         int deckIndex;
         // Need To be Re-Done
-        public override IEnumerable<CardMaga.Card.CardData> Sort()
+        public override IEnumerable<CardMaga.Card.BattleCardData> Sort()
         {
             var deck = GetCollection();
             // var account = Account.AccountManager.Instance.AccountCharacters;

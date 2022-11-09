@@ -1,34 +1,34 @@
 ﻿using Battle.Combo;
-using Battle.Deck;
 using CardMaga.Card;
 using CardMaga.Collection;
+using CardMaga.UI.ScrollPanel;
 using UnityEngine;
 
-namespace CardMaga.UI.ScrollPanel
+namespace CardMaga.UI.Collections
 {
     public class ComboAndDeckCollectionHandler : MonoBehaviour
     {
         [Header("Scripts Reference")]
-        [SerializeField] private ComboUIScrollPanelManager _comboUIScroll;
-        [SerializeField] private CardUIScrollPanelManager _cardUIScroll;
+        [SerializeField] private BattleComboUIScrollPanelHandler battleComboUIScroll;
+        [SerializeField] private BattleCardUIScrollPanelManager battleCardUIScroll;
         [SerializeField] private CardDataFilterSystem _cardDataFilter;
 
-        private CardDataSort _cardDataSort;
+        private BattleCardDataSort _battleCardDataSort;
         private ComboDataSort _comboDataSort;
         
-        private IGetCollection<CardData> _cardDatas;
-        private IGetCollection<ComboData> _comboDatas;
+        private IGetCollection<BattleCardData> _cardDatas;
+        private IGetCollection<BattleComboData> _comboDatas;
 
         private void ShowCombo()
         {
-            _comboUIScroll.RemoveAllObjectsFromPanel();
-            _comboUIScroll.AddObjectToPanel(_comboDataSort.SortComboData(_comboDatas.GetCollection));
+            battleComboUIScroll.RemoveAllObjectsFromPanel();
+            battleComboUIScroll.AddObjectToPanel(_comboDataSort.SortComboData(_comboDatas.GetCollection));
         }
 
         private void ShowCard()
         {
-            _cardUIScroll.RemoveAllObjectsFromPanel();
-            _cardUIScroll.AddObjectToPanel(_cardDataSort.SortCardData(_cardDataFilter.Filter(_cardDatas.GetCollection)));
+            battleCardUIScroll.RemoveAllObjectsFromPanel();
+            battleCardUIScroll.AddObjectToPanel(_battleCardDataSort.SortCardData(_cardDataFilter.Filter(_cardDatas.GetCollection)));
         }
 
         private void OnDestroy()
@@ -36,13 +36,13 @@ namespace CardMaga.UI.ScrollPanel
             _cardDataFilter.OnCycleFilter -= ShowCard;
         }
 
-        public void AssignCardData(IGetCollection<CardData> cardDatas)
+        public void AssignCardData(IGetCollection<BattleCardData> cardDatas)
         {
             _cardDatas = cardDatas;
             ShowCard();
         }
         
-        public void AssignComboData(IGetCollection<ComboData> comboDatas)
+        public void AssignComboData(IGetCollection<BattleComboData> comboDatas)
         {
             _comboDatas = comboDatas;
             ShowCombo();
@@ -50,12 +50,12 @@ namespace CardMaga.UI.ScrollPanel
         
         public void Init()
         {
-            _cardDataSort = new CardDataSort();
+            _battleCardDataSort = new BattleCardDataSort();
             _comboDataSort = new ComboDataSort();
             _cardDataFilter.OnCycleFilter += ShowCard;
             
-            _cardUIScroll.Init();
-            _comboUIScroll.Init();
+            battleCardUIScroll.Init();
+            battleComboUIScroll.Init();
         }
     }
 }

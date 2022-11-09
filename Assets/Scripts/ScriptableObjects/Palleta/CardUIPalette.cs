@@ -3,14 +3,14 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 namespace Art
 {
-    [CreateAssetMenu(fileName = "Card UI Palette", menuName = "ScriptableObjects/Art/Card UI Palette")]
+    [CreateAssetMenu(fileName = "BattleCard UI Palette", menuName = "ScriptableObjects/Art/BattleCard UI Palette")]
     public class CardUIPalette : Palette
     {
-        [TitleGroup("Card UI", BoldTitle = true)]
+        [TitleGroup("BattleCard UI", BoldTitle = true)]
 
 
-        #region Card UI BackGround
-        [TabGroup("Card UI/Colors", "BackGround Sprite")]
+        #region BattleCard UI BackGround
+        [TabGroup("BattleCard UI/Colors", "BackGround Sprite")]
         [InfoBox("0 - Background")]
         [SerializeField] Sprite[] _frames;
         public Sprite GetCardUIImage(CardTypeEnum cardType)
@@ -35,8 +35,8 @@ namespace Art
 
         #endregion
 
-        #region Card UI Glow
-        [TabGroup("Card UI/Colors", "Glow")]
+        #region BattleCard UI Glow
+        [TabGroup("BattleCard UI/Colors", "Glow")]
         [InfoBox("0 - Clicked\n 1 - Combo Detected")]
         [SerializeField]
         ColorSettings _cardUIGlow;
@@ -49,8 +49,8 @@ namespace Art
         public Color CardClickedGlowColor => _cardUIGlow.Colors[0];
         #endregion
 
-        #region Stamina On Card
-        [TabGroup("Card UI/Colors", "Stamina")]
+        #region Stamina On BattleCard
+        [TabGroup("BattleCard UI/Colors", "Stamina")]
         [InfoBox("0 - Background\n1 - Text\n2 - Decorate")]
         [SerializeField]
         ColorSettings _staminaColors;
@@ -66,9 +66,9 @@ namespace Art
 
         #endregion
 
-        #region Body Part Icon On Card
+        #region Body Part Icon On BattleCard
 
-        [TabGroup("Card UI/Colors", "Body Part Icon")]
+        [TabGroup("BattleCard UI/Colors", "Body Part Icon")]
         [InfoBox("0 - Background\n1 - Image\n2 - Decoration (Out Line)")]
         [SerializeField]
         ColorSettings _bodyPartIconColors;
@@ -80,9 +80,9 @@ namespace Art
         public Color BodyPartIconDecorationColor => _bodyPartIconColors.Colors[1];
         #endregion
 
-        #region Card Information
+        #region BattleCard Information
 
-        [TabGroup("Card UI/Colors", "Card Information")]
+        [TabGroup("BattleCard UI/Colors", "BattleCard Information")]
         [InfoBox("0 - Background\n1 - Title Text\n2 - Description Text")]
         [SerializeField]
         ColorSettings _cardInformation;
@@ -98,7 +98,7 @@ namespace Art
 
         #region Rarity Colors
         [SerializeField]
-        [TabGroup("Card UI/Colors", "Card Rarity")]
+        [TabGroup("BattleCard UI/Colors", "BattleCard Rarity")]
         [InfoBox("0 - Common\n1 - UnCommon\n2 - Rare\n3 - Epic\n4 - LegendRei")]
         ColorSettings _rarityColors;
 

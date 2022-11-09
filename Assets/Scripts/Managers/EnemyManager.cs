@@ -38,7 +38,7 @@ namespace Battle
         private GameTurn _myTurn;
         private StaminaHandler _staminaHandler;
         private CharacterStatsHandler _statsHandler;
-        private CardData[] _deck;
+        private BattleCardData[] _deck;
         private AIHand _aiHand;
         private EndTurnHandler _endTurnHandler;
         private GameCommands _gameCommands;
@@ -54,7 +54,7 @@ namespace Battle
         #region Properties
         public bool IsLeft => false;
         public VisualCharacter VisualCharacter => _visualCharacter;
-        public CardData[] StartingCards => _deck;
+        public BattleCardData[] StartingCards => _deck;
         public AIBrain Brain => _brain;
         public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
         public CharacterStatsHandler StatsHandler => _statsHandler;
@@ -83,7 +83,7 @@ namespace Battle
             CharacterBattleData characterdata = character.CharacterData;
             //Deck
             int deckLength = characterdata.CharacterDeck.Length;
-            _deck = new CardData[deckLength];
+            _deck = new BattleCardData[deckLength];
             Array.Copy(characterdata.CharacterDeck, _deck, deckLength);
             _deckHandler = new DeckHandler(this, battleManager);
 
@@ -153,9 +153,9 @@ namespace Battle
 
             if (_aiHand.TryGetHighestWeight(out AICard card) > NO_MORE_ACTION_TO_DO && !BattleManager.isGameEnded)
             {
-                _gameCommands.GameDataCommands.DataCommands.AddCommand(new TransferSingleCardCommand(DeckHandler, DeckEnum.Hand, DeckEnum.Selected, card.Card));
-                //_deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, card.Card);
-                _cardExecutionManager.TryExecuteCard(IsLeft, card.Card);
+                _gameCommands.GameDataCommands.DataCommands.AddCommand(new TransferSingleCardCommand(DeckHandler, DeckEnum.Hand, DeckEnum.Selected, card.BattleCard));
+                //_deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, battleCard.BattleCard);
+                _cardExecutionManager.TryExecuteCard(IsLeft, card.BattleCard);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(_delayTime.x, _delayTime.y));
                 CalculateEnemyMoves();
             }
@@ -223,29 +223,29 @@ namespace Battle
         {
             for (int i = 0; i < _card.Count; i++)
             {
-                if (_card[i].Card != null && !BattleManager.isGameEnded)
+                if (_card[i].BattleCard != null && !BattleManager.isGameEnded)
                     Result |= _tree.Evaluate(_card[i]);
             }
         }
 
-        public void AddCard(CardData[] cardData)
+        public void AddCard(BattleCardData[] cardData)
         {
             for (int i = 0; i < cardData.Length; i++)
                 AddCard(cardData[i]);
         }
 
-        public void AddCard(CardData cardData)
+        public void AddCard(BattleCardData battleCardData)
         {
             for (int i = 0; i < _card.Count; i++)
             {
-                if (_card[i].Card == null)
+                if (_card[i].BattleCard == null)
                 {
-                    _card[i].AssignCard(cardData);
+                    _card[i].AssignCard(battleCardData);
                     return;
                 }
             }
             AICard aicard = new AICard();
-            aicard.AssignCard(cardData);
+            aicard.AssignCard(battleCardData);
             _card.Add(aicard);
         }
 
@@ -258,7 +258,7 @@ namespace Battle
             for (int i = 0; i < _card.Count; i++)
             {
                 AICard current = _card[i];
-                if (current.Card != null && highestWeight < current.Weight)
+                if (current.BattleCard != null && highestWeight < current.Weight)
                 {
                     highestWeight = current.Weight;
                     highestCard = current;

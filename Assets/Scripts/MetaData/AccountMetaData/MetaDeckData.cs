@@ -51,11 +51,7 @@ namespace CardMaga.Meta.AccountMetaData
 
             for (int i = 0; i < cardLength; i++)
             {
-                CardInstanceID instanceID = cardFactory.CreateCardInstance(tempCardCore[i]);
-                CardSO cardSo = cardFactory.GetCard(tempCardCore[i].CardID);
-                CardData cardData = cardFactory.CreateCard(instanceID);
-
-                _cardDatas[i] = new MetaCardData(instanceID,cardSo,cardData);//need To remove carddata
+                _cardDatas.Add(cardFactory.GetMetaCardData(tempCardCore[i]));//need To remove carddata
             }
 
             ComboCore[] tempComboCores = deckData.Combos;
@@ -63,9 +59,11 @@ namespace CardMaga.Meta.AccountMetaData
 
             _comboDatas = new List<MetaComboData>(comboLength);
 
+            GameFactory.ComboFactory comboFactory = GameFactory.Instance.ComboFactoryHandler; 
+
             for (int i = 0; i < comboLength; i++)
             {
-                _comboDatas[i] = new MetaComboData(tempComboCores[i]);
+                _comboDatas.Add(comboFactory.GetMetaComboData(tempComboCores[i]));
             }
         }
         
@@ -76,14 +74,14 @@ namespace CardMaga.Meta.AccountMetaData
             return true;
         }
 
-        public bool TryAddCard(MetaCardData cardData)
+        public void AddCard(MetaCardData cardData)
         {
-            return true;
+            _cardDatas.Add(cardData);
         }
         
         public void RemoveCard(MetaCardData cardData)
         {
-            
+            _cardDatas.Remove(cardData);
         }
         
         public void RemoveCard(int cardIndex)//instanceID
@@ -91,9 +89,9 @@ namespace CardMaga.Meta.AccountMetaData
             
         }
         
-        public bool TryAddCombo(MetaComboData comboData)
+        public void AddCombo(MetaComboData comboData)
         {
-            return true;
+            _comboDatas.Add(comboData);
         }
         
         public void RemoveCombo(MetaComboData comboData)
@@ -104,6 +102,21 @@ namespace CardMaga.Meta.AccountMetaData
         public void RemoveCombo(int comboIndex)
         {
             
+        }
+
+        private bool FindMetaCardData(int cardCoreId, out MetaCardData metaCardData)
+        {
+            for (int i = 0; i < _cardDatas.Count; i++)
+            {
+                if (_cardDatas[i].BattleCardData.CardInstance.ID == cardCoreId)
+                {
+                    metaCardData = _cardDatas[i];
+                    return true;
+                }
+            }
+
+            metaCardData = null;
+            return false;
         }
 
         public bool Equals(MetaDeckData other)

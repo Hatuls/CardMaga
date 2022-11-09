@@ -36,13 +36,13 @@ namespace CardMaga.AI
     public class CheckCardTypeNode : BaseNode<AICard>
     {
         /// <summary>
-        /// The Card Type To Compare To
+        /// The BattleCard Type To Compare To
         /// </summary>
         public Card.CardTypeEnum CardType { get; set; }
 
         public override NodeState Evaluate(AICard evaluateObject)
         {
-            NodeState = (CardType == evaluateObject.Card.CardSO.CardType.CardType)? NodeState.Success : NodeState.Failure;
+            NodeState = (CardType == evaluateObject.BattleCard.CardSO.CardType.CardType)? NodeState.Success : NodeState.Failure;
             return NodeState;
         }
     }

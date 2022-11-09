@@ -36,35 +36,35 @@ namespace CardMaga.UI.Card
             _inputBehaviour.OnBeginHold -= SetToFollowState;
         }
 
-        public override void EnterState(CardUI cardUI)
+        public override void EnterState(BattleCardUI battleCardUI)
         {
-            base.EnterState(cardUI);
-            _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
-            MoveToZoomPosition(cardUI);
+            base.EnterState(battleCardUI);
+            _clickHelper.LoadObject(true,false,() => ReturnToHandState(battleCardUI),battleCardUI.RectTransform);
+            MoveToZoomPosition(battleCardUI);
             if (OnExitZoomTutorial != null)
                 OnExitZoomTutorial.Invoke();
         }
 
-        public override void ExitState(CardUI cardUI)
+        public override void ExitState(BattleCardUI battleCardUI)
         {
              _clickHelper.Close();
             _zoomToken?.Dispose();
-            base.ExitState(cardUI);
+            base.ExitState(battleCardUI);
             if(OnEnterZoomTutorial != null)
                 OnEnterZoomTutorial.Invoke();
         }
 
-        public void ReturnToHandState(CardUI cardUI)
+        public void ReturnToHandState(BattleCardUI battleCardUI)
         {
-            _handUI.SetToHandState(cardUI);
+            _handUI.SetToHandState(battleCardUI);
         }
 
-        private void SetToFollowState(CardUI cardUI)
+        private void SetToFollowState(BattleCardUI battleCardUI)
         {
-            _handUI.SetToFollowState(cardUI);
+            _handUI.SetToFollowState(battleCardUI);
         }
 
-        public override CardUI ForceExitState()
+        public override BattleCardUI ForceExitState()
         {
             if (_zoomToken != null)
                 _zoomToken.Dispose();
@@ -74,20 +74,20 @@ namespace CardMaga.UI.Card
 
         private void InitZoom()
         {
-            if (SelectedCardUI == null)
+            if (SelectedBattleCardUI == null)
                 return;
 
             if (OnZoomInLocation != null)
                 OnZoomInLocation.Invoke();
-            _zoomToken = SelectedCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
+            _zoomToken = SelectedBattleCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
         
-        private void MoveToZoomPosition(CardUI cardUI)
+        private void MoveToZoomPosition(BattleCardUI battleCardUI)
         {
-            if (SelectedCardUI != null)
+            if (SelectedBattleCardUI != null)
             {
                 KillTween();
-                _currentSequence = cardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
+                _currentSequence = battleCardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
             }
         }
 

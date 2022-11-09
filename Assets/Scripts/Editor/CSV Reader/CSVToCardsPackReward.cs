@@ -86,10 +86,10 @@ namespace CardMaga.CSV
 
 
                 if (!int.TryParse(cardIDText[0], out int cardID))
-                    throw new Exception($"CSVToCardsPackReward: specific Card id not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
+                    throw new Exception($"CSVToCardsPackReward: specific BattleCard id not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
 
                 if (!int.TryParse(cardIDText[1], out int cardLevelID))
-                    throw new Exception($"CSVToCardsPackReward: specific Card id not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
+                    throw new Exception($"CSVToCardsPackReward: specific BattleCard id not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
 
                 cores.Add(cardID + cardLevelID);
 
@@ -114,7 +114,7 @@ namespace CardMaga.CSV
         private void CreateSpecialPack(CardsPackRewardFactorySO instance, string[] row)
         {
             if (!int.TryParse(row[CardAmountIndex], out int amount))
-                throw new Exception($"CSVToCardsPackReward: Pack Card Amount not an int {row[CardAmountIndex]}\nPackID - {row[IDIndex]}");
+                throw new Exception($"CSVToCardsPackReward: Pack BattleCard Amount not an int {row[CardAmountIndex]}\nPackID - {row[IDIndex]}");
 
             var cardCollection = CSVManager._cardCollection;
             var allSpecialRewardsCards = cardCollection.AllCardsCoreInfo.Where(x => x.IsSpecialReward);
@@ -140,7 +140,7 @@ namespace CardMaga.CSV
         private void CreateBasicPack(CardsPackRewardFactorySO instance, string[] row)
         {
             if (!int.TryParse(row[CardAmountIndex], out int amount))
-                throw new Exception($"CSVToCardsPackReward: Pack Card Amount not an int {row[CardAmountIndex]}\nPackID - {row[IDIndex]}");
+                throw new Exception($"CSVToCardsPackReward: Pack BattleCard Amount not an int {row[CardAmountIndex]}\nPackID - {row[IDIndex]}");
 
             var cardCollection = CSVManager._cardCollection;
             var allSpecialRewardsCards = cardCollection.AllCardsCoreInfo.Where(x => x.IsBasicReward);
@@ -164,7 +164,7 @@ namespace CardMaga.CSV
         {
 
             if (!int.TryParse(row[CardAmountIndex], out int amount))
-                throw new Exception($"CSVToCardsPackReward: Pack Card Amount not an int {row[CardAmountIndex]}\nPackID - {row[IDIndex]}");
+                throw new Exception($"CSVToCardsPackReward: Pack BattleCard Amount not an int {row[CardAmountIndex]}\nPackID - {row[IDIndex]}");
 
             string[] packChance = row[PackChanceIndex].Split('&');
             List<RarityChanceCardContainer> rarityChanceCardContainers = new List<RarityChanceCardContainer>();

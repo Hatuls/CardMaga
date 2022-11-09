@@ -23,6 +23,11 @@ public class EndGameManager : MonoBehaviour
     [SerializeField] private bool _isInTutorialOverride;
 #endif
 
+    private void Awake()
+    {
+        Resources.UnloadUnusedAssets();
+        GC.Collect();
+    }
     private void Start()
     {
 #if UNITY_EDITOR
@@ -46,11 +51,12 @@ public class EndGameManager : MonoBehaviour
 
     private void GenerateReward(BattleConfigSO battleConfigSO)
     {
-        var rewardFactory = _isLeftPlayerWon ? battleConfigSO.WinReward : battleConfigSO.LoseReward;
+        CardMaga.Rewards.BaseRewardFactorySO rewardFactory = _isLeftPlayerWon ? battleConfigSO.WinReward : battleConfigSO.LoseReward;
         _rewardToken = _rewardTokenMachine.GetToken();
 
         if (rewardFactory == null)
             return;
+
         var reward = rewardFactory.GenerateReward();
         reward.TryRecieveReward(_rewardTokenMachine);
     }

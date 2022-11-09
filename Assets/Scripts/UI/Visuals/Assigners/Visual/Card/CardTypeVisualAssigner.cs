@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace CardMaga.UI.Visuals
 {
     [Serializable]
-    public class CardTypeVisualAssigner : BaseVisualAssigner<CardData>
+    public class CardTypeVisualAssigner : BaseVisualAssigner<BattleCardData>
     {
 
         [SerializeField] TypeCardVisualSO _typeCardVisualSO;
@@ -21,9 +21,9 @@ namespace CardMaga.UI.Visuals
             if (_typeCardVisualSO.InnerFrames.Length == 0)
                 throw new Exception("TypeCardVisualSO has no inner frames");
         }
-        public override void Init(CardData cardData)
+        public override void Init(BattleCardData battleCardData)
         {
-            int cardType = (int)cardData.CardTypeData.CardType - 1;
+            int cardType = (int)battleCardData.CardTypeData.CardType - 1;
             var sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _typeCardVisualSO.Frames);
             _frame.AssignSprite(sprite);
 

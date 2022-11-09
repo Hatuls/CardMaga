@@ -150,14 +150,14 @@ namespace Battle
                                         _iD = rID;
                                     }
                                     else
-                                        throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid ID! ({data[iD]})");
+                                        throw new Exception($"ID= {ID} - {CharacterName} : BattleCard has no valid ID! ({data[iD]})");
 
                                     if (int.TryParse(data[Level], out int lvl))
                                     {
                                         _level = lvl;
                                     }
                                     else
-                                        throw new Exception($"ID= {ID} - {CharacterName} : Card has no valid level ({data[Level]}) for Card id: {_id}");
+                                        throw new Exception($"ID= {ID} - {CharacterName} : BattleCard has no valid level ({data[Level]}) for BattleCard id: {_id}");
                                     cardCores.Add(new CoreID(_iD + _level));
 
                                 }

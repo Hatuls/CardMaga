@@ -20,9 +20,9 @@ public class ComboListener : BaseEndGameRule
         _comboManager.OnComboSucceeded += CheckCombo;
     }
 
-    private void CheckCombo(ComboData comboData)
+    private void CheckCombo(BattleComboData battleComboData)
     {
-        if (comboData.ComboSO == _comboToCheck)
+        if (battleComboData.ComboSO == _comboToCheck)
         {
             Active(true);
         }

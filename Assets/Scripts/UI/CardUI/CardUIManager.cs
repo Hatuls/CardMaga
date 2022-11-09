@@ -17,7 +17,7 @@ namespace CardMaga.Battle.UI
         #region Field
         private IPlayersManager _players;
         [SerializeField] private CardUIPool _cardPool;
-        [SerializeField] private CardUI _enemyCardUI;
+        [SerializeField] private BattleCardUI enemyBattleCardUI;
         [SerializeField] private HandUI _handUI;
         #endregion
 
@@ -38,15 +38,15 @@ namespace CardMaga.Battle.UI
             GetCardsUI(_players.GetCharacter(isPlayer).DeckHandler.GetCardsFromDeck( DeckEnum.Hand));
         }
 
-        internal void PlayEnemyCard(CardData card)
+        internal void PlayEnemyCard(BattleCardData battleCard)
         {
-            AssignDataToCardUI(_enemyCardUI, card);
+            AssignDataToCardUI(enemyBattleCardUI, battleCard);
                 ActivateEnemyCardUI(true);
 
         }
 
         public void ActivateEnemyCardUI(bool state)
-            => _enemyCardUI.gameObject.SetActive(state);
+            => enemyBattleCardUI.gameObject.SetActive(state);
 
 
         #endregion
@@ -60,32 +60,32 @@ namespace CardMaga.Battle.UI
 
 
 
-        public void AssignDataToCardUI(CardUI card, CardData cardData)
+        public void AssignDataToCardUI(BattleCardUI battleCard, BattleCardData battleCardData)
         {
-            card.AssingVisual(cardData);
+            battleCard.AssignVisual(battleCardData);
         }
 
         #endregion
 
         #region Public Methods
 
-        public CardUI[] GetCardsUI(params CardData[] cardData)
+        public BattleCardUI[] GetCardsUI(params BattleCardData[] cardData)
         {
             if (cardData == null)
             {
-                throw new Exception(name + " CardData is null");
+                throw new Exception(name + " BattleCardData is null");
             }
 
-            List<CardUI> tempCardUI = new List<CardUI>();
+            List<BattleCardUI> tempCardUI = new List<BattleCardUI>();
 
             for (int i = 0; i < cardData.Length; i++)
             {
                 if (cardData[i] == null)
                 {
-                    Debug.LogError(name + " CardData in index " + i + " in null");
+                    Debug.LogError(name + " BattleCardData in index " + i + " in null");
                 }
 
-                CardUI cache = _cardPool.Pull();
+                BattleCardUI cache = _cardPool.Pull();
 
                 AssignDataToCardUI(cache, cardData[i]);
 
@@ -102,7 +102,7 @@ namespace CardMaga.Battle.UI
             OnPlayerRemoveHand?.Invoke();
         }
 
-        public IReadOnlyList<CardUI>  GetCardUiFromHand() => _handUI.GetCardUIFromHand();
+        public IReadOnlyList<BattleCardUI>  GetCardUiFromHand() => _handUI.GetCardUIFromHand();
         
 
 

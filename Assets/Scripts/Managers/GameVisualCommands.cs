@@ -57,10 +57,10 @@ namespace CardMaga.Battle.Execution
                 visualPlayer.PlayerData.EndTurnHandler.IsFinishedVisualAnimationCommands += _animationCommands.IsEmpty;
             }
         }
-        public void InsertCardsCommands(bool isLeft, CardData card)
+        public void InsertCardsCommands(bool isLeft, BattleCardData battleCard)
         {
             AnimationVisualCommand visualCommand = ModelAnimationCommandsPool.Pull();
-            visualCommand.Init(_visualCharactersManager.GetVisualCharacter(isLeft).AnimatorController, card.CardSO, CommandType.AfterPrevious);
+            visualCommand.Init(_visualCharactersManager.GetVisualCharacter(isLeft).AnimatorController, battleCard.CardSO, CommandType.AfterPrevious);
             _animationCommands.AddCommand(visualCommand);
 
         }

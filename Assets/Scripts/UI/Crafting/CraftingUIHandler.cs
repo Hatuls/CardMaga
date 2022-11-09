@@ -77,9 +77,9 @@ namespace Battle.UI
             GetCraftingSlotsUIArr[index].ResetSlotUI();
         }
 
-        public void ChangeSlotsPos(CardData[] cards, CardData removedCard)
+        public void ChangeSlotsPos(BattleCardData[] cards, BattleCardData removedBattleCard)
         {
-            _fadingOut.InitPlaceHolder(removedCard?.CardSO?.CardType);
+            _fadingOut.InitPlaceHolder(removedBattleCard?.CardSO?.CardType);
             _fadingOut.PlayAnimation(_fadingInAnim);
             _fadingOut.MoveLocation(GetCraftingSlotsUIArr[0].RectTransform.localPosition, _tweenTime);
 
@@ -98,15 +98,15 @@ namespace Battle.UI
             return index == 0 ? _firstSlotTransform : GetCraftingSlotsUIArr[index - 1].RectTransform;
         }
 
-        public void PlaceOnPlaceHolder(int index, CardData cardCache)
+        public void PlaceOnPlaceHolder(int index, BattleCardData battleCardCache)
         {
-            if (cardCache == null)
+            if (battleCardCache == null)
             {
                 ResetPlaceHolderUI(index);
                 return;
             }
 
-            GetCraftingSlotsUIArr[index].InitPlaceHolder(cardCache.CardSO.CardType);
+            GetCraftingSlotsUIArr[index].InitPlaceHolder(battleCardCache.CardSO.CardType);
             GetCraftingSlotsUIArr[index].PlayAnimation(_AssignAnimHash);
         }
 

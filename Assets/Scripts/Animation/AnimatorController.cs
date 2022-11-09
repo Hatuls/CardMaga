@@ -298,11 +298,11 @@ namespace CardMaga.Battle.Visual
         private void ReturnToIdle() => Animator.CrossFade("Idle_1", transitionToIdle);
 
 
-        public void PlayAnimation(CardData cardData, ITokenReciever tokenMachine)
+        public void PlayAnimation(BattleCardData battleCardData, ITokenReciever tokenMachine)
         {
             _animationToken = tokenMachine.GetToken();
 
-            PlayCrossAnimationQueue(cardData.CardSO.AnimationBundle);
+            PlayCrossAnimationQueue(battleCardData.CardSO.AnimationBundle);
         }
 
         #endregion

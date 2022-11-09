@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardFrameVisualAssigner : BaseVisualAssigner<CardData>
+    public class CardFrameVisualAssigner : BaseVisualAssigner<BattleCardData>
     {
         [SerializeField] FrameCardVisualSO _frameCardVisualSO;
         [SerializeField] Image _frame;
@@ -15,7 +15,7 @@ namespace CardMaga.UI.Visuals
             if (_frameCardVisualSO.Frames.Length == 0)
                 throw new System.Exception("FrameCardVisualSO has no Frames");
         }
-        public override void Init(CardData cardData)
+        public override void Init(BattleCardData battleCardData)
         {
             //hard Coded value
             var frameType = 0;

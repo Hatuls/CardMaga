@@ -1,55 +1,52 @@
 using System;
-using CardMaga.Card;
-using CardMaga.Input;
+using CardMaga.Meta.AccountMetaData;
 using CardMaga.Tools.Pools;
-using CardMaga.UI.Card;
-using CardMaga.UI.ScrollPanel;
+using CardMaga.UI;
 using UnityEngine;
 
 namespace MetaUI.MetaCardUI
 {
-    public class MetaCardUI : MonoBehaviour, IPoolableMB<MetaCardUI>,IShowableUI,IVisualAssign<CardData>//need to change to MetaCardData 
+
+    public class MetaCardUI : MonoBehaviour, IPoolableMB<MetaCardUI>, IUIElement, IVisualAssign<MetaCardData>//need to change to MetaCardData 
     {
         public event Action<MetaCardUI> OnDisposed;
-        public event Action<CardData> OnAddCard; 
-        public event Action<CardData> OnRemoveCard; 
+        public event Action OnShow;
+        public event Action OnHide;
+        public event Action OnInitializable;
 
-        [SerializeField] private CardUI _cardUI;
+        [SerializeField] private BaseCardVisualHandler _cardVisuals;
 
-        private CardData _cardData;
-        
+
         public void Init()
         {
-            _cardUI.Init();
+            OnInitializable?.Invoke();
+            Show();
         }
 
         public void Dispose()
         {
-            _cardUI.Dispose();
-            gameObject.SetActive(false);
             OnDisposed?.Invoke(this);
+            Hide();
+        }
+        
+        public void AssignVisual(MetaCardData data)
+        {
+            _cardVisuals.Init(data.BattleCardData);
+         
         }
 
         public void Show()
         {
-            Init();
-            _cardUI.Init();
+            OnShow?.Invoke();
+            gameObject.SetActive(true);
         }
 
-        public void AssingVisual(CardData data)
+        public void Hide()
         {
-            _cardData = data;
-            _cardUI.AssingVisual(data);
-        }
+            OnHide?.Invoke();
+            if (gameObject.activeSelf)
+                gameObject.SetActive(false);
 
-        public void AddToDeck()
-        {
-            OnAddCard?.Invoke(_cardData);   
-        }
-
-        public void RemoveFromDeck()
-        {
-            OnRemoveCard?.Invoke(_cardData);
         }
     }
 }

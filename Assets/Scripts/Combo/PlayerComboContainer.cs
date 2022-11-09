@@ -2,19 +2,19 @@
 using Battle.Combo;
 using CardMaga.Collection;
 
-public class PlayerComboContainer : IGetCollection<ComboData>
+public class PlayerComboContainer : IGetCollection<BattleComboData>
 {
-    private IEnumerable<ComboData> _comboDatas;
+    private IEnumerable<BattleComboData> _comboDatas;
     
-    public PlayerComboContainer(ComboData[] comboDatas)
+    public PlayerComboContainer(BattleComboData[] comboDatas)
     {
-        List<ComboData> comboData = new List<ComboData>(comboDatas.Length);
+        List<BattleComboData> comboData = new List<BattleComboData>(comboDatas.Length);
         for (int i = 0; i < comboDatas.Length; i++)
-            comboData.Add(new ComboData(comboDatas[i].ComboSO, comboDatas[i].Level));
+            comboData.Add(new BattleComboData(comboDatas[i].ComboSO, comboDatas[i].Level));
         _comboDatas = comboData;
     }
     
-    public IEnumerable<ComboData> GetCollection
+    public IEnumerable<BattleComboData> GetCollection
     {
         get => _comboDatas;
     }

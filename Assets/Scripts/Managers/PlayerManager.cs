@@ -17,7 +17,7 @@ namespace CardMaga.Battle.Players
         StaminaHandler StaminaHandler { get; }
         CharacterSO CharacterSO { get; }
         CharacterStatsHandler StatsHandler { get; }
-        CardData[] StartingCards { get; }
+        BattleCardData[] StartingCards { get; }
         DeckHandler DeckHandler { get; }
         PlayerComboContainer Combos { get; }
         EndTurnHandler EndTurnHandler { get; }
@@ -37,12 +37,12 @@ namespace CardMaga.Battle.Players
         private DeckHandler _deckHandler;
         private BattleCharacter _character;
         private CharacterStatsHandler _statsHandler;
-        private CardData[] _playerDeck;
+        private BattleCardData[] _playerDeck;
         private StaminaHandler _staminaHandler;
         private PlayerComboContainer _comboContainer;
         #endregion
 
-        public CardData[] StartingCards => _playerDeck;
+        public BattleCardData[] StartingCards => _playerDeck;
         public bool IsLeft => true;
         public PlayerComboContainer Combos => _comboContainer;
         public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
@@ -69,7 +69,7 @@ namespace CardMaga.Battle.Players
 
             //Deck
             int Length = data.CharacterDeck.Length;
-            _playerDeck = new CardData[Length];
+            _playerDeck = new BattleCardData[Length];
             Array.Copy(data.CharacterDeck, _playerDeck, Length);
 
             //CraftingSlots

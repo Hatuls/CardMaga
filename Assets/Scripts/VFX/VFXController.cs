@@ -47,7 +47,7 @@ public class VFXController : MonoBehaviour
 
     private VFXSO DeQueue() => VFXQueue.Dequeue();
 
-    private void ExecuteAllKeywords(CardData card)
+    private void ExecuteAllKeywords(BattleCardData battleCard)
     {
 
         while (VFXQueue.Count > 0)

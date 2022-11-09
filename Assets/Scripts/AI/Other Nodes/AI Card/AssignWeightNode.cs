@@ -15,7 +15,7 @@
     {
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
-            basedEvaluationObject.Weight = basedEvaluationObject.Card.CardSO.GetCardValue(basedEvaluationObject.Card.CardLevel);
+            basedEvaluationObject.Weight = basedEvaluationObject.BattleCard.CardSO.GetCardValue(basedEvaluationObject.BattleCard.CardLevel);
             NodeState = NodeState.Success;
             return NodeState;
         }
@@ -26,7 +26,7 @@
         public int Weight { get; set; }
         public override NodeState Evaluate(AICard basedEvaluationObject)
         {
-            basedEvaluationObject.Weight = basedEvaluationObject.Card.CardSO.GetCardValue(basedEvaluationObject.Card.CardLevel) + Weight;
+            basedEvaluationObject.Weight = basedEvaluationObject.BattleCard.CardSO.GetCardValue(basedEvaluationObject.BattleCard.CardLevel) + Weight;
             NodeState = NodeState.Success;
             return NodeState;
         }

@@ -33,7 +33,7 @@ namespace CardMaga.UI.Visuals
                     case CardTypeEnum.None:
                         return BodyPartsBG[0];
                     default:
-                        throw new System.Exception($"BodyPartVisualSO Have recived Unknown Card Type {cardType}");
+                        throw new System.Exception($"BodyPartVisualSO Have recived Unknown BattleCard Type {cardType}");
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace CardMaga.UI.Visuals
                     case CardTypeEnum.None:
                         return BodyPartsInnerBG[0];
                     default:
-                        throw new System.Exception($"BodyPartVisualSO Have recived Unknown Card Type {cardType}");
+                        throw new System.Exception($"BodyPartVisualSO Have recived Unknown BattleCard Type {cardType}");
                 }
             }
         }

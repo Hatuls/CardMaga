@@ -12,7 +12,7 @@ namespace CardMaga.UI
         [SerializeField]
         CardTypeEnum cardTypeEnum;
         // Need To be Re-Done
-        public override IEnumerable<CardMaga.Card.CardData> Sort()
+        public override IEnumerable<CardMaga.Card.BattleCardData> Sort()
         {
             var deck = GetCollection();
             return deck.Where((x) => x.CardSO.CardTypeEnum == cardTypeEnum);

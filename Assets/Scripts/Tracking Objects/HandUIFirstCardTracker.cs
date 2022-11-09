@@ -7,7 +7,7 @@ namespace CardMaga.Trackers
     public class HandUIFirstCardTracker : Tracker
     {
         [SerializeField] private UI.HandUI _handUI;
-        private IReadOnlyList<CardUI> _cards;
+        private IReadOnlyList<BattleCardUI> _cards;
         public override RectTransform RectTransform => FirstCardRectTransform();
 
         private RectTransform FirstCardRectTransform()

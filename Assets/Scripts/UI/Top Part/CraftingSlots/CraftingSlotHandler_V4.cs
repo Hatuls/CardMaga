@@ -49,7 +49,7 @@ namespace CardMaga.UI.Carfting
 
         #region PublicFunctions
 
-        public void CancelLoadSlot(CardUI cardUI)
+        public void CancelLoadSlot(BattleCardUI battleCardUI)
         {
             if (_craftingSlot[1].TryGetCardTypeData(out CraftingSlotData prevCraftingSlotData))
             {
@@ -73,10 +73,10 @@ namespace CardMaga.UI.Carfting
             }
         }
         
-        public void ApplyEnemySlot(CardData cardData)
+        public void ApplyEnemySlot(BattleCardData battleCardData)
         {
      
-            _craftingSlotData = AssignCraftingSlotData(cardData.CardTypeData);
+            _craftingSlotData = AssignCraftingSlotData(battleCardData.CardTypeData);
             
             AddCraftingSlot();
             
@@ -91,9 +91,9 @@ namespace CardMaga.UI.Carfting
         }
         
 
-        public void LoadCraftingSlot(CardUI cardUI)
+        public void LoadCraftingSlot(BattleCardUI battleCardUI)
         {
-            _craftingSlotData = AssignCraftingSlotData(cardUI.CardData.CardTypeData);
+            _craftingSlotData = AssignCraftingSlotData(battleCardUI.BattleCardData.CardTypeData);
 
             if (_craftingSlot[1].TryGetCardTypeData(out CraftingSlotData prevCraftingSlotData))
             {

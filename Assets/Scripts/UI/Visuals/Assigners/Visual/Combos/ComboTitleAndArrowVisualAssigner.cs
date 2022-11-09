@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class ComboTitleAndArrowVisualAssigner : BaseVisualAssigner<ComboData>
+    public class ComboTitleAndArrowVisualAssigner : BaseVisualAssigner<BattleComboData>
     {
         [SerializeField] TitleAndArrowComboVisualSO _titleAndArrowComboVisualSO;
         [SerializeField] Image _arrowImage;
@@ -24,10 +24,10 @@ namespace CardMaga.UI.Visuals
         {
         }
 
-        public override void Init(ComboData comboData)
+        public override void Init(BattleComboData battleComboData)
         {
-            _arrowImage.AssignSprite(_titleAndArrowComboVisualSO.GetArrowSprite(comboData.CraftedCard.CardTypeEnum));
-            _titleImage.AssignSprite(_titleAndArrowComboVisualSO.GetTitleSprite(comboData.CraftedCard.CardTypeEnum));
+            _arrowImage.AssignSprite(_titleAndArrowComboVisualSO.GetArrowSprite(battleComboData.CraftedCard.CardTypeEnum));
+            _titleImage.AssignSprite(_titleAndArrowComboVisualSO.GetTitleSprite(battleComboData.CraftedCard.CardTypeEnum));
         }
     }
 }

@@ -8,7 +8,7 @@ namespace CardMaga.UI.Text
     [Serializable]
     public class DeckTextAssigner : BaseTextAssigner<BaseDeck>
     {
-        //holds amount of card in deck
+        //holds amount of battleCard in deck
         [SerializeField] TextMeshProUGUI _deckText;
         BaseDeck _baseDeck;
         public override void Init(BaseDeck data)

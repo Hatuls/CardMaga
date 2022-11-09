@@ -18,22 +18,22 @@ namespace CardMaga.UI
 {
     #region HandUI
 
-    public class HandUI : InputBehaviourHandler<CardUI>, ISequenceOperation<IBattleUIManager>
+    public class HandUI : InputBehaviourHandler<BattleCardUI>, ISequenceOperation<IBattleUIManager>
     {
         #region Events
 
-        public static event Action<CardUI> OnCardExecute;
+        public static event Action<BattleCardUI> OnCardExecute;
         public static event Action OnCardDrawnAndAlign;
         public static event Action OnDiscardAllCards;
-        public static event Action<CardUI> OnCardSetToHandState;
+        public static event Action<BattleCardUI> OnCardSetToHandState;
 
-        public static event Action<IReadOnlyList<CardUI>>
+        public static event Action<IReadOnlyList<BattleCardUI>>
             OnCardsAddToHand; //when new cards are added to the hand, passing the cards
 
-        public static event Action<IReadOnlyList<CardUI>>
-            OnCardsExecuteGetCards; //when card execute, and passes all the cards that are in the hand
+        public static event Action<IReadOnlyList<BattleCardUI>>
+            OnCardsExecuteGetCards; //when battleCard execute, and passes all the cards that are in the hand
 
-        public event Action<CardUI> OnCardSelect;
+        public event Action<BattleCardUI> OnCardSelect;
         public event Action OnHandUICardsUpdated;
         #endregion
 
@@ -70,7 +70,7 @@ namespace CardMaga.UI
 
         #region Prop
 
-        public IReadOnlyList<CardUI> GetCardUIFromHand()
+        public IReadOnlyList<BattleCardUI> GetCardUIFromHand()
         {
             return _handUIState.CardsUI;
         }
@@ -132,7 +132,7 @@ namespace CardMaga.UI
 
         #region Transitions
 
-        private void SetCardAtDrawPos(params CardUI[] cards)
+        private void SetCardAtDrawPos(params BattleCardUI[] cards)
         {
             for (var i = 0; i < cards.Length; i++)
             {
@@ -141,7 +141,7 @@ namespace CardMaga.UI
             }
         }
 
-        private IEnumerator MoveCardToTheDiscardPosition(params CardUI[] cardUI)
+        private IEnumerator MoveCardToTheDiscardPosition(params BattleCardUI[] cardUI)
         {
             for (var i = 0; i < cardUI.Length; i++)
             {
@@ -152,7 +152,7 @@ namespace CardMaga.UI
                 yield return _waitForCardDiscardDelay;
             }
 
-            void Transition(CardUI card)
+            void Transition(BattleCardUI card)
             {
                 var sequence = card.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
                 sequence.Join(card.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo));
@@ -160,11 +160,11 @@ namespace CardMaga.UI
             }
         }
 
-        private void MoveCardToDiscardAfterExecute(CardUI cardUI)
+        private void MoveCardToDiscardAfterExecute(BattleCardUI battleCardUI)
         {
             //   cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
-            var sequence = cardUI.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
-            sequence.Join(cardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo)); sequence.OnComplete(cardUI.Dispose);
+            var sequence = battleCardUI.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
+            sequence.Join(battleCardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo)); sequence.OnComplete(battleCardUI.Dispose);
         }
 
         private void KillTween()
@@ -176,31 +176,31 @@ namespace CardMaga.UI
 
         #region HandStateManagnent
 
-        public void SetToZoomState(CardUI cardUI)
+        public void SetToZoomState(BattleCardUI battleCardUI)
         {
-            SetState(InputBehaviourState.HandZoom, cardUI);
-            OnCardSelect?.Invoke(cardUI);
+            SetState(InputBehaviourState.HandZoom, battleCardUI);
+            OnCardSelect?.Invoke(battleCardUI);
         }
 
-        public void SetToFollowState(CardUI cardUI)
+        public void SetToFollowState(BattleCardUI battleCardUI)
         {
-            SetState(InputBehaviourState.HandFollow, cardUI);
-            OnCardSelect?.Invoke(cardUI);
+            SetState(InputBehaviourState.HandFollow, battleCardUI);
+            OnCardSelect?.Invoke(battleCardUI);
         }
 
-        public void SetToHandState(CardUI cardUI)
+        public void SetToHandState(BattleCardUI battleCardUI)
         {
-            SetState(InputBehaviourState.Hand, cardUI);
-            OnCardSetToHandState?.Invoke(cardUI);
+            SetState(InputBehaviourState.Hand, battleCardUI);
+            OnCardSetToHandState?.Invoke(battleCardUI);
         }
 
         #endregion
 
         #region CardUIManagnent
 
-        private void DrawCardsFromDrawDeck(params CardData[] cards)
+        private void DrawCardsFromDrawDeck(params BattleCardData[] cards)
         {
-            CardUI[] handCards;
+            BattleCardUI[] handCards;
 
             handCards = GetCardsUI(cards);
 
@@ -217,7 +217,7 @@ namespace CardMaga.UI
             OnHandUICardsUpdated?.Invoke();
         }
 
-        private void GetCardsFromCombo(params CardUI[] cards)
+        private void GetCardsFromCombo(params BattleCardUI[] cards)
         {
             for (int i = 0; i < cards.Length; i++)
                 cards[i].Init();
@@ -233,41 +233,41 @@ namespace CardMaga.UI
             OnHandUICardsUpdated?.Invoke();
         }
 
-        private CardUI[] GetCardsUI(params CardData[] cardDatas)
+        private BattleCardUI[] GetCardsUI(params BattleCardData[] cardDatas)
         => _cardUIManager.GetCardsUI(cardDatas);
 
-        public bool TryExecuteCard(CardUI cardUI)
+        public bool TryExecuteCard(BattleCardUI battleCardUI)
         {
-            bool canPlayCard = _cardExecutionManager.CanPlayCard(true, cardUI.CardData);
+            bool canPlayCard = _cardExecutionManager.CanPlayCard(true, battleCardUI.BattleCardData);
 
 
             if (canPlayCard)
             {
-                _deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, cardUI.CardData);
-                _handUIState.RemoveCardUI(cardUI);
+                _deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, battleCardUI.BattleCardData);
+                _handUIState.RemoveCardUI(battleCardUI);
 
-                if (_cardExecutionManager.TryExecuteCard(cardUI))
+                if (_cardExecutionManager.TryExecuteCard(battleCardUI))
                 {
-                    DiscardCardAfterExecute(cardUI);
-                    OnCardExecute?.Invoke(cardUI);
+                    DiscardCardAfterExecute(battleCardUI);
+                    OnCardExecute?.Invoke(battleCardUI);
                     OnHandUICardsUpdated?.Invoke();
                     return true;
                 }
             }
 
-            SetToHandState(cardUI);
+            SetToHandState(battleCardUI);
             return false;
         }
 
         private void DiscardAllCards()
         {
-            CardUI[] handCardUis = _handUIState.RemoveAllCardUIFromHand();
-            CardUI[] combineCardUis = new CardUI[handCardUis.Length + 1];
+            BattleCardUI[] handCardUis = _handUIState.RemoveAllCardUIFromHand();
+            BattleCardUI[] combineCardUis = new BattleCardUI[handCardUis.Length + 1];
 
             Array.Copy(handCardUis, combineCardUis, handCardUis.Length);
 
-            CardUI tempZoom = _zoomUIState.ForceExitState();
-            CardUI tempFollow = _followUIState.ForceExitState();
+            BattleCardUI tempZoom = _zoomUIState.ForceExitState();
+            BattleCardUI tempFollow = _followUIState.ForceExitState();
 
             if (tempZoom != null)
             {
@@ -285,15 +285,15 @@ namespace CardMaga.UI
             StartCoroutine(MoveCardToTheDiscardPosition(combineCardUis));
         }
 
-        private void DiscardCardAfterExecute(CardUI cardUI)
+        private void DiscardCardAfterExecute(BattleCardUI battleCardUI)
         {
-            if (cardUI == null)
+            if (battleCardUI == null)
                 return;
 
             //SetState(InputBehaviourState.Hand,cardUI);
-            cardUI.Inputs.ForceResetInputBehaviour();
-            MoveCardToDiscardAfterExecute(cardUI);
-            cardUI.CardVisuals.SetExecutedCardVisuals();
+            battleCardUI.Inputs.ForceResetInputBehaviour();
+            MoveCardToDiscardAfterExecute(battleCardUI);
+            battleCardUI.CardVisuals.SetExecutedCardVisuals();
             //OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
         }
 

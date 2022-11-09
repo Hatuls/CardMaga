@@ -51,14 +51,14 @@ namespace CardMaga.UI
         _inputBehaviour.OnBeginHold -= _handUI.SetToFollowState;
     }
 
-    public override void EnterState(CardUI cardUI)
+    public override void EnterState(BattleCardUI battleCardUI)
     {
-        if (!_tableCardSlot.ContainCardUIInSlots(cardUI , out CardSlot cardSlot))
+        if (!_tableCardSlot.ContainCardUIInSlots(battleCardUI , out CardSlot cardSlot))
         {
-            _tableCardSlot.AddCardUIToCardSlot(cardUI);
+            _tableCardSlot.AddCardUIToCardSlot(battleCardUI);
         }
         
-        if (!cardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
+        if (!battleCardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
         {
             Debug.LogError(name + "Failed To Set InputIdentificationSO Behaviour");
             return;
@@ -68,15 +68,15 @@ namespace CardMaga.UI
         StartCoroutine(MoveCardsToHandPos(_tableCardSlot.GetCardSlotsFrom(_tableCardSlot.GetCardUIsFromTable()), OnCardDrawnAndAlign));//need to Rei-Done
     }
 
-    public override void ExitState(CardUI cardUI)
+    public override void ExitState(BattleCardUI battleCardUI)
     {
-        if (_tableCardSlot.ContainCardUIInSlots(cardUI, out CardSlot cardSlot))
-            cardUI.transform.SetAsLastSibling();
+        if (_tableCardSlot.ContainCardUIInSlots(battleCardUI, out CardSlot cardSlot))
+            battleCardUI.transform.SetAsLastSibling();
     }
     
-    public CardUI[] RemoveAllCardUIFromHand()
+    public BattleCardUI[] RemoveAllCardUIFromHand()
     {
-        CardUI[] cardUis = _tableCardSlot.GetCardUIsFromTable();
+        BattleCardUI[] cardUis = _tableCardSlot.GetCardUIsFromTable();
         
         _tableCardSlot.RemoveAllCardUI();
         
@@ -88,9 +88,9 @@ namespace CardMaga.UI
         return cardUis;
     }
 
-    public void RemoveCardUI(CardUI cardUI)
+    public void RemoveCardUI(BattleCardUI battleCardUI)
     {
-        _tableCardSlot.RemoveCardUI(_tableCardSlot.GetCardSlotFrom(cardUI).CardUI);
+        _tableCardSlot.RemoveCardUI(_tableCardSlot.GetCardSlotFrom(battleCardUI).BattleCardUI);
     }
 
     #region Transitions
@@ -103,20 +103,20 @@ namespace CardMaga.UI
                 if (!currentSlot.IsHaveValue)
                     continue;
 
-                currentSlot.CardUI.transform.SetAsLastSibling();
-                currentSlot.CardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo, OnCardDrawnAndAlign); //Plaster!!!
-                currentSlot.CardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo);
+                currentSlot.BattleCardUI.transform.SetAsLastSibling();
+                currentSlot.BattleCardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo, OnCardDrawnAndAlign); //Plaster!!!
+                currentSlot.BattleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo);
                 yield return _waitForCardDrawnDelay;
             }
 
             onComplete?.Invoke();
         }
 
-        private void ResetCardPosition(CardUI cardUI)
+        private void ResetCardPosition(BattleCardUI battleCardUI)
         {
             KillTween();
-            DG.Tweening.Sequence temp = cardUI.RectTransform
-                .Transition(_tableCardSlot.GetCardSlotFrom(cardUI).CardPos, _resetCardPositionPackSO);
+            DG.Tweening.Sequence temp = battleCardUI.RectTransform
+                .Transition(_tableCardSlot.GetCardSlotFrom(battleCardUI).CardPos, _resetCardPositionPackSO);
         }
         
         private void KillTween()
@@ -126,12 +126,12 @@ namespace CardMaga.UI
 
         #endregion
 
-        public IReadOnlyList<CardUI> CardsUI
+        public IReadOnlyList<BattleCardUI> CardsUI
         {
             get => _tableCardSlot.GetCardUIsFromTable();
         }
 
-        public TouchableItem<CardUI>[] CardUIsInput
+        public TouchableItem<BattleCardUI>[] CardUIsInput
         {
             get => _tableCardSlot.GetCardUIInputsFromTable();
         }
@@ -184,7 +184,7 @@ namespace CardMaga.UI
             return (screenWidth - screenBoundInPercentage) / _cardSlots.Count;
         }
 
-        public void AddCardUIToCardSlot(params CardUI[] cardUI)
+        public void AddCardUIToCardSlot(params BattleCardUI[] cardUI)
         {
             var isNoMoreSpace = _cardSlots.Count == 0;
 
@@ -213,10 +213,10 @@ namespace CardMaga.UI
             AlignCardsSlots();
         }
 
-        public bool RemoveCardUI(CardUI cardUI)
+        public bool RemoveCardUI(BattleCardUI battleCardUI)
         {
             for (var i = 0; i < _cardSlots.Count; i++)
-                if (_cardSlots[i].IsContainCardUI(cardUI))
+                if (_cardSlots[i].IsContainCardUI(battleCardUI))
                 {
                     _cardSlots[i].RemoveCardUI();
                     return true;
@@ -232,11 +232,11 @@ namespace CardMaga.UI
                     _cardSlots[i].RemoveCardUI();
         }
 
-        public bool ContainCardUIInSlots(CardUI cardUI, out CardSlot cardSlot)
+        public bool ContainCardUIInSlots(BattleCardUI battleCardUI, out CardSlot cardSlot)
         {
             for (var i = 0; i < _cardSlots.Count; i++)
             {
-                if (_cardSlots[i].IsContainCardUI(cardUI))
+                if (_cardSlots[i].IsContainCardUI(battleCardUI))
                 {
                     cardSlot = _cardSlots[i];
                     return true;
@@ -247,7 +247,7 @@ namespace CardMaga.UI
             return false;
         }
 
-        public IReadOnlyList<CardSlot> GetCardSlotsFrom(params CardUI[] cardUIs)
+        public IReadOnlyList<CardSlot> GetCardSlotsFrom(params BattleCardUI[] cardUIs)
         {
             var cardSlots = new List<CardSlot>();
 
@@ -262,35 +262,35 @@ namespace CardMaga.UI
             return cardSlots;
         }
 
-        public CardUI[] GetCardUIsFromTable()
+        public BattleCardUI[] GetCardUIsFromTable()
         {
-            var tempCardUI = new List<CardUI>();
+            var tempCardUI = new List<BattleCardUI>();
 
             for (var i = 0; i < _cardSlots.Count; i++)
                 if (_cardSlots[i].IsHaveValue)
-                    tempCardUI.Add(_cardSlots[i].CardUI);
+                    tempCardUI.Add(_cardSlots[i].BattleCardUI);
 
             return tempCardUI.ToArray();
         }
 
-        public TouchableItem<CardUI>[] GetCardUIInputsFromTable()
+        public TouchableItem<BattleCardUI>[] GetCardUIInputsFromTable()
         {
-            var tempCardUI = new List<TouchableItem<CardUI>>();
+            var tempCardUI = new List<TouchableItem<BattleCardUI>>();
 
             for (var i = 0; i < _cardSlots.Count; i++)
                 if (_cardSlots[i].IsHaveValue)
-                    tempCardUI.Add(_cardSlots[i].CardUI.Inputs);
+                    tempCardUI.Add(_cardSlots[i].BattleCardUI.Inputs);
 
             return tempCardUI.ToArray();
         }
 
-        public CardSlot GetCardSlotFrom(CardUI cardUI)
+        public CardSlot GetCardSlotFrom(BattleCardUI battleCardUI)
         {
             for (var i = 0; i < _cardSlots.Count; i++)
-                if (_cardSlots[i].IsContainCardUI(cardUI))
+                if (_cardSlots[i].IsContainCardUI(battleCardUI))
                     return _cardSlots[i];
 
-            Debug.LogError(cardUI.name + " is not found");
+            Debug.LogError(battleCardUI.name + " is not found");
             return null;
         }
 
@@ -300,7 +300,7 @@ namespace CardMaga.UI
         /// </summary>
         /// <param name="cardUIs">The cardUI that will not be include</param>
         /// <returns></returns>
-        public IReadOnlyList<CardSlot> GetCardSlotsExceptFrom(params CardUI[] cardUIs)
+        public IReadOnlyList<CardSlot> GetCardSlotsExceptFrom(params BattleCardUI[] cardUIs)
         {
             var cardSlots = new List<CardSlot>();
             var cardUIList = cardUIs.ToList(); //A list of cards we want to ignore and not send back
@@ -318,20 +318,20 @@ namespace CardMaga.UI
                     {
                         isFound = true; //if the cardui was found we will update this variable to true
                         cardUIList.RemoveAt(
-                            j); //If we found the card we will not have to keep checking if it is in another slot
+                            j); //If we found the battleCard we will not have to keep checking if it is in another slot
                         break;
                     }
 
-                if (!isFound) //If the card is not found it means that we did not ask to ignore it and we will add it to the list
+                if (!isFound) //If the battleCard is not found it means that we did not ask to ignore it and we will add it to the list
                     cardSlots.Add(_cardSlots[i]);
             }
 
             return cardSlots;
         }
 
-        public IReadOnlyList<CardUI> GetCardsUIExceptFrom(params CardUI[] exceptCardUIs)
+        public IReadOnlyList<BattleCardUI> GetCardsUIExceptFrom(params BattleCardUI[] exceptCardUIs)
         {
-            var cardUIs = new List<CardUI>();
+            var cardUIs = new List<BattleCardUI>();
             var cardUIList = exceptCardUIs.ToList(); //A list of cards we want to ignore and not send back
 
             var isFound = false;
@@ -347,12 +347,12 @@ namespace CardMaga.UI
                     {
                         isFound = true; //if the cardui was found we will update this variable to true
                         cardUIList.RemoveAt(
-                            j); //If we found the card we will not have to keep checking if it is in another slot
+                            j); //If we found the battleCard we will not have to keep checking if it is in another slot
                         break;
                     }
 
-                if (!isFound) //If the card is not found it means that we did not ask to ignore it and we will add it to the list
-                    cardUIs.Add(_cardSlots[i].CardUI);
+                if (!isFound) //If the battleCard is not found it means that we did not ask to ignore it and we will add it to the list
+                    cardUIs.Add(_cardSlots[i].BattleCardUI);
             }
 
             return cardUIs;
@@ -362,11 +362,11 @@ namespace CardMaga.UI
         {
         }
 
-        private void AddCardSlot(CardUI cardUI)
+        private void AddCardSlot(BattleCardUI battleCardUI)
         {
             var cardSlot = new CardSlot();
             _cardSlots.Add(cardSlot);
-            cardSlot.AssignCardUI(cardUI);
+            cardSlot.AssignCardUI(battleCardUI);
         }
 
         private void RemoveCardSlot(CardSlot cardSlot)
@@ -392,7 +392,7 @@ namespace CardMaga.UI
     [Serializable]
     public class CardSlot
     {
-        [SerializeField,ReadOnly] private CardUI _cardUI;
+        [SerializeField,ReadOnly] private BattleCardUI battleCardUI;
         private Vector2 _cardPos;
 
         public Vector2 CardPos
@@ -401,29 +401,29 @@ namespace CardMaga.UI
             set => _cardPos = value;
         }
 
-        public bool IsHaveValue => !ReferenceEquals(CardUI, null) || _cardUI != null;
+        public bool IsHaveValue => !ReferenceEquals(BattleCardUI, null) || battleCardUI != null;
 
-        public CardUI CardUI
+        public BattleCardUI BattleCardUI
         {
-            get => _cardUI;
+            get => battleCardUI;
         }
 
-        public void AssignCardUI(CardUI cardUI)
+        public void AssignCardUI(BattleCardUI battleCardUI)
         {
-            _cardUI = cardUI;
+            this.battleCardUI = battleCardUI;
         }
 
         public void RemoveCardUI()
         {
-            _cardUI = null;
+            battleCardUI = null;
         }
 
-        public bool IsContainCardUI(CardUI cardUI)
+        public bool IsContainCardUI(BattleCardUI battleCardUI)
         {
-            if (ReferenceEquals(cardUI, null) || !IsHaveValue || cardUI == null)
+            if (ReferenceEquals(battleCardUI, null) || !IsHaveValue || battleCardUI == null)
                 return false;
 
-            if (cardUI.CardData.CardInstanceID == _cardUI.CardData.CardInstanceID)
+            if (battleCardUI.BattleCardData.Equals(this.battleCardUI.BattleCardData))
                 return true;
 
             return false;
@@ -434,7 +434,7 @@ namespace CardMaga.UI
     
     public interface IGetCardsUI
     {
-        IReadOnlyList<CardUI> CardsUI { get; }
+        IReadOnlyList<BattleCardUI> CardsUI { get; }
     }
 
 }

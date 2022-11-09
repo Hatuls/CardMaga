@@ -2,7 +2,7 @@
 
 namespace CardMaga.UI.Visuals
 {
-    [CreateAssetMenu(fileName = "Type Card SO", menuName = "ScriptableObjects/UI/Visuals/Type Card Visual SO")]
+    [CreateAssetMenu(fileName = "Type BattleCard SO", menuName = "ScriptableObjects/UI/Visuals/Type BattleCard Visual SO")]
     public class TypeCardVisualSO : ScriptableObject
     {
         [Tooltip("Attack = 0, Defense = 1, Utility = 2")]

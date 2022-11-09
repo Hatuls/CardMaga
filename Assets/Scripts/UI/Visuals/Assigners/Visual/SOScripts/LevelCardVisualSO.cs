@@ -2,7 +2,7 @@
 
 namespace CardMaga.UI.Visuals
 {
-    [CreateAssetMenu(fileName = "Level Card SO", menuName = "ScriptableObjects/UI/Visuals/Level SO")]
+    [CreateAssetMenu(fileName = "Level BattleCard SO", menuName = "ScriptableObjects/UI/Visuals/Level SO")]
     public class LevelCardVisualSO : ScriptableObject
     {
         public LevelBGCardVisualSO LevelBGCardVisualSO;

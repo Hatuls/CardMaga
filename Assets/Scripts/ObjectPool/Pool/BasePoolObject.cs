@@ -32,7 +32,7 @@ public abstract class BasePoolObject<T_visual,T_data> : MonoBehaviour where T_vi
             
             cache.transform.SetSiblingIndex(i);
             
-            cache.AssingVisual(objectData[i]);
+            cache.AssignVisual(objectData[i]);
             
             output.Add(cache);
         }

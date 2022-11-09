@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 namespace Art
 {
-    [CreateAssetMenu(fileName = "Card Type Palette", menuName = "ScriptableObjects/Art/Card Type Palette")]
+    [CreateAssetMenu(fileName = "BattleCard Type Palette", menuName = "ScriptableObjects/Art/BattleCard Type Palette")]
     public class CardTypePalette : Palette
     {
 

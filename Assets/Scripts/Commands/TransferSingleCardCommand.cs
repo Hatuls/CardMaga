@@ -9,42 +9,42 @@ namespace CardMaga.Commands
 
         private DeckEnum _fromDeck;
         private DeckEnum _toDeck;
-        private CardData _card;
+        private BattleCardData _battleCard;
         private DeckHandler _deckHandler;
-        public TransferSingleCardCommand(IPlayer player, DeckEnum fromDeck, DeckEnum toDeck, CardData card) : this(player.DeckHandler, fromDeck, toDeck, card) { }
-        public TransferSingleCardCommand(DeckHandler deckHandler, DeckEnum fromDeck, DeckEnum toDeck, CardData card)
+        public TransferSingleCardCommand(IPlayer player, DeckEnum fromDeck, DeckEnum toDeck, BattleCardData battleCard) : this(player.DeckHandler, fromDeck, toDeck, battleCard) { }
+        public TransferSingleCardCommand(DeckHandler deckHandler, DeckEnum fromDeck, DeckEnum toDeck, BattleCardData battleCard)
         {
             _deckHandler = deckHandler;
             _fromDeck = fromDeck;
             _toDeck = toDeck;
-            _card = card;
+            _battleCard = battleCard;
         }
 
         public void Execute()
         {
-            _deckHandler.TransferCard(_fromDeck, _toDeck, _card);
+            _deckHandler.TransferCard(_fromDeck, _toDeck, _battleCard);
         }
 
         public void Undo()
         {
-            _deckHandler.TransferCard(_toDeck, _fromDeck, _card);
+            _deckHandler.TransferCard(_toDeck, _fromDeck, _battleCard);
         }
     }
 
     public class DrawHandCommand : ICommand
     {
         private int _amount;
-        private CardData[] _cardsDraw;
+        private BattleCardData[] _cardsDraw;
         private DeckHandler _deckHandler;
         public DrawHandCommand(IPlayer player, int amount) : this(player.DeckHandler, amount) { }
         public DrawHandCommand(DeckHandler deckHandler, int amount)
         {
             _deckHandler = deckHandler;
             _amount = amount;
-            _cardsDraw = new CardData[amount];
+            _cardsDraw = new BattleCardData[amount];
         }
 
-        public CardData[] CardsDraw { get => _cardsDraw; }
+        public BattleCardData[] CardsDraw { get => _cardsDraw; }
 
         public void Execute()
         {
@@ -53,28 +53,28 @@ namespace CardMaga.Commands
 
 
 
-            CardData cardCache;
+            BattleCardData battleCardCache;
 
             for (int i = 0; i < _amount; i++)
             {
-                cardCache = fromBaseDeck.GetFirstCard();
+                battleCardCache = fromBaseDeck.GetFirstCard();
 
-                if (cardCache == null)
+                if (battleCardCache == null)
                 {
                     _deckHandler[DeckEnum.Discard].ResetDeck();
-                    cardCache = fromBaseDeck.GetFirstCard();
+                    battleCardCache = fromBaseDeck.GetFirstCard();
                 }
 
-                if (cardCache != null)
+                if (battleCardCache != null)
                 {
-                    if (toBaseDeck.AddCard(cardCache))
+                    if (toBaseDeck.AddCard(battleCardCache))
                     {
-                        _cardsDraw[i] = (cardCache);
-                        fromBaseDeck.DiscardCard(cardCache);
+                        _cardsDraw[i] = (battleCardCache);
+                        fromBaseDeck.DiscardCard(battleCardCache);
                     }
                 }
                 else
-                    UnityEngine.Debug.LogError($"DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first card {cardCache} \n " + fromBaseDeck.ToString());
+                    UnityEngine.Debug.LogError($"DeckManager: The Reset from disposal deck to player's deck was not executed currectly and cound not get the first battleCard {battleCardCache} \n " + fromBaseDeck.ToString());
             }
 
 

@@ -9,7 +9,7 @@ namespace CardMaga.UI
 
         [SerializeField]
         DeckEnum _deck;
-        public override IEnumerable<CardMaga.Card.CardData> Sort()
+        public override IEnumerable<CardMaga.Card.BattleCardData> Sort()
         {
             return BattleManager.Instance.PlayersManager.GetCharacter(true).DeckHandler.GetCardsFromDeck(_deck);
         }

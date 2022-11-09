@@ -4,13 +4,13 @@ namespace CardMaga.Commands
 {
     public class StaminaCostCommand : ICommand
     {
-        private CardData _cardData;
+        private BattleCardData _battleCardData;
         private StaminaHandler _staminaHandler;
 
 
-        public StaminaCostCommand(CardData cardData)
+        public StaminaCostCommand(BattleCardData battleCardData)
         {
-            _cardData = cardData;
+            _battleCardData = battleCardData;
         }
         public void Init(StaminaHandler staminaHandler)
         {
@@ -18,12 +18,12 @@ namespace CardMaga.Commands
         }
         public void Execute()
         {
-            _staminaHandler.ReduceStamina(_cardData);
+            _staminaHandler.ReduceStamina(_battleCardData);
         }
 
         public void Undo()
         {
-            _staminaHandler.AddStamina(_cardData.StaminaCost);
+            _staminaHandler.AddStamina(_battleCardData.StaminaCost);
         }
     }
 }

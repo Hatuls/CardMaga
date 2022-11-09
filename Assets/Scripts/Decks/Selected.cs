@@ -8,10 +8,10 @@ namespace Battle.Deck
         Discard _disposalDeck;
         PlayerHand _playerHandDeck;
 
-        private event Action<CardData,DeckEnum> OnSelectCardReset;
-        private event Action<DeckEnum, DeckEnum,CardData> OnSelectedCardDiscard;
+        private event Action<BattleCardData,DeckEnum> OnSelectCardReset;
+        private event Action<DeckEnum, DeckEnum,BattleCardData> OnSelectedCardDiscard;
         public static DeckEnum _discardTo;
-        public Selected( int length, Discard deck, PlayerHand hand , Action<CardData, DeckEnum> onCardReset, Action<DeckEnum, DeckEnum, CardData> onSelectedCardDiscard) : base(length)
+        public Selected( int length, Discard deck, PlayerHand hand , Action<BattleCardData, DeckEnum> onCardReset, Action<DeckEnum, DeckEnum, BattleCardData> onSelectedCardDiscard) : base(length)
         {
             _disposalDeck = deck;
             _playerHandDeck = hand;
@@ -38,10 +38,10 @@ namespace Battle.Deck
             }
         }
       
-        public bool DiscardCard(in CardData card, DeckEnum? discardTo = null)
+        public bool DiscardCard(in BattleCardData battleCard, DeckEnum? discardTo = null)
         {
 
-            if (card == null)
+            if (battleCard == null)
                 return false;
             else if (GetDeck == null || GetDeck.Length == 0)
                 InitDeck(1);
@@ -50,22 +50,22 @@ namespace Battle.Deck
                 return true;
 
             DeckEnum destination = (discardTo == null) ?
-                ( (card.IsExhausted) ? DeckEnum.Exhaust : DeckEnum.Discard)
+                ( (battleCard.IsExhausted) ? DeckEnum.Exhaust : DeckEnum.Discard)
                 : discardTo.Value;
 
             //DeckManager.Instance.TransferCard(
             //    isPlayer,
             //    DeckEnum.Selected,
             //    destination,
-            //    card);
-            OnSelectedCardDiscard?.Invoke(DeckEnum.Selected, destination, card);
+            //    battleCard);
+            OnSelectedCardDiscard?.Invoke(DeckEnum.Selected, destination, battleCard);
             GetDeck[0] = null;
 
             return true;
         }
-        public override bool AddCard(CardData card)
+        public override bool AddCard(BattleCardData battleCard)
         {
-            if (card == null)
+            if (battleCard == null)
                 return false;
             else if (GetDeck == null || GetDeck.Length == 0)
                 InitDeck(1);
@@ -74,11 +74,11 @@ namespace Battle.Deck
             if (GetDeck[0] == null)
             {
                 _discardTo = DeckEnum.Hand;
-                GetDeck[0] = card;
+                GetDeck[0] = battleCard;
             }
 
            // DiscardCard(GetDeck[0], DeckEnum.Hand);
-            //AddCard(card);
+            //AddCard(battleCard);
          return true;
         }
      
