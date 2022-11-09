@@ -1,5 +1,4 @@
 ﻿using Battle.Deck;
-using Battle.Turns;
 using CardMaga.Battle.Players;
 using CardMaga.Card;
 using CardMaga.Commands;
@@ -22,8 +21,8 @@ namespace CardMaga.Battle.Execution
         public event Action OnSuccessfullExecution;
         public event Action OnPlayerCardExecute;
 
-        public event Action<CardData> OnEnemyCardExecute;
-        public event Action<bool, CardData> OnCardDataExecute;
+        public event Action<BattleCardData> OnEnemyCardExecute;
+        public event Action<bool, BattleCardData> OnCardDataExecute;
 
         #endregion
         // REMOVE SINGLETON PATTERN LATER
@@ -97,7 +96,7 @@ namespace CardMaga.Battle.Execution
             battleCard.InitCommands(isLeft, _playersManager, _keywordManager);
             //Visuals
 
-            OnCardDataExecute?.Invoke(isLeft, card);
+            OnCardDataExecute?.Invoke(isLeft, battleCard);
 
 
             //Logic Commands
@@ -110,7 +109,7 @@ namespace CardMaga.Battle.Execution
 
 
 
-        public void ForceExecuteCard(bool isLeft, CardData card)
+        public void ForceExecuteCard(bool isLeft, BattleCardData card)
         {
             card.InitCommands(isLeft, _playersManager, _keywordManager);
 

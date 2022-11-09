@@ -263,6 +263,17 @@ namespace Factory
                 throw new System.Exception($"BattleCard SO Could not been found from ID \nID is {ID}\nCheck Collection For battleCard SO");
             }
 
+            public MetaCardData GetMetaCardData(CoreID cardCore)
+            {
+                CardSO cardSo = GetCard(cardCore.ID);
+
+                CardInstance instance = CreateCardInstance(cardCore.ID);
+                
+                BattleCardData battleCardData = CreateCard(instance);
+
+                return new MetaCardData(instance, cardSo, battleCardData);
+            }
+            
             public MetaCardData GetMetaCardData(CardCore cardCore)
             {
                 CardSO cardSo = GetCard(cardCore.CardID);
@@ -272,6 +283,24 @@ namespace Factory
                 BattleCardData battleCardData = CreateCard(instance);
 
                 return new MetaCardData(instance, cardSo, battleCardData);
+            }
+            
+            public List<MetaCardData> GetMetaCardData(CoreID[] cardCores)
+            {
+                List<MetaCardData> output = new List<MetaCardData>(cardCores.Length);
+
+                foreach (var cardCore in cardCores)
+                {
+                    CardSO cardSo = GetCard(cardCore.ID);
+
+                    CardInstance instance = CreateCardInstance(cardCore.ID);
+                
+                    BattleCardData battleCardData = CreateCard(instance);
+                    
+                    output.Add(new MetaCardData(instance, cardSo, battleCardData));
+                }
+                
+                return output;
             }
             
             public List<MetaCardData> GetMetaCardData(CardCore[] cardCores)
