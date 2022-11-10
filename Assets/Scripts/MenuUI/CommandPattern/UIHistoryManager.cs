@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace CardMaga.UI
 {
@@ -31,17 +33,50 @@ namespace CardMaga.UI
 			if (!IsEmpty)
 				Show(_history.Pop(), false);
 
-			if(IsEmpty)
-				_currentUIElement = null;
+            else
+                _currentUIElement?.Hide();
+            
 		}
 
 		public static void CloseAll()
         {
 			while (!IsEmpty)
 				ShowLast();
+
+            _currentUIElement?.Hide();
 		}
 
 
     }
+    public abstract class BaseUIElement : MonoBehaviour, IUIElement
+    {
+        public event Action OnShow;
+        public event Action OnHide;
+        public event Action OnInitializable;
+        [SerializeField, Tooltip("The GameObjects that will be turning on and off\nIf left empty it will close the gameobject this script is on")]
+        private GameObject _gameObject;
+        public void Hide()
+        {
+            OnHide?.Invoke();
+            if (_gameObject != null)
+                _gameObject.SetActive(false);
+            else
+                gameObject.SetActive(false);
+        }
 
+        public virtual void Init()
+          => OnInitializable?.Invoke();
+
+
+        public void Show()
+        {
+            OnShow?.Invoke();
+
+            if (_gameObject != null)
+                _gameObject.SetActive(true);
+            else
+                gameObject.SetActive(true);
+
+        }
+    }
 }

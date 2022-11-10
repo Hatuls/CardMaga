@@ -27,7 +27,7 @@ namespace CardMaga.Rewards
 
         public void TryRecieveReward(ITokenReciever tokenMachine)
         {
-            _token = tokenMachine.GetToken();
+            _token = tokenMachine?.GetToken();
             AddToDevicesData();
             UpdateOnServer();
         }
@@ -35,12 +35,12 @@ namespace CardMaga.Rewards
         private void UpdateOnServer()
         {
 
-            List<CoreID> _newCards = new List<CoreID>();
+            AccountCards accountCards = new AccountCards();
             for (int i = 0; i < _cardsID.Length; i++)
             {
-                _newCards.Add(new CoreID(_cardsID[i]));
+                accountCards.AddCard(new CoreID(_cardsID[i]));
             }
-            string json = PlayFabSimpleJson.SerializeObject(_newCards);
+            string json = JsonUtility.ToJson(accountCards);
             Debug.Log(json);
             var request = new ExecuteCloudScriptRequest()
             {
@@ -59,7 +59,7 @@ namespace CardMaga.Rewards
         {
             OnServerFailedToAdded?.Invoke();
             Debug.LogError(obj.ErrorMessage);
-            _token.Dispose();
+            _token?.Dispose();
 
         }
         private void OnRewardReceived(ExecuteCloudScriptResult obj)
@@ -67,7 +67,7 @@ namespace CardMaga.Rewards
             OnServerSuccessfullyAdded?.Invoke();
             Debug.LogError("Received in server!");
             Account.AccountManager.Instance.RequestAccoundData();
-            _token.Dispose();
+            _token?.Dispose();
         }
         public void AddToDevicesData()
         {

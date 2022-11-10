@@ -1,4 +1,5 @@
 ﻿using CardMaga.Card;
+using PlayFab.Json;
 using System;
 using UnityEngine;
 namespace Account.GeneralData
@@ -106,9 +107,11 @@ namespace Account.GeneralData
     {
         [SerializeField]
         private int _id;
+        [JsonProperty(PropertyName = "_id")]
         public int ID => _id;
         public CoreID(int id)
         {
+            
             _id = id;
         }
 #if UNITY_EDITOR
