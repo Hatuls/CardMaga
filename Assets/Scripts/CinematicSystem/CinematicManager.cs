@@ -5,8 +5,8 @@ namespace CardMaga.CinematicSystem
 {
     public class CinematicManager : MonoBehaviour
 {
-    #region Events
-
+        #region Events
+    [SerializeField] private ClickHelper _clickHelper;
     [SerializeField, EventsGroup] private UnityEvent OnCinematicSequenceStart;
     [SerializeField, EventsGroup] private UnityEvent OnCinematicSequencePause;
     [SerializeField, EventsGroup] private UnityEvent OnCinematicSequenceResume;
@@ -42,7 +42,9 @@ namespace CardMaga.CinematicSystem
     public void Init()
     {
         _currentCinematicIndex = -1;
-        
+
+            _clickHelper.LoadAction(StartNextCinematic);
+
         for (int i = 0; i < _cinematic.Length; i++)
         {
             _cinematic[i].OnCinematicCompleted += CinematicComplete;
@@ -121,7 +123,10 @@ namespace CardMaga.CinematicSystem
         }
 
         if (cinematicHandler.IsPuseCinematicSequenceOnEnd || _isPause)
-            PauseCinematicSequence();
+            {
+                PauseCinematicSequence();
+                _clickHelper.Open();
+            }
         else
             StartNextCinematic();
     }
