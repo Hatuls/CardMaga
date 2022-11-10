@@ -10,72 +10,80 @@ using UnityEngine.Events;
 namespace CardMaga.UI.Settings
 {
 
-    public class CombatSettingsHandler : BaseUIElement
-    {
-
-
-        public void ToggleSFXSettings()
-        {
-            //  AudioManager.Instance.mu
-        }
-        public void ToggleMusicSettings()
-        {
-
-        }
-        //     public void Open
-    }
-
-
-    public class SurrenderScreen : BaseUIElement, ISequenceOperation<IBattleUIManager>
-    {
-        public int Priority => 0;
-
-
-
-
-
-        public void Close()
-        {
-
-        }
-
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-
-    public abstract class BaseUIElement : MonoBehaviour, IUIElement
+    public class SettingsHandler : MonoBehaviour, IUIElement
     {
         public event Action OnShow;
         public event Action OnHide;
         public event Action OnInitializable;
-        [SerializeField, Tooltip("The GameObjects that will be turning on and off\nIf left empty it will close the gameobject this script is on")]
-        private GameObject _gameObject;
+
         public void Hide()
         {
             OnHide?.Invoke();
-            if (_gameObject != null)
-                _gameObject.SetActive(false);
-            else
-                gameObject.SetActive(false);
         }
 
-        public virtual void Init()
-          => OnInitializable?.Invoke();
-
+        public void Init()
+        {
+            OnInitializable?.Invoke();
+        }
 
         public void Show()
         {
             OnShow?.Invoke();
-
-            if (_gameObject != null)
-                _gameObject.SetActive(true);
-            else
-                gameObject.SetActive(true);
-
         }
     }
 
+
+    public class SettingsLogic : MonoBehaviour, ISequenceOperation<IBattleUIManager>
+    {
+        public int Priority => 0;
+
+        private IExecutableTask[] _executableTasks;
+
+        [SerializeField]
+        private GameObject _panel;
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        {
+
+            Init(data);
+        }
+
+        private void Init(IBattleUIManager battleUIManager)
+        {
+            var battleData = battleUIManager.BattleDataManager;
+            _executableTasks = new IExecutableTask[]
+            {
+            new Surrender(battleData.EndBattleHandler),
+
+            };
+
+        }
+
+        public void ExecuteLogic(int id)
+            => _executableTasks[id].Execute();
+    }
+
+
+    public class Surrender : IExecutableTask
+    {
+        private readonly EndBattleHandler _endBattle;
+        public Surrender(EndBattleHandler endBattle)
+        {
+            _endBattle = endBattle;
+        }
+        public void Execute()
+        {
+            bool isPlayer = true; // will need to change it to player lose not based 
+            _endBattle.ForceEndBattle(!isPlayer);
+        }
+    }
+    public class OpenSettings : IExecutableTask
+    {
+       // ViewWindowHandler
+        public void Execute()
+        {
+            
+        }
+    }
+
+   
 }

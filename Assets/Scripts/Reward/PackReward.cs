@@ -1,10 +1,8 @@
 ﻿using Account.GeneralData;
 using PlayFab;
 using PlayFab.ClientModels;
-using PlayFab.Json;
 using ReiTools.TokenMachine;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
@@ -34,20 +32,13 @@ namespace CardMaga.Rewards
 
         private void UpdateOnServer()
         {
-
-            List<CoreID> _newCards = new List<CoreID>();
-            for (int i = 0; i < _cardsID.Length; i++)
-            {
-                _newCards.Add(new CoreID(_cardsID[i]));
-            }
-            string json = PlayFabSimpleJson.SerializeObject(_newCards);
-            Debug.Log(json);
+    
             var request = new ExecuteCloudScriptRequest()
             {
                 FunctionName = "AddCards",
                 FunctionParameter = new
                 {
-                    Cards = json//Account.AccountManager.Instance.Data.AllCards)
+                    Cards = JsonUtility.ToJson(Account.AccountManager.Instance.Data.AllCards)
                 }
             };
             Account.AccountManager.Instance.UpdateDataOnServer();
@@ -72,8 +63,8 @@ namespace CardMaga.Rewards
         public void AddToDevicesData()
         {
 
-            //for (int i = 0; i < _cardsID.Length; i++)
-            //    Account.AccountManager.Instance.Data.AllCards.AddCard(new CoreID(_cardsID[i]));
+            for (int i = 0; i < _cardsID.Length; i++)
+                Account.AccountManager.Instance.Data.AllCards.AddCard(new CoreID(_cardsID[i]));
 
         }
         public PackReward(string name, int[] cardsID)
@@ -87,7 +78,7 @@ namespace CardMaga.Rewards
 
         }
 
-
+      
 #endif
     }
 
