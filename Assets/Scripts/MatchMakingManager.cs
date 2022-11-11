@@ -29,7 +29,7 @@ public class MatchMakingManager : MonoBehaviour
     private void RegisterOpponent(string name ,CharactersData obj)
     {
         bool isPlayer = false;
-          BattleData.Instance.AssginCharacter(isPlayer, name, obj.GetMainCharacter);
+          BattleData.Instance.AssginCharacter(isPlayer, name, obj.GetMainCharacter());
           
           OnOpponentAssign?.Invoke(BattleData.Instance.Right);
     }

@@ -105,19 +105,16 @@ namespace Account.GeneralData
     [Serializable]
     public class CoreID
     {
-        [SerializeField]
-        private int _id;
-        [JsonProperty(PropertyName = "_id")]
-        public int ID => _id;
+       // [SerializeField]
+        public int ID;
+  //      [JsonProperty(PropertyName = "_id")]
+       // public int ID => _id;
         public CoreID(int id)
         {
-            
-            _id = id;
+            ID = id;
         }
-#if UNITY_EDITOR
         public CoreID() { }
-     
-#endif
+
     }
 
     public static class CardHelper

@@ -28,7 +28,7 @@ namespace CardMaga.Meta.AccountMetaData
             foreach (var character in characters)
             {
                 MetaCharacterData data = new MetaCharacterData(character);
-                _characterDatas.Add(character.Id,data);
+                _characterDatas.Add(character.ID,data);
             }
 
             if (_characterDatas.TryGetValue(1, out MetaCharacterData metaCharacterData))//need to re done

@@ -148,6 +148,7 @@ namespace CardMaga.Battle.UI
         #region UnityCallBacks
         public override void Awake()
         {
+            base.Awake();
             _visualKeywordsHandler = new VisualKeywordsHandler();
             _battleManager.Register(this, OrderType.After);
         }

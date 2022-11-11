@@ -22,7 +22,7 @@ public class TempPlayButton : MonoBehaviour
     public void Play()
     {
         BattleData battleData = Instantiate(_battleDataPrefab).GetComponent<BattleData>();
-        Account.GeneralData.Character mainCharacter = _account.Data.CharactersData.GetMainCharacter;
+        Account.GeneralData.Character mainCharacter = _account.Data.CharactersData.GetMainCharacter();
         battleData.AssginCharacter(true,_account.Data.DisplayName,mainCharacter);
     }
 }

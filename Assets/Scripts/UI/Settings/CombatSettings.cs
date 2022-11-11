@@ -6,6 +6,8 @@ namespace CardMaga.UI.Settings
 
     public class CombatSettings : BaseUIElement
     {
+      [SerializeField]
+      private CanvasLayerChanger _canvasLayerChanger;
         [SerializeField]
         private SurrenderScreen _surrenderScreen;
         [SerializeField, EventsGroup]
@@ -22,10 +24,15 @@ namespace CardMaga.UI.Settings
         }
         public void ShowSettings()
         {
+            _canvasLayerChanger.PrioritizeLayer(true);
             UIHistoryManager.Show(this, true);
         //    ClickHelper.Instance.LoadObject(false, true, ExitSettings, this.transform as RectTransform);
         }
-        public void ExitSettings() => UIHistoryManager.ShowLast();
+        public void ExitSettings()
+        {
+            UIHistoryManager.ShowLast();
+            _canvasLayerChanger.Reset(); 
+        }
     }
 
 

@@ -1,8 +1,9 @@
 ﻿using Account.GeneralData;
 using CardMaga.Rewards;
+using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
-using PlayFab.Json;
+
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Account
 
     public class AccountManager : MonoBehaviour
     {
-
+        public static event Action<AccountData> OnDataUpdated;
         #region Singleton
 
         private static AccountManager _instance;
@@ -45,7 +46,9 @@ namespace Account
 
         [NonSerialized, Sirenix.OdinInspector.ShowInInspector]
         private AccountData _accountData;
-        public LoginResult LoginResult { get; private set; }
+        [Sirenix.OdinInspector.ShowInInspector,NonSerialized,Sirenix.OdinInspector.ReadOnly]
+        private LoginResult loginResult;
+        public LoginResult LoginResult { get => loginResult; private set => loginResult = value; }
 
         private IDisposable _loginDisposable;
         private IDisposable _requestFromServerDisposable;
@@ -93,8 +96,11 @@ namespace Account
 
         private void OnDataRecieved(UpdateUserDataResult obj)
         {
+            OnDataUpdated?.Invoke(Data);
             _loginDisposable?.Dispose();
         }
+        [Sirenix.OdinInspector.Button()]
+        public void RequestDataFromServer() => RequestAccoundData(null);
         [Sirenix.OdinInspector.Button()]
         public void UpdateDataOnServer()
         => PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
@@ -150,8 +156,11 @@ namespace Account
 
         [SerializeField]
         CardsPackRewardFactorySO _factory;
+
+
         [ContextMenu("Add Cards")]
-        public void AddCards() {
+        public void AddCards()
+        {
             _factory.GenerateReward().TryRecieveReward(null);
 
 
@@ -222,11 +231,11 @@ namespace Account
         private void AssignValues(Dictionary<string, string> data)
         {
             string result;
-
+         //   var jsonHandler = PlayFab.PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer);
             // Account General Data
             if (data.TryGetValue(AccountGeneralData.PlayFabKeyName, out result))
             {
-                _accountGeneralData = JsonUtility.FromJson<AccountGeneralData>(result);
+                _accountGeneralData = JsonConvert.DeserializeObject<AccountGeneralData>(result);
                 if (_accountGeneralData == null || !_accountGeneralData.IsValid())
                     CreateNewGeneralData();
             }
@@ -235,7 +244,7 @@ namespace Account
 
             if (data.TryGetValue(ArenaData.PlayFabKeyName, out result))
             {
-                _arenaData = JsonUtility.FromJson<ArenaData>(result);
+                _arenaData = JsonConvert.DeserializeObject<ArenaData>(result);
                 if (_arenaData == null || !_arenaData.IsValid())
                     CreateNewArenaData();
             }
@@ -245,7 +254,10 @@ namespace Account
             // Characters & Deck
             if (data.TryGetValue(CharactersData.PlayFabKeyName, out result))
             {
-                _charactersData = JsonUtility.FromJson<CharactersData>(result);
+
+                _charactersData= JsonConvert.DeserializeObject(result) as CharactersData;
+
+                 //PlayFabSimpleJson.DeserializeObject<CharactersData>(result);
 
                 if (CharactersData == null || !CharactersData.IsValid())
                     CreateNewCharacterData();
@@ -256,7 +268,7 @@ namespace Account
             // Levels
             if (data.TryGetValue(LevelData.PlayFabKeyName, out result))
             {
-                _accountLevel = JsonUtility.FromJson<LevelData>(result);
+                _accountLevel = JsonConvert.DeserializeObject<LevelData>(result);
                 if (_accountLevel == null || !_accountLevel.IsValid())
                     CreateNewLevelData();
             }
@@ -266,7 +278,7 @@ namespace Account
             // Resources
             if (data.TryGetValue(AccountResources.PlayFabKeyName, out result))
             {
-                _accountResources = JsonUtility.FromJson<AccountResources>(result);
+                _accountResources = JsonConvert.DeserializeObject<AccountResources>(result);
                 if (_accountResources == null || !_accountResources.IsValid())
                     CreateNewResourcesData();
             }
@@ -276,7 +288,7 @@ namespace Account
             // Combos  
             if (data.TryGetValue(AccountCombos.PlayFabKeyName, out result))
             {
-                _accountCombos = JsonUtility.FromJson<AccountCombos>(result);
+                _accountCombos = JsonConvert.DeserializeObject<AccountCombos>(result);
                 if (_accountCombos == null || !_accountCombos.IsValid())
                     CreateNewResourcesData();
             }
@@ -286,7 +298,7 @@ namespace Account
             // Cards
             if (data.TryGetValue(AccountCards.PlayFabKeyName, out result))
             {
-                _accountCards = JsonUtility.FromJson<AccountCards>(result);
+                _accountCards = JsonConvert.DeserializeObject<AccountCards>(result);
                 if (_accountCards == null || !_accountCards.IsValid())
                     CreateNewResourcesData();
             }
@@ -301,18 +313,19 @@ namespace Account
 
         public UpdateUserDataRequest GetUpdateRequest()
         {
-            string cards = JsonUtility.ToJson(_accountCards);
+       
+            string cards = JsonConvert.SerializeObject(_accountCards);
             return new UpdateUserDataRequest()
             {
 
                 Data = new Dictionary<string, string>()
                 {
-                    { AccountGeneralData.PlayFabKeyName,     JsonUtility.ToJson(_accountGeneralData) },
-                    { CharactersData.PlayFabKeyName,         JsonUtility.ToJson(CharactersData) },
-                    { LevelData.PlayFabKeyName,              JsonUtility.ToJson(_accountLevel) },
-                    { AccountResources.PlayFabKeyName,       JsonUtility.ToJson(_accountResources) },
-                    { ArenaData.PlayFabKeyName,              JsonUtility.ToJson(_arenaData) },
-                    { AccountCombos.PlayFabKeyName,          JsonUtility.ToJson(_accountCombos) },
+                    { AccountGeneralData.PlayFabKeyName,     JsonConvert.SerializeObject(_accountGeneralData) },
+                    { CharactersData.PlayFabKeyName,         JsonConvert.SerializeObject(CharactersData) },
+                    { LevelData.PlayFabKeyName,              JsonConvert.SerializeObject(_accountLevel) },
+                    { AccountResources.PlayFabKeyName,       JsonConvert.SerializeObject(_accountResources) },
+                    { ArenaData.PlayFabKeyName,              JsonConvert.SerializeObject(_arenaData) },
+                    { AccountCombos.PlayFabKeyName,          JsonConvert.SerializeObject(_accountCombos) },
                     { AccountCards.PlayFabKeyName,           cards}
                 },
                 Permission = UserDataPermission.Public
@@ -326,7 +339,7 @@ namespace Account
             foreach (var character in CharactersData.Characters)
                 foreach (var deck in character.Deck)
                     foreach (var card in deck.Cards)
-                        _accountCards.AddCard(card);
+                        _accountCards.AddCard(new CoreID(card.ID));
         }
         private void CreateNewCombosData()
         {
@@ -370,14 +383,12 @@ namespace Account
 public class AccountCards
 {
     public const string PlayFabKeyName = "Cards";
-    [SerializeField]
-    private List<CoreID> _cardsIDs = new List<CoreID>();
+    public List<CoreID> CardsIDs = new List<CoreID>();
 
  
-    public IReadOnlyList<CoreID> CardsIDs => _cardsIDs;
 
-    public void AddCard(CoreID cardID) => _cardsIDs.Add(cardID);
-    public void RemoveCard(CoreID cardID) => _cardsIDs.Remove(cardID);
+    public void AddCard(CoreID cardID) => CardsIDs.Add(cardID);
+    public void RemoveCard(CoreID cardID) => CardsIDs.Remove(cardID);
     internal bool IsValid() => true;
 
 
@@ -386,13 +397,10 @@ public class AccountCards
 public class AccountCombos
 {
     public const string PlayFabKeyName = "Combos";
-    [SerializeField]
-    private List<ComboCore> _combosIDs = new List<ComboCore>();
     
-    public IReadOnlyList<ComboCore> CombosIDs => _combosIDs;
-
-    public void AddCombo(ComboCore cardID) => _combosIDs.Add(cardID);
-    public void RemoveCombo(ComboCore cardID) => _combosIDs.Remove(cardID);
+    public List<ComboCore> CombosIDs = new List<ComboCore>();
+    public void AddCombo(ComboCore cardID) => CombosIDs.Add(cardID);
+    public void RemoveCombo(ComboCore cardID) => CombosIDs.Remove(cardID);
     internal bool IsValid()
     {
         return true;
