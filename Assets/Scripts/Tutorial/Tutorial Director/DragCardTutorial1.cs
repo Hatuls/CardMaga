@@ -32,7 +32,7 @@ namespace TutorialDirector
             Debug.Log(_directorRect.rect);
         }
 
-        private void CardExecute(CardUI cardUI)
+        private void CardExecute(BattleCardUI cardUI)
         {
             StopDirector();
         }

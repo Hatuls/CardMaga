@@ -69,7 +69,7 @@ public class BaseHandUIState : MonoBehaviour
         return temp;
     }
 
-    protected void SetCardUI(CardUI cardUI)
+    protected void SetCardUI(BattleCardUI cardUI)
     {
         _selectedCardUI = cardUI;
     }

@@ -15,14 +15,14 @@ public class FirstCardDisplayer : MonoBehaviour
     private BattleUiManager _battleUIManager;
     private IReadOnlyList<BattleCardUI> _cards;
 
-    public IReadOnlyList<CardUI> FirstCard { get => _cards;}
+    public IReadOnlyList<BattleCardUI> FirstCard { get => _cards;}
 
     public void GetCard()
     {
         _tutorialClickHelper = TutorialClickHelper.Instance;
         _battleUIManager = BattleUiManager.Instance;
         _cards = _battleUIManager.HandUI.GetCardUIFromHand();
-        InputBehaviour<CardUI> tutorialZoomOutInputBehaviour = new InputBehaviour<CardUI>();
+        InputBehaviour<BattleCardUI> tutorialZoomOutInputBehaviour = new InputBehaviour<BattleCardUI>();
         tutorialZoomOutInputBehaviour.OnClick += ZoomInCardInput;
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomOutInputBehaviour);
         Debug.Log(_cards[0].Inputs.CurrentInputBehaviourState);
@@ -35,16 +35,16 @@ public class FirstCardDisplayer : MonoBehaviour
         
     }
 
-    public void ZoomInCardInput(CardUI cardUI)
+    public void ZoomInCardInput(BattleCardUI cardUI)
     {
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.MoveToZoomPosition(_cards[0]);
-        InputBehaviour<CardUI> tutorialZoomInInputBehaviour = new InputBehaviour<CardUI>();
+        InputBehaviour<BattleCardUI> tutorialZoomInInputBehaviour = new InputBehaviour<BattleCardUI>();
         
         tutorialZoomInInputBehaviour.OnClick += MoveNextDialogues;
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomInInputBehaviour);
     }
 
-    private void MoveNextDialogues(CardUI cardUI)
+    private void MoveNextDialogues(BattleCardUI cardUI)
     {
         if (_dialoguesFlow3.gameObject.activeSelf)
             _dialoguesFlow3.MoveNextDialogues();
@@ -57,7 +57,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
         else
         {
-            InputBehaviour<CardUI> returnCardInputBehaviour = new InputBehaviour<CardUI>();
+            InputBehaviour<BattleCardUI> returnCardInputBehaviour = new InputBehaviour<BattleCardUI>();
             returnCardInputBehaviour.OnClick += ReturnCardToHand;
             _cards[0].Inputs.TrySetInputBehaviour(returnCardInputBehaviour);
         }
@@ -68,7 +68,7 @@ public class FirstCardDisplayer : MonoBehaviour
         ReturnCardToHand(_cards[0]);
     }
 
-    private void ReturnCardToHand(CardUI cardUI)
+    private void ReturnCardToHand(BattleCardUI cardUI)
     {
         _cards[0].Inputs.ForceResetInputBehaviour();
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
@@ -78,7 +78,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public void PutInputBehaviourAfterZoomIn()
     {
-        InputBehaviour<CardUI> afterZoomOut = new InputBehaviour<CardUI>();
+        InputBehaviour<BattleCardUI> afterZoomOut = new InputBehaviour<BattleCardUI>();
         _cards[0].Inputs.TrySetInputBehaviour(afterZoomOut);
         afterZoomOut.OnBeginHold += _battleUIManager.HandUI.SetToFollowState;
     }

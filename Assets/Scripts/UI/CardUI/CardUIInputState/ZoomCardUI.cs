@@ -36,14 +36,14 @@ namespace CardMaga.UI.Card
             _inputBehaviour.OnBeginHold -= SetToFollowState;
         }
 
-        public override void EnterState(CardUI cardUI)
+        public override void EnterState(BattleCardUI cardUI)
         {
             base.EnterState(cardUI);
             _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
             MoveToZoomPosition(cardUI);
         }
 
-        public override void ExitState(CardUI cardUI)
+        public override void ExitState(BattleCardUI cardUI)
         {
              _clickHelper.Close();
             _zoomToken?.Dispose();
@@ -52,17 +52,17 @@ namespace CardMaga.UI.Card
             
         }
 
-        public void ReturnToHandState(CardUI cardUI)
+        public void ReturnToHandState(BattleCardUI cardUI)
         {
             _handUI.SetToHandState(cardUI);
         }
 
-        private void SetToFollowState(CardUI cardUI)
+        private void SetToFollowState(BattleCardUI cardUI)
         {
             _handUI.SetToFollowState(cardUI);
         }
 
-        public override CardUI ForceExitState()
+        public override BattleCardUI ForceExitState()
         {
             if (_zoomToken != null)
                 _zoomToken.Dispose();
@@ -75,17 +75,17 @@ namespace CardMaga.UI.Card
 
         private void InitZoom()
         {
-            if (SelectedCardUI == null)
+            if (_selectedCardUI == null)
                 return;
 
             if (OnZoomInLocation != null)
                 OnZoomInLocation.Invoke();
-            _zoomToken = SelectedCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
+            _zoomToken = _selectedCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
         
-        public void MoveToZoomPosition(CardUI cardUI)
+        public void MoveToZoomPosition(BattleCardUI cardUI)
         {
-            if (SelectedCardUI == null)
+            if (_selectedCardUI == null)
                 SetCardUI(cardUI);
                 KillTween();
                 _currentSequence = cardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
