@@ -1,5 +1,4 @@
-﻿using Battle.Combo;
-using CardMaga.Tools.Pools;
+﻿using CardMaga.Tools.Pools;
 using CardMaga.UI.PopUp;
 using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
@@ -10,10 +9,12 @@ using UnityEngine.Serialization;
 
 namespace CardMaga.UI.Buff
 {
-   
-    public class BuffVisualHandler : BaseBuffVisualHandler , IPoolableMB<BuffVisualHandler>
+
+    public class BuffVisualHandler : BaseBuffVisualHandler, IPoolableMB<BuffVisualHandler>
     {
+        public event Action<BuffVisualHandler> OnDisposed;
         BuffDescriptionPopUp _buffDescriptionPopUp;
+
 
         [SerializeField] BuffVisualAssignerHandler _buffVisualAssignerHandler;
         [SerializeField] BuffTextAssignerHandler _buffTextAssignerHandler;
@@ -33,7 +34,7 @@ namespace CardMaga.UI.Buff
             base.Init(buffData);
         }
         public void Init() { gameObject.SetActive(true); }
-        
+
         public override void Dispose()
         {
             base.Dispose();
@@ -45,8 +46,6 @@ namespace CardMaga.UI.Buff
         [Header("Test")]
         [SerializeField] BuffVisualData testBuffData;
 
-        public event Action<BuffVisualHandler> OnDisposed;
-
         [Button]
         public void Test()
         {
@@ -54,7 +53,7 @@ namespace CardMaga.UI.Buff
             Init(testBuffData);
         }
 
-      
+
 #endif
     }
 
