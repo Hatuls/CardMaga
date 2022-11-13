@@ -2,7 +2,6 @@
 using CardMaga.Card;
 using UnityEngine;
 using CardMaga.Input;
-using CardMaga.UI.ScrollPanel;
 using CardMaga.Tools.Pools;
 
 namespace CardMaga.UI.Card
@@ -23,7 +22,7 @@ namespace CardMaga.UI.Card
         [SerializeField] private CardUIInputHandler _inputs;
 
         private CardAnimator _cardAnimator;
-        private CardMaga.Card.BattleCardData _battleCardData;
+        private BattleCardData _battleCardData;
         
         #endregion
         
@@ -32,9 +31,10 @@ namespace CardMaga.UI.Card
         public RectTransform RectTransform => _rectTransform;
         public RectTransform VisualsRectTransform => _visualsRectTransform;
 
-        public CardMaga.Card.BattleCardData BattleCardData { get => _battleCardData; private set => _battleCardData = value; }
+        public BattleCardData BattleCardData { get => _battleCardData; private set => _battleCardData = value; }
         
-        public void AssingVisual(BattleCardData data)
+        
+        public void AssignVisual(BattleCardData data)
         {
             BattleCardData = data;
             CardVisuals.Init(data);
@@ -66,7 +66,7 @@ namespace CardMaga.UI.Card
         {
             OnHide?.Invoke();
             if(gameObject.activeSelf)
-            gameObject.SetActive(false);
+             gameObject.SetActive(false);
         }
     }
 }

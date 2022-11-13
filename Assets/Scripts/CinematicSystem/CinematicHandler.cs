@@ -68,7 +68,12 @@ public class CinematicHandler
     {
         if (_delayBeforeCinematic != Vector2.zero)
             yield return new WaitForSeconds(_delayBeforeCinematic.GetRandomValue());
-        
+
+        if (!_playableDirector.gameObject.activeSelf)
+        {
+            _playableDirector.gameObject.SetActive(true);
+        }
+
         OnCinematicStart?.Invoke();
         _playableDirector.Play();
 

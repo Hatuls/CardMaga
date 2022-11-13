@@ -2,7 +2,7 @@
 
 namespace CardMaga.UI.Combos
 {
-    public class ComboUIPool : BasePoolObject<ComboUI, ComboData>
+    public class ComboUIPool : BasePoolObject<BattleComboUI, BattleComboData>
     {
     }
 

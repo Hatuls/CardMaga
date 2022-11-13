@@ -13,25 +13,18 @@ namespace CardMaga.UI.MetaUI
         public event Action OnHide;
         public event Action OnInitializable;
 
-        [SerializeField] private ComboUI _comboUI;
+        [SerializeField] private ComboVisualHandler _comboVisual;
 
         public void Init()
         {
             OnInitializable?.Invoke();
-            _comboUI.Init();
+            Show();
         }
 
         public void Dispose()
         {
             Hide();
             OnDisposed?.Invoke(this);
-        }
-
-     
-        public void AssingVisual(MetaComboData data)
-        {
-
-            _comboUI.AssingVisual(data.ComboData);
         }
 
         public void Hide()
@@ -46,5 +39,9 @@ namespace CardMaga.UI.MetaUI
             gameObject.SetActive(true);
         }
 
+        public void AssignVisual(MetaComboData data)
+        {
+            _comboVisual.Init(data.BattleComboData);
+        }
     }
 }

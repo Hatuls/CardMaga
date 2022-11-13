@@ -9,15 +9,15 @@ namespace CardMaga.Meta.AccountMetaData
     {
         private ComboCore _comboCore;
         private ComboSO _comboSO;
-        private ComboData _comboData;
+        private BattleComboData _battleComboData;
 
-        public ComboData ComboData => _comboData;
+        public BattleComboData BattleComboData => _battleComboData;
         
         public MetaComboData(ComboCore comboCore)
         {
             _comboCore = comboCore;
             _comboSO = _comboCore.ComboSO();
-            _comboData = new ComboData(_comboSO,_comboCore.Level);
+            _battleComboData = new BattleComboData(_comboSO,_comboCore.Level);
         }
 
         public int ID => _comboCore.ID;

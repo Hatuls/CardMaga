@@ -1,35 +1,58 @@
 using System.Collections.Generic;
 using CardMaga.Meta.AccountMetaData;
-using UnityEngine;
+using System.Linq;
 
 namespace CardMaga.MetaData.Collection
 {
-    public class MetaCardDataHelper : MonoBehaviour
+    public class MetaCardDataHelper
     {
-        [SerializeField] private AccountDataAccess _accountDataAccess;
+        private AccountDataAccess _accountDataAccess;
         
-        private Dictionary<int, int> _sortCardDataIds;
+        private List<MetaCollectionCardData> _collectionCardDatas;
+        private List<MetaCollectionCardData> _deckCardDatas;
 
-        public Dictionary<int, int> SortCardDataIds => _sortCardDataIds;
-        
-        private void InitDictionary()
+        public List<MetaCollectionCardData> DeckCardDatas => _deckCardDatas;
+
+        public List<MetaCollectionCardData> CollectionCardDatas => _collectionCardDatas;
+
+        public List<MetaCardData> DeckData
         {
-            List<MetaCardData> cardDatas = _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards;
-
-            _sortCardDataIds = new Dictionary<int, int>();
-
-            for (int i = 0; i < cardDatas.Count; i++)
+            get
             {
-                int cache = cardDatas[i].CardInstance.ID;
+                return _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards;
+            }
+        }
+
+        public MetaCardDataHelper(AccountDataAccess accountDataAccess)
+        {
+            _collectionCardDatas = new List<MetaCollectionCardData>();
+            _deckCardDatas = new List<MetaCollectionCardData>();
+            _accountDataAccess = accountDataAccess;
+            InitializeData(_accountDataAccess.AccountData.AccountCards,_collectionCardDatas);
+            InitializeData(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards,_deckCardDatas);
+            SetCollection();
+        }
+        
+        private void InitializeData(List<MetaCardData> cardDatas,List<MetaCollectionCardData> metaCollectionCardDatas)
+        {
+            var result = from cardData in cardDatas
+                group cardData by cardData.CardInstance.ID
+                into r
+                select new { cardID = r.Key, count = r.Count(), metaCard = cardDatas.First(x=> r.Key == x.CardInstance.ID)};
             
-                if (_sortCardDataIds.TryGetValue(cache, out int value))
+            foreach (var x in result)
+            {
+                metaCollectionCardDatas.Add(new MetaCollectionCardData(x.cardID,x.count,x.metaCard));
+            }
+        }
+
+        private void SetCollection()
+        {
+            foreach (var cardData in _collectionCardDatas)
+            {
+                if (_deckCardDatas.Contains(cardData))
                 {
-                    int temp = value++;
-                    _sortCardDataIds[cache] = temp;
-                }
-                else
-                {
-                    _sortCardDataIds.Add(cache,1);
+                    cardData.NumberOfInstant -= 1;
                 }
             }
         }

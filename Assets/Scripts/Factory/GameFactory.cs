@@ -1,24 +1,27 @@
 ﻿using Account.GeneralData;
 using Battle;
+using Collections;
+using Battle.Combo;
 using Battle.Combo;
 using CardMaga.Card;
 using CardMaga.Keywords;
-using CardMaga.Meta.AccountMetaData;
 using Collections;
 using Keywords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using CardMaga.Card;
+using CardMaga.Keywords;
+using CardMaga.Meta.AccountMetaData;
+using Keywords;
 
 namespace Factory
 {
     public class GameFactory
     {
         public static Action OnFactoryFinishedLoading;
-
         private static GameFactory _instance;
-
         public static GameFactory Instance
         {
             get
@@ -31,11 +34,21 @@ namespace Factory
             }
         }
 
+        private static void LoadFromResources()
+        {
+            //throw new Exception("Factory is null!");
+            CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
+            ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
+            CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
 
+            Keywords.KeywordsCollectionSO keywordsCollection = Resources.Load<Keywords.KeywordsCollectionSO>("Collection SO/KeywordSOCollection");
+            _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, keywordsCollection);
+        }
 
         public ComboFactory ComboFactoryHandler { get; private set; }
         public CardFactory CardFactoryHandler { get; private set; }
         public CharacterFactory CharacterFactoryHandler { get; private set; }
+        public RewardFactory RewardFactoryHandler { get; private set; }
         public KeywordFactory KeywordFactoryHandler { get; private set; }
 
 
@@ -56,16 +69,21 @@ namespace Factory
             OnFactoryFinishedLoading?.Invoke();
         }
 
-        private static void LoadFromResources()
+        public class RewardFactory
         {
-            //throw new Exception("Factory is null!");
-            CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
-            ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
-            CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
+            // public BattleRewardCollectionSO BattleRewardCollection { get; private set; }
+            // public RewardFactory(BattleRewardCollectionSO battleRewardCollectionSO)
+            // {
+            //     BattleRewardCollection = battleRewardCollectionSO;
+            // }
 
-            Keywords.KeywordsCollectionSO keywordsCollection = Resources.Load<Keywords.KeywordsCollectionSO>("Collection SO/KeywordSOCollection");
-            _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, keywordsCollection);
+            // public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Battle.Combo.ComboData> workOnCombo)
+            //=> BattleRewardCollection.GetReward(characterTypeEnum, act, workOnCombo);
+
+            // public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
+            //     => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
         }
+        
         public class CharacterFactory
         {
             public CharacterCollectionSO CharacterCollection { get; private set; }
@@ -82,7 +100,7 @@ namespace Factory
                 for (int i = 0; i < length; i++)
                     _charactersDictionary.Add(collection[i].ID, collection[i]);
             }
-
+            
             public CharacterSO GetCharacterSO(CharacterTypeEnum type)
             {
                 var _charactersSO = CharacterCollection.CharactersSO;
@@ -170,16 +188,16 @@ namespace Factory
                 return output;
             }
 
-            public ComboData[] CreateCombos(ComboCore[] combosSO)
+            public BattleComboData[] CreateCombos(ComboCore[] combosSO)
             {
                 if (combosSO != null)
                 {
-                    List<ComboData> combos = new List<ComboData>();
-
+                    List<BattleComboData> combos = new List<BattleComboData>();
+                    
                     for (int i = 0; i < combosSO.Length; i++)
                     {
-                        if (combosSO[i].ID != 0)
-                            combos.Add(CreateCombo(combosSO[i].ComboSO()));
+                        if(combosSO[i].ID != 0)
+                         combos.Add(CreateCombo(combosSO[i].ComboSO()));
                     }
 
                     return combos.ToArray();
@@ -187,8 +205,8 @@ namespace Factory
                 return null;
             }
 
-            public ComboData CreateCombo(ComboSO comboSO, int level = 0)
-               => new ComboData(comboSO, level);
+            public BattleComboData CreateCombo(ComboSO comboSO, int level = 0)
+               => new BattleComboData(comboSO, level);
 
             public ComboSO[] GetComboSOFromIDs(IEnumerable<int> ids)
             {
@@ -250,23 +268,23 @@ namespace Factory
                 CardSO cardSo = GetCard(cardCore.ID);
 
                 CardInstance instance = CreateCardInstance(cardCore.ID);
-
+                
                 BattleCardData battleCardData = CreateCard(instance);
 
                 return new MetaCardData(instance, cardSo, battleCardData);
             }
-
+            
             public MetaCardData GetMetaCardData(CardCore cardCore)
             {
                 CardSO cardSo = GetCard(cardCore.CardID);
 
                 CardInstance instance = CreateCardInstance(cardCore);
-
+                
                 BattleCardData battleCardData = CreateCard(instance);
 
                 return new MetaCardData(instance, cardSo, battleCardData);
             }
-
+            
             public List<MetaCardData> GetMetaCardData(CoreID[] cardCores)
             {
                 List<MetaCardData> output = new List<MetaCardData>(cardCores.Length);
@@ -276,15 +294,15 @@ namespace Factory
                     CardSO cardSo = GetCard(cardCore.ID);
 
                     CardInstance instance = CreateCardInstance(cardCore.ID);
-
+                
                     BattleCardData battleCardData = CreateCard(instance);
-
+                    
                     output.Add(new MetaCardData(instance, cardSo, battleCardData));
                 }
-
+                
                 return output;
             }
-
+            
             public List<MetaCardData> GetMetaCardData(CardCore[] cardCores)
             {
                 List<MetaCardData> output = new List<MetaCardData>(cardCores.Length);
@@ -294,15 +312,15 @@ namespace Factory
                     CardSO cardSo = GetCard(cardCore.CardID);
 
                     CardInstance instance = CreateCardInstance(cardCore);
-
+                
                     BattleCardData battleCardData = CreateCard(instance);
-
+                    
                     output.Add(new MetaCardData(instance, cardSo, battleCardData));
                 }
-
+                
                 return output;
             }
-
+            
             public BattleCardData[] CreateDeck(CoreID[] coreIDs)
             {
                 CardCore[] cards = new CardCore[coreIDs.Length];
@@ -368,7 +386,7 @@ namespace Factory
                 {
                     c[i] = CreateCard(cards[i]);
 
-                    // cards[i].InstanceID = c[i].CardInstance.InstanceID;
+                   // cards[i].InstanceID = c[i].CardInstance.InstanceID;
                 }
                 return c;
             }
