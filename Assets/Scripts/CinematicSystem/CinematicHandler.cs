@@ -23,7 +23,7 @@ public class CinematicHandler
     [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay after the cinematic was executed")]
     private Vector2 _delayAfterCinematic;
 
-    [SerializeField,Tooltip("Immediately start the next cinematic at the end of this one")] private bool isPuseCinematicSequenceOnEndSequenceOnEnd;
+    [SerializeField,Tooltip("Immediately start the next cinematic at the end of this one")] private bool isPauseCinematicSequenceOnEndSequenceOnEnd;
     [SerializeField, Tooltip("Disable the ability to skip the cinematic")] private bool _isDisableSkip;
     [SerializeField] private PlayableDirector _playableDirector;
 
@@ -49,7 +49,7 @@ public class CinematicHandler
 
     public bool IsPuseCinematicSequenceOnEnd
     {
-        get => isPuseCinematicSequenceOnEndSequenceOnEnd;
+        get => isPauseCinematicSequenceOnEndSequenceOnEnd;
     }
 
     public void Init(int cinematicId,MonoBehaviour monoBehaviour)

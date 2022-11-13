@@ -11,7 +11,8 @@ public class MatchMakingManager : MonoBehaviour
 {
     public static event Action<Battle.Characters.BattleCharacter> OnOpponentAssign;
 
-    [SerializeField] OperationManager _lookForMatchOperation;
+    [SerializeField] 
+    OperationManager _lookForMatchOperation;
     private TokenMachine _tokenMachine;
     [SerializeField, EventsGroup]
     private UnityEvent OnMatchFound;
