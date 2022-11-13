@@ -125,7 +125,7 @@ namespace Battle.MatchMaking
             // Contain Info About the arena
             var opponentArena = JsonConvert.DeserializeObject<ArenaData>(charactersData.ArenaData);
 
-            OnOpponentFoundFromServer?.Invoke();
+     
             OnOpponentFound?.Invoke(_opponentDisplayName,opponentCharacter);
             _token.Dispose();
         }

@@ -311,8 +311,8 @@ namespace CardMaga.Battle
             CharacterSO leftCharacterSO = battleData.Left.CharacterData.CharacterSO;
             CharacterSO rightCharacterSO = battleData.Right.CharacterData.CharacterSO;
 
-            ModelSO leftModel = leftCharacterSO.CharacterAvatar;
-            ModelSO rightModel = rightCharacterSO.CharacterAvatar;
+            ModelSO leftModel = leftCharacterSO.ModelSO;
+            ModelSO rightModel = rightCharacterSO.ModelSO;
 
             //LeftCharacter.VisualCharacter.InitVisuals(LeftCharacter, leftCharacterSO, false);
             //RightCharacter.VisualCharacter.InitVisuals(RightCharacter, rightCharacterSO, rightModel == leftModel);

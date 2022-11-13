@@ -39,7 +39,7 @@ namespace CardMaga.Meta.AccountMetaData
         public MetaCharacterData(Character character)
         {
             _id = character.ID;
-            _currentSkin = character.CurrentSkin;
+            _currentSkin = character.CurrentColor;
             _exp = character.EXP;
             _skillPoint = character.SkillPoints;
             _rank = character.Rank;

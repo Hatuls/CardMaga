@@ -14,25 +14,47 @@ namespace Battle.Characters
         [SerializeField]
         private CharacterBattleData _characterData;
 
-        [SerializeField] 
+        [SerializeField]
+        private BattleCharacterVisual _battleCharacterVisual;
+        [SerializeField]
         private string _displayName;
         [SerializeField]
         private PlayerTagSO[] _playerTagSOs;
+
+
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
         public string DisplayName { get => _displayName; }
-
-        private int _model = 0;
-        public int Model { get => _model; }
         public IReadOnlyList<PlayerTagSO> PlayerTags => _playerTagSOs;
+        public BattleCharacterVisual BattleCharacterVisual
+        {
+            private set => _battleCharacterVisual = value;
+            get
+            {
+                if (_battleCharacterVisual == null)
+                    _battleCharacterVisual = new BattleCharacterVisual();
+                return _battleCharacterVisual;
+            }
+        }
 
         public BattleCharacter() { }
 
-        public BattleCharacter(string displayName,  Account.GeneralData.Character data)
+        public BattleCharacter(string displayName, Account.GeneralData.Character data)
         {
             if (data == null)
                 throw new Exception("Characters: Data Is Null");
             _displayName = displayName;
             _characterData = new CharacterBattleData(data);
+
+            var modelSO = _characterData.CharacterSO.ModelSO;
+
+            BattleCharacterVisual.Init(modelSO, data.CurrentModel, data.CurrentColor);
+        }
+
+        public BattleCharacter(string displayName, Character data, BattleCharacter otherCharacter) : this(displayName, data)
+        {
+            if (!BattleCharacterVisual.Equals(otherCharacter.BattleCharacterVisual))
+                return;
+            BattleCharacterVisual.TintColor();
         }
 
         public bool RemoveCombo(int comboID)
@@ -47,24 +69,24 @@ namespace Battle.Characters
                     return true;
                 }
             }
-       
+
             return false;
         }
-        
+
         public bool RemoveCardFromDeck(int InstanceID)
         {
             var deckList = _characterData.CharacterDeck.ToList();
 
             BattleCardData battleCard = deckList.Find((x) => x.CardInstance.InstanceID == InstanceID);
-           
+
             bool check = deckList.Remove(battleCard);
             if (check)
                 _characterData.CharacterDeck = deckList.ToArray();
             return check;
         }
-        
+
         public bool AddCardToDeck(CardCore card) => AddCardToDeck(card.CardSO(), card.Level);
-        
+
         public bool AddCardToDeck(CardSO card, int level = 0)
         {
             if (card == null)
@@ -74,7 +96,7 @@ namespace Battle.Characters
 
             return AddCardToDeck(cardCreated);
         }
-        
+
         public bool AddCardToDeck(BattleCardData battleCard)
         {
             if (battleCard == null)
@@ -88,7 +110,7 @@ namespace Battle.Characters
 
             return battleCard != null;
         }
-        
+
         public bool AddComboRecipe(Battle.Combo.BattleComboData battleComboData)
         {
             bool hasThisCombo = false;
@@ -119,6 +141,57 @@ namespace Battle.Characters
             _characterData.ComboRecipe = comboRecipe;
 
             return hasThisCombo;
+        }
+
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.Button]
+        private void TryAssignSkin()
+        {
+            var modelSO = _characterData.CharacterSO.ModelSO;
+            BattleCharacterVisual.Init(modelSO, 0, 0);
+        }
+#endif
+    }
+    [Serializable]
+    public class BattleCharacterVisual : IEquatable<BattleCharacterVisual>
+    {
+        [SerializeField]
+        private BattleVisualCharacter _battleVisualCharacter;
+        private ModelSkin _characterSkin;
+        private int _colorID;
+        private int _characterID;
+        private ModelSO _modelSO;
+        public AvatarHandler Model => BattleVisualCharacter.Model;
+        public Material Material => BattleVisualCharacter.Material;
+        public Sprite Portrait => BattleVisualCharacter.Portrait;
+
+        public int ColorID { get => _colorID; private set => _colorID = value; }
+        public int CharacterID { get => _characterID; private set => _characterID = value; }
+        public BattleVisualCharacter BattleVisualCharacter
+        {
+            get
+            {
+                if (_battleVisualCharacter == null)
+                    _battleVisualCharacter = new BattleVisualCharacter();
+                return _battleVisualCharacter;
+            }
+            private set => _battleVisualCharacter = value;
+        }
+
+        public bool Equals(BattleCharacterVisual other)
+        => other.ColorID == ColorID && other.CharacterID == CharacterID;
+
+        public void Init(ModelSO modelSO, int characterModel, int colorID)
+        {
+            _modelSO = modelSO;
+            CharacterID = characterModel;
+            _characterSkin = modelSO.GetCharacterSkin(CharacterID);
+            ColorID = colorID;
+            BattleVisualCharacter.Init(_characterSkin, _characterSkin.GetSkin(ColorID));
+        }
+        public void TintColor()
+        {
+            BattleVisualCharacter.Init(_characterSkin, _characterSkin.GetRandomSkin(_colorID));
         }
     }
 }

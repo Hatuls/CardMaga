@@ -1,4 +1,5 @@
 ﻿using Battle;
+using Battle.Characters;
 using CardMaga.Battle.Execution;
 using CardMaga.Battle.Players;
 using CardMaga.Battle.UI;
@@ -58,7 +59,7 @@ namespace CardMaga.Battle.Visual
 
         #endregion
 
-        public void InitVisuals(IPlayer player, CharacterSO characterSO, bool isTinted)
+        public void InitVisuals(IPlayer player,CharacterSO characterSO, BattleCharacterVisual characterSkin)
         {
             //I want to remove this later
             _playerData = player;
@@ -66,10 +67,10 @@ namespace CardMaga.Battle.Visual
 
             IsLeft = player.IsLeft;
             // Instantiate Model
-            ModelSO modelSO = characterSO.CharacterAvatar;
-            AvatarHandler = Instantiate(modelSO.Model, _visual.position, Quaternion.identity, _visual);
-            if (isTinted)
-                AvatarHandler.Mesh.material = modelSO.GetRandomTintedMaterials();
+       
+            AvatarHandler = Instantiate(characterSkin.Model, _visual.position, Quaternion.identity, _visual);
+       
+            AvatarHandler.Mesh.material = characterSkin.Material;
 
             //Assign Avatar
             VfxController.AvatarHandler = AvatarHandler;
