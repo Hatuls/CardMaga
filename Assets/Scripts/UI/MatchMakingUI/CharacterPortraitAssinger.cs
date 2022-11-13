@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace CardMaga.UI.MatchMMaking
 {
-    public class CharecterPortraitAssinger : MonoBehaviour
+    public class CharacterPortraitAssinger : MonoBehaviour
     {
         [SerializeField] private Image _characterImage;
         [SerializeField] private TMP_Text _characterName;
