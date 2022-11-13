@@ -1,4 +1,5 @@
 ﻿using CardMaga.Rewards.Bundles;
+using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
 using ReiTools.TokenMachine;
@@ -22,22 +23,25 @@ namespace CardMaga.Rewards
 
         public void TryRecieveReward(ITokenReciever tokenMachine)
         {
-            _token = tokenMachine.GetToken();
-
+      
             AddToDevicesData();
-            bool isEXP = _resourcesCost.CurrencyType == CurrencyType.Account_EXP;
-            string json = isEXP ? JsonUtility.ToJson(Account.AccountManager.Instance.Data.AccountLevel) : JsonUtility.ToJson(Account.AccountManager.Instance.Data.AccountResources);
-            var request = new ExecuteCloudScriptRequest()
-            {
-                FunctionName = isEXP ? "AddEXP" : "AddResources",
-                FunctionParameter = new
-                {
-                    Value = json
-                }
-            };
-            Account.AccountManager.Instance.UpdateDataOnServer();
+            Account.AccountManager instance = Account.AccountManager.Instance;
+            instance.SendAccountData(tokenMachine);
+           // instance.UpdateDataOnServer();
+            //  bool isEXP = _resourcesCost.CurrencyType == CurrencyType.Account_EXP;
+            //string json = isEXP ? JsonUtility.ToJson(Account.AccountManager.Instance.Data.AccountLevel) : JsonConvert.SerializeObject(Account.AccountManager.Instance.Data.AccountResources);
+            //var request = new ExecuteCloudScriptRequest()
+            //{
+            //    FunctionName = isEXP ? "AddEXP" : "AddResources",
+            //    FunctionParameter = new
+            //    {
+            //        Value = json
+            //    }
+            //};
 
-            PlayFabClientAPI.ExecuteCloudScript(request, OnRewardReceived, OnFailedToReceived);
+            //   Account.AccountManager.Instance.UpdateDataOnServer();
+
+            //    PlayFabClientAPI.ExecuteCloudScript(request, OnRewardReceived, OnFailedToReceived);
 
 
 
@@ -46,13 +50,13 @@ namespace CardMaga.Rewards
         private void OnRewardReceived(ExecuteCloudScriptResult obj)
         {
             OnServerSuccessfullyAdded?.Invoke();
-            _token.Dispose();
+            _token?.Dispose();
         }
 
         private void OnFailedToReceived(PlayFabError obj)
         {
             OnServerFailedToAdded?.Invoke();
-            _token.Dispose();
+            _token?.Dispose();
         }
 
         public void AddToDevicesData()
@@ -60,9 +64,7 @@ namespace CardMaga.Rewards
             switch (_resourcesCost.CurrencyType)
             {
                 case CurrencyType.Coins:
-               
                 case CurrencyType.Diamonds:
-             
                 case CurrencyType.Chips:
                     Account.AccountManager.Instance.Data.AccountResources.AddResource(_resourcesCost.CurrencyType, (int)_resourcesCost.Amount);
                     break;
