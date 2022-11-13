@@ -29,7 +29,6 @@ namespace CardMaga.Rewards
 
         public void TryRecieveReward(ITokenReciever tokenMachine)
         {
-            _token = tokenMachine?.GetToken();
             var allcards = AccountManager.Instance.Data.AllCards;
             for (int i = 0; i < _cardsID.Length; i++)
             {
@@ -37,8 +36,8 @@ namespace CardMaga.Rewards
             }
 
             Account.AccountManager.Instance.SendAccountData(tokenMachine);
-            AddToDevicesData();
-            UpdateOnServer();
+            //AddToDevicesData();
+            //UpdateOnServer();
         }
 
         private void UpdateOnServer()
@@ -109,7 +108,7 @@ namespace CardMaga.Rewards
         event Action OnServerSuccessfullyAdded;
         event Action OnServerFailedToAdded;
         string Name { get; }
-        void TryRecieveReward(ITokenReciever tokenMachine);//T reciever);
+        void TryRecieveReward(ITokenReciever tokenMachine);
         void AddToDevicesData();
     }
 
