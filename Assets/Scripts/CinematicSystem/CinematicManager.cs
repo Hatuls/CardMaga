@@ -47,9 +47,7 @@ namespace CardMaga.CinematicSystem
         public void Init()
         {
             _currentCinematicIndex = -1;
-
-            _clickHelper.LoadAction(ResumeCinematicSequence);
-
+            
             for (int i = 0; i < _cinematic.Length; i++)
             {
                 _cinematic[i].OnCinematicCompleted += CinematicComplete;
@@ -101,6 +99,7 @@ namespace CardMaga.CinematicSystem
 
             OnCinematicSequencePause?.Invoke();
             _isPause = true;
+            _clickHelper.Open(ResumeCinematicSequence);
             _currentCinematic.PauseCinematic();
             
             if (_clickHelper != null)
@@ -113,14 +112,6 @@ namespace CardMaga.CinematicSystem
             _currentCinematic.SkipCinematic();
         }
 
-        public void StartCinematicByIndex(int index)
-        {
-            PauseCinematicSequence();
-
-            _currentCinematic = _cinematic[index];
-            _currentRunningCinematic = _currentCinematic.StartCinematic();
-        }
-
         #endregion
 
         #region Private Function
@@ -131,25 +122,31 @@ namespace CardMaga.CinematicSystem
                 return;
             
             _currentCinematicIndex++;
-            _currentCinematic = _cinematic[_currentCinematicIndex];
-            _currentRunningCinematic = _currentCinematic.StartCinematic();
-        }
-        
-        private void StartFirstCinematic()
-        {
-            _currentCinematicIndex = 0;
-            _currentCinematic = _cinematic[_currentCinematicIndex];
-            _currentRunningCinematic = _currentCinematic.StartCinematic();
-        }
-
-        private void CinematicComplete(CinematicHandler cinematicHandler)
-        {
-            if (_currentCinematicIndex == _cinematic.Length - 1)
+            
+            if (_currentCinematicIndex == _cinematic.Length)
             {
                 FinishedCinematic();
                 return;
             }
 
+            RunCinematic();
+        }
+        
+        private void StartFirstCinematic()
+        {
+            _currentCinematicIndex = 0;
+            RunCinematic();
+        }
+
+        private void RunCinematic()
+        {
+            _currentCinematic = _cinematic[_currentCinematicIndex];
+            _clickHelper.Open(SkipCurrentCinematic);
+            _currentRunningCinematic = _currentCinematic.StartCinematic();
+        }
+
+        private void CinematicComplete(CinematicHandler cinematicHandler)
+        {
             if (cinematicHandler.IsPuseCinematicSequenceOnEnd || _isPause)
             {
                 PauseCinematicSequence();

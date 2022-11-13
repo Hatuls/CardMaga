@@ -101,10 +101,11 @@ public class CinematicHandler
         if (_isDisableSkip)
             return;
         
+        _playableDirector.time = _duration;
+        
         _monoBehaviour.StopAllCoroutines();
         
-        _playableDirector.time = _duration - Time.deltaTime;
-
+        _isCompleted = true;
         CompleteCinematic();
     }
 
