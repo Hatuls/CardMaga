@@ -48,7 +48,7 @@ namespace CardMaga.CinematicSystem
         {
             _currentCinematicIndex = -1;
 
-            _clickHelper.LoadAction(StartNextCinematic);
+            _clickHelper.LoadAction(ResumeCinematicSequence);
 
             for (int i = 0; i < _cinematic.Length; i++)
             {
@@ -67,16 +67,18 @@ namespace CardMaga.CinematicSystem
         }
 
         #region Public Function
+        
         public void StartCinematicSequence(ITokenReciever tokenReciever)
         {
             _token = tokenReciever?.GetToken();
             StartCinematicSequence();
         }
+        
         public void StartCinematicSequence()
         {
             OnCinematicSequenceStart?.Invoke();
             _isPause = false;
-            StartNextCinematic();
+            StartFirstCinematic();
         }
 
         [ContextMenu("Resume Sequence")]
@@ -84,7 +86,11 @@ namespace CardMaga.CinematicSystem
         {
             OnCinematicSequenceResume?.Invoke();
             _isPause = false;
-            StartNextCinematic();
+            
+            if (_currentCinematic.IsCompleted)
+                StartNextCinematic();
+            else
+                _currentCinematic.ResumeCinematic();
         }
 
         [ContextMenu("Pause Sequence")]
@@ -95,13 +101,16 @@ namespace CardMaga.CinematicSystem
 
             OnCinematicSequencePause?.Invoke();
             _isPause = true;
-            SkipCurrentCinematic();
+            _currentCinematic.PauseCinematic();
+            
+            if (_clickHelper != null)
+                _clickHelper.Open();
         }
 
         [ContextMenu("Skip Current Cinematic")]
         public void SkipCurrentCinematic()
         {
-            _cinematic[_currentCinematicIndex].SkipCinematic();
+            _currentCinematic.SkipCinematic();
         }
 
         public void StartCinematicByIndex(int index)
@@ -118,7 +127,17 @@ namespace CardMaga.CinematicSystem
 
         private void StartNextCinematic()
         {
+            if (_isPause)
+                return;
+            
             _currentCinematicIndex++;
+            _currentCinematic = _cinematic[_currentCinematicIndex];
+            _currentRunningCinematic = _currentCinematic.StartCinematic();
+        }
+        
+        private void StartFirstCinematic()
+        {
+            _currentCinematicIndex = 0;
             _currentCinematic = _cinematic[_currentCinematicIndex];
             _currentRunningCinematic = _currentCinematic.StartCinematic();
         }
@@ -134,7 +153,6 @@ namespace CardMaga.CinematicSystem
             if (cinematicHandler.IsPuseCinematicSequenceOnEnd || _isPause)
             {
                 PauseCinematicSequence();
-                _clickHelper.Open();
             }
             else
                 StartNextCinematic();

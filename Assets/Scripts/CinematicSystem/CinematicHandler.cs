@@ -107,6 +107,16 @@ public class CinematicHandler
 
         CompleteCinematic();
     }
+
+    public void PauseCinematic()
+    {
+        _playableDirector.Pause();
+    }
+    
+    public void ResumeCinematic()
+    {
+        _playableDirector.Resume();
+    }
 }
 
 }
