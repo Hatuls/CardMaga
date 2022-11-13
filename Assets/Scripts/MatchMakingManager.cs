@@ -5,7 +5,8 @@ using Battle.MatchMaking;
 using ReiTools.TokenMachine;
 using UnityEngine;
 using UnityEngine.Events;
-
+[Serializable]
+public class BattleCharacterUnityEvent : UnityEvent<Battle.Characters.BattleCharacter> { }
 public class MatchMakingManager : MonoBehaviour
 {
     public static event Action<Battle.Characters.BattleCharacter> OnOpponentAssign;
@@ -14,6 +15,8 @@ public class MatchMakingManager : MonoBehaviour
     private TokenMachine _tokenMachine;
     [SerializeField, EventsGroup]
     private UnityEvent OnMatchFound;
+    [SerializeField, EventsGroup]
+    private BattleCharacterUnityEvent OnOpponentFound;
     private void Awake()
     {
         LookForOpponent.OnOpponentFound += RegisterOpponent;
@@ -29,8 +32,9 @@ public class MatchMakingManager : MonoBehaviour
     private void RegisterOpponent(string name ,CharactersData obj)
     {
         bool isPlayer = false;
-          BattleData.Instance.AssginCharacter(isPlayer, name, obj.GetMainCharacter);
-          
+          BattleData.Instance.AssginCharacter(isPlayer, name, obj.GetMainCharacter());
+
+        OnOpponentFound?.Invoke(BattleData.Instance.Right);
           OnOpponentAssign?.Invoke(BattleData.Instance.Right);
     }
 

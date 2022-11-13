@@ -37,7 +37,7 @@ namespace Battle.Characters
             var factory = Factory.GameFactory.Instance;
             var selectedDeck = data.Deck[data.MainDeck];
 
-            CharacterSO = factory.CharacterFactoryHandler.GetCharacterSO(data.Id);
+            CharacterSO = factory.CharacterFactoryHandler.GetCharacterSO(data.ID);
             CharacterDeck = factory.CardFactoryHandler.CreateDeck(selectedDeck.Cards);
             ComboRecipe = factory.ComboFactoryHandler.CreateCombos(selectedDeck.Combos);
             _characterStats = CharacterSO.CharacterStats;

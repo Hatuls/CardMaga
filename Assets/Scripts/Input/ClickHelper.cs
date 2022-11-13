@@ -13,13 +13,13 @@ public class ClickHelper : MonoBehaviour
     [SerializeField] public RectTransform _panel;
     [SerializeField] private Canvas _canavs;
     [SerializeField] private ClickBlocker _clickBlocker;
+    [SerializeField] private bool _closeOnClick = false;
     
     private Action _action;
     
     private List<RectTransform> _loadedObjects;
     private List<RectTransform> _loadedObjectParents;
 
-    private bool _closeOnClick = false;
     
     #endregion
 
@@ -53,6 +53,11 @@ public class ClickHelper : MonoBehaviour
     /// A function that returns all loaded objects to their original position in the hierarchy, and closes the panel
     /// </summary>
     /// 
+
+    public void LoadAction(Action action)
+    {
+        _action = action;
+    }
 
     public void Close()
     {

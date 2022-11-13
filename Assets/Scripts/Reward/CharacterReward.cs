@@ -1,4 +1,5 @@
 ﻿
+using Account;
 using Account.GeneralData;
 using Battle;
 using Factory;
@@ -26,22 +27,22 @@ namespace CardMaga.Rewards
         {
             _token = tokenMachine.GetToken();
             AddToDevicesData();
-            UpdateOnServer();
+            AccountManager.Instance.SendAccountData(tokenMachine);
         }
 
         private void UpdateOnServer()
         {
-            var request = new ExecuteCloudScriptRequest()
-            {
-                FunctionName = "AddCharacter",
-                FunctionParameter = new
-                {
-                    CharactersData = JsonUtility.ToJson(Account.AccountManager.Instance.Data.CharactersData)
-                }
-            };
-            Account.AccountManager.Instance.UpdateDataOnServer();
+            //var request = new ExecuteCloudScriptRequest()
+            //{
+            //    FunctionName = "AddCharacter",
+            //    FunctionParameter = new
+            //    {
+            //        CharactersData = JsonUtility.ToJson(Account.AccountManager.Instance.Data.CharactersData)
+            //    }
+            //};
+            //Account.AccountManager.Instance.UpdateDataOnServer();
 
-            PlayFabClientAPI.ExecuteCloudScript(request, OnRewardReceived, OnFailedToReceived);
+            //PlayFabClientAPI.ExecuteCloudScript(request, OnRewardReceived, OnFailedToReceived);
         }
 
         private void OnFailedToReceived(PlayFabError obj)

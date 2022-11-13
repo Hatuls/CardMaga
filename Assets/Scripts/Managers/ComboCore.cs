@@ -1,5 +1,6 @@
 ﻿using Battle.Combo;
 using CardMaga.Card;
+using Newtonsoft.Json;
 using System;
 using UnityEngine;
 
@@ -8,15 +9,12 @@ namespace Account.GeneralData
     [Serializable]
     public class ComboCore
     {
-        [SerializeField]
-        private int _id;
-        // maybe need to add also instance id?
-        [SerializeField]
-        private int _level;
-        public int Level { get => _level; private set => _level = value; }
-        public int ID { get => _id; private set => _id = value; }
-
-
+     
+        public int Level;
+        public int ID;
+        [JsonConstructor]
+        public ComboCore() { }
+ 
         public ComboCore(ComboSO comboSO, int level = 0) : this(comboSO?.ID ?? -1, level) { }
 
         public ComboCore(int id, int level = 0)
