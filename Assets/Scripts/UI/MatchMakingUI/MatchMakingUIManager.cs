@@ -7,8 +7,8 @@ namespace CardMaga.UI.MatchMMaking
     public class MatchMakingUIManager : MonoBehaviour
     {
         [SerializeField] private TimeBasedOperation _matchMackingOperation;
-        [SerializeField] private CharecterAssinger _mainCharacterAssginer;
-        [SerializeField] private CharecterAssinger _opponentCharacterAssginer;
+        [SerializeField] private CharacterAssinger _mainCharacterAssginer;
+        [SerializeField] private CharacterAssinger _opponentCharacterAssginer;
         
         [SerializeField] private GameObject _lookingForOpponentUI;
         [SerializeField] private GameObject _matchFoundUI;

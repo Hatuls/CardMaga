@@ -32,7 +32,7 @@ namespace CardMaga.Battle.UI
         {
             const int SIZE = 6;
             _dataPool = new ObjectPool<BuffVisualData>(SIZE);
-            _visualPool = new MBPool<BuffVisualHandler>(_prefab, null, SIZE);
+            _visualPool = new MBPool<BuffVisualHandler>(_prefab, _buffParent, SIZE);
 
 
             var leftCharacter = data.VisualCharactersManager.GetVisualCharacter(true);
