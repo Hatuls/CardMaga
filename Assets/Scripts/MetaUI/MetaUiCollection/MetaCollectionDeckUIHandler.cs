@@ -1,17 +1,16 @@
 using System.Collections.Generic;
-using MetaUI.MetaCardUI;
 
-namespace CardMaga.UI.MetaUI
+namespace CardMaga.MetaUI.CollectionUI
 {
     public class MetaCollectionDeckUIHandler
     {
         private const int MAX_CARD_IN_DRCK = 8;
         private const int MAX_COMBO_IN_DRCK = 3;
-        private MetaCardUISlot[] _cardUISlots;
-        private MetaComboUISlot[] _comboUISlots;
+        private BaseSlot<MetaCardUI>[] _cardUISlots;
+        private BaseSlot<MetaComboUI>[] _comboUISlots;
 
-        public MetaCardUISlot[] CardUISlots => _cardUISlots;
-        public MetaComboUISlot[] ComboUISlots => _comboUISlots;
+        public BaseSlot<MetaCardUI>[] CardUISlots => _cardUISlots;
+        public BaseSlot<MetaComboUI>[] ComboUISlots => _comboUISlots;
 
         public MetaCollectionDeckUIHandler()
         {
@@ -41,8 +40,8 @@ namespace CardMaga.UI.MetaUI
         {
             foreach (var slot in _cardUISlots)
             {
-                if (slot.MetaCardUI.Equals(metaCardUI))
-                    slot.RemoveCard();
+                if (slot.CollectionObject.Equals(metaCardUI))
+                    slot.RemoveValue();
             }
         }
         
@@ -68,8 +67,8 @@ namespace CardMaga.UI.MetaUI
         {
             foreach (var slot in _comboUISlots)
             {
-                if (slot.MetaComboUI.Equals(metaComboUI))
-                    slot.RemoveCombo();
+                if (slot.CollectionObject.Equals(metaComboUI))
+                    slot.RemoveValue();
             }
         }
     }

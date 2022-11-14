@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Account.GeneralData;
 using Factory;
 
-namespace CardMaga.Meta.AccountMetaData
+namespace CardMaga.MetaData.AccoutData
 {
     public class MetaDeckData : IEquatable<MetaDeckData>
     {

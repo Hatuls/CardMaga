@@ -1,11 +1,11 @@
 using System;
 using Account.GeneralData;
-using CardMaga.Meta.AccountMetaData;
+using CardMaga.MetaData.AccoutData;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
 using UnityEngine;
 
-namespace MetaUI.MetaCardUI
+namespace CardMaga.MetaUI
 {
 
     public class MetaCardUI : MonoBehaviour, IPoolableMB<MetaCardUI>, IUIElement, IVisualAssign<MetaCardData>//need to change to MetaCardData 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Account.GeneralData;
 using UnityEngine;
 
-namespace CardMaga.Meta.AccountMetaData
+namespace CardMaga.MetaData.AccoutData
 {
     public class MetaCharacterData
     {

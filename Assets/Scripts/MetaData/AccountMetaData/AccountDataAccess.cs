@@ -1,7 +1,7 @@
 using Account;
 using UnityEngine;
 
-namespace CardMaga.Meta.AccountMetaData
+namespace CardMaga.MetaData.AccoutData
 {
     public class AccountDataAccess : MonoBehaviour // need to remove mono
     {

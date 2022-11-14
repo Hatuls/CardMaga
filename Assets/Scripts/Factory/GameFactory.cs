@@ -2,19 +2,14 @@
 using Battle;
 using Collections;
 using Battle.Combo;
-using Battle.Combo;
 using CardMaga.Card;
 using CardMaga.Keywords;
-using Collections;
 using Keywords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CardMaga.MetaData.AccoutData;
 using UnityEngine;
-using CardMaga.Card;
-using CardMaga.Keywords;
-using CardMaga.Meta.AccountMetaData;
-using Keywords;
 
 namespace Factory
 {

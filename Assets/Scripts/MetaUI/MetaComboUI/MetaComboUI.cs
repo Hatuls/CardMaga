@@ -1,10 +1,11 @@
 using System;
-using CardMaga.Meta.AccountMetaData;
+using CardMaga.MetaData.AccoutData;
 using CardMaga.Tools.Pools;
+using CardMaga.UI;
 using CardMaga.UI.Combos;
 using UnityEngine;
 
-namespace CardMaga.UI.MetaUI
+namespace CardMaga.MetaUI
 {
     public class MetaComboUI : MonoBehaviour, IPoolableMB<MetaComboUI>,IUIElement,IVisualAssign<MetaComboData>
     {

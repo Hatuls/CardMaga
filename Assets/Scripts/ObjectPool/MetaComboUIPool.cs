@@ -1,5 +1,6 @@
-﻿using CardMaga.Meta.AccountMetaData;
-using CardMaga.UI.MetaUI;
+﻿
+using CardMaga.MetaData.AccoutData;
+using CardMaga.MetaUI;
 
 public class MetaComboUIPool : BasePoolObject<MetaComboUI, MetaComboData>
 {

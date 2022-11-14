@@ -3,7 +3,7 @@ using Battle.Combo;
 using CardMaga.Card;
 using Account.GeneralData;
 
-namespace CardMaga.Meta.AccountMetaData
+namespace CardMaga.MetaData.AccoutData
 {
     public class MetaComboData : IEquatable<MetaComboData>
     {

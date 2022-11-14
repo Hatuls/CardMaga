@@ -1,5 +1,5 @@
 ﻿using CardMaga.MetaData.Collection;
-using CardMaga.UI.MetaUI;
+using CardMaga.MetaUI;
 
 public class MetaCollectionCardUIPool : BasePoolObject<MetaCollectionCardUI, MetaCollectionCardData>
 {

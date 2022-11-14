@@ -6,7 +6,6 @@ namespace Cards
 {
     public class CardTypeComparer : IEqualityComparer<CardTypeData>
     {
-
         // Products are equal if their names and product numbers are equal.
         public bool Equals(CardTypeData x, CardTypeData y)
         {

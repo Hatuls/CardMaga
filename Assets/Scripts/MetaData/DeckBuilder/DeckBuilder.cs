@@ -1,5 +1,5 @@
 using System;
-using CardMaga.Meta.AccountMetaData;
+using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 
 namespace CardMaga.MetaData.DeckBuilder
@@ -21,18 +21,18 @@ namespace CardMaga.MetaData.DeckBuilder
         private const int MAX_COMBO_IN_DECK = 3;
 
         private MetaDeckData _deck;
-        private AccountDataHelper _accountData;
+        private AccountDataCollectionHelper _accountDataCollection;
 
-        public DeckBuilder(AccountDataHelper accountDataHelper)
+        public DeckBuilder(AccountDataCollectionHelper accountDataCollectionHelper)
         {
-            _accountData = accountDataHelper;
+            _accountDataCollection = accountDataCollectionHelper;
         }
 
         public void AssingDeckToEdit(MetaDeckData deckData)
         {
             _deck = deckData;
 
-            foreach (var cardData in _accountData.CollectionCardDatas)
+            foreach (var cardData in _accountDataCollection.CollectionCardDatas)
             {
                 cardData.OnTryAddCard += TryAddCard;
                 cardData.OnRemoveCard += RemoveCard;
@@ -42,7 +42,7 @@ namespace CardMaga.MetaData.DeckBuilder
 
         public void DisposeDeck()
         {
-            foreach (var cardData in _accountData.CollectionCardDatas)
+            foreach (var cardData in _accountDataCollection.CollectionCardDatas)
             {
                 cardData.OnTryAddCard -= TryAddCard;
                 cardData.OnRemoveCard -= RemoveCard;
