@@ -44,6 +44,7 @@ namespace CardMaga.UI
         [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardExecutionMoveTransitionPackSo;
+        [SerializeField] private TransitionPackSO _discardExecutionScaleTransitionPackSo;
 
 
         [Header("RectTransforms")]
@@ -165,7 +166,7 @@ namespace CardMaga.UI
         private void MoveCardToDiscardAfterExecute(BattleCardUI battleCardUI)
         {
             //   cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
-            var sequence = battleCardUI.VisualsRectTransform.Transition(_discardScaleTransitionPackSo)
+            var sequence = battleCardUI.VisualsRectTransform.Transition(_discardExecutionScaleTransitionPackSo)
             .Join(battleCardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo))
             .OnComplete(battleCardUI.Dispose);
         }
