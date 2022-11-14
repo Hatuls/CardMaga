@@ -7,7 +7,9 @@ namespace Characters.Stats
     {
         public event Action<int, KeywordType> OnStatsUpdated;
         public event Action<int> OnValueChanged;
+        [Sirenix.OdinInspector.ReadOnly,Sirenix.OdinInspector.ShowInInspector]
         private int _amount;
+        [Sirenix.OdinInspector.ReadOnly,Sirenix.OdinInspector.ShowInInspector]
         public abstract KeywordType Keyword { get; }
         public int Amount
         {

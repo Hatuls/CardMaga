@@ -1,12 +1,11 @@
 ﻿using Battle;
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 
 namespace Account.GeneralData
 {
     [Serializable]
-    public class CharactersData 
+    public class CharactersData
     {
         [NonSerialized]
         public const string PlayFabKeyName = "CharactersData";
@@ -34,42 +33,43 @@ namespace Account.GeneralData
     public class Character
     {
         public int ID;
-         public int CurrentSkin;
-         public int EXP;
-         public int SkillPoints;
-         public int Rank;
-         public int DeckAmount = 1;
-         public int MainDeck;
-       
-         public List<int> AvailableSkins = new List<int>();
-         public List<DeckData> Deck = new List<DeckData>();
+        public int CurrentModel;
+        public int CurrentColor;
+        public int EXP;
+        public int SkillPoints;
+        public int Rank;
+        public int DeckAmount = 1;
+        public int MainDeck;
+
+        public List<int> AvailableSkins = new List<int>();
+        public List<DeckData> Deck = new List<DeckData>();
 
         public Character(CharacterSO newCharacter)
         {
             ID = newCharacter.ID;
-            CurrentSkin = 0;
+            CurrentColor = 0;
             EXP = 0;
             SkillPoints = 0;
             Rank = 0;
             DeckAmount = 1;
-         //   _deck.Add(new DeckData(_deck.Count, "Default Deck",null,null));
+            CurrentModel = 0;
             MainDeck = 0;
         }
 
-    
 
-       
 
-        public bool AddNewDeck(CardInstance[] deckCards,ComboCore[] deckCombos)
+
+
+        public bool AddNewDeck(CardInstance[] deckCards, ComboCore[] deckCombos)
         {
             CoreID[] cards = new CoreID[deckCards.Length];
 
             for (int i = 0; i < cards.Length; i++)
                 cards[i] = new CoreID(deckCards[i].ID);
 
-            return AddNewDeck(cards,deckCombos);
-        }      
-        public bool AddNewDeck(CoreID[] deckCards,ComboCore[] deckCombos)
+            return AddNewDeck(cards, deckCombos);
+        }
+        public bool AddNewDeck(CoreID[] deckCards, ComboCore[] deckCombos)
         {
             bool _canAddDeck = Deck.Count < DeckAmount;
             if (_canAddDeck)
@@ -84,10 +84,10 @@ namespace Account.GeneralData
 
         }
 
-    
+
     }
 
-  [Serializable]
+    [Serializable]
     public class DeckData
     {
         private const string DEFAULT_DECK_NAME = "New Deck";

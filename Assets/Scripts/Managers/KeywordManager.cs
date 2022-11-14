@@ -170,7 +170,7 @@ namespace CardMaga.Keywords
                     {KeywordType.Attack , new AttackKeywordLogic( GetKewordSO(KeywordType.Attack), _playersManager) },
                     {KeywordType.Heal ,healLogic  },
                     {KeywordType.Regeneration, new HealthRegenerationKeyword(healLogic,GetKewordSO(KeywordType.Regeneration), _playersManager) },
-                    {KeywordType.Shield , new DefenseKeyword(GetKewordSO(KeywordType.Shield), _playersManager) },
+                    {KeywordType.Shield , new ShieldKeywordLogic(GetKewordSO(KeywordType.Shield), _playersManager) },
                     {KeywordType.Strength , new StrengthKeyword(GetKewordSO(KeywordType.Strength), _playersManager) },
                     {KeywordType.Stamina, new StaminaKeyword(GetKewordSO(KeywordType.Stamina), _playersManager)},
                     {KeywordType.Dexterity, new DexterityKeyword(GetKewordSO(KeywordType.Dexterity), _playersManager) },

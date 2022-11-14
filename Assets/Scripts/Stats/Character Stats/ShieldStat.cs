@@ -14,12 +14,7 @@ namespace Characters.Stats
          
         }
 
-        public override void Add(int amount)
-        {
-            // add dexterity
-         
-            base.Add(amount);
-        }
+     
         public override void Reduce(int amount)
         {
             if (Amount - amount >= 0)

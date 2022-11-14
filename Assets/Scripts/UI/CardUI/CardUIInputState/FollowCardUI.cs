@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class FollowCardUI : BaseHandUIState
 {
+  
+
     [Header("Scripts Reference")]
     [SerializeField] private HandUI _handUI;
     [Header("TransitionPackSO")]
@@ -12,7 +14,6 @@ public class FollowCardUI : BaseHandUIState
     [Header("RectTransforms")]
     [SerializeField] private RectTransform _executionBoundry;
     public int Priority => 0;
-    private Sequence _currentSequence;
     private float _executionBoundry_Y;
 
     private Vector2 _mousePosition;
@@ -31,9 +32,7 @@ public class FollowCardUI : BaseHandUIState
         _inputBehaviour.OnHold -= FollowHand;
         _inputBehaviour.OnPointUp -= ReleaseCardUI;
         InputReciever.OnTouchDetectedLocation -= GetMousePos;
-        KillTween();
     }
-
     public override void ExitState(BattleCardUI battleCardUI)
     {
         if (!ReferenceEquals(battleCardUI, SelectedBattleCardUI))
@@ -56,8 +55,8 @@ public class FollowCardUI : BaseHandUIState
 
     private void FollowHand(BattleCardUI battleCardUI)
     {
-        KillTween();
-        _currentSequence = battleCardUI.RectTransform.Move(_mousePosition, _followHand);
+        battleCardUI.KillTween(false);
+        battleCardUI.CurrentSequence = battleCardUI.RectTransform.Move(_mousePosition, _followHand);
     }
 
     private void GetMousePos(Vector2 mousePos)
@@ -65,10 +64,7 @@ public class FollowCardUI : BaseHandUIState
         _mousePosition = mousePos;
     }
 
-    private void KillTween()
-    {
-        if (_currentSequence != null) _currentSequence.Kill();
-    }
+
 
 
 }

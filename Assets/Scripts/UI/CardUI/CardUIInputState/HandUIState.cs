@@ -1,35 +1,36 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using CardMaga.Input;
+﻿using CardMaga.Input;
 using CardMaga.UI.Card;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CardMaga.UI
 {
-    public class HandUIState : BaseHandUIState , IGetCardsUI
-    { 
+    public class HandUIState : BaseHandUIState, IGetCardsUI
+    {
         public event Action OnCardDrawnAndAlign;
 
-    [Header("TransitionPackSO")] 
-    [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
-    [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;
-    [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
-    [SerializeField] private TransitionPackSO _resetCardPositionPackSO;
 
-    [Header("Parameters")]
-    [SerializeField] private float _delayBetweenCardDrawn;
+        [Header("TransitionPackSO")]
+        [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
+        [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;
+        [SerializeField] private TransitionPackSO _reAlignTransitionPackSo;
+        [SerializeField] private TransitionPackSO _resetCardPositionPackSO;
 
-    [Header("Scripts Reference")]
-    [SerializeField] private TableCardSlot _tableCardSlot;
-    [SerializeField] private HandUI _handUI;
-    
-    private WaitForSeconds _waitForCardDrawnDelay;
+        [Header("Parameters")]
+        [SerializeField] private float _delayBetweenCardDrawn;
 
-    private DG.Tweening.Sequence _currentSequence;
+        [Header("Scripts Reference")]
+        [SerializeField] private TableCardSlot _tableCardSlot;
+        [SerializeField] private HandUI _handUI;
+
+        private WaitForSeconds _waitForCardDrawnDelay;
+
+        private DG.Tweening.Sequence _currentSequence;
 
         #region Prop
 
@@ -38,62 +39,62 @@ namespace CardMaga.UI
         #endregion
 
         private void Start()
-    {
-        _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
-
-        _inputBehaviour.OnClick += _handUI.SetToZoomState;
-        _inputBehaviour.OnBeginHold += _handUI.SetToFollowState;
-    }
-
-    private void OnDestroy()
-    {
-        _inputBehaviour.OnClick -= _handUI.SetToZoomState;
-        _inputBehaviour.OnBeginHold -= _handUI.SetToFollowState;
-    }
-
-    public override void EnterState(BattleCardUI battleCardUI)
-    {
-        if (!_tableCardSlot.ContainCardUIInSlots(battleCardUI , out CardSlot cardSlot))
         {
-            _tableCardSlot.AddCardUIToCardSlot(battleCardUI);
-        }
-        
-        if (!battleCardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
-        {
-            Debug.LogError(name + "Failed To Set InputIdentificationSO Behaviour");
-            return;
-        }
-        
-     //   _tableCardSlot.ClearCardSlot();
-        StartCoroutine(MoveCardsToHandPos(_tableCardSlot.GetCardSlotsFrom(_tableCardSlot.GetCardUIsFromTable()), OnCardDrawnAndAlign));//need to Rei-Done
-    }
+            _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
 
-    public override void ExitState(BattleCardUI battleCardUI)
-    {
-        if (_tableCardSlot.ContainCardUIInSlots(battleCardUI, out CardSlot cardSlot))
-            battleCardUI.transform.SetAsLastSibling();
-    }
-    
-    public BattleCardUI[] RemoveAllCardUIFromHand()
-    {
-        BattleCardUI[] cardUis = _tableCardSlot.GetCardUIsFromTable();
-        
-        _tableCardSlot.RemoveAllCardUI();
-        
-        for (int i = 0; i < cardUis.Length; i++)
-        {
-            cardUis[i].Inputs.ForceResetInputBehaviour();
+            _inputBehaviour.OnClick += _handUI.SetToZoomState;
+            _inputBehaviour.OnBeginHold += _handUI.SetToFollowState;
         }
 
-        return cardUis;
-    }
+        private void OnDestroy()
+        {
+            _inputBehaviour.OnClick -= _handUI.SetToZoomState;
+            _inputBehaviour.OnBeginHold -= _handUI.SetToFollowState;
+        }
 
-    public void RemoveCardUI(BattleCardUI battleCardUI)
-    {
-        _tableCardSlot.RemoveCardUI(_tableCardSlot.GetCardSlotFrom(battleCardUI).BattleCardUI);
-    }
+        public override void EnterState(BattleCardUI battleCardUI)
+        {
+            if (!_tableCardSlot.ContainCardUIInSlots(battleCardUI, out CardSlot cardSlot))
+            {
+                _tableCardSlot.AddCardUIToCardSlot(battleCardUI);
+            }
 
-    #region Transitions
+            if (!battleCardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
+            {
+                Debug.LogError(name + "Failed To Set InputIdentificationSO Behaviour");
+                return;
+            }
+
+            //   _tableCardSlot.ClearCardSlot();
+            StartCoroutine(MoveCardsToHandPos(_tableCardSlot.GetCardSlotsFrom(_tableCardSlot.GetCardUIsFromTable()), AlignCards));//need to Rei-Done
+        }
+
+        public override void ExitState(BattleCardUI battleCardUI)
+        {
+            if (_tableCardSlot.ContainCardUIInSlots(battleCardUI, out CardSlot cardSlot))
+                battleCardUI.transform.SetAsLastSibling();
+        }
+
+        public BattleCardUI[] RemoveAllCardUIFromHand()
+        {
+            BattleCardUI[] cardUis = _tableCardSlot.GetCardUIsFromTable();
+
+            _tableCardSlot.RemoveAllCardUI();
+
+            for (int i = 0; i < cardUis.Length; i++)
+            {
+                cardUis[i].Inputs.ForceResetInputBehaviour();
+            }
+
+            return cardUis;
+        }
+
+        public void RemoveCardUI(BattleCardUI battleCardUI)
+        {
+            _tableCardSlot.RemoveCardUI(_tableCardSlot.GetCardSlotFrom(battleCardUI).BattleCardUI);
+        }
+
+        #region Transitions
 
         private IEnumerator MoveCardsToHandPos(IReadOnlyList<CardSlot> cardSlots, Action onComplete = null)
         {
@@ -103,27 +104,25 @@ namespace CardMaga.UI
                 if (!currentSlot.IsHaveValue)
                     continue;
 
-                currentSlot.BattleCardUI.transform.SetAsLastSibling();
-                currentSlot.BattleCardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo, OnCardDrawnAndAlign); //Plaster!!!
-                currentSlot.BattleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo);
-                yield return _waitForCardDrawnDelay;
+                BattleCardUI battleCardUI = currentSlot.BattleCardUI;
+                battleCardUI.transform.SetAsLastSibling();
+                var sequence = battleCardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo)//Plaster!!!
+                .Join(battleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo))
+                .OnComplete(AlignCards);
+
+                if (battleCardUI.CurrentSequence != null && !battleCardUI.CurrentSequence.IsComplete())
+                    battleCardUI.CurrentSequence.Join(sequence);
+                else
+                    battleCardUI.CurrentSequence = sequence;
+
+                     yield return _waitForCardDrawnDelay;
             }
 
             onComplete?.Invoke();
         }
 
-        private void ResetCardPosition(BattleCardUI battleCardUI)
-        {
-            KillTween();
-            DG.Tweening.Sequence temp = battleCardUI.RectTransform
-                .Transition(_tableCardSlot.GetCardSlotFrom(battleCardUI).CardPos, _resetCardPositionPackSO);
-        }
-        
-        private void KillTween()
-        {
-            if (_currentSequence != null) _currentSequence.Kill();
-        }
-
+     
+        private void AlignCards() => OnCardDrawnAndAlign?.Invoke();
         #endregion
 
         public IReadOnlyList<BattleCardUI> CardsUI
@@ -149,8 +148,8 @@ namespace CardMaga.UI
         [SerializeField] [ReadOnly] private List<CardSlot> _cardSlots = new List<CardSlot>();
 
         public IReadOnlyList<CardSlot> CardSlots => _cardSlots;
-        
-        
+
+
         public void AlignCardsSlots()
         {
             for (var i = 0; i < _cardSlots.Count; i++) _cardSlots[i].CardPos = CalculateCardPosition(i);
@@ -252,12 +251,12 @@ namespace CardMaga.UI
             var cardSlots = new List<CardSlot>();
 
             for (var i = 0; i < cardUIs.Length; i++)
-            for (var j = 0; j < _cardSlots.Count; j++)
-                if (_cardSlots[j].IsContainCardUI(cardUIs[i]))
-                {
-                    cardSlots.Add(_cardSlots[j]);
-                    break;
-                }
+                for (var j = 0; j < _cardSlots.Count; j++)
+                    if (_cardSlots[j].IsContainCardUI(cardUIs[i]))
+                    {
+                        cardSlots.Add(_cardSlots[j]);
+                        break;
+                    }
 
             return cardSlots;
         }
@@ -392,7 +391,7 @@ namespace CardMaga.UI
     [Serializable]
     public class CardSlot
     {
-        [SerializeField,ReadOnly] private BattleCardUI battleCardUI;
+        [SerializeField, ReadOnly] private BattleCardUI battleCardUI;
         private Vector2 _cardPos;
 
         public Vector2 CardPos
@@ -430,8 +429,8 @@ namespace CardMaga.UI
         }
     }
 
-        #endregion
-    
+    #endregion
+
     public interface IGetCardsUI
     {
         IReadOnlyList<BattleCardUI> CardsUI { get; }

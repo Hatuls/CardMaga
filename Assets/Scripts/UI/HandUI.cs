@@ -21,7 +21,8 @@ namespace CardMaga.UI
     public class HandUI : InputBehaviourHandler<BattleCardUI>, ISequenceOperation<IBattleUIManager>
     {
         #region Events
-
+        public event Action OnCardExecutionFailed;
+        public event Action OnCardExecutionSuccess;
         public static event Action<BattleCardUI> OnCardExecute;
         public static event Action OnCardDrawnAndAlign;
         public static event Action OnDiscardAllCards;
@@ -44,6 +45,7 @@ namespace CardMaga.UI
         [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardExecutionMoveTransitionPackSo;
+        [SerializeField] private TransitionPackSO _discardExecutionScaleTransitionPackSo;
 
 
         [Header("RectTransforms")]
@@ -154,17 +156,20 @@ namespace CardMaga.UI
 
             void Transition(BattleCardUI card)
             {
-                var sequence = card.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
-                sequence.Join(card.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo));
-                sequence.OnComplete(card.Dispose);
+                TokenMachine tokenMachine = new TokenMachine(card.Dispose);
+                IDisposable token = tokenMachine.GetToken();
+                var sequence = card.VisualsRectTransform.Transition(_discardScaleTransitionPackSo)
+                .Join(card.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo))
+                .OnComplete(token.Dispose);
             }
         }
 
         private void MoveCardToDiscardAfterExecute(BattleCardUI battleCardUI)
         {
             //   cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
-            var sequence = battleCardUI.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
-            sequence.Join(battleCardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo)); sequence.OnComplete(battleCardUI.Dispose);
+            var sequence = battleCardUI.VisualsRectTransform.Transition(_discardExecutionScaleTransitionPackSo)
+            .Join(battleCardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo))
+            .OnComplete(battleCardUI.Dispose);
         }
 
         private void KillTween()
@@ -210,6 +215,7 @@ namespace CardMaga.UI
             {
                 //_handCards[i].Inputs.ForceResetInputBehaviour();
                 handCards[i].Init();
+                handCards[i].DOKill(false);
                 SetState(InputBehaviourState.Hand, handCards[i]);
             }
 
@@ -226,6 +232,7 @@ namespace CardMaga.UI
 
             for (int i = 0; i < cards.Length; i++)
             {
+                cards[i].DOKill(false);
                 //cards[i].Inputs.ForceResetInputBehaviour();
                 SetState(InputBehaviourState.Hand, cards[i]);
             }
@@ -251,12 +258,14 @@ namespace CardMaga.UI
                     DiscardCardAfterExecute(battleCardUI);
                     OnCardExecute?.Invoke(battleCardUI);
                     OnHandUICardsUpdated?.Invoke();
-                    return true;
+                    OnCardExecutionSuccess?.Invoke();
+                    return canPlayCard; // true
                 }
             }
 
+            OnCardExecutionFailed?.Invoke();
             SetToHandState(battleCardUI);
-            return false;
+            return canPlayCard; // false
         }
 
         private void DiscardAllCards()

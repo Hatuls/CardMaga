@@ -30,7 +30,7 @@ namespace CardMaga.UI.Settings
         }
         public void ExitSettings()
         {
-            UIHistoryManager.ShowLast();
+            UIHistoryManager.ReturnBack();
             _canvasLayerChanger.Reset(); 
         }
     }

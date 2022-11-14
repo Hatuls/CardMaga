@@ -19,12 +19,12 @@ namespace CardMaga.UI.Settings
         }
         public void ReturnBack()
         {
-            UIHistoryManager.ShowLast();
+            UIHistoryManager.ReturnBack();
  
         }
         public void Surrender()
         {
-            BattleUiManager.Instance.BattleDataManager.EndBattleHandler.ForceEndBattle(true);
+            BattleUiManager.Instance.BattleDataManager.EndBattleHandler.ForceEndBattle(false);
             UIHistoryManager.CloseAll();
             _canvasLayerChanger.Reset();
         }

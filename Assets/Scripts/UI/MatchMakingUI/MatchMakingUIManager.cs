@@ -26,28 +26,28 @@ namespace CardMaga.UI.MatchMMaking
             
             if (isInTutorial)
             {
-                OpponentFound(BattleData.Instance.Right);
+            //    OpponentFound(BattleData.Instance.Right);
                 _matchMackingOperation.DelayBeforeOperation = _delayVsScreen;
             }
             else
             {
-                MatchMakingManager.OnOpponentAssign += OpponentFound;
+               // MatchMakingManager.OnOpponentAssign += OpponentFound;
             }
         }
 
         private void OnDestroy()
         {
-            MatchMakingManager.OnOpponentAssign -= OpponentFound;
+         //   MatchMakingManager.OnOpponentAssign -= OpponentFound;
         }
 
-        private void OpponentFound(BattleCharacter character)
-        {
-            _lookingForOpponentUI.SetActive(false);
+        //private void OpponentFound(BattleCharacter character)
+        //{
+        //    _lookingForOpponentUI.SetActive(false);
             
-            _matchFoundUI.SetActive(true);
+        //    _matchFoundUI.SetActive(true);
             
-            _opponentCharacterAssginer.AssingCharecter(character);
-        }
+        //    _opponentCharacterAssginer.AssingCharecter(character);
+        //}
     }
 }
 

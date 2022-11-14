@@ -16,8 +16,8 @@ namespace CardMaga.UI.Card
         [Header("RectTransforms")]
         [SerializeField] private RectTransform _zoomPosition;
 
-        public static event Action OnZoomInLocation;
         public static event Action OnEnterZoomTutorial;
+        public static event Action OnZoomInLocation;
         public static event Action OnExitZoomTutorial;
 
         private Sequence _currentSequence;
@@ -36,67 +36,62 @@ namespace CardMaga.UI.Card
             _inputBehaviour.OnBeginHold -= SetToFollowState;
         }
 
-        public override void EnterState(BattleCardUI cardUI)
+        public override void EnterState(BattleCardUI battleCardUI)
         {
-            base.EnterState(cardUI);
-            _clickHelper.LoadObject(true,false,() => ReturnToHandState(cardUI),cardUI.RectTransform);
-            MoveToZoomPosition(cardUI);
+            base.EnterState(battleCardUI);
+            _clickHelper.LoadObject(true,false,() => ReturnToHandState(battleCardUI),battleCardUI.RectTransform);
+            MoveToZoomPosition(battleCardUI);
+            if (OnExitZoomTutorial != null)
+                OnExitZoomTutorial.Invoke();
         }
 
-        public override void ExitState(BattleCardUI cardUI)
+        public override void ExitState(BattleCardUI battleCardUI)
         {
              _clickHelper.Close();
             _zoomToken?.Dispose();
-            base.ExitState(cardUI);
-
-            
+            base.ExitState(battleCardUI);
+            if(OnEnterZoomTutorial != null)
+                OnEnterZoomTutorial.Invoke();
         }
 
-        public void ReturnToHandState(BattleCardUI cardUI)
+        public void ReturnToHandState(BattleCardUI battleCardUI)
         {
-            _handUI.SetToHandState(cardUI);
+            _handUI.SetToHandState(battleCardUI);
         }
 
-        private void SetToFollowState(BattleCardUI cardUI)
+        private void SetToFollowState(BattleCardUI battleCardUI)
         {
-            _handUI.SetToFollowState(cardUI);
+            _handUI.SetToFollowState(battleCardUI);
         }
 
         public override BattleCardUI ForceExitState()
         {
             if (_zoomToken != null)
                 _zoomToken.Dispose();
-
-            if (OnExitZoomTutorial != null)
-                OnExitZoomTutorial.Invoke();
-
+            
             return base.ForceExitState();
         }
 
         private void InitZoom()
         {
-            if (_selectedCardUI == null)
+            if (SelectedBattleCardUI == null)
                 return;
 
             if (OnZoomInLocation != null)
                 OnZoomInLocation.Invoke();
-            _zoomToken = _selectedCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
+            _zoomToken = SelectedBattleCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
         
-        public void MoveToZoomPosition(BattleCardUI cardUI)
+        private void MoveToZoomPosition(BattleCardUI battleCardUI)
         {
-            if (_selectedCardUI == null)
-                SetCardUI(cardUI);
-                KillTween();
-                _currentSequence = cardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
-            if (OnEnterZoomTutorial != null)
-                OnEnterZoomTutorial.Invoke();
+            if (SelectedBattleCardUI != null)
+            {
+                SelectedBattleCardUI.KillTween(false);
+                SelectedBattleCardUI.CurrentSequence = battleCardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
+            }
         }
 
-        private void KillTween()
-        {
-            if (_currentSequence != null) _currentSequence.Kill();
-        }
+   
 
     }
 }

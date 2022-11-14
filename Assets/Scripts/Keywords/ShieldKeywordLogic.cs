@@ -6,9 +6,9 @@ using Characters.Stats;
 
 namespace CardMaga.Keywords
 {
-    public class DefenseKeyword : BaseKeywordLogic
+    public class ShieldKeywordLogic : BaseKeywordLogic
     {
-        public DefenseKeyword(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
+        public ShieldKeywordLogic(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
         {
         }
 

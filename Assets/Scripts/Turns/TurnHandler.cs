@@ -64,14 +64,15 @@ namespace Battle.Turns
 
             var currentTurn = GetTurn(CurrentTurn);
 
-            CurrentTurn = currentTurn.GetNextTurn();
-
-            var nextTurn = GetTurn(CurrentTurn);
+            var nextTurn = GetTurn(currentTurn.GetNextTurn());
 
             if (nextTurn == null)
                 currentTurn?.Exit(null);
             else
+            {
+                CurrentTurn = currentTurn.GetNextTurn();
                 currentTurn?.Exit(EnterNextState);
+            }
         }
 
 

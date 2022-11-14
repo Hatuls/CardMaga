@@ -30,10 +30,8 @@ namespace Battle
 
         [SerializeField]
         private ModelSO _characterVisual;
-        public ModelSO CharacterAvatar { get => _characterVisual; private set => _characterVisual = value; }
+        public ModelSO ModelSO { get => _characterVisual; private set => _characterVisual = value; }
 
-        [PreviewField(75f)]
-        public GameObject Model => _characterVisual?.Model?.gameObject ?? null; 
         [SerializeField]
         private Sprite _characterSprite;
         public Sprite CharacterSprite => _characterSprite;
@@ -116,7 +114,7 @@ namespace Battle
                             ModelSO characterModel =  Resources.Load<ModelSO>($"Art/Models/SO/{row[CharacterModelIndex]}");
                             if (row[CharacterModelIndex].Length != 0 && characterModel != null)
                             {
-                                CharacterAvatar = characterModel;
+                                ModelSO = characterModel;
 
                                 CharacterStats = new CharacterStats()
                                 {

@@ -81,11 +81,12 @@ namespace Account.GeneralData
         {
             Factory.GameFactory.CardFactory.Remove(this);
         }
-        
+
+
 #if UNITY_EDITOR
         public CardCore() { }
-    
-        public CardCore(CoreID coreID,CardSO cardSO)
+
+        public CardCore(CoreID coreID, CardSO cardSO)
         {
             _coreID = coreID;
             _cardSO = cardSO;
@@ -93,11 +94,10 @@ namespace Account.GeneralData
             int differences = _coreID.ID - baseCardLevel;
             _level = differences;
         }
-
         //[Sirenix.OdinInspector.Button]
         //private void Refresh()
         //{
-            
+
         //}
 #endif
     }

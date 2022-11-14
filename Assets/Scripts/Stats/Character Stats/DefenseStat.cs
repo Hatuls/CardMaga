@@ -1,22 +1,29 @@
 ﻿using CardMaga.Keywords;
+using UnityEngine;
+
 namespace Characters.Stats
 {
+    //Not Active
     public class DefenseStat : BaseStat
     {
-        public DefenseStat(int amount) : base(amount)
+        BaseStat _healStat;
+        public DefenseStat(BaseStat health, int amount) : base(amount)
         {
+            _healStat = health;
         }
 
         public override KeywordType Keyword => KeywordType.Shield;
 
         public override void Reduce(int amount)
         {
+            int difference = Amount - amount;
             base.Reduce(amount);
-
             if (Amount < 0)
                 Amount = 0;
 
-            // transfer damage to Health
+            if (difference < 0)
+                _healStat.Reduce(Mathf.Abs(difference));
+          
         }
     }
 

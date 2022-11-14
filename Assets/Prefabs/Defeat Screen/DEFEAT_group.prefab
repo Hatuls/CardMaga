@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8257150473131081939}
   - component: {fileID: 7439544644739618564}
   - component: {fileID: 1960247724148102967}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 8163210919777603177}
   - component: {fileID: 8324578390692875052}
   - component: {fileID: 1231541540827232087}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: E1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1347244540370498250}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DEFEAT_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 7801890465243107115}
   - component: {fileID: 7217182016582085771}
   - component: {fileID: 217170361785004104}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LowerStreetLines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957205520368602777}
   m_LocalRotation: {x: -0, y: -0, z: -0.8603262, w: 0.50974405}
-  m_LocalPosition: {x: -0.79, y: -0.25, z: 0.43200016}
+  m_LocalPosition: {x: -0.79, y: -0.63, z: 0.43200016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1347244540370498250}
@@ -4967,7 +4967,7 @@ GameObject:
   - component: {fileID: 4553738834777174913}
   - component: {fileID: 4684254883815065362}
   - component: {fileID: 2967339465549519035}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5045,7 +5045,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4055085838943585686}
-  m_Layer: 0
+  - component: {fileID: 1026805404}
+  - component: {fileID: 1026805403}
+  m_Layer: 11
   m_Name: DEFEAT_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5068,6 +5070,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!320 &1026805404
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3678701720571174700}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: dc7d29e2a25b6364b8bb0018dc14b002, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 0
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 7116128821722585161, guid: dc7d29e2a25b6364b8bb0018dc14b002, type: 2}
+    value: {fileID: 1026805403}
+  - key: {fileID: 1266499704345048511, guid: dc7d29e2a25b6364b8bb0018dc14b002, type: 2}
+    value: {fileID: 3734321427451060130}
+  - key: {fileID: -1726645977646659278, guid: dc7d29e2a25b6364b8bb0018dc14b002, type: 2}
+    value: {fileID: 7889344852433018552}
+  m_ExposedReferences:
+    m_References: []
+--- !u!95 &1026805403
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3678701720571174700}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3734321427451060130
 GameObject:
   m_ObjectHideFlags: 0
@@ -5079,13 +5123,13 @@ GameObject:
   - component: {fileID: 4953536871893966352}
   - component: {fileID: 5535778601002007984}
   - component: {fileID: 3168307401667944819}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DefeatElectricR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4953536871893966352
 Transform:
   m_ObjectHideFlags: 0
@@ -5094,7 +5138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3734321427451060130}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.545, y: 0.035, z: -0.977}
+  m_LocalPosition: {x: -0.004, y: -0.009, z: -0.977}
   m_LocalScale: {x: 0.27158293, y: 1.0326307, z: 0.3912253}
   m_Children: []
   m_Father: {fileID: 1347244540370498250}
@@ -5183,7 +5227,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.4
+      scalar: 0.12
       minScalar: 0.1
       maxCurve:
         serializedVersion: 2
@@ -5290,7 +5334,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 0, g: 0.76727796, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.9330109, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.88549155, b: 0.5235849, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5735,7 +5779,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 2.05, y: 0.48, z: 1}
+    m_Scale: {x: 4.56, y: 0.32, z: 1}
     placementMode: 1
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -6044,7 +6088,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 7
+        scalar: 60
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -6094,8 +6138,8 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-      cycleCount: 5
-      repeatInterval: 0.5
+      cycleCount: 1
+      repeatInterval: 0.01
       probability: 1
   SizeModule:
     enabled: 1
@@ -6109,21 +6153,57 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
+          value: 1
+          inSlope: -2.119497
+          outSlope: -2.119497
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.09792285
+        - serializedVersion: 3
+          time: 0.19951198
+          value: 0.26453754
+          inSlope: -0.07738962
+          outSlope: -0.07738962
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.8547704
+        - serializedVersion: 3
+          time: 0.34796998
+          value: 0.9574313
+          inSlope: -0.08699813
+          outSlope: -0.08699813
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.8006027
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.50718707
+          value: 0.20834818
+          inSlope: 0.44548985
+          outSlope: 0.44548985
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.59987944
+        - serializedVersion: 3
+          time: 0.6717955
+          value: 0.9075038
+          inSlope: -0.048821554
+          outSlope: -0.048821554
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.9445144
+          outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: 2
-          outSlope: 2
+          value: 0
+          inSlope: -0.18701445
+          outSlope: -0.18701445
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.1513353
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -9195,7 +9275,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.80579585, b: 0, a: 1}
+        key0: {r: 1, g: 0.25094116, b: 0, a: 1}
         key1: {r: 1, g: 0.912394, b: 0, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -9892,7 +9972,7 @@ GameObject:
   - component: {fileID: 6956680953543786217}
   - component: {fileID: 5437437293744276573}
   - component: {fileID: 2444078663156824678}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: F
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9972,7 +10052,7 @@ GameObject:
   - component: {fileID: 2694223764896096053}
   - component: {fileID: 457985737676582413}
   - component: {fileID: 1698929487737028396}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10052,7 +10132,7 @@ GameObject:
   - component: {fileID: 4446823794654080634}
   - component: {fileID: 3880761932692098522}
   - component: {fileID: 5976316219014172953}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: UpperStreetLines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10067,7 +10147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5393848534184226760}
   m_LocalRotation: {x: -0, y: -0, z: -0.86984825, w: 0.49331948}
-  m_LocalPosition: {x: 0, y: -0.195, z: 0.43200016}
+  m_LocalPosition: {x: 0, y: 0, z: 0.43200016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1347244540370498250}
@@ -14807,7 +14887,7 @@ GameObject:
   - component: {fileID: 1307331685369645743}
   - component: {fileID: 4816493027620241474}
   - component: {fileID: 6610458911784324749}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: T
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14887,13 +14967,13 @@ GameObject:
   - component: {fileID: 1878022280282382090}
   - component: {fileID: 1332332753859181738}
   - component: {fileID: 8455079567896518761}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DefeatElectricL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1878022280282382090
 Transform:
   m_ObjectHideFlags: 0
@@ -14902,7 +14982,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7889344852433018552}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.38, y: 0.078, z: -0.92}
+  m_LocalPosition: {x: 0.021, y: 0.021, z: -0.92}
   m_LocalScale: {x: 0.24115089, y: 0.9169199, z: 0.34738678}
   m_Children: []
   m_Father: {fileID: 1347244540370498250}
@@ -14923,7 +15003,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
-  prewarm: 0
+  prewarm: 1
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -15543,7 +15623,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 2.05, y: 0.48, z: 1}
+    m_Scale: {x: 5, y: 0.48, z: 1}
     placementMode: 1
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -19700,7 +19780,7 @@ GameObject:
   - component: {fileID: 171988496570192858}
   - component: {fileID: 724640167794700410}
   - component: {fileID: 7864815340644445369}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: AboveVictoryLines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24454,7 +24534,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3755300502685604624}
   - component: {fileID: 4800103219458292847}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24548,6 +24628,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Letter_Lightning
       objectReference: {fileID: 0}
+    - target: {fileID: 2590124788007649874, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6097168842863330272, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
         type: 3}
       propertyPath: m_RootOrder
@@ -24627,6 +24712,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Letter_Lightning
+      objectReference: {fileID: 0}
+    - target: {fileID: 2590124788007649874, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6097168842863330272, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
         type: 3}
@@ -24719,6 +24809,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Letter_Lightning
       objectReference: {fileID: 0}
+    - target: {fileID: 2590124788007649874, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6097168842863330272, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
         type: 3}
       propertyPath: m_RootOrder
@@ -24805,6 +24900,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Letter_Lightning
       objectReference: {fileID: 0}
+    - target: {fileID: 2590124788007649874, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6097168842863330272, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
         type: 3}
       propertyPath: m_RootOrder
@@ -24889,6 +24989,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Letter_Lightning
+      objectReference: {fileID: 0}
+    - target: {fileID: 2590124788007649874, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6097168842863330272, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
         type: 3}
@@ -24980,6 +25085,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Letter_Lightning
+      objectReference: {fileID: 0}
+    - target: {fileID: 2590124788007649874, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6097168842863330272, guid: f3f2beab7e21cf940bd95fe8c07e75a6,
         type: 3}
