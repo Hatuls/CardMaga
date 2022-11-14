@@ -108,15 +108,17 @@ namespace CardMaga.Battle.Visual
                 _endBattleHandler.OnRightPlayerWon += CharacterWon;
                 _endBattleHandler.OnLeftPlayerWon += CharacterIsDead;
             }
-
-            _endBattleHandler.OnBattleFinished += ResetLayerWeight;
+ 
+            _endBattleHandler.OnLeftPlayerWon += ResetLayerWeight;
+            _endBattleHandler.OnRightPlayerWon += ResetLayerWeight;
 
         }
 
         public void BeforeDestroy(IVisualPlayer visualPlayer)
         {
             visualPlayer.PlayerData.EndTurnHandler.IsCharacterPlayingIdleAnimation -= IsAnimationFinished;
-            _endBattleHandler.OnBattleFinished -= ResetLayerWeight;
+            _endBattleHandler.OnLeftPlayerWon  -= ResetLayerWeight;
+            _endBattleHandler.OnRightPlayerWon -= ResetLayerWeight;
 
             if (IsLeft)
             {

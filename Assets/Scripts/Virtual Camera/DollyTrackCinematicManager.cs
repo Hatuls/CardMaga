@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 using Battle;
 using CardMaga.SequenceOperation;
 using CardMaga.Battle.UI;
+using CardMaga.Battle;
+
 namespace CardMaga.Battle.Visual.Camera
 {
 
@@ -27,7 +29,7 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
     private CinemachineSmoothPath _outroWinPath;
     private CinemachineSmoothPath _outroLosePath;
     System.IDisposable _token;
-
+    private EndBattleHandler _endBattleHandler;
     public int Priority => 0;
     private void Awake()
     {
@@ -43,9 +45,10 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
     public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)
     {
         _token = tokenMachine.GetToken();
-
-        //SetTrack(_winTracks,ref _outroWinPath);
-        //SetTrack(_loseTracks,ref _outroLosePath);
+        _endBattleHandler = battleManager.BattleDataManager.EndBattleHandler;
+        _endBattleHandler.OnBattleFinished += StartWinCinematic;
+        SetTrack(_winTracks,ref _outroWinPath);
+        SetTrack(_loseTracks,ref _outroLosePath);
         SetTrack(_introTracks,ref _introPath);
         StartIntroCinematic();
     }
@@ -73,7 +76,14 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
     {
         StartIntroCinematic(null);
     }
-
+    private void StartWinCinematic(ITokenReciever tokenReciever)
+    {
+        _token = tokenReciever?.GetToken();
+        if (_endBattleHandler.IsLeftPlayerWon)
+            StartWinCinematic(_token.Dispose);
+        else
+            StartLoseCinematic(_token.Dispose);
+    }
     public void StartWinCinematic(Action onComplete = null)
     {
         _dollyTrack.m_Path = _outroWinPath;
@@ -114,5 +124,11 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
         _token?.Dispose();
         onComplete?.Invoke();
         OnCinematicEnded?.Invoke();
+       
+    }
+    private void OnDestroy()
+    {
+        if(_endBattleHandler != null)
+        _endBattleHandler.OnBattleFinished -= StartWinCinematic;
     }
 }

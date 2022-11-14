@@ -1,9 +1,8 @@
-﻿using System;
-using Battle;
-using Battle.Data;
-using CardMaga.Battle.Execution;
+﻿using Battle.Data;
 using CardMaga.Battle.Visual;
 using CardMaga.Rules;
+using ReiTools.TokenMachine;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,95 +10,100 @@ namespace CardMaga.Battle
 {
 
 
-[Serializable]
-public class EndBattleHandler : IDisposable
-{
-    public event Action<bool> OnBattleEnded;
-    public event Action OnBattleAnimatonEnd;
-    public event Action OnLeftPlayerWon;
-    public event Action OnRightPlayerWon;
-    public event Action OnBattleFinished;
-
-
-
-    
-    [SerializeField, EventsGroup]
-    private UnityEvent OnPlayerDefeat;
-    [SerializeField, EventsGroup]
-    private UnityEvent OnPlayerVictory;
-
-    private readonly IPlayersManager _playersManager;
-    private readonly BattleData _battleData;
-    private readonly IDisposable _gameCommands;
-
-    private bool _isGameEnded = false;
-    private bool _isLeftPlayerWon;
-
-    public bool IsGameEnded
+    [Serializable]
+    public class EndBattleHandler : IDisposable
     {
-        get => _isGameEnded;
-    }
-    
-    public EndBattleHandler(IBattleManager battleManager)
-    {
-        _playersManager = battleManager.PlayersManager;
+        public event Action<ITokenReciever> OnBattleFinished;
+        public event Action<bool> OnBattleEnded;
+        public event Action OnBattleAnimatonEnd;
+        public event Action OnLeftPlayerWon;
+        public event Action OnRightPlayerWon;
+        public event Action OnAnimationsEnded;
+
+
+
+
+        [SerializeField, EventsGroup]
+        private UnityEvent OnPlayerDefeat;
+        [SerializeField, EventsGroup]
+        private UnityEvent OnPlayerVictory;
+
+        private readonly IPlayersManager _playersManager;
+        private readonly BattleData _battleData;
+        private readonly IDisposable _gameCommands;
+        private IDisposable _endGameToken;
+        private TokenMachine _endGameTokenMachine;
+        private bool _isGameEnded = false;
+        private bool _isLeftPlayerWon;
+
+        public bool IsGameEnded
+        {
+            get => _isGameEnded;
+        }
+        public bool IsLeftPlayerWon => _isLeftPlayerWon;
+        public EndBattleHandler(IBattleManager battleManager)
+        {
+            _playersManager = battleManager.PlayersManager;
             _gameCommands = battleManager.GameCommands;
-        RuleManager.OnGameEnded += EndBattle;
-        AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
-        
-        _isGameEnded = false;
-    }
-    public void ForceEndBattle(bool isLeftWon) => EndBattle(isLeftWon);
-    private void EndBattle(bool isLeftPlayerWon)
-    {
-        if (_isGameEnded)
-            return;
+            RuleManager.OnGameEnded += EndBattle;
+            AnimatorController.OnDeathAnimationFinished += DeathAnimationFinished;
+            _endGameTokenMachine = new TokenMachine(OnAnimationsEnded);
+            _isGameEnded = false;
+        }
+        public void ForceEndBattle(bool isLeftWon) => EndBattle(isLeftWon);
+        private void EndBattle(bool isLeftPlayerWon)
+        {
+            if (_isGameEnded)
+                return;
 
-        _isLeftPlayerWon = isLeftPlayerWon;
-
+            _isGameEnded = true;
+            _isLeftPlayerWon = isLeftPlayerWon;
             _gameCommands.Dispose();
-        
-        if (isLeftPlayerWon)
-        {
-            LeftPlayerWon();
+
+            if (isLeftPlayerWon)
+            {
+                LeftPlayerWon();
+            }
+            else
+            {
+                RightPlayerWon();
+            }
+
+            EndGame();
+
         }
-        else
+
+        private void EndGame()
         {
-            RightPlayerWon();
+            _endGameToken = _endGameTokenMachine.GetToken();
+            OnBattleFinished?.Invoke(_endGameTokenMachine);
+            BattleData.Instance.PlayerWon = _isLeftPlayerWon;
+            OnBattleEnded?.Invoke(_isLeftPlayerWon);
         }
 
-            OnBattleFinished?.Invoke();
-        BattleData.Instance.PlayerWon = isLeftPlayerWon;
-        
-        _isGameEnded = true;
-        
-        OnBattleEnded?.Invoke(isLeftPlayerWon);
+        private void DeathAnimationFinished(bool isPlayer)
+        {
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
+            _endGameToken?.Dispose();
+            OnBattleAnimatonEnd?.Invoke();
+        }
 
-    }
-        
-    private void DeathAnimationFinished(bool isPlayer)
-    {
-        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
-
-        OnBattleAnimatonEnd?.Invoke();
-    }
-    
-    private void LeftPlayerWon()
-    {
+        private void LeftPlayerWon()
+        {
             OnLeftPlayerWon?.Invoke();
-        _playersManager.LeftCharacter.CharacterSO.VictorySound.PlaySound();
-    }
+            _playersManager.LeftCharacter.CharacterSO.VictorySound.PlaySound();
+        }
 
-    private void RightPlayerWon()
-    {
+        private void RightPlayerWon()
+        {
             OnRightPlayerWon?.Invoke();
-        _playersManager.RightCharacter.CharacterSO.VictorySound.PlaySound();
-    }
+            _playersManager.RightCharacter.CharacterSO.VictorySound.PlaySound();
+        }
 
-    public void Dispose()
-    {
-        RuleManager.OnGameEnded -= EndBattle;
-        AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
+        public void Dispose()
+        {
+            RuleManager.OnGameEnded -= EndBattle;
+            AnimatorController.OnDeathAnimationFinished -= DeathAnimationFinished;
+        }
     }
-}
 }
