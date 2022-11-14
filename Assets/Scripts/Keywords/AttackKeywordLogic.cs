@@ -14,8 +14,8 @@ namespace Keywords
 
         public override int Priority =>0;
 
-        public void ApplyDamage(CharacterStatsHandler reciever, int amount)
-        => reciever.GetStat(KeywordType.Heal).Reduce(amount);
+        //public void ApplyDamage(CharacterStatsHandler reciever, int amount)
+        //=> reciever.GetStat(KeywordType.Heal).Reduce(amount);
         
         public void ApplyDamageToShield(CharacterStatsHandler reciever, int amount)
         => reciever.GetStat(KeywordType.Shield).Reduce(amount);
@@ -37,11 +37,12 @@ namespace Keywords
         }
         public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
         {
-
+            CharacterStatsHandler reciver;
+            CharacterStatsHandler applier;
             if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
             {
-                CharacterStatsHandler reciver = _playersManager.GetCharacter(currentPlayer).StatsHandler;
-                CharacterStatsHandler applier = _playersManager.GetCharacter(!currentPlayer).StatsHandler;
+                reciver = _playersManager.GetCharacter(currentPlayer).StatsHandler;
+                applier = _playersManager.GetCharacter(!currentPlayer).StatsHandler;
                 int finalDamage = CalculateDamage(data.GetAmountToApply, reciver, applier);
                 ApplyDamageToShield(reciver, finalDamage);
             }
@@ -50,8 +51,8 @@ namespace Keywords
             if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
             {
 
-                CharacterStatsHandler reciver = _playersManager.GetCharacter(!currentPlayer).StatsHandler;
-                CharacterStatsHandler applier = _playersManager.GetCharacter(currentPlayer).StatsHandler;
+                  reciver = _playersManager.GetCharacter(!currentPlayer).StatsHandler;
+                  applier = _playersManager.GetCharacter(currentPlayer).StatsHandler;
                 int finalDamage = CalculateDamage(data.GetAmountToApply, reciver, applier);
 
                 ApplyDamageToShield(reciver, finalDamage);

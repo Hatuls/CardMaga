@@ -1,7 +1,5 @@
 ﻿using Battle.Characters;
 using UnityEngine;
-using BattleCharacter = Battle.Characters.BattleCharacter;
-
 namespace CardMaga.UI.MatchMMaking
 {
     public class CharacterAssinger : MonoBehaviour
@@ -14,7 +12,7 @@ namespace CardMaga.UI.MatchMMaking
             CharacterBattleData data = character.CharacterData;
             
             _comboAssinger.AssingCombosUI(data.ComboRecipe);
-            _characterPortraitAssinger.AssignCharacter(data.CharacterSO.CharacterSprite,character.DisplayName);
+            _characterPortraitAssinger.AssignCharacter(character.BattleCharacterVisual.BattleVisualCharacter.Portrait,character.DisplayName);
         }
     }
 

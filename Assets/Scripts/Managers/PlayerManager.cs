@@ -30,13 +30,13 @@ namespace CardMaga.Battle.Players
     public class PlayerManager : IPlayer
     {
         #region Fields
-
+        [Sirenix.OdinInspector.ReadOnly,Sirenix.OdinInspector.ShowInInspector]
+        private CharacterStatsHandler _statsHandler;
         private EndTurnHandler _endTurnHandler;
         private CraftingHandler _craftingHandler;
         private GameTurn _myTurn;
         private DeckHandler _deckHandler;
         private BattleCharacter _character;
-        private CharacterStatsHandler _statsHandler;
         private BattleCardData[] _playerDeck;
         private StaminaHandler _staminaHandler;
         private PlayerComboContainer _comboContainer;

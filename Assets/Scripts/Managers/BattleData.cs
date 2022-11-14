@@ -35,26 +35,18 @@ namespace Battle.Data
 
         public void AssginBattleTutorialData(TutorialConfigSO tutorialConfigSo)
         {
-            AssginCharacter(true,tutorialConfigSo.LeftCharacter);
-            AssginCharacter(false,tutorialConfigSo.RightCharacter);
+            _player = tutorialConfigSo.LeftCharacter;
+            _opponent = tutorialConfigSo.RightCharacter;
 
             _battleConfigSo = tutorialConfigSo.BattleConfig;
         }
+        public void AssignUserCharacter(string displayName, Account.GeneralData.Character data)
+        {
+            _player = new BattleCharacter(displayName,data);
+        }
 
-        public void AssginCharacter(in bool isPlayer, CharacterSO characterSO)
-            => AssginCharacter(isPlayer, characterSO.CharacterName, new Account.GeneralData.Character(characterSO));
-        public void AssginCharacter(in bool isPlayer,string displayName, Account.GeneralData.Character data)
-        {
-            AssginCharacter(isPlayer,new BattleCharacter(displayName,data));
-        }
-        private void AssginCharacter(in bool isPlayer, Battle.Characters.BattleCharacter character)
-        {
-            if (isPlayer)
-                _player = character;
-            else
-                _opponent = character;
-        }
-        
+        public void AssignOpponent(string displayName, Account.GeneralData.Character data)
+            => _opponent = new BattleCharacter(displayName, data, _player);
         public void Awake()
         {
             if (_instance == null)

@@ -28,7 +28,7 @@ namespace Battle.Deck
             {
                 foreach (var deck in _deckDictionary)
                 {
-                    foreach (var data in deck.Value.GetCollection)
+                    foreach (BattleCardData data in deck.Value.GetCollection)
                     {
                         yield return data;
                     }
@@ -184,18 +184,7 @@ namespace Battle.Deck
 
         public void DrawHand(int drawAmount)
         {
-            if (BattleManager.isGameEnded)
-                return;
-            /*
-             * check if everything is valid
-             * cache the relevante decks (hand and player deck)
-             * for each battleCard we draw :
-             * if there is still cards in the deck we want to transfer them to the hand one by one
-             * if we found a battleCard that is null its mean the deck is empty so we want to restore the cards from 
-             * the disposal deck and redraw the amount we need
-            */
-            
-            else if (drawAmount < 1)
+             if (drawAmount < 1)
             {
                 Debug.LogError("DeckManager :Cannot draw - draw amount is less than 1!");
                 return;

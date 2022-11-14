@@ -46,7 +46,7 @@ namespace Battle
         private CardExecutionManager _cardExecutionManager;
         private TokenMachine _aiTokenMachine;
         private IDisposable _turnFinished;
-
+        private EndBattleHandler _endBattleHandler;
         [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f, true)]
         private Vector2 _delayTime;
         #endregion
@@ -110,8 +110,11 @@ namespace Battle
             _myTurn.StartTurnOperations.Register(DrawHands);
             _myTurn.OnTurnActive += PlayEnemyTurn;
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
+
+            //EndBattleHandler
+            _endBattleHandler = battleManager.EndBattleHandler;
             //AI 
-            _aiHand = new AIHand(_brain, StatsHandler.GetStat(KeywordType.Draw));
+            _aiHand = new AIHand(_brain, StatsHandler.GetStat(KeywordType.Draw), _endBattleHandler);
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
 
             _endTurnHandler = new EndTurnHandler(this, battleManager);
@@ -151,7 +154,7 @@ namespace Battle
         {
             const int NO_MORE_ACTION_TO_DO = -1;
 
-            if (_aiHand.TryGetHighestWeight(out AICard card) > NO_MORE_ACTION_TO_DO && !BattleManager.isGameEnded)
+            if (_aiHand.TryGetHighestWeight(out AICard card) > NO_MORE_ACTION_TO_DO && !_endBattleHandler.IsGameEnded)
             {
                 _gameCommands.GameDataCommands.DataCommands.AddCommand(new TransferSingleCardCommand(DeckHandler, DeckEnum.Hand, DeckEnum.Selected, card.BattleCard));
                 //_deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, battleCard.BattleCard);
@@ -165,7 +168,7 @@ namespace Battle
 
         public void DoAction()
         {
-            if(gameObject.activeSelf)
+            if(gameObject.activeSelf&& gameObject.activeInHierarchy )
             StartCoroutine(PlayTurnDelay());
         }
         public void EnemyWon()
@@ -208,9 +211,10 @@ namespace Battle
         private List<AICard> _card;
         private AITree _tree;
         private BaseStat _drawStat;
-
-        public AIHand(AIBrain _brain, BaseStat drawStat)
+        private EndBattleHandler _endBattleHandler;
+        public AIHand(AIBrain _brain, BaseStat drawStat, EndBattleHandler endBattleHandler)
         {
+            _endBattleHandler = endBattleHandler;
             _drawStat = drawStat;
             int drawAmount = _drawStat.Amount;
             _card = new List<AICard>(drawAmount);
@@ -223,7 +227,7 @@ namespace Battle
         {
             for (int i = 0; i < _card.Count; i++)
             {
-                if (_card[i].BattleCard != null && !BattleManager.isGameEnded)
+                if (_card[i].BattleCard != null && !_endBattleHandler.IsGameEnded)
                     Result |= _tree.Evaluate(_card[i]);
             }
         }

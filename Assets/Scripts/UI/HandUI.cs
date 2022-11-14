@@ -154,17 +154,20 @@ namespace CardMaga.UI
 
             void Transition(BattleCardUI card)
             {
-                var sequence = card.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
-                sequence.Join(card.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo));
-                sequence.OnComplete(card.Dispose);
+                TokenMachine tokenMachine = new TokenMachine(card.Dispose);
+                IDisposable token = tokenMachine.GetToken();
+                var sequence = card.VisualsRectTransform.Transition(_discardScaleTransitionPackSo)
+                .Join(card.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo))
+                .OnComplete(token.Dispose);
             }
         }
 
         private void MoveCardToDiscardAfterExecute(BattleCardUI battleCardUI)
         {
             //   cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
-            var sequence = battleCardUI.VisualsRectTransform.Transition(_discardScaleTransitionPackSo);
-            sequence.Join(battleCardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo)); sequence.OnComplete(battleCardUI.Dispose);
+            var sequence = battleCardUI.VisualsRectTransform.Transition(_discardScaleTransitionPackSo)
+            .Join(battleCardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo))
+            .OnComplete(battleCardUI.Dispose);
         }
 
         private void KillTween()
@@ -210,6 +213,7 @@ namespace CardMaga.UI
             {
                 //_handCards[i].Inputs.ForceResetInputBehaviour();
                 handCards[i].Init();
+                handCards[i].DOKill(false);
                 SetState(InputBehaviourState.Hand, handCards[i]);
             }
 
@@ -226,6 +230,7 @@ namespace CardMaga.UI
 
             for (int i = 0; i < cards.Length; i++)
             {
+                cards[i].DOKill(false);
                 //cards[i].Inputs.ForceResetInputBehaviour();
                 SetState(InputBehaviourState.Hand, cards[i]);
             }

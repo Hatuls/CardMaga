@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 namespace CardMaga.ImageAlpha
 {
-    public class ImageAlphaHandler : MonoSingleton<ImageAlphaHandler>
+    public static class ImageAlphaHandler
     {
-        [SerializeField,Sirenix.OdinInspector.ReadOnly]
-        private List<ImageAlpha> _imagesAlphas = new List<ImageAlpha>();
 
-        public ImageAlpha GetImageAlpha(ImageAlphaID imageAlphaID)
+        private static List<ImageAlpha> _imagesAlphas = new List<ImageAlpha>();
+
+        public static ImageAlpha GetImageAlpha(ImageAlphaID imageAlphaID)
         {
             for (int i = 0; i < _imagesAlphas.Count; i++)
             {
@@ -22,12 +22,12 @@ namespace CardMaga.ImageAlpha
             throw new System.Exception("ImageAlphaHandler: ImageAlpha Was not found");
         }
 
-        internal void RemoveImage(ImageAlpha imageAlpha)
+        internal static void RemoveImage(ImageAlpha imageAlpha)
         {
             _imagesAlphas.Remove(imageAlpha);
         }
 
-        public void SetAlpha(params AlphaPackage[] alphaPackage)
+        public static void SetAlpha(params AlphaPackage[] alphaPackage)
         {
             for (int i = 0; i < alphaPackage.Length; i++)
             {
@@ -38,7 +38,7 @@ namespace CardMaga.ImageAlpha
             }
         }
 
-        public void AddImage(ImageAlpha imageAlpha)
+        public static void AddImage(ImageAlpha imageAlpha)
             => _imagesAlphas.Add(imageAlpha);
  
     }

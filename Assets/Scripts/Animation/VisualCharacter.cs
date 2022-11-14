@@ -1,12 +1,9 @@
 ﻿using Battle;
-using CardMaga.Battle.Execution;
+using Battle.Characters;
 using CardMaga.Battle.Players;
 using CardMaga.Battle.UI;
-using CardMaga.Commands;
-using CardMaga.Keywords;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
-using System;
 using UnityEngine;
 namespace CardMaga.Battle.Visual
 {
@@ -37,7 +34,7 @@ namespace CardMaga.Battle.Visual
         [SerializeField]
         private Transform _visual;
         private bool _isLeft;
-   
+
         private VisualStatHandler _visualStats;
         private IPlayer _playerData;
         #endregion
@@ -58,7 +55,7 @@ namespace CardMaga.Battle.Visual
 
         #endregion
 
-        public void InitVisuals(IPlayer player, CharacterSO characterSO, bool isTinted)
+        public void InitVisuals(IPlayer player, CharacterSO characterSO, BattleCharacterVisual characterSkin)
         {
             //I want to remove this later
             _playerData = player;
@@ -66,10 +63,10 @@ namespace CardMaga.Battle.Visual
 
             IsLeft = player.IsLeft;
             // Instantiate Model
-            ModelSO modelSO = characterSO.CharacterAvatar;
-            AvatarHandler = Instantiate(modelSO.Model, _visual.position, Quaternion.identity, _visual);
-            if (isTinted)
-                AvatarHandler.Mesh.material = modelSO.GetRandomTintedMaterials();
+
+            AvatarHandler = Instantiate(characterSkin.Model, _visual.position, Quaternion.identity, _visual);
+
+            AvatarHandler.Mesh.material = characterSkin.Material;
 
             //Assign Avatar
             VfxController.AvatarHandler = AvatarHandler;
@@ -79,13 +76,13 @@ namespace CardMaga.Battle.Visual
             //Sound
             AnimationSound.CurrentCharacter = characterSO;
 
-      
+
 
 #if UNITY_EDITOR
             DrawMesh = false;
 #endif
         }
-   
+
         internal void Dispose()
         {
             AnimatorController.BeforeDestroy(this);

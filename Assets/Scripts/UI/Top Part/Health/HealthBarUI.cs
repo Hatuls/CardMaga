@@ -10,6 +10,7 @@ namespace CardMaga.UI.Bars
 {
     public class HealthBarUI : BaseBarUI
     {
+        private const string FROM_MAXVALUE = "/";
         [Header("Testing")]
         public int MaxHealthTest;
         public int CurrentHealthTest;
@@ -40,6 +41,7 @@ namespace CardMaga.UI.Bars
         public float _counter = 0;
         int _currentHealth;
         int _maxHealth;
+        private Coroutine _coroutine;
         private void Awake()
         {
             if (_healthBarSlider == null)
@@ -82,7 +84,7 @@ namespace CardMaga.UI.Bars
             {
                 currentHealth = maxHealth;
             }
-            _maxHealthText.text = string.Concat("/" + maxHealth);
+            _maxHealthText.text = string.Concat(FROM_MAXVALUE + maxHealth);
             _currentHealthText.text = string.Concat(currentHealth);
         }
         private void SetText(int currentHealth)
@@ -135,8 +137,9 @@ namespace CardMaga.UI.Bars
         {
             _healthInnerImage.sprite = sprite;
             DoMoveSlider(slider, _currentHealth, transitionLength, animCurve);
+            StopCounter();
             ResetCounter();
-            StartCoroutine(StartTimer());
+            _coroutine = StartCoroutine(StartTimer());
         }
         private void CompleteBarsTransition()
         {
@@ -163,8 +166,8 @@ namespace CardMaga.UI.Bars
             while (_healthBarSO.DelayTillReturn > _counter)
             {
                // Debug.Log($"Health Bar counter: {_counter}");
-                _counter += Time.deltaTime;
                 yield return null;
+                _counter += Time.deltaTime;
             }
             CompleteBarsTransition();
         }
@@ -175,8 +178,12 @@ namespace CardMaga.UI.Bars
         public void CompleteCounter()
         {
             _counter = _healthBarSO.DelayTillReturn;
+            CompleteBarsTransition();
         }
-        private void StopCounter() => StopCoroutine(StartTimer());
+        private void StopCounter() {
+        if(_coroutine!=null)
+        StopCoroutine(_coroutine);
+        }
         private void OnDestroy()
         {
             StopCounter();

@@ -3,6 +3,7 @@ using CardMaga.Card;
 using UnityEngine;
 using CardMaga.Input;
 using CardMaga.Tools.Pools;
+using DG.Tweening;
 
 namespace CardMaga.UI.Card
 {
@@ -14,7 +15,7 @@ namespace CardMaga.UI.Card
         public event Action OnInitializable;
 
         #region Fields
-
+        public Sequence CurrentSequence;
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private RectTransform _visualsRectTransform;
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
@@ -30,7 +31,7 @@ namespace CardMaga.UI.Card
         public CardUIInputHandler Inputs => _inputs;
         public RectTransform RectTransform => _rectTransform;
         public RectTransform VisualsRectTransform => _visualsRectTransform;
-
+        
         public BattleCardData BattleCardData { get => _battleCardData; private set => _battleCardData = value; }
         
         
@@ -44,6 +45,8 @@ namespace CardMaga.UI.Card
 
         public void Dispose()
         {
+            this.DOKill(false);
+            KillTween(false);
             Hide();
             OnDisposed?.Invoke(this);
         }
@@ -67,6 +70,15 @@ namespace CardMaga.UI.Card
             OnHide?.Invoke();
             if(gameObject.activeSelf)
              gameObject.SetActive(false);
+        }
+
+        public void KillTween(bool killAfterComplete)
+        {
+            if (CurrentSequence != null)
+            {
+            CurrentSequence.Kill(killAfterComplete);
+                CurrentSequence = null;
+            }
         }
     }
 }

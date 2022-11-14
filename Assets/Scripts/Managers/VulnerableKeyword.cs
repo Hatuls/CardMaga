@@ -23,6 +23,8 @@ namespace CardMaga.Keywords
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
+
+            InvokeOnKeywordActivated();
         }
 
         public override void UnProcessOnTarget(bool currentPlayer, KeywordData data )
@@ -38,12 +40,17 @@ namespace CardMaga.Keywords
         }
         public override void StartTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands)
         {
-            var characterStats = currentCharacterTurn.StatsHandler;
-            var vulnrable = characterStats.GetStat(KeywordType.Vulnerable);
-            if (vulnrable.Amount > 0)
+
+
+            var stat = currentCharacterTurn.StatsHandler.GetStat(KeywordType.Vulnerable);
+            if (stat.Amount > 0)
             {
-                var command = new StatCommand(vulnrable, -1);
+                var vulnerableKeyword = new KeywordData(KeywordSO, TargetEnum.MySelf, -1, 0);
+                var command = new KeywordCommand(vulnerableKeyword, CommandType.WithPrevious);
+                command.InitKeywordLogic(currentCharacterTurn, this);
                 gameDataCommands.DataCommands.AddCommand(command);
+                //Bleed 
+
                 InvokeOnKeywordFinished();
             }
         }
