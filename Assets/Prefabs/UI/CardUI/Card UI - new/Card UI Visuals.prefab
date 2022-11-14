@@ -1663,7 +1663,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 414, y: 594}
+  m_SizeDelta: {x: 396, y: 577}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2844491819056825776
 CanvasRenderer:
@@ -1686,13 +1686,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5529412, g: 1, b: 0.8, a: 1}
+  m_Color: {r: 0.26666668, g: 0.8980392, b: 0.89411765, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 38cb8a4ac311dee44960e1e3a88e6ac9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 68df08c4e900d6a4f8d06e7cb67f2f4e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2794,33 +2794,19 @@ MonoBehaviour:
       _descriptionColorSO: {fileID: 11400000, guid: f1b5460f74c8704479387e972dc02d7d,
         type: 2}
       _isNumberBold: 1
-  _cardData:
-    _cardSO: {fileID: 11400000, guid: 6db72138844e60049a3542c19416c09d, type: 2}
-    _cardCoreInfo:
+  battleCardData:
+    _cardInstance:
       _coreData:
-        _iD: 150
+        _coreID:
+          ID: 0
+        _cardSO: {fileID: 0}
         _level: 0
-        _expierence: 0
-      _instanceID: 3
+      _instanceID: 0
     _toExhaust: 0
     _cardTypeData:
-      _bodyPart: 4
-      _cardType: 1
-    _cardKeyword:
-    - _keywordBase: {fileID: 0}
-      _target: 1
-      _amountToApply: 2
-      _animationIndex: 0
-      _conditions:
-        _comboCondition: []
-        _paramaterCondition: []
-    - _keywordBase: {fileID: 0}
-      _target: 1
-      _amountToApply: 1
-      _animationIndex: 0
-      _conditions:
-        _comboCondition: []
-        _paramaterCondition: []
+      _bodyPart: 0
+      _cardType: 0
+    _cardKeyword: []
     _staminaCost: 0
 --- !u!114 &8618945675223009257
 MonoBehaviour:
