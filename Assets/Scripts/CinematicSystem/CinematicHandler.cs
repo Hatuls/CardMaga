@@ -1,119 +1,118 @@
-﻿using System;
-using System.Collections;
-using Rei.Utilities;
+﻿using Rei.Utilities;
 using Sirenix.OdinInspector;
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
-using UnityEngine.Windows.WebCam;
 
 namespace CardMaga.CinematicSystem
 {
     [Serializable]
-public class CinematicHandler
-{
-    public event Action<CinematicHandler> OnCinematicCompleted;
-    
-    [SerializeField, EventsGroup] private UnityEvent OnCinematicStart;
-    [SerializeField, EventsGroup] private UnityEvent OnCinematicEnd;
-
-    [SerializeField,Tooltip("Name for editor use")] private string _cinematicName;
-    
-    [SerializeField,MinMaxSlider(0,20f), Tooltip("The delay before the cinematic will be executed")]
-    private Vector2 _delayBeforeCinematic;
-    [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay after the cinematic was executed")]
-    private Vector2 _delayAfterCinematic;
-
-    [SerializeField,Tooltip("Immediately start the next cinematic at the end of this one")] private bool isPauseCinematicSequenceOnEndSequenceOnEnd;
-    [SerializeField, Tooltip("Disable the ability to skip the cinematic")] private bool _isDisableSkip;
-    [SerializeField] private PlayableDirector _playableDirector;
-
-    private int _cinematicID;
-    private double _duration;
-    private bool _isCompleted;
-    private MonoBehaviour _monoBehaviour;
-    
-    public double CinematicTime
+    public class CinematicHandler
     {
-        get => _playableDirector.time;
-    }
+        public event Action<CinematicHandler> OnCinematicCompleted;
 
-    public double Duration
-    {
-        get => _duration;
-    }
+        [SerializeField, EventsGroup] private UnityEvent OnCinematicStart;
+        [SerializeField, EventsGroup] private UnityEvent OnCinematicEnd;
 
-    public bool IsCompleted
-    {
-        get => _isCompleted;
-    }
+        [SerializeField, Tooltip("Name for editor use")] private string _cinematicName;
 
-    public bool IsPuseCinematicSequenceOnEnd
-    {
-        get => isPauseCinematicSequenceOnEndSequenceOnEnd;
-    }
+        [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay before the cinematic will be executed")]
+        private Vector2 _delayBeforeCinematic;
+        [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay after the cinematic was executed")]
+        private Vector2 _delayAfterCinematic;
 
-    public void Init(int cinematicId,MonoBehaviour monoBehaviour)
-    {
-        _cinematicID = cinematicId;
-        _duration = _playableDirector.duration;
-        _monoBehaviour = monoBehaviour;
-    }
+        [SerializeField, Tooltip("Immediately start the next cinematic at the end of this one")] private bool isPauseCinematicSequenceOnEndSequenceOnEnd;
+        [SerializeField, Tooltip("Disable the ability to skip the cinematic")] private bool _isDisableSkip;
+        [SerializeField] private PlayableDirector _playableDirector;
 
-    public Coroutine StartCinematic()
-    {
-        return _monoBehaviour.StartCoroutine(RunCinematic());
-    }
+        private int _cinematicID;
+        private double _duration;
+        private bool _isCompleted;
+        private MonoBehaviour _monoBehaviour;
 
-    private IEnumerator RunCinematic()
-    {
-        if (_delayBeforeCinematic != Vector2.zero)
-            yield return new WaitForSeconds(_delayBeforeCinematic.GetRandomValue());
-
-        if (!_playableDirector.gameObject.activeSelf)
+        public double CinematicTime
         {
-            _playableDirector.gameObject.SetActive(true);
+            get => _playableDirector.time;
         }
 
-        OnCinematicStart?.Invoke();
-        _playableDirector.Play();
-
-        while (_playableDirector.time < _duration && !_isCompleted)
+        public double Duration
         {
-            yield return null;
+            get => _duration;
         }
-        
-        if (_delayAfterCinematic != Vector2.zero)
-            yield return new WaitForSeconds(_delayAfterCinematic.GetRandomValue());
 
-        if (!_isCompleted)
-            CompleteCinematic();
-    }
+        public bool IsCompleted
+        {
+            get => _isCompleted;
+        }
 
-    private void CompleteCinematic()
-    {
-        _isCompleted = true;
-        OnCinematicEnd?.Invoke();
-        OnCinematicCompleted?.Invoke(this);
-    }
-    
-    public void SkipCinematic()
-    {
-        if (_isDisableSkip)
-            return;
+        public bool IsPuseCinematicSequenceOnEnd
+        {
+            get => isPauseCinematicSequenceOnEndSequenceOnEnd;
+        }
 
-        _playableDirector.time = _duration - Time.deltaTime;
+        public void Init(int cinematicId, MonoBehaviour monoBehaviour)
+        {
+            _cinematicID = cinematicId;
+            _duration = _playableDirector.duration;
+            _monoBehaviour = monoBehaviour;
+        }
 
-    }
+        public Coroutine StartCinematic()
+        {
+            return _monoBehaviour.StartCoroutine(RunCinematic());
+        }
 
-    public void PauseCinematic()
-    {
-        _playableDirector.Pause();
+        private IEnumerator RunCinematic()
+        {
+            if (_delayBeforeCinematic != Vector2.zero)
+                yield return new WaitForSeconds(_delayBeforeCinematic.GetRandomValue());
+
+            if (!_playableDirector.gameObject.activeSelf)
+            {
+                _playableDirector.gameObject.SetActive(true);
+            }
+
+            OnCinematicStart?.Invoke();
+            _playableDirector.Play();
+
+            while (_playableDirector.time < _duration && !_isCompleted)
+            {
+                yield return null;
+            }
+
+            if (_delayAfterCinematic != Vector2.zero)
+                yield return new WaitForSeconds(_delayAfterCinematic.GetRandomValue());
+
+            if (!_isCompleted)
+                CompleteCinematic();
+        }
+
+        private void CompleteCinematic()
+        {
+            _isCompleted = true;
+            OnCinematicEnd?.Invoke();
+            OnCinematicCompleted?.Invoke(this);
+        }
+
+        public void SkipCinematic()
+        {
+            if (_isDisableSkip)
+                return;
+
+            _playableDirector.time = _duration - Time.deltaTime;
+
+        }
+
+        public void PauseCinematic()
+        {
+            _playableDirector.Pause();
+        }
+
+        public void ResumeCinematic()
+        {
+            _playableDirector.Resume();
+        }
     }
-    
-    public void ResumeCinematic()
-    {
-        _playableDirector.Resume();
-    }
-}
 }

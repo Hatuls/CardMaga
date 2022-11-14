@@ -67,7 +67,7 @@ namespace CardMaga.UI
         private DG.Tweening.Sequence _currentSequence;
         private DeckHandler _deckHandler;
         private GameTurn _leftPlayerGameTurn;
-
+        private EndBattleHandler _endBattleHandler;
         #endregion
 
         #region Prop
@@ -127,7 +127,7 @@ namespace CardMaga.UI
 
         public void UnLockInput()
         {
-            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
+            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput, true);
         }
 
         #endregion
@@ -205,9 +205,10 @@ namespace CardMaga.UI
 
         private void DrawCardsFromDrawDeck(params BattleCardData[] cards)
         {
-            BattleCardUI[] handCards;
+            if (_endBattleHandler.IsGameEnded)
+                return;
 
-            handCards = GetCardsUI(cards);
+            BattleCardUI[] handCards = GetCardsUI(cards);
 
             SetCardAtDrawPos(handCards);
 
@@ -219,7 +220,7 @@ namespace CardMaga.UI
                 SetState(InputBehaviourState.Hand, handCards[i]);
             }
 
-           // OnCardsAddToHand?.Invoke(handCards);
+            // OnCardsAddToHand?.Invoke(handCards);
             OnHandUICardsUpdated?.Invoke();
         }
 
@@ -314,6 +315,7 @@ namespace CardMaga.UI
             _leftPlayerGameTurn = data.TurnHandler.GetCharacterTurn(true);
             _leftPlayerGameTurn.EndTurnOperations.Register((x) => DiscardAllCards(), 0, OrderType.Before);
             _cardExecutionManager = data.CardExecutionManager;
+            _endBattleHandler = data.EndBattleHandler;
         }
 
         #endregion
