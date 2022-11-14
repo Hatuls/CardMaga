@@ -5951,18 +5951,7 @@ MonoBehaviour:
       m_Calls: []
   OnCinematicSequenceEnd:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4151510002547681400}
-        m_MethodName: OpenClickHelper
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   _cinematic:
   - OnCinematicStart:
       m_PersistentCalls:
@@ -5984,7 +5973,7 @@ MonoBehaviour:
     _cinematicName: Reward
     _delayBeforeCinematic: {x: 0, y: 0}
     _delayAfterCinematic: {x: 0, y: 0}
-    isPuseCinematicSequenceOnEndSequenceOnEnd: 1
+    isPuseCinematicSequenceOnEndSequenceOnEnd: 0
     _isDisableSkip: 0
     _playableDirector: {fileID: 6972837926015126894}
 --- !u!1 &3958939060935308711
@@ -8932,7 +8921,7 @@ PrefabInstance:
     - target: {fileID: 7924632541184702372, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: MoveToNextScene
+      value: ReleaseSceneToken
       objectReference: {fileID: 0}
     - target: {fileID: 7924632541184702372, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
