@@ -3,7 +3,6 @@ using Battle.Deck;
 using CardMaga.Battle.Players;
 using CardMaga.Battle.UI;
 using CardMaga.SequenceOperation;
-using CardMaga.UI.ScrollPanel;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ namespace CardMaga.UI.Collections
 
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
         {
-            IPlayer player = data.BattleDataManager.PlayersManager.RightCharacter;
+            IPlayer player = data.BattleDataManager.PlayersManager.LeftCharacter;
 
             _deckHandler = player.DeckHandler;
             _playerComboContainer = player.Combos;
@@ -43,7 +42,10 @@ namespace CardMaga.UI.Collections
         }
 
 
-
+        public void AllCards()
+        {
+            _collection.AssignCardData(_deckHandler);
+        }
         public int Priority
         {
             get => 0;

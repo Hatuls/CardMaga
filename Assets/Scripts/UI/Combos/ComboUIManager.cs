@@ -24,7 +24,7 @@ public class ComboUIManager : MonoBehaviour, ISequenceOperation<IBattleUIManager
     [FormerlySerializedAs("_drawTransitionPackSo")]
     [Header("TransitionPackSOs")]
     [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
-    [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;
+ //   [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;
 
     [Header("Draw Parameters")]
     [SerializeField] private float _delaybetweenDrawCards;
@@ -45,8 +45,9 @@ public class ComboUIManager : MonoBehaviour, ISequenceOperation<IBattleUIManager
     {
         for (int i = 0; i < cardUis.Length; i++)
         {
+            cardUis[i].KillTween(false);
             cardUis[i].RectTransform.SetPosition(destination);
-            cardUis[i].VisualsRectTransform.SetScale(0.1f);
+       //     cardUis[i].VisualsRectTransform.SetScale(0.1f);
         }
         OnCardComboDone?.Invoke(cardUis);
     }

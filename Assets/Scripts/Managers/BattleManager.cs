@@ -12,6 +12,7 @@ using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,7 +23,7 @@ namespace CardMaga.Battle
         public static event Action OnGameEnded;
         public event Action<IBattleManager> OnBattleManagerDestroyed;
 
-        public static bool isGameEnded;
+
         [SerializeField, EventsGroup]
         private Unity.Events.StringEvent _playSound;
         [SerializeField, EventsGroup]
@@ -43,11 +44,13 @@ namespace CardMaga.Battle
         [Header("Editor:")]
         [SerializeField] private bool _hideTutorial;
 #endif
+        [ReadOnly, ShowInInspector,]
+        private PlayerManager _playerManager;
         private ComboManager _comboManager;
         private KeywordManager _keywordManager;
         private EndBattleHandler _endBattleHandler;
         private CardExecutionManager _cardExecutionManager;
-        private PlayerManager _playerManager;
+
         private RuleManager _ruleManager;
         private BattleTutorial _battleTutorial;
         private TurnHandler _gameTurnHandler;
@@ -107,7 +110,6 @@ namespace CardMaga.Battle
         {
             if (AudioManager.Instance != null)
                 AudioManager.Instance.StopAllSounds();
-            isGameEnded = false;
         }
 
         // Need To be Re-Done
@@ -271,7 +273,7 @@ namespace CardMaga.Battle
     {
         IPlayer LeftCharacter { get; }
         IPlayer RightCharacter { get; }
-
+        IEnumerable<IPlayer> Players { get; }
         IPlayer GetCharacter(bool IsLeftCharacter);
     }
 
@@ -284,6 +286,16 @@ namespace CardMaga.Battle
         public IPlayer RightCharacter { get => _rightCharacter; private set => _rightCharacter = value; }
 
         public int Priority => -1;
+
+        public IEnumerable<IPlayer> Players
+        {
+            get
+            {
+                yield return LeftCharacter;
+                yield return RightCharacter;
+            }
+        }
+
         /// <summary>
         /// Return the left or right character manager
         /// </summary>

@@ -10,6 +10,8 @@ namespace Characters.Stats
         public event Action<bool, CharacterStatsHandler> OnStatAssigned;
         public event Action<bool, KeywordType, int> OnStatValueChanged;
         public event Action OnUpdateStatNeeded;
+
+        [Sirenix.OdinInspector.ReadOnly,Sirenix.OdinInspector.ShowInInspector]
         private Dictionary<KeywordType, BaseStat> _statsDictionary;
 
         public IReadOnlyDictionary<KeywordType, BaseStat> StatDictionary => _statsDictionary;
