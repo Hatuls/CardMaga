@@ -185,7 +185,7 @@ public class InputReciever : MonoSingleton<InputReciever>
         if (CIRCLE_BORDER_BUTTOM_LEFT > dirAngle && dirAngle > CIRCLE_BORDER_TOP_LEFT)
             return SwipeDirection.Left;
 
-        Debug.LogError("Swipe Error Cant Find Swipe Direction");
+        Debug.LogWarning("Swipe Error Cant Find Swipe Direction");
         return 0;
     }
 
