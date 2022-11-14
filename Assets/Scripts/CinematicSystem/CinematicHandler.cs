@@ -18,9 +18,9 @@ namespace CardMaga.CinematicSystem
 
         [SerializeField, Tooltip("Name for editor use")] private string _cinematicName;
 
-        [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay before the cinematic will be executed")]
+        [SerializeField, MinMaxSlider(0, 20f,true), Tooltip("The delay before the cinematic will be executed")]
         private Vector2 _delayBeforeCinematic;
-        [SerializeField, MinMaxSlider(0, 20f), Tooltip("The delay after the cinematic was executed")]
+        [SerializeField, MinMaxSlider(0, 20f, true), Tooltip("The delay after the cinematic was executed")]
         private Vector2 _delayAfterCinematic;
 
         [SerializeField, Tooltip("Immediately start the next cinematic at the end of this one")] private bool isPauseCinematicSequenceOnEndSequenceOnEnd;
