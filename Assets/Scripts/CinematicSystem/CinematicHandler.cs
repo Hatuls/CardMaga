@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
+using UnityEngine.Windows.WebCam;
 
 namespace CardMaga.CinematicSystem
 {
@@ -100,13 +101,9 @@ public class CinematicHandler
     {
         if (_isDisableSkip)
             return;
-        
-        _playableDirector.time = _duration;
-        
-        _monoBehaviour.StopAllCoroutines();
-        
-        _isCompleted = true;
-        CompleteCinematic();
+
+        _playableDirector.time = _duration - Time.deltaTime;
+
     }
 
     public void PauseCinematic()
@@ -119,5 +116,4 @@ public class CinematicHandler
         _playableDirector.Resume();
     }
 }
-
 }
