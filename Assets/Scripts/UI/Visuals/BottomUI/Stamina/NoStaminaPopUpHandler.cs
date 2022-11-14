@@ -1,107 +1,66 @@
-﻿using CardMaga.Keywords;
-using CardMaga.Tools.Pools;
-using DG.Tweening;
-using System;
+﻿using System.Collections;
 using UnityEngine;
 
 
 namespace CardMaga.UI.PopUp
 {
 
-    public class NoStaminaPopUpHandler : BasePopUp
+    public class NoStaminaPopUpHandler :MonoBehaviour
     {
         [SerializeField]
         private HandUI _handUI;
         [SerializeField, Range(0, 10f)]
         private float _duration;
 
+        [SerializeField]
+        private NoStaminaPopUp _noStaminaPopUp;
 
+        private Coroutine _timerCoroutine;
         #region Monobehaviour Callbacks
         private void Awake()
         {
-           // _handUI
+            _noStaminaPopUp.Hide();
+            _handUI.OnCardExecutionFailed += ShowPopUp;
+            _handUI.OnCardExecutionSuccess += ForceFadeOutStaminaPopUp;
         }
 
         private void OnDestroy()
         {
-
+            _handUI.OnCardExecutionFailed -= ShowPopUp;
+            _handUI.OnCardExecutionSuccess -= ForceFadeOutStaminaPopUp;
+            StopAllCoroutines();
         }
         #endregion
 
         private void ShowPopUp()
         {
+            _noStaminaPopUp.Enter();
+            if (_timerCoroutine != null)
+                StopCoroutine(_timerCoroutine);
 
+            _timerCoroutine = StartCoroutine(Timer());
         }
 
-    }
-    [RequireComponent(typeof(CanvasGroup))]
-    public class NoStaminaPopUp : BasePopUp
-    {
-        public event Action OnPopUpFinishEntranceTransition;
-        public event Action OnPopUpFinishExitTransition;
-        [SerializeField,Min(0)]
-        private float _alphaEntranceDuration;
-        [SerializeField,Min(0)]
-        private float _alphaExitDuration;
-
-        private CanvasGroup _canvasGroup;
-
-        protected override void ResetParams()
+        private IEnumerator Timer()
         {
-            if (_sequence != null)
-                _sequence.Kill(false);
-            _canvasGroup.alpha = 0;
+            float counter = 0;
+            while (counter <= _duration)
+            {
+                yield return null;
+                counter += Time.deltaTime;
+            }
+            FadeOutStaminaPopUp();
         }
-        public override void Enter()
+        private void ForceFadeOutStaminaPopUp()
         {
-            base.Enter();
-            _sequence = _canvasGroup.DOFade(1, _alphaEntranceDuration)
-                        .OnComplete(PopUpFinishEntranceTransition);
+            if (_noStaminaPopUp.IsActive())
+            {
+                if (_timerCoroutine != null)
+                    StopCoroutine(_timerCoroutine);
+
+                FadeOutStaminaPopUp();
+            }
         }
-
-        public override void Close()
-        {
-            base.Close();
-            if (_sequence != null)
-                _sequence.Kill(false);
-            _sequence = _canvasGroup.DOFade(0, _alphaExitDuration)
-                        .OnComplete(PopUpFinishExitTransition);
-        }         
-
-        private void PopUpFinishEntranceTransition() => OnPopUpFinishEntranceTransition?.Invoke();
-        private void PopUpFinishExitTransition() => OnPopUpFinishExitTransition?.Invoke();
-    }
-
-    public abstract class BasePopUp : BaseUIElement , IPoolableMB<BasePopUp>
-    {
-        public event Action<BasePopUp> OnDisposed;
-
-        [SerializeField]
-        private bool _toRememberPreviousScreen = false;
-        [SerializeField]
-        protected RectTransform _rectTransform;
-
-        protected Tween _sequence;
-
-
-        protected virtual void ResetParams()
-        {
-            if (_sequence != null)
-                _sequence.Kill(false);
-            _rectTransform.SetScale(0);
-        }
-        public virtual void Enter()
-        {
-            ResetParams();
-            UIHistoryManager.Show(this, _toRememberPreviousScreen);
-        }
-
-        public virtual void Close()
-        {
-            UIHistoryManager.ReturnBack();
-        }
-
-        public void Dispose()
-        => OnDisposed?.Invoke(this);
+        private void FadeOutStaminaPopUp() => _noStaminaPopUp.Close();
     }
 }
