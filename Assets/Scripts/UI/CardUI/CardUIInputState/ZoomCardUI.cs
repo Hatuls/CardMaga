@@ -82,7 +82,7 @@ namespace CardMaga.UI.Card
             _zoomToken = SelectedBattleCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
         
-        private void MoveToZoomPosition(BattleCardUI battleCardUI)
+        public void MoveToZoomPosition(BattleCardUI battleCardUI)
         {
             if (SelectedBattleCardUI != null)
             {

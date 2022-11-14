@@ -12,7 +12,7 @@ public class WaitForPlayerSecondTurn : MonoBehaviour
     public void WaitForPlayerTurn(ITokenReciever tokenReciever)
     {
         _token = tokenReciever.GetToken();
-        BattleManager.Instance.TurnHandler.GameTurnDictionary[GameTurnType.LeftPlayerTurn].OnTurnEnter += CheckTurnCount;
+        BattleManager.Instance.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnEnter += CheckTurnCount;
     }
 
     private void CheckTurnCount()
@@ -20,7 +20,7 @@ public class WaitForPlayerSecondTurn : MonoBehaviour
         if (BattleManager.Instance.TurnHandler.TurnCount != 3)
             return;
 
-        BattleManager.Instance.TurnHandler.GameTurnDictionary[GameTurnType.LeftPlayerTurn].OnTurnEnter -= CheckTurnCount;
+        BattleManager.Instance.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnEnter -= CheckTurnCount;
         ReleaseToken();
     }
 

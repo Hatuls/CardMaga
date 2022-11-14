@@ -27,7 +27,6 @@ namespace Battle.Turns
         private bool _isLeftPlayerStart = false;
         private GameTurnType _currentTurn = GameTurnType.EnterBattle;
 
-        public Dictionary<GameTurnType, GameTurn> GameTurnDictionary => _gameTurnsDictionary;
         public GameTurnType CurrentTurn { get => _currentTurn; private set => _currentTurn = value; } 
         public int TurnCount => _turnCount;
         public bool IsLeftCharacterTurn => CurrentTurn == GameTurnType.LeftPlayerTurn;
