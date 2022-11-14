@@ -19,7 +19,7 @@ namespace CardMaga.UI.PopUp
         #region Monobehaviour Callbacks
         private void Awake()
         {
-            _handUI
+           // _handUI
         }
 
         private void OnDestroy()
