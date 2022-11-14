@@ -10,41 +10,41 @@ namespace CardMaga.UI
         private static Stack<IUIElement> _history = new Stack<IUIElement>();
         private static IUIElement _currentUIElement;
 
-		public static bool IsEmpty => _history.Count == 0;
+        public static bool IsEmpty => _history.Count == 0;
 
-        public static void Show(IUIElement showable,bool toRemember)
+        public static void Show(IUIElement showable, bool toRemember)
         {
-			if (_currentUIElement != null)
-			{
-				if (toRemember)
-					_history.Push(_currentUIElement);
-				
+            if (_currentUIElement != null)
+            {
+                if (toRemember)
+                    _history.Push(_currentUIElement);
 
-				_currentUIElement.Hide();
-			}
 
-			showable.Show();
+                _currentUIElement.Hide();
+            }
 
-			_currentUIElement = showable;
-		}
+            showable.Show();
 
-		public static void ReturnBack()
-		{
-			if (!IsEmpty)
-				Show(_history.Pop(), false);
+            _currentUIElement = showable;
+        }
+
+        public static void ReturnBack()
+        {
+            if (!IsEmpty)
+                Show(_history.Pop(), false);
 
             else
                 _currentUIElement?.Hide();
-            
-		}
 
-		public static void CloseAll()
+        }
+
+        public static void CloseAll()
         {
-			while (!IsEmpty)
-				ReturnBack();
+            while (!IsEmpty)
+                ReturnBack();
 
             _currentUIElement?.Hide();
-		}
+        }
 
 
     }
@@ -55,13 +55,22 @@ namespace CardMaga.UI
         public event Action OnInitializable;
         [SerializeField, Tooltip("The GameObjects that will be turning on and off\nIf left empty it will close the gameobject this script is on")]
         private GameObject _gameObject;
+        public GameObject PopupGameObject
+        {
+            get
+            {
+                if (_gameObject == null)
+                    _gameObject = gameObject;
+                return _gameObject;
+            }
+        }
+        public bool IsActive()
+        => PopupGameObject.activeSelf || PopupGameObject.activeInHierarchy;
         public void Hide()
         {
             OnHide?.Invoke();
-            if (_gameObject != null)
-                _gameObject.SetActive(false);
-            else
-                gameObject.SetActive(false);
+            PopupGameObject.SetActive(false);
+     
         }
 
         public virtual void Init()
@@ -71,12 +80,7 @@ namespace CardMaga.UI
         public void Show()
         {
             OnShow?.Invoke();
-
-            if (_gameObject != null)
-                _gameObject.SetActive(true);
-            else
-                gameObject.SetActive(true);
-
+            PopupGameObject.SetActive(true);
         }
     }
 }
