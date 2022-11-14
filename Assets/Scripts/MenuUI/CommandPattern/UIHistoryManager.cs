@@ -28,7 +28,7 @@ namespace CardMaga.UI
 			_currentUIElement = showable;
 		}
 
-		public static void ShowLast()
+		public static void ReturnBack()
 		{
 			if (!IsEmpty)
 				Show(_history.Pop(), false);
@@ -41,7 +41,7 @@ namespace CardMaga.UI
 		public static void CloseAll()
         {
 			while (!IsEmpty)
-				ShowLast();
+				ReturnBack();
 
             _currentUIElement?.Hide();
 		}

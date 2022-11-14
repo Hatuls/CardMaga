@@ -19,7 +19,7 @@ namespace CardMaga.UI.Settings
         }
         public void ReturnBack()
         {
-            UIHistoryManager.ShowLast();
+            UIHistoryManager.ReturnBack();
  
         }
         public void Surrender()

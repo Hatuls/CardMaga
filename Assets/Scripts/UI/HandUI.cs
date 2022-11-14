@@ -21,7 +21,8 @@ namespace CardMaga.UI
     public class HandUI : InputBehaviourHandler<BattleCardUI>, ISequenceOperation<IBattleUIManager>
     {
         #region Events
-
+        public event Action OnCardExecutionFailed;
+        public event Action OnCardExecutionSuccess;
         public static event Action<BattleCardUI> OnCardExecute;
         public static event Action OnCardDrawnAndAlign;
         public static event Action OnDiscardAllCards;
@@ -256,12 +257,14 @@ namespace CardMaga.UI
                     DiscardCardAfterExecute(battleCardUI);
                     OnCardExecute?.Invoke(battleCardUI);
                     OnHandUICardsUpdated?.Invoke();
-                    return true;
+                    OnCardExecutionSuccess?.Invoke();
+                    return canPlayCard; // true
                 }
             }
 
+            OnCardExecutionFailed?.Invoke();
             SetToHandState(battleCardUI);
-            return false;
+            return canPlayCard; // false
         }
 
         private void DiscardAllCards()
