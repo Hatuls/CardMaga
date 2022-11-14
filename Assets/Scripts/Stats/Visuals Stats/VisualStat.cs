@@ -13,7 +13,8 @@ namespace CardMaga.Battle.Visual
         private KeywordType _keywordType;
         public int Amount
         {
-            get => _amount; set
+            get => _amount; 
+            set
             {
                 if (_amount < value)
                     OnValueReduced?.Invoke(value);

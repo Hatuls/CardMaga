@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace CardMaga.ImageAlpha
 {
@@ -10,7 +9,7 @@ namespace CardMaga.ImageAlpha
         public void SetAlphas(int alphaID)
         {
             AlphaPackage[] _alphaPackageGroup = GetAlphaPackageFromID(alphaID);
-            ImageAlphaHandler.Instance.SetAlpha(_alphaPackageGroup);
+            ImageAlphaHandler.SetAlpha(_alphaPackageGroup);
         }
 
         private AlphaPackage[] GetAlphaPackageFromID(int alphaID)
@@ -24,15 +23,15 @@ namespace CardMaga.ImageAlpha
             throw new System.Exception("AlphaPackageAssigner: AlphaPackageGroup Was not found");
         }
     }
-    
+
     [System.Serializable]
     public class AlphaPackageGroup
     {
 #if UNITY_EDITOR
         [SerializeField] private string _alphaPackageName;
 #endif
-       [SerializeField] private int _packageID;
-       [SerializeField] private AlphaPackage[] _alphaPackages;
+        [SerializeField] private int _packageID;
+        [SerializeField] private AlphaPackage[] _alphaPackages;
 
         public AlphaPackage[] AlphaPackages { get { return _alphaPackages; } }
         public int PackageID { get { return _packageID; } }

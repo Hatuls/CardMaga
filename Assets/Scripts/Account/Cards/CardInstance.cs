@@ -1,4 +1,5 @@
 ﻿using CardMaga.Card;
+using PlayFab.Json;
 using System;
 using UnityEngine;
 namespace Account.GeneralData
@@ -81,11 +82,12 @@ namespace Account.GeneralData
         {
             Factory.GameFactory.CardFactory.Remove(this);
         }
-        
+
+
 #if UNITY_EDITOR
         public CardCore() { }
-    
-        public CardCore(CoreID coreID,CardSO cardSO)
+
+        public CardCore(CoreID coreID, CardSO cardSO)
         {
             _coreID = coreID;
             _cardSO = cardSO;
@@ -93,11 +95,10 @@ namespace Account.GeneralData
             int differences = _coreID.ID - baseCardLevel;
             _level = differences;
         }
-
         //[Sirenix.OdinInspector.Button]
         //private void Refresh()
         //{
-            
+
         //}
 #endif
     }
@@ -105,17 +106,16 @@ namespace Account.GeneralData
     [Serializable]
     public class CoreID
     {
-        [SerializeField]
-        private int _id;
-        public int ID => _id;
+       // [SerializeField]
+        public int ID;
+  //      [JsonProperty(PropertyName = "_id")]
+       // public int ID => _id;
         public CoreID(int id)
         {
-            _id = id;
+            ID = id;
         }
-#if UNITY_EDITOR
         public CoreID() { }
-     
-#endif
+
     }
 
     public static class CardHelper

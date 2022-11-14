@@ -15,12 +15,12 @@ namespace CardMaga.ImageAlpha
 
         private void Start()
         {
-            ImageAlphaHandler.Instance.AddImage(this);
+            ImageAlphaHandler.AddImage(this);
         }
 
         private void OnDestroy()
         {
-            ImageAlphaHandler.Instance.RemoveImage(this);
+            ImageAlphaHandler.RemoveImage(this);
         }
     }
 }

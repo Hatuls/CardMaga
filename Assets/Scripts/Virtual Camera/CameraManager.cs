@@ -155,7 +155,7 @@ namespace CardMaga.Battle.Visual.Camera
         {
             if (_delayTimerCoroutine != null)
             {
-                StopCoroutine(DelayTillReturn());
+                StopCoroutine(_delayTimerCoroutine);
                 _delayTimerCoroutine = null;
             }
         }

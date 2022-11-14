@@ -9,19 +9,14 @@ namespace Account.GeneralData
     {
         [NonSerialized]
         public const string PlayFabKeyName = "ArenaData";
-        [SerializeField] private int homeArena;
-        [SerializeField] private int characterID;
-        [SerializeField] private int skin;
-        [SerializeField] private DeckData deck;
-        [SerializeField] private int loses;
-        [SerializeField] private int wins;
 
-        public int HomeArena { get => homeArena; set => homeArena = value; }
-        public int CharacterID { get => characterID; set => characterID = value; }
-        public int Skin { get => skin; set => skin = value; }
-        public DeckData Deck { get => deck; set => deck = value; }
-        public int Loses { get => loses; set => loses = value; }
-        public int Wins { get => wins; set => wins = value; }
+
+        public int HomeArena;
+        public int CharacterID;
+        public int Skin;
+        public DeckData Deck;
+        public int Loses;
+        public int Wins;
 
         internal bool IsValid()
         {
@@ -33,28 +28,25 @@ namespace Account.GeneralData
     public class AccountResources
     {
         [NonSerialized] public const string PlayFabKeyName = "ResourcesData";
-        [SerializeField] private int _gold;
-        [SerializeField] private int _diamonds;
-        [SerializeField] private int _tickets;
-        [SerializeField] private int _chips;
 
-        public int Gold { get => _gold;         private  set => _gold = value; }
-        public int Diamonds { get => _diamonds; private set => _diamonds = value; }
-        public int Tickets { get => _tickets;   private set => _tickets = value; }
-        public int Chips { get => _chips;       private  set => _chips = value; }
+
+        public int Gold;
+        public int Diamonds;
+        public int Tickets;
+        public int Chips;
 
         public AccountResources()
         {
-            _chips = 0;
-            _gold = 0;
-            _diamonds = 0;
-            _tickets = 0;
+            Chips = 0;
+            Gold = 0;
+            Diamonds = 0;
+            Tickets = 0;
         }
         public void AddResource(CurrencyType currencyType, int amount)
         {
             switch (currencyType)
             {
-           
+
                 case CurrencyType.Coins:
                     Gold += amount;
                     break;
@@ -64,12 +56,12 @@ namespace Account.GeneralData
                 case CurrencyType.Chips:
                     Chips += amount;
                     break;
-        
+
             }
         }
         internal bool IsValid()
         {
-            return _gold >= 0 && _diamonds >= 0 && _tickets >= 0;
+            return Gold >= 0 && Diamonds >= 0 && Tickets >= 0;
         }
     }
     //[Serializable]

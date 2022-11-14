@@ -17,15 +17,12 @@ namespace Account.GeneralData
     {
         [NonSerialized]
         public const string PlayFabKeyName = "GeneralData";
-        [SerializeField] private int _rank = 0;
-        [SerializeField] private AccountType _accountType;
-
-        public int Rank { get => _rank; set => _rank = value; }
-        public AccountType AccountType { get => _accountType; set => _accountType = value; }
+        public int Rank;
+        public AccountType AccountType;
         public AccountGeneralData()
         {
-            _rank = 0;
-            _accountType = AccountType.Normal;
+            Rank = 0;
+            AccountType = AccountType.Normal;
         }
 
         internal bool IsValid()
@@ -38,19 +35,18 @@ namespace Account.GeneralData
     {
         [NonSerialized]
         public const string PlayFabKeyName = "LevelData";
-        [SerializeField] private int _level;
-        [SerializeField] private int _exp;
 
-        public int Level { get => _level; set => _level = value; }
-        public int Exp { get => _exp; set => _exp = value; }
+
+        public int Level;
+    public int Exp;
 
         public LevelData()
         {
-            _level = 1;
-            _exp = 0;
+            Level = 1;
+            Exp = 0;
         }
 
         internal bool IsValid()
-        => _level >= 0 && _exp >= 0;
+        => Level >= 0 && Exp >= 0;
     }
 }

@@ -20,7 +20,8 @@ namespace CardMaga.UI.Bars
         }
         public virtual void DoMoveSlider(Slider slider, int amount, float slideTime, AnimationCurve ease)
         {
-            slider.DOValue(amount, slideTime).SetEase(ease);
+            slider.DOKill();
+             slider.DOValue(amount, slideTime).SetEase(ease);
         }
     }
 }

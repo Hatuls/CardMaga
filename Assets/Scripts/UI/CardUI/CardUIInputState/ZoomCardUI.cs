@@ -86,15 +86,12 @@ namespace CardMaga.UI.Card
         {
             if (SelectedBattleCardUI != null)
             {
-                KillTween();
-                _currentSequence = battleCardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
+                SelectedBattleCardUI.KillTween(false);
+                SelectedBattleCardUI.CurrentSequence = battleCardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
             }
         }
 
-        private void KillTween()
-        {
-            if (_currentSequence != null) _currentSequence.Kill();
-        }
+   
 
     }
 }

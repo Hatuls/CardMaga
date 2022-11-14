@@ -8,11 +8,11 @@ namespace CardMaga.Commands
 {
     public interface ICommand : IExecutableTask
     {
-     
+
         void Undo();
     }
 
-    public interface IExecutableTask 
+    public interface IExecutableTask
     {
         void Execute();
     }
@@ -62,7 +62,7 @@ namespace CardMaga.Commands
         }
     }
 
- 
+
     public interface ISequenceCommand : ICommand
     {
         event Action OnFinishExecute;
@@ -165,6 +165,13 @@ namespace CardMaga.Commands
         {
             _visualCommands.Clear();
             base.ResetCommands();
+        }
+
+        public void ExecuteAll()
+        {
+            for (int i = 0; i < _visualCommands.Count; i++)
+                _visualCommands[i].Execute();
+            _visualCommands.Clear();
         }
     }
     public class VisualCommandHandler : CommandHandler<ISequenceCommand>

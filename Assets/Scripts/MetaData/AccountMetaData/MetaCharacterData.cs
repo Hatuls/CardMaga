@@ -38,13 +38,13 @@ namespace CardMaga.MetaData.AccoutData
 
         public MetaCharacterData(Character character)
         {
-            _id = character.Id;
-            _currentSkin = character.CurrentSkin;
-            _exp = character.Exp;
-            _skillPoint = character.SkillPoint;
+            _id = character.ID;
+            _currentSkin = character.CurrentColor;
+            _exp = character.EXP;
+            _skillPoint = character.SkillPoints;
             _rank = character.Rank;
             _deckAmount = character.Deck.Count; //need to check rei _____
-            _maxDeckLimit = character.DeckLimit;
+            _maxDeckLimit = character.DeckAmount;
             _mainDeck = character.MainDeck;
 
             _availableSkins = new List<int>(character.AvailableSkins.Count);

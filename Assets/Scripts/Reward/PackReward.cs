@@ -1,8 +1,12 @@
-﻿using Account.GeneralData;
+﻿using Account;
+using Account.GeneralData;
+using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
+using PlayFab.Json;
 using ReiTools.TokenMachine;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
@@ -25,46 +29,61 @@ namespace CardMaga.Rewards
 
         public void TryRecieveReward(ITokenReciever tokenMachine)
         {
-            _token = tokenMachine.GetToken();
-            AddToDevicesData();
-            UpdateOnServer();
+            var allcards = AccountManager.Instance.Data.AllCards;
+            for (int i = 0; i < _cardsID.Length; i++)
+            {
+                allcards.AddCard(new CoreID(_cardsID[i]));
+            }
+
+            Account.AccountManager.Instance.SendAccountData(tokenMachine);
+            //AddToDevicesData();
+            //UpdateOnServer();
         }
 
         private void UpdateOnServer()
         {
-    
-            var request = new ExecuteCloudScriptRequest()
-            {
-                FunctionName = "AddCards",
-                FunctionParameter = new
-                {
-                    Cards = JsonUtility.ToJson(Account.AccountManager.Instance.Data.AllCards)
-                }
-            };
-            Account.AccountManager.Instance.UpdateDataOnServer();
 
-            PlayFabClientAPI.ExecuteCloudScript(request, OnRewardReceived, OnFailedToReceived);
+            //string json = JsonConvert.SerializeObject(accountCards);
+
+            ////   json = json.Replace("\"", "").Trim();
+            //   Debug.Log(json);
+            //   var request = new ExecuteCloudScriptRequest()
+            //   {
+            //       FunctionName = "AddCards",
+            //       FunctionParameter = new
+            //       {
+            //           Cards = json
+            //       }
+            //   };
+            //   //  
+
+            //   PlayFabClientAPI.ExecuteCloudScript(request, OnRewardReceived, OnFailedToReceived);
+
+
+
         }
 
         private void OnFailedToReceived(PlayFabError obj)
         {
             OnServerFailedToAdded?.Invoke();
             Debug.LogError(obj.ErrorMessage);
-            _token.Dispose();
+            _token?.Dispose();
 
         }
         private void OnRewardReceived(ExecuteCloudScriptResult obj)
         {
             OnServerSuccessfullyAdded?.Invoke();
-            Debug.LogError("Received in server!");
+            Debug.LogError("Received in server!" + obj.ToJson());
+
+            Array.ForEach(obj.Logs.ToArray(), x => Debug.LogError(x.ToJson() +"\n"));
             Account.AccountManager.Instance.RequestAccoundData();
-            _token.Dispose();
+            _token?.Dispose();
         }
         public void AddToDevicesData()
         {
 
-            for (int i = 0; i < _cardsID.Length; i++)
-                Account.AccountManager.Instance.Data.AllCards.AddCard(new CoreID(_cardsID[i]));
+            //for (int i = 0; i < _cardsID.Length; i++)
+            //    Account.AccountManager.Instance.Data.AllCards.AddCard(new CoreID(_cardsID[i]));
 
         }
         public PackReward(string name, int[] cardsID)
@@ -78,7 +97,7 @@ namespace CardMaga.Rewards
 
         }
 
-      
+
 #endif
     }
 
@@ -89,7 +108,7 @@ namespace CardMaga.Rewards
         event Action OnServerSuccessfullyAdded;
         event Action OnServerFailedToAdded;
         string Name { get; }
-        void TryRecieveReward(ITokenReciever tokenMachine);//T reciever);
+        void TryRecieveReward(ITokenReciever tokenMachine);
         void AddToDevicesData();
     }
 
