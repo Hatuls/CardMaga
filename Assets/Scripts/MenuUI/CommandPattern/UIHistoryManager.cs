@@ -61,7 +61,7 @@ namespace CardMaga.UI
         public event Action OnInitializable;
         [SerializeField, Tooltip("The GameObjects that will be turning on and off\nIf left empty it will close the gameobject this script is on")]
         private GameObject _gameObject;
-        public GameObject PopupGameObject
+        public GameObject HolderGameObject
         {
             get
             {
@@ -71,11 +71,11 @@ namespace CardMaga.UI
             }
         }
         public bool IsActive()
-        => PopupGameObject.activeSelf || PopupGameObject.activeInHierarchy;
+        => HolderGameObject.activeSelf || HolderGameObject.activeInHierarchy;
         public void Hide()
         {
             OnHide?.Invoke();
-            PopupGameObject.SetActive(false);
+            HolderGameObject.SetActive(false);
 
         }
 
@@ -86,7 +86,7 @@ namespace CardMaga.UI
         public void Show()
         {
             OnShow?.Invoke();
-            PopupGameObject.SetActive(true);
+            HolderGameObject.SetActive(true);
         }
     }
 }

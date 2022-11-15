@@ -1,5 +1,4 @@
 ﻿using CardMaga.MetaData.AccoutData;
-using CardMaga.MetaUI.CollectionUI;
 using CardMaga.MetaData.DeckBuilding;
 using UnityEngine;
 
@@ -17,23 +16,23 @@ namespace CardMaga.MetaData.Collection
     
         void Start()
         {
-            // _accountDataCollectionHelper = new AccountDataCollectionHelper(_accountDataAccess);
-            // _deckBuilder = new DeckBuilder(_accountDataCollectionHelper);
-            // _metaCollectionDeck = new MetaCollectionDeckUIHandler();
-            // _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0]);
-            // _cardCollectionPanelHandler.Init();
-            // _comboCollectionPanelHandler.Init();
-            // _cardUIPool.Init();
-            // _comboUIPool.Init();
-            // LoadObjects();
+            _accountDataCollectionHelper = new AccountDataCollectionHelper(_accountDataAccess);
+            _deckBuilder = new DeckBuilder(_accountDataCollectionHelper);
+            _metaCollectionDeck = new MetaCollectionDeckUIHandler();
+            _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0]);
+            _cardCollectionPanelHandler.Init();
+            _comboCollectionPanelHandler.Init();
+            _cardUIPool.Init();
+            _comboUIPool.Init();
+            LoadObjects();
         }
 
         public void LoadObjects()
         {
-            // _metaCollectionDeck.AddComboToSlot(_comboUIPool.PullObjects(_accountDataCollectionHelper.MetaComboDatas));
-            // _metaCollectionDeck.AddCardToSlot(_cardUIPool.PullObjects(_accountDataCollectionHelper.DeckData));
-            // _cardCollectionPanelHandler.AddObjectToPanel(_accountDataCollectionHelper.CollectionCardDatas);
-            // _comboCollectionPanelHandler.AddObjectToPanel(_accountDataAccess.AccountData.AccountCombos);//need to move from start
+            _metaCollectionDeck.AddComboToSlot(_comboUIPool.PullObjects(_accountDataCollectionHelper.MetaComboDatas));
+            _metaCollectionDeck.AddCardToSlot(_cardUIPool.PullObjects(_accountDataCollectionHelper.DeckData));
+            _cardCollectionPanelHandler.AddObjectToPanel(_accountDataCollectionHelper.CollectionCardDatas);
+            _comboCollectionPanelHandler.AddObjectToPanel(_accountDataAccess.AccountData.AccountCombos);//need to move from start
         }
     
     }

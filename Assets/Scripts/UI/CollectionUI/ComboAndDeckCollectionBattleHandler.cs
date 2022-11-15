@@ -40,8 +40,7 @@ namespace CardMaga.UI.Collections
         {
             _collection.AssignCardData(_deckHandler[DeckEnum.Discard]);
         }
-
-
+        
         public void AllCards()
         {
             _collection.AssignCardData(_deckHandler);

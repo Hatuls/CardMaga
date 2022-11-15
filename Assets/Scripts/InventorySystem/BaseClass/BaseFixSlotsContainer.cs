@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CardMaga.InventorySystem
 {
-    public abstract class BaseFixSlotsContainer<T> : IUIElement where T : class
+    public abstract class BaseFixSlotsContainer<T> : IUIElement where T : BaseUIElement
     {
         private int _idsCount;
         
@@ -28,18 +28,16 @@ namespace CardMaga.InventorySystem
 
         public bool AddObject(T obj)
         {
-            bool isSuccessful = false;
-            
             for (int i = 0; i < _slots.Length; i++)
             {
                 if (!_slots[i].IsHaveValue)
                 {
                     _slots[i].AssignValue(obj);
-                    isSuccessful = true;
+                    return true;
                 }
             }
 
-            return isSuccessful;
+            return false;
         }
 
         public void RemoveObject(T obj)
@@ -70,7 +68,7 @@ namespace CardMaga.InventorySystem
             {
                 if (_slots[i].Equals(otherSlot))
                 {
-                    obj = _slots[i].CollectionObject;
+                    obj = _slots[i].InventoryObject;
                     return true;
                 }
             }
@@ -85,7 +83,7 @@ namespace CardMaga.InventorySystem
             {
                 if (_slots[i].Equals(inventoryID))
                 {
-                    obj = _slots[i].CollectionObject;
+                    obj = _slots[i].InventoryObject;
                     return true;
                 }
             }
@@ -94,18 +92,16 @@ namespace CardMaga.InventorySystem
             return false;
         }
         
-        public bool FindCollectionObject(T collectionObject, out T obj)
+        public bool Contain(T collectionObject)
         {
             for (int i = 0; i < _slots.Length; i++)
             {
                 if (_slots[i].Contain(collectionObject))
                 {
-                    obj = _slots[i].CollectionObject;
                     return true;
                 }
             }
-
-            obj = null;
+            
             return false;
         }
 

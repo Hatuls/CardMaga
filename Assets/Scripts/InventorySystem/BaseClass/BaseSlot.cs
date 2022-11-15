@@ -3,27 +3,24 @@ using CardMaga.UI;
 
 namespace CardMaga.InventorySystem
 {
-    public abstract class BaseSlot<T> : IUIElement, IInventoryObject , IEquatable<BaseSlot<T>>,IEquatable<int> where T : class
+    public abstract class BaseSlot<T> : BaseUIElement, IInventoryObject<T> where T : BaseUIElement
     {
-        private T _collectionObject;
-
-        public int InventoryID { get; }
-
-        public bool IsHaveValue => _collectionObject != null;
-
-        public T CollectionObject => _collectionObject;
-
-        public BaseSlot(int inventoryID)
-        {
-            InventoryID = inventoryID;
-        }
+        public event Action<IInventoryObject<T>> OnAddInventoryObject; 
+        public event Action<IInventoryObject<T>> OnRemoveInventoryObject; 
         
-        public void AssignValue(T collectionObject)
+        private T _inventoryObject;
+
+        public bool IsHaveValue => _inventoryObject != null;
+
+        public T InventoryObject => _inventoryObject;
+
+        public void AssignValue(T InventoryObject)
         {
             if (IsHaveValue)
                 return;
             
-            _collectionObject = collectionObject;
+            _inventoryObject = InventoryObject;
+            OnAddInventoryObject?.Invoke(this);
         }
 
         public void RemoveValue()
@@ -31,59 +28,20 @@ namespace CardMaga.InventorySystem
             if (!IsHaveValue)
                 return;
 
-            _collectionObject = null;
+            _inventoryObject = null;
+            OnRemoveInventoryObject?.Invoke(this);
         }
-
-        public bool Equals(BaseSlot<T> other)
-        {
-            if (InventoryID == other.InventoryID)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool Equals(int inventoryID)
-        {
-            if (InventoryID == inventoryID)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        #region UiElement
-
-        public event Action OnInitializable;
-        public event Action OnShow;
-        public event Action OnHide;
-        public virtual void Show()
-        {
-            OnShow?.Invoke();
-        }
-
-        public virtual void Hide()
-        {
-            OnHide?.Invoke();
-        }
-
-        public virtual void Init()
-        {
-            OnInitializable?.Invoke();
-        }
-
-        #endregion
 
         public bool Contain(T other)
         {
-            return CollectionObject.Equals(other);
+            if (other == null) return false;
+            if (InventoryObject == null) return false;
+            return InventoryObject.Equals(other);
         }
     }
 
-    public interface IInventoryObject
-    {
-        int InventoryID { get; }
-    }
+   public interface IInventoryObject<T>
+       {
+           T InventoryObject { get; }
+       } 
 }

@@ -1,6 +1,6 @@
-using CardMaga.InventorySystem;
+using CardMaga.MetaUI;
 
-namespace CardMaga.MetaUI.CollectionUI
+namespace CardMaga.InventorySystem
 {
     public class MetaComboUISlot : BaseSlot<MetaComboUI>
     {

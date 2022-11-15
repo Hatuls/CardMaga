@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CardMaga.UI;
 using UnityEngine;
 
 namespace CardMaga.Tools.Pools
@@ -137,9 +138,8 @@ namespace CardMaga.Tools.Pools
     }
 
 
-    public interface IPoolableMB<T> : IPoolable<T> where T : MonoBehaviour
+    public interface IPoolableMB<T> : IPoolable<T>,IInitializable where T : MonoBehaviour
     {
-        void Init();
     }
 
 

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using CardMaga.InventorySystem;
 using CardMaga.MetaUI;
-using CardMaga.MetaUI.CollectionUI;
 
 namespace InventorySystem
 {
