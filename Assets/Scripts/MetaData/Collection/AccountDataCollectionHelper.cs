@@ -49,7 +49,7 @@ namespace CardMaga.MetaData.Collection
             {
                 if (_deckCardDatas.Contains(cardData))
                 {
-                    cardData.NumberOfInstant -= 1;
+                   // cardData.NumberOfInstant -= 1;
                 }
             }
         }

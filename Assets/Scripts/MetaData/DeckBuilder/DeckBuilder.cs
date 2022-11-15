@@ -2,7 +2,7 @@ using System;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 
-namespace CardMaga.MetaData.DeckBuilder
+namespace CardMaga.MetaData.DeckBuilding
 {
     public class DeckBuilder
     {

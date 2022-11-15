@@ -1,4 +1,4 @@
-namespace CardMaga.MetaData.DeckBuilder
+namespace CardMaga.MetaData.DeckBuilding
 {
     public class DeckSelectionHandler
     {

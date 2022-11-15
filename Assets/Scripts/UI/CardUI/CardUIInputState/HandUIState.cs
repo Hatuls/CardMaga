@@ -114,7 +114,7 @@ namespace CardMaga.UI
                 else
                     battleCardUI.CurrentSequence = sequence;
 
-                     yield return _waitForCardDrawnDelay;
+                yield return _waitForCardDrawnDelay;
             }
 
             onComplete?.Invoke();

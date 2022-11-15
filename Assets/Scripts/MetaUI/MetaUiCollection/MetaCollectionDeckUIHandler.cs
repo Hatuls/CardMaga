@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CardMaga.InventorySystem;
 
 namespace CardMaga.MetaUI.CollectionUI
 {
