@@ -7,7 +7,7 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000001961B05E638 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000020B4A9672C8 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -18,69 +18,9 @@
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
-[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 000001952BEDD478 : node = 00000194CE099E40
-[LOG] SystemI::createSound                     : add node to async list : head = 000001952B6B7FB8.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001952BEDD478
-[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
-[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
-[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
-[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000194CE099F50
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 581
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Combat 2 - V4', format=5, channels=2, frequency=48000, lengthbytes=2567296, lengthpcm=9478060, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.940186.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001952BEDD478
-[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
-[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
-[LOG] SystemI::createSound                     : setdata soundi = 000001951D1CD788 : node = 000001951BB75850
-[LOG] SystemI::createSound                     : add node to async list : head = 000001952B6B7FB8.  list count = 0
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001951D1CD788
-[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
-[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
-[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
-[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001951BB75960
-[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekposition = 1237
-[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
-[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Combat 2 - V4', format=5, channels=2, frequency=48000, lengthbytes=2567296, lengthpcm=9478060, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.940186.
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001951D1CD788
-[LOG] SoundI::release                          : Menu V2 (00000195E67CE238)
-[LOG] SoundI::release                          :     Menu V2 (00000194F4C448A8)
-[LOG] SoundI::release                          :     Menu V2 (00000195E4C5ABF8)
-[LOG] SoundI::release                          : Combat 2 - V4 (000001952BEDD478)
-[LOG] SoundI::release                          :     Combat 2 - V4 (00000194F2B0FAB8)
-[LOG] SoundI::release                          :     Combat 2 - V4 (00000196ABB8C7C8)
-[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
-[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
-[LOG] SystemI::createSoundInternal             : exinfo->length             = 145760
-[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13600
-[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 00000037EF5DEFE8
-[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
-[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
-[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE753960E0
-[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE753960B0
-[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE753961B0
-[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE75396270
-[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 00000195F1D43C48
-[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
-[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
-[LOG] SystemI::createSoundInternal             : Sample 0/1: name='UI Clicked 6', format=5, channels=2, frequency=48000, lengthbytes=6816, lengthpcm=90279, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.305420.
-[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000195FE126CA8
-[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000195FE126CA8
-[LOG] SoundI::release                          : Combat 2 - V4 (000001951D1CD788)
-[LOG] SoundI::release                          :     Combat 2 - V4 (00000194F2B0FC58)
-[LOG] SoundI::release                          :     Combat 2 - V4 (00000195FE126CA8)
-[LOG] SoundI::release                          :  (00000194F6C73FA8)
-[LOG] SoundI::release                          :     UI Clicked 6 (00000194F2B12698)
+[LOG] SoundI::release                          : Combat 2 - V4 (000002094A3B09C8)
+[LOG] SoundI::release                          :     Combat 2 - V4 (0000020BA8784EA8)
+[LOG] SoundI::release                          :     Combat 2 - V4 (000002094A3AF078)
 [LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Profile::disconnectAll                   : Profiler disconnecting all clients

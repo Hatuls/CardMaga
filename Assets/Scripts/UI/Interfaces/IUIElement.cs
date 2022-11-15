@@ -1,4 +1,6 @@
 ﻿using System;
+using UnityEngine;
+
 namespace CardMaga.UI
 {
     public interface IInitializable
@@ -16,7 +18,7 @@ namespace CardMaga.UI
     }
     public interface IUIElement : IShowable, IInitializable
     {
-
+        RectTransform RectTransform { get; }
     }
 
     

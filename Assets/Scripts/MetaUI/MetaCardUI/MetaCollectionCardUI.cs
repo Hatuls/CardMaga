@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace CardMaga.UI.MetaUI
 {
-    public class MetaCollectionCardUI : MonoBehaviour, IPoolableMB<MetaCollectionCardUI>,IUIElement,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
+    public class MetaCollectionCardUI : BaseUIElement, IPoolableMB<MetaCollectionCardUI>,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
     {
         public event Action<MetaCollectionCardUI> OnDisposed;
         public event Action<int> OnAddCard; 
@@ -21,32 +21,17 @@ namespace CardMaga.UI.MetaUI
 
         public int CardID => _cardId;
 
-        public event Action OnInitializable;
-
-        public void Init()
+        public override void Init()
         {
-            gameObject.SetActive(true);
+            base.Init();
+            Show();
         }
 
         public void Dispose()
         {
-            gameObject.SetActive(false);
+            Hide();
             OnDisposed?.Invoke(this);
         }
-
-        public event Action OnShow;
-        public event Action OnHide;
-
-        public void Show()
-        {
-            Init();
-        }
-
-        public void Hide()
-        {
-            throw new NotImplementedException();
-        }
-
         public void AssignVisual(MetaCollectionCardData data)
         {
             _cardId = data.CardReference.BattleCardData.CardInstance.ID;
