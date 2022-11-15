@@ -7,20 +7,14 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaComboUI : MonoBehaviour, IPoolableMB<MetaComboUI>,IUIElement,IVisualAssign<MetaComboData>
+    public class MetaComboUI : BaseUIElement, IPoolableMB<MetaComboUI>,IVisualAssign<MetaComboData>
     {
         public event Action<MetaComboUI> OnDisposed;
-        public event Action OnShow;
-        public event Action OnHide;
-        public event Action OnInitializable;
+
 
         [SerializeField] private ComboVisualHandler _comboVisual;
 
-        public void Init()
-        {
-            OnInitializable?.Invoke();
-            Show();
-        }
+
 
         public void Dispose()
         {
@@ -28,17 +22,7 @@ namespace CardMaga.MetaUI
             OnDisposed?.Invoke(this);
         }
 
-        public void Hide()
-        {
-            OnHide?.Invoke();
-            if (gameObject.activeSelf)
-                gameObject.SetActive(false);
-        }
-        public void Show()
-        {
-            OnShow?.Invoke();
-            gameObject.SetActive(true);
-        }
+    
 
         public void AssignVisual(MetaComboData data)
         {

@@ -1,31 +1,30 @@
 using System;
+using CardMaga.Meta.AccountMetaData;
 using CardMaga.MetaData.Collection;
 using CardMaga.Tools.Pools;
-using CardMaga.UI;
 using TMPro;
 using UnityEngine;
 
-namespace CardMaga.MetaUI
+namespace CardMaga.UI.MetaUI
 {
-    public class MetaCollectionCardUI : MonoBehaviour, IPoolableMB<MetaCollectionCardUI>,IUIElement,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
+    public class MetaCollectionCardUI : BaseUIElement, IPoolableMB<MetaCollectionCardUI>,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
     {
-        public event Action OnShow;
-        public event Action OnHide;
         public event Action<MetaCollectionCardUI> OnDisposed;
-        public event Action OnInitializable;
-
+        public event Action<int> OnAddCard; 
+        public event Action<int> OnRemoveCard; 
+        
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private TMP_Text _cardNumberText;
-        private MetaCollectionCardData _cardData;
+        private MetaCardData _cardData;
+        private int _cardId;
+        private int _numberOfInstant;
 
-        public int CardID => _cardData.CardId;
-        public int NumberOfInstant => _cardData.NumberOfInstant;
+        public int CardID => _cardId;
 
-
-        public void Init()
+        public override void Init()
         {
+            base.Init();
             Show();
-            OnInitializable?.Invoke();
         }
 
         public void Dispose()
@@ -33,42 +32,32 @@ namespace CardMaga.MetaUI
             Hide();
             OnDisposed?.Invoke(this);
         }
-
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-            OnShow?.Invoke();
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
-            OnHide?.Invoke();
-        }
-
         public void AssignVisual(MetaCollectionCardData data)
         {
-            _cardData = data;
+            _cardId = data.CardReference.BattleCardData.CardInstance.ID;
             _cardVisuals.Init(data.CardReference.BattleCardData);
+            _numberOfInstant = data.NumberOfInstant;
             UpdateCardNumber();
         }
 
         public void AddToDeck()
         {
-            if(_cardData.TryAddCardToDeck())
-                UpdateCardNumber();
+            _numberOfInstant--;
+            UpdateCardNumber();
+            Debug.Log("AddCard"+ this.name);
+            OnAddCard?.Invoke(_cardId);   
         }
 
         public void RemoveFromDeck()
         {
-            _cardData.RemoveCardFromDeck();
+            _numberOfInstant++;
             UpdateCardNumber();
+            OnRemoveCard?.Invoke(_cardId);
         }
 
         private void UpdateCardNumber()
         {
-            _cardNumberText.text = NumberOfInstant.ToString();
+            _cardNumberText.text = _numberOfInstant.ToString();
         }
     }
 }

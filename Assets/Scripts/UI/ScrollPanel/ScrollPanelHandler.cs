@@ -8,11 +8,11 @@ namespace CardMaga.UI.ScrollPanel
     {
         #region Fields
     
-        private List<IUIElement> _loadedObjects;
+        protected List<IUIElement> _loadedObjects;
     
         #endregion
 
-        public List<IUIElement> LoadedObject
+        public IReadOnlyList<IUIElement> LoadedObjects
         {
             get => _loadedObjects;
         }

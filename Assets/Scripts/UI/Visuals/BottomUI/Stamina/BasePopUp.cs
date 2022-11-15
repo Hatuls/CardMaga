@@ -12,8 +12,6 @@ namespace CardMaga.UI.PopUp
 
         [SerializeField]
         private bool _toRememberPreviousScreen = false;
-        [SerializeField]
-        protected RectTransform _rectTransform;
 
         protected Tween _sequence;
 
