@@ -18,10 +18,11 @@ namespace CardMaga.UI.Bars
         {
             slider.maxValue = maxHealth;
         }
-        public virtual void DoMoveSlider(Slider slider, int amount, float slideTime, AnimationCurve ease)
+        public virtual Sequence DoMoveSlider(Sequence sequence,Slider slider, int amount, float slideTime, AnimationCurve ease)
         {
-            slider.DOKill();
-             slider.DOValue(amount, slideTime).SetEase(ease);
+            sequence.Kill();
+            sequence.Join(slider.DOValue(amount, slideTime).SetEase(ease));
+            return sequence;
         }
     }
 }
