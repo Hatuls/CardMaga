@@ -7,18 +7,15 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCollectionComboUI : MonoBehaviour, IPoolableMB<MetaCollectionComboUI>,IUIElement,IVisualAssign<MetaComboData>
+    public class MetaCollectionComboUI : BaseUIElement, IPoolableMB<MetaCollectionComboUI>,IVisualAssign<MetaComboData>
     {
-        public event Action OnInitializable;
         public event Action<MetaCollectionComboUI> OnDisposed;
-        public event Action OnShow;
-        public event Action OnHide;
-        
+
         [SerializeField] private ComboVisualHandler _comboVisual;
 
-        public void Init()
+        public override void Init()
         {
-            OnInitializable?.Invoke();
+            base.Init();
             Show();
         }
 
@@ -26,18 +23,6 @@ namespace CardMaga.MetaUI
         {
             OnDisposed?.Invoke(this);
             Hide();
-        }
-
-        public void Show()
-        {
-            OnShow?.Invoke();
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            OnHide?.Invoke();
-            gameObject.SetActive(false);
         }
 
         public void AssignVisual(MetaComboData data)

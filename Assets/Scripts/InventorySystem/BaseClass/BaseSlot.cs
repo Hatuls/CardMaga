@@ -1,10 +1,12 @@
 using System;
+using CardMaga.Tools.Pools;
 using CardMaga.UI;
 
 namespace CardMaga.InventorySystem
 {
-    public abstract class BaseSlot<T> : BaseUIElement, IInventoryObject<T> where T : BaseUIElement
+    public class BaseSlot<T> : BaseUIElement, IInventoryObject<T>,IPoolableMB<BaseSlot<T>> where T : BaseUIElement
     {
+        public event Action<BaseSlot<T>> OnDisposed;
         public event Action<IInventoryObject<T>> OnAddInventoryObject; 
         public event Action<IInventoryObject<T>> OnRemoveInventoryObject; 
         
@@ -37,6 +39,11 @@ namespace CardMaga.InventorySystem
             if (other == null) return false;
             if (InventoryObject == null) return false;
             return InventoryObject.Equals(other);
+        }
+
+        public void Dispose()
+        {
+            OnDisposed?.Invoke(this);
         }
     }
 

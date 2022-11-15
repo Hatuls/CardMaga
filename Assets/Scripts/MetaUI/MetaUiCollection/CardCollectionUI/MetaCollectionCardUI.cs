@@ -1,11 +1,12 @@
 using System;
-using CardMaga.Meta.AccountMetaData;
+using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using CardMaga.Tools.Pools;
+using CardMaga.UI;
 using TMPro;
 using UnityEngine;
 
-namespace CardMaga.UI.MetaUI
+namespace CardMaga.MetaUI
 {
     public class MetaCollectionCardUI : BaseUIElement, IPoolableMB<MetaCollectionCardUI>,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
     {
