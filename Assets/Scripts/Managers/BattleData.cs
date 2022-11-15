@@ -3,7 +3,7 @@ using Battle.Characters;
 using CardMaga.BattleConfigSO;
 using System;
 using UnityEngine;
-
+using Sirenix.OdinInspector;
 namespace Battle.Data
 {
     [DefaultExecutionOrder(-9999)]
@@ -11,15 +11,19 @@ namespace Battle.Data
     public class BattleData : MonoBehaviour
     {
         private static BattleData _instance;
-    
+    [TitleGroup("BattleData")]
         public static BattleData Instance => _instance;
         [SerializeField]
+        [TabGroup("BattleData", "Player")]
         private BattleCharacter _player = null;
         [SerializeField]
+        [TabGroup("BattleData", "Opponent")]
         private BattleCharacter _opponent = null;
         [SerializeField, Sirenix.OdinInspector.ReadOnly]
         private bool _isPlayerWon = false;
-        [SerializeField] private BattleConfigSO _battleConfigSo;
+        [TabGroup("BattleData", "Config")]
+        [SerializeField] 
+        private BattleConfigSO _battleConfigSo;
         public BattleConfigSO BattleConfigSO { get => _battleConfigSo; }
 
         public BattleCharacter Left { get => _player; set => _player = value; }
@@ -47,6 +51,8 @@ namespace Battle.Data
 
         public void AssignOpponent(string displayName, Account.GeneralData.Character data)
             => _opponent = new BattleCharacter(displayName, data, _player);
+        public void AssignOpponent(BattleCharacter opponent)
+        { _opponent = opponent; }
         public void Awake()
         {
             if (_instance == null)

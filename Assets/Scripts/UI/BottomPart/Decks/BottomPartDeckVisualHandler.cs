@@ -72,7 +72,7 @@ namespace CardMaga.UI
                 throw new Exception("BottomPartDeckVisualHandler has no Draw Transition SO");
             if (_discardDeckTransitionPackSO == null)
                 throw new Exception("BottomPartDeckVisualHandler has no Discard Transition SO");
-
+            
         }
 
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)

@@ -46,9 +46,9 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
     {
         _token = tokenMachine.GetToken();
         _endBattleHandler = battleManager.BattleDataManager.EndBattleHandler;
-        //_endBattleHandler.OnBattleFinished += StartExitCinematic;
-        //SetTrack(_winTracks,ref _outroWinPath);
-        //SetTrack(_loseTracks,ref _outroLosePath);
+     //  _endBattleHandler.OnBattleFinished += StartWinCinematic;
+     //  SetTrack(_winTracks,ref _outroWinPath);
+     //  SetTrack(_loseTracks,ref _outroLosePath);
         SetTrack(_introTracks,ref _introPath);
         StartIntroCinematic();
     }
@@ -76,7 +76,7 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
     {
         StartIntroCinematic(null);
     }
-    private void StartExitCinematic(ITokenReciever tokenReciever)
+    private void StartWinCinematic(ITokenReciever tokenReciever)
     {
         _token = tokenReciever?.GetToken();
         if (_endBattleHandler.IsLeftPlayerWon)
@@ -128,7 +128,7 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
     }
     private void OnDestroy()
     {
-        //if(_endBattleHandler != null)
-        //_endBattleHandler.OnBattleFinished -= StartExitCinematic;
+        if(_endBattleHandler != null)
+        _endBattleHandler.OnBattleFinished -= StartWinCinematic;
     }
 }

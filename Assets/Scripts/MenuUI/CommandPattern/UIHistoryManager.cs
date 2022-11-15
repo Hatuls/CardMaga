@@ -33,8 +33,11 @@ namespace CardMaga.UI
             if (!IsEmpty)
                 Show(_history.Pop(), false);
 
-            else
-                _currentUIElement?.Hide();
+            else if (_currentUIElement != null)
+            {
+                _currentUIElement.Hide();
+                _currentUIElement = null;
+            }
 
         }
 
@@ -42,8 +45,11 @@ namespace CardMaga.UI
         {
             while (!IsEmpty)
                 ReturnBack();
-
-            _currentUIElement?.Hide();
+            if (_currentUIElement != null)
+            {
+                _currentUIElement.Hide();
+                _currentUIElement = null;
+            }
         }
 
 
@@ -70,7 +76,7 @@ namespace CardMaga.UI
         {
             OnHide?.Invoke();
             PopupGameObject.SetActive(false);
-     
+
         }
 
         public virtual void Init()

@@ -30,8 +30,11 @@ namespace CardMaga.BattleConfigSO
         private BaseRewardFactorySO _loseReward;
 
         [Header("Tutorial:")]
-        [SerializeField,Tooltip("Tutorial configuration:")] private BattleTutorial _battleTutorial;//done
-        
+        [SerializeField,Tooltip("Tutorial configuration:")]
+        private BattleTutorial _battleTutorial;//done
+
+
+        public bool IsTutorial => BattleTutorial != null;
         public bool IsShufflingCards => _isShuffleCards;
         public int TimerCountdown => _timerCountdown;
         public bool TimerActive => _isTimerActive;

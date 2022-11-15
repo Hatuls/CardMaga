@@ -195,16 +195,12 @@ namespace CardMaga.Input
             StartCoroutine(HoldDistance(eventData));
             StartCoroutine(HoldDelay(eventData));
 
-            while (true)
+            while (!_isHold)
             {
-                if (_isHold)
-                {
-                    StopAllCoroutines();
-                    StartCoroutine(ProcessHoldTouchCoroutine(eventData));
-                    yield break;
-                }
                 yield return null;
             }
+            StopAllCoroutines();
+            StartCoroutine(ProcessHoldTouchCoroutine(eventData));
         }
         
         private IEnumerator HoldDelay(PointerEventData eventData)

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Tutorial_Test
   m_EditorClassIdentifier: 
   _leftCharacter:
+    _displayName: Chiara
+    _playerTagSOs: []
     _characterData:
       _characterSO: {fileID: 11400000, guid: 279cc38197154fc4c96eea5282c40fdb, type: 2}
       _characterStats:
@@ -37,7 +39,7 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              _id: 30
+              ID: 0
             _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
             _level: 0
           _instanceID: 16
@@ -58,7 +60,7 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              _id: 30
+              ID: 0
             _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
             _level: 0
           _instanceID: 17
@@ -79,7 +81,7 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              _id: 50
+              ID: 0
             _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
             _level: 0
           _instanceID: 18
@@ -100,7 +102,7 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              _id: 50
+              ID: 0
             _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
             _level: 0
           _instanceID: 19
@@ -120,12 +122,21 @@ MonoBehaviour:
         _staminaCost: 1
       _comboRecipe:
       - _comboCore:
-          _id: 3
-          _level: 0
+          Level: 0
+          ID: 0
         _comboSO: {fileID: 11400000, guid: 4a4b294e1aa3a0f4e81da957585ad18b, type: 2}
-    _displayName: 
-    _playerTagSOs: []
+    _battleCharacterVisual:
+      _battleVisualCharacter:
+        _avatarSkin:
+          SkinDetails: Default Color
+          _material: {fileID: 2100000, guid: cf218ab8b5ef69d4a8e4d7fa19898533, type: 2}
+          _portait: {fileID: -6265648474721144138, guid: c3410822a3fe8ae4285ec283b59ab9ca,
+            type: 3}
+        _avatarHandler: {fileID: 3947106798596284825, guid: 618e9a8d1dc78d648b99aef14d7002b1,
+          type: 3}
   _rightCharacter:
+    _displayName: Scout
+    _playerTagSOs: []
     _characterData:
       _characterSO: {fileID: 11400000, guid: 65458dfd2bb5a144aa3b061e6eb9e71e, type: 2}
       _characterStats:
@@ -150,10 +161,10 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              _id: 12
+              ID: 12
             _cardSO: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21, type: 2}
             _level: 2
-          _instanceID: 12
+          _instanceID: 0
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -171,10 +182,10 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              _id: 12
+              ID: 12
             _cardSO: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21, type: 2}
             _level: 2
-          _instanceID: 13
+          _instanceID: 1
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -192,10 +203,10 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              _id: 12
+              ID: 12
             _cardSO: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21, type: 2}
             _level: 2
-          _instanceID: 14
+          _instanceID: 2
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -213,10 +224,10 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              _id: 12
+              ID: 12
             _cardSO: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21, type: 2}
             _level: 2
-          _instanceID: 15
+          _instanceID: 3
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -232,6 +243,13 @@ MonoBehaviour:
             _paramaterCondition: []
         _staminaCost: 1
       _comboRecipe: []
-    _displayName: 
-    _playerTagSOs: []
+    _battleCharacterVisual:
+      _battleVisualCharacter:
+        _avatarSkin:
+          SkinDetails: Default Color
+          _material: {fileID: 2100000, guid: 9790db7c20677e646ae9541c11c07ee4, type: 2}
+          _portait: {fileID: -1514684018379530791, guid: c3410822a3fe8ae4285ec283b59ab9ca,
+            type: 3}
+        _avatarHandler: {fileID: 3947106798596284825, guid: 618e9a8d1dc78d648b99aef14d7002b1,
+          type: 3}
   _battleConfig: {fileID: 11400000, guid: 62bbb2d9207fa5a4597215126f0745b7, type: 2}
