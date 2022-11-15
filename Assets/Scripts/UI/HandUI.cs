@@ -21,7 +21,8 @@ namespace CardMaga.UI
     public class HandUI : InputBehaviourHandler<BattleCardUI>, ISequenceOperation<IBattleUIManager>
     {
         #region Events
-
+        public event Action OnCardExecutionFailed;
+        public event Action OnCardExecutionSuccess;
         public static event Action<BattleCardUI> OnCardExecute;
         public static event Action OnCardDrawnAndAlign;
         public static event Action OnDiscardAllCards;
@@ -44,6 +45,7 @@ namespace CardMaga.UI
         [SerializeField] private TransitionPackSO _discardMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardScaleTransitionPackSo;
         [SerializeField] private TransitionPackSO _discardExecutionMoveTransitionPackSo;
+        [SerializeField] private TransitionPackSO _discardExecutionScaleTransitionPackSo;
 
 
         [Header("RectTransforms")]
@@ -65,7 +67,7 @@ namespace CardMaga.UI
         private DG.Tweening.Sequence _currentSequence;
         private DeckHandler _deckHandler;
         private GameTurn _leftPlayerGameTurn;
-
+        private EndBattleHandler _endBattleHandler;
         #endregion
 
         #region Prop
@@ -125,7 +127,7 @@ namespace CardMaga.UI
 
         public void UnLockInput()
         {
-            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput,true);
+            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput, true);
         }
 
         #endregion
@@ -165,7 +167,7 @@ namespace CardMaga.UI
         private void MoveCardToDiscardAfterExecute(BattleCardUI battleCardUI)
         {
             //   cardUI.RectTransform.Transition(_discardPos, _dicardExecuteTransitionPackSo, cardUI.Dispose);
-            var sequence = battleCardUI.VisualsRectTransform.Transition(_discardScaleTransitionPackSo)
+            var sequence = battleCardUI.VisualsRectTransform.Transition(_discardExecutionScaleTransitionPackSo)
             .Join(battleCardUI.RectTransform.Transition(_discardPos, _discardExecutionMoveTransitionPackSo))
             .OnComplete(battleCardUI.Dispose);
         }
@@ -203,9 +205,10 @@ namespace CardMaga.UI
 
         private void DrawCardsFromDrawDeck(params BattleCardData[] cards)
         {
-            BattleCardUI[] handCards;
+            if (_endBattleHandler.IsGameEnded)
+                return;
 
-            handCards = GetCardsUI(cards);
+            BattleCardUI[] handCards = GetCardsUI(cards);
 
             SetCardAtDrawPos(handCards);
 
@@ -217,7 +220,7 @@ namespace CardMaga.UI
                 SetState(InputBehaviourState.Hand, handCards[i]);
             }
 
-           // OnCardsAddToHand?.Invoke(handCards);
+            // OnCardsAddToHand?.Invoke(handCards);
             OnHandUICardsUpdated?.Invoke();
         }
 
@@ -256,12 +259,14 @@ namespace CardMaga.UI
                     DiscardCardAfterExecute(battleCardUI);
                     OnCardExecute?.Invoke(battleCardUI);
                     OnHandUICardsUpdated?.Invoke();
-                    return true;
+                    OnCardExecutionSuccess?.Invoke();
+                    return canPlayCard; // true
                 }
             }
 
+            OnCardExecutionFailed?.Invoke();
             SetToHandState(battleCardUI);
-            return false;
+            return canPlayCard; // false
         }
 
         private void DiscardAllCards()
@@ -310,6 +315,7 @@ namespace CardMaga.UI
             _leftPlayerGameTurn = data.TurnHandler.GetCharacterTurn(true);
             _leftPlayerGameTurn.EndTurnOperations.Register((x) => DiscardAllCards(), 0, OrderType.Before);
             _cardExecutionManager = data.CardExecutionManager;
+            _endBattleHandler = data.EndBattleHandler;
         }
 
         #endregion

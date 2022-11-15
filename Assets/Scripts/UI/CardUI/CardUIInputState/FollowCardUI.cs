@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class FollowCardUI : BaseHandUIState
 {
+  
+
     [Header("Scripts Reference")]
     [SerializeField] private HandUI _handUI;
     [Header("TransitionPackSO")]

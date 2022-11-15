@@ -14,6 +14,7 @@ namespace CardMaga.UI
     {
         public event Action OnCardDrawnAndAlign;
 
+
         [Header("TransitionPackSO")]
         [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
         [SerializeField] private TransitionPackSO _drawScaleTransitionPackSo;

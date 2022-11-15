@@ -8,11 +8,7 @@ public class StrechMaskBackground : MonoBehaviour
     [SerializeField] private RectTransform _maskHolder;
     [SerializeField] private TrackerID _trackerID;
     [SerializeField] private bool _strechOnEnable;
-    [SerializeField] private bool _loadMaskOnTutorial;
     private TutorialClickHelper _tutorialClickHelper;
-
-    private ClickHelper _clickHalper;
-
 
     private void OnEnable()
     {
@@ -20,6 +16,7 @@ public class StrechMaskBackground : MonoBehaviour
             StrechMask();
     }
 
+    [Sirenix.OdinInspector.Button]
     public void StrechMask()
     {
         GetInstances();
@@ -49,29 +46,17 @@ public class StrechMaskBackground : MonoBehaviour
     private void GetInstances()
     {
         _tutorialClickHelper = TutorialClickHelper.Instance;
-        _clickHalper = ClickHelper.Instance;
     }
 
     private void LoadObject()
     {
-        if (_loadMaskOnTutorial)
-            _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);
-
-        else
-            _clickHalper.LoadObject(true, true, null, _maskHolder);
+        _tutorialClickHelper.LoadObject(true, true, null, _maskHolder);
     }
 
     public void ReturnObject()
     {
-        if (_loadMaskOnTutorial)
-        {
-            _tutorialClickHelper.ReturnObjects();
-        }
+        _tutorialClickHelper.ReturnObjects();
 
-        else
-        {
-            _clickHalper.ReturnObjects();
-        }
     }
 
     private void SetParent(RectTransform rectTransform)

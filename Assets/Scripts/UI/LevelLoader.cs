@@ -43,7 +43,7 @@ public class LevelLoader : MonoBehaviour
 
     public void StartLoading()
     {
-        TokenMachine t = new TokenMachine(() => OnLoadingBarCompleted?.Invoke());
+        TokenMachine t = new TokenMachine(MoveToNextScene);
         _loadingOperation.Init(t);
         _loadingOperation.StartOperation();
     }
@@ -61,7 +61,7 @@ public class LevelLoader : MonoBehaviour
             _current++;
         }
     }
-
+    private void MoveToNextScene() => OnLoadingBarCompleted?.Invoke();
     private void SetLoadingText(float val)
         => _loadingText.text = string.Concat(val, "%");
 

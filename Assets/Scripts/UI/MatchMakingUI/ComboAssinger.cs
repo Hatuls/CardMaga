@@ -10,12 +10,13 @@ namespace CardMaga.UI.MatchMMaking
 
         public void AssingCombosUI(BattleComboData[] comboDatas)
         {
-            for (int i = 0; i < comboDatas.Length; i++)
+            
+            for (int i = 0; i < _combos.Length; i++)
             {
-                if (comboDatas[i] == null)
-                    continue;
-                    
-                _combos[i].AssignVisual(comboDatas[i]);       
+                if (comboDatas == null || i>= comboDatas.Length|| comboDatas[i] == null)
+                    _combos[i].gameObject.SetActive(false);
+                else
+                    _combos[i].AssignVisual(comboDatas[i]);
             }
         }
 

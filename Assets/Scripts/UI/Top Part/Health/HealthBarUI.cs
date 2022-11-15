@@ -5,12 +5,14 @@ using System;
 using System.Collections;
 using Sirenix.OdinInspector;
 using Battle.Turns;
+using DG.Tweening;
 
 namespace CardMaga.UI.Bars
 {
     public class HealthBarUI : BaseBarUI
     {
         private const string FROM_MAXVALUE = "/";
+#if UNITY_EDITOR
         [Header("Testing")]
         public int MaxHealthTest;
         public int CurrentHealthTest;
@@ -29,7 +31,7 @@ namespace CardMaga.UI.Bars
         {
             ChangeMaxHealth(MaxHealthTest);
         }
-
+#endif
         [Header("Fields")]
         [SerializeField] HealthBarSO _healthBarSO;
         [SerializeField] Slider _healthBarSlider;
@@ -42,6 +44,8 @@ namespace CardMaga.UI.Bars
         int _currentHealth;
         int _maxHealth;
         private Coroutine _coroutine;
+        private Sequence _healthBarSequence;
+        private Sequence _innerBarSequence;
         private void Awake()
         {
             if (_healthBarSlider == null)
@@ -58,6 +62,8 @@ namespace CardMaga.UI.Bars
                 throw new Exception("HealthBarUI has no Max health Text");
 
             GameTurn.OnTurnFinished += CompleteCounter;
+            _healthBarSequence = DOTween.Sequence();
+            _innerBarSequence = DOTween.Sequence();
         }
         private void Start()
         {
@@ -75,8 +81,8 @@ namespace CardMaga.UI.Bars
             ResetSliderFill(_healthBarSlider);
             ResetSliderFill(_healthBarInnerSlider);
             //move slider at start of game from 0 to current health;
-            DoMoveSlider(_healthBarSlider, _currentHealth, _healthBarSO.HealthStartLength,_healthBarSO.HealthStartCurve);
-            DoMoveSlider(_healthBarInnerSlider, _currentHealth, _healthBarSO.HealthStartLength,_healthBarSO.HealthStartCurve);
+            _healthBarSequence = DoMoveSlider(_healthBarSequence,_healthBarSlider, _currentHealth, _healthBarSO.HealthStartLength,_healthBarSO.HealthStartCurve);
+            _innerBarSequence = DoMoveSlider(_innerBarSequence,_healthBarInnerSlider, _currentHealth, _healthBarSO.HealthStartLength,_healthBarSO.HealthStartCurve);
         }
         private void SetText(int currentHealth, int maxHealth)
         {
@@ -136,7 +142,7 @@ namespace CardMaga.UI.Bars
         private void StartHealthChange(Slider slider,Sprite sprite,float transitionLength,AnimationCurve animCurve)
         {
             _healthInnerImage.sprite = sprite;
-            DoMoveSlider(slider, _currentHealth, transitionLength, animCurve);
+            _healthBarSequence = DoMoveSlider(_healthBarSequence,slider, _currentHealth, transitionLength, animCurve);
             StopCounter();
             ResetCounter();
             _coroutine = StartCoroutine(StartTimer());
@@ -147,13 +153,13 @@ namespace CardMaga.UI.Bars
             {
                 //Need to change health bar to fill bar
            //     Debug.Log("Health Was Increaced Completeing transition");
-                DoMoveSlider(_healthBarSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
+               _healthBarSequence = DoMoveSlider(_healthBarSequence,_healthBarSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
             }
             else if (_currentHealth == _healthBarSlider.value)
             {
                 //Need to change fill to match the health
              //   Debug.Log("Health Was Decreaced Completeing transition");
-                DoMoveSlider(_healthBarInnerSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
+               _innerBarSequence = DoMoveSlider(_innerBarSequence,_healthBarInnerSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
             }
             else
             {
@@ -178,7 +184,7 @@ namespace CardMaga.UI.Bars
         public void CompleteCounter()
         {
             _counter = _healthBarSO.DelayTillReturn;
-            CompleteBarsTransition();
+            //CompleteBarsTransition();
         }
         private void StopCounter() {
         if(_coroutine!=null)

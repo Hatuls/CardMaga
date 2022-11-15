@@ -12,14 +12,15 @@ namespace Battle.Characters
     public class BattleCharacter
     {
         [SerializeField]
+        private string _displayName;
+        [SerializeField]
+        private PlayerTagSO[] _playerTagSOs;
+
+        [SerializeField]
         private CharacterBattleData _characterData;
 
         [SerializeField]
         private BattleCharacterVisual _battleCharacterVisual;
-        [SerializeField]
-        private string _displayName;
-        [SerializeField]
-        private PlayerTagSO[] _playerTagSOs;
 
 
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }

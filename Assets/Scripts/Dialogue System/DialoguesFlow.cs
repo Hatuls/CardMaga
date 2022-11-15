@@ -1,13 +1,11 @@
-
-﻿using System.Collections;
-using UnityEngine.Events;
-using System.Collections.Generic;
-using UnityEngine;
 using CardMaga.DialogueSO;
-using TMPro;
-using UnityEngine.UI;
-using System;
 using ReiTools.TokenMachine;
+using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class DialoguesFlow : MonoBehaviour
 {
@@ -19,7 +17,6 @@ public class DialoguesFlow : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _currentCharacterText;
     [SerializeField] private bool _closePanelAtEnding;
     [SerializeField] private bool _loadOnTutorialPanel;
-    private ClickHelper _clickHelper;
     private TutorialClickHelper _tutorialClickHelper;
     private int _currentDialogue;
     private IDisposable _token;
@@ -34,6 +31,12 @@ public class DialoguesFlow : MonoBehaviour
 
     #region PrivateFunction
 
+    private void Awake()
+    {
+        _tutorialClickHelper = TutorialClickHelper.Instance;
+    }
+
+
     private void UpdateDialogues(int position)
     {
         OnDialoguesUpdate.Invoke();
@@ -43,26 +46,20 @@ public class DialoguesFlow : MonoBehaviour
 
     private void SendDialogue()
     {
-        //StartDelay();
-        if(_loadOnTutorialPanel)
-            _tutorialClickHelper.LoadObject(true, false, MoveNextDialogues, _dialoguesFlow);
-        else
-        _clickHelper.LoadObject(true, false ,MoveNextDialogues, _dialoguesFlow);
+        _tutorialClickHelper.LoadObject(true, false, MoveNextDialogues, _dialoguesFlow);
     }
 
     private void StartDelay()
     {
-        _clickHelper.ClickBlocker.BlockInputForSeconds(_dialoguesList[_currentDialogue]._delayTimeForClick, AfterDelay);
         OnAfterDelay.Invoke();
     }
 
-    private void MoveNextDialogues()
+    public void MoveNextDialogues()
     {
         _currentDialogue++;
         if (_currentDialogue <= _dialoguesList.Count - 1)
         {
             UpdateDialogues(_currentDialogue);
-            //StartDelay();
         }
 
         else
@@ -80,34 +77,33 @@ public class DialoguesFlow : MonoBehaviour
 
     private void AfterDelay()
     {
-        if(OnAfterDelay!=null)
-        OnAfterDelay.Invoke();
+        if (OnAfterDelay != null)
+            OnAfterDelay.Invoke();
     }
 
     private void ClosePanel()
     {
         if (_closePanelAtEnding)
         {
-            if (_loadOnTutorialPanel)
-                _tutorialClickHelper.Close();
-
-            else
-                _clickHelper.Close();
+            _tutorialClickHelper.Close();
         }
     }
 
     private void CheckActivation()
     {
-        if (_loadOnTutorialPanel)
-        {
-            if (!_tutorialClickHelper.gameObject.activeSelf)
-                _tutorialClickHelper.gameObject.SetActive(true);
-        }
-        else
-        {
-            if (!_clickHelper.gameObject.activeSelf)
-                _clickHelper.gameObject.SetActive(true);
-        }
+        if (!_tutorialClickHelper.gameObject.activeSelf)
+            _tutorialClickHelper.gameObject.SetActive(true);
+
+    }
+
+    protected virtual void UnsubscribeEvent()
+    {
+
+    }
+
+    protected virtual void SubscribeEvent()
+    {
+
     }
 
     #endregion
@@ -117,13 +113,12 @@ public class DialoguesFlow : MonoBehaviour
     {
         gameObject.SetActive(true);
         _token = tokenReciever.GetToken();
+        SubscribeEvent();
         FirstDialogue();
     }
     public void FirstDialogue()
     {
         _currentDialogue = 0;
-        _clickHelper = ClickHelper.Instance;
-        _tutorialClickHelper = TutorialClickHelper.Instance;
         OnFlowStart.Invoke();
         UpdateDialogues(_currentDialogue);
         SendDialogue();
@@ -134,6 +129,7 @@ public class DialoguesFlow : MonoBehaviour
         CheckActivation();
         OnFlowEnd.Invoke();
         ClosePanel();
+        UnsubscribeEvent();
         ReleaseToken();
         gameObject.SetActive(false);
     }
