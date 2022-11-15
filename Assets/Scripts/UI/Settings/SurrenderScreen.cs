@@ -24,8 +24,8 @@ namespace CardMaga.UI.Settings
         }
         public void Surrender()
         {
-            BattleUiManager.Instance.BattleDataManager.EndBattleHandler.ForceEndBattle(false);
             UIHistoryManager.CloseAll();
+            BattleUiManager.Instance.BattleDataManager.EndBattleHandler.ForceEndBattle(false);
             _canvasLayerChanger.Reset();
         }
     }

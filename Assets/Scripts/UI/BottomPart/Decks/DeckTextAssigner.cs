@@ -13,6 +13,7 @@ namespace CardMaga.UI.Text
         BaseDeck _baseDeck;
         public override void Init(BaseDeck data)
         {
+            SetDeckText(0);
             data.OnAmountOfFilledSlotsChange += SetDeckText;
             _baseDeck = data;
         }

@@ -1,25 +1,27 @@
-﻿using System;
-using Account.GeneralData;
+﻿using Account.GeneralData;
 using Battle.Data;
 using Battle.MatchMaking;
 using ReiTools.TokenMachine;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 [Serializable]
 public class BattleCharacterUnityEvent : UnityEvent<Battle.Characters.BattleCharacter> { }
 public class MatchMakingManager : MonoBehaviour
 {
-    public static event Action<Battle.Characters.BattleCharacter> OnOpponentAssign;
-
-    [SerializeField] 
+    [SerializeField]
     OperationManager _lookForMatchOperation;
     private TokenMachine _tokenMachine;
     [SerializeField, EventsGroup]
     private UnityEvent OnMatchFound;
     [SerializeField, EventsGroup]
+    private UnityTokenMachineEvent OnTutorialGameStarted;
+    [SerializeField, EventsGroup]
     private BattleCharacterUnityEvent OnOpponentFound;
     [SerializeField, EventsGroup]
     private BattleCharacterUnityEvent OnPlayerAssign;
+
+
     private void Awake()
     {
         LookForOpponent.OnOpponentFound += RegisterOpponent;
@@ -31,17 +33,30 @@ public class MatchMakingManager : MonoBehaviour
     }
     private void Start()
     {
-        StartLooking();
+        if (BattleData.Instance.BattleConfigSO.IsTutorial)
+            StartTutorialMatchMaking();
+        else
+            StartOnlineLooking();
+
     }
-    private void RegisterOpponent(string name ,CharactersData obj)
+
+    private void StartTutorialMatchMaking()
     {
-          BattleData.Instance.AssignOpponent(name, obj.GetMainCharacter());
+        AssignPlayerFound();
+        var opponent = BattleData.Instance.Right;
+        OnOpponentFound?.Invoke(opponent);
+        _tokenMachine = new TokenMachine(MatchFound);
+        OnTutorialGameStarted?.Invoke(_tokenMachine);
+    }
+
+    private void RegisterOpponent(string name, CharactersData obj)
+    {
+        BattleData.Instance.AssignOpponent(name, obj.GetMainCharacter());
 
         OnOpponentFound?.Invoke(BattleData.Instance.Right);
-          OnOpponentAssign?.Invoke(BattleData.Instance.Right);
     }
 
-    public void StartLooking()
+    public void StartOnlineLooking()
     {
         AssignPlayerFound();
         _tokenMachine = new TokenMachine(MatchFound);

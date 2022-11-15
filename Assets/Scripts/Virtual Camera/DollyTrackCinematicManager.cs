@@ -46,9 +46,9 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
     {
         _token = tokenMachine.GetToken();
         _endBattleHandler = battleManager.BattleDataManager.EndBattleHandler;
-        _endBattleHandler.OnBattleFinished += StartWinCinematic;
-        SetTrack(_winTracks,ref _outroWinPath);
-        SetTrack(_loseTracks,ref _outroLosePath);
+     //  _endBattleHandler.OnBattleFinished += StartWinCinematic;
+     //  SetTrack(_winTracks,ref _outroWinPath);
+     //  SetTrack(_loseTracks,ref _outroLosePath);
         SetTrack(_introTracks,ref _introPath);
         StartIntroCinematic();
     }
