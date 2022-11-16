@@ -8,7 +8,9 @@ namespace CardMaga.MetaData.Collection
     {
         private const string FAILED_MESSAGE = "FAILED add or remove card"; 
         public event Action<MetaCardData> OnTryAddCard; 
-        public event Action<MetaCardData> OnRemoveCard;
+        public event Action<MetaCardData> OnSuccessfullAddCard; 
+        public event Action<MetaCardData> OnTryRemoveCard;
+        public event Action<MetaCardData> OnSuccessfullRemoveCard;
 
         public event Action<string> OnFailedAction; 
 
@@ -31,26 +33,33 @@ namespace CardMaga.MetaData.Collection
             _cardReference = cardReference;
         }
 
-        public bool TryAddCardToDeck()
+        public void TryAddCardToDeck()
         {
-            if (_numberOfInstant <= 0)
+            if (_numberOfInstant > 0)
             {
-                OnFailedAction?.Invoke(FAILED_MESSAGE);
-                return false;
+                OnTryAddCard?.Invoke(_cardReference);
+                return;
             }
-            OnTryAddCard?.Invoke(_cardReference);
-            return true;
+            
+            OnFailedAction?.Invoke(FAILED_MESSAGE);
         }
 
         public void AddCardToDeck(MetaCardData metaCardData)
         {
             _numberOfInstant--;
+            OnSuccessfullAddCard?.Invoke(_cardReference);
+            
         }
 
-        public void RemoveCardFromDeck()
+        public void TryRemoveCardFromDeck()
+        {
+            OnTryRemoveCard?.Invoke(_cardReference);
+        }
+
+        public void RemoveCardFromDeck(MetaCardData metaCardData)
         {
             _numberOfInstant++;
-            OnRemoveCard?.Invoke(_cardReference);
+            OnSuccessfullRemoveCard?.Invoke(_cardReference);
         }
 
         public bool Equals(MetaCollectionCardData other)

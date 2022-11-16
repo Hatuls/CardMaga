@@ -11,21 +11,24 @@ namespace CardMaga.MetaUI
     public class MetaCollectionCardUI : BaseUIElement, IPoolableMB<MetaCollectionCardUI>,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
     {
         public event Action<MetaCollectionCardUI> OnDisposed;
-        public event Action<int> OnAddCard; 
-        public event Action<int> OnRemoveCard; 
+        public event Action OnTryAddCardToDeck; 
+        public event Action OnTryRemoveCardFromDeck; 
         
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private TMP_Text _cardNumberText;
-        private MetaCardData _cardData;
+        private MetaCollectionCardData _cardData;
         private int _cardId;
-        private int _numberOfInstant;
 
         public int CardID => _cardId;
 
+        public int NumberOfInstant => _cardData.NumberOfInstant;
+        
         public override void Init()
         {
             base.Init();
             Show();
+            OnTryAddCardToDeck += _cardData.TryAddCardToDeck;
+            OnTryRemoveCardFromDeck += _cardData.TryRemoveCardFromDeck;
         }
 
         public void Dispose()
@@ -37,28 +40,32 @@ namespace CardMaga.MetaUI
         {
             _cardId = data.CardReference.BattleCardData.CardInstance.ID;
             _cardVisuals.Init(data.CardReference.BattleCardData);
-            _numberOfInstant = data.NumberOfInstant;
             UpdateCardNumber();
         }
 
-        public void AddToDeck()
+        public void TryAddToDeck()
         {
-            _numberOfInstant--;
-            UpdateCardNumber();
-            Debug.Log("AddCard"+ this.name);
-            OnAddCard?.Invoke(_cardId);   
+            OnTryAddCardToDeck?.Invoke();
         }
 
-        public void RemoveFromDeck()
+        public void TryRemoveFromDeck()
         {
-            _numberOfInstant++;
+            OnTryRemoveCardFromDeck?.Invoke();
+        }
+
+        public void SuccessAddCardToDeck(MetaCardData metaCardData)
+        {
             UpdateCardNumber();
-            OnRemoveCard?.Invoke(_cardId);
+        }
+        
+        public void SuccessRemoveCardFromDeck(MetaCardData metaCardData)
+        {
+            UpdateCardNumber();
         }
 
         private void UpdateCardNumber()
         {
-            _cardNumberText.text = _numberOfInstant.ToString();
+            _cardNumberText.text = NumberOfInstant.ToString();
         }
     }
 }

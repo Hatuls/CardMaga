@@ -33,10 +33,7 @@ namespace CardMaga.InventorySystem
         {
             for (int i = 0; i < objects.Length; i++)
             {
-                if(TryAddObject(objects[i]))
-                {
-                    Debug.LogWarning("Failed to add object");
-                }
+                _slots[i] = objects[i] as BaseSlot<T>;
             }
         }
 

@@ -21,6 +21,7 @@ namespace CardMaga.MetaData.DeckBuilding
         private const int MAX_COMBO_IN_DECK = 3;
 
         private MetaDeckData _deck;
+        
         private AccountDataCollectionHelper _accountDataCollection;
 
         public DeckBuilder(AccountDataCollectionHelper accountDataCollectionHelper)
@@ -35,7 +36,7 @@ namespace CardMaga.MetaData.DeckBuilding
             foreach (var cardData in _accountDataCollection.CollectionCardDatas)
             {
                 cardData.OnTryAddCard += TryAddCard;
-                cardData.OnRemoveCard += RemoveCard;
+                cardData.OnTryRemoveCard += TryRemoveCard;
                 OnSuccessCardAdd += cardData.AddCardToDeck;
             }
         }
@@ -45,7 +46,7 @@ namespace CardMaga.MetaData.DeckBuilding
             foreach (var cardData in _accountDataCollection.CollectionCardDatas)
             {
                 cardData.OnTryAddCard -= TryAddCard;
-                cardData.OnRemoveCard -= RemoveCard;
+                cardData.OnTryRemoveCard -= TryRemoveCard;
                 OnSuccessCardAdd -= cardData.AddCardToDeck;
             }
         }
@@ -74,7 +75,7 @@ namespace CardMaga.MetaData.DeckBuilding
             return true;
         }
 
-        public void RemoveCard(MetaCardData cardData)
+        public void TryRemoveCard(MetaCardData cardData)
         {
             if (_deck.FindMetaCardData(cardData.CardInstance.ID,out MetaCardData metaCardData))
             {
