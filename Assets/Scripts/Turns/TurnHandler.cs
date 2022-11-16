@@ -1,6 +1,5 @@
 ﻿using CardMaga.Battle;
 using CardMaga.Battle.Combo;
-using CardMaga.Battle.Execution;
 using CardMaga.Battle.Players;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
@@ -27,7 +26,7 @@ namespace Battle.Turns
         private bool _isLeftPlayerStart = false;
         private GameTurnType _currentTurn = GameTurnType.EnterBattle;
 
-        public GameTurnType CurrentTurn { get => _currentTurn; private set => _currentTurn = value; } 
+        public GameTurnType CurrentTurn { get => _currentTurn; private set => _currentTurn = value; }
         public int TurnCount => _turnCount;
         public bool IsLeftCharacterTurn => CurrentTurn == GameTurnType.LeftPlayerTurn;
         public bool IsRightCharacterTurn => CurrentTurn == GameTurnType.RightPlayerTurn;
@@ -145,7 +144,7 @@ namespace Battle.Turns
 
 
 
-        private CardMaga.SequenceOperation.SequenceHandler _startTurnOperations;
+        private SequenceHandler _startTurnOperations;
         private SequenceHandler _endTurnOperations;
         private List<NextTurn> _nextTurn;
         private NextTurn _defaultNextTurn;

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 
 public class ButtonUI : MonoBehaviour
@@ -25,11 +24,15 @@ public class ButtonUI : MonoBehaviour
 
     private void OnEnable()
     {
-        Btn.onClick.AddListener(ButtonPressed);
+        if (Btn != null)
+            if (btn.onClick != null)
+                Btn.onClick.AddListener(ButtonPressed);
     }
     private void OnDisable()
     {
-        Btn.onClick.RemoveListener(ButtonPressed);
+        if (Btn != null)
+            if (btn.onClick != null)
+                Btn.onClick.RemoveListener(ButtonPressed);
     }
 
     public virtual void ButtonPressed()

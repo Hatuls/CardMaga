@@ -186,7 +186,7 @@ namespace Battle
         public void PlayEnemyTurn()
         {
             Debug.Log("RightPlayer Attack!");
-
+            if(!_endBattleHandler.IsGameEnded)
             _turnFinished = _aiTokenMachine.GetToken();
         }
 
