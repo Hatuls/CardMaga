@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using CardMaga.Commands;
+using CardMaga.Tools.Pools;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -26,6 +28,16 @@ namespace CardMaga.UI.Bars
             ChangeHealth(CurrentHealthTest);
         }
         [Button]
+        public void ReduceTransition()
+        {
+            ChangeHealth(_currentHealth - 5);
+        }
+        [Button]
+        public void AddTransition()
+        {
+            ChangeHealth(_currentHealth + 5);
+        }
+        [Button]
         public void TestMaxHealthChange()
         {
             ChangeMaxHealth(MaxHealthTest);
@@ -42,18 +54,13 @@ namespace CardMaga.UI.Bars
 
         int _currentHealth;
         int _maxHealth;
-        private Coroutine _coroutine;
-        private Sequence _healthBarSequence;
-        private Sequence _innerBarSequence;
 
-        private Tween _hpBarTween;
-        private Tween _secondHPBarTween;
-
+ 
         private HPSlider _healthBarSliderHandler;
         private HPSlider _innerHealthBarSliderHandler;
-        private int _changeSecondBar;
 
-        private float _counter;
+        private AddHPTransition _addHPTransition;
+        private ReduceHPTransition _reduceHPTransition;
         private void Awake()
         {
             if (_healthBarSlider == null)
@@ -72,14 +79,13 @@ namespace CardMaga.UI.Bars
             _healthBarSliderHandler = new HPSlider(_healthBarSlider, _healthImage);
             _innerHealthBarSliderHandler = new HPSlider(_healthBarInnerSlider, _healthInnerImage);
 
-            //  GameTurn.OnTurnFinished += CompleteCounter;
-            // _healthBarSequence = DOTween.Sequence();
-            // _innerBarSequence = DOTween.Sequence();
-
+            _addHPTransition = new AddHPTransition(this,_healthBarSliderHandler, _innerHealthBarSliderHandler, _healthBarSO);
+            _reduceHPTransition = new ReduceHPTransition(this, _healthBarSliderHandler, _innerHealthBarSliderHandler, _healthBarSO);
         }
         private void Start()
         {
             _healthImage.sprite = _healthBarSO.BaseHealthSprite;
+
         }
         public void InitHealthBar(int currentHealth, int maxHealth)
         {
@@ -93,8 +99,8 @@ namespace CardMaga.UI.Bars
             ResetSliderFill(_healthBarSlider);
             ResetSliderFill(_healthBarInnerSlider);
             //move slider at start of game from 0 to current health;
-            _healthBarSequence = DoMoveSlider(_healthBarSequence, _healthBarSlider, _currentHealth, _healthBarSO.HealthStartLength, _healthBarSO.HealthStartCurve);
-            _innerBarSequence = DoMoveSlider(_innerBarSequence, _healthBarInnerSlider, _currentHealth, _healthBarSO.HealthStartLength, _healthBarSO.HealthStartCurve);
+             DoMoveSlider(_healthBarSlider, _currentHealth, _healthBarSO.HealthStartLength, _healthBarSO.HealthStartCurve);
+            DoMoveSlider( _healthBarInnerSlider, _currentHealth, _healthBarSO.HealthStartLength, _healthBarSO.HealthStartCurve);
         }
         private void SetText(int currentHealth, int maxHealth)
         {
@@ -113,55 +119,18 @@ namespace CardMaga.UI.Bars
         {
             _currentHealth = currentHealth;
             SetText(_currentHealth);
-            if (_currentHealth == _healthBarSlider.value)
+
+            if (_currentHealth < _healthBarSlider.value) // reduce
             {
-                //       Debug.LogWarning("Health is the same but you called for Change Health method");
-                return;
+                _reduceHPTransition.StartTransition(_currentHealth);
             }
-            if (_currentHealth < _healthBarSlider.value)
+            else if (_currentHealth > _healthBarSlider.value) // add
             {
-                //    Debug.Log("Lowering Health");
-                //StartHealthChange(_healthBarSlider, _healthBarSO.FillDownHealthSprite, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
-                ChangeHealthSlider(_healthBarSO.FillDownHealthSprite, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
-            }
-            else if (_currentHealth > _healthBarSlider.value)
-            {
-                ChangeHealthSlider(_healthBarSO.FillUpHealthSprite, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
-                //      Debug.Log("Increacing Health");
-                //    StartHealthChange(_healthBarInnerSlider, _healthBarSO.FillUpHealthSprite, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
+                _addHPTransition.StartTransition(_currentHealth);
             }
         }
 
-        private void ChangeHealthSlider(Sprite fillDownHealthSprite, int amount, float healthTransitionLength, AnimationCurve changeHealthCurve)
-        {
-            if (_hpBarTween != null && _hpBarTween.IsActive())
-                _hpBarTween.Kill();
-
-            _innerHealthBarSliderHandler.SetSprite(fillDownHealthSprite);
-            _hpBarTween = _healthBarSliderHandler.SlideToValue(amount, healthTransitionLength, changeHealthCurve);
-            _counter = 0;
-            StartCoroutine(ChangeInnerHealthBar());
-            _changeSecondBar += 1;
-        }
-
-        private IEnumerator ChangeInnerHealthBar()
-        {
-            while (_counter <= _healthBarSO.DelayTillReturn)
-            {
-                yield return null;
-                _counter += Time.deltaTime;
-            }
-
-            _changeSecondBar -= 1;
-            if (_changeSecondBar > 0)
-                yield break;
-
-            if (_secondHPBarTween != null && _secondHPBarTween.IsActive())
-                _secondHPBarTween.Kill();
-
-            _secondHPBarTween = _innerHealthBarSliderHandler.SlideToValue((int)_healthBarSlider.value, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
-        }
-
+    
         public void ChangeMaxHealth(int maxHealth)
         {
             if (_maxHealth == maxHealth)
@@ -184,69 +153,7 @@ namespace CardMaga.UI.Bars
             SetMaxValue(_healthBarSlider, _maxHealth);
             SetText(_currentHealth, _maxHealth);
         }
-        //private void StartHealthChange(Slider slider, Sprite sprite, float transitionLength, AnimationCurve animCurve)
-        //{
-        //    _healthInnerImage.sprite = sprite;
-
-        //    _hpBarTween =
-
-        //    _healthBarSequence = DoMoveSlider(_healthBarSequence, slider, _currentHealth, transitionLength, animCurve);
-        //    StopCounter();
-        //    ResetCounter();
-        //    _coroutine = StartCoroutine(StartTimer());
-        //}
-
-
-
-        //private void CompleteBarsTransition()
-        //{
-        //    if (_currentHealth > _healthBarSlider.value)
-        //    {
-        //        //Need to change health bar to fill bar
-        //        //     Debug.Log("Health Was Increaced Completeing transition");
-        //        _healthBarSequence = DoMoveSlider(_healthBarSequence, _healthBarSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeHealthCurve);
-        //    }
-        //    else if (_currentHealth == _healthBarSlider.value)
-        //    {
-        //        //Need to change fill to match the health
-        //        //   Debug.Log("Health Was Decreaced Completeing transition");
-        //        _innerBarSequence = DoMoveSlider(_innerBarSequence, _healthBarInnerSlider, _currentHealth, _healthBarSO.HealthTransitionLength, _healthBarSO.ChangeInnerHealthCurve);
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning("Current health is lower than the slider, we have a problem");
-        //    }
-        //}
-        //IEnumerator StartTimer()
-        //{
-        //    //      Debug.Log("Started Timer");
-        //    while (_healthBarSO.DelayTillReturn > _counter)
-        //    {
-        //        // Debug.Log($"Health Bar counter: {_counter}");
-        //        yield return null;
-        //        _counter += Time.deltaTime;
-        //    }
-        //    CompleteBarsTransition();
-        //}
-        //private void ResetCounter()
-        //{
-        //    _counter = 0;
-        //}
-        //public void CompleteCounter()
-        //{
-        //    _counter = _healthBarSO.DelayTillReturn;
-        //    //CompleteBarsTransition();
-        //}
-        //private void StopCounter()
-        //{
-        //    if (_coroutine != null)
-        //        StopCoroutine(_coroutine);
-        //}
-        //private void OnDestroy()
-        //{
-        //    //StopCounter();
-        //    //GameTurn.OnTurnFinished -= CompleteCounter;
-        //}
+      
     }
 
 
@@ -260,9 +167,183 @@ namespace CardMaga.UI.Bars
             _slider = slider;
         }
         public void SetSprite(Sprite sprite) => _image.sprite = sprite;
-        private float GetSliderValue() => _slider.value;
+        public float GetSliderValue() => _slider.value;
         private void SetSlideValue(float val) => _slider.value = val;
         public Tween SlideToValue(int amount, float duration, AnimationCurve animationCurve)
             => DOTween.To(GetSliderValue, SetSlideValue, amount, duration).SetEase(animationCurve);
+    }
+
+    public class AddHPTransition : IHPTransition
+    {
+        private readonly MonoBehaviour _sceneObject;
+        private readonly HPSlider _slider;
+        private readonly HPSlider _innerSlider;
+        private readonly HealthBarSO _healthBarSO;
+        // private readonly regular transition off slider
+        // private readonly speed up transition off slider
+        private Tween _hpBarTween;
+        private Tween _secondHPBarTween;
+        private bool _isActive;
+        private Coroutine _coroutine;
+        public bool IsActive => _isActive;
+        public AddHPTransition(MonoBehaviour sceneObj, HPSlider hp, HPSlider inner, HealthBarSO healthBarSO)
+        {
+            _sceneObject = sceneObj;
+            _slider = hp;
+            _innerSlider = inner;
+            _healthBarSO = healthBarSO;
+        }
+
+
+        public void StartTransition(int amount)
+        {
+            _isActive = true;
+            if (_secondHPBarTween != null && _secondHPBarTween.IsActive())
+                _secondHPBarTween.Kill();
+
+            _innerSlider.SetSprite(_healthBarSO.FillUpHealthSprite);
+            _secondHPBarTween = _innerSlider.SlideToValue(amount, _healthBarSO.DelayTillReturn, _healthBarSO.ChangeInnerHealthCurve);
+            StopCoroutine();
+            _coroutine = _sceneObject.StartCoroutine(ChangeHealthBar());
+
+        }
+
+        public void StopCoroutine()
+        {
+            if (_coroutine != null)
+                _sceneObject.StopCoroutine(_coroutine);
+        }
+
+        private IEnumerator ChangeHealthBar()
+        {
+            float counter = 0;
+            while (counter <= _healthBarSO.DelayTillReturn)
+            {
+                yield return null;
+                counter += Time.deltaTime;
+            }
+
+            InnerTransition(_healthBarSO.HealthTransitionLength);
+        }
+
+        public void InnerTransition(float duration)
+        {
+            if (_hpBarTween != null && _hpBarTween.IsActive())
+                _hpBarTween.Kill();
+
+            _hpBarTween = _slider.SlideToValue((int)_innerSlider.GetSliderValue(), duration, _healthBarSO.ChangeInnerHealthCurve).OnComplete(Completed);
+        }
+
+        private void Completed() => _isActive = false;
+    }
+
+    public interface IHPTransition
+    {
+        bool IsActive { get; }
+
+        void InnerTransition(float duration);
+        void StartTransition(int amount);
+        void StopCoroutine();
+    }
+
+    public class ReduceHPTransition : IHPTransition
+    {
+        private readonly MonoBehaviour _sceneObject;
+        private readonly HPSlider _slider;
+        private readonly HPSlider _innerSlider;
+        private readonly HealthBarSO _healthBarSO;
+        // private readonly regular transition off slider
+        // private readonly speed up transition off slider
+        private Tween _hpBarTween;
+        private Tween _secondHPBarTween;
+        private bool _isActive;
+        private Coroutine _coroutine;
+        public bool IsActive => _isActive;
+        public ReduceHPTransition(MonoBehaviour sceneObj, HPSlider hp, HPSlider inner, HealthBarSO healthBarSO)
+        {
+            _sceneObject = sceneObj;
+            _slider = hp;
+            _innerSlider = inner;
+            _healthBarSO = healthBarSO;
+        }
+
+
+        public void StartTransition(int amount)
+        {
+            _isActive = true;
+            if (_hpBarTween != null && _hpBarTween.IsActive())
+                _hpBarTween.Kill();
+
+            _innerSlider.SetSprite(_healthBarSO.FillDownHealthSprite);
+            _hpBarTween = _slider.SlideToValue(amount, _healthBarSO.DelayTillReturn, _healthBarSO.ChangeHealthCurve);
+
+            StopCoroutine();
+            _coroutine = _sceneObject.StartCoroutine(ChangeInnerHealthBar());
+
+        }
+
+        public void StopCoroutine()
+        {
+            if (_coroutine != null)
+                _sceneObject.StopCoroutine(_coroutine);
+        }
+
+        private IEnumerator ChangeInnerHealthBar()
+        {
+            float counter = 0;
+            while (counter <= _healthBarSO.DelayTillReturn)
+            {
+                yield return null;
+                counter += Time.deltaTime;
+            }
+
+            InnerTransition(_healthBarSO.HealthTransitionLength);
+        }
+
+        public void InnerTransition(float duration)
+        {
+            if (_secondHPBarTween != null && _secondHPBarTween.IsActive())
+                _secondHPBarTween.Kill();
+
+            _secondHPBarTween = _innerSlider.SlideToValue((int)_slider.GetSliderValue(), duration, _healthBarSO.ChangeInnerHealthCurve).OnComplete(Completed);
+        }
+
+        private void Completed() => _isActive = false;
+    }
+
+    public class AddTransitionCommand : ISequenceCommand , IPoolable<AddTransitionCommand>
+    {
+        public event Action OnFinishExecute;
+        public event Action<AddTransitionCommand> OnDisposed;
+
+        private IHPTransition _hPTransition;
+        private CommandType _commandType;
+        private int _amount;
+        public CommandType CommandType => _commandType;
+        public bool IsReducing;
+
+        
+        public void Init(CommandType commandType, bool isReducing , int amount, IHPTransition hPTransition )
+        {
+            _commandType = commandType;
+            IsReducing = isReducing;
+            _hPTransition = hPTransition;
+            _amount = amount;
+        }
+
+        public void Execute()
+        {
+       
+        }
+
+        public void Undo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            OnDisposed?.Invoke(this);
+        }
     }
 }
