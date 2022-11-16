@@ -14,6 +14,7 @@ namespace CardMaga.UI.Collections
 
         private DeckHandler _deckHandler;
         private PlayerComboContainer _playerComboContainer;
+        private bool _isFirstTimeOpeningCards = true;
 
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
         {
@@ -48,6 +49,15 @@ namespace CardMaga.UI.Collections
         public int Priority
         {
             get => 0;
+        }
+
+        public void FirstOpenCardPanelCheck()
+        {
+            if (_isFirstTimeOpeningCards)
+            {
+                _isFirstTimeOpeningCards = false;
+                SetPlayerDeck();
+            }
         }
     }
 }
