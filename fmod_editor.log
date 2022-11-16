@@ -2,12 +2,14 @@
 [LOG] Manager::init                            : maxchannels = 256 studioflags = 00000006 flags 00000000 extradriverdata 0000000000000000.
 [LOG] SystemI::init                            : Initialize version=20111 (118066), maxchannels=256, flags=0x00020000
 [LOG] SystemI::setOutputInternal               : Setting output to 'FMOD WASAPI Output'
-[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEX): wFormatTag=0xFFFE, nChannels=2, nSamplesPerSec=48000, nAvgBytesPerSec=384000, nBlockAlign=8, wBitsPerSample=32, cbSize=22.
-[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEXTENSIBLE): wValidBitsPerSample=32, dwChannelMask=0x00000003, SubFormat=00000003-0000-0010-8000-00AA00389B71.
+[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEX): wFormatTag=0xFFFE, nChannels=8, nSamplesPerSec=48000, nAvgBytesPerSec=1536000, nBlockAlign=32, wBitsPerSample=32, cbSize=22.
+[LOG] OutputWASAPI::init                       : Mix Format (WAVEFORMATEXTENSIBLE): wValidBitsPerSample=32, dwChannelMask=0x0000063F, SubFormat=00000003-0000-0010-8000-00AA00389B71.
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
+[LOG] DownMix::init                            : dspbuffersize: 1024  rate: 48000. output speaker mode: 7, input speaker mode 3
+[LOG] DownMix::init                            : done.
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0000020B4A9672C8 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000002773679B2C8 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -18,9 +20,140 @@
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
-[LOG] SoundI::release                          : Combat 2 - V4 (000002094A3B09C8)
-[LOG] SoundI::release                          :     Combat 2 - V4 (0000020BA8784EA8)
-[LOG] SoundI::release                          :     Combat 2 - V4 (000002094A3AF078)
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 145760
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 13600
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000AE0E42F418
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFBACB060E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFBACB060B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFBACB061B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFBACB06270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000002794D356BE8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='UI Clicked 6', format=5, channels=2, frequency=48000, lengthbytes=6816, lengthpcm=90279, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.305420.
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000277270CD748
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000277270CD748
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000277270CD748
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000277270CD748
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000AE0E42F418
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFBACB060E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFBACB060B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFBACB061B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFBACB06270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000002794D3569D8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara - I Win You Lose', format=5, channels=2, frequency=48000, lengthbytes=16992, lengthpcm=75232, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.476532.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000AE0E42F418
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFBACB060E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFBACB060B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFBACB061B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFBACB06270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000002794D3569D8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara - I'm Out Of Here 2', format=5, channels=2, frequency=48000, lengthbytes=10624, lengthpcm=51408, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.669373.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000AE0E42F418
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFBACB060E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFBACB060B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFBACB061B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFBACB06270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000002794D3569D8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara - I'm Out Of Here 1', format=5, channels=2, frequency=48000, lengthbytes=9536, lengthpcm=45139, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.601440.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000AE0E42F418
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFBACB060E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFBACB060B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFBACB061B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFBACB06270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000002794D357428
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Death 2', format=5, channels=2, frequency=48000, lengthbytes=11296, lengthpcm=51408, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.616699.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 755200
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 66688
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000AE0E42F418
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFBACB060E0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFBACB060B0
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFBACB061B0
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFBACB06270
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000002794D357428
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Chiara Damage Death 3', format=5, channels=2, frequency=48000, lengthbytes=13088, lengthpcm=62693, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.496826.
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 00000277270CFAB8 : node = 0000027A39CFD470
+[LOG] SystemI::createSound                     : add node to async list : head = 0000027726B53918.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000277270CFAB8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 0000027A39CFD580
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000277270CFAB8
+[LOG] SoundI::release                          : Combat 2 - V4 (00000277270CE4C8)
+[LOG] SoundI::release                          :     Combat 2 - V4 (0000027978D7B8F8)
+[LOG] SoundI::release                          :     Combat 2 - V4 (00000277270CD748)
+[LOG] SoundI::release                          : Menu V2 (00000277270CFAB8)
+[LOG] SoundI::release                          :     Menu V2 (0000027978D7CFB8)
+[LOG] SoundI::release                          :     Menu V2 (00000277270D0EF8)
+[LOG] SoundI::release                          :  (0000027A43C56B88)
+[LOG] SoundI::release                          :     Chiara - I Win You Lose (0000027978D7BF78)
+[LOG] SoundI::release                          :  (0000027A43C56E68)
+[LOG] SoundI::release                          :     Chiara - I'm Out Of Here 1 (0000027978D7E818)
+[LOG] SoundI::release                          :  (0000027A43C568A8)
+[LOG] SoundI::release                          :     Chiara - I'm Out Of Here 2 (0000027978D79878)
+[LOG] SoundI::release                          :  (0000027A43C572B8)
+[LOG] SoundI::release                          :     Chiara Damage Death 2 (0000027978D7ABF8)
+[LOG] SoundI::release                          :  (0000027A43C57428)
+[LOG] SoundI::release                          :     Chiara Damage Death 3 (0000027978D7EB58)
+[LOG] SoundI::release                          :  (0000027A43C5B7B8)
+[LOG] SoundI::release                          :     UI Clicked 6 (0000027978D79398)
 [LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
