@@ -45,6 +45,7 @@ namespace CardMaga.Battle.Combo
 
 
         #endregion
+        
         #region MonoBehaviour Callbacks
 
 
@@ -54,6 +55,7 @@ namespace CardMaga.Battle.Combo
             _cardFactory = Factory.GameFactory.Instance.CardFactoryHandler;
         }
         #endregion
+        
         #region Public Functions
         public void StartDetection() => DetectRecipe();
         #endregion
@@ -275,8 +277,7 @@ namespace CardMaga.Battle.Combo
 
 
         #endregion
-
-
+        
         #region ISequenceOperation<IBattleManager> Implementation
 
         public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)

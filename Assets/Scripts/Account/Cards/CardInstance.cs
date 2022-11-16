@@ -9,6 +9,7 @@ namespace Account.GeneralData
     {
         private static int _uniqueID = 0;
         private static int UniqueID => _uniqueID++;
+        
         #region Fields
         [SerializeField]
         private CardCore _coreData;

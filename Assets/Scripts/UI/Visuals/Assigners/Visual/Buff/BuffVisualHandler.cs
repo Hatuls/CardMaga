@@ -33,6 +33,8 @@ namespace CardMaga.UI.Buff
         {
             base.Init(buffData);
         }
+
+        public event Action OnInitializable;
         public void Init() { gameObject.SetActive(true); }
 
         public override void Dispose()

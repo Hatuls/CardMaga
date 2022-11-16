@@ -10,13 +10,15 @@ namespace CardMaga.UI.ScrollPanel
     {
         public event Action<List<T_visual>> OnObjectLoaded;
 
+        private BasePoolObjectVisualToData<T_visual, T_data> _objectVisualToDataPool;
+        
+        [SerializeField] private T_visual _objectPrefab;
+        [SerializeField] private RectTransform _parent;
         [SerializeField] private ScrollPanelHandler _scrollPanel;
-
-        protected abstract BasePoolObject<T_visual, T_data> ObjectPool { get; }
-
+        
         public virtual void Init()
         {
-            ObjectPool.Init();
+            _objectVisualToDataPool = new BasePoolObjectVisualToData<T_visual, T_data>(_objectPrefab, _parent);
             _scrollPanel.Init();
         }
 
@@ -25,7 +27,7 @@ namespace CardMaga.UI.ScrollPanel
             if (data.Count <= 0)
                 return;
 
-            List<T_visual> cache = ObjectPool.PullObjects(data);
+            List<T_visual> cache = _objectVisualToDataPool.PullObjects(data);
 
             IUIElement[] showableUis = new IUIElement[cache.Count];
 
@@ -42,6 +44,11 @@ namespace CardMaga.UI.ScrollPanel
         public void RemoveAllObjectsFromPanel()
         {
             _scrollPanel.UnLoadAllObjects();
+        }
+
+        private void OnDestroy()
+        {
+            RemoveAllObjectsFromPanel();
         }
     }
 }

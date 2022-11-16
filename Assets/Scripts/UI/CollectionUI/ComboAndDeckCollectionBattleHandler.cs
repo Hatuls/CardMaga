@@ -23,7 +23,7 @@ namespace CardMaga.UI.Collections
             _deckHandler = player.DeckHandler;
             _playerComboContainer = player.Combos;
             _collection.Init();
-        _collection.AssignComboData(_playerComboContainer);
+            _collection.AssignComboData(_playerComboContainer);
             SetPlayerDeck();
         }
 
@@ -41,8 +41,7 @@ namespace CardMaga.UI.Collections
         {
             _collection.AssignCardData(_deckHandler[DeckEnum.Discard]);
         }
-
-
+        
         public void AllCards()
         {
             _collection.AssignCardData(_deckHandler);

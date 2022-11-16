@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CardMaga.UI.MetaUI
+namespace CardMaga.MetaUI
 {
     public class MetaUIManager
     {

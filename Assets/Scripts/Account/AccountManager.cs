@@ -3,7 +3,7 @@ using CardMaga.Rewards;
 using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
-
+using PlayFab.Json;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
@@ -223,7 +223,7 @@ namespace Account
             var convertedDict = new Dictionary<string, string>();
             _accountTutorialData = new AccountTutorialData(0, false);//temp_Test
             foreach (var item in data)
-                convertedDict.Add(item.Key, item.Value?.Value);
+                convertedDict.Add(item.Key, item.Value?.Value.ToString());
 
             AssignValues(convertedDict);
         }
@@ -244,9 +244,14 @@ namespace Account
 
             if (data.TryGetValue(ArenaData.PlayFabKeyName, out result))
             {
+                
                 _arenaData = JsonConvert.DeserializeObject<ArenaData>(result);
                 if (_arenaData == null || !_arenaData.IsValid())
-                    CreateNewArenaData();
+                {
+                    _arenaData = PlayFabSimpleJson.DeserializeObject<ArenaData>(result);
+                    if (_arenaData == null || !_arenaData.IsValid())
+                        CreateNewArenaData();
+                }
             }
             else
                 CreateNewArenaData();
@@ -257,10 +262,14 @@ namespace Account
 
                 _charactersData= JsonConvert.DeserializeObject(result) as CharactersData;
 
-                 //PlayFabSimpleJson.DeserializeObject<CharactersData>(result);
-
+                 //
                 if (CharactersData == null || !CharactersData.IsValid())
+                {
+                _charactersData= PlayFabSimpleJson.DeserializeObject<CharactersData>(result);
+
+                    if (CharactersData == null || !CharactersData.IsValid())
                     CreateNewCharacterData();
+                }
             }
             else
                 CreateNewCharacterData();
@@ -270,7 +279,12 @@ namespace Account
             {
                 _accountLevel = JsonConvert.DeserializeObject<LevelData>(result);
                 if (_accountLevel == null || !_accountLevel.IsValid())
+                {
+
+                _accountLevel = PlayFabSimpleJson.DeserializeObject<LevelData>(result);
+                    if (_accountLevel == null || !_accountLevel.IsValid())
                     CreateNewLevelData();
+                }
             }
             else
                 CreateNewLevelData();
@@ -280,7 +294,11 @@ namespace Account
             {
                 _accountResources = JsonConvert.DeserializeObject<AccountResources>(result);
                 if (_accountResources == null || !_accountResources.IsValid())
+                {
+                    _accountResources = PlayFabSimpleJson.DeserializeObject<AccountResources>(result);
+                    if (_accountResources == null || !_accountResources.IsValid())
                     CreateNewResourcesData();
+                }
             }
             else
                 CreateNewResourcesData();
@@ -290,7 +308,12 @@ namespace Account
             {
                 _accountCombos = JsonConvert.DeserializeObject<AccountCombos>(result);
                 if (_accountCombos == null || !_accountCombos.IsValid())
+                {
+
+                _accountCombos = PlayFabSimpleJson.DeserializeObject<AccountCombos>(result);
+                if (_accountCombos == null || !_accountCombos.IsValid())
                     CreateNewResourcesData();
+                }
             }
             else
                 CreateNewCombosData();
@@ -300,7 +323,11 @@ namespace Account
             {
                 _accountCards = JsonConvert.DeserializeObject<AccountCards>(result);
                 if (_accountCards == null || !_accountCards.IsValid())
+                {
+                    _accountCards = PlayFabSimpleJson.DeserializeObject<AccountCards>(result);
+                if (_accountCards == null || !_accountCards.IsValid())
                     CreateNewResourcesData();
+                }
             }
             else
                 CreateNewCardsData();

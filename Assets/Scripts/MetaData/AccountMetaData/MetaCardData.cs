@@ -3,7 +3,7 @@ using Account.GeneralData;
 using CardMaga.Card;
 using CardMaga.Keywords;
 
-namespace CardMaga.Meta.AccountMetaData
+namespace CardMaga.MetaData.AccoutData
 {
     public class MetaCardData : IEquatable<MetaCardData>
     {
@@ -43,8 +43,13 @@ namespace CardMaga.Meta.AccountMetaData
         {
             if (other == null)
                 return false;
-            
-            return CardInstance == other.CardInstance;
+
+            return _cardInstance.ID == other.CardInstance.ID;
+        }
+        
+        public bool Equals(int cardCoreID)
+        {
+            return _cardInstance.ID == cardCoreID;
         }
     }
 }

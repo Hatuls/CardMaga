@@ -3,7 +3,7 @@ using System.Linq;
 using Account;
 using Account.GeneralData;
 
-namespace CardMaga.Meta.AccountMetaData
+namespace CardMaga.MetaData.AccoutData
 {
     public class MetaAccountData
     {

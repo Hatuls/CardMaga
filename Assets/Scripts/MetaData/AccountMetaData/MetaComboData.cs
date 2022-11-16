@@ -3,7 +3,7 @@ using Battle.Combo;
 using CardMaga.Card;
 using Account.GeneralData;
 
-namespace CardMaga.Meta.AccountMetaData
+namespace CardMaga.MetaData.AccoutData
 {
     public class MetaComboData : IEquatable<MetaComboData>
     {
@@ -33,6 +33,11 @@ namespace CardMaga.Meta.AccountMetaData
                 return false;
             
             return _comboCore.ID == other.ID;
+        }
+        
+        public bool Equals(int comboCoreId)
+        {
+            return _comboCore.ID == comboCoreId;
         }
     }
 }
