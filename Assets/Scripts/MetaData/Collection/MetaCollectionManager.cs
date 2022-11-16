@@ -14,7 +14,8 @@ namespace CardMaga.MetaData.Collection
 
         private void Start()
         {
-            
+            _accountDataCollectionHelper = new AccountDataCollectionHelper(_accountDataAccess);
+            _metaUICollectionManager.Init(_accountDataCollectionHelper);
         }
     }
 }
