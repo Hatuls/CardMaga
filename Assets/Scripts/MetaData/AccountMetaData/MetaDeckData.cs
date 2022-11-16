@@ -97,11 +97,11 @@ namespace CardMaga.MetaData.AccoutData
             return false;
         }
         
-        public bool FindMetaComboData(int cardCoreId, out MetaComboData metaComboData)
+        public bool FindMetaComboData(int comboCoreId, out MetaComboData metaComboData)
         {
             for (int i = 0; i < _comboDatas.Count; i++)
             {
-                if (_comboDatas[i].Equals(cardCoreId))
+                if (_comboDatas[i].Equals(comboCoreId))
                 {
                     metaComboData = _comboDatas[i];
                     return true;

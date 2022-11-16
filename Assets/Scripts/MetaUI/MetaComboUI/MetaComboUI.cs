@@ -1,4 +1,5 @@
 using System;
+using CardMaga.InventorySystem;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaComboUI : BaseUIElement, IPoolableMB<MetaComboUI>,IVisualAssign<MetaComboData>
+    public class MetaComboUI : BaseSlot<MetaComboUI>, IPoolableMB<MetaComboUI>,IVisualAssign<MetaComboData>
     {
         public event Action<MetaComboUI> OnDisposed;
         

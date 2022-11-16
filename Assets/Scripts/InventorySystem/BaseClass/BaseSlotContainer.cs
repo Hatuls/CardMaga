@@ -9,20 +9,24 @@ namespace CardMaga.InventorySystem
     public abstract class BaseSlotContainer<T> : BaseUIElement where T : BaseUIElement
     {
         private MBPool<BaseSlot<T>> _slotsPool;
-        [SerializeField] private BaseSlot<T> _slotType;
-        [SerializeField] private RectTransform _continerParent;
         [SerializeField,ReadOnly] protected BaseSlot<T>[] _slots;
-        [SerializeField] private bool _isDynamic;
-        [SerializeField] private int _numberOfInitializeSlots;
-        [SerializeField] private bool _haveMaxValue;
-        [SerializeField] private int _numberOfMaxlots;
+        [Header("Pool Configuration")]
+        private BaseSlot<T> _slotType;
+        [SerializeField] private RectTransform _continerParent;
+        [Header("Container Configuration")]
+        [SerializeField,Tooltip("Can the Container grow dynamically")] private bool _isDynamic;
+        [SerializeField,Tooltip("Number of start slot")] private int _numberOfInitializeSlots;
+        [SerializeField,Tooltip("Defines whether there is a maximum value for the slots")] private bool _haveMaxValue;
+        [SerializeField,Tooltip("The maximum value of slots")] private int _numberOfMaxlots;
 
+        public abstract BaseSlot<T> SlotType { get; }
+        
         public int CollectionLength => _slots.Length;
         
         public void Awake()
         {
             _slots = new BaseSlot<T>[_numberOfInitializeSlots];
-            _slotsPool = new MBPool<BaseSlot<T>>(_slotType,_continerParent,_numberOfInitializeSlots);
+            _slotsPool = new MBPool<BaseSlot<T>>(SlotType,_continerParent,_numberOfInitializeSlots);
         }
 
         public void InitializeSlots(T[] objects)

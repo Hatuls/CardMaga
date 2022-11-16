@@ -9,10 +9,12 @@ namespace CardMaga.Tools.Pools
     {
         protected T _prefabOfType;
         private Transform _parent;
+        
         public MBPool(T prefabOfType, Transform parent, int startSize) : this(prefabOfType, parent)
         {
             InitSize(startSize);
         }
+        
         public MBPool(T prefabOfType, Transform parent)
         {
             _prefabOfType = prefabOfType;
@@ -26,12 +28,14 @@ namespace CardMaga.Tools.Pools
 
             ResetPool();
         }
+        
         public override T Pull()
         {
             T type = base.Pull();
             type.Init();
             return type;
         }
+        
         protected override void AddToQueue(T type)
         {
             base.AddToQueue(type);
@@ -53,18 +57,16 @@ namespace CardMaga.Tools.Pools
             return cache;
         }
     }
-
-
+    
     public class ObjectPool<T> : IPoolObject<T> where T : class, IPoolable<T>, new()
     {
-
         protected Stack<T> _poolToType = new Stack<T>();
 
         protected List<T> _totalPoolType = new List<T>();
-
+        public Type GetPoolableType => typeof(T);
+        
         public ObjectPool()
         {
-
         }
 
         public ObjectPool(int amount)
@@ -86,7 +88,7 @@ namespace CardMaga.Tools.Pools
 
             return cache;
         }
-
+        
         protected virtual T GenerateNewOfType()
         {
             T cache = new T();
@@ -106,6 +108,7 @@ namespace CardMaga.Tools.Pools
         {
             _poolToType.Push(type);
         }
+        
         public void ResetPool()
         {
             for (int i = 0; i < _totalPoolType.Count; i++)
@@ -118,29 +121,24 @@ namespace CardMaga.Tools.Pools
                 _totalPoolType[i].OnDisposed -= AddToQueue;
         }
     }
-
-
+    
     public interface IPoolObject<T> where T : IPoolable<T>
     {
         T Pull();
-
+        Type GetPoolableType { get; }
         void ResetPool();
     }
 
     public interface IPoolMBObject<T> : IPoolObject<T> where T : MonoBehaviour, IPoolableMB<T>
     {
-
     }
 
     public interface IPoolable<T> : IDisposable
     {
         event Action<T> OnDisposed;
     }
-
-
+    
     public interface IPoolableMB<T> : IPoolable<T>,IInitializable where T : MonoBehaviour
     {
     }
-
-
 }

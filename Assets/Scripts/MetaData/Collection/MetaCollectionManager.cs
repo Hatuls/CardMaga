@@ -11,6 +11,11 @@ namespace CardMaga.MetaData.Collection
         [SerializeField] private MetaUICollectionManager _metaUICollectionManager;
         private AccountDataCollectionHelper _accountDataCollectionHelper;
         private DeckBuilder _deckBuilder;
+
+        private void Start()
+        {
+            
+        }
     }
 }
 

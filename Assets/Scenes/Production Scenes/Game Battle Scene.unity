@@ -264,7 +264,7 @@ PrefabInstance:
     - target: {fileID: 3597226985989005940, guid: 1e7b156c630d1594eaaca490e4a2748a,
         type: 3}
       propertyPath: far clip plane
-      value: 5000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3597226985989005940, guid: 1e7b156c630d1594eaaca490e4a2748a,
         type: 3}
@@ -3466,9 +3466,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3487908193241730101, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
-      propertyPath: battleComboUIPool
+      propertyPath: _parent
       value: 
       objectReference: {fileID: 2133605135}
+    - target: {fileID: 3487908193241730101, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
+      propertyPath: _objectPrefab
+      value: 
+      objectReference: {fileID: 3206936471709618092, guid: 21bce7691797c9f45a5df134ed319d0d,
+        type: 3}
+    - target: {fileID: 3487908193241730101, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
+      propertyPath: battleComboUIPool
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3487908193241730101, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
+      propertyPath: battleComboUIVisualToDataPool
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3704224140681590810, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3481,10 +3497,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4900867792958712059, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
+      propertyPath: _objectPrefab
+      value: 
+      objectReference: {fileID: 1304183681161663716, guid: 8dc4e00dfaa6753418c1d5056be43434,
+        type: 3}
+    - target: {fileID: 4900867792958712059, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
       propertyPath: battleCardUiPool
       value: 
-      objectReference: {fileID: 2133605136}
-    m_RemovedComponents: []
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900867792958712059, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
+      propertyPath: battleCardUiVisualToDataPool
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1138066228726980011, guid: 61171a12fa1398346993b9142a2aa9a8, type: 3}
+    - {fileID: 8538057642326302306, guid: 61171a12fa1398346993b9142a2aa9a8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 61171a12fa1398346993b9142a2aa9a8, type: 3}
 --- !u!114 &2133605134 stripped
 MonoBehaviour:
@@ -3498,30 +3527,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2ffb4a87f5e534a85d088438a0a710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2133605135 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8538057642326302306, guid: 61171a12fa1398346993b9142a2aa9a8,
+--- !u!224 &2133605135 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8068670844468482780, guid: 61171a12fa1398346993b9142a2aa9a8,
     type: 3}
   m_PrefabInstance: {fileID: 2133605133}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dff4657ac5dcba41a2bfa5c89ded7b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2133605136 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1138066228726980011, guid: 61171a12fa1398346993b9142a2aa9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2133605133}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f876bf8224a57b746b95a7b9a43a574f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &560829603735717846
 PrefabInstance:
   m_ObjectHideFlags: 0

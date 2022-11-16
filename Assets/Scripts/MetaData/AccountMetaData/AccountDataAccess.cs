@@ -1,3 +1,4 @@
+using System;
 using Account;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ namespace CardMaga.MetaData.AccoutData
 {
     public class AccountDataAccess : MonoBehaviour // need to remove mono
     {
+        [NonSerialized]
         private AccountData _accountData;
 
         private MetaAccountData _metaAccountData;
