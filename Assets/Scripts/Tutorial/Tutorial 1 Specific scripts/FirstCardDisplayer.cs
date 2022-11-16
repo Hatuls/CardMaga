@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using CardMaga.Input;
+using System;
 
 public class FirstCardDisplayer : MonoBehaviour
 {
-    [SerializeField] private UnityEvent OnReturnCard;
     [SerializeField] private DialoguesFlow _dialoguesFlow3;
     [SerializeField] private DialoguesFlow _dialoguesFlow4;
     [SerializeField] private DialoguesFlow _dialoguesFlow5;
@@ -15,6 +15,7 @@ public class FirstCardDisplayer : MonoBehaviour
     private BattleUiManager _battleUIManager;
     private IReadOnlyList<BattleCardUI> _cards;
 
+    public event Action OnSecondsTimeLoad;
     public IReadOnlyList<BattleCardUI> FirstCard { get => _cards;}
 
     public void GetCard()
@@ -72,7 +73,6 @@ public class FirstCardDisplayer : MonoBehaviour
         _cards[0].Inputs.ForceResetInputBehaviour();
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
         _battleUIManager.CardUIManager.HandUI.SetToHandState(cardUI);
-        OnReturnCard.Invoke();
     }
 
     public void PutInputBehaviourAfterZoomIn()

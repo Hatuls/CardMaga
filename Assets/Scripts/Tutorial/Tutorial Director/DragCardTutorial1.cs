@@ -1,4 +1,5 @@
-﻿using CardMaga.UI;
+﻿using CardMaga.Battle.UI;
+using CardMaga.UI;
 using CardMaga.UI.Card;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,15 +22,13 @@ namespace TutorialDirector
 
         protected override void MoveDirectorPosition()
         {
-            StartCoroutine(WaitFrame());
+            BattleUiManager.Instance.HandUI.HandUIState.OnCardDrawnAndAlign += MoveDirectorAfterCardPositionReturnedFromZoom;
         }
         
-        IEnumerator WaitFrame()
+        private void MoveDirectorAfterCardPositionReturnedFromZoom()
         {
-            yield return null;
-            yield return null;
             _directorRect.transform.position = _firstCard.FirstCard[0].RectTransform.GetWorldPosition();
-            Debug.Log(_directorRect.rect);
+            BattleUiManager.Instance.HandUI.HandUIState.OnCardDrawnAndAlign -= MoveDirectorAfterCardPositionReturnedFromZoom;
         }
 
         private void CardExecute(BattleCardUI cardUI)
