@@ -30,6 +30,16 @@ namespace CardMaga.MetaUI.CollectionUI
             _metaComboUiContainer.InitializeSlots(_comboPool.PullObjects(metaAccountData.CharacterDatas.CharacterData.Decks[0].Combos).ToArray());
             _metaCardUIContainer.InitializeSlots(_cardPool.PullObjects(metaAccountData.CharacterDatas.CharacterData.Decks[0].Cards).ToArray());
         }
+
+        public void AddCardUI(MetaCardData metaCardData)
+        {
+            
+        }
+
+        public void RemoveCardUI()
+        {
+            
+        }
     }
 }
 

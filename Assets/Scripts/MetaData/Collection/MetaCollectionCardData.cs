@@ -46,9 +46,11 @@ namespace CardMaga.MetaData.Collection
 
         public void AddCardToDeck(MetaCardData metaCardData)
         {
-            _numberOfInstant--;
-            OnSuccessfullAddCard?.Invoke(_cardReference);
-            
+            if (_cardReference.Equals(metaCardData))
+            {
+                _numberOfInstant--;
+                OnSuccessfullAddCard?.Invoke(_cardReference);
+            }
         }
 
         public void TryRemoveCardFromDeck()
@@ -58,8 +60,11 @@ namespace CardMaga.MetaData.Collection
 
         public void RemoveCardFromDeck(MetaCardData metaCardData)
         {
-            _numberOfInstant++;
-            OnSuccessfullRemoveCard?.Invoke(_cardReference);
+            if (_cardReference.Equals(metaCardData))
+            {
+                _numberOfInstant++;
+                OnSuccessfullRemoveCard?.Invoke(_cardReference);
+            }
         }
 
         public bool Equals(MetaCollectionCardData other)

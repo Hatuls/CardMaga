@@ -17,9 +17,7 @@ namespace CardMaga.MetaUI
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private TMP_Text _cardNumberText;
         private MetaCollectionCardData _cardData;
-        private int _cardId;
-
-        public int CardID => _cardId;
+        public int CardID => _cardData.CardReference.CardInstance.ID;
 
         public int NumberOfInstant => _cardData.NumberOfInstant;
         
@@ -27,8 +25,6 @@ namespace CardMaga.MetaUI
         {
             base.Init();
             Show();
-            OnTryAddCardToDeck += _cardData.TryAddCardToDeck;
-            OnTryRemoveCardFromDeck += _cardData.TryRemoveCardFromDeck;
         }
 
         public void Dispose()
@@ -38,8 +34,15 @@ namespace CardMaga.MetaUI
         }
         public void AssignVisual(MetaCollectionCardData data)
         {
-            _cardId = data.CardReference.BattleCardData.CardInstance.ID;
-            _cardVisuals.Init(data.CardReference.BattleCardData);
+            _cardData = data;
+            
+            _cardVisuals.Init(_cardData.CardReference.BattleCardData);
+            
+            OnTryAddCardToDeck += _cardData.TryAddCardToDeck;
+            OnTryRemoveCardFromDeck += _cardData.TryRemoveCardFromDeck;
+            _cardData.OnSuccessfullAddCard += SuccessAddCardToDeck;
+            _cardData.OnSuccessfullRemoveCard += SuccessRemoveCardFromDeck;
+            
             UpdateCardNumber();
         }
 

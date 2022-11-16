@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 
@@ -38,6 +39,7 @@ namespace CardMaga.MetaData.DeckBuilding
                 cardData.OnTryAddCard += TryAddCard;
                 cardData.OnTryRemoveCard += TryRemoveCard;
                 OnSuccessCardAdd += cardData.AddCardToDeck;
+                OnSuccessCardRemove += cardData.RemoveCardFromDeck;
             }
         }
 
@@ -48,10 +50,11 @@ namespace CardMaga.MetaData.DeckBuilding
                 cardData.OnTryAddCard -= TryAddCard;
                 cardData.OnTryRemoveCard -= TryRemoveCard;
                 OnSuccessCardAdd -= cardData.AddCardToDeck;
+                OnSuccessCardRemove -= cardData.RemoveCardFromDeck;
             }
         }
 
-        public void TryAddCard(MetaCardData cardData)
+        private void TryAddCard(MetaCardData cardData)
         {
             if (_deck.Cards.Count >= MAX_CARD_IN_DECK)
             {
@@ -75,7 +78,7 @@ namespace CardMaga.MetaData.DeckBuilding
             return true;
         }
 
-        public void TryRemoveCard(MetaCardData cardData)
+        private void TryRemoveCard(MetaCardData cardData)
         {
             if (_deck.FindMetaCardData(cardData.CardInstance.ID,out MetaCardData metaCardData))
             {

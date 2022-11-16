@@ -20,6 +20,8 @@ namespace CardMaga.InventorySystem
         [SerializeField,Tooltip("The maximum value of slots")] private int _numberOfMaxlots;
 
         public abstract BaseSlot<T> SlotType { get; }
+
+        public BaseSlot<T>[] Sots => _slots;
         
         public int CollectionLength => _slots.Length;
         
