@@ -71,8 +71,8 @@ namespace CardMaga.UI.Collections
             ComboCollectorBackButtonTutorialTapDetector.OnButtonPress -= AfterExitButtonPress;
             if (AfterCollectionExitButtonPress != null)
                 AfterCollectionExitButtonPress.Invoke();
-            _dialoguesFlow7.gameObject.SetActive(false);
             TutorialClickHelper.Instance.ReturnObjects();
+            _dialoguesFlow7.gameObject.SetActive(false);
             ReleaseToken();
         }
 
