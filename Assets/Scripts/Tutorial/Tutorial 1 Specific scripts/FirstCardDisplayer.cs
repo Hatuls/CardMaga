@@ -32,7 +32,6 @@ public class FirstCardDisplayer : MonoBehaviour
     public void LoadCardOnPanel()
     {
         _tutorialClickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
-        
     }
 
     public void ZoomInCardInput(BattleCardUI cardUI)

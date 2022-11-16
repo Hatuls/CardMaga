@@ -41,8 +41,6 @@ namespace CardMaga.UI.Card
             base.EnterState(battleCardUI);
             _clickHelper.LoadObject(true,false,() => ReturnToHandState(battleCardUI),battleCardUI.RectTransform);
             MoveToZoomPosition(battleCardUI);
-            if (OnExitZoomTutorial != null)
-                OnExitZoomTutorial.Invoke();
         }
 
         public override void ExitState(BattleCardUI battleCardUI)
@@ -50,8 +48,8 @@ namespace CardMaga.UI.Card
              _clickHelper.Close();
             _zoomToken?.Dispose();
             base.ExitState(battleCardUI);
-            if(OnEnterZoomTutorial != null)
-                OnEnterZoomTutorial.Invoke();
+            if (OnExitZoomTutorial != null)
+                OnExitZoomTutorial.Invoke();
         }
 
         public void ReturnToHandState(BattleCardUI battleCardUI)
@@ -84,10 +82,13 @@ namespace CardMaga.UI.Card
         
         public void MoveToZoomPosition(BattleCardUI battleCardUI)
         {
-            if (SelectedBattleCardUI != null)
+            if (battleCardUI != null)
             {
-                SelectedBattleCardUI.KillTween(false);
-                SelectedBattleCardUI.CurrentSequence = battleCardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
+                battleCardUI.KillTween(false);
+                battleCardUI.CurrentSequence = battleCardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
+
+                if (OnEnterZoomTutorial != null)
+                    OnEnterZoomTutorial.Invoke();
             }
         }
 
