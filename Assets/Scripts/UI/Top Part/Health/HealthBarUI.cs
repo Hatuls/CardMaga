@@ -1,5 +1,4 @@
-﻿using Battle.Turns;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -40,7 +39,7 @@ namespace CardMaga.UI.Bars
         [SerializeField] Image _healthInnerImage;
         [SerializeField] TextMeshProUGUI _currentHealthText;
         [SerializeField] TextMeshProUGUI _maxHealthText;
-        public float _counter = 0;
+
         int _currentHealth;
         int _maxHealth;
         private Coroutine _coroutine;
@@ -54,7 +53,7 @@ namespace CardMaga.UI.Bars
         private HPSlider _innerHealthBarSliderHandler;
         private int _changeSecondBar;
 
-        private WaitForSeconds _delay;
+        private float _counter;
         private void Awake()
         {
             if (_healthBarSlider == null)
@@ -73,10 +72,10 @@ namespace CardMaga.UI.Bars
             _healthBarSliderHandler = new HPSlider(_healthBarSlider, _healthImage);
             _innerHealthBarSliderHandler = new HPSlider(_healthBarInnerSlider, _healthInnerImage);
 
-          //  GameTurn.OnTurnFinished += CompleteCounter;
-           // _healthBarSequence = DOTween.Sequence();
-           // _innerBarSequence = DOTween.Sequence();
-            _delay = new WaitForSeconds(_healthBarSO.DelayTillReturn);
+            //  GameTurn.OnTurnFinished += CompleteCounter;
+            // _healthBarSequence = DOTween.Sequence();
+            // _innerBarSequence = DOTween.Sequence();
+
         }
         private void Start()
         {
@@ -103,7 +102,7 @@ namespace CardMaga.UI.Bars
             {
                 currentHealth = maxHealth;
             }
-            _maxHealthText.text = string.Concat(FROM_MAXVALUE , maxHealth);
+            _maxHealthText.text = string.Concat(FROM_MAXVALUE, maxHealth);
             _currentHealthText.text = Convert.ToString(currentHealth);
         }
         private void SetText(int currentHealth)
@@ -140,14 +139,18 @@ namespace CardMaga.UI.Bars
 
             _innerHealthBarSliderHandler.SetSprite(fillDownHealthSprite);
             _hpBarTween = _healthBarSliderHandler.SlideToValue(amount, healthTransitionLength, changeHealthCurve);
-
+            _counter = 0;
             StartCoroutine(ChangeInnerHealthBar());
             _changeSecondBar += 1;
         }
 
         private IEnumerator ChangeInnerHealthBar()
         {
-            yield return _delay;
+            while (_counter <= _healthBarSO.DelayTillReturn)
+            {
+                yield return null;
+                _counter += Time.deltaTime;
+            }
 
             _changeSecondBar -= 1;
             if (_changeSecondBar > 0)
