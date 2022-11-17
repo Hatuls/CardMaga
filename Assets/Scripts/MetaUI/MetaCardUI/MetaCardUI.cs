@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCardUI : BaseSlot<MetaCardUI>, IPoolableMB<MetaCardUI>, IVisualAssign<MetaCardData>//need to change to MetaCardData 
+    public class MetaCardUI : BaseSlot<MetaCardUI>, IPoolableMB<MetaCardUI>, IVisualAssign<MetaCardData> ,IEquatable<MetaCardUI>
     {
         public event Action<MetaCardUI> OnDisposed;
         
@@ -16,12 +16,14 @@ namespace CardMaga.MetaUI
 
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
 
+        public CardInstance CardInstance => _cardInstance;
 
         public override void Init()
         {
             base.Init();
             Show();
         }
+
 
         public void Dispose()
         {
@@ -33,6 +35,12 @@ namespace CardMaga.MetaUI
         {
             _cardVisuals.Init(data.BattleCardData);
             _cardInstance = data.CardInstance;
+        }
+
+        public bool Equals(MetaCardUI other)
+        {
+            if (ReferenceEquals(other, null)) return false;
+            return CardInstance.ID == other.CardInstance.ID;
         }
     }
 }

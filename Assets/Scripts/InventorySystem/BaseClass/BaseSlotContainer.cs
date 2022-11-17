@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CardMaga.InventorySystem
 {
-    public abstract class BaseSlotContainer<T> : BaseUIElement where T : BaseUIElement
+    public abstract class BaseSlotContainer<T> : BaseUIElement where T : BaseUIElement , IEquatable<T>
     {
         private MBPool<BaseSlot<T>> _slotsPool;
         [SerializeField,ReadOnly] protected BaseSlot<T>[] _slots;
@@ -28,7 +28,7 @@ namespace CardMaga.InventorySystem
         public void Awake()
         {
             _slots = new BaseSlot<T>[_numberOfInitializeSlots];
-            _slotsPool = new MBPool<BaseSlot<T>>(SlotType,_continerParent,_numberOfInitializeSlots);
+            _slotsPool = new MBPool<BaseSlot<T>>(SlotType,_continerParent);
         }
 
         public void InitializeSlots(T[] objects)
@@ -36,6 +36,7 @@ namespace CardMaga.InventorySystem
             for (int i = 0; i < objects.Length; i++)
             {
                 _slots[i] = objects[i] as BaseSlot<T>;
+                _slots[i].AssignValue(objects[i]);
             }
         }
 

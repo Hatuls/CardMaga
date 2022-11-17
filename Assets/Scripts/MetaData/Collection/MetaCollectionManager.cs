@@ -22,9 +22,8 @@ namespace CardMaga.MetaData.Collection
             _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0]);
 
             _deckBuilder.OnSuccessCardAdd += _metaUICollectionManager.AddCardUI;
+            _deckBuilder.OnSuccessCardRemove += _metaUICollectionManager.RemoveCardUI;
         }
-        
-       
     }
 }
 

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaComboUI : BaseSlot<MetaComboUI>, IPoolableMB<MetaComboUI>,IVisualAssign<MetaComboData>
+    public class MetaComboUI : BaseSlot<MetaComboUI>, IPoolableMB<MetaComboUI>,IVisualAssign<MetaComboData> ,IEquatable<MetaComboUI>
     {
         public event Action<MetaComboUI> OnDisposed;
         
@@ -23,6 +23,11 @@ namespace CardMaga.MetaUI
         public void AssignVisual(MetaComboData data)
         {
             _comboVisual.Init(data.BattleComboData);
+        }
+
+        public bool Equals(MetaComboUI other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -38,8 +38,8 @@ namespace CardMaga.MetaData.DeckBuilding
             {
                 cardData.OnTryAddCard += TryAddCard;
                 cardData.OnTryRemoveCard += TryRemoveCard;
-                OnSuccessCardAdd += cardData.AddCardToDeck;
-                OnSuccessCardRemove += cardData.RemoveCardFromDeck;
+                OnSuccessCardAdd += cardData.RemoveCardReference;
+                OnSuccessCardRemove += cardData.AddCardReference;
             }
         }
 
@@ -49,8 +49,8 @@ namespace CardMaga.MetaData.DeckBuilding
             {
                 cardData.OnTryAddCard -= TryAddCard;
                 cardData.OnTryRemoveCard -= TryRemoveCard;
-                OnSuccessCardAdd -= cardData.AddCardToDeck;
-                OnSuccessCardRemove -= cardData.RemoveCardFromDeck;
+                OnSuccessCardAdd -= cardData.RemoveCardReference;
+                OnSuccessCardRemove -= cardData.AddCardReference;
             }
         }
 

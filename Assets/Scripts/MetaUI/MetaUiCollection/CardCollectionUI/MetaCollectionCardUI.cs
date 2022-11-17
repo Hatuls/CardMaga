@@ -38,8 +38,8 @@ namespace CardMaga.MetaUI
             
             _cardVisuals.Init(_cardData.CardReference.BattleCardData);
             
-            OnTryAddCardToDeck += _cardData.TryAddCardToDeck;
-            OnTryRemoveCardFromDeck += _cardData.TryRemoveCardFromDeck;
+            OnTryAddCardToDeck += _cardData.TryRemoveCardReference;
+            OnTryRemoveCardFromDeck += _cardData.TryAddCardReference;
             _cardData.OnSuccessfullAddCard += SuccessAddCardToDeck;
             _cardData.OnSuccessfullRemoveCard += SuccessRemoveCardFromDeck;
             

@@ -9,10 +9,7 @@ namespace CardMaga.MetaData.Collection
         private AccountDataAccess _accountDataAccess;
         
         private List<MetaCollectionCardData> _collectionCardDatas;
-        private List<MetaCollectionCardData> _deckCardDatas;
-
-        public List<MetaCollectionCardData> DeckCardDatas => _deckCardDatas;
-
+        
         public List<MetaCollectionCardData> CollectionCardDatas => _collectionCardDatas;
 
         public List<MetaCardData> DeckData => _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards;
@@ -23,10 +20,9 @@ namespace CardMaga.MetaData.Collection
         public AccountDataCollectionHelper(AccountDataAccess accountDataAccess)
         {
             _collectionCardDatas = new List<MetaCollectionCardData>();
-            _deckCardDatas = new List<MetaCollectionCardData>();
+            
             _accountDataAccess = accountDataAccess;
             InitializeData(_accountDataAccess.AccountData.AccountCards,_collectionCardDatas);
-            InitializeData(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards,_deckCardDatas);
             SetCollection();
         }
         
@@ -45,11 +41,17 @@ namespace CardMaga.MetaData.Collection
 
         private void SetCollection()
         {
-            foreach (var cardData in _collectionCardDatas)
+            List<MetaCardData> metaCardDatas =
+                _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards;
+
+            foreach (var collectionCardData in _collectionCardDatas)
             {
-                if (_deckCardDatas.Contains(cardData))
+                foreach (var cardData in metaCardDatas)
                 {
-                   // cardData.NumberOfInstant -= 1;
+                    if (collectionCardData.Equals(cardData))
+                    {
+                        collectionCardData.RemoveCardReference(cardData);
+                    }
                 }
             }
         }

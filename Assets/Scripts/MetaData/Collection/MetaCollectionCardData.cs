@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using CardMaga.MetaData.AccoutData;
 
 namespace CardMaga.MetaData.Collection
 {
-    public class MetaCollectionCardData : IEquatable<MetaCollectionCardData>
+    public class MetaCollectionCardData : IEquatable<MetaCollectionCardData>,IEquatable<MetaCardData>
     {
         private const string FAILED_MESSAGE = "FAILED add or remove card"; 
         public event Action<MetaCardData> OnTryAddCard; 
@@ -14,11 +13,10 @@ namespace CardMaga.MetaData.Collection
 
         public event Action<string> OnFailedAction; 
 
-        private int _cardId;
         private int _numberOfInstant;
         private MetaCardData _cardReference;
 
-        public int CardId => _cardId;
+        public int CardId => _cardReference.CardInstance.ID;
 
         public int NumberOfInstant => _numberOfInstant;
         
@@ -28,12 +26,11 @@ namespace CardMaga.MetaData.Collection
 
         public MetaCollectionCardData(int numberOfInstant,MetaCardData cardReference)
         {
-            _cardId = cardReference.CardInstance.ID;
             _numberOfInstant = numberOfInstant;
             _cardReference = cardReference;
         }
 
-        public void TryAddCardToDeck()
+        public void TryRemoveCardReference()
         {
             if (_numberOfInstant > 0)
             {
@@ -44,7 +41,7 @@ namespace CardMaga.MetaData.Collection
             OnFailedAction?.Invoke(FAILED_MESSAGE);
         }
 
-        public void AddCardToDeck(MetaCardData metaCardData)
+        public void RemoveCardReference(MetaCardData metaCardData)
         {
             if (_cardReference.Equals(metaCardData))
             {
@@ -53,12 +50,12 @@ namespace CardMaga.MetaData.Collection
             }
         }
 
-        public void TryRemoveCardFromDeck()
+        public void TryAddCardReference()
         {
             OnTryRemoveCard?.Invoke(_cardReference);
         }
 
-        public void RemoveCardFromDeck(MetaCardData metaCardData)
+        public void AddCardReference(MetaCardData metaCardData)
         {
             if (_cardReference.Equals(metaCardData))
             {
@@ -70,7 +67,13 @@ namespace CardMaga.MetaData.Collection
         public bool Equals(MetaCollectionCardData other)
         {
             if (ReferenceEquals(null, other)) return false;
-            return _cardId == other._cardId;
+            return CardId == other.CardId;
+        }
+
+        public bool Equals(MetaCardData other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            return CardId == other.CardInstance.ID;
         }
     }
 }

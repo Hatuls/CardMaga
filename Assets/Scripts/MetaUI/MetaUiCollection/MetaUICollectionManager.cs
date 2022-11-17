@@ -1,4 +1,5 @@
-﻿using CardMaga.InventorySystem;
+﻿using System.Collections.Generic;
+using CardMaga.InventorySystem;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using UnityEngine;
@@ -13,7 +14,10 @@ namespace CardMaga.MetaUI.CollectionUI
         [SerializeField] private MetaComboUI _comboPrefabRef;
         private BasePoolObjectVisualToData<MetaComboUI, MetaComboData> _comboPool;
         private BasePoolObjectVisualToData<MetaCardUI, MetaCardData> _cardPool;
-        
+
+        private List<MetaCardUI> _metaCardUis;
+        private List<MetaComboUI> _metaComboUis;
+
         [SerializeField] private MetaCardUICollectionHandler _metaCardUICollectionHandler;
         [SerializeField] private MetaComboUICollectionHandler _metaComboUICollectionHandler;
         [SerializeField] private MetaCardUIContainer _metaCardUIContainer;
@@ -23,22 +27,42 @@ namespace CardMaga.MetaUI.CollectionUI
         {
             _cardPool = new BasePoolObjectVisualToData<MetaCardUI, MetaCardData>(_cardPrefabRef, _cardHolder);
             _comboPool = new BasePoolObjectVisualToData<MetaComboUI, MetaComboData>(_comboPrefabRef, _comboHolder);
+
+            _metaComboUis = _comboPool.PullObjects(metaAccountData.CharacterDatas.CharacterData.Decks[0].Combos);
+            _metaCardUis = _cardPool.PullObjects(metaAccountData.CharacterDatas.CharacterData.Decks[0].Cards);
+            
             _metaCardUICollectionHandler.Init();
             _metaComboUICollectionHandler.Init();
             _metaCardUICollectionHandler.AddObjectToPanel(accountData.CollectionCardDatas);
             _metaComboUICollectionHandler.AddObjectToPanel(accountData.MetaComboDatas);
-            _metaComboUiContainer.InitializeSlots(_comboPool.PullObjects(metaAccountData.CharacterDatas.CharacterData.Decks[0].Combos).ToArray());
-            _metaCardUIContainer.InitializeSlots(_cardPool.PullObjects(metaAccountData.CharacterDatas.CharacterData.Decks[0].Cards).ToArray());
+            
+            
+            _metaComboUiContainer.InitializeSlots(_metaComboUis.ToArray());
+            _metaCardUIContainer.InitializeSlots(_metaCardUis.ToArray());
         }
 
         public void AddCardUI(MetaCardData metaCardData)
         {
-            
+            var cache = _cardPool.PullObjects(metaCardData);
+            _metaCardUIContainer.TryAddObject(cache);
         }
 
-        public void RemoveCardUI()
+        public void RemoveCardUI(MetaCardData metaCardData)
         {
-            
+            _metaCardUIContainer.RemoveObject(FindCardUI(metaCardData));
+        }
+
+        public MetaCardUI FindCardUI(MetaCardData metaCardData)
+        {
+            foreach (var metaCardUi in _metaCardUis)
+            {
+                if (metaCardData.CardInstance.ID == metaCardUi.CardInstance.ID)
+                {
+                    return metaCardUi;
+                }
+            }
+
+            return null;
         }
     }
 }
