@@ -9,11 +9,11 @@ namespace CardMaga.UI.Text
     {
         [SerializeField] BuffAmountTextAssigner _buffAmountTextAssigner;
         public override IEnumerable<BaseTextAssigner<BuffVisualData>> TextAssigners
-        { 
+        {
             get 
             {
                yield return _buffAmountTextAssigner;
-            } 
+            }
         }
     }
 }
