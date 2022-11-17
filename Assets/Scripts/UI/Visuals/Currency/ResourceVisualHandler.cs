@@ -1,5 +1,6 @@
 ﻿using CardMaga.Rewards.Bundles;
 using CardMaga.UI.Text;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace CardMaga.UI.Visuals
@@ -22,5 +23,19 @@ namespace CardMaga.UI.Visuals
         {
             base.Init(resourceData);
         }
+
+#if UNITY_EDITOR
+
+        [Header("Test")]
+        public ResourcesCost MyResourceCost;
+
+        [Button]
+        private void OnTest()
+        {
+            CheckValidation();
+            Init(MyResourceCost);
+        }
+
+#endif
     }
 }
