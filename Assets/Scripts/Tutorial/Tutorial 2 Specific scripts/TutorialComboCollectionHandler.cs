@@ -21,10 +21,12 @@ namespace CardMaga.UI.Collections
         [SerializeField] private UnityEvent AfterCollectionExitButtonPress;
 
         private IDisposable _token;
-        private RectTransform _enterButtonTransform;
+        public RectTransform _enterButtonTransform;
         private RectTransform _collectionPanelTransform;
-        private RectTransform _collectionExitButtonTransform;
+        public RectTransform _collectionExitButtonTransform;
 
+        public event Action OnCollectionEnterButton;
+        public event Action OnCollectionExitButton;
 
         public void LoadEnterButtonOnPanel(ITokenReciever tokenReciever)
         {
@@ -48,6 +50,9 @@ namespace CardMaga.UI.Collections
             ComboCollectorEnterButtonTutorialTapDetector.OnButtonPress -= StartAfterDelay;
             if (AfterCollectionEnterButtonPress != null)
                 AfterCollectionEnterButtonPress.Invoke();
+
+            if (OnCollectionEnterButton != null)
+                OnCollectionEnterButton.Invoke();
             TutorialClickHelper.Instance.ReturnObjects();
             _dialoguesFlow5.gameObject.SetActive(false);
             _collectionPanelTransform = TrackerHandler.GetTracker(collectionPanelTrackerID).RectTransform;
@@ -71,6 +76,9 @@ namespace CardMaga.UI.Collections
             ComboCollectorBackButtonTutorialTapDetector.OnButtonPress -= AfterExitButtonPress;
             if (AfterCollectionExitButtonPress != null)
                 AfterCollectionExitButtonPress.Invoke();
+
+            if (OnCollectionExitButton != null)
+                OnCollectionExitButton.Invoke();
             TutorialClickHelper.Instance.ReturnObjects();
             _dialoguesFlow7.gameObject.SetActive(false);
             ReleaseToken();

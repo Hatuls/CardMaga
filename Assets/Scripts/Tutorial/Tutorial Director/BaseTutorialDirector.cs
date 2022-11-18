@@ -34,7 +34,6 @@ namespace TutorialDirector
         public void StopDirector()
         {
             UnsubscribeEvent();
-            //ReturnCanvasObjects();
             _tutorialClickHelper.Close();
             ReleaseToken();
             gameObject.SetActive(false);
