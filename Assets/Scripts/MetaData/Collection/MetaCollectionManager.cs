@@ -23,6 +23,8 @@ namespace CardMaga.MetaData.Collection
 
             _deckBuilder.OnSuccessCardAdd += _metaUICollectionManager.AddCardUI;
             _deckBuilder.OnSuccessCardRemove += _metaUICollectionManager.RemoveCardUI;
+            _deckBuilder.OnSuccessComboAdd += _metaUICollectionManager.AddComboUI;
+            _deckBuilder.OnSuccessComboRemove += _metaUICollectionManager.RemoveComboUI;
         }
     }
 }

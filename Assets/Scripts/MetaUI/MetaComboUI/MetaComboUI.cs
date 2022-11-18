@@ -13,21 +13,40 @@ namespace CardMaga.MetaUI
         public event Action<MetaComboUI> OnDisposed;
         
         [SerializeField] private ComboVisualHandler _comboVisual;
+        [SerializeField] private RectTransform _emptyCombo;
+
+        private MetaComboData _metaComboData;
         
+        public MetaComboData MetaComboData => _metaComboData;
         public void Dispose()
         {
             Hide();
             OnDisposed?.Invoke(this);
         }
-        
+
+        public override void Show()
+        {
+            _comboVisual.gameObject.SetActive(true);
+            _emptyCombo.gameObject.SetActive(false);
+        }
+
+        public override void Hide()
+        {
+            _comboVisual.gameObject.SetActive(false);
+            _emptyCombo.gameObject.SetActive(true);
+        }
+
+
         public void AssignVisual(MetaComboData data)
         {
+            _metaComboData = data;
             _comboVisual.Init(data.BattleComboData);
         }
 
         public bool Equals(MetaComboUI other)
         {
-            throw new NotImplementedException();
+            if (ReferenceEquals(other, null)) return false;
+            return MetaComboData.ID == other.MetaComboData.ID;
         }
     }
 }

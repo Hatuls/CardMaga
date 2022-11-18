@@ -15,6 +15,7 @@ namespace CardMaga.MetaUI
         private CardInstance _cardInstance;
 
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
+        [SerializeField] private RectTransform _emptyCard;
 
         public CardInstance CardInstance => _cardInstance;
 
@@ -30,7 +31,19 @@ namespace CardMaga.MetaUI
             OnDisposed?.Invoke(this);
             Hide();
         }
-        
+
+        public override void Hide()
+        { 
+            _cardVisuals.gameObject.SetActive(false);
+            _emptyCard.gameObject.SetActive(true);
+        }
+
+        public override void Show()
+        {
+            _cardVisuals.gameObject.SetActive(true);
+            _emptyCard.gameObject.SetActive(false);
+        }
+
         public void AssignVisual(MetaCardData data)
         {
             _cardVisuals.Init(data.BattleCardData);

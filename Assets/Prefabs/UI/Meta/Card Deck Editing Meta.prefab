@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 884586931274455f9914df5b70ed9730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 0}
+  _holderGameObject: {fileID: 0}
   _cardVisuals: {fileID: 2853689571194235584}
+  _emptyCard: {fileID: 5133104534820570026}
 --- !u!1001 &1637059558273559442
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68,6 +71,11 @@ PrefabInstance:
     - target: {fileID: 2212738590697882419, guid: 7c21a652e1fb9b54bbda40e5ed371a22,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2346924043224773192, guid: 7c21a652e1fb9b54bbda40e5ed371a22,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2867948457294717878, guid: 7c21a652e1fb9b54bbda40e5ed371a22,
@@ -230,6 +238,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49858b630249d0a46a190292d61032dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &5133104534820570026 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5873946938317006904, guid: 7c21a652e1fb9b54bbda40e5ed371a22,
+    type: 3}
+  m_PrefabInstance: {fileID: 1637059558273559442}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1830750896208237238
 PrefabInstance:
   m_ObjectHideFlags: 0

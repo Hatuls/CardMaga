@@ -34,7 +34,7 @@ namespace CardMaga.MetaUI.CollectionUI
             _metaCardUICollectionHandler.Init();
             _metaComboUICollectionHandler.Init();
             _metaCardUICollectionHandler.AddObjectToPanel(accountData.CollectionCardDatas);
-            _metaComboUICollectionHandler.AddObjectToPanel(accountData.MetaComboDatas);
+            _metaComboUICollectionHandler.AddObjectToPanel(accountData.CollectionComboDatas);
             
             
             _metaComboUiContainer.InitializeSlots(_metaComboUis.ToArray());
@@ -43,13 +43,28 @@ namespace CardMaga.MetaUI.CollectionUI
 
         public void AddCardUI(MetaCardData metaCardData)
         {
-            var cache = _cardPool.PullObjects(metaCardData);
+            var cache = FindEmptyCard();
+            cache.AssignVisual(metaCardData);
             _metaCardUIContainer.TryAddObject(cache);
+            cache.Show();
         }
 
         public void RemoveCardUI(MetaCardData metaCardData)
         {
             _metaCardUIContainer.RemoveObject(FindCardUI(metaCardData));
+        }
+
+        public void AddComboUI(MetaComboData metaComboData)
+        {
+            var cache = FindEmptyCombo();
+            cache.AssignVisual(metaComboData);
+            _metaComboUiContainer.TryAddObject(cache);
+            cache.Show();
+        }
+
+        public void RemoveComboUI(MetaComboData metaComboData)
+        {
+            _metaComboUiContainer.RemoveObject(FindComboUI(metaComboData));
         }
 
         public MetaCardUI FindCardUI(MetaCardData metaCardData)
@@ -59,6 +74,45 @@ namespace CardMaga.MetaUI.CollectionUI
                 if (metaCardData.CardInstance.ID == metaCardUi.CardInstance.ID)
                 {
                     return metaCardUi;
+                }
+            }
+
+            return null;
+        }
+        
+        public MetaComboUI FindComboUI(MetaComboData metaComboData)
+        {
+            foreach (var metaComboUI in _metaComboUis)
+            {
+                if (metaComboData.ID == metaComboUI.MetaComboData.ID)
+                {
+                    return metaComboUI;
+                }
+            }
+
+            return null;
+        }
+
+        private MetaCardUI FindEmptyCard()
+        {
+            foreach (var metaCardUi in _metaCardUis)
+            {
+                if (!metaCardUi.IsHaveValue)
+                {
+                    return metaCardUi;
+                }
+            }
+
+            return null;
+        }
+        
+        private MetaComboUI FindEmptyCombo()
+        {
+            foreach (var metaComboUI in _metaComboUis)
+            {
+                if (!metaComboUI.IsHaveValue)
+                {
+                    return metaComboUI;
                 }
             }
 

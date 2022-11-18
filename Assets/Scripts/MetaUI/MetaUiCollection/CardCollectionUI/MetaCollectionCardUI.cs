@@ -1,6 +1,7 @@
 using System;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
+using CardMaga.MetaUI.CollectionUI;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
 using TMPro;
@@ -8,16 +9,14 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCollectionCardUI : BaseUIElement, IPoolableMB<MetaCollectionCardUI>,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
+    public class MetaCollectionCardUI : BaseCollectionItemUI<MetaCardData>, IPoolableMB<MetaCollectionCardUI>,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
     {
         public event Action<MetaCollectionCardUI> OnDisposed;
-        public event Action OnTryAddCardToDeck; 
-        public event Action OnTryRemoveCardFromDeck; 
-        
+
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private TMP_Text _cardNumberText;
         private MetaCollectionCardData _cardData;
-        public int CardID => _cardData.CardReference.CardInstance.ID;
+        public int CardID => _cardData.ItemReference.CardInstance.ID;
 
         public int NumberOfInstant => _cardData.NumberOfInstant;
         
@@ -29,6 +28,11 @@ namespace CardMaga.MetaUI
 
         public void Dispose()
         {
+            OnTryAddToDeck -= _cardData.TryRemoveItemReference;
+            OnTryRemoveFromDeck -= _cardData.TryAddItemReference;
+            _cardData.OnSuccessfullAddItem -= SuccessAddToDeck;
+            _cardData.OnSuccessfullRemoveItem -= SuccessRemoveFromDeck;
+            
             Hide();
             OnDisposed?.Invoke(this);
         }
@@ -36,39 +40,33 @@ namespace CardMaga.MetaUI
         {
             _cardData = data;
             
-            _cardVisuals.Init(_cardData.CardReference.BattleCardData);
+            _cardVisuals.Init(_cardData.ItemReference.BattleCardData);
             
-            OnTryAddCardToDeck += _cardData.TryRemoveCardReference;
-            OnTryRemoveCardFromDeck += _cardData.TryAddCardReference;
-            _cardData.OnSuccessfullAddCard += SuccessAddCardToDeck;
-            _cardData.OnSuccessfullRemoveCard += SuccessRemoveCardFromDeck;
+            OnTryAddToDeck += _cardData.TryRemoveItemReference;
+            OnTryRemoveFromDeck += _cardData.TryAddItemReference;
+            _cardData.OnSuccessfullAddItem += SuccessAddToDeck;
+            _cardData.OnSuccessfullRemoveItem += SuccessRemoveFromDeck;
             
             UpdateCardNumber();
         }
 
-        public void TryAddToDeck()
-        {
-            OnTryAddCardToDeck?.Invoke();
-        }
-
-        public void TryRemoveFromDeck()
-        {
-            OnTryRemoveCardFromDeck?.Invoke();
-        }
-
-        public void SuccessAddCardToDeck(MetaCardData metaCardData)
-        {
-            UpdateCardNumber();
-        }
-        
-        public void SuccessRemoveCardFromDeck(MetaCardData metaCardData)
+        public override void SuccessAddToDeck(MetaCardData metaCardData)
         {
             UpdateCardNumber();
         }
 
+        public override void SuccessRemoveFromDeck(MetaCardData metaCardData)
+        {
+            UpdateCardNumber();
+        } 
         private void UpdateCardNumber()
         {
             _cardNumberText.text = NumberOfInstant.ToString();
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
         }
     }
 }
