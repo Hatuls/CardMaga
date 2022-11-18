@@ -1,13 +1,12 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
+using System;
 using UnityEngine;
-using Battle.Data;
 
 namespace CardMaga.UI.Card
 {
     public class ZoomCardUI : BaseHandUIState
     {
-        [Header("Scripts Reference")] 
+        [Header("Scripts Reference")]
         [SerializeField] private HandUI _handUI;
         [SerializeField] private ClickHelper _clickHelper;
         [Header("TransitionPackSO")]
@@ -39,19 +38,17 @@ namespace CardMaga.UI.Card
         public override void EnterState(BattleCardUI battleCardUI)
         {
             base.EnterState(battleCardUI);
-            _clickHelper.LoadObject(true,false,() => ReturnToHandState(battleCardUI),battleCardUI.RectTransform);
+            _clickHelper.LoadObject(true, false, () => ReturnToHandState(battleCardUI), battleCardUI.RectTransform);
             MoveToZoomPosition(battleCardUI);
-            if (OnExitZoomTutorial != null)
-                OnExitZoomTutorial.Invoke();
         }
 
         public override void ExitState(BattleCardUI battleCardUI)
         {
-             _clickHelper.Close();
+            _clickHelper.Close();
             _zoomToken?.Dispose();
             base.ExitState(battleCardUI);
-            if(OnEnterZoomTutorial != null)
-                OnEnterZoomTutorial.Invoke();
+            if (OnExitZoomTutorial != null)
+                OnExitZoomTutorial.Invoke();
         }
 
         public void ReturnToHandState(BattleCardUI battleCardUI)
@@ -68,7 +65,7 @@ namespace CardMaga.UI.Card
         {
             if (_zoomToken != null)
                 _zoomToken.Dispose();
-            
+
             return base.ForceExitState();
         }
 
@@ -81,17 +78,18 @@ namespace CardMaga.UI.Card
                 OnZoomInLocation.Invoke();
             _zoomToken = SelectedBattleCardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
-        
+
         public void MoveToZoomPosition(BattleCardUI battleCardUI)
         {
-            if (SelectedBattleCardUI != null)
+            if (battleCardUI != null)
             {
-                SelectedBattleCardUI.KillTween(false);
-                SelectedBattleCardUI.CurrentSequence = battleCardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
+                battleCardUI.KillTween(false);
+                _selectedCardUI = battleCardUI;
+                battleCardUI.CurrentSequence = battleCardUI.RectTransform.Transition(_zoomPosition, _zoomCard, InitZoom);
+
+                if (OnEnterZoomTutorial != null)
+                    OnEnterZoomTutorial.Invoke();
             }
         }
-
-   
-
     }
 }

@@ -4,15 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ComboCollectorTutorialTapDetector : MonoBehaviour
+public class ComboCollectorEnterButtonTutorialTapDetector : MonoBehaviour
 {
-    [SerializeField] Button _comboCollectionButton;
+    [SerializeField] Button _comboCollectionEnterButton;
 
     public static event Action OnButtonPress;
 
     private void OnEnable()
     {
-        _comboCollectionButton.OnClick += CheckForPlayerPress;
+        _comboCollectionEnterButton.OnClick += CheckForPlayerPress;
     }
 
     private void CheckForPlayerPress()
@@ -23,6 +23,6 @@ public class ComboCollectorTutorialTapDetector : MonoBehaviour
 
     private void OnDestroy()
     {
-        _comboCollectionButton.OnClick -= OnButtonPress;
+        _comboCollectionEnterButton.OnClick -= OnButtonPress;
     }
 }
