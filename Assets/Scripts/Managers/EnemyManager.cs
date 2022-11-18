@@ -14,6 +14,7 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ThreadsHandler;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -49,6 +50,7 @@ namespace Battle
         private EndBattleHandler _endBattleHandler;
         [SerializeField, Sirenix.OdinInspector.MinMaxSlider(0, 10f, true)]
         private Vector2 _delayTime;
+        private ThreadList _threadList;
         #endregion
 
         #region Properties
@@ -118,6 +120,8 @@ namespace Battle
             _aiTokenMachine = new TokenMachine(CalculateEnemyMoves, FinishTurn);
 
             _endTurnHandler = new EndTurnHandler(this, battleManager);
+
+            _threadList = new ThreadList(ThreadHandler.GetNewID, _aiHand.CalculateMove, DoAction);
         }
 
         private void BeforeGameExit(IBattleManager obj)
@@ -141,7 +145,7 @@ namespace Battle
             _aiHand.AddCard(handCards);
             try
             {
-                ThreadsHandler.ThreadHandler.StartThread(new ThreadsHandler.ThreadList(ThreadsHandler.ThreadHandler.GetNewID, _aiHand.CalculateMove, DoAction));
+                ThreadsHandler.ThreadHandler.StartThread(_threadList);
             }
             catch (Exception e)
             {
