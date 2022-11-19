@@ -151,7 +151,7 @@
 //                if (randomID >= rarityCardCollection.CardsID.Length)
 //                    throw new System.Exception(
 //                        $"BattleRewardSO: CardID Was bigger than the reward collection for: {rarityCardCollection.CardsID.Length}\nCardID: {randomID}\n Rarity: {(RarityEnum)(index + 1)}");
-//                ushort CardId = rarityCardCollection.CardsID[randomID];
+//                ushort ComboID = rarityCardCollection.CardsID[randomID];
 //                // get cards level;
 //                var DropChance = actCardChance.DropChances[index];
 //                var levelChances = DropChance.LevelChances;
@@ -169,7 +169,7 @@
 //                        break;
 //                    }
 //                }
-//                var battleCard = cardFactoryHandler.GetCard(CardId);
+//                var battleCard = cardFactoryHandler.GetCard(ComboID);
 
 //                rewardCards[i] = cardFactoryHandler.CreateCard(battleCard, (battleCard.CardsMaxLevel < (byte)index) ? (byte)(battleCard.CardsMaxLevel - 1) : (byte)index);
 

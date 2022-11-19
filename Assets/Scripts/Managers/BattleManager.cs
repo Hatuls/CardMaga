@@ -100,7 +100,7 @@ namespace CardMaga.Battle
             _isInTutorial = !(BattleData.BattleConfigSO.BattleTutorial == null);
 
             _endBattleHandler.OnBattleEnded += EndBattle;
-            _endBattleHandler.OnBattleAnimatonEnd += MoveToNextScene;
+            _endBattleHandler.OnCharacterAnimatonEnd += MoveToNextScene;
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.BattleMusicParameter();
@@ -149,7 +149,7 @@ namespace CardMaga.Battle
             if (BattleData.BattleConfigSO?.BattleTutorial == null)
                 return;
 
-            _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial);
+            _battleTutorial = Instantiate(BattleData.BattleConfigSO.BattleTutorial, transform);
             _battleTutorial.StartTutorial();
         }
 

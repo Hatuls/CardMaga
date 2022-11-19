@@ -15,7 +15,7 @@ namespace CardMaga.Battle
     {
         public event Action<ITokenReciever> OnBattleFinished;
         public event Action<bool> OnBattleEnded;
-        public event Action OnBattleAnimatonEnd;
+        public event Action OnCharacterAnimatonEnd;
         public event Action OnLeftPlayerWon;
         public event Action OnRightPlayerWon;
         public event Action OnAnimationsEnded;
@@ -85,7 +85,7 @@ namespace CardMaga.Battle
         {
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 0);
             _endGameToken?.Dispose();
-            OnBattleAnimatonEnd?.Invoke();
+            OnCharacterAnimatonEnd?.Invoke();
         }
 
         private void LeftPlayerWon()

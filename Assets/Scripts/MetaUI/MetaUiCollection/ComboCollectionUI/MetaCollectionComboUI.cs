@@ -1,17 +1,23 @@
 using System;
 using CardMaga.MetaData.AccoutData;
+using CardMaga.MetaData.Collection;
+using CardMaga.MetaUI.CollectionUI;
 using CardMaga.Tools.Pools;
-using CardMaga.UI;
 using CardMaga.UI.Combos;
 using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCollectionComboUI : BaseUIElement, IPoolableMB<MetaCollectionComboUI>,IVisualAssign<MetaComboData>
+    public class MetaCollectionComboUI : BaseCollectionItemUI<MetaComboData>, IPoolableMB<MetaCollectionComboUI>,IVisualAssign<MetaCollectionComboData>
     {
         public event Action<MetaCollectionComboUI> OnDisposed;
+        public event Action OnTryAddCardToDeck; 
+        public event Action OnTryRemoveCardFromDeck;
+        
 
         [SerializeField] private ComboVisualHandler _comboVisual;
+
+        private MetaCollectionComboData _metaComboData;
 
         public override void Init()
         {
@@ -25,19 +31,27 @@ namespace CardMaga.MetaUI
             Hide();
         }
 
-        public void AssignVisual(MetaComboData data)
+        public void AssignVisual(MetaCollectionComboData data)
         {
-            _comboVisual.Init(data.BattleComboData);
+            _metaComboData = data;
+            
+            _metaComboData = data;
+            _comboVisual.Init(data.ItemReference.BattleComboData);
+            
+            OnTryAddToDeck += data.TryRemoveItemReference;
+            OnTryRemoveFromDeck += data.TryAddItemReference;
+            data.OnSuccessfullAddItem += SuccessAddToDeck;
+            data.OnSuccessfullRemoveItem += SuccessRemoveFromDeck;
         }
 
-        public void AddToDeck()
+        public override void SuccessAddToDeck(MetaComboData metaCardData)
         {
-            
+            Debug.Log("Add combo to Deck");
         }
 
-        public void RemoveFromDeck()
+        public override void SuccessRemoveFromDeck(MetaComboData metaCardData)
         {
-            
+            Debug.Log("Remove Combo From Deck");
         }
     }
 }
