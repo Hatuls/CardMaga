@@ -54,12 +54,17 @@ namespace CardMaga.MetaData.AccoutData
                 _comboDatas.Add(comboFactory.GetMetaComboData(tempComboCores[i]));
             }
         }
-        
-        public bool TryEditDeckName(string name)
-        {
-            _deckName = name;//add name vaild
 
-            return true;
+        public void UpdateDeck(MetaDeckData metaDeckData)
+        {
+            _cardDatas = metaDeckData._cardDatas;
+            _comboDatas = metaDeckData._comboDatas;
+            _deckName = metaDeckData._deckName;
+        }
+        
+        public void UpdateDeckName(string name)
+        {
+            _deckName = name;
         }
 
         public void AddCard(MetaCardData cardData)
