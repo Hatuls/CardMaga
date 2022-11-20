@@ -1192,6 +1192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce4d6ab60e21a9440898c03315c52562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 0}
+  _holderGameObject: {fileID: 0}
   _comboVisual: {fileID: 4849288171782437011}
 --- !u!114 &4849288171782437011
 MonoBehaviour:
@@ -1243,11 +1245,11 @@ MonoBehaviour:
         type: 2}
       _arrowImage: {fileID: 1509554669011591123}
       _titleImage: {fileID: 6635157218947267198}
-  testComboData:
+  testBattleComboData:
     _comboCore:
-      _id: 0
-      _level: 0
-    _comboSO: {fileID: 11400000, guid: e731eb9606088c94c9dbb13f7faf2558, type: 2}
+      Level: 0
+      ID: 0
+    _comboSO: {fileID: 0}
 --- !u!1001 &4882567214603467483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2088,7 +2090,7 @@ PrefabInstance:
     - target: {fileID: 4405328268795982148, guid: 8dc4e00dfaa6753418c1d5056be43434,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 519.7
+      value: 510
       objectReference: {fileID: 0}
     - target: {fileID: 4405328268795982148, guid: 8dc4e00dfaa6753418c1d5056be43434,
         type: 3}

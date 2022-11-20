@@ -13,6 +13,7 @@ using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -113,13 +114,13 @@ namespace CardMaga.Battle
         }
 
         // Need To be Re-Done
-        public void StartBattle()
+        public async void StartBattle()
         {
             StopAllCoroutines();
             TurnHandler.Start();
 
             BattleData.Instance.PlayerWon = false;
-
+            await Task.Yield();
             OnBattleStarts?.Invoke();
         }
 

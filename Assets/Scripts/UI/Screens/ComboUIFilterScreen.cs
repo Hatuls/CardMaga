@@ -1,7 +1,4 @@
-﻿using Battle;
-using Battle;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UI;
 using UnityEngine;
 namespace CardMaga.UI
@@ -23,7 +20,7 @@ namespace CardMaga.UI
 
         public void SortByTwoCombination()
           => SortByCombination(2);
-    
+
         public void SortByThreeCombination()
             => SortByCombination(3);
         // Need To be Re-Done
@@ -32,48 +29,48 @@ namespace CardMaga.UI
             return;
             CreateRecipes();
             int length = _comboRecipies.Count;
-          //  var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.CharacterData.ComboRecipe;
-     //       var sortedCombos = combos.Where((x) => x.ComboSO().ComboSequance.Length == amount);
+            //  var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.CharacterData.ComboRecipe;
+            //       var sortedCombos = combos.Where((x) => x.ComboSO().ComboSequance.Length == amount);
 
-      //      int sortedCombosLength = sortedCombos.Count();
-      //
-      //      for (int i = 0; i < length; i++)
-      //      {
-      //          if (i < sortedCombosLength)
-      //          {
-      //              if (_comboRecipies[i].gameObject.activeSelf == false)
-      //                  _comboRecipies[i].gameObject.SetActive(true);
-      //              _comboRecipies[i].InitRecipe(sortedCombos.ElementAt(i));
-      //          }
-      //          else
-      //          {
-      //              if (_comboRecipies[i].gameObject.activeSelf == true)
-      //                  _comboRecipies[i].gameObject.SetActive(false);
-      //          }
-      //      }
+            //      int sortedCombosLength = sortedCombos.Count();
+            //
+            //      for (int i = 0; i < length; i++)
+            //      {
+            //          if (i < sortedCombosLength)
+            //          {
+            //              if (_comboRecipies[i].gameObject.activeSelf == false)
+            //                  _comboRecipies[i].gameObject.SetActive(true);
+            //              _comboRecipies[i].InitRecipe(sortedCombos.ElementAt(i));
+            //          }
+            //          else
+            //          {
+            //              if (_comboRecipies[i].gameObject.activeSelf == true)
+            //                  _comboRecipies[i].gameObject.SetActive(false);
+            //          }
+            //      }
         }
         // Need To be Re-Done
         public void ShowAllCombos()
         {
             return;
-           // CreateRecipes();
-           // int length = _comboRecipies.Count;
-           // var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.CharacterData.ComboRecipe;
-           // for (int i = 0; i < length; i++)
-           // {
-           //     if (i < combos.Length)
-           //     {
-           //         if (_comboRecipies[i].gameObject.activeSelf == false)
-           //             _comboRecipies[i].gameObject.SetActive(true);
-           //
-           //         _comboRecipies[i].InitRecipe(combos[i]);
-           //     }
-           //     else
-           //     {
-           //         if (_comboRecipies[i].gameObject.activeSelf == true)
-           //             _comboRecipies[i].gameObject.SetActive(false);
-           //     }
-           // }
+            // CreateRecipes();
+            // int length = _comboRecipies.Count;
+            // var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.CharacterData.ComboRecipe;
+            // for (int i = 0; i < length; i++)
+            // {
+            //     if (i < combos.Length)
+            //     {
+            //         if (_comboRecipies[i].gameObject.activeSelf == false)
+            //             _comboRecipies[i].gameObject.SetActive(true);
+            //
+            //         _comboRecipies[i].InitRecipe(combos[i]);
+            //     }
+            //     else
+            //     {
+            //         if (_comboRecipies[i].gameObject.activeSelf == true)
+            //             _comboRecipies[i].gameObject.SetActive(false);
+            //     }
+            // }
         }
 
     }

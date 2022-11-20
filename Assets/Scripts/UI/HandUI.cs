@@ -138,8 +138,10 @@ namespace CardMaga.UI
         {
             for (var i = 0; i < cards.Length; i++)
             {
-                cards[i].RectTransform.SetPosition(_drawPos);
-                cards[i].VisualsRectTransform.SetScale(0.1f);
+                BattleCardUI battleCardUI = cards[i];
+                battleCardUI.DOKill(false);
+                battleCardUI.RectTransform.SetPosition(_drawPos);
+                battleCardUI.VisualsRectTransform.SetScale(0.1f);
             }
         }
 
@@ -158,7 +160,8 @@ namespace CardMaga.UI
             {
                 TokenMachine tokenMachine = new TokenMachine(card.Dispose);
                 IDisposable token = tokenMachine.GetToken();
-                var sequence = card.VisualsRectTransform.Transition(_discardScaleTransitionPackSo)
+                DOTween.Kill(card, false);
+                card.VisualsRectTransform.Transition(_discardScaleTransitionPackSo)
                 .Join(card.RectTransform.Transition(_discardPos, _discardMoveTransitionPackSo))
                 .OnComplete(token.Dispose);
             }
@@ -279,16 +282,17 @@ namespace CardMaga.UI
             BattleCardUI tempZoom = _zoomUIState.ForceExitState();
             BattleCardUI tempFollow = _followUIState.ForceExitState();
 
+                int lengthsMinusOne = combineCardUis.Length - 1;
             if (tempZoom != null)
             {
-                if (combineCardUis[combineCardUis.Length - 1] == null)
-                    combineCardUis[combineCardUis.Length - 1] = tempZoom;
+                if (combineCardUis[lengthsMinusOne] == null)
+                    combineCardUis[lengthsMinusOne] = tempZoom;
                 tempZoom.Inputs.ForceResetInputBehaviour();
             }
             if (tempFollow != null)
             {
-                if (combineCardUis[combineCardUis.Length - 1] == null)
-                    combineCardUis[combineCardUis.Length - 1] = tempFollow;
+                if (combineCardUis[lengthsMinusOne] == null)
+                    combineCardUis[lengthsMinusOne] = tempFollow;
                 tempFollow.Inputs.ForceResetInputBehaviour();
             }
 
@@ -301,6 +305,8 @@ namespace CardMaga.UI
                 return;
 
             //SetState(InputBehaviourState.Hand,cardUI);
+            _currentSequence.Kill(battleCardUI);
+            battleCardUI.DOKill(false);
             battleCardUI.Inputs.ForceResetInputBehaviour();
             MoveCardToDiscardAfterExecute(battleCardUI);
             battleCardUI.CardVisuals.SetExecutedCardVisuals();

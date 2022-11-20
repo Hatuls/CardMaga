@@ -4,7 +4,7 @@ using CardMaga.UI;
 
 namespace CardMaga.InventorySystem
 {
-    public class BaseSlot<T> : BaseUIElement, IInventoryObject<T>,IPoolableMB<BaseSlot<T>> where T : BaseUIElement
+    public class BaseSlot<T> : BaseUIElement, IInventoryObject<T>,IPoolableMB<BaseSlot<T>> where T : BaseUIElement , IEquatable<T>
     {
         public event Action<BaseSlot<T>> OnDisposed;
         public event Action<IInventoryObject<T>> OnAddInventoryObject; 
@@ -29,7 +29,7 @@ namespace CardMaga.InventorySystem
         {
             if (!IsHaveValue)
                 return;
-
+            _inventoryObject.Hide();
             _inventoryObject = null;
             OnRemoveInventoryObject?.Invoke(this);
         }
@@ -41,7 +41,7 @@ namespace CardMaga.InventorySystem
             return InventoryObject.Equals(other);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             OnDisposed?.Invoke(this);
         }

@@ -13,7 +13,7 @@ namespace CardMaga.MetaData.AccoutData
 
         public MetaAccountData AccountData => _metaAccountData;
 
-        private void Start()
+        private void Awake()
         {
             _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);//plaster!!!!! need to not by mono and get the data from AccountDataAccess
         }

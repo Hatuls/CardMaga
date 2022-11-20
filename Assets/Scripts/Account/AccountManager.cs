@@ -7,6 +7,7 @@ using PlayFab.Json;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -44,9 +45,9 @@ namespace Account
 
         #endregion
 
-        [NonSerialized, Sirenix.OdinInspector.ShowInInspector]
+        [Sirenix.OdinInspector.ShowInInspector]
         private AccountData _accountData;
-        [Sirenix.OdinInspector.ShowInInspector,NonSerialized,Sirenix.OdinInspector.ReadOnly]
+        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         private LoginResult loginResult;
         public LoginResult LoginResult { get => loginResult; private set => loginResult = value; }
 
@@ -141,19 +142,96 @@ namespace Account
 
             if (LoginResult.NewlyCreated)
             {
-                _accountData = new AccountData();
+                _accountData = new AccountData(true);
                 UpdatePlayName("New User");
+                TokenMachine receiveFirstData = new TokenMachine(UpdateAccount);
+                ReceiveStartingData(receiveFirstData);
             }
             else
+            {
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
+                UpdateAccount();
+            }
+            void UpdateAccount()
+            {
+                _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
 
-            _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
-
-            UpdateRank(null);
-            SendAccountData();
+                UpdateRank(null);
+                SendAccountData();
+            }
         }
 
+        private void ReceiveStartingData(ITokenReciever tokenMachine)
+        {
+            IDisposable rewardToken = tokenMachine.GetToken();
+            ITokenReciever tokenReciever = new TokenMachine(FirstGift);
+            ReceiveAllCombos();
+            IDisposable t = tokenReciever.GetToken();
+            for (int i = 0; i < _startingGift.Length; i++)
+            {
+                try
+                {
+                    var reward = _startingGift[i].GenerateReward();
+                    reward.AddToDevicesData();
+                }
+                catch (Exception)
+                {
+                    Debug.LogError("Starting Reward Index " + i);
+                    throw;
+                }
 
+            }
+            t.Dispose();
+            void FirstGift()
+            {
+                var character = _accountData.CharactersData.GetMainCharacter();
+                var chiara = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
+
+                IReadOnlyList<CoreID> cardsIDs = _accountData.AllCards.CardsIDs;
+                CardInstance[] cards = new CardInstance[cardsIDs.Count];
+                var cardFactory = Factory.GameFactory.Instance.CardFactoryHandler;
+
+                for (int i = 0; i < cards.Length; i++)
+                    cards[i] = cardFactory.CreateCardInstance(cardsIDs[i]);
+
+                List<ComboCore> combosIDs = _accountData.AllCombos.CombosIDs;
+
+                const int BarrierCombo = 2;
+                const int JabCrossCombo = 3;
+                const int PushKickCombo = 4;
+
+                ComboCore[] _startingCombos = new ComboCore[]
+                {
+                    combosIDs.First(x => x.ID == BarrierCombo),
+                    combosIDs.First(x => x.ID == JabCrossCombo),
+                    combosIDs.First(x => x.ID == PushKickCombo),
+                };
+
+                character.AddNewDeck(cards, _startingCombos);
+
+                
+                Array.ForEach(_additionToStartGift, x => x.GenerateReward().AddToDevicesData());
+                rewardToken.Dispose();
+            }
+            void ReceiveAllCombos()
+            {
+                var comboFactory = Factory.GameFactory.Instance.ComboFactoryHandler;
+                var allCombos = comboFactory.ComboCollection;
+                foreach (var combo in allCombos.AllCombos)
+                    _accountData.AllCombos.AddCombo(new ComboCore(combo, 0));
+
+
+            }
+
+        }
+
+        [SerializeField]
+        GiftRewardFactorySO[] _startingGift;
+        [SerializeField]
+        GiftRewardFactorySO[] _additionToStartGift;
+
+#if UNITY_EDITOR
+        [Header("Editor:")]
         [SerializeField]
         CardsPackRewardFactorySO _factory;
 
@@ -165,9 +243,11 @@ namespace Account
 
 
         }
+
+#endif
     }
 
-    [System.Serializable]
+    [Serializable]
     public class AccountData
     {
         [SerializeField] private string _displayName = "New User";
@@ -201,6 +281,12 @@ namespace Account
 
         public AccountData()
         {
+
+        }
+        public AccountData(bool createNewAccount)
+        {
+            if (!createNewAccount)
+                return;
             CreateNewArenaData();
             CreateNewResourcesData();
             CreateNewLevelData();
@@ -231,7 +317,7 @@ namespace Account
         private void AssignValues(Dictionary<string, string> data)
         {
             string result;
-         //   var jsonHandler = PlayFab.PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer);
+            //   var jsonHandler = PlayFab.PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer);
             // Account General Data
             if (data.TryGetValue(AccountGeneralData.PlayFabKeyName, out result))
             {
@@ -244,7 +330,7 @@ namespace Account
 
             if (data.TryGetValue(ArenaData.PlayFabKeyName, out result))
             {
-                
+
                 _arenaData = JsonConvert.DeserializeObject<ArenaData>(result);
                 if (_arenaData == null || !_arenaData.IsValid())
                 {
@@ -260,15 +346,15 @@ namespace Account
             if (data.TryGetValue(CharactersData.PlayFabKeyName, out result))
             {
 
-                _charactersData= JsonConvert.DeserializeObject(result) as CharactersData;
+                _charactersData = JsonConvert.DeserializeObject(result) as CharactersData;
 
-                 //
+                //
                 if (CharactersData == null || !CharactersData.IsValid())
                 {
-                _charactersData= PlayFabSimpleJson.DeserializeObject<CharactersData>(result);
+                    _charactersData = PlayFabSimpleJson.DeserializeObject<CharactersData>(result);
 
                     if (CharactersData == null || !CharactersData.IsValid())
-                    CreateNewCharacterData();
+                        CreateNewCharacterData();
                 }
             }
             else
@@ -281,9 +367,9 @@ namespace Account
                 if (_accountLevel == null || !_accountLevel.IsValid())
                 {
 
-                _accountLevel = PlayFabSimpleJson.DeserializeObject<LevelData>(result);
+                    _accountLevel = PlayFabSimpleJson.DeserializeObject<LevelData>(result);
                     if (_accountLevel == null || !_accountLevel.IsValid())
-                    CreateNewLevelData();
+                        CreateNewLevelData();
                 }
             }
             else
@@ -297,7 +383,7 @@ namespace Account
                 {
                     _accountResources = PlayFabSimpleJson.DeserializeObject<AccountResources>(result);
                     if (_accountResources == null || !_accountResources.IsValid())
-                    CreateNewResourcesData();
+                        CreateNewResourcesData();
                 }
             }
             else
@@ -310,9 +396,9 @@ namespace Account
                 if (_accountCombos == null || !_accountCombos.IsValid())
                 {
 
-                _accountCombos = PlayFabSimpleJson.DeserializeObject<AccountCombos>(result);
-                if (_accountCombos == null || !_accountCombos.IsValid())
-                    CreateNewResourcesData();
+                    _accountCombos = PlayFabSimpleJson.DeserializeObject<AccountCombos>(result);
+                    if (_accountCombos == null || !_accountCombos.IsValid())
+                        CreateNewResourcesData();
                 }
             }
             else
@@ -325,8 +411,8 @@ namespace Account
                 if (_accountCards == null || !_accountCards.IsValid())
                 {
                     _accountCards = PlayFabSimpleJson.DeserializeObject<AccountCards>(result);
-                if (_accountCards == null || !_accountCards.IsValid())
-                    CreateNewResourcesData();
+                    if (_accountCards == null || !_accountCards.IsValid())
+                        CreateNewResourcesData();
                 }
             }
             else
@@ -340,7 +426,7 @@ namespace Account
 
         public UpdateUserDataRequest GetUpdateRequest()
         {
-       
+
             string cards = JsonConvert.SerializeObject(_accountCards);
             return new UpdateUserDataRequest()
             {
@@ -363,18 +449,10 @@ namespace Account
         private void CreateNewCardsData()
         {
             _accountCards = new AccountCards();
-            foreach (var character in CharactersData.Characters)
-                foreach (var deck in character.Deck)
-                    foreach (var card in deck.Cards)
-                        _accountCards.AddCard(new CoreID(card.ID));
         }
         private void CreateNewCombosData()
         {
             _accountCombos = new AccountCombos();
-            foreach (var character in CharactersData.Characters)
-                foreach (var deck in character.Deck)
-                    foreach (var combo in deck.Combos)
-                        _accountCombos.AddCombo(combo);
         }
         private void CreateNewArenaData()
         {
@@ -391,10 +469,11 @@ namespace Account
         private void CreateNewCharacterData()
         {
             _charactersData = new CharactersData();
-            Battle.CharacterSO characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
-            var firstCharacter = new Character(characterSO);
-            firstCharacter.AddNewDeck(characterSO.Deck, characterSO.Combos);
-            CharactersData.AddCharacter(firstCharacter);
+            //Battle.CharacterSO characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
+            //var firstCharacter = new Character(characterSO);
+
+            //firstCharacter.AddNewDeck(characterSO.Deck, characterSO.Combos);
+            //CharactersData.AddCharacter(firstCharacter);
         }
         private void CreateNewGeneralData()
         {
@@ -412,7 +491,7 @@ public class AccountCards
     public const string PlayFabKeyName = "Cards";
     public List<CoreID> CardsIDs = new List<CoreID>();
 
- 
+
 
     public void AddCard(CoreID cardID) => CardsIDs.Add(cardID);
     public void RemoveCard(CoreID cardID) => CardsIDs.Remove(cardID);
@@ -424,7 +503,7 @@ public class AccountCards
 public class AccountCombos
 {
     public const string PlayFabKeyName = "Combos";
-    
+
     public List<ComboCore> CombosIDs = new List<ComboCore>();
     public void AddCombo(ComboCore cardID) => CombosIDs.Add(cardID);
     public void RemoveCombo(ComboCore cardID) => CombosIDs.Remove(cardID);

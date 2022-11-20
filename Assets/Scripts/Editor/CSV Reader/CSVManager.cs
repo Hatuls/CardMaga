@@ -156,7 +156,7 @@ namespace CardMaga.CSV
     public abstract class CSVAbst
     {
         public virtual async Task StartCSV(string data)
-        { }
+        { await Task.Yield(); }
     }
 
 

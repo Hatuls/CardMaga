@@ -60,8 +60,9 @@ public class InputReciever : MonoSingleton<InputReciever>
 
     #region Monobehaiviour CallBacks
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         _camera = Camera.main;
     }
 

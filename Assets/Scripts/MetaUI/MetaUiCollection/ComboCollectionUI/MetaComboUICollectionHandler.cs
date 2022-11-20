@@ -1,9 +1,10 @@
 ﻿using CardMaga.MetaData.AccoutData;
+using CardMaga.MetaData.Collection;
 using CardMaga.UI.ScrollPanel;
 
 namespace CardMaga.MetaUI.CollectionUI 
 {
-    public class MetaComboUICollectionHandler : BaseScrollPanelManager<MetaCollectionComboUI,MetaComboData>
+    public class MetaComboUICollectionHandler : BaseScrollPanelManager<MetaCollectionComboUI,MetaCollectionComboData>
     {
     }
 }
