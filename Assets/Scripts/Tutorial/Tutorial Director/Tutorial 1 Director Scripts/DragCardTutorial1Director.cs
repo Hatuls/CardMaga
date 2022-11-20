@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TutorialDirector
 {
-    public class DragCardTutorial1 : BaseTutorialDirector
+    public class DragCardTutorial1Director : BaseTutorialDirector
 {
         [SerializeField] FirstCardDisplayer _firstCard;
 

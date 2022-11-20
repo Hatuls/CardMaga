@@ -3,7 +3,7 @@ using System.Collections;
 using TutorialDirector;
 using UnityEngine;
 
-public class TapCardTutorial1 : BaseTutorialDirector
+public class ZoomingInTapCardTutorial1Director : BaseTutorialDirector
 {
     [SerializeField] FirstCardDisplayer _firstCard;
 

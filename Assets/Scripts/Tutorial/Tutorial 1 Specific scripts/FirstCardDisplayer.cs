@@ -15,7 +15,8 @@ public class FirstCardDisplayer : MonoBehaviour
     private BattleUiManager _battleUIManager;
     private IReadOnlyList<BattleCardUI> _cards;
 
-    public event Action OnSecondsTimeLoad;
+    public event Action OnZoomingOutCard;
+    public event Action OnLoadCardOnPanelSecondsTime;
     public IReadOnlyList<BattleCardUI> FirstCard { get => _cards;}
 
     public void GetCard()
@@ -66,10 +67,13 @@ public class FirstCardDisplayer : MonoBehaviour
     public void ReturnCard()
     {
         ReturnCardToHand(_cards[0]);
+        if (OnZoomingOutCard != null)
+            OnZoomingOutCard.Invoke();
     }
 
     private void ReturnCardToHand(BattleCardUI cardUI)
     {
+        
         _cards[0].Inputs.ForceResetInputBehaviour();
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
         _battleUIManager.CardUIManager.HandUI.SetToHandState(cardUI);
