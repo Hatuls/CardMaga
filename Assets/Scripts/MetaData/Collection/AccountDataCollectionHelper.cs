@@ -9,24 +9,20 @@ namespace CardMaga.MetaData.Collection
         private AccountDataAccess _accountDataAccess;
         
         private List<MetaCollectionCardData> _collectionCardDatas;
-        private List<MetaCollectionCardData> _deckCardDatas;
-
-        public List<MetaCollectionCardData> DeckCardDatas => _deckCardDatas;
-
+        private List<MetaCollectionComboData> _collectionComboDatas;
+        
         public List<MetaCollectionCardData> CollectionCardDatas => _collectionCardDatas;
 
-        public List<MetaCardData> DeckData => _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards;
-
-        public List<MetaComboData> MetaComboDatas =>
-            _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Combos;
-
+        public List<MetaCollectionComboData> CollectionComboDatas => _collectionComboDatas;
+        
         public AccountDataCollectionHelper(AccountDataAccess accountDataAccess)
         {
             _collectionCardDatas = new List<MetaCollectionCardData>();
-            _deckCardDatas = new List<MetaCollectionCardData>();
+            _collectionComboDatas = new List<MetaCollectionComboData>();
+            
             _accountDataAccess = accountDataAccess;
             InitializeData(_accountDataAccess.AccountData.AccountCards,_collectionCardDatas);
-            InitializeData(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards,_deckCardDatas);
+            InitializeData(_accountDataAccess.AccountData.AccountCombos,_collectionComboDatas);
             SetCollection();
         }
         
@@ -42,14 +38,28 @@ namespace CardMaga.MetaData.Collection
                 metaCollectionCardDatas.Add(new MetaCollectionCardData(x.count,x.metaCard));
             }
         }
+        
+        private void InitializeData(List<MetaComboData> comboDatas,List<MetaCollectionComboData> metaCollectionComboDatas)
+        {
+            for (int i = 0; i < comboDatas.Count; i++)
+            {
+                metaCollectionComboDatas.Add(new MetaCollectionComboData(1, comboDatas[i]));
+            }
+        }
 
         private void SetCollection()
         {
-            foreach (var cardData in _collectionCardDatas)
+            List<MetaCardData> metaCardDatas =
+                _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards;
+
+            foreach (var collectionCardData in _collectionCardDatas)
             {
-                if (_deckCardDatas.Contains(cardData))
+                foreach (var cardData in metaCardDatas)
                 {
-                   // cardData.NumberOfInstant -= 1;
+                    if (collectionCardData.Equals(cardData))
+                    {
+                        collectionCardData.RemoveItemReference(cardData);
+                    }
                 }
             }
         }

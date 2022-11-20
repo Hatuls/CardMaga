@@ -94,7 +94,7 @@ namespace CardMaga.UI
 
         public bool IsActive()
         => HolderGameObject.activeSelf || HolderGameObject.activeInHierarchy;
-        public void Hide()
+        public virtual void Hide()
         {
             OnHide?.Invoke();
             HolderGameObject.SetActive(false);
@@ -105,7 +105,7 @@ namespace CardMaga.UI
           => OnInitializable?.Invoke();
 
 
-        public void Show()
+        public virtual void Show()
         {
             OnShow?.Invoke();
             HolderGameObject.SetActive(true);

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CardMaga.InventorySystem
 {
-    public abstract class BaseSlotContainer<T> : BaseUIElement where T : BaseUIElement
+    public abstract class BaseSlotContainer<T> : BaseUIElement where T : BaseUIElement , IEquatable<T>
     {
         private MBPool<BaseSlot<T>> _slotsPool;
         [SerializeField,ReadOnly] protected BaseSlot<T>[] _slots;
@@ -20,23 +20,23 @@ namespace CardMaga.InventorySystem
         [SerializeField,Tooltip("The maximum value of slots")] private int _numberOfMaxlots;
 
         public abstract BaseSlot<T> SlotType { get; }
+
+        public BaseSlot<T>[] Sots => _slots;
         
         public int CollectionLength => _slots.Length;
         
         public void Awake()
         {
             _slots = new BaseSlot<T>[_numberOfInitializeSlots];
-            _slotsPool = new MBPool<BaseSlot<T>>(SlotType,_continerParent,_numberOfInitializeSlots);
+            _slotsPool = new MBPool<BaseSlot<T>>(SlotType,_continerParent);
         }
 
         public void InitializeSlots(T[] objects)
         {
             for (int i = 0; i < objects.Length; i++)
             {
-                if(TryAddObject(objects[i]))
-                {
-                    Debug.LogWarning("Failed to add object");
-                }
+                _slots[i] = objects[i] as BaseSlot<T>;
+                _slots[i].AssignValue(objects[i]);
             }
         }
 
