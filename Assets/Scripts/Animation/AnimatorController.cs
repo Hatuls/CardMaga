@@ -93,7 +93,7 @@ namespace CardMaga.Battle.Visual
         public void Init(IVisualPlayer visualPlayer, EndBattleHandler endBattleHandler)
         {
             _shieldStat = visualPlayer.VisualStats.GetStat(KeywordType.Shield);
-               _animator = visualPlayer.Animator;
+            _animator = visualPlayer.Animator;
             ResetAnimator();
             _isLeft = visualPlayer.PlayerData.IsLeft;
             _endBattleHandler = endBattleHandler;
@@ -255,10 +255,12 @@ namespace CardMaga.Battle.Visual
         {
             _opponentController.SetCurrentAnimationBundle = _currentAnimation;
 
-            if (CanDefendIncomingAttack())
-                _opponentController?.PlayAnimation(_currentAnimation?.ShieldAnimation.ToString(), true);
-            else
-                _opponentController?.PlayAnimation(_currentAnimation?.GetHitAnimation.ToString(), true);
+            bool canDefend = _opponentController.CanDefendIncomingAttack();
+
+            string animationName = (canDefend) ?
+                _currentAnimation?.ShieldAnimation.ToString() : _currentAnimation?.GetHitAnimation.ToString();
+
+                _opponentController.PlayAnimation(animationName, true);
         }
         public bool CanDefendIncomingAttack()
         => _shieldStat.Amount > 0;

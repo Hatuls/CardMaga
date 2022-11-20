@@ -10,7 +10,7 @@ namespace Characters.Stats
         public event Action OnStaminaDepleted;
         public event Action<int> OnStaminaValueChanged;
         public event Action<int> OnStaminaShardValueChanged;
-
+        public event Action<int> OnStartStaminaValueChanged;
 
         private bool _isFlag;
         private int _stamina;
@@ -19,7 +19,15 @@ namespace Characters.Stats
         private int _staminaAddition;
 
         public bool HasStamina => Stamina > 0;
-        public int StartStamina { get => _startStamina; private set => _startStamina = value; }
+        public int StartStamina
+        {
+            get => _startStamina;
+            private set
+            {
+                _startStamina = value;
+                OnStartStaminaValueChanged?.Invoke(_startStamina);
+            }
+        }
         public int StaminaAddition { get => _staminaAddition; private set => _staminaAddition = value; }
         public int Stamina
         {
@@ -69,10 +77,10 @@ namespace Characters.Stats
         public void ResetStaminaAddition() => StaminaAddition = 0;
         public bool CanPlayCard(BattleCardData battleCard) => battleCard.StaminaCost <= Stamina;
         public void ReduceStamina(BattleCardData battleCard) => Stamina -= battleCard.StaminaCost;
-   
+
         public void CheckStaminaEmpty()
         {
-            if (Stamina <= 0&& _isFlag)
+            if (Stamina <= 0 && _isFlag)
             {
                 OnStaminaDepleted?.Invoke();
                 _isFlag = false;
@@ -81,7 +89,7 @@ namespace Characters.Stats
 
         public void AddStamina(int amount)
         {
-           
+
             Stamina += amount;
             //if (isPlayer)
             //        _staminaTextManager?.UpdateCurrentStamina(character.Stamina);

@@ -29,11 +29,7 @@ namespace CardMaga.Rewards
 
         public void TryRecieveReward(ITokenReciever tokenMachine)
         {
-            var allcards = AccountManager.Instance.Data.AllCards;
-            for (int i = 0; i < _cardsID.Length; i++)
-            {
-                allcards.AddCard(new CoreID(_cardsID[i]));
-            }
+            AddToDevicesData();
 
             Account.AccountManager.Instance.SendAccountData(tokenMachine);
             //AddToDevicesData();
@@ -81,7 +77,11 @@ namespace CardMaga.Rewards
         }
         public void AddToDevicesData()
         {
-
+            var allcards = AccountManager.Instance.Data.AllCards;
+            for (int i = 0; i < _cardsID.Length; i++)
+            {
+                allcards.AddCard(new CoreID(_cardsID[i]));
+            }
             //for (int i = 0; i < _cardsID.Length; i++)
             //    Account.AccountManager.Instance.Data.AllCards.AddCard(new CoreID(_cardsID[i]));
 

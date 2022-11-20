@@ -41,7 +41,7 @@ namespace CardMaga.InventorySystem
             return InventoryObject.Equals(other);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             OnDisposed?.Invoke(this);
         }

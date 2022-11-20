@@ -36,14 +36,14 @@ public class ClickHelper : MonoBehaviour
     {
         _loadedObjects = new List<RectTransform>();
         _loadedObjectParents = new List<RectTransform>();
-        _clicker.OnClick += Click;
+        _clicker.OnClickValue += Click;
         _instance = this;
         _clickBlocker.InitClickHelper(this);
     }
 
     private void OnDestroy()
     {
-        _clicker.OnClick -= Click;
+        _clicker.OnClickValue -= Click;
     }
 
     #endregion
