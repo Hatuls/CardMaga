@@ -22,4 +22,9 @@ public class InputFieldHandler : MonoBehaviour
     {
         OnValueChange?.Invoke(text);
     }
+
+    public void SetText(string text)
+    {
+        _inputField.text = text;
+    }
 }

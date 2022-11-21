@@ -24,6 +24,7 @@ namespace CardMaga.MetaData.Collection
             _metaUICollectionManager.Init(_accountDataCollectionHelper,_accountDataAccess.AccountData);
             _deckBuilder = new DeckBuilder(_accountDataCollectionHelper);
             _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0]);
+            _deckName.SetText(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].DeckName);//all plaster
 
             _deckName.OnValueChange += EditDeckName;
             _deckBuilder.OnSuccessCardAdd += _metaUICollectionManager.AddCardUI;
