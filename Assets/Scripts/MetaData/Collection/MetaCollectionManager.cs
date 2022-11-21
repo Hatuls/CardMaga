@@ -1,10 +1,9 @@
-﻿using System;
-using CardMaga.MetaData.AccoutData;
+﻿using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.DeckBuilding;
 using CardMaga.MetaUI.CollectionUI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace CardMaga.MetaData.Collection
 {
@@ -13,7 +12,7 @@ namespace CardMaga.MetaData.Collection
         [SerializeField] private UnityEvent OnSuccessUpdateDeck;
         [SerializeField] private UnityEvent OnFailedUpdateDeck;
 
-        [SerializeField] private InputField _deckName;
+        [SerializeField] private TMP_InputField _deckName;
         [SerializeField] private AccountDataAccess _accountDataAccess;
         [SerializeField] private MetaUICollectionManager _metaUICollectionManager;
         private AccountDataCollectionHelper _accountDataCollectionHelper;
