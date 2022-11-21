@@ -29,8 +29,8 @@ namespace Account
     public class AccountManager : MonoBehaviour
     {
         public static event Action<AccountData> OnDataUpdated;
+        public static event Action OnAccountDataAssigned;
         #region Singleton
-
         private static AccountManager _instance;
         public static AccountManager Instance
         {
@@ -152,12 +152,16 @@ namespace Account
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
                 UpdateAccount();
             }
+
+     
             void UpdateAccount()
             {
                 _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
 
                 UpdateRank(null);
                 SendAccountData();
+
+                OnAccountDataAssigned?.Invoke();
             }
         }
 
@@ -253,7 +257,7 @@ namespace Account
         [SerializeField] private ArenaData _arenaData;
         [SerializeField] private AccountCards _accountCards;
         [SerializeField] private AccountCombos _accountCombos;
-        private AccountTutorialData _accountTutorialData;
+        [SerializeField] private AccountTutorialData _accountTutorialData;
 
         public AccountTutorialData AccountTutorialData
         {
@@ -295,6 +299,7 @@ namespace Account
         private void CreateNewTutorialData()
         {
             _accountTutorialData = new AccountTutorialData();
+            _accountTutorialData.Reset();
         }
 
         public AccountData(Dictionary<string, string> data)
