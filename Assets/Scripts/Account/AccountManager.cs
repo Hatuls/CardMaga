@@ -29,8 +29,8 @@ namespace Account
     public class AccountManager : MonoBehaviour
     {
         public static event Action<AccountData> OnDataUpdated;
+        public static event Action OnAccountDataAssigned;
         #region Singleton
-
         private static AccountManager _instance;
         public static AccountManager Instance
         {
@@ -152,12 +152,16 @@ namespace Account
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
                 UpdateAccount();
             }
+
+     
             void UpdateAccount()
             {
                 _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
 
                 UpdateRank(null);
                 SendAccountData();
+
+                OnAccountDataAssigned?.Invoke();
             }
         }
 
@@ -169,16 +173,9 @@ namespace Account
             IDisposable t = tokenReciever.GetToken();
             for (int i = 0; i < _startingGift.Length; i++)
             {
-                try
-                {
-                    var reward = _startingGift[i].GenerateReward();
-                    reward.AddToDevicesData();
-                }
-                catch (Exception)
-                {
-                    Debug.LogError("Starting Reward Index " + i);
-                    throw;
-                }
+                var reward = _startingGift[i].GenerateReward();
+                reward.AddToDevicesData();
+
 
             }
             t.Dispose();
@@ -209,7 +206,7 @@ namespace Account
 
                 character.AddNewDeck(cards, _startingCombos);
 
-                
+
                 Array.ForEach(_additionToStartGift, x => x.GenerateReward().AddToDevicesData());
                 rewardToken.Dispose();
             }
@@ -260,7 +257,7 @@ namespace Account
         [SerializeField] private ArenaData _arenaData;
         [SerializeField] private AccountCards _accountCards;
         [SerializeField] private AccountCombos _accountCombos;
-        private AccountTutorialData _accountTutorialData;
+        [SerializeField] private AccountTutorialData _accountTutorialData;
 
         public AccountTutorialData AccountTutorialData
         {
@@ -294,9 +291,15 @@ namespace Account
             CreateNewGeneralData();
             CreateNewCombosData();
             CreateNewCardsData();
-            _accountTutorialData = new AccountTutorialData(0, false);
+            CreateNewTutorialData();
             IsFirstTimeUser = true;
             Debug.Log("Creating new Account");
+        }
+
+        private void CreateNewTutorialData()
+        {
+            _accountTutorialData = new AccountTutorialData();
+            _accountTutorialData.Reset();
         }
 
         public AccountData(Dictionary<string, string> data)
@@ -307,7 +310,7 @@ namespace Account
         public AccountData(Dictionary<string, UserDataRecord> data)
         {
             var convertedDict = new Dictionary<string, string>();
-            _accountTutorialData = new AccountTutorialData(0, false);//temp_Test
+
             foreach (var item in data)
                 convertedDict.Add(item.Key, item.Value?.Value.ToString());
 
@@ -416,6 +419,20 @@ namespace Account
                 }
             }
             else
+                CreateNewCardsData(); 
+            
+            // Tutorial
+            if (data.TryGetValue(AccountTutorialData.PlayFabKeyName, out result))
+            {
+                _accountTutorialData = JsonConvert.DeserializeObject<AccountTutorialData>(result);
+                if (_accountTutorialData == null)
+                {
+                    _accountTutorialData = PlayFabSimpleJson.DeserializeObject<AccountTutorialData>(result);
+                    if (_accountTutorialData == null)
+                        CreateNewResourcesData();
+                }
+            }
+            else
                 CreateNewCardsData();
 
 
@@ -427,7 +444,6 @@ namespace Account
         public UpdateUserDataRequest GetUpdateRequest()
         {
 
-            string cards = JsonConvert.SerializeObject(_accountCards);
             return new UpdateUserDataRequest()
             {
 
@@ -439,7 +455,8 @@ namespace Account
                     { AccountResources.PlayFabKeyName,       JsonConvert.SerializeObject(_accountResources) },
                     { ArenaData.PlayFabKeyName,              JsonConvert.SerializeObject(_arenaData) },
                     { AccountCombos.PlayFabKeyName,          JsonConvert.SerializeObject(_accountCombos) },
-                    { AccountCards.PlayFabKeyName,           cards}
+                    { AccountCards.PlayFabKeyName,           JsonConvert.SerializeObject(_accountCards)},
+                    { AccountTutorialData.PlayFabKeyName,    JsonConvert.SerializeObject(_accountTutorialData)}
                 },
                 Permission = UserDataPermission.Public
             };

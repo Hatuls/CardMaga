@@ -1,33 +1,23 @@
-﻿
-public class AccountTutorialData 
+﻿[System.Serializable]
+public class AccountTutorialData
 {
-    private int _tutorialProgress;
-    private bool _isCompletedTutorial;
+    public const string PlayFabKeyName = "Tutorial";
 
-    public bool IsCompletedTutorial
-    {
-        get => _isCompletedTutorial;
-    }
-
-    public int TutorialProgress
-    {
-        get => _tutorialProgress;
-    }
-
-    public AccountTutorialData(int tutorialProgress, bool isCompletedTutorial)
-    {
-        _isCompletedTutorial = isCompletedTutorial;
-        _tutorialProgress = tutorialProgress;
-    }
+    public bool IsCompletedTutorial;
+    public int TutorialProgress;
 
     public void AssignedData(int tutorialProgress, bool isCompletedTutorial)
     {
-        _isCompletedTutorial = isCompletedTutorial;
-        _tutorialProgress = tutorialProgress;
+        IsCompletedTutorial = isCompletedTutorial;
+        TutorialProgress = tutorialProgress;
     }
 
     public void UpdateToNextTutorial()
     {
-        _tutorialProgress++;
+        TutorialProgress++;
     }
+
+    public void Reset()
+        => AssignedData(0, false);
+
 }
