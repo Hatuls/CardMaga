@@ -13,17 +13,17 @@ namespace CardMaga.UI.Collections
         [SerializeField] TrackerID collectionEnterButtonTrackerID;
         [SerializeField] TrackerID collectionPanelTrackerID;
         [SerializeField] TrackerID collectionExitButtonTrackerID;
-        [SerializeField] private DialoguesFlow _dialoguesFlow5;
-        [SerializeField] private DialoguesFlow _dialoguesFlow7;
+        [SerializeField] private DialoguesFlow _dialoguesFlow4;
+        [SerializeField] private DialoguesFlow _dialoguesFlow6;
         [SerializeField] private UnityEvent BeforeCollectionEnterButtonPress;
         [SerializeField] private UnityEvent AfterCollectionEnterButtonPress;
         [SerializeField] private UnityEvent BeforeCollectionExitButtonPress;
         [SerializeField] private UnityEvent AfterCollectionExitButtonPress;
 
         private IDisposable _token;
-        public RectTransform _enterButtonTransform;
+        [HideInInspector] public RectTransform _enterButtonTransform;
         private RectTransform _collectionPanelTransform;
-        public RectTransform _collectionExitButtonTransform;
+        [HideInInspector] public RectTransform _collectionExitButtonTransform;
 
         public event Action OnCollectionEnterButton;
         public event Action OnCollectionExitButton;
@@ -31,7 +31,7 @@ namespace CardMaga.UI.Collections
         public void LoadEnterButtonOnPanel(ITokenReciever tokenReciever)
         {
             _token = tokenReciever.GetToken();
-            _dialoguesFlow5.gameObject.SetActive(true);
+            _dialoguesFlow4.gameObject.SetActive(true);
             if (BeforeCollectionEnterButtonPress != null)
                 BeforeCollectionEnterButtonPress.Invoke();
             _enterButtonTransform = TrackerHandler.GetTracker(collectionEnterButtonTrackerID).RectTransform;
@@ -54,7 +54,7 @@ namespace CardMaga.UI.Collections
             if (OnCollectionEnterButton != null)
                 OnCollectionEnterButton.Invoke();
             TutorialClickHelper.Instance.ReturnObjects();
-            _dialoguesFlow5.gameObject.SetActive(false);
+            _dialoguesFlow4.gameObject.SetActive(false);
             _collectionPanelTransform = TrackerHandler.GetTracker(collectionPanelTrackerID).RectTransform;
             TutorialClickHelper.Instance.LoadObject(true, true, null, _collectionPanelTransform);
             ReleaseToken();
@@ -63,7 +63,7 @@ namespace CardMaga.UI.Collections
         public void LoadExitComboCollectionButton(ITokenReciever tokenReciever)
         {
             _token = tokenReciever.GetToken();
-            _dialoguesFlow7.gameObject.SetActive(true);
+            _dialoguesFlow6.gameObject.SetActive(true);
             if (BeforeCollectionExitButtonPress != null)
                 BeforeCollectionExitButtonPress.Invoke();
             _collectionExitButtonTransform = TrackerHandler.GetTracker(collectionExitButtonTrackerID).RectTransform;
@@ -80,7 +80,7 @@ namespace CardMaga.UI.Collections
             if (OnCollectionExitButton != null)
                 OnCollectionExitButton.Invoke();
             TutorialClickHelper.Instance.ReturnObjects();
-            _dialoguesFlow7.gameObject.SetActive(false);
+            _dialoguesFlow6.gameObject.SetActive(false);
             ReleaseToken();
         }
 
