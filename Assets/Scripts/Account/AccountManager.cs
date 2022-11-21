@@ -50,6 +50,14 @@ namespace Account
         private AccountData _accountData;
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         private LoginResult loginResult;
+
+
+        [SerializeField]
+        GiftRewardFactorySO[] _startingGift;
+        [SerializeField]
+        GiftRewardFactorySO[] _additionToStartGift;
+
+
         public LoginResult LoginResult { get => loginResult; private set => loginResult = value; }
 
         private IDisposable _loginDisposable;
@@ -64,7 +72,11 @@ namespace Account
         {
             _instance = this;
         }
-
+        public void ResetAccount(ITokenReciever tokenReciever)
+        {
+            _accountData = new AccountData(true);
+            SendAccountData(tokenReciever);
+        }
         private void OnError(PlayFabError playFabError)
         {
             Debug.LogError($"{playFabError.ErrorMessage}");
@@ -222,10 +234,6 @@ namespace Account
 
         }
 
-        [SerializeField]
-        GiftRewardFactorySO[] _startingGift;
-        [SerializeField]
-        GiftRewardFactorySO[] _additionToStartGift;
 
 #if UNITY_EDITOR
         [Header("Editor:")]

@@ -1,25 +1,29 @@
-﻿using CardMaga.Battle.UI;
+﻿using Account;
+using ReiTools.TokenMachine;
 
 namespace CardMaga.UI.Settings
 {
-    public class SurrenderScreen : BaseUIElement
+    public class ResetAccountScreen : BaseUIElement
     {
         [UnityEngine.SerializeField]
         private CanvasLayerChanger _canvasLayerChanger;
         public int Priority => 0;
-        public void OpenSurrenderScreen()
+        public void OpenAccountScreen()
         {
-
             UIHistoryManager.Show(this, true);
         }
         public void ReturnBack()
         {
             UIHistoryManager.ReturnBack();
         }
-        public void Surrender()
+        public void ResetAccount()
+        {
+            TokenMachine _tokenMachine = new TokenMachine(FinishReset);
+            AccountManager.Instance.ResetAccount(_tokenMachine);
+        }
+        private void FinishReset()
         {
             UIHistoryManager.CloseAll();
-            BattleUiManager.Instance.BattleDataManager.EndBattleHandler.ForceEndBattle(false);
             _canvasLayerChanger.Reset();
         }
     }

@@ -1,56 +1,75 @@
 ﻿using Battle.Data;
 using FMODUnity;
+using System;
 using UnityEngine;
-
 namespace CardMaga.UI.Settings
 {
 
-    public class CombatSettings : BaseUIElement
+    public class CombatSettings : DefaultSettings
     {
         [SerializeField]
-        private CanvasLayerChanger _canvasLayerChanger;
-        [SerializeField]
-        private SurrenderScreen _surrenderScreen;
-        [SerializeField]
-        StudioGlobalParameterTrigger _sfkParameter;
-        [SerializeField]
-        StudioGlobalParameterTrigger _musicParameter;
-
-        [SerializeField]
         private GameObject[] _surrenderGO;
-        private void Awake()
-        {
-            if (BattleData.Instance.BattleConfigSO.IsTutorial)
-                System.Array.ForEach(_surrenderGO, x => x.SetActive(false));
-        }
 
-        private bool _isSFKOn = true;
-        private bool _isMusicOn = true;
+        [SerializeField]
+        protected FmodGlobalEventParameter _sfxParameter;
+        [SerializeField]
+        protected FmodGlobalEventParameter _musicParameter;
+
+        protected virtual void Awake()
+        {
+            _musicParameter.Init();
+            _sfxParameter.Init();
+
+            if (BattleData.Instance.BattleConfigSO.IsTutorial)
+                Array.ForEach(_surrenderGO, x => x.SetActive(false));
+        }
         public void ToggleSFXSettings()
         {
-            _isSFKOn = !_isSFKOn;
-            _sfkParameter.value = (_isSFKOn) ? 0f : 1f;
-            _sfkParameter.TriggerParameters();
+            _sfxParameter.Toggle();
         }
         public void ToggleMusicSettings()
         {
-            _isMusicOn = !_isMusicOn;
-            _musicParameter.value = (_isMusicOn) ? 0f : 1f;
-            _musicParameter.TriggerParameters();
+            _musicParameter.Toggle();
         }
-        public void ShowSettings()
-        {
-            _canvasLayerChanger.PrioritizeLayer(true);
-            UIHistoryManager.Show(this, true);
-            //    ClickHelper.Instance.LoadObject(false, true, ExitSettings, this.transform as RectTransform);
-        }
-        public void ExitSettings()
-        {
-            UIHistoryManager.ReturnBack();
-            _canvasLayerChanger.Reset();
-        }
+     
     }
 
+    [Serializable]
+    public class FmodGlobalEventParameter
+    {
+        [SerializeField]
+        private string _playerPrefName;
+        [SerializeField]
+        private StudioGlobalParameterTrigger _fmodGlobalParameterTrigger;
+
+        private float _value;
+        public void Init()
+        {
+            if (!PlayerPrefs.HasKey(_playerPrefName))
+                _value = 0;
+            else
+                _value = PlayerPrefs.GetFloat(_playerPrefName);
+
+            AssignValue();
+        }
+        public void Toggle()
+        {
+            _value = (_value == 0) ? 1 : 0;
+            AssignValue();
+            SaveToDevice();
+        }
+
+        private void AssignValue()
+        {
+            _fmodGlobalParameterTrigger.value = _value;
+            _fmodGlobalParameterTrigger.TriggerParameters();
+        }
+
+        private void SaveToDevice()
+        {
+            PlayerPrefs.SetFloat(_playerPrefName, _value);
+        }
+    }
 
 
 
