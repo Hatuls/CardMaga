@@ -345,12 +345,13 @@ namespace CardMaga.Input
     {
         #region Events
         
-        public event Action<T> OnClick;
-        public event Action<T> OnBeginHold;
-        public event Action<T> OnEndHold;
-        public event Action<T> OnHold;
-        public event Action<T> OnPointDown;
-        public event Action<T> OnPointUp;
+        public event Action<T> OnClickValue;
+        public event Action<T> OnBegineValue;
+        public event Action<T> OnEndHoldValue;
+        public event Action<T> OnHoldValue;
+        public event Action<T> OnPointDownValue;
+        public event Action<T> OnPointUpValue;
+
 
         #endregion
 
@@ -398,42 +399,42 @@ namespace CardMaga.Input
         protected override void Click()
         {
             base.Click();
-            OnClick?.Invoke(_touchableItem);
+            OnClickValue?.Invoke(_touchableItem);
             _inputBehaviour.Click(_touchableItem);
         }
 
         protected override void BeginHold()
         {
             base.BeginHold();
-            OnBeginHold?.Invoke(_touchableItem);
+            OnBegineValue?.Invoke(_touchableItem);
             _inputBehaviour.BeginHold(_touchableItem);
         }
 
         protected override void Hold()
         {
             base.Hold();
-            OnHold?.Invoke(_touchableItem);
+            OnHoldValue?.Invoke(_touchableItem);
             _inputBehaviour.Hold(_touchableItem);
         }
 
         protected override void EndHold()
         {
             base.EndHold();
-            OnEndHold?.Invoke(_touchableItem);
+            OnEndHoldValue?.Invoke(_touchableItem);
             _inputBehaviour.EndHold(_touchableItem);
         }
 
         protected override void PointDown()
         {
             base.PointDown();
-            OnPointDown?.Invoke(_touchableItem);
+            OnPointDownValue?.Invoke(_touchableItem);
             _inputBehaviour.PointDown(_touchableItem);
         }
 
         protected override void PointUp()
         {
             base.PointUp();
-            OnPointUp?.Invoke(_touchableItem);
+            OnPointUpValue?.Invoke(_touchableItem);
             _inputBehaviour.PointUp(_touchableItem);
         }
 

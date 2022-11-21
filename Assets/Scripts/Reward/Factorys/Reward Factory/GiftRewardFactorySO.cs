@@ -19,7 +19,7 @@ namespace CardMaga.Rewards
             IRewardable[] rewardables = new IRewardable[_rewardsIDs.Length];
 
             for (int i = 0; i < _rewardsIDs.Length; i++)
-                rewardables[i] = _rewardsIDs[i].GenerateReward();
+                    rewardables[i] = _rewardsIDs[i].GenerateReward();
 
             var reward = new GiftReward(rewardables);
  

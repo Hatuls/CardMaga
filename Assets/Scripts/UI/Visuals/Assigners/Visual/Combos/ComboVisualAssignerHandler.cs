@@ -13,7 +13,7 @@ namespace CardMaga.UI.Visuals
         [SerializeField] ComboTitleAndArrowVisualAssigner _comboTitleAndArrowVisualAssigner;
         public override IEnumerable<BaseVisualAssigner<BattleComboData>> VisualAssigners
         {
-             get
+            get
             {
                 yield return _comboTypeVisualAssigner;
                 yield return _comboSequenceVisualAssigner;

@@ -353,6 +353,9 @@ namespace Factory
              => CreateCardInstance(cardSOID + level);
             public CardInstance CreateCardInstance(int cardID)
             => CreateCardInstance(new CardCore(cardID));
+
+            public CardInstance CreateCardInstance(CoreID cardID)
+ => CreateCardInstance(new CardCore(cardID));
             public CardInstance CreateCardInstance(CardCore core)
             => new CardInstance(core);
             public BattleCardData CreateCard(CardInstance _data)
