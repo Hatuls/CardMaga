@@ -337,9 +337,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 200
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -427,8 +427,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 445693629999376662}
+  - component: {fileID: 1390831323935110868}
   m_Layer: 5
-  m_Name: Account Bar
+  m_Name: Account Bar Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -454,6 +455,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 386}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1390831323935110868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445693629999376663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66a00b3416a8ce74bb50da422c8811ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _accountBarVisualAssignerHandler:
+    _accountImageVisualAssigner:
+      _accountPortrait: {fileID: 445693629968570318}
+      _accountPortraitCollectionVisualSos: {fileID: 11400000, guid: f9b1943c5d235e24bbc9e1baeb14ab3f,
+        type: 2}
+    _expBarVisualAssigner:
+      _expSlider: {fileID: 445693629813942076}
+      _accountSliderLevelUpTransitionSo: {fileID: 0}
+      _accountSliderMovementTransitionSo: {fileID: 0}
+  _accountBarTextAssignerHandler:
+    _accountNameTextAssigner:
+      _accountNicknameText: {fileID: 445693630337164825}
+    _expBarTextAssigner:
+      _maxExpText: {fileID: 0}
+      _currentExpText: {fileID: 0}
+      _accountLevelText: {fileID: 445693631054985727}
+  _chipsVisualHandler: {fileID: 4975103533122512671}
+  _goldVisualHandler: {fileID: 2110126844745955328}
+  _diamondsVisualHandler: {fileID: 4920679633907064137}
+  AccountBarVisualDataTest:
+    _accountNickname: Yo YO Mandafaka
+    _accountImageID: 0
+    _currentExpAmount: 50
+    _maxExpAmount: 200
+    _accountLevel: 4
+    _chipsData:
+      _currencyType: 3
+      _amount: 5
+    _goldData:
+      _currencyType: 1
+      _amount: 800
+    _diamondsData:
+      _currencyType: 2
+      _amount: 15000
 --- !u!1 &445693630337164827
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +565,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Acount Long Name
+  m_text: Yo YO Mandafaka
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4658c00f99c6ec84bbe6768daeb210a5, type: 2}
   m_sharedMaterial: {fileID: -8166392530040144765, guid: 4658c00f99c6ec84bbe6768daeb210a5,
@@ -546,7 +593,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.3
+  m_fontSize: 45.55
   m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -733,7 +780,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0.25
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -802,7 +849,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LVL 999
+  m_text: 4
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c52da5e7055c01d42a5be7ef755b7777, type: 2}
   m_sharedMaterial: {fileID: -8056079009074899800, guid: c52da5e7055c01d42a5be7ef755b7777,
@@ -879,6 +926,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 445693628976959696}
     m_Modifications:
+    - target: {fileID: 4146249605975281023, guid: 4c6809deca3587049a6c58d8b0f0274d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5648895318784983063, guid: 4c6809deca3587049a6c58d8b0f0274d,
+        type: 3}
+      propertyPath: m_text
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5648895318784983063, guid: 4c6809deca3587049a6c58d8b0f0274d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 44.75
+      objectReference: {fileID: 0}
     - target: {fileID: 7679387453094746903, guid: 4c6809deca3587049a6c58d8b0f0274d,
         type: 3}
       propertyPath: m_Pivot.x
@@ -987,7 +1049,12 @@ PrefabInstance:
     - target: {fileID: 7679387453094746904, guid: 4c6809deca3587049a6c58d8b0f0274d,
         type: 3}
       propertyPath: m_Name
-      value: Basic Currency
+      value: Chips Currency
+      objectReference: {fileID: 0}
+    - target: {fileID: 7679387454062316733, guid: 4c6809deca3587049a6c58d8b0f0274d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c6809deca3587049a6c58d8b0f0274d, type: 3}
@@ -997,6 +1064,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2601650288018592562}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4975103533122512671 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6994641535181190189, guid: 4c6809deca3587049a6c58d8b0f0274d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2601650288018592562}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae7363833c152140b707f6d3c9260c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2690955085658024292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1004,6 +1083,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 445693628976959696}
     m_Modifications:
+    - target: {fileID: 5648895318784983063, guid: 4c6809deca3587049a6c58d8b0f0274d,
+        type: 3}
+      propertyPath: m_text
+      value: 15000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5648895318784983063, guid: 4c6809deca3587049a6c58d8b0f0274d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 44.75
+      objectReference: {fileID: 0}
     - target: {fileID: 7679387453094746903, guid: 4c6809deca3587049a6c58d8b0f0274d,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1112,7 +1201,7 @@ PrefabInstance:
     - target: {fileID: 7679387453094746904, guid: 4c6809deca3587049a6c58d8b0f0274d,
         type: 3}
       propertyPath: m_Name
-      value: Basic Currency (2)
+      value: Diamonds Currency
       objectReference: {fileID: 0}
     - target: {fileID: 8298525943923069090, guid: 4c6809deca3587049a6c58d8b0f0274d,
         type: 3}
@@ -1128,6 +1217,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2690955085658024292}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4920679633907064137 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6994641535181190189, guid: 4c6809deca3587049a6c58d8b0f0274d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2690955085658024292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae7363833c152140b707f6d3c9260c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8960289990088313901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1135,6 +1236,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 445693628976959696}
     m_Modifications:
+    - target: {fileID: 5648895318784983063, guid: 4c6809deca3587049a6c58d8b0f0274d,
+        type: 3}
+      propertyPath: m_text
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 5648895318784983063, guid: 4c6809deca3587049a6c58d8b0f0274d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 44.75
+      objectReference: {fileID: 0}
     - target: {fileID: 7679387453094746903, guid: 4c6809deca3587049a6c58d8b0f0274d,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1243,7 +1354,7 @@ PrefabInstance:
     - target: {fileID: 7679387453094746904, guid: 4c6809deca3587049a6c58d8b0f0274d,
         type: 3}
       propertyPath: m_Name
-      value: Basic Currency (1)
+      value: Gold Currency
       objectReference: {fileID: 0}
     - target: {fileID: 8298525943923069090, guid: 4c6809deca3587049a6c58d8b0f0274d,
         type: 3}
@@ -1253,6 +1364,18 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c6809deca3587049a6c58d8b0f0274d, type: 3}
+--- !u!114 &2110126844745955328 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6994641535181190189, guid: 4c6809deca3587049a6c58d8b0f0274d,
+    type: 3}
+  m_PrefabInstance: {fileID: 8960289990088313901}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae7363833c152140b707f6d3c9260c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1642673078364149562 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7679387453094746903, guid: 4c6809deca3587049a6c58d8b0f0274d,

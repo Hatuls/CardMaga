@@ -1,16 +1,17 @@
 ﻿using CardMaga.UI.Visuals;
 using TMPro;
+using UnityEngine;
 
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
     public class AccountNameTextAssigner : BaseTextAssigner<AccountBarVisualData>
     {
-        TextMeshProUGUI _accountNicknameText;
+        [SerializeField] TextMeshProUGUI _accountNicknameText;
         public override void CheckValidation()
         {
-            if (_accountNicknameText)
-                throw new System.Exception("AccountNameTextAssigner has not account nickname Text");
+            if (_accountNicknameText == null)
+                throw new System.Exception("AccountNameTextAssigner has no account nickname Text");
         }
 
         public override void Dispose()
