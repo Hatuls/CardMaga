@@ -18,7 +18,6 @@ namespace TutorialDirector
 
         private IDisposable _token;
         private TutorialClickHelper _tutorialClickHelper;
-
         
         public void StartAnimation(ITokenReciever tokenReciever)
         {
@@ -31,6 +30,7 @@ namespace TutorialDirector
             if (OnDirectorStart != null)
                 OnDirectorStart.Invoke();
         }
+
         public void StopDirector()
         {
             UnsubscribeEvent();

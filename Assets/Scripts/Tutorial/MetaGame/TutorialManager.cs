@@ -34,7 +34,7 @@ public class TutorialManager : MonoBehaviour
 
     private void EndTutorial()
     {
-        _accountTutorialData.IsCompletedTutorial = true;
+        AccountManager.Instance.Data.AccountTutorialData.AssignedData(_currentTutorialIndex, true);
         AccountManager.Instance.UpdateDataOnServer();
         OnEndTutorial?.Invoke();
     }
@@ -52,6 +52,7 @@ public class TutorialManager : MonoBehaviour
         if (_currentTutorialIndex > _tutorialConfig.Count - 1)
         {
             UpdateTutorialBadges();
+        
             EndTutorial();
             return;
         }
@@ -82,6 +83,7 @@ public class TutorialManager : MonoBehaviour
         if (BattleData.Instance != null)
         {
             _currentTutorialIndex = GetBattleTutorialConfigIndex(BattleData.Instance.BattleConfigSO);
+            AccountManager.Instance.Data.AccountTutorialData.AssignedData(_currentTutorialIndex, false);
         }
         else
         {

@@ -13,8 +13,16 @@ public class TutorialHandler : MonoBehaviour
     private bool _toIgnoreTutorial;
 #endif
 
-
-    public void CheckIfTutorialFinished()
+    private void Awake()
+    {
+        AccountManager.OnAccountDataAssigned += CheckIfTutorialFinished;
+    }
+    private void OnDestroy()
+    {
+        AccountManager.OnAccountDataAssigned -= CheckIfTutorialFinished;
+        
+    }
+    private void CheckIfTutorialFinished()
     {
 #if UNITY_EDITOR
         if (_toIgnoreTutorial)
