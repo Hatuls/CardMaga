@@ -1,10 +1,13 @@
 ﻿using Account;
+using CardMaga.Core;
 using ReiTools.TokenMachine;
 
 namespace CardMaga.UI.Settings
 {
     public class ResetAccountScreen : BaseUIElement
     {
+        [UnityEngine.SerializeField]
+        private SceneLoader _sceneLoader;
         [UnityEngine.SerializeField]
         private CanvasLayerChanger _canvasLayerChanger;
         public int Priority => 0;
@@ -25,6 +28,7 @@ namespace CardMaga.UI.Settings
         {
             UIHistoryManager.CloseAll();
             _canvasLayerChanger.Reset();
+            _sceneLoader.LoadScene();
         }
     }
 }

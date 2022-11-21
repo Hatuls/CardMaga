@@ -30,7 +30,7 @@ namespace Account
     {
         public static event Action<AccountData> OnDataUpdated;
         public static event Action OnAccountDataAssigned;
-        
+
         #region Singleton
         private static AccountManager _instance;
         public static AccountManager Instance
@@ -75,7 +75,19 @@ namespace Account
         public void ResetAccount(ITokenReciever tokenReciever)
         {
             _accountData = new AccountData(true);
-            SendAccountData(tokenReciever);
+            UpdatePlayName("New User");
+            TokenMachine receiveFirstData = new TokenMachine(UpdateAccount);
+            ReceiveStartingData(receiveFirstData);
+
+            void UpdateAccount()
+            {
+                _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
+
+                UpdateRank(null);
+                SendAccountData(tokenReciever);
+
+                OnAccountDataAssigned?.Invoke();
+            }
         }
         private void OnError(PlayFabError playFabError)
         {
@@ -165,7 +177,7 @@ namespace Account
                 UpdateAccount();
             }
 
-     
+
             void UpdateAccount()
             {
                 _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
@@ -427,8 +439,8 @@ namespace Account
                 }
             }
             else
-                CreateNewCardsData(); 
-            
+                CreateNewCardsData();
+
             // Tutorial
             if (data.TryGetValue(AccountTutorialData.PlayFabKeyName, out result))
             {

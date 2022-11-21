@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 1071798759785065736}
   _holderGameObject: {fileID: 6265107402769616611}
+  _sceneLoader: {fileID: 6527772228854888100}
   _canvasLayerChanger: {fileID: 5290648572486633123}
 --- !u!114 &1592557591653441935
 MonoBehaviour:
@@ -119,6 +120,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 4378844600276300610}
+--- !u!114 &6527772228854888100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808237710897653833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99fdf08fb0ba2804ebf01256d1d312db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _loadSceneMode: 0
+  _loadMode: 1
+  _lockAtLoad: 1
+  _dontDestroyOnLoad: 0
+  _loadDelay: 0
+  _sceneName: PersistentScene
+  _sceneIndex: 0
+  _sceneUnloadMode: 0
+  _unLoadsceneName: 
+  _preUnloadDelay: 0
+  _postUnloadDelay: 0
+  _readyable: {fileID: 0}
+  _unlockAfterUnload: 1
+  OnStartLoadingScene:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishedLoadingScene:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStartUnloadingScene:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishedUnloadingScene:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &6371384297045949792
 PrefabInstance:
   m_ObjectHideFlags: 0
