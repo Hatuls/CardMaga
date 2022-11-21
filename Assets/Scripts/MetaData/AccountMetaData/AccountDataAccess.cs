@@ -18,11 +18,9 @@ namespace CardMaga.MetaData.AccoutData
             _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);//plaster!!!!! need to not by mono and get the data from AccountDataAccess
         }
 
-        /*public AccountDataAccess(AccountData accountData)
+        public void UpdateDeck(MetaDeckData metaDeckData)
         {
-            _metaAccountData = new MetaAccountData(accountData);
-
-            _accountData = accountData;
-        }*/
+            _metaAccountData.CharacterDatas.CharacterData.UpdateDeck(metaDeckData,0);
+        }
     }
 }
