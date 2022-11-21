@@ -26,7 +26,7 @@ namespace Account.GeneralData
 
         public CharactersData()
         {
-
+            
         }
     }
     [Serializable]

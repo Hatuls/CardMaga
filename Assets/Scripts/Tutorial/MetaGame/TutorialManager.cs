@@ -16,7 +16,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TutorialBadge[] _badges;
 
     private MainMenuTutorial _mainMenuTutorial;
-
+    private AccountTutorialData _accountTutorialData;
     private TutorialConfigSO _currentTutorialConfig;
 
     #region PublicFunction
@@ -34,6 +34,8 @@ public class TutorialManager : MonoBehaviour
 
     private void EndTutorial()
     {
+        AccountManager.Instance.Data.AccountTutorialData.AssignedData(_currentTutorialIndex, true);
+        AccountManager.Instance.UpdateDataOnServer();
         OnEndTutorial?.Invoke();
     }
     
@@ -50,6 +52,7 @@ public class TutorialManager : MonoBehaviour
         if (_currentTutorialIndex > _tutorialConfig.Count - 1)
         {
             UpdateTutorialBadges();
+        
             EndTutorial();
             return;
         }
@@ -80,10 +83,12 @@ public class TutorialManager : MonoBehaviour
         if (BattleData.Instance != null)
         {
             _currentTutorialIndex = GetBattleTutorialConfigIndex(BattleData.Instance.BattleConfigSO);
+            AccountManager.Instance.Data.AccountTutorialData.AssignedData(_currentTutorialIndex, false);
         }
         else
-        { 
-            _currentTutorialIndex = AccountManager.Instance.Data.AccountTutorialData.TutorialProgress;
+        {
+            _accountTutorialData = AccountManager.Instance.Data.AccountTutorialData;
+            _currentTutorialIndex = _accountTutorialData.TutorialProgress;
             _battleDataPrefab = Instantiate(_battleDataPrefab);
         }
         

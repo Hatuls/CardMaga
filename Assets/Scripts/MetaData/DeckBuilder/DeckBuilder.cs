@@ -69,6 +69,13 @@ namespace CardMaga.MetaData.DeckBuilding
                 OnSuccessComboRemove -= comboData.AddItemReference;
             }
         }
+        
+        public bool TryEditDeckName(string name)
+        {
+            //add name vaild
+            _deck.UpdateDeckName(name);
+            return true;
+        }
 
         private void TryAddCard(MetaCardData cardData)
         {
@@ -82,7 +89,7 @@ namespace CardMaga.MetaData.DeckBuilding
             return;
         }
 
-        public void TryAddCombo(MetaComboData comboData)
+        private void TryAddCombo(MetaComboData comboData)
         {
             if (_deck.Combos.Count >= MAX_COMBO_IN_DECK)
             {
@@ -103,13 +110,25 @@ namespace CardMaga.MetaData.DeckBuilding
             }
         }
 
-        public void TryRemoveCombo(MetaComboData comboData)
+        private void TryRemoveCombo(MetaComboData comboData)
         {
             if (_deck.FindMetaComboData(comboData.ID,out MetaComboData metaComboData))
             {
                 _deck.RemoveCombo(metaComboData);
                 OnSuccessComboRemove?.Invoke(metaComboData);
             }
+        }
+
+        public bool TryApplyDeck(out MetaDeckData metaDeckData)
+        {
+            if (_deck.Cards.Count == 8 && _deck.Combos.Count == 3)
+            {
+                metaDeckData = _deck;
+                return true;
+            }
+
+            metaDeckData = null;
+            return false;
         }
     }
 }

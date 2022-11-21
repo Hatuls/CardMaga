@@ -73,5 +73,22 @@ namespace CardMaga.MetaData.AccoutData
             _decks.Add(new MetaDeckData(new DeckData(_decks.Count)));
             return true;
         }
+        
+        public bool TryAddDeck(MetaDeckData metaDeckData)
+        {
+            if (_decks.Count >= _maxDeckLimit)
+            {
+                Debug.LogWarning("Max number of decks");
+                return false;
+            }
+            
+            _decks.Add(new MetaDeckData(new DeckData(_decks.Count)));
+            return true;
+        }
+
+        public void UpdateDeck(MetaDeckData metaDeckData,int deckIndex)
+        {
+            _decks[deckIndex].UpdateDeck(metaDeckData);
+        }
     }
 }
