@@ -1,11 +1,10 @@
 ﻿using CardMaga.UI.Visuals;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace CardMaga.UI.Text
 {
-    [Serializable]
+    [System.Serializable]
     public class AccountBarTextAssignerHandler : BaseTextAssignerHandler<AccountBarVisualData>
     {
         [SerializeField] AccountNameTextAssigner _accountNameTextAssigner;

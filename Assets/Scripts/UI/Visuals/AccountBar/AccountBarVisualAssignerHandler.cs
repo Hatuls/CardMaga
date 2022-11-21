@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace CardMaga.UI.Visuals
 {
+    [System.Serializable]
     public class AccountBarVisualAssignerHandler : BaseVisualAssignerHandler<AccountBarVisualData>
     {
         [SerializeField] AccountImageVisualAssigner _accountImageVisualAssigner;
