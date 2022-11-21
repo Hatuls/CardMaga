@@ -98,7 +98,6 @@ namespace CardMaga.MetaData.DeckBuilding
             }
             _deck.AddCombo(comboData);
             OnSuccessComboAdd?.Invoke(comboData);
-            return;
         }
 
         private void TryRemoveCard(MetaCardData cardData)
@@ -121,7 +120,7 @@ namespace CardMaga.MetaData.DeckBuilding
 
         public bool TryApplyDeck(out MetaDeckData metaDeckData)
         {
-            if (_deck.Cards.Count == 8 && _deck.Combos.Count == 3)
+            if (_deck.Cards.Count == MAX_CARD_IN_DECK && _deck.Combos.Count <= MAX_COMBO_IN_DECK)
             {
                 metaDeckData = _deck;
                 return true;

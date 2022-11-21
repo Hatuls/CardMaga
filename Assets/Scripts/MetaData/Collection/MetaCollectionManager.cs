@@ -1,7 +1,7 @@
 ﻿using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.DeckBuilding;
 using CardMaga.MetaUI.CollectionUI;
-using TMPro;
+using ReiTools.TokenMachine;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -46,11 +46,16 @@ namespace CardMaga.MetaData.Collection
         {
             if (_deckBuilder.TryApplyDeck(out MetaDeckData metaDeckData))
             {
-                _accountDataAccess.UpdateDeck(metaDeckData);
-                OnSuccessUpdateDeck?.Invoke();
+                TokenMachine tokenMachine = new TokenMachine(SuccessUpdateDeck);
+                _accountDataAccess.UpdateDeck(metaDeckData,tokenMachine);
             }
-            
-            OnFailedUpdateDeck?.Invoke();
+            else
+                OnFailedUpdateDeck?.Invoke();
+        }
+
+        private void SuccessUpdateDeck()
+        {
+            OnSuccessUpdateDeck?.Invoke();
         }
 
         private void OnDestroy()

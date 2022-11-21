@@ -96,7 +96,7 @@ namespace Battle.MatchMaking
 
                 string player = obj.Leaderboard[i].PlayFabId;
 
-                if (player == "" )//||string.Equals( player, AccountManager.Instance.LoginResult.PlayFabId, StringComparison.Ordinal))
+                if (player == "" ||string.Equals( player, AccountManager.Instance.LoginResult.PlayFabId, StringComparison.Ordinal))
                     continue;
             
                 //un comment when you have answer for no players

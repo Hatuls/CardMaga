@@ -30,6 +30,7 @@ namespace Account
     {
         public static event Action<AccountData> OnDataUpdated;
         public static event Action OnAccountDataAssigned;
+        
         #region Singleton
         private static AccountManager _instance;
         public static AccountManager Instance
@@ -89,7 +90,6 @@ namespace Account
 
         public void SendAccountData(ITokenReciever tokenReciever = null)
         {
-
             UpdateDataOnServer();
             if (tokenReciever != null)
                 _loginDisposable = tokenReciever.GetToken();

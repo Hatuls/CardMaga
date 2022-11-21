@@ -9,7 +9,7 @@ namespace CardMaga.MetaData.AccoutData
     {
         #region Fields
 
-        private int _id;
+        private int _deckId;
         private string _deckName;
         private List<MetaCardData> _cardDatas;
         private List<MetaComboData> _comboDatas;
@@ -18,7 +18,7 @@ namespace CardMaga.MetaData.AccoutData
 
         #region Prop
 
-        public int Id  => _id; 
+        public int DeckId  => _deckId; 
         public string DeckName  => _deckName;
         public List<MetaCardData> Cards => _cardDatas; 
         public List<MetaComboData> Combos => _comboDatas;
@@ -27,7 +27,7 @@ namespace CardMaga.MetaData.AccoutData
         
         public MetaDeckData(DeckData deckData)
         {
-            _id = deckData.Id;
+            _deckId = deckData.Id;
             _deckName = deckData.Name;
 
             GameFactory.CardFactory cardFactory = GameFactory.Instance.CardFactoryHandler;
@@ -122,7 +122,9 @@ namespace CardMaga.MetaData.AccoutData
             if (other == null)
                 return false;
 
-            return Id == other.Id;
+            return DeckId == other.DeckId;
         }
+
+        
     }
 }

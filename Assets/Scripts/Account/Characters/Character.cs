@@ -55,11 +55,7 @@ namespace Account.GeneralData
             CurrentModel = 0;
             MainDeck = 0;
         }
-
-
-
-
-
+        
         public bool AddNewDeck(CardInstance[] deckCards, ComboCore[] deckCombos)
         {
             CoreID[] cards = new CoreID[deckCards.Length];
@@ -69,6 +65,7 @@ namespace Account.GeneralData
 
             return AddNewDeck(cards, deckCombos);
         }
+        
         public bool AddNewDeck(CoreID[] deckCards, ComboCore[] deckCombos)
         {
             bool _canAddDeck = Deck.Count < DeckAmount;
@@ -83,8 +80,6 @@ namespace Account.GeneralData
         {
 
         }
-
-
     }
 
     [Serializable]
@@ -118,6 +113,5 @@ namespace Account.GeneralData
         {
 
         }
-
     }
 }
