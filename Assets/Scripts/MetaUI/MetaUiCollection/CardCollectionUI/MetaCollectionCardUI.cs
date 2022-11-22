@@ -39,7 +39,7 @@ namespace CardMaga.MetaUI
         public void AssignVisual(MetaCollectionCardData data)
         {
             _cardData = data;
-            
+            _cardNumberText.text = NumberOfInstant.ToString();
             _cardVisuals.Init(_cardData.ItemReference.BattleCardData);
             
             OnTryAddToDeck += _cardData.TryRemoveItemReference;

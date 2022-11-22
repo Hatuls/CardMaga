@@ -41,9 +41,7 @@ namespace CardMaga.MetaData.AccoutData
 
         public bool Equals(MetaCardData other)
         {
-            if (other == null)
-                return false;
-
+            if (ReferenceEquals(other,null)) return false;
             return _cardInstance.ID == other.CardInstance.ID;
         }
         

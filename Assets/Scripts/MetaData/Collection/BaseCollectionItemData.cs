@@ -2,7 +2,7 @@ using System;
 
 namespace CardMaga.MetaData.Collection
 {
-    public abstract class BaseCollectionItemData<T> 
+    public abstract class BaseCollectionItemData<T> where T : IEquatable<T>
     {
         private const string FAILED_MESSAGE = "FAILED add or remove item"; 
         
