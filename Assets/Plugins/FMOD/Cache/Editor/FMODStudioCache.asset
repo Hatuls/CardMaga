@@ -1,27 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9219364434314371242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Basic Enemy Damage/Get Hit
-  m_EditorClassIdentifier: 
-  Name: Get Hit
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Type: 0
-  IsGlobal: 0
-  Exists: 1
 --- !u!114 &-9156817831578534999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,28 +113,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
---- !u!114 &-8923643103265397295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Chiara Hit/Voice
-  m_EditorClassIdentifier: 
-  Name: Voice
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Type: 0
-  IsGlobal: 0
-  Exists: 1
 --- !u!114 &-8923461748045158697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,28 +170,6 @@ MonoBehaviour:
   m_Name: parameter:/Boss Enemy Hit/Voice
   m_EditorClassIdentifier: 
   Name: Voice
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Type: 0
-  IsGlobal: 0
-  Exists: 1
---- !u!114 &-8640444440208758492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Boss Enemy Damage/Get Hit
-  m_EditorClassIdentifier: 
-  Name: Get Hit
   Min: 0
   Max: 2
   Default: 0
@@ -442,7 +376,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -5158913892125292508}
+  - {fileID: 1656386607320896138}
   MinDistance: 0
   MaxDistance: 0
   Length: 937
@@ -668,28 +602,6 @@ MonoBehaviour:
     data2: 0
   Type: 0
   IsGlobal: 0
-  Exists: 1
---- !u!114 &-7195580206989878667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Background Music/Scene Parameter
-  m_EditorClassIdentifier: 
-  Name: Scene Parameter
-  Min: 0
-  Max: 4
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Type: 0
-  IsGlobal: 1
   Exists: 1
 --- !u!114 &-7088302817027090011
 MonoBehaviour:
@@ -1382,7 +1294,7 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
---- !u!114 &-5158913892125292508
+--- !u!114 &-5111156712381077511
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1392,9 +1304,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Chiara Damage/Get Hit
+  m_Name: parameter:/Basic Enemy Hit/Voice
   m_EditorClassIdentifier: 
-  Name: Get Hit
+  Name: Voice
   Min: 0
   Max: 2
   Default: 0
@@ -1711,6 +1623,28 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 1
+--- !u!114 &-4330679865532832985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Background Music/Scene Parameter
+  m_EditorClassIdentifier: 
+  Name: Scene Parameter
+  Min: 0
+  Max: 4
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 1
+  Exists: 1
 --- !u!114 &-4281975991074431425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1776,7 +1710,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -9219364434314371242}
+  - {fileID: 1963166407462700210}
   MinDistance: 0
   MaxDistance: 0
   Length: 1018
@@ -1999,7 +1933,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -8640444440208758492}
+  - {fileID: 8559117020438605447}
   MinDistance: 0
   MaxDistance: 0
   Length: 1018
@@ -2133,7 +2067,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 4853963205750374050}
+  - {fileID: 5661845218035801811}
   MinDistance: 0
   MaxDistance: 0
   Length: 1227
@@ -2303,6 +2237,28 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
   m_Name: parameter:/Chiara Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &-2640690435165692944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Elite Enemy Damage/Get Hit
   m_EditorClassIdentifier: 
   Name: Get Hit
   Min: 0
@@ -3046,7 +3002,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 8470028869536226187}
+  - {fileID: -2640690435165692944}
   MinDistance: 0
   MaxDistance: 0
   Length: 1227
@@ -4038,6 +3994,28 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 1
+--- !u!114 &1656386607320896138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Chiara Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &1682712317791664806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4144,6 +4122,28 @@ MonoBehaviour:
   StudioPath: bank:/Loot
   lastModified: 638040490274316192
   FileSizes: []
+  Exists: 1
+--- !u!114 &1963166407462700210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Basic Enemy Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
   Exists: 1
 --- !u!114 &1977926803081958725
 MonoBehaviour:
@@ -5256,28 +5256,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
---- !u!114 &4853963205750374050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Boss Enemy Hit/Voice
-  m_EditorClassIdentifier: 
-  Name: Voice
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Type: 0
-  IsGlobal: 0
-  Exists: 1
 --- !u!114 &4879320127446048425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5413,6 +5391,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1787
+--- !u!114 &5223366857355110091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Elite Enemy Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &5416452592030358353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5469,6 +5469,28 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
   m_Name: parameter:/Elite Enemy Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &5661845218035801811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Boss Enemy Hit/Voice
   m_EditorClassIdentifier: 
   Name: Voice
   Min: 0
@@ -5627,50 +5649,6 @@ MonoBehaviour:
   m_Name: parameter:/Elite Enemy Damage/Get Hit
   m_EditorClassIdentifier: 
   Name: Get Hit
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Type: 0
-  IsGlobal: 0
-  Exists: 1
---- !u!114 &6191003785471895558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Basic Enemy Hit/Voice
-  m_EditorClassIdentifier: 
-  Name: Voice
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Type: 0
-  IsGlobal: 0
-  Exists: 1
---- !u!114 &6203358994553165042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Elite Enemy Hit/Voice
-  m_EditorClassIdentifier: 
-  Name: Voice
   Min: 0
   Max: 2
   Default: 0
@@ -5882,7 +5860,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 6203358994553165042}
+  - {fileID: 5223366857355110091}
   MinDistance: 0
   MaxDistance: 0
   Length: 609
@@ -5929,7 +5907,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 6191003785471895558}
+  - {fileID: -5111156712381077511}
   MinDistance: 0
   MaxDistance: 0
   Length: 966
@@ -6043,7 +6021,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -8923643103265397295}
+  - {fileID: 7629577323147524731}
   MinDistance: 0
   MaxDistance: 0
   Length: 548
@@ -6349,6 +6327,28 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
   m_Name: parameter:/Boss Enemy Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &7629577323147524731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Chiara Hit/Voice
   m_EditorClassIdentifier: 
   Name: Voice
   Min: 0
@@ -6738,28 +6738,6 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 1
---- !u!114 &8470028869536226187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Elite Enemy Damage/Get Hit
-  m_EditorClassIdentifier: 
-  Name: Get Hit
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Type: 0
-  IsGlobal: 0
-  Exists: 1
 --- !u!114 &8488416206213023197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6783,6 +6761,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &8559117020438605447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Boss Enemy Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &8559260873528181687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6892,7 +6892,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: -7195580206989878667}
+  - {fileID: -4330679865532832985}
   MinDistance: 0
   MaxDistance: 0
   Length: 581749
