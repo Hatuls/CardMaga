@@ -6,9 +6,9 @@ namespace CardMaga.UI.Visuals
     public class TutorialLineVisualHandler : MonoBehaviour, IInitializable<BadgeState>
     {
         [SerializeField] private Animator _animator;
-        private static int OffAnimationHash = Animator.StringToHash("Tutorial_Line_Off_Animation");
+        private static int OffAnimationHash = Animator.StringToHash("Tutorial_Line_Off_Anim");
         private static int CompletedAnimationHash = Animator.StringToHash("Tutorial_Line_Completed_Anim");
-        private static int CurrentAnimationHash = Animator.StringToHash("Tutorial_Line_Open_Animation");
+        private static int CurrentAnimationHash = Animator.StringToHash("Tutorial_Line_Open_Anim");
         public void CheckValidation()
         {
             if (_animator == null)

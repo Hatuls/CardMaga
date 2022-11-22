@@ -24,7 +24,7 @@ namespace CardMaga.UI.Settings
         }
         public override void ShowSettings()
         {
-            base.Show();
+            base.ShowSettings();
             _musicParameter.Init();
             _sfxParameter.Init();
         }

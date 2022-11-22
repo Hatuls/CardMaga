@@ -41,6 +41,7 @@ namespace CardMaga.UI.Visuals
                 default:
                     throw new System.Exception($"TutorialBadgeVisualHandler has received wrong state: {badgeState}");
             }
+            _tutorialLineVisualHandler.Init(badgeState);
         }
     }
 }
