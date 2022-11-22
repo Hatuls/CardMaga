@@ -1,31 +1,37 @@
 ﻿using CardMaga.Input;
+using CardMaga.UI.Visuals;
 using UnityEngine;
 
-public class TutorialBadge : MonoBehaviour
+namespace CardMaga.Tutorial
 {
-    private static int OffAnimationHash = Animator.StringToHash("Tutorial_Off_Animation");
-    private static int CompletedAnimationHash = Animator.StringToHash("Tutorial_Complete_Animation");
-    private static int CurrentAnimationHash = Animator.StringToHash("Tutorial_Open_Animation");
-
-    [SerializeField] private Animator _animator;
-    [SerializeField] private TouchableItem _Input;
-
-
-
-    public void Init()
+    public enum BadgeState
     {
-        _animator.Play(OffAnimationHash);
+        Off = 0,
+        Open = 1,
+        Complete = 2,
     }
-
-    public void Completed()
+    public class TutorialBadge :MonoBehaviour
     {
-        _animator.Play(CompletedAnimationHash);
-        _Input.Lock();
-    }
+        [SerializeField] TutorialBadgeVisualHandler _tutorialBadgeVisualHandler;
 
-    public void Open()
-    {
-        _animator.Play(CurrentAnimationHash);
-        _Input.UnLock();
+
+        [SerializeField] private TouchableItem _Input;
+
+        public void Init()
+        {
+            _tutorialBadgeVisualHandler.Init(BadgeState.Off);
+        }
+
+        public void Completed()
+        {
+            _tutorialBadgeVisualHandler.Init(BadgeState.Complete);
+            _Input.Lock();
+        }
+
+        public void Open()
+        {
+            _tutorialBadgeVisualHandler.Init(BadgeState.Open);
+            _Input.UnLock();
+        }
     }
 }
