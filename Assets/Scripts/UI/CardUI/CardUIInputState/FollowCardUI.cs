@@ -21,7 +21,7 @@ public class FollowCardUI : BaseHandUIState
     private void Start()
     {
         _executionBoundry_Y = _executionBoundry.position.y;
-        InputReciever.OnTouchDetectedLocation += GetMousePos;
+        InputReciever.Instance.OnTouchDetectedLocation += GetMousePos;
 
         _inputBehaviour.OnHold += FollowHand;
         _inputBehaviour.OnPointUp += ReleaseCardUI;
@@ -31,7 +31,7 @@ public class FollowCardUI : BaseHandUIState
     {
         _inputBehaviour.OnHold -= FollowHand;
         _inputBehaviour.OnPointUp -= ReleaseCardUI;
-        InputReciever.OnTouchDetectedLocation -= GetMousePos;
+        InputReciever.Instance.OnTouchDetectedLocation -= GetMousePos;
     }
     public override void ExitState(BattleCardUI battleCardUI)
     {

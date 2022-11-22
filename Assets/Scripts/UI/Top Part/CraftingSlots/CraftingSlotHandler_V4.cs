@@ -165,7 +165,7 @@ namespace CardMaga.UI.Carfting
             
             while (true)
             {
-                float value = InputReciever.TouchPosOnScreen.y / screenHeight;
+                float value = InputReciever.Instance.TouchPosOnScreen.y / screenHeight;
                 
                 _craftingSlot[0].CanvasGroup.alpha = value;
                 _craftingSlot[_craftingSlot.Length - 1].CanvasGroup.alpha = 1- value;
@@ -180,7 +180,7 @@ namespace CardMaga.UI.Carfting
             
             while (true)
             {
-                float value = InputReciever.TouchPosOnScreen.y / screenHeight;
+                float value = InputReciever.Instance.TouchPosOnScreen.y / screenHeight;
                 
                 _craftingSlot[_currentSlot].CanvasGroup.alpha = value;
                 yield return null;

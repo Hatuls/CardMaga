@@ -111,7 +111,7 @@ public class AvatarHandler : MonoBehaviour
         {
            result = FindBodyPart(from.GetChild(i), name);
             if (result != null) 
-            break;
+                break;
         }
     
         return result;
