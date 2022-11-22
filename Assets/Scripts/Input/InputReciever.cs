@@ -1,16 +1,17 @@
 using System;
 using UnityEngine;
 
+[DefaultExecutionOrder(-999)]
 public class InputReciever : MonoSingleton<InputReciever>
 {
     #region Events
 
-    public static Touch? PlayerTouch { get; set; }
-    public static event Action<Vector2> OnTouchDetectedLocation;
-    public static event Action<Vector2> OnTouchEnded;
-    public static event Action<Vector2> OnTouchStart;
-    public static event Action<SwipeData> OnSwipeDetected;
-    public static event Action OnTouchDetected;
+    public Touch? PlayerTouch { get; set; }
+    public event Action<Vector2> OnTouchDetectedLocation;
+    public event Action<Vector2> OnTouchEnded;
+    public event Action<Vector2> OnTouchStart;
+    public event Action<SwipeData> OnSwipeDetected;
+    public event Action OnTouchDetected;
 
     #endregion
     
@@ -24,11 +25,11 @@ public class InputReciever : MonoSingleton<InputReciever>
     [SerializeField] private float _swipeDistance;
     [SerializeField] private bool _onlyDetectSwipeAtEnd;
     
-    private static Vector2 _touchPosOnScreen;
-    private static Vector2 _startTouchLocation;
-    private static Vector2 _endTouchLocation;
+    private Vector2 _touchPosOnScreen;
+    private Vector2 _startTouchLocation;
+    private Vector2 _endTouchLocation;
     
-    private static bool _isTouching = false;
+    private bool _isTouching = false;
 
     private bool _swipeDetected = false;
     
@@ -46,12 +47,12 @@ public class InputReciever : MonoSingleton<InputReciever>
 
     #region Prop
 
-    public static bool IsTouching
+    public bool IsTouching
     {
         get => _isTouching;
     }
     
-    public static Vector2 TouchPosOnScreen
+    public Vector2 TouchPosOnScreen
     {
         get => _touchPosOnScreen;
     }
