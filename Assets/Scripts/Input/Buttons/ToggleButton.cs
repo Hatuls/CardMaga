@@ -31,8 +31,12 @@ public class ToggleButton : TouchableItem
     protected override void Awake()
     {
         base.Awake();
-        
-        if (_startState)
+        SetVisual(_startState);
+    }
+
+    private void SetVisual(bool state)
+    {
+        if (state)
             SetToOnState();
         else
             SetToOffState();
@@ -62,6 +66,12 @@ public class ToggleButton : TouchableItem
         OnValueChanage?.Invoke(_isOn);
     }
 
+
+    public void SetToggleState(bool state)
+    {
+        _isOn = state;
+        SetVisual(state);
+    }
     protected override void Click()
     {
         base.Click();

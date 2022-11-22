@@ -1,34 +1,37 @@
-﻿using System;
+﻿using CardMaga.Input;
+using CardMaga.UI.Visuals;
 using UnityEngine;
-using UnityEngine.UI;
-using CardMaga.Input;
 
-[Serializable]
-public class TutorialBadge : MonoBehaviour
+namespace CardMaga.Tutorial
 {
-    [SerializeField] private Image image;
-    [SerializeField] private Color _offColor = Color.red;
-    [SerializeField] private Color _onColor = Color.green;
-    [SerializeField] private Color _openColor = Color.blue;
-    [SerializeField] private TouchableItem _Input;
-
-    private bool _IsCompleted;
-
-    public void Init()
+    public enum BadgeState
     {
-        _IsCompleted = false;
-        image.color = _offColor;
+        Off = 0,
+        Open = 1,
+        Complete = 2,
     }
-
-    public void Completed()
+    public class TutorialBadge :MonoBehaviour
     {
-        image.color = _onColor;
-        _IsCompleted = true;
-    }
+        [SerializeField] TutorialBadgeVisualHandler _tutorialBadgeVisualHandler;
 
-    public void Open()
-    {
-        image.color = _openColor;
-        _Input.UnLock();
+
+        [SerializeField] private TouchableItem _Input;
+
+        public void Init()
+        {
+            _tutorialBadgeVisualHandler.Init(BadgeState.Off);
+        }
+
+        public void Completed()
+        {
+            _tutorialBadgeVisualHandler.Init(BadgeState.Complete);
+            _Input.Lock();
+        }
+
+        public void Open()
+        {
+            _tutorialBadgeVisualHandler.Init(BadgeState.Open);
+            _Input.UnLock();
+        }
     }
 }

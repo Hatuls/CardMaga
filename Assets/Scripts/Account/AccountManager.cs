@@ -8,7 +8,7 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using UnityEngine; 
 
 [Serializable]
 public enum CharacterEnum
@@ -30,7 +30,7 @@ namespace Account
     {
         public static event Action<AccountData> OnDataUpdated;
         public static event Action OnAccountDataAssigned;
-        
+
         #region Singleton
         private static AccountManager _instance;
         public static AccountManager Instance
@@ -50,6 +50,14 @@ namespace Account
         private AccountData _accountData;
         [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
         private LoginResult loginResult;
+
+
+        [SerializeField]
+        GiftRewardFactorySO[] _startingGift;
+        [SerializeField]
+        GiftRewardFactorySO[] _additionToStartGift;
+
+
         public LoginResult LoginResult { get => loginResult; private set => loginResult = value; }
 
         private IDisposable _loginDisposable;
@@ -64,7 +72,23 @@ namespace Account
         {
             _instance = this;
         }
+        public void ResetAccount(ITokenReciever tokenReciever)
+        {
+            _accountData = new AccountData(true);
+            UpdatePlayName("New User");
+            TokenMachine receiveFirstData = new TokenMachine(UpdateAccount);
+            ReceiveStartingData(receiveFirstData);
 
+            void UpdateAccount()
+            {
+                _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
+
+                UpdateRank(null);
+                SendAccountData(tokenReciever);
+
+                OnAccountDataAssigned?.Invoke();
+            }
+        }
         private void OnError(PlayFabError playFabError)
         {
             Debug.LogError($"{playFabError.ErrorMessage}");
@@ -153,7 +177,7 @@ namespace Account
                 UpdateAccount();
             }
 
-     
+
             void UpdateAccount()
             {
                 _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
@@ -222,10 +246,6 @@ namespace Account
 
         }
 
-        [SerializeField]
-        GiftRewardFactorySO[] _startingGift;
-        [SerializeField]
-        GiftRewardFactorySO[] _additionToStartGift;
 
 #if UNITY_EDITOR
         [Header("Editor:")]
@@ -259,10 +279,8 @@ namespace Account
         [SerializeField] private AccountCombos _accountCombos;
         [SerializeField] private AccountTutorialData _accountTutorialData;
 
-        public AccountTutorialData AccountTutorialData
-        {
-            get => _accountTutorialData;
-        }
+        public AccountTutorialData AccountTutorialData => _accountTutorialData;
+        
         public bool IsFirstTimeUser { get; private set; }
         public string DisplayName { get => _displayName; set => _displayName = value; }
         public AccountCombos AllCombos => _accountCombos;
@@ -419,8 +437,8 @@ namespace Account
                 }
             }
             else
-                CreateNewCardsData(); 
-            
+                CreateNewCardsData();
+
             // Tutorial
             if (data.TryGetValue(AccountTutorialData.PlayFabKeyName, out result))
             {
@@ -429,11 +447,11 @@ namespace Account
                 {
                     _accountTutorialData = PlayFabSimpleJson.DeserializeObject<AccountTutorialData>(result);
                     if (_accountTutorialData == null)
-                        CreateNewResourcesData();
+                        CreateNewTutorialData();
                 }
             }
             else
-                CreateNewCardsData();
+                CreateNewTutorialData();
 
 
             IsFirstTimeUser = false;
@@ -467,6 +485,7 @@ namespace Account
         {
             _accountCards = new AccountCards();
         }
+   
         private void CreateNewCombosData()
         {
             _accountCombos = new AccountCombos();

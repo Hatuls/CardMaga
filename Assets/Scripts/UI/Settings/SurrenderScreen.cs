@@ -1,8 +1,4 @@
-﻿using CardMaga.Battle;
-using CardMaga.Battle.UI;
-using CardMaga.SequenceOperation;
-using ReiTools.TokenMachine;
-using System;
+﻿using CardMaga.Battle.UI;
 
 namespace CardMaga.UI.Settings
 {
@@ -15,12 +11,10 @@ namespace CardMaga.UI.Settings
         {
 
             UIHistoryManager.Show(this, true);
-            //    ClickHelper.Instance.LoadObject(false, true, ReturnBack, this.transform as RectTransform);
         }
         public void ReturnBack()
         {
             UIHistoryManager.ReturnBack();
- 
         }
         public void Surrender()
         {

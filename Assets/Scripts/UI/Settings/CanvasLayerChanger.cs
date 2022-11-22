@@ -9,7 +9,7 @@ namespace CardMaga.UI.Settings
         /// Apperantly canvas.sortingOrder cannot work with int.maxvalue (it will set it to -1)
         /// it's max value is short.MaxValue => 32767
         /// </summary>
-        private const short LARGE_VALUE = short.MaxValue;
+        private const short LARGE_VALUE = short.MaxValue-1;
         [SerializeField]
         private Canvas _canvas;
 

@@ -19,6 +19,7 @@ namespace Account.GeneralData
         public const string PlayFabKeyName = "GeneralData";
         public int Rank;
         public AccountType AccountType;
+        public int ImageID;
         public AccountGeneralData()
         {
             Rank = 0;

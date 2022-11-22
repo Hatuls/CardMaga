@@ -47,7 +47,7 @@ namespace Account.GeneralData
             switch (currencyType)
             {
 
-                case CurrencyType.Coins:
+                case CurrencyType.Gold:
                     Gold += amount;
                     break;
                 case CurrencyType.Diamonds:
