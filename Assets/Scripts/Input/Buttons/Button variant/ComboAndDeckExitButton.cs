@@ -6,11 +6,10 @@ using UnityEngine.Events;
 public class ComboAndDeckExitButton : Button
 {
     [EventsGroup,SerializeField]
-    private UnityEvent OnDeckCollectionOpen;
+    private UnityEvent OnCardsCollectionOpen;
     [EventsGroup,SerializeField]
     private UnityEvent OnComboCollectionOpen;
-
-
+    
     [Header("Collection Reference")]
     [SerializeField] private GameObject _deckCollection;
     [SerializeField] private GameObject _comboCollection;
@@ -20,24 +19,21 @@ public class ComboAndDeckExitButton : Button
     
     private InputBehaviour _comboState;
     private InputBehaviour _deckState;
-
-
-
-
+    
     protected override void Awake()
     {
         base.Awake();
         _comboState = new InputBehaviour();
         _deckState = new InputBehaviour();
-        _comboState.OnClick += SetToDeckState;
+        _comboState.OnClick += SetToCardState;
         _deckState.OnClick += SetToComboState;
-        SetToComboState();
+        SetToCardState();
     }
 
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        _comboState.OnClick -= SetToDeckState;
+        _comboState.OnClick -= SetToCardState;
         _deckState.OnClick -= SetToComboState;
     }
 
@@ -46,17 +42,17 @@ public class ComboAndDeckExitButton : Button
         OnComboCollectionOpen?.Invoke();
         _deckCollection.SetActive(false);
         _comboCollection.SetActive(true);
-        _comboAndDecksButtonText.text = "Decks";
+        _comboAndDecksButtonText.text = "Cards";
         TrySetInputBehaviour(_comboState);
         _comboAndDeckFilterButton.SetToComboState();
     }
 
-    private void SetToDeckState()
+    private void SetToCardState()
     {
-        OnDeckCollectionOpen?.Invoke();
+        OnCardsCollectionOpen?.Invoke();
         _deckCollection.SetActive(true);
         _comboCollection.SetActive(false);
-        _comboAndDecksButtonText.text = "Combo";
+        _comboAndDecksButtonText.text = "Combos";
         TrySetInputBehaviour(_deckState);
         _comboAndDeckFilterButton.SetToDeckState();
     }
