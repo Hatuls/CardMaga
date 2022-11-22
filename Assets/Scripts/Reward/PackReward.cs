@@ -129,7 +129,7 @@ namespace CardMaga.Rewards
     public enum CurrencyType
     {
         None = 0,
-        Coins = 1,
+        Gold = 1,
         Diamonds = 2,
         Chips = 3,
         Account_EXP = 4,

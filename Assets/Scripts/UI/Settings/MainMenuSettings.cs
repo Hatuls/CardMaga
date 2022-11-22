@@ -8,11 +8,11 @@ namespace CardMaga.UI.Settings
         [SerializeField]
         protected FmodGlobalEventParameter _musicParameter;
 
-        protected virtual void Awake()
+        public override void ShowSettings()
         {
-            _musicParameter.Init();
+            base.ShowSettings();
             _sfxParameter.Init();
-
+            _musicParameter.Init();
         }
         public void ToggleSFXSettings()
         {

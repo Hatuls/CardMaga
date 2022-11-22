@@ -8,12 +8,12 @@ namespace CardMaga.UI.Settings
         protected CanvasLayerChanger _canvasLayerChanger;
       
 
-        public void ShowSettings()
+        public virtual void ShowSettings()
         {
             _canvasLayerChanger.PrioritizeLayer(true);
             UIHistoryManager.Show(this, true);
         }
-        public void ExitSettings()
+        public virtual void ExitSettings()
         {
             UIHistoryManager.ReturnBack();
             _canvasLayerChanger.Reset();

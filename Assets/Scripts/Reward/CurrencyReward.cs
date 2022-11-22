@@ -63,7 +63,7 @@ namespace CardMaga.Rewards
         {
             switch (_resourcesCost.CurrencyType)
             {
-                case CurrencyType.Coins:
+                case CurrencyType.Gold:
                 case CurrencyType.Diamonds:
                 case CurrencyType.Chips:
                     Account.AccountManager.Instance.Data.AccountResources.AddResource(_resourcesCost.CurrencyType, (int)_resourcesCost.Amount);

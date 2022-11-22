@@ -19,9 +19,14 @@ namespace CardMaga.UI.Settings
         {
             _musicParameter.Init();
             _sfxParameter.Init();
-
             if (BattleData.Instance.BattleConfigSO.IsTutorial)
                 Array.ForEach(_surrenderGO, x => x.SetActive(false));
+        }
+        public override void ShowSettings()
+        {
+            base.Show();
+            _musicParameter.Init();
+            _sfxParameter.Init();
         }
         public void ToggleSFXSettings()
         {
@@ -42,6 +47,8 @@ namespace CardMaga.UI.Settings
         [SerializeField]
         private StudioGlobalParameterTrigger _fmodGlobalParameterTrigger;
 
+        [SerializeField]
+        ToggleButton _button;
         private float _value;
         public void Init()
         {
@@ -49,7 +56,7 @@ namespace CardMaga.UI.Settings
                 _value = 0;
             else
                 _value = PlayerPrefs.GetFloat(_playerPrefName);
-
+            _button.SetToggleState(_value == 0);
             AssignValue();
         }
         public void Toggle()

@@ -2,7 +2,7 @@
 
 namespace CardMaga.UI.Visuals
 {
-    [CreateAssetMenu(fileName = "Account Portrait SO", menuName = "ScriptableObjects/UI/Visuals/Account Portrait SO")]
+    [CreateAssetMenu(fileName = "New Account Portrait SO", menuName = "ScriptableObjects/UI/Visuals/Account Portrait SO")]
     public class AccountPortraitVisualSO : BaseVisualSO
     {
         public Sprite AccountPortraitSprite;

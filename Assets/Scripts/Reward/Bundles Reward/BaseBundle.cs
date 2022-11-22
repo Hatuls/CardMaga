@@ -65,8 +65,17 @@ namespace CardMaga.Rewards.Bundles
         private CurrencyType _currencyType;
         [SerializeField]
         private float _amount;
+
+        public ResourcesCost(CurrencyType currencyType, float amount)
+        {
+            _currencyType = currencyType;
+            _amount = amount;
+        }
+   
+
         public float Amount => _amount;
         public CurrencyType CurrencyType => _currencyType;
+
 
 #if UNITY_EDITOR
         public void Init(CurrencyType currencyType, float amount)
@@ -75,5 +84,9 @@ namespace CardMaga.Rewards.Bundles
             _amount = amount;
         }
 #endif
+        public ResourcesCost()
+        {
+
+        }
     }
 }
