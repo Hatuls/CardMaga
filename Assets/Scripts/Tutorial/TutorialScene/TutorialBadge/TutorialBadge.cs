@@ -1,34 +1,31 @@
-﻿using System;
+﻿using CardMaga.Input;
 using UnityEngine;
-using UnityEngine.UI;
-using CardMaga.Input;
 
-[Serializable]
 public class TutorialBadge : MonoBehaviour
 {
-    [SerializeField] private Image image;
-    [SerializeField] private Color _offColor = Color.red;
-    [SerializeField] private Color _onColor = Color.green;
-    [SerializeField] private Color _openColor = Color.blue;
+    private static int OffAnimationHash = Animator.StringToHash("Tutorial_Off_Animation");
+    private static int CompletedAnimationHash = Animator.StringToHash("Tutorial_Complete_Animation");
+    private static int CurrentAnimationHash = Animator.StringToHash("Tutorial_Open_Animation");
+
+    [SerializeField] private Animator _animator;
     [SerializeField] private TouchableItem _Input;
 
-    private bool _IsCompleted;
+
 
     public void Init()
     {
-        _IsCompleted = false;
-        image.color = _offColor;
+        _animator.Play(OffAnimationHash);
     }
 
     public void Completed()
     {
-        image.color = _onColor;
-        _IsCompleted = true;
+        _animator.Play(CompletedAnimationHash);
+        _Input.Lock();
     }
 
     public void Open()
     {
-        image.color = _openColor;
+        _animator.Play(CurrentAnimationHash);
         _Input.UnLock();
     }
 }

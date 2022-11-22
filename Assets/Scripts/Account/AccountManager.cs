@@ -8,7 +8,7 @@ using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using UnityEngine; 
 
 [Serializable]
 public enum CharacterEnum
@@ -279,10 +279,8 @@ namespace Account
         [SerializeField] private AccountCombos _accountCombos;
         [SerializeField] private AccountTutorialData _accountTutorialData;
 
-        public AccountTutorialData AccountTutorialData
-        {
-            get => _accountTutorialData;
-        }
+        public AccountTutorialData AccountTutorialData => _accountTutorialData;
+        
         public bool IsFirstTimeUser { get; private set; }
         public string DisplayName { get => _displayName; set => _displayName = value; }
         public AccountCombos AllCombos => _accountCombos;
@@ -449,11 +447,11 @@ namespace Account
                 {
                     _accountTutorialData = PlayFabSimpleJson.DeserializeObject<AccountTutorialData>(result);
                     if (_accountTutorialData == null)
-                        CreateNewResourcesData();
+                        CreateNewTutorialData();
                 }
             }
             else
-                CreateNewCardsData();
+                CreateNewTutorialData();
 
 
             IsFirstTimeUser = false;
@@ -487,6 +485,7 @@ namespace Account
         {
             _accountCards = new AccountCards();
         }
+   
         private void CreateNewCombosData()
         {
             _accountCombos = new AccountCombos();

@@ -32,6 +32,8 @@ public class TutorialHandler : MonoBehaviour
         }
 #endif
 
+
+
         if (!AccountManager.Instance.Data.AccountTutorialData.IsCompletedTutorial)
         {
             OnFirstLogin?.Invoke();

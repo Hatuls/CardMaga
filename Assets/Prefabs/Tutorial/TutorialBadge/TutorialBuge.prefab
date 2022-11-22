@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3342327024270244575}
   - component: {fileID: 2858966732937155545}
   - component: {fileID: 1961140040637573260}
+  - component: {fileID: 3629649193162647314}
   m_Layer: 5
   m_Name: TutorialBuge
   m_TagString: Untagged
@@ -66,7 +67,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -766487822561398098, guid: 830bb1ab4fa73b347a53f65b27ed45c8,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -88,10 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23871b5fa2d335e4ba72b559f8183004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 3342327024270244575}
-  _offColor: {r: 1, g: 0, b: 0, a: 1}
-  _onColor: {r: 0, g: 1, b: 0, a: 1}
-  _openColor: {r: 0, g: 0, b: 1, a: 1}
+  _animator: {fileID: 3629649193162647314}
   _Input: {fileID: 1961140040637573260}
 --- !u!114 &1961140040637573260
 MonoBehaviour:
@@ -138,4 +137,23 @@ MonoBehaviour:
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0
-  _inputID: {fileID: 0}
+  _identification: {fileID: 0}
+--- !u!95 &3629649193162647314
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3903240787831320124}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 10788d909470ffb4b888322acb13363f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
