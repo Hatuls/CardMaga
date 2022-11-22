@@ -14,10 +14,16 @@ namespace MainMenu.ModeRotation
         private Coroutine _MoveCoroutine;
         private Coroutine _timeCoroutine;
 
-        private void Awake()
+        private void OnEnable()
         {
             InputReciever.Instance.OnSwipeDetected += RotateModel;
             InputReciever.Instance.OnTouchEnded += StopRotate;
+        }
+
+        private void OnDisable()
+        {
+            InputReciever.Instance.OnSwipeDetected -= RotateModel;
+            InputReciever.Instance.OnTouchEnded -= StopRotate;
         }
 
         private void RotateModel(SwipeData swipeData)
@@ -63,8 +69,11 @@ namespace MainMenu.ModeRotation
 
         private void StopRotate(Vector2 vector2)
         {
-            StopCoroutine(_MoveCoroutine);
-            _timeCoroutine = StartCoroutine(Timer());
+            if (!ReferenceEquals(_MoveCoroutine,null))
+            {
+                StopCoroutine(_MoveCoroutine);
+                _timeCoroutine = StartCoroutine(Timer());
+            }
         }
 
         private IEnumerator Timer()
@@ -74,7 +83,6 @@ namespace MainMenu.ModeRotation
             while (timer > 0)
             {
                 timer -= Time.deltaTime;
-                Debug.Log(timer);
                 yield return null;
             }
 
@@ -83,7 +91,6 @@ namespace MainMenu.ModeRotation
 
         private IEnumerator RestModel()
         {
-            Debug.Log("Start Reset");
             float dir;
             float startY = _model.transform.rotation.eulerAngles.y;
             
@@ -99,8 +106,6 @@ namespace MainMenu.ModeRotation
 
                 yield return null;
             }
-
-            Debug.Log("End Reset");
         }
 
 }
