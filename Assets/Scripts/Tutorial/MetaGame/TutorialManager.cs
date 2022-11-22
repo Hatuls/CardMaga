@@ -2,6 +2,7 @@
 using Account;
 using Battle.Data;
 using CardMaga.BattleConfigSO;
+using CardMaga.Tutorial;
 using UnityEngine;
 using UnityEngine.Events;
 
