@@ -164,7 +164,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &5276039947715638628
 MonoBehaviour:
@@ -872,7 +872,7 @@ MonoBehaviour:
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0
-  _identification: {fileID: 11400000, guid: f67500899f8e101418b2f07946f03da7, type: 2}
+  _identification: {fileID: 11400000, guid: 04fe39c9be8ae914aac00dad68e2c62a, type: 2}
 --- !u!1 &7278675045095585018
 GameObject:
   m_ObjectHideFlags: 0
@@ -2548,6 +2548,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Combat Settings Screen
       objectReference: {fileID: 0}
+    - target: {fileID: 1270141717723803809, guid: 3326bbbc053540a4188d24ae02baaedb,
+        type: 3}
+      propertyPath: _holderGameObject
+      value: 
+      objectReference: {fileID: 3828252940089117697}
     - target: {fileID: 1344253737830477409, guid: 3326bbbc053540a4188d24ae02baaedb,
         type: 3}
       propertyPath: _canvasLayerChanger
@@ -2663,6 +2668,12 @@ PrefabInstance:
       propertyPath: _canvasLayerChanger
       value: 
       objectReference: {fileID: 5276039947715638628}
+    - target: {fileID: 5468425547601997287, guid: 3326bbbc053540a4188d24ae02baaedb,
+        type: 3}
+      propertyPath: _identification
+      value: 
+      objectReference: {fileID: 11400000, guid: 5fc5e3be1fa83f4469a38860f788dcc8,
+        type: 2}
     - target: {fileID: 8515001637898151075, guid: 3326bbbc053540a4188d24ae02baaedb,
         type: 3}
       propertyPath: m_IsActive
@@ -2694,6 +2705,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4cee34ed2fdaed48ad98a43aa9320a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3828252940089117697 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1690075093919655881, guid: 3326bbbc053540a4188d24ae02baaedb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2473872111010819016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4070104242394705656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2996,6 +3013,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c0ad16e8b92a87459cbba9bbc6f17d0, type: 3}
+--- !u!224 &7587275566524643931 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5980422002172854170, guid: 8c0ad16e8b92a87459cbba9bbc6f17d0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4302574600824473025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2407622369076102286 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1935500024311054671, guid: 8c0ad16e8b92a87459cbba9bbc6f17d0,
@@ -3008,12 +3031,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89863bff8e0356741bb5a48360df44c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &7587275566524643931 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5980422002172854170, guid: 8c0ad16e8b92a87459cbba9bbc6f17d0,
-    type: 3}
-  m_PrefabInstance: {fileID: 4302574600824473025}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6933130370904385987
 PrefabInstance:
   m_ObjectHideFlags: 0
