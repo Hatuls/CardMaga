@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class OperationEnumerable : IEnumerator<IOperationBehaviour>, IOperationBehaviour
 {
-
+    public event Action OnMoveNext = null;
     public event Action OnCompleted = null;
     IDisposable _disposable = null;
     int _current = -1;
@@ -57,9 +57,12 @@ public class OperationEnumerable : IEnumerator<IOperationBehaviour>, IOperationB
     {
         _current++;
         bool isValid = _current < WaveOperations.Count;
-
+    
         if (isValid)
+        {
+            OnMoveNext?.Invoke();
             Current.StartOperation();
+        }
 
         return isValid;
     }

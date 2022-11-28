@@ -65,6 +65,7 @@ namespace Account
 
         public string SessionTicket => LoginResult.SessionTicket;
         public string EntityID => LoginResult.EntityToken.Entity.Id;
+        public string PlayfabID => loginResult.PlayFabId;
 
         public AccountData Data => _accountData;
 
@@ -75,7 +76,7 @@ namespace Account
         public void ResetAccount(ITokenReciever tokenReciever)
         {
             _accountData = new AccountData(true);
-            UpdatePlayName("New User");
+          //  UpdatePlayName("New User");
             TokenMachine receiveFirstData = new TokenMachine(UpdateAccount);
             ReceiveStartingData(receiveFirstData);
 
@@ -167,7 +168,7 @@ namespace Account
             if (LoginResult.NewlyCreated)
             {
                 _accountData = new AccountData(true);
-                UpdatePlayName("New User");
+               // UpdatePlayName("New User");
                 TokenMachine receiveFirstData = new TokenMachine(UpdateAccount);
                 ReceiveStartingData(receiveFirstData);
             }
