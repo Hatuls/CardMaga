@@ -26,20 +26,18 @@ namespace CardMaga.UI
         [SerializeField]
         private Button _enterNameBtn;
         private IDisposable _loginToken;
-        private bool _isNewlyCreated;
+     
 #region Monobehaviour
         private void Awake()
         {
             _inputField.onValueChanged.AddListener(TextFieldValueChange);
             _enterNameBtn.onClick.AddListener(TrySetName);
-            PlayfabLogin.OnSuccessfullLogin += OpenLoginText;
         }
 
         private void OnDestroy()
         {
             _inputField.onValueChanged.RemoveListener(TextFieldValueChange);
             _enterNameBtn.onClick.RemoveListener(TrySetName);
-            PlayfabLogin.OnSuccessfullLogin -= OpenLoginText;
 
         }
 #endregion
@@ -48,17 +46,14 @@ namespace CardMaga.UI
         {
             _loginToken = tokenReciever.GetToken();
 
-            if (_isNewlyCreated)
+            if (AccountManager.Instance.LoginResult.NewlyCreated)
                 Show();
             else
                 ProceedNext();
         }
 
         #region Private 
-        private void OpenLoginText(LoginResult loginResult)
-        {
-            _isNewlyCreated = loginResult.NewlyCreated;
-        }
+
         private void TextFieldValueChange(string text)
         {
             bool isLengthOkay = text.Length > MIN_NAME_REQUIREMENTS;
@@ -110,17 +105,38 @@ namespace CardMaga.UI
         {
             string failedText = "Failed To Set Name";
             Debug.LogError(failedText + "\nError: " + obj.ErrorMessage);
-            SetLocalName(failedText);
+            GetUserName();
         }
 
         private void OnSuccess(UpdateUserTitleDisplayNameResult obj)
         {
-            SetLocalName(_currentName);
+            GetUserName();
         }
 
-        private void SetLocalName(string name)
+  
+        private void GetUserName()
         {
-            AccountManager.Instance.Data.DisplayName = name;
+            var request = new GetPlayerProfileRequest {
+                AuthenticationContext = AccountManager.Instance.LoginResult.AuthenticationContext,
+                PlayFabId = AccountManager.Instance.PlayfabID,
+                ProfileConstraints = new PlayerProfileViewConstraints()
+                {
+                    ShowDisplayName = true,
+                }
+            };
+            PlayFab.PlayFabClientAPI.GetPlayerProfile(request, OnSuccessReceivingName, OnFailedToReceiveName);
+        }
+
+        private void OnFailedToReceiveName(PlayFabError obj)
+        {
+            AccountManager.Instance.DisplayName = "Error";
+            throw new Exception("Error while trying to retrieve name\nError: " + obj.ErrorMessage);
+        }
+
+        private void OnSuccessReceivingName(GetPlayerProfileResult obj)
+        {
+            
+            AccountManager.Instance.DisplayName = obj.PlayerProfile.DisplayName;
             ReceiveResult();
         }
     }

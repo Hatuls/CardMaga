@@ -67,6 +67,7 @@ namespace PlayFab
             PlayFabHttp.MakeApiCall("/Client/AddFriend", request, AuthType.LoginSession, resultCallback, errorCallback, customData, extraHeaders, context, callSettings);
         }
 
+
         /// <summary>
         /// Adds the specified generic service identifier to the player's PlayFab account. This is designed to allow for a PlayFab
         /// ID lookup of any arbitrary service identifier a title wants to add. This identifier should never be used as

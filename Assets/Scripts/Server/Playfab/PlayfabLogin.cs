@@ -42,11 +42,11 @@ namespace CardMaga.Playfab
                     GetUserData = true
                 },
                 CreateAccount = true,
-             //   AuthenticationContext = loginResult?.AuthenticationContext ?? null
+                //   AuthenticationContext = loginResult?.AuthenticationContext ?? null
             },
              SuccessfullLogin,
              FailedLogin
-             ); 
+             );
         }
 
 
@@ -63,7 +63,7 @@ namespace CardMaga.Playfab
                 AndroidDevice = SystemInfo.deviceModel,
                 CreateAccount = true,
                 AuthenticationContext = loginResult?.AuthenticationContext ?? null,
-                
+
                 InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
                 {
                     GetPlayerStatistics = true,
@@ -73,7 +73,7 @@ namespace CardMaga.Playfab
             },
              SuccessfullLogin,
              FailedLogin
-        ) ;
+        );
         }
 
 
@@ -100,8 +100,10 @@ namespace CardMaga.Playfab
         private LoginResult TryLoadLoginResult()
         => SaveManager.Load<LoginResult>(LoginResultFileName, SaveManager.FileStreamType.FileStream);
         private void SaveLoginResult()
-        => SaveManager.SaveFile(_playerLoginResult, LoginResultFileName, SaveManager.FileStreamType.FileStream, true);
-
+        {
+            SaveManager.DeleteFile(LoginResultFileName,".txt", SaveManager.FileStreamType.FileStream,"",true);
+            SaveManager.SaveFile(_playerLoginResult, LoginResultFileName, SaveManager.FileStreamType.FileStream, true);
+        }
 
     }
 }
