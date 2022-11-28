@@ -1,5 +1,4 @@
-﻿using CardMaga.MetaData.AccoutData;
-using CardMaga.MetaData.Collection;
+﻿using CardMaga.MetaData.Collection;
 using CardMaga.UI.ScrollPanel;
 
 namespace CardMaga.MetaUI.CollectionUI 

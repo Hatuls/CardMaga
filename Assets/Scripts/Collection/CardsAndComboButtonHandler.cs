@@ -1,5 +1,4 @@
 using CardMaga.Input;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
