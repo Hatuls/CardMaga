@@ -106,7 +106,7 @@ public abstract class BaseFilterSystem<T_Filter,T_FilterRef> : MonoBehaviour whe
 
         if (_currentFilterIndex == _filters.Count - 1)
         {
-            Reset();
+            ResetFilters();
             OnCycleFilter?.Invoke();
             return;
         }
@@ -116,7 +116,7 @@ public abstract class BaseFilterSystem<T_Filter,T_FilterRef> : MonoBehaviour whe
         OnCycleFilter?.Invoke();
     }
 
-    public void Reset()
+    public void ResetFilters()
     {
         _currentFilterIndex = 0;
         _activeFilters.Clear();

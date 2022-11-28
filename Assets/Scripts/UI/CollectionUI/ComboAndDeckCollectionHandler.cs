@@ -19,7 +19,7 @@ namespace CardMaga.UI.Collections
         private IGetCollection<BattleCardData> _cardDatas;
         private IGetCollection<BattleComboData> _comboDatas;
 
-        private void ShowCombo()
+        public void ShowCombo()
         {
             battleComboUIScroll.RemoveAllObjectsFromPanel();
             battleComboUIScroll.AddObjectToPanel(_comboDataSort.SortComboData(_comboDatas.GetCollection));

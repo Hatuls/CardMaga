@@ -5,21 +5,23 @@ using UnityEngine.Events;
 
 public class ComboAndDeckExitButton : Button
 {
-    [EventsGroup,SerializeField]
+    [EventsGroup, SerializeField]
     private UnityEvent OnCardsCollectionOpen;
-    [EventsGroup,SerializeField]
+    [EventsGroup, SerializeField]
     private UnityEvent OnComboCollectionOpen;
-    
+
     [Header("Collection Reference")]
     [SerializeField] private GameObject _deckCollection;
     [SerializeField] private GameObject _comboCollection;
     [Header("Cycle Collection Button")]
     [SerializeField] private TMP_Text _comboAndDecksButtonText;
     [SerializeField] private ComboAndDeckFilterButton _comboAndDeckFilterButton;
-    
+
     private InputBehaviour _comboState;
     private InputBehaviour _deckState;
-    
+
+    [SerializeField]
+    private bool _isCardStateDefaultState=true;
     protected override void Awake()
     {
         base.Awake();
@@ -27,6 +29,7 @@ public class ComboAndDeckExitButton : Button
         _deckState = new InputBehaviour();
         _comboState.OnClick += SetToCardState;
         _deckState.OnClick += SetToComboState;
+        if(_isCardStateDefaultState)
         SetToCardState();
     }
 
