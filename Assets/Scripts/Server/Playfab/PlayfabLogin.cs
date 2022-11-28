@@ -92,8 +92,8 @@ namespace CardMaga.Playfab
             Debug.Log("Success! We Logged in!");
             PlayerLoginResult = loginResult;
             SaveLoginResult();
-            Account.AccountManager.Instance.OnLogin(loginResult);
             OnSuccessfullLogin?.Invoke(PlayerLoginResult);
+            Account.AccountManager.Instance.OnLogin(PlayerLoginResult);
 
         }
 

@@ -36,7 +36,7 @@ public class OperationManager : MonoBehaviour, IOperationBehaviour
     private OperationEnumerable _operationsEnumerable;
     public event Action OnCompleted;
     IDisposable _disposable;
-    
+    public OperationEnumerable OperationEnumerable => _operationsEnumerable;
     public void Completed()
     {
         OnCompleted?.Invoke();
@@ -61,6 +61,7 @@ public class OperationManager : MonoBehaviour, IOperationBehaviour
 
 public interface IOperationBehaviour
 {
+
     event Action OnCompleted;
     void Init(ITokenReciever tokenReciever);
     void StartOperation();
