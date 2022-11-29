@@ -7,7 +7,7 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000001C83DDEA068 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000001F5F28F23E8 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -18,10 +18,776 @@
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 135)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3A74ABC88 : node = 000001F3B4997830
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3A74ABC88
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3B4997940
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3A74ABC88
+[LOG] SoundI::release                          : Menu V2 (000001F6159169C8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3D918)
+[LOG] SoundI::release                          :     Menu V2 (000001F615917598)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F615915228 : node = 000001F6212C25C0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F615915228
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F6212C26D0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F615915228
+[LOG] SoundI::release                          : Menu V2 (000001F3A74ABC88)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3BF18)
+[LOG] SoundI::release                          :     Menu V2 (000001F3A74AD0C8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F5C5B95E08 : node = 000001F3A7E3ED30
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F5C5B95E08
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A7E3EE40
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F5C5B95E08
+[LOG] SoundI::release                          : Menu V2 (000001F615915228)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3D298)
+[LOG] SoundI::release                          :     Menu V2 (000001F615916668)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B4109758 : node = 000001F6212C20C0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B4109758
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F6212C21D0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B4109758
+[LOG] SoundI::release                          : Menu V2 (000001F5C5B95E08)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3A518)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C5B969D8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B40FC2B8 : node = 000001F3B593A7D0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B40FC2B8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3B593A8E0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B40FC2B8
+[LOG] SoundI::release                          : Menu V2 (000001F3B4109758)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3CA78)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B4109098)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B4109758 : node = 000001F3A43EF010
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B4109758
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A43EF120
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B4109758
+[LOG] SoundI::release                          : Menu V2 (000001F3B40FC2B8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3DF98)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B40FCCD8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B40FCCD8 : node = 000001F5F2D01C70
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B40FCCD8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5F2D01D80
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B40FCCD8
+[LOG] SoundI::release                          : Menu V2 (000001F3B4109758)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3D778)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B4100488)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B4109758 : node = 000001F5C89B7B00
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B4109758
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5C89B7C10
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B4109758
+[LOG] SoundI::release                          : Menu V2 (000001F3B40FCCD8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3BF18)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B40FAE78)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B40FC2B8 : node = 000001F3B593AA50
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B40FC2B8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3B593AB60
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B40FC2B8
+[LOG] SoundI::release                          : Menu V2 (000001F3B4109758)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E394D8)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B4100488)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B4108B88 : node = 000001F3B593AB90
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B4108B88
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3B593ACA0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B4108B88
+[LOG] SoundI::release                          : Menu V2 (000001F3B40FC2B8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3DDF8)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B40FCCD8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B40FAE78 : node = 000001F5F2D00FF0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B40FAE78
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5F2D01100
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B40FAE78
+[LOG] SoundI::release                          : Menu V2 (000001F3B4108B88)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3D918)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B4109758)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F5CA491078 : node = 000001F6212C25C0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F5CA491078
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F6212C26D0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F5CA491078
+[LOG] SoundI::release                          : Menu V2 (000001F3B40FAE78)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3B218)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B49940C8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B40FC2B8 : node = 000001F5F2D009B0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B40FC2B8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5F2D00AC0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B40FC2B8
+[LOG] SoundI::release                          : Menu V2 (000001F5CA491078)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3BF18)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B4994278)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F5CA491078 : node = 000001F6212C25C0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F5CA491078
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F6212C26D0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F5CA491078
+[LOG] SoundI::release                          : Menu V2 (000001F3B40FC2B8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3C3F8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5F31FD2A8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B4F43328 : node = 000001F3A7E3ED30
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B4F43328
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A7E3EE40
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B4F43328
+[LOG] SoundI::release                          : Menu V2 (000001F5CA491078)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3CC18)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8936598)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F61EDF08A8 : node = 000001F5C89B79C0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F61EDF08A8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5C89B7AD0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F61EDF08A8
+[LOG] SoundI::release                          : Menu V2 (000001F3B4F43328)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3C3F8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5CACCC0A8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F61EDF06F8 : node = 000001F5C89B7880
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F61EDF06F8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5C89B7990
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F61EDF06F8
+[LOG] SoundI::release                          : Menu V2 (000001F61EDF08A8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3A9F8)
+[LOG] SoundI::release                          :     Menu V2 (000001F61B5AE118)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B2CB4288 : node = 000001F3B593AA50
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B2CB4288
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3B593AB60
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B2CB4288
+[LOG] SoundI::release                          : Menu V2 (000001F61EDF06F8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E38978)
+[LOG] SoundI::release                          :     Menu V2 (000001F63141BAD8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F61EDF0398 : node = 000001F3A516CE50
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F61EDF0398
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A516CF60
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F61EDF0398
+[LOG] SoundI::release                          : Menu V2 (000001F3B2CB4288)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E394D8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5CA491228)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3A42F8C98 : node = 000001F3A7E3EAB0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3A42F8C98
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A7E3EBC0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3A42F8C98
+[LOG] SoundI::release                          : Menu V2 (000001F61EDF0398)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3CA78)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B2CB4438)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F5C8AA8108 : node = 000001F5C66774F0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F5C8AA8108
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5C6677600
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F5C8AA8108
+[LOG] SoundI::release                          : Menu V2 (000001F3A42F8C98)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E394D8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5CA491078)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F61EDF06F8 : node = 000001F3A516CBD0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F61EDF06F8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A516CCE0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F61EDF06F8
+[LOG] SoundI::release                          : Menu V2 (000001F5C8AA8108)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E39E98)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B2CB40D8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F5C8AA8618 : node = 000001F5F31FD0A0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F5C8AA8618
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5F31FD1B0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F5C8AA8618
+[LOG] SoundI::release                          : Menu V2 (000001F61EDF06F8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3D778)
+[LOG] SoundI::release                          :     Menu V2 (000001F6E6E63308)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F5C9BB7128 : node = 000001F6E6E63820
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F5C9BB7128
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F6E6E63930
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F5C9BB7128
+[LOG] SoundI::release                          : Menu V2 (000001F5C8AA8618)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3BF18)
+[LOG] SoundI::release                          :     Menu V2 (000001F5CA491588)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F61BCB63E8 : node = 000001F3A4929D80
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F61BCB63E8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A4929E90
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F61BCB63E8
+[LOG] SoundI::release                          : Menu V2 (000001F5C9BB7128)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3DDF8)
+[LOG] SoundI::release                          :     Menu V2 (000001F691CA5068)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F6543E3608 : node = 000001F5F31FD0A0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F6543E3608
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5F31FD1B0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F6543E3608
+[LOG] SoundI::release                          : Menu V2 (000001F61BCB63E8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3A9F8)
+[LOG] SoundI::release                          :     Menu V2 (000001F61EDF0548)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F679C95DA8 : node = 000001F5CA4911D0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F679C95DA8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5CA4912E0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F679C95DA8
+[LOG] SoundI::release                          : Menu V2 (000001F6543E3608)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E38638)
+[LOG] SoundI::release                          :     Menu V2 (000001F679C95A48)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F61ED2A3C8 : node = 000001F3B593A7D0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F61ED2A3C8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3B593A8E0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F61ED2A3C8
+[LOG] SoundI::release                          : Menu V2 (000001F679C95DA8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3BF18)
+[LOG] SoundI::release                          :     Menu V2 (000001F631B01928)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3A42F8C98 : node = 000001F3A7E3EAB0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3A42F8C98
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A7E3EBC0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3A42F8C98
+[LOG] SoundI::release                          : Menu V2 (000001F61ED2A3C8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3C598)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B548C108)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3A42F8FF8 : node = 000001F3A7E3ED30
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3A42F8FF8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A7E3EE40
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3A42F8FF8
+[LOG] SoundI::release                          : Menu V2 (000001F3A42F8C98)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E43A98)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B40FC2B8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F6E6E634B8 : node = 000001F61F691CD0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F6E6E634B8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F61F691DE0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F6E6E634B8
+[LOG] SoundI::release                          : Menu V2 (000001F3A42F8FF8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3B6F8)
+[LOG] SoundI::release                          :     Menu V2 (000001F6543E3608)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F6543E3458 : node = 000001F3A4BD7700
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F6543E3458
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A4BD7810
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F6543E3458
+[LOG] SoundI::release                          : Menu V2 (000001F6E6E634B8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E44AD8)
+[LOG] SoundI::release                          :     Menu V2 (000001F61ED2A218)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F61ED2A3C8 : node = 000001F3A43EEC50
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F61ED2A3C8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A43EED60
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F61ED2A3C8
+[LOG] SoundI::release                          : Menu V2 (000001F6543E3458)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E38978)
+[LOG] SoundI::release                          :     Menu V2 (000001F6543E3608)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F5C9FA1298 : node = 000001F3A7E3E970
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F5C9FA1298
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A7E3EA80
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F5C9FA1298
+[LOG] SoundI::release                          : Menu V2 (000001F61ED2A3C8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E435B8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C6FEF598)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F6543E3458 : node = 000001F3A4BD7480
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F6543E3458
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A4BD7590
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F6543E3458
+[LOG] SoundI::release                          : Menu V2 (000001F5C9FA1298)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3B218)
+[LOG] SoundI::release                          :     Menu V2 (000001F61ED2A218)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F5C44C8E58 : node = 000001F5CA491310
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F5C44C8E58
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5CA491420
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F5C44C8E58
+[LOG] SoundI::release                          : Menu V2 (000001F6543E3458)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E423D8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C9FA0F38)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3B40FCCD8 : node = 000001F5F2D013B0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3B40FCCD8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F5F2D014C0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3B40FCCD8
+[LOG] SoundI::release                          : Menu V2 (000001F5C44C8E58)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E38B18)
+[LOG] SoundI::release                          :     Menu V2 (000001F6543E3608)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3A83AE0C8 : node = 000001F3A7E3E970
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3A83AE0C8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A7E3EA80
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3A83AE0C8
+[LOG] SoundI::release                          : Menu V2 (000001F3B40FCCD8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E43F78)
+[LOG] SoundI::release                          :     Menu V2 (000001F6543E32A8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F3A83ADBB8 : node = 000001F3A7E3E830
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F3A83ADBB8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F3A7E3E940
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F3A83ADBB8
+[LOG] SoundI::release                          : Menu V2 (000001F3A83AE0C8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3D298)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C6FEF3E8)
+[LOG] SystemI::createSound                     : filename = Assets/Plugins/FMOD Banks/Desktop/Music.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 000001F5CA491588 : node = 000001F6543817C0
+[LOG] SystemI::createSound                     : add node to async list : head = 000001F3A76EA3E8.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000001F5CA491588
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/Plugins/FMOD Banks/Desktop/Music.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 7251776
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 25056
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000001F6543818D0
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Menu V2', format=5, channels=2, frequency=48000, lengthbytes=514464, lengthpcm=2185508, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.213470.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000001F5CA491588
+[LOG] SoundI::release                          : Menu V2 (000001F3A83ADBB8)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3FB38)
+[LOG] SoundI::release                          :     Menu V2 (000001F61ED2A3C8)
+[LOG] SoundI::release                          : Menu V2 (000001F5CA491588)
+[LOG] SoundI::release                          :     Menu V2 (000001F5C8E3CC18)
+[LOG] SoundI::release                          :     Menu V2 (000001F3B47AE078)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
 [LOG] Thread::callback                         : FMOD Studio sample load thread finished.
 [LOG] LiveUpdate::release                      : 
 [LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
 [LOG] Thread::callback                         : FMOD stream thread finished.
 [LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
 [LOG] SystemI::close                           : Closed.

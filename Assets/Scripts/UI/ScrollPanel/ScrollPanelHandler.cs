@@ -7,9 +7,16 @@ namespace CardMaga.UI.ScrollPanel
     public class ScrollPanelHandler : MonoBehaviour
     {
         #region Fields
+
+        [SerializeField] private Transform _holder;
+        private List<IUIElement> _loadedObjects;
     
-        protected List<IUIElement> _loadedObjects;
-    
+        #endregion
+
+        #region Prop
+
+        public Transform Holder => _holder;
+
         #endregion
 
         public IReadOnlyList<IUIElement> LoadedObjects
@@ -25,6 +32,15 @@ namespace CardMaga.UI.ScrollPanel
         #region PublicFunction
     
         internal void LoadObject(params IUIElement[] objects)
+        {
+            foreach (var obj in objects)
+            {
+                _loadedObjects.Add(obj);
+                obj.Show();
+            }
+        }
+        
+        internal void LoadObject(List<IUIElement> objects)
         {
             foreach (var obj in objects)
             {
@@ -60,8 +76,8 @@ namespace CardMaga.UI.ScrollPanel
     
         private void RemoveLoadObject(IUIElement obj)
         {
-            obj.Hide();
-          //  obj.Dispose();
+            obj.Hide(); 
+            //obj.Dispose();
         }
     
         private bool FindObjectInLoadedObjects(IUIElement obj)

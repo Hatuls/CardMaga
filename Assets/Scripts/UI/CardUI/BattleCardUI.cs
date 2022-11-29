@@ -7,7 +7,7 @@ using DG.Tweening;
 
 namespace CardMaga.UI.Card
 {
-    public class BattleCardUI : MonoBehaviour, IPoolableMB<BattleCardUI> , IUIElement, IVisualAssign<BattleCardData>
+    public class BattleCardUI : BaseUIElement, IPoolableMB<BattleCardUI>, IVisualAssign<BattleCardData>
     {
         public event Action<BattleCardUI> OnDisposed;
         public event Action OnShow;

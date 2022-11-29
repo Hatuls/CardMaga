@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCardUI : BaseSlot<MetaCardUI>, IPoolableMB<MetaCardUI>, IVisualAssign<MetaCardData> ,IEquatable<MetaCardUI>
+    public class MetaCardUI : BaseUIElement, IPoolableMB<MetaCardUI>, IVisualAssign<MetaCardData> ,IEquatable<MetaCardUI>
     {
         public event Action<MetaCardUI> OnDisposed;
         

@@ -1,44 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CardMaga.ObjectPool;
 using CardMaga.Tools.Pools;
 using UnityEngine;
 
 namespace CardMaga.UI.ScrollPanel
 {
-    public abstract class BaseScrollPanelManager<T_visual, T_data> : MonoBehaviour
-        where T_visual : MonoBehaviour, IUIElement, IPoolableMB<T_visual>, IVisualAssign<T_data>, new()
+    public abstract class BaseScrollPanelManager<TVisual, TData> : MonoBehaviour
+        where TVisual :  BaseUIElement, IPoolableMB<TVisual>, IVisualAssign<TData>, new()
     {
-        public event Action<List<T_visual>> OnObjectLoaded;
-
-        private BasePoolObjectVisualToData<T_visual, T_data> _objectVisualToDataPool;
-        
-        [SerializeField] private T_visual _objectPrefab;
-        [SerializeField] private RectTransform _parent;
+        [SerializeField] private TVisual _objectRef;
         [SerializeField] private ScrollPanelHandler _scrollPanel;
-        
+
+        private VisualRequester<TVisual, TData> _visualRequester;
+
         public virtual void Init()
         {
-            _objectVisualToDataPool = new BasePoolObjectVisualToData<T_visual, T_data>(_objectPrefab, _parent);
+            _visualRequester = new VisualRequester<TVisual, TData>(_objectRef);
             _scrollPanel.Init();
         }
 
-        public void AddObjectToPanel(List<T_data> data)
+        public void AddObjectToPanel(List<TData> data)
         {
-            if (data.Count <= 0)
-                return;
+            List<TVisual> visuals = _visualRequester.GetVisual(data);
+            
+            IUIElement[] uiElements = new IUIElement[visuals.Count];
 
-            List<T_visual> cache = _objectVisualToDataPool.PullObjects(data);
-
-            IUIElement[] showableUis = new IUIElement[cache.Count];
-
-            for (int i = 0; i < cache.Count; i++)
+            Transform holder = _scrollPanel.Holder;
+            
+            for (int i = 0; i < visuals.Count; i++)
             {
-                showableUis[i] = cache[i];
+                visuals[i].transform.SetParent(holder);
+                uiElements[i] = visuals[i];
             }
 
-            _scrollPanel.LoadObject(showableUis);
-
-            OnObjectLoaded?.Invoke(cache);
+            _scrollPanel.LoadObject(uiElements);
         }
 
         public void RemoveAllObjectsFromPanel()

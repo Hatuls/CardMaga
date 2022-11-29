@@ -6,12 +6,9 @@ using UnityEngine;
 
 namespace CardMaga.InventorySystem
 {
-    public abstract class BaseSlotContainer<T> : BaseUIElement where T : BaseUIElement , IEquatable<T>
+    public abstract class BaseSlotContainer<T> : MonoBehaviour where T : BaseUIElement , IEquatable<T>
     {
-        private MBPool<BaseSlot<T>> _slotsPool;
-        [SerializeField,ReadOnly] protected BaseSlot<T>[] _slots;
-        [Header("Pool Configuration")]
-        private BaseSlot<T> _slotType;
+        private BaseSlot<T>[] _slots;
         [SerializeField] private RectTransform _continerParent;
         [Header("Container Configuration")]
         [SerializeField,Tooltip("Can the Container grow dynamically")] private bool _isDynamic;
@@ -19,24 +16,24 @@ namespace CardMaga.InventorySystem
         [SerializeField,Tooltip("Defines whether there is a maximum value for the slots")] private bool _haveMaxValue;
         [SerializeField,Tooltip("The maximum value of slots")] private int _numberOfMaxlots;
 
-        public abstract BaseSlot<T> SlotType { get; }
-
-        public BaseSlot<T>[] Sots => _slots;
-        
-        public int CollectionLength => _slots.Length;
+        private int CollectionLength => _slots.Length;
         
         public void Awake()
         {
             _slots = new BaseSlot<T>[_numberOfInitializeSlots];
-            _slotsPool = new MBPool<BaseSlot<T>>(SlotType,_continerParent);
+
+            for (int i = 0; i < _numberOfInitializeSlots; i++)
+            {
+                _slots[i] = new BaseSlot<T>();
+            }
         }
 
         public void InitializeSlots(T[] objects)
         {
             for (int i = 0; i < objects.Length; i++)
             {
-                _slots[i] = objects[i] as BaseSlot<T>;
                 _slots[i].AssignValue(objects[i]);
+                objects[i].transform.SetParent(_continerParent);
             }
         }
 
@@ -47,14 +44,16 @@ namespace CardMaga.InventorySystem
                 if (!_slots[i].IsHaveValue)
                 {
                     _slots[i].AssignValue(obj);
+                    obj.transform.SetParent(_continerParent);
                     return true;
                 }
             }
             
             if (_isDynamic && (!_haveMaxValue || CollectionLength <= _numberOfMaxlots))
             {
-                var cache = _slotsPool.Pull();
+                var cache = new BaseSlot<T>();
                 cache.AssignValue(obj);
+                obj.transform.SetParent(_continerParent);
                 ExpandSlots();
                 _slots[_slots.Length - 1] = cache;
                 return true;
@@ -75,6 +74,21 @@ namespace CardMaga.InventorySystem
 
         #region FindCollectionObject
 
+        public bool GetEmptySlot(out BaseSlot<T> baseSlot)
+        {
+            foreach (var slot in _slots)
+            {
+                if (!slot.IsHaveValue)
+                {
+                    baseSlot = slot;
+                    return true;
+                }
+            }
+
+            baseSlot = null;
+            return false;
+        }
+        
         public bool TryFindCollectionObject(BaseSlot<T> otherSlot, out T obj)
         {
             for (int i = 0; i < CollectionLength; i++)

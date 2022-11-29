@@ -2,6 +2,7 @@
 using CardMaga.InventorySystem;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
+using CardMaga.ObjectPool;
 using UnityEngine;
 
 namespace CardMaga.MetaUI.CollectionUI
@@ -12,8 +13,8 @@ namespace CardMaga.MetaUI.CollectionUI
         [SerializeField] private RectTransform _cardHolder;
         [SerializeField] private MetaCardUI _cardPrefabRef;
         [SerializeField] private MetaComboUI _comboPrefabRef;
-        private BasePoolObjectVisualToData<MetaComboUI, MetaComboData> _comboPool;
-        private BasePoolObjectVisualToData<MetaCardUI, MetaCardData> _cardPool;
+        private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
+        private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
 
         private List<MetaCardUI> _metaCardUis;
         private List<MetaComboUI> _metaComboUis;
@@ -25,11 +26,11 @@ namespace CardMaga.MetaUI.CollectionUI
 
         public void Init(AccountDataCollectionHelper accountData,MetaAccountData metaAccountData)
         {
-            _cardPool = new BasePoolObjectVisualToData<MetaCardUI, MetaCardData>(_cardPrefabRef, _cardHolder);
-            _comboPool = new BasePoolObjectVisualToData<MetaComboUI, MetaComboData>(_comboPrefabRef, _comboHolder);
+            _comboVisualRequester = new VisualRequester<MetaComboUI, MetaComboData>(_comboPrefabRef);
+            _cardVisualRequester = new VisualRequester<MetaCardUI, MetaCardData>(_cardPrefabRef);
 
-            _metaComboUis = _comboPool.PullObjects(metaAccountData.CharacterDatas.CharacterData.Decks[0].Combos);
-            _metaCardUis = _cardPool.PullObjects(metaAccountData.CharacterDatas.CharacterData.Decks[0].Cards);
+            _metaComboUis =  _comboVisualRequester.GetVisual(metaAccountData.CharacterDatas.CharacterData.Decks[0].Combos);
+            _metaCardUis = _cardVisualRequester.GetVisual(metaAccountData.CharacterDatas.CharacterData.Decks[0].Cards);
             
             _metaCardUICollectionHandler.Init();
             _metaComboUICollectionHandler.Init();
@@ -43,10 +44,10 @@ namespace CardMaga.MetaUI.CollectionUI
 
         public void AddCardUI(MetaCardData metaCardData)
         {
-            var cache = FindEmptyCard();
-            cache.AssignVisual(metaCardData);
-            _metaCardUIContainer.TryAddObject(cache);
-            cache.Show();
+            //var cache = FindEmptyCard();
+           // cache.AssignVisual(metaCardData);
+           // _metaCardUIContainer.TryAddObject(cache);
+           // cache.Show();
         }
 
         public void RemoveCardUI(MetaCardData metaCardData)
@@ -56,10 +57,10 @@ namespace CardMaga.MetaUI.CollectionUI
 
         public void AddComboUI(MetaComboData metaComboData)
         {
-            var cache = FindEmptyCombo();
-            cache.AssignVisual(metaComboData);
-            _metaComboUiContainer.TryAddObject(cache);
-            cache.Show();
+            //var cache = FindEmptyCombo();
+          //  cache.AssignVisual(metaComboData);
+           // _metaComboUiContainer.TryAddObject(cache);
+           // cache.Show();
         }
 
         public void RemoveComboUI(MetaComboData metaComboData)
@@ -85,32 +86,6 @@ namespace CardMaga.MetaUI.CollectionUI
             foreach (var metaComboUI in _metaComboUis)
             {
                 if (metaComboData.ID == metaComboUI.MetaComboData.ID)
-                {
-                    return metaComboUI;
-                }
-            }
-
-            return null;
-        }
-
-        private MetaCardUI FindEmptyCard()
-        {
-            foreach (var metaCardUi in _metaCardUis)
-            {
-                if (!metaCardUi.IsHaveValue)
-                {
-                    return metaCardUi;
-                }
-            }
-
-            return null;
-        }
-        
-        private MetaComboUI FindEmptyCombo()
-        {
-            foreach (var metaComboUI in _metaComboUis)
-            {
-                if (!metaComboUI.IsHaveValue)
                 {
                     return metaComboUI;
                 }

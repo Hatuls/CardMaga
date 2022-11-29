@@ -1,14 +1,15 @@
 using System;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
+using UnityEngine;
 
 namespace CardMaga.InventorySystem
 {
-    public class BaseSlot<T> : BaseUIElement, IInventoryObject<T>,IPoolableMB<BaseSlot<T>> where T : BaseUIElement , IEquatable<T>
+    public class BaseSlot<T> : IInventoryObject<T> where T : BaseUIElement , IEquatable<T>
     {
         public event Action<BaseSlot<T>> OnDisposed;
-        public event Action<IInventoryObject<T>> OnAddInventoryObject; 
-        public event Action<IInventoryObject<T>> OnRemoveInventoryObject; 
+        public event Action<T> OnAddInventoryObject; 
+        public event Action<T> OnRemoveInventoryObject; 
         
         private T _inventoryObject;
 
@@ -22,7 +23,7 @@ namespace CardMaga.InventorySystem
                 return;
             
             _inventoryObject = InventoryObject;
-            OnAddInventoryObject?.Invoke(this);
+            OnAddInventoryObject?.Invoke(_inventoryObject);
         }
 
         public void RemoveValue()
@@ -30,8 +31,8 @@ namespace CardMaga.InventorySystem
             if (!IsHaveValue)
                 return;
             _inventoryObject.Hide();
+            OnRemoveInventoryObject?.Invoke(_inventoryObject);
             _inventoryObject = null;
-            OnRemoveInventoryObject?.Invoke(this);
         }
 
         public bool Contain(T other)
@@ -47,7 +48,7 @@ namespace CardMaga.InventorySystem
         }
     }
 
-   public interface IInventoryObject<T>
+   public interface IInventoryObject<T> where T : IEquatable<T>
        {
            T InventoryObject { get; }
        } 

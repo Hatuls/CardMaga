@@ -5,22 +5,27 @@ using UnityEngine;
 
 namespace CardMaga.Tools.Pools
 {
-    public class MBPool<T> : ObjectPool<T>, IPoolMBObject<T> where T : MonoBehaviour, IPoolableMB<T>, new()
+    public class MBPool<T> : IPoolMBObject<T> where T : MonoBehaviour, IPoolableMB<T>, new()
     {
-        protected T _prefabOfType;
+        private readonly Stack<T> _poolToType = new Stack<T>();
+
+        private readonly List<T> _totalPoolType = new List<T>();
+        public Type GetPoolableType => typeof(T);
+
+        private T _prefabOfType;
         private Transform _parent;
         
-        public MBPool(T prefabOfType, Transform parent, int startSize) : this(prefabOfType, parent)
+        public MBPool(T prefabOfType, int startSize, Transform parent = null) : this(prefabOfType, parent)
         {
             InitSize(startSize);
         }
         
-        public MBPool(T prefabOfType, Transform parent)
+        public MBPool(T prefabOfType, Transform parent = null)
         {
-            _prefabOfType = prefabOfType;
             _parent = parent;
+            _prefabOfType = prefabOfType;
         }
-      
+
         private void InitSize(int amount)
         {
             for (int i = 0; i < amount; i++)
@@ -29,22 +34,43 @@ namespace CardMaga.Tools.Pools
             ResetPool();
         }
         
-        public override T Pull()
+        public T Pull()
         {
-            T type = base.Pull();
-            type.Init();
-            return type;
+            T cache = null;
+
+            if (_poolToType.Count > 0)
+                cache = _poolToType.Pop();
+            else
+                cache = GenerateNewOfType();
+            
+            cache.transform.SetParent(_parent);
+
+            return cache;
         }
         
-        protected override void AddToQueue(T type)
+        public T Pull(Transform parent)
         {
-            base.AddToQueue(type);
+            T cache = null;
+
+            if (_poolToType.Count > 0)
+                cache = _poolToType.Pop();
+            else
+                cache = GenerateNewOfType();
+            
+            cache.transform.SetParent(parent);
+            
+            return cache;
+        }
+
+        private void AddToQueue(T type)
+        {
+            _poolToType.Push(type);
             type.gameObject.SetActive(false);
         }
 
-        protected override T GenerateNewOfType()
+        private T GenerateNewOfType()
         {
-            T cache = MonoBehaviour.Instantiate(_prefabOfType, _parent);
+            T cache = MonoBehaviour.Instantiate(_prefabOfType);
 
             if (cache == null)
             {
@@ -56,13 +82,19 @@ namespace CardMaga.Tools.Pools
             _totalPoolType.Add(cache);
             return cache;
         }
+        
+        public void ResetPool()
+        {
+            for (int i = 0; i < _totalPoolType.Count; i++)
+                _totalPoolType[i].Dispose();
+        }
     }
     
     public class ObjectPool<T> : IPoolObject<T> where T : class, IPoolable<T>, new()
     {
-        protected Stack<T> _poolToType = new Stack<T>();
+        private Stack<T> _poolToType = new Stack<T>();
 
-        protected List<T> _totalPoolType = new List<T>();
+        private List<T> _totalPoolType = new List<T>();
         public Type GetPoolableType => typeof(T);
         
         public ObjectPool()
@@ -77,7 +109,7 @@ namespace CardMaga.Tools.Pools
             ResetPool();
         }
 
-        public virtual T Pull()
+        public T Pull()
         {
             T cache = null;
 
@@ -88,8 +120,8 @@ namespace CardMaga.Tools.Pools
 
             return cache;
         }
-        
-        protected virtual T GenerateNewOfType()
+
+        private T GenerateNewOfType()
         {
             T cache = new T();
 
@@ -104,7 +136,7 @@ namespace CardMaga.Tools.Pools
             return cache;
         }
 
-        protected virtual void AddToQueue(T type)
+        private void AddToQueue(T type)
         {
             _poolToType.Push(type);
         }
@@ -131,6 +163,7 @@ namespace CardMaga.Tools.Pools
 
     public interface IPoolMBObject<T> : IPoolObject<T> where T : MonoBehaviour, IPoolableMB<T>
     {
+        T Pull(Transform parent);
     }
 
     public interface IPoolable<T> : IDisposable
