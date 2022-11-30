@@ -29,6 +29,7 @@ namespace TutorialDirector
             MoveDirectorPosition();
             if (OnDirectorStart != null)
                 OnDirectorStart.Invoke();
+            _playableDirector.Play();
         }
 
         public void StopDirector()
@@ -56,7 +57,7 @@ namespace TutorialDirector
 
         protected virtual void MoveDirectorPosition()
         {
-            _playableDirector.Play();
+            
         }
 
         private void ReleaseToken()
