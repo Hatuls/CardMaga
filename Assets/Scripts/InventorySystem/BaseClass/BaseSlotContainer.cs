@@ -1,5 +1,4 @@
 using System;
-using CardMaga.Tools.Pools;
 using CardMaga.UI;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace CardMaga.InventorySystem
 {
     public abstract class BaseSlotContainer<T> : MonoBehaviour where T : BaseUIElement , IEquatable<T>
     {
-        private BaseSlot<T>[] _slots;
+        [ReadOnly] private BaseSlot<T>[] _slots;
         [SerializeField] private RectTransform _continerParent;
         [Header("Container Configuration")]
         [SerializeField,Tooltip("Can the Container grow dynamically")] private bool _isDynamic;

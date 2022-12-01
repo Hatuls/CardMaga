@@ -45,9 +45,7 @@ namespace CardMaga.Input
         [SerializeField, Tooltip("Need to add tooltip")] private InputIdentificationSO _identification;
 
         private InputBehaviour _inputBehaviour;
-        private InputBehaviour _defaultInputBehaviour;
-        
-        
+
         private Vector2 _startPosition;
         private bool _isHold;
         private bool _isTouchable;
@@ -73,13 +71,6 @@ namespace CardMaga.Input
             
             if (!(InputIdentification == null) && !(LockAndUnlockSystem.Instance == null))
                 LockAndUnlockSystem.Instance.AddTouchableItemToList(this);
-                
-            if (_defaultInputBehaviour != null)
-                return;
-
-            _defaultInputBehaviour = new InputBehaviour();
-
-            _inputBehaviour = _defaultInputBehaviour;
         }
         
         protected virtual void OnDestroy()
@@ -95,7 +86,7 @@ namespace CardMaga.Input
         {
             OnClick?.Invoke();
             OnClickEvent?.Invoke();
-            _inputBehaviour.Click();
+            _inputBehaviour?.Click();
 #if UNITY_EDITOR
             //Debug.Log(_touchableItem.name + GetInstanceID() + " Click");
 #endif
@@ -105,7 +96,7 @@ namespace CardMaga.Input
         {
             OnBeginHold?.Invoke();
             OnBeginHoldEvent?.Invoke();
-            _inputBehaviour.BeginHold();
+            _inputBehaviour?.BeginHold();
 #if UNITY_EDITOR
             // Debug.Log(_touchableItem.name + GetInstanceID() + " BeginHold");
 #endif
@@ -115,7 +106,7 @@ namespace CardMaga.Input
         {
             OnEndHold?.Invoke();
             OnEndHoldEvent?.Invoke();
-            _inputBehaviour.EndHold();
+            _inputBehaviour?.EndHold();
 #if UNITY_EDITOR
             // Debug.Log(_touchableItem.name + GetInstanceID() + " EndHold");
 #endif
@@ -125,7 +116,7 @@ namespace CardMaga.Input
         {
             OnHold?.Invoke();
             OnHoldEvent?.Invoke();
-            _inputBehaviour.Hold();
+            _inputBehaviour?.Hold();
 #if UNITY_EDITOR
             if (_holdLogCount % 10 == 0)
             {
@@ -140,7 +131,7 @@ namespace CardMaga.Input
         {
             OnPointDown?.Invoke();
             OnPointDownEvent?.Invoke();
-            _inputBehaviour.PointDown();
+            _inputBehaviour?.PointDown();
 #if UNITY_EDITOR
             //Debug.Log(_touchableItem.name + GetInstanceID() + " PointDown");
 #endif
@@ -150,7 +141,7 @@ namespace CardMaga.Input
         {
             OnPointUp?.Invoke();
             OnPointUpEvent?.Invoke();
-            _inputBehaviour.PointUp();
+            _inputBehaviour?.PointUp();
 #if UNITY_EDITOR
             //Debug.Log(_touchableItem.name + GetInstanceID() + " PointUp");
 #endif
@@ -294,7 +285,7 @@ namespace CardMaga.Input
 
         public bool TrySetInputBehaviour(InputBehaviour inputBehaviour)
         {
-            if (inputBehaviour == null || _inputBehaviour == null)
+            if (inputBehaviour == null)
             {
                 Debug.LogWarning(name + "InputBehaviour is null");
                 return false;
@@ -306,6 +297,11 @@ namespace CardMaga.Input
                 return true;
 
             return false;
+        }
+        
+        public void ForceResetInputBehaviour()
+        {
+            _inputBehaviour = null;
         }
 
         #endregion
@@ -361,7 +357,6 @@ namespace CardMaga.Input
         [SerializeField,Tooltip("The current input behaviour state")] [ReadOnly] private InputBehaviourState _currentInputBehaviourState;
 
         private InputBehaviour<T> _inputBehaviour;
-        private InputBehaviour<T> _defaultInputBehaviour;
         
         #endregion
 
@@ -369,29 +364,11 @@ namespace CardMaga.Input
         
         public InputBehaviour<T> InputBehaviour => _inputBehaviour;
         
-        public InputBehaviour<T> DefaultInputBehaviour => _defaultInputBehaviour;
-
         public InputBehaviourState CurrentInputBehaviourState
         {
             get => _currentInputBehaviourState;
         }
 
-        #endregion
-
-        #region UnityCallBack
-
-        protected override void Awake()
-        {
-            base.Awake();
-            
-            if (_defaultInputBehaviour != null)
-                return;
-
-            _defaultInputBehaviour = new InputBehaviour<T>();
-
-            _inputBehaviour = _defaultInputBehaviour;
-        }
-        
         #endregion
 
         #region EventCallBack
@@ -400,42 +377,42 @@ namespace CardMaga.Input
         {
             base.Click();
             OnClickValue?.Invoke(_touchableItem);
-            _inputBehaviour.Click(_touchableItem);
+            _inputBehaviour?.Click(_touchableItem);
         }
 
         protected override void BeginHold()
         {
             base.BeginHold();
             OnBegineValue?.Invoke(_touchableItem);
-            _inputBehaviour.BeginHold(_touchableItem);
+            _inputBehaviour?.BeginHold(_touchableItem);
         }
 
         protected override void Hold()
         {
             base.Hold();
             OnHoldValue?.Invoke(_touchableItem);
-            _inputBehaviour.Hold(_touchableItem);
+            _inputBehaviour?.Hold(_touchableItem);
         }
 
         protected override void EndHold()
         {
             base.EndHold();
             OnEndHoldValue?.Invoke(_touchableItem);
-            _inputBehaviour.EndHold(_touchableItem);
+            _inputBehaviour?.EndHold(_touchableItem);
         }
 
         protected override void PointDown()
         {
             base.PointDown();
             OnPointDownValue?.Invoke(_touchableItem);
-            _inputBehaviour.PointDown(_touchableItem);
+            _inputBehaviour?.PointDown(_touchableItem);
         }
 
         protected override void PointUp()
         {
             base.PointUp();
             OnPointUpValue?.Invoke(_touchableItem);
-            _inputBehaviour.PointUp(_touchableItem);
+            _inputBehaviour?.PointUp(_touchableItem);
         }
 
         #endregion
@@ -449,7 +426,7 @@ namespace CardMaga.Input
         
         public bool TrySetInputBehaviour(InputBehaviour<T> inputBehaviour)
         {
-            if (inputBehaviour == null || _inputBehaviour == null)
+            if (inputBehaviour == null)
             {
                 Debug.LogWarning(name + "InputBehaviour is null");
                 return false;
@@ -470,8 +447,7 @@ namespace CardMaga.Input
 
         public void ForceResetInputBehaviour()
         {
-            _currentInputBehaviourState = InputBehaviourState.Default;
-            _inputBehaviour = _defaultInputBehaviour;
+            _inputBehaviour = null;
         }
 
         #endregion

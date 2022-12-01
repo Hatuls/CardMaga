@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Account.GeneralData;
 using UnityEngine;
 
@@ -17,11 +18,13 @@ namespace CardMaga.MetaData.AccoutData
 
         #region Prop
 
+        public MetaCharacterData[] CharacterDatas => _characterDatas.Values.ToArray();//need to chaeck rei!@
+        
         public MetaCharacterData CharacterData => _mainMetaCharacterData;
 
         #endregion
 
-        public MetaCharactersHandler(IReadOnlyList<Character> characters)
+        public MetaCharactersHandler(IReadOnlyList<Character> characters,int mainCharacterIndex)
         {
             _characterDatas = new Dictionary<int, MetaCharacterData>();
             
@@ -31,8 +34,28 @@ namespace CardMaga.MetaData.AccoutData
                 _characterDatas.Add(character.ID,data);
             }
 
-            if (_characterDatas.TryGetValue(1, out MetaCharacterData metaCharacterData))//need to re done
-                _mainMetaCharacterData = metaCharacterData;
+            if (TrySetCharacter(mainCharacterIndex))
+            {
+                
+            }//need to re done
+        }
+
+        public bool TrySetCharacter(int characterIndex)
+        {
+            if (characterIndex > _characterDatas.Count)
+            {
+                Debug.LogError("Invalid Character Index");
+                return false;
+            }
+
+            if (!_characterDatas.TryGetValue(characterIndex, out MetaCharacterData metaCharacterData))
+            {
+                Debug.LogError("Failed to get Character from Dictionary");
+                return false;
+            }
+
+            _mainMetaCharacterData = metaCharacterData;
+            return true;
         }
 
         public bool TryAddCharacter()//need to work on

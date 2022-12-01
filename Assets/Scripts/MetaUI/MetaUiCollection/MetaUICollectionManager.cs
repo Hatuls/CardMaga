@@ -9,20 +9,19 @@ namespace CardMaga.MetaUI.CollectionUI
 {
     public class MetaUICollectionManager : MonoBehaviour
     {
-        [SerializeField] private RectTransform _comboHolder;
-        [SerializeField] private RectTransform _cardHolder;
         [SerializeField] private MetaCardUI _cardPrefabRef;
         [SerializeField] private MetaComboUI _comboPrefabRef;
-        private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
-        private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
-
-        private List<MetaCardUI> _metaCardUis;
-        private List<MetaComboUI> _metaComboUis;
-
-        [SerializeField] private MetaCardUICollectionHandler _metaCardUICollectionHandler;
-        [SerializeField] private MetaComboUICollectionHandler _metaComboUICollectionHandler;
+        
+        [SerializeField] private MetaCardUICollectionScrollPanel metaCardUICollectionScrollPanel;
+        [SerializeField] private MetaComboUICollectionScrollPanel metaComboUICollectionScrollPanel;
         [SerializeField] private MetaCardUIContainer _metaCardUIContainer;
         [SerializeField] private MetaComboUiContainer _metaComboUiContainer;
+        
+        private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
+        private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
+        
+        private List<MetaCardUI> _metaCardUis;
+        private List<MetaComboUI> _metaComboUis;
 
         public void Init(AccountDataCollectionHelper accountData,MetaAccountData metaAccountData)
         {
@@ -32,10 +31,10 @@ namespace CardMaga.MetaUI.CollectionUI
             _metaComboUis =  _comboVisualRequester.GetVisual(metaAccountData.CharacterDatas.CharacterData.Decks[0].Combos);
             _metaCardUis = _cardVisualRequester.GetVisual(metaAccountData.CharacterDatas.CharacterData.Decks[0].Cards);
             
-            _metaCardUICollectionHandler.Init();
-            _metaComboUICollectionHandler.Init();
-            _metaCardUICollectionHandler.AddObjectToPanel(accountData.CollectionCardDatas);
-            _metaComboUICollectionHandler.AddObjectToPanel(accountData.CollectionComboDatas);
+            metaCardUICollectionScrollPanel.Init();
+            metaComboUICollectionScrollPanel.Init();
+            metaCardUICollectionScrollPanel.AddObjectToPanel(accountData.CollectionCardDatas);
+            metaComboUICollectionScrollPanel.AddObjectToPanel(accountData.CollectionComboDatas);
             
             
             _metaComboUiContainer.InitializeSlots(_metaComboUis.ToArray());
@@ -44,10 +43,13 @@ namespace CardMaga.MetaUI.CollectionUI
 
         public void AddCardUI(MetaCardData metaCardData)
         {
-            //var cache = FindEmptyCard();
-           // cache.AssignVisual(metaCardData);
-           // _metaCardUIContainer.TryAddObject(cache);
-           // cache.Show();
+            if (!_metaCardUIContainer.GetEmptySlot(out var cardSlot))
+                return;
+
+            var cache = FindEmptyCardUI();  
+            cache.AssignVisual(metaCardData);
+            cardSlot.AssignValue(cache);   
+            cache.Show();
         }
 
         public void RemoveCardUI(MetaCardData metaCardData)
@@ -57,10 +59,13 @@ namespace CardMaga.MetaUI.CollectionUI
 
         public void AddComboUI(MetaComboData metaComboData)
         {
-            //var cache = FindEmptyCombo();
-          //  cache.AssignVisual(metaComboData);
-           // _metaComboUiContainer.TryAddObject(cache);
-           // cache.Show();
+            if (!_metaComboUiContainer.GetEmptySlot(out var comboSlot))
+                return;
+            
+            var cache = FindEmptyComboUI();    
+            cache.AssignVisual(metaComboData);
+            comboSlot.AssignValue(cache);   
+            cache.Show();
         }
 
         public void RemoveComboUI(MetaComboData metaComboData)
@@ -68,7 +73,7 @@ namespace CardMaga.MetaUI.CollectionUI
             _metaComboUiContainer.RemoveObject(FindComboUI(metaComboData));
         }
 
-        public MetaCardUI FindCardUI(MetaCardData metaCardData)
+        private MetaCardUI FindCardUI(MetaCardData metaCardData)
         {
             foreach (var metaCardUi in _metaCardUis)
             {
@@ -81,7 +86,33 @@ namespace CardMaga.MetaUI.CollectionUI
             return null;
         }
         
-        public MetaComboUI FindComboUI(MetaComboData metaComboData)
+        private MetaCardUI FindEmptyCardUI()
+        {
+            foreach (var metaCardUi in _metaCardUis)
+            {
+                if (metaCardUi.IsEmpty)
+                {
+                    return metaCardUi;
+                }
+            }
+
+            return null;
+        }
+        
+        private MetaComboUI FindEmptyComboUI()
+        {
+            foreach (var metaComboUI in _metaComboUis)
+            {
+                if (metaComboUI.IsEmpty)
+                {
+                    return metaComboUI;
+                }
+            }
+
+            return null;
+        }
+
+        private MetaComboUI FindComboUI(MetaComboData metaComboData)
         {
             foreach (var metaComboUI in _metaComboUis)
             {

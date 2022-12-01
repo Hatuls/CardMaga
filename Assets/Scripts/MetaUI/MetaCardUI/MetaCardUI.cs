@@ -1,6 +1,5 @@
 using System;
 using Account.GeneralData;
-using CardMaga.InventorySystem;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
@@ -19,6 +18,10 @@ namespace CardMaga.MetaUI
 
         public CardInstance CardInstance => _cardInstance;
 
+        private bool _isEmpty;
+
+        public bool IsEmpty => _isEmpty;
+
         public override void Init()
         {
             base.Init();
@@ -36,12 +39,14 @@ namespace CardMaga.MetaUI
         { 
             _cardVisuals.gameObject.SetActive(false);
             _emptyCard.gameObject.SetActive(true);
+            _isEmpty = true;
         }
 
         public override void Show()
         {
             _cardVisuals.gameObject.SetActive(true);
             _emptyCard.gameObject.SetActive(false);
+            _isEmpty = false;
         }
 
         public void AssignVisual(MetaCardData data)

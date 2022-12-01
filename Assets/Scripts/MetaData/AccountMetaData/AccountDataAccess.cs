@@ -24,7 +24,7 @@ namespace CardMaga.MetaData.AccoutData
         {
             _metaAccountData.CharacterDatas.CharacterData.UpdateDeck(metaDeckData,0);
             UpdateDeckDataRequest deckDataRequest = new UpdateDeckDataRequest(metaDeckData, 0);//need to get a characrerid
-            deckDataRequest.SendRequest(tokenMachine);
+            deckDataRequest.SendRequest(tokenMachine);//need to add charecter support
         }
     }
 }

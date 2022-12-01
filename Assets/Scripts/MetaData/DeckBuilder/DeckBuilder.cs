@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 
@@ -8,13 +7,14 @@ namespace CardMaga.MetaData.DeckBuilding
     public class DeckBuilder
     {
         #region Events
-        
+        public event Action OnDeckNameUpdate; 
         public event Action<MetaCardData> OnSuccessCardAdd;
         public event Action<string> OnFailedCardAdd;
-        public event Action<MetaCardData> OnSuccessCardRemove; 
+        public event Action<MetaCardData> OnSuccessCardRemove;
         public event Action<MetaComboData> OnSuccessComboAdd;
         public event Action<string> OnFailedComboAdd; 
-        public event Action<MetaComboData> OnSuccessComboRemove; 
+        public event Action<MetaComboData> OnSuccessComboRemove;
+        public event Action<MetaDeckData> OnNewDeckLoaded; 
 
         #endregion
         
@@ -49,9 +49,11 @@ namespace CardMaga.MetaData.DeckBuilding
                 OnSuccessComboAdd += comboData.RemoveItemReference;
                 OnSuccessComboRemove += comboData.AddItemReference;
             }
+            
+            OnNewDeckLoaded?.Invoke(_deck);
         }
 
-        public void DisposeDeck()
+        public void DisposeDeck()//Need to call
         {
             foreach (var cardData in _accountDataCollection.CollectionCardDatas)
             {
@@ -72,8 +74,9 @@ namespace CardMaga.MetaData.DeckBuilding
         
         public bool TryEditDeckName(string name)
         {
-            //add name vaild
+            //add name valid
             _deck.UpdateDeckName(name);
+            OnDeckNameUpdate?.Invoke();
             return true;
         }
 

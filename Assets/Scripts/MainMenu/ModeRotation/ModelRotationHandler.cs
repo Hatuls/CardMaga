@@ -61,7 +61,6 @@ namespace MainMenu.ModeRotation
                 float yD = startY + force / _dragModifire;
                 
                 Quaternion quaternion =   Quaternion.Euler(0,yD,0);
-                Debug.Log(quaternion);
                 _model.transform.rotation = quaternion;
                 yield return null;
             }

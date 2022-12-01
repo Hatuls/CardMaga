@@ -28,8 +28,17 @@ namespace CardMaga.MetaData.AccoutData
         public int SkillPoint { get => _skillPoint; set => _skillPoint = value; }
         public int Rank { get => _rank; set => _rank = value; }
         public int Exp { get => _exp; set => _exp = value; }
-        public int MainDeck { get => _mainDeck; private set => _mainDeck = value; }
-        public int Id { get => _id; private set => _id = value; }
+
+        public MetaDeckData MainDeck
+        {
+            get => _decks[_mainDeck];
+        }
+
+        public int Id
+        {
+            get => _id;
+        }
+
         public IReadOnlyList<int> AvailableSkins => _availableSkins;
         public IReadOnlyList<MetaDeckData> Decks => _decks; 
         public int DeckLimit => _deckAmount;//limit
@@ -83,6 +92,18 @@ namespace CardMaga.MetaData.AccoutData
             }
             
             _decks.Add(new MetaDeckData(new DeckData(_decks.Count)));
+            return true;
+        }
+
+        public bool TryMainDeck(int deckIndex)
+        {
+            if (deckIndex > _decks.Count)
+            {
+                Debug.LogWarning("Invalid deck index");
+                return false;
+            }
+
+            _mainDeck = deckIndex;
             return true;
         }
 

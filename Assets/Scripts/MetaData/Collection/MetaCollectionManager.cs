@@ -11,21 +11,23 @@ namespace CardMaga.MetaData.Collection
     {
         [SerializeField] private UnityEvent OnSuccessUpdateDeck;
         [SerializeField] private UnityEvent OnFailedUpdateDeck;
-
+        [SerializeField] private MetaDeckUICollectionManager _deckUICollectionManager;
         [SerializeField] private InputFieldHandler _deckName;
         [SerializeField] private AccountDataAccess _accountDataAccess;
         [SerializeField] private MetaUICollectionManager _metaUICollectionManager;
         private AccountDataCollectionHelper _accountDataCollectionHelper;
         private DeckBuilder _deckBuilder;
 
-        private void Start()
+        public void Start()
         {
             _accountDataCollectionHelper = new AccountDataCollectionHelper(_accountDataAccess);
             _metaUICollectionManager.Init(_accountDataCollectionHelper,_accountDataAccess.AccountData);
             _deckBuilder = new DeckBuilder(_accountDataCollectionHelper);
-            _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0]);
-            _deckName.SetText(_accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].DeckName);//all plaster
-
+            _deckUICollectionManager.Init(_accountDataAccess.AccountData.CharacterDatas);
+            _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck);
+            _deckName.SetText(_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.DeckName);//all plaster
+            
+            
             _deckName.OnValueChange += EditDeckName;
             _deckBuilder.OnSuccessCardAdd += _metaUICollectionManager.AddCardUI;
             _deckBuilder.OnSuccessCardRemove += _metaUICollectionManager.RemoveCardUI;
@@ -35,12 +37,10 @@ namespace CardMaga.MetaData.Collection
 
         private void EditDeckName(string name)
         {
-            if (_deckBuilder.TryEditDeckName(name))
-            {
-                Debug.Log("Deck new name " + name);
-            }
-
-            Debug.Log("Failed to update deck name");
+            if (!_deckBuilder.TryEditDeckName(name))
+                Debug.Log("Failed to update deck name");
+            
+            Debug.Log("Deck new name " + name);
         }
 
         public void ExitDeckEditing()

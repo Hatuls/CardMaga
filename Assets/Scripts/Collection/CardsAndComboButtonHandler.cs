@@ -16,8 +16,7 @@ namespace Collection
             [SerializeField] private GameObject _comboCollection;
 
             [Header("Cycle Collection Button")] 
-            [SerializeField] private CollectionButton _topButton;
-            [SerializeField] private CollectionButton _bottomButton;
+            [SerializeField] private CollectionButton[] _buttons;
             
             private InputBehaviour _comboState;
             private InputBehaviour _cardState;
@@ -42,10 +41,12 @@ namespace Collection
                 OnComboCollectionOpen?.Invoke();
                 _deckCollection.SetActive(false);
                 _comboCollection.SetActive(true);
-                _bottomButton.ComboAndDecksButtonText.text = "Cards";
-                _bottomButton.TrySetInputBehaviour(_comboState);
-                _topButton.ComboAndDecksButtonText.text = "Cards";
-                _topButton.TrySetInputBehaviour(_comboState);
+                
+                foreach (var button in _buttons)
+                {
+                    button.ComboAndDecksButtonText.text = "Cards";
+                    button.TrySetInputBehaviour(_comboState);
+                }
             }
         
             private void SetToCardState()
@@ -53,10 +54,12 @@ namespace Collection
                 OnCardsCollectionOpen?.Invoke();
                 _deckCollection.SetActive(true);
                 _comboCollection.SetActive(false);
-                _bottomButton.ComboAndDecksButtonText.text = "Combos";
-                _bottomButton.TrySetInputBehaviour(_cardState);
-                _topButton.ComboAndDecksButtonText.text = "Combos";
-                _topButton.TrySetInputBehaviour(_cardState);
+                
+                foreach (var button in _buttons)
+                {
+                    button.ComboAndDecksButtonText.text = "Combos";
+                    button.TrySetInputBehaviour(_cardState);
+                }
             }
     }
 }

@@ -16,6 +16,9 @@ namespace CardMaga.MetaUI
         [SerializeField] private RectTransform _emptyCombo;
 
         private MetaComboData _metaComboData;
+        private bool _isEmpty;
+
+        public bool IsEmpty => _isEmpty;
         
         public MetaComboData MetaComboData => _metaComboData;
         public void Dispose()
@@ -28,12 +31,14 @@ namespace CardMaga.MetaUI
         {
             _comboVisual.gameObject.SetActive(true);
             _emptyCombo.gameObject.SetActive(false);
+            _isEmpty = false;
         }
 
         public override void Hide()
         {
             _comboVisual.gameObject.SetActive(false);
             _emptyCombo.gameObject.SetActive(true);
+            _isEmpty = true;
         }
 
 
