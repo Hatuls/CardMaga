@@ -9,8 +9,14 @@ using UnityEngine;
 
 public class BarrierTutorialHandler : MonoBehaviour
 {
-    private IDisposable _token;
     public BattleCardUI BarrierCard { get; private set; }
+    private IDisposable _token;
+    private bool _isFlag;
+
+    private void Awake()
+    {
+        HandUIState.OnCardDrawnAndAlign += OnlyUnlockBarrier;
+    }
 
     public void WaitForBarrierToDraw(ITokenReciever tokenReciever)
     {
@@ -24,24 +30,33 @@ public class BarrierTutorialHandler : MonoBehaviour
         {
             if (battleCardUIs[i].BattleCardData.CardSO.ID == 100)
             {
-                BarrierCard = battleCardUIs[i];
+                HandUI.OnCardsAddToHand -= CheckForBerrierCard;
                 ReleaseToken();
             }
         }
     }
 
-    public void OnlyUnlockBarrier(ITokenReciever tokenReciever)
+    public void Barrier(ITokenReciever tokenReciever)
     {
         _token = tokenReciever.GetToken();
+        _isFlag = true;
+    }
+
+    public void OnlyUnlockBarrier()
+    {
+        if (!_isFlag)
+            return;
         IGetCardsUI cardsUI = BattleManager.Instance.BattleUIManager.HandUI.HandUIState;
+        HandUIState.OnCardDrawnAndAlign -= OnlyUnlockBarrier;
         for (int i = 0; i < cardsUI.CardsUI.Count; i++)
         {
             if (cardsUI.CardsUI[i].BattleCardData.CardSO.ID != 100)
-            {
                 cardsUI.CardsUI[i].Inputs.Lock();
-                ReleaseToken();
-            }
+
+            else
+                BarrierCard = cardsUI.CardsUI[i];
         }
+        ReleaseToken();
     }
 
     private void ReleaseToken()

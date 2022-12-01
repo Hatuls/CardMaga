@@ -15,17 +15,17 @@ namespace TutorialDirector
         
         [SerializeField] private UnityEvent OnDirectorStart;
         [SerializeField] private UnityEvent OnDirectorEnd;
+        [SerializeField] private bool _loadOnTutorialClickHelper;
 
         private IDisposable _token;
-        private TutorialClickHelper _tutorialClickHelper;
         
         public void StartAnimation(ITokenReciever tokenReciever)
         {
             _token = tokenReciever.GetToken();
-            _tutorialClickHelper = TutorialClickHelper.Instance;
             gameObject.SetActive(true);
             SubscribeEvent();
-            _tutorialClickHelper.LoadObject(true, false, null, _directorRect);
+            if(_loadOnTutorialClickHelper)
+            TutorialClickHelper.Instance.LoadObject(true, false, null, _directorRect);
             MoveDirectorPosition();
             if (OnDirectorStart != null)
                 OnDirectorStart.Invoke();
@@ -35,14 +35,15 @@ namespace TutorialDirector
         public void StopDirector()
         {
             UnsubscribeEvent();
-            _tutorialClickHelper.Close();
+            if (_loadOnTutorialClickHelper)
+                TutorialClickHelper.Instance.Close();
             ReleaseToken();
             gameObject.SetActive(false);
         }
 
         protected void ReturnCanvasObjects()
         {
-           _tutorialClickHelper.ReturnObjects();
+            TutorialClickHelper.Instance.ReturnObjects();
         }
 
         protected virtual void UnsubscribeEvent()

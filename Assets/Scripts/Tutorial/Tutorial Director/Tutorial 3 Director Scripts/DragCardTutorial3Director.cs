@@ -3,10 +3,11 @@ using CardMaga.UI;
 using CardMaga.UI.Card;
 using TutorialDirector;
 using UnityEngine;
+using System.Collections;
 
 public class DragCardTutorial3Director : BaseTutorialDirector
 {
-    [SerializeField]BarrierTutorialHandler barrierTutorialHandler;
+    [SerializeField] private BarrierTutorialHandler _barrierTutorialHandler;
     protected override void UnsubscribeEvent()
     {
         HandUI.OnCardExecute -= CardExecute;
@@ -18,7 +19,14 @@ public class DragCardTutorial3Director : BaseTutorialDirector
 
     protected override void MoveDirectorPosition()
     {
-        _directorRect.transform.position = barrierTutorialHandler.BarrierCard.RectTransform.position;
+        StartCoroutine(MoveDirector());
+    }
+
+    IEnumerator MoveDirector()
+    {
+        yield return new WaitForSeconds(0.2f);
+        _directorRect.transform.position = _barrierTutorialHandler.BarrierCard.RectTransform.position;
+        _playableDirector.Play();
     }
 
     private void CardExecute(BattleCardUI cardUI)

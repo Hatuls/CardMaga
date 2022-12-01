@@ -12,7 +12,7 @@ namespace CardMaga.UI
 {
     public class HandUIState : BaseHandUIState, IGetCardsUI
     {
-        public event Action OnCardDrawnAndAlign;
+        public static event Action OnCardDrawnAndAlign;
         
         [Header("TransitionPackSO")]
         [SerializeField] private TransitionPackSO _drawMoveTransitionPackSo;
@@ -118,6 +118,7 @@ namespace CardMaga.UI
             }
 
             onComplete?.Invoke();
+
         }
 
      

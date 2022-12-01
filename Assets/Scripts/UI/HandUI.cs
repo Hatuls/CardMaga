@@ -99,14 +99,14 @@ namespace CardMaga.UI
 
             _comboUIManager.OnCardComboDone += GetCardsFromCombo;
             BattleManager.OnGameEnded += DiscardAllCards;
-            _handUIState.OnCardDrawnAndAlign += UnLockInput;
+            HandUIState.OnCardDrawnAndAlign += UnLockInput;
         }
 
         private void OnDestroy()
         {
             _comboUIManager.OnCardComboDone -= GetCardsFromCombo;
             BattleManager.OnGameEnded -= DiscardAllCards;
-            _handUIState.OnCardDrawnAndAlign -= UnLockInput;
+            HandUIState.OnCardDrawnAndAlign -= UnLockInput;
 
             if (_leftPlayerGameTurn != null)
                 _leftPlayerGameTurn.OnTurnExit -= DiscardAllCards;

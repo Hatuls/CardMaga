@@ -20,6 +20,7 @@ MonoBehaviour:
   OnDirectorEnd:
     m_PersistentCalls:
       m_Calls: []
+  _barrierTutorialHandler: {fileID: 0}
 --- !u!1001 &6486590952787924707
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52,6 +53,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DragBarrierCardTutorialDirector
       objectReference: {fileID: 0}
+    - target: {fileID: 4485151720733470825, guid: 9d561eb480f47a9459d027e46656faec,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[0].value
+      value: 
+      objectReference: {fileID: 8400895823030780601}
     - target: {fileID: 8993230473362753302, guid: 9d561eb480f47a9459d027e46656faec,
         type: 3}
       propertyPath: m_Pivot.x
@@ -174,6 +180,12 @@ RectTransform:
 --- !u!320 &7222495760395478666 stripped
 PlayableDirector:
   m_CorrespondingSourceObject: {fileID: 4485151720733470825, guid: 9d561eb480f47a9459d027e46656faec,
+    type: 3}
+  m_PrefabInstance: {fileID: 6486590952787924707}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8400895823030780601 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3355456768187552858, guid: 9d561eb480f47a9459d027e46656faec,
     type: 3}
   m_PrefabInstance: {fileID: 6486590952787924707}
   m_PrefabAsset: {fileID: 0}
