@@ -9,6 +9,7 @@ using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using CardMaga.UI.Collections;
 using CardMaga.UI.Text;
+using CardMaga.VFX;
 using Keywords;
 using ReiTools.TokenMachine;
 using System;
@@ -31,6 +32,7 @@ namespace CardMaga.Battle.UI
         GameVisualCommands GameVisualCommands { get; }
         GlowManager GlowManager { get; }
         StatsUIManager StatsUIManager { get; }
+        VFXManager VFXManager { get; }
     }
 
     public class BattleUiManager : MonoSingleton<BattleUiManager>, ISequenceOperation<IBattleManager>, IBattleUIManager
@@ -65,7 +67,8 @@ namespace CardMaga.Battle.UI
         [SerializeField]
         private GlowManager _glowManager;
 
-       
+        [SerializeField]
+        private VFXManager _vfxManager;
 
         [SerializeField]
         private ComboAndDeckCollectionBattleHandler _comboAndDeckCollectionBattleHandler;
@@ -107,7 +110,7 @@ namespace CardMaga.Battle.UI
                 yield return VisualCharactersManager;
                 yield return StatsUIManager;
                 yield return BuffIconManager;
-
+                yield return VFXManager;
                 yield return CardUIManager;
                 yield return GlowManager;
                 yield return CameraManager;
@@ -137,7 +140,7 @@ namespace CardMaga.Battle.UI
         public CraftingSlotsUIManager_V4 CraftingSlotsUIManager { get => _craftingSlotsUIManager; }
         public VisualCharactersManager VisualCharactersManager => _visualCharactersManager;
         public IBattleManager BattleDataManager => _battleManager;
-
+        public VFXManager VFXManager => _vfxManager;
         public GlowManager GlowManager { get => _glowManager; }
         public ComboAndDeckCollectionBattleHandler ComboAndDeckCollectionBattleHandler =>_comboAndDeckCollectionBattleHandler;
         public BottomPartDeckVisualHandler BottomPartDeckVisualHandler => _bottomPartDeckVisualHandler;
@@ -198,6 +201,7 @@ namespace CardMaga.Battle.UI
             _dollyTrackCinematicManager = FindObjectOfType<DollyTrackCinematicManager>();
             _glowManager = FindObjectOfType<GlowManager>();
             _battleManager = FindObjectOfType<BattleManager>();
+            _vfxManager = FindObjectOfType<VFXManager>();
 
             _buffIconManager.AssignBuffsFields();
             _visualCharactersManager.AssignVisualCharacter();

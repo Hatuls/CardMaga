@@ -63,7 +63,6 @@ namespace CardMaga.Tools.Pools
         protected List<T> _reservesOfType = new List<T>();
 
         protected List<T> _totalPoolType = new List<T>();
-        public Type GetPoolableType => typeof(T);
         
         public ObjectPool()
         {
@@ -138,7 +137,6 @@ namespace CardMaga.Tools.Pools
 
 
         T Pull(Predicate<T> condition=null);
-        Type GetPoolableType { get; }
         void ResetPool();
     }
 

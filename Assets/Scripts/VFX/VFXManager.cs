@@ -1,56 +1,45 @@
-﻿using System.Collections.Generic;
+﻿
+using CardMaga.Battle.UI;
+using CardMaga.SequenceOperation;
+using CardMaga.Tools.Pools;
+using ReiTools.TokenMachine;
+using System.Collections.Generic;
 using UnityEngine;
-
-// NEED REMAKE
-public class VFXManager : MonoBehaviour
+namespace CardMaga.VFX
 {
 
-    [SerializeField] VFXController _playerVFX, _enemyVFX;
 
-    [SerializeField] List<ParticleSystemVFX> _VFXList;
-
-
-    public void Start()
+    public class VFXManager : MonoBehaviour, ISequenceOperation<IBattleUIManager>
     {
-        _VFXList = new List<ParticleSystemVFX>();
-    }
-
-    public (ParticleSystemVFX, VFXController) RecieveParticleSystemVFX(bool isOnPlayer, VFXSO vfx)
-    {
-        if (vfx == null)
-            return (null, null);
-
-        var controller = isOnPlayer ? _playerVFX : _enemyVFX;
-        return (RecieveParticleSystemVFX(vfx), controller);
-    }
-    public ParticleSystemVFX RecieveParticleSystemVFX(VFXSO vfx)
-    {
-        if (vfx == null)
-            return null;
-
-        ParticleSystemVFX vfxGO = RecieveFirstOfVFX(vfx);
+        [SerializeField]
+        private VisualEffectSO[] _vfxSO;
+      
+        private VFXPool _vfxPool;
 
 
-        return vfxGO;
-    }
+        public int Priority =>0;
 
-    private ParticleSystemVFX RecieveFirstOfVFX(VFXSO vfx)
-    {
-        for (int i = 0; i < _VFXList.Count; i++)
+        private void Awake()
         {
-            if (_VFXList[i].VFXID == vfx && !_VFXList[i].IsPlaying)
-                return _VFXList[i];
+            const int STARTING_SIZE = 2;
+            _vfxPool = new VFXPool(this.transform);
+            for (int i = 0; i < _vfxSO.Length; i++)
+                _vfxPool.PopulatePool(_vfxSO[i], STARTING_SIZE);
+            
         }
-        return CreateVFX(vfx); ;
+        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        {
+            // logic
+            data.VisualCharactersManager.GetVisualCharacter(true).VfxController.Init(_vfxPool);
+            data.VisualCharactersManager.GetVisualCharacter(false).VfxController.Init(_vfxPool);
+        }
+
+        private void OnDestroy()
+        {
+            _vfxPool.Dispose();
+        }
     }
 
-    private ParticleSystemVFX CreateVFX(VFXSO vfx)
-    {
-        ParticleSystemVFX vfxBase = Instantiate(vfx.VFXPrefab).GetComponent<ParticleSystemVFX>();
-        _VFXList.Add(vfxBase);
-        return vfxBase;
-    }
+
 
 }
-
-

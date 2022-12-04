@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CardMaga.VFX;
+using UnityEngine;
 
 namespace CardMaga.Keywords
 {
@@ -30,7 +31,7 @@ namespace CardMaga.Keywords
 
         [SerializeField] SoundEventSO _soundEvent;
 
-        [SerializeField] private VFXSO _vfx;
+        [SerializeField] private VisualEffectSO _vfx;
         #endregion
 
         #region Properties
@@ -44,7 +45,7 @@ namespace CardMaga.Keywords
         public string KeywordName => _keyword.ToString();
 
         public bool IgnoreInfoAmount => _ignoreInfoAmount;
-        public VFXSO GetVFX() => _vfx;
+        public VisualEffectSO GetVFX() => _vfx;
         public string GetDescription(params int[] amount)
         {
             if (IgnoreInfoAmount)
@@ -115,7 +116,7 @@ namespace CardMaga.Keywords
             _descriptions = Data[DescriptionIndex].Replace('^', ',').Split('#');
             if (Data[VFXIndex].Length > 1)
             {
-                _vfx = Resources.Load<VFXSO>("VFX/Keywords VFX/" + Data[VFXIndex]);
+                _vfx = Resources.Load<VisualEffectSO>("VFX/Keywords VFX/" + Data[VFXIndex]);
             }
             return true;
         }

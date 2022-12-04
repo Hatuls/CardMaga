@@ -13,8 +13,6 @@ namespace Characters.Stats
 
     public class WeakStat : BaseStat
     {
-        VFXController _vfxController;
-        ParticleSystemVFX _vulnerableVFX;
         public WeakStat(int amount) : base(amount)
         {
         }
@@ -24,8 +22,6 @@ namespace Characters.Stats
     }
     public class VulnerableKeyword : BaseStat
     {
-        VFXController _vfxController;
-        ParticleSystemVFX _weakParticleVFX;
         public VulnerableKeyword(int amount) : base(amount)
         {
         }
@@ -47,15 +43,12 @@ namespace Characters.Stats
         public override void Reduce(int amount)
         {
             base.Reduce(amount);
-            if (Amount <= 0 && (_weakParticleVFX?.IsPlaying ?? false))
-            {
-                _weakParticleVFX.Cancel();
-            }
+    
         }
         public override void Reset(int value = 0)
         {
             base.Reset(value);
-            _weakParticleVFX?.Cancel();
+          
         }
         public override KeywordType Keyword => KeywordType.Vulnerable;
     }
