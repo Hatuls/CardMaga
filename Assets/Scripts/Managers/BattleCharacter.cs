@@ -14,7 +14,7 @@ namespace Battle.Characters
         [SerializeField]
         private string _displayName;
         [SerializeField]
-        private TagSO[] _playerTagSOs;
+        private TagSO[] _tags;
 
         [SerializeField]
         private CharacterBattleData _characterData;
@@ -25,7 +25,7 @@ namespace Battle.Characters
 
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
         public string DisplayName { get => _displayName; }
-        public IReadOnlyList<TagSO> PlayerTags => _playerTagSOs;
+        public IReadOnlyList<TagSO> Tags => _tags;
         public BattleCharacterVisual BattleCharacterVisual
         {
             private set => _battleCharacterVisual = value;

@@ -27,7 +27,7 @@ namespace CardMaga.Battle.Execution
             if (toReduceStamina)
                 _dataCommands.AddCommand(cardCommands.StaminaCostCommand);
 
-            cardCommands.CardTypeCommand.ToNotify = toDetectCombo;
+            cardCommands.CardTypeCommand.ToDetectCombo = toDetectCombo;
 
             _dataCommands.AddCommand(cardCommands);
         }

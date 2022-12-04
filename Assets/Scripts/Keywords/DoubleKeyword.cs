@@ -15,10 +15,10 @@ namespace CardMaga.Keywords
         {
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            data.KeywordSO.SoundEventSO.PlaySound();
-            var target = data.GetTarget;
+            KeywordSO.SoundEventSO.PlaySound();
             var characters = _playersManager;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
@@ -46,9 +46,8 @@ namespace CardMaga.Keywords
             }
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            var target = data.GetTarget;
             var characters = _playersManager;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
@@ -61,7 +60,6 @@ namespace CardMaga.Keywords
                 var craftingSlots = characters.GetCharacter(!currentPlayer).CraftingHandler;
                 craftingSlots.AssignCraftingSlots(_rightCardTypeDatas);
             }
-
         }
     }
 
@@ -74,11 +72,11 @@ namespace CardMaga.Keywords
         {
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+    
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            data.KeywordSO.SoundEventSO.PlaySound();
-            var target = data.GetTarget;
-            _amount = data.GetAmountToApply;
+            KeywordSO.SoundEventSO.PlaySound();
+            _amount = amount;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
                 CharacterStatsHandler applier = _playersManager.GetCharacter(currentPlayer).StatsHandler;
@@ -92,9 +90,10 @@ namespace CardMaga.Keywords
             }
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+  
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            var target = data.GetTarget;
+      
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
                 CharacterStatsHandler applier = _playersManager.GetCharacter(currentPlayer).StatsHandler;

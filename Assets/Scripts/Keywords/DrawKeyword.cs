@@ -12,28 +12,26 @@ namespace CardMaga.Keywords
 
         public event Action OnDrawKeywordActivated;
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            if (data.GetTarget == TargetEnum.MySelf)
+            if (target == TargetEnum.MySelf)
             {
                 var deck = _playersManager.GetCharacter(true).DeckHandler;
                 deck.ResetDeck(DeckEnum.Hand);
 
                 OnDrawKeywordActivated?.Invoke();
-                //    CardUIManager.Instance.RemoveHands();
+                int drawAmount = _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Amount;
 
-
-                deck.DrawHand(-_playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Amount
-                    );
-                data.KeywordSO.SoundEventSO.PlaySound();
+                deck.DrawHand(-drawAmount);
+                KeywordSO.SoundEventSO.PlaySound();
             }
             else
                 throw new System.Exception("Keyword Draw: Illegal action - Target is opponent\n cannot draw cards when its not your turn!");
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            // Undo Logic missing
+            throw new NotImplementedException();
         }
     }
 }

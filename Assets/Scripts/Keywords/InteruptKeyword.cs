@@ -15,56 +15,55 @@ namespace CardMaga.Keywords
         {
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+
+
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            if (data != null)
+
+            UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + target.ToString() + " recieved " + KeywordSO.GetKeywordType.ToString() + " with Amount of " + amount);
+
+            int length = amount;
+
+
+            CraftingHandler playerCraftingSlots;
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
-                UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
-
-                int length = data.GetAmountToApply;
-                var target = data.GetTarget;
-
-                CraftingHandler playerCraftingSlots;
-                if (target == TargetEnum.All || target == TargetEnum.MySelf)
+                playerCraftingSlots = _playersManager.GetCharacter(currentPlayer).CraftingHandler;
+                _leftLastCardType = CardTypeDatas(playerCraftingSlots.CraftingSlots);
+                for (int i = 0; i < length; i++)
                 {
-                    playerCraftingSlots = _playersManager.GetCharacter(currentPlayer).CraftingHandler;
-                    _leftLastCardType = CardTypeDatas(playerCraftingSlots.CraftingSlots);
-                    for (int i = 0; i < length; i++)
-                    {
-                        playerCraftingSlots.PushFront(false);
-                    }
+                    playerCraftingSlots.PushFront(false);
                 }
-
-                if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                {
-                    playerCraftingSlots = _playersManager.GetCharacter(!currentPlayer).CraftingHandler;
-                    _rightLastCardType = CardTypeDatas(playerCraftingSlots.CraftingSlots);
-                    for (int i = 0; i < length; i++)
-                    {
-                        playerCraftingSlots.PushFront(false);
-
-                    }
-                }
-                data.KeywordSO.SoundEventSO.PlaySound();
             }
-            else
-                throw new System.Exception("Error Keyword Data is Null!! at " + KeywordType.ToString());
+
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+            {
+                playerCraftingSlots = _playersManager.GetCharacter(!currentPlayer).CraftingHandler;
+                _rightLastCardType = CardTypeDatas(playerCraftingSlots.CraftingSlots);
+                for (int i = 0; i < length; i++)
+                {
+                    playerCraftingSlots.PushFront(false);
+
+                }
+            }
+            KeywordSO.SoundEventSO.PlaySound();
 
 
             List<CardTypeData> CardTypeDatas(IReadOnlyList<CraftingSlot> craftingSlots)
             {
-                int length = craftingSlots.Count;
-                List<CardTypeData> _cardTypeData = new List<CardTypeData>(length);
-                for (int i = 0; i < length; i++)
+             
+                List<CardTypeData> _cardTypeData = new List<CardTypeData>(craftingSlots.Count);
+                for (int i = 0; i < craftingSlots.Count; i++)
                     _cardTypeData.Add(craftingSlots[i].CardType);
 
                 return _cardTypeData;
+
             }
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+  
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            var target = data.GetTarget;
 
             CraftingHandler playerCraftingSlots;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)

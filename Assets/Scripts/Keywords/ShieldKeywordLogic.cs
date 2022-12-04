@@ -12,42 +12,21 @@ namespace CardMaga.Keywords
         {
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+     
+
+
+        public override void StartTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands)
         {
-            if (data != null)
-            {
-                var target = data.GetTarget;
+            BaseStat stat = currentCharacterTurn.StatsHandler.GetStat(KeywordType);
 
-                if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                {
-                    var characterStatHandler = _playersManager.GetCharacter(currentPlayer).StatsHandler;
-                    var dexterity = characterStatHandler.GetStat(KeywordType.Dexterity).Amount;
-
-                    characterStatHandler.GetStat(KeywordType)
-                        .Add(
-                          dexterity + data.GetAmountToApply
-                        );
-                }
-
-                if (target == TargetEnum.All || target == TargetEnum.Opponent)
-                {
-                    var characterStatHandler = _playersManager.GetCharacter(!currentPlayer).StatsHandler;
-                    var dexterity = characterStatHandler.GetStat(KeywordType.Dexterity).Amount;
-
-                    characterStatHandler.GetStat(KeywordType)
-                        .Add(
-                          dexterity + data.GetAmountToApply
-                        );
-                }
-
-                InvokeOnKeywordActivated();
-                data.KeywordSO.SoundEventSO.PlaySound();
-            }
+            if (stat.Amount > 0)
+                gameDataCommands.DataCommands.AddCommand(new ResetDefenseCommand(stat));
+                InvokeOnKeywordFinished();
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            var target = data.GetTarget;
+    
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
@@ -55,8 +34,36 @@ namespace CardMaga.Keywords
                 var dexterity = characterStatHandler.GetStat(KeywordType.Dexterity).Amount;
 
                 characterStatHandler.GetStat(KeywordType)
+                    .Add(
+                      dexterity + amount
+                    );
+            }
+
+            if (target == TargetEnum.All || target == TargetEnum.Opponent)
+            {
+                var characterStatHandler = _playersManager.GetCharacter(!currentPlayer).StatsHandler;
+                var dexterity = characterStatHandler.GetStat(KeywordType.Dexterity).Amount;
+
+                characterStatHandler.GetStat(KeywordType)
+                    .Add(
+                      dexterity + amount
+                    );
+            }
+
+            InvokeOnKeywordActivated();
+            KeywordSO.SoundEventSO.PlaySound();
+        }
+
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
+        {
+            if (target == TargetEnum.All || target == TargetEnum.MySelf)
+            {
+                var characterStatHandler = _playersManager.GetCharacter(currentPlayer).StatsHandler;
+                var dexterity = characterStatHandler.GetStat(KeywordType.Dexterity).Amount;
+
+                characterStatHandler.GetStat(KeywordType)
                     .Reduce(
-                      dexterity + data.GetAmountToApply
+                      dexterity + amount
                     );
             }
 
@@ -67,18 +74,9 @@ namespace CardMaga.Keywords
 
                 characterStatHandler.GetStat(KeywordType)
                     .Reduce(
-                      dexterity + data.GetAmountToApply
+                      dexterity + amount
                     );
             }
-        }
-
-        public override void StartTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands)
-        {
-            BaseStat stat = currentCharacterTurn.StatsHandler.GetStat(KeywordType);
-
-            if (stat.Amount > 0)
-                gameDataCommands.DataCommands.AddCommand(new ResetDefenseCommand(stat));
-                InvokeOnKeywordFinished();
         }
     }
 

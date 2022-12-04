@@ -78,6 +78,9 @@ namespace CardMaga.Keywords
                 InitParams();
                 RegisterTurnEvents(_turnHandler.GetTurn(GameTurnType.LeftPlayerTurn));
                 RegisterTurnEvents(_turnHandler.GetTurn(GameTurnType.RightPlayerTurn));
+                _turnHandler.GetTurn(GameTurnType.EnterBattle).EndTurnOperations.Register(RegisterCharacterStats);
+
+
 
                 bm.OnBattleManagerDestroyed += BeforeBattleEnded;
             }
@@ -89,7 +92,39 @@ namespace CardMaga.Keywords
             }
         }
 
+        private void RegisterCharacterStats(ITokenReciever tokenReciever)
+        {
+            var token = tokenReciever.GetToken();
+            RegisterCharacterStats(_playersManager.GetCharacter(true).StatsHandler);
+            RegisterCharacterStats(_playersManager.GetCharacter(false).StatsHandler);
 
+            token.Dispose();
+        }
+        private void RegisterCharacterStats(CharacterStatsHandler characterStatsHandler)
+        {
+         
+            foreach (var stat in characterStatsHandler.StatDictionary)
+            {
+                KeywordType keywordType = stat.Key;
+                BaseStat currentStat = stat.Value;
+                int amount = currentStat.Amount;
+
+                if (amount == 0)
+                    continue;
+                KeywordSO keywordSO = GetKewordSO(keywordType);
+                var logic = GetLogic(keywordType);
+                switch (keywordSO.GetDurationEnum)
+                {
+                    case EffectType.OnActivate:
+                        break;
+                    default:
+                        AddToTurnKeywords(logic);
+                        break;
+                }
+
+                currentStat.InvokeStatUpdate();
+            }
+        }
         public bool IsCharcterIsStunned(bool isPlayer)
         {
             bool isStunned;
@@ -101,8 +136,8 @@ namespace CardMaga.Keywords
             return isStunned;
         }
 
-        public IKeyword GetLogic(KeywordSO keywordSO) => GetLogic(keywordSO.GetKeywordType);
-        public IKeyword GetLogic(KeywordType keywordType)
+        public BaseKeywordLogic GetLogic(KeywordSO keywordSO) => GetLogic(keywordSO.GetKeywordType);
+        public BaseKeywordLogic GetLogic(KeywordType keywordType)
         {
             if (_keywordDict != null && _keywordDict.Count > 0 && _keywordDict.TryGetValue(keywordType, out BaseKeywordLogic keywordEffect))
                 return keywordEffect;
@@ -155,7 +190,6 @@ namespace CardMaga.Keywords
                 keyword.Value.OnKeywordActivated -= AddToTurnKeywords;
                 keyword.Value.OnKeywordFinished -= RemoveFromTurnKeywords;
             }
-
             _activeTurnKeywords.Clear();
         }
 
@@ -204,10 +238,10 @@ namespace CardMaga.Keywords
 
 
 
-            KeywordSO GetKewordSO(KeywordType keywordType)
-             => _keywordFactory.GetKeywordSO(keywordType);
+       
         }
-
+        private KeywordSO GetKewordSO(KeywordType keywordType)
+        => _keywordFactory.GetKeywordSO(keywordType);
 
 
 

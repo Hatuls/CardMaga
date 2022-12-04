@@ -14,11 +14,10 @@ namespace CardMaga.Keywords
         {
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
-        {
 
-            data.KeywordSO.SoundEventSO.PlaySound();
-            var target = data.GetTarget;
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
+        {
+            KeywordSO.SoundEventSO.PlaySound();
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
@@ -46,9 +45,11 @@ namespace CardMaga.Keywords
             }
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+
+
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            var target = data.GetTarget;
+
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
                 CraftingHandler craftingSlots = _playersManager.GetCharacter(currentPlayer).CraftingHandler;
