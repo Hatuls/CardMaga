@@ -36,7 +36,7 @@ public class BarrierTutorialHandler : MonoBehaviour
         }
     }
 
-    public void Barrier(ITokenReciever tokenReciever)
+    public void WaitForBarrierToAlign(ITokenReciever tokenReciever)
     {
         _token = tokenReciever.GetToken();
         _isFlag = true;
@@ -55,6 +55,17 @@ public class BarrierTutorialHandler : MonoBehaviour
 
             else
                 BarrierCard = cardsUI.CardsUI[i];
+        }
+        ReleaseToken();
+    }
+
+    public void UnlockCards(ITokenReciever tokenReciever)
+    {
+        _token = tokenReciever.GetToken();
+        IGetCardsUI cardsUI = BattleManager.Instance.BattleUIManager.HandUI.HandUIState;
+        for (int i = 0; i < cardsUI.CardsUI.Count; i++)
+        {
+          cardsUI.CardsUI[i].Inputs.UnLock();
         }
         ReleaseToken();
     }
