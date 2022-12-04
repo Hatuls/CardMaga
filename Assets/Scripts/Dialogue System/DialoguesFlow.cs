@@ -71,8 +71,8 @@ public class DialoguesFlow : MonoBehaviour
         if (_token != null)
             _token.Dispose();
 
-        else
-            Debug.LogError("No token to release");
+       // else
+       //     Debug.LogError("No token to release");
     }
 
     private void AfterDelay()

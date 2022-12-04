@@ -29,9 +29,9 @@ namespace CardMaga.Tools.Pools
             ResetPool();
         }
         
-        public override T Pull()
+        public override T Pull(Predicate<T> condition = null)
         {
-            T type = base.Pull();
+            T type = base.Pull(condition);
             type.Init();
             return type;
         }
@@ -60,7 +60,7 @@ namespace CardMaga.Tools.Pools
     
     public class ObjectPool<T> : IPoolObject<T> where T : class, IPoolable<T>, new()
     {
-        protected Stack<T> _poolToType = new Stack<T>();
+        protected List<T> _reservesOfType = new List<T>();
 
         protected List<T> _totalPoolType = new List<T>();
         public Type GetPoolableType => typeof(T);
@@ -76,14 +76,25 @@ namespace CardMaga.Tools.Pools
 
             ResetPool();
         }
-
-        public virtual T Pull()
+        
+        public virtual T Pull(Predicate<T> condition = null)
         {
             T cache = null;
+            int count = _reservesOfType.Count;
+            if (count > 0)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    if (condition == null || condition.Invoke(_reservesOfType[i]))
+                    {
+                        cache = _reservesOfType[i];
+                        _reservesOfType.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
 
-            if (_poolToType.Count > 0)
-                cache = _poolToType.Pop();
-            else
+            if(cache == null)
                 cache = GenerateNewOfType();
 
             return cache;
@@ -106,7 +117,7 @@ namespace CardMaga.Tools.Pools
 
         protected virtual void AddToQueue(T type)
         {
-            _poolToType.Push(type);
+            _reservesOfType.Add(type);
         }
         
         public void ResetPool()
@@ -124,7 +135,9 @@ namespace CardMaga.Tools.Pools
     
     public interface IPoolObject<T> where T : IPoolable<T>
     {
-        T Pull();
+
+
+        T Pull(Predicate<T> condition=null);
         Type GetPoolableType { get; }
         void ResetPool();
     }

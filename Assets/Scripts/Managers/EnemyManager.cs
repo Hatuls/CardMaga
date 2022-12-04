@@ -70,7 +70,7 @@ namespace Battle
 
         public PlayerComboContainer Combos => _comboContainer;
 
-        public IReadOnlyList<PlayerTagSO> PlayerTags => _character.PlayerTags;
+        public IReadOnlyList<TagSO> PlayerTags => _character.PlayerTags;
 
         #endregion
 

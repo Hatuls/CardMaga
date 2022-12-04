@@ -12,7 +12,7 @@ namespace CardMaga.Battle.Players
 {
     public interface IPlayer
     {
-        IReadOnlyList<PlayerTagSO> PlayerTags { get; }
+        IReadOnlyList<TagSO> PlayerTags { get; }
         bool IsLeft { get; }
         StaminaHandler StaminaHandler { get; }
         CharacterSO CharacterSO { get; }
@@ -57,7 +57,7 @@ namespace CardMaga.Battle.Players
 
         public CraftingHandler CraftingHandler => _craftingHandler;
 
-        public IReadOnlyList<PlayerTagSO> PlayerTags => _character.PlayerTags;
+        public IReadOnlyList<TagSO> PlayerTags => _character.PlayerTags;
 
         public void AssignCharacterData(IBattleManager battleManager, BattleCharacter characterData)
         {
