@@ -3,6 +3,7 @@ using CardMaga.Battle.Players;
 using CardMaga.Battle.Visual;
 using CardMaga.Keywords;
 using CardMaga.Tools.Pools;
+using Characters.Stats;
 using System;
 
 namespace CardMaga.Commands
@@ -46,6 +47,14 @@ namespace CardMaga.Commands
             _keywordLogic.UnProcessOnTarget(_currentPlayer, _data);
         }
     }
+
+
+
+
+
+
+
+
     public class VisualKeywordCommand : ISequenceCommand, IPoolable<VisualKeywordCommand>
     {
 

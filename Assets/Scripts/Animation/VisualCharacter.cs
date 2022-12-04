@@ -33,6 +33,8 @@ namespace CardMaga.Battle.Visual
         private Animator _animator;
         [SerializeField]
         private Transform _visual;
+        [SerializeField,Range(0f,2f)]
+        private float _animationPlaySpeed =1f;
         private bool _isLeft;
 
         private VisualStatHandler _visualStats;
@@ -76,7 +78,7 @@ namespace CardMaga.Battle.Visual
             //Sound
             AnimationSound.CurrentCharacter = characterSO;
 
-
+            Animator.speed = _animationPlaySpeed;
 
 #if UNITY_EDITOR
             DrawMesh = false;

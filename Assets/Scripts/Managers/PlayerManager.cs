@@ -3,6 +3,7 @@ using Battle.Characters;
 using Battle.Deck;
 using Battle.Turns;
 using CardMaga.Card;
+using CardMaga.Commands;
 using Characters.Stats;
 using ReiTools.TokenMachine;
 using System;
@@ -12,7 +13,7 @@ namespace CardMaga.Battle.Players
 {
     public interface IPlayer
     {
-        IReadOnlyList<PlayerTagSO> PlayerTags { get; }
+        IReadOnlyList<TagSO> Tags { get; }
         bool IsLeft { get; }
         StaminaHandler StaminaHandler { get; }
         CharacterSO CharacterSO { get; }
@@ -48,16 +49,11 @@ namespace CardMaga.Battle.Players
         public CharacterSO CharacterSO => _character.CharacterData.CharacterSO;
         public CharacterStatsHandler StatsHandler => _statsHandler;
         public EndTurnHandler EndTurnHandler => _endTurnHandler;
-
         public DeckHandler DeckHandler => _deckHandler;
-
         public StaminaHandler StaminaHandler => _staminaHandler;
-
         public GameTurn MyTurn => _myTurn;
-
         public CraftingHandler CraftingHandler => _craftingHandler;
-
-        public IReadOnlyList<PlayerTagSO> PlayerTags => _character.PlayerTags;
+        public IReadOnlyList<TagSO> Tags => _character.Tags;
 
         public void AssignCharacterData(IBattleManager battleManager, BattleCharacter characterData)
         {
@@ -79,10 +75,11 @@ namespace CardMaga.Battle.Players
             _statsHandler = new CharacterStatsHandler(IsLeft, ref data.CharacterStats, _staminaHandler);
 
             //Stamina
-            if (battleManager.TurnHandler.IsLeftPlayerStart)
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordType.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordType.StaminaShards).Amount, -1);
-            else
-                _staminaHandler = new StaminaHandler(_statsHandler.GetStat(Keywords.KeywordType.Stamina).Amount, _statsHandler.GetStat(Keywords.KeywordType.StaminaShards).Amount);
+            int stamina = _statsHandler.GetStat(Keywords.KeywordType.Stamina).Amount;
+            int staminaShard = _statsHandler.GetStat(Keywords.KeywordType.StaminaShards).Amount;
+            int startingStaminaAddition = battleManager.TurnHandler.IsLeftPlayerStart ? -1 : 0;
+            _staminaHandler = new StaminaHandler(stamina, staminaShard, startingStaminaAddition);
+  
 
             //Deck and Combos
             _deckHandler = new DeckHandler(this, battleManager);
@@ -91,17 +88,19 @@ namespace CardMaga.Battle.Players
             TurnHandler turnHandler = battleManager.TurnHandler;
             _myTurn = turnHandler.GetCharacterTurn(IsLeft);
 
-            _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
-            _myTurn.StartTurnOperations.Register(DrawHands);
 
+            _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
 
+            _myTurn.StartTurnOperations.Register(DrawHands);
 
 
             //endturn
             _endTurnHandler = new EndTurnHandler(this, battleManager);
         }
 
+
+    
 
 
         private void BeforeDestroy(IBattleManager battleManager)

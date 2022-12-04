@@ -23,7 +23,7 @@ namespace CardMaga.UI.Account
                 AccountData data = accountManager.Data;
                 return new AccountBarVisualData
                     (
-                    data.DisplayName,
+                    accountManager.DisplayName,
                     data.AccountGeneralData.ImageID,// Take from account
                     data.AccountLevel.Exp,
                     0,

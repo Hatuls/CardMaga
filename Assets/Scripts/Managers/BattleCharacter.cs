@@ -9,12 +9,12 @@ using UnityEngine;
 namespace Battle.Characters
 {
     [Serializable]
-    public class BattleCharacter
+    public class BattleCharacter 
     {
         [SerializeField]
         private string _displayName;
         [SerializeField]
-        private PlayerTagSO[] _playerTagSOs;
+        private TagSO[] _tags;
 
         [SerializeField]
         private CharacterBattleData _characterData;
@@ -25,7 +25,7 @@ namespace Battle.Characters
 
         public CharacterBattleData CharacterData { get => _characterData; private set => _characterData = value; }
         public string DisplayName { get => _displayName; }
-        public IReadOnlyList<PlayerTagSO> PlayerTags => _playerTagSOs;
+        public IReadOnlyList<TagSO> Tags => _tags;
         public BattleCharacterVisual BattleCharacterVisual
         {
             private set => _battleCharacterVisual = value;

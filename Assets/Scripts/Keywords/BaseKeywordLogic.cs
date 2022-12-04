@@ -26,10 +26,13 @@ namespace CardMaga.Keywords
 
         public bool IsEmpty(CharacterStatsHandler characterStatsHandler) => characterStatsHandler.GetStat(KeywordType).HasValue();
 
-        public abstract void ProcessOnTarget(bool currentPlayer, KeywordData data);
-        public abstract void UnProcessOnTarget(bool currentPlayer, KeywordData data);
+        public void ProcessOnTarget(bool currentPlayer, KeywordData data)
+                    => ProcessOnTarget(currentPlayer, data.GetTarget, data.GetAmountToApply);
+        public void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+                => UnProcessOnTarget(currentPlayer, data.GetTarget, data.GetAmountToApply);
 
-
+        public abstract void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount);
+        public abstract void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount);
 
         public virtual void StartTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands) { }
         public virtual void EndTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands) { }
@@ -55,7 +58,9 @@ namespace CardMaga.Keywords
     {
         KeywordType KeywordType { get; }
         void ProcessOnTarget(bool isFromPlayer, KeywordData keywordData);
+        void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount);
         void UnProcessOnTarget(bool isFromPlayer, KeywordData keywordData);
+        void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount);
         bool IsEmpty(CharacterStatsHandler characterStatsHandler);
 
     }

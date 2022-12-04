@@ -20,9 +20,9 @@ public class LoginToPlayfab : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI _errorText;
 
-    private void Start()
+    private void Awake()
     {
-        _errorText.gameObject.SetActive(false);
+       // _errorText.gameObject.SetActive(false);
         PlayfabLogin.OnSuccessfullLogin += TaskCompleted;
         PlayfabLogin.OnFailedLogin += TaskFailed;
     }

@@ -20,6 +20,9 @@ namespace Characters.Stats
 
         public CharacterStatsHandler(bool isPlayer, ref CharacterStats stats, StaminaHandler staminaHandler)
         {
+            IsPlayer = isPlayer;
+
+
             //stats
             MaxHealthStat _max = new MaxHealthStat(stats.MaxHealth);
             HealthStat _health = new HealthStat(_max, isPlayer, stats.Health); ;
@@ -48,7 +51,7 @@ namespace Characters.Stats
 
             const int StatsCapacity = 20;
 
-            _statsDictionary = new System.Collections.Generic.Dictionary<KeywordType, BaseStat>(StatsCapacity) {
+            _statsDictionary = new Dictionary<KeywordType, BaseStat>(StatsCapacity) {
                 {_health.Keyword,_health },
                 {_defense.Keyword,_defense },
                 { _max.Keyword,_max },
@@ -70,16 +73,16 @@ namespace Characters.Stats
                 {_vulnerableKeyword.Keyword,_vulnerableKeyword  },
             };
 
-            IsPlayer = isPlayer;
-
+            BaseStat stat = null;
             foreach (var item in StatDictionary)
-                item.Value.OnStatsUpdated += StatChangedDetected;
-
+            {
+                stat = item.Value;
+                stat.OnStatsUpdated += StatChangedDetected;
+            }
 
 
             OnStatAssigned?.Invoke(IsPlayer, this);
         }
-
 
 
         public BaseStat GetStat(KeywordType keyword)
@@ -91,15 +94,7 @@ namespace Characters.Stats
             return null;
    }
 
-        public void RecieveDamage(int amount, bool pierceThroughTheArmour = false)
-        {
-            if (pierceThroughTheArmour)
-                GetStat(KeywordType.Heal).Reduce(amount);
-            else
-                GetStat(KeywordType.Shield).Reduce(amount);
-
-            OnUpdateStatNeeded?.Invoke();
-        }
+   
 
         private void StatChangedDetected(int value, KeywordType keywordTypeEnum)
         => OnStatValueChanged?.Invoke(IsPlayer, keywordTypeEnum, value);

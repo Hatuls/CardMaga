@@ -1,4 +1,5 @@
 ﻿using Battle;
+using Battle.Turns;
 using CardMaga.Battle.Execution;
 using CardMaga.Battle.Visual;
 using CardMaga.Battle.Visual.Camera;
@@ -105,6 +106,7 @@ namespace CardMaga.Battle.UI
             { 
                 yield return VisualCharactersManager;
                 yield return StatsUIManager;
+                yield return BuffIconManager;
 
                 yield return CardUIManager;
                 yield return GlowManager;
@@ -114,7 +116,6 @@ namespace CardMaga.Battle.UI
                 yield return StaminaTextManager;
                 yield return EndTurnButton;
                 yield return BottomPartDeckVisualHandler;
-                yield return BuffIconManager;
                 yield return CraftingSlotsUIManager;
                 yield return ComboAndDeckCollectionBattleHandler;
                 yield return TurnCounter;
@@ -151,7 +152,7 @@ namespace CardMaga.Battle.UI
             base.Awake();
             _visualKeywordsHandler = new VisualKeywordsHandler();
             _battleManager.Register(this, OrderType.After);
-            base.Awake();
+     
         }
         #endregion
         #region Functions
@@ -240,6 +241,9 @@ namespace CardMaga.Battle.UI
             _rightVisualCharacter.InitVisuals(rightPlayerData, rightCharacterSO, battleData.Right.BattleCharacterVisual);
             _rightVisualCharacter.ExecuteTask(tokenMachine, battleUIManager);
 
+            TurnHandler turnHandler = battleDataManager.TurnHandler;
+            turnHandler.GetTurn(GameTurnType.EnterBattle).OnTurnExit += _rightVisualCharacter.VisualStats.UpdateAllStats;
+            turnHandler.GetTurn(GameTurnType.EnterBattle).OnTurnExit += _leftVisualCharacter.VisualStats.UpdateAllStats;
 
             token.Dispose();
         }
@@ -247,6 +251,10 @@ namespace CardMaga.Battle.UI
         {
             _leftVisualCharacter.Dispose();
             _rightVisualCharacter.Dispose();
+
+            TurnHandler turnHandler = battleUIManager.BattleDataManager.TurnHandler;
+            turnHandler.GetTurn(GameTurnType.EnterBattle).OnTurnExit -= _rightVisualCharacter.VisualStats.UpdateAllStats;
+            turnHandler.GetTurn(GameTurnType.EnterBattle).OnTurnExit -= _leftVisualCharacter.VisualStats.UpdateAllStats;
         }
         public VisualCharacter GetVisualCharacter(bool isLeft) => isLeft ? _leftVisualCharacter : _rightVisualCharacter;
 

@@ -8,49 +8,49 @@ namespace CardMaga.Keywords
         {
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
-        {
 
-            var target = data.GetTarget;
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
+        {
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
             {
                 var maxHealth = _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType);
-                if (data.GetAmountToApply > 0)
-                    maxHealth.Add(data.GetAmountToApply);
+                if (amount > 0)
+                    maxHealth.Add(amount);
                 else
-                    maxHealth.Reduce(-1 * data.GetAmountToApply);
+                    maxHealth.Reduce(-1 * amount);
             }
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
                 var maxHealth = _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType);
-                if (data.GetAmountToApply > 0)
-                    maxHealth.Add(data.GetAmountToApply);
+                if (amount > 0)
+                    maxHealth.Add(amount);
                 else
-                    maxHealth.Reduce(-1 * data.GetAmountToApply);
+                    maxHealth.Reduce(-1 *amount);
             }
-            data.KeywordSO.SoundEventSO.PlaySound();
+            KeywordSO.SoundEventSO.PlaySound();
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+      
+
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            var target = data.GetTarget;
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
             {
                 var maxHealth = _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType);
-                if (data.GetAmountToApply > 0)
-                    maxHealth.Reduce(data.GetAmountToApply);
+                if (amount > 0)
+                    maxHealth.Reduce(amount);
                 else
-                    maxHealth.Add(-1 * data.GetAmountToApply);
+                    maxHealth.Add(-1 * amount);
             }
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
                 var maxHealth = _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType);
-                if (data.GetAmountToApply > 0)
-                    maxHealth.Reduce(data.GetAmountToApply);
+                if (amount > 0)
+                    maxHealth.Reduce(amount);
                 else
-                    maxHealth.Add(-1 * data.GetAmountToApply);
+                    maxHealth.Add(-1 * amount);
             }
         }
     }

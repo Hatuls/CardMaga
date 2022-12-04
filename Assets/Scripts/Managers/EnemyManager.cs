@@ -70,7 +70,7 @@ namespace Battle
 
         public PlayerComboContainer Combos => _comboContainer;
 
-        public IReadOnlyList<PlayerTagSO> PlayerTags => _character.PlayerTags;
+        public IReadOnlyList<TagSO> Tags => _character.Tags;
 
         #endregion
 
@@ -128,7 +128,6 @@ namespace Battle
         {
             obj.OnBattleManagerDestroyed -= BeforeGameExit;
             _endTurnHandler.Dispose();
-
             _myTurn.OnTurnActive -= CalculateEnemyMoves;
             _myTurn = null;
         }

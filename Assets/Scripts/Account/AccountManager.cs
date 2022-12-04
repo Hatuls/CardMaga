@@ -5,6 +5,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.Json;
 using ReiTools.TokenMachine;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,10 +46,11 @@ namespace Account
         }
 
         #endregion
-
-        [Sirenix.OdinInspector.ShowInInspector]
+        [SerializeField,ReadOnly]
+        private string _displayName;
+        [ShowInInspector]
         private AccountData _accountData;
-        [Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
+        [ShowInInspector,ReadOnly]
         private LoginResult loginResult;
 
 
@@ -57,12 +59,11 @@ namespace Account
         [SerializeField]
         GiftRewardFactorySO[] _additionToStartGift;
 
-
-        public LoginResult LoginResult { get => loginResult; private set => loginResult = value; }
-
+ 
         private IDisposable _loginDisposable;
         private IDisposable _requestFromServerDisposable;
-
+        public LoginResult LoginResult { get => loginResult; private set => loginResult = value; }
+        public string DisplayName { get => _displayName; set => _displayName = value; }
         public string SessionTicket => LoginResult.SessionTicket;
         public string EntityID => LoginResult.EntityToken.Entity.Id;
         public string PlayfabID => loginResult.PlayFabId;
@@ -71,6 +72,8 @@ namespace Account
 
         private void Awake()
         {
+            if (_instance != null)
+                Destroy(this.gameObject);
             _instance = this;
         }
         public void ResetAccount(ITokenReciever tokenReciever)
@@ -82,7 +85,7 @@ namespace Account
 
             void UpdateAccount()
             {
-                _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
+
 
                 UpdateRank(null);
                 SendAccountData(tokenReciever);
@@ -104,12 +107,13 @@ namespace Account
                 PlayFabId = LoginResult.PlayFabId,
                 Keys = null,
 
-            }, UserDataSucess, OnError);
+            }, UserDataSuccess, OnError);
         }
 
-        private void UserDataSucess(GetUserDataResult obj)
+        private void UserDataSuccess(GetUserDataResult obj)
         {
             _accountData = new AccountData(obj.Data);
+     
             _requestFromServerDisposable?.Dispose();
         }
 
@@ -148,18 +152,6 @@ namespace Account
             PlayFabClientAPI.UpdatePlayerStatistics(request, OnCompletedSuccessfully, OnError);
         }
 
-        public void UpdatePlayName(string name)
-        {
-            {
-                PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest
-                {
-                    DisplayName = name
-                }, result =>
-                {
-                    Debug.Log("The player's display name is now: " + result.DisplayName);
-                }, OnError);
-            }
-        }
 
         public void OnLogin(LoginResult loginResult)
         {
@@ -181,7 +173,7 @@ namespace Account
 
             void UpdateAccount()
             {
-                _accountData.DisplayName = loginResult.InfoResultPayload.PlayerProfile?.DisplayName ?? "New User";
+ 
 
                 UpdateRank(null);
                 SendAccountData();
@@ -204,6 +196,7 @@ namespace Account
 
             }
             t.Dispose();
+
             void FirstGift()
             {
                 var character = _accountData.CharactersData.GetMainCharacter();
@@ -268,7 +261,7 @@ namespace Account
     [Serializable]
     public class AccountData
     {
-        [SerializeField] private string _displayName = "New User";
+    
         [SerializeField] private AccountGeneralData _accountGeneralData;
         [SerializeField] private CharactersData _charactersData;
 
@@ -283,7 +276,7 @@ namespace Account
         public AccountTutorialData AccountTutorialData => _accountTutorialData;
         
         public bool IsFirstTimeUser { get; private set; }
-        public string DisplayName { get => _displayName; set => _displayName = value; }
+
         public AccountCombos AllCombos => _accountCombos;
         public AccountCards AllCards => _accountCards;
         public AccountGeneralData AccountGeneralData { get => _accountGeneralData; }
@@ -315,11 +308,7 @@ namespace Account
             Debug.Log("Creating new Account");
         }
 
-        private void CreateNewTutorialData()
-        {
-            _accountTutorialData = new AccountTutorialData();
-            _accountTutorialData.Reset();
-        }
+
 
         public AccountData(Dictionary<string, string> data)
         {
@@ -465,7 +454,8 @@ namespace Account
 
             return new UpdateUserDataRequest()
             {
-
+                AuthenticationContext = AccountManager.Instance.LoginResult.AuthenticationContext,
+               
                 Data = new Dictionary<string, string>()
                 {
                     { AccountGeneralData.PlayFabKeyName,     JsonConvert.SerializeObject(_accountGeneralData) },
@@ -511,6 +501,11 @@ namespace Account
 
             //firstCharacter.AddNewDeck(characterSO.Deck, characterSO.Combos);
             //CharactersData.AddCharacter(firstCharacter);
+        }
+        private void CreateNewTutorialData()
+        {
+            _accountTutorialData = new AccountTutorialData();
+            _accountTutorialData.Reset();
         }
         private void CreateNewGeneralData()
         {
