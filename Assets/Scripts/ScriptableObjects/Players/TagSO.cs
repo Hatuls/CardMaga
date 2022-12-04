@@ -13,7 +13,7 @@ namespace CardMaga.Battle.Players
         IReadOnlyList<TagSO> Tags { get; }
     }
 
-    public static class PlayerHelper
+    public static class TagHelper
     {
         public static bool ContainTag(this ITaggable taggable, TagSO tagSO)
         {

@@ -18,11 +18,6 @@ namespace CardMaga.Battle.Visual
         public event Action OnAnimationEnding;
         public static event Action<TransitionCamera, Action> OnAnimationStart;
 
-        [SerializeField] VoidEvent _movedToNextAnimation;
-
-        [SerializeField] VoidEvent _onFinishedAnimation;
-
-        [SerializeField] IntEvent _moveCameraAngle;
         #endregion
 
         #region Fields
@@ -52,7 +47,7 @@ namespace CardMaga.Battle.Visual
         private IDisposable _animationToken;
         private EndBattleHandler _endBattleHandler;
         private VisualStat _shieldStat;
-
+        private AvatarHandler _avatarHandler;
         #endregion
 
 
@@ -92,6 +87,7 @@ namespace CardMaga.Battle.Visual
         #region Public
         public void Init(IVisualPlayer visualPlayer, EndBattleHandler endBattleHandler)
         {
+            _avatarHandler = visualPlayer.AvatarHandler;
             _shieldStat = visualPlayer.VisualStats.GetStat(KeywordType.Shield);
             _animator = visualPlayer.Animator;
             ResetAnimator();
@@ -278,7 +274,8 @@ namespace CardMaga.Battle.Visual
 
         }
 
-
+        public void SetActiveTransform(BodyPartEnum bodyPartEnum)
+            => _avatarHandler.UpdateCurrentActiveBodyPart(bodyPartEnum);
 
         #endregion
 

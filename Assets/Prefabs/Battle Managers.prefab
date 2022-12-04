@@ -312,9 +312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f574cfa9370ab90478c850eb9c690606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerVFX: {fileID: 0}
-  _enemyVFX: {fileID: 0}
-  _VFXList: []
+  _vfxSO:
+  - {fileID: 11400000, guid: 61a613e6b5e554e43a302f504bfb0484, type: 2}
+  - {fileID: 11400000, guid: e4b4d24c7b29dcd49b161555a4cc10f0, type: 2}
 --- !u!114 &604163677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,6 +392,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _brain: {fileID: 11400000, guid: 01c106ff55dccba40afbf34ac883329a, type: 2}
   _character:
+    _displayName: 
+    _tags: []
     _characterData:
       _characterSO: {fileID: 0}
       _characterStats:
@@ -414,8 +416,13 @@ MonoBehaviour:
         _vulnerable: 0
       _characterDeck: []
       _comboRecipe: []
-    _displayName: 
-    _playerTagSOs: []
+    _battleCharacterVisual:
+      _battleVisualCharacter:
+        _avatarSkin:
+          SkinDetails: 
+          _material: {fileID: 0}
+          _portait: {fileID: 0}
+        _avatarHandler: {fileID: 0}
   _visualCharacter: {fileID: 0}
   _enemyNameText: {fileID: 0}
   _delayTime: {x: 1.1857294, y: 2.32832}
