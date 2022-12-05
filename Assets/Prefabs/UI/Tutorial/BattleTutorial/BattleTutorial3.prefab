@@ -449,8 +449,8 @@ MonoBehaviour:
   _tokenEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3598866816949774628}
-        m_MethodName: WaitForBarrierToDraw
+      - m_Target: {fileID: 829951321407341037}
+        m_MethodName: WaitForCardToBeDrawn
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -552,8 +552,8 @@ MonoBehaviour:
   _tokenEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3598866816949774628}
-        m_MethodName: WaitForBarrierToAlign
+      - m_Target: {fileID: 829951321407341037}
+        m_MethodName: WaitForCardToAlign
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -656,9 +656,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2338310867528878880}
-  - component: {fileID: 3598866816949774628}
+  - component: {fileID: 829951321407341037}
   m_Layer: 0
-  m_Name: BarrierCardHandler
+  m_Name: TutorialCardDrawnHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -678,7 +678,7 @@ Transform:
   m_Father: {fileID: 7981442334319396120}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3598866816949774628
+--- !u!114 &829951321407341037
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -687,9 +687,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3233031338078800952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8a67d99e71b28943b47ac75c5e1b31c, type: 3}
+  m_Script: {fileID: 11500000, guid: e187608f9c4d71144ad07d702c91621e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardId: 100
 --- !u!1 &4179514415017043767
 GameObject:
   m_ObjectHideFlags: 0
@@ -981,11 +982,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7573595f868a73d4a94f72150b104cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _order: 1
+  _order: 2
   _tokenEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3598866816949774628}
+      - m_Target: {fileID: 829951321407341037}
         m_MethodName: UnlockCards
         m_Mode: 0
         m_Arguments:
@@ -2543,7 +2544,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnFlowStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3598866816949774628}
+      objectReference: {fileID: 0}
     - target: {fileID: 982250592452866934, guid: 0291ef2ac6634bd42b87e30263bb1b0e,
         type: 3}
       propertyPath: OnFlowStart.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -3442,7 +3443,7 @@ PrefabInstance:
     - target: {fileID: 7980366977224149459, guid: 17aab79f778ede64898da1a94464c55a,
         type: 3}
       propertyPath: m_Name
-      value: DragBarrierCardTutorialDirector
+      value: DragDrawnCardTutorialDirector
       objectReference: {fileID: 0}
     - target: {fileID: 7980366977224149459, guid: 17aab79f778ede64898da1a94464c55a,
         type: 3}
@@ -3453,12 +3454,17 @@ PrefabInstance:
         type: 3}
       propertyPath: barrierTutorialHandler
       value: 
-      objectReference: {fileID: 3598866816949774628}
+      objectReference: {fileID: 0}
     - target: {fileID: 8618345313515912380, guid: 17aab79f778ede64898da1a94464c55a,
         type: 3}
       propertyPath: _barrierTutorialHandler
       value: 
-      objectReference: {fileID: 3598866816949774628}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618345313515912380, guid: 17aab79f778ede64898da1a94464c55a,
+        type: 3}
+      propertyPath: _tutorialCardDrawnHandler
+      value: 
+      objectReference: {fileID: 829951321407341037}
     - target: {fileID: 8618345313515912380, guid: 17aab79f778ede64898da1a94464c55a,
         type: 3}
       propertyPath: OnDirectorEnd.m_PersistentCalls.m_Calls.Array.size
