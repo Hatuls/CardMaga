@@ -3,19 +3,19 @@ using CardMaga.MetaData.AccoutData;
 
 namespace CardMaga.MetaData.Collection
 {
-    public class MetaCollectionCardData : BaseCollectionItemData<MetaCardData> , IEquatable<MetaCollectionCardData>,IEquatable<MetaCardData>
+    public class MetaCollectionCardData : BaseCollectionDataItem<MetaCardData> , IEquatable<MetaCollectionCardData>,IEquatable<MetaCardData>
     {
-        private MetaCardData _cardReference;
+        private MetaCardData _metaCardData;
 
-        public int CardId => _cardReference.CardInstance.ID;
+        public int CardId => _metaCardData.CardInstance.ID;
 
-        public override MetaCardData ItemReference => _cardReference;
+        public override MetaCardData ItemReference => _metaCardData;
         
 
-        public MetaCollectionCardData(int numberOfInstant,MetaCardData cardReference)
+        public MetaCollectionCardData(int numberOfInstant,MetaCardData metaCardData)
         {
             _numberOfInstant = numberOfInstant;
-            _cardReference = cardReference;
+            _metaCardData = metaCardData;
         }
 
         public bool Equals(MetaCollectionCardData other)

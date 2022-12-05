@@ -184,14 +184,7 @@ namespace CardMaga.SequenceOperation
 
         public bool Remove(ISequenceOperation<T> sequenceOperation, OrderType from = OrderType.Default)
              => this[from].Remove(sequenceOperation);
-
-
-        public void Start(T data, Action OnComplete = null)
-        {
-            StartOperation(this[OrderType.Before], data, StartScene);
-            void StartScene() => StartOperation(this[OrderType.Default], data, LateStartScene);
-            void LateStartScene() => StartOperation(this[OrderType.After], data, OnComplete);
-        }
+        
         public void StartAll(T data, Action OnComplete = null)
         {
             StartOperation(this[OrderType.Before], data, StartScene);
@@ -223,7 +216,6 @@ namespace CardMaga.SequenceOperation
                 foreach (var item in operation)
                     item.ExecuteTask(tokenMachine, data);
             }
-
         }
       
         private void InitList(OrderType type)

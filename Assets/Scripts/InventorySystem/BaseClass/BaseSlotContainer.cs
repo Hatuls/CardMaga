@@ -1,13 +1,13 @@
 using System;
 using CardMaga.UI;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace CardMaga.InventorySystem
 {
-    public abstract class BaseSlotContainer<T> : MonoBehaviour where T : BaseUIElement , IEquatable<T>
+    [Serializable]
+    public abstract class BaseSlotContainer<T> where T : BaseUIElement , IEquatable<T>
     {
-        [ReadOnly] private BaseSlot<T>[] _slots;
+        private BaseSlot<T>[] _slots;
         [SerializeField] private RectTransform _continerParent;
         [Header("Container Configuration")]
         [SerializeField,Tooltip("Can the Container grow dynamically")] private bool _isDynamic;
@@ -15,9 +15,11 @@ namespace CardMaga.InventorySystem
         [SerializeField,Tooltip("Defines whether there is a maximum value for the slots")] private bool _haveMaxValue;
         [SerializeField,Tooltip("The maximum value of slots")] private int _numberOfMaxlots;
 
+        public T[] AllInventoryObject => GetAllSlotElements();
+        
         private int CollectionLength => _slots.Length;
         
-        public void Awake()
+        public void Init()
         {
             _slots = new BaseSlot<T>[_numberOfInitializeSlots];
 
@@ -61,6 +63,18 @@ namespace CardMaga.InventorySystem
             return false;
         }
 
+        private T[] GetAllSlotElements()
+        {
+            T[] output = new T[_slots.Length];
+
+            for (int i = 0; i < _slots.Length; i++)
+            {
+                output[i] = _slots[i].InventoryObject;
+            }
+
+            return output;
+        }
+        
         public void RemoveObject(T obj)
         {
             if (TryFindBaseSlot(obj, out BaseSlot<T> baseSlot))
@@ -73,7 +87,7 @@ namespace CardMaga.InventorySystem
 
         #region FindCollectionObject
 
-        public bool GetEmptySlot(out BaseSlot<T> baseSlot)
+        public bool TryGetEmptySlot(out BaseSlot<T> baseSlot)
         {
             foreach (var slot in _slots)
             {

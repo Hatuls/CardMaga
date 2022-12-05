@@ -1,8 +1,9 @@
+using System;
 using CardMaga.MetaUI;
-using UnityEngine;
 
 namespace CardMaga.InventorySystem
 {
+    [Serializable]
     public class MetaComboUiContainer : BaseSlotContainer<MetaComboUI>
     {
     }

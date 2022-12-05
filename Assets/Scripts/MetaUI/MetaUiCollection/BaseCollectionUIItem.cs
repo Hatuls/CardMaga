@@ -3,23 +3,23 @@ using CardMaga.UI;
 
 namespace CardMaga.MetaUI.CollectionUI
 {
-    public abstract class BaseCollectionItemUI<T> : BaseUIElement
+    public abstract class BaseCollectionUIItem<T> : BaseUIElement
     {
         public event Action OnTryAddToDeck; 
         public event Action OnTryRemoveFromDeck;
 
-        public virtual void TryAddToDeck()
+        public virtual void TryAddToCollection()
         {
             OnTryAddToDeck?.Invoke();
         }
 
-        public virtual void TryRemoveFromDeck()
+        public virtual void TryRemoveFromCollection()
         {
             OnTryRemoveFromDeck?.Invoke();
         }
 
-        public abstract void SuccessAddToDeck(T metaCardData);
+        public abstract void SuccessAddToCollection(T itemData);
 
-        public abstract void SuccessRemoveFromDeck(T metaCardData);
+        public abstract void SuccessRemoveFromCollection(T itemData);
     }
 }

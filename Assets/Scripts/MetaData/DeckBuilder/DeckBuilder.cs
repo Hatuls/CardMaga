@@ -1,10 +1,13 @@
 using System;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
+using CardMaga.SequenceOperation;
+using MetaData;
+using ReiTools.TokenMachine;
 
 namespace CardMaga.MetaData.DeckBuilding
 {
-    public class DeckBuilder
+    public class DeckBuilder : ISequenceOperation<MetaDataManager>
     {
         #region Events
         public event Action OnDeckNameUpdate; 
@@ -24,11 +27,14 @@ namespace CardMaga.MetaData.DeckBuilding
         private MetaDeckData _deck;
         
         private AccountDataCollectionHelper _accountDataCollection;
+        
 
-        public DeckBuilder(AccountDataCollectionHelper accountDataCollectionHelper)
+        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
-            _accountDataCollection = accountDataCollectionHelper;
+            _accountDataCollection = data.AccountDataCollectionHelper;
         }
+
+        public int Priority => 1;
 
         public void AssingDeckToEdit(MetaDeckData deckData)
         {
@@ -36,18 +42,18 @@ namespace CardMaga.MetaData.DeckBuilding
 
             foreach (var cardData in _accountDataCollection.CollectionCardDatas)
             {
-                cardData.OnTryAddItem += TryAddCard;
-                cardData.OnTryRemoveItem += TryRemoveCard;
-                OnSuccessCardAdd += cardData.RemoveItemReference;
-                OnSuccessCardRemove += cardData.AddItemReference;
+                cardData.OnTryAddItemToCollection += TryAddCard;
+                cardData.OnTryRemoveItemFromCollection += TryRemoveCard;
+                OnSuccessCardAdd += cardData.AddItemToCollection;
+                OnSuccessCardRemove += cardData.RemoveItemFromCollection;
             }
             
             foreach (var comboData in _accountDataCollection.CollectionComboDatas)
             {
-                comboData.OnTryAddItem += TryAddCombo;
-                comboData.OnTryRemoveItem += TryRemoveCombo;
-                OnSuccessComboAdd += comboData.RemoveItemReference;
-                OnSuccessComboRemove += comboData.AddItemReference;
+                comboData.OnTryAddItemToCollection += TryAddCombo;
+                comboData.OnTryRemoveItemFromCollection += TryRemoveCombo;
+                OnSuccessComboAdd += comboData.AddItemToCollection;
+                OnSuccessComboRemove += comboData.RemoveItemFromCollection;
             }
             
             OnNewDeckLoaded?.Invoke(_deck);
@@ -57,18 +63,18 @@ namespace CardMaga.MetaData.DeckBuilding
         {
             foreach (var cardData in _accountDataCollection.CollectionCardDatas)
             {
-                cardData.OnTryAddItem -= TryAddCard;
-                cardData.OnTryRemoveItem -= TryRemoveCard;
-                OnSuccessCardAdd -= cardData.RemoveItemReference;
-                OnSuccessCardRemove -= cardData.AddItemReference;
+                cardData.OnTryAddItemToCollection -= TryAddCard;
+                cardData.OnTryRemoveItemFromCollection -= TryRemoveCard;
+                OnSuccessCardAdd -= cardData.AddItemToCollection;
+                OnSuccessCardRemove -= cardData.RemoveItemFromCollection;
             }
             
             foreach (var comboData in _accountDataCollection.CollectionComboDatas)
             {
-                comboData.OnTryAddItem -= TryAddCombo;
-                comboData.OnTryRemoveItem -= TryRemoveCombo;
-                OnSuccessComboAdd -= comboData.RemoveItemReference;
-                OnSuccessComboRemove -= comboData.AddItemReference;
+                comboData.OnTryAddItemToCollection -= TryAddCombo;
+                comboData.OnTryRemoveItemFromCollection -= TryRemoveCombo;
+                OnSuccessComboAdd -= comboData.AddItemToCollection;
+                OnSuccessComboRemove -= comboData.RemoveItemFromCollection;
             }
         }
         
@@ -89,7 +95,6 @@ namespace CardMaga.MetaData.DeckBuilding
             }
             _deck.AddCard(cardData);
             OnSuccessCardAdd?.Invoke(cardData);
-            return;
         }
 
         private void TryAddCombo(MetaComboData comboData)
@@ -132,5 +137,7 @@ namespace CardMaga.MetaData.DeckBuilding
             metaDeckData = null;
             return false;
         }
+
+       
     }
 }

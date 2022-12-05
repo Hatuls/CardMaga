@@ -284,7 +284,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2011771396740685319}
   - component: {fileID: 2011771396740685318}
-  - component: {fileID: 2011771396740685313}
   - component: {fileID: 7790631352034008405}
   m_Layer: 5
   m_Name: BaseCardAndComboCollection
@@ -321,21 +320,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2011771396740685316}
   m_CullTransparentMesh: 0
---- !u!114 &2011771396740685313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2011771396740685316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f2ffb4a87f5e534a85d088438a0a710, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  battleComboUIScroll: {fileID: 0}
-  battleCardUIScroll: {fileID: 0}
-  _cardDataFilter: {fileID: 0}
 --- !u!114 &7790631352034008405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,6 +804,8 @@ MonoBehaviour:
   _holdDistance: 0.5
   _currentState: 0
   _identification: {fileID: 11400000, guid: 5d1303e07fdd8724e9f1f484ea4f5085, type: 2}
+  _touchableItem: {fileID: 0}
+  _currentInputBehaviourState: 0
 --- !u!114 &6524933328122020912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1072,6 +1058,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2011771396031584310}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &499951645430773178 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+    type: 3}
+  m_PrefabInstance: {fileID: 2011771396031584310}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6539073024842143290 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4707470146817429004, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
@@ -1084,12 +1076,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &499951645430773178 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
-    type: 3}
-  m_PrefabInstance: {fileID: 2011771396031584310}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2011771396316379422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2666,15 +2652,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdd34acd4d6936a4aa61dc181f8b4bff, type: 3}
---- !u!1 &6198580622669852906 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
-    type: 3}
-  m_PrefabInstance: {fileID: 2011771397808765811}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &499951643919013631 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+    type: 3}
+  m_PrefabInstance: {fileID: 2011771397808765811}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6198580622669852906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
     type: 3}
   m_PrefabInstance: {fileID: 2011771397808765811}
   m_PrefabAsset: {fileID: 0}

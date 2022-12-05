@@ -3,7 +3,7 @@ using CardMaga.UI.ScrollPanel;
 
 namespace CardMaga.MetaUI.CollectionUI 
 {
-    public class MetaComboUICollectionScrollPanel : BaseScrollPanelManager<MetaCollectionComboUI,MetaCollectionComboData>
+    public class MetaComboUICollectionScrollPanel : BaseScrollPanelManager<MetaCollectionUICombo,MetaCollectionDataCombo>
     {
     }
 }

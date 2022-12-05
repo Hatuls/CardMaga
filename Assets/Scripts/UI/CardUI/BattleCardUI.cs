@@ -16,7 +16,6 @@ namespace CardMaga.UI.Card
 
         #region Fields
         public Sequence CurrentSequence;
-        [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private RectTransform _visualsRectTransform;
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
 
@@ -29,7 +28,6 @@ namespace CardMaga.UI.Card
         
         public BaseCardVisualHandler CardVisuals => _cardVisuals;
         public CardUIInputHandler Inputs => _inputs;
-        public RectTransform RectTransform => _rectTransform;
         public RectTransform VisualsRectTransform => _visualsRectTransform;
         
         public BattleCardData BattleCardData { get => _battleCardData; private set => _battleCardData = value; }
@@ -76,7 +74,7 @@ namespace CardMaga.UI.Card
         {
             if (CurrentSequence != null)
             {
-            CurrentSequence.Kill(killAfterComplete);
+                CurrentSequence.Kill(killAfterComplete);
                 CurrentSequence = null;
             }
         }

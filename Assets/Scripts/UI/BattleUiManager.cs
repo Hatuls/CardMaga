@@ -99,13 +99,12 @@ namespace CardMaga.Battle.UI
 
         #region Properties
 
-        public IEnumerable<ISequenceOperation<IBattleUIManager>> VisualInitializers
+        private IEnumerable<ISequenceOperation<IBattleUIManager>> VisualInitializers
         {
             get
             { 
                 yield return VisualCharactersManager;
                 yield return StatsUIManager;
-
                 yield return CardUIManager;
                 yield return GlowManager;
                 yield return CameraManager;
@@ -120,7 +119,7 @@ namespace CardMaga.Battle.UI
                 yield return TurnCounter;
 
                 if(_dollyTrackCinematicManager!=null)
-                yield return DollyTrackCinematicManager;
+                 yield return DollyTrackCinematicManager;
             }
         }
         public int Priority => 1000;

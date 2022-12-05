@@ -1,34 +1,29 @@
-﻿using System;
-using CardMaga.MetaData.AccoutData;
-using CardMaga.UI;
+﻿using CardMaga.MetaData.AccoutData;
+using CardMaga.MetaUI;
+using CardMaga.SequenceOperation;
+using ReiTools.TokenMachine;
 using UnityEngine;
 
-public class MetaDeckUICollectionManager : MonoBehaviour , IInitializable<MetaCharactersHandler>
+public class MetaDeckUICollectionManager : MonoBehaviour , ISequenceOperation<MetaUIManager>
 {
     [SerializeField] private MetaCharecterUICollection[] _charectersUI;
     
     private MetaCharecterUICollection _mainCharecterUI;
     
-    public void Init(MetaCharactersHandler data)
+    public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
-        for (int i = 0; i < data.CharacterDatas.Length; i++)
+        MetaCharactersHandler metaCharactersHandler = data.MetaDataManager.MetaAccountData.CharacterDatas;
+        
+        for (int i = 0; i < metaCharactersHandler.CharacterDatas.Length; i++)
         {
-            _charectersUI[i].Init(data.CharacterDatas[i]);
+            _charectersUI[i].Init(metaCharactersHandler.CharacterDatas[i]);
         }
     }
+
+    public int Priority => 1;
 
     private void SetMainCharacterUI(MetaCharacterData metaCharacterData)
     {
         
-    }
-
-    public void Dispose()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void CheckValidation()
-    {
-        throw new NotImplementedException();
     }
 }

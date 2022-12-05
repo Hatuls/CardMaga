@@ -1,5 +1,3 @@
-using System;
-using CardMaga.AI;
 using CardMaga.MetaUI;
 using CardMaga.Tools.Pools;
 using CardMaga.UI.Card;
@@ -14,8 +12,8 @@ namespace CardMaga.ObjectPool
         private IPoolMBObject<BattleComboUI> _battleComboUIPool;
         private IPoolMBObject<MetaCardUI> _metaCardUIPool;
         private IPoolMBObject<MetaComboUI> _metaComboUIPool;
-        private IPoolMBObject<MetaCollectionCardUI> _metaCollectionCardUIPool;
-        private IPoolMBObject<MetaCollectionComboUI> _metaCollectionComboUIPool;
+        private IPoolMBObject<MetaCollectionUICard> _metaCollectionCardUIPool;
+        private IPoolMBObject<MetaCollectionUICombo> _metaCollectionComboUIPool;
 
         public override void Awake()
         {
@@ -35,9 +33,9 @@ namespace CardMaga.ObjectPool
                     return _metaCardUIPool as IPoolMBObject<T>;
                 case MetaComboUI metaComboUI:
                     return _metaComboUIPool as IPoolMBObject<T>;
-                case MetaCollectionCardUI metaCollectionCardUI:
+                case MetaCollectionUICard metaCollectionCardUI:
                     return _metaCollectionCardUIPool as IPoolMBObject<T>;
-                case MetaCollectionComboUI metaCollectionComboUI:
+                case MetaCollectionUICombo metaCollectionComboUI:
                     return _metaCollectionComboUIPool as IPoolMBObject<T>;
                 default:
                     Debug.LogError("No Type pool found");

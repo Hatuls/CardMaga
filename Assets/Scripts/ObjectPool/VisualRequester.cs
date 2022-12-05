@@ -2,12 +2,22 @@ using System;
 using System.Collections.Generic;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
+using UnityEngine;
 
 namespace CardMaga.ObjectPool
 {
+    [Serializable]
     public class VisualRequester<TVisual, TData> where TVisual :  BaseUIElement, IPoolableMB<TVisual>, IVisualAssign<TData>, new()
     {
+        [SerializeField] private TVisual _objectRef;
+        
         private MBPool<TVisual> _objectPool;
+
+        public VisualRequester()
+        {
+            if (ReferenceEquals(_objectRef,null))
+                Debug.LogError($"Object Reference is not Set in the Inspector");
+        }
 
         public VisualRequester(TVisual objectRef)
         {

@@ -8,16 +8,16 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCollectionComboUI : BaseCollectionItemUI<MetaComboData>, IPoolableMB<MetaCollectionComboUI>,IVisualAssign<MetaCollectionComboData>
+    public class MetaCollectionUICombo : BaseCollectionUIItem<MetaComboData>, IPoolableMB<MetaCollectionUICombo>,IVisualAssign<MetaCollectionDataCombo>
     {
-        public event Action<MetaCollectionComboUI> OnDisposed;
+        public event Action<MetaCollectionUICombo> OnDisposed;
         public event Action OnTryAddCardToDeck; 
         public event Action OnTryRemoveCardFromDeck;
         
 
         [SerializeField] private ComboVisualHandler _comboVisual;
 
-        private MetaCollectionComboData _metaComboData;
+        private MetaCollectionDataCombo _metaDataCombo;
 
         public override void Init()
         {
@@ -31,25 +31,25 @@ namespace CardMaga.MetaUI
             Hide();
         }
 
-        public void AssignVisual(MetaCollectionComboData data)
+        public void AssignVisual(MetaCollectionDataCombo data)
         {
-            _metaComboData = data;
+            _metaDataCombo = data;
             
-            _metaComboData = data;
+            _metaDataCombo = data;
             _comboVisual.Init(data.ItemReference.BattleComboData);
             
-            OnTryAddToDeck += data.TryRemoveItemReference;
-            OnTryRemoveFromDeck += data.TryAddItemReference;
-            data.OnSuccessfullAddItem += SuccessAddToDeck;
-            data.OnSuccessfullRemoveItem += SuccessRemoveFromDeck;
+            OnTryAddToDeck += data.TryAddItemToCollection;
+            OnTryRemoveFromDeck += data.TryRemoveItemFromCollection;
+            data.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
+            data.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
         }
 
-        public override void SuccessAddToDeck(MetaComboData metaCardData)
+        public override void SuccessAddToCollection(MetaComboData itemData)
         {
             Debug.Log("Add combo to Deck");
         }
 
-        public override void SuccessRemoveFromDeck(MetaComboData metaCardData)
+        public override void SuccessRemoveFromCollection(MetaComboData itemData)
         {
             Debug.Log("Remove Combo From Deck");
         }

@@ -147,7 +147,7 @@ namespace CardMaga.Commands
             ISequenceCommand current = _visualCommands[0];
             current.Execute();
 
-            //Execute all
+            //InitData all
             ExecuteWithPreviousCommand();
 
             _visualCommands.RemoveAt(0);
@@ -215,7 +215,7 @@ namespace CardMaga.Commands
             current.OnFinishExecute += FinishExecution;
             current.Execute();
 
-            //Execute all
+            //InitData all
             ExecuteWithPreviousCommand();
         }
 

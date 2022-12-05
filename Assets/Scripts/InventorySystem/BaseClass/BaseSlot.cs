@@ -7,7 +7,6 @@ namespace CardMaga.InventorySystem
 {
     public class BaseSlot<T> : IInventoryObject<T> where T : BaseUIElement , IEquatable<T>
     {
-        public event Action<BaseSlot<T>> OnDisposed;
         public event Action<T> OnAddInventoryObject; 
         public event Action<T> OnRemoveInventoryObject; 
         
@@ -40,11 +39,6 @@ namespace CardMaga.InventorySystem
             if (other == null) return false;
             if (InventoryObject == null) return false;
             return InventoryObject.Equals(other);
-        }
-
-        public virtual void Dispose()
-        {
-            OnDisposed?.Invoke(this);
         }
     }
 

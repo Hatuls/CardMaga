@@ -507,7 +507,7 @@ namespace CardMaga.UI.Bars
     //        _amount = amount;
     //    }
 
-    //    public void Execute()
+    //    public void InitData()
     //    {
 
     //    }
