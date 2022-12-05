@@ -7,24 +7,28 @@ namespace CardMaga.Keywords
         {
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+
+
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
-                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
+            if (target == TargetEnum.MySelf || target == TargetEnum.All)
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
 
-            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
-                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
 
-            data.KeywordSO.SoundEventSO.PlaySound();
+           KeywordSO.SoundEventSO.PlaySound();
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
-        {
-            if (data.GetTarget == TargetEnum.MySelf || data.GetTarget == TargetEnum.All)
-               _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
 
-            if (data.GetTarget == TargetEnum.Opponent || data.GetTarget == TargetEnum.All)
-                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
+        {
+
+            if (target == TargetEnum.MySelf || target == TargetEnum.All)
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(amount);
+
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(amount);
         }
     }
 }

@@ -3,6 +3,7 @@ using Battle.Characters;
 using CardMaga.Battle.Players;
 using CardMaga.Battle.UI;
 using CardMaga.SequenceOperation;
+using CardMaga.VFX;
 using ReiTools.TokenMachine;
 using UnityEngine;
 namespace CardMaga.Battle.Visual
@@ -33,6 +34,8 @@ namespace CardMaga.Battle.Visual
         private Animator _animator;
         [SerializeField]
         private Transform _visual;
+        [SerializeField,Range(0f,2f)]
+        private float _animationPlaySpeed =1f;
         private bool _isLeft;
 
         private VisualStatHandler _visualStats;
@@ -41,12 +44,12 @@ namespace CardMaga.Battle.Visual
 
 
         #region Properties
+        public bool IsLeft { get => _isLeft; private set => _isLeft = value; }
         public AvatarHandler AvatarHandler { get => _avatarHandler; private set => _avatarHandler = value; }
         public AnimatorController AnimatorController => _animatorController;
         public Animator Animator => _animator;
         public VFXController VfxController => _vfxController;
         public AnimationBodyPartSoundsHandler AnimationSound { get => _animationSound; }
-        public bool IsLeft { get => _isLeft; private set => _isLeft = value; }
         public VisualStatHandler VisualStats { get => _visualStats; }
 
         public IPlayer PlayerData => _playerData;
@@ -76,7 +79,7 @@ namespace CardMaga.Battle.Visual
             //Sound
             AnimationSound.CurrentCharacter = characterSO;
 
-
+            Animator.speed = _animationPlaySpeed;
 
 #if UNITY_EDITOR
             DrawMesh = false;

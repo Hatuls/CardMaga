@@ -9,31 +9,29 @@ namespace CardMaga.Keywords
         {
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
+            UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + target.ToString() + " recieved " + KeywordSO.GetKeywordType.ToString() + " with Amount of " + amount);
 
-            UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
 
-
-            var target = data.GetTarget;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStamina(data.GetAmountToApply);
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStamina(amount);
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStamina(data.GetAmountToApply);
+                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStamina(amount);
 
-            data.KeywordSO.SoundEventSO.PlaySound();
+            KeywordSO.SoundEventSO.PlaySound();
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
 
-            var target = data.GetTarget;
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStamina(-data.GetAmountToApply);
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStamina(-amount);
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStamina(-data.GetAmountToApply);
+                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStamina(-amount);
         }
     }
 
@@ -43,24 +41,25 @@ namespace CardMaga.Keywords
         {
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
+  
+
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-
             //   UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
-            data.KeywordSO.SoundEventSO.PlaySound();
+           KeywordSO.SoundEventSO.PlaySound();
 
-            var target = data.GetTarget;
+      
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
                 _playersManager.GetCharacter(currentPlayer).DeckHandler.ResetDeck(DeckEnum.Discard);
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
                 _playersManager.GetCharacter(!currentPlayer).DeckHandler.ResetDeck(DeckEnum.Discard);
-
         }
 
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
+
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            // implement logic
+            throw new System.NotImplementedException();
         }
     }
 }

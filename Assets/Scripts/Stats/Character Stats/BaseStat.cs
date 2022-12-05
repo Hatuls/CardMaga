@@ -32,7 +32,7 @@ namespace Characters.Stats
             Amount = amount;
             InvokeStatUpdate();
         }
-        protected void InvokeStatUpdate()
+        public void InvokeStatUpdate()
         {
             OnValueChanged?.Invoke(Amount);
             OnStatsUpdated?.Invoke(Amount, Keyword);

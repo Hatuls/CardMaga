@@ -49,6 +49,7 @@ MonoBehaviour:
   _animationSound: {fileID: 7782881527305459121}
   _animator: {fileID: 7152309061550256374}
   _visual: {fileID: 2196011870050165751}
+  _animationPlaySpeed: 1
   _mesh: {fileID: 1881658275731381208, guid: 6808112de31260d42b424a7635830a61, type: 3}
   _gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   _meshScale: {x: 1, y: 1, z: 1}
@@ -100,9 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 818985b4b5833e942bfc33a0d114a20e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPlayer: 0
-  _defensingVFX: {fileID: 11400000, guid: 61a613e6b5e554e43a302f504bfb0484, type: 2}
-  _recieivingDamageVFX: {fileID: 11400000, guid: c1a8c4c19da68444fa5d0001eb90812f,
+  _hittingVFXEffectSO: {fileID: 11400000, guid: e4b4d24c7b29dcd49b161555a4cc10f0,
+    type: 2}
+  _defendingVFXEffectSO: {fileID: 11400000, guid: 61a613e6b5e554e43a302f504bfb0484,
     type: 2}
 --- !u!114 &1618581856241741136
 MonoBehaviour:
@@ -116,13 +117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37daef6c4b4e484ca2a519e12988fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movedToNextAnimation: {fileID: 11400000, guid: 698589266bfcaaf4aac52860743d983e,
-    type: 2}
-  _onFinishedAnimation: {fileID: 11400000, guid: 3da0334e102a2674aa1ef2fe39501199,
-    type: 2}
-  _onAnimationDoKeyword: {fileID: 11400000, guid: 0743efe3c68b81f408af38b1f766dd03,
-    type: 2}
-  _moveCameraAngle: {fileID: 11400000, guid: 45b8cd7551d62d44d8eb685b3b08176f, type: 2}
   _opponentController: {fileID: 1618581856241741136}
   targetToLookAt: {fileID: 0}
   _rotationSpeed: 0
@@ -130,7 +124,6 @@ MonoBehaviour:
   IsMyTurn: 0
   _transitionSpeedBetweenAnimations: 0.1
   transitionToIdle: 0.1
-  _isPlayer: 0
   _crossFadeBetweenAnimations: 0
   startPos: {x: 0, y: 0, z: 0}
 --- !u!95 &7152309061550256374

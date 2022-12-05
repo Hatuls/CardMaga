@@ -50,10 +50,7 @@ namespace CardMaga.UI.Visuals
             {
                 ReduceArmor(amount);
             }
-            else
-            {
-                Debug.LogWarning("Armor did not change but you called Set Armor");
-            }
+         
         }
     
         private void GainArmor(int amount)

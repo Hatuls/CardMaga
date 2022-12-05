@@ -9456,8 +9456,6 @@ GameObject:
   - component: {fileID: 6107879658907322426}
   - component: {fileID: 6206544812468791490}
   - component: {fileID: 325339423512179729}
-  - component: {fileID: -8444425437372273290}
-  - component: {fileID: 2420592956331255269}
   m_Layer: 0
   m_Name: DexterityPartical
   m_TagString: Untagged
@@ -14203,54 +14201,3 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &-8444425437372273290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6107879658907685914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba02a1305229a834cb1737d9f68bb199, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sequanceHandler: {fileID: 2420592956331255269}
-  _particleSystem: {fileID: 325339423512179729}
-  _vfxID: {fileID: 11400000, guid: ac56bbe45d94b274e8f5aa8cc23a12bc, type: 2}
---- !u!114 &2420592956331255269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6107879658907685914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2b99c63c7b28d548a2d6983a5f73ff8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sequanceList:
-  - id: 0
-  references:
-    version: 1
-    00000000:
-      type: {class: ActivateEventAtSequance, ns: , asm: Assembly-CSharp}
-      data:
-        _order: 0
-        _delayBeforeExecute: 5
-        _event:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: -4773393376520764148, guid: d58eca045f57ac848b4f86ce8913091a,
-                type: 3}
-              m_MethodName: GoToContainer
-              m_Mode: 1
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2

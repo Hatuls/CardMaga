@@ -15,9 +15,12 @@ public class AvatarHandler : MonoBehaviour
     [SerializeField] Transform _bottomBody;
     [SerializeField] Transform _chestPart;
 
+    private Transform _currentActiveBodyPart;
+
     [Header("Avatar:")]
     [SerializeField] Avatar avatar;
     [SerializeField] SkinnedMeshRenderer _mesh;
+
 
     public Transform HeadPart { get => _headPart; }
     public Transform LeftHandPart { get => _leftHandPart; }
@@ -26,15 +29,19 @@ public class AvatarHandler : MonoBehaviour
     public Transform RightLegPart { get => _rightLegPart; }
     public Transform ChestPart { get => _chestPart; }
     public Transform BottomBody { get => _bottomBody; }
-    public Avatar Avatar { get => avatar; }
     public Transform LeftElbowPart { get => _leftElbowPart; }
     public Transform RightElbowPart { get => _rightElbowPart; }
     public Transform LeftKneePart { get => _leftKneePart; }
     public Transform RightKneePart { get => _rightKneePart; }
+
+
     public SkinnedMeshRenderer Mesh { get => _mesh; }
+    public Avatar Avatar { get => avatar; }
 
-   
-
+    public Transform GetCurrentActiveBodyPart() => _currentActiveBodyPart;
+    public void UpdateCurrentActiveBodyPart(BodyPartEnum bodyPartEnum)
+    => _currentActiveBodyPart = GetBodyPart(bodyPartEnum);
+    
 
     public Transform GetBodyPart(BodyPartEnum bodyPartEnum)
     {

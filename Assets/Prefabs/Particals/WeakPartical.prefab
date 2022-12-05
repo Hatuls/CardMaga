@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 152887735553733721}
   - component: {fileID: 8279064452754884480}
   - component: {fileID: 4547927039226924509}
-  - component: {fileID: 2652229929214804727}
-  - component: {fileID: -5587723538133182061}
   m_Layer: 0
   m_Name: WeakPartical
   m_TagString: Untagged
@@ -4759,57 +4757,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &2652229929214804727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152887735554025593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba02a1305229a834cb1737d9f68bb199, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sequanceHandler: {fileID: -5587723538133182061}
-  _particleSystem: {fileID: 8279064452754884480}
-  _vfxID: {fileID: 11400000, guid: 1b84530cdf7f0a34f8bc924b781d90c6, type: 2}
---- !u!114 &-5587723538133182061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152887735554025593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2b99c63c7b28d548a2d6983a5f73ff8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sequanceList:
-  - id: 0
-  references:
-    version: 1
-    00000000:
-      type: {class: ActivateEventAtSequance, ns: , asm: Assembly-CSharp}
-      data:
-        _order: 0
-        _delayBeforeExecute: 5
-        _event:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: -4773393376520764148, guid: d58eca045f57ac848b4f86ce8913091a,
-                type: 3}
-              m_MethodName: GoToContainer
-              m_Mode: 1
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
 --- !u!1 &152887735554025595
 GameObject:
   m_ObjectHideFlags: 0

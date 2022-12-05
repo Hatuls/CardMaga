@@ -1,4 +1,5 @@
 ﻿using Battle;
+using Battle.Turns;
 using CardMaga.Battle.Execution;
 using CardMaga.Battle.Visual;
 using CardMaga.Battle.Visual.Camera;
@@ -8,6 +9,7 @@ using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using CardMaga.UI.Collections;
 using CardMaga.UI.Text;
+using CardMaga.VFX;
 using Keywords;
 using ReiTools.TokenMachine;
 using System;
@@ -30,6 +32,7 @@ namespace CardMaga.Battle.UI
         GameVisualCommands GameVisualCommands { get; }
         GlowManager GlowManager { get; }
         StatsUIManager StatsUIManager { get; }
+        VFXManager VFXManager { get; }
     }
 
     public class BattleUiManager : MonoSingleton<BattleUiManager>, ISequenceOperation<IBattleManager>, IBattleUIManager
@@ -64,7 +67,8 @@ namespace CardMaga.Battle.UI
         [SerializeField]
         private GlowManager _glowManager;
 
-       
+        [SerializeField]
+        private VFXManager _vfxManager;
 
         [SerializeField]
         private ComboAndDeckCollectionBattleHandler _comboAndDeckCollectionBattleHandler;
@@ -99,12 +103,14 @@ namespace CardMaga.Battle.UI
 
         #region Properties
 
-        private IEnumerable<ISequenceOperation<IBattleUIManager>> VisualInitializers
+        public IEnumerable<ISequenceOperation<IBattleUIManager>> VisualInitializers
         {
             get
             { 
                 yield return VisualCharactersManager;
                 yield return StatsUIManager;
+                yield return BuffIconManager;
+                yield return VFXManager;
                 yield return CardUIManager;
                 yield return GlowManager;
                 yield return CameraManager;
@@ -113,13 +119,12 @@ namespace CardMaga.Battle.UI
                 yield return StaminaTextManager;
                 yield return EndTurnButton;
                 yield return BottomPartDeckVisualHandler;
-                yield return BuffIconManager;
                 yield return CraftingSlotsUIManager;
                 yield return ComboAndDeckCollectionBattleHandler;
                 yield return TurnCounter;
 
                 if(_dollyTrackCinematicManager!=null)
-                 yield return DollyTrackCinematicManager;
+                yield return DollyTrackCinematicManager;
             }
         }
         public int Priority => 1000;
@@ -135,7 +140,7 @@ namespace CardMaga.Battle.UI
         public CraftingSlotsUIManager_V4 CraftingSlotsUIManager { get => _craftingSlotsUIManager; }
         public VisualCharactersManager VisualCharactersManager => _visualCharactersManager;
         public IBattleManager BattleDataManager => _battleManager;
-
+        public VFXManager VFXManager => _vfxManager;
         public GlowManager GlowManager { get => _glowManager; }
         public ComboAndDeckCollectionBattleHandler ComboAndDeckCollectionBattleHandler =>_comboAndDeckCollectionBattleHandler;
         public BottomPartDeckVisualHandler BottomPartDeckVisualHandler => _bottomPartDeckVisualHandler;
@@ -150,7 +155,7 @@ namespace CardMaga.Battle.UI
             base.Awake();
             _visualKeywordsHandler = new VisualKeywordsHandler();
             _battleManager.Register(this, OrderType.After);
-            base.Awake();
+     
         }
         #endregion
         #region Functions
@@ -196,6 +201,7 @@ namespace CardMaga.Battle.UI
             _dollyTrackCinematicManager = FindObjectOfType<DollyTrackCinematicManager>();
             _glowManager = FindObjectOfType<GlowManager>();
             _battleManager = FindObjectOfType<BattleManager>();
+            _vfxManager = FindObjectOfType<VFXManager>();
 
             _buffIconManager.AssignBuffsFields();
             _visualCharactersManager.AssignVisualCharacter();
@@ -239,6 +245,9 @@ namespace CardMaga.Battle.UI
             _rightVisualCharacter.InitVisuals(rightPlayerData, rightCharacterSO, battleData.Right.BattleCharacterVisual);
             _rightVisualCharacter.ExecuteTask(tokenMachine, battleUIManager);
 
+            TurnHandler turnHandler = battleDataManager.TurnHandler;
+            turnHandler.GetTurn(GameTurnType.EnterBattle).OnTurnExit += _rightVisualCharacter.VisualStats.UpdateAllStats;
+            turnHandler.GetTurn(GameTurnType.EnterBattle).OnTurnExit += _leftVisualCharacter.VisualStats.UpdateAllStats;
 
             token.Dispose();
         }
@@ -246,6 +255,10 @@ namespace CardMaga.Battle.UI
         {
             _leftVisualCharacter.Dispose();
             _rightVisualCharacter.Dispose();
+
+            TurnHandler turnHandler = battleUIManager.BattleDataManager.TurnHandler;
+            turnHandler.GetTurn(GameTurnType.EnterBattle).OnTurnExit -= _rightVisualCharacter.VisualStats.UpdateAllStats;
+            turnHandler.GetTurn(GameTurnType.EnterBattle).OnTurnExit -= _leftVisualCharacter.VisualStats.UpdateAllStats;
         }
         public VisualCharacter GetVisualCharacter(bool isLeft) => isLeft ? _leftVisualCharacter : _rightVisualCharacter;
 

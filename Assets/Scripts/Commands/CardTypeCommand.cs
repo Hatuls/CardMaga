@@ -10,7 +10,7 @@ namespace CardMaga.Commands
         private bool _toNotify;
         private CardTypeData _cardTypeData;
 
-        public bool ToNotify { get => _toNotify; set => _toNotify = value; }
+        public bool ToDetectCombo { get => _toNotify; set => _toNotify = value; }
 
         public CardTypeCommand(BattleCardData battleCard)
         {
@@ -28,7 +28,7 @@ namespace CardMaga.Commands
             foreach (var item in _craftingHandler.CardsTypeData)
                 _previousSlots.Add(item);
 
-            _craftingHandler.AddFront(_cardTypeData, ToNotify);
+            _craftingHandler.AddFront(_cardTypeData, ToDetectCombo);
         }
 
         public void Undo()

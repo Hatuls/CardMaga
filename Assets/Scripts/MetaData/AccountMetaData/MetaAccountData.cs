@@ -20,7 +20,7 @@ namespace CardMaga.MetaData.AccoutData
         
         #region Prop
 
-        public string AccountName => _accountData.DisplayName;
+        public string AccountName => AccountManager.Instance.DisplayName;
         public MetaCharactersHandler CharacterDatas => _charactersHandler;
         public List<MetaCardData> AccountCards => _accountCards;
         public List<MetaComboData> AccountCombos => _accountCombos;

@@ -85,10 +85,10 @@ namespace CardMaga.Battle.Execution
 
 
 
-            var deckHandler = currentPlayer.DeckHandler;
-            var transferCommand = new TransferSingleCardCommand(deckHandler, DeckEnum.Selected, battleCard.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, battleCard);
+            DeckHandler deckHandler = currentPlayer.DeckHandler;
+            TransferSingleCardCommand transferCommand = new TransferSingleCardCommand(deckHandler, DeckEnum.Selected, battleCard.IsExhausted ? DeckEnum.Exhaust : DeckEnum.Discard, battleCard);
 
-            var dataCommands = GameCommands.GameDataCommands.DataCommands;
+            CommandHandler<ICommand> dataCommands = GameCommands.GameDataCommands.DataCommands;
 
             //Transfer BattleCard Command;
             dataCommands.AddCommand(transferCommand);

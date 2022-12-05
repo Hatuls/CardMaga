@@ -14,32 +14,7 @@ namespace CardMaga.Keywords
             _pierceDamageKeyword = pierceDamageKeyword;
         }
 
-        public override void ProcessOnTarget(bool currentPlayer, KeywordData data)
-        {
 
-            //UnityEngine.Debug.Log("<Color=red><a>Keyword Activated:</a></color> " + data.GetTarget.ToString() + " recieved " + data.KeywordSO.GetKeywordType.ToString() + " with Amount of " + data.GetAmountToApply);
-
-            var target = data.GetTarget;
-            if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
-
-            if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(data.GetAmountToApply);
-
-            InvokeOnKeywordActivated();
-            data.KeywordSO.SoundEventSO.PlaySound();
-        }
-
-        public override void UnProcessOnTarget(bool currentPlayer, KeywordData data)
-        {
-            var target = data.GetTarget;
-            if (target == TargetEnum.MySelf || target == TargetEnum.All)
-                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
-
-            if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(data.GetAmountToApply);
-
-        }
 
         public override void StartTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands)
         {
@@ -59,6 +34,28 @@ namespace CardMaga.Keywords
 
                 InvokeOnKeywordFinished();
             }
+        }
+
+        public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
+        {
+
+            if (target == TargetEnum.MySelf || target == TargetEnum.All)
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+
+            InvokeOnKeywordActivated();
+            KeywordSO.SoundEventSO.PlaySound();
+        }
+
+        public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
+        {
+            if (target == TargetEnum.MySelf || target == TargetEnum.All)
+                _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(amount);
+
+            if (target == TargetEnum.Opponent || target == TargetEnum.All)
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(amount);
         }
     }
 }
