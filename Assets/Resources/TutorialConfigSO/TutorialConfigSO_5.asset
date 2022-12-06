@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0869f1002cc5d9e43b31e097545ea2b4, type: 3}
-  m_Name: TutorialConfigSO_4
+  m_Name: TutorialConfigSO_5
   m_EditorClassIdentifier: 
   _leftCharacter:
-    _displayName: 
+    _displayName: Chiara
     _tags: []
     _characterData:
-      _characterSO: {fileID: 11400000, guid: 214d71195dc68a148b2aee24c4344679, type: 2}
+      _characterSO: {fileID: 11400000, guid: 673173fd8a3a22e46b11808526943ac5, type: 2}
       _characterStats:
-        _maxHealth: 30
-        _health: 30
+        _maxHealth: 40
+        _health: 40
         _defense: 0
         _gold: 0
         _strengthPoint: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
         _cardDraw: 4
         _startStamina: 4
         _regenerationPoints: 0
-        _stun: 1
+        _stun: 0
         _stunShards: 0
         _staminaShard: 0
         _protectionShard: 0
@@ -40,18 +40,39 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              ID: 80
-            _cardSO: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a, type: 2}
+              ID: 50
+            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
+            _level: 0
+          _instanceID: 0
+        _toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 4
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        _staminaCost: 1
+      - _cardInstance:
+          _coreData:
+            _coreID:
+              ID: 50
+            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
             _level: 0
           _instanceID: 1
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
-          _cardType: 2
+          _cardType: 1
         _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
             type: 2}
-          _target: 1
+          _target: 2
           _amountToApply: 4
           _animationIndex: 0
           _conditions:
@@ -61,18 +82,18 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              ID: 80
-            _cardSO: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a, type: 2}
+              ID: 30
+            _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
             _level: 0
           _instanceID: 2
         _toExhaust: 0
         _cardTypeData:
-          _bodyPart: 4
-          _cardType: 2
+          _bodyPart: 6
+          _cardType: 1
         _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
             type: 2}
-          _target: 1
+          _target: 2
           _amountToApply: 4
           _animationIndex: 0
           _conditions:
@@ -82,18 +103,18 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              ID: 80
-            _cardSO: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a, type: 2}
+              ID: 30
+            _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
             _level: 0
           _instanceID: 3
         _toExhaust: 0
         _cardTypeData:
-          _bodyPart: 4
-          _cardType: 2
+          _bodyPart: 6
+          _cardType: 1
         _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
             type: 2}
-          _target: 1
+          _target: 2
           _amountToApply: 4
           _animationIndex: 0
           _conditions:
@@ -103,19 +124,27 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              ID: 20
-            _cardSO: {fileID: 11400000, guid: 268c779e1c27d124b99151c85082199f, type: 2}
+              ID: 160
+            _cardSO: {fileID: 11400000, guid: d5cf22a2c1bb0294aa79a95711e14347, type: 2}
             _level: 0
           _instanceID: 4
-        _toExhaust: 1
+        _toExhaust: 0
         _cardTypeData:
-          _bodyPart: 2
-          _cardType: 3
+          _bodyPart: 6
+          _cardType: 1
         _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349,
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
             type: 2}
-          _target: 1
-          _amountToApply: 5
+          _target: 2
+          _amountToApply: 3
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        - _keywordBase: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9,
+            type: 2}
+          _target: 2
+          _amountToApply: 2
           _animationIndex: 0
           _conditions:
             _comboCondition: []
@@ -124,19 +153,19 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              ID: 80
-            _cardSO: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a, type: 2}
+              ID: 70
+            _cardSO: {fileID: 11400000, guid: 1629aef4602ae6e43a14aa2b29fc1a1d, type: 2}
             _level: 0
           _instanceID: 5
         _toExhaust: 0
         _cardTypeData:
-          _bodyPart: 4
+          _bodyPart: 6
           _cardType: 2
         _cardKeyword:
         - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
             type: 2}
           _target: 1
-          _amountToApply: 4
+          _amountToApply: 5
           _animationIndex: 0
           _conditions:
             _comboCondition: []
@@ -187,18 +216,18 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              ID: 50
-            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
+              ID: 80
+            _cardSO: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a, type: 2}
             _level: 0
           _instanceID: 8
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
-          _cardType: 1
+          _cardType: 2
         _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
             type: 2}
-          _target: 2
+          _target: 1
           _amountToApply: 4
           _animationIndex: 0
           _conditions:
@@ -208,193 +237,33 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              ID: 50
-            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
+              ID: 20
+            _cardSO: {fileID: 11400000, guid: 268c779e1c27d124b99151c85082199f, type: 2}
             _level: 0
           _instanceID: 9
-        _toExhaust: 0
+        _toExhaust: 1
         _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
+          _bodyPart: 2
+          _cardType: 3
         _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        - _keywordBase: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349,
             type: 2}
-          _target: 2
-          _amountToApply: 4
+          _target: 1
+          _amountToApply: 5
           _animationIndex: 0
           _conditions:
             _comboCondition: []
             _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 30
-            _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
-            _level: 0
-          _instanceID: 10
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 30
-            _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
-            _level: 0
-          _instanceID: 11
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 50
-            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
-            _level: 0
-          _instanceID: 12
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 50
-            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
-            _level: 0
-          _instanceID: 13
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 30
-            _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
-            _level: 0
-          _instanceID: 14
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 30
-            _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
-            _level: 0
-          _instanceID: 15
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 50
-            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
-            _level: 0
-          _instanceID: 16
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 30
-            _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
-            _level: 0
-          _instanceID: 17
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
+        _staminaCost: 2
       _comboRecipe:
+      - _comboCore:
+          Level: 0
+          ID: 3
+        _comboSO: {fileID: 11400000, guid: 4a4b294e1aa3a0f4e81da957585ad18b, type: 2}
+      - _comboCore:
+          Level: 0
+          ID: 2
+        _comboSO: {fileID: 11400000, guid: e731eb9606088c94c9dbb13f7faf2558, type: 2}
       - _comboCore:
           Level: 0
           ID: 7
@@ -409,13 +278,13 @@ MonoBehaviour:
         _avatarHandler: {fileID: 3947106798596284825, guid: 618e9a8d1dc78d648b99aef14d7002b1,
           type: 3}
   _rightCharacter:
-    _displayName: 
+    _displayName: Scout
     _tags: []
     _characterData:
-      _characterSO: {fileID: 11400000, guid: 48962b7980a58ed42b0f2e1ea04e52ff, type: 2}
+      _characterSO: {fileID: 11400000, guid: 88e98b7f7ab3d8149847a4a6f4740e62, type: 2}
       _characterStats:
-        _maxHealth: 15
-        _health: 15
+        _maxHealth: 40
+        _health: 40
         _defense: 0
         _gold: 0
         _strengthPoint: 0
@@ -436,10 +305,10 @@ MonoBehaviour:
       - _cardInstance:
           _coreData:
             _coreID:
-              ID: 30
-            _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
+              ID: 0
+            _cardSO: {fileID: 11400000, guid: 4849f04354316bb4b9075db6e1240c4e, type: 2}
             _level: 0
-          _instanceID: 40
+          _instanceID: 10
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 6
@@ -448,133 +317,7 @@ MonoBehaviour:
         - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
             type: 2}
           _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 50
-            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
-            _level: 0
-          _instanceID: 41
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 50
-            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
-            _level: 0
-          _instanceID: 42
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 70
-            _cardSO: {fileID: 11400000, guid: 1629aef4602ae6e43a14aa2b29fc1a1d, type: 2}
-            _level: 0
-          _instanceID: 43
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 6
-          _cardType: 2
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
-            type: 2}
-          _target: 1
-          _amountToApply: 5
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 50
-            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
-            _level: 0
-          _instanceID: 44
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 50
-            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
-            _level: 0
-          _instanceID: 45
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 1
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
-            type: 2}
-          _target: 2
-          _amountToApply: 4
-          _animationIndex: 0
-          _conditions:
-            _comboCondition: []
-            _paramaterCondition: []
-        _staminaCost: 1
-      - _cardInstance:
-          _coreData:
-            _coreID:
-              ID: 80
-            _cardSO: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a, type: 2}
-            _level: 0
-          _instanceID: 46
-        _toExhaust: 0
-        _cardTypeData:
-          _bodyPart: 4
-          _cardType: 2
-        _cardKeyword:
-        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
-            type: 2}
-          _target: 1
-          _amountToApply: 4
+          _amountToApply: 7
           _animationIndex: 0
           _conditions:
             _comboCondition: []
@@ -586,7 +329,7 @@ MonoBehaviour:
               ID: 40
             _cardSO: {fileID: 11400000, guid: 6755699789f3d8a4aa8dee5f8e98e22a, type: 2}
             _level: 0
-          _instanceID: 47
+          _instanceID: 11
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -609,6 +352,98 @@ MonoBehaviour:
             _comboCondition: []
             _paramaterCondition: []
         _staminaCost: 2
+      - _cardInstance:
+          _coreData:
+            _coreID:
+              ID: 160
+            _cardSO: {fileID: 11400000, guid: d5cf22a2c1bb0294aa79a95711e14347, type: 2}
+            _level: 0
+          _instanceID: 12
+        _toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 3
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        - _keywordBase: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9,
+            type: 2}
+          _target: 2
+          _amountToApply: 2
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        _staminaCost: 2
+      - _cardInstance:
+          _coreData:
+            _coreID:
+              ID: 30
+            _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
+            _level: 0
+          _instanceID: 13
+        _toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 6
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        _staminaCost: 1
+      - _cardInstance:
+          _coreData:
+            _coreID:
+              ID: 50
+            _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
+            _level: 0
+          _instanceID: 14
+        _toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 4
+          _cardType: 1
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+            type: 2}
+          _target: 2
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        _staminaCost: 1
+      - _cardInstance:
+          _coreData:
+            _coreID:
+              ID: 80
+            _cardSO: {fileID: 11400000, guid: 40a52c0b888ea424eba768df09304c4a, type: 2}
+            _level: 0
+          _instanceID: 15
+        _toExhaust: 0
+        _cardTypeData:
+          _bodyPart: 4
+          _cardType: 2
+        _cardKeyword:
+        - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef,
+            type: 2}
+          _target: 1
+          _amountToApply: 4
+          _animationIndex: 0
+          _conditions:
+            _comboCondition: []
+            _paramaterCondition: []
+        _staminaCost: 1
       _comboRecipe:
       - _comboCore:
           Level: 0
@@ -623,4 +458,4 @@ MonoBehaviour:
             type: 3}
         _avatarHandler: {fileID: 3947106798596284825, guid: 618e9a8d1dc78d648b99aef14d7002b1,
           type: 3}
-  _battleConfig: {fileID: 11400000, guid: aa620e957430bfb4b942608b06f57089, type: 2}
+  _battleConfig: {fileID: 11400000, guid: eedee86c2482fed41813038389fbabd5, type: 2}
