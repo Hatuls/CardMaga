@@ -72,7 +72,7 @@ public class EndGameManager : MonoBehaviour
             ReleaseSceneToken();
     }
     public void ReleaseSceneToken() => _rewardToken?.Dispose();
-    private void MoveToNextScene()
+    public void MoveToNextScene() // plaster need to private
     {
         if (_isInTutorial)
             _moveToTutorial?.Invoke();
