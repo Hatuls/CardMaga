@@ -21,11 +21,6 @@ public class DragCardTutorial3Director : BaseTutorialDirector
 
     protected override void MoveDirectorPosition()
     {
-        BattleManager.Instance.BattleUIManager.HandUI.HandUIState.OnAllCardsDrawnAndAlign += MoveDirector;
-    }
-
-    private void MoveDirector()
-    {
         _directorRect.transform.position = _tutorialCardDrawnHandler.DrawnCard.RectTransform.position;
         _playableDirector.Play();
     }

@@ -36,13 +36,13 @@ namespace TutorialCardDrawn
         public void WaitForCardToAlign(ITokenReciever tokenReciever)
         {
             _token = tokenReciever.GetToken();
-            HandUIState.OnCardDrawnAndAlign += UnlockOnlyDrawnCard;
+            BattleManager.Instance.BattleUIManager.HandUI.HandUIState.OnAllCardsDrawnAndAlign += UnlockOnlyDrawnCard;
         }
 
         public void UnlockOnlyDrawnCard()
         {
             IGetCardsUI cardsUI = BattleManager.Instance.BattleUIManager.HandUI.HandUIState;
-            HandUIState.OnCardDrawnAndAlign -= UnlockOnlyDrawnCard;
+            BattleManager.Instance.BattleUIManager.HandUI.HandUIState.OnAllCardsDrawnAndAlign -= UnlockOnlyDrawnCard;
             for (int i = 0; i < cardsUI.CardsUI.Count; i++)
             {
                 if (cardsUI.CardsUI[i].BattleCardData.CardSO.ID != _cardId)
