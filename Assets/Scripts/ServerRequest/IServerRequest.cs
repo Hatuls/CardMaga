@@ -9,7 +9,7 @@ namespace CardMaga.Server.Request
 
         protected abstract void ServerLogic();//temp, will move to the server side
         
-        protected void ReceiveResult()
+        protected virtual void ReceiveResult()
         {
             _token.Dispose();
         }

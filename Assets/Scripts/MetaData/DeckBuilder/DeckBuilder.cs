@@ -78,12 +78,11 @@ namespace CardMaga.MetaData.DeckBuilding
             }
         }
         
-        public bool TryEditDeckName(string name)
+        public void TryEditDeckName(string name)
         {
             //add name valid
             _deck.UpdateDeckName(name);
             OnDeckNameUpdate?.Invoke();
-            return true;
         }
 
         private void TryAddCard(MetaCardData cardData)

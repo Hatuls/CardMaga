@@ -1,7 +1,7 @@
 ﻿
 namespace CardMaga.Input
 {
-    public class Button : TouchableItem<MetaDeckUICollection>
+    public class Button : TouchableItem
     {
     }    
 }

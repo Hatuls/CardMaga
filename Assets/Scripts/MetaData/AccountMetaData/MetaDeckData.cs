@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Account.GeneralData;
 using Factory;
+using Sirenix.OdinInspector.Editor;
 
 namespace CardMaga.MetaData.AccoutData
 {
@@ -11,6 +12,7 @@ namespace CardMaga.MetaData.AccoutData
 
         private int _deckId;
         private string _deckName;
+        private bool _isNewDeck;
         private List<MetaCardData> _cardDatas;
         private List<MetaComboData> _comboDatas;
 
@@ -20,16 +22,28 @@ namespace CardMaga.MetaData.AccoutData
 
         public int DeckId  => _deckId; 
         public string DeckName  => _deckName;
+        public int DeckIndex { get; }
+        public bool IsNewDeck => _isNewDeck;
+
         public List<MetaCardData> Cards => _cardDatas; 
         public List<MetaComboData> Combos => _comboDatas;
 
         #endregion
         
-        public MetaDeckData(DeckData deckData)
+        public MetaDeckData(DeckData deckData,int deckIndex,bool isNewDeck)
         {
             _deckId = deckData.Id;
             _deckName = deckData.Name;
+            _isNewDeck = isNewDeck;
+            DeckIndex = deckIndex;
 
+            if (isNewDeck)
+            {
+                _cardDatas = new List<MetaCardData>();
+                _comboDatas = new List<MetaComboData>();
+                return;
+            }
+            
             GameFactory.CardFactory cardFactory = GameFactory.Instance.CardFactoryHandler;
 
             CardCore[] tempCardCore = cardFactory.CreateCardCores(deckData.Cards);
@@ -115,6 +129,11 @@ namespace CardMaga.MetaData.AccoutData
 
             metaComboData = null;
             return false;
+        }
+
+        public void RegisterDeck()
+        {
+            _isNewDeck = false;
         }
 
         public bool Equals(MetaDeckData other)

@@ -12,7 +12,7 @@ namespace CardMaga.ObjectPool
         private IPoolMBObject<BattleComboUI> _battleComboUIPool;
         private IPoolMBObject<MetaCardUI> _metaCardUIPool;
         private IPoolMBObject<MetaComboUI> _metaComboUIPool;
-        private IPoolMBObject<MetaCollectionUICard> _metaCollectionCardUIPool;
+        private IPoolMBObject<MetaCollectionCardUI> _metaCollectionCardUIPool;
         private IPoolMBObject<MetaCollectionUICombo> _metaCollectionComboUIPool;
 
         public override void Awake()
@@ -33,7 +33,7 @@ namespace CardMaga.ObjectPool
                     return _metaCardUIPool as IPoolMBObject<T>;
                 case MetaComboUI metaComboUI:
                     return _metaComboUIPool as IPoolMBObject<T>;
-                case MetaCollectionUICard metaCollectionCardUI:
+                case MetaCollectionCardUI metaCollectionCardUI:
                     return _metaCollectionCardUIPool as IPoolMBObject<T>;
                 case MetaCollectionUICombo metaCollectionComboUI:
                     return _metaCollectionComboUIPool as IPoolMBObject<T>;

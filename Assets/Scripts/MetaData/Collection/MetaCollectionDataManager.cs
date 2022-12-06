@@ -11,14 +11,11 @@ using UnityEngine.Events;
 namespace CardMaga.MetaData.Collection
 {
     [Serializable]
-    public class MetaCollectionDataManager : ISequenceOperation<MetaDataManager>
+    public class MetaCollectionDataManager : ISequenceOperation<MetaDataManager>, IDisposable
     {
         [SerializeField] private UnityEvent OnSuccessUpdateDeck;
         [SerializeField] private UnityEvent OnFailedUpdateDeck;
         
-        [SerializeField] private MetaDeckUICollectionManager _deckUICollectionManager;
-        [SerializeField] private InputFieldHandler _deckName;
-        [SerializeField] private MetaCollectionUIManager metaCollectionUIManager;
         private DeckBuilder _deckBuilder;
         private AccountDataAccess _accountDataAccess;
         
@@ -26,26 +23,13 @@ namespace CardMaga.MetaData.Collection
         {
             _accountDataAccess = data.AccountDataAccess;
             _deckBuilder = data.DeckBuilder;
-            
-            _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck);
-            _deckName.SetText(_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.DeckName);//all plaster
-            
-            
-            _deckName.OnValueChange += EditDeckName;
-            _deckBuilder.OnSuccessCardAdd += metaCollectionUIManager.AddCardUI;
-            _deckBuilder.OnSuccessCardRemove += metaCollectionUIManager.RemoveCardUI;
-            _deckBuilder.OnSuccessComboAdd += metaCollectionUIManager.AddComboUI;
-            _deckBuilder.OnSuccessComboRemove += metaCollectionUIManager.RemoveComboUI;
         }
 
-        public int Priority => 1;
+        public int Priority => 2;
 
-        private void EditDeckName(string name)
+        public void AssingDeckDataToEdit()
         {
-            if (!_deckBuilder.TryEditDeckName(name))
-                Debug.Log("Failed to update deck name");
-            
-            Debug.Log("Deck new name " + name);
+            _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck);
         }
 
         public void ExitDeckEditing()
@@ -54,6 +38,7 @@ namespace CardMaga.MetaData.Collection
             {
                 TokenMachine tokenMachine = new TokenMachine(SuccessUpdateDeck);
                 _accountDataAccess.UpdateDeck(metaDeckData,tokenMachine);
+                _deckBuilder.DisposeDeck();
             }
             else
                 OnFailedUpdateDeck?.Invoke();
@@ -64,13 +49,8 @@ namespace CardMaga.MetaData.Collection
             OnSuccessUpdateDeck?.Invoke();
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
-            _deckName.OnValueChange -= EditDeckName;
-            _deckBuilder.OnSuccessCardAdd -= metaCollectionUIManager.AddCardUI;
-            _deckBuilder.OnSuccessCardRemove -= metaCollectionUIManager.RemoveCardUI;
-            _deckBuilder.OnSuccessComboAdd -= metaCollectionUIManager.AddComboUI;
-            _deckBuilder.OnSuccessComboRemove -= metaCollectionUIManager.RemoveComboUI;
         }
     }
 }

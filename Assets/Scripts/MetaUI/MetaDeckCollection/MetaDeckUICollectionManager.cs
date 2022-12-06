@@ -8,16 +8,20 @@ public class MetaDeckUICollectionManager : MonoBehaviour , ISequenceOperation<Me
 {
     [SerializeField] private MetaCharecterUICollection[] _charectersUI;
     
+    private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
+    
     private MetaCharecterUICollection _mainCharecterUI;
     
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
         MetaCharactersHandler metaCharactersHandler = data.MetaDataManager.MetaAccountData.CharacterDatas;
-        
-        for (int i = 0; i < metaCharactersHandler.CharacterDatas.Length; i++)
+
+        foreach (var charecterUICollection in _charectersUI)
         {
-            _charectersUI[i].Init(metaCharactersHandler.CharacterDatas[i]);
+            _sequenceHandler.Register(charecterUICollection);
         }
+        
+        _sequenceHandler.StartAll(data);
     }
 
     public int Priority => 1;

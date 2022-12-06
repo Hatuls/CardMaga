@@ -38,7 +38,7 @@ namespace Account.GeneralData
         public int EXP;
         public int SkillPoints;
         public int Rank;
-        public int DeckAmount = 1;
+        public int DeckAmount;
         public int MainDeck;
 
         public List<int> AvailableSkins = new List<int>();
@@ -51,7 +51,7 @@ namespace Account.GeneralData
             EXP = 0;
             SkillPoints = 0;
             Rank = 0;
-            DeckAmount = 1;
+            DeckAmount = 4;
             CurrentModel = 0;
             MainDeck = 0;
         }
@@ -66,14 +66,38 @@ namespace Account.GeneralData
             return AddNewDeck(cards, deckCombos);
         }
         
+        public bool AddNewDeck(DeckData deckData)
+        {
+            bool canAddDeck = Deck.Count < DeckAmount;
+            
+            if (canAddDeck)
+            {
+                Deck.Add(deckData);
+                MainDeck = Deck.Count - 1;
+            }
+            return canAddDeck;
+        }
+
+        public void SetMainDeck(int deckId)
+        {
+            for (int i = 0; i < Deck.Count; i++)
+            {
+                if (Deck[i].Id == deckId )
+                {
+                    MainDeck = i;
+                }
+            }
+        }
+        
         public bool AddNewDeck(CoreID[] deckCards, ComboCore[] deckCombos)
         {
-            bool _canAddDeck = Deck.Count < DeckAmount;
-            if (_canAddDeck)
+            bool canAddDeck = Deck.Count < DeckAmount;
+            
+            if (canAddDeck)
             {
                 Deck.Add(new DeckData(Deck.Count, "New Deck", deckCards, deckCombos));
             }
-            return _canAddDeck;
+            return canAddDeck;
         }
 
         public Character()

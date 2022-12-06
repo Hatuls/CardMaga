@@ -18,9 +18,7 @@ namespace CardMaga.MetaUI
 
         public CardInstance CardInstance => _cardInstance;
 
-        private bool _isEmpty;
-
-        public bool IsEmpty => _isEmpty;
+        public bool IsEmpty => _emptyCard.gameObject.activeSelf && !_cardVisuals.gameObject.activeSelf;
 
         public override void Init()
         {
@@ -39,14 +37,12 @@ namespace CardMaga.MetaUI
         { 
             _cardVisuals.gameObject.SetActive(false);
             _emptyCard.gameObject.SetActive(true);
-            _isEmpty = true;
         }
 
         public override void Show()
         {
             _cardVisuals.gameObject.SetActive(true);
             _emptyCard.gameObject.SetActive(false);
-            _isEmpty = false;
         }
 
         public void AssignVisual(MetaCardData data)

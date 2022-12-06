@@ -6,7 +6,6 @@ using CardMaga.MetaData.DeckBuilding;
 using CardMaga.MetaUI;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
-using Token = Sirenix.Utilities.Editor.Expressions.Token;
 
 namespace MetaData
 {
@@ -35,9 +34,9 @@ namespace MetaData
             get
             {
                 yield return _accountDataAccess = new AccountDataAccess();
+                yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
                 yield return _metaCollectionDataManager = new MetaCollectionDataManager();
                 yield return _deckBuilder = new DeckBuilder();
-                yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
             }
         }
         

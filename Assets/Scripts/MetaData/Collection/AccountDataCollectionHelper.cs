@@ -12,9 +12,10 @@ namespace CardMaga.MetaData.Collection
         private AccountDataAccess _accountDataAccess;
         
         private List<MetaCollectionCardData> _collectionCardDatas;
+        private List<MetaCollectionCardData> _currentCollectionCardDatas;
         private List<MetaCollectionDataCombo> _collectionComboDatas;
-        
-        public List<MetaCollectionCardData> CollectionCardDatas => _collectionCardDatas;
+
+        public List<MetaCollectionCardData> CollectionCardDatas => _currentCollectionCardDatas;
 
         public List<MetaCollectionDataCombo> CollectionComboDatas => _collectionComboDatas;
 
@@ -26,7 +27,6 @@ namespace CardMaga.MetaData.Collection
             _accountDataAccess = data.AccountDataAccess;
             InitializeData(_accountDataAccess.AccountData.AccountCards,_collectionCardDatas);
             InitializeData(_accountDataAccess.AccountData.AccountCombos,_collectionComboDatas);
-            SetCollection();
         }
 
         public int Priority => 0;
@@ -52,12 +52,17 @@ namespace CardMaga.MetaData.Collection
             }
         }
 
-        private void SetCollection()
+        private List<MetaCollectionCardData> SetCollection()
         {
-            List<MetaCardData> metaCardDatas =
-                _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[0].Cards;
+            if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
+                return GetCollectionCardDatasCopy();
 
-            foreach (var collectionCardData in _collectionCardDatas)
+            List<MetaCardData> metaCardDatas =
+                _accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.Cards;
+
+            List<MetaCollectionCardData> collectionCardDatas = GetCollectionCardDatasCopy();
+
+            foreach (var collectionCardData in collectionCardDatas)
             {
                 foreach (var cardData in metaCardDatas)
                 {
@@ -67,6 +72,25 @@ namespace CardMaga.MetaData.Collection
                     }
                 }
             }
+
+            return collectionCardDatas;
+        }
+
+        public void UpdateCollection()
+        {
+            _currentCollectionCardDatas = SetCollection();
+        }
+
+        private List<MetaCollectionCardData> GetCollectionCardDatasCopy()
+        {
+            List<MetaCollectionCardData> output = new List<MetaCollectionCardData>();
+
+            foreach (var cardData in _collectionCardDatas)
+            {
+                output.Add(new MetaCollectionCardData(cardData.NumberOfInstant,cardData.ItemReference));
+            }
+
+            return output;
         }
     }
 }

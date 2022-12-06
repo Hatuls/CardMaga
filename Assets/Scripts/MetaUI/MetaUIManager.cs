@@ -30,12 +30,31 @@ namespace CardMaga.MetaUI
         public MetaDeckUICollectionManager MetaDeckUICollectionManager => _metaDeckUICollectionManager;
 
         public MetaDataManager MetaDataManager => _metaDataManager;
+        
+        private IEnumerable<ISequenceOperation<MetaUIManager>> VisualInitializers
+        {
+            get
+            {
+                yield return _metaCollectionUIManager;
+                yield return _metaDeckUICollectionManager;
+            }
+        }
 
         public override void Awake()
         {
             base.Awake();
             _metaDataManager = new MetaDataManager();
             _sequenceHandler.Register(_metaDataManager,OrderType.Before);
+            
+            foreach (var operation in VisualInitializers)
+            {
+                _sequenceHandler.Register(operation);
+            }
+        }
+
+        public void Register(ISequenceOperation<MetaUIManager> sequenceOperation, OrderType to = OrderType.Default)
+        {
+            _sequenceHandler.Register(sequenceOperation,to);
         }
 
         private void Start()
@@ -45,24 +64,16 @@ namespace CardMaga.MetaUI
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
-            foreach (var operation in VisualInitializers)
-            {
-                _sequenceHandler.Register(operation);
-            }
         }
 
         private void MetaUIInitializes()
         {
             OnMetaUIInitializes?.Invoke();
         }
-
-        private IEnumerable<ISequenceOperation<MetaUIManager>> VisualInitializers
+        
+        public void LogTest()
         {
-            get
-            {
-                yield return _metaCollectionUIManager;
-                yield return _metaDeckUICollectionManager;
-            }
+            Debug.Log("Test_needToRemove");
         }
 
     }

@@ -25,16 +25,31 @@ namespace CardMaga.Server.Request
             
             DeckData deckData = GetDeckData();
 
-            List<DeckData> accountDeckDatas = accountManager.Data.CharactersData.Characters[_characterId].Deck;
+            List<Character> characters = accountManager.Data.CharactersData.Characters;
+
+            List<DeckData> accountDeckDatas = characters[FindCharacterIndexById(characters,_characterId)].Deck;
 
             if (!TryGetDeckIndexInAccount(accountDeckDatas,deckData.Id,out int deckIndex))
                 throw new Exception("Deck index not found in account");
-
+            
             accountDeckDatas[deckIndex] = deckData;
 
             TokenMachine tokenMachine = new TokenMachine(ReceiveResult);
             
             accountManager.SendAccountData(tokenMachine);
+        }
+
+        private int FindCharacterIndexById(List<Character> characters,int id)
+        {
+            for (int i = 0; i < characters.Count; i++)
+            {
+                if (characters[i].ID == id)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         private bool TryGetDeckIndexInAccount(List<DeckData> accountDeckDatas,int deckId, out int deckIndex)
@@ -57,8 +72,6 @@ namespace CardMaga.Server.Request
             if (ReferenceEquals(_deckData,null))
                 throw new Exception("Deck sent to server is null");
             
-            DeckData output;
-
             int id;
             string name;
             CoreID[] cards;
@@ -83,7 +96,7 @@ namespace CardMaga.Server.Request
                 combos[i] = new ComboCore(cache.ID, cache.Level);
             }
 
-            return output = new DeckData(id, name, cards, combos);
+            return new DeckData(id, name, cards, combos);
         }
     }
 }

@@ -18,9 +18,15 @@ namespace CardMaga.MetaData.AccoutData
         
         public void UpdateDeck(MetaDeckData metaDeckData,ITokenReciever tokenMachine)
         {
-            _metaAccountData.CharacterDatas.CharacterData.UpdateDeck(metaDeckData,0);
-            UpdateDeckDataRequest deckDataRequest = new UpdateDeckDataRequest(metaDeckData, 0);//need to get a characrerid
-            deckDataRequest.SendRequest(tokenMachine);//need to add charecter support
+            _metaAccountData.CharacterDatas.CharacterData.UpdateDeck(metaDeckData,metaDeckData.DeckIndex);
+            BaseServerRequest serverRequest;
+
+            if (metaDeckData.IsNewDeck)
+                serverRequest = new AddDeckServerRequest(metaDeckData,_metaAccountData.CharacterDatas.CharacterData.Id);
+            else
+                serverRequest = new UpdateDeckDataRequest(metaDeckData, _metaAccountData.CharacterDatas.CharacterData.Id);//need to get a characrerid
+            
+            serverRequest.SendRequest(tokenMachine);//need to add charecter support
         }
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)

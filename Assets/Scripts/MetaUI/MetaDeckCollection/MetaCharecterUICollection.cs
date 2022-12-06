@@ -1,34 +1,41 @@
 ﻿using System;
-using CardMaga.MetaData.AccoutData;
-using CardMaga.UI;
+using CardMaga.MetaData.AccoutData;using CardMaga.MetaUI;
+using CardMaga.SequenceOperation;
+using ReiTools.TokenMachine;
 using UnityEngine;
 
-public class MetaCharecterUICollection : MonoBehaviour , IInitializable<MetaCharacterData>, IEquatable<MetaCharacterData>
+public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaUIManager>, IEquatable<MetaCharacterData>
 {
-    public event Action<MetaDeckData> OnSetNewMainDeck; 
+    public event Action<int> OnSetMainDeck; 
+    public event Func<MetaDeckData> OnSetNewMainDeck; 
 
     [SerializeField] private MetaDeckUICollection[] _decksUI;
 
     private MetaCharacterData _characterData;
 
-    private MetaDeckUICollection _mainDeckUI;
+    private MetaDeckUICollection _mainDeckUI = null;
     
     public MetaCharacterData CharacterData => _characterData;
-    
-    public void Init(MetaCharacterData data)
+
+    public int Priority => 1;
+
+    public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
-        _characterData = data;
+        _characterData = data.MetaDataManager.MetaAccountData.CharacterDatas.CharacterData;
+
+        OnSetMainDeck += _characterData.SetMainDeck;
+        OnSetNewMainDeck += _characterData.AddDeck;
         
         foreach (var metaDeckUICollection in _decksUI)
         {
             metaDeckUICollection.Input.OnClickValue += SetMainDeck;
         }
         
-        for (int i = 0; i < data.Decks.Count; i++)
+        for (int i = 0; i < _decksUI.Length; i++)
         {
-            _decksUI[i].AssignVisual(data.Decks[i]);
-            
-            if (_decksUI[i].Equals(data.MainDeck))
+            _decksUI[i].AssignVisual(i < _characterData.Decks.Count ? _characterData.Decks[i] : null);
+
+            if (_decksUI[i].Equals(_characterData.MainDeck))
             {
                 SetMainDeck(_decksUI[i]);
             }
@@ -37,26 +44,35 @@ public class MetaCharecterUICollection : MonoBehaviour , IInitializable<MetaChar
 
     private void SetMainDeck(MetaDeckUICollection metaDeckUI)
     {
-        metaDeckUI.SetAsMainDeck();
-        OnSetNewMainDeck?.Invoke(metaDeckUI.DeckData);
+        _mainDeckUI?.UnSetAsMainDeck();
+        
+        _mainDeckUI = metaDeckUI;
+
+        if (ReferenceEquals(metaDeckUI.DeckData, null))
+        {
+            MetaDeckData metaDeckData = OnSetNewMainDeck?.Invoke();
+            
+            if (ReferenceEquals(metaDeckData,null))
+                return;
+            
+            _mainDeckUI.AssignVisual(metaDeckData);
+            _mainDeckUI.Show();
+        }
+        else
+            OnSetMainDeck?.Invoke(metaDeckUI.DeckId);
+        
+        _mainDeckUI.SetAsMainDeck();
     }
 
-    public void Dispose()
+    public void OnDestroy()
     {
         foreach (var metaDeckUICollection in _decksUI)
         {
             metaDeckUICollection.Input.OnClickValue -= SetMainDeck;
         }
-    }
-
-    public void CheckValidation()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    private void OnDestroy()
-    {
-        Dispose();
+        
+        OnSetMainDeck -= _characterData.SetMainDeck;
+        OnSetNewMainDeck -= _characterData.AddDeck;
     }
 
     private bool TryFindMetaDeckUI(MetaDeckData metaDeckData, out MetaDeckUICollection metaDeckUICollection)

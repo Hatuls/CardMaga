@@ -31,6 +31,9 @@ namespace CardMaga.InventorySystem
 
         public void InitializeSlots(T[] objects)
         {
+            if (ReferenceEquals(_slots,null))
+                Init();
+            
             for (int i = 0; i < objects.Length; i++)
             {
                 _slots[i].AssignValue(objects[i]);
@@ -38,6 +41,14 @@ namespace CardMaga.InventorySystem
             }
         }
 
+        public void Reset()
+        {
+            foreach (var slot in _slots)
+            {
+                slot.RemoveValue();
+            }    
+        }
+        
         public bool TryAddObject(T obj)
         {
             for (int i = 0; i < CollectionLength; i++)
@@ -69,6 +80,9 @@ namespace CardMaga.InventorySystem
 
             for (int i = 0; i < _slots.Length; i++)
             {
+                if (ReferenceEquals(_slots[i].InventoryObject,null))
+                    continue;
+                
                 output[i] = _slots[i].InventoryObject;
             }
 

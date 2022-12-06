@@ -1,18 +1,17 @@
 using System;
-using CardMaga.Tools.Pools;
 using CardMaga.UI;
-using UnityEngine;
 
 namespace CardMaga.InventorySystem
 {
     public class BaseSlot<T> : IInventoryObject<T> where T : BaseUIElement , IEquatable<T>
     {
-        public event Action<T> OnAddInventoryObject; 
-        public event Action<T> OnRemoveInventoryObject; 
         
         private T _inventoryObject;
 
-        public bool IsHaveValue => _inventoryObject != null;
+        private bool _isHaveValue;
+
+        //public bool IsHaveValue => _inventoryObject != null; //need this as main
+        public bool IsHaveValue => _isHaveValue;
 
         public T InventoryObject => _inventoryObject;
 
@@ -20,24 +19,26 @@ namespace CardMaga.InventorySystem
         {
             if (IsHaveValue)
                 return;
-            
+
+            _isHaveValue = true;
             _inventoryObject = InventoryObject;
-            OnAddInventoryObject?.Invoke(_inventoryObject);
         }
 
         public void RemoveValue()
         {
             if (!IsHaveValue)
                 return;
+            
             _inventoryObject.Hide();
-            OnRemoveInventoryObject?.Invoke(_inventoryObject);
-            _inventoryObject = null;
+            _isHaveValue = false;
+            //_inventoryObject = null; plaster!!! need to be able to null the object
         }
 
         public bool Contain(T other)
         {
+            if (!_isHaveValue) return false;//plaster need to null the InventoryObject
             if (other == null) return false;
-            if (InventoryObject == null) return false;
+            //if (InventoryObject == null) return false;
             return InventoryObject.Equals(other);
         }
     }
