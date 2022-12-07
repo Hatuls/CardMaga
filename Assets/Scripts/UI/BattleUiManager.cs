@@ -164,6 +164,7 @@ namespace CardMaga.Battle.UI
             IDisposable token = tokenMachine.GetToken();
             foreach (var uiElement in VisualInitializers)
                 uiElement.ExecuteTask(tokenMachine, this);
+
             _gameVisualCommands = new GameVisualCommands(this);
             _visualKeywordsHandler.ExecuteTask(tokenMachine, this);
 

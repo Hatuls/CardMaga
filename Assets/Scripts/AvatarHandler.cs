@@ -64,7 +64,7 @@ public class AvatarHandler : MonoBehaviour
             case BodyPartEnum.RightLeg:
                 transformOfBodyPart = _rightLegPart;
                 break;
-            case BodyPartEnum.BottomBody:
+            case BodyPartEnum.Pivot:
                 transformOfBodyPart = _bottomBody;
                 break;
             case BodyPartEnum.Chest:

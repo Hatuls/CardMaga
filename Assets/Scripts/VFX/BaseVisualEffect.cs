@@ -1,22 +1,26 @@
-﻿using CardMaga.Tools.Pools;
+﻿using CardMaga.Battle.Players;
+using CardMaga.Tools.Pools;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CardMaga.VFX
 {
 
-    public  class BaseVisualEffect : MonoBehaviour, IPoolableMB<BaseVisualEffect>
+    public class BaseVisualEffect : MonoBehaviour, IPoolableMB<BaseVisualEffect>, ITaggable
     {
         public event Action<BaseVisualEffect> OnDisposed;
         public event Action OnInitializable;
         public event Action OnPlay;
         public event Action OnStop;
         [SerializeField]
-        private VisualEffectSO _vFXSO;
+        private BattleVisualEffectSO[] _vFXSO;
 
 
         public virtual bool IsActive { get; }
-        public VisualEffectSO VFXSO { get => _vFXSO; }
+        public BattleVisualEffectSO[] VFXSO { get => _vFXSO; }
+
+        public IReadOnlyList<TagSO> Tags => VFXSO;
 
         public virtual void Play() { OnPlay?.Invoke(); }
         public virtual void Stop() { OnStop?.Invoke(); }

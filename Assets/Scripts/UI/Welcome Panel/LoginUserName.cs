@@ -45,8 +45,8 @@ namespace CardMaga.UI
         public void RegisterToken(ITokenReciever tokenReciever)
         {
             _loginToken = tokenReciever.GetToken();
-
-            if (AccountManager.Instance.LoginResult.NewlyCreated)
+            var account = AccountManager.Instance;
+            if (account.LoginResult.NewlyCreated || account.DisplayName.Length < 1)
                 Show();
             else
                 ProceedNext();

@@ -252,9 +252,11 @@ namespace CardMaga.Keywords
 
     }
 
-
+ 
     public class VisualKeywordsHandler : ISequenceOperation<IBattleUIManager>
     {
+        public event Action<bool, KeywordType> OnKeywordRegistered;
+        
         public readonly IPoolObject<VisualKeywordCommand> VisualKeywordCommandsPool;
         public readonly IPoolObject<VisualKeywordsPackCommands> VisualKeywordPackCommandsPool;
 
@@ -327,6 +329,8 @@ namespace CardMaga.Keywords
             cmd.Init(keywordTypeEnum, value, _visualCharactersManager.GetVisualCharacter(isPlayer).VisualStats);
 
             _current.AddVisualKeywordCommands(cmd);
+
+            OnKeywordRegistered?.Invoke(isPlayer, keywordTypeEnum);
         }
     }
     public class VisualKeywordsPackCommands : ISequenceCommand, IPoolable<VisualKeywordsPackCommands>

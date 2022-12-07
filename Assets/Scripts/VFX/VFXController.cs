@@ -1,53 +1,59 @@
 ﻿
 
-using CardMaga.Tools.Pools;
+using CardMaga.Battle.Visual;
+using CardMaga.Commands;
+using CardMaga.Keywords;
+using System;
 using UnityEngine;
 namespace CardMaga.VFX
 {
     public class VFXController : MonoBehaviour
     {
-        public AvatarHandler AvatarHandler { get; internal set; }
-        [SerializeField]
-        private VisualEffectSO _hittingVFXEffectSO;
-        [SerializeField]
-        private VisualEffectSO _defendingVFXEffectSO;
+        public event Action<IVisualPlayer> OnHittingVFX;
+        public event Action<IVisualPlayer> OnDefenseVFX;
+        public event Action<IVisualPlayer> OnGetHitVFX;
+        public event Action<KeywordType, IVisualPlayer> OnVisualStatChanged;
 
-        private IVFXPool _vfxPool;
-        public void Init(IVFXPool vfxPool)
-        => _vfxPool = vfxPool;
-
-
-
-
-        public void PlayHittingVFX()
+        private IVisualPlayer _visualCharacter;
+        public void Init(IVisualPlayer visualCharacter)
         {
-            var effect = _vfxPool.Pull(_hittingVFXEffectSO);
-            Transform bodyPart = AvatarHandler.GetCurrentActiveBodyPart();
-            Transform visualTransform = effect.transform;
-
-            visualTransform.SetParent(bodyPart);
-            visualTransform.localPosition = Vector3.zero;
-            visualTransform.rotation = Quaternion.identity;
-            visualTransform.SetParent(null);
-
-       
-            effect.Play();
+            _visualCharacter = visualCharacter;
+            foreach (var stat in visualCharacter.VisualStats.VisualStatsDictionary)
+                stat.Value.OnKeywordValueChanged += StatValueChanged;
         }
 
-        public void PlayDefenseVFX() 
+        private void StatValueChanged(KeywordType keywordType, int amount)
         {
-            var effect = _vfxPool.Pull(_defendingVFXEffectSO);
-            Transform visualTransform = effect.transform;
+        
+          PlayKeywordVFX(keywordType);
+            
+          
+        }
 
-            visualTransform.SetParent(AvatarHandler.GetBodyPart(BodyPartEnum.Chest));
-            visualTransform.localPosition = Vector3.zero;
-            visualTransform.rotation = Quaternion.identity;
-            effect.transform.SetParent(null);
-            effect.Play();
+        public void PlayKeywordVFX(KeywordType keywordType)
+        => OnVisualStatChanged?.Invoke(keywordType, _visualCharacter);
+
+        public void PlayHittingVFX()
+        => OnHittingVFX?.Invoke(_visualCharacter);
+        public void PlayGettingHitVFX()
+        => OnGetHitVFX?.Invoke(_visualCharacter);
+        public void PlayDefenseVFX()
+        => OnDefenseVFX.Invoke(_visualCharacter);
+
+
+
+
+        private void OnDestroy()
+        {
+            foreach (var stat in _visualCharacter.VisualStats.VisualStatsDictionary)
+                stat.Value.OnKeywordValueChanged += StatValueChanged;
         }
     }
 
 }
+
+
+
 public enum BodyPartEnum
 {
     None = 0,
@@ -56,7 +62,7 @@ public enum BodyPartEnum
     Head = 3,
     LeftLeg = 4,
     RightLeg = 5,
-    BottomBody = 6,
+    Pivot = 6,
     Chest = 7,
     LeftKnee = 8,
     RightKnee = 9,

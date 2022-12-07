@@ -72,7 +72,7 @@ namespace CardMaga.Battle.Visual
             AvatarHandler.Mesh.material = characterSkin.Material;
 
             //Assign Avatar
-            VfxController.AvatarHandler = AvatarHandler;
+      
             Animator.avatar = AvatarHandler.Avatar;
             AnimationSound.CurrentCharacter = characterSO;
 
@@ -81,6 +81,7 @@ namespace CardMaga.Battle.Visual
 
             Animator.speed = _animationPlaySpeed;
 
+       
 #if UNITY_EDITOR
             DrawMesh = false;
 #endif
@@ -121,6 +122,9 @@ namespace CardMaga.Battle.Visual
             _visualStats = new VisualStatHandler(this);
             //AnimatorController
             AnimatorController.Init(this, data.EndBattleHandler);
+
+            //VFX
+            VfxController.Init(this);
         }
 
         #endregion
