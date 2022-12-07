@@ -18,17 +18,9 @@ namespace CardMaga.VFX
         public void Init(IVisualPlayer visualCharacter)
         {
             _visualCharacter = visualCharacter;
-            foreach (var stat in visualCharacter.VisualStats.VisualStatsDictionary)
-                stat.Value.OnKeywordValueChanged += StatValueChanged;
+   
         }
 
-        private void StatValueChanged(KeywordType keywordType, int amount)
-        {
-        
-          PlayKeywordVFX(keywordType);
-            
-          
-        }
 
         public void PlayKeywordVFX(KeywordType keywordType)
         => OnVisualStatChanged?.Invoke(keywordType, _visualCharacter);
@@ -43,11 +35,7 @@ namespace CardMaga.VFX
 
 
 
-        private void OnDestroy()
-        {
-            foreach (var stat in _visualCharacter.VisualStats.VisualStatsDictionary)
-                stat.Value.OnKeywordValueChanged += StatValueChanged;
-        }
+
     }
 
 }

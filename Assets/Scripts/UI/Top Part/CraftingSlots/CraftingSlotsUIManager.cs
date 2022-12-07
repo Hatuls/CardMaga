@@ -6,7 +6,7 @@ using CardMaga.UI.Carfting;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
-public class CraftingSlotsUIManager_V4 : MonoBehaviour, ISequenceOperation<IBattleUIManager>
+public class CraftingSlotsUIManager : MonoBehaviour, ISequenceOperation<IBattleUIManager>
 {
     [SerializeField] private CraftingSlotHandler_V4 _playerSlots;
     [SerializeField] private CraftingSlotHandler_V4 _enemySlots;
