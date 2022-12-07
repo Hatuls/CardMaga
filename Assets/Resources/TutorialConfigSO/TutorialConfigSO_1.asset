@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _leftCharacter:
     _displayName: Chiara
-    _playerTagSOs: []
+    _tags: []
     _characterData:
-      _characterSO: {fileID: 11400000, guid: 279cc38197154fc4c96eea5282c40fdb, type: 2}
+      _characterSO: {fileID: 11400000, guid: 52518c433efe47b4f8ab1826a247a615, type: 2}
       _characterStats:
         _maxHealth: 20
         _health: 20
@@ -27,6 +27,7 @@ MonoBehaviour:
         _cardDraw: 1
         _startStamina: 4
         _regenerationPoints: 0
+        _stun: 0
         _stunShards: 0
         _staminaShard: 0
         _protectionShard: 0
@@ -42,7 +43,7 @@ MonoBehaviour:
               ID: 30
             _cardSO: {fileID: 11400000, guid: de1c9dffbc1926a46a7f07ce972e830d, type: 2}
             _level: 0
-          _instanceID: 37
+          _instanceID: 3
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 6
@@ -63,7 +64,7 @@ MonoBehaviour:
               ID: 50
             _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
             _level: 0
-          _instanceID: 38
+          _instanceID: 4
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -84,7 +85,7 @@ MonoBehaviour:
               ID: 50
             _cardSO: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350, type: 2}
             _level: 0
-          _instanceID: 39
+          _instanceID: 5
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -115,12 +116,12 @@ MonoBehaviour:
           type: 3}
   _rightCharacter:
     _displayName: Scout
-    _playerTagSOs: []
+    _tags: []
     _characterData:
-      _characterSO: {fileID: 11400000, guid: 65458dfd2bb5a144aa3b061e6eb9e71e, type: 2}
+      _characterSO: {fileID: 11400000, guid: 5a4bc2bcd1364d34cb3d0adaf1e5384f, type: 2}
       _characterStats:
-        _maxHealth: 18
-        _health: 18
+        _maxHealth: 14
+        _health: 14
         _defense: 0
         _gold: 0
         _strengthPoint: 0
@@ -128,6 +129,7 @@ MonoBehaviour:
         _cardDraw: 1
         _startStamina: 3
         _regenerationPoints: 0
+        _stun: 0
         _stunShards: 0
         _staminaShard: 0
         _protectionShard: 0
@@ -143,7 +145,7 @@ MonoBehaviour:
               ID: 12
             _cardSO: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21, type: 2}
             _level: 2
-          _instanceID: 33
+          _instanceID: 10
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -164,7 +166,7 @@ MonoBehaviour:
               ID: 12
             _cardSO: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21, type: 2}
             _level: 2
-          _instanceID: 34
+          _instanceID: 11
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -185,7 +187,7 @@ MonoBehaviour:
               ID: 12
             _cardSO: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21, type: 2}
             _level: 2
-          _instanceID: 35
+          _instanceID: 12
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
@@ -206,7 +208,7 @@ MonoBehaviour:
               ID: 12
             _cardSO: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21, type: 2}
             _level: 2
-          _instanceID: 36
+          _instanceID: 13
         _toExhaust: 0
         _cardTypeData:
           _bodyPart: 4
