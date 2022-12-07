@@ -1,4 +1,4 @@
-﻿ using CardMaga.Keywords;
+﻿using CardMaga.Keywords;
 using System;
 using System.Collections.Generic;
 
@@ -39,7 +39,7 @@ namespace Characters.Stats
             WeakStat _weakStat = new WeakStat(stats.Weakend);
             VulnerableKeyword _vulnerableKeyword = new VulnerableKeyword(stats.Weakend);
             //Effects
-            StunStat _stun = new StunStat(stats.Stun);
+            StunStat _stun = new StunStat();
 
             //shards
             StaminaShard _staminaShards = new StaminaShard(stats.StaminaShard, staminaHandler, _stamina);

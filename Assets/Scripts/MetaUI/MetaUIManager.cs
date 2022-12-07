@@ -15,11 +15,15 @@ namespace CardMaga.MetaUI
         public static event Action OnMetaUIInitializes;
         [SerializeField] private MetaCollectionUIManager _metaCollectionUIManager;
         [SerializeField] private MetaDeckUICollectionManager _metaDeckUICollectionManager;
+        private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
+        private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
         
         private MetaDataManager _metaDataManager;
         private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
         
         public int Priority => 1;
+        public VisualRequester<MetaComboUI, MetaComboData> ComboVisualRequester => _comboVisualRequester;
+        public VisualRequester<MetaCardUI, MetaCardData> CardVisualRequester => _cardVisualRequester;
 
         public MetaCollectionUIManager MetaCollectionUIManager => _metaCollectionUIManager;
 

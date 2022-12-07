@@ -723,18 +723,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &541580784 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1427368991190555705, guid: e6472073f89bd7a4c96d47d9ca4c8a93,
-    type: 3}
-  m_PrefabInstance: {fileID: 1724145767}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &586389383 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8806748547290640658, guid: 62e6b56c5cb6a4b4b9b92ff6a9c8d7aa,
@@ -824,21 +812,103 @@ PrefabInstance:
         type: 3}
       propertyPath: _battleConfigSo
       value: 
-      objectReference: {fileID: 11400000, guid: d03f1cf5f8fa03d479c91d35b214cd45,
+      objectReference: {fileID: 11400000, guid: 373b093ae3c6958448f2d265adc7696c,
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _player._characterData._characterStats._stunShards
-      value: 3
+      propertyPath: _player._characterData._characterSO
+      value: 
+      objectReference: {fileID: 11400000, guid: cb9275f3bf526664c9a2e576e1919d73,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a4bc2bcd1364d34cb3d0adaf1e5384f,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterStats._gold
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
-      propertyPath: _player._characterData._characterStats._bleedPoints
+      propertyPath: _opponent._characterData._characterStats._gold
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterStats._health
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._comboRecipe.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterStats._health
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._comboRecipe.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterStats._cardDraw
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterStats._maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.size
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _opponent._characterData._characterStats._cardDraw
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterStats._stunShards
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterStats._maxHealth
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterStats._bleedPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._characterData._characterStats._stunShards
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterStats._startStamina
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterStats._bleedPoints
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterStats._startStamina
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
@@ -855,6 +925,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _player._characterData._comboRecipe.Array.data[2]._comboCore.ID
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[2]._staminaCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._staminaCost
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -881,6 +961,46 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: cf218ab8b5ef69d4a8e4d7fa19898533, type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[2]._cardKeyword.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[2]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardTypeData._cardType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[6]._cardTypeData._cardType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardKeyword.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardTypeData._cardType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _opponent._battleCharacterVisual._battleVisualCharacter._avatarSkin._portait
       value: 
       objectReference: {fileID: -6265648474721144138, guid: c3410822a3fe8ae4285ec283b59ab9ca,
@@ -890,6 +1010,46 @@ PrefabInstance:
       propertyPath: _opponent._battleCharacterVisual._battleVisualCharacter._avatarSkin._material
       value: 
       objectReference: {fileID: 2100000, guid: cf218ab8b5ef69d4a8e4d7fa19898533, type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardTypeData._cardType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardTypeData._cardType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardTypeData._bodyPart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardTypeData._cardType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardTypeData._cardType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _player._battleCharacterVisual._battleVisualCharacter._avatarSkin.SkinDetails
@@ -918,6 +1078,74 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[2]._cardInstance._coreData._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardInstance._coreData._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[6]._cardInstance._coreData._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardInstance._coreData._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f571eaf5e904054b9ed9843c6cff350,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardInstance._coreData._level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardInstance._coreData._level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardInstance._coreData._level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardInstance._coreData._level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardInstance._coreData._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardInstance._coreData._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardInstance._coreData._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardInstance._coreData._cardSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c1746aa93a3a0194ead6bd6fb6801e21,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
       propertyPath: _player._characterData._characterDeck.Array.data[0]._cardInstance._coreData._coreID.ID
       value: 30
       objectReference: {fileID: 0}
@@ -929,7 +1157,7 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _player._characterData._characterDeck.Array.data[2]._cardInstance._coreData._coreID.ID
-      value: 160
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -944,17 +1172,149 @@ PrefabInstance:
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _player._characterData._characterDeck.Array.data[5]._cardInstance._coreData._coreID.ID
-      value: 70
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardKeyword.Array.data[0]._target
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _player._characterData._characterDeck.Array.data[6]._cardInstance._coreData._coreID.ID
-      value: 80
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[6]._cardKeyword.Array.data[0]._target
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
       propertyPath: _player._characterData._characterDeck.Array.data[7]._cardInstance._coreData._coreID.ID
-      value: 230
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._target
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardInstance._coreData._coreID.ID
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardKeyword.Array.data[0]._target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardInstance._coreData._coreID.ID
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardKeyword.Array.data[0]._target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardInstance._coreData._coreID.ID
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[0]._target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardInstance._coreData._coreID.ID
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[0]._target
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[6]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[0]._keywordBase
+      value: 
+      objectReference: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349,
+        type: 2}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[0]._amountToApply
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[5]._cardKeyword.Array.data[0]._amountToApply
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _player._characterData._characterDeck.Array.data[7]._cardKeyword.Array.data[0]._amountToApply
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[0]._cardKeyword.Array.data[0]._amountToApply
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[1]._cardKeyword.Array.data[0]._amountToApply
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[2]._cardKeyword.Array.data[0]._amountToApply
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
+        type: 3}
+      propertyPath: _opponent._characterData._characterDeck.Array.data[3]._cardKeyword.Array.data[0]._amountToApply
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8812782710460472542, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
         type: 3}
@@ -1029,6 +1389,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7ea1c7b09c86634cb460c0fbb7cb3f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &814713164 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5054278563375593366, guid: 61171a12fa1398346993b9142a2aa9a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2133605133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2673bf97a7e7bf143bebf13987906adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &854950847 stripped
@@ -1119,6 +1491,18 @@ Transform:
   m_Father: {fileID: 209181450}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &957553410 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1427368990089229648, guid: e6472073f89bd7a4c96d47d9ca4c8a93,
+    type: 3}
+  m_PrefabInstance: {fileID: 1724145767}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &964059688
 GameObject:
   m_ObjectHideFlags: 0
@@ -2040,28 +2424,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2133605133}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1337108302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337108301}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7de094a93ae84bf6a9ad3029611cbb79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnCardsCollectionOpen:
-    m_PersistentCalls:
-      m_Calls: []
-  OnComboCollectionOpen:
-    m_PersistentCalls:
-      m_Calls: []
-  _deckCollection: {fileID: 2133605140}
-  _comboCollection: {fileID: 2133605139}
-  _buttons:
-  - {fileID: 2133605138}
 --- !u!114 &1408169208 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7278675046155122293, guid: 387e37b7af6f1a44c8de5e3e78feebdd,
@@ -2114,6 +2476,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b8ca9ddedd7c06488d62dca0311698c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1601359025 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4838495956576158686, guid: 61171a12fa1398346993b9142a2aa9a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2133605133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d902b612ee4118a4fa737d54b91db141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1664655179 stripped
@@ -2258,11 +2632,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Path
       value: 
-      objectReference: {fileID: 541580784}
+      objectReference: {fileID: 957553410}
     - target: {fileID: 1427368991156828966, guid: e6472073f89bd7a4c96d47d9ca4c8a93,
         type: 3}
       propertyPath: m_PathPosition
-      value: 2.017256
+      value: 2.004509
       objectReference: {fileID: 0}
     - target: {fileID: 1427368991242887678, guid: e6472073f89bd7a4c96d47d9ca4c8a93,
         type: 3}
@@ -3670,12 +4044,12 @@ PrefabInstance:
         type: 3}
       propertyPath: battleCardUIScroll
       value: 
-      objectReference: {fileID: 2133605136}
+      objectReference: {fileID: 814713164}
     - target: {fileID: 6780812624912005660, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
       propertyPath: battleComboUIScroll
       value: 
-      objectReference: {fileID: 2133605135}
+      objectReference: {fileID: 1601359025}
     - target: {fileID: 8750339680932180646, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -3704,30 +4078,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2ffb4a87f5e534a85d088438a0a710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2133605135 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4838495956576158686, guid: 61171a12fa1398346993b9142a2aa9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2133605133}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2133605139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d902b612ee4118a4fa737d54b91db141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2133605136 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5054278563375593366, guid: 61171a12fa1398346993b9142a2aa9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2133605133}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2133605140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2673bf97a7e7bf143bebf13987906adf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2133605137 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3231723041481195856, guid: 61171a12fa1398346993b9142a2aa9a8,
@@ -3740,30 +4090,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2133605138 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6300603163842380309, guid: 61171a12fa1398346993b9142a2aa9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2133605133}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712045444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 055ea16e1c344031a7a6bd0eb1a3d1f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &2133605139 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6079618490138935759, guid: 61171a12fa1398346993b9142a2aa9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2133605133}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2133605140 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8730403082993456816, guid: 61171a12fa1398346993b9142a2aa9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2133605133}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &560829603735717846
 PrefabInstance:
   m_ObjectHideFlags: 0

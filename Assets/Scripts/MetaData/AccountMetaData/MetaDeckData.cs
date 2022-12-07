@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Account.GeneralData;
 using Factory;
+using Sirenix.OdinInspector.Editor;
 
 namespace CardMaga.MetaData.AccoutData
 {

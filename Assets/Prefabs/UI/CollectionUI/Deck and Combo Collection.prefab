@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8301127878099559574}
   - component: {fileID: 3949847048138592933}
   - component: {fileID: 6894140216287139409}
+  - component: {fileID: 3751326598726350992}
   m_Layer: 5
   m_Name: Deck and Combo Collection
   m_TagString: Untagged
@@ -98,6 +99,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _trackID: {fileID: 11400000, guid: af7a881a222e53d478b3421335b2c299, type: 2}
   _rectTransform: {fileID: 210717235936280811}
+--- !u!114 &3751326598726350992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272931255400598029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de094a93ae84bf6a9ad3029611cbb79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnCardsCollectionOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  OnComboCollectionOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  _startInCard: 0
+  _deckCollection: {fileID: 8730403082993456816}
+  _comboCollection: {fileID: 6079618490138935759}
+  _buttons:
+  - {fileID: 6300603163842380309}
 --- !u!114 &4786738001516608348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +187,7 @@ MonoBehaviour:
   OnPointUpEvent:
     m_PersistentCalls:
       m_Calls: []
-  DisableHold: 0
+  DisableHold: 1
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0
@@ -1126,11 +1150,42 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2188150347050717626, guid: fb7216a6dae2f1e42bddb201130afbeb,
+        type: 3}
+      propertyPath: m_Spacing.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2188150347050717626, guid: fb7216a6dae2f1e42bddb201130afbeb,
+        type: 3}
+      propertyPath: m_CellSize.x
+      value: 1434
+      objectReference: {fileID: 0}
+    - target: {fileID: 2188150347050717626, guid: fb7216a6dae2f1e42bddb201130afbeb,
+        type: 3}
+      propertyPath: m_ChildAlignment
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2188150347050717626, guid: fb7216a6dae2f1e42bddb201130afbeb,
+        type: 3}
+      propertyPath: m_Padding.m_Left
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2188150347050717626, guid: fb7216a6dae2f1e42bddb201130afbeb,
+        type: 3}
+      propertyPath: m_Padding.m_Right
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb7216a6dae2f1e42bddb201130afbeb, type: 3}
 --- !u!224 &6079618490138935744 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2169103244291241376, guid: fb7216a6dae2f1e42bddb201130afbeb,
+    type: 3}
+  m_PrefabInstance: {fileID: 5351709187388781664}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6079618490138935759 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2169103244291241391, guid: fb7216a6dae2f1e42bddb201130afbeb,
     type: 3}
   m_PrefabInstance: {fileID: 5351709187388781664}
   m_PrefabAsset: {fileID: 0}
@@ -1261,6 +1316,12 @@ PrefabInstance:
 --- !u!224 &8730403082993456831 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1352080461061638290, guid: 6f479e5c7b41b0043b537864c6d03879,
+    type: 3}
+  m_PrefabInstance: {fileID: 7776328273497136685}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8730403082993456816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1352080461061638301, guid: 6f479e5c7b41b0043b537864c6d03879,
     type: 3}
   m_PrefabInstance: {fileID: 7776328273497136685}
   m_PrefabAsset: {fileID: 0}
@@ -1792,6 +1853,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Back Button
       objectReference: {fileID: 0}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: _identification
+      value: 
+      objectReference: {fileID: 11400000, guid: a91db993c46f37441b31809b7212a369,
+        type: 2}
     - target: {fileID: 7482304690003633091, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_Pivot.x

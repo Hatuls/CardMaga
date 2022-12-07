@@ -10,8 +10,7 @@ namespace Collection
             private UnityEvent OnCardsCollectionOpen;
             [EventsGroup,SerializeField]
             private UnityEvent OnComboCollectionOpen;
-
-            [SerializeField] private bool _startInCards;
+        [SerializeField] private bool _startInCard;
             [Header("Collection Reference")]
             [SerializeField] private GameObject _deckCollection;
             [SerializeField] private GameObject _comboCollection;
@@ -28,11 +27,13 @@ namespace Collection
                 _cardState = new InputBehaviour();
                 _comboState.OnClick += SetToCardState;
                 _cardState.OnClick += SetToComboState;
-                
-                if (_startInCards)
-                    SetToCardState();
-                else
-                    SetToComboState();
+
+                if (_startInCard)
+                     SetToCardState();
+
+                 else
+                     SetToComboState();
+            
             }
         
             private void OnDestroy()
