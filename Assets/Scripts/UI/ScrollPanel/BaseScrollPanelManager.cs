@@ -30,6 +30,7 @@ namespace CardMaga.UI.ScrollPanel
             for (int i = 0; i < visuals.Count; i++)
             {
                 visuals[i].transform.SetParent(holder);
+                visuals[i].transform.localScale = Vector3.one;
                 uiElements[i] = visuals[i];
             }
 

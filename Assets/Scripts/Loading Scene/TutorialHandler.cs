@@ -23,9 +23,7 @@ public class TutorialHandler : MonoBehaviour
             return;
         }
 #endif
-
-
-
+        
         if (!AccountManager.Instance.Data.AccountTutorialData.IsCompletedTutorial)
         {
             OnFirstLogin?.Invoke();
