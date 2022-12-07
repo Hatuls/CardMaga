@@ -125,16 +125,16 @@ namespace CardMaga.Keywords
                 currentStat.InvokeStatUpdate();
             }
         }
-        public bool IsCharcterIsStunned(bool isPlayer)
-        {
-            bool isStunned;
-            var stunStat = _playersManager.GetCharacter(isPlayer).StatsHandler.GetStat(KeywordType.Stun);
-            isStunned = stunStat.HasValue();
+        //public bool IsCharcterIsStunned(bool isPlayer)
+        //{
+        //    bool isStunned;
+        //    var stunStat = _playersManager.GetCharacter(isPlayer).StatsHandler.GetStat(KeywordType.Stun);
+        //    isStunned = stunStat.HasValue();
 
-            stunStat.Reset();
+        //    stunStat.Reset();
 
-            return isStunned;
-        }
+        //    return isStunned;
+        //}
 
         public BaseKeywordLogic GetLogic(KeywordSO keywordSO) => GetLogic(keywordSO.GetKeywordType);
         public BaseKeywordLogic GetLogic(KeywordType keywordType)

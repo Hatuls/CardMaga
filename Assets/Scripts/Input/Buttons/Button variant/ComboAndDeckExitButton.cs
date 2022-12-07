@@ -30,7 +30,7 @@ public class ComboAndDeckExitButton : Button
         _comboState.OnClick += SetToCardState;
         _deckState.OnClick += SetToComboState;
         if(_isCardStateDefaultState)
-            SetToCardState();
+        SetToCardState();
     }
 
     protected override void OnDestroy()

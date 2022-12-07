@@ -8,12 +8,10 @@ public class InputReciever : MonoSingleton<InputReciever>
 
     public Touch? PlayerTouch { get; set; }
     public event Action<Vector2> OnTouchDetectedLocation;
-    public event Action OnTouchDetected;
-    public event Action<Vector2> OnTouchStart;
     public event Action<Vector2> OnTouchEnded;
+    public event Action<Vector2> OnTouchStart;
     public event Action<SwipeData> OnSwipeDetected;
-    public event Action<Vector2> OnSwipeStart;
-    public event Action<SwipeData> OnSwipeEnd;
+    public event Action OnTouchDetected;
 
     #endregion
     
@@ -126,13 +124,15 @@ public class InputReciever : MonoSingleton<InputReciever>
         {
             case TouchPhase.Began:
                 _startTouchLocation = touch.position;
+                _touchPosOnScreen = touch.position;
+                _endTouchLocation = touch.position;
                 OnTouchStart?.Invoke(_startTouchLocation);
+                OnTouchDetected?.Invoke();
                 break;
             case TouchPhase.Moved:
                 _touchPosOnScreen = touch.position;
                 if (!_onlyDetectSwipeAtEnd)
                     SwipeDetector(_startTouchLocation,_touchPosOnScreen);
-                OnTouchDetected?.Invoke();
                 OnTouchDetectedLocation?.Invoke(_touchPosOnScreen);
                 break;
             case TouchPhase.Ended:
@@ -160,6 +160,7 @@ public class InputReciever : MonoSingleton<InputReciever>
         if (Vector2.Distance(start,end) > _swipeDistance && !_swipeDetected)
         {
             _swipeDetected = true;
+            
             SwipeData swipeData;
 
             swipeData.SwipeStartPosition = start;

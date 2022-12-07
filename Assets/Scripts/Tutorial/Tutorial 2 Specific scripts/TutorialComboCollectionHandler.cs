@@ -1,45 +1,69 @@
 ﻿using CardMaga.Trackers;
 using ReiTools.TokenMachine;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using CardMaga.Battle.UI;
-using System.Collections;
 
 namespace CardMaga.UI.Collections
 {
     public class TutorialComboCollectionHandler : MonoBehaviour
     {
+        #region SerializeField Of TrackID
         [SerializeField] TrackerID collectionEnterButtonTrackerID;
         [SerializeField] TrackerID collectionPanelTrackerID;
         [SerializeField] TrackerID collectionExitButtonTrackerID;
-        [SerializeField] private DialoguesFlow _dialoguesFlow4;
-        [SerializeField] private DialoguesFlow _dialoguesFlow6;
+        #endregion
+
+        #region UnityEvents
         [SerializeField] private UnityEvent BeforeCollectionEnterButtonPress;
         [SerializeField] private UnityEvent AfterCollectionEnterButtonPress;
         [SerializeField] private UnityEvent BeforeCollectionExitButtonPress;
         [SerializeField] private UnityEvent AfterCollectionExitButtonPress;
+        #endregion
 
+        #region Public Events
+        public event Action OnCollectionEnterButton;
+        public event Action OnCollectionExitButton;
+        #endregion
+
+        #region Fields
         private IDisposable _token;
         [HideInInspector] public RectTransform _enterButtonTransform;
         private RectTransform _collectionPanelTransform;
         [HideInInspector] public RectTransform _collectionExitButtonTransform;
+        #endregion
 
-        public event Action OnCollectionEnterButton;
-        public event Action OnCollectionExitButton;
-
+        #region Public Methods
         public void LoadEnterButtonOnPanel(ITokenReciever tokenReciever)
         {
             _token = tokenReciever.GetToken();
-            _dialoguesFlow4.gameObject.SetActive(true);
             if (BeforeCollectionEnterButtonPress != null)
                 BeforeCollectionEnterButtonPress.Invoke();
             _enterButtonTransform = TrackerHandler.GetTracker(collectionEnterButtonTrackerID).RectTransform;
             TutorialClickHelper.Instance.LoadObject(true, true, null, _enterButtonTransform);
             ComboCollectorEnterButtonTutorialTapDetector.OnButtonPress += StartAfterDelay;
         }
+        public void LoadExitComboCollectionButton(ITokenReciever tokenReciever)
+        {
+            _token = tokenReciever.GetToken();
+            if (BeforeCollectionExitButtonPress != null)
+                BeforeCollectionExitButtonPress.Invoke();
+            _collectionExitButtonTransform = TrackerHandler.GetTracker(collectionExitButtonTrackerID).RectTransform;
+            TutorialClickHelper.Instance.LoadObject(true, true, null, _collectionExitButtonTransform);
+            ComboCollectorBackButtonTutorialTapDetector.OnButtonPress += AfterExitButtonPress;
+        }
 
-         private void StartAfterDelay()
+        public void WaitForPlayerEnterCollection(ITokenReciever tokenReciever)
+        {
+            _token = tokenReciever.GetToken();
+            ComboCollectorEnterButtonTutorialTapDetector.OnButtonPress += ReleaseToken;
+        }
+
+        #endregion
+
+        #region Private Methods
+        private void StartAfterDelay()
         {
             StartCoroutine(AfterEnterButtonPressed());
         }
@@ -54,21 +78,9 @@ namespace CardMaga.UI.Collections
             if (OnCollectionEnterButton != null)
                 OnCollectionEnterButton.Invoke();
             TutorialClickHelper.Instance.ReturnObjects();
-            _dialoguesFlow4.gameObject.SetActive(false);
             _collectionPanelTransform = TrackerHandler.GetTracker(collectionPanelTrackerID).RectTransform;
             TutorialClickHelper.Instance.LoadObject(true, true, null, _collectionPanelTransform);
             ReleaseToken();
-        }
-
-        public void LoadExitComboCollectionButton(ITokenReciever tokenReciever)
-        {
-            _token = tokenReciever.GetToken();
-            _dialoguesFlow6.gameObject.SetActive(true);
-            if (BeforeCollectionExitButtonPress != null)
-                BeforeCollectionExitButtonPress.Invoke();
-            _collectionExitButtonTransform = TrackerHandler.GetTracker(collectionExitButtonTrackerID).RectTransform;
-            TutorialClickHelper.Instance.LoadObject(true, true, null, _collectionExitButtonTransform);
-            ComboCollectorBackButtonTutorialTapDetector.OnButtonPress += AfterExitButtonPress;
         }
 
         private void AfterExitButtonPress()
@@ -80,7 +92,6 @@ namespace CardMaga.UI.Collections
             if (OnCollectionExitButton != null)
                 OnCollectionExitButton.Invoke();
             TutorialClickHelper.Instance.ReturnObjects();
-            _dialoguesFlow6.gameObject.SetActive(false);
             ReleaseToken();
         }
 
@@ -92,7 +103,7 @@ namespace CardMaga.UI.Collections
             else
                 Debug.LogError("No token to release");
         }
-
+        #endregion
     }
 }
 

@@ -1,4 +1,8 @@
 ﻿using CardMaga.Battle;
+using CardMaga.Battle.Execution;
+using CardMaga.Battle.Players;
+using CardMaga.Commands;
+using Characters.Stats;
 
 namespace CardMaga.Keywords
 {
