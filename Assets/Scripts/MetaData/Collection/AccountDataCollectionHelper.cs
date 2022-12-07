@@ -46,9 +46,9 @@ namespace CardMaga.MetaData.Collection
         
         private void InitializeData(List<MetaComboData> comboDatas,List<MetaCollectionDataCombo> metaCollectionComboDatas)
         {
-            for (int i = 0; i < comboDatas.Count; i++)
+            foreach (var comboData in comboDatas)
             {
-                metaCollectionComboDatas.Add(new MetaCollectionDataCombo(1, comboDatas[i]));
+                metaCollectionComboDatas.Add(new MetaCollectionDataCombo(1, comboData));
             }
         }
 
@@ -75,7 +75,7 @@ namespace CardMaga.MetaData.Collection
 
             return collectionCardDatas;
         }
-
+        
         public void UpdateCollection()
         {
             _currentCollectionCardDatas = SetCollection();
@@ -92,5 +92,6 @@ namespace CardMaga.MetaData.Collection
 
             return output;
         }
+
     }
 }

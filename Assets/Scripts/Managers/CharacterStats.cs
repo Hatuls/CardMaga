@@ -32,6 +32,8 @@ namespace Characters.Stats
         [SerializeField] int _startStamina;
 
         [SerializeField] int _regenerationPoints;
+        
+        [SerializeField] int _stun;
 
         [SerializeField] int _stunShards;
 
@@ -44,7 +46,6 @@ namespace Characters.Stats
         [SerializeField] int _ragePoints;
 
         [SerializeField] int _protectionPoints;
-
 
         [SerializeField] int _weak;
         [SerializeField] int _vulnerable;
@@ -90,6 +91,7 @@ namespace Characters.Stats
             }
         }
         public int ProtectionPoints { get => _protectionPoints; private set => _protectionPoints = value; }
+        public int Stun { get => _stun; private set => _stun = value; }
         public int ProtectionShards
         {
             get => _protectionShard; private set

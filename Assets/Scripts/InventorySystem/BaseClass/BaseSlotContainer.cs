@@ -38,6 +38,7 @@ namespace CardMaga.InventorySystem
             {
                 _slots[i].AssignValue(objects[i]);
                 objects[i].transform.SetParent(_continerParent);
+                objects[i].transform.localScale = Vector3.one;
             }
         }
 
