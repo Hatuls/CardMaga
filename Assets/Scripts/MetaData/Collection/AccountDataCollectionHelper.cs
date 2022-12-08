@@ -42,7 +42,7 @@ namespace CardMaga.MetaData.Collection
             
             foreach (var x in result)
             {
-                metaCollectionCardDatas.Add(new MetaCollectionCardData(x.count,x.metaCard));
+                metaCollectionCardDatas.Add(new MetaCollectionCardData(x.count,x.count,x.metaCard));
             }
         }
         
@@ -50,7 +50,7 @@ namespace CardMaga.MetaData.Collection
         {
             foreach (var comboData in comboDatas)
             {
-                metaCollectionComboDatas.Add(new MetaCollectionDataCombo(1, comboData));
+                metaCollectionComboDatas.Add(new MetaCollectionDataCombo(1,1,comboData));
             }
         }
 
@@ -114,7 +114,7 @@ namespace CardMaga.MetaData.Collection
 
             foreach (var cardData in _collectionCardDatas)
             {
-                output.Add(new MetaCollectionCardData(cardData.NumberOfInstant,cardData.ItemReference));
+                output.Add(new MetaCollectionCardData(cardData.NumberOfInstant,cardData.NumberOfInstant,cardData.ItemReference));
             }
 
             return output;
@@ -126,7 +126,7 @@ namespace CardMaga.MetaData.Collection
 
             foreach (var data in _collectionComboDatas)
             {
-                output.Add(new MetaCollectionDataCombo(data.NumberOfInstant,data.ItemReference));
+                output.Add(new MetaCollectionDataCombo(data.NumberOfInstant,data.NumberOfInstant,data.ItemReference));
             }
 
             return output;

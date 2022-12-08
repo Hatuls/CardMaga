@@ -11,10 +11,11 @@ namespace CardMaga.MetaData.Collection
         
         public int ComboID => _metaComboData.ID;
         
-        public MetaCollectionDataCombo(int numberOfInstant,MetaComboData comboReference)
+        public MetaCollectionDataCombo(int numberOfInstant,int numberOfMaxInstants,MetaComboData comboReference)
         {
             _numberOfInstant = numberOfInstant;
             _metaComboData = comboReference;
+            _maxInstants = numberOfMaxInstants;
         }
         
         public bool Equals(MetaCollectionDataCombo other)
