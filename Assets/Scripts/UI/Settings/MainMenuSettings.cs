@@ -34,7 +34,4 @@ namespace CardMaga.UI.Settings
         }
 
     }
-
-
-
 }

@@ -32,6 +32,7 @@ namespace CardMaga.UI.Buff
         public override void Init(BuffVisualData buffData)
         {
             base.Init(buffData);
+            Init();
         }
 
         public event Action OnInitializable;
