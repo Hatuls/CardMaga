@@ -35,8 +35,11 @@ namespace TutorialDirector
         public void StopDirector()
         {
             UnsubscribeEvent();
+            if (OnDirectorEnd != null)
+                OnDirectorEnd.Invoke();
             if (_loadOnTutorialClickHelper)
                 TutorialClickHelper.Instance.Close();
+
             ReleaseToken();
             gameObject.SetActive(false);
         }
