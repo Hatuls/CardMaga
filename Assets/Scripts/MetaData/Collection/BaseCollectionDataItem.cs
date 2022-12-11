@@ -13,8 +13,12 @@ namespace CardMaga.MetaData.Collection
         public event Action<string> OnFailedAction; 
         
         protected int _numberOfInstant;
+        protected int _maxInstants;
         
         public abstract T ItemReference { get;}
+
+        public bool IsNotMoreInstants => _numberOfInstant <= 0;
+        public bool IsMaxInstants => _numberOfInstant == _maxInstants;
         
         public int NumberOfInstant => _numberOfInstant;
         

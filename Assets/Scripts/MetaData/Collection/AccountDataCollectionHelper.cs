@@ -13,11 +13,13 @@ namespace CardMaga.MetaData.Collection
         
         private List<MetaCollectionCardData> _collectionCardDatas;
         private List<MetaCollectionCardData> _currentCollectionCardDatas;
+        
         private List<MetaCollectionDataCombo> _collectionComboDatas;
+        private List<MetaCollectionDataCombo> _currentCollectionComboDatas;
 
         public List<MetaCollectionCardData> CollectionCardDatas => _currentCollectionCardDatas;
 
-        public List<MetaCollectionDataCombo> CollectionComboDatas => _collectionComboDatas;
+        public List<MetaCollectionDataCombo> CollectionComboDatas => _currentCollectionComboDatas;
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
@@ -40,7 +42,7 @@ namespace CardMaga.MetaData.Collection
             
             foreach (var x in result)
             {
-                metaCollectionCardDatas.Add(new MetaCollectionCardData(x.count,x.metaCard));
+                metaCollectionCardDatas.Add(new MetaCollectionCardData(x.count,x.count,x.metaCard));
             }
         }
         
@@ -48,11 +50,11 @@ namespace CardMaga.MetaData.Collection
         {
             foreach (var comboData in comboDatas)
             {
-                metaCollectionComboDatas.Add(new MetaCollectionDataCombo(1, comboData));
+                metaCollectionComboDatas.Add(new MetaCollectionDataCombo(1,1,comboData));
             }
         }
 
-        private List<MetaCollectionCardData> SetCollection()
+        private List<MetaCollectionCardData> SetCardCollection()
         {
             if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
                 return GetCollectionCardDatasCopy();
@@ -76,9 +78,34 @@ namespace CardMaga.MetaData.Collection
             return collectionCardDatas;
         }
         
+        private List<MetaCollectionDataCombo> SetComboCollection()
+        {
+            if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
+                return GetCollectionComboDatasCopy();
+
+            List<MetaComboData> metaComboDatas =
+                _accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.Combos;
+
+            List<MetaCollectionDataCombo> collectionComboDatasCopy = GetCollectionComboDatasCopy();
+
+            foreach (var collectionDataCombo in collectionComboDatasCopy)
+            {
+                foreach (var comboData in metaComboDatas)
+                {
+                    if (collectionDataCombo.Equals(comboData))
+                    {
+                        collectionDataCombo.AddItemToCollection(comboData);
+                    }
+                }
+            }
+
+            return collectionComboDatasCopy;
+        }
+        
         public void UpdateCollection()
         {
-            _currentCollectionCardDatas = SetCollection();
+            _currentCollectionCardDatas = SetCardCollection();
+            _currentCollectionComboDatas = SetComboCollection();
         }
 
         private List<MetaCollectionCardData> GetCollectionCardDatasCopy()
@@ -87,7 +114,19 @@ namespace CardMaga.MetaData.Collection
 
             foreach (var cardData in _collectionCardDatas)
             {
-                output.Add(new MetaCollectionCardData(cardData.NumberOfInstant,cardData.ItemReference));
+                output.Add(new MetaCollectionCardData(cardData.NumberOfInstant,cardData.NumberOfInstant,cardData.ItemReference));
+            }
+
+            return output;
+        }
+        
+        private List<MetaCollectionDataCombo> GetCollectionComboDatasCopy()
+        {
+            List<MetaCollectionDataCombo> output = new List<MetaCollectionDataCombo>();
+
+            foreach (var data in _collectionComboDatas)
+            {
+                output.Add(new MetaCollectionDataCombo(data.NumberOfInstant,data.NumberOfInstant,data.ItemReference));
             }
 
             return output;

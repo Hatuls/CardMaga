@@ -55,6 +55,7 @@ public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaU
             if (ReferenceEquals(metaDeckData,null))
                 return;
             
+            _characterData.SetMainDeck(metaDeckData.DeckId);
             _mainDeckUI.AssignVisual(metaDeckData);
             _mainDeckUI.Show();
         }

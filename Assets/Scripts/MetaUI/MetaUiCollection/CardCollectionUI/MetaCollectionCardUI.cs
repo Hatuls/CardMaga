@@ -36,6 +36,7 @@ namespace CardMaga.MetaUI
             Hide();
             OnDisposed?.Invoke(this);
         }
+        
         public void AssignVisual(MetaCollectionCardData cardData)
         {
             _cardData = cardData;
@@ -49,9 +50,23 @@ namespace CardMaga.MetaUI
             
             UpdateCardNumber();
         }
+        
         private void UpdateCardNumber()
         {
             _cardNumberText.text = NumberOfInstant.ToString();
+
+            if (_cardData.IsNotMoreInstants)
+            {
+                DisablePlus();
+                return;
+            }
+
+            if (_cardData.IsMaxInstants)
+            {
+                DisableMins();
+                return;
+            }
+            Enable();
         }
 
         private void OnDestroy()
