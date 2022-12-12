@@ -8,10 +8,7 @@ namespace CardMaga.VFX
         public override void SetPosition(Transform vfxObject, IVisualPlayer sceneData)
         {
             Transform activeBodyPart = sceneData.AvatarHandler.GetCurrentActiveBodyPart();
-            vfxObject.SetParent(activeBodyPart);
-            vfxObject.localPosition = Vector3.zero;
-            vfxObject.rotation = Quaternion.identity;
-            vfxObject.SetParent(null);
+            base.SetPoisition(vfxObject, activeBodyPart);
         }
     }
 

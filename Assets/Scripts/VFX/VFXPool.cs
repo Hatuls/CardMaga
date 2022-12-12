@@ -51,7 +51,7 @@ namespace CardMaga.VFX
             if (effect == null)
                 effect = InstantiateObject(visualEffectSO);
 
-            effect.gameObject.SetActive(true);
+           
             return effect;
         }
 

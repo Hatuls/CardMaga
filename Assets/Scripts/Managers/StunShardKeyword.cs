@@ -14,12 +14,17 @@ namespace CardMaga.Keywords
             KeywordSO.SoundEventSO.PlaySound();
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
+            {
                 _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+                InvokeKeywordVisualEffect(currentPlayer);
+            }
 
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
+            {
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
-
+                InvokeKeywordVisualEffect(!currentPlayer);
+            }
         }
 
         public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
@@ -44,11 +49,17 @@ namespace CardMaga.Keywords
         {
             KeywordSO.SoundEventSO.PlaySound();
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
+            {
                 _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+                InvokeKeywordVisualEffect(currentPlayer);
+            }
 
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
+            {
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+                InvokeKeywordVisualEffect(!currentPlayer);
+            }
         }
 
         public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
@@ -72,11 +83,17 @@ namespace CardMaga.Keywords
         public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-
+            {
                 _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+                InvokeKeywordVisualEffect(currentPlayer);
+            }
+
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
+            {
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+                InvokeKeywordVisualEffect(!currentPlayer);
+            }
             KeywordSO.SoundEventSO.PlaySound();
         }
 

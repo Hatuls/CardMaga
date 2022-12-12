@@ -24,6 +24,7 @@ namespace CardMaga.Keywords
                 CraftingHandler craftingSlots = _playersManager.GetCharacter(currentPlayer).CraftingHandler;
                 _leftCharacterSlots = GetCardTypeData(craftingSlots);
                 craftingSlots.ResetCraftingSlots();
+                InvokeKeywordVisualEffect(currentPlayer);
             }
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
@@ -31,6 +32,7 @@ namespace CardMaga.Keywords
                 CraftingHandler craftingSlots = _playersManager.GetCharacter(!currentPlayer).CraftingHandler;
                 _rightCharacterSlots = GetCardTypeData(craftingSlots);
                 craftingSlots.ResetCraftingSlots();
+                InvokeKeywordVisualEffect(!currentPlayer);
             }
 
             List<CardTypeData> GetCardTypeData(CraftingHandler craftingHandler)

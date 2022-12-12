@@ -11,6 +11,7 @@ using Keywords;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using static Factory.GameFactory;
 
 namespace CardMaga.Keywords
@@ -27,6 +28,7 @@ namespace CardMaga.Keywords
         public event Action OnEndTurnKeywordEffectFinished;
 
         #region Fields
+        private const int DelayBetweenVFX = 0; // Delay between effects
         private Dictionary<KeywordType, BaseKeywordLogic> _keywordDict;
         private TurnHandler _turnHandler;
         private IPlayersManager _playersManager;
@@ -37,7 +39,7 @@ namespace CardMaga.Keywords
 
 
         public int Priority => 0;
-
+        public IReadOnlyDictionary<KeywordType, BaseKeywordLogic> KeywordLogicDictionary => _keywordDict;
         public KeywordManager(IBattleManager battleManager)
         {
             battleManager.Register(this, OrderType.Before);
@@ -148,8 +150,8 @@ namespace CardMaga.Keywords
         #region Private Functions
         private void EndTurnKeywords(ITokenReciever token)
         {
+            var disposale = token.GetToken();
             bool isPlayer = _turnHandler.IsLeftCharacterTurn;
-
             var currentPlayer = _playersManager.GetCharacter(isPlayer);
 
             for (int i = 0; i < _activeTurnKeywords.Count; i++)
@@ -161,14 +163,17 @@ namespace CardMaga.Keywords
             }
 
             OnEndTurnKeywordEffectFinished?.Invoke();
+            disposale.Dispose();
         }
-        private void StartTurnKeywords(ITokenReciever token)
+        private async void StartTurnKeywords(ITokenReciever token)
         {
+            var disposale = token.GetToken();
             bool isPlayer = _turnHandler.IsLeftCharacterTurn;
             var currentPlayer = _playersManager.GetCharacter(isPlayer);
 
             for (int i = 0; i < _activeTurnKeywords.Count; i++)
             {
+                await Task.Delay(DelayBetweenVFX);
                 OnStartTurnKeywordEffect?.Invoke(CommandType.AfterPrevious);
                 //Filter keywords based on the enum effect type
                 _activeTurnKeywords[i].StartTurnEffect(currentPlayer, _dataCommands);
@@ -177,7 +182,7 @@ namespace CardMaga.Keywords
             }
 
             OnStartTurnKeywordEffectFinished?.Invoke();
-   
+            disposale.Dispose();
         }
 
 
@@ -225,6 +230,8 @@ namespace CardMaga.Keywords
                     {KeywordType.Double, new DoubleKeyword(GetKewordSO(KeywordType.Double), _playersManager) },
                     {KeywordType.Fatigue, new  FatigueKeyword(GetKewordSO(KeywordType.Fatigue), _playersManager)},
                     {KeywordType.Bleed , new BleedKeyword(pierceDamage,GetKewordSO(KeywordType.Bleed), _playersManager) },
+                    {KeywordType.Rage, new RageKeyword( GetKewordSO(KeywordType.Rage), _playersManager) },
+                    {KeywordType.Protected, new ProtectedKeyword( GetKewordSO(KeywordType.Protected), _playersManager) }
                 };
             }
 
@@ -235,10 +242,6 @@ namespace CardMaga.Keywords
                 keyword.Value.OnKeywordActivated += AddToTurnKeywords;
                 keyword.Value.OnKeywordFinished += RemoveFromTurnKeywords;
             }
-
-
-
-       
         }
         private KeywordSO GetKewordSO(KeywordType keywordType)
         => _keywordFactory.GetKeywordSO(keywordType);

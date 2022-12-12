@@ -1,4 +1,6 @@
-﻿using CardMaga.Keywords;
+﻿using Battle.Turns;
+using CardMaga.Keywords;
+using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 namespace CardMaga.Battle.Visual
@@ -48,26 +50,38 @@ namespace CardMaga.Battle.Visual
 
     public class VisualStatHandler
     {
+        public event Action<ITokenReciever, KeywordType> OnVisualStatChanged;
         public event Action<bool, KeywordType> OnKeywordChanged;
-        public event Action<bool, KeywordType,int> OnKeywordStatChanged;
+        public event Action<bool, KeywordType, int> OnKeywordStatChanged;
 
         private bool _isLeft;
+
         private Dictionary<KeywordType, VisualStat> _visualStatsDictionary;
         public IReadOnlyDictionary<KeywordType, VisualStat> VisualStatsDictionary => _visualStatsDictionary;
+
         public VisualStatHandler(IVisualPlayer player)
         {
             _isLeft = player.PlayerData.IsLeft;
 
-            var dictionary = player.PlayerData.StatsHandler.StatDictionary;
-            _visualStatsDictionary = new Dictionary<KeywordType, VisualStat>(dictionary.Count);
-            foreach (var stat in dictionary)
-            {
-                KeywordType keywordType = stat.Key;
+            InitDictionary();
 
-                VisualStat visualStat = new VisualStat(keywordType, stat.Value.Amount);
-                _visualStatsDictionary.Add(keywordType, visualStat);
-                visualStat.OnKeywordValueChanged -= StatChanged;
+            void InitDictionary()
+            {
+                var dictionary = player.PlayerData.StatsHandler.StatDictionary;
+                _visualStatsDictionary = new Dictionary<KeywordType, VisualStat>(dictionary.Count);
+
+                foreach (var stat in dictionary)
+                {
+                    KeywordType keywordType = stat.Key;
+
+                    VisualStat visualStat = new VisualStat(keywordType, stat.Value.Amount);
+                    _visualStatsDictionary.Add(keywordType, visualStat);
+                    visualStat.OnKeywordValueChanged += StatChanged;
+                }
+
+                UpdateAllStats();
             }
+ 
         }
         public VisualStat GetStat(KeywordType keywordType)
         {
@@ -86,8 +100,11 @@ namespace CardMaga.Battle.Visual
         {
             if (OnKeywordChanged != null)
                 OnKeywordChanged.Invoke(_isLeft, keywordType);
+
             if (OnKeywordStatChanged != null)
                 OnKeywordStatChanged.Invoke(_isLeft, keywordType, amount);
+
+
         }
 
         public void Dispose(VisualCharacter visualCharacter)
@@ -98,6 +115,8 @@ namespace CardMaga.Battle.Visual
                 stat.Value.OnKeywordValueChanged -= StatChanged;
             }
         }
+
+
     }
 
 

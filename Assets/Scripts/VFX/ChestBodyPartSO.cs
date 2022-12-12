@@ -2,8 +2,8 @@
 using UnityEngine;
 namespace CardMaga.VFX
 {
-    [CreateAssetMenu(fileName = "Center Body Part Position Logic", menuName = "ScriptableObjects/VFX/Battle/Set Position/Center Body Part")]
-    public class CenterBodyPartSO : BaseBattleVisualEffectPosition
+    [CreateAssetMenu(fileName = "Chest Body Part Position Logic", menuName = "ScriptableObjects/VFX/Battle/Set Position/Chest Body Part")]
+    public class ChestBodyPartSO : BaseBattleVisualEffectPosition
     {
         public override void SetPosition(Transform vfxObject, IVisualPlayer sceneData)
         {

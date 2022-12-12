@@ -18,12 +18,10 @@ namespace CardMaga.VFX
         public void Init(IVisualPlayer visualCharacter)
         {
             _visualCharacter = visualCharacter;
-   
         }
 
 
-        public void PlayKeywordVFX(KeywordType keywordType)
-        => OnVisualStatChanged?.Invoke(keywordType, _visualCharacter);
+
 
         public void PlayHittingVFX()
         => OnHittingVFX?.Invoke(_visualCharacter);
@@ -31,7 +29,6 @@ namespace CardMaga.VFX
         => OnGetHitVFX?.Invoke(_visualCharacter);
         public void PlayDefenseVFX()
         => OnDefenseVFX.Invoke(_visualCharacter);
-
 
 
 
@@ -56,5 +53,6 @@ public enum BodyPartEnum
     RightKnee = 9,
     LeftElbow = 10,
     RightElbow = 11,
+    Hips =12,
 };
 

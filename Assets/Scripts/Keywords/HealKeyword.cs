@@ -12,11 +12,17 @@ namespace CardMaga.Keywords
         public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
+            {
                 _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+                InvokeKeywordVisualEffect(currentPlayer);
+            }
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+            {
 
+                _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+                InvokeKeywordVisualEffect(!currentPlayer);
+            }
            KeywordSO.SoundEventSO.PlaySound();
         }
 

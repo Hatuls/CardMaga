@@ -12,6 +12,12 @@ namespace CardMaga.Keywords
         public event Action<BaseKeywordLogic> OnKeywordActivated;
         public event Action<BaseKeywordLogic> OnKeywordFinished;
 
+        /// <summary>
+        /// bool - Target
+        /// keyword effect
+        /// </summary>
+        public event Action<bool,KeywordType> OnApplyingKeywordVisualEffect;
+
         public readonly KeywordSO KeywordSO;
         protected readonly IPlayersManager _playersManager;
         protected BaseKeywordLogic(KeywordSO keywordSO, IPlayersManager playersManager)
@@ -41,6 +47,7 @@ namespace CardMaga.Keywords
         protected void InvokeOnKeywordActivated() => OnKeywordActivated?.Invoke(this);
         protected void InvokeOnKeywordFinished() => OnKeywordFinished?.Invoke(this);
 
+        protected void InvokeKeywordVisualEffect(bool character) => OnApplyingKeywordVisualEffect?.Invoke(character,KeywordType);
 
         public int CompareTo(BaseKeywordLogic other)
         {

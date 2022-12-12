@@ -15,10 +15,14 @@ namespace CardMaga.Keywords
 
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
+            {
                 _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
-
-            if (target == TargetEnum.All || target == TargetEnum.Opponent)
+                InvokeKeywordVisualEffect(currentPlayer);
+            }
+            if (target == TargetEnum.All || target == TargetEnum.Opponent){
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
+                InvokeKeywordVisualEffect(!currentPlayer);
+            }
             KeywordSO.SoundEventSO.PlaySound();
         }
 
