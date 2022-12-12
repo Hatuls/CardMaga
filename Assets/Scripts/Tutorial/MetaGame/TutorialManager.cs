@@ -1,110 +1,163 @@
-﻿using System.Collections.Generic;
-using Account;
+﻿using Account;
 using Battle.Data;
 using CardMaga.BattleConfigSO;
+using CardMaga.Core;
 using CardMaga.Tutorial;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using CardMaga.Input;
 
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent OnEndTutorial;
-    
-    private static int _currentTutorialIndex = 0;
-    
-    [SerializeField] private List<TutorialConfigSO> _tutorialConfig;
+
+    private static int _currentPlayerTutorialIndex = 0;
+
+    //[SerializeField] private List<TutorialConfigSO> _tutorialConfig;
     [SerializeField] private BattleData _battleDataPrefab;
     [SerializeField] private TutorialBadge[] _badges;
-
+    [SerializeField] private SceneLoader _matchMakingSceneLoader;
+    [SerializeField] private Button returnToMainMenuButton;
     private MainMenuTutorial _mainMenuTutorial;
     private AccountTutorialData _accountTutorialData;
-    private TutorialConfigSO _currentTutorialConfig;
+    private TutorialConfigSO _selectedTutorialConfig;
 
     #region PublicFunction
-    
+    public void LoadTutorialBattle(TutorialConfigSO tutorialConfigSO)
+    {
+        _selectedTutorialConfig = tutorialConfigSO;
+        if (_currentPlayerTutorialIndex == 1 && _selectedTutorialConfig.TutorialID==0)
+            return;
+        BattleData.Instance.AssginBattleTutorialData(_selectedTutorialConfig);
+        _matchMakingSceneLoader.LoadScene();
+    }
     #endregion
 
     #region PrivateFunction
-    
+
     private void UpdateCurrentBattleConfig()
     {
-        _currentTutorialConfig = _tutorialConfig[_currentTutorialIndex];
-        
-        BattleData.Instance.AssginBattleTutorialData(_currentTutorialConfig);
+        AccountManager.Instance.Data.AccountTutorialData.AssignedData(_currentPlayerTutorialIndex, false);
+        AccountManager.Instance.UpdateDataOnServer();
+        UpdateBadgesForNotCompletedTutorialAccount();
     }
 
-    private void EndTutorial()
+    private void UpdateEndingTutorialBattleConfig()
     {
-        AccountManager.Instance.Data.AccountTutorialData.AssignedData(_currentTutorialIndex, true);
+        AccountManager.Instance.Data.AccountTutorialData.AssignedData(_currentPlayerTutorialIndex, true);
         AccountManager.Instance.UpdateDataOnServer();
+        UpdateBadgesForCompletedTutorialAccount();
         OnEndTutorial?.Invoke();
     }
-    
-    private void UpdateTutorialBadges()
+
+    private void UpdateBattleConfig()
     {
-        for (int i = 0; i < _currentTutorialIndex; i++)
+        if (_accountTutorialData.IsCompletedTutorial)
+            return;
+
+        else
+        {
+            if (_currentPlayerTutorialIndex > _badges.Length - 1)
+                UpdateEndingTutorialBattleConfig();
+
+            else
+                UpdateCurrentBattleConfig();
+        }
+    }
+
+    private int GetBattleTutorialConfigIndex(BattleConfigSO battleConfigSo)
+    {
+        for (int i = 0; i < _badges.Length; i++)
+        {
+            if (_badges[i]._configSO == battleConfigSo)
+            {
+                return i;
+            }
+        }
+
+        throw new System.Exception("TutorialManager: BattleConfig now found");
+    }
+    private void UpdateBadgesForNewAccount()
+    {
+        for (int i = 0; i < _badges.Length; i++)
+        {
+            _badges[i].Init();
+        }
+        _badges[0].Open();
+    }
+
+    private void UpdateBadgesForNotCompletedTutorialAccount()
+    {
+        for (int i = 0; i < _badges.Length; i++)
+        {
+            if (i <= _currentPlayerTutorialIndex)
+            {
+                _badges[i].Completed();
+                continue;
+            }
+
+            if (i > _currentPlayerTutorialIndex)
+            {
+                _badges[i].Init();
+                continue;
+            }
+
+            if (i == _currentPlayerTutorialIndex)
+            {
+                _badges[i].Open();
+                continue;
+            }
+        }
+    }
+
+    private void UpdateBadgesForCompletedTutorialAccount()
+    {
+        for (int i = 0; i < _badges.Length; i++)
         {
             _badges[i].Completed();
         }
     }
 
-    private void StartTutorial()
+    private void SubscribeTutorialBadges()
     {
-        if (_currentTutorialIndex > _tutorialConfig.Count - 1)
+        for (int i = 0; i < _badges.Length; i++)
         {
-            UpdateTutorialBadges();
-        
-            EndTutorial();
-            return;
+            _badges[i].OnBadgeClicked += LoadTutorialBattle;
         }
-        
-        UpdateTutorialBadges();
-        UpdateCurrentBattleConfig();
     }
-
-    private int GetBattleTutorialConfigIndex(BattleConfigSO battleConfigSo)
-    {
-        for (int i = 0; i < _tutorialConfig.Count; i++)
-        {
-            if (_tutorialConfig[i].BattleConfig == battleConfigSo)
-            {
-                return i + 1;
-            }
-        }
-
-        return -1;
-    }
-
     #endregion
 
     #region UnityCallback
 
-    private void Start()//temp!
+    private void Start()
     {
-        if (BattleData.Instance != null)
+        _accountTutorialData = AccountManager.Instance.Data.AccountTutorialData;
+        if (!_accountTutorialData.IsCompletedTutorial)
         {
-            _currentTutorialIndex = GetBattleTutorialConfigIndex(BattleData.Instance.BattleConfigSO);
-            AccountManager.Instance.Data.AccountTutorialData.AssignedData(_currentTutorialIndex, false);
-        }
-        else
-        {
-            _accountTutorialData = AccountManager.Instance.Data.AccountTutorialData;
-            _currentTutorialIndex = _accountTutorialData.TutorialProgress;
-            _battleDataPrefab = Instantiate(_battleDataPrefab);
-        }
-        
-        for (int i = 0; i < _badges.Length; i++)
-        {
-            if (i == _currentTutorialIndex)
+            if (BattleData.Instance != null)
             {
-                _badges[i].Open();
-                continue;
+                _currentPlayerTutorialIndex = GetBattleTutorialConfigIndex(BattleData.Instance.BattleConfigSO);
+                if (_currentPlayerTutorialIndex>=3)
+                    returnToMainMenuButton.gameObject.SetActive(true);
+                if (BattleData.Instance.IsPlayerWon)
+                    _currentPlayerTutorialIndex++;
+
+                UpdateBadgesForNotCompletedTutorialAccount();
             }
-            
-            _badges[i].Init();
+            else
+            {
+                _currentPlayerTutorialIndex = _accountTutorialData.TutorialProgress;
+                _battleDataPrefab = Instantiate(_battleDataPrefab);
+                UpdateBadgesForNewAccount();
+            }
         }
-        
-        StartTutorial();
+
+        else
+            UpdateBadgesForCompletedTutorialAccount();
+
+        SubscribeTutorialBadges();
+        UpdateBattleConfig();
     }
 
     #endregion

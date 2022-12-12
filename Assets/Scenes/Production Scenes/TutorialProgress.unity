@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -133,6 +133,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tutorial Badge 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4271941033512657555, guid: 765959b324600e24185cd1fdabfe1921,
+        type: 3}
+      propertyPath: _configSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 79becda8a9d06814abbde4636ab865f9,
+        type: 2}
     - target: {fileID: 6894268058171239360, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: m_Pivot.x
@@ -242,11 +248,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1625774644}
+      objectReference: {fileID: 191852383}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadScene
+      value: BadgeClicked
       objectReference: {fileID: 0}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
@@ -364,6 +370,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1568993247}
+  - {fileID: 992681539}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -404,6 +411,84 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &715298383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 715298384}
+  - component: {fileID: 715298386}
+  - component: {fileID: 715298385}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &715298384
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715298383}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 992681539}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &715298385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715298383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 300
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Return to main menu
+--- !u!222 &715298386
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715298383}
+  m_CullTransparentMesh: 0
 --- !u!1 &813808481
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,6 +562,128 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 813808481}
+  m_CullTransparentMesh: 0
+--- !u!1 &992681538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 992681539}
+  - component: {fileID: 992681542}
+  - component: {fileID: 992681541}
+  - component: {fileID: 992681540}
+  m_Layer: 5
+  m_Name: MainMenuButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &992681539
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992681538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 715298384}
+  m_Father: {fileID: 340114759}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 281, y: 191}
+  m_SizeDelta: {x: 437.68005, y: 82.06506}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &992681540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992681538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acecf784afbabbc49adca62c2d3a2738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1514459745}
+        m_MethodName: LoadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnBeginHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEndHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableHold: 0
+  _holdDelay: 0.5
+  _holdDistance: 0.5
+  _currentState: 0
+  _identification: {fileID: 0}
+--- !u!114 &992681541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992681538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &992681542
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992681538}
   m_CullTransparentMesh: 0
 --- !u!1 &1221718825
 GameObject:
@@ -556,6 +763,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tutorial Badge 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4271941033512657555, guid: 765959b324600e24185cd1fdabfe1921,
+        type: 3}
+      propertyPath: _configSO
+      value: 
+      objectReference: {fileID: 11400000, guid: e4f78ef9779afd544bd1b7c9b46a90b5,
+        type: 2}
     - target: {fileID: 6894268058171239360, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: m_Pivot.x
@@ -665,11 +878,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1625774644}
+      objectReference: {fileID: 1270424508}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadScene
+      value: BadgeClicked
       objectReference: {fileID: 0}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
@@ -783,6 +996,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tutorial Badge 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4271941033512657555, guid: 765959b324600e24185cd1fdabfe1921,
+        type: 3}
+      propertyPath: _configSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b8919e9c07616ba4d9e053033d7876b2,
+        type: 2}
     - target: {fileID: 6894268058171239360, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: m_Pivot.x
@@ -892,11 +1111,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1625774644}
+      objectReference: {fileID: 1350769518}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadScene
+      value: BadgeClicked
       objectReference: {fileID: 0}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
@@ -1198,6 +1417,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tutorial Badge 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4271941033512657555, guid: 765959b324600e24185cd1fdabfe1921,
+        type: 3}
+      propertyPath: _configSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 66bd0eccd5012b74ea4baae9c29f607c,
+        type: 2}
     - target: {fileID: 6894268058171239360, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1307,11 +1532,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1625774644}
+      objectReference: {fileID: 1736370141}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadScene
+      value: BadgeClicked
       objectReference: {fileID: 0}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
@@ -1391,6 +1616,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tutorial Badge 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4271941033512657555, guid: 765959b324600e24185cd1fdabfe1921,
+        type: 3}
+      propertyPath: _configSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 21128ffffd65934418be5def197089bb,
+        type: 2}
     - target: {fileID: 6894268058171239360, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1500,11 +1731,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1625774644}
+      objectReference: {fileID: 2623119570254832146}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadScene
+      value: BadgeClicked
       objectReference: {fileID: 0}
     - target: {fileID: 8062206786841582904, guid: 765959b324600e24185cd1fdabfe1921,
         type: 3}
@@ -1658,6 +1889,16 @@ PrefabInstance:
       propertyPath: _badges.Array.data[11]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
+        type: 3}
+      propertyPath: returnToMainMenuButton
+      value: 
+      objectReference: {fileID: 992681540}
+    - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
+        type: 3}
+      propertyPath: _matchMakingSceneLoader
+      value: 
+      objectReference: {fileID: 1625774644}
     - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
         type: 3}
       propertyPath: _tutorialConfig.Array.size

@@ -77,7 +77,7 @@ namespace CardMaga.Battle
         {
             _endGameToken = _endGameTokenMachine.GetToken();
             OnBattleFinished?.Invoke(_endGameTokenMachine);
-            BattleData.Instance.PlayerWon = _isLeftPlayerWon;
+            BattleData.Instance.IsPlayerWon = _isLeftPlayerWon;
             OnBattleEnded?.Invoke(_isLeftPlayerWon);
         }
 

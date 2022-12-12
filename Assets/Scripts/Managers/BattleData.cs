@@ -28,7 +28,7 @@ namespace Battle.Data
 
         public BattleCharacter Left { get => _player; set => _player = value; }
         public BattleCharacter Right { get => _opponent; set => _opponent = value; }
-        public bool PlayerWon { get => _isPlayerWon; set => _isPlayerWon = value; }
+        public bool IsPlayerWon { get => _isPlayerWon; set => _isPlayerWon = value; }
         
         public void ResetData()
         {
