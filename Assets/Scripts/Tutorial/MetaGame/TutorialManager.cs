@@ -70,7 +70,7 @@ public class TutorialManager : MonoBehaviour
     {
         for (int i = 0; i < _badges.Length; i++)
         {
-            if (_badges[i]._configSO == battleConfigSo)
+            if (_badges[i]._configSO.BattleConfig == battleConfigSo)
             {
                 return i;
             }
@@ -78,6 +78,7 @@ public class TutorialManager : MonoBehaviour
 
         throw new System.Exception("TutorialManager: BattleConfig now found");
     }
+
     private void UpdateBadgesForNewAccount()
     {
         for (int i = 0; i < _badges.Length; i++)
@@ -91,7 +92,7 @@ public class TutorialManager : MonoBehaviour
     {
         for (int i = 0; i < _badges.Length; i++)
         {
-            if (i <= _currentPlayerTutorialIndex)
+            if (i < _currentPlayerTutorialIndex)
             {
                 _badges[i].Completed();
                 continue;
@@ -138,8 +139,7 @@ public class TutorialManager : MonoBehaviour
             if (BattleData.Instance != null)
             {
                 _currentPlayerTutorialIndex = GetBattleTutorialConfigIndex(BattleData.Instance.BattleConfigSO);
-                if (_currentPlayerTutorialIndex>=3)
-                    returnToMainMenuButton.gameObject.SetActive(true);
+                
                 if (BattleData.Instance.IsPlayerWon)
                     _currentPlayerTutorialIndex++;
 
@@ -151,6 +151,9 @@ public class TutorialManager : MonoBehaviour
                 _battleDataPrefab = Instantiate(_battleDataPrefab);
                 UpdateBadgesForNewAccount();
             }
+
+            if (_currentPlayerTutorialIndex >= 2)
+                returnToMainMenuButton.gameObject.SetActive(true);
         }
 
         else
