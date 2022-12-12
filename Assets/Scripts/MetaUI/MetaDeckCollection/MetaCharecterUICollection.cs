@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaUIManager>, IEquatable<MetaCharacterData>
 {
+    public event Action OnNewDeckAdded;
     public event Action<int> OnSetMainDeck; 
     public event Func<MetaDeckData> OnSetNewMainDeck; 
 
@@ -55,9 +56,9 @@ public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaU
             if (ReferenceEquals(metaDeckData,null))
                 return;
             
-            _characterData.SetMainDeck(metaDeckData.DeckId);
             _mainDeckUI.AssignVisual(metaDeckData);
             _mainDeckUI.Show();
+            OnNewDeckAdded?.Invoke();
         }
         else
             OnSetMainDeck?.Invoke(metaDeckUI.DeckId);

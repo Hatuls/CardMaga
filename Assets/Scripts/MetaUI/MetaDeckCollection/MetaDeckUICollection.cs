@@ -3,6 +3,7 @@ using CardMaga.MetaData.AccoutData;
 using CardMaga.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,IEquatable<MetaDeckData>
 {
@@ -18,6 +19,8 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
     public MetaDeckData DeckData => _deckData;
     
     public int DeckId => _deckId;
+    
+    public bool IsNewDeck => _deckData.IsNewDeck;
 
     public DeckInput Input => _input;
 

@@ -47,10 +47,8 @@ namespace CardMaga.MetaUI.CollectionUI
             _comboVisualRequester = new VisualRequester<MetaComboUI, MetaComboData>(_comboPrefabRef);
             _cardVisualRequester = new VisualRequester<MetaCardUI, MetaCardData>(_cardPrefabRef);
             
-            _metaComboUis = _comboVisualRequester.GetVisual(_metaAccountData.CharacterDatas.CharacterData.MainDeck.Combos)
-                .ToArray();
-            _metaCardUis = _cardVisualRequester.GetVisual(_metaAccountData.CharacterDatas.CharacterData.MainDeck.Cards)
-                .ToArray();
+            _metaComboUis = _comboVisualRequester.GetVisual(3).ToArray();
+            _metaCardUis = _cardVisualRequester.GetVisual(8).ToArray();
             
             _metaComboUiContainer.Init();
             _metaCardUIContainer.Init();

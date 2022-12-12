@@ -41,6 +41,22 @@ namespace CardMaga.ObjectPool
             return visuals;
         }
         
+        public List<TVisual> GetVisual(int amount)
+        {
+            if (amount <= 0)
+                return null;
+
+            List<TVisual> visuals = new List<TVisual>(amount);
+
+            for (int i = 0; i < amount; i++)
+            {
+                var cache = _objectPool.Pull();
+                visuals.Add(cache);
+            }
+            
+            return visuals;
+        }
+        
         public TVisual GetVisual(TData data)
         {
             var cache = _objectPool.Pull();
