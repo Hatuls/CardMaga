@@ -23,7 +23,7 @@ namespace CardMaga.MetaUI
         public override void Init()
         {
             base.Init();
-            Show();
+            Hide();
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
-using CardMaga.MetaData.AccoutData;using CardMaga.MetaUI;
+using CardMaga.MetaData.AccoutData;
+using CardMaga.MetaUI;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine;
 public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaUIManager>, IEquatable<MetaCharacterData>
 {
     public event Action OnNewDeckAdded;
+    public event Action<int> OnDisacrdDeck;
     public event Action<int> OnSetMainDeck; 
     public event Func<MetaDeckData> OnSetNewMainDeck; 
 
@@ -18,6 +20,8 @@ public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaU
     
     public MetaCharacterData CharacterData => _characterData;
 
+    public MetaDeckUICollection MainDeckUI => _mainDeckUI;
+
     public int Priority => 1;
 
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
@@ -26,6 +30,7 @@ public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaU
 
         OnSetMainDeck += _characterData.SetMainDeck;
         OnSetNewMainDeck += _characterData.AddDeck;
+        OnDisacrdDeck += _characterData.DiscardLastDeck;
         
         foreach (var metaDeckUICollection in _decksUI)
         {
@@ -45,8 +50,9 @@ public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaU
 
     private void SetMainDeck(MetaDeckUICollection metaDeckUI)
     {
-        _mainDeckUI?.UnSetAsMainDeck();
-        
+        if (_mainDeckUI != null)
+            _mainDeckUI.UnSetAsMainDeck();
+
         _mainDeckUI = metaDeckUI;
 
         if (ReferenceEquals(metaDeckUI.DeckData, null))
@@ -66,6 +72,18 @@ public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaU
         _mainDeckUI.SetAsMainDeck();
     }
 
+    public void DiscardLastDeck(int deckId)
+    {
+        _mainDeckUI.DiscardDeck();
+        
+        _mainDeckUI = _decksUI[0];
+        
+        _mainDeckUI.SetAsMainDeck();
+        
+        OnSetMainDeck?.Invoke(_mainDeckUI.DeckId);
+        OnDisacrdDeck?.Invoke(deckId);
+    }
+
     public void OnDestroy()
     {
         foreach (var metaDeckUICollection in _decksUI)
@@ -75,6 +93,7 @@ public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaU
         
         OnSetMainDeck -= _characterData.SetMainDeck;
         OnSetNewMainDeck -= _characterData.AddDeck;
+        OnDisacrdDeck -= _characterData.DiscardLastDeck;
     }
 
     private bool TryFindMetaDeckUI(MetaDeckData metaDeckData, out MetaDeckUICollection metaDeckUICollection)

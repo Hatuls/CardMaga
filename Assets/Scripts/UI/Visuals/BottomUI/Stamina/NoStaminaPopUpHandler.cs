@@ -13,13 +13,13 @@ namespace CardMaga.UI.PopUp
         private float _duration;
 
         [SerializeField]
-        private NoStaminaPopUp _noStaminaPopUp;
+        private BasicFadeInPopup basicFadeInPopup;
 
         private Coroutine _timerCoroutine;
         #region Monobehaviour Callbacks
         private void Awake()
         {
-            _noStaminaPopUp.Hide();
+            basicFadeInPopup.Hide();
             _handUI.OnCardExecutionFailed += ShowPopUp;
             _handUI.OnCardExecutionSuccess += ForceFadeOutStaminaPopUp;
         }
@@ -34,7 +34,7 @@ namespace CardMaga.UI.PopUp
 
         private void ShowPopUp()
         {
-            _noStaminaPopUp.Enter();
+            basicFadeInPopup.Enter();
             if (_timerCoroutine != null)
                 StopCoroutine(_timerCoroutine);
 
@@ -53,7 +53,7 @@ namespace CardMaga.UI.PopUp
         }
         private void ForceFadeOutStaminaPopUp()
         {
-            if (_noStaminaPopUp.IsActive())
+            if (basicFadeInPopup.IsActive())
             {
                 if (_timerCoroutine != null)
                     StopCoroutine(_timerCoroutine);
@@ -61,6 +61,6 @@ namespace CardMaga.UI.PopUp
                 FadeOutStaminaPopUp();
             }
         }
-        private void FadeOutStaminaPopUp() => _noStaminaPopUp.Close();
+        private void FadeOutStaminaPopUp() => basicFadeInPopup.Close();
     }
 }

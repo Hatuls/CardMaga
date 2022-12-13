@@ -139,9 +139,9 @@ namespace CardMaga.Input
             {
                 if (touchableItems[i] == null)
                     continue;
-                if (isTouchable && touchableItems[i].IsUnlock)
+                if (!isTouchable && touchableItems[i].IsLock)
                     continue;
-                if (!isTouchable && !touchableItems[i].IsUnlock)
+                if (isTouchable && !touchableItems[i].IsLock)
                     continue;
                 
                 if (isTouchable)

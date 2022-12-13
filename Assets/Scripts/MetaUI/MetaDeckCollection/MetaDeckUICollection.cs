@@ -54,6 +54,14 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
         _deckName.text = _deckData.DeckName;
     }
 
+    public void DiscardDeck()
+    {
+        _deckData = null;
+        _deckId = -1;
+        _deckName.text = "New Deck";
+        Hide();
+    }
+
     public void SetAsMainDeck()
     {
         _glow.gameObject.SetActive(true);
@@ -74,9 +82,9 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
 
     public override void Hide()
     {
-        base.Hide();
         _deckActive.gameObject.SetActive(false);
         _deckUnactive.gameObject.SetActive(true);
+        _glow.gameObject.SetActive(false);
     }
 
     public bool Equals(MetaDeckData other)

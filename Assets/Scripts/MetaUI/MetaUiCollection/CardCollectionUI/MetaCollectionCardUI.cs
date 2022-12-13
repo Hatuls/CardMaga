@@ -48,12 +48,14 @@ namespace CardMaga.MetaUI
             _cardData.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
             _cardData.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
             
-            UpdateCardNumber();
+            UpdateCardVisual();
         }
         
-        private void UpdateCardNumber()
+        private void UpdateCardVisual()
         {
             _cardNumberText.text = NumberOfInstant.ToString();
+            
+            Enable();
 
             if (_cardData.IsNotMoreInstants)
             {
@@ -66,22 +68,16 @@ namespace CardMaga.MetaUI
                 DisableMins();
                 return;
             }
-            Enable();
-        }
-
-        private void OnDestroy()
-        {
-            Dispose();
         }
 
         public override void SuccessAddToCollection(MetaCardData itemData)
         {
-            UpdateCardNumber();
+            UpdateCardVisual();
         }
 
         public override void SuccessRemoveFromCollection(MetaCardData itemData)
         {
-            UpdateCardNumber();
+            UpdateCardVisual();
         }
     }
 }

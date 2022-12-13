@@ -98,7 +98,6 @@ namespace CardMaga.UI
         {
             OnHide?.Invoke();
             HolderGameObject.SetActive(false);
-
         }
 
         public virtual void Init()

@@ -9,7 +9,7 @@ namespace CardMaga.UI.ScrollPanel
 
         [SerializeField] private Transform _holder;
         private List<IUIElement> _loadedObjects;
-    
+
         #endregion
 
         #region Prop

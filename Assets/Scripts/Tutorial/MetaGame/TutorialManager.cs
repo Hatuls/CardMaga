@@ -32,6 +32,13 @@ public class TutorialManager : MonoBehaviour
         
         BattleData.Instance.AssginBattleTutorialData(_currentTutorialConfig);
     }
+    
+    private void UpdateCurrentBattleConfig(int tutorialIndex)
+    {
+        _currentTutorialConfig = _tutorialConfig[tutorialIndex];
+        
+        BattleData.Instance.AssginBattleTutorialData(_currentTutorialConfig);
+    }
 
     private void EndTutorial()
     {
@@ -40,25 +47,14 @@ public class TutorialManager : MonoBehaviour
         OnEndTutorial?.Invoke();
     }
     
-    private void UpdateTutorialBadges()
-    {
-        for (int i = 0; i < _currentTutorialIndex; i++)
-        {
-            _badges[i].Completed();
-        }
-    }
-
     private void StartTutorial()
     {
         if (_currentTutorialIndex > _tutorialConfig.Count - 1)
         {
-            UpdateTutorialBadges();
-        
             EndTutorial();
             return;
         }
         
-        UpdateTutorialBadges();
         UpdateCurrentBattleConfig();
     }
 
@@ -92,19 +88,29 @@ public class TutorialManager : MonoBehaviour
             _currentTutorialIndex = _accountTutorialData.TutorialProgress;
             _battleDataPrefab = Instantiate(_battleDataPrefab);
         }
-        
+
         for (int i = 0; i < _badges.Length; i++)
         {
+            if (i < _currentTutorialIndex)
+            {
+                _badges[i].Completed();
+                continue;
+            }
+
+            if (i > _currentTutorialIndex)
+            {
+                _badges[i].Init();
+                continue;
+            }
+
             if (i == _currentTutorialIndex)
             {
                 _badges[i].Open();
-                continue;
             }
-            
-            _badges[i].Init();
+
         }
-        
-        StartTutorial();
+
+        //StartTutorial();
     }
 
     #endregion

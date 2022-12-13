@@ -1,7 +1,6 @@
 ﻿using System;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.DeckBuilding;
-using CardMaga.MetaUI.CollectionUI;
 using CardMaga.SequenceOperation;
 using MetaData;
 using ReiTools.TokenMachine;
@@ -13,8 +12,8 @@ namespace CardMaga.MetaData.Collection
     [Serializable]
     public class MetaCollectionDataManager : ISequenceOperation<MetaDataManager>, IDisposable
     {
-        [SerializeField] private UnityEvent OnSuccessUpdateDeck;
-        [SerializeField] private UnityEvent OnFailedUpdateDeck;
+        public event Action OnSuccessUpdateDeck;
+        public event Action OnFailedUpdateDeck;
         
         private DeckBuilder _deckBuilder;
         private AccountDataAccess _accountDataAccess;
@@ -32,16 +31,18 @@ namespace CardMaga.MetaData.Collection
             _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck);
         }
 
-        public void ExitDeckEditing()
+        public bool ExitDeckEditing()
         {
             if (_deckBuilder.TryApplyDeck(out MetaDeckData metaDeckData))
             {
                 TokenMachine tokenMachine = new TokenMachine(SuccessUpdateDeck);
                 _accountDataAccess.UpdateDeck(metaDeckData,tokenMachine);
                 _deckBuilder.DisposeDeck();
+                return true;
             }
-            else
-                OnFailedUpdateDeck?.Invoke();
+            
+            OnFailedUpdateDeck?.Invoke();
+            return false;
         }
 
         private void SuccessUpdateDeck()

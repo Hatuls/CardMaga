@@ -19,11 +19,17 @@ public class DisableButton : Button
 
     private void PointerDown()
     {
+        if (IsLock)
+            return;
+        
         _renderer.sprite = _onPress;
     }
     
     private void PointerUp()
     {
+        if (IsLock)
+            return;
+        
         _renderer.sprite = _onIdle;
     }
     [ContextMenu("Disable")]

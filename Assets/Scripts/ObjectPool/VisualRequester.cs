@@ -51,6 +51,7 @@ namespace CardMaga.ObjectPool
             for (int i = 0; i < amount; i++)
             {
                 var cache = _objectPool.Pull();
+                cache.Init();
                 visuals.Add(cache);
             }
             

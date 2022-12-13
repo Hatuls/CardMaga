@@ -26,6 +26,12 @@ namespace CardMaga.MetaUI
             OnDisposed?.Invoke(this);
         }
 
+        public override void Init()
+        {
+            base.Init();
+            Hide();
+        }
+
         public override void Show()
         {
             _comboVisual.gameObject.SetActive(true);

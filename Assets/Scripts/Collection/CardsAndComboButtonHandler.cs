@@ -1,4 +1,5 @@
 using CardMaga.Input;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +18,8 @@ namespace Collection
 
             [Header("Cycle Collection Button")] 
             [SerializeField] private CollectionButton[] _buttons;
+
+            [SerializeField] private TMP_Text _title;
             
             private InputBehaviour _comboState;
             private InputBehaviour _cardState;
@@ -30,9 +33,8 @@ namespace Collection
 
                 if (_startInCard)
                      SetToCardState();
-
-                 else
-                     SetToComboState();
+                else 
+                    SetToComboState();
             
             }
         
@@ -47,9 +49,13 @@ namespace Collection
                 OnComboCollectionOpen?.Invoke();
                 _deckCollection.SetActive(false);
                 _comboCollection.SetActive(true);
+                _title.text = "Combos";
                 
                 foreach (var button in _buttons)
                 {
+                    if (button.ComboAndDecksButtonText == null)
+                        continue;
+
                     button.ComboAndDecksButtonText.text = "Cards";
                     button.TrySetInputBehaviour(_comboState);
                 }
@@ -60,9 +66,13 @@ namespace Collection
                 OnCardsCollectionOpen?.Invoke();
                 _deckCollection.SetActive(true);
                 _comboCollection.SetActive(false);
+                _title.text = "Cards";
                 
                 foreach (var button in _buttons)
                 {
+                    if (button.ComboAndDecksButtonText == null)
+                        continue;
+                    
                     button.ComboAndDecksButtonText.text = "Combos";
                     button.TrySetInputBehaviour(_cardState);
                 }

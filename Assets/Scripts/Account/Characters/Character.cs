@@ -11,9 +11,10 @@ namespace Account.GeneralData
         public const string PlayFabKeyName = "CharactersData";
 
         public List<Character> Characters = new List<Character>();
-        public int MainCharacter = 0;
+        public int MainCharacterIndex = 0;
+        public Character MainCharacter => Characters[MainCharacterIndex];
 
-        public Character GetMainCharacter() => Characters[MainCharacter];
+        public Character GetMainCharacter() => Characters[MainCharacterIndex];
         public void AddCharacter(Character character)
         {
             if (!Characters.Contains(character))
@@ -98,6 +99,16 @@ namespace Account.GeneralData
                 Deck.Add(new DeckData(Deck.Count, "New Deck", deckCards, deckCombos));
             }
             return canAddDeck;
+        }
+
+        public bool TryRemoveDeck(int deckIndex)
+        {
+            if (deckIndex >= Deck.Count)
+                return false;
+
+            Deck.RemoveAt(deckIndex);
+            AccountManager.Instance.UpdateDataOnServer();//plaster!!!
+            return true;
         }
 
         public Character()

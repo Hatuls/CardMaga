@@ -5,32 +5,29 @@ using UnityEngine;
 
 namespace CardMaga.UI.ScrollPanel
 {
-    public abstract class BaseScrollPanelManager<TVisual, TData> : MonoBehaviour
-        where TVisual :  BaseUIElement, IPoolableMB<TVisual>, IVisualAssign<TData>, new()
+    public abstract class BaseScrollPanelManager<TVisual> : MonoBehaviour
+        where TVisual :  BaseUIElement, IPoolableMB<TVisual>, new()
     {
         [SerializeField] private TVisual _objectRef;
         [SerializeField] private ScrollPanelHandler _scrollPanel;
-
-        private VisualRequester<TVisual, TData> _visualRequester;
+        
+        public IReadOnlyList<IUIElement> LoadObjects => _scrollPanel.LoadedObjects;
 
         public virtual void Init()
         {
-            _visualRequester = new VisualRequester<TVisual, TData>(_objectRef);
             _scrollPanel.Init();
         }
-
-        public void AddObjectToPanel(List<TData> data)
+        
+        public void AddObjectToPanel(List<IUIElement> visuals)
         {
-            List<TVisual> visuals = _visualRequester.GetVisual(data);
-            
             IUIElement[] uiElements = new IUIElement[visuals.Count];
 
             Transform holder = _scrollPanel.Holder;
             
             for (int i = 0; i < visuals.Count; i++)
             {
-                visuals[i].transform.SetParent(holder);
-                visuals[i].transform.localScale = Vector3.one;
+                visuals[i].RectTransform.SetParent(holder);
+                visuals[i].RectTransform.localScale = Vector3.one;
                 uiElements[i] = visuals[i];
             }
 

@@ -3890,14 +3890,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3751326598726350992, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
+      propertyPath: _title
+      value: 
+      objectReference: {fileID: 2133605136}
+    - target: {fileID: 3751326598726350992, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
       propertyPath: _buttons.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3751326598726350992, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
       propertyPath: _buttons.Array.data[1]
       value: 
-      objectReference: {fileID: 2133605138}
+      objectReference: {fileID: 0}
     - target: {fileID: 4838495956576158686, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
       propertyPath: _objectRef
@@ -4015,6 +4020,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -95
       objectReference: {fileID: 0}
+    - target: {fileID: 6528336433312850699, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
+      propertyPath: m_Name
+      value: Top Part
+      objectReference: {fileID: 0}
+    - target: {fileID: 6528336433312850699, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6528336433507223545, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4050,6 +4065,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -84
       objectReference: {fileID: 0}
+    - target: {fileID: 6780812624912005660, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
+      propertyPath: _battleCardUI
+      value: 
+      objectReference: {fileID: 1304183681161663716, guid: 8dc4e00dfaa6753418c1d5056be43434,
+        type: 3}
+    - target: {fileID: 6780812624912005660, guid: 61171a12fa1398346993b9142a2aa9a8,
+        type: 3}
+      propertyPath: _battleComboUI
+      value: 
+      objectReference: {fileID: 3206936471709618092, guid: 21bce7691797c9f45a5df134ed319d0d,
+        type: 3}
     - target: {fileID: 6780812624912005660, guid: 61171a12fa1398346993b9142a2aa9a8,
         type: 3}
       propertyPath: battleCardUIScroll
@@ -4088,19 +4115,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2ffb4a87f5e534a85d088438a0a710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2133605135 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6528336433005645214, guid: 61171a12fa1398346993b9142a2aa9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2133605133}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2133605136 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6528336433005645212, guid: 61171a12fa1398346993b9142a2aa9a8,
     type: 3}
   m_PrefabInstance: {fileID: 2133605133}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2133605135}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -4118,42 +4139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2133605138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2133605135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 055ea16e1c344031a7a6bd0eb1a3d1f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnClickEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBeginHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnEndHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointDownEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointUpEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  DisableHold: 1
-  _holdDelay: 0.5
-  _holdDistance: 0.5
-  _currentState: 0
-  _identification: {fileID: 0}
-  _comboAndDecksButtonText: {fileID: 2133605136}
 --- !u!1001 &560829603735717846
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4997,6 +4982,11 @@ PrefabInstance:
       propertyPath: _holderGameObject
       value: 
       objectReference: {fileID: 131336776}
+    - target: {fileID: 4945510504569680813, guid: e85af4287e4c649448566fa0a5af3d8c,
+        type: 3}
+      propertyPath: basicFadeInPopup
+      value: 
+      objectReference: {fileID: 5702666649249262308}
     - target: {fileID: 5200766102474334544, guid: e85af4287e4c649448566fa0a5af3d8c,
         type: 3}
       propertyPath: _delayBetweenCardDrawn
@@ -5176,6 +5166,18 @@ PrefabInstance:
       objectReference: {fileID: 1924555076}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e85af4287e4c649448566fa0a5af3d8c, type: 3}
+--- !u!114 &5702666649249262308 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1364966777836427042, guid: e85af4287e4c649448566fa0a5af3d8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5702666649249262307}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131336776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 507824fef833bcf4fa7fac0b63642b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5702666649249262310 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8694790356547147787, guid: e85af4287e4c649448566fa0a5af3d8c,

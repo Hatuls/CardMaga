@@ -308,9 +308,9 @@ namespace CardMaga.Input
 
         #region ILockable
 
-        public bool IsUnlock
+        public bool IsLock
         {
-            get => _isTouchable;
+            get => !_isTouchable;
         }
 
         public InputIdentificationSO InputIdentification
@@ -455,7 +455,7 @@ namespace CardMaga.Input
 
     public interface ILockable
     {
-        bool IsUnlock { get; }
+        bool IsLock { get; }
         InputIdentificationSO InputIdentification { get; }
         void Lock();
         void UnLock();

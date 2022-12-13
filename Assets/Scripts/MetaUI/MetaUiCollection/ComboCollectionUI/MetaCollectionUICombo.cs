@@ -11,9 +11,7 @@ namespace CardMaga.MetaUI
     public class MetaCollectionUICombo : BaseCollectionUIItem<MetaComboData>, IPoolableMB<MetaCollectionUICombo>,IVisualAssign<MetaCollectionDataCombo>
     {
         public event Action<MetaCollectionUICombo> OnDisposed;
-        public event Action OnTryAddCardToDeck; 
-        public event Action OnTryRemoveCardFromDeck;
-        
+
 
         [SerializeField] private ComboVisualHandler _comboVisual;
 
@@ -52,6 +50,11 @@ namespace CardMaga.MetaUI
         public override void SuccessRemoveFromCollection(MetaComboData itemData)
         {
             Debug.Log("Remove Combo From Deck");
+        }
+
+        private void OnDisable()
+        {
+            //Dispose();
         }
     }
 }

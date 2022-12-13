@@ -1,6 +1,8 @@
 ﻿using CardMaga.Input;
 using CardMaga.UI.Visuals;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CardMaga.Tutorial
 {
@@ -13,7 +15,6 @@ namespace CardMaga.Tutorial
     public class TutorialBadge :MonoBehaviour
     {
         [SerializeField] TutorialBadgeVisualHandler _tutorialBadgeVisualHandler;
-
 
         [SerializeField] private TouchableItem _Input;
 

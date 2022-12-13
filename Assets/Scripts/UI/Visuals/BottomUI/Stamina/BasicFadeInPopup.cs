@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CardMaga.UI.PopUp
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class NoStaminaPopUp : BasePopUp
+    public class BasicFadeInPopup : BasePopUp
     {
         public event Action OnPopUpFinishEntranceTransition;
         public event Action OnPopUpFinishExitTransition;

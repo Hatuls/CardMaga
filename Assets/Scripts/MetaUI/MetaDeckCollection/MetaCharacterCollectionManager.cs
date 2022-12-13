@@ -6,7 +6,7 @@ using ReiTools.TokenMachine;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MetaDeckUICollectionManager : MonoBehaviour , ISequenceOperation<MetaUIManager>
+public class MetaCharacterCollectionManager : MonoBehaviour , ISequenceOperation<MetaUIManager>
 {
     [SerializeField] private MetaCharecterUICollection[] _charectersUI;
     [SerializeField] private UnityEvent OnOpenEditingScreen;
@@ -30,6 +30,13 @@ public class MetaDeckUICollectionManager : MonoBehaviour , ISequenceOperation<Me
         {
             charecterUICollection.OnNewDeckAdded += OpenDeckEditingScreen;
         }
+
+        _mainCharecterUI = _charectersUI[0];// plaster
+    }
+
+    public void DiscardMainDeck()
+    {
+        _mainCharecterUI.DiscardLastDeck(_mainCharecterUI.MainDeckUI.DeckId);
     }
 
     private void OnDestroy()

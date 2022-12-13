@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Account;
 using Account.GeneralData;
 using CardMaga.MetaData.Collection.DeckCollection;
 using UnityEngine;
@@ -95,17 +97,28 @@ namespace CardMaga.MetaData.AccoutData
             return cache;
         }
 
-        public void SetMainDeck(int deckID)
+        public void DiscardLastDeck(int deckId)
         {
-            if (deckID > _decks.Count)
+            int index = FindDeckIndexByID(deckId);
+
+            if (index == -1)
+                throw new Exception("Deck id not found");
+            
+            _decks.RemoveAt(index);
+
+            AccountManager.Instance.Data.CharactersData.MainCharacter.TryRemoveDeck(index);
+        }
+
+        public void SetMainDeck(int deckIndex)
+        {
+            if (deckIndex > _decks.Count)
             {
                 Debug.LogWarning("Invalid deck index");
                 return;
             }
             
-            int cache = FindDeckIndexByID(deckID);
-            _characterData.SetMainDeck(cache);
-            _mainDeckIndex = cache;
+            _characterData.SetMainDeck(deckIndex);
+            _mainDeckIndex = deckIndex;
         }
 
         private int FindDeckIndexByID(int deckId)
