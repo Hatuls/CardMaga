@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AvatarHandler : MonoBehaviour
 {
@@ -12,27 +13,20 @@ public class AvatarHandler : MonoBehaviour
     [SerializeField] Transform _rightLegPart;
     [SerializeField] Transform _leftKneePart;
     [SerializeField] Transform _rightKneePart;
-    [SerializeField] Transform _bottomBody;
+    [SerializeField] Transform _pivot;
     [SerializeField] Transform _chestPart;
+    [SerializeField] Transform _hipsPart;
 
     private Transform _currentActiveBodyPart;
+
+    private Dictionary<BodyPartEnum, Transform> _bodypartDictionary = new Dictionary<BodyPartEnum, Transform>();
 
     [Header("Avatar:")]
     [SerializeField] Avatar avatar;
     [SerializeField] SkinnedMeshRenderer _mesh;
 
 
-    public Transform HeadPart { get => _headPart; }
-    public Transform LeftHandPart { get => _leftHandPart; }
-    public Transform RightHandPart { get => _rightHandPart; }
-    public Transform LeftLegPart { get => _leftLegPart; }
-    public Transform RightLegPart { get => _rightLegPart; }
-    public Transform ChestPart { get => _chestPart; }
-    public Transform BottomBody { get => _bottomBody; }
-    public Transform LeftElbowPart { get => _leftElbowPart; }
-    public Transform RightElbowPart { get => _rightElbowPart; }
-    public Transform LeftKneePart { get => _leftKneePart; }
-    public Transform RightKneePart { get => _rightKneePart; }
+
 
 
     public SkinnedMeshRenderer Mesh { get => _mesh; }
@@ -41,52 +35,32 @@ public class AvatarHandler : MonoBehaviour
     public Transform GetCurrentActiveBodyPart() => _currentActiveBodyPart;
     public void UpdateCurrentActiveBodyPart(BodyPartEnum bodyPartEnum)
     => _currentActiveBodyPart = GetBodyPart(bodyPartEnum);
-    
+
+
+
+    private void Awake()
+    {
+        _bodypartDictionary.Add(BodyPartEnum.LeftArm, _leftHandPart);
+        _bodypartDictionary.Add(BodyPartEnum.RightArm, _rightHandPart);
+        _bodypartDictionary.Add(BodyPartEnum.Head, _headPart);
+        _bodypartDictionary.Add(BodyPartEnum.LeftLeg, _leftLegPart);
+        _bodypartDictionary.Add(BodyPartEnum.RightLeg, _rightLegPart);
+        _bodypartDictionary.Add(BodyPartEnum.Pivot, _pivot);
+        _bodypartDictionary.Add(BodyPartEnum.Chest, _chestPart);
+        _bodypartDictionary.Add(BodyPartEnum.LeftKnee, _leftKneePart);
+        _bodypartDictionary.Add(BodyPartEnum.RightKnee, _rightKneePart);
+        _bodypartDictionary.Add(BodyPartEnum.LeftElbow, _leftElbowPart);
+        _bodypartDictionary.Add(BodyPartEnum.RightElbow, _rightElbowPart);
+        _bodypartDictionary.Add(BodyPartEnum.Hips, _hipsPart);
+    }
 
     public Transform GetBodyPart(BodyPartEnum bodyPartEnum)
     {
 
-        Transform transformOfBodyPart = null;
-        switch (bodyPartEnum)
-        {
-            case BodyPartEnum.RightArm:
-                transformOfBodyPart = _rightHandPart;
-                break;
-            case BodyPartEnum.LeftArm:
-                transformOfBodyPart = _leftHandPart;
-                break;
-            case BodyPartEnum.Head:
-                transformOfBodyPart = _headPart;
-                break;
-            case BodyPartEnum.LeftLeg:
-                transformOfBodyPart = _leftLegPart;
-                break;
-            case BodyPartEnum.RightLeg:
-                transformOfBodyPart = _rightLegPart;
-                break;
-            case BodyPartEnum.BottomBody:
-                transformOfBodyPart = _bottomBody;
-                break;
-            case BodyPartEnum.Chest:
-                transformOfBodyPart = _chestPart;
-                break;
-            case BodyPartEnum.LeftKnee:
-                transformOfBodyPart = _leftKneePart;
-                break;
-            case BodyPartEnum.RightKnee:
-                transformOfBodyPart = _rightKneePart;
-                break;
-            case BodyPartEnum.LeftElbow:
-                transformOfBodyPart = _leftElbowPart;
-                break;
-            case BodyPartEnum.RightElbow:
-                transformOfBodyPart = _rightElbowPart;
-                break;
-        }
-
-        if (transformOfBodyPart == null)
+        if (_bodypartDictionary.TryGetValue(bodyPartEnum, out Transform bodypart))
+            return bodypart;
+        else
             throw new System.Exception($"AvatarHandler:  Body Part is not valid or null {bodyPartEnum}");
-        return transformOfBodyPart;
     }
 
 #if UNITY_EDITOR
@@ -105,9 +79,9 @@ public class AvatarHandler : MonoBehaviour
         _rightLegPart=    FindBodyPart(transform,"RightToe_End");
         _leftKneePart=    FindBodyPart(transform,"LeftLeg");
         _rightKneePart=   FindBodyPart(transform,"RightLeg");
-        _bottomBody=      FindBodyPart(transform,"Hips");
+        _hipsPart =      FindBodyPart(transform,"Hips");
         _chestPart= FindBodyPart(transform,"Spine2");
-
+        _pivot = FindBodyPart(transform, "Pivot");
     }
     private Transform FindBodyPart(Transform from ,string name)
     {

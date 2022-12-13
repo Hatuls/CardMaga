@@ -1,4 +1,6 @@
-﻿using CardMaga.Keywords;
+﻿using Battle.Turns;
+using CardMaga.Keywords;
+using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
 namespace CardMaga.Battle.Visual
@@ -9,6 +11,8 @@ namespace CardMaga.Battle.Visual
         public event Action<int> OnValueAdded;
         public event Action<int> OnValueChanged;
         public event Action<KeywordType, int> OnKeywordValueChanged;
+
+
         private int _amount;
         private KeywordType _keywordType;
         public int Amount
@@ -30,8 +34,8 @@ namespace CardMaga.Battle.Visual
 
         public void InvokeValueChanges()
         {
-            OnKeywordValueChanged?.Invoke(_keywordType, _amount);
             OnValueChanged?.Invoke(_amount);
+            OnKeywordValueChanged?.Invoke(_keywordType, _amount);
         }
 
         public KeywordType KeywordType => _keywordType;
@@ -46,23 +50,39 @@ namespace CardMaga.Battle.Visual
 
     public class VisualStatHandler
     {
-        private Dictionary<KeywordType, VisualStat> _visualStatsDictionary;
+        public event Action<ITokenReciever, KeywordType> OnVisualStatChanged;
+        public event Action<bool, KeywordType> OnKeywordChanged;
+        public event Action<bool, KeywordType, int> OnKeywordStatChanged;
 
+        private bool _isLeft;
+
+        private Dictionary<KeywordType, VisualStat> _visualStatsDictionary;
         public IReadOnlyDictionary<KeywordType, VisualStat> VisualStatsDictionary => _visualStatsDictionary;
 
         public VisualStatHandler(IVisualPlayer player)
         {
-            var dictionary = player.PlayerData.StatsHandler.StatDictionary;
+            _isLeft = player.PlayerData.IsLeft;
 
-            _visualStatsDictionary = new Dictionary<KeywordType, VisualStat>(dictionary.Count);
-            foreach (var stat in dictionary)
+            InitDictionary();
+
+            void InitDictionary()
             {
-                KeywordType keywordType = stat.Key;
-                _visualStatsDictionary.Add(keywordType, new VisualStat(keywordType, stat.Value.Amount));
+                var dictionary = player.PlayerData.StatsHandler.StatDictionary;
+                _visualStatsDictionary = new Dictionary<KeywordType, VisualStat>(dictionary.Count);
 
+                foreach (var stat in dictionary)
+                {
+                    KeywordType keywordType = stat.Key;
+
+                    VisualStat visualStat = new VisualStat(keywordType, stat.Value.Amount);
+                    _visualStatsDictionary.Add(keywordType, visualStat);
+                    visualStat.OnKeywordValueChanged += StatChanged;
+                }
+
+                UpdateAllStats();
             }
+ 
         }
-
         public VisualStat GetStat(KeywordType keywordType)
         {
             if (VisualStatsDictionary.TryGetValue(keywordType, out VisualStat visualStat))
@@ -70,17 +90,33 @@ namespace CardMaga.Battle.Visual
             return null;
         }
 
-
-        public void Dispose(IVisualPlayer Character)
-        {
-            //   var dictionary = Character.PlayerData.StatsHandler.StatDictionary;
-        }
-
         internal void UpdateAllStats()
         {
             foreach (var visualStat in VisualStatsDictionary)
                 visualStat.Value.InvokeValueChanges();
         }
+
+        private void StatChanged(KeywordType keywordType, int amount)
+        {
+            if (OnKeywordChanged != null)
+                OnKeywordChanged.Invoke(_isLeft, keywordType);
+
+            if (OnKeywordStatChanged != null)
+                OnKeywordStatChanged.Invoke(_isLeft, keywordType, amount);
+
+
+        }
+
+        public void Dispose(VisualCharacter visualCharacter)
+        {
+
+            foreach (var stat in VisualStatsDictionary)
+            {
+                stat.Value.OnKeywordValueChanged -= StatChanged;
+            }
+        }
+
+
     }
 
 
