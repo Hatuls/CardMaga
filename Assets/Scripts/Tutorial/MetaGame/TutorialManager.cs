@@ -1,12 +1,10 @@
 ﻿using Account;
 using Battle.Data;
-using CardMaga.BattleConfigSO;
 using CardMaga.Core;
+using CardMaga.Input;
 using CardMaga.Tutorial;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using CardMaga.Input;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -25,7 +23,7 @@ public class TutorialManager : MonoBehaviour
     public void LoadTutorialBattle(TutorialConfigSO tutorialConfigSO)
     {
         _selectedTutorialConfig = tutorialConfigSO;
-        if (_accountTutorialData.TutorialProgress == 1 && _selectedTutorialConfig.TutorialID==1)
+        if (_accountTutorialData.TutorialProgress == 1 && _selectedTutorialConfig.TutorialID == 0)
             return;
         BattleData.Instance.AssginBattleTutorialData(_selectedTutorialConfig);
         _matchMakingSceneLoader.LoadScene();
@@ -36,7 +34,7 @@ public class TutorialManager : MonoBehaviour
 
     private void UpdateCurrentBattleConfig()
     {
-        if(BattleData.Instance.IsPlayerWon)
+        if (BattleData.Instance.IsPlayerWon)
         {
             AccountManager.Instance.Data.AccountTutorialData.AssignedData(_accountTutorialData.TutorialProgress + 1, false);
             AccountManager.Instance.UpdateDataOnServer();
@@ -46,7 +44,7 @@ public class TutorialManager : MonoBehaviour
 
     private void UpdateEndingTutorialBattleConfig()
     {
-        AccountManager.Instance.Data.AccountTutorialData.AssignedData(_accountTutorialData.TutorialProgress+1, true);
+        AccountManager.Instance.Data.AccountTutorialData.AssignedData(_accountTutorialData.TutorialProgress + 1, true);
         AccountManager.Instance.UpdateDataOnServer();
         UpdateBadgesForCompletedTutorialAccount();
         OnEndTutorial?.Invoke();
@@ -57,7 +55,7 @@ public class TutorialManager : MonoBehaviour
         if (_accountTutorialData.IsCompletedTutorial) //Check if completed
             return;
 
-        if (_accountTutorialData.TutorialProgress == 0) //Check if first log in, there is no config
+        if (_accountTutorialData.TutorialProgress == 0 || BattleData.Instance == null)
             return;
 
         else
@@ -70,25 +68,12 @@ public class TutorialManager : MonoBehaviour
 
             //If not update your last config
 
-            if (_accountTutorialData.TutorialProgress + 1 > _badges.Length - 1)
+            if (_accountTutorialData.TutorialProgress > _badges.Length - 1)
                 UpdateEndingTutorialBattleConfig();
 
             else
                 UpdateCurrentBattleConfig();
         }
-    }
-
-    private int GetBattleTutorialConfigIndex(BattleConfigSO battleConfigSo)
-    {
-        for (int i = 0; i < _badges.Length; i++)
-        {
-            if (_badges[i]._configSO.BattleConfig == battleConfigSo)
-            {
-                return i;
-            }
-        }
-
-        throw new System.Exception("TutorialManager: BattleConfig now found");
     }
 
     private void UpdateBadgesForNewAccount()
@@ -146,16 +131,19 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         _accountTutorialData = AccountManager.Instance.Data.AccountTutorialData;
+        SubscribeTutorialBadges();
+
         if (!_accountTutorialData.IsCompletedTutorial)
         {
+            UpdateBattleConfig();
             if (BattleData.Instance != null)
                 UpdateBadgesForNotCompletedTutorialAccount();
 
             else
             {
                 _battleDataPrefab = Instantiate(_battleDataPrefab);
-                if(_accountTutorialData.TutorialProgress ==1)
-                UpdateBadgesForNewAccount();
+                if (_accountTutorialData.TutorialProgress == 0)
+                    UpdateBadgesForNewAccount();
 
                 else
                     UpdateBadgesForNotCompletedTutorialAccount();
@@ -167,9 +155,6 @@ public class TutorialManager : MonoBehaviour
 
         else
             UpdateBadgesForCompletedTutorialAccount();
-
-        SubscribeTutorialBadges();
-        UpdateBattleConfig();
     }
 
     #endregion
