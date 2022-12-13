@@ -25,7 +25,7 @@ public class TutorialManager : MonoBehaviour
     public void LoadTutorialBattle(TutorialConfigSO tutorialConfigSO)
     {
         _selectedTutorialConfig = tutorialConfigSO;
-        if (_accountTutorialData.TutorialProgress == 2 && _selectedTutorialConfig.TutorialID==1)
+        if (_accountTutorialData.TutorialProgress == 1 && _selectedTutorialConfig.TutorialID==1)
             return;
         BattleData.Instance.AssginBattleTutorialData(_selectedTutorialConfig);
         _matchMakingSceneLoader.LoadScene();
