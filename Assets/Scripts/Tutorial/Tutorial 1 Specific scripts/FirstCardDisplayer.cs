@@ -77,6 +77,7 @@ public class FirstCardDisplayer : MonoBehaviour
         _cards[0].Inputs.ForceResetInputBehaviour();
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
         _battleUIManager.CardUIManager.HandUI.SetToHandState(cardUI);
+        _cards[0].Inputs.DisableClick = true;
     }
 
     public void PutInputBehaviourAfterZoomIn()

@@ -38,6 +38,7 @@ namespace CardMaga.Input
         
         [Header("Touchable Item configuration")]
         [Tooltip("Disable Hold")] public bool DisableHold = false;
+        [Tooltip("Disable Click")] public bool DisableClick = false;
         
         [SerializeField,Tooltip("The delay between moving from point down to hold")] private float _holdDelay = .5f;
         [SerializeField,Tooltip("The distance between the start position to the current position point to hold")] private float _holdDistance = .5f;
@@ -49,6 +50,7 @@ namespace CardMaga.Input
         private Vector2 _startPosition;
         private bool _isHold;
         private bool _isTouchable;
+        
         
 #if UNITY_EDITOR
         private int _holdLogCount;
@@ -84,6 +86,8 @@ namespace CardMaga.Input
 
         protected virtual void Click()
         {
+            if (DisableClick)
+                return;
             OnClick?.Invoke();
             OnClickEvent?.Invoke();
             _inputBehaviour?.Click();
@@ -375,6 +379,8 @@ namespace CardMaga.Input
 
         protected override void Click()
         {
+            if (DisableClick)
+                return;
             base.Click();
             OnClickValue?.Invoke(_touchableItem);
             _inputBehaviour?.Click(_touchableItem);
