@@ -53,6 +53,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2ffb4a87f5e534a85d088438a0a710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _battleComboUI: {fileID: 0}
+  _battleCardUI: {fileID: 0}
   battleComboUIScroll: {fileID: 0}
   battleCardUIScroll: {fileID: 0}
   _cardDataFilter: {fileID: 8301127878099559574}
@@ -122,6 +124,7 @@ MonoBehaviour:
   _comboCollection: {fileID: 6079618490138935759}
   _buttons:
   - {fileID: 6300603163842380309}
+  _title: {fileID: 6528336433005645212}
 --- !u!114 &4786738001516608348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1859,6 +1862,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a91db993c46f37441b31809b7212a369,
         type: 2}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 272931255400598029}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7482304690003633091, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_Pivot.x
