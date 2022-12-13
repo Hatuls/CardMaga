@@ -1192,21 +1192,19 @@ MonoBehaviour:
     type: 2}
   collectionExitButtonTrackerID: {fileID: 11400000, guid: ce2ecbeff1de0e74d94408faf996246a,
     type: 2}
-  _dialoguesFlow4: {fileID: 5574862375636469181}
-  _dialoguesFlow6: {fileID: 1066976095400866683}
   BeforeCollectionEnterButtonPress:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5574862375636469181}
-        m_MethodName: FirstDialogue
-        m_Mode: 1
+      - m_Target: {fileID: 5445329545986608278}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 8365475725808104138}
         m_MethodName: ChangeInputGroup
@@ -1215,6 +1213,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 11400000, guid: 2821da72d7ffe8b4cb3fe9b67e1bd7be,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: InputGroup, CardMaga
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5574862375636469181}
+        m_MethodName: FirstDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1234,12 +1243,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  BeforeCollectionExitButtonPress:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1066976095400866683}
-        m_MethodName: FirstDialogue
-        m_Mode: 1
+      - m_Target: {fileID: 5445329545986608278}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1247,6 +1253,20 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+  BeforeCollectionExitButtonPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 577296995938187856}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 8365475725808104138}
         m_MethodName: ChangeInputGroup
@@ -1260,12 +1280,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1066976095400866683}
+        m_MethodName: FirstDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   AfterCollectionExitButtonPress:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1066976095400866683}
         m_MethodName: EndFlow
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 577296995938187856}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1580,7 +1622,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 247432647794638861}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 577296995938187856}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29f14ba8de7ae4749880718765d98c3e, type: 3}
@@ -1589,6 +1631,12 @@ MonoBehaviour:
 --- !u!224 &5816419571197198818 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6041328650097557999, guid: 0291ef2ac6634bd42b87e30263bb1b0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 247432647794638861}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &577296995938187856 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 823584930644228701, guid: 0291ef2ac6634bd42b87e30263bb1b0e,
     type: 3}
   m_PrefabInstance: {fileID: 247432647794638861}
   m_PrefabAsset: {fileID: 0}
@@ -1925,7 +1973,7 @@ PrefabInstance:
     - target: {fileID: 8006313463335617227, guid: 7f38d233e0ac0994bb4c815f655ae32b,
         type: 3}
       propertyPath: _alphaPackages.Array.data[1]._alphaPackages.Array.data[0].AlphaValue
-      value: 0.8
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 8006313463335617227, guid: 7f38d233e0ac0994bb4c815f655ae32b,
         type: 3}
@@ -2069,15 +2117,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &7981442334319396120 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9017659534962240644, guid: 7f38d233e0ac0994bb4c815f655ae32b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1434095293423020444}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3778803029907044349 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2853011979521400417, guid: 7f38d233e0ac0994bb4c815f655ae32b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1434095293423020444}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7981442334319396120 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9017659534962240644, guid: 7f38d233e0ac0994bb4c815f655ae32b,
     type: 3}
   m_PrefabInstance: {fileID: 1434095293423020444}
   m_PrefabAsset: {fileID: 0}
@@ -2918,13 +2966,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0291ef2ac6634bd42b87e30263bb1b0e, type: 3}
+--- !u!1 &5445329545986608278 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 823584930644228701, guid: 0291ef2ac6634bd42b87e30263bb1b0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4682693023066322635}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5574862375636469181 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 982250592452866934, guid: 0291ef2ac6634bd42b87e30263bb1b0e,
     type: 3}
   m_PrefabInstance: {fileID: 4682693023066322635}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5445329545986608278}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29f14ba8de7ae4749880718765d98c3e, type: 3}

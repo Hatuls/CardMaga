@@ -22,13 +22,13 @@ namespace TutorialDirector
 
         protected override void MoveDirectorPosition()
         {
-            BattleUiManager.Instance.HandUI.HandUIState.OnCardDrawnAndAlign += MoveDirectorAfterCardPositionReturnedFromZoom;
+           HandUIState.OnCardDrawnAndAlign += MoveDirectorAfterCardPositionReturnedFromZoom;
         }
         
         private void MoveDirectorAfterCardPositionReturnedFromZoom()
         {
             _directorRect.transform.position = _firstCard.FirstCard[0].RectTransform.GetWorldPosition();
-            BattleUiManager.Instance.HandUI.HandUIState.OnCardDrawnAndAlign -= MoveDirectorAfterCardPositionReturnedFromZoom;
+            HandUIState.OnCardDrawnAndAlign -= MoveDirectorAfterCardPositionReturnedFromZoom;
         }
 
         private void CardExecute(BattleCardUI cardUI)

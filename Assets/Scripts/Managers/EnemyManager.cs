@@ -109,7 +109,7 @@ namespace Battle
             _turnHandler = battleManager.TurnHandler;
             _myTurn = _turnHandler.GetCharacterTurn(IsLeft);
             _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
-            _myTurn.StartTurnOperations.Register(DrawHands);
+            _myTurn.OnTurnActive += DrawHands;
             _myTurn.OnTurnActive += PlayEnemyTurn;
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
 
@@ -126,6 +126,7 @@ namespace Battle
 
         private void BeforeGameExit(IBattleManager obj)
         {
+            _myTurn.OnTurnActive -= DrawHands;
             obj.OnBattleManagerDestroyed -= BeforeGameExit;
             _endTurnHandler.Dispose();
             _myTurn.OnTurnActive -= CalculateEnemyMoves;
@@ -196,7 +197,7 @@ namespace Battle
         #endregion
 
         #region Private 
-        private void DrawHands(ITokenReciever tokenMachine)
+        private void DrawHands()
     => DeckHandler.DrawHand(StatsHandler.GetStat(KeywordType.Draw).Amount);
         private void FinishTurn()
         {

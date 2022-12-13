@@ -143,13 +143,14 @@ namespace Battle.Turns
         public event Action OnTurnExit;
 
 
-
+        private bool _continueToTurnActive = true;
         private SequenceHandler _startTurnOperations;
         private SequenceHandler _endTurnOperations;
         private List<NextTurn> _nextTurn;
         private NextTurn _defaultNextTurn;
 
         protected TokenMachine _tokenMachine;
+        public bool ContinueToTurnActive { get => _continueToTurnActive; set => _continueToTurnActive = value; }
         public SequenceHandler StartTurnOperations { get => _startTurnOperations; }
         public SequenceHandler EndTurnOperations { get => _endTurnOperations; }
 
@@ -185,9 +186,9 @@ namespace Battle.Turns
         public virtual void Enter(ITokenReciever tokenMachine)
         {
             IDisposable token = tokenMachine.GetToken();
+            _continueToTurnActive = true;
             OnTurnEnter?.Invoke();
             OnTurnStarted?.Invoke();
-
             _tokenMachine = new TokenMachine(TurnActive);
             IDisposable t = _tokenMachine.GetToken();
             using (t)
@@ -212,7 +213,11 @@ namespace Battle.Turns
             }
         }
 
-        private void TurnActive() => OnTurnActive?.Invoke();
+        private void TurnActive()
+        {
+            if(_continueToTurnActive)
+                OnTurnActive?.Invoke();
+        }
         private void ResetNextTurns() => _nextTurn.Clear();
 
         public void Dispose()
@@ -235,12 +240,11 @@ namespace Battle.Turns
         private Coroutine _staminaCoroutine;
         public EndTurnHandler(IPlayer player, IBattleManager ibattleManager)
         {
-
             _comboManager = ibattleManager.ComboManager;
             _player = player;
             _endTurnTokenMachine = new TokenMachine(ibattleManager.TurnHandler.MoveToNextTurn);
             _sceneObject = ibattleManager.MonoBehaviour;
-            _player.MyTurn.OnTurnActive += StartTurn;
+            _player.MyTurn.OnTurnEnter += StartTurn;
             _player.StaminaHandler.OnStaminaDepleted += StaminaIsEmpty;
         }
         private void StartTurn()
@@ -261,6 +265,20 @@ namespace Battle.Turns
                 _sceneObject.StopCoroutine(_staminaCoroutine);
 
             _sceneObject.StartCoroutine(CheckStaminaEndTurn());
+        }
+
+        //Only for tutorial 4
+        public void TutorialEndPressed()
+        {
+            _sceneObject.StartCoroutine(TutorialEndTurnCoroutine());
+        }
+
+        //Only for tutorial 4
+        private IEnumerator TutorialEndTurnCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+            yield return EndTurnCoroutine();
+            EndTurnPressed();
         }
 
         public void EndTurnPressed()
@@ -303,7 +321,7 @@ namespace Battle.Turns
         {
             if (_player != null)
             {
-                _player.MyTurn.OnTurnActive -= StartTurn;
+                _player.MyTurn.OnTurnEnter -= StartTurn;
                 _player.StaminaHandler.OnStaminaDepleted -= StaminaIsEmpty;
             }
         }

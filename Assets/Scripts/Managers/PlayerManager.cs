@@ -92,7 +92,7 @@ namespace CardMaga.Battle.Players
             _myTurn.StartTurnOperations.Register(StaminaHandler.StartTurn);
             _myTurn.EndTurnOperations.Register(StaminaHandler.EndTurn);
 
-            _myTurn.StartTurnOperations.Register(DrawHands);
+            _myTurn.OnTurnActive += DrawHands;
 
 
             //endturn
@@ -105,10 +105,11 @@ namespace CardMaga.Battle.Players
 
         private void BeforeDestroy(IBattleManager battleManager)
         {
+            _myTurn.OnTurnActive -= DrawHands;
             battleManager.OnBattleManagerDestroyed -= BeforeDestroy;
             _endTurnHandler.Dispose();
         }
-        private void DrawHands(ITokenReciever tokenMachine)
+        private void DrawHands()
             => DeckHandler.DrawHand(StatsHandler.GetStat(Keywords.KeywordType.Draw).Amount);
 
     }

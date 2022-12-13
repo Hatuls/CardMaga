@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8993230473362753302}
   - component: {fileID: 4485151720733470825}
-  - component: {fileID: 9022342185952857765}
   - component: {fileID: -2980442855342837967}
   m_Layer: 0
   m_Name: DragDirector
@@ -55,28 +54,9 @@ PlayableDirector:
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: -5019755384231588399, guid: b4d552a7b51b1bd4bb1c569b3536178c, type: 2}
-    value: {fileID: 9022342185952857765}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
---- !u!95 &9022342185952857765
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3799619033919905584}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &-2980442855342837967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,8 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e339e70056331844797edfbe971fe892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playableDirector: {fileID: 0}
-  _directorRect: {fileID: 0}
+  _playableDirector: {fileID: 4485151720733470825}
+  _directorRect: {fileID: 8993230473362753302}
   OnDirectorStart:
     m_PersistentCalls:
       m_Calls: []
