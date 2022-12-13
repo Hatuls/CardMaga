@@ -91,13 +91,17 @@ namespace CardMaga.Battle
         private void LeftPlayerWon()
         {
             OnLeftPlayerWon?.Invoke();
-            _playersManager.LeftCharacter.CharacterSO.VictorySound.PlaySound();
+
+            if (_playersManager.LeftCharacter.CharacterSO.VictorySound != null)
+                _playersManager.LeftCharacter.CharacterSO.VictorySound.PlaySound();
         }
 
         private void RightPlayerWon()
         {
             OnRightPlayerWon?.Invoke();
-            _playersManager.RightCharacter.CharacterSO.VictorySound.PlaySound();
+
+            if (_playersManager.RightCharacter.CharacterSO.VictorySound != null)
+                _playersManager.RightCharacter.CharacterSO.VictorySound.PlaySound();
         }
 
         public void Dispose()
