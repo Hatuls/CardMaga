@@ -1,6 +1,6 @@
 ﻿using CardMaga.UI.Card;
 
-public class DialogueFlowZoonOutCard : DialoguesFlow
+public class DialogueFlowZoomingInCard : DialoguesFlow
 {
     protected override void UnsubscribeEvent()
     {

@@ -64,19 +64,20 @@ public class FirstCardDisplayer : MonoBehaviour
         }
     }
 
-    public void ReturnCard()
-    {
-        ReturnCardToHand(_cards[0]);
-        if (OnZoomingOutCard != null)
-            OnZoomingOutCard.Invoke();
-    }
+    //public void ReturnCard()
+    //{
+    //    ReturnCardToHand(_cards[0]);
+        
+    //}
 
     private void ReturnCardToHand(BattleCardUI cardUI)
     {
-        
+        if (OnZoomingOutCard != null)
+            OnZoomingOutCard.Invoke();
         _cards[0].Inputs.ForceResetInputBehaviour();
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
         _battleUIManager.CardUIManager.HandUI.SetToHandState(cardUI);
+        _cards[0].Inputs.DisableClick = true;
     }
 
     public void PutInputBehaviourAfterZoomIn()

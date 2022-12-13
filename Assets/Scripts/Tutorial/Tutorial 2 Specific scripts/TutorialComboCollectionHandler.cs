@@ -57,7 +57,14 @@ namespace CardMaga.UI.Collections
         public void WaitForPlayerEnterCollection(ITokenReciever tokenReciever)
         {
             _token = tokenReciever.GetToken();
-            ComboCollectorEnterButtonTutorialTapDetector.OnButtonPress += ReleaseToken;
+            ComboCollectorEnterButtonTutorialTapDetector.OnButtonPress += InvokeAfterEnterButtonPress;
+        }
+
+        private void InvokeAfterEnterButtonPress()
+        {
+            if (AfterCollectionEnterButtonPress != null)
+                AfterCollectionEnterButtonPress.Invoke();
+            ComboCollectorBackButtonTutorialTapDetector.OnButtonPress += InvokeAfterExitButtonPress;
         }
 
         #endregion
@@ -92,6 +99,13 @@ namespace CardMaga.UI.Collections
             if (OnCollectionExitButton != null)
                 OnCollectionExitButton.Invoke();
             TutorialClickHelper.Instance.ReturnObjects();
+            ReleaseToken();
+        }
+
+        private void InvokeAfterExitButtonPress()
+        {
+            if (AfterCollectionExitButtonPress != null)
+                AfterCollectionExitButtonPress.Invoke();
             ReleaseToken();
         }
 

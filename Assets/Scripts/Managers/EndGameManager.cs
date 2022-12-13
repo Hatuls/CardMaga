@@ -42,7 +42,7 @@ public class EndGameManager : MonoBehaviour
         }
 #endif
         _isInTutorial = !(BattleData.Instance.BattleConfigSO.BattleTutorial == null);
-        _isLeftPlayerWon = BattleData.Instance.PlayerWon;
+        _isLeftPlayerWon = BattleData.Instance.IsPlayerWon;
         _rewardTokenMachine = new TokenMachine(MoveToNextScene);
         _victoryAndDefeat.OpenScreen(_isLeftPlayerWon);
 

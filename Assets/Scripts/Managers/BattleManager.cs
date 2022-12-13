@@ -119,7 +119,7 @@ namespace CardMaga.Battle
             StopAllCoroutines();
             TurnHandler.Start();
 
-            BattleData.Instance.PlayerWon = false;
+            BattleData.Instance.IsPlayerWon = false;
             await Task.Yield();
             OnBattleStarts?.Invoke();
         }

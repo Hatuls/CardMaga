@@ -1,8 +1,7 @@
 ﻿using CardMaga.Input;
 using CardMaga.UI.Visuals;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
+using System;
 
 namespace CardMaga.Tutorial
 {
@@ -15,8 +14,16 @@ namespace CardMaga.Tutorial
     public class TutorialBadge :MonoBehaviour
     {
         [SerializeField] TutorialBadgeVisualHandler _tutorialBadgeVisualHandler;
-
         [SerializeField] private TouchableItem _Input;
+        [SerializeField] public TutorialConfigSO _configSO;
+
+        public event Action<TutorialConfigSO> OnBadgeClicked;
+
+        public void BadgeClicked()
+        {
+            if (OnBadgeClicked != null)
+                OnBadgeClicked.Invoke(_configSO);
+        }
 
         public void Init()
         {
@@ -26,7 +33,7 @@ namespace CardMaga.Tutorial
         public void Completed()
         {
             _tutorialBadgeVisualHandler.Init(BadgeState.Complete);
-            _Input.Lock();
+            _Input.UnLock();
         }
 
         public void Open()
