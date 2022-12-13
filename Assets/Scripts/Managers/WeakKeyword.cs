@@ -28,7 +28,7 @@ namespace CardMaga.Keywords
 
         public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-            KeywordSO.SoundEventSO.PlaySound();
+
 
 
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
@@ -42,6 +42,8 @@ namespace CardMaga.Keywords
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
             InvokeKeywordVisualEffect(!currentPlayer);
             }
+
+            KeywordSO.SoundEventSO.PlaySound();
             InvokeOnKeywordActivated();
         }
 

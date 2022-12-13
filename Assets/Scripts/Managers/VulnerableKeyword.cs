@@ -14,15 +14,13 @@ namespace CardMaga.Keywords
 
         public override void StartTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands)
         {
-
-
             var stat = currentCharacterTurn.StatsHandler.GetStat(KeywordType.Vulnerable);
             if (stat.Amount > 0)
             {
-                var vulnerableKeyword = new KeywordData(KeywordSO, TargetEnum.MySelf, -1, 0);
-                var command = new KeywordCommand(vulnerableKeyword, CommandType.WithPrevious);
-                command.InitKeywordLogic(currentCharacterTurn, this);
+                var command = new StatCommand(stat, -1);
                 gameDataCommands.DataCommands.AddCommand(command);
+
+                if(stat.IsEmpty)
                      InvokeOnKeywordFinished();
             }
         }
