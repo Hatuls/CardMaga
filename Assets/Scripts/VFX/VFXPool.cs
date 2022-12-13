@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using static CardMaga.Battle.Players.TagHelper;
 namespace CardMaga.VFX
 {
     public interface IVFXPool
     {
-        BaseVisualEffect Pull(VisualEffectSO visualEffectSO);
+        BaseVisualEffect Pull(BattleVisualEffectSO visualEffectSO);
     }
 
     public class VFXPool : IDisposable, IVFXPool
@@ -25,21 +25,21 @@ namespace CardMaga.VFX
             _reservedList = new List<BaseVisualEffect>();
         }
 
-        public void PopulatePool(VisualEffectSO type, int amount)
+        public void PopulatePool(BattleVisualEffectSO type, int amount)
         {
             for (int i = 0; i < amount; i++)
                 InstantiateObject(type).Dispose();
 
         }
 
-        public BaseVisualEffect Pull(VisualEffectSO visualEffectSO)
+        public BaseVisualEffect Pull(BattleVisualEffectSO visualEffectSO)
         {
             BaseVisualEffect effect = null;
             if (_reservedList.Count > 0)
             {
                 for (int i = _reservedList.Count - 1; i >= 0; i--)
                 {
-                    if (_reservedList[i].VFXSO == visualEffectSO)
+                    if (_reservedList[i].ContainTag(visualEffectSO))
                     {
                         effect = _reservedList[i];
                         _reservedList.RemoveAt(i);
@@ -51,16 +51,17 @@ namespace CardMaga.VFX
             if (effect == null)
                 effect = InstantiateObject(visualEffectSO);
 
-            effect.gameObject.SetActive(true);
+           
             return effect;
         }
 
-        private BaseVisualEffect InstantiateObject(VisualEffectSO visualEffectSO)
+        private BaseVisualEffect InstantiateObject(BattleVisualEffectSO visualEffectSO)
         {
-            var cache = MonoBehaviour.Instantiate(visualEffectSO.VFXPrefab, _parent);
-            _allPoolObjects.Add(cache);
-            cache.OnDisposed += ReturnBack;
-            return cache;
+
+                var cache = MonoBehaviour.Instantiate(visualEffectSO.VFXPrefab, _parent);
+                _allPoolObjects.Add(cache);
+                cache.OnDisposed += ReturnBack;
+                return cache;
         }
 
         private void ReturnBack(BaseVisualEffect returningEffect)

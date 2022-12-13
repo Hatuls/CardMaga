@@ -24,7 +24,7 @@ namespace CardMaga.Battle.UI
         BuffIconManager BuffIconManager { get; }
         CardUIManager CardUIManager { get; }
         ComboUIManager ComboUIManager { get; }
-        CraftingSlotsUIManager_V4 CraftingSlotsUIManager { get; }
+        CraftingSlotsUIManager CraftingSlotsUIManager { get; }
         VisualCharactersManager VisualCharactersManager { get; }
         BottomPartDeckVisualHandler BottomPartDeckVisualHandler { get; }
         EndTurnButton EndTurnButton { get; }
@@ -59,7 +59,7 @@ namespace CardMaga.Battle.UI
         private BuffIconManager _buffIconManager;
 
         [SerializeField]
-        private CraftingSlotsUIManager_V4 _craftingSlotsUIManager;
+        private CraftingSlotsUIManager _craftingSlotsUIManager;
 
         [SerializeField]
         private VisualCharactersManager _visualCharactersManager;
@@ -137,7 +137,7 @@ namespace CardMaga.Battle.UI
         public StatsUIManager StatsUIManager { get => _statsUIManager; }
         public ComboUIManager ComboUIManager { get => _comboUIManager; }
         public BuffIconManager BuffIconManager { get => _buffIconManager; }
-        public CraftingSlotsUIManager_V4 CraftingSlotsUIManager { get => _craftingSlotsUIManager; }
+        public CraftingSlotsUIManager CraftingSlotsUIManager { get => _craftingSlotsUIManager; }
         public VisualCharactersManager VisualCharactersManager => _visualCharactersManager;
         public IBattleManager BattleDataManager => _battleManager;
         public VFXManager VFXManager => _vfxManager;
@@ -164,6 +164,7 @@ namespace CardMaga.Battle.UI
             IDisposable token = tokenMachine.GetToken();
             foreach (var uiElement in VisualInitializers)
                 uiElement.ExecuteTask(tokenMachine, this);
+
             _gameVisualCommands = new GameVisualCommands(this);
             _visualKeywordsHandler.ExecuteTask(tokenMachine, this);
 
@@ -192,7 +193,7 @@ namespace CardMaga.Battle.UI
             _cardUIManager = FindObjectOfType<CardUIManager>();
             _endTurnButton = FindObjectOfType<EndTurnButton>();
             _statsUIManager = FindObjectOfType<StatsUIManager>();
-            _craftingSlotsUIManager = FindObjectOfType<CraftingSlotsUIManager_V4>();
+            _craftingSlotsUIManager = FindObjectOfType<CraftingSlotsUIManager>();
             _bottomPartDeckVisualHandler = FindObjectOfType<BottomPartDeckVisualHandler>();
             _comboAndDeckCollectionBattleHandler = FindObjectOfType<ComboAndDeckCollectionBattleHandler>();
             _turnCounter = FindObjectOfType<TurnCounter>();

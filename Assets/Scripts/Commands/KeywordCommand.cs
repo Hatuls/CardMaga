@@ -92,4 +92,27 @@ namespace CardMaga.Commands
         }
     }
 
+
+    public class VisualEffectCommand : ISequenceCommand, IPoolable<VisualKeywordCommand>
+    {
+        public CommandType CommandType => throw new NotImplementedException();
+
+        public event Action OnFinishExecute;
+        public event Action<VisualKeywordCommand> OnDisposed;
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Execute()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Undo()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

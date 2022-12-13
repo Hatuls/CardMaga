@@ -31,7 +31,7 @@ namespace CardMaga.Keywords
                 command.InitKeywordLogic(currentCharacterTurn, this);
 
                 gameDataCommands.DataCommands.AddCommand(command);
-
+                InvokeKeywordVisualEffect(currentCharacterTurn.IsLeft);
                 InvokeOnKeywordFinished();
             }
         }
