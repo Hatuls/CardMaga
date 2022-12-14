@@ -1113,6 +1113,56 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383760, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383760, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -61
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383760, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383761, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383763, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_text
+      value: Looking For Opponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383763, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383763, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_margin.x
+      value: 113.332275
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383763, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_margin.z
+      value: -48.571045
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383763, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_isRightToLeft
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717696916898383763, guid: e89ce99093a156f48822acc1b083d392,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1717696916990431376, guid: e89ce99093a156f48822acc1b083d392,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2439,6 +2489,102 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 119
   m_TargetDisplay: 0
+--- !u!1 &1438228165 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1717696916898383761, guid: e89ce99093a156f48822acc1b083d392,
+    type: 3}
+  m_PrefabInstance: {fileID: 1438228158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1438228166
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438228165}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1438228167 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1717696916898383763, guid: e89ce99093a156f48822acc1b083d392,
+    type: 3}
+  m_PrefabInstance: {fileID: 1438228158}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438228165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1438228168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438228165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8f23e2adac52143bb48e299c1d4896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textList:
+  - {fileID: 1438228171}
+  - {fileID: 1438228170}
+  - {fileID: 1438228169}
+  _lookingForOpponentText: {fileID: 1438228167}
+--- !u!114 &1438228169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438228165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aecf60f7dc1fb6043b63413377228411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _newEnteringText: Looking For Opponent . . .
+  _showingTime: 0.5
+--- !u!114 &1438228170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438228165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aecf60f7dc1fb6043b63413377228411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _newEnteringText: Looking For Opponent . .
+  _showingTime: 0.5
+--- !u!114 &1438228171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438228165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aecf60f7dc1fb6043b63413377228411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _newEnteringText: Looking For Opponent .
+  _showingTime: 0.5
 --- !u!1 &1453235091
 GameObject:
   m_ObjectHideFlags: 0
