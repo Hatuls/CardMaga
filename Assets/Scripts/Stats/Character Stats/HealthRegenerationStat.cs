@@ -30,6 +30,8 @@ namespace Characters.Stats
         public override void StartTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands)
         {
             BaseStat stat = currentCharacterTurn.StatsHandler.GetStat(KeywordType.Regeneration);
+            if (stat.IsEmpty)
+                return;
             // Heal
             var keyword = new KeywordData(_healLogic.KeywordSO, TargetEnum.MySelf, stat.Amount, 0);
             var command = new KeywordCommand(keyword, CommandType.WithPrevious);
