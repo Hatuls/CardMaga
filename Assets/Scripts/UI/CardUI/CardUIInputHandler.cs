@@ -34,11 +34,12 @@ namespace CardMaga.Input
             _cardZoomHandler.OnZoomInCompleted  -= _zoomInScale.SetResolution;
             _cardZoomHandler.OnZoomOutCompleted -= _zoomInScale.Reset;
         }
-
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             _zoomInScale.DrawGizmos();
         }
+#endif
     }
 
 
@@ -60,12 +61,13 @@ namespace CardMaga.Input
         private RectTransform _rectTransform;
         [SerializeField]
         private RectTransform _imageRectTransform;
+        [SerializeField]
+        private Vector3 _offsetPosition;
 #if UNITY_EDITOR
         [SerializeField]
         Color _gizmosColor;
 
-        [SerializeField]
-        private Vector3 _offsetPosition;
+   
         
         public Color GizmosColor =>_gizmosColor;
         public void DrawGizmos()
