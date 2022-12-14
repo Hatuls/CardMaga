@@ -25,8 +25,8 @@ public class FirstCardDisplayer : MonoBehaviour
         _battleUIManager = BattleUiManager.Instance;
         _cards = _battleUIManager.HandUI.GetCardUIFromHand();
         InputBehaviour<BattleCardUI> tutorialZoomOutInputBehaviour = new InputBehaviour<BattleCardUI>();
-        tutorialZoomOutInputBehaviour.OnClick += ZoomInCardInput;
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomOutInputBehaviour);
+        tutorialZoomOutInputBehaviour.OnClick += ZoomInCardInput;
         Debug.Log(_cards[0].Inputs.CurrentInputBehaviourState);
     }    
         
@@ -40,9 +40,8 @@ public class FirstCardDisplayer : MonoBehaviour
     {
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.MoveToZoomPosition(_cards[0]);
         InputBehaviour<BattleCardUI> tutorialZoomInInputBehaviour = new InputBehaviour<BattleCardUI>();
-        
-        tutorialZoomInInputBehaviour.OnClick += MoveNextDialogues;
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomInInputBehaviour);
+        tutorialZoomInInputBehaviour.OnClick += MoveNextDialogues;
     }
 
     private void MoveNextDialogues(BattleCardUI cardUI)
@@ -63,12 +62,6 @@ public class FirstCardDisplayer : MonoBehaviour
             _cards[0].Inputs.TrySetInputBehaviour(returnCardInputBehaviour);
         }
     }
-
-    //public void ReturnCard()
-    //{
-    //    ReturnCardToHand(_cards[0]);
-        
-    //}
 
     private void ReturnCardToHand(BattleCardUI cardUI)
     {
