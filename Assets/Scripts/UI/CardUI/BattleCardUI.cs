@@ -57,14 +57,15 @@ namespace CardMaga.UI.Card
 
         #endregion
         
-        public void Show()
+        public override void Show()
         {
             OnShow?.Invoke();
             gameObject.SetActive(true);
         }
 
-        public void Hide()
+        public override void Hide()
         {
+            OnDisposed?.Invoke(this);
             OnHide?.Invoke();
             if(gameObject.activeSelf)
              gameObject.SetActive(false);

@@ -17,7 +17,7 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour where T : MonoBeh
 
     protected void SetState(InputBehaviourState state, BattleCardUI battleCardUI)
     {
-        if (_currentState != null)
+        if (_currentState != null && state != battleCardUI.Inputs.CurrentInputBehaviourState)
             _currentState.ExitState(battleCardUI);
 
         _currentState = _handUIStates[state];

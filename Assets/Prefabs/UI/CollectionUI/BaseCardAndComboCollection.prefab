@@ -339,10 +339,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _startInCard: 0
-  _deckCollection: {fileID: 0}
-  _comboCollection: {fileID: 0}
+  _deckCollection: {fileID: 576630757889732677}
+  _comboCollection: {fileID: 8197360291352039112}
   _buttons:
   - {fileID: 6524933328122020912}
+  _title: {fileID: 2011771396430853401}
 --- !u!1 &2011771397023287076
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,20 +757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07050d2c847428748904f016ec6419ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _comboCollectionExitButton: {fileID: 0}
---- !u!114 &2011771397808765807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6198580622669852906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07050d2c847428748904f016ec6419ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _comboCollectionExitButton: {fileID: 0}
+  _comboCollectionExitButton: {fileID: 4813750195780217508}
 --- !u!114 &2011771396316379419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,6 +789,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   DisableHold: 1
+  DisableClick: 0
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0
@@ -836,6 +825,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   DisableHold: 1
+  DisableClick: 0
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0
@@ -1807,6 +1797,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 986291517997e5844af92d82cb21aee5, type: 3}
+--- !u!1 &576630757889732677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1435423372184394067, guid: 986291517997e5844af92d82cb21aee5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2011771396669892886}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &576630757889732682 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1435423372184394076, guid: 986291517997e5844af92d82cb21aee5,
@@ -2399,6 +2395,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddc9b3e8c1ad6b5488b03de0c25f7505, type: 3}
+--- !u!1 &8197360291352039112 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7649892478470960329, guid: ddc9b3e8c1ad6b5488b03de0c25f7505,
+    type: 3}
+  m_PrefabInstance: {fileID: 2011771397023463937}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8197360291352039119 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7649892478470960334, guid: ddc9b3e8c1ad6b5488b03de0c25f7505,
@@ -2668,3 +2670,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2011771397808765811}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4813750195780217508 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+    type: 3}
+  m_PrefabInstance: {fileID: 2011771397808765811}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6198580622669852906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acecf784afbabbc49adca62c2d3a2738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

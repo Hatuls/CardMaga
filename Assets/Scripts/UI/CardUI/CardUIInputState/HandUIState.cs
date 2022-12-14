@@ -54,11 +54,8 @@ namespace CardMaga.UI
 
         public override void EnterState(BattleCardUI battleCardUI)
         {
-            if (!_tableCardSlot.ContainCardUIInSlots(battleCardUI, out CardSlot cardSlot))
-            {
-                _tableCardSlot.AddCardUIToCardSlot(battleCardUI);
-            }
-
+            _tableCardSlot.AddCardUIToCardSlot(battleCardUI);
+            
             if (!battleCardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
             {
                 Debug.LogError(name + "Failed To Set InputIdentificationSO Behaviour");
@@ -117,6 +114,33 @@ namespace CardMaga.UI
 
                 yield return _waitForCardDrawnDelay;
             }
+
+            onComplete?.Invoke();
+            yield return null;
+            if (OnAllCardsDrawnAndAlign != null)
+                OnAllCardsDrawnAndAlign.Invoke();
+        }
+        
+        private IEnumerator MoveCardToHandPos(CardSlot cardSlots, Action onComplete = null)
+        {
+            CardSlot currentSlot = cardSlots;
+            
+                if (!currentSlot.IsHaveValue)
+                    yield break;
+
+                BattleCardUI battleCardUI = currentSlot.BattleCardUI;
+                battleCardUI.transform.SetAsLastSibling();
+                var sequence = battleCardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo)//Plaster!!!
+                    .Join(battleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo))
+                    .OnComplete(AlignCards);
+
+                if (battleCardUI.CurrentSequence != null && !battleCardUI.CurrentSequence.IsComplete())
+                    battleCardUI.CurrentSequence.Join(sequence);
+                else
+                    battleCardUI.CurrentSequence = sequence;
+
+                yield return _waitForCardDrawnDelay;
+            
 
             onComplete?.Invoke();
             yield return null;
@@ -189,6 +213,7 @@ namespace CardMaga.UI
         public void AddCardUIToCardSlot(params BattleCardUI[] cardUI)
         {
             var isNoMoreSpace = _cardSlots.Count == 0;
+            Debug.Log(cardUI[0].BattleCardData.CardInstance.InstanceID);
 
             for (var i = 0; i < cardUI.Length; i++) //loop over all the received CardUIs and Assign to  cardslot 
             {

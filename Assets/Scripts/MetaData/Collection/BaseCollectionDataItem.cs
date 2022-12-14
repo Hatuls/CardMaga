@@ -37,7 +37,7 @@ namespace CardMaga.MetaData.Collection
         public void AddItemToCollection(T itemData)
         {
             if (!ItemReference.Equals(itemData)) return;
-            _numberOfInstant--;
+           _numberOfInstant--;
             Debug.Log(_numberOfInstant);
             OnSuccessfulAddItemToCollection?.Invoke(ItemReference);
         }
