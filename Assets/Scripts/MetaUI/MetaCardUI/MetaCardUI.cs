@@ -49,6 +49,7 @@ namespace CardMaga.MetaUI
         {
             _cardVisuals.Init(data.BattleCardData);
             _cardInstance = data.CardInstance;
+            //_cardVisuals.CardZoomHandler.ForceReset();//plaster
         }
 
         public bool Equals(MetaCardUI other)

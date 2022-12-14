@@ -138,6 +138,7 @@ namespace CardMaga.UI
         {
             for (var i = 0; i < cards.Length; i++)
             {
+                Debug.Log(cards[i].BattleCardData.CardInstance.InstanceID);
                 BattleCardUI battleCardUI = cards[i];
                 battleCardUI.DOKill(false);
                 battleCardUI.RectTransform.SetPosition(_drawPos);

@@ -37,7 +37,7 @@ namespace CardMaga.MetaData.Collection
             {
                 TokenMachine tokenMachine = new TokenMachine(SuccessUpdateDeck);
                 _accountDataAccess.UpdateDeck(metaDeckData,tokenMachine);
-                _deckBuilder.DisposeDeck();
+                DiscardDeck();
                 return true;
             }
             
@@ -48,6 +48,11 @@ namespace CardMaga.MetaData.Collection
         private void SuccessUpdateDeck()
         {
             OnSuccessUpdateDeck?.Invoke();
+        }
+
+        public void DiscardDeck()
+        {
+            _deckBuilder.DisposeDeck();
         }
 
         public void Dispose()

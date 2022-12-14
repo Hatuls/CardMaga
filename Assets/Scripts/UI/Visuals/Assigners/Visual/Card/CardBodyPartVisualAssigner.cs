@@ -9,10 +9,10 @@ namespace CardMaga.UI.Visuals
     public class CardBodyPartVisualAssigner : BaseVisualAssigner<BattleCardData>
     {
         [SerializeField] BodyPartCardVisualSO _bodyPartCardVisualSO;
-
+        
         [Tooltip("Attack - 0, Defense - 1, Utility - 2")]
         [SerializeField] GameObject[] _bodyPartActivationObject;
-
+        
         [SerializeField] Image[] _bGImages;
         [SerializeField] Image[] _innerBGImages;
         [SerializeField] Image[] _bodyPartsImages;

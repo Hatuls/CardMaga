@@ -14,15 +14,17 @@ namespace CardMaga.Managers.GameManager
         
         private void Start()
         {
-         //   OnApplicationStart?.Invoke();
-           _tokenMachine = new TokenMachine( OnFirstEnterTheGame);
+       
+            //   OnApplicationStart?.Invoke();
+            _tokenMachine = new TokenMachine( OnFirstEnterTheGame);
            
            using (_tokenMachine.GetToken())
            {
                if (AudioManager.Instance == null)
                    Debug.Log("Creating Audio Manager");
-
-               OnEnteringTheGame?.Invoke(_tokenMachine);
+                GC.Collect();
+                FireBaseHandler.Init();
+                OnEnteringTheGame?.Invoke(_tokenMachine);
            }
         }
         

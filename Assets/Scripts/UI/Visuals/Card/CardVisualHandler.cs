@@ -64,6 +64,7 @@ namespace CardMaga.UI
             base.Init(battleCardData);
             //Zoom
             _cardZoomHandler.SetCardType(battleCardData);
+            _cardZoomHandler.ForceReset();
         }
         public override void CheckValidation()
         {

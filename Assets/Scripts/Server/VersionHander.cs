@@ -1,11 +1,12 @@
 ﻿using CardMaga.Playfab;
+using CardMaga.Tools.Json;
 using PlayFab;
 using PlayFab.ClientModels;
 using ReiTools.TokenMachine;
 using System;
 using TMPro;
 using UnityEngine;
-using CardMaga.Tools.Json;
+
 public class VersionHander : MonoBehaviour
 {
     public static event Action<PlayFabError> OnTitleDataRecievedFailed;
@@ -19,7 +20,7 @@ public class VersionHander : MonoBehaviour
 
     [SerializeField]
     GameObject _versionUI;
-    [SerializeField] 
+    [SerializeField]
     private TextMeshProUGUI _myVersion;
     [SerializeField]
     private HyperlinksSO _hyperlinksSO;
@@ -53,16 +54,17 @@ public class VersionHander : MonoBehaviour
 
 
     public void Init(ITokenReciever token)
-    {
-        FireBaseHandler.Init(token);
+    {   
+        _token = token.GetToken();
+    
         UnityAnalyticHandler.SendEvent(Application.version);
 
-        _token = token.GetToken();
 
         if (!_ignoreServerVersion)
             RequestVersions();
         else
             VersionMatch(null);
+
     }
 
 
@@ -90,7 +92,7 @@ public class VersionHander : MonoBehaviour
         {
             // Updating the version in the player
 
-       
+
             _playfabManager.SendUserData(
                 new System.Collections.Generic.Dictionary<string, string>
                 {
@@ -98,7 +100,7 @@ public class VersionHander : MonoBehaviour
                 },
                 VersionMatch,
                 OnFailedToUpdateUsersVersion);
-     
+
         }
         else
         {

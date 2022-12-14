@@ -25,6 +25,11 @@ namespace CardMaga.MetaUI
 
         public void Dispose()
         {
+            OnTryAddToDeck -= _metaDataCombo.TryAddItemToCollection;
+            OnTryRemoveFromDeck -= _metaDataCombo.TryRemoveItemFromCollection;
+            _metaDataCombo.OnSuccessfulAddItemToCollection -= SuccessAddToCollection;
+            _metaDataCombo.OnSuccessfulRemoveItemFromCollection -= SuccessRemoveFromCollection;
+            
             OnDisposed?.Invoke(this);
             Hide();
         }
@@ -36,25 +41,39 @@ namespace CardMaga.MetaUI
             _metaDataCombo = data;
             _comboVisual.Init(data.ItemReference.BattleComboData);
             
-            OnTryAddToDeck += data.TryAddItemToCollection;
-            OnTryRemoveFromDeck += data.TryRemoveItemFromCollection;
-            data.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
-            data.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
+            OnTryAddToDeck += _metaDataCombo.TryAddItemToCollection;
+            OnTryRemoveFromDeck += _metaDataCombo.TryRemoveItemFromCollection;
+            _metaDataCombo.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
+            _metaDataCombo.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
+            
+            UpdateVisual();
+        }
+
+        private void UpdateVisual()
+        {
+            Enable();
+
+            if (_metaDataCombo.IsNotMoreInstants)
+            {
+                DisablePlus();
+                return;
+            }
+
+            if (_metaDataCombo.IsMaxInstants)
+            {
+                DisableMins();
+                return;
+            }
         }
 
         public override void SuccessAddToCollection(MetaComboData itemData)
         {
-            Debug.Log("Add combo to Deck");
+            UpdateVisual();
         }
 
         public override void SuccessRemoveFromCollection(MetaComboData itemData)
         {
-            Debug.Log("Remove Combo From Deck");
-        }
-
-        private void OnDisable()
-        {
-            //Dispose();
+            UpdateVisual();
         }
     }
 }

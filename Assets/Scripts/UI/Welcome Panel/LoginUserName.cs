@@ -46,10 +46,14 @@ namespace CardMaga.UI
         {
             _loginToken = tokenReciever.GetToken();
             var account = AccountManager.Instance;
-            if (account.LoginResult.NewlyCreated || account.DisplayName.Length < 1)
+            if (account.LoginResult.NewlyCreated)
                 Show();
             else
-                ProceedNext();
+            {
+                var tokenMAchine = new TokenMachine(ProceedNext);
+                GetUserName(tokenMAchine);
+            }
+
         }
 
         #region Private 
@@ -80,7 +84,37 @@ namespace CardMaga.UI
             if (_loginToken != null)
                 _loginToken.Dispose();
         }
-#endregion
+        IDisposable _tokenName;
+        private void GetUserName(ITokenReciever tokenMachine)
+        {
+            _tokenName = tokenMachine.GetToken();
+            var request = new GetPlayerProfileRequest
+            {
+                AuthenticationContext = AccountManager.Instance.LoginResult.AuthenticationContext,
+                PlayFabId = AccountManager.Instance.PlayfabID,
+                ProfileConstraints = new PlayerProfileViewConstraints()
+                {
+                    ShowDisplayName = true,
+                }
+            };
+            PlayFab.PlayFabClientAPI.GetPlayerProfile(request, OnSuccessReceivingName, OnFailedToReceiveName);
+        }
+
+        private void OnFailedToReceiveName(PlayFabError obj)
+        {
+            AccountManager.Instance.DisplayName = "Error";
+            throw new Exception("Error while trying to retrieve name\nError: " + obj.ErrorMessage);
+           // _tokenName.Dispose();
+        }
+
+        private void OnSuccessReceivingName(GetPlayerProfileResult obj)
+        {
+
+            AccountManager.Instance.DisplayName = obj.PlayerProfile.DisplayName;
+            _tokenName.Dispose();
+            
+        }
+        #endregion
     }
 
     public class SetNameRequest : BaseServerRequest
