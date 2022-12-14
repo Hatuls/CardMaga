@@ -1,4 +1,5 @@
-﻿using Battle.Data;
+﻿using Account;
+using Battle.Data;
 using FMODUnity;
 using System;
 using UnityEngine;
@@ -19,7 +20,13 @@ namespace CardMaga.UI.Settings
         {
             _musicParameter.Init();
             _sfxParameter.Init();
-            if (BattleData.Instance.BattleConfigSO.IsTutorial)
+            int surrenderTutorialIndex = 2;
+
+            bool isBattleConfigIsTutorial = BattleData.Instance.BattleConfigSO.IsTutorial;
+            bool isAccountActive = AccountManager.Instance != null;
+
+           // if ( AccountManager.Instance.Data.AccountTutorialData.TutorialProgress>= surrenderTutorialIndex)
+           if(isBattleConfigIsTutorial && isAccountActive && AccountManager.Instance.Data.AccountTutorialData.TutorialProgress < surrenderTutorialIndex)
                 Array.ForEach(_surrenderGO, x => x.SetActive(false));
         }
         public override void ShowSettings()
