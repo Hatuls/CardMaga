@@ -213,7 +213,6 @@ namespace CardMaga.UI
         public void AddCardUIToCardSlot(params BattleCardUI[] cardUI)
         {
             var isNoMoreSpace = _cardSlots.Count == 0;
-            Debug.Log(cardUI[0].BattleCardData.CardInstance.InstanceID);
 
             for (var i = 0; i < cardUI.Length; i++) //loop over all the received CardUIs and Assign to  cardslot 
             {
