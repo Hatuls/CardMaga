@@ -2795,17 +2795,17 @@ PrefabInstance:
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
@@ -2821,17 +2821,17 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1808335361}
+      objectReference: {fileID: 1808335362}
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1598853259}
+      objectReference: {fileID: 1163064100}
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1163064100}
+      objectReference: {fileID: 1598853258}
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Target
@@ -2860,12 +2860,12 @@ PrefabInstance:
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: ExitAndDiscardDeck
       objectReference: {fileID: 0}
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: DiscardMainDeck
+      value: SetActive
       objectReference: {fileID: 0}
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
@@ -2881,6 +2881,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
+        type: 3}
+      propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6846959295231677963, guid: d2bb90233ad7b3b4580da113630bcbb2,
         type: 3}
@@ -5657,6 +5662,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   DisableHold: 1
+  DisableClick: 0
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0

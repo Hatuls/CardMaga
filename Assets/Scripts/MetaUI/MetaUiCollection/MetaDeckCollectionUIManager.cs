@@ -18,6 +18,7 @@ namespace CardMaga.MetaUI.CollectionUI
     public class MetaDeckCollectionUIManager : MonoBehaviour , ISequenceOperation<MetaUIManager>
     {
         [SerializeField] private UnityEvent OnExitDeckEditing;
+        
         [SerializeField] private MetaCardUI _cardPrefabRef;
         [SerializeField] private MetaComboUI _comboPrefabRef;
         [SerializeField] private MetaCollectionCardUI _metaCollectionCardPrefabRef;
@@ -92,18 +93,14 @@ namespace CardMaga.MetaUI.CollectionUI
 
         private void OnEnable()
         {
+            DiscardDeck();
             SetDeckToEdit(_metaAccountData.CharacterDatas.CharacterData.MainDeck);
-
-            if (_isFirstTime)
-            {
-                SetDeckToEdit(_metaAccountData.CharacterDatas.CharacterData.MainDeck);
-                _isFirstTime = false;
-            }
         }
 
-        private void OnDisable()
+        private void Start()
         {
-            DiscardDeck();
+            if (_isFirstTime)
+                _isFirstTime = false;
         }
 
         private void SetDeckToEdit(MetaDeckData metaDeckData)
@@ -113,12 +110,6 @@ namespace CardMaga.MetaUI.CollectionUI
 
             _deckName.SetText(metaDeckData.DeckName);//all plaster
             
-            metaCardUICollectionScrollPanel.RemoveAllObjectsFromPanel();
-            metaComboUICollectionScrollPanel.RemoveAllObjectsFromPanel();
-            
-            _metaComboUiContainer.Reset();
-            _metaCardUIContainer.Reset();
-
             _metaCollectionCardUIs =  _cardCollectionVisualRequester.GetVisual(_accountDataCollectionHelper.CollectionCardDatas);
             _metaComboCollectionUIs =
                 _comboCollectionVisualRequester.GetVisual(_accountDataCollectionHelper.CollectionComboDatas);
@@ -138,6 +129,28 @@ namespace CardMaga.MetaUI.CollectionUI
             foreach (var comboData in metaDeckData.Combos)
                 AddComboUI(comboData);
         }
+        
+        private void DiscardDeck()
+        {
+            if (_isFirstTime)
+                return;
+
+            metaCardUICollectionScrollPanel.RemoveAllObjectsFromPanel();
+            metaComboUICollectionScrollPanel.RemoveAllObjectsFromPanel();
+            
+            _metaComboUiContainer.Reset();
+            _metaCardUIContainer.Reset();
+            
+            foreach (var collectionCardUI in _metaCollectionCardUIs)
+            {
+                collectionCardUI.Dispose();
+            }
+
+            foreach (var collectionUICombo in _metaComboCollectionUIs)
+            {
+                collectionUICombo.Dispose();
+            }
+        }
 
         public int Priority => 1;
 
@@ -150,19 +163,6 @@ namespace CardMaga.MetaUI.CollectionUI
             _metaCardUIContainer.TryAddObject(cache);
             cache.AssignVisual(metaCardData);
             cache.Show();
-        }
-
-        private void DiscardDeck()
-        {
-            foreach (var collectionCardUI in _metaCollectionCardUIs)
-            {
-                collectionCardUI.Dispose();
-            }
-
-            foreach (var collectionUICombo in _metaComboCollectionUIs)
-            {
-                collectionUICombo.Dispose();
-            }
         }
 
         private void RemoveCardUI(MetaCardData metaCardData)
@@ -193,6 +193,13 @@ namespace CardMaga.MetaUI.CollectionUI
         
         public void TryExitDeckEditing() => _collectionData.ExitDeckEditing();
         public void ExitDeckEditing() => OnExitDeckEditing.Invoke();
+
+        public void ExitAndDiscardDeck()
+        {
+            _collectionData.DiscardDeck();
+            DiscardDeck();
+            gameObject.SetActive(false);
+        }
         
         private void OnDestroy()
         {

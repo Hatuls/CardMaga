@@ -25,6 +25,11 @@ namespace CardMaga.MetaUI
 
         public void Dispose()
         {
+            OnTryAddToDeck -= _metaDataCombo.TryAddItemToCollection;
+            OnTryRemoveFromDeck -= _metaDataCombo.TryRemoveItemFromCollection;
+            _metaDataCombo.OnSuccessfulAddItemToCollection -= SuccessAddToCollection;
+            _metaDataCombo.OnSuccessfulRemoveItemFromCollection -= SuccessRemoveFromCollection;
+            
             OnDisposed?.Invoke(this);
             Hide();
         }
@@ -36,10 +41,10 @@ namespace CardMaga.MetaUI
             _metaDataCombo = data;
             _comboVisual.Init(data.ItemReference.BattleComboData);
             
-            OnTryAddToDeck += data.TryAddItemToCollection;
-            OnTryRemoveFromDeck += data.TryRemoveItemFromCollection;
-            data.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
-            data.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
+            OnTryAddToDeck += _metaDataCombo.TryAddItemToCollection;
+            OnTryRemoveFromDeck += _metaDataCombo.TryRemoveItemFromCollection;
+            _metaDataCombo.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
+            _metaDataCombo.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
         }
 
         public override void SuccessAddToCollection(MetaComboData itemData)
@@ -50,11 +55,6 @@ namespace CardMaga.MetaUI
         public override void SuccessRemoveFromCollection(MetaComboData itemData)
         {
             Debug.Log("Remove Combo From Deck");
-        }
-
-        private void OnDisable()
-        {
-            //Dispose();
         }
     }
 }
