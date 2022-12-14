@@ -45,16 +45,35 @@ namespace CardMaga.MetaUI
             OnTryRemoveFromDeck += _metaDataCombo.TryRemoveItemFromCollection;
             _metaDataCombo.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
             _metaDataCombo.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
+            
+            UpdateVisual();
+        }
+
+        private void UpdateVisual()
+        {
+            Enable();
+
+            if (_metaDataCombo.IsNotMoreInstants)
+            {
+                DisablePlus();
+                return;
+            }
+
+            if (_metaDataCombo.IsMaxInstants)
+            {
+                DisableMins();
+                return;
+            }
         }
 
         public override void SuccessAddToCollection(MetaComboData itemData)
         {
-            Debug.Log("Add combo to Deck");
+            UpdateVisual();
         }
 
         public override void SuccessRemoveFromCollection(MetaComboData itemData)
         {
-            Debug.Log("Remove Combo From Deck");
+            UpdateVisual();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace CardMaga.MetaUI.CollectionUI
         [SerializeField] private MetaCollectionCardUI _metaCollectionCardPrefabRef;
         [SerializeField] private MetaCollectionUICombo _collectionUIComboPrefabRef;
         
-        [SerializeField] private BasicFadeInPopup _popup;
+        [SerializeField] private ClickHelper _clickHelper;
         
         [SerializeField] private MetaCollectionDataManager _collectionData;
         
@@ -83,7 +83,7 @@ namespace CardMaga.MetaUI.CollectionUI
             _deckName.OnValueChange += _deckBuilder.TryEditDeckName;
 
             _collectionData.OnSuccessUpdateDeck += ExitDeckEditing;
-            _collectionData.OnFailedUpdateDeck += _popup.Enter;
+            _collectionData.OnFailedUpdateDeck += _clickHelper.Open;
             
             _deckBuilder.OnSuccessCardAdd += AddCardUI;
             _deckBuilder.OnSuccessCardRemove += RemoveCardUI;
@@ -211,7 +211,7 @@ namespace CardMaga.MetaUI.CollectionUI
             _deckBuilder.OnSuccessComboRemove -= RemoveComboUI;
             
             _collectionData.OnSuccessUpdateDeck -= ExitDeckEditing;
-            _collectionData.OnFailedUpdateDeck -= _popup.Enter;
+            _collectionData.OnFailedUpdateDeck += _clickHelper.Open;
         }
     }
 }

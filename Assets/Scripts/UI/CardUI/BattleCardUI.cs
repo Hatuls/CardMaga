@@ -35,7 +35,6 @@ namespace CardMaga.UI.Card
         
         public void AssignVisual(BattleCardData data)
         {
-            Debug.Log("AssingVisual " + data.CardInstance.InstanceID);
             _battleCardData = data;
             CardVisuals.Init(data);
         }
