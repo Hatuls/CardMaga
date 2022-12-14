@@ -1,10 +1,9 @@
 ﻿using CardMaga.Battle.UI;
+using CardMaga.Input;
 using CardMaga.UI.Card;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using CardMaga.Input;
-using System;
 
 public class FirstCardDisplayer : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public event Action OnZoomingOutCard;
     public event Action OnLoadCardOnPanelSecondsTime;
-    public IReadOnlyList<BattleCardUI> FirstCard { get => _cards;}
+    public IReadOnlyList<BattleCardUI> FirstCard { get => _cards; }
 
     public void GetCard()
     {
@@ -28,8 +27,8 @@ public class FirstCardDisplayer : MonoBehaviour
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomOutInputBehaviour);
         tutorialZoomOutInputBehaviour.OnClick += ZoomInCardInput;
         Debug.Log(_cards[0].Inputs.CurrentInputBehaviourState);
-    }    
-        
+    }
+
 
     public void LoadCardOnPanel()
     {
@@ -54,13 +53,13 @@ public class FirstCardDisplayer : MonoBehaviour
 
         else if (_dialoguesFlow5.gameObject.activeSelf)
             _dialoguesFlow5.MoveNextDialogues();
-
-        else
+            else
         {
             InputBehaviour<BattleCardUI> returnCardInputBehaviour = new InputBehaviour<BattleCardUI>();
             returnCardInputBehaviour.OnClick += ReturnCardToHand;
             _cards[0].Inputs.TrySetInputBehaviour(returnCardInputBehaviour);
         }
+
     }
 
     private void ReturnCardToHand(BattleCardUI cardUI)
@@ -102,7 +101,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
     private void OnDestroy()
     {
-        
+
     }
 
 }
