@@ -55,11 +55,11 @@ public class TutorialManager : MonoBehaviour
         if (_accountTutorialData.IsCompletedTutorial) //Check if completed
             return;
 
-        if (_accountTutorialData.TutorialProgress == 0 || BattleData.Instance == null)
+        if (BattleData.Instance == null)
             return;
 
-        else
-        {
+       
+        
             for (int i = 0; i < _accountTutorialData.TutorialProgress; i++) //Check you coming back from previous tutorial
             {
                 if (BattleData.Instance.BattleConfigSO == _badges[i]._configSO.BattleConfig)
@@ -73,7 +73,7 @@ public class TutorialManager : MonoBehaviour
 
             else
                 UpdateCurrentBattleConfig();
-        }
+        
     }
 
     private void UpdateBadgesForNewAccount()
