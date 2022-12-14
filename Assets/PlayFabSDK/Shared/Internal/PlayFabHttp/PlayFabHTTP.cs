@@ -58,7 +58,7 @@ namespace PlayFab.Internal
             if (string.IsNullOrEmpty(PlayFabSettings.TitleId))
                 throw new PlayFabException(PlayFabExceptionCode.TitleNotSet, "You must set PlayFabSettings.TitleId before making API Calls.");
             var transport = PluginManager.GetPlugin<ITransportPlugin>(PluginContract.PlayFab_Transport);
-            if (transport.IsInitialized)  
+            if (transport.IsInitialized)
                 return;
 
             transport.Initialize();
