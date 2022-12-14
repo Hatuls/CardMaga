@@ -224,7 +224,8 @@ namespace Battle
 
         private void LoadSounds(string[] row)
         {
-            string folderPath = string.Concat("Audio/Characters/", _characterName, "/");
+            string name = "Chiara"; // this is temp please fix the folders of the sounds to be based on the name of the character
+            string folderPath = string.Concat("Audio/Characters/", name, "/");
 
             const int IndexSoundOnAttack = 17;
             const int IndexDamageSound = 18;

@@ -48,11 +48,6 @@ namespace PlayFab
             PlayFabHttp.MakeApiCall("/Client/AcceptTrade", request, AuthType.LoginSession, resultCallback, errorCallback, customData, extraHeaders, context, callSettings);
         }
 
-        public static void UpdateUserTitleDisplayName()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Adds the PlayFab user, based upon a match against a supplied unique identifier, to the friend list of the local user. At
         /// least one of FriendPlayFabId,FriendUsername,FriendEmail, or FriendTitleDisplayName should be initialized.
@@ -66,7 +61,6 @@ namespace PlayFab
 
             PlayFabHttp.MakeApiCall("/Client/AddFriend", request, AuthType.LoginSession, resultCallback, errorCallback, customData, extraHeaders, context, callSettings);
         }
-
 
         /// <summary>
         /// Adds the specified generic service identifier to the player's PlayFab account. This is designed to allow for a PlayFab
