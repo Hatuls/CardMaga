@@ -5,11 +5,13 @@ using UnityEngine;
 
 namespace CardMaga.UI
 {
-    public abstract class BaseCardVisualHandler : MonoBehaviour, IInitializable<BattleCardData>
+    public abstract class BaseCardVisualHandler : MonoBehaviour, IInitializable<BattleCardData>, IZoomableObject
     {
-        public abstract CardZoomHandler CardZoomHandler { get; }
+        public abstract IZoomable ZoomHandler { get; }
+     
         public abstract BaseTextAssignerHandler<BattleCardData> ComboTextAssignerHandler { get; }
         public abstract BaseVisualAssignerHandler<BattleCardData> ComboVisualAssignerHandler { get; }
+
 
         public virtual void SetExecutedCardVisuals()
         {

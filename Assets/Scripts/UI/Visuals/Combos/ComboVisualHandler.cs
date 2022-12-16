@@ -16,6 +16,7 @@ namespace CardMaga.UI.Combos
         [SerializeField] ComboVisualAssignerHandler _comboVisualAssignerHandler;
         public override BaseVisualAssignerHandler<BattleComboData> ComboVisualAssignerHandler => _comboVisualAssignerHandler;
         public override BaseTextAssignerHandler<BattleComboData> ComboTextAssignerHandler => _comboTextAssignerHandler;
+        public CardVisualHandler ComboCard => _comboCard;
 #if UNITY_EDITOR
         [FormerlySerializedAs("_testCombo")]
         [Header("Test")]

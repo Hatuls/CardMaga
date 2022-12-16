@@ -66,6 +66,8 @@ namespace CardMaga.VFX
 
         private void ReturnBack(BaseVisualEffect returningEffect)
         {
+            if (returningEffect == null)
+                return;
             returningEffect.transform.SetParent(_parent);
             _reservedList.Add(returningEffect);
             returningEffect.gameObject.SetActive(false);

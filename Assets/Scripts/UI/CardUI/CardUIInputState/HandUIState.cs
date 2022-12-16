@@ -55,7 +55,8 @@ namespace CardMaga.UI
         public override void EnterState(BattleCardUI battleCardUI)
         {
             _tableCardSlot.AddCardUIToCardSlot(battleCardUI);
-            
+
+
             if (!battleCardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
             {
                 Debug.LogError(name + "Failed To Set InputIdentificationSO Behaviour");
@@ -105,6 +106,7 @@ namespace CardMaga.UI
                 battleCardUI.transform.SetAsLastSibling();
                 var sequence = battleCardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo)//Plaster!!!
                 .Join(battleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo))
+                .AppendCallback(battleCardUI.ZoomHandler.ForceReset)
                 .OnComplete(AlignCards);
 
                 if (battleCardUI.CurrentSequence != null && !battleCardUI.CurrentSequence.IsComplete())
@@ -119,6 +121,7 @@ namespace CardMaga.UI
             yield return null;
             if (OnAllCardsDrawnAndAlign != null)
                 OnAllCardsDrawnAndAlign.Invoke();
+
         }
         
         private IEnumerator MoveCardToHandPos(CardSlot cardSlots, Action onComplete = null)
@@ -149,7 +152,11 @@ namespace CardMaga.UI
         }
 
      
-        private void AlignCards() => OnCardDrawnAndAlign?.Invoke();
+        private void AlignCards()
+        {
+         
+            OnCardDrawnAndAlign?.Invoke();
+        } 
         #endregion
 
         public IReadOnlyList<BattleCardUI> CardsUI

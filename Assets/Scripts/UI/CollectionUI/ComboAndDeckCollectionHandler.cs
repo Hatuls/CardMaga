@@ -5,15 +5,21 @@ using CardMaga.ObjectPool;
 using CardMaga.UI.Card;
 using CardMaga.UI.Combos;
 using CardMaga.UI.ScrollPanel;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CardMaga.UI.Collections
 {
     public class ComboAndDeckCollectionHandler : MonoBehaviour
     {
+        public event Action<IReadOnlyList<BattleCardUI>> OnBattleCardUIShown;
+        public event Action<IReadOnlyList<BattleComboUI>> OnBattleComboUIShown;
+
         [SerializeField] private BattleComboUI _battleComboUI;
         [SerializeField] private BattleCardUI _battleCardUI;
-        [Header("Scripts Reference")] [SerializeField]
+        [Header("Scripts Reference")] 
+        [SerializeField]
         private BattleComboUIScrollPanelManager battleComboUIScroll;
 
         [SerializeField] private BattleCardUIScrollPanelManager battleCardUIScroll;
@@ -31,8 +37,10 @@ namespace CardMaga.UI.Collections
         private void ShowCombo()
         {
             battleComboUIScroll.RemoveAllObjectsFromPanel();
-            var comboVisual =  _visualRequesterCombo.GetVisual(_comboDataSort.SortComboData(_comboDatas.GetCollection));
-            
+            var comboVisual =  _visualRequesterCombo.GetVisual(
+                _comboDataSort.SortComboData(_comboDatas.GetCollection));
+
+            OnBattleComboUIShown?.Invoke(comboVisual);
             var comboUIElement = comboVisual.ConvertAll(x => (IUIElement) x);
             
             battleComboUIScroll.AddObjectToPanel(comboUIElement);
@@ -41,13 +49,13 @@ namespace CardMaga.UI.Collections
         private void ShowCard()
         {
             battleCardUIScroll.RemoveAllObjectsFromPanel();
-            var cardVisual =
-                _visualRequesterCard.GetVisual(
+            List<BattleCardUI> cardVisual =
+                _visualRequesterCard.GetVisual (
                     _battleCardDataSort.SortCardData(_cardDatas.GetCollection));
 
             if (cardVisual == null)
                 return;
-            
+            OnBattleCardUIShown?.Invoke(cardVisual);
             var cardUIElement = cardVisual.ConvertAll(x => (IUIElement) x);
             
             battleCardUIScroll.AddObjectToPanel(cardUIElement);

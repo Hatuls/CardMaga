@@ -25,14 +25,13 @@ namespace CardMaga.UI
 
 
         public CanvasGroup CanvasGroup { get => _canvasGroup; }
-        public override CardZoomHandler CardZoomHandler
-        {
-            get => _cardZoomHandler;
-        }
+  
 
         public override BaseTextAssignerHandler<BattleCardData> ComboTextAssignerHandler => _cardTextAssignerHandler;
 
         public override BaseVisualAssignerHandler<BattleCardData> ComboVisualAssignerHandler => _cardVisualAssignerHandler;
+
+        public override IZoomable ZoomHandler => _cardZoomHandler;
 #if UNITY_EDITOR
         [Header("Test")]
         [SerializeField] BattleCardData battleCardData;

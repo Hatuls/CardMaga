@@ -1,7 +1,6 @@
 ﻿using CardMaga.Card;
 using CardMaga.UI.Visuals;
 using DG.Tweening;
-using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
@@ -9,7 +8,7 @@ using UnityEngine.UI;
 
 namespace CardMaga.UI
 {
-    public class CardZoomHandler : MonoBehaviour
+    public class CardZoomHandler : MonoBehaviour, IZoomable
     {
         public event Action OnZoomInCompleted;
         public event Action OnZoomOutCompleted;
@@ -26,12 +25,13 @@ namespace CardMaga.UI
         [SerializeField] RectTransform _cardName;
         [SerializeField] CanvasGroup _description;
 
-        DG.Tweening.Sequence _zoomSequence;
+        Sequence _zoomSequence;
         float _startPos;
         float _endPos;
 
-        TokenMachine _zoomTokenMachine;
-        public ITokenReciever ZoomTokenMachine => _zoomTokenMachine;
+
+        public Sequence Sequence => _zoomSequence;
+
         private void Start()
         {
             if (_bottomPart == null)
@@ -43,8 +43,6 @@ namespace CardMaga.UI
             if (_description == null)
                 throw new Exception("CardZoomHandler has no description");
 
-            //Token
-            _zoomTokenMachine = new TokenMachine(ZoomIn, ZoomOut);
         }
         private void OnDisable()
         {
@@ -84,16 +82,16 @@ namespace CardMaga.UI
             int cardType = 0;
             _startPos = _zoomPositionsSO.YStartPosition[cardType];
             _endPos = _zoomPositionsSO.YEndPosition[cardType];
-	        //Debug.Log("Recived ZoomData");
+            //Debug.Log("Recived ZoomData");
         }
         public void KillTween()
         {
             if (_zoomSequence != null)
-                _zoomSequence.Kill();
+                _zoomSequence.Kill(true);
 
         }
-   //     [Button("HandZoom In")]
-        private void ZoomIn()
+        //     [Button("HandZoom In")]
+        private Sequence ZoomInAnimation()
         {
             KillTween();
             Debug.Log("Zooming In");
@@ -115,11 +113,13 @@ namespace CardMaga.UI
 
             //in parallel set text opacity to visable
             _zoomSequence.Join(_description.DOFade(1, _zoomDoTweenSO.TextAlphaDuration));
-            if(OnZoomInCompleted != null)
+            if (OnZoomInCompleted != null)
                 _zoomSequence.OnComplete(OnZoomInCompleted.Invoke);
+
+            return _zoomSequence;
         }
-  //      [Button("HandZoom Out")]
-        private void ZoomOut()
+        //      [Button("HandZoom Out")]
+        private Sequence ZoomOutAnimation()
         {
             KillTween();
             Debug.Log("Zooming Out");
@@ -139,6 +139,51 @@ namespace CardMaga.UI
 
             if (OnZoomOutCompleted != null)
                 _zoomSequence.OnComplete(OnZoomOutCompleted.Invoke);
+
+            return Sequence;
         }
+
+        public Sequence ZoomingIn()
+        => ZoomInAnimation();
+
+
+        public Sequence ZoomingOut()
+        => ZoomOutAnimation();
     }
+
+
+
+
+    public interface IMotionable
+    {
+        Sequence Sequence { get; }
+        void ForceReset();
+    }
+
+    public interface ITransitionable : IMotionable
+    {
+        RectTransform VisualRectTransfrom { get; }
+        Sequence Transition(RectTransform desitionation, TransitionPackSO transitionPackSO);
+    
+    }
+
+    public class CardMotionHandler : ITransitionable
+    {
+        private RectTransform _rectTransform;
+        private Sequence _sequence;
+        public RectTransform VisualRectTransfrom => _rectTransform;
+
+        public Sequence Sequence => _sequence;
+
+        public void ForceReset()
+        {
+            if (Sequence != null && Sequence.IsActive())
+                Sequence.Kill();
+        }
+
+        public Sequence Transition(RectTransform desitionation, TransitionPackSO transitionPackSO)
+            => VisualRectTransfrom.Transition(desitionation, transitionPackSO);
+    }
+    
+
 }

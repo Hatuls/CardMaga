@@ -7,7 +7,7 @@ using DG.Tweening;
 
 namespace CardMaga.UI.Card
 {
-    public class BattleCardUI : BaseUIElement, IPoolableMB<BattleCardUI>, IVisualAssign<BattleCardData>
+    public class BattleCardUI : BaseUIElement, IPoolableMB<BattleCardUI>, IVisualAssign<BattleCardData>, IZoomableObject
     {
         public event Action<BattleCardUI> OnDisposed;
         public event Action OnShow;
@@ -31,8 +31,9 @@ namespace CardMaga.UI.Card
         public RectTransform VisualsRectTransform => _visualsRectTransform;
         
         public BattleCardData BattleCardData { get => _battleCardData; }
-        
-        
+
+        public IZoomable ZoomHandler => CardVisuals.ZoomHandler;
+
         public void AssignVisual(BattleCardData data)
         {
             _battleCardData = data;

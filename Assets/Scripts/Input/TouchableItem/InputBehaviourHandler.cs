@@ -52,6 +52,7 @@ public abstract class InputBehaviourHandler<T> : MonoBehaviour where T : MonoBeh
 public enum InputBehaviourState
 {
     Default,
+    Collection,
     Hand,
     HandFollow,
     HandZoom,
