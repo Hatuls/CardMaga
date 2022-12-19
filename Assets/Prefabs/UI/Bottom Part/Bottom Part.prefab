@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5255946236674022743}
   - component: {fileID: 3584122720748138680}
   m_Layer: 5
-  m_Name: Buttons pannel
+  m_Name: Buttons panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,7 +160,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1440, y: 110}
+  m_SizeDelta: {x: 1442, y: 134}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &7347229414528538030
 CanvasRenderer:
@@ -184,12 +184,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
+  m_RaycastTarget: 0
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -8563047061035597064, guid: 96d33973e323dae4cb8c21af6f0a946a,
+  m_Sprite: {fileID: -8983713463501432584, guid: a5c52761eb09d70468f018ad60ce1533,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -207,6 +207,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5255946236674022743}
     m_Modifications:
+    - target: {fileID: 1247397566592955755, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_Pivot.x
@@ -315,7 +320,7 @@ PrefabInstance:
     - target: {fileID: 4707470146817429004, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_text
-      value: Fillter
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -327,6 +332,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: _onPress
+      value: 
+      objectReference: {fileID: 21300000, guid: 2714c962c83323f40b79de14ce8fd2ca,
+        type: 3}
     m_RemovedComponents:
     - {fileID: 7924632541184702372, guid: bdd34acd4d6936a4aa61dc181f8b4bff, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bdd34acd4d6936a4aa61dc181f8b4bff, type: 3}
@@ -382,7 +393,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7334182785152581846, guid: 96d33973e323dae4cb8c21af6f0a946a,
+      objectReference: {fileID: 7436193184809552589, guid: a5c52761eb09d70468f018ad60ce1533,
         type: 3}
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -427,7 +438,7 @@ PrefabInstance:
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 232
+      value: 236
       objectReference: {fileID: 0}
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -539,6 +550,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left Button
       objectReference: {fileID: 0}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: _onIdle
+      value: 
+      objectReference: {fileID: 7436193184809552589, guid: a5c52761eb09d70468f018ad60ce1533,
+        type: 3}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: _onPress
+      value: 
+      objectReference: {fileID: -6227857562190579405, guid: a5c52761eb09d70468f018ad60ce1533,
+        type: 3}
     - target: {fileID: 7482304690003633091, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_Pivot.x
@@ -633,7 +656,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7334182785152581846, guid: 96d33973e323dae4cb8c21af6f0a946a,
+      objectReference: {fileID: 7436193184809552589, guid: a5c52761eb09d70468f018ad60ce1533,
         type: 3}
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -678,7 +701,7 @@ PrefabInstance:
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 232
+      value: 236
       objectReference: {fileID: 0}
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -790,6 +813,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: Right Button
       objectReference: {fileID: 0}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: Text
+      value: Decks
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: _onIdle
+      value: 
+      objectReference: {fileID: 7436193184809552589, guid: a5c52761eb09d70468f018ad60ce1533,
+        type: 3}
+    - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
+        type: 3}
+      propertyPath: _onPress
+      value: 
+      objectReference: {fileID: -6227857562190579405, guid: a5c52761eb09d70468f018ad60ce1533,
+        type: 3}
     - target: {fileID: 7022677381806490842, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_SizeDelta.x
