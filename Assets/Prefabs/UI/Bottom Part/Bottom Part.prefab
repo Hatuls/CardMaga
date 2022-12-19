@@ -48,56 +48,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336037793681837578}
   m_CullTransparentMesh: 0
---- !u!114 &3382428072803546341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2401018378514203191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aba431b4df52fa4faf470ac160df03a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnClickEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBeginHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnEndHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointDownEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointUpEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  DisableHold: 1
-  DisableClick: 0
-  _holdDelay: 0.5
-  _holdDistance: 0.5
-  _currentState: 0
-  _identification: {fileID: 11400000, guid: 5d1303e07fdd8724e9f1f484ea4f5085, type: 2}
-  _renderer: {fileID: 0}
-  _onPress: {fileID: 0}
-  _onIdle: {fileID: 0}
-  OnCardsCollectionOpen:
-    m_PersistentCalls:
-      m_Calls: []
-  OnComboCollectionOpen:
-    m_PersistentCalls:
-      m_Calls: []
-  _deckCollection: {fileID: 0}
-  _comboCollection: {fileID: 0}
-  _comboAndDecksButtonText: {fileID: 3308066581023328162}
-  _comboAndDeckFilterButton: {fileID: 2465111204218050594}
-  _isCardStateDefaultState: 1
 --- !u!1 &2814276856517703280
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,45 +125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &2465111204218050594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7609119726518458881}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0254e09a03195ca45924e022da3e7060, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnClickEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBeginHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnEndHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointDownEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointUpEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  DisableHold: 1
-  DisableClick: 0
-  _holdDelay: 0.5
-  _holdDistance: 0.5
-  _currentState: 0
-  _identification: {fileID: 0}
-  _renderer: {fileID: 0}
-  _onPress: {fileID: 0}
-  _onIdle: {fileID: 0}
 --- !u!1 &9171132510081302156
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,22 +320,16 @@ PrefabInstance:
     - target: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_Name
-      value: Fillter Button
+      value: Mid Button
       objectReference: {fileID: 0}
     - target: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7924632541184702372, guid: bdd34acd4d6936a4aa61dc181f8b4bff, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bdd34acd4d6936a4aa61dc181f8b4bff, type: 3}
---- !u!1 &7609119726518458881 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
-    type: 3}
-  m_PrefabInstance: {fileID: 2627834177172099480}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4137930030980119572 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
@@ -632,7 +537,7 @@ PrefabInstance:
     - target: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_Name
-      value: Back Button
+      value: Left Button
       objectReference: {fileID: 0}
     - target: {fileID: 7482304690003633091, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -883,7 +788,7 @@ PrefabInstance:
     - target: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_Name
-      value: Apply Button
+      value: Right Button
       objectReference: {fileID: 0}
     - target: {fileID: 7022677381806490842, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -1013,12 +918,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7924632541184702372, guid: bdd34acd4d6936a4aa61dc181f8b4bff, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bdd34acd4d6936a4aa61dc181f8b4bff, type: 3}
---- !u!1 &2401018378514203191 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
-    type: 3}
-  m_PrefabInstance: {fileID: 7835372949286914478}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8189732277131371554 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,

@@ -8,7 +8,6 @@ namespace CardMaga.UI.ScrollPanel
     public abstract class BaseScrollPanelManager<TVisual> : MonoBehaviour
         where TVisual :  BaseUIElement, IPoolableMB<TVisual>, new()
     {
-        [SerializeField] private TVisual _objectRef;
         [SerializeField] private ScrollPanelHandler _scrollPanel;
         
         public IReadOnlyList<IUIElement> LoadObjects => _scrollPanel.LoadedObjects;

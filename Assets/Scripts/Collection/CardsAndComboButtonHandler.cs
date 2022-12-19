@@ -17,7 +17,7 @@ namespace Collection
             [SerializeField] private GameObject _comboCollection;
 
             [Header("Cycle Collection Button")] 
-            [SerializeField] private CollectionButton[] _buttons;
+            [SerializeField] private Button[] _buttons;
 
             [SerializeField] private TMP_Text _title;
             
@@ -53,10 +53,7 @@ namespace Collection
                 
                 foreach (var button in _buttons)
                 {
-                    if (button.ComboAndDecksButtonText == null)
-                        continue;
-
-                    button.ComboAndDecksButtonText.text = "Cards";
+                    button.SetButtonText("Cards");
                     button.TrySetInputBehaviour(_comboState);
                 }
             }
@@ -70,10 +67,7 @@ namespace Collection
                 
                 foreach (var button in _buttons)
                 {
-                    if (button.ComboAndDecksButtonText == null)
-                        continue;
-                    
-                    button.ComboAndDecksButtonText.text = "Combos";
+                    button.SetButtonText("Combos");
                     button.TrySetInputBehaviour(_cardState);
                 }
             }

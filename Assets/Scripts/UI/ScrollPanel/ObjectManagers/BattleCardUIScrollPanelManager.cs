@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using CardMaga.Card;
-using CardMaga.UI.Card;
-using UnityEngine;
+﻿using CardMaga.UI.Card;
 
 namespace CardMaga.UI.ScrollPanel
 {

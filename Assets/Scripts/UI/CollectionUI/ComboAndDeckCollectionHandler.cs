@@ -13,6 +13,7 @@ namespace CardMaga.UI.Collections
     {
         [SerializeField] private BattleComboUI _battleComboUI;
         [SerializeField] private BattleCardUI _battleCardUI;
+        
         [Header("Scripts Reference")] [SerializeField]
         private BattleComboUIScrollPanelManager battleComboUIScroll;
 
