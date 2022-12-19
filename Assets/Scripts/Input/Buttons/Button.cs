@@ -31,7 +31,7 @@ namespace CardMaga.Input
         }
         
         [Button("Toggle Text")]
-        public void ToggleText()
+        public void ToggleActiveState()
         {
             if (_buttonText == null)
                 return;
@@ -46,6 +46,15 @@ namespace CardMaga.Input
             
             _buttonText.text = text;
         }
+
+
+#if UNITY_EDITOR
+        [Header("Editor:")]
+        [TextArea]
+        [OnValueChanged("UpdateText")]
+        public string Text;
+        private void UpdateText() => SetButtonText(Text);
+#endif
     }    
 }
 
