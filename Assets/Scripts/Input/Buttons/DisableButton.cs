@@ -1,47 +1,40 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Button = CardMaga.Input.Button;
-
-public class DisableButton : Button
+namespace CardMaga.Input
 {
-    [SerializeField] private Image _renderer;
-    [Header("Sprites")]
-    [SerializeField] private Sprite _onPress;
-    [SerializeField] private Sprite _onIdle;
-    [SerializeField] private Sprite _onDisable;
 
-    protected override void Awake()
+
+    public class DisableButton : Button
     {
-        base.Awake();
-        OnPointDown += PointerDown;
-        OnPointUp += PointerUp;
+ 
+        [SerializeField] private Sprite _onDisable;
+
+        protected override void PointDown()
+        {
+            if (IsLock)
+                return;
+            base.PointDown();
+
+        }
+        protected override void PointUp()
+        {
+            if (IsLock)
+                return;
+            base.PointUp();
+        }
+
+        [ContextMenu("Disable")]
+        public void Disable()
+        {
+            Lock();
+            _renderer.sprite = _onDisable;
+        }
+        [ContextMenu("Enable")]
+        public void Enable()
+        {
+            UnLock();
+            _renderer.sprite = _onIdle;
+        }
     }
 
-    private void PointerDown()
-    {
-        if (IsLock)
-            return;
-        
-        _renderer.sprite = _onPress;
-    }
-    
-    private void PointerUp()
-    {
-        if (IsLock)
-            return;
-        
-        _renderer.sprite = _onIdle;
-    }
-    [ContextMenu("Disable")]
-    public void Disable()
-    {
-        Lock();
-        _renderer.sprite = _onDisable;
-    }
-    [ContextMenu("Enable")]
-    public void Enable()
-    {
-        UnLock();
-        _renderer.sprite = _onIdle;
-    }
 }
