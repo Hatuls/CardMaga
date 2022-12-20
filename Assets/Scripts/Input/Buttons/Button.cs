@@ -52,7 +52,7 @@ namespace CardMaga.Input
 
 
 #if UNITY_EDITOR
-        [Header("Editor:")]
+        [Header("Editor:")] 
         [TextArea]
         [OnValueChanged("UpdateText")]
         public string Text;
