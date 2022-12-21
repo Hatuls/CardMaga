@@ -4,21 +4,19 @@ using CardMaga.MetaData.AccoutData;
 namespace CardMaga.MetaData.Collection
 {
     [Serializable]
-    public class MetaCollectionDataCombo :BaseCollectionDataItem<MetaComboData> , IEquatable<MetaCollectionDataCombo>,IEquatable<MetaComboData>
+    public class MetaCollectionComboData :BaseCollectionDataItem<MetaComboData> , IEquatable<MetaCollectionComboData>,IEquatable<MetaComboData>
     {
         private MetaComboData _metaComboData;
         public override MetaComboData ItemReference => _metaComboData;
         
         public int ComboID => _metaComboData.ID;
         
-        public MetaCollectionDataCombo(int numberOfInstant,int numberOfMaxInstants,MetaComboData comboReference)
+        public MetaCollectionComboData(int numberOfInstant,int numberOfMaxInstants,MetaComboData comboReference) : base(numberOfInstant,numberOfMaxInstants)
         {
-            _numberOfInstant = numberOfInstant;
             _metaComboData = comboReference;
-            _maxInstants = numberOfMaxInstants;
         }
         
-        public bool Equals(MetaCollectionDataCombo other)
+        public bool Equals(MetaCollectionComboData other)
         {
             if (ReferenceEquals(null, other)) return false;
             return ComboID == other.ComboID;

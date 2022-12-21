@@ -37,7 +37,7 @@ namespace CardMaga.MetaUI.CollectionUI
         private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
         private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
         private VisualRequester<MetaCollectionCardUI, MetaCollectionCardData> _cardCollectionVisualRequester;
-        private VisualRequester<MetaCollectionUICombo, MetaCollectionDataCombo> _comboCollectionVisualRequester;
+        private VisualRequester<MetaCollectionUICombo, MetaCollectionComboData> _comboCollectionVisualRequester;
         
         private DeckBuilder _deckBuilder;
 
@@ -66,7 +66,7 @@ namespace CardMaga.MetaUI.CollectionUI
             _cardVisualRequester = new VisualRequester<MetaCardUI, MetaCardData>(_cardPrefabRef);
             _cardCollectionVisualRequester =
                 new VisualRequester<MetaCollectionCardUI, MetaCollectionCardData>(_metaCollectionCardPrefabRef);
-            _comboCollectionVisualRequester = new VisualRequester<MetaCollectionUICombo, MetaCollectionDataCombo>(_collectionUIComboPrefabRef);
+            _comboCollectionVisualRequester = new VisualRequester<MetaCollectionUICombo, MetaCollectionComboData>(_collectionUIComboPrefabRef);
             
             _metaComboUis = _comboVisualRequester.GetVisual(3).ToArray();
             _metaCardUis = _cardVisualRequester.GetVisual(8).ToArray();

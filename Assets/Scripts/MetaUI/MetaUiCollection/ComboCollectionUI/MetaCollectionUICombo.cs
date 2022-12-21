@@ -8,14 +8,14 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCollectionUICombo : BaseCollectionUIItem<MetaComboData>, IPoolableMB<MetaCollectionUICombo>,IVisualAssign<MetaCollectionDataCombo>
+    public class MetaCollectionUICombo : BaseCollectionUIItem<MetaComboData>, IPoolableMB<MetaCollectionUICombo>,IVisualAssign<MetaCollectionComboData>
     {
         public event Action<MetaCollectionUICombo> OnDisposed;
 
 
         [SerializeField] private ComboVisualHandler _comboVisual;
 
-        private MetaCollectionDataCombo _metaDataCombo;
+        private MetaCollectionComboData metaComboData;
 
         public override void Init()
         {
@@ -25,26 +25,26 @@ namespace CardMaga.MetaUI
 
         public void Dispose()
         {
-            OnTryAddToDeck -= _metaDataCombo.TryAddItemToCollection;
-            OnTryRemoveFromDeck -= _metaDataCombo.TryRemoveItemFromCollection;
-            _metaDataCombo.OnSuccessfulAddItemToCollection -= SuccessAddToCollection;
-            _metaDataCombo.OnSuccessfulRemoveItemFromCollection -= SuccessRemoveFromCollection;
+            OnTryAddToDeck -= metaComboData.AddItemToCollection;
+            OnTryRemoveFromDeck -= metaComboData.RemoveItemFromCollection;
+            metaComboData.OnSuccessfulAddItemToCollection -= SuccessAddToCollection;
+            metaComboData.OnSuccessfulRemoveItemFromCollection -= SuccessRemoveFromCollection;
             
             OnDisposed?.Invoke(this);
             Hide();
         }
 
-        public void AssignVisual(MetaCollectionDataCombo data)
+        public void AssignVisual(MetaCollectionComboData comboData)
         {
-            _metaDataCombo = data;
+            metaComboData = comboData;
             
-            _metaDataCombo = data;
-            _comboVisual.Init(data.ItemReference.BattleComboData);
+            metaComboData = comboData;
+            _comboVisual.Init(comboData.ItemReference.BattleComboData);
             
-            OnTryAddToDeck += _metaDataCombo.TryAddItemToCollection;
-            OnTryRemoveFromDeck += _metaDataCombo.TryRemoveItemFromCollection;
-            _metaDataCombo.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
-            _metaDataCombo.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
+            OnTryAddToDeck += metaComboData.AddItemToCollection;
+            OnTryRemoveFromDeck += metaComboData.RemoveItemFromCollection;
+            metaComboData.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
+            metaComboData.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
             
             UpdateVisual();
         }
@@ -53,13 +53,13 @@ namespace CardMaga.MetaUI
         {
             Enable();
 
-            if (_metaDataCombo.IsNotMoreInstants)
+            if (metaComboData.IsNotMoreInstants)
             {
                 DisablePlus();
                 return;
             }
 
-            if (_metaDataCombo.IsMaxInstants)
+            if (metaComboData.IsMaxInstants)
             {
                 DisableMins();
                 return;

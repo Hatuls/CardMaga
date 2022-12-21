@@ -1,5 +1,5 @@
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace CardMaga.MetaData.Collection
 {
@@ -11,19 +11,32 @@ namespace CardMaga.MetaData.Collection
         public event Action<T> OnSuccessfulAddItemToCollection; 
         public event Action<T> OnTryRemoveItemFromCollection;
         public event Action<T> OnSuccessfulRemoveItemFromCollection;
-        public event Action<string> OnFailedAction; 
-        
-        protected int _numberOfInstant;
-        protected int _maxInstants;
-        
-        public abstract T ItemReference { get;}
+        public event Action<string> OnFailedAction;
+
+        private readonly int _maxInstants;
+        private int _numberOfInstant;
+        /// <summary>
+        /// Associate Deck first number the deck Id, Second number is the number of the Instant in the deck
+        /// </summary>
+        Dictionary<int, int> _associateDeck;
+
+        public IReadOnlyDictionary<int, int> AssociateDeck => _associateDeck;
+
+        public abstract T ItemReference { get; }
 
         public bool IsNotMoreInstants => _numberOfInstant <= 0;
         public bool IsMaxInstants => _numberOfInstant == _maxInstants;
         
         public int NumberOfInstant => _numberOfInstant;
+
+        protected BaseCollectionDataItem(int numberOfInstant,int maxInstants)
+        {
+            _associateDeck = new Dictionary<int, int>();
+            _numberOfInstant = numberOfInstant;
+            _maxInstants = maxInstants;
+        }
         
-        public void TryAddItemToCollection()
+        public void AddItemToCollection()
         {
             if (_numberOfInstant > 0)
             {
@@ -41,7 +54,7 @@ namespace CardMaga.MetaData.Collection
             OnSuccessfulAddItemToCollection?.Invoke(ItemReference);
         }
 
-        public void TryRemoveItemFromCollection()
+        public void RemoveItemFromCollection()
         {
             OnTryRemoveItemFromCollection?.Invoke(ItemReference);
         }
@@ -51,6 +64,31 @@ namespace CardMaga.MetaData.Collection
             if (!ItemReference.Equals(itemData)) return;
             _numberOfInstant++;
             OnSuccessfulRemoveItemFromCollection?.Invoke(ItemReference);
+        }
+
+        public void AddItemToAssociateDeck(int deckId)
+        {
+            if (!_associateDeck.TryGetValue(deckId, out var value))
+                _associateDeck.Add(deckId,1);
+
+            value++;
+            _associateDeck[deckId] = value;
+        }
+        
+        public void RemoveItemToAssociateDeck(int deckId)
+        {
+            if (!_associateDeck.TryGetValue(deckId, out var value)) 
+                return;
+            
+            value--;
+            
+            if (value == 0)
+            {
+                _associateDeck.Remove(deckId);
+                return;
+            }
+            
+            _associateDeck[deckId] = value;
         }
     }
 }

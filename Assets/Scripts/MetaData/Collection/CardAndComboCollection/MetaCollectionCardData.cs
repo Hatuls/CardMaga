@@ -12,11 +12,9 @@ namespace CardMaga.MetaData.Collection
         public override MetaCardData ItemReference => _metaCardData;
         
 
-        public MetaCollectionCardData(int numberOfInstants,int numberOfMaxInstants,MetaCardData metaCardData)
+        public MetaCollectionCardData(int numberOfInstants,int numberOfMaxInstants,MetaCardData metaCardData) : base(numberOfInstants, numberOfMaxInstants)
         {
-            _numberOfInstant = numberOfInstants;
             _metaCardData = metaCardData;
-            _maxInstants = numberOfMaxInstants;
         }
 
         public bool Equals(MetaCollectionCardData other)

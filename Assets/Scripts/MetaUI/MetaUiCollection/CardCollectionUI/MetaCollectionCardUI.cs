@@ -28,8 +28,8 @@ namespace CardMaga.MetaUI
 
         public void Dispose()
         {
-            OnTryAddToDeck -= _cardData.TryAddItemToCollection;
-            OnTryRemoveFromDeck -= _cardData.TryRemoveItemFromCollection;
+            OnTryAddToDeck -= _cardData.AddItemToCollection;
+            OnTryRemoveFromDeck -= _cardData.RemoveItemFromCollection;
             _cardData.OnSuccessfulAddItemToCollection -= SuccessAddToCollection;
             _cardData.OnSuccessfulRemoveItemFromCollection -= SuccessRemoveFromCollection;
             
@@ -43,8 +43,8 @@ namespace CardMaga.MetaUI
             _cardNumberText.text = NumberOfInstant.ToString();
             _cardVisuals.Init(_cardData.ItemReference.BattleCardData);
             
-            OnTryAddToDeck += _cardData.TryAddItemToCollection;
-            OnTryRemoveFromDeck += _cardData.TryRemoveItemFromCollection;
+            OnTryAddToDeck += _cardData.AddItemToCollection;
+            OnTryRemoveFromDeck += _cardData.RemoveItemFromCollection;
             _cardData.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
             _cardData.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
             
