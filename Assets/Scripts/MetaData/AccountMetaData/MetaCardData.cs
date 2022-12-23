@@ -22,7 +22,9 @@ namespace CardMaga.MetaData.AccoutData
         public Card.BodyPartEnum BodyPartEnum => _cardTypeData.BodyPart;
         public CardInstance CardInstance => _cardInstance;
         public int CardLevel => _cardInstance.Level;
-      
+
+        public CardSO CardSo => _cardSO;
+
         public bool CardsAtMaxLevel => _cardSO.CardsMaxLevel - 1 == CardLevel; 
         public int StaminaCost => _staminaCost;
 

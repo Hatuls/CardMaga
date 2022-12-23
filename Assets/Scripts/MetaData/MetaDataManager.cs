@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaData.DeckBuilding;
+using CardMaga.MetaData.Dismantle;
 using CardMaga.MetaUI;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
@@ -18,6 +19,7 @@ namespace MetaData
         private AccountDataCollectionHelper _accountDataCollectionHelper;
         private MetaCollectionDataManager _metaCollectionDataManager;
         private DeckBuilder _deckBuilder;
+        private DismantleDataManager _dismantleDataManager;
 
         private IDisposable _token;
         
@@ -26,6 +28,7 @@ namespace MetaData
         public DeckBuilder DeckBuilder => _deckBuilder;
         public AccountDataAccess AccountDataAccess => _accountDataAccess;
         public MetaAccountData MetaAccountData => _accountDataAccess.AccountData;
+        public DismantleDataManager DismantleDataManager => _dismantleDataManager;
         
         public int Priority => 0;
 
@@ -37,6 +40,7 @@ namespace MetaData
                 yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
                 yield return _metaCollectionDataManager = new MetaCollectionDataManager();
                 yield return _deckBuilder = new DeckBuilder();
+                yield return _dismantleDataManager = new DismantleDataManager();
             }
         }
         

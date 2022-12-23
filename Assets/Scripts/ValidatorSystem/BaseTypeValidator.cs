@@ -1,7 +1,10 @@
+using System;
+
 namespace CardMaga.ValidatorSystem
 {
-    public abstract class BaseTypeValidator<T> 
+    [Serializable]
+    public abstract class BaseTypeValidator<T>
     {
-        
+        public abstract BaseValidatorCondition<T>[] ValidatorCondition { get; }
     }
 }

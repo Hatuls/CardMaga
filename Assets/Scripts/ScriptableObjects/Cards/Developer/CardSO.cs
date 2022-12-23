@@ -2,7 +2,6 @@
 using CardMaga.Animation;
 using CardMaga.Keywords;
 using Cards;
-using Collections;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
