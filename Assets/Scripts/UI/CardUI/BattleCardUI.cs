@@ -30,12 +30,12 @@ namespace CardMaga.UI.Card
         public CardUIInputHandler Inputs => _inputs;
         public RectTransform VisualsRectTransform => _visualsRectTransform;
         
-        public BattleCardData BattleCardData { get => _battleCardData; private set => _battleCardData = value; }
+        public BattleCardData BattleCardData { get => _battleCardData; }
         
         
         public void AssignVisual(BattleCardData data)
         {
-            BattleCardData = data;
+            _battleCardData = data;
             CardVisuals.Init(data);
         }
 
@@ -49,21 +49,22 @@ namespace CardMaga.UI.Card
             OnDisposed?.Invoke(this);
         }
  
-        public void Init()
+        public override void Init()
         {
+            base.Init();
             OnInitializable?.Invoke();
             Show();
         }
 
         #endregion
         
-        public void Show()
+        public override void Show()
         {
             OnShow?.Invoke();
             gameObject.SetActive(true);
         }
 
-        public void Hide()
+        public override void Hide()
         {
             OnHide?.Invoke();
             if(gameObject.activeSelf)

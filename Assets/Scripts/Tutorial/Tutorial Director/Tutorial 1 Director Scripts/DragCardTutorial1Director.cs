@@ -14,6 +14,7 @@ namespace TutorialDirector
         protected override void UnsubscribeEvent()
         {
             HandUI.OnCardExecute -= CardExecute;
+            HandUIState.OnCardDrawnAndAlign -= SetLastSibling;
         }
         protected override void SubscribeEvent()
         {
@@ -23,6 +24,7 @@ namespace TutorialDirector
         protected override void MoveDirectorPosition()
         {
            HandUIState.OnCardDrawnAndAlign += MoveDirectorAfterCardPositionReturnedFromZoom;
+            HandUIState.OnCardDrawnAndAlign += SetLastSibling;
         }
         
         private void MoveDirectorAfterCardPositionReturnedFromZoom()
@@ -34,6 +36,11 @@ namespace TutorialDirector
         private void CardExecute(BattleCardUI cardUI)
         {
             StopDirector();
+        }
+
+        private void SetLastSibling()
+        {
+            _directorRect.transform.SetAsLastSibling();
         }
     }
 

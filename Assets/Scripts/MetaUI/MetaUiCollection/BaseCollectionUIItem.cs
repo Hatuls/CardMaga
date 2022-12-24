@@ -14,7 +14,7 @@ namespace CardMaga.MetaUI.CollectionUI
 
         public virtual void TryAddToCollection()
         {
-            OnTryAddToDeck?.Invoke();
+           OnTryAddToDeck?.Invoke();
         }
 
         public virtual void TryRemoveFromCollection()

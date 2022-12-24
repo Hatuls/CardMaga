@@ -43,7 +43,10 @@ namespace CardMaga.UI.Collections
             battleCardUIScroll.RemoveAllObjectsFromPanel();
             var cardVisual =
                 _visualRequesterCard.GetVisual(
-                    _battleCardDataSort.SortCardData(_cardDataFilter.Filter(_cardDatas.GetCollection)));
+                    _battleCardDataSort.SortCardData(_cardDatas.GetCollection));
+
+            if (cardVisual == null)
+                return;
             
             var cardUIElement = cardVisual.ConvertAll(x => (IUIElement) x);
             

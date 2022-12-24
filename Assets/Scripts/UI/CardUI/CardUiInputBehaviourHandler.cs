@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CardMaga.Input;
+﻿using System.Collections.Generic;
 using CardMaga.UI.Card;
 using UnityEngine;
 

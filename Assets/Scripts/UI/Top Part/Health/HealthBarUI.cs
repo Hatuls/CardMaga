@@ -168,8 +168,10 @@ namespace CardMaga.UI.Bars
 
         public void ChangeHealth(int currentHealth)
         {
-
+            if(currentHealth>=0)
             SetText(currentHealth);
+            else
+                SetText(0);
             _healthQueue.Enqueue(currentHealth);
             if (_healthQueue.Count == 1)
                 MoveNext();

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace CardMaga.MetaData.Collection
 {
@@ -36,7 +37,7 @@ namespace CardMaga.MetaData.Collection
         public void AddItemToCollection(T itemData)
         {
             if (!ItemReference.Equals(itemData)) return;
-            _numberOfInstant--;
+           _numberOfInstant--;
             OnSuccessfulAddItemToCollection?.Invoke(ItemReference);
         }
 

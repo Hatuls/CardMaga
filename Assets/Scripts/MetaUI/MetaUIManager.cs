@@ -70,11 +70,5 @@ namespace CardMaga.MetaUI
         {
             OnMetaUIInitializes?.Invoke();
         }
-        
-        public void LogTest()
-        {
-            Debug.Log("Test_needToRemove");
-        }
-
     }
 }

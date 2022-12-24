@@ -21,12 +21,21 @@ public class DragCardTutorial3Director : BaseTutorialDirector
 
     protected override void MoveDirectorPosition()
     {
-        _directorRect.transform.position = _tutorialCardDrawnHandler.DrawnCard.RectTransform.position;
-        _playableDirector.Play();
+        StartCoroutine(MoveDirector());
     }
 
     private void CardExecute(BattleCardUI cardUI)
     {
         StopDirector();
+    }
+
+    private IEnumerator MoveDirector()
+    {
+        yield return null;
+        yield return null;
+        yield return null;
+        yield return null;
+        _directorRect.transform.position = _tutorialCardDrawnHandler.DrawnCard.RectTransform.position;
+        _playableDirector.Play();
     }
 }

@@ -16,6 +16,7 @@ namespace CardMaga.UI.Card
         private Stack<BattleCardUI> _poolToType = new Stack<BattleCardUI>();
 
         [SerializeField] private List<BattleCardUI> _totalPoolType = new List<BattleCardUI>();
+        
         public BattleCardUI Pull()
         {
             BattleCardUI cache = null;

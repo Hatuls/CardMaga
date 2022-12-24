@@ -1,10 +1,9 @@
 ﻿using CardMaga.Battle.UI;
+using CardMaga.Input;
 using CardMaga.UI.Card;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using CardMaga.Input;
-using System;
 
 public class FirstCardDisplayer : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public event Action OnZoomingOutCard;
     public event Action OnLoadCardOnPanelSecondsTime;
-    public IReadOnlyList<BattleCardUI> FirstCard { get => _cards;}
+    public IReadOnlyList<BattleCardUI> FirstCard { get => _cards; }
 
     public void GetCard()
     {
@@ -25,24 +24,24 @@ public class FirstCardDisplayer : MonoBehaviour
         _battleUIManager = BattleUiManager.Instance;
         _cards = _battleUIManager.HandUI.GetCardUIFromHand();
         InputBehaviour<BattleCardUI> tutorialZoomOutInputBehaviour = new InputBehaviour<BattleCardUI>();
-        tutorialZoomOutInputBehaviour.OnClick += ZoomInCardInput;
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomOutInputBehaviour);
+        tutorialZoomOutInputBehaviour.OnClick += ZoomInCardInput;
         Debug.Log(_cards[0].Inputs.CurrentInputBehaviourState);
-    }    
-        
+    }
+
 
     public void LoadCardOnPanel()
     {
         _tutorialClickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
+       BlockCardHold();
     }
 
     public void ZoomInCardInput(BattleCardUI cardUI)
     {
         _battleUIManager.CardUIManager.HandUI.ZoomCardUI.MoveToZoomPosition(_cards[0]);
         InputBehaviour<BattleCardUI> tutorialZoomInInputBehaviour = new InputBehaviour<BattleCardUI>();
-        
-        tutorialZoomInInputBehaviour.OnClick += MoveNextDialogues;
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomInInputBehaviour);
+        tutorialZoomInInputBehaviour.OnClick += MoveNextDialogues;
     }
 
     private void MoveNextDialogues(BattleCardUI cardUI)
@@ -55,20 +54,14 @@ public class FirstCardDisplayer : MonoBehaviour
 
         else if (_dialoguesFlow5.gameObject.activeSelf)
             _dialoguesFlow5.MoveNextDialogues();
-
-        else
+            else
         {
             InputBehaviour<BattleCardUI> returnCardInputBehaviour = new InputBehaviour<BattleCardUI>();
             returnCardInputBehaviour.OnClick += ReturnCardToHand;
             _cards[0].Inputs.TrySetInputBehaviour(returnCardInputBehaviour);
         }
-    }
 
-    //public void ReturnCard()
-    //{
-    //    ReturnCardToHand(_cards[0]);
-        
-    //}
+    }
 
     private void ReturnCardToHand(BattleCardUI cardUI)
     {
@@ -109,7 +102,7 @@ public class FirstCardDisplayer : MonoBehaviour
 
     private void OnDestroy()
     {
-        
+
     }
 
 }
