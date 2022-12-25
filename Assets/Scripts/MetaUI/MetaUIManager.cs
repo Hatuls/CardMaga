@@ -13,8 +13,9 @@ namespace CardMaga.MetaUI
     public class MetaUIManager : MonoSingleton<MetaUIManager>, ISequenceOperation<MetaDataManager>
     {
         public static event Action OnMetaUIInitializes;
-        [SerializeField] private MetaDeckCollectionUIManager metaDeckCollectionUIManager;
-        [SerializeField] private MetaCharacterCollectionManager metaCharacterCollectionManager;
+        [SerializeField] private MetaDeckBuildingUIManager metaDeckBuildingUIManager;
+        [SerializeField] private MetaCharacterScreenUIManager metaCharacterScreenUIManager;
+        
         private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
         private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
         
@@ -25,9 +26,9 @@ namespace CardMaga.MetaUI
         public VisualRequester<MetaComboUI, MetaComboData> ComboVisualRequester => _comboVisualRequester;
         public VisualRequester<MetaCardUI, MetaCardData> CardVisualRequester => _cardVisualRequester;
 
-        public MetaDeckCollectionUIManager MetaDeckCollectionUIManager => metaDeckCollectionUIManager;
+        public MetaDeckBuildingUIManager MetaDeckBuildingUIManager => metaDeckBuildingUIManager;
 
-        public MetaCharacterCollectionManager MetaCharacterCollectionManager => metaCharacterCollectionManager;
+        public MetaCharacterScreenUIManager MetaCharacterScreenUIManager => metaCharacterScreenUIManager;
 
         public MetaDataManager MetaDataManager => _metaDataManager;
         
@@ -35,8 +36,8 @@ namespace CardMaga.MetaUI
         {
             get
             {
-                yield return metaDeckCollectionUIManager;
-                yield return metaCharacterCollectionManager;
+                yield return metaDeckBuildingUIManager;
+                yield return metaCharacterScreenUIManager;
             }
         }
 

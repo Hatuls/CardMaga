@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCollectionUICombo : BaseCollectionUIItem<MetaComboData>, IPoolableMB<MetaCollectionUICombo>,IVisualAssign<MetaCollectionComboData>
+    public class MetaCollectionComboUI : BaseCollectionUIItem<MetaComboData>, IPoolableMB<MetaCollectionComboUI>,IVisualAssign<MetaCollectionComboData>
     {
-        public event Action<MetaCollectionUICombo> OnDisposed;
+        public event Action<MetaCollectionComboUI> OnDisposed;
 
 
         [SerializeField] private ComboVisualHandler _comboVisual;

@@ -23,6 +23,12 @@ namespace CardMaga.MetaData.Dismantle
             _goldCurrency += AddGold(metaCardData);
         }
 
+        public void ResetDismantelCurrency()
+        {
+            _chipsCurrency = 0;
+            _goldCurrency = 0;
+        }
+
         private int AddChips(MetaCardData metaCardData)
         {
             return  _costsSo.GetCardDismentalCost(metaCardData);

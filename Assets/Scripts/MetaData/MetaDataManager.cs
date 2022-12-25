@@ -17,14 +17,14 @@ namespace MetaData
         private SequenceHandler<MetaDataManager> _sequenceHandler;
         private AccountDataAccess _accountDataAccess;
         private AccountDataCollectionHelper _accountDataCollectionHelper;
-        private MetaCollectionDataManager _metaCollectionDataManager;
+        private DeckEditingDataManager _deckEditingDataManager;
         private DeckBuilder _deckBuilder;
         private DismantleDataManager _dismantleDataManager;
 
         private IDisposable _token;
         
         public AccountDataCollectionHelper AccountDataCollectionHelper => _accountDataCollectionHelper;
-        public MetaCollectionDataManager MetaCollectionDataManager => _metaCollectionDataManager;
+        public DeckEditingDataManager DeckEditingDataManager => _deckEditingDataManager;
         public DeckBuilder DeckBuilder => _deckBuilder;
         public AccountDataAccess AccountDataAccess => _accountDataAccess;
         public MetaAccountData MetaAccountData => _accountDataAccess.AccountData;
@@ -38,7 +38,7 @@ namespace MetaData
             {
                 yield return _accountDataAccess = new AccountDataAccess();
                 yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
-                yield return _metaCollectionDataManager = new MetaCollectionDataManager();
+                yield return _deckEditingDataManager = new DeckEditingDataManager();
                 yield return _deckBuilder = new DeckBuilder();
                 yield return _dismantleDataManager = new DismantleDataManager();
             }

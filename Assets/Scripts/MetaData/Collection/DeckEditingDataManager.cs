@@ -10,7 +10,7 @@ using UnityEngine.Events;
 namespace CardMaga.MetaData.Collection
 {
     [Serializable]
-    public class MetaCollectionDataManager : ISequenceOperation<MetaDataManager>, IDisposable
+    public class DeckEditingDataManager : ISequenceOperation<MetaDataManager>, IDisposable
     {
         public event Action OnSuccessUpdateDeck;
         public event Action OnFailedUpdateDeck;

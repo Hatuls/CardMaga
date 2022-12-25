@@ -27,6 +27,11 @@ namespace CardMaga.MetaData.Dismantle
             OnRemoveCardFromDismantleList?.Invoke(metaCardData);
         }
 
+        public void ResetDismantelList()
+        {
+            _dismantleCards.Clear();
+        }
+
         public void ConfirmDismantleList()
         {
             OnConfirmDismantleCard?.Invoke(_dismantleCards);

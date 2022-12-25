@@ -6,7 +6,7 @@ using ReiTools.TokenMachine;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MetaCharacterCollectionManager : MonoBehaviour , ISequenceOperation<MetaUIManager>
+public class MetaCharacterScreenUIManager : MonoBehaviour , ISequenceOperation<MetaUIManager>
 {
     [SerializeField] private MetaCharecterUICollection[] _charectersUI;
     [SerializeField] private UnityEvent OnOpenEditingScreen;
@@ -14,6 +14,8 @@ public class MetaCharacterCollectionManager : MonoBehaviour , ISequenceOperation
     private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
     
     private MetaCharecterUICollection _mainCharecterUI;
+    
+    public int Priority => 1;
     
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
@@ -47,7 +49,7 @@ public class MetaCharacterCollectionManager : MonoBehaviour , ISequenceOperation
         }
     }
 
-    public int Priority => 1;
+  
 
     private void SetMainCharacterUI(MetaCharacterData metaCharacterData)
     {
