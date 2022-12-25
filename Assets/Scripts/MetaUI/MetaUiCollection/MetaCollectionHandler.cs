@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CardMaga.MetaUI;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.UI;

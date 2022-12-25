@@ -13,31 +13,33 @@ namespace CardMaga.MetaUI
     public class MetaUIManager : MonoSingleton<MetaUIManager>, ISequenceOperation<MetaDataManager>
     {
         public static event Action OnMetaUIInitializes;
-        [SerializeField] private MetaDeckBuildingUIManager metaDeckBuildingUIManager;
-        [SerializeField] private MetaCharacterScreenUIManager metaCharacterScreenUIManager;
+        
+        [SerializeField] private MetaDataManager _metaDataManager;
+        [SerializeField] private MetaDeckBuildingUIManager _metaDeckBuildingUIManager;
+        [SerializeField] private MetaCharacterScreenUIManager _metaCharacterScreenUIManager;
+        [SerializeField] private DismantelUIManager _dismantelUIManager;
         
         private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
         private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
         
-        private MetaDataManager _metaDataManager;
         private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
         
         public int Priority => 1;
         public VisualRequester<MetaComboUI, MetaComboData> ComboVisualRequester => _comboVisualRequester;
         public VisualRequester<MetaCardUI, MetaCardData> CardVisualRequester => _cardVisualRequester;
-
-        public MetaDeckBuildingUIManager MetaDeckBuildingUIManager => metaDeckBuildingUIManager;
-
-        public MetaCharacterScreenUIManager MetaCharacterScreenUIManager => metaCharacterScreenUIManager;
-
+        public MetaDeckBuildingUIManager MetaDeckBuildingUIManager => _metaDeckBuildingUIManager;
+        public MetaCharacterScreenUIManager MetaCharacterScreenUIManager => _metaCharacterScreenUIManager;
+        public DismantelUIManager DismantelUIManager => _dismantelUIManager;
         public MetaDataManager MetaDataManager => _metaDataManager;
-        
+
+
         private IEnumerable<ISequenceOperation<MetaUIManager>> VisualInitializers
         {
             get
             {
-                yield return metaDeckBuildingUIManager;
-                yield return metaCharacterScreenUIManager;
+                yield return _metaDeckBuildingUIManager;
+                yield return _metaCharacterScreenUIManager;
+                yield return _dismantelUIManager;
             }
         }
 

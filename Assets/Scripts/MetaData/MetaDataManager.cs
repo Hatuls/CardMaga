@@ -5,11 +5,13 @@ using CardMaga.MetaData.Collection;
 using CardMaga.MetaData.DeckBuilding;
 using CardMaga.MetaData.Dismantle;
 using CardMaga.MetaUI;
+using CardMaga.ObjectPool;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
 
 namespace MetaData
 {
+    [Serializable]
     public class MetaDataManager : ISequenceOperation<MetaUIManager>
     {
         public static event Action OnDataInitializes;
@@ -20,6 +22,7 @@ namespace MetaData
         private DeckEditingDataManager _deckEditingDataManager;
         private DeckBuilder _deckBuilder;
         private DismantleDataManager _dismantleDataManager;
+        private VisualRequesterManager _visualRequester = VisualRequesterManager.Instance;
 
         private IDisposable _token;
         
@@ -36,6 +39,7 @@ namespace MetaData
         {
             get
             {
+                //yield return _visualRequester;
                 yield return _accountDataAccess = new AccountDataAccess();
                 yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
                 yield return _deckEditingDataManager = new DeckEditingDataManager();
