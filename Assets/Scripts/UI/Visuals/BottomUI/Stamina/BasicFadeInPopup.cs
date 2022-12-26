@@ -18,7 +18,7 @@ namespace CardMaga.UI.PopUp
         private float _alphaExitDuration;
 
         protected override void ResetParams()
-        {
+         {
             if (_sequence != null)
                 _sequence.Kill(false);
             if (!IsActive())

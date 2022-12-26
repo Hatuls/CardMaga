@@ -34,7 +34,7 @@ namespace CardMaga.MetaUI
             Hide();
         }
 
-        public void AssignVisual(MetaCollectionDataCombo data)
+        public void AssignDataAndVisual(MetaCollectionDataCombo data)
         {
             _metaDataCombo = data;
             

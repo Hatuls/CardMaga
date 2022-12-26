@@ -37,7 +37,7 @@ namespace CardMaga.MetaUI
             OnDisposed?.Invoke(this);
         }
         
-        public void AssignVisual(MetaCollectionCardData cardData)
+        public void AssignDataAndVisual(MetaCollectionCardData cardData)
         {
             _cardData = cardData;
             _cardNumberText.text = NumberOfInstant.ToString();

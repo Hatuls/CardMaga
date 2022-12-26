@@ -12,14 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499e306178a7f2e488806b17a06e0520, type: 3}
   m_Name: DismentalCostSO
   m_EditorClassIdentifier: 
-  _dismentalCosts:
-  - rarity: 1
-    _costs: 02000300
-  - rarity: 2
-    _costs: 050007000f00
-  - rarity: 3
-    _costs: 0a000f0019002800
-  - rarity: 4
-    _costs: 14001800240038005500
-  - rarity: 5
-    _costs: 28002d003c0055007800aa00
+  _rarityLevelCostsPerCurrencies:
+  - _currencyType: 3
+    _rarityCosts:
+    - _rarity: 1
+      _costs: 05000000
+    - _rarity: 2
+      _costs: 050000000800000014000000
+    - _rarity: 3
+      _costs: 0500000008000000140000000d0000002800000050000000
+    - _rarity: 4
+      _costs: 0500000008000000140000000d000000280000005000000012000000320000005f0000008c000000
+    - _rarity: 5
+      _costs: 0500000008000000140000000d000000280000005000000012000000320000005f0000008c000000190000003c0000006e000000aa000000fa000000
+  - _currencyType: 1
+    _rarityCosts:
+    - _rarity: 1
+      _costs: 64000000
+    - _rarity: 2
+      _costs: 64000000fa000000e8030000
+    - _rarity: 3
+      _costs: 64000000fa000000e8030000f4010000dc050000ac0d0000
+    - _rarity: 4
+      _costs: 64000000fa000000e8030000f4010000dc050000ac0d0000e8030000c40900008813000028230000
+    - _rarity: 5
+      _costs: 64000000fa000000e8030000f4010000dc050000ac0d0000e8030000c40900008813000028230000d007000088130000102700005046000030750000

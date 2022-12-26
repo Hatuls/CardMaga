@@ -23,7 +23,7 @@ namespace CardMaga.MetaData.AccoutData
         public CardInstance CardInstance => _cardInstance;
         public int CardLevel => _cardInstance.Level;
       
-        public bool CardsAtMaxLevel => _cardSO.CardsMaxLevel - 1 == CardLevel; 
+        public bool CardsAtMaxLevel => CardInstance.GetCardCore().CardsAtMaxLevel; 
         public int StaminaCost => _staminaCost;
 
         public MetaCardData(CardInstance instance, CardSO cardSo,BattleCardData battleCardData)//temp

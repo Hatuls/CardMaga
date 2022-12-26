@@ -164,9 +164,6 @@ namespace CardMaga.Card
             return found;
         }
 
-        public BattleCardData Clone()
-
-       => new BattleCardData(new CardInstance(_cardInstance.GetCardCore()));
 
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]

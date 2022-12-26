@@ -18,7 +18,7 @@ namespace CardMaga.UI.Combos
             Hide();
         }
 
-        public void AssignVisual(BattleComboData data)
+        public void AssignDataAndVisual(BattleComboData data)
         {
             _comboVisual.Init(data);
         }

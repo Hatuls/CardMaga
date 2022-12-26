@@ -71,13 +71,15 @@ namespace CardMaga.Input
         {
             Lock();//start Lock
             
-            if (!(InputIdentification == null) && !(LockAndUnlockSystem.Instance == null))
+            if ((InputIdentification != null) && (LockAndUnlockSystem.Instance != null))
                 LockAndUnlockSystem.Instance.AddTouchableItemToList(this);
         }
         
         protected virtual void OnDestroy()
         {
+            if(LockAndUnlockSystem.Instance != null)
             LockAndUnlockSystem.Instance.RemoveTouchableItemFromAllLists(this);
+          
         }
 
         #endregion

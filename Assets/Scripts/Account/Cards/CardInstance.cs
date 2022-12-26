@@ -1,5 +1,4 @@
 ﻿using CardMaga.Card;
-using PlayFab.Json;
 using System;
 using UnityEngine;
 namespace Account.GeneralData
@@ -9,7 +8,7 @@ namespace Account.GeneralData
     {
         private static int _uniqueID = 0;
         private static int UniqueID => _uniqueID++;
-        
+
         #region Fields
         [SerializeField]
         private CardCore _coreData;
@@ -23,7 +22,7 @@ namespace Account.GeneralData
         public CardSO CardSO => _coreData.CardSO;
         public int Level { get => _coreData.Level; }
         public int InstanceID { get => _instanceID; }
-
+   
         public CardInstance(CardCore card)
         {
             _coreData = card;
@@ -57,7 +56,7 @@ namespace Account.GeneralData
     [Serializable]
     public class CardCore : IDisposable
     {
-        [SerializeField,Sirenix.OdinInspector.InlineProperty] 
+        [SerializeField, Sirenix.OdinInspector.InlineProperty]
         private CoreID _coreID;
 
         [SerializeField] private CardSO _cardSO;
@@ -67,7 +66,7 @@ namespace Account.GeneralData
         public int CardID => _coreID.ID;
         public CardSO CardSO => _cardSO;
         public int Level => _level;
-        
+        public bool CardsAtMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
         public CardCore(int iD) : this(new CoreID(iD)) { }
 
         public CardCore(CoreID coreID)
@@ -77,7 +76,7 @@ namespace Account.GeneralData
             _level = CardHelper.GetLevel(CardID);
             Factory.GameFactory.CardFactory.Register(this);
         }
-        
+
         public void Dispose()
         {
             Factory.GameFactory.CardFactory.Remove(this);
@@ -95,21 +94,18 @@ namespace Account.GeneralData
             int differences = _coreID.ID - baseCardLevel;
             _level = differences;
         }
-        //[Sirenix.OdinInspector.Button]
-        //private void Refresh()
-        //{
 
-        //}
+
 #endif
     }
 
     [Serializable]
     public class CoreID
     {
-       // [SerializeField]
+        // [SerializeField]
         public int ID;
-  //      [JsonProperty(PropertyName = "_id")]
-       // public int ID => _id;
+        //      [JsonProperty(PropertyName = "_id")]
+        // public int ID => _id;
         public CoreID(int id)
         {
             ID = id;
@@ -127,13 +123,8 @@ namespace Account.GeneralData
             return differences;
         }
 
-
-      
-        public static CardSO CardSO(this CardInstance card)
-    => CardSO(card.ID);
-        public static CardSO CardSO(this CardCore card)
-            => CardSO(card.CardID);
-            public static CardSO CardSO(int id)
-          => Factory.GameFactory.Instance.CardFactoryHandler.GetCard(id);
+        public static CardSO CardSO(this CardInstance card) => CardSO(card.ID);
+        public static CardSO CardSO(this CardCore card) => CardSO(card.CardID);
+        public static CardSO CardSO(int id) => Factory.GameFactory.Instance.CardFactoryHandler.GetCard(id);
     }
 }

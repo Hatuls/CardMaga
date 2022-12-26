@@ -161,7 +161,7 @@ namespace CardMaga.MetaUI.CollectionUI
 
             var cache = FindEmptyCard();
             _metaCardUIContainer.TryAddObject(cache);
-            cache.AssignVisual(metaCardData);
+            cache.AssignDataAndVisual(metaCardData);
             cache.Show();
         }
 
@@ -176,7 +176,7 @@ namespace CardMaga.MetaUI.CollectionUI
                 return;
 
             var cache = FindEmptyCombo();
-            cache.AssignVisual(metaComboData);
+            cache.AssignDataAndVisual(metaComboData);
             _metaComboUiContainer.TryAddObject(cache);  
             cache.Show();
         }

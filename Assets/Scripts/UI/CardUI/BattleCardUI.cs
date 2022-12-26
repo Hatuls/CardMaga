@@ -10,9 +10,7 @@ namespace CardMaga.UI.Card
     public class BattleCardUI : BaseUIElement, IPoolableMB<BattleCardUI>, IVisualAssign<BattleCardData>
     {
         public event Action<BattleCardUI> OnDisposed;
-        public event Action OnShow;
-        public event Action OnHide;
-        public event Action OnInitializable;
+
 
         #region Fields
         public Sequence CurrentSequence;
@@ -33,7 +31,7 @@ namespace CardMaga.UI.Card
         public BattleCardData BattleCardData { get => _battleCardData; }
         
         
-        public void AssignVisual(BattleCardData data)
+        public void AssignDataAndVisual(BattleCardData data)
         {
             _battleCardData = data;
             CardVisuals.Init(data);
@@ -52,24 +50,23 @@ namespace CardMaga.UI.Card
         public override void Init()
         {
             base.Init();
-            OnInitializable?.Invoke();
             Show();
         }
 
         #endregion
         
-        public override void Show()
-        {
-            OnShow?.Invoke();
-            gameObject.SetActive(true);
-        }
+        //public override void Show()
+        //{
+        //    base.Show();
+        //    gameObject.SetActive(true);
+        //}
 
-        public override void Hide()
-        {
-            OnHide?.Invoke();
-            if(gameObject.activeSelf)
-             gameObject.SetActive(false);
-        }
+        //public override void Hide()
+        //{
+        //    OnHide?.Invoke();
+        //    if(gameObject.activeSelf)
+        //     gameObject.SetActive(false);
+        //}
 
         public void KillTween(bool killAfterComplete)
         {
