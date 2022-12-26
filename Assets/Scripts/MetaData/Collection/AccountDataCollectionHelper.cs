@@ -12,14 +12,18 @@ namespace CardMaga.MetaData.Collection
         private AccountDataAccess _accountDataAccess;
         
         private List<MetaCollectionCardData> _collectionCardDatas;
-        private List<MetaCollectionCardData> _currentCollectionCardDatas;
+        private List<MetaCollectionCardData> currentCurrentCollectionCardDatas;
         
         private List<MetaCollectionComboData> _collectionComboDatas;
-        private List<MetaCollectionComboData> _currentCollectionComboDatas;
+        private List<MetaCollectionComboData> currentCurrentCollectionComboDatas;
 
-        public List<MetaCollectionCardData> CollectionCardDatas => _currentCollectionCardDatas;
+        public List<MetaCollectionCardData> ALlCollectionCardDatas => _collectionCardDatas;
 
-        public List<MetaCollectionComboData> CollectionComboDatas => _currentCollectionComboDatas;
+        public List<MetaCollectionComboData> AllCollectionComboDatas => _collectionComboDatas;
+
+        public List<MetaCollectionCardData> CurrentCollectionCardDatas => currentCurrentCollectionCardDatas;
+
+        public List<MetaCollectionComboData> CurrentCollectionComboDatas => currentCurrentCollectionComboDatas;
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
@@ -59,9 +63,6 @@ namespace CardMaga.MetaData.Collection
                     }
                 }
             }
-
-
-           
         }
         
         private void InitializeComboData(List<MetaComboData> comboDatas,List<MetaCollectionComboData> metaCollectionComboDatas)
@@ -85,7 +86,7 @@ namespace CardMaga.MetaData.Collection
                 {
                     if (collectionCardData.Equals(cardData))
                     {
-                        collectionCardData.AddItemToCollection(cardData);
+                        collectionCardData.AddItemToCollectionSuccess(cardData);
                     }
                 }
             }
@@ -109,7 +110,7 @@ namespace CardMaga.MetaData.Collection
                 {
                     if (collectionDataCombo.Equals(comboData))
                     {
-                        collectionDataCombo.AddItemToCollection(comboData);
+                        collectionDataCombo.AddItemToCollectionSuccess(comboData);
                     }
                 }
             }
@@ -119,8 +120,8 @@ namespace CardMaga.MetaData.Collection
         
         public void UpdateCollection()
         {
-            _currentCollectionCardDatas = SetCardCollection();
-            _currentCollectionComboDatas = SetComboCollection();
+            currentCurrentCollectionCardDatas = SetCardCollection();
+            currentCurrentCollectionComboDatas = SetComboCollection();
         }
 
         private List<MetaCollectionCardData> GetCollectionCardDatasCopy()

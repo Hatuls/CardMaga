@@ -15,7 +15,7 @@ namespace CardMaga.MetaUI
 
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private TMP_Text _cardNumberText;
-        private MetaCollectionCardData _cardData;
+        [SerializeField] private MetaCollectionCardData _cardData;
         public int CardID => _cardData.ItemReference.CardInstance.ID;
 
         public int NumberOfInstant => _cardData.NumberOfInstant;

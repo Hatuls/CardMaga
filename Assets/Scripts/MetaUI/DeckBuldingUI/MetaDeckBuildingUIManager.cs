@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using CardMaga.InventorySystem;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaData.DeckBuilding;
 using CardMaga.ObjectPool;
 using CardMaga.SequenceOperation;
-using CardMaga.UI;
 using ReiTools.TokenMachine;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,12 +14,6 @@ namespace CardMaga.MetaUI.CollectionUI
     {
         [SerializeField] private UnityEvent OnExitDeckEditing;
         
-        [Header("PreFab Ref")]
-        [SerializeField] private MetaCardUI _cardPrefabRef;
-        [SerializeField] private MetaComboUI _comboPrefabRef;
-        [SerializeField] private MetaCollectionCardUI _metaCollectionCardPrefabRef;
-        [SerializeField] private MetaCollectionComboUI collectionComboUIPrefabRef;
-        
         [Header("Scrips Ref")]
         [SerializeField] private ClickHelper _clickHelper;
         [SerializeField] private DeckEditingDataManager _collectionData;
@@ -31,11 +22,6 @@ namespace CardMaga.MetaUI.CollectionUI
        
         [Header("Title")]
         [SerializeField] private InputFieldHandler _deckName;
-        
-        private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
-        private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
-        private VisualRequester<MetaCollectionCardUI, MetaCollectionCardData> _cardCollectionVisualRequester;
-        private VisualRequester<MetaCollectionComboUI, MetaCollectionComboData> _comboCollectionVisualRequester;
         
         private DeckBuilder _deckBuilder;
         
@@ -59,16 +45,10 @@ namespace CardMaga.MetaUI.CollectionUI
             _collectionData = data.MetaDataManager.DeckEditingDataManager;
             _metaAccountData = data.MetaDataManager.MetaAccountData;
             _accountDataCollectionHelper = data.MetaDataManager.AccountDataCollectionHelper;
-            
-            _comboVisualRequester = new VisualRequester<MetaComboUI, MetaComboData>(_comboPrefabRef);
-            _cardVisualRequester = new VisualRequester<MetaCardUI, MetaCardData>(_cardPrefabRef);
-            _cardCollectionVisualRequester =
-                new VisualRequester<MetaCollectionCardUI, MetaCollectionCardData>(_metaCollectionCardPrefabRef);
-            _comboCollectionVisualRequester = new VisualRequester<MetaCollectionComboUI, MetaCollectionComboData>(collectionComboUIPrefabRef);
-            
-            _metaCardUis = _cardVisualRequester.GetVisual(8).ToArray();
-            _metaComboUis = _comboVisualRequester.GetVisual(3).ToArray();
-            
+
+            _metaCardUis = VisualRequesterManager.Instance.GetMetaCardUIs(8).ToArray();
+            _metaComboUis = VisualRequesterManager.Instance.GetMetaComboUIs(3).ToArray();
+
             _deckContinaer.Init(_metaCardUis,_metaComboUis);
             _metaCollectionHandler.Init();
 
@@ -102,10 +82,9 @@ namespace CardMaga.MetaUI.CollectionUI
 
             _deckName.SetText(metaDeckData.DeckName);//all plaster
             
-            _metaCollectionCardUIs =  _cardCollectionVisualRequester.GetVisual(_accountDataCollectionHelper.CollectionCardDatas);
-            _metaComboCollectionUIs =
-                _comboCollectionVisualRequester.GetVisual(_accountDataCollectionHelper.CollectionComboDatas);
-            
+            _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_accountDataCollectionHelper.CurrentCollectionCardDatas);
+            _metaComboCollectionUIs = VisualRequesterManager.Instance.GetMetaCollectionComboUis(_accountDataCollectionHelper.CurrentCollectionComboDatas);
+
             _metaCollectionHandler.LoadObjects(_metaCollectionCardUIs,_metaComboCollectionUIs);
 
             if (metaDeckData.IsNewDeck)

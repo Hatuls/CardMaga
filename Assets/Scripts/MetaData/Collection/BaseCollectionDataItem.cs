@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace CardMaga.MetaData.Collection
 {
+    [Serializable]
     public abstract class BaseCollectionDataItem<T> where T : IEquatable<T>
     {
         private const string FAILED_MESSAGE = "FAILED add or remove item"; 
@@ -14,7 +17,7 @@ namespace CardMaga.MetaData.Collection
         public event Action<string> OnFailedAction;
 
         private readonly int _maxInstants;
-        private int _numberOfInstant;
+        [SerializeField,ReadOnly] private int _numberOfInstant;
         /// <summary>
         /// Associate Deck first number the deck Id, Second number is the number of the Instant in the deck
         /// </summary>
@@ -47,7 +50,7 @@ namespace CardMaga.MetaData.Collection
             OnFailedAction?.Invoke(FAILED_MESSAGE);
         }
 
-        public void AddItemToCollection(T itemData)
+        public void AddItemToCollectionSuccess(T itemData)
         {
             if (!ItemReference.Equals(itemData)) return;
            _numberOfInstant--;
@@ -59,7 +62,7 @@ namespace CardMaga.MetaData.Collection
             OnTryRemoveItemFromCollection?.Invoke(ItemReference);
         }
 
-        public void RemoveItemFromCollection(T itemData)
+        public void RemoveItemFromCollectionSuccess(T itemData)
         {
             if (!ItemReference.Equals(itemData)) return;
             _numberOfInstant++;

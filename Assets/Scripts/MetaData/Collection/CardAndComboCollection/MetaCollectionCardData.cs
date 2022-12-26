@@ -3,6 +3,7 @@ using CardMaga.MetaData.AccoutData;
 
 namespace CardMaga.MetaData.Collection
 {
+    [Serializable]
     public class MetaCollectionCardData : BaseCollectionDataItem<MetaCardData> , IEquatable<MetaCollectionCardData>,IEquatable<MetaCardData>
     {
         private MetaCardData _metaCardData;

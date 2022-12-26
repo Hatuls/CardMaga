@@ -43,21 +43,41 @@ namespace CardMaga.ObjectPool
         {
            return _cardVisualRequester.GetVisual(metaCardDatas);
         }
+        
+        public List<MetaCardUI> GetMetaCardUIs(int amount)
+        {
+            return _cardVisualRequester.GetVisual(amount);
+        }
 
         public List<MetaComboUI> GetMetaComboUIs(List<MetaComboData> metaComboDatas)
         {
             return _comboVisualRequester.GetVisual(metaComboDatas);
+        }
+        
+        public List<MetaComboUI> GetMetaComboUIs(int amount)
+        {
+            return _comboVisualRequester.GetVisual(amount);
         }
 
         public List<MetaCollectionCardUI> GetMetaCollectionCardUI(List<MetaCollectionCardData> metaCollectionCardDatas)
         {
             return _cardCollectionVisualRequester.GetVisual(metaCollectionCardDatas);
         }
+        
+        public List<MetaCollectionCardUI> GetMetaCollectionCardUI(int amount)
+        {
+            return _cardCollectionVisualRequester.GetVisual(amount);
+        }
 
         public List<MetaCollectionComboUI> GetMetaCollectionComboUis(
             List<MetaCollectionComboData> metaCollectionComboDatas)
         {
             return _comboCollectionVisualRequester.GetVisual(metaCollectionComboDatas);
+        }
+        
+        public List<MetaCollectionComboUI> GetMetaCollectionComboUis(int amount)
+        {
+            return _comboCollectionVisualRequester.GetVisual(amount);
         }
     }
 }

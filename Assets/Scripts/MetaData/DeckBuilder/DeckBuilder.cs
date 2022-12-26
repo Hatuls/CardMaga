@@ -40,20 +40,20 @@ namespace CardMaga.MetaData.DeckBuilding
         {
             _deck = deckData;
 
-            foreach (var cardData in _accountDataCollection.CollectionCardDatas)
+            foreach (var cardData in _accountDataCollection.CurrentCollectionCardDatas)
             {
                 cardData.OnTryAddItemToCollection += TryAddCard;
                 cardData.OnTryRemoveItemFromCollection += TryRemoveCard;
-                OnSuccessCardAdd += cardData.AddItemToCollection;
-                OnSuccessCardRemove += cardData.RemoveItemFromCollection;
+                OnSuccessCardAdd += cardData.AddItemToCollectionSuccess;
+                OnSuccessCardRemove += cardData.RemoveItemFromCollectionSuccess;
             }
             
-            foreach (var comboData in _accountDataCollection.CollectionComboDatas)
+            foreach (var comboData in _accountDataCollection.CurrentCollectionComboDatas)
             {
                 comboData.OnTryAddItemToCollection += TryAddCombo;
                 comboData.OnTryRemoveItemFromCollection += TryRemoveCombo;
-                OnSuccessComboAdd += comboData.AddItemToCollection;
-                OnSuccessComboRemove += comboData.RemoveItemFromCollection;
+                OnSuccessComboAdd += comboData.AddItemToCollectionSuccess;
+                OnSuccessComboRemove += comboData.RemoveItemFromCollectionSuccess;
             }
             
             OnNewDeckLoaded?.Invoke(_deck);
@@ -61,20 +61,20 @@ namespace CardMaga.MetaData.DeckBuilding
 
         public void DisposeDeck()//Need to call
         {
-            foreach (var cardData in _accountDataCollection.CollectionCardDatas)
+            foreach (var cardData in _accountDataCollection.CurrentCollectionCardDatas)
             {
                 cardData.OnTryAddItemToCollection -= TryAddCard;
                 cardData.OnTryRemoveItemFromCollection -= TryRemoveCard;
-                OnSuccessCardAdd -= cardData.AddItemToCollection;
-                OnSuccessCardRemove -= cardData.RemoveItemFromCollection;
+                OnSuccessCardAdd -= cardData.AddItemToCollectionSuccess;
+                OnSuccessCardRemove -= cardData.RemoveItemFromCollectionSuccess;
             }
             
-            foreach (var comboData in _accountDataCollection.CollectionComboDatas)
+            foreach (var comboData in _accountDataCollection.CurrentCollectionComboDatas)
             {
                 comboData.OnTryAddItemToCollection -= TryAddCombo;
                 comboData.OnTryRemoveItemFromCollection -= TryRemoveCombo;
-                OnSuccessComboAdd -= comboData.AddItemToCollection;
-                OnSuccessComboRemove -= comboData.RemoveItemFromCollection;
+                OnSuccessComboAdd -= comboData.AddItemToCollectionSuccess;
+                OnSuccessComboRemove -= comboData.RemoveItemFromCollectionSuccess;
             }
         }
         

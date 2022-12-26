@@ -12,6 +12,11 @@ namespace CardMaga.MetaData.Dismantle
 
         private List<MetaCardData> _dismantleCards;
 
+        public DismantleHandler()
+        {
+            _dismantleCards = new List<MetaCardData>();
+        }
+
         public void AddCardToDismantleList(MetaCardData metaCardData)
         {
             _dismantleCards.Add(metaCardData);
