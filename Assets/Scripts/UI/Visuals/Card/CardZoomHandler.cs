@@ -1,4 +1,5 @@
-﻿using CardMaga.Card;
+﻿using Account.GeneralData;
+using CardMaga.Card;
 using CardMaga.UI.Visuals;
 using DG.Tweening;
 using ReiTools.TokenMachine;
@@ -72,9 +73,9 @@ namespace CardMaga.UI
             //scale battleCard
             _cardVisualMainObject.localScale = Vector3.one;
         }
-        public void SetCardType(BattleCardData battleCardData)
+        public void SetCardType(CardCore battleCardData)
         {
-            int cardType = (int)battleCardData.CardTypeData.CardType - 1;
+            int cardType = (int)battleCardData.CardSO.CardTypeData.CardType - 1;
             _startPos = _zoomPositionsSO.YStartPosition[cardType];
             _endPos = _zoomPositionsSO.YEndPosition[cardType];
 

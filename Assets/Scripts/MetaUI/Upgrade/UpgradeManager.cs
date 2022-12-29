@@ -150,7 +150,7 @@ namespace CardMaga.Meta.Upgrade
                 card.gameObject.SetActive(true);
             }
         }
-        private bool IsMaxLevel(CardInstance cardInstance) => cardInstance.GetCardCore().CardsAtMaxLevel;
+        private bool IsMaxLevel(CardInstance cardInstance) => cardInstance.GetCardCore().IsAtMaxLevel;
         private bool IsFirstLevel(CardInstance cardInstance) => cardInstance.Level == 0;
 
 

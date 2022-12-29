@@ -1,15 +1,16 @@
-﻿using CardMaga.Card;
+﻿using Account.GeneralData;
+using CardMaga.Card;
 using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
 using UnityEngine;
 
 namespace CardMaga.UI
 {
-    public abstract class BaseCardVisualHandler : MonoBehaviour, IInitializable<BattleCardData>
+    public abstract class BaseCardVisualHandler : MonoBehaviour, IInitializable<CardCore>
     {
         public abstract CardZoomHandler CardZoomHandler { get; }
-        public abstract BaseTextAssignerHandler<BattleCardData> ComboTextAssignerHandler { get; }
-        public abstract BaseVisualAssignerHandler<BattleCardData> ComboVisualAssignerHandler { get; }
+        public abstract BaseTextAssignerHandler<CardCore> ComboTextAssignerHandler { get; }
+        public abstract BaseVisualAssignerHandler<CardCore> ComboVisualAssignerHandler { get; }
 
         public virtual void SetExecutedCardVisuals()
         {
@@ -21,7 +22,7 @@ namespace CardMaga.UI
         {
         }
 
-        public virtual void Init(BattleCardData battleCardData)
+        public virtual void Init(CardCore battleCardData)
         {
             ComboTextAssignerHandler.Init(battleCardData);
             ComboVisualAssignerHandler.Init(battleCardData);

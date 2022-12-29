@@ -1,12 +1,11 @@
-﻿using UnityEngine.UI;
+﻿using Account.GeneralData;
 using UnityEngine;
-using DG.Tweening;
-using CardMaga.Card;
+using UnityEngine.UI;
 
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardGlowVisualAssigner : BaseVisualAssigner<BattleCardData>
+    public class CardGlowVisualAssigner : BaseVisualAssigner<CardCore>
     {
         [SerializeField] GlowCardSO _glowCardSO;
         [SerializeField] Image _glowImage;
@@ -17,7 +16,7 @@ namespace CardMaga.UI.Visuals
                 throw new System.Exception("CardGlowVisualAssigner has no cardGlow");
         }
 
-        public override void Init(BattleCardData data)
+        public override void Init(CardCore data)
         {
             _glowImage.sprite = _glowCardSO.GlowSprite;
             _glowImage.color = _glowCardSO.GlowColor;

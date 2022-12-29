@@ -416,6 +416,10 @@ namespace Factory
 
                 return cards;
             }
+            public CardCore CreateCardCore(int coreID)
+                => CreateCardCore(new CoreID(coreID));
+            public CardCore CreateCardCore(CoreID coreID)
+            => new CardCore(coreID);
             public CardCore[] CreateCardCores(CoreID[] coreIDs)
             {
                 CardCore[] cardCores = new CardCore[coreIDs.Length];

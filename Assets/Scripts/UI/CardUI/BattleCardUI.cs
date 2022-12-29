@@ -34,7 +34,7 @@ namespace CardMaga.UI.Card
         public void AssignDataAndVisual(BattleCardData data)
         {
             _battleCardData = data;
-            CardVisuals.Init(data);
+            CardVisuals.Init(data.CardInstance.CardCore);
         }
 
         #region Ipoolable Implementation
