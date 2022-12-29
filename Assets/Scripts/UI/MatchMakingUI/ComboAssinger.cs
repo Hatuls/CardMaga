@@ -16,7 +16,7 @@ namespace CardMaga.UI.MatchMMaking
                 if (comboDatas == null || i>= comboDatas.Length|| comboDatas[i] == null)
                     _combos[i].gameObject.SetActive(false);
                 else
-                    _combos[i].AssignVisual(comboDatas[i]);
+                    _combos[i].AssignDataAndVisual(comboDatas[i]);
             }
         }
 

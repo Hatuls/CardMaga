@@ -26,7 +26,7 @@ namespace CardMaga.MetaUI
             Show();
         }
         
-        public void AssignVisual(MetaCollectionCardData cardData)
+        public void AssignDataAndVisual(MetaCollectionCardData cardData)
         {
             _cardData = cardData;
             _cardNumberText.text = NumberOfInstant.ToString();
