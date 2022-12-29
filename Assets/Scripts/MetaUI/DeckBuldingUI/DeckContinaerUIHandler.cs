@@ -23,7 +23,7 @@ public class DeckContinaerUIHandler : MonoBehaviour
         
         var cache = FindEmptyCard();
         _metaCardUIContainer.TryAddObject(cache);
-        cache.AssignVisual(metaCardData);
+        cache.AssignDataAndVisual(metaCardData);
         cache.Show();
     }
     
@@ -31,7 +31,7 @@ public class DeckContinaerUIHandler : MonoBehaviour
     {
        
         var cache = FindEmptyCombo();
-        cache.AssignVisual(metaComboData);
+        cache.AssignDataAndVisual(metaComboData);
         _metaComboUiContainer.TryAddObject(cache);  
         cache.Show();
     }

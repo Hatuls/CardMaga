@@ -135,9 +135,9 @@ namespace CardMaga.Meta.Upgrade
         }
 
         private void InitRightCard()
-         => InitCard(_rightCardUI, IsMaxLevel, _middleCardUI.CardInstance.ID + 1);
+         => InitCard(_rightCardUI, IsMaxLevel, _middleCardUI.CardInstance.CoreID + 1);
         private void InitLeftCard()
-        => InitCard(_leftCardUI, IsFirstLevel, _middleCardUI.CardInstance.ID - 1);
+        => InitCard(_leftCardUI, IsFirstLevel, _middleCardUI.CardInstance.CoreID - 1);
         private void InitCard(MetaCardUI card, Predicate<CardInstance> condition, int nextID)
         {
 
