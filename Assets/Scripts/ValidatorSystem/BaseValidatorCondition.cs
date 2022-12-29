@@ -1,19 +1,11 @@
-using CardMaga.MetaData.AccoutData;
-using CardMaga.MetaData.Collection;
-using UnityEngine;
+
 
 namespace CardMaga.ValidatorSystem
 {
-    public abstract class BaseValidatorCondition<T> : ScriptableObject , IValid<T>
+    public abstract class BaseValidatorCondition<T> : IValid<T>
     {
-        public abstract bool Valid(T obj);
-    }
-    
-    public abstract class MetaCardDataValidatorCondition : BaseValidatorCondition<MetaCardData>
-    {
-    }
-    
-    public abstract class MetaCollectionCardDataValidatorCondition : BaseValidatorCondition<MetaCollectionCardData>
-    {
+        public abstract string FailedMassage { get; }
+        
+        public abstract bool Valid(T obj, out string failedMassage);
     }
 }

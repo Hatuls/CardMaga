@@ -44,12 +44,12 @@ namespace CardMaga.MetaData.AccoutData
         public bool Equals(MetaCardData other)
         {
             if (ReferenceEquals(other,null)) return false;
-            return _cardInstance.ID == other.CardInstance.ID;
+            return _cardInstance.CoreID == other.CardInstance.CoreID;
         }
         
         public bool Equals(int cardCoreID)
         {
-            return _cardInstance.ID == cardCoreID;
+            return _cardInstance.CoreID == cardCoreID;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.SequenceOperation;
 using MetaData;
@@ -31,41 +32,36 @@ namespace CardMaga.MetaData.Collection
             _collectionComboDatas = new List<MetaCollectionComboData>();
             
             _accountDataAccess = data.AccountDataAccess;
-            InitializeCardData(_accountDataAccess.AccountData.AccountCards,_collectionCardDatas);
-            InitializeComboData(_accountDataAccess.AccountData.AccountCombos,_collectionComboDatas);
+            InitializeCardData();
+            InitializeComboData();
         }
 
         public int Priority => 0;
         
-        private void InitializeCardData(List<MetaCardData> cardDatas,List<MetaCollectionCardData> metaCollectionCardDatas)
+        private void InitializeCardData()
         {
-            var result = from cardData in cardDatas
-                group cardData by cardData.CardInstance.ID
-                into r
-                select new { cardID = r.Key, count = r.Count(), metaCard = cardDatas.First(x=> r.Key == x.CardInstance.ID)};
-            
-            foreach (var x in result)
+            List<CardInstance> temp = _accountDataAccess.AccountData.AccountCards;
+
+            List<CardInstance> cardDatas = temp.OrderBy(x => x.CoreID).ToList();
+
+            _collectionCardDatas = new List<MetaCollectionCardData>();
+
+            foreach (var cardData in cardDatas)
             {
-                metaCollectionCardDatas.Add(new MetaCollectionCardData(x.count,x.count,x.metaCard));
+                foreach (var collectionCardData in _collectionCardDatas.Where(collectionCardData => collectionCardData.Equals(cardData)))
+                {
+                    collectionCardData.AddCardInstance(cardData);
+                }
+
+                _collectionCardDatas.Add(new MetaCollectionCardData(cardData));
             }
 
             MetaCharacterData[] metaCharacterDatas = _accountDataAccess.AccountData.CharacterDatas.CharacterDatas;
-
-            Dictionary<int, int> cache = new Dictionary<int, int>();
-
-            foreach (var characterData in metaCharacterDatas)
-            {
-                foreach (var deckData in characterData.Decks)
-                {
-                    foreach (var collectionCardData in deckData.Cards.SelectMany(cardData => metaCollectionCardDatas.Where(collectionCardData => collectionCardData.CardId == cardData.CardInstance.ID)))
-                    {
-                        collectionCardData.AddItemToAssociateDeck(deckData.DeckId);
-                    }
-                }
-            }
+            
+            
         }
         
-        private void InitializeComboData(List<MetaComboData> comboDatas,List<MetaCollectionComboData> metaCollectionComboDatas)
+        private void InitializeComboData()
         {
             metaCollectionComboDatas.AddRange(comboDatas.Select(comboData => new MetaCollectionComboData(1, 1, comboData)));
         }
@@ -130,7 +126,7 @@ namespace CardMaga.MetaData.Collection
 
             foreach (var cardData in _collectionCardDatas)
             {
-                output.Add(new MetaCollectionCardData(cardData.NumberOfInstant,cardData.NumberOfInstant,cardData.ItemReference));
+                output.Add(new MetaCollectionCardData(cardData.NumberOfInstance,cardData.NumberOfInstance,cardData.ItemReference));
             }
 
             return output;
@@ -142,7 +138,7 @@ namespace CardMaga.MetaData.Collection
 
             foreach (var data in _collectionComboDatas)
             {
-                output.Add(new MetaCollectionComboData(data.NumberOfInstant,data.NumberOfInstant,data.ItemReference));
+                output.Add(new MetaCollectionComboData(data.NumberOfInstance,data.NumberOfInstance,data.ItemReference));
             }
 
             return output;

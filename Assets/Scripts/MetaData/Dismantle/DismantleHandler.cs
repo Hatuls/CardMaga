@@ -1,35 +1,56 @@
 using System;
 using System.Collections.Generic;
-using CardMaga.MetaData.AccoutData;
+using Account.GeneralData;
+using CardMaga.MetaData.Collection;
+using UnityEngine;
 
 namespace CardMaga.MetaData.Dismantle
 {
     public class DismantleHandler
     {
-        public event Action<List<MetaCardData>> OnConfirmDismantleCard;
-        public event Action<MetaCardData> OnAddCardToDismantleList; 
-        public event Action<MetaCardData> OnRemoveCardFromDismantleList; 
+        public event Action<List<CardInstance>> OnConfirmDismantleCard;
+        public event Action<CardInstance> OnAddCardToDismantleList; 
+        public event Action<CardInstance> OnRemoveCardFromDismantleList; 
 
-        private List<MetaCardData> _dismantleCards;
+        private List<CardInstance> _dismantleCards;
 
         public DismantleHandler()
         {
-            _dismantleCards = new List<MetaCardData>();
+            _dismantleCards = new List<CardInstance>();
         }
 
-        public void AddCardToDismantleList(MetaCardData metaCardData)
+        public void AddCardToDismantleList(CardInstance cardInstance)
         {
-            _dismantleCards.Add(metaCardData);
-            OnAddCardToDismantleList?.Invoke(metaCardData);
+            _dismantleCards.Add(cardInstance);
+            OnAddCardToDismantleList?.Invoke(cardInstance);
         }
 
-        public void RemoveCardFromDismantleList(MetaCardData metaCardData)
+        public CardInstance RemoveCardFromDismantleList(MetaCollectionCardData collectionCardData)
         {
-            if (!_dismantleCards.Contains(metaCardData))
-                return;
+            if (FindCardInstanceInDismantelList(collectionCardData.CoreId,out CardInstance cardInstance))
+            {
+                _dismantleCards.Remove(cardInstance);
+                OnRemoveCardFromDismantleList?.Invoke(cardInstance);
+                return cardInstance;
+            }
 
-            _dismantleCards.Remove(metaCardData);
-            OnRemoveCardFromDismantleList?.Invoke(metaCardData);
+            Debug.LogWarning("Did not find card Instance in discard collection");
+            return null;
+        }
+        
+        private bool FindCardInstanceInDismantelList(int coreId ,out CardInstance cardInstance)
+        {
+            foreach (var card in _dismantleCards)
+            {
+                if (card.CoreID == coreId)
+                {
+                    cardInstance = card;
+                    return true;
+                }
+            }
+
+            cardInstance = null;
+            return false;
         }
 
         public void ResetDismantelList()

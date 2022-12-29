@@ -45,7 +45,7 @@ namespace CardMaga.CSV
                 string name = row[NameIndex];
 
                 if (!int.TryParse(row[CharacterIDIndex], out int characterID))
-                    throw new Exception($"CSVToCurrenciesReward: Could not convert Character ID to int\nID - {resultID}\nInput Recieved - {row[CharacterIDIndex]}");
+                    throw new Exception($"CSVToCurrenciesReward: Could not convert Character CoreID to int\nID - {resultID}\nInput Recieved - {row[CharacterIDIndex]}");
 
 
 

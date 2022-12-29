@@ -1,4 +1,5 @@
 using System;
+using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
 using UnityEngine;
 
@@ -17,10 +18,16 @@ namespace CardMaga.MetaData.Dismantle
         public int GoldCurrency => _goldCurrency;
 
         
-        public void AddCardCurrency(MetaCardData metaCardData)
+        public void AddCardCurrency(CardInstance cardInstance)
         {
-            _chipsCurrency += AddChips(metaCardData);
-            _goldCurrency += AddGold(metaCardData);
+            _chipsCurrency += _costsSo.GetCardDismentalCost(cardInstance);
+            _goldCurrency += 0;
+        }
+        
+        public void RemoveCardCurrency(CardInstance cardInstance)
+        {
+            _chipsCurrency -= _costsSo.GetCardDismentalCost(cardInstance);
+            _goldCurrency -= 0;
         }
 
         public void ResetDismantelCurrency()
@@ -28,16 +35,5 @@ namespace CardMaga.MetaData.Dismantle
             _chipsCurrency = 0;
             _goldCurrency = 0;
         }
-
-        private int AddChips(MetaCardData metaCardData)
-        {
-            return  _costsSo.GetCardDismentalCost(metaCardData);
-        }
-
-        private int AddGold(MetaCardData metaCardData)
-        {
-            return 0;
-        }
-
     }
 }

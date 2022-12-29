@@ -228,7 +228,7 @@ namespace Battle.Deck
          {
             /*
              *Check if specific battleCard is in the deck
-             *check by matching ID
+             *check by matching CoreID
              */
 
             if (_deckCards == null|| battleCard== null || _deckCards.Length == 0)

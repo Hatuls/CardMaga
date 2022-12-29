@@ -1,4 +1,5 @@
 using System;
+using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using CardMaga.SequenceOperation;
@@ -11,12 +12,12 @@ namespace CardMaga.MetaData.DeckBuilding
     {
         #region Events
         public event Action OnDeckNameUpdate; 
-        public event Action<MetaCardData> OnSuccessCardAdd;
+        public event Action<CardInstance> OnSuccessCardAdd;
         public event Action<string> OnFailedCardAdd;
-        public event Action<MetaCardData> OnSuccessCardRemove;
-        public event Action<MetaComboData> OnSuccessComboAdd;
+        public event Action<CardInstance> OnSuccessCardRemove;
+        public event Action<CardInstance> OnSuccessComboAdd;
         public event Action<string> OnFailedComboAdd; 
-        public event Action<MetaComboData> OnSuccessComboRemove;
+        public event Action<CardInstance> OnSuccessComboRemove;
         public event Action<MetaDeckData> OnNewDeckLoaded; 
 
         #endregion
@@ -44,16 +45,12 @@ namespace CardMaga.MetaData.DeckBuilding
             {
                 cardData.OnTryAddItemToCollection += TryAddCard;
                 cardData.OnTryRemoveItemFromCollection += TryRemoveCard;
-                OnSuccessCardAdd += cardData.AddItemToCollectionSuccess;
-                OnSuccessCardRemove += cardData.RemoveItemFromCollectionSuccess;
             }
             
             foreach (var comboData in _accountDataCollection.CurrentCollectionComboDatas)
             {
                 comboData.OnTryAddItemToCollection += TryAddCombo;
                 comboData.OnTryRemoveItemFromCollection += TryRemoveCombo;
-                OnSuccessComboAdd += comboData.AddItemToCollectionSuccess;
-                OnSuccessComboRemove += comboData.RemoveItemFromCollectionSuccess;
             }
             
             OnNewDeckLoaded?.Invoke(_deck);
@@ -65,16 +62,13 @@ namespace CardMaga.MetaData.DeckBuilding
             {
                 cardData.OnTryAddItemToCollection -= TryAddCard;
                 cardData.OnTryRemoveItemFromCollection -= TryRemoveCard;
-                OnSuccessCardAdd -= cardData.AddItemToCollectionSuccess;
-                OnSuccessCardRemove -= cardData.RemoveItemFromCollectionSuccess;
+                
             }
             
             foreach (var comboData in _accountDataCollection.CurrentCollectionComboDatas)
             {
                 comboData.OnTryAddItemToCollection -= TryAddCombo;
                 comboData.OnTryRemoveItemFromCollection -= TryRemoveCombo;
-                OnSuccessComboAdd -= comboData.AddItemToCollectionSuccess;
-                OnSuccessComboRemove -= comboData.RemoveItemFromCollectionSuccess;
             }
         }
         
@@ -85,41 +79,47 @@ namespace CardMaga.MetaData.DeckBuilding
             OnDeckNameUpdate?.Invoke();
         }
 
-        private void TryAddCard(MetaCardData cardData)
+        private void TryAddCard(MetaCollectionCardData collectionCardData)
         {
             if (_deck.Cards.Count >= MAX_CARD_IN_DECK)
             {
                 OnFailedCardAdd?.Invoke("MAX_CARD_IN_DECK");
                 return;
             }
-            _deck.AddCard(cardData);
-            OnSuccessCardAdd?.Invoke(cardData);
+
+            var cache = collectionCardData.GetCardData();
+            collectionCardData.AddItemToCollection();
+            _deck.AddCard(cache);
+            OnSuccessCardAdd?.Invoke(cache);
         }
 
-        private void TryAddCombo(MetaComboData comboData)
+        private void TryAddCombo(MetaCollectionComboData collectionComboData)
         {
             if (_deck.Combos.Count >= MAX_COMBO_IN_DECK)
             {
                 OnFailedComboAdd?.Invoke("MAX_COMBO_IN_DECK");
                 return;
             }
-            _deck.AddCombo(comboData);
-            OnSuccessComboAdd?.Invoke(comboData);
+            collectionComboData.AddItemToCollection();
+            _deck.AddCombo(collectionComboData.MetaComboData);
+            OnSuccessComboAdd?.Invoke(collectionComboData.MetaComboData);
         }
 
-        private void TryRemoveCard(MetaCardData cardData)
+        private void TryRemoveCard(MetaCollectionCardData collectionCardData)
         {
-            if (_deck.FindMetaCardData(cardData.CardInstance.ID,out MetaCardData metaCardData))
+            if (_deck.FindMetaCardData(collectionCardData.CoreId,out CardInstance metaCardData))
             {
+                collectionCardData.RemoveItemFromCollection();
                 _deck.RemoveCard(metaCardData);
                 OnSuccessCardRemove?.Invoke(metaCardData);
             }
         }
 
-        private void TryRemoveCombo(MetaComboData comboData)
+        private void TryRemoveCombo(MetaCollectionComboData collectionComboData)
         {
-            if (_deck.FindMetaComboData(comboData.ID,out MetaComboData metaComboData))
+            if (_deck.FindMetaComboData(collectionComboData.ComboID,out MetaComboData metaComboData))
             {
+                collectionComboData.RemoveItemFromCollection();
                 _deck.RemoveCombo(metaComboData);
                 OnSuccessComboRemove?.Invoke(metaComboData);
             }

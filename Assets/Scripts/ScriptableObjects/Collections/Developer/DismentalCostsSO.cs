@@ -1,4 +1,5 @@
-﻿using CardMaga.Card;
+﻿using Account.GeneralData;
+using CardMaga.Card;
 using CardMaga.MetaData.AccoutData;
 using UnityEngine;
 
@@ -19,14 +20,14 @@ public class DismentalCostsSO : ScriptableObject
         throw new System.Exception($"DismentalCosts: Rarity Was Not Found: {battleCard.CardSO.Rarity}");
     }
     
-    public int GetCardDismentalCost(MetaCardData metaCardData)
+    public int GetCardDismentalCost(CardInstance cardInstance)
     {
         for (int i = 0; i < _dismentalCosts.Length; i++)
         {
-            if (_dismentalCosts[i].Rarity == metaCardData.CardSo.Rarity)
-                return _dismentalCosts[i].Costs[metaCardData.CardLevel];
+            if (_dismentalCosts[i].Rarity == cardInstance.CardSO.Rarity)
+                return _dismentalCosts[i].Costs[cardInstance.Level];
         }
-        throw new System.Exception($"DismentalCosts: Rarity Was Not Found: {metaCardData.CardSo.Rarity}");
+        throw new System.Exception($"DismentalCosts: Rarity Was Not Found: {cardInstance.CardSO.Rarity}");
     }
 
 #if UNITY_EDITOR

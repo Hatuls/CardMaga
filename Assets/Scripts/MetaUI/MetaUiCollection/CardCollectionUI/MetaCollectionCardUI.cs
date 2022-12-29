@@ -1,54 +1,58 @@
 using System;
-using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCollectionCardUI : BaseCollectionUIItem<MetaCardData>, IPoolableMB<MetaCollectionCardUI>,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
+    public class MetaCollectionCardUI : BaseCollectionUIItem, IPoolableMB<MetaCollectionCardUI>,IVisualAssign<MetaCollectionCardData>//need to change to MetaCardData 
     {
         public event Action<MetaCollectionCardUI> OnDisposed;
 
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private TMP_Text _cardNumberText;
-        [SerializeField] private MetaCollectionCardData _cardData;
-        public int CardID => _cardData.ItemReference.CardInstance.ID;
+        [SerializeField,ReadOnly] private MetaCollectionCardData _cardData;
+        public int CoreId => _cardData.CoreId;
 
-        public int NumberOfInstant => _cardData.NumberOfInstant;
+        public int NumberOfInstant => _cardData.NumberOfInstance;
         
         public override void Init()
         {
             base.Init();
             Show();
         }
-
-        public void Dispose()
-        {
-            OnTryAddToDeck -= _cardData.AddItemToCollection;
-            OnTryRemoveFromDeck -= _cardData.RemoveItemFromCollection;
-            _cardData.OnSuccessfulAddItemToCollection -= SuccessAddToCollection;
-            _cardData.OnSuccessfulRemoveItemFromCollection -= SuccessRemoveFromCollection;
-            
-            Hide();
-            OnDisposed?.Invoke(this);
-        }
         
         public void AssignVisual(MetaCollectionCardData cardData)
         {
             _cardData = cardData;
             _cardNumberText.text = NumberOfInstant.ToString();
-            _cardVisuals.Init(_cardData.ItemReference.BattleCardData);
+            _cardVisuals.Init(_cardData.ItemReference.BattleCardData);//need to chanage to work whit CardInstance id
             
-            OnTryAddToDeck += _cardData.AddItemToCollection;
-            OnTryRemoveFromDeck += _cardData.RemoveItemFromCollection;
-            _cardData.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
-            _cardData.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
+            _cardData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             
             UpdateCardVisual();
+        }
+
+        public override void TryAddToCollection()
+        {
+            _cardData.RemoveCardFromCollection();
+        }
+
+        public override void TryRemoveFromCollection()
+        {
+            _cardData.RemoveCardFromCollection();
+        }
+
+        public void Dispose()
+        {
+            _cardData.OnSuccessAddOrRemoveFromCollection -= SuccessAddOrRemoveCollection;
+            
+            Hide();
+            OnDisposed?.Invoke(this);
         }
         
         private void UpdateCardVisual()
@@ -57,25 +61,20 @@ namespace CardMaga.MetaUI
             
             Enable();
 
-            if (_cardData.IsNotMoreInstants)
+            if (_cardData.NotMoreInstants)
             {
                 DisablePlus();
                 return;
             }
 
-            if (_cardData.IsMaxInstants)
+            if (_cardData.MaxInstants)
             {
                 DisableMins();
                 return;
             }
         }
 
-        public override void SuccessAddToCollection(MetaCardData itemData)
-        {
-            UpdateCardVisual();
-        }
-
-        public override void SuccessRemoveFromCollection(MetaCardData itemData)
+        protected override void SuccessAddOrRemoveCollection()
         {
             UpdateCardVisual();
         }

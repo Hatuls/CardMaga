@@ -71,7 +71,7 @@ namespace CardMaga.Server.Request
 
             for (int i = 0; i < cardDatas.Count; i++)
             {
-                cards[i] = new CoreID(cardDatas[i].CardInstance.ID);
+                cards[i] = new CoreID(cardDatas[i].CardInstance.CoreID);
             }
 
             for (int i = 0; i < comboDatas.Count; i++)

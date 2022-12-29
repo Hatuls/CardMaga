@@ -72,7 +72,7 @@ namespace CardMaga.CSV
         private static ComboSO CreateComboRecipe(string[] row, CardsCollectionSO cardCollection)
         {
             const int ID = 0;
-            const int RecipeCardName = 1; // <- return ID
+            const int RecipeCardName = 1; // <- return CoreID
             const int GoesToWhenCrafted = 2;
             const int GoldCost = 3;
             const int AmountBodyPartsAndType = 4;
@@ -101,7 +101,7 @@ namespace CardMaga.CSV
                 }
                 if (recipe.CraftedCard == null)
                 {
-                    Debug.LogError($"Could Not find the ID {row[RecipeCardName]} in the battleCard collection please check if its matching correctly");
+                    Debug.LogError($"Could Not find the CoreID {row[RecipeCardName]} in the battleCard collection please check if its matching correctly");
                     return null;
                 }
 

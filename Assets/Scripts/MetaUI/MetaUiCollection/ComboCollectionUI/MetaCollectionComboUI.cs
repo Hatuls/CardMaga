@@ -1,5 +1,4 @@
 using System;
-using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.Tools.Pools;
@@ -8,70 +7,69 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCollectionComboUI : BaseCollectionUIItem<MetaComboData>, IPoolableMB<MetaCollectionComboUI>,IVisualAssign<MetaCollectionComboData>
+    public class MetaCollectionComboUI : BaseCollectionUIItem, IPoolableMB<MetaCollectionComboUI>,IVisualAssign<MetaCollectionComboData>
     {
         public event Action<MetaCollectionComboUI> OnDisposed;
-
-
+        
         [SerializeField] private ComboVisualHandler _comboVisual;
 
-        private MetaCollectionComboData metaComboData;
+        private MetaCollectionComboData _metaComboData;
 
         public override void Init()
         {
             base.Init();
             Show();
         }
+        
+        public void AssignVisual(MetaCollectionComboData comboData)
+        {
+            _metaComboData = comboData;
+            
+            _metaComboData = comboData;
+            _comboVisual.Init(comboData.MetaComboData.BattleComboData);
+            
+            _metaComboData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
+            
+            UpdateVisual();
+        }
+
+        public override void TryAddToCollection()
+        {
+            _metaComboData.AddComboToCollection();
+        }
+
+        public override void TryRemoveFromCollection()
+        {
+            _metaComboData.RemoveComboFromCollection();
+        }
 
         public void Dispose()
         {
-            OnTryAddToDeck -= metaComboData.AddItemToCollection;
-            OnTryRemoveFromDeck -= metaComboData.RemoveItemFromCollection;
-            metaComboData.OnSuccessfulAddItemToCollection -= SuccessAddToCollection;
-            metaComboData.OnSuccessfulRemoveItemFromCollection -= SuccessRemoveFromCollection;
+            _metaComboData.OnSuccessAddOrRemoveFromCollection -= SuccessAddOrRemoveCollection;
             
             OnDisposed?.Invoke(this);
             Hide();
         }
 
-        public void AssignVisual(MetaCollectionComboData comboData)
-        {
-            metaComboData = comboData;
-            
-            metaComboData = comboData;
-            _comboVisual.Init(comboData.ItemReference.BattleComboData);
-            
-            OnTryAddToDeck += metaComboData.AddItemToCollection;
-            OnTryRemoveFromDeck += metaComboData.RemoveItemFromCollection;
-            metaComboData.OnSuccessfulAddItemToCollection += SuccessAddToCollection;
-            metaComboData.OnSuccessfulRemoveItemFromCollection += SuccessRemoveFromCollection;
-            
-            UpdateVisual();
-        }
 
         private void UpdateVisual()
         {
             Enable();
 
-            if (metaComboData.IsNotMoreInstants)
+            if (_metaComboData.NotMoreInstants)
             {
                 DisablePlus();
                 return;
             }
 
-            if (metaComboData.IsMaxInstants)
+            if (_metaComboData.MaxInstants)
             {
                 DisableMins();
                 return;
             }
         }
 
-        public override void SuccessAddToCollection(MetaComboData itemData)
-        {
-            UpdateVisual();
-        }
-
-        public override void SuccessRemoveFromCollection(MetaComboData itemData)
+        protected override void SuccessAddOrRemoveCollection()
         {
             UpdateVisual();
         }

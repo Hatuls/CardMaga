@@ -157,7 +157,7 @@ namespace CardMaga.Card
             if (level >= 0 && level < PerLevelUpgrade.Length)
                 return PerLevelUpgrade[level];
 
-            throw new System.Exception($"CardSO: ID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
+            throw new System.Exception($"CardSO: CoreID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
         }
 
         //public DescriptionInfo[] CardDescription(int level)

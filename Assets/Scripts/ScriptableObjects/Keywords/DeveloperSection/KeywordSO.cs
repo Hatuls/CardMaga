@@ -93,17 +93,17 @@ namespace CardMaga.Keywords
             if (int.TryParse(Data[DurationIndex], out int duration))
                 _durationEnum = (EffectType)duration;
             else
-                throw new System.Exception($"ID:{_iD}, Keyword: {_keyword}\nDuration is not a valid number!");
+                throw new System.Exception($"CoreID:{_iD}, Keyword: {_keyword}\nDuration is not a valid number!");
 
             if (int.TryParse(Data[StackableIndex], out int stackable))
                 _isStackable = stackable == 1;
             else
-                throw new System.Exception($"ID:{_iD}, Keyword: {_keyword}\nIs Stackable is not a valid number!");
+                throw new System.Exception($"CoreID:{_iD}, Keyword: {_keyword}\nIs Stackable is not a valid number!");
 
             if (int.TryParse(Data[PrecentageIndex], out int pecentage))
                 _isPrecentage = pecentage == 1;
             else
-                throw new System.Exception($"ID:{_iD}, Keyword: {_keyword}\nIs Precentage is not a valid number!");
+                throw new System.Exception($"CoreID:{_iD}, Keyword: {_keyword}\nIs Precentage is not a valid number!");
 
             if (byte.TryParse(Data[InfoAmountIndex], out byte amount))
                 _infoAmount = amount;

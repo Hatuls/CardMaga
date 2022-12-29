@@ -211,7 +211,7 @@ namespace Factory
             {
                 if (_comboDictionary.TryGetValue(id, out var combo))
                     return combo;
-                throw new Exception("ComboFactory: Combo ID Is not valid in the dictionary!\nID: " + id);
+                throw new Exception("ComboFactory: Combo CoreID Is not valid in the dictionary!\nID: " + id);
             }
 
         }
@@ -255,20 +255,9 @@ namespace Factory
                 if (_cardCollectionDictionary.TryGetValue(ID, out CardSO card))
                     return card;
 
-                throw new System.Exception($"BattleCard SO Could not been found from ID \nID is {ID}\nCheck Collection For battleCard SO");
+                throw new System.Exception($"BattleCard SO Could not been found from CoreID \nID is {ID}\nCheck Collection For battleCard SO");
             }
 
-            public MetaCardData GetMetaCardData(CoreID cardCore)
-            {
-                CardSO cardSo = GetCard(cardCore.ID);
-
-                CardInstance instance = CreateCardInstance(cardCore.ID);
-                
-                BattleCardData battleCardData = CreateCard(instance);
-
-                return new MetaCardData(instance, cardSo, battleCardData);
-            }
-            
             public MetaCardData GetMetaCardData(CardCore cardCore)
             {
                 CardSO cardSo = GetCard(cardCore.CardID);
@@ -279,7 +268,7 @@ namespace Factory
 
                 return new MetaCardData(instance, cardSo, battleCardData);
             }
-            
+
             public List<MetaCardData> GetMetaCardData(CoreID[] cardCores)
             {
                 List<MetaCardData> output = new List<MetaCardData>(cardCores.Length);
@@ -346,6 +335,19 @@ namespace Factory
                 _battleCardIdList.Clear();
                 _battleCardIdList.Clear();
             }
+
+            public List<CardInstance> CreateCardInstances(List<CoreID> coreIds)
+            {
+                List<CardInstance> output = new List<CardInstance>(coreIds.Count);
+                
+                foreach (var coreId in coreIds)
+                {
+                    output.Add(CreateCardInstance(coreId));
+                }
+
+                return output;
+            }
+
             public CardInstance CreateCardInstance(CardSO cardSO, int level = 0)
                 => CreateCardInstance(cardSO.ID, level);
 
@@ -408,7 +410,7 @@ namespace Factory
                     cards[i] = CreateCard(cardContainer);
 
                     if (cards[i] == null)
-                        throw new Exception($"BattleCard Factory: BattleCard Was Not Created From:\n ID: {cardContainer.ID}\nLevel: {cardContainer.Level}");
+                        throw new Exception($"BattleCard Factory: BattleCard Was Not Created From:\n CoreID: {cardContainer.CoreID}\nLevel: {cardContainer.Level}");
 
                 }
 

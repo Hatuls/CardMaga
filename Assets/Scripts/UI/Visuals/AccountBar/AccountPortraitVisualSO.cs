@@ -10,7 +10,7 @@ namespace CardMaga.UI.Visuals
         public override void CheckValidation()
         {
             if (AccountPortraitSprite == null)
-                throw new System.Exception($"AccountPortraitSO of ID:{AccountPortraitID} has no sprite");
+                throw new System.Exception($"AccountPortraitSO of CoreID:{AccountPortraitID} has no sprite");
         }
     }
 }

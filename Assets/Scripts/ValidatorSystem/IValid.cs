@@ -1,7 +1,7 @@
 namespace CardMaga.ValidatorSystem
 {
-    public interface IValid<T>
+    public interface IValid<in T> // need to check rei
     {
-        bool Valid(T obj);
+        bool Valid(T obj,out string failedMassage);
     }
 }

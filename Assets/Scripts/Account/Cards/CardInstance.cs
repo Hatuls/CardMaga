@@ -1,7 +1,7 @@
-﻿using CardMaga.Card;
-using PlayFab.Json;
-using System;
+﻿using System;
+using CardMaga.Card;
 using UnityEngine;
+
 namespace Account.GeneralData
 {
     [Serializable]
@@ -19,7 +19,7 @@ namespace Account.GeneralData
         #endregion
 
         #region Properties
-        public int ID => _coreData.CardID;
+        public int CoreID => _coreData.CardID;
         public CardSO CardSO => _coreData.CardSO;
         public int Level { get => _coreData.Level; }
         public int InstanceID { get => _instanceID; }
@@ -34,17 +34,15 @@ namespace Account.GeneralData
         {
             return other.InstanceID == _instanceID;
         }
-
-
-        public CardCore GetCardCore()
-          => _coreData;
+        
+        public CardCore GetCardCore() => _coreData;
 
         public void Dispose()
         {
             _coreData.Dispose();
         }
+        
         #endregion
-
 
 #if UNITY_EDITOR
         public CardInstance()
@@ -62,8 +60,7 @@ namespace Account.GeneralData
 
         [SerializeField] private CardSO _cardSO;
         [SerializeField] private int _level;
-
-
+        
         public int CardID => _coreID.ID;
         public CardSO CardSO => _cardSO;
         public int Level => _level;
@@ -95,27 +92,20 @@ namespace Account.GeneralData
             int differences = _coreID.ID - baseCardLevel;
             _level = differences;
         }
-        //[Sirenix.OdinInspector.Button]
-        //private void Refresh()
-        //{
-
-        //}
 #endif
     }
 
     [Serializable]
     public class CoreID
     {
-       // [SerializeField]
         public int ID;
-  //      [JsonProperty(PropertyName = "_id")]
-       // public int ID => _id;
+        
+        public CoreID() { }
+        
         public CoreID(int id)
         {
             ID = id;
         }
-        public CoreID() { }
-
     }
 
     public static class CardHelper
@@ -126,14 +116,9 @@ namespace Account.GeneralData
             int differences = cardID - baseCardLevel;
             return differences;
         }
-
-
-      
-        public static CardSO CardSO(this CardInstance card)
-    => CardSO(card.ID);
-        public static CardSO CardSO(this CardCore card)
-            => CardSO(card.CardID);
-            public static CardSO CardSO(int id)
-          => Factory.GameFactory.Instance.CardFactoryHandler.GetCard(id);
+        
+        public static CardSO CardSO(this CardInstance card) => CardSO(card.CoreID);
+        public static CardSO CardSO(this CardCore card) => CardSO(card.CardID);
+        public static CardSO CardSO(int id) => Factory.GameFactory.Instance.CardFactoryHandler.GetCard(id);
     }
 }

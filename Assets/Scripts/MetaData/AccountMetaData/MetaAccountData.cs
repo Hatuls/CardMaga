@@ -13,7 +13,7 @@ namespace CardMaga.MetaData.AccoutData
         private MetaCharactersHandler _charactersHandler;
         private AccountLevelData _accountLevel;
         private AccountResources _accountResources;
-        private List<MetaCardData> _accountCards;
+        private List<CardInstance> _accountCards;
         private List<MetaComboData> _accountCombos;
         
         #endregion
@@ -22,7 +22,7 @@ namespace CardMaga.MetaData.AccoutData
 
         public string AccountName => AccountManager.Instance.DisplayName;
         public MetaCharactersHandler CharacterDatas => _charactersHandler;
-        public List<MetaCardData> AccountCards => _accountCards;
+        public List<CardInstance> AccountCards => _accountCards;
         public List<MetaComboData> AccountCombos => _accountCombos;
         public AccountResources Resources => _accountResources;//need to re work
         public AccountLevelData AccountLevel => _accountLevel; // need to re work
@@ -31,7 +31,7 @@ namespace CardMaga.MetaData.AccoutData
 
         public MetaAccountData(AccountData accountData)
         {
-            _accountCards = Factory.GameFactory.Instance.CardFactoryHandler.GetMetaCardData(accountData.AllCards.CardsIDs.ToArray());
+            _accountCards = Factory.GameFactory.Instance.CardFactoryHandler.CreateCardInstances(accountData.AllCards.CardsIDs);
             _accountCombos =
                 Factory.GameFactory.Instance.ComboFactoryHandler.GetMetaComboData(accountData.AllCombos.CombosIDs.ToArray());
             _accountData = accountData;
