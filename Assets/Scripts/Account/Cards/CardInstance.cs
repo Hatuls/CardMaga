@@ -1,4 +1,5 @@
 ﻿using CardMaga.Card;
+using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 namespace Account.GeneralData
@@ -22,7 +23,9 @@ namespace Account.GeneralData
         public CardSO CardSO => _coreData.CardSO;
         public int Level { get => _coreData.Level; }
         public int InstanceID { get => _instanceID; }
-   
+        public bool IsMaxLevel => _coreData.CardsAtMaxLevel;
+        [ReadOnly,ShowInInspector]
+        public int CardsMaxLevel => CardSO.CardsMaxLevel;
         public CardInstance(CardCore card)
         {
             _coreData = card;
@@ -58,8 +61,9 @@ namespace Account.GeneralData
     {
         [SerializeField, Sirenix.OdinInspector.InlineProperty]
         private CoreID _coreID;
-
+        [Sirenix.OdinInspector.OnValueChanged("InitInstanceEditor")]
         [SerializeField] private CardSO _cardSO;
+        [Sirenix.OdinInspector.OnValueChanged("InitInstanceEditor")]
         [SerializeField] private int _level;
 
 
@@ -82,6 +86,16 @@ namespace Account.GeneralData
             Factory.GameFactory.CardFactory.Remove(this);
         }
 
+        public bool LevelUp()
+        {
+            if (CardsAtMaxLevel)
+                return false;
+
+            _coreID.ID++;
+            _level++;
+
+            return true;
+        }
 
 #if UNITY_EDITOR
         public CardCore() { }
@@ -95,7 +109,11 @@ namespace Account.GeneralData
             _level = differences;
         }
 
-
+        private void InitInstanceEditor()
+        {
+            if(_cardSO!=null)
+            _coreID = new CoreID(_cardSO.ID + Level);
+        }
 #endif
     }
 

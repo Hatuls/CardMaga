@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CardMaga.Meta.Upgrade;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaData.DeckBuilding;
@@ -14,11 +15,12 @@ namespace MetaData
         public static event Action OnDataInitializes;
         
         private SequenceHandler<MetaDataManager> _sequenceHandler;
+
         private AccountDataAccess _accountDataAccess;
         private AccountDataCollectionHelper _accountDataCollectionHelper;
         private MetaCollectionDataManager _metaCollectionDataManager;
         private DeckBuilder _deckBuilder;
-
+        private UpgradeManager _upgradeManager;
         private IDisposable _token;
         
         public AccountDataCollectionHelper AccountDataCollectionHelper => _accountDataCollectionHelper;
@@ -26,7 +28,7 @@ namespace MetaData
         public DeckBuilder DeckBuilder => _deckBuilder;
         public AccountDataAccess AccountDataAccess => _accountDataAccess;
         public MetaAccountData MetaAccountData => _accountDataAccess.AccountData;
-        
+        public UpgradeManager UpgradeManager => _upgradeManager;
         public int Priority => 0;
 
         private IEnumerable<ISequenceOperation<MetaDataManager>> DataInitializers
@@ -37,6 +39,7 @@ namespace MetaData
                 yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
                 yield return _metaCollectionDataManager = new MetaCollectionDataManager();
                 yield return _deckBuilder = new DeckBuilder();
+                yield return _upgradeManager = new UpgradeManager();
             }
         }
         
@@ -49,7 +52,6 @@ namespace MetaData
         private void InitData()
         {
             _sequenceHandler = new SequenceHandler<MetaDataManager>();
-
             foreach (var operation in DataInitializers)
             {
                 _sequenceHandler.Register(operation);

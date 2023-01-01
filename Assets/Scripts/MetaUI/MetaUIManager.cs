@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CardMaga.Meta.Upgrade;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.ObjectPool;
@@ -13,8 +14,9 @@ namespace CardMaga.MetaUI
     public class MetaUIManager : MonoSingleton<MetaUIManager>, ISequenceOperation<MetaDataManager>
     {
         public static event Action OnMetaUIInitializes;
-        [SerializeField] private MetaDeckCollectionUIManager metaDeckCollectionUIManager;
-        [SerializeField] private MetaCharacterCollectionManager metaCharacterCollectionManager;
+        [SerializeField] private UpgradeUIManager _upgradeUIManager;
+        [SerializeField] private MetaDeckCollectionUIManager _metaDeckCollectionUIManager;
+        [SerializeField] private MetaCharacterCollectionManager _metaCharacterCollectionManager;
         private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
         private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
         
@@ -25,9 +27,9 @@ namespace CardMaga.MetaUI
         public VisualRequester<MetaComboUI, MetaComboData> ComboVisualRequester => _comboVisualRequester;
         public VisualRequester<MetaCardUI, MetaCardData> CardVisualRequester => _cardVisualRequester;
 
-        public MetaDeckCollectionUIManager MetaDeckCollectionUIManager => metaDeckCollectionUIManager;
-
-        public MetaCharacterCollectionManager MetaCharacterCollectionManager => metaCharacterCollectionManager;
+        public MetaDeckCollectionUIManager MetaDeckCollectionUIManager => _metaDeckCollectionUIManager;
+        public UpgradeUIManager UpgradeUIManager => _upgradeUIManager;
+        public MetaCharacterCollectionManager MetaCharacterCollectionManager => _metaCharacterCollectionManager;
 
         public MetaDataManager MetaDataManager => _metaDataManager;
         
@@ -35,8 +37,9 @@ namespace CardMaga.MetaUI
         {
             get
             {
-                yield return metaDeckCollectionUIManager;
-                yield return metaCharacterCollectionManager;
+                yield return _upgradeUIManager;
+                yield return _metaDeckCollectionUIManager;
+                yield return _metaCharacterCollectionManager;
             }
         }
 

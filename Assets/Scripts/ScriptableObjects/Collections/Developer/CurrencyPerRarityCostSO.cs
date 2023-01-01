@@ -9,7 +9,7 @@ using UnityEngine;
 public class CurrencyPerRarityCostSO : ScriptableObject
 {
     [SerializeField]
-    RarityLevelCostsPerCurrency[] _rarityLevelCostsPerCurrencies;
+    private RarityLevelCostsPerCurrency[] _rarityLevelCostsPerCurrencies;
 
     private RarityLevelCostsPerCurrency GetRarityLevelCostByCurrency(CurrencyType currencyType)
         => _rarityLevelCostsPerCurrencies.First(x => x.CurrencyType == currencyType);
@@ -20,6 +20,10 @@ public class CurrencyPerRarityCostSO : ScriptableObject
     private int GetCurrentCost(RarityLevelCosts rarityLevelCosts, int level)
         => rarityLevelCosts.Costs[level];
 
+
+
+    public ResourcesCost GetCardCostPerCurrencyAndCardCore(CardInstance cardInstance, CurrencyType currencyType)
+    => GetCardCostPerCurrencyAndCardCore(cardInstance.GetCardCore(), currencyType);
     public ResourcesCost GetCardCostPerCurrencyAndCardCore(CardCore cardCore, CurrencyType currencyType)
     {
         RarityLevelCostsPerCurrency levelCostsByCurrency = GetRarityLevelCostByCurrency(currencyType);

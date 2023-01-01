@@ -24,9 +24,9 @@ namespace CardMaga.MetaData.AccoutData
             if (metaDeckData.IsNewDeck)
                 serverRequest = new AddDeckServerRequest(metaDeckData,_metaAccountData.CharacterDatas.CharacterData.Id);
             else
-                serverRequest = new UpdateDeckDataRequest(metaDeckData, _metaAccountData.CharacterDatas.CharacterData.Id);//need to get a characrerid
+                serverRequest = new UpdateDeckDataRequest(metaDeckData, _metaAccountData.CharacterDatas.CharacterData.Id);//need to get a characterid
             
-            serverRequest.SendRequest(tokenMachine);//need to add charecter support
+            serverRequest.SendRequest(tokenMachine);//need to add character support
         }
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
