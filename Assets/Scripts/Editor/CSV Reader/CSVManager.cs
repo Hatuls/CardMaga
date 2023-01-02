@@ -17,8 +17,8 @@ namespace CardMaga.CSV
         public static KeywordsCollectionSO _keywordsSO;
         public static Sprite[] cardsPictures;
         private static RewardFactoryManagerSO _rewardFactoryManager;
-        public static CardUpgradeCostSO _upgradeCardCostSO;
-        public static DismentalCostsSO _dismentalCardCostSO;
+        public static CurrencyPerRarityCostSO _upgradeCardCostSO;
+        public static CurrencyPerRarityCostSO _dismentalCardCostSO;
 
 
 

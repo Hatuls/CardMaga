@@ -1,7 +1,6 @@
 ﻿using CardMaga.Rewards;
+using CardMaga.Rewards.Bundles;
 using System;
-
-using UnityEngine;
 namespace Account.GeneralData
 {
     [Serializable]
@@ -42,6 +41,8 @@ namespace Account.GeneralData
             Diamonds = 0;
             Tickets = 0;
         }
+        public void AddResource(ResourcesCost resourcesCost)
+            => AddResource(resourcesCost.CurrencyType, (int)resourcesCost.Amount);
         public void AddResource(CurrencyType currencyType, int amount)
         {
             switch (currencyType)
@@ -59,83 +60,63 @@ namespace Account.GeneralData
 
             }
         }
+        public bool HasEnoughAmount(ResourcesCost resourcesCost)
+            => HasEnoughAmount(resourcesCost.CurrencyType, (int)resourcesCost.Amount);
+        
+        public bool HasEnoughAmount(CurrencyType currencyType, int amount)
+        {
+            switch (currencyType)
+            {
+                case CurrencyType.Gold:
+                    return Gold >= amount;
+
+                case CurrencyType.Diamonds:
+                    return Diamonds >= amount;
+
+                case CurrencyType.Chips:
+                    return Chips >= amount;
+
+                case CurrencyType.Free:
+                    return true;
+            }
+            throw new Exception("Currency requested is not valid\n CurrencyType is " + currencyType);
+        }
+        public bool TryReduceAmount(ResourcesCost resourcesCost)
+            => TryReduceAmount(resourcesCost.CurrencyType, (int) resourcesCost.Amount);
+        public bool TryReduceAmount(CurrencyType currencyType, int amount)
+        {
+            if (!HasEnoughAmount(currencyType, amount))
+                return false;
+
+            ReduceAmount(currencyType, amount);
+
+            return true;
+        }
+        private void ReduceAmount(CurrencyType currencyType,int amount)
+        {
+            switch (currencyType)
+            {
+
+                case CurrencyType.Gold:
+                    Gold -= amount;
+                    break;
+                case CurrencyType.Diamonds:
+                    Diamonds -= amount;
+                    break;
+                case CurrencyType.Chips:
+                    Chips -= amount;
+                    break;
+                case CurrencyType.Free:
+                    break;
+                default:
+                    break;
+            }
+        }
         internal bool IsValid()
         {
             return Gold >= 0 && Diamonds >= 0 && Tickets >= 0;
         }
     }
-    //[Serializable]
-    //public class AccountCards : ILoadFirstTime
-    //{
-    //    public static Action<InstanceID> OnUpgrade;
-    //    #region Fields
-    //    [SerializeField]
-    //    List<InstanceID> _cardList = new List<InstanceID>();
-    //    #endregion
-    //    #region Properties
-    //    public List<InstanceID> CardList => _cardList;
-
-    //    #endregion
-    //    #region PublicMethods
-    //    public void AddCard(InstanceID core)
-    //        => _cardList.Add(core);
-    //    public void AddCard(Cards.BattleCard battleCard)
-    //    => AddCard(battleCard.InstanceID);
-
-    //    public bool TryRemoveCombo(int instanceId)
-    //    {
-    //        int length = CardList.Count;
-    //        for (int i = 0; i < length; i++)
-    //        {
-    //            if (_cardList[i].InstanceID == instanceId)
-    //            {
-    //                return _cardList.Remove(_cardList[i]);
-    //            }
-    //        }
-    //        return false;
-    //    }
-
-    //    public void UpgradeCard(int instanceID)
-    //    {
-    //        int length = _cardList.Count;
-    //        for (int i = 0; i < length; i++)
-    //        {
-    //            if (_cardList[i].InstanceID == instanceID)
-    //            {
-    //                _cardList[i].Level++;
-    //                OnUpgrade?.Invoke(_cardList[i]);
-    //            }
-    //        }
-    //    }
-
-    //    public void NewLoad()
-    //    {
-    //        var factory = Factory.GameFactory.Instance;
-    //        var currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
-    //        var so = factory.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.LeftPlayer);
-    //        foreach (var item in so)
-    //        {
-    //            if (currentLevel >= item.UnlockAtLevel)
-    //            {
-    //                      var cards = factory.CardFactoryHandler.CreateDeck(item.Deck);
-
-    //                for (int i = 0; i < cards.Length; i++)
-    //                {
-    //                    AddCard(cards[i]);
-    //                }
-    //            }
-    //        }
 
 
-    //    }
-
-    //    public bool IsCorrupted()
-    //    {
-    //        const int _firstDeckAmount = 8;
-    //        return _cardList.Count < _firstDeckAmount;
-    //    }
-
-
-    //    #endregion
-    //}
 }

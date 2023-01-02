@@ -51,10 +51,13 @@ namespace CardMaga.Input
         }
 
 
+        #region Editor
 #if UNITY_EDITOR
-        [Header("Editor:")] 
+        [Header("Editor:")]
         [TextArea]
         [OnValueChanged("UpdateText")]
+        [PropertyOrder(10)]
+
         public string Text;
         private void UpdateText() => SetButtonText(Text);
         private void ChangeToIdle()
@@ -63,6 +66,7 @@ namespace CardMaga.Input
                 _renderer.sprite = _onIdle;
         }
 #endif
+        #endregion
     }
 }
 

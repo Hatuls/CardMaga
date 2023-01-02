@@ -3,22 +3,26 @@ using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
+using CardMaga.UI.Card;
 using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
     public class MetaCardUI : BaseUIElement, IPoolableMB<MetaCardUI>, IVisualAssign<CardInstance> ,IEquatable<MetaCardUI>
+
     {
         public event Action<MetaCardUI> OnDisposed;
-        
+
         private CardInstance _cardInstance;
 
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private RectTransform _emptyCard;
-
+        [SerializeField] private BattleCardUI _cardUI;
         public CardInstance CardInstance => _cardInstance;
 
         public bool IsEmpty => _emptyCard.gameObject.activeSelf && !_cardVisuals.gameObject.activeSelf;
+
+        public BattleCardUI CardUI  => _cardUI; 
 
         public override void Init()
         {
@@ -45,9 +49,11 @@ namespace CardMaga.MetaUI
             _emptyCard.gameObject.SetActive(false);
         }
 
-        public void AssignVisual(CardInstance data)
+
+     
+        public void AssignDataAndVisual(MetaCardData data)
         {
-            _cardVisuals.Init(data.GetCardCore());
+            CardUI.AssignDataAndVisual(data.BattleCardData);
             _cardInstance = data.CardInstance;
             //_cardVisuals.CardZoomHandler.ForceReset();//plaster
         }

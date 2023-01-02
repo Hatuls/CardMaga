@@ -1,5 +1,5 @@
 ﻿
 public interface IVisualAssign<T>
 {
-    void AssignVisual(T data);
+    void AssignDataAndVisual(T data);
 }

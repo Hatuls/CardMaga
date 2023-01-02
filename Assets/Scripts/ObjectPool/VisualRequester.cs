@@ -34,7 +34,7 @@ namespace CardMaga.ObjectPool
             for (int i = 0; i < data.Count; i++)
             {
                 var cache = _objectPool.Pull();
-                cache.AssignVisual(data[i]);
+                cache.AssignDataAndVisual(data[i]);
                 visuals.Add(cache);
             }
             
@@ -61,7 +61,7 @@ namespace CardMaga.ObjectPool
         public TVisual GetVisual(TData data)
         {
             var cache = _objectPool.Pull();
-            cache.AssignVisual(data);
+            cache.AssignDataAndVisual(data);
             
             return cache;
         }

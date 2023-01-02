@@ -79,13 +79,13 @@ namespace Battle.UI
 
         public void ChangeSlotsPos(BattleCardData[] cards, BattleCardData removedBattleCard)
         {
-            _fadingOut.InitPlaceHolder(removedBattleCard?.CardSO?.CardType);
+            _fadingOut.InitPlaceHolder(removedBattleCard?.CardSO?.CardTypeData);
             _fadingOut.PlayAnimation(_fadingInAnim);
             _fadingOut.MoveLocation(GetCraftingSlotsUIArr[0].RectTransform.localPosition, _tweenTime);
 
             for (var i = 0; i < GetCraftingSlotsUIArr.Length; i++)
             {
-                GetCraftingSlotsUIArr[i].InitPlaceHolder(cards[i]?.CardSO?.CardType);
+                GetCraftingSlotsUIArr[i].InitPlaceHolder(cards[i]?.CardSO?.CardTypeData);
                 Vector2 startPos = i == GetCraftingSlotsUIArr.Length - 1
                     ? _firstSlotTransform.localPosition
                     : GetCraftingSlotsUIArr[i + 1].RectTransform.localPosition;
@@ -106,7 +106,7 @@ namespace Battle.UI
                 return;
             }
 
-            GetCraftingSlotsUIArr[index].InitPlaceHolder(battleCardCache.CardSO.CardType);
+            GetCraftingSlotsUIArr[index].InitPlaceHolder(battleCardCache.CardSO.CardTypeData);
             GetCraftingSlotsUIArr[index].PlayAnimation(_AssignAnimHash);
         }
 

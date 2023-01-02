@@ -49,7 +49,7 @@ namespace CardMaga.Card
         [TabGroup("BattleCardData/Info", "Data")]
 
         [ShowInInspector]
-        public CardTypeData CardType => PerLevelUpgrade[0]?.UpgradesPerLevel[0]?.CardTypeData;
+        public CardTypeData CardTypeData => PerLevelUpgrade[0]?.UpgradesPerLevel[0]?.CardTypeData;
 
 
 
@@ -58,7 +58,7 @@ namespace CardMaga.Card
 
         [TabGroup("BattleCardData/Info", "Data")]
         [SerializeField]
-        private byte _stamina;
+        private int _stamina;
 
         [TabGroup("BattleCardData/Info", "Data")]
         private bool _isFuseCard;
@@ -74,7 +74,7 @@ namespace CardMaga.Card
 
         [TabGroup("BattleCardData/Info", "Data")]
         [SerializeField]
-        private ushort _id;
+        private int _id;
 
 
      
@@ -94,7 +94,7 @@ namespace CardMaga.Card
 
         [TabGroup("BattleCardData/Info", "Crafting")]
         [SerializeField]
-        private ushort[] _cardsFusesFrom;
+        private int[] _cardsFusesFrom;
 
         [TabGroup("BattleCardData/Info", "Instances")]
         [SerializeField]
@@ -121,16 +121,16 @@ namespace CardMaga.Card
         }
         public bool IsFusedCard => _isFuseCard;
         public bool IsCombo => _isCombo;
-        public ushort ID { get => _id; set => _id = value; }
+        public int ID { get => _id; set => _id = value; }
         public PerLevelUpgrade[] PerLevelUpgrade { get => _perLevelUpgrades; set => _perLevelUpgrades = value; }
-        public ushort[] CardsFusesFrom { get => _cardsFusesFrom; set => _cardsFusesFrom = value; }
+        public int[] CardsFusesFrom { get => _cardsFusesFrom; set => _cardsFusesFrom = value; }
         public Sprite CardSprite { get => _cardSprite; set => _cardSprite = value; }
         public KeywordData[] CardSOKeywords { get => _cardKeywordsData; set => _cardKeywordsData = value; }
         [ShowInInspector]
-        public byte CardsMaxLevel => PerLevelUpgrade == null ? (byte)0 : (byte)PerLevelUpgrade.Length;
-        public byte StaminaCost { get => _stamina; set => _stamina = value; }
-        public BodyPartEnum BodyPartEnum => CardType.BodyPart;
-        public CardTypeEnum CardTypeEnum => CardType.CardType;
+        public int CardsMaxLevel => PerLevelUpgrade == null ? 0 : PerLevelUpgrade.Length;
+        public int StaminaCost { get => _stamina; set => _stamina = value; }
+        public BodyPartEnum BodyPartEnum => CardTypeData.BodyPart;
+        public CardTypeEnum CardTypeEnum => CardTypeData.CardType;
         public CameraDetails CameraDetails { get => cameraDetails; set => cameraDetails = value; }
         public string CardName { get => _cardName; set => _cardName = value; }
         public bool IsPackReward { get => _isPackReward; set => _isPackReward = value; }

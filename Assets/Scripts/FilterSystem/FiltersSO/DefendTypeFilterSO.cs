@@ -6,7 +6,7 @@ public class DefendTypeFilterSO : CardDataFilter
 {
     public override bool Filter(BattleCardData obj)
     {
-        if (obj.CardSO.CardType.CardType == CardTypeEnum.Defend)
+        if (obj.CardSO.CardTypeData.CardType == CardTypeEnum.Defend)
         {
             return true;
         }

@@ -26,11 +26,12 @@ namespace CardMaga.MetaUI
             Show();
         }
         
-        public void AssignVisual(MetaCollectionCardData cardData)
+        public void AssignDataAndVisual(MetaCollectionCardData cardData)
         {
             _cardData = cardData;
             _cardNumberText.text = NumberOfInstant.ToString();
-            _cardVisuals.Init(_cardData.CoreId);//need to chanage to work whit CardInstance id
+
+            _cardVisuals.Init(Factory.GameFactory.Instance.CardFactoryHandler.CreateCardCore(cardData.CoreId));
             
             _cardData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             

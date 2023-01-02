@@ -20,48 +20,24 @@ namespace CardMaga.CSV
         private void DownloadedCSV(string csv)
         {
             string[] rows = csv.Replace("\r", "").Split('\n');
-            const int startingRow = 2;
-            const int firstElement = 0;
-            const int rarities = 5;
-
-            for (int i = startingRow; i < rows.Length; i++)
-            {
-                string[] line = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
-
-                if (line[firstElement].Length == 1 || line[firstElement].Length == 0)
-                    break;
-
-                string[] upradeByChips = line[firstElement].Split('&');
-                string[] upgradesByGolds = new string[upradeByChips.Length];
-
-                for (int j = (firstElement + 1); j <= rarities; j++)
-                {
-                    upgradesByGolds[j - 1] = line[j];
-                }
-                CreateUpgradesSO(upgradesByGolds, upradeByChips);
-
-
-                string[] dismentalCost = new string[rarities];
-                for (int j = 0; j < rarities; j++)
-                    dismentalCost[j] += line[rarities + 1 + j];
-
-                CreateDiscmentalCostSO(dismentalCost);
-            }
+            const int startingRow = 1;
+            CreateDismentalCostSO(rows[startingRow]);
+            CreateUpgradesSO(rows[startingRow + 1]);
             AssetDatabase.SaveAssets();
 
             IsFinished = true;
         }
-        private void CreateDiscmentalCostSO(string[] csv)
+        private void CreateDismentalCostSO(string row)
         {
-            CSVManager._dismentalCardCostSO = ScriptableObject.CreateInstance<DismentalCostsSO>();
-            CSVManager._dismentalCardCostSO.Init(csv);
+            CSVManager._dismentalCardCostSO = ScriptableObject.CreateInstance<CurrencyPerRarityCostSO>();
+            CSVManager._dismentalCardCostSO.Init(row.Replace('"', ' ').Replace('/', ' ').Split(','));
             AssetDatabase.CreateAsset(CSVManager._dismentalCardCostSO, $"Assets/Resources/MetaGameData/DismentalCostSO.asset");
 
         }
-        private void CreateUpgradesSO(string[] MapupgradeCost, string[] upgradeChipCost)
+        private void CreateUpgradesSO(string row)
         {
-            CSVManager._upgradeCardCostSO = ScriptableObject.CreateInstance<CardUpgradeCostSO>();
-         //   CSVManager._upgradeCardCostSO.Init(MapupgradeCost, upgradeChipCost);
+            CSVManager._upgradeCardCostSO = ScriptableObject.CreateInstance<CurrencyPerRarityCostSO>();
+            CSVManager._upgradeCardCostSO.Init(row.Replace('"', ' ').Replace('/', ' ').Split(','));
             AssetDatabase.CreateAsset(CSVManager._upgradeCardCostSO, $"Assets/Resources/MetaGameData/UpgradeCostSO.asset");
 
         }

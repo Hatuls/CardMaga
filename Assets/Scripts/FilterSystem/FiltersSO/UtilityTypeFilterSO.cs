@@ -6,7 +6,7 @@ public class UtilityTypeFilterSO : CardDataFilter
 {
     public override bool Filter(BattleCardData obj)
     {
-        if (obj.CardSO.CardType.CardType == CardTypeEnum.Utility)
+        if (obj.CardSO.CardTypeData.CardType == CardTypeEnum.Utility)
         {
             return true;
         }

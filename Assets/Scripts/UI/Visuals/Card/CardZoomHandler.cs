@@ -1,4 +1,5 @@
-﻿using CardMaga.Card;
+﻿using Account.GeneralData;
+using CardMaga.Card;
 using CardMaga.UI.Visuals;
 using DG.Tweening;
 using ReiTools.TokenMachine;
@@ -72,9 +73,9 @@ namespace CardMaga.UI
             //scale battleCard
             _cardVisualMainObject.localScale = Vector3.one;
         }
-        public void SetCardType(BattleCardData battleCardData)
+        public void SetCardType(CardCore battleCardData)
         {
-            int cardType = (int)battleCardData.CardTypeData.CardType - 1;
+            int cardType = (int)battleCardData.CardSO.CardTypeData.CardType - 1;
             _startPos = _zoomPositionsSO.YStartPosition[cardType];
             _endPos = _zoomPositionsSO.YEndPosition[cardType];
 
@@ -92,7 +93,7 @@ namespace CardMaga.UI
                 _zoomSequence.Kill();
 
         }
-   //     [Button("HandZoom In")]
+      [Button("HandZoom In")]
         private void ZoomIn()
         {
             KillTween();
@@ -118,7 +119,7 @@ namespace CardMaga.UI
             if(OnZoomInCompleted != null)
                 _zoomSequence.OnComplete(OnZoomInCompleted.Invoke);
         }
-  //      [Button("HandZoom Out")]
+        [Button("HandZoom Out")]
         private void ZoomOut()
         {
             KillTween();

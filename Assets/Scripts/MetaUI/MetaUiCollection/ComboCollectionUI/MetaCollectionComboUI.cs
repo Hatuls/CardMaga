@@ -21,7 +21,7 @@ namespace CardMaga.MetaUI
             Show();
         }
         
-        public void AssignVisual(MetaCollectionComboData comboData)
+        public void AssignDataAndVisual(MetaCollectionComboData comboData)
         {
             _metaComboData = comboData;
             

@@ -45,7 +45,7 @@ namespace CardMaga.MetaUI
         }
 
 
-        public void AssignVisual(MetaComboData data)
+        public void AssignDataAndVisual(MetaComboData data)
         {
             _metaComboData = data;
             _comboVisual.Init(data.BattleComboData);

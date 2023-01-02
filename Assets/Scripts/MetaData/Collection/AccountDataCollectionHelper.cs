@@ -63,7 +63,7 @@ namespace CardMaga.MetaData.Collection
         
         private void InitializeComboData()
         {
-            metaCollectionComboDatas.AddRange(comboDatas.Select(comboData => new MetaCollectionComboData(1, 1, comboData)));
+         //   metaCollectionComboDatas.AddRange(comboDatas.Select(comboData => new MetaCollectionComboData(1, 1, comboData)));
         }
 
         private List<MetaCollectionCardData> SetCardCollection()
@@ -82,7 +82,7 @@ namespace CardMaga.MetaData.Collection
                 {
                     if (collectionCardData.Equals(cardData))
                     {
-                        collectionCardData.AddItemToCollectionSuccess(cardData);
+                 //       collectionCardData.AddItemToCollectionSuccess(cardData);
                     }
                 }
             }
@@ -106,7 +106,7 @@ namespace CardMaga.MetaData.Collection
                 {
                     if (collectionDataCombo.Equals(comboData))
                     {
-                        collectionDataCombo.AddItemToCollectionSuccess(comboData);
+                   //     collectionDataCombo.AddItemToCollectionSuccess(comboData);
                     }
                 }
             }
@@ -126,7 +126,7 @@ namespace CardMaga.MetaData.Collection
 
             foreach (var cardData in _collectionCardDatas)
             {
-                output.Add(new MetaCollectionCardData(cardData.NumberOfInstance,cardData.NumberOfInstance,cardData.ItemReference));
+               // output.Add(new MetaCollectionCardData(cardData.NumberOfInstance,cardData.NumberOfInstance,cardData.ItemReference));
             }
 
             return output;
@@ -138,7 +138,7 @@ namespace CardMaga.MetaData.Collection
 
             foreach (var data in _collectionComboDatas)
             {
-                output.Add(new MetaCollectionComboData(data.NumberOfInstance,data.NumberOfInstance,data.ItemReference));
+              //  output.Add(new MetaCollectionComboData(data.NumberOfInstance,data.NumberOfInstance,data.ItemReference));
             }
 
             return output;
