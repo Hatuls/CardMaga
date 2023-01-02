@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
 
 namespace CardMaga.MetaData.Collection
 {
     [Serializable]
-    public class MetaCollectionComboData :BaseCollectionDataItem , IEquatable<MetaCollectionComboData>,IEquatable<MetaComboData>
+    public class MetaCollectionComboData :BaseCollectionDataItem , IEquatable<MetaCollectionComboData>,IEquatable<ComboCore>
     {
         private const string FAILED_MESSAGE = "FAILED add or remove item"; 
         
@@ -14,19 +15,19 @@ namespace CardMaga.MetaData.Collection
         public event Action<MetaCollectionComboData> OnTryRemoveItemFromCollection;
         public event Action OnSuccessAddOrRemoveFromCollection;
         
-        private MetaComboData _metaComboData;
+        private ComboCore _comboData;
         private List<int> _associateDeck;
 
-        public MetaComboData MetaComboData => _metaComboData;
+        public ComboCore ComboData => _comboData;
 
         public override int NumberOfInstance { get; }
 
-        public int ComboID => _metaComboData.ID;
+        public int ComboID => _comboData.ID;
         
-        public MetaCollectionComboData(MetaComboData comboReference)
+        public MetaCollectionComboData(ComboCore comboReference)
         {
             _associateDeck = new List<int>();
-            _metaComboData = comboReference;
+            _comboData = comboReference;
         }
 
         public void AddComboToCollection()
@@ -45,7 +46,7 @@ namespace CardMaga.MetaData.Collection
             return ComboID == other.ComboID;
         }
 
-        public bool Equals(MetaComboData other)
+        public bool Equals(ComboCore other)
         {
             if (ReferenceEquals(null, other)) return false;
             return ComboID == other.ID;

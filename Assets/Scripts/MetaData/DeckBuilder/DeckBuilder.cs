@@ -15,9 +15,9 @@ namespace CardMaga.MetaData.DeckBuilding
         public event Action<CardInstance> OnSuccessCardAdd;
         public event Action<string> OnFailedCardAdd;
         public event Action<CardInstance> OnSuccessCardRemove;
-        public event Action<CardInstance> OnSuccessComboAdd;
+        public event Action<ComboCore> OnSuccessComboAdd;
         public event Action<string> OnFailedComboAdd; 
-        public event Action<CardInstance> OnSuccessComboRemove;
+        public event Action<ComboCore> OnSuccessComboRemove;
         public event Action<MetaDeckData> OnNewDeckLoaded; 
 
         #endregion
@@ -100,14 +100,15 @@ namespace CardMaga.MetaData.DeckBuilding
                 OnFailedComboAdd?.Invoke("MAX_COMBO_IN_DECK");
                 return;
             }
+            
             collectionComboData.AddItemToCollection();
-            _deck.AddCombo(collectionComboData.MetaComboData);
-            OnSuccessComboAdd?.Invoke(collectionComboData.MetaComboData);
+            _deck.AddCombo(collectionComboData.ComboData);
+            OnSuccessComboAdd?.Invoke(collectionComboData.ComboData);
         }
 
         private void TryRemoveCard(MetaCollectionCardData collectionCardData)
         {
-            if (_deck.FindMetaCardData(collectionCardData.CoreId,out CardInstance metaCardData))
+            if (_deck.FindCardData(collectionCardData.CoreId,out CardInstance metaCardData))
             {
                 collectionCardData.RemoveItemFromCollection();
                 _deck.RemoveCard(metaCardData);
@@ -117,11 +118,11 @@ namespace CardMaga.MetaData.DeckBuilding
 
         private void TryRemoveCombo(MetaCollectionComboData collectionComboData)
         {
-            if (_deck.FindMetaComboData(collectionComboData.ComboID,out MetaComboData metaComboData))
+            if (_deck.FindComboData(collectionComboData.ComboID,out ComboCore comboData))
             {
                 collectionComboData.RemoveItemFromCollection();
-                _deck.RemoveCombo(metaComboData);
-                OnSuccessComboRemove?.Invoke(metaComboData);
+                _deck.RemoveCombo(comboData);
+                OnSuccessComboRemove?.Invoke(comboData);
             }
         }
 

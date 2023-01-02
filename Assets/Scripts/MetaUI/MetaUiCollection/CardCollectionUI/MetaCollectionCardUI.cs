@@ -30,7 +30,7 @@ namespace CardMaga.MetaUI
         {
             _cardData = cardData;
             _cardNumberText.text = NumberOfInstant.ToString();
-            _cardVisuals.Init(_cardData.ItemReference.BattleCardData);//need to chanage to work whit CardInstance id
+            _cardVisuals.Init(_cardData.CoreId);//need to chanage to work whit CardInstance id
             
             _cardData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             

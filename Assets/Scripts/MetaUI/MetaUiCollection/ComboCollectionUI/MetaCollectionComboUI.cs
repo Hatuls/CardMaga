@@ -26,7 +26,7 @@ namespace CardMaga.MetaUI
             _metaComboData = comboData;
             
             _metaComboData = comboData;
-            _comboVisual.Init(comboData.MetaComboData.BattleComboData);
+            _comboVisual.Init(comboData.ComboData.BattleComboData);
             
             _metaComboData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             
