@@ -16,7 +16,7 @@ namespace CardMaga.MetaUI.CollectionUI
         
         [Header("Scrips Ref")]
         [SerializeField] private ClickHelper _clickHelper;
-        [SerializeField] private DeckEditingDataManager _collectionData;
+        [SerializeField] private MetaDeckEditingDataManager _dataManager;
         [SerializeField] private DeckContinaerUIHandler _deckContinaer;
         [SerializeField] private MetaCollectionHandler _metaCollectionHandler;
        
@@ -25,10 +25,6 @@ namespace CardMaga.MetaUI.CollectionUI
         
         private DeckBuilder _deckBuilder;
         
-        private AccountDataCollectionHelper _accountDataCollectionHelper;
-
-        private MetaAccountData _metaAccountData;
-
         private bool _isFirstTime;
 
         private MetaCardUI[] _metaCardUis;
@@ -42,10 +38,8 @@ namespace CardMaga.MetaUI.CollectionUI
             _isFirstTime = true;
             
             _deckBuilder = data.MetaDataManager.DeckBuilder;
-            _collectionData = data.MetaDataManager.DeckEditingDataManager;
-            _metaAccountData = data.MetaDataManager.MetaAccountData;
-            _accountDataCollectionHelper = data.MetaDataManager.AccountDataCollectionHelper;
-
+            _dataManager = data.MetaDataManager.MetaDeckEditingDataManager;
+            
             _metaCardUis = VisualRequesterManager.Instance.GetMetaCardUIs(8).ToArray();
             _metaComboUis = VisualRequesterManager.Instance.GetMetaComboUIs(3).ToArray();
 
@@ -54,8 +48,8 @@ namespace CardMaga.MetaUI.CollectionUI
 
             _deckName.OnValueChange += _deckBuilder.TryEditDeckName;
 
-            _collectionData.OnSuccessUpdateDeck += ExitDeckEditing;
-            _collectionData.OnFailedUpdateDeck += _clickHelper.Open;
+            _dataManager.OnSuccessUpdateDeck += ExitDeckEditing;
+            _dataManager.OnFailedUpdateDeck += _clickHelper.Open;
             
             _deckBuilder.OnSuccessCardAdd += _deckContinaer.AddCardUI;
             _deckBuilder.OnSuccessCardRemove += _deckContinaer.RemoveCardUI;
@@ -66,7 +60,8 @@ namespace CardMaga.MetaUI.CollectionUI
         private void OnEnable()
         {
             DiscardDeck();
-            SetDeckToEdit(_metaAccountData.CharacterDatas.CharacterData.MainDeck);
+            _dataManager.AssingDeckDataToEdit();
+            SetDeckToEdit(_dataManager.MetaDeckData);
         }
 
         private void Start()
@@ -77,13 +72,10 @@ namespace CardMaga.MetaUI.CollectionUI
 
         private void SetDeckToEdit(MetaDeckData metaDeckData)
         {
-            _accountDataCollectionHelper.UpdateCollection();
-            _collectionData.AssingDeckDataToEdit();
-
             _deckName.SetText(metaDeckData.DeckName);//all plaster
             
-            _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_accountDataCollectionHelper.CurrentCollectionCardDatas);
-            _metaComboCollectionUIs = VisualRequesterManager.Instance.GetMetaCollectionComboUis(_accountDataCollectionHelper.CurrentCollectionComboDatas);
+            _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dataManager.MetaCollectionCardDatas);
+            _metaComboCollectionUIs = VisualRequesterManager.Instance.GetMetaCollectionComboUis(_dataManager.MetaCollectionComboDatas);
 
             _metaCollectionHandler.LoadObjects(_metaCollectionCardUIs,_metaComboCollectionUIs);
 
@@ -118,27 +110,27 @@ namespace CardMaga.MetaUI.CollectionUI
         }
 
         
-        public void TryExitDeckEditing() => _collectionData.ExitDeckEditing();
+        public void TryExitDeckEditing() => _dataManager.ExitDeckEditing();
         public void ExitDeckEditing() => OnExitDeckEditing.Invoke();
 
         public void ExitAndDiscardDeck()
         {
-            _collectionData.DiscardDeck();
+            _dataManager.DiscardDeck();
             DiscardDeck();
             gameObject.SetActive(false);
         }
         
         private void OnDestroy()
         {
-            _collectionData.Dispose();
+            _dataManager.Dispose();
             _deckName.OnValueChange -= _deckBuilder.TryEditDeckName;//paster
             _deckBuilder.OnSuccessCardAdd -= _deckContinaer.AddCardUI;
             _deckBuilder.OnSuccessCardRemove -= _deckContinaer.RemoveCardUI;
             _deckBuilder.OnSuccessComboAdd -= _deckContinaer.AddComboUI;
             _deckBuilder.OnSuccessComboRemove -= _deckContinaer.RemoveComboUI;
             
-            _collectionData.OnSuccessUpdateDeck -= ExitDeckEditing;
-            _collectionData.OnFailedUpdateDeck += _clickHelper.Open;
+            _dataManager.OnSuccessUpdateDeck -= ExitDeckEditing;
+            _dataManager.OnFailedUpdateDeck += _clickHelper.Open;
         }
     }
 }

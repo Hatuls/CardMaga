@@ -133,6 +133,19 @@ namespace CardMaga.MetaData.AccoutData
 
             return -1;
         }
+        
+        public MetaDeckData GetDeckById(int deckId)
+        {
+            for (int i = 0; i < _decks.Count; i++)
+            {
+                if (_decks[i].DeckId == deckId)
+                {
+                    return _decks[i];
+                }
+            }
+
+            return null;
+        }
 
         public void UpdateDeck(MetaDeckData metaDeckData,int deckIndex)
         {

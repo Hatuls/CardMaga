@@ -39,6 +39,19 @@ namespace CardMaga.MetaData.Collection
         {
             OnTryRemoveItemFromCollection?.Invoke(this);
         }
+
+        public void AddDeckReference(int deckId)
+        {
+            _associateDeck.Add(deckId);
+        }
+        
+        public bool RemoveDeckReference(int deckId)
+        {
+            if (!_associateDeck.Contains(deckId)) return false;
+            _associateDeck.Add(deckId);
+            return true;
+
+        }
         
         public bool Equals(MetaCollectionComboData other)
         {

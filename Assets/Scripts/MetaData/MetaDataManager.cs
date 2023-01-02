@@ -19,7 +19,7 @@ namespace MetaData
         private SequenceHandler<MetaDataManager> _sequenceHandler;
         private AccountDataAccess _accountDataAccess;
         private AccountDataCollectionHelper _accountDataCollectionHelper;
-        private DeckEditingDataManager _deckEditingDataManager;
+        private MetaDeckEditingDataManager _metaDeckEditingDataManager;
         private DeckBuilder _deckBuilder;
         private DismantleDataManager _dismantleDataManager;
         private VisualRequesterManager _visualRequester = VisualRequesterManager.Instance;
@@ -27,7 +27,7 @@ namespace MetaData
         private IDisposable _token;
         
         public AccountDataCollectionHelper AccountDataCollectionHelper => _accountDataCollectionHelper;
-        public DeckEditingDataManager DeckEditingDataManager => _deckEditingDataManager;
+        public MetaDeckEditingDataManager MetaDeckEditingDataManager => _metaDeckEditingDataManager;
         public DeckBuilder DeckBuilder => _deckBuilder;
         public AccountDataAccess AccountDataAccess => _accountDataAccess;
         public MetaAccountData MetaAccountData => _accountDataAccess.AccountData;
@@ -42,7 +42,7 @@ namespace MetaData
                 //yield return _visualRequester;
                 yield return _accountDataAccess = new AccountDataAccess();
                 yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
-                yield return _deckEditingDataManager = new DeckEditingDataManager();
+                yield return _metaDeckEditingDataManager = new MetaDeckEditingDataManager();
                 yield return _deckBuilder = new DeckBuilder();
                 yield return _dismantleDataManager = new DismantleDataManager();
             }

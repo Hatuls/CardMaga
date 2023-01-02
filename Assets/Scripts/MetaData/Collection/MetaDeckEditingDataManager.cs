@@ -1,34 +1,51 @@
 ﻿using System;
+using System.Collections.Generic;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.DeckBuilding;
 using CardMaga.SequenceOperation;
 using MetaData;
 using ReiTools.TokenMachine;
-using UnityEngine;
-using UnityEngine.Events;
 
 namespace CardMaga.MetaData.Collection
 {
     [Serializable]
-    public class DeckEditingDataManager : ISequenceOperation<MetaDataManager>, IDisposable
+    public class MetaDeckEditingDataManager : ISequenceOperation<MetaDataManager>, IDisposable
     {
         public event Action OnSuccessUpdateDeck;
         public event Action OnFailedUpdateDeck;
         
         private DeckBuilder _deckBuilder;
         private AccountDataAccess _accountDataAccess;
-        
+        private MetaDeckData _metaDeckData;
+        private AccountDataCollectionHelper _accountDataCollectionHelper;
+
+        private List<MetaCollectionCardData> _metaCollectionCardDatas;
+
+        public MetaDeckData MetaDeckData => _metaDeckData;
+
+        private List<MetaCollectionComboData> _metaCollectionComboDatas;
+
+        public List<MetaCollectionCardData> MetaCollectionCardDatas => _metaCollectionCardDatas;
+
+        public List<MetaCollectionComboData> MetaCollectionComboDatas => _metaCollectionComboDatas;
+
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
             _accountDataAccess = data.AccountDataAccess;
             _deckBuilder = data.DeckBuilder;
+            _accountDataCollectionHelper = data.AccountDataCollectionHelper;
         }
 
         public int Priority => 2;
 
         public void AssingDeckDataToEdit()
         {
-            _deckBuilder.AssingDeckToEdit(_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck);
+            _metaDeckData = _accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck;
+
+            _metaCollectionCardDatas = _accountDataCollectionHelper.SetCardCollection(_metaDeckData.DeckId);
+            _metaCollectionComboDatas = _accountDataCollectionHelper.SetComboCollection(_metaDeckData.DeckId);
+            
+            _deckBuilder.AssingDeckToEdit(_metaDeckData);
         }
 
         public bool ExitDeckEditing()

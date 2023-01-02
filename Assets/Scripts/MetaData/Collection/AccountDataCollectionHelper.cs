@@ -32,71 +32,125 @@ namespace CardMaga.MetaData.Collection
             _collectionComboDatas = new List<MetaCollectionComboData>();
             
             _accountDataAccess = data.AccountDataAccess;
-            InitializeCardData();
-            InitializeComboData();
+            _collectionCardDatas = InitializeCardData();
+            _collectionComboDatas = InitializeComboData();
         }
 
         public int Priority => 0;
         
-        private void InitializeCardData()
+        private List<MetaCollectionCardData> InitializeCardData()
         {
             List<CardInstance> temp = _accountDataAccess.AccountData.AccountCards;
 
             List<CardInstance> cardDatas = temp.OrderBy(x => x.CoreID).ToList();
 
-            _collectionCardDatas = new List<MetaCollectionCardData>();
+            List<MetaCollectionCardData> output = new List<MetaCollectionCardData>();
 
             foreach (var cardData in cardDatas)
             {
-                foreach (var collectionCardData in _collectionCardDatas.Where(collectionCardData => collectionCardData.Equals(cardData)))
+                foreach (var collectionCardData in output.Where(collectionCardData => collectionCardData.Equals(cardData)))
                 {
                     collectionCardData.AddCardInstance(cardData);
                 }
 
-                _collectionCardDatas.Add(new MetaCollectionCardData(cardData));
+                output.Add(new MetaCollectionCardData(cardData));
             }
+            
+            SortCardByDeck(output);
 
-            MetaCharacterData[] metaCharacterDatas = _accountDataAccess.AccountData.CharacterDatas.CharacterDatas;
-            
-            
+            return output;
         }
 
-        private void InitializeComboData()
+        private void SortCardByDeck(List<MetaCollectionCardData> metaCollectionCardDatas)
         {
-            //_collectionComboDatas.AddRange(comboDatas.Select(comboData => new MetaCollectionComboData(1, 1, comboData)));
+            MetaCharacterData[] metaCharacterDatas = _accountDataAccess.AccountData.CharacterDatas.CharacterDatas;
+
+            foreach (var characterData in metaCharacterDatas)
+            {
+                foreach (var deckData in characterData.Decks)       
+                {
+                    foreach (var cardData in deckData.Cards)
+                    {
+                        foreach (var collectionCardData in metaCollectionCardDatas)
+                        {
+                            if (collectionCardData.FindCardInstance(cardData.InstanceID,out MetaCardInstanceInfo metaCardInstanceInfo))
+                            {
+                                metaCardInstanceInfo.AddToDeck(deckData.DeckId);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        private List<MetaCollectionCardData> SetCardCollection()
+        private void SortComboByDeck(List<MetaCollectionComboData> comboDatas)
+        {
+            MetaCharacterData[] metaCharacterDatas = _accountDataAccess.AccountData.CharacterDatas.CharacterDatas;
+
+            foreach (var characterData in metaCharacterDatas)
+            {
+                foreach (var deckData in characterData.Decks)       
+                {
+                    foreach (var comboData in deckData.Combos)
+                    {
+                        foreach (var collectionCardData in comboDatas)
+                        {
+                            if (collectionCardData.ComboID == comboData.ID)
+                            {
+                                collectionCardData.AddDeckReference(deckData.DeckId);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        private List<MetaCollectionComboData> InitializeComboData()
+        {
+            List<ComboCore> comboCores = _accountDataAccess.AccountData.AccountCombos;
+            List<MetaCollectionComboData> output = new List<MetaCollectionComboData>();
+            
+            output.AddRange(comboCores.Select(comboData => new MetaCollectionComboData(comboData)));
+            
+            SortComboByDeck(output);
+
+            return output;
+        }
+
+        public List<MetaCollectionCardData> SetCardCollection(int deckId)
         {
             if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
                 return GetCollectionCardDatasCopy();
 
             List<CardInstance> metaCardDatas =
-                _accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.Cards;
+                _accountDataAccess.AccountData.CharacterDatas.CharacterData.GetDeckById(deckId).Cards;
 
             List<MetaCollectionCardData> collectionCardDatas = GetCollectionCardDatasCopy();
 
             foreach (var collectionCardData in collectionCardDatas)
             {
-                foreach (var cardData in metaCardDatas)
+                foreach (var cardInstanceInfo in collectionCardData.CardInstances)
                 {
-                    if (collectionCardData.Equals(cardData))
+                    foreach (var cardData in metaCardDatas)
                     {
-                 //       collectionCardData.AddItemToCollectionSuccess(cardData);
-                    }
+                        if (cardInstanceInfo.InstanceID == cardData.InstanceID)
+                        {
+                            collectionCardData.RemoveCardInstance(cardInstanceInfo.InstanceID);
+                        }
+                    }   
                 }
             }
 
             return collectionCardDatas;
         }
         
-        private List<MetaCollectionComboData> SetComboCollection()
+        public List<MetaCollectionComboData> SetComboCollection(int deckId)
         {
             if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
                 return GetCollectionComboDatasCopy();
 
             List<ComboCore> metaComboDatas =
-                _accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.Combos;
+                _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[deckId].Combos;
 
             List<MetaCollectionComboData> collectionComboDatasCopy = GetCollectionComboDatasCopy();
 
@@ -104,9 +158,9 @@ namespace CardMaga.MetaData.Collection
             {
                 foreach (var comboData in metaComboDatas)
                 {
-                    if (collectionDataCombo.Equals(comboData))
+                    if (collectionDataCombo.ComboID == comboData.ID)
                     {
-                   //     collectionDataCombo.AddItemToCollectionSuccess(comboData);
+                        collectionDataCombo.RemoveComboFromCollection();
                     }
                 }
             }
@@ -114,34 +168,14 @@ namespace CardMaga.MetaData.Collection
             return collectionComboDatasCopy;
         }
         
-        public void UpdateCollection()
-        {
-            _currentCurrentCollectionCardDatas = SetCardCollection();
-            _currentCurrentCollectionComboDatas = SetComboCollection();
-        }
-
         private List<MetaCollectionCardData> GetCollectionCardDatasCopy()
         {
-            List<MetaCollectionCardData> output = new List<MetaCollectionCardData>();
-
-            foreach (var cardData in _collectionCardDatas)
-            {
-               // output.Add(new MetaCollectionCardData(cardData.NumberOfInstance,cardData.NumberOfInstance,cardData.ItemReference));
-            }
-
-            return output;
+            return InitializeCardData();
         }
         
         private List<MetaCollectionComboData> GetCollectionComboDatasCopy()
         {
-            List<MetaCollectionComboData> output = new List<MetaCollectionComboData>();
-
-            foreach (var data in _collectionComboDatas)
-            {
-              //  output.Add(new MetaCollectionComboData(data.NumberOfInstance,data.NumberOfInstance,data.ItemReference));
-            }
-
-            return output;
+            return InitializeComboData();
         }
 
     }

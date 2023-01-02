@@ -52,7 +52,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public void AddCardToDismantleList(MetaCollectionCardData collectionCardData)
         {
-            if (_cardDataValidator.Valid(collectionCardData,out string failedMassage) && collectionCardData.GetUnassingCard(out CardInstance cardInstance))
+            if (_cardDataValidator.Valid(collectionCardData,out string failedMassage) && collectionCardData.GetUnAssignCard(out CardInstance cardInstance))
             {
                 _dismantleCurrencyHandler.AddCardCurrency(cardInstance);
                 _dismantleHandler.AddCardToDismantleList(cardInstance);

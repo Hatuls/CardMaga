@@ -26,13 +26,12 @@ namespace CardMaga.MetaData.DeckBuilding
         private const int MAX_COMBO_IN_DECK = 3;
 
         private MetaDeckData _deck;
-        
-        private AccountDataCollectionHelper _accountDataCollection;
-        
+
+        private MetaDeckEditingDataManager _deckEditingData;
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
-            _accountDataCollection = data.AccountDataCollectionHelper;
+            _deckEditingData = data.MetaDeckEditingDataManager;
         }
 
         public int Priority => 1;
@@ -41,13 +40,13 @@ namespace CardMaga.MetaData.DeckBuilding
         {
             _deck = deckData;
 
-            foreach (var cardData in _accountDataCollection.CurrentCollectionCardDatas)
+            foreach (var cardData in _deckEditingData.MetaCollectionCardDatas)
             {
                 cardData.OnTryAddItemToCollection += TryAddCard;
                 cardData.OnTryRemoveItemFromCollection += TryRemoveCard;
             }
             
-            foreach (var comboData in _accountDataCollection.CurrentCollectionComboDatas)
+            foreach (var comboData in _deckEditingData.MetaCollectionComboDatas)
             {
                 comboData.OnTryAddItemToCollection += TryAddCombo;
                 comboData.OnTryRemoveItemFromCollection += TryRemoveCombo;
@@ -58,14 +57,14 @@ namespace CardMaga.MetaData.DeckBuilding
 
         public void DisposeDeck()//Need to call
         {
-            foreach (var cardData in _accountDataCollection.CurrentCollectionCardDatas)
+            foreach (var cardData in _deckEditingData.MetaCollectionCardDatas)
             {
                 cardData.OnTryAddItemToCollection -= TryAddCard;
                 cardData.OnTryRemoveItemFromCollection -= TryRemoveCard;
                 
             }
             
-            foreach (var comboData in _accountDataCollection.CurrentCollectionComboDatas)
+            foreach (var comboData in _deckEditingData.MetaCollectionComboDatas)
             {
                 comboData.OnTryAddItemToCollection -= TryAddCombo;
                 comboData.OnTryRemoveItemFromCollection -= TryRemoveCombo;

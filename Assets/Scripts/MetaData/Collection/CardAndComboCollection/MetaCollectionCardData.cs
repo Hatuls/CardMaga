@@ -18,6 +18,8 @@ namespace CardMaga.MetaData.Collection
 
         public int CoreId => _cardInstances[0].CoreID;
 
+        public List<MetaCardInstanceInfo> CardInstances => _cardInstances;
+
         public override  int NumberOfInstance => _cardInstances.Count;
 
         [SerializeField, ReadOnly] private List<MetaCardInstanceInfo> _cardInstances;
@@ -49,7 +51,7 @@ namespace CardMaga.MetaData.Collection
             return null;
         }
 
-        public bool GetUnassingCard(out CardInstance metaCardData)
+        public bool GetUnAssignCard(out CardInstance metaCardData)
         {
             foreach (var cardInstance in _cardInstances)
             {
