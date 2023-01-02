@@ -6,11 +6,11 @@ namespace CardMaga.UI.Visuals
     public abstract class BaseVisualAssignerHandler<T> : BaseVisualHandler<T>
     {
         public abstract IEnumerable<BaseVisualAssigner<T>> VisualAssigners { get; }
-        public override void Init(T data)
+        public override void Init(T comboData)
         {
             foreach (var assigner in VisualAssigners)
             {
-                assigner.Init(data);
+                assigner.Init(comboData);
             }
         }
         public override void CheckValidation()

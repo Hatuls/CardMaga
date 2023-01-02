@@ -231,7 +231,7 @@ namespace CardMaga.CSV
             string[] idCrafts = cardSO[IDThatCraftMe].Split('&');
             if (idCrafts[0].Equals('0') == false)
             {
-                ushort[] arr = new ushort[0];
+                int[] arr = Array.Empty<int>();
                 foreach (var id in idCrafts)
                 {
                     if (int.Parse(id) == 0)

@@ -60,11 +60,11 @@ namespace CardMaga.UI
         {
             _cardGlowHandler.DiscardGlowAlpha();
         }
-        public override void Init(CardCore battleCardData)
+        public override void Init(CardCore comboData)
         {
-            base.Init(battleCardData);
+            base.Init(comboData);
             //Zoom
-            _cardZoomHandler.SetCardType(battleCardData);
+            _cardZoomHandler.SetCardType(comboData);
             _cardZoomHandler.ForceReset();
         }
         public override void CheckValidation()

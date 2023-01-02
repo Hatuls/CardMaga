@@ -27,11 +27,11 @@ namespace CardMaga.UI.Text
             _currentBuffVisualSO = null;
         }
 
-        public override void Init(BuffVisualData buffData)
+        public override void Init(BuffVisualData comboData)
         {
-            if (_currentkeywordType != buffData.KeywordType)
+            if (_currentkeywordType != comboData.KeywordType)
             {
-                _currentkeywordType = buffData.KeywordType;
+                _currentkeywordType = comboData.KeywordType;
 
                 _currentBuffVisualSO = _buffCollectionVisualSO.GetBuffSO(_currentkeywordType);
                 if (!_currentBuffVisualSO.ToShowText)
@@ -48,12 +48,12 @@ namespace CardMaga.UI.Text
             if (!_currentBuffVisualSO.IsShardText)
             {
                 //Activate the text object and display the basic text
-                _buffAmountText.text = buffData.BuffCurrentAmount.ToString();
+                _buffAmountText.text = comboData.BuffCurrentAmount.ToString();
             }
             else
             {
                 //Display the current amount of the max amount
-                _buffAmountText.text = $"{buffData.BuffCurrentAmount}/{_currentBuffVisualSO.MaxShards}";
+                _buffAmountText.text = $"{comboData.BuffCurrentAmount}/{_currentBuffVisualSO.MaxShards}";
             }
         }
     }

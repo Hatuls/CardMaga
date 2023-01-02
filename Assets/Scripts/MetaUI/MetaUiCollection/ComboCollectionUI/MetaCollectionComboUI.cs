@@ -21,12 +21,12 @@ namespace CardMaga.MetaUI
             Show();
         }
         
-        public void AssignDataAndVisual(MetaCollectionComboData comboData)
+        public void AssignVisual(MetaCollectionComboData comboData)
         {
             _metaComboData = comboData;
             
             _metaComboData = comboData;
-            _comboVisual.Init(comboData.ComboData.BattleComboData);
+            _comboVisual.Init(comboData.ComboData);
             
             _metaComboData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             

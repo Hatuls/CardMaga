@@ -1,5 +1,4 @@
-﻿using Battle.Characters;
-using Battle.Data;
+﻿using Battle.Data;
 using UnityEngine;
 
 namespace CardMaga.UI.MatchMMaking

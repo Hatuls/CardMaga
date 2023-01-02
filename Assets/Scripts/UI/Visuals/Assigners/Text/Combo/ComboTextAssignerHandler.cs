@@ -1,17 +1,16 @@
-﻿
-using Battle.Combo;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Account.GeneralData;
 using UnityEngine;
 
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
-    public class ComboTextAssignerHandler : BaseTextAssignerHandler<BattleComboData>
+    public class ComboTextAssignerHandler : BaseTextAssignerHandler<ComboCore>
     {
         [Header("Texts")]
         [SerializeField] ComboNameTextAssigner _comboNameTextAssigner;
         [SerializeField] ComboTypeTextAssigner _comboTypeTextAssigner;
-        public override IEnumerable<BaseTextAssigner<BattleComboData>> TextAssigners
+        public override IEnumerable<BaseTextAssigner<ComboCore>> TextAssigners
         {
             get
             {

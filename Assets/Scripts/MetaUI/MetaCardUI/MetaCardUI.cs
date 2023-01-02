@@ -51,10 +51,10 @@ namespace CardMaga.MetaUI
 
 
      
-        public void AssignDataAndVisual(MetaCardData data)
+        public void AssignVisual(CardInstance data)
         {
-            CardUI.AssignDataAndVisual(data.BattleCardData);
-            _cardInstance = data.CardInstance;
+            _cardVisuals.Init(data.GetCardCore());
+            _cardInstance = data;
             //_cardVisuals.CardZoomHandler.ForceReset();//plaster
         }
 

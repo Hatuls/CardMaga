@@ -15,9 +15,9 @@ namespace CardMaga.UI.Text
             if (_staminaCost == null)
                 throw new System.Exception("stamina cost is Null");
         }
-        public override void Init(CardCore battleCardData)
+        public override void Init(CardCore comboData)
         {
-            _staminaCost.AssignText(battleCardData.CardSO.StaminaCost.ToString());
+            _staminaCost.AssignText(comboData.CardSO.StaminaCost.ToString());
         }
 
         public override void Dispose()

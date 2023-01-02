@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.ObjectPool;
@@ -18,15 +19,10 @@ namespace CardMaga.MetaUI
         [SerializeField] private MetaDeckBuildingUIManager _metaDeckBuildingUIManager;
         [SerializeField] private MetaCharacterScreenUIManager _metaCharacterScreenUIManager;
         [SerializeField] private DismantelUIManager _dismantelUIManager;
-        
-        private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
-        private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
-        
+
         private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
         
         public int Priority => 1;
-        public VisualRequester<MetaComboUI, MetaComboData> ComboVisualRequester => _comboVisualRequester;
-        public VisualRequester<MetaCardUI, MetaCardData> CardVisualRequester => _cardVisualRequester;
         public MetaDeckBuildingUIManager MetaDeckBuildingUIManager => _metaDeckBuildingUIManager;
         public MetaCharacterScreenUIManager MetaCharacterScreenUIManager => _metaCharacterScreenUIManager;
         public DismantelUIManager DismantelUIManager => _dismantelUIManager;

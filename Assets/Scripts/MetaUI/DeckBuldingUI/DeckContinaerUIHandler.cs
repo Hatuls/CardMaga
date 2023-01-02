@@ -10,28 +10,27 @@ public class DeckContinaerUIHandler : MonoBehaviour
     [SerializeField] private MetaCardUIContainer _metaCardUIContainer;
     [SerializeField] private MetaComboUiContainer _metaComboUiContainer;
 
-    public void Init(CardInstance[] metaCardUis, ComboCore[] metaComboUis)
+    public void Init(MetaCardUI[] metaCardUis, MetaComboUI[] metaComboUis)
     {
         _metaCardUIContainer.InitializeSlots(metaCardUis);
         _metaComboUiContainer.InitializeSlots(metaComboUis);
     }
     
-    public void AddCardUI(CardInstance metaCardData)
+    public void AddCardUI(CardInstance cardData)
     {
         if (!_metaCardUIContainer.TryGetEmptySlot(out var cardSlot))
             return;
         
         var cache = FindEmptyCard();
         _metaCardUIContainer.TryAddObject(cache);
-        cache.AssignDataAndVisual(metaCardData);
+        cache.AssignVisual(cardData);
         cache.Show();
     }
     
     public void AddComboUI(ComboCore metaComboData)
     {
-       
         var cache = FindEmptyCombo();
-        cache.AssignDataAndVisual(metaComboData);
+        cache.AssignVisual(metaComboData);
         _metaComboUiContainer.TryAddObject(cache);  
         cache.Show();
     }
@@ -52,8 +51,8 @@ public class DeckContinaerUIHandler : MonoBehaviour
         _metaCardUIContainer.Reset();
     }
     
-    private MetaComboUI FindComboUI(ComboCore metaComboData) => _metaComboUiContainer.AllInventoryObject.TakeWhile(metaComboUI => !ReferenceEquals(metaComboUI, null)).FirstOrDefault(metaComboUI => metaComboData.ID == metaComboUI.MetaComboData.ID && !metaComboUI.IsEmpty);
-    private MetaCardUI FindCardUI(CardInstance metaCardData) => _metaCardUIContainer.AllInventoryObject.TakeWhile(metaCardUi => !ReferenceEquals(metaCardUi, null)).FirstOrDefault(metaCardUi => metaCardData.CardInstance.CoreID == metaCardUi.CardInstance.CoreID && !metaCardUi.IsEmpty);
+    private MetaComboUI FindComboUI(ComboCore comboData) => _metaComboUiContainer.AllInventoryObject.TakeWhile(metaComboUI => !ReferenceEquals(metaComboUI, null)).FirstOrDefault(metaComboUI => comboData.ID == metaComboUI.ComboData.ID && !metaComboUI.IsEmpty);
+    private MetaCardUI FindCardUI(CardInstance cardData) => _metaCardUIContainer.AllInventoryObject.TakeWhile(metaCardUi => !ReferenceEquals(metaCardUi, null)).FirstOrDefault(metaCardUi => cardData.CoreID == metaCardUi.CardInstance.CoreID && !metaCardUi.IsEmpty);
     private MetaCardUI FindEmptyCard() => _metaCardUIContainer.AllInventoryObject.TakeWhile(metaCardUi => !ReferenceEquals(metaCardUi, null)).FirstOrDefault(metaCardUi => metaCardUi.IsEmpty);
     private MetaComboUI FindEmptyCombo() =>  _metaComboUiContainer.AllInventoryObject.TakeWhile(metaComboUI => !ReferenceEquals(metaComboUI, null)).FirstOrDefault(metaComboUI => metaComboUI.IsEmpty);
 

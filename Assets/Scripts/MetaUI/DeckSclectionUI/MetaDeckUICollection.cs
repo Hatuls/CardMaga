@@ -29,7 +29,7 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
         UpdateDeckName();
     }
 
-    public void AssignDataAndVisual(MetaDeckData data)
+    public void AssignVisual(MetaDeckData data)
     {
         if (ReferenceEquals(data,null))
         {

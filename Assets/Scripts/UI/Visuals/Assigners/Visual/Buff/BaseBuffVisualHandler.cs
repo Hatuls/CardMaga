@@ -28,10 +28,10 @@ namespace CardMaga.UI.Buff
             BuffVisualAssignerHandler.Dispose();
         }
 
-        public virtual void Init(BuffVisualData buffData)
+        public virtual void Init(BuffVisualData comboData)
         {
-            BuffTextAssignerHandler.Init(buffData);
-            BuffVisualAssignerHandler.Init(buffData);
+            BuffTextAssignerHandler.Init(comboData);
+            BuffVisualAssignerHandler.Init(comboData);
         }
     }
 }

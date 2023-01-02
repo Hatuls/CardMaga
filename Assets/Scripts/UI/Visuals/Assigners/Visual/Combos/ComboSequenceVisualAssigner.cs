@@ -1,11 +1,13 @@
-﻿using Battle.Combo;
+﻿using Account.GeneralData;
+using Battle.Combo;
+using CardMaga.Card;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class ComboSequenceVisualAssigner : BaseVisualAssigner<BattleComboData>
+    public class ComboSequenceVisualAssigner : BaseVisualAssigner<ComboCore>
     {
         [SerializeField] BodyPartComboVisualSO _bodyPartComboVisualSO;
         [SerializeField] Image[] _comboSequenceBodyParts;
@@ -24,28 +26,31 @@ namespace CardMaga.UI.Visuals
             if (_comboSequenceInnerBackgrounds == null)
                 throw new System.Exception("ComboSequenceVisualAssigner has no _comboSequenceInnerBackgrounds");
         }
-        public override void Init(BattleComboData battleComboDataData)
+        public override void Init(ComboCore comboData)
         {
-            for (int i = 0; i < battleComboDataData.ComboSequence.Length; i++)
+            ComboSO comboSo = comboData.ComboSO();
+            
+            for (int i = 0; i < comboSo.ComboSequence.Length; i++)
             {
-                var cardType = battleComboDataData.ComboSequence[i].CardType;
+                CardTypeData cardTypeData = comboSo.ComboSequence[i];
+                var cardType = cardTypeData.CardType;
 
                 //Set Combo BG Sprite
                 _comboSequenceBackgrounds[i].AssignSprite(_bodyPartComboVisualSO.GetBodyPartBG(cardType));
-                _comboSequenceBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetInnerColor(battleComboDataData.ComboSequence[i].CardType));
+                _comboSequenceBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetInnerColor(cardTypeData.CardType));
                 //Set BattleCard Inner BG sprites and color
                 _comboSequenceInnerBackgrounds[i].AssignSprite(_bodyPartComboVisualSO.GetBodyPartInnerBG(cardType));
-                _comboSequenceInnerBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(battleComboDataData.ComboSequence[i].CardType));
+                _comboSequenceInnerBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(cardTypeData.CardType));
                 //Set body part and color
-                _comboSequenceBodyParts[i].AssignSprite(_bodyPartComboVisualSO.BaseSO.GetBodyPartSprite(battleComboDataData.ComboSequence[i].BodyPart));
+                _comboSequenceBodyParts[i].AssignSprite(_bodyPartComboVisualSO.BaseSO.GetBodyPartSprite(cardTypeData.BodyPart));
 
-                if (battleComboDataData.ComboSequence[i].BodyPart == CardMaga.Card.BodyPartEnum.Empty)
+                if (cardTypeData.BodyPart == CardMaga.Card.BodyPartEnum.Empty)
                 {
-                    _comboSequenceBodyParts[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(battleComboDataData.ComboSequence[i].CardType).SetColorAlpha(0));
+                    _comboSequenceBodyParts[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(cardTypeData.CardType).SetColorAlpha(0));
                 }
                 else
                 {
-                    _comboSequenceBodyParts[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(battleComboDataData.ComboSequence[i].CardType).SetColorAlpha(1));
+                    _comboSequenceBodyParts[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetMainColor(cardTypeData.CardType).SetColorAlpha(1));
                 }
 
             }

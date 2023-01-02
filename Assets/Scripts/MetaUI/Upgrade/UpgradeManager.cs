@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CardMaga.Card;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,31 +25,29 @@ namespace CardMaga.Meta.Upgrade
         private UpgradeCostHandler _upgradeCostHandler;
 
         private UpgradeCardHandler _upgradeCardHandler = new UpgradeCardHandler();
-        private MetaCardData _currentCard;
+        private CardInstance _currentCard;
         public int Priority => 0;
-        public void SetCurrentCard(MetaCardData card)
+        public void SetCurrentCard(CardInstance cardData)
         {
-            _currentCard = card;
+            _currentCard = cardData;
             _upgradeCardsVisualHandler.SetMiddleCard(_currentCard);
-            _upgradeCostHandler.Init(_currentCard);
+            //_upgradeCostHandler.Init(_currentCard);
         }
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
         {
 
         }
-
-
-
+        
         #region Editor
 
 #if UNITY_EDITOR
         [SerializeField, Header("Editor:")]
         private CardCore _cardCore;
 
-        [Button]
-        private void TrySystem()
-            => SetCurrentCard(Factory.GameFactory.Instance.CardFactoryHandler.GetMetaCardData(_cardCore));
+       // [Button]
+       // private void TrySystem()
+        //    => SetCurrentCard(Factory.GameFactory.Instance.CardFactoryHandler.GetMetaCardData(_cardCore));
 #endif
         #endregion
     }
@@ -127,9 +126,9 @@ namespace CardMaga.Meta.Upgrade
         private MetaCardUI _rightCardUI;
 
 
-        public void SetMiddleCard(MetaCardData battleCardData)
+        public void SetMiddleCard(CardInstance cardData)
         {
-            _middleCardUI.AssignDataAndVisual(battleCardData);
+            _middleCardUI.AssignVisual(cardData);
             InitRightCard();
             InitLeftCard();
         }
@@ -145,8 +144,9 @@ namespace CardMaga.Meta.Upgrade
                 card.gameObject.SetActive(false);
             else
             {
-                MetaCardData featuringLevel = Factory.GameFactory.Instance.CardFactoryHandler.GetMetaCardData(new CardCore(nextID));
-                card.AssignDataAndVisual(featuringLevel);
+                CardInstance featuringLevel =
+                    Factory.GameFactory.Instance.CardFactoryHandler.CreateCardInstance(new CardCore(nextID)); 
+                card.AssignVisual(featuringLevel);
                 card.gameObject.SetActive(true);
             }
         }
@@ -158,9 +158,9 @@ namespace CardMaga.Meta.Upgrade
 #if UNITY_EDITOR
         [Header("Editor:")]
         [SerializeField]
-        private MetaCardData _battleCardData;
+        private BattleCardData _battleCardData;
         [Button]
-        private void TrySetCard() => SetMiddleCard(_battleCardData);
+        private void TrySetCard() => SetMiddleCard(_battleCardData.CardInstance);
 
 
 #endif

@@ -42,9 +42,9 @@ namespace CardMaga.UI.Visuals
         {
         }
 
-        public override void Init(CardCore cardCore)
+        public override void Init(CardCore comboData)
         {
-            CardTypeData cardTypeData = cardCore.CardSO.CardTypeData;
+            CardTypeData cardTypeData = comboData.CardSO.CardTypeData;
             CardTypeEnum cardType = cardTypeData.CardType;
             int cardTypeMinusOne = (int)cardTypeData.CardType - 1;
             CardMaga.Card.BodyPartEnum bodyPart = cardTypeData.BodyPart;
@@ -52,7 +52,7 @@ namespace CardMaga.UI.Visuals
 
 #if UNITY_EDITOR
             if (cardTypeMinusOne == -1)
-                Debug.LogError("BattleCard type is -1! " + cardCore.CardSO.CardName);
+                Debug.LogError("BattleCard type is -1! " + comboData.CardSO.CardName);
 #endif
             //Set BattleCard Type object On
             SetActiveObject(cardTypeMinusOne);

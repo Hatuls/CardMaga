@@ -19,9 +19,9 @@ namespace CardMaga.UI.Visuals
         {
             base.Dispose();
         }
-        public override void Init(ResourcesCost resourceData)
+        public override void Init(ResourcesCost comboData)
         {
-            base.Init(resourceData);
+            base.Init(comboData);
         }
 
 #if UNITY_EDITOR

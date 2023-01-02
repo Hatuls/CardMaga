@@ -1,4 +1,5 @@
-﻿using Battle.Combo;
+﻿using Account.GeneralData;
+using Battle.Combo;
 using CardMaga.UI.PopUp;
 using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
@@ -14,8 +15,8 @@ namespace CardMaga.UI.Combos
         [SerializeField] ComboDescriptionPopUp _comboPopUp;
         [SerializeField] ComboTextAssignerHandler _comboTextAssignerHandler;
         [SerializeField] ComboVisualAssignerHandler _comboVisualAssignerHandler;
-        public override BaseVisualAssignerHandler<BattleComboData> ComboVisualAssignerHandler => _comboVisualAssignerHandler;
-        public override BaseTextAssignerHandler<BattleComboData> ComboTextAssignerHandler => _comboTextAssignerHandler;
+        public override BaseVisualAssignerHandler<ComboCore> ComboVisualAssignerHandler => _comboVisualAssignerHandler;
+        public override BaseTextAssignerHandler<ComboCore> ComboTextAssignerHandler => _comboTextAssignerHandler;
 #if UNITY_EDITOR
         [FormerlySerializedAs("_testCombo")]
         [Header("Test")]
@@ -31,7 +32,7 @@ namespace CardMaga.UI.Combos
             }
             CheckValidation();
             Dispose();
-            Init(testBattleComboData);
+            Init(testBattleComboData.ComboCore);
             _comboPopUp.ActivatePopUP(true);
         }
         [Button]
@@ -46,11 +47,11 @@ namespace CardMaga.UI.Combos
             _comboPopUp.CheckValidation();
             _comboCard.CheckValidation();
         }
-        public override void Init(BattleComboData battleComboDataData)
+        public override void Init(ComboCore comboData)
         {
-            base.Init(battleComboDataData);
-            _comboPopUp.Init(battleComboDataData);
-            var cardData = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(battleComboDataData.CraftedCard,battleComboDataData.ComboCore.Level);
+            base.Init(comboData);
+            _comboPopUp.Init(comboData);
+            var cardData = Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(comboData.ComboSO().CraftedCard,comboData.Level);
             _comboCard.Init(cardData.CardInstance.GetCardCore());
             _comboPopUp.ActivatePopUP(true);
         }

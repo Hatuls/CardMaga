@@ -39,7 +39,7 @@ public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaU
         
         for (int i = 0; i < _decksUI.Length; i++)
         {
-            _decksUI[i].AssignDataAndVisual(i < _characterData.Decks.Count ? _characterData.Decks[i] : null);
+            _decksUI[i].AssignVisual(i < _characterData.Decks.Count ? _characterData.Decks[i] : null);
 
             if (_decksUI[i].Equals(_characterData.MainDeck))
             {
@@ -62,7 +62,7 @@ public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaU
             if (ReferenceEquals(metaDeckData,null))
                 return;
             
-            _mainDeckUI.AssignDataAndVisual(metaDeckData);
+            _mainDeckUI.AssignVisual(metaDeckData);
             _mainDeckUI.Show();
             OnNewDeckAdded?.Invoke();
         }

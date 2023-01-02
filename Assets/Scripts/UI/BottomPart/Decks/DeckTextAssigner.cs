@@ -11,11 +11,11 @@ namespace CardMaga.UI.Text
         //holds amount of battleCard in deck
         [SerializeField] TextMeshProUGUI _deckText;
         BaseDeck _baseDeck;
-        public override void Init(BaseDeck data)
+        public override void Init(BaseDeck comboData)
         {
             SetDeckText(0);
-            data.OnAmountOfFilledSlotsChange += SetDeckText;
-            _baseDeck = data;
+            comboData.OnAmountOfFilledSlotsChange += SetDeckText;
+            _baseDeck = comboData;
         }
 
         private void SetDeckText(int cardAmount)

@@ -60,12 +60,12 @@ namespace CardMaga.UI.Visuals
             _currentKeywordType = KeywordType.None;
         }
 
-        public override void Init(BuffVisualData buffData)
+        public override void Init(BuffVisualData comboData)
         {
-            if (_currentKeywordType != buffData.KeywordType)
+            if (_currentKeywordType != comboData.KeywordType)
             {
                 //If is not the same KeywordType Assign A new Keyword Type
-                _currentKeywordType = buffData.KeywordType;
+                _currentKeywordType = comboData.KeywordType;
 
                 _currentBuffVisualSO = _buffCollectionVisualSO.GetBuffSO(_currentKeywordType);
             }

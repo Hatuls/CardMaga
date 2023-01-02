@@ -22,9 +22,9 @@ namespace CardMaga.UI.Visuals
             if (_typeCardVisualSO.InnerFrames.Length == 0)
                 throw new Exception("TypeCardVisualSO has no inner frames");
         }
-        public override void Init(CardCore cardCore)
+        public override void Init(CardCore comboData)
         {
-            int cardType = (int)cardCore.CardSO.CardTypeData.CardType - 1;
+            int cardType = (int)comboData.CardSO.CardTypeData.CardType - 1;
             var sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _typeCardVisualSO.Frames);
             _frame.AssignSprite(sprite);
 

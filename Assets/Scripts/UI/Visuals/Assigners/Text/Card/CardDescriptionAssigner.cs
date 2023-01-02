@@ -20,9 +20,9 @@ namespace CardMaga.UI.Text
             if (_rows == null || _rows.Length < 2)
                 throw new System.Exception("CardDescriptionAssigner has no rows");
         }
-        public override void Init(CardCore battleCardData)
+        public override void Init(CardCore comboData)
         {
-            List<string[]> keywords = battleCardData.CardSO.CardDescription(battleCardData.Level);
+            List<string[]> keywords = comboData.CardSO.CardDescription(comboData.Level);
 
             for (int i = 0; i < keywords.Count; i++)
             {

@@ -13,18 +13,18 @@ namespace CardMaga.MetaData.Collection
         private AccountDataAccess _accountDataAccess;
         
         private List<MetaCollectionCardData> _collectionCardDatas;
-        private List<MetaCollectionCardData> currentCurrentCollectionCardDatas;
+        private List<MetaCollectionCardData> _currentCurrentCollectionCardDatas;
         
         private List<MetaCollectionComboData> _collectionComboDatas;
-        private List<MetaCollectionComboData> currentCurrentCollectionComboDatas;
+        private List<MetaCollectionComboData> _currentCurrentCollectionComboDatas;
 
         public List<MetaCollectionCardData> ALlCollectionCardDatas => _collectionCardDatas;
 
         public List<MetaCollectionComboData> AllCollectionComboDatas => _collectionComboDatas;
 
-        public List<MetaCollectionCardData> CurrentCollectionCardDatas => currentCurrentCollectionCardDatas;
+        public List<MetaCollectionCardData> CurrentCollectionCardDatas => _currentCurrentCollectionCardDatas;
 
-        public List<MetaCollectionComboData> CurrentCollectionComboDatas => currentCurrentCollectionComboDatas;
+        public List<MetaCollectionComboData> CurrentCollectionComboDatas => _currentCurrentCollectionComboDatas;
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
@@ -60,10 +60,10 @@ namespace CardMaga.MetaData.Collection
             
             
         }
-        
+
         private void InitializeComboData()
         {
-         //   metaCollectionComboDatas.AddRange(comboDatas.Select(comboData => new MetaCollectionComboData(1, 1, comboData)));
+            //_collectionComboDatas.AddRange(comboDatas.Select(comboData => new MetaCollectionComboData(1, 1, comboData)));
         }
 
         private List<MetaCollectionCardData> SetCardCollection()
@@ -71,7 +71,7 @@ namespace CardMaga.MetaData.Collection
             if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
                 return GetCollectionCardDatasCopy();
 
-            List<MetaCardData> metaCardDatas =
+            List<CardInstance> metaCardDatas =
                 _accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.Cards;
 
             List<MetaCollectionCardData> collectionCardDatas = GetCollectionCardDatasCopy();
@@ -95,7 +95,7 @@ namespace CardMaga.MetaData.Collection
             if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
                 return GetCollectionComboDatasCopy();
 
-            List<MetaComboData> metaComboDatas =
+            List<ComboCore> metaComboDatas =
                 _accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.Combos;
 
             List<MetaCollectionComboData> collectionComboDatasCopy = GetCollectionComboDatasCopy();
@@ -116,8 +116,8 @@ namespace CardMaga.MetaData.Collection
         
         public void UpdateCollection()
         {
-            currentCurrentCollectionCardDatas = SetCardCollection();
-            currentCurrentCollectionComboDatas = SetComboCollection();
+            _currentCurrentCollectionCardDatas = SetCardCollection();
+            _currentCurrentCollectionComboDatas = SetComboCollection();
         }
 
         private List<MetaCollectionCardData> GetCollectionCardDatasCopy()

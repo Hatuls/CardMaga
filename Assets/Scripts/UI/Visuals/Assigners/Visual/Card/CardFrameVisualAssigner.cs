@@ -16,7 +16,7 @@ namespace CardMaga.UI.Visuals
             if (_frameCardVisualSO.Frames.Length == 0)
                 throw new System.Exception("FrameCardVisualSO has no Frames");
         }
-        public override void Init(CardCore battleCardData)
+        public override void Init(CardCore comboData)
         {
             //hard Coded value
             var frameType = 0;

@@ -25,10 +25,10 @@ namespace CardMaga.UI.Text
         {
             _resourceAmountText.AssignText(EMPTY_TEXT);
         }
-        public override void Init(ResourcesCost resourceData)
+        public override void Init(ResourcesCost comboData)
         {
-            _resourceAmountText.AssignText(resourceData.Amount.ToString());
-            _resourceAmountText.color = _resourceCollection.GetResourceSO(resourceData.CurrencyType).ResourceTextColor;
+            _resourceAmountText.AssignText(comboData.Amount.ToString());
+            _resourceAmountText.color = _resourceCollection.GetResourceSO(comboData.CurrencyType).ResourceTextColor;
         }
     }
 }

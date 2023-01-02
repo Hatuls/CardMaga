@@ -9,7 +9,7 @@ namespace CardMaga.UI.PopUp
             throw new System.NotImplementedException();
         }
 
-        public override void Init(BuffVisualData data)
+        public override void Init(BuffVisualData comboData)
         {
             throw new System.NotImplementedException();
         }

@@ -21,9 +21,9 @@ namespace CardMaga.UI.Visuals
             if (_rarityCardVisualSO._rarities.Length == 0)
                 throw new System.Exception("RarityCardVisualSO has no rarities");
         }
-        public override void Init(CardCore battleCardData)
+        public override void Init(CardCore comboData)
         {
-            int cardRarity = (int)battleCardData.CardSO.Rarity -1;
+            int cardRarity = (int)comboData.CardSO.Rarity -1;
             //Set Rarity BG
             var sprite = BaseVisualSO.GetSpriteToAssign(cardRarity, cardRarity, _rarityCardVisualSO._rarityBG);
             _rarityBG.AssignSprite(sprite);

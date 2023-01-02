@@ -14,9 +14,9 @@ namespace CardMaga.UI.Text
             if (_cardName == null)
                 throw new System.Exception("CardTextAssigner");
         }
-        public override void Init(CardCore battleCardData)
+        public override void Init(CardCore comboData)
         {
-            _cardName.AssignText(battleCardData.CardSO.CardName);
+            _cardName.AssignText(comboData.CardSO.CardName);
         }
         public override void Dispose()
         {

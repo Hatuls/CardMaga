@@ -29,7 +29,7 @@ namespace CardMaga.UI.Visuals
         {
         }
 
-        public override void Init(CardCore cardCore)
+        public override void Init(CardCore comboData)
         {
             //Hard Coded Value
             var staminaType = 0;

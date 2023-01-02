@@ -77,11 +77,11 @@ namespace CardMaga.UI.Visuals
                 throw new Exception("Legendary has no Parts");
 #endif
         }
-        public override void Init(CardCore cardCore)
+        public override void Init(CardCore comboData)
         {
             //(int)battleCard.CardSO.Rarity, cardLevel, 1
-            int cardRarity = (int)cardCore.CardSO.Rarity - 1;
-            var cardLevel = cardCore.Level;
+            int cardRarity = (int)comboData.CardSO.Rarity - 1;
+            var cardLevel = comboData.Level;
             //Hard Coded Value
             var levelType = 0;
 

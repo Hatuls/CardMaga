@@ -1,5 +1,4 @@
 ﻿using Account.GeneralData;
-using CardMaga.Card;
 using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
 using UnityEngine;
@@ -22,10 +21,10 @@ namespace CardMaga.UI
         {
         }
 
-        public virtual void Init(CardCore battleCardData)
+        public virtual void Init(CardCore comboData)
         {
-            ComboTextAssignerHandler.Init(battleCardData);
-            ComboVisualAssignerHandler.Init(battleCardData);
+            ComboTextAssignerHandler.Init(comboData);
+            ComboVisualAssignerHandler.Init(comboData);
         }
 
         public virtual void Dispose()

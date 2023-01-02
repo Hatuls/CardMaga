@@ -16,7 +16,7 @@ namespace CardMaga.UI.Visuals
                 throw new System.Exception("CardGlowVisualAssigner has no cardGlow");
         }
 
-        public override void Init(CardCore data)
+        public override void Init(CardCore comboData)
         {
             _glowImage.sprite = _glowCardSO.GlowSprite;
             _glowImage.color = _glowCardSO.GlowColor;
