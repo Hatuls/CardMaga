@@ -16,18 +16,21 @@ namespace CardMaga.Meta.Upgrade
         private DotUIChanges _whenNotFocused;
 
         [SerializeField] UpgradeCardMover _upgradeCardMover;
+        [SerializeField] UpgradeCardsDisplayer _upgradeCardsDisplayer;
 
         private int _currentFocusedIndex;
-
+        private Button _btn;
         private void OnEnable()
         {
-            _upgradeCardMover.OnSwipeLeftExecuted += MoveOneLeft;
-            _upgradeCardMover.OnSwipeRightExecuted += MoveOneRight;
+            _upgradeCardsDisplayer.OnItemsIndexChanged += SetCurrentElement;
+            _upgradeCardsDisplayer.OnItemCountChanged += AdjustDotsToSize;
+            _btn.
         }
         private void OnDisable()
         {
-            _upgradeCardMover.OnSwipeLeftExecuted  -= MoveOneLeft;
-            _upgradeCardMover.OnSwipeRightExecuted -= MoveOneRight;
+            _upgradeCardsDisplayer.OnItemsIndexChanged -= SetCurrentElement;
+            _upgradeCardsDisplayer.OnItemCountChanged -= AdjustDotsToSize;
+
         }
         public void Init(int maxElements, int currentElement)
         {
@@ -61,7 +64,7 @@ namespace CardMaga.Meta.Upgrade
         private void AdjustDotsToSize(int dotsNeeded)
         {
             for (int i = 0; i < _dotsImages.Length; i++)
-                _dotsImages[i].gameObject.SetActive(i <= dotsNeeded);
+                _dotsImages[i].gameObject.SetActive(i < dotsNeeded);
         }
 
         [Serializable]

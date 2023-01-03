@@ -4,11 +4,14 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 namespace CardMaga.Meta.Upgrade
 {
     public class UpgradeCardsDisplayer : MonoBehaviour
     {
+      
+        public event Action<int> OnItemCountChanged;
+        public event Action<int> OnItemsIndexChanged;
         [SerializeField]
         private RectTransform _middleScreen;
         [SerializeField]
@@ -34,6 +37,7 @@ namespace CardMaga.Meta.Upgrade
         private float _scaleDuration= 1f;
         private Vector3 _middleScreenPosition;
         private int _currentMiddleObjectIndex = 0;
+        private IDisposable _zoomToken;
         private float HalfScreenWidthDistance => Screen.width / 2;
         public ScrollItemData CurrentMiddleObject => _itemsDataList[_currentMiddleObjectIndex];
         private void Awake()
@@ -45,16 +49,18 @@ namespace CardMaga.Meta.Upgrade
             _upgradeCardMover.OnSwipeExecuted += SetPositionAndScale;
             _upgradeCardMover.OnSwipingLeft += MoveAllCards;
             _upgradeCardMover.OnSwipingRight += MoveAllCards;
+         
             _upgradeCardMover.OnSwipeLeftExecuted += MoveOneToTheLeft;
-            _upgradeCardMover.OnSwipeRightExecuted += MoveOneToTheRight ;
+            _upgradeCardMover.OnSwipeRightIsAtMaxValue += MoveOneToTheRight ;
         }
         private void OnDisable()
         {
             _upgradeCardMover.OnSwipeExecuted -= SetPositionAndScale;
+            _upgradeCardMover.OnSwipeRightIsAtMaxValue -= MoveOneToTheRight;
             _upgradeCardMover.OnSwipingRight -= MoveAllCards;
             _upgradeCardMover.OnSwipingLeft -= MoveAllCards;
             _upgradeCardMover.OnSwipeLeftExecuted -= MoveOneToTheLeft;
-            _upgradeCardMover.OnSwipeRightExecuted -= MoveOneToTheRight ;
+            _upgradeCardMover.OnSwipeRightIsAtMaxValue -= MoveOneToTheRight ;
         }
         public void InitCards(CardInstance cardInstance)
         {
@@ -71,13 +77,23 @@ namespace CardMaga.Meta.Upgrade
         private void SetView(int level)
         {
             _currentMiddleObjectIndex = level;
+            OnItemsIndexChanged?.Invoke(level);
             SetPositionAndScale();
+            ZoomIn();
+        }
+
+        private void ZoomIn()
+        {
+            if(_zoomToken!=null)
+            _zoomToken.Dispose();
+            _zoomToken =  _itemsDataList[_currentMiddleObjectIndex].CardUI.CardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
         }
 
         private void SetPositionAndScale()
         {
             AdjustPositions(_currentMiddleObjectIndex);
             AdjustScale(_currentMiddleObjectIndex);
+            
         }
 
         private void MoveAllCards(float amount)
@@ -121,8 +137,15 @@ namespace CardMaga.Meta.Upgrade
         }
         private void ActivateItems(int itemToActivate)
         {
+            int activeCount = 0;
             for (int i = _itemsDataList.Count - 1; i >= 0; i--)
-                _itemsDataList[i].CardUI.gameObject.SetActive(itemToActivate > i);
+            {
+                bool toActivate = itemToActivate > i;
+                _itemsDataList[i].CardUI.gameObject.SetActive(toActivate);
+                if (toActivate)
+                    activeCount++;
+            }
+            OnItemCountChanged?.Invoke(activeCount);
         }
         private void AdjustScale(int level)
         {
@@ -193,9 +216,7 @@ namespace CardMaga.Meta.Upgrade
         }
         #region Editor
 #if UNITY_EDITOR
-        [Header("Editor:")]
-        [SerializeField]
-        private CardInstance _cardInstance;
+
 
         [SerializeField]
         private float _gizmosScale;
@@ -213,6 +234,10 @@ namespace CardMaga.Meta.Upgrade
                 Gizmos.DrawSphere(_itemsDataList[i].WorldPosition, _gizmosScale);
             }
         }
+#endif
+        [Header("Editor:")]
+        [SerializeField]
+        private CardInstance _cardInstance;
         [ContextMenu("Try System")]
         private void TrySystem()
         {
@@ -223,7 +248,6 @@ namespace CardMaga.Meta.Upgrade
         {
             TrySystem();
         }
-#endif
         #endregion
     }
 }
