@@ -73,7 +73,7 @@ namespace CardMaga.Meta.Upgrade
             Debug.Log("! " + obj.SwipeDistance + _startPosition.x);
             if (distance > _swipeDistanceToChangeLocations)
             {
-                OnSwipingRight?.Invoke(obj.SwipeDistance); // Need to check this****
+                OnSwipingRight?.Invoke(-obj.SwipeDistance); // Need to check this****
             }
             _middlePosition.position = _startPosition + obj.SwipeDistance * Vector3.right;
             //_cardsContainer.DOMoveX(_startPosition.x + obj.SwipeDistance, Time.deltaTime);

@@ -22,6 +22,10 @@ namespace CardMaga.Meta.Upgrade
         [SerializeField]
         private MetaCardUI _prefab;//Temp: Replace with Pool Manager;
 
+        [SerializeField, Range(0, 5f), Tooltip("The Time it takes to reset the cards position to the current position")]
+        private float _adjustCardsPositionDuration = .1f;
+
+
         [SerializeField, Range(0, 5f)]
         private float _focusedCardScale = 1f;
         [SerializeField, Range(0, 5f)]
@@ -41,16 +45,16 @@ namespace CardMaga.Meta.Upgrade
             _upgradeCardMover.OnSwipeExecuted += SetPositionAndScale;
             _upgradeCardMover.OnSwipingLeft += MoveAllCards;
             _upgradeCardMover.OnSwipingRight += MoveAllCards;
-            _upgradeCardMover.OnSwipeLeftExecuted += MoveOneToTheRight;
-            _upgradeCardMover.OnSwipeRightExecuted += MoveOneToTheLeft;
+            _upgradeCardMover.OnSwipeLeftExecuted += MoveOneToTheLeft;
+            _upgradeCardMover.OnSwipeRightExecuted += MoveOneToTheRight ;
         }
         private void OnDisable()
         {
             _upgradeCardMover.OnSwipeExecuted -= SetPositionAndScale;
             _upgradeCardMover.OnSwipingRight -= MoveAllCards;
             _upgradeCardMover.OnSwipingLeft -= MoveAllCards;
-            _upgradeCardMover.OnSwipeLeftExecuted -= MoveOneToTheRight;
-            _upgradeCardMover.OnSwipeRightExecuted -= MoveOneToTheLeft;
+            _upgradeCardMover.OnSwipeLeftExecuted -= MoveOneToTheLeft;
+            _upgradeCardMover.OnSwipeRightExecuted -= MoveOneToTheRight ;
         }
         public void InitCards(CardInstance cardInstance)
         {
@@ -79,7 +83,7 @@ namespace CardMaga.Meta.Upgrade
         private void MoveAllCards(float amount)
         {
             for (int i = 0; i < _itemsDataList.Count; i++)
-                _itemsDataList[i].WorldPosition += (amount) *Vector3.right;
+                _itemsDataList[i].AdjustPosition(_itemsDataList[i].WorldPosition + (amount) *Vector3.right, Time.deltaTime);
         }
         private void MoveOneToTheRight()
         {
@@ -145,7 +149,8 @@ namespace CardMaga.Meta.Upgrade
                     nextPos.x += (HalfScreenWidthDistance * (i - level));
                     currentItem.WorldPosition = nextPos;
                 }
-
+                DOTween.Kill(currentItem.CardUI);
+                currentItem.AdjustPosition(currentItem.WorldPosition, _adjustCardsPositionDuration);
             }
         }
 
@@ -159,6 +164,8 @@ namespace CardMaga.Meta.Upgrade
                     _itemsDataList[i].WorldPosition = nextPos;
                 else
                     _itemsDataList.Add(new ScrollItemData(nextPos, Instantiate(_prefab, _cardContainer)));
+
+                _itemsDataList[i].AdjustPosition(nextPos, _adjustCardsPositionDuration);
             }
         }
         [System.Serializable]
@@ -172,19 +179,17 @@ namespace CardMaga.Meta.Upgrade
             public Vector3 WorldPosition
             {
                 get => _worldPosition;
-                set
-                {
-                    _worldPosition = value;
-                    AdjustPosition();
-                }
+                set=>     _worldPosition = value;
+                
             }
             public ScrollItemData(Vector3 coordinate, MetaCardUI metaCardUI)
             {
                 _metaCardUI = metaCardUI;
                 WorldPosition = coordinate;
+          
             }
 
-            private void AdjustPosition() => _metaCardUI.RectTransform.DOMove (WorldPosition,.1f);
+            public void AdjustPosition(Vector3 pos,float duration) => _metaCardUI.RectTransform.DOMove (pos, duration);
         }
         #region Editor
 #if UNITY_EDITOR

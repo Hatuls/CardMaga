@@ -15,8 +15,20 @@ namespace CardMaga.Meta.Upgrade
         [SerializeField]
         private DotUIChanges _whenNotFocused;
 
+        [SerializeField] UpgradeCardMover _upgradeCardMover;
 
         private int _currentFocusedIndex;
+
+        private void OnEnable()
+        {
+            _upgradeCardMover.OnSwipeLeftExecuted += MoveOneLeft;
+            _upgradeCardMover.OnSwipeRightExecuted += MoveOneRight;
+        }
+        private void OnDisable()
+        {
+            _upgradeCardMover.OnSwipeLeftExecuted  -= MoveOneLeft;
+            _upgradeCardMover.OnSwipeRightExecuted -= MoveOneRight;
+        }
         public void Init(int maxElements, int currentElement)
         {
             SetCurrentElement(currentElement);
