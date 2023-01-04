@@ -28,7 +28,7 @@ namespace CardMaga.Meta.Upgrade
             get
             {
                 yield return _validateCardsLevel;
-                //yield return _validateUserCurrency;
+                yield return _validateUserCurrency;
             }
 
         }
