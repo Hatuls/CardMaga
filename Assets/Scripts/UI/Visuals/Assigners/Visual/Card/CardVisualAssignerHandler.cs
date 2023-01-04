@@ -1,11 +1,11 @@
-﻿using CardMaga.Card;
+﻿using Account.GeneralData;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardVisualAssignerHandler : BaseVisualAssignerHandler<BattleCardData>
+    public class CardVisualAssignerHandler : BaseVisualAssignerHandler<CardCore>
     {
         [Header("Visuals")]
         [SerializeField] CardBodyPartVisualAssigner _cardBodyPartVisualAssigner;
@@ -17,7 +17,7 @@ namespace CardMaga.UI.Visuals
         [SerializeField] CardImageVisualAssigner _cardImageVisualAssigner;
         [SerializeField] CardGlowVisualAssigner _cardGlowVisualAssigner;
 
-        public override IEnumerable<BaseVisualAssigner<BattleCardData>> VisualAssigners
+        public override IEnumerable<BaseVisualAssigner<CardCore>> VisualAssigners
         {
             get
             {

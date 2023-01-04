@@ -9,7 +9,6 @@ namespace Account.GeneralData
     [Serializable]
     public class ComboCore
     {
-     
         public int Level;
         public int ID;
         [JsonConstructor]

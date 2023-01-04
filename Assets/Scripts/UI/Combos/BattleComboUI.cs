@@ -1,15 +1,14 @@
-﻿using Battle.Combo;
-using CardMaga.Tools.Pools;
+﻿using CardMaga.Tools.Pools;
 using System;
+using Account.GeneralData;
 using UnityEngine;
 
 namespace CardMaga.UI.Combos
 {
-    public class BattleComboUI : BaseUIElement, IPoolableMB<BattleComboUI>, IVisualAssign<BattleComboData>
+    public class BattleComboUI : BaseUIElement, IPoolableMB<BattleComboUI>, IVisualAssign<ComboCore>
     {
         public event Action<BattleComboUI> OnDisposed;
-
-
+        
         [SerializeField] private ComboVisualHandler _comboVisual;
 
         public void Dispose()
@@ -18,7 +17,7 @@ namespace CardMaga.UI.Combos
             Hide();
         }
 
-        public void AssignDataAndVisual(BattleComboData data)
+        public void AssignVisual(ComboCore data)
         {
             _comboVisual.Init(data);
         }

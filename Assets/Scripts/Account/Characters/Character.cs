@@ -62,7 +62,7 @@ namespace Account.GeneralData
             CoreID[] cards = new CoreID[deckCards.Length];
 
             for (int i = 0; i < cards.Length; i++)
-                cards[i] = new CoreID(deckCards[i].ID);
+                cards[i] = new CoreID(deckCards[i].CoreID);
 
             return AddNewDeck(cards, deckCombos);
         }

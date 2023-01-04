@@ -19,9 +19,9 @@ namespace CardMaga.UI.Text
             _accountNicknameText.text = EMPTY_TEXT;
         }
 
-        public override void Init(AccountBarVisualData accountBarData)
+        public override void Init(AccountBarVisualData comboData)
         {
-            _accountNicknameText.text = accountBarData.AccountNickname;
+            _accountNicknameText.text = comboData.AccountNickname;
         }
     }
 }

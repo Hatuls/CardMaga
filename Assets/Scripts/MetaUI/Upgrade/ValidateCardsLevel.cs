@@ -3,14 +3,14 @@
     public class ValidateCardsLevel : IValidateOperation<UpgradeInfo>
     {
         public bool Validate(UpgradeInfo validatedObject)
-        => validatedObject.MetaCardData.CardsAtMaxLevel == false;
+        => validatedObject.CardInstance.IsMaxLevel == false;
     }
 
     public class ValidateUserCurrency : IValidateOperation<UpgradeInfo>
     {
         public bool Validate(UpgradeInfo validatedObject)
         {
-            bool hasEnough = validatedObject.MetaCardData.CardsAtMaxLevel == false; // there is no cost for max level card
+            bool hasEnough = validatedObject.CardInstance.IsMaxLevel == false; // there is no cost for max level card
 
             if (hasEnough)
             {

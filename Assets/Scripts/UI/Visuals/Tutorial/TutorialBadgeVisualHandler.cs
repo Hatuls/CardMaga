@@ -25,9 +25,9 @@ namespace CardMaga.UI.Visuals
             _tutorialLineVisualHandler.Dispose();
         }
 
-        public void Init(BadgeState badgeState)
+        public void Init(BadgeState comboData)
         {
-            switch (badgeState)
+            switch (comboData)
             {
                 case BadgeState.Off:
                     _animator.Play(OffAnimationHash);
@@ -39,9 +39,9 @@ namespace CardMaga.UI.Visuals
                     _animator.Play(CompletedAnimationHash);
                     break;
                 default:
-                    throw new System.Exception($"TutorialBadgeVisualHandler has received wrong state: {badgeState}");
+                    throw new System.Exception($"TutorialBadgeVisualHandler has received wrong state: {comboData}");
             }
-            _tutorialLineVisualHandler.Init(badgeState);
+            _tutorialLineVisualHandler.Init(comboData);
         }
     }
 }

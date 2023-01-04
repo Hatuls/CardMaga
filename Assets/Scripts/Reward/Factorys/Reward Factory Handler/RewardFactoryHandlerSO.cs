@@ -17,7 +17,7 @@ namespace CardMaga.Rewards.Factory.Handlers
                 if (_factories[i].ID == id)
                                    return _factories[i];
             }
-            throw new System.Exception($"RewardFactoryHandlerSO - Could not find request ID = {id}\nFactoryID = {ID}");
+            throw new System.Exception($"RewardFactoryHandlerSO - Could not find request CoreID = {id}\nFactoryID = {ID}");
         }
 
 #if UNITY_EDITOR

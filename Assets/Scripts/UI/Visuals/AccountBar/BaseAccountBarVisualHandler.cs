@@ -19,10 +19,10 @@ namespace CardMaga.UI.Visuals
             AccountBarVisualAssignerHandler.Dispose();
         }
 
-        public virtual void Init(AccountBarVisualData accountBarData)
+        public virtual void Init(AccountBarVisualData comboData)
         {
-            AccountBarTextAssignerHandler.Init(accountBarData);
-            AccountBarVisualAssignerHandler.Init(accountBarData);
+            AccountBarTextAssignerHandler.Init(comboData);
+            AccountBarVisualAssignerHandler.Init(comboData);
         }
     }
 }

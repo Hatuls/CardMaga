@@ -26,9 +26,9 @@ namespace CardMaga.UI.Visuals
 
         }
 
-        public override void Init(ResourcesCost resourceData)
+        public override void Init(ResourcesCost comboData)
         {
-            _resourceIcon.sprite = _resourceCollection.GetResourceSO(resourceData.CurrencyType).ResourceIcon;
+            _resourceIcon.sprite = _resourceCollection.GetResourceSO(comboData.CurrencyType).ResourceIcon;
         }
     }
 }

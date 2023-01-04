@@ -159,7 +159,7 @@ public class InputReciever : MonoSingleton<InputReciever>
 
         if (Vector2.Distance(start,end) > _swipeDistance && !_swipeDetected)
         {
-            _swipeDetected = true;
+           // _swipeDetected = true; ?????
             
             SwipeData swipeData;
 
@@ -192,11 +192,25 @@ public class InputReciever : MonoSingleton<InputReciever>
     }
 
     #endregion
+
+    #region Editor:
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(_startTouchLocation * Vector3.one, 20f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(_touchPosOnScreen * Vector3.one, 20f);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(_startTouchLocation, _touchPosOnScreen);
+    }
+    #endregion
 }
 public struct SwipeData
 {
     public Vector2 SwipeStartPosition;
     public Vector2 SwipeEndPosition;
     public InputReciever.SwipeDirection SwipeDirection;
+
+    public float SwipeDistance => Vector3.Distance(SwipeStartPosition, SwipeEndPosition);
 }
 

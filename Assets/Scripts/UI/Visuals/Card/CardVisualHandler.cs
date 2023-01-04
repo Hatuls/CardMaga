@@ -1,4 +1,5 @@
-﻿using CardMaga.Card;
+﻿using Account.GeneralData;
+using CardMaga.Card;
 using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
 using Sirenix.OdinInspector;
@@ -30,19 +31,19 @@ namespace CardMaga.UI
             get => _cardZoomHandler;
         }
 
-        public override BaseTextAssignerHandler<BattleCardData> ComboTextAssignerHandler => _cardTextAssignerHandler;
+        public override BaseTextAssignerHandler<CardCore> ComboTextAssignerHandler => _cardTextAssignerHandler;
 
-        public override BaseVisualAssignerHandler<BattleCardData> ComboVisualAssignerHandler => _cardVisualAssignerHandler;
+        public override BaseVisualAssignerHandler<CardCore> ComboVisualAssignerHandler => _cardVisualAssignerHandler;
 #if UNITY_EDITOR
         [Header("Test")]
-        [SerializeField] BattleCardData battleCardData;
+        [SerializeField] CardCore CardData;
 
         [Button]
         void OnTryCard()
         {
             Dispose();
             CheckValidation();
-            Init(battleCardData);
+            Init(CardData);
         }
 #endif
         [Button]
@@ -59,11 +60,11 @@ namespace CardMaga.UI
         {
             _cardGlowHandler.DiscardGlowAlpha();
         }
-        public override void Init(BattleCardData battleCardData)
+        public override void Init(CardCore comboData)
         {
-            base.Init(battleCardData);
+            base.Init(comboData);
             //Zoom
-            _cardZoomHandler.SetCardType(battleCardData);
+            _cardZoomHandler.SetCardType(comboData);
             _cardZoomHandler.ForceReset();
         }
         public override void CheckValidation()

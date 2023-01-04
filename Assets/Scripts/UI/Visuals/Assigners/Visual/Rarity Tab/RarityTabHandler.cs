@@ -35,10 +35,10 @@ namespace CardMaga.UI.Visuals
                 item.Dispose();
         }
 
-        public void Init(RarityTextData data)
+        public void Init(RarityTextData comboData)
         {
             foreach (var item in Assigners)
-                item.Init(data);
+                item.Init(comboData);
         }
     }
 
@@ -64,9 +64,9 @@ namespace CardMaga.UI.Visuals
 
         }
 
-        public override void Init(RarityTextData data)
+        public override void Init(RarityTextData comboData)
         {
-            Sprite rarityPicture = _rarityCardVisualSO.GetRarity(data.RarityType);
+            Sprite rarityPicture = _rarityCardVisualSO.GetRarity(comboData.RarityType);
             _rarityImage.AssignSprite(rarityPicture);
         }
     }

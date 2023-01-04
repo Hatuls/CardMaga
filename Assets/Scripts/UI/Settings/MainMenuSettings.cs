@@ -5,7 +5,7 @@ namespace CardMaga.UI.Settings
 {
     public class MainMenuSettings : DefaultSettings
     {
-        private const string PLAYFAB_ID = "User ID: ";
+        private const string PLAYFAB_ID = "User CoreID: ";
         private const string APP_ID= "Version: ";
         [SerializeField]
         private TextMeshProUGUI _playfabIDText;

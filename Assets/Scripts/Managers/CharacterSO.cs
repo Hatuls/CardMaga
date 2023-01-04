@@ -145,14 +145,14 @@ namespace Battle
                                         _iD = rID;
                                     }
                                     else
-                                        throw new Exception($"ID= {ID} - {CharacterName} : BattleCard has no valid ID! ({data[iD]})");
+                                        throw new Exception($"CoreID= {ID} - {CharacterName} : BattleCard has no valid CoreID! ({data[iD]})");
 
                                     if (int.TryParse(data[Level], out int lvl))
                                     {
                                         _level = lvl;
                                     }
                                     else
-                                        throw new Exception($"ID= {ID} - {CharacterName} : BattleCard has no valid level ({data[Level]}) for BattleCard id: {_id}");
+                                        throw new Exception($"CoreID= {ID} - {CharacterName} : BattleCard has no valid level ({data[Level]}) for BattleCard id: {_id}");
                                     cardCores.Add(new CoreID(_iD + _level));
 
                                 }
@@ -175,7 +175,7 @@ namespace Battle
                                         _iD = rID;
                                     }
                                     else
-                                        throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid ID! ({data[iD]})");
+                                        throw new Exception($"CoreID= {ID} - {CharacterName} : Recipe has no valid CoreID! ({data[iD]})");
 
 
                                     if (int.TryParse(data[Level], out int lvl))
@@ -183,7 +183,7 @@ namespace Battle
                                         _level = lvl;
                                     }
                                     else
-                                        throw new Exception($"ID= {ID} - {CharacterName} : Recipe has no valid level ({data[Level]}) for recipe id: {_id}");
+                                        throw new Exception($"CoreID= {ID} - {CharacterName} : Recipe has no valid level ({data[Level]}) for recipe id: {_id}");
 
 
 
@@ -204,19 +204,19 @@ namespace Battle
                                 return true;
                             }
                             else
-                                Debug.LogError($"Coulmne G : ID= {ID} - Model Name ({row[CharacterModelIndex]}) Was Not correct or wasnt found on resources/Art/Avatars");
+                                Debug.LogError($"Coulmne G : CoreID= {ID} - Model Name ({row[CharacterModelIndex]}) Was Not correct or wasnt found on resources/Art/Avatars");
                         }
                         else
-                            Debug.LogError($"Coulmne E: ID= {ID} Name is Empty!");
+                            Debug.LogError($"Coulmne E: CoreID= {ID} Name is Empty!");
                     }
                     else
-                        Debug.LogError($"Coulmne D: ID= {ID} Character Difficulty is not valid number! - {row[CharacterDifficultyIndex]} ");
+                        Debug.LogError($"Coulmne D: CoreID= {ID} Character Difficulty is not valid number! - {row[CharacterDifficultyIndex]} ");
                 }
                 else
-                    Debug.LogError($"Coulmne C: ID={ID} Character enum is not valid! - {row[CharacterEnumIndex]}");
+                    Debug.LogError($"Coulmne C: CoreID={ID} Character enum is not valid! - {row[CharacterEnumIndex]}");
             }
             else
-                Debug.LogError($"Coulmne B: ID= {ID} Character type is not a  ENUM!! - {row[CharacterTypeIndex]}");
+                Debug.LogError($"Coulmne B: CoreID= {ID} Character type is not a  ENUM!! - {row[CharacterTypeIndex]}");
             
             return false;
         }

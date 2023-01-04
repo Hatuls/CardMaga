@@ -1,4 +1,5 @@
 ﻿using System;
+using Account.GeneralData;
 using CardMaga.Card;
 using UnityEngine;
 using CardMaga.Input;
@@ -7,12 +8,12 @@ using DG.Tweening;
 
 namespace CardMaga.UI.Card
 {
-    public class BattleCardUI : BaseUIElement, IPoolableMB<BattleCardUI>, IVisualAssign<BattleCardData>
+    public class BattleCardUI : BaseUIElement, IPoolableMB<BattleCardUI>, IVisualAssign<CardCore>
     {
         public event Action<BattleCardUI> OnDisposed;
 
-
         #region Fields
+        
         public Sequence CurrentSequence;
         [SerializeField] private RectTransform _visualsRectTransform;
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
@@ -29,11 +30,16 @@ namespace CardMaga.UI.Card
         public RectTransform VisualsRectTransform => _visualsRectTransform;
         
         public BattleCardData BattleCardData { get => _battleCardData; }
-        
-        
-        public void AssignDataAndVisual(BattleCardData data)
+
+
+        public void AssignVisualAndData(BattleCardData battleCardData)
         {
-            _battleCardData = data;
+            _battleCardData = battleCardData;
+            AssignVisual(battleCardData.CardInstance.GetCardCore());
+        }
+        
+        public void AssignVisual(CardCore data)
+        {
             CardVisuals.Init(data);
         }
 

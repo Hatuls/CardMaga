@@ -19,10 +19,10 @@ namespace CardMaga.UI.Visuals
             ResourceTextAssignerHandler.Dispose();
             ResourceVisualAssignerHandler.Dispose();
         }
-        public virtual void Init(ResourcesCost resourceData)
+        public virtual void Init(ResourcesCost comboData)
         {
-            ResourceTextAssignerHandler.Init(resourceData);
-            ResourceVisualAssignerHandler.Init(resourceData);
+            ResourceTextAssignerHandler.Init(comboData);
+            ResourceVisualAssignerHandler.Init(comboData);
         }
     }
 }

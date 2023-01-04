@@ -1,4 +1,4 @@
-﻿using Battle.Combo;
+﻿using Account.GeneralData;
 using CardMaga.UI.Visuals;
 using TMPro;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
-    public class ComboTypeTextAssigner : BaseTextAssigner<BattleComboData>
+    public class ComboTypeTextAssigner : BaseTextAssigner<ComboCore>
     {
         [SerializeField]ComboTypeVisualSO _comboTypeVisualSO;
         [SerializeField]TextMeshProUGUI _comboTypeNameText;
@@ -17,9 +17,9 @@ namespace CardMaga.UI.Text
             if (_comboTypeNameText == null)
                 throw new System.Exception("ComboTypeTextAssigner has no comboTypeNameText");
         }
-        public override void Init(BattleComboData battleComboDataData)
+        public override void Init(ComboCore comboData)
         {
-            _comboTypeNameText.AssignText(_comboTypeVisualSO.GetTypeName(battleComboDataData.GoToDeckAfterCrafting));
+            _comboTypeNameText.AssignText(_comboTypeVisualSO.GetTypeName(comboData.ComboSO().GoToDeckAfterCrafting));
         }
 
         public override void Dispose()

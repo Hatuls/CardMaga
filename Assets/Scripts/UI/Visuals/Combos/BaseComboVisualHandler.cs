@@ -1,4 +1,5 @@
-﻿using Battle.Combo;
+﻿using Account.GeneralData;
+using Battle.Combo;
 using CardMaga.UI.Text;
 using CardMaga.UI.Visuals;
 using UnityEngine;
@@ -6,10 +7,10 @@ using UnityEngine;
 namespace CardMaga.UI
 {
     [System.Serializable]
-    public abstract class BaseComboVisualHandler : MonoBehaviour,IInitializable<BattleComboData>
+    public abstract class BaseComboVisualHandler : MonoBehaviour,IInitializable<ComboCore>
     {
-        public abstract BaseTextAssignerHandler<BattleComboData> ComboTextAssignerHandler { get; }
-        public abstract BaseVisualAssignerHandler<BattleComboData> ComboVisualAssignerHandler { get; }
+        public abstract BaseTextAssignerHandler<ComboCore> ComboTextAssignerHandler { get; }
+        public abstract BaseVisualAssignerHandler<ComboCore> ComboVisualAssignerHandler { get; }
 
         public virtual void CheckValidation()
         {
@@ -21,10 +22,10 @@ namespace CardMaga.UI
             ComboTextAssignerHandler.Dispose();
             ComboVisualAssignerHandler.Dispose();
         }
-        public virtual void Init(BattleComboData battleComboDataData)
+        public virtual void Init(ComboCore comboData)
         {
-            ComboTextAssignerHandler.Init(battleComboDataData);
-            ComboVisualAssignerHandler.Init(battleComboDataData);
+            ComboTextAssignerHandler.Init(comboData);
+            ComboVisualAssignerHandler.Init(comboData);
         }
     }
 }

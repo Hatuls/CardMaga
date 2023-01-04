@@ -12,7 +12,7 @@ public class TutorialConfigSO : ScriptableObject
     private BattleCharacter _rightCharacter;
     [Header("Battle configuration:")] [SerializeField]
     private BattleConfigSO _battleConfig;
-    [Header("Tutorial ID")]
+    [Header("Tutorial CoreID")]
     [SerializeField]
     private int _tutorialID;
 

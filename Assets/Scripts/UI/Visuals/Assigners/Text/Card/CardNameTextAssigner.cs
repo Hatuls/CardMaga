@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using TMPro;
 using CardMaga.Card;
+using Account.GeneralData;
 
 namespace CardMaga.UI.Text
 {
     [System.Serializable]
-    public class CardNameTextAssigner : BaseTextAssigner<BattleCardData>
+    public class CardNameTextAssigner : BaseTextAssigner<CardCore>
     {
         [SerializeField] TextMeshProUGUI _cardName;
         public override void CheckValidation()
@@ -13,9 +14,9 @@ namespace CardMaga.UI.Text
             if (_cardName == null)
                 throw new System.Exception("CardTextAssigner");
         }
-        public override void Init(BattleCardData battleCardData)
+        public override void Init(CardCore comboData)
         {
-            _cardName.AssignText(battleCardData.CardSO.CardName);
+            _cardName.AssignText(comboData.CardSO.CardName);
         }
         public override void Dispose()
         {

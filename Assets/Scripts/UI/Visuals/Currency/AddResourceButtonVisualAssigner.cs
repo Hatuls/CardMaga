@@ -23,9 +23,9 @@ namespace CardMaga.UI.Visuals
             _addButton.SetActive(false);
         }
 
-        public override void Init(ResourcesCost resourceData)
+        public override void Init(ResourcesCost comboData)
         {
-            _addButton.SetActive(_resourceCollection.GetResourceSO(resourceData.CurrencyType).HasAddResourceButton);
+            _addButton.SetActive(_resourceCollection.GetResourceSO(comboData.CurrencyType).HasAddResourceButton);
         }
     }
 }

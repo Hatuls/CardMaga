@@ -184,7 +184,7 @@ namespace CardMaga.Battle.Combo
         //    if (_cardRecipeDetected != null && ComboSO != null)
         //    {
 
-        //        var craftedCard = _cardFactory.CreateCard(ComboSO.CraftedCard.ID, _cardRecipeDetected.Level);
+        //        var craftedCard = _cardFactory.CreateCard(ComboSO.CraftedCard.CoreID, _cardRecipeDetected.Level);
 
         //        _successCrafting?.Raise();
         //        DeckHandler deck = _playersManager.GetCharacter(isPlayer).DeckHandler;

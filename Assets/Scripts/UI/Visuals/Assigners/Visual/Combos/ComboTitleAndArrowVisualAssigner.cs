@@ -1,11 +1,12 @@
-﻿using Battle.Combo;
+﻿using Account.GeneralData;
+using Battle.Combo;
 using UnityEngine.UI;
 using UnityEngine;
 
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class ComboTitleAndArrowVisualAssigner : BaseVisualAssigner<BattleComboData>
+    public class ComboTitleAndArrowVisualAssigner : BaseVisualAssigner<ComboCore>
     {
         [SerializeField] TitleAndArrowComboVisualSO _titleAndArrowComboVisualSO;
         [SerializeField] Image _arrowImage;
@@ -24,10 +25,10 @@ namespace CardMaga.UI.Visuals
         {
         }
 
-        public override void Init(BattleComboData battleComboData)
+        public override void Init(ComboCore comboData)
         {
-            _arrowImage.AssignSprite(_titleAndArrowComboVisualSO.GetArrowSprite(battleComboData.CraftedCard.CardTypeEnum));
-            _titleImage.AssignSprite(_titleAndArrowComboVisualSO.GetTitleSprite(battleComboData.CraftedCard.CardTypeEnum));
+            _arrowImage.AssignSprite(_titleAndArrowComboVisualSO.GetArrowSprite(comboData.ComboSO().CraftedCard.CardTypeEnum));
+            _titleImage.AssignSprite(_titleAndArrowComboVisualSO.GetTitleSprite(comboData.ComboSO().CraftedCard.CardTypeEnum));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CardMaga.Card;
+using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 namespace Account.GeneralData
@@ -18,11 +19,15 @@ namespace Account.GeneralData
         #endregion
 
         #region Properties
-        public int ID => _coreData.CardID;
+
+        public int CoreID => _coreData.CardID;
         public CardSO CardSO => _coreData.CardSO;
         public int Level { get => _coreData.Level; }
         public int InstanceID { get => _instanceID; }
-   
+        public bool IsMaxLevel => CardSO.CardsMaxLevel == Level;
+        [ReadOnly,ShowInInspector]
+        public int CardsMaxLevel => CardSO.CardsMaxLevel;
+
         public CardInstance(CardCore card)
         {
             _coreData = card;
@@ -58,8 +63,9 @@ namespace Account.GeneralData
     {
         [SerializeField, Sirenix.OdinInspector.InlineProperty]
         private CoreID _coreID;
-
+        [Sirenix.OdinInspector.OnValueChanged("InitInstanceEditor")]
         [SerializeField] private CardSO _cardSO;
+        [Sirenix.OdinInspector.OnValueChanged("InitInstanceEditor")]
         [SerializeField] private int _level;
 
 
@@ -82,6 +88,16 @@ namespace Account.GeneralData
             Factory.GameFactory.CardFactory.Remove(this);
         }
 
+        public bool LevelUp()
+        {
+            if (IsAtMaxLevel)
+                return false;
+
+            _coreID.ID++;
+            _level++;
+
+            return true;
+        }
 
 #if UNITY_EDITOR
         public CardCore() { }
@@ -96,6 +112,12 @@ namespace Account.GeneralData
         }
 
 
+        private void InitInstanceEditor()
+        {
+            if(_cardSO!=null)
+            _coreID = new CoreID(_cardSO.ID + Level);
+        }
+
 #endif
     }
 
@@ -105,7 +127,7 @@ namespace Account.GeneralData
         // [SerializeField]
         public int ID;
         //      [JsonProperty(PropertyName = "_id")]
-        // public int ID => _id;
+        // public int CoreID => _id;
         public CoreID(int id)
         {
             ID = id;
@@ -123,7 +145,7 @@ namespace Account.GeneralData
             return differences;
         }
 
-        public static CardSO CardSO(this CardInstance card) => CardSO(card.ID);
+        public static CardSO CardSO(this CardInstance card) => CardSO(card.CoreID);
         public static CardSO CardSO(this CardCore card) => CardSO(card.CardID);
         public static CardSO CardSO(int id) => Factory.GameFactory.Instance.CardFactoryHandler.GetCard(id);
     }

@@ -8,12 +8,12 @@ namespace CardMaga.UI
     public abstract class BaseVisualHandler<T> : IInitializable<T>
     {
         public abstract void CheckValidation();
-        public abstract void Init(T data);
+        public abstract void Init(T comboData);
         public abstract void Dispose();
     }
     public interface IInitializable<T> : IDisposable, ICheckValidation
     {
-        void Init(T data);
+        void Init(T comboData);
     }
     public interface ICheckValidation
     {

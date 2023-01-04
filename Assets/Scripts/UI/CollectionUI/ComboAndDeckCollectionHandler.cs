@@ -1,4 +1,6 @@
-﻿using Battle.Combo;
+﻿using System.Collections.Generic;
+using Account.GeneralData;
+using Battle.Combo;
 using CardMaga.Card;
 using CardMaga.Collection;
 using CardMaga.ObjectPool;
@@ -26,14 +28,25 @@ namespace CardMaga.UI.Collections
         private IGetCollection<BattleCardData> _cardDatas;
         private IGetCollection<BattleComboData> _comboDatas;
         
-        private VisualRequester<BattleComboUI, BattleComboData> _visualRequesterCombo;
-        private VisualRequester<BattleCardUI, BattleCardData> _visualRequesterCard;
+        private VisualRequester<BattleComboUI, ComboCore> _visualRequesterCombo;
+        private VisualRequester<BattleCardUI, CardCore> _visualRequesterCard;
 
         private void ShowCombo()
         {
             battleComboUIScroll.RemoveAllObjectsFromPanel();
-            var comboVisual =  _visualRequesterCombo.GetVisual(_comboDataSort.SortComboData(_comboDatas.GetCollection));
+
+            List<ComboCore> comboCores = new List<ComboCore>();
+            List<BattleComboData> battleComboDatas;
+
+            battleComboDatas = _comboDataSort.SortComboData(_comboDatas.GetCollection);
+
+            foreach (var comboData in battleComboDatas)
+            {
+                comboCores.Add(comboData.ComboCore);
+            }
             
+            var comboVisual =  _visualRequesterCombo.GetVisual(comboCores);
+
             var comboUIElement = comboVisual.ConvertAll(x => (IUIElement) x);
             
             battleComboUIScroll.AddObjectToPanel(comboUIElement);
@@ -42,9 +55,19 @@ namespace CardMaga.UI.Collections
         private void ShowCard()
         {
             battleCardUIScroll.RemoveAllObjectsFromPanel();
-            var cardVisual =
-                _visualRequesterCard.GetVisual(
-                    _battleCardDataSort.SortCardData(_cardDatas.GetCollection));
+
+            List<CardCore> cardCores = new List<CardCore>();
+            List<BattleCardData> battleCardDatas;
+
+
+            battleCardDatas = _battleCardDataSort.SortCardData(_cardDatas.GetCollection);
+            
+            foreach (var cardData in battleCardDatas)
+            {
+                cardCores.Add(cardData.CardInstance.GetCardCore());
+            }
+            
+            var cardVisual = _visualRequesterCard.GetVisual(cardCores);
 
             if (cardVisual == null)
                 return;
@@ -77,8 +100,8 @@ namespace CardMaga.UI.Collections
             _comboDataSort = new ComboDataSort();
             _cardDataFilter.OnCycleFilter += ShowCard;
 
-            _visualRequesterCard = new VisualRequester<BattleCardUI, BattleCardData>(_battleCardUI);
-            _visualRequesterCombo = new VisualRequester<BattleComboUI, BattleComboData>(_battleComboUI);
+            _visualRequesterCard = new VisualRequester<BattleCardUI, CardCore>(_battleCardUI);
+            _visualRequesterCombo = new VisualRequester<BattleComboUI, ComboCore>(_battleComboUI);
 
             battleCardUIScroll.Init();
             battleComboUIScroll.Init();

@@ -1,11 +1,11 @@
-﻿using Battle.Combo;
+﻿using Account.GeneralData;
 using CardMaga.UI.Visuals;
 using UnityEngine;
 
 namespace CardMaga.UI.PopUp
 {
     [System.Serializable]
-    public class ComboDescriptionPopUp : BaseDescriptionPopUp<BattleComboData>
+    public class ComboDescriptionPopUp : BaseDescriptionPopUp<ComboCore>
     {
         [SerializeField] ComboTypeVisualSO _comboTypeVisualSO;
         public override void CheckValidation()
@@ -13,10 +13,10 @@ namespace CardMaga.UI.PopUp
             base.CheckValidation();
             _comboTypeVisualSO.CheckValidation();
         }
-        public override void Init(BattleComboData battleComboDataData)
+        public override void Init(ComboCore comboData)
         {
             ActivatePopUP(true);
-            PopUpText.AssignText(_comboTypeVisualSO.GetTypeDescription(battleComboDataData.GoToDeckAfterCrafting));
+            PopUpText.AssignText(_comboTypeVisualSO.GetTypeDescription(comboData.ComboSO().GoToDeckAfterCrafting));
         }
         public override void Dispose()
         {

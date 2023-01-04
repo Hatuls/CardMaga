@@ -6,11 +6,11 @@ namespace CardMaga.UI.Text
     public abstract class BaseTextAssignerHandler<T> : BaseVisualHandler<T>
     {
         public abstract IEnumerable<BaseTextAssigner<T>> TextAssigners { get; }
-        public override void Init(T data)
+        public override void Init(T comboData)
         {
             foreach (var assigner in TextAssigners)
             {
-                assigner.Init(data);
+                assigner.Init(comboData);
             }
         }
         public override void CheckValidation()
