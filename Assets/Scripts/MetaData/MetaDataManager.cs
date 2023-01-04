@@ -25,8 +25,9 @@ namespace MetaData
         [SerializeField] private MetaDeckEditingDataManager _metaDeckEditingDataManager;
         [SerializeField] private DeckBuilder _deckBuilder;
         [SerializeField] private DismantleDataManager _dismantleDataManager;
-        [SerializeField] private VisualRequesterManager _visualRequester = VisualRequesterManager.Instance;
+
         [SerializeField] private UpgradeManager _upgradeManager;
+        
 
         private IDisposable _token;
         
@@ -46,7 +47,6 @@ namespace MetaData
         {
             get
             {
-                //yield return _visualRequester;
                 yield return _accountDataAccess = new AccountDataAccess();
                 yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
                 yield return _metaDeckEditingDataManager = new MetaDeckEditingDataManager();

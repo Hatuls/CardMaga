@@ -1,6 +1,7 @@
 using System;
 using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
+using CardMaga.Rewards;
 using UnityEngine;
 
 namespace CardMaga.MetaData.Dismantle
@@ -20,13 +21,18 @@ namespace CardMaga.MetaData.Dismantle
         
         public void AddCardCurrency(CardInstance cardInstance)
         {
-            _chipsCurrency += Mathf.RoundToInt(_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance, Rewards.CurrencyType.Chips).Amount) ;
+
+            _chipsCurrency +=
+                (int)_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance.GetCardCore(), CurrencyType.Chips).Amount;
+
             _goldCurrency += 0;
         }
         
         public void RemoveCardCurrency(CardInstance cardInstance)
         {
-            _chipsCurrency -= Mathf.RoundToInt(_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance, Rewards.CurrencyType.Chips).Amount);
+
+            _chipsCurrency -=  (int)_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance.GetCardCore(), CurrencyType.Chips).Amount;
+
             _goldCurrency -= 0;
         }
 

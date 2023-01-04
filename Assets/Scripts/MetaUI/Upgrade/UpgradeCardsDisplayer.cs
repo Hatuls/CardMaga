@@ -85,7 +85,7 @@ namespace CardMaga.Meta.Upgrade
         private void ZoomIn()
         {
             if(_zoomToken!=null)
-            _zoomToken.Dispose();
+                _zoomToken.Dispose();
             _zoomToken =  _itemsDataList[_currentMiddleObjectIndex].CardUI.CardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine?.GetToken();
         }
 
