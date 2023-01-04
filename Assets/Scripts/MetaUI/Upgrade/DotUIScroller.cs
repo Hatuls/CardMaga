@@ -1,30 +1,37 @@
-﻿using System;
+﻿using CardMaga.Input;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace CardMaga.Meta.Upgrade
 {
     public class DotUIScroller : MonoBehaviour
     {
         [SerializeField]
-        private Image[] _dotsImages;
+        private CardMaga.Input.Button[] _dotsImages;
 
-        [SerializeField]
-        private DotUIChanges _whenFocused;
-        [SerializeField]
-        private DotUIChanges _whenNotFocused;
+       
 
         [SerializeField] UpgradeCardMover _upgradeCardMover;
         [SerializeField] UpgradeCardsDisplayer _upgradeCardsDisplayer;
 
         private int _currentFocusedIndex;
-        private Button _btn;
+        [SerializeField]
+        private Color _colorWhenPressed;
+        [SerializeField]
+        private Color _colorWhenUnPressed;
+        [SerializeField]
+        private float _scaleWhenPressed;
+        [SerializeField]
+        private float _scaleWhenUnPressed;
         private void OnEnable()
         {
             _upgradeCardsDisplayer.OnItemsIndexChanged += SetCurrentElement;
             _upgradeCardsDisplayer.OnItemCountChanged += AdjustDotsToSize;
-            _btn.
+
+            for (int i = 0; i < _dotsImages.Length; i++)
+            {
+                _dotsImages[i].ButtonVisualBehaviour = new ChangeColorOnButtonLogic(_colorWhenPressed, _colorWhenUnPressed, _scaleWhenPressed, _scaleWhenUnPressed);
+                _dotsImages[i].ButtonVisualBehaviour.VisualOnButtonUnPress(_dotsImages[i]);
+            }
         }
         private void OnDisable()
         {
@@ -51,12 +58,17 @@ namespace CardMaga.Meta.Upgrade
         => SetCurrentElement(_currentFocusedIndex - 1);
         private void Focus()
         {
+
             for (int i = 0; i < _dotsImages.Length; i++)
             {
+#if UNITY_EDITOR
+                _dotsImages[i].ButtonVisualBehaviour = new ChangeColorOnButtonLogic(_colorWhenPressed, _colorWhenUnPressed, _scaleWhenPressed, _scaleWhenUnPressed);
+#endif
+
                 if (i == _currentFocusedIndex)
-                    _whenFocused.Apply(_dotsImages[i]);
+                    _dotsImages[i].ButtonVisualBehaviour.VisualOnButtonPress(_dotsImages[i]);
                 else
-                    _whenNotFocused.Apply(_dotsImages[i]);
+                    _dotsImages[i].ButtonVisualBehaviour.VisualOnButtonUnPress(_dotsImages[i]);
             }
 
         }
@@ -67,24 +79,6 @@ namespace CardMaga.Meta.Upgrade
                 _dotsImages[i].gameObject.SetActive(i < dotsNeeded);
         }
 
-        [Serializable]
-        public class DotUIChanges
-        {
-            [SerializeField]
-            private float _scale = 1f;
-            [SerializeField]
-            private Color _color = Color.white;
-            [SerializeField]
-            private Sprite _sprite;
 
-            public void Apply(Image img)
-            {
-                img.transform.localScale = _scale * Vector3.one;
-                img.color = _color;
-                if (_sprite != null)
-                    img.sprite = _sprite;
-
-            }
-        }
     }
 }

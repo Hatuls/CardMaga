@@ -17,18 +17,19 @@ namespace CardMaga.Meta.Upgrade
     public class UpgradeUIManager : MonoBehaviour, ISequenceOperation<MetaUIManager>
     {
         [SerializeField]
-        private UpgradeCardsVisualHandler _upgradeCardsVisualHandler;
+        UpgradeCardsDisplayer _upgradeCardsDisplayer;
         [SerializeField]
         private UpgradeCostHandler _upgradeCostHandler;
 
         private UpgradeManager _upgradeCardHandler;
         private CardInstance _currentCard;
         public int Priority => 0;
+
+        
         public void SetCurrentCard(CardInstance card)
         {
             _currentCard = card;
-
-            _upgradeCardsVisualHandler.SetMiddleCard(new MetaCardData(card, card.CardSO, new Card.BattleCardData(card)));
+            _upgradeCardsDisplayer.InitCards(card);
             _upgradeCostHandler.Init(_currentCard);
         }
 
@@ -48,6 +49,10 @@ namespace CardMaga.Meta.Upgrade
         [Button]
         private void TrySystem()
             => SetCurrentCard(_cardInstance);
+        private void Start()
+        {
+            TrySystem();
+        }
 #endif
         #endregion
     }
@@ -115,55 +120,5 @@ namespace CardMaga.Meta.Upgrade
         }
     }
 
-    [Serializable]
-    public class UpgradeCardsVisualHandler
-    {
-
-        [SerializeField]
-        private MetaCardUI _middleCardUI;
-        [SerializeField]
-        private MetaCardUI _leftCardUI;
-        [SerializeField]
-        private MetaCardUI _rightCardUI;
-
-
-        public void SetMiddleCard(MetaCardData battleCardData)
-        {
-            _middleCardUI.AssignDataAndVisual(battleCardData);
-            InitRightCard();
-            InitLeftCard();
-        }
-
-        private void InitRightCard()
-         => InitCard(_rightCardUI, IsMaxLevel, _middleCardUI.CardInstance.ID + 1);
-        private void InitLeftCard()
-        => InitCard(_leftCardUI, IsFirstLevel, _middleCardUI.CardInstance.ID - 1);
-        private void InitCard(MetaCardUI card, Predicate<CardInstance> condition, int nextID)
-        {
-
-            if (condition.Invoke(_middleCardUI.CardInstance))
-                card.gameObject.SetActive(false);
-            else
-            {
-                MetaCardData featuringLevel = Factory.GameFactory.Instance.CardFactoryHandler.GetMetaCardData(new CardCore(nextID));
-                card.AssignDataAndVisual(featuringLevel);
-                card.gameObject.SetActive(true);
-            }
-        }
-        private bool IsMaxLevel(CardInstance cardInstance) => cardInstance.GetCardCore().CardsAtMaxLevel;
-        private bool IsFirstLevel(CardInstance cardInstance) => cardInstance.Level == 0;
-
-
-        #region Editor
-#if UNITY_EDITOR
-        [Header("Editor:")]
-        [SerializeField]
-        private MetaCardData _battleCardData;
-        [Button]
-        private void TrySetCard() => SetMiddleCard(_battleCardData);
-
-
-#endif
-        #endregion
-    }
+    
 }

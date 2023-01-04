@@ -18,7 +18,8 @@ namespace CardMaga.Meta.Upgrade
         private RectTransform _cardContainer;
         [SerializeField]
         private UpgradeCardMover _upgradeCardMover;
-
+        [SerializeField]
+        private DotUIScroller _dotsHandler;
         [SerializeField]
         private List<ScrollItemData> _itemsDataList = new List<ScrollItemData>();
 
@@ -49,7 +50,6 @@ namespace CardMaga.Meta.Upgrade
             _upgradeCardMover.OnSwipeExecuted += SetPositionAndScale;
             _upgradeCardMover.OnSwipingLeft += MoveAllCards;
             _upgradeCardMover.OnSwipingRight += MoveAllCards;
-         
             _upgradeCardMover.OnSwipeLeftExecuted += MoveOneToTheLeft;
             _upgradeCardMover.OnSwipeRightIsAtMaxValue += MoveOneToTheRight ;
         }
@@ -65,7 +65,7 @@ namespace CardMaga.Meta.Upgrade
         public void InitCards(CardInstance cardInstance)
         {
             int maxItems = cardInstance.CardSO.CardsMaxLevel;
-
+            _dotsHandler.Init(maxItems, cardInstance.Level);
             int itemCount = _itemsDataList.Count;
             if (maxItems > itemCount)
                 PopulateList(maxItems);
@@ -86,7 +86,7 @@ namespace CardMaga.Meta.Upgrade
         {
             if(_zoomToken!=null)
             _zoomToken.Dispose();
-            _zoomToken =  _itemsDataList[_currentMiddleObjectIndex].CardUI.CardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine.GetToken();
+            _zoomToken =  _itemsDataList[_currentMiddleObjectIndex].CardUI.CardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine?.GetToken();
         }
 
         private void SetPositionAndScale()
@@ -191,7 +191,7 @@ namespace CardMaga.Meta.Upgrade
                 _itemsDataList[i].AdjustPosition(nextPos, _adjustCardsPositionDuration);
             }
         }
-        [System.Serializable]
+        [Serializable]
         public class ScrollItemData
         {
             [SerializeField, ReadOnly]
@@ -235,19 +235,19 @@ namespace CardMaga.Meta.Upgrade
             }
         }
 #endif
-        [Header("Editor:")]
-        [SerializeField]
-        private CardInstance _cardInstance;
-        [ContextMenu("Try System")]
-        private void TrySystem()
-        {
-            InitCards(_cardInstance);
-        }
+        //[Header("Editor:")]
+        //[SerializeField]
+        //private CardInstance _cardInstance;
+        //[ContextMenu("Try System")]
+        //private void TrySystem()
+        //{
+        //    InitCards(_cardInstance);
+        //}
 
-        private void Start()
-        {
-            TrySystem();
-        }
+        //private void Start()
+        //{
+        //    TrySystem();
+        //}
         #endregion
     }
 }
