@@ -72,7 +72,7 @@ namespace Account.GeneralData
         public int CardID => _coreID.ID;
         public CardSO CardSO => _cardSO;
         public int Level => _level;
-        public bool CardsAtMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
+        public bool IsMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
         public CardCore(int iD) : this(new CoreID(iD)) { }
 
         public CardCore(CoreID coreID)
@@ -90,7 +90,7 @@ namespace Account.GeneralData
 
         public bool LevelUp()
         {
-            if (IsAtMaxLevel)
+            if (IsMaxLevel)
                 return false;
 
             _coreID.ID++;
