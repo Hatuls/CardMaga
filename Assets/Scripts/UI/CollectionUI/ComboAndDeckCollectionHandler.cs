@@ -64,7 +64,7 @@ namespace CardMaga.UI.Collections
             
             foreach (var cardData in battleCardDatas)
             {
-                cardCores.Add(cardData.CardInstance.CardCore);
+                cardCores.Add(cardData.CardInstance.GetCardCore());
             }
             
             var cardVisual = _visualRequesterCard.GetVisual(cardCores);

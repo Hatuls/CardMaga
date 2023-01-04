@@ -19,7 +19,7 @@ namespace Account.GeneralData
         #endregion
 
         #region Properties
-        public int ID => _coreData.CardID;
+        public int CoreID => _coreData.CardID;
         public CardSO CardSO => _coreData.CardSO;
         public int Level { get => _coreData.Level; }
         public int InstanceID { get => _instanceID; }
@@ -123,7 +123,7 @@ namespace Account.GeneralData
         // [SerializeField]
         public int ID;
         //      [JsonProperty(PropertyName = "_id")]
-        // public int ID => _id;
+        // public int CoreID => _id;
         public CoreID(int id)
         {
             ID = id;
@@ -141,7 +141,7 @@ namespace Account.GeneralData
             return differences;
         }
 
-        public static CardSO CardSO(this CardInstance card) => CardSO(card.ID);
+        public static CardSO CardSO(this CardInstance card) => CardSO(card.CoreID);
         public static CardSO CardSO(this CardCore card) => CardSO(card.CardID);
         public static CardSO CardSO(int id) => Factory.GameFactory.Instance.CardFactoryHandler.GetCard(id);
     }

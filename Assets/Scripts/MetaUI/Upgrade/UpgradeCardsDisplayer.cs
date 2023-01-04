@@ -85,7 +85,7 @@ namespace CardMaga.Meta.Upgrade
         private void ZoomIn()
         {
             if(_zoomToken!=null)
-            _zoomToken.Dispose();
+                _zoomToken.Dispose();
             _zoomToken =  _itemsDataList[_currentMiddleObjectIndex].CardUI.CardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine?.GetToken();
         }
 
@@ -129,7 +129,7 @@ namespace CardMaga.Meta.Upgrade
                 var newCardInstance = new CardInstance(card.CardCore);
                 var metaCard = new MetaData.AccoutData.MetaCardData(newCardInstance, cardSO, new Card.BattleCardData(newCardInstance));
 
-                _itemsDataList[counter].CardUI.AssignDataAndVisual(metaCard);
+                _itemsDataList[counter].CardUI.AssignVisual(metaCard.CardInstance);
                 counter++;
             }
 
