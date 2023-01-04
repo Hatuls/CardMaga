@@ -1,11 +1,11 @@
-﻿using CardMaga.Card;
+﻿using Account.GeneralData;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardImageVisualAssigner : BaseVisualAssigner<BattleCardData>
+    public class CardImageVisualAssigner : BaseVisualAssigner<CardCore>
     {
         [SerializeField] Image _cardSplash;
 
@@ -19,9 +19,9 @@ namespace CardMaga.UI.Visuals
         {
         }
 
-        public override void Init(BattleCardData battleCardData)
+        public override void Init( CardCore comboData)
         {
-            _cardSplash.AssignSprite(battleCardData.CardSO.CardSprite);
+            _cardSplash.AssignSprite(comboData.CardSO.CardSprite);
         }
     }
 }

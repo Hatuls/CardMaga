@@ -8,7 +8,8 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCardUI : BaseUIElement, IPoolableMB<MetaCardUI>, IVisualAssign<MetaCardData>, IEquatable<MetaCardUI>
+    public class MetaCardUI : BaseUIElement, IPoolableMB<MetaCardUI>, IVisualAssign<CardInstance> ,IEquatable<MetaCardUI>
+
     {
         public event Action<MetaCardUI> OnDisposed;
 
@@ -48,17 +49,19 @@ namespace CardMaga.MetaUI
             _emptyCard.gameObject.SetActive(false);
         }
 
-        public void AssignDataAndVisual(MetaCardData data)
+
+     
+        public void AssignVisual(CardInstance data)
         {
-            CardUI.AssignDataAndVisual(data.BattleCardData);
-            _cardInstance = data.CardInstance;
+            _cardVisuals.Init(data.GetCardCore());
+            _cardInstance = data;
             //_cardVisuals.CardZoomHandler.ForceReset();//plaster
         }
 
         public bool Equals(MetaCardUI other)
         {
             if (ReferenceEquals(other, null)) return false;
-            return CardInstance.ID == other.CardInstance.ID;
+            return CardInstance.CoreID == other.CardInstance.CoreID;
         }
     }
 }

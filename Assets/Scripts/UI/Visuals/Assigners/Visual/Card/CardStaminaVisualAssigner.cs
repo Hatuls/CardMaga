@@ -1,11 +1,11 @@
-﻿using CardMaga.Card;
+﻿using Account.GeneralData;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardStaminaVisualAssigner : BaseVisualAssigner<BattleCardData>
+    public class CardStaminaVisualAssigner : BaseVisualAssigner<CardCore>
     {
         [SerializeField] StaminaCardSO _staminaCardSO;
         [SerializeField] Image _staminaBG;
@@ -29,7 +29,7 @@ namespace CardMaga.UI.Visuals
         {
         }
 
-        public override void Init(BattleCardData battleCardData)
+        public override void Init(CardCore comboData)
         {
             //Hard Coded Value
             var staminaType = 0;

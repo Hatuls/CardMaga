@@ -29,9 +29,9 @@ namespace CardMaga.UI.Buff
 
             base.CheckValidation();
         }
-        public override void Init(BuffVisualData buffData)
+        public override void Init(BuffVisualData comboData)
         {
-            base.Init(buffData);
+            base.Init(comboData);
             Init();
         }
 

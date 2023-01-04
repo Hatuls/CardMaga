@@ -2,11 +2,12 @@
 using System;
 using UnityEngine.UI;
 using CardMaga.Card;
+using Account.GeneralData;
 
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardLevelVisualAssigner : BaseVisualAssigner<BattleCardData>
+    public class CardLevelVisualAssigner : BaseVisualAssigner<CardCore>
     {
         [Header("SO")]
         [SerializeField] LevelCardVisualSO[] _levelsSO;
@@ -26,6 +27,7 @@ namespace CardMaga.UI.Visuals
 
         public override void CheckValidation()
         {
+#if UNITY_EDITOR
             //Check Levels SO
             foreach (var level in _levelsSO)
             {
@@ -73,12 +75,13 @@ namespace CardMaga.UI.Visuals
                 throw new Exception("Epic has no Parts");
             if (_legendary.Length == 0)
                 throw new Exception("Legendary has no Parts");
+#endif
         }
-        public override void Init(BattleCardData battleCardData)
+        public override void Init(CardCore comboData)
         {
             //(int)battleCard.CardSO.Rarity, cardLevel, 1
-            int cardRarity = (int)battleCardData.CardSO.Rarity - 1;
-            var cardLevel = battleCardData.CardLevel;
+            int cardRarity = (int)comboData.CardSO.Rarity - 1;
+            var cardLevel = comboData.Level;
             //Hard Coded Value
             var levelType = 0;
 

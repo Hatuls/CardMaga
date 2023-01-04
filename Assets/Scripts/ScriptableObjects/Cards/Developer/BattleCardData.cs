@@ -169,15 +169,15 @@ namespace CardMaga.Card
         [Sirenix.OdinInspector.Button]
         private void RefreshFromCoreID()
         {
-            _cardInstance = new CardInstance(new CardCore(new CoreID(_cardInstance.ID)));
+            _cardInstance = new CardInstance(new CardCore(new CoreID(_cardInstance.CoreID)));
             
-             _cardTypeData = CardSO.CardType;
+             _cardTypeData = CardSO.CardTypeData;
         }
         [Sirenix.OdinInspector.Button]
         private void RefreshFromSOAndLevel()
         {
             _cardInstance = new CardInstance(new CardCore(CardSO.ID+ _cardInstance.Level) );
-            _cardTypeData = CardSO.CardType;
+            _cardTypeData = CardSO.CardTypeData;
         }
         public BattleCardData()
         {

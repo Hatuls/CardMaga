@@ -1,4 +1,5 @@
 ﻿
+using Account.GeneralData;
 using CardMaga.Card;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 namespace CardMaga.UI.Visuals
 {
     [System.Serializable]
-    public class CardRarityVisualAssigner : BaseVisualAssigner<BattleCardData>
+    public class CardRarityVisualAssigner : BaseVisualAssigner<CardCore>
     {
         [SerializeField] RarityCardVisualSO _rarityCardVisualSO;
         [SerializeField] Image _rarity;
@@ -20,9 +21,9 @@ namespace CardMaga.UI.Visuals
             if (_rarityCardVisualSO._rarities.Length == 0)
                 throw new System.Exception("RarityCardVisualSO has no rarities");
         }
-        public override void Init(BattleCardData battleCardData)
+        public override void Init(CardCore comboData)
         {
-            int cardRarity = (int)battleCardData.CardSO.Rarity -1;
+            int cardRarity = (int)comboData.CardSO.Rarity -1;
             //Set Rarity BG
             var sprite = BaseVisualSO.GetSpriteToAssign(cardRarity, cardRarity, _rarityCardVisualSO._rarityBG);
             _rarityBG.AssignSprite(sprite);

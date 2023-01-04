@@ -1,4 +1,5 @@
 using System;
+using Account.GeneralData;
 using CardMaga.InventorySystem;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.Tools.Pools;
@@ -8,18 +9,18 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaComboUI : BaseUIElement, IPoolableMB<MetaComboUI>,IVisualAssign<MetaComboData> ,IEquatable<MetaComboUI>
+    public class MetaComboUI : BaseUIElement, IPoolableMB<MetaComboUI>,IVisualAssign<ComboCore> ,IEquatable<MetaComboUI>
     {
         public event Action<MetaComboUI> OnDisposed;
         
         [SerializeField] private ComboVisualHandler _comboVisual;
         [SerializeField] private RectTransform _emptyCombo;
 
-        private MetaComboData _metaComboData;
+        private ComboCore _comboData;
 
         public bool IsEmpty => _emptyCombo.gameObject.activeSelf && !_comboVisual.gameObject.activeSelf;
         
-        public MetaComboData MetaComboData => _metaComboData;
+        public ComboCore ComboData => _comboData;
         public void Dispose()
         {
             Hide();
@@ -45,16 +46,16 @@ namespace CardMaga.MetaUI
         }
 
 
-        public void AssignDataAndVisual(MetaComboData data)
+        public void AssignVisual(ComboCore data)
         {
-            _metaComboData = data;
-            _comboVisual.Init(data.BattleComboData);
+            _comboData = data;
+            _comboVisual.Init(data);
         }
 
         public bool Equals(MetaComboUI other)
         {
             if (ReferenceEquals(other, null)) return false;
-            return MetaComboData.ID == other.MetaComboData.ID;
+            return ComboData.ID == other.ComboData.ID;
         }
     }
 }

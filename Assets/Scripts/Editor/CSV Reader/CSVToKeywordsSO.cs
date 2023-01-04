@@ -51,7 +51,7 @@ namespace CardMaga.CSV
                         }
                     }
                     else
-                        throw new System.Exception($"Sound Name Is Not Valid (\"{line[SoundIndex]}\")!\nKeyword ID: {id}");
+                        throw new System.Exception($"Sound Name Is Not Valid (\"{line[SoundIndex]}\")!\nKeyword CoreID: {id}");
 
 
 

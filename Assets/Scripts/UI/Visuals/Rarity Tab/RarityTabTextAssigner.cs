@@ -46,10 +46,10 @@ namespace CardMaga.UI.Text
 
         }
 
-        public override void Init(RarityTextData data)
+        public override void Init(RarityTextData comboData)
         {
-            _rarityText.text = data.RarityText;
-            _rarityAmount.text = data.RarityAmount;
+            _rarityText.text = comboData.RarityText;
+            _rarityAmount.text = comboData.RarityAmount;
         }
     }
 

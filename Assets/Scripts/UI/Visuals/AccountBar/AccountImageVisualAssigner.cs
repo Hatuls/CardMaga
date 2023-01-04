@@ -14,9 +14,9 @@ namespace CardMaga.UI.Visuals
                 throw new System.Exception("AccountImageVisualAssigner has no accountPortriat Image");
             _accountPortraitCollectionVisualSos.CheckValidation();
         }
-        public override void Init(AccountBarVisualData accountData)
+        public override void Init(AccountBarVisualData comboData)
         {
-            _accountPortrait.AssignSprite(_accountPortraitCollectionVisualSos.GetPortraitSO(accountData.AccountImageID).AccountPortraitSprite);
+            _accountPortrait.AssignSprite(_accountPortraitCollectionVisualSos.GetPortraitSO(comboData.AccountImageID).AccountPortraitSprite);
         }
         public override void Dispose()
         {

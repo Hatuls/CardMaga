@@ -27,10 +27,10 @@ namespace CardMaga.UI.Visuals
             _expSlider.value = ZERO;
         }
 
-        public override void Init(AccountBarVisualData accountBarData)
+        public override void Init(AccountBarVisualData comboData)
         {
-            SetSliderMaxEXP(accountBarData.MaxExpAmount);
-            SetSliderCurrentEXP(accountBarData.CurrentExpAmount);
+            SetSliderMaxEXP(comboData.MaxExpAmount);
+            SetSliderCurrentEXP(comboData.CurrentExpAmount);
         }
 
         public void SetSliderMaxEXP(int maxExp)

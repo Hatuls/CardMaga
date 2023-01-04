@@ -146,11 +146,11 @@
 
 //                int randomID = Random.Range(0, rarityCardCollection.CardsID.Length);
 //                if (randomID >= rarityCardCollection.CardsID.Length)
-//                    Debug.Log($"Rarity is : {(RarityEnum)(index + 1)}\nrarityCardCollection.CardsID.Length = {rarityCardCollection.CardsID.Length}\nRandom ID is : {randomID}");
+//                    Debug.Log($"Rarity is : {(RarityEnum)(index + 1)}\nrarityCardCollection.CardsID.Length = {rarityCardCollection.CardsID.Length}\nRandom CoreID is : {randomID}");
 
 //                if (randomID >= rarityCardCollection.CardsID.Length)
 //                    throw new System.Exception(
-//                        $"BattleRewardSO: CardID Was bigger than the reward collection for: {rarityCardCollection.CardsID.Length}\nCardID: {randomID}\n Rarity: {(RarityEnum)(index + 1)}");
+//                        $"BattleRewardSO: CoreId Was bigger than the reward collection for: {rarityCardCollection.CardsID.Length}\nCardID: {randomID}\n Rarity: {(RarityEnum)(index + 1)}");
 //                ushort ComboID = rarityCardCollection.CardsID[randomID];
 //                // get cards level;
 //                var DropChance = actCardChance.DropChances[index];
@@ -195,7 +195,7 @@
 //            var comboFactoryHandler = Factory.GameFactory.Instance.ComboFactoryHandler;
 //            var comboCollection = comboFactoryHandler.ComboCollection;
 
-//            var comboIDs = workOnCombo.Select(x => new { ID = x.ID });
+//            var comboIDs = workOnCombo.Select(x => new { CoreID = x.CoreID });
 
 //            Battle.Combo.ComboData[] combo = new Battle.Combo.ComboData[amount];
 //            List<int> allPossibleCombosIDFromChances = new List<int>();
@@ -209,7 +209,7 @@
 //                    allPossibleCombosIDFromChances.AddRange(ids);
 //                }
 //            }
-//            allPossibleCombosIDFromChances = allPossibleCombosIDFromChances.Except(workOnCombo.Select(x => x.ID)).ToList();
+//            allPossibleCombosIDFromChances = allPossibleCombosIDFromChances.Except(workOnCombo.Select(x => x.CoreID)).ToList();
 
 //            if (allPossibleCombosIDFromChances.Count == 0)
 //                return combo;
@@ -235,7 +235,7 @@
 //                int level = ChanceHelper.GetRandomIndexByChances(levelChances);
 //                var randomCombo = combosFromThisRarity.ElementAt(Random.Range(0, combosFromThisRarity.Count()));
 //                combo[i] = comboFactoryHandler.CreateCombo(randomCombo, (byte)level);
-//                allPossibleCombosIDFromChances.Remove(randomCombo.ID);
+//                allPossibleCombosIDFromChances.Remove(randomCombo.CoreID);
 //                possibleCombos.Remove(randomCombo);
 //                if (possibleCombos.Count == 0 || allPossibleCombosIDFromChances.Count == 0)
 //                    return combo;
@@ -273,7 +273,7 @@
 
 //            //        for (int j = 0; j < length; j++)
 //            //        {
-//            //            if (!workOnCombo.Any(x => x.ComboSO.ID == combosSortByRarity[j]))
+//            //            if (!workOnCombo.Any(x => x.ComboSO.CoreID == combosSortByRarity[j]))
 //            //            {
 //            //                var DropChance = recipesChances.DropChances[index];
 //            //                var levelChances = DropChance.LevelChances;
@@ -292,7 +292,7 @@
 //            //                hasAll = false;
 //            //                for (int z = 0; z < comboIDs.Count(); z++)
 //            //                {
-//            //                    if (comboIDs.ElementAt(z).ID == allPossibleCombosIDFromChances[i])
+//            //                    if (comboIDs.ElementAt(z).CoreID == allPossibleCombosIDFromChances[i])
 //            //                    {
 //            //                        hasAll = true;
 //            //                        break;
@@ -401,7 +401,7 @@
 //#if UNITY_EDITOR
 //        public bool Init(string[] row)
 //        {
-//            const int ID = 0;
+//            const int CoreID = 0;
 //            const int Credits = 1;
 
 //            const int DropChance = 5;
@@ -417,7 +417,7 @@
 
 
 //            // character difficultyenum
-//            if (int.TryParse(row[ID], out int outcome))
+//            if (int.TryParse(row[CoreID], out int outcome))
 //                _characterDifficultyEnum = (CharacterTypeEnum)outcome;
 //            else
 //                return false;

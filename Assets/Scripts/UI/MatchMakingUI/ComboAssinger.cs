@@ -1,4 +1,5 @@
-﻿using Battle.Combo;
+﻿using Account.GeneralData;
+using Battle.Combo;
 using CardMaga.UI.Combos;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace CardMaga.UI.MatchMMaking
     {
         [SerializeField] private BattleComboUI[] _combos;
 
-        public void AssingCombosUI(BattleComboData[] comboDatas)
+        public void AssingCombosUI(ComboCore[] comboDatas)
         {
             
             for (int i = 0; i < _combos.Length; i++)
@@ -16,15 +17,7 @@ namespace CardMaga.UI.MatchMMaking
                 if (comboDatas == null || i>= comboDatas.Length|| comboDatas[i] == null)
                     _combos[i].gameObject.SetActive(false);
                 else
-                    _combos[i].AssignDataAndVisual(comboDatas[i]);
-            }
-        }
-
-        public void ShowCombos()
-        {
-            for (int i = 0; i < _combos.Length; i++)
-            {
-                _combos[i].Show();
+                    _combos[i].AssignVisual(comboDatas[i]);
             }
         }
     }

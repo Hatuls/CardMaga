@@ -68,7 +68,7 @@ namespace CardMaga.CSV
                 var character = ScriptableObject.CreateInstance<CharacterSO>();
                 if (character.Init(characterID, line, cardCollections, recipeCollection))
                 {
-                    AssetDatabase.CreateAsset(character, $"Assets/Resources/Character SO/{character.CharacterName} (ID {characterID}).asset");
+                    AssetDatabase.CreateAsset(character, $"Assets/Resources/Character SO/{character.CharacterName} (CoreID {characterID}).asset");
                     return character;
                 }
                 else

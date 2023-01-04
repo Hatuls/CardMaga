@@ -25,11 +25,11 @@ namespace CardMaga.UI.Text
             _currentExpText.text = EMPTY_TEXT;
             _accountLevelText.text = EMPTY_TEXT;
         }
-        public override void Init(AccountBarVisualData accountBarData)
+        public override void Init(AccountBarVisualData comboData)
         {
-            //_maxExpText.AssignText(accountBarData.MaxExpAmount.ToString());
-            //_currentExpText.AssignText(accountBarData.CurrentExpAmount.ToString());
-            _accountLevelText.AssignText(accountBarData.AccountLevel.ToString());
+            //_maxExpText.AssignText(comboData.MaxExpAmount.ToString());
+            //_currentExpText.AssignText(comboData.CurrentExpAmount.ToString());
+            _accountLevelText.AssignText(comboData.AccountLevel.ToString());
         }
     }
 }

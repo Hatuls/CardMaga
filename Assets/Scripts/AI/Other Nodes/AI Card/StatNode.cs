@@ -42,7 +42,7 @@ namespace CardMaga.AI
 
         public override NodeState Evaluate(AICard evaluateObject)
         {
-            NodeState = (CardType == evaluateObject.BattleCard.CardSO.CardType.CardType)? NodeState.Success : NodeState.Failure;
+            NodeState = (CardType == evaluateObject.BattleCard.CardSO.CardTypeData.CardType)? NodeState.Success : NodeState.Failure;
             return NodeState;
         }
     }

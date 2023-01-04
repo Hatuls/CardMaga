@@ -1,4 +1,5 @@
-﻿using CardMaga.Card;
+﻿using Account.GeneralData;
+using CardMaga.Card;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 namespace CardMaga.UI.Visuals
 {
     [Serializable]
-    public class CardBodyPartVisualAssigner : BaseVisualAssigner<BattleCardData>
+    public class CardBodyPartVisualAssigner : BaseVisualAssigner<CardCore>
     {
         [SerializeField] BodyPartCardVisualSO _bodyPartCardVisualSO;
         
@@ -41,16 +42,17 @@ namespace CardMaga.UI.Visuals
         {
         }
 
-        public override void Init(BattleCardData battleCardData)
+        public override void Init(CardCore comboData)
         {
-            var cardType = battleCardData.CardTypeData.CardType;
-            var cardTypeMinusOne = (int)battleCardData.CardTypeData.CardType - 1;
-            var bodyPart = battleCardData.CardTypeData.BodyPart;
+            CardTypeData cardTypeData = comboData.CardSO.CardTypeData;
+            CardTypeEnum cardType = cardTypeData.CardType;
+            int cardTypeMinusOne = (int)cardTypeData.CardType - 1;
+            CardMaga.Card.BodyPartEnum bodyPart = cardTypeData.BodyPart;
 
 
 #if UNITY_EDITOR
             if (cardTypeMinusOne == -1)
-                Debug.LogError("BattleCard type is -1! " + battleCardData.CardSO.CardName);
+                Debug.LogError("BattleCard type is -1! " + comboData.CardSO.CardName);
 #endif
             //Set BattleCard Type object On
             SetActiveObject(cardTypeMinusOne);
@@ -64,11 +66,11 @@ namespace CardMaga.UI.Visuals
             _innerBGImages[cardTypeMinusOne].AssignColor(color);
 
             //Set body part and color
-            _bodyPartsImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.BaseSO.GetBodyPartSprite(battleCardData.BodyPartEnum));
+            _bodyPartsImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.BaseSO.GetBodyPartSprite(bodyPart));
 
             color = BaseVisualSO.GetColorToAssign((int)cardType, (int)cardType, _bodyPartCardVisualSO.BaseSO.MainColor);
 
-            if (battleCardData.BodyPartEnum == CardMaga.Card.BodyPartEnum.Empty)
+            if (bodyPart == CardMaga.Card.BodyPartEnum.Empty)
             {
                 _bodyPartsImages[cardTypeMinusOne].AssignColor(color.SetColorAlpha(0));
             }

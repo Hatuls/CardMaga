@@ -2,7 +2,7 @@
 namespace CardMaga.Trackers
 {
     [CreateAssetMenu(menuName = "ScriptableObjects" +
-        "/Tracker/New Tracker ID", fileName = "New Tracker ID")]
+        "/Tracker/New Tracker CoreID", fileName = "New Tracker CoreID")]
     public class TrackerID : ScriptableObject
     {
 

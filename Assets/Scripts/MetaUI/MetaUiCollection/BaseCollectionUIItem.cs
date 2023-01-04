@@ -5,22 +5,19 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI.CollectionUI
 {
-    public abstract class BaseCollectionUIItem<T> : BaseUIElement
+    public abstract class BaseCollectionUIItem : BaseUIElement
     {
-        public event Action OnTryAddToDeck;
-        public event Action OnTryRemoveFromDeck;
-
         [SerializeField] private DisableButton _minsButton;
         [SerializeField] private DisableButton _plusButton;
 
         public virtual void TryAddToCollection()
         {
-           OnTryAddToDeck?.Invoke();
+           
         }
 
         public virtual void TryRemoveFromCollection()
         {
-            OnTryRemoveFromDeck?.Invoke();
+            
         }
 
         protected void DisableMins()
@@ -39,8 +36,7 @@ namespace CardMaga.MetaUI.CollectionUI
             _plusButton.Enable();
         }
 
-        public abstract void SuccessAddToCollection(T itemData);
-
-        public abstract void SuccessRemoveFromCollection(T itemData);
+        protected abstract void SuccessAddOrRemoveCollection();
+        
     }
 }

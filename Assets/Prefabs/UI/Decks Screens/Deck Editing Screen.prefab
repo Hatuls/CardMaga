@@ -183,23 +183,13 @@ MonoBehaviour:
     type: 3}
   _comboPrefabRef: {fileID: 1635044068937604284, guid: 57a0829fa693b9e4ea95ed194603d02e,
     type: 3}
-  _metaCollectionCardPrefabRef: {fileID: 0}
-  _collectionUIComboPrefabRef: {fileID: 0}
+  _metaCollectionCardPrefabRef: {fileID: 4651996046410880001, guid: b4328f713027e59478211df3a982c202,
+    type: 3}
+  collectionComboUIPrefabRef: {fileID: 7082167466398128996, guid: 7cf2de5901cd4c346bbd559925685c31,
+    type: 3}
   _clickHelper: {fileID: 0}
-  metaCardUICollectionScrollPanel: {fileID: 0}
-  metaComboUICollectionScrollPanel: {fileID: 0}
-  _metaCardUIContainer:
-    _continerParent: {fileID: 2353899976899756653}
-    _isDynamic: 0
-    _numberOfInitializeSlots: 8
-    _haveMaxValue: 1
-    _numberOfMaxlots: 8
-  _metaComboUiContainer:
-    _continerParent: {fileID: 2353899978098032482}
-    _isDynamic: 0
-    _numberOfInitializeSlots: 3
-    _haveMaxValue: 1
-    _numberOfMaxlots: 3
+  _deckContinaer: {fileID: 0}
+  _metaCollectionHandler: {fileID: 0}
   _deckName: {fileID: 0}
 --- !u!1 &2807706604714061495
 GameObject:
@@ -860,18 +850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &2353899976899756653 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2807706603558327607, guid: 9d1a2f0bd05452742a02caad2fdea9a5,
-    type: 3}
-  m_PrefabInstance: {fileID: 458313593720788826}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &2353899978098032482 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2807706604758165560, guid: 9d1a2f0bd05452742a02caad2fdea9a5,
-    type: 3}
-  m_PrefabInstance: {fileID: 458313593720788826}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3599908725418428063
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1089,6 +1067,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 199.99998
+      objectReference: {fileID: 0}
+    - target: {fileID: 2649139883517523076, guid: 1abf3a649d5ff014893de48fcedec66b,
+        type: 3}
+      propertyPath: _metaCardUICollectionScrollPanel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2649139883517523076, guid: 1abf3a649d5ff014893de48fcedec66b,
+        type: 3}
+      propertyPath: _metaComboUICollectionScrollPanel
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3689110052262090273, guid: 1abf3a649d5ff014893de48fcedec66b,
         type: 3}

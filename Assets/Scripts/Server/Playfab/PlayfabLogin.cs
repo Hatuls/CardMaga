@@ -54,7 +54,7 @@ namespace CardMaga.Playfab
         {
             LoginResult loginResult = TryLoadLoginResult();
 
-            Debug.Log("Try Login With Playfab Custom ID");
+            Debug.Log("Try Login With Playfab Custom CoreID");
 
             PlayFabClientAPI.LoginWithAndroidDeviceID(new LoginWithAndroidDeviceIDRequest()
             {

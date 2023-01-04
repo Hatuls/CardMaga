@@ -1,7 +1,9 @@
 ﻿using CardMaga.Card;
 using Sirenix.OdinInspector;
 using System;
+using System.Linq;
 using UnityEngine;
+
 namespace Account.GeneralData
 {
     [Serializable]
@@ -19,13 +21,15 @@ namespace Account.GeneralData
         #endregion
 
         #region Properties
-        public int ID => _coreData.CardID;
+
+        public int CoreID => _coreData.CardID;
         public CardSO CardSO => _coreData.CardSO;
         public int Level { get => _coreData.Level; }
         public int InstanceID { get => _instanceID; }
-        public bool IsMaxLevel => _coreData.CardsAtMaxLevel;
+        public bool IsMaxLevel => CardSO.CardsMaxLevel == Level;
         [ReadOnly,ShowInInspector]
         public int CardsMaxLevel => CardSO.CardsMaxLevel;
+
         public CardInstance(CardCore card)
         {
             _coreData = card;
@@ -37,16 +41,14 @@ namespace Account.GeneralData
             return other.InstanceID == _instanceID;
         }
 
-
-        public CardCore GetCardCore()
-          => _coreData;
+        public CardCore GetCardCore() => _coreData;
 
         public void Dispose()
         {
             _coreData.Dispose();
         }
-        #endregion
 
+        #endregion
 
 #if UNITY_EDITOR
         public CardInstance()
@@ -66,11 +68,10 @@ namespace Account.GeneralData
         [Sirenix.OdinInspector.OnValueChanged("InitInstanceEditor")]
         [SerializeField] private int _level;
 
-
         public int CardID => _coreID.ID;
         public CardSO CardSO => _cardSO;
         public int Level => _level;
-        public bool CardsAtMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
+        public bool IsAtMaxLevel => _level == _cardSO.CardsMaxLevel;
         public CardCore(int iD) : this(new CoreID(iD)) { }
 
         public CardCore(CoreID coreID)
@@ -109,39 +110,57 @@ namespace Account.GeneralData
             _level = differences;
         }
 
+
         private void InitInstanceEditor()
         {
             if(_cardSO!=null)
             _coreID = new CoreID(_cardSO.ID + Level);
         }
+
 #endif
     }
 
     [Serializable]
     public class CoreID
     {
-        // [SerializeField]
         public int ID;
-        //      [JsonProperty(PropertyName = "_id")]
-        // public int ID => _id;
-        public CoreID(int id)
-        {
-            ID = id;
-        }
+
         public CoreID() { }
 
+        public CoreID(int id)
+        {
+            ID = id; 
+        }
     }
 
     public static class CardHelper
     {
+        public static bool IsCardExhausted(this CardCore cardCore)
+            => cardCore.CardSO.GetLevelUpgrade(cardCore.Level).UpgradesPerLevel.First(x => x.UpgradeType == LevelUpgradeEnum.ToRemoveExhaust).Amount == 1;
+        public static int StaminaCost(this CardCore cardCore)
+        => cardCore.CardSO.GetLevelUpgrade(cardCore.Level).UpgradesPerLevel.First(x => x.UpgradeType == LevelUpgradeEnum.Stamina).Amount;
+        public static CardTypeData CardTypeData(this CardCore cardCore)
+            => cardCore.CardSO.CardTypeData;
+        public static string CardName(this CardCore cardCore)
+            => cardCore.CardSO.CardName;
+        public static int GetCardValue(this CardCore cardCore)
+            => cardCore.CardSO.GetCardValue(cardCore.Level);
+        public static bool IsCombo(this CardCore cardCore)
+        => cardCore.CardSO.IsCombo;
+        public static bool IsFusedCard(this CardCore cardCore)
+        => cardCore.CardSO.IsFusedCard;
+        public static int[] CardsFusesFrom(this CardCore cardCore)
+        => cardCore.CardSO.CardsFusesFrom;
+        public static RarityEnum Rarity(this CardCore cardCore)
+            => cardCore.CardSO.Rarity;
+
         public static int GetLevel(int cardID)
         {
             int baseCardLevel = CardSO(cardID).ID;
             int differences = cardID - baseCardLevel;
             return differences;
         }
-
-        public static CardSO CardSO(this CardInstance card) => CardSO(card.ID);
+        public static CardSO CardSO(this CardInstance card) => CardSO(card.CoreID);
         public static CardSO CardSO(this CardCore card) => CardSO(card.CardID);
         public static CardSO CardSO(int id) => Factory.GameFactory.Instance.CardFactoryHandler.GetCard(id);
     }
