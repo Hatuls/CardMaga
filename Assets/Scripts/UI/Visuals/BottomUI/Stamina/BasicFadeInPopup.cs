@@ -17,6 +17,8 @@ namespace CardMaga.UI.PopUp
         [SerializeField, Min(0)]
         private float _alphaExitDuration;
 
+        private Tween _sequence;
+
         protected override void ResetParams()
          {
             if (_sequence != null)

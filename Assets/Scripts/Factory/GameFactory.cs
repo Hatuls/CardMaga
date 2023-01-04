@@ -1,14 +1,14 @@
 ﻿using Account.GeneralData;
 using Battle;
-using Collections;
 using Battle.Combo;
 using CardMaga.Card;
 using CardMaga.Keywords;
+using CardMaga.MetaData.AccoutData;
+using Collections;
 using Keywords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CardMaga.MetaData.AccoutData;
 using UnityEngine;
 
 namespace Factory
@@ -78,7 +78,7 @@ namespace Factory
             // public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
             //     => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
         }
-        
+
         public class CharacterFactory
         {
             public CharacterCollectionSO CharacterCollection { get; private set; }
@@ -95,7 +95,7 @@ namespace Factory
                 for (int i = 0; i < length; i++)
                     _charactersDictionary.Add(collection[i].ID, collection[i]);
             }
-            
+
             public CharacterSO GetCharacterSO(CharacterTypeEnum type)
             {
                 var _charactersSO = CharacterCollection.CharactersSO;
@@ -188,11 +188,11 @@ namespace Factory
                 if (combosSO != null)
                 {
                     List<BattleComboData> combos = new List<BattleComboData>();
-                    
+
                     for (int i = 0; i < combosSO.Length; i++)
                     {
-                        if(combosSO[i].ID != 0)
-                         combos.Add(CreateCombo(combosSO[i].ComboSO()));
+                        if (combosSO[i].ID != 0)
+                            combos.Add(CreateCombo(combosSO[i].ComboSO()));
                     }
 
                     return combos.ToArray();
@@ -236,10 +236,7 @@ namespace Factory
 
                 _battleCardIdList = new List<CardCore>();
 
-                for (int i = 0; i < length; i++)
-
-
-                    Reset();
+                Reset();
             }
 
             ~CardFactory()
@@ -263,7 +260,7 @@ namespace Factory
                 CardSO cardSo = GetCard(cardCore.CardID);
 
                 CardInstance instance = CreateCardInstance(cardCore);
-                
+
                 BattleCardData battleCardData = CreateCard(instance);
 
                 return new MetaCardData(instance, cardSo, battleCardData);
@@ -278,15 +275,15 @@ namespace Factory
                     CardSO cardSo = GetCard(cardCore.ID);
 
                     CardInstance instance = CreateCardInstance(cardCore.ID);
-                
+
                     BattleCardData battleCardData = CreateCard(instance);
-                    
+
                     output.Add(new MetaCardData(instance, cardSo, battleCardData));
                 }
-                
+
                 return output;
             }
-            
+
             public List<MetaCardData> GetMetaCardData(CardCore[] cardCores)
             {
                 List<MetaCardData> output = new List<MetaCardData>(cardCores.Length);
@@ -296,15 +293,15 @@ namespace Factory
                     CardSO cardSo = GetCard(cardCore.CardID);
 
                     CardInstance instance = CreateCardInstance(cardCore);
-                
+
                     BattleCardData battleCardData = CreateCard(instance);
-                    
+
                     output.Add(new MetaCardData(instance, cardSo, battleCardData));
                 }
-                
+
                 return output;
             }
-            
+
             public BattleCardData[] CreateDeck(CoreID[] coreIDs)
             {
                 CardCore[] cards = new CardCore[coreIDs.Length];
@@ -339,7 +336,7 @@ namespace Factory
             public List<CardInstance> CreateCardInstances(List<CoreID> coreIds)
             {
                 List<CardInstance> output = new List<CardInstance>(coreIds.Count);
-                
+
                 foreach (var coreId in coreIds)
                 {
                     output.Add(CreateCardInstance(coreId));
@@ -357,7 +354,7 @@ namespace Factory
             => CreateCardInstance(new CardCore(cardID));
 
             public CardInstance CreateCardInstance(CoreID cardID)
- => CreateCardInstance(new CardCore(cardID));
+            => CreateCardInstance(new CardCore(cardID));
             public CardInstance CreateCardInstance(CardCore core)
             => new CardInstance(core);
             public BattleCardData CreateCard(CardInstance _data)
@@ -386,7 +383,7 @@ namespace Factory
                 {
                     c[i] = CreateCard(cards[i]);
 
-                   // cards[i].InstanceID = c[i].CardInstance.InstanceID;
+                    // cards[i].InstanceID = c[i].CardInstance.InstanceID;
                 }
                 return c;
             }
