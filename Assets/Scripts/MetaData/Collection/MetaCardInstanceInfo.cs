@@ -10,13 +10,14 @@ namespace CardMaga.MetaData.Collection
     [Serializable]
     public class MetaCardInstanceInfo : IDisposable
     {
+        [SerializeField, ReadOnly] 
+        private CardInstance _cardInstance;
         /// <summary>
         ///Associate Deck first number the deck Id, Second number is the number of the Instant in the deck
         /// </summary>
         [SerializeField, ReadOnly] 
         private List<int> _associateDeck;
-        private CardInstance _cardInstance;
-        [SerializeField, ReadOnly] 
+        
         public int InstanceID => _cardInstance.InstanceID;
         public int CoreID => _cardInstance.CoreID;
         public IReadOnlyList<int> AssociateDeck => _associateDeck;
@@ -28,6 +29,7 @@ namespace CardMaga.MetaData.Collection
         public MetaCardInstanceInfo(CardInstance metaCardInstance)
         {
             _cardInstance = metaCardInstance;
+            _associateDeck = new List<int>();
         }
 
         public CardInstance GetCardData()

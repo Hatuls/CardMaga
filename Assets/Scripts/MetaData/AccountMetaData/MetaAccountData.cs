@@ -1,20 +1,22 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Account;
 using Account.GeneralData;
+using UnityEngine;
 
 namespace CardMaga.MetaData.AccoutData
 {
+    [Serializable]
     public class MetaAccountData
     {
         #region Fields
 
         private AccountData _accountData;
-        private MetaCharactersHandler _charactersHandler;
-        private AccountLevelData _accountLevel;
-        private AccountResources _accountResources;
-        private List<CardInstance> _accountCards;
-        private List<ComboCore> _accountCombos;
+        [SerializeField] private MetaCharactersHandler _charactersHandler;
+        [SerializeField] private AccountLevelData _accountLevel;
+        [SerializeField] private AccountResources _accountResources;
+        [SerializeField] private List<CardInstance> _accountCards;
+        [SerializeField] private List<ComboCore> _accountCombos;
         
         #endregion
         
@@ -34,7 +36,7 @@ namespace CardMaga.MetaData.AccoutData
             _accountCards = Factory.GameFactory.Instance.CardFactoryHandler.CreateCardInstances(accountData.AllCards.CardsIDs);
             _accountCombos = accountData.AllCombos.CombosIDs;
             _accountData = accountData;
-            _charactersHandler = new MetaCharactersHandler(_accountData.CharactersData.Characters,1);//need to re - done
+            _charactersHandler = new MetaCharactersHandler(_accountData.CharactersData.Characters,AccountCards,1);//need to re - done
             _accountResources = new AccountResources();//Need to have a way to add value
             //need to add _accountCard To add All the account cards
             //need to add accountLevel Support

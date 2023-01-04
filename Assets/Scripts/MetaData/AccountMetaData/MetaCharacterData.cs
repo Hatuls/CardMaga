@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using Account;
 using Account.GeneralData;
 using CardMaga.MetaData.Collection.DeckCollection;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace CardMaga.MetaData.AccoutData
 {
+    [Serializable]
     public class MetaCharacterData
     {
         #region Fields
 
-        private int _id;
-        private int _currentSkin;
-        private int _exp;
-        private int _skillPoint;
-        private int _rank;
+        [SerializeField,ReadOnly] private int _id;
+        [SerializeField,ReadOnly] private int _currentSkin;
+        [SerializeField,ReadOnly] private int _exp;
+        [SerializeField,ReadOnly] private int _skillPoint;
+        [SerializeField,ReadOnly] private int _rank;
         private int _deckAmount = 4;
         private int _mainDeckIndex;
         private int _maxDeckLimit;
@@ -25,7 +27,7 @@ namespace CardMaga.MetaData.AccoutData
         private MetaDeckIDGenerator _deckIDGenerator;
 
         private List<int> _availableSkins;
-        private List<MetaDeckData> _decks;
+        [SerializeField,ReadOnly] private List<MetaDeckData> _decks;
 
         #endregion
 
@@ -52,7 +54,7 @@ namespace CardMaga.MetaData.AccoutData
 
         #endregion
 
-        public MetaCharacterData(Character character)
+        public MetaCharacterData(Character character,List<CardInstance> allCards)
         {
             _characterData = character;
             _id = character.ID;
@@ -77,7 +79,7 @@ namespace CardMaga.MetaData.AccoutData
 
             for (int i = 0; i < character.Deck.Count; i++)
             {
-                _decks.Add(new MetaDeckData(character.Deck[i],i,false));
+                _decks.Add(new MetaDeckData(character.Deck[i],allCards,i,false));
             }
         }
 
@@ -89,7 +91,7 @@ namespace CardMaga.MetaData.AccoutData
                 return null;
             }
 
-            MetaDeckData cache = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),_decks.Count,true);
+            MetaDeckData cache = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),null,_decks.Count,true);
             _decks.Add(cache);
             
             SetMainDeck(_decks.Count - 1);

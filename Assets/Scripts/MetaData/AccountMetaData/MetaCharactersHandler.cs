@@ -1,13 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Account.GeneralData;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace CardMaga.MetaData.AccoutData
 {
+    [Serializable]
     public class MetaCharactersHandler
     {
         #region Fields
+
+#if UNITY_EDITOR
+        [SerializeField, ReadOnly] private List<MetaCharacterData> _characters;
+#endif
 
         private Dictionary<int, MetaCharacterData> _characterDatas;
 
@@ -24,14 +31,20 @@ namespace CardMaga.MetaData.AccoutData
 
         #endregion
 
-        public MetaCharactersHandler(IReadOnlyList<Character> characters,int mainCharacterIndex)
+        public MetaCharactersHandler(IReadOnlyList<Character> characters,List<CardInstance> allCards,int mainCharacterIndex)
         {
             _characterDatas = new Dictionary<int, MetaCharacterData>();
+#if UNITY_EDITOR
+            _characters = new List<MetaCharacterData>();
+#endif
             
             foreach (var character in characters)
             {
-                MetaCharacterData data = new MetaCharacterData(character);
+                MetaCharacterData data = new MetaCharacterData(character,allCards);
                 _characterDatas.Add(character.ID,data);
+#if UNITY_EDITOR
+                _characters.Add(data);
+#endif
             }
 
             if (TrySetCharacter(mainCharacterIndex))

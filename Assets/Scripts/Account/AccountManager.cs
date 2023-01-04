@@ -522,14 +522,10 @@ public class AccountCards
 {
     public const string PlayFabKeyName = "Cards";
     public List<CoreID> CardsIDs = new List<CoreID>();
-
-
-
+    
     public void AddCard(CoreID cardID) => CardsIDs.Add(cardID);
     public void RemoveCard(CoreID cardID) => CardsIDs.Remove(cardID);
     internal bool IsValid() => true;
-
-
 }
 [Serializable]
 public class AccountCombos

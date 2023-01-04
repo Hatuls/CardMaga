@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Account.GeneralData;
-using CardMaga.MetaData.AccoutData;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -16,16 +15,20 @@ namespace CardMaga.MetaData.Collection
         public event Action<MetaCollectionCardData> OnTryRemoveItemFromCollection;
         public event Action OnSuccessAddOrRemoveFromCollection;
 
-        public int CoreId => _cardInstances[0].CoreID;
-
-        public List<MetaCardInstanceInfo> CardInstances => _cardInstances;
-
-        public override  int NumberOfInstance => _cardInstances.Count;
-
+        [SerializeField, ReadOnly] private string _cardName;
         [SerializeField, ReadOnly] private List<MetaCardInstanceInfo> _cardInstances;
+        private int _coreId;
+
+        public int CoreId => _coreId;
+        public List<MetaCardInstanceInfo> CardInstances => _cardInstances;
+        public override  int NumberOfInstance => _cardInstances.Count;
         
         public MetaCollectionCardData(CardInstance cardInstance)
         {
+            _coreId = cardInstance.CoreID;//need to chanage
+
+            _cardName = cardInstance.CardSO.CardName;
+            
             _cardInstances = new List<MetaCardInstanceInfo>();
             
             _cardInstances.Add(new MetaCardInstanceInfo(cardInstance));

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Account.GeneralData;
@@ -5,27 +6,23 @@ using CardMaga.MetaData.AccoutData;
 using CardMaga.SequenceOperation;
 using MetaData;
 using ReiTools.TokenMachine;
+using UnityEngine;
 
 namespace CardMaga.MetaData.Collection
 {
+    [Serializable]
     public class AccountDataCollectionHelper : ISequenceOperation<MetaDataManager>
     {
         private AccountDataAccess _accountDataAccess;
         
-        private List<MetaCollectionCardData> _collectionCardDatas;
-        private List<MetaCollectionCardData> _currentCurrentCollectionCardDatas;
-        
-        private List<MetaCollectionComboData> _collectionComboDatas;
-        private List<MetaCollectionComboData> _currentCurrentCollectionComboDatas;
+        [SerializeField] private List<MetaCollectionCardData> _collectionCardDatas;
+        [SerializeField] private List<MetaCollectionComboData> _collectionComboDatas;
 
         public List<MetaCollectionCardData> ALlCollectionCardDatas => _collectionCardDatas;
-
         public List<MetaCollectionComboData> AllCollectionComboDatas => _collectionComboDatas;
-
-        public List<MetaCollectionCardData> CurrentCollectionCardDatas => _currentCurrentCollectionCardDatas;
-
-        public List<MetaCollectionComboData> CurrentCollectionComboDatas => _currentCurrentCollectionComboDatas;
-
+        
+        public int Priority => 0;
+        
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
             _collectionCardDatas = new List<MetaCollectionCardData>();
@@ -35,8 +32,6 @@ namespace CardMaga.MetaData.Collection
             _collectionCardDatas = InitializeCardData();
             _collectionComboDatas = InitializeComboData();
         }
-
-        public int Priority => 0;
         
         private List<MetaCollectionCardData> InitializeCardData()
         {
@@ -48,11 +43,17 @@ namespace CardMaga.MetaData.Collection
 
             foreach (var cardData in cardDatas)
             {
+                bool isAdded = false;
+                
                 foreach (var collectionCardData in output.Where(collectionCardData => collectionCardData.Equals(cardData)))
                 {
                     collectionCardData.AddCardInstance(cardData);
+                    isAdded = true;
                 }
 
+                if (isAdded)
+                    continue;
+                
                 output.Add(new MetaCollectionCardData(cardData));
             }
             
@@ -122,7 +123,7 @@ namespace CardMaga.MetaData.Collection
             if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
                 return GetCollectionCardDatasCopy();
 
-            List<CardInstance> metaCardDatas =
+            List<CardInstance> cardDatas =
                 _accountDataAccess.AccountData.CharacterDatas.CharacterData.GetDeckById(deckId).Cards;
 
             List<MetaCollectionCardData> collectionCardDatas = GetCollectionCardDatasCopy();
@@ -131,7 +132,7 @@ namespace CardMaga.MetaData.Collection
             {
                 foreach (var cardInstanceInfo in collectionCardData.CardInstances)
                 {
-                    foreach (var cardData in metaCardDatas)
+                    foreach (var cardData in cardDatas)
                     {
                         if (cardInstanceInfo.InstanceID == cardData.InstanceID)
                         {

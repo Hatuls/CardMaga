@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using Account.GeneralData;
 using Factory;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace CardMaga.MetaData.AccoutData
 {
+    [Serializable]
     public class MetaDeckData : IEquatable<MetaDeckData>
     {
         #region Fields
 
-        private int _deckId;
-        private string _deckName;
+        [SerializeField,ReadOnly] private int _deckId;
+        [SerializeField,ReadOnly] private string _deckName;
         private bool _isNewDeck;
-        private List<CardInstance> _cardDatas;
-        private List<ComboCore> _comboDatas;
+        [SerializeField,ReadOnly] private List<CardInstance> _cardDatas;
+        [SerializeField,ReadOnly] private List<ComboCore> _comboDatas;
 
         #endregion
 
@@ -29,7 +32,7 @@ namespace CardMaga.MetaData.AccoutData
 
         #endregion
         
-        public MetaDeckData(DeckData deckData,int deckIndex,bool isNewDeck)
+        public MetaDeckData(DeckData deckData,List<CardInstance> allCards,int deckIndex,bool isNewDeck)
         {
             _deckId = deckData.Id;
             _deckName = deckData.Name;
@@ -43,16 +46,21 @@ namespace CardMaga.MetaData.AccoutData
                 return;
             }
             
-            GameFactory.CardFactory cardFactory = GameFactory.Instance.CardFactoryHandler;
-
-            CoreID[] tempCardCore = deckData.Cards;
-            int cardLength = tempCardCore.Length;
+            CoreID[] cardCore = deckData.Cards;
             
-            _cardDatas = new List<CardInstance>(cardLength);
+            _cardDatas = new List<CardInstance>(cardCore.Length);
 
-            for (int i = 0; i < cardLength; i++)
+            foreach (var coreID in cardCore)
             {
-                _cardDatas.Add(cardFactory.CreateCardInstance(tempCardCore[i]));//need To remove carddata
+                foreach (var cardInstance in allCards)  
+                {
+                    if (coreID.ID == cardInstance.CoreID)
+                    {
+                        if (_cardDatas.Contains(cardInstance))
+                            continue;
+                        _cardDatas.Add(cardInstance);
+                    }
+                }
             }
 
             ComboCore[] tempComboCores = deckData.Combos;

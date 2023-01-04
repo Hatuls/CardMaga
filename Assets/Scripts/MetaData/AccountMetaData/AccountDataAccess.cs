@@ -4,15 +4,17 @@ using CardMaga.SequenceOperation;
 using CardMaga.Server.Request;
 using MetaData;
 using ReiTools.TokenMachine;
+using UnityEngine;
 
 namespace CardMaga.MetaData.AccoutData
 {
+    [Serializable]
     public class AccountDataAccess : ISequenceOperation<MetaDataManager>
     {
         [NonSerialized]
         private AccountData _accountData;
 
-        private MetaAccountData _metaAccountData;
+        [SerializeField] private MetaAccountData _metaAccountData;
 
         public MetaAccountData AccountData => _metaAccountData;
         
