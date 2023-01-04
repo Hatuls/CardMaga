@@ -1,6 +1,5 @@
 ﻿using Account;
 using Account.GeneralData;
-using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaUI;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
@@ -25,7 +24,7 @@ namespace CardMaga.Meta.Upgrade
         private CardInstance _currentCard;
         public int Priority => 0;
 
-        
+
         public void SetCurrentCard(CardInstance card)
         {
             _currentCard = card;
@@ -52,6 +51,13 @@ namespace CardMaga.Meta.Upgrade
         private void Start()
         {
             TrySystem();
+        }
+        [Button]
+        private void Upgrade()
+        {
+            _upgradeCardHandler = new UpgradeManager();
+            if (_upgradeCardHandler.TryUpgradeCard(_cardInstance))
+                SetCurrentCard(_cardInstance);
         }
 #endif
         #endregion
@@ -120,5 +126,5 @@ namespace CardMaga.Meta.Upgrade
         }
     }
 
-    
+
 }

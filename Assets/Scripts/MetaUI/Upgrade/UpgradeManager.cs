@@ -28,7 +28,7 @@ namespace CardMaga.Meta.Upgrade
             get
             {
                 yield return _validateCardsLevel;
-                yield return _validateUserCurrency;
+                //yield return _validateUserCurrency;
             }
 
         }
@@ -67,6 +67,12 @@ namespace CardMaga.Meta.Upgrade
 
         private UpgradeInfo GenerateUpgradeInfo(CardInstance cardInstance)
         {
+#if UNITY_EDITOR
+            _upgradeCostsSO = Resources.Load<CurrencyPerRarityCostSO>("MetaGameData/UpgradeCostSO");
+            if (_upgradeCostsSO == null)
+                throw new Exception($"UpgradeManager: Could not load upgrade costs from resource folder");
+#endif
+
             return new UpgradeInfo(
                 cardInstance,
                 new List<ResourcesCost>()

@@ -234,6 +234,27 @@ namespace CardMaga.Meta.Upgrade
                 Gizmos.DrawSphere(_itemsDataList[i].WorldPosition, _gizmosScale);
             }
         }
+
+        [ContextMenu("Set Positions")]
+        private void SetPositionInEditor()
+        {
+            Vector3 middlePosition  = _middleScreen.position; 
+            _itemsDataList[_currentMiddleObjectIndex].WorldPosition = middlePosition;
+
+            for (int i = 0; i < _itemsDataList.Count; i++)
+            {
+                ScrollItemData currentItem = _itemsDataList[i];
+
+
+                if (i != _currentMiddleObjectIndex)
+                {
+                    Vector3 nextPos = middlePosition;
+                    nextPos.x += (HalfScreenWidthDistance * (i - _currentMiddleObjectIndex));
+                    currentItem.WorldPosition = nextPos;
+                }
+                currentItem.CardUI.RectTransform.position = currentItem.WorldPosition;
+            }
+        }
 #endif
         //[Header("Editor:")]
         //[SerializeField]
