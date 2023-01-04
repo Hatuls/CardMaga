@@ -33,7 +33,7 @@ namespace CardMaga.UI
 
         TokenMachine _zoomTokenMachine;
         public ITokenReciever ZoomTokenMachine => _zoomTokenMachine;
-        private void Start()
+        private void Awake()
         {
             if (_bottomPart == null)
                 throw new Exception("CardZoomHandler has no bottom part");

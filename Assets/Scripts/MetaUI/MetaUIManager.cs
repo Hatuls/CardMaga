@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Account.GeneralData;
+using CardMaga.Meta.Upgrade;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.ObjectPool;
@@ -14,28 +14,32 @@ namespace CardMaga.MetaUI
     public class MetaUIManager : MonoSingleton<MetaUIManager>, ISequenceOperation<MetaDataManager>
     {
         public static event Action OnMetaUIInitializes;
+        [SerializeField] private UpgradeUIManager _upgradeUIManager;
+        [SerializeField] private MetaDeckCollectionUIManager _metaDeckCollectionUIManager;
+        [SerializeField] private MetaCharacterCollectionManager _metaCharacterCollectionManager;
+        private VisualRequester<MetaComboUI, MetaComboData> _comboVisualRequester;
+        private VisualRequester<MetaCardUI, MetaCardData> _cardVisualRequester;
         
-        [SerializeField] private MetaDataManager _metaDataManager;
-        [SerializeField] private MetaDeckBuildingUIManager _metaDeckBuildingUIManager;
-        [SerializeField] private MetaCharacterScreenUIManager _metaCharacterScreenUIManager;
-        [SerializeField] private DismantelUIManager _dismantelUIManager;
-
+        private MetaDataManager _metaDataManager;
         private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
         
         public int Priority => 1;
-        public MetaDeckBuildingUIManager MetaDeckBuildingUIManager => _metaDeckBuildingUIManager;
-        public MetaCharacterScreenUIManager MetaCharacterScreenUIManager => _metaCharacterScreenUIManager;
-        public DismantelUIManager DismantelUIManager => _dismantelUIManager;
+        public VisualRequester<MetaComboUI, MetaComboData> ComboVisualRequester => _comboVisualRequester;
+        public VisualRequester<MetaCardUI, MetaCardData> CardVisualRequester => _cardVisualRequester;
+
+        public MetaDeckCollectionUIManager MetaDeckCollectionUIManager => _metaDeckCollectionUIManager;
+        public UpgradeUIManager UpgradeUIManager => _upgradeUIManager;
+        public MetaCharacterCollectionManager MetaCharacterCollectionManager => _metaCharacterCollectionManager;
+
         public MetaDataManager MetaDataManager => _metaDataManager;
-
-
+        
         private IEnumerable<ISequenceOperation<MetaUIManager>> VisualInitializers
         {
             get
             {
-                yield return _metaDeckBuildingUIManager;
-                yield return _metaCharacterScreenUIManager;
-                yield return _dismantelUIManager;
+                yield return _upgradeUIManager;
+                yield return _metaDeckCollectionUIManager;
+                yield return _metaCharacterCollectionManager;
             }
         }
 

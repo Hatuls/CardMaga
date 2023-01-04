@@ -1,51 +1,45 @@
 using System;
 using System.Collections.Generic;
+using CardMaga.Meta.Upgrade;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaData.DeckBuilding;
-using CardMaga.MetaData.Dismantle;
 using CardMaga.MetaUI;
-using CardMaga.ObjectPool;
 using CardMaga.SequenceOperation;
 using ReiTools.TokenMachine;
-using UnityEngine;
 
 namespace MetaData
 {
-    [Serializable]
     public class MetaDataManager : ISequenceOperation<MetaUIManager>
     {
         public static event Action OnDataInitializes;
         
-        [SerializeField] private SequenceHandler<MetaDataManager> _sequenceHandler;
-        [SerializeField] private AccountDataAccess _accountDataAccess;
-        [SerializeField] private AccountDataCollectionHelper _accountDataCollectionHelper;
-        [SerializeField] private MetaDeckEditingDataManager _metaDeckEditingDataManager;
-        [SerializeField] private DeckBuilder _deckBuilder;
-        [SerializeField] private DismantleDataManager _dismantleDataManager;
-        [SerializeField] private VisualRequesterManager _visualRequester = VisualRequesterManager.Instance;
+        private SequenceHandler<MetaDataManager> _sequenceHandler;
 
+        private AccountDataAccess _accountDataAccess;
+        private AccountDataCollectionHelper _accountDataCollectionHelper;
+        private MetaCollectionDataManager _metaCollectionDataManager;
+        private DeckBuilder _deckBuilder;
+        private UpgradeManager _upgradeManager;
         private IDisposable _token;
         
         public AccountDataCollectionHelper AccountDataCollectionHelper => _accountDataCollectionHelper;
-        public MetaDeckEditingDataManager MetaDeckEditingDataManager => _metaDeckEditingDataManager;
+        public MetaCollectionDataManager MetaCollectionDataManager => _metaCollectionDataManager;
         public DeckBuilder DeckBuilder => _deckBuilder;
         public AccountDataAccess AccountDataAccess => _accountDataAccess;
         public MetaAccountData MetaAccountData => _accountDataAccess.AccountData;
-        public DismantleDataManager DismantleDataManager => _dismantleDataManager;
-        
+        public UpgradeManager UpgradeManager => _upgradeManager;
         public int Priority => 0;
 
         private IEnumerable<ISequenceOperation<MetaDataManager>> DataInitializers
         {
             get
             {
-                //yield return _visualRequester;
                 yield return _accountDataAccess = new AccountDataAccess();
                 yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
-                yield return _metaDeckEditingDataManager = new MetaDeckEditingDataManager();
+                yield return _metaCollectionDataManager = new MetaCollectionDataManager();
                 yield return _deckBuilder = new DeckBuilder();
-                yield return _dismantleDataManager = new DismantleDataManager();
+                yield return _upgradeManager = new UpgradeManager();
             }
         }
         
@@ -58,7 +52,6 @@ namespace MetaData
         private void InitData()
         {
             _sequenceHandler = new SequenceHandler<MetaDataManager>();
-
             foreach (var operation in DataInitializers)
             {
                 _sequenceHandler.Register(operation);
