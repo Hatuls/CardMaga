@@ -86,7 +86,7 @@ namespace CardMaga.MetaData.DeckBuilding
                 return;
             }
 
-            var cache = collectionCardData.GetCardData();
+            var cache = collectionCardData.GetCardInstanceData();
             collectionCardData.AddItemToCollection();
             _deck.AddCard(cache);
             OnSuccessCardAdd?.Invoke(cache);

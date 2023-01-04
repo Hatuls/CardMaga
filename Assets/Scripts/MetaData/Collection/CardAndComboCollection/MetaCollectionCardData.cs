@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Account.GeneralData;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -45,7 +46,7 @@ namespace CardMaga.MetaData.Collection
             RemoveItemFromCollection();
         }
         
-        public CardInstance GetCardData(int instantsId)
+        public CardInstance GetCardInstanceData(int instantsId)
         {
             if (FindCardInstance(instantsId,out MetaCardInstanceInfo metaCardInstanceInfo))
                 return metaCardInstanceInfo.GetCardData();
@@ -69,7 +70,7 @@ namespace CardMaga.MetaData.Collection
             return false;
         }
 
-        public CardInstance GetCardData()
+        public CardInstance GetCardInstanceData()
         {
             return _cardInstances[0].GetCardData();
         }
@@ -77,6 +78,20 @@ namespace CardMaga.MetaData.Collection
         public void AddCardInstance(CardInstance cardInstance)
         {
             _cardInstances.Add(new MetaCardInstanceInfo(cardInstance));
+        }
+
+        public bool IsCardInDeck(int deckID,out List<MetaCardInstanceInfo> metaCardInstanceInfos)
+        {
+            var output = _cardInstances.Where(instanceInfo => instanceInfo.IsInDeck(deckID)).ToList();
+
+            if (output.Count > 0)
+            {
+                metaCardInstanceInfos = output;
+                return true;
+            }
+
+            metaCardInstanceInfos = null;
+            return false;
         }
         
         public void RemoveCardInstance(int instanceID)

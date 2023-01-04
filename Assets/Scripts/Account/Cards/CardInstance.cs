@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
+
 namespace Account.GeneralData
 {
     [Serializable]
@@ -72,7 +73,7 @@ namespace Account.GeneralData
         public int CardID => _coreID.ID;
         public CardSO CardSO => _cardSO;
         public int Level => _level;
-        public bool CardsAtMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
+        public bool IsAtMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
         public CardCore(int iD) : this(new CoreID(iD)) { }
 
         public CardCore(CoreID coreID)
@@ -115,7 +116,7 @@ namespace Account.GeneralData
         private void InitInstanceEditor()
         {
             if(_cardSO!=null)
-            _coreID = new CoreID(_cardSO.ID + Level);
+                _coreID = new CoreID(_cardSO.ID + Level);
         }
 
 #endif

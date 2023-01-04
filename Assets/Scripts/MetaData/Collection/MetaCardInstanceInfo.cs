@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
 using Sirenix.OdinInspector;
@@ -59,6 +60,11 @@ namespace CardMaga.MetaData.Collection
             }
             
             _associateDeck.Add(deckId);
+        }
+
+        public bool IsInDeck(int deckID)
+        {
+            return _associateDeck.Any(DeckId => DeckId == deckID);
         }
 
         public void Dispose()

@@ -128,7 +128,7 @@ namespace CardMaga.MetaData.Collection
 
             List<MetaCollectionCardData> collectionCardDatas = GetCollectionCardDatasCopy();
 
-            foreach (var collectionCardData in collectionCardDatas)
+            foreach (var collectionCardData in _collectionCardDatas)
             {
                 foreach (var cardInstanceInfo in collectionCardData.CardInstances)
                 {
@@ -136,7 +136,7 @@ namespace CardMaga.MetaData.Collection
                     {
                         if (cardInstanceInfo.InstanceID == cardData.InstanceID)
                         {
-                            collectionCardData.RemoveCardInstance(cardInstanceInfo.InstanceID);
+                            collectionCardDatas.RemoveCardInstance(cardInstanceInfo.InstanceID);
                         }
                     }   
                 }
