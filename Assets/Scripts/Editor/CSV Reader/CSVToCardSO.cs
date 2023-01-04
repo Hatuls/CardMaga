@@ -191,7 +191,7 @@ namespace CardMaga.CSV
                     if (CheckIfEmpty(camerasNames[j]))
                         break;
 
-                    CameraIdentification camID = Resources.Load<CameraIdentification>($"Camera/CoreID/Battle/{camerasNames[j]}");
+                    CameraIdentification camID = Resources.Load<CameraIdentification>($"Camera/ID/Battle/{camerasNames[j]}");
                     if (camID == null)
                         throw new Exception($"CSVToCardSO: Could not find Camera Identification from URL in Camera/CoreID/Battle/{camerasNames[j]}");
 

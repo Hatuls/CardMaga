@@ -35,7 +35,7 @@ namespace CardMaga.UI.Card
         public void AssignVisualAndData(BattleCardData battleCardData)
         {
             _battleCardData = battleCardData;
-            AssignVisual(battleCardData.CardInstance.CardCore);
+            AssignVisual(battleCardData.CardInstance.GetCardCore());
         }
         
         public void AssignVisual(CardCore data)

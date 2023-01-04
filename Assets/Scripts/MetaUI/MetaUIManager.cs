@@ -1,5 +1,11 @@
+using CardMaga.Meta.Upgrade;
+using CardMaga.MetaUI.CollectionUI;
+using CardMaga.SequenceOperation;
+using MetaData;
+using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
@@ -12,6 +18,8 @@ namespace CardMaga.MetaUI
         [SerializeField] private MetaCharacterScreenUIManager _metaCharacterScreenUIManager;
         [SerializeField] private DismantelUIManager _dismantelUIManager;
         [SerializeField] private UpgradeUIManager _upgradeUIManager;
+
+
 
         private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
 
@@ -65,5 +73,19 @@ namespace CardMaga.MetaUI
         {
             OnMetaUIInitializes?.Invoke();
         }
+
+
+        #region Editor:
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.Button]
+        private void TryAssignReferences()
+        {
+            _metaDeckBuildingUIManager = FindObjectOfType<MetaDeckBuildingUIManager>();
+            _metaCharacterScreenUIManager = FindObjectOfType<MetaCharacterScreenUIManager>();
+            _dismantelUIManager = FindObjectOfType<DismantelUIManager>();
+            _upgradeUIManager = FindObjectOfType<UpgradeUIManager>();
+        }
+#endif
+        #endregion
     }
 }

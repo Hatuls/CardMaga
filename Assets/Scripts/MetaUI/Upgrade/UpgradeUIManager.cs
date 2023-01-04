@@ -85,8 +85,10 @@ namespace CardMaga.Meta.Upgrade
         public void Init(CardInstance currentCard)
         {
             var cardCore = currentCard.GetCardCore();
-            if (!cardCore.CardsAtMaxLevel)
+            if (!currentCard.IsMaxLevel)
             {
+                if(_cardUpgradeCostSO==null)
+                    _cardUpgradeCostSO = Resources.Load<CurrencyPerRarityCostSO>("MetaGameData/UpgradeCostSO");
                 var chipCosts = _cardUpgradeCostSO.GetCardCostPerCurrencyAndCardCore(cardCore, Rewards.CurrencyType.Chips);
                 var goldCosts = _cardUpgradeCostSO.GetCardCostPerCurrencyAndCardCore(cardCore, Rewards.CurrencyType.Gold);
                 InitBottomPart(Convert.ToInt32(chipCosts.Amount), Convert.ToInt32(goldCosts.Amount));

@@ -89,7 +89,7 @@ namespace Account.GeneralData
 
         public bool LevelUp()
         {
-            if (CardsAtMaxLevel)
+            if (IsAtMaxLevel)
                 return false;
 
             _coreID.ID++;

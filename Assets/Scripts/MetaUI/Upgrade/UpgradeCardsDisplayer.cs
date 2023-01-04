@@ -129,7 +129,7 @@ namespace CardMaga.Meta.Upgrade
                 var newCardInstance = new CardInstance(card.CardCore);
                 var metaCard = new MetaData.AccoutData.MetaCardData(newCardInstance, cardSO, new Card.BattleCardData(newCardInstance));
 
-                _itemsDataList[counter].CardUI.AssignDataAndVisual(metaCard);
+                _itemsDataList[counter].CardUI.AssignVisual(metaCard.CardInstance);
                 counter++;
             }
 
