@@ -72,7 +72,7 @@ namespace Account.GeneralData
         public int CardID => _coreID.ID;
         public CardSO CardSO => _cardSO;
         public int Level => _level;
-        public bool CardsAtMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
+        public bool IsAtMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
         public CardCore(int iD) : this(new CoreID(iD)) { }
 
         public CardCore(CoreID coreID)
