@@ -15,6 +15,8 @@ namespace CardMaga.UI.PopUp
         [SerializeField]
         private BasicFadeInPopup basicFadeInPopup;
 
+        private PopUpTransitionData _popUpTransitionData;
+        [SerializeField] TransitionPackSO packSO;
         private Coroutine _timerCoroutine;
         #region Monobehaviour Callbacks
         private void Awake()

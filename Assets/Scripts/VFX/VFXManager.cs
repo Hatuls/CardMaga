@@ -5,6 +5,7 @@ using CardMaga.Battle.UI;
 using CardMaga.Battle.Visual;
 using CardMaga.Commands;
 using CardMaga.Keywords;
+using CardMaga.ObjectPool;
 using CardMaga.SequenceOperation;
 using CardMaga.Tools.Pools;
 using ReiTools.TokenMachine;
@@ -25,7 +26,7 @@ namespace CardMaga.VFX
         private BattleVisualEffectSO _getHitVFXSO;
 
         private KeywordManager _keywordManager;
-        private VFXPool _vfxPool;
+        private PoolHandler<BattleVisualEffectSO,BaseVisualEffect> _vfxPool;
         private VisualCharactersManager _visualCharactersManager;
         private VFXController _leftVFXController;
         private VFXController _rightVFXController;
@@ -50,7 +51,7 @@ namespace CardMaga.VFX
         {
             const int STARTING_SIZE = 2;
             _vFXQueue = new Queue<VFXData>(STARTING_SIZE);
-            _vfxPool = new VFXPool(this.transform);
+            _vfxPool = new PoolHandler<BattleVisualEffectSO, BaseVisualEffect>(this.transform);
             _vfxDataPool = new ObjectPool<VFXData>(STARTING_SIZE);
             _vfxTokenMachine = new TokenMachine(MoveNext);
             foreach (var so in VFXs)
@@ -112,7 +113,7 @@ namespace CardMaga.VFX
         private void ApplyKeywordVFX(bool currentPlayer, KeywordType keywordType)
         {
             BattleVisualEffectSO vfx = _keywordManager.GetLogic(keywordType).KeywordSO.GetVFX();
-            if (vfx != null && vfx.VFXPrefab != null)
+            if (vfx != null && vfx.PullPrefab != null)
                 AddToQueue(vfx, _visualCharactersManager.GetVisualCharacter(currentPlayer));
         }
         public void AddToQueue(BattleVisualEffectSO vfx, IVisualPlayer player)

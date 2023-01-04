@@ -66,11 +66,11 @@ namespace CardMaga.Battle.Players
 
                 isContainAll |= containCurrent;
             }
-         
+
             tagFound = playerTags;
             return isContainAll;
         }
     }
 
-  
+
 }
