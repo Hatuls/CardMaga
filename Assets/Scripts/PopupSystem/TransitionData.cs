@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace CardMaga.UI.PopUp
 {
-    public class PopUpTransitionData
+    public class TransitionData
     {
         private Vector2 _destination;
         private TransitionPackSO _transitionPackSO;
         public TransitionPackSO TransitionPackSO => _transitionPackSO;
         public Vector2 Destination => _destination;
 
-        public PopUpTransitionData(TransitionPackSO transitionPackSO, Vector2 destination)
+        public TransitionData(TransitionPackSO transitionPackSO, Vector2 destination)
         {
             _transitionPackSO = transitionPackSO;
             _destination = destination;

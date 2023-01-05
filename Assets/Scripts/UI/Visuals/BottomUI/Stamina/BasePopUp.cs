@@ -1,17 +1,26 @@
-﻿using CardMaga.Tools.Pools;
+﻿using CardMaga.Battle.Players;
+using CardMaga.Tools.Pools;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace CardMaga.UI.PopUp
 {
-    public abstract class BasePopUp : BaseUIElement, IPoolableMB<BasePopUp>
+    public abstract class BasePopUp : BaseUIElement, IPoolableMB<BasePopUp>, ITaggable
     {
         public event Action<BasePopUp> OnDisposed;
 
-        [SerializeField]
-        private bool _toRememberPreviousScreen = false;
+
+        [SerializeField] private PopUpSO[] _popUpSO;
+        [SerializeField] private bool _toRememberPreviousScreen = false;
         protected PopUpTransitionHandler _popUpTransitionHandler;
+
+        public PopUpTransitionHandler PopUpTransitionHandler => _popUpTransitionHandler;
+
+        public PopUpSO[] PopUpSO { get => _popUpSO; }
+
+        public IReadOnlyList<TagSO> Tags => PopUpSO;
 
         private void Awake()
         {
