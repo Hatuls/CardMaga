@@ -38,11 +38,12 @@ namespace CardMaga.Meta.Upgrade
         private void InitDots()
         {
             _dotsUI = new Dot[_dotsButton.Length];
+            var behaviour = new ChangeColorOnButtonLogic(_colorWhenPressed, _colorWhenUnPressed, _scaleWhenPressed, _scaleWhenUnPressed);
             for (int i = 0; i < _dotsButton.Length; i++)
             {
                 Button button = _dotsButton[i];
                 Dot dot = new Dot(button, i);
-                button.ButtonVisualBehaviour = new ChangeColorOnButtonLogic(_colorWhenPressed, _colorWhenUnPressed, _scaleWhenPressed, _scaleWhenUnPressed);
+                button.ButtonVisualBehaviour = behaviour;
                 button.ButtonVisualBehaviour.VisualOnButtonUnPress(button);
                 button.UnLock();
                 dot.OnDotPressed += DotPressed;
@@ -101,8 +102,12 @@ namespace CardMaga.Meta.Upgrade
 
         private void AdjustDotsToSize(int dotsNeeded)
         {
+            var behaviour = new ChangeColorOnButtonLogic(_colorWhenPressed, _colorWhenUnPressed, _scaleWhenPressed, _scaleWhenUnPressed);
             for (int i = 0; i < _dotsUI.Length; i++)
+            {
                 _dotsUI[i].Button.gameObject.SetActive(i < dotsNeeded);
+                _dotsUI[i].Button.ButtonVisualBehaviour = behaviour;
+            }
         }
 
 

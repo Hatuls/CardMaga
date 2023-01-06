@@ -4,7 +4,7 @@ using CardMaga.MetaUI.CollectionUI;
 using CardMaga.UI;
 using UnityEngine;
 
-public class MetaCollectionHandler : MonoBehaviour
+public class MetaCollectionUIHandler : MonoBehaviour
 {
     [Header("Config")]
     [SerializeField] private bool _haveCards;

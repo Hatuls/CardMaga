@@ -12,6 +12,7 @@ namespace CardMaga.MetaUI
     public class MetaUIManager : MonoSingleton<MetaUIManager>, ISequenceOperation<MetaDataManager>
     {
         public static event Action OnMetaUIInitializes;
+        public event Action<MetaUIManager> OnMetaUIManagerDestroyed;
 
         [SerializeField] private MetaDataManager _metaDataManager;
         [SerializeField] private MetaDeckBuildingUIManager _metaDeckBuildingUIManager;
@@ -74,6 +75,10 @@ namespace CardMaga.MetaUI
             OnMetaUIInitializes?.Invoke();
         }
 
+        private void OnDestroy()
+        {
+            OnMetaUIManagerDestroyed?.Invoke(this);
+        }
 
         #region Editor:
 #if UNITY_EDITOR

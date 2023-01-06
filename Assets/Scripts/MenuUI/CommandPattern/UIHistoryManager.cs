@@ -32,7 +32,6 @@ namespace CardMaga.UI
         {
             if (!IsEmpty)
                 Show(_history.Pop(), false);
-
             else if (_currentUIElement != null)
             {
                 _currentUIElement.Hide();
@@ -54,12 +53,27 @@ namespace CardMaga.UI
 
 
     }
+
+
+    public abstract class BaseUIScreen : BaseUIElement
+    {
+        [SerializeField]
+        private bool _toRememberWhenOpenScreen = true;
+        public virtual void OpenScreen()
+        {
+            UIHistoryManager.Show(this, _toRememberWhenOpenScreen);
+        }
+        public virtual void CloseScreen()
+        {
+            UIHistoryManager.ReturnBack();
+        }
+    }
     public abstract class BaseUIElement : MonoBehaviour, IUIElement
     {
         public event Action OnShow;
         public event Action OnHide;
         public event Action OnInitializable;
-        [Sirenix.OdinInspector.PropertyOrder(-1000) ,SerializeField, Tooltip("The RectTransform of the object\nIf left empty it will close the gameobject this script is on")]
+        [Sirenix.OdinInspector.PropertyOrder(-1000) ,SerializeField, Tooltip("The RectTransform of the object\nIf left empty it will try to use this object's recttransfrom")]
         private RectTransform _rectTransform;
         [Sirenix.OdinInspector.PropertyOrder(-1000) ,SerializeField, Tooltip("The GameObjects that will be turning on and off\nIf left empty it will close the gameobject this script is on")]
         private GameObject _holderGameObject;
@@ -77,15 +91,10 @@ namespace CardMaga.UI
         {
             get
             {
-                if (_rectTransform == null)
-                {
-                    _rectTransform = transform as RectTransform;
-
-                    GetComponent<RectTransform>();
-                    if (_rectTransform == null)
+                if (_rectTransform==null && !TryGetComponent<RectTransform>(out _rectTransform))
                         throw new Exception($"This UI Element {gameObject.name} is not an UI element and need to have a recttransfrom or to have a reference to a recttransform!");
 
-                }
+                
                 return _rectTransform;
             }
 

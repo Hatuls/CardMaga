@@ -5,7 +5,7 @@ using CardMaga.MetaUI;
 using CardMaga.MetaUI.CollectionUI;
 using UnityEngine;
 
-public class DeckContinaerUIHandler : MonoBehaviour
+public class DeckContianerUIHandler : MonoBehaviour
 {
     [SerializeField] private MetaCardUIContainer _metaCardUIContainer;
     [SerializeField] private MetaComboUiContainer _metaComboUiContainer;

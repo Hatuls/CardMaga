@@ -58,7 +58,7 @@ namespace Account.GeneralData
         public ComboInstance(ComboCore comboCore)
         {
             _comboCore = comboCore;
-            _instanceID = _uniqueID;
+            _instanceID = UniqueID;
         }
 
         public bool Equals(ComboInstance other)

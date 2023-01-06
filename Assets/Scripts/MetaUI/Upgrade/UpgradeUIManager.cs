@@ -1,10 +1,15 @@
 ﻿using Account;
 using Account.GeneralData;
+using CardMaga.Input;
 using CardMaga.MetaUI;
+using CardMaga.MetaUI.CollectionUI;
 using CardMaga.SequenceOperation;
+using CardMaga.UI;
+using CardMaga.UI.Card;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -13,52 +18,87 @@ using UnityEngine.UI;
 namespace CardMaga.Meta.Upgrade
 {
 
-    public class UpgradeUIManager : MonoBehaviour, ISequenceOperation<MetaUIManager>
+    public class UpgradeUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager>
     {
         [SerializeField]
         UpgradeCardsDisplayer _upgradeCardsDisplayer;
         [SerializeField]
         private UpgradeCostHandler _upgradeCostHandler;
 
+        private InputBehaviour<BattleCardUI> _inputBehaviour;
         private UpgradeManager _upgradeCardHandler;
         private CardInstance _currentCard;
         public int Priority => 0;
 
 
-        public void SetCurrentCard(CardInstance card)
-        {
-            _currentCard = card;
-            _upgradeCardsDisplayer.InitCards(card);
-            _upgradeCostHandler.Init(_currentCard);
-        }
+
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
         {
             _upgradeCardHandler = data.MetaDataManager.UpgradeManager;
+            data.OnMetaUIManagerDestroyed += BeforeDestroyed;
+            Hide();
+            _inputBehaviour = new InputBehaviour<BattleCardUI>();
+            _inputBehaviour.OnClick += SetCurrentCard;
+            data.MetaDeckBuildingUIManager.OnDeckBuildingInitiate += AssignInputsBehaviourToDeckBuilding;
         }
 
+        private void BeforeDestroyed(MetaUIManager data)
+        {
+            data.OnMetaUIManagerDestroyed -= BeforeDestroyed;
+            _inputBehaviour.OnClick -= SetCurrentCard;
+            data.MetaDeckBuildingUIManager.OnDeckBuildingInitiate -= AssignInputsBehaviourToDeckBuilding;
+        }
+
+        private void AssignInputsBehaviourToDeckBuilding(MetaDeckBuildingUIManager metaDeckBuildingUIManager)
+        {
+            var cardsInDeck = metaDeckBuildingUIManager.InDeckCardsUI;
+            var cardsInCollection = metaDeckBuildingUIManager.InCollectionCardsUI;
 
 
+            foreach (CardUIInputHandler item in Inputs())
+                item.TrySetInputBehaviour(_inputBehaviour);
+            
+
+            IEnumerable<CardUIInputHandler> Inputs ()
+            {
+                foreach (var card in cardsInDeck)
+                    yield return card.CardUI.Inputs;
+
+                foreach (var card in cardsInCollection)
+                    yield return card.CardUI.Inputs;
+            }
+        }
+
+       
+        public void SetCurrentCard(BattleCardUI battlecard)
+        {
+            OpenScreen();
+            var card = battlecard.BattleCardData.CardInstance;
+            _currentCard = card;
+            _upgradeCardsDisplayer.InitCards(card);
+            _upgradeCostHandler.Init(_currentCard);
+        }
         #region Editor
 
 #if UNITY_EDITOR
-        [SerializeField, Header("Editor:")]
-        private CardInstance _cardInstance;
+        //[SerializeField, Header("Editor:")]
+        //private CardInstance _cardInstance;
 
-        [Button]
-        private void TrySystem()
-            => SetCurrentCard(_cardInstance);
-        private void Start()
-        {
-            TrySystem();
-        }
-        [Button]
-        private void Upgrade()
-        {
-            _upgradeCardHandler = new UpgradeManager();
-            if (_upgradeCardHandler.TryUpgradeCard(_cardInstance))
-                SetCurrentCard(_cardInstance);
-        }
+        //[Button]
+        //private void TrySystem()
+        //    => SetCurrentCard(_cardInstance);
+        //private void Start()
+        //{
+        //    TrySystem();
+        //}
+        //[Button]
+        //private void Upgrade()
+        //{
+        //    _upgradeCardHandler = new UpgradeManager();
+        //    if (_upgradeCardHandler.TryUpgradeCard(_cardInstance))
+        //        SetCurrentCard(_cardInstance);
+        //}
 #endif
         #endregion
     }

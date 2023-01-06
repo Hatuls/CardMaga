@@ -1,9 +1,11 @@
 using System;
+using CardMaga.Card;
 using CardMaga.Input;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
+using CardMaga.UI.Card;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -14,8 +16,7 @@ namespace CardMaga.MetaUI
     {
         public event Action<MetaCollectionCardUI> OnDisposed;
 
-        [SerializeField] private CardUIInputHandler _input;
-        [SerializeField] private BaseCardVisualHandler _cardVisuals;
+        [SerializeField] private BattleCardUI _cardUI;
         [SerializeField] private TMP_Text _cardNumberText;
         [SerializeField,ReadOnly] private MetaCollectionCardData _cardData;
         
@@ -23,7 +24,7 @@ namespace CardMaga.MetaUI
 
         public int NumberOfInstant => _cardData.NumberOfInstance;
 
-        public CardUIInputHandler Input => _input;
+        public BattleCardUI CardUI => _cardUI;
 
         public override void Init()
         {
@@ -36,7 +37,7 @@ namespace CardMaga.MetaUI
             _cardData = cardData;
             _cardNumberText.text = NumberOfInstant.ToString();
 
-            _cardVisuals.Init(Factory.GameFactory.Instance.CardFactoryHandler.CreateCardCore(cardData.CardCoreID));
+            CardUI.AssignVisualAndData(Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(cardData.CardCoreID));
             
             _cardData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             

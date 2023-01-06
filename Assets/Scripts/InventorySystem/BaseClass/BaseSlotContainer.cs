@@ -44,6 +44,9 @@ namespace CardMaga.InventorySystem
 
         public void Reset()
         {
+            if (ReferenceEquals(_slots, null) || _slots.Length == 0)
+                return;
+
             foreach (var slot in _slots)
             {
                 slot.RemoveValue();
