@@ -6,16 +6,22 @@ using UnityEngine;
 
 public class MetaCollectionHandler : MonoBehaviour
 {
+    [Header("Config")]
+    [SerializeField] private bool _haveCards;
+    [SerializeField] private bool _haveCombo;
+    [Header("Scroll Panel Reference")]
     [SerializeField] private MetaCardUICollectionScrollPanel _metaCardUICollectionScrollPanel;
     [SerializeField] private MetaComboUICollectionScrollPanel _metaComboUICollectionScrollPanel;
 
     public void Init()
     {
-        _metaCardUICollectionScrollPanel.Init();
-        _metaComboUICollectionScrollPanel.Init();
+        if (_haveCards)
+            _metaCardUICollectionScrollPanel.Init();
+        if (_haveCombo)
+            _metaComboUICollectionScrollPanel.Init();
     }
 
-    public void LoadObjects(List<MetaCollectionCardUI> cardVisuals,
+        public void LoadObjects(List<MetaCollectionCardUI> cardVisuals,
         List<MetaCollectionComboUI> comboVisuals)
     {
         if (cardVisuals != null)
@@ -34,17 +40,21 @@ public class MetaCollectionHandler : MonoBehaviour
 
     public void UnLoadObjects()
     {
-        _metaCardUICollectionScrollPanel.RemoveAllObjectsFromPanel();
-        _metaComboUICollectionScrollPanel.RemoveAllObjectsFromPanel();
+        if (_haveCards)
+            _metaCardUICollectionScrollPanel.RemoveAllObjectsFromPanel();
+        if (_haveCombo)
+            _metaComboUICollectionScrollPanel.RemoveAllObjectsFromPanel();
     }
 
     private void LoadCombos(List<IUIElement> collectionComboUis)
     {
-        _metaComboUICollectionScrollPanel.AddObjectToPanel(collectionComboUis);
+        if (_haveCombo)
+            _metaComboUICollectionScrollPanel.AddObjectToPanel(collectionComboUis);
     }
 
     private void LoadCards(List<IUIElement> collectionCardUis)
     {
-        _metaCardUICollectionScrollPanel.AddObjectToPanel(collectionCardUis);
+        if (_haveCards)
+            _metaCardUICollectionScrollPanel.AddObjectToPanel(collectionCardUis);
     }
 }

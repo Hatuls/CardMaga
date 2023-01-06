@@ -2,6 +2,7 @@
 using CardMaga.Card;
 using Newtonsoft.Json;
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Account.GeneralData
@@ -10,17 +11,17 @@ namespace Account.GeneralData
     public class ComboCore
     {
         public int Level;
-        public int ID;
+        public int CoreID;
         [JsonConstructor]
         public ComboCore() { }
  
         public ComboCore(ComboSO comboSO, int level = 0) : this(comboSO?.ID ?? -1, level) { }
 
-        public ComboCore(int id, int level = 0)
+        public ComboCore(int coreID, int level = 0)
         {
-            if (id == -1)
+            if (coreID == -1)
                 throw new Exception("Combo is not registered Error Code -1");
-            ID = id;
+            CoreID = coreID;
             Level = level;
         }
         public bool LevelUp()
@@ -35,11 +36,53 @@ namespace Account.GeneralData
             return true;
         }
     }
+    [Serializable]
+    public class ComboInstance : IEquatable<ComboInstance>,IEquatable<ComboCore>,IEquatable<int>
+    {
+        private static int _uniqueID = 0;
+        private static int UniqueID => _uniqueID++;
+
+        [SerializeField,ReadOnly] 
+        private ComboCore _comboCore;
+        [SerializeField,ReadOnly] 
+        private int _instanceID;
+        
+        public int CoreID => _comboCore.CoreID;
+        public ComboSO ComboSo => _comboCore.ComboSO();
+
+        public ComboCore ComboCore => _comboCore;
+
+        public int Level { get => _comboCore.Level; }
+        public int InstanceID { get => _instanceID; }
+
+        public ComboInstance(ComboCore comboCore)
+        {
+            _comboCore = comboCore;
+            _instanceID = _uniqueID;
+        }
+
+        public bool Equals(ComboInstance other)
+        {
+            if (other == null) return false;
+            return other.InstanceID == InstanceID;
+        }
+
+        public bool Equals(ComboCore other)
+        {
+            if (other == null) return false;
+            return other.CoreID == CoreID;
+        }
+
+        public bool Equals(int comboCoreId)
+        {
+            return comboCoreId == CoreID;
+        }
+    }
     
     public static class ComboHelper
     {
         public static ComboSO ComboSO(this ComboCore c)
-    => Factory.GameFactory.Instance.ComboFactoryHandler.GetComboSO(c.ID);
+    => Factory.GameFactory.Instance.ComboFactoryHandler.GetComboSO(c.CoreID);
     }
 }
 
@@ -61,7 +104,7 @@ namespace Battle.Combo
 
         }
 
-        public int ID => _comboCore.ID;
+        public int CoreID => _comboCore.CoreID;
         public int Level => _comboCore.Level;
         public CardTypeData[] ComboSequence => _comboSO.ComboSequence;
         public ComboSO ComboSO { get => _comboSO; private set => _comboSO = value; }

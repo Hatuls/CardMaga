@@ -143,7 +143,7 @@ namespace Battle.Deck
         {
             /*
              * check if the deck and battleCard is valids
-             * loop throught the decks and search this battleCard by matching id between the battleCard in the deck and the one we check
+             * loop throught the decks and search this battleCard by matching coreID between the battleCard in the deck and the one we check
              * if we found then reset him to null 
              * and reoder and recount
              */

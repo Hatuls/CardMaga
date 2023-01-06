@@ -2,10 +2,11 @@
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
+
 namespace Account.GeneralData
 {
     [Serializable]
-    public class CardInstance : IEquatable<CardInstance>, IDisposable
+    public class CardInstance : IEquatable<CardInstance>,IEquatable<int>,IDisposable
     {
         private static int _uniqueID = 0;
         private static int UniqueID => _uniqueID++;
@@ -38,7 +39,11 @@ namespace Account.GeneralData
         {
             return other.InstanceID == _instanceID;
         }
-
+        
+        public bool Equals(int cardCoreID)
+        {
+            return CoreID == cardCoreID;
+        }
 
         public CardCore GetCardCore()
           => _coreData;
@@ -72,7 +77,9 @@ namespace Account.GeneralData
         public int CardID => _coreID.ID;
         public CardSO CardSO => _cardSO;
         public int Level => _level;
+
         public bool IsMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
+
         public CardCore(int iD) : this(new CoreID(iD)) { }
 
         public CardCore(CoreID coreID)
@@ -115,7 +122,7 @@ namespace Account.GeneralData
         private void InitInstanceEditor()
         {
             if(_cardSO!=null)
-            _coreID = new CoreID(_cardSO.ID + Level);
+                _coreID = new CoreID(_cardSO.ID + Level);
         }
 
 #endif

@@ -157,6 +157,23 @@ namespace Factory
             {
                 return new MetaComboData(comboCore);
             }
+            
+            public ComboInstance GetMetaComboInstance(ComboCore comboCore)
+            {
+                return new ComboInstance(comboCore);
+            }
+            
+            public  List<ComboInstance> GetMetaComboInstance(List<ComboCore> comboCores)
+            {
+                List<ComboInstance> output = new List<ComboInstance>();
+
+                foreach (var comboCore in comboCores)
+                {
+                    output.Add(new ComboInstance(comboCore));
+                }
+
+                return output;
+            }
 
             public List<MetaComboData> GetMetaComboData(ComboCore[] comboCores)
             {
@@ -178,7 +195,7 @@ namespace Factory
 
                     for (int i = 0; i < combosSO.Length; i++)
                     {
-                        if (combosSO[i].ID != 0)
+                        if (combosSO[i].CoreID != 0)
                             combos.Add(CreateCombo(combosSO[i].ComboSO()));
                     }
 

@@ -24,7 +24,6 @@ namespace CardMaga.MetaUI.CollectionUI
         [SerializeField] private InputFieldHandler _deckName;
         
         private DeckBuilder _deckBuilder;
-        
         private bool _isFirstTime;
 
         private MetaCardUI[] _metaCardUis;
@@ -51,10 +50,10 @@ namespace CardMaga.MetaUI.CollectionUI
             _dataManager.OnSuccessUpdateDeck += ExitDeckEditing;
             _dataManager.OnFailedUpdateDeck += _clickHelper.Open;
             
-            _deckBuilder.OnSuccessCardAdd += _deckContinaer.AddCardUI;
-            _deckBuilder.OnSuccessCardRemove += _deckContinaer.RemoveCardUI;
-            _deckBuilder.OnSuccessComboAdd += _deckContinaer.AddComboUI;
-            _deckBuilder.OnSuccessComboRemove += _deckContinaer.RemoveComboUI;
+            _deckBuilder.OnSuccessfulCardAdd += _deckContinaer.AddOnsuccessfulCardUI;
+            _deckBuilder.OnSuccessfulCardRemove += _deckContinaer.RemoveCardUI;
+            _deckBuilder.OnSuccessfulComboAdd += _deckContinaer.AddComboUI;
+            _deckBuilder.OnSuccessfulComboRemove += _deckContinaer.RemoveComboUI;
         }
 
         private void OnEnable()
@@ -74,8 +73,8 @@ namespace CardMaga.MetaUI.CollectionUI
         {
             _deckName.SetText(metaDeckData.DeckName);//all plaster
             
-            _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dataManager.MetaCollectionCardDatas);
-            _metaComboCollectionUIs = VisualRequesterManager.Instance.GetMetaCollectionComboUis(_dataManager.MetaCollectionComboDatas);
+            _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dataManager.CardCollectionDataHandler.CollectionCardDatas);
+            _metaComboCollectionUIs = VisualRequesterManager.Instance.GetMetaCollectionComboUis(_dataManager.ComboCollectionDataHandler.CollectionComboDatas);
 
             _metaCollectionHandler.LoadObjects(_metaCollectionCardUIs,_metaComboCollectionUIs);
 
@@ -83,7 +82,7 @@ namespace CardMaga.MetaUI.CollectionUI
                 return;
             
             foreach (var cardData in metaDeckData.Cards)
-                _deckContinaer.AddCardUI(cardData);
+                _deckContinaer.AddOnsuccessfulCardUI(cardData);
             
             foreach (var comboData in metaDeckData.Combos)
                 _deckContinaer.AddComboUI(comboData);
@@ -124,10 +123,10 @@ namespace CardMaga.MetaUI.CollectionUI
         {
             _dataManager.Dispose();
             _deckName.OnValueChange -= _deckBuilder.TryEditDeckName;//paster
-            _deckBuilder.OnSuccessCardAdd -= _deckContinaer.AddCardUI;
-            _deckBuilder.OnSuccessCardRemove -= _deckContinaer.RemoveCardUI;
-            _deckBuilder.OnSuccessComboAdd -= _deckContinaer.AddComboUI;
-            _deckBuilder.OnSuccessComboRemove -= _deckContinaer.RemoveComboUI;
+            _deckBuilder.OnSuccessfulCardAdd -= _deckContinaer.AddOnsuccessfulCardUI;
+            _deckBuilder.OnSuccessfulCardRemove -= _deckContinaer.RemoveCardUI;
+            _deckBuilder.OnSuccessfulComboAdd -= _deckContinaer.AddComboUI;
+            _deckBuilder.OnSuccessfulComboRemove -= _deckContinaer.RemoveComboUI;
             
             _dataManager.OnSuccessUpdateDeck -= ExitDeckEditing;
             _dataManager.OnFailedUpdateDeck += _clickHelper.Open;

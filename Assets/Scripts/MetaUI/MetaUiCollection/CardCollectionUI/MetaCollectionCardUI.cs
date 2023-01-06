@@ -18,7 +18,8 @@ namespace CardMaga.MetaUI
         [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private TMP_Text _cardNumberText;
         [SerializeField,ReadOnly] private MetaCollectionCardData _cardData;
-        public int CoreId => _cardData.CoreId;
+        
+        public int CoreId => _cardData.CardCoreID;
 
         public int NumberOfInstant => _cardData.NumberOfInstance;
 
@@ -35,19 +36,19 @@ namespace CardMaga.MetaUI
             _cardData = cardData;
             _cardNumberText.text = NumberOfInstant.ToString();
 
-            _cardVisuals.Init(Factory.GameFactory.Instance.CardFactoryHandler.CreateCardCore(cardData.CoreId));
+            _cardVisuals.Init(Factory.GameFactory.Instance.CardFactoryHandler.CreateCardCore(cardData.CardCoreID));
             
             _cardData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             
             UpdateCardVisual();
         }
-
-        public override void TryAddToCollection()
+        
+        public void PlusPress()
         {
-            _cardData.RemoveCardFromCollection();
+            _cardData.AddCardToCollection();
         }
 
-        public override void TryRemoveFromCollection()
+        public void MinusPress()
         {
             _cardData.RemoveCardFromCollection();
         }
@@ -74,7 +75,7 @@ namespace CardMaga.MetaUI
 
             if (_cardData.MaxInstants)
             {
-                DisableMins();
+                DisableMinus();
                 return;
             }
         }

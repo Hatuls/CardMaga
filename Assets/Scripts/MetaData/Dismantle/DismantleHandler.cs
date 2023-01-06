@@ -25,9 +25,9 @@ namespace CardMaga.MetaData.Dismantle
             OnAddCardToDismantleList?.Invoke(cardInstance);
         }
 
-        public CardInstance RemoveCardFromDismantleList(MetaCollectionCardData collectionCardData)
+        public CardInstance RemoveCardFromDismantleList(CardCore cardCore)
         {
-            if (FindCardInstanceInDismantelList(collectionCardData.CoreId,out CardInstance cardInstance))
+            if (FindCardInstanceInDismantelList(cardCore.CardID,out CardInstance cardInstance))
             {
                 _dismantleCards.Remove(cardInstance);
                 OnRemoveCardFromDismantleList?.Invoke(cardInstance);

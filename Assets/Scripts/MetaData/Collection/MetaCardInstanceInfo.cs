@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Account.GeneralData;
-using CardMaga.MetaData.AccoutData;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -26,17 +26,12 @@ namespace CardMaga.MetaData.Collection
         /// </summary>
         public bool InDeck => _associateDeck.Count > 0;
 
+        public CardInstance CardInstance => _cardInstance;
+
         public MetaCardInstanceInfo(CardInstance metaCardInstance)
         {
             _cardInstance = metaCardInstance;
             _associateDeck = new List<int>();
-        }
-
-        public CardInstance GetCardData()
-        {
-            var cache = _cardInstance;
-            
-            return cache;
         }
 
         public void RemoveFromDeck(int deckId)
@@ -59,6 +54,11 @@ namespace CardMaga.MetaData.Collection
             }
             
             _associateDeck.Add(deckId);
+        }
+
+        public bool IsInDeck(int deckID)
+        {
+            return _associateDeck.Any(DeckId => DeckId == deckID);
         }
 
         public void Dispose()

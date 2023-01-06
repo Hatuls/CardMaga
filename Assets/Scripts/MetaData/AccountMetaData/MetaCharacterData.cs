@@ -54,7 +54,7 @@ namespace CardMaga.MetaData.AccoutData
 
         #endregion
 
-        public MetaCharacterData(Character character,List<CardInstance> allCards)
+        public MetaCharacterData(Character character,List<CardInstance> allCards,List<ComboInstance> allCombo)
         {
             _characterData = character;
             _id = character.ID;
@@ -79,7 +79,7 @@ namespace CardMaga.MetaData.AccoutData
 
             for (int i = 0; i < character.Deck.Count; i++)
             {
-                _decks.Add(new MetaDeckData(character.Deck[i],allCards,i,false));
+                _decks.Add(new MetaDeckData(character.Deck[i],allCards,allCombo,i,false));
             }
         }
 
@@ -91,7 +91,7 @@ namespace CardMaga.MetaData.AccoutData
                 return null;
             }
 
-            MetaDeckData cache = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),null,_decks.Count,true);
+            MetaDeckData cache = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),null,null,_decks.Count,true);
             _decks.Add(cache);
             
             SetMainDeck(_decks.Count - 1);
@@ -104,7 +104,7 @@ namespace CardMaga.MetaData.AccoutData
             int index = FindDeckIndexByID(deckId);
 
             if (index == -1)
-                throw new Exception("Deck id not found");
+                throw new Exception("Deck coreID not found");
             
             _decks.RemoveAt(index);
 

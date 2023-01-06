@@ -8,9 +8,7 @@ namespace CardMaga.MetaData.Collection
         #region Fields
 
         private readonly int _maxInstants;
-
-        protected int numberOfCurrentInstance;
-
+        
         #endregion
 
         #region Props
@@ -18,19 +16,9 @@ namespace CardMaga.MetaData.Collection
         public abstract int NumberOfInstance { get; }
         
         public bool NotMoreInstants => NumberOfInstance <= 0;
-        public bool MaxInstants => numberOfCurrentInstance == _maxInstants;
-        public int NumberOfCurrentInstance => numberOfCurrentInstance;
+        public bool MaxInstants => NumberOfInstance == _maxInstants;
+        public int NumberOfCurrentInstance => NumberOfInstance;
 
         #endregion
-
-        public void AddItemToCollection()
-        {
-            numberOfCurrentInstance--;
-        }
-        
-        public void RemoveItemFromCollection()
-        {
-            numberOfCurrentInstance++;
-        }
     }
 }

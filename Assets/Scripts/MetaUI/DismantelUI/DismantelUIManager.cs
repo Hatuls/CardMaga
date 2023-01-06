@@ -24,8 +24,7 @@ public class DismantelUIManager : MonoBehaviour , ISequenceOperation<MetaUIManag
 
     private void OnEnable()
     {
-        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas),null);
-
+        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
     }
 
     private void UpdateVisual(int chipsAmount,int goldAmount)
