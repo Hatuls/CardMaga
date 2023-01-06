@@ -17,13 +17,18 @@ namespace CardMaga.MetaData.Dismantle
         public event Action<int,int> OnCardAddToDismantel;
 
         [SerializeField] private DismantleCurrencyHandler _dismantleCurrencyHandler;
-        private TypeValidator<MetaCollectionCardData> _cardDataValidator;
-        private DismantleHandler _dismantleHandler;
+        
         private AccountDataCollectionHelper _accountData;
+        private DismantleHandler _dismantleHandler;
 
-        private List<BaseValidatorCondition<MetaCollectionCardData>> _validatorConditions;
+        private TypeValidator<CardInstance> _cardDataValidator;
+        
+        List<BaseValidatorCondition<CardInstance>> _validatorConditions = new List<BaseValidatorCondition<CardInstance>>()
+        {
+            //add validation
+        };
 
-        public List<MetaCollectionCardData> CardCollectionDatas => _accountData.ALlCollectionCardDatas;
+        public CardsCollectionDataHandler CardCollectionDatas => _accountData.GetAllUnAssingeCard();
         
         public int Priority => 0;
         
@@ -32,27 +37,24 @@ namespace CardMaga.MetaData.Dismantle
             _accountData = data.AccountDataCollectionHelper;
             _dismantleHandler = new DismantleHandler();
             _dismantleCurrencyHandler = new DismantleCurrencyHandler();
-            _cardDataValidator = new TypeValidator<MetaCollectionCardData>();
+            _cardDataValidator = new TypeValidator<CardInstance>();
 
-            _validatorConditions = new List<BaseValidatorCondition<MetaCollectionCardData>>()
-            {
-                new IsEnoughInstance(),
-            };
             
-            SetCardCollection();//temp
+            
+            //SetCardCollection();//temp
         }
 
         private void SetCardCollection()
         {
-            foreach (var cardData in CardCollectionDatas)
+            foreach (var cardData in CardCollectionDatas.CollectionCardDatas)
             {
                 cardData.OnTryAddItemToCollection += AddCardToDismantleList;
             }
         }
 
-        public void AddCardToDismantleList(MetaCollectionCardData collectionCardData)
+        public void AddCardToDismantleList(CardInstance cardInstance)
         {
-            if (_cardDataValidator.Valid(collectionCardData,out string failedMassage) && collectionCardData.GetUnAssignCard(out CardInstance cardInstance))
+            if (_cardDataValidator.Valid(cardInstance,out string failedMassage))
             {
                 _dismantleCurrencyHandler.AddCardCurrency(cardInstance);
                 _dismantleHandler.AddCardToDismantleList(cardInstance);
@@ -61,9 +63,9 @@ namespace CardMaga.MetaData.Dismantle
             }
         }
         
-        public void RemoveCardFromDismantleList(MetaCollectionCardData collectionCardData)
+        public void RemoveCardFromDismantleList(CardCore cardCore)
         {
-            var cache = _dismantleHandler.RemoveCardFromDismantleList(collectionCardData);
+            var cache = _dismantleHandler.RemoveCardFromDismantleList(cardCore);
             _dismantleCurrencyHandler.RemoveCardCurrency(cache);
                 
             OnCardAddToDismantel?.Invoke(_dismantleCurrencyHandler.ChipsCurrency,_dismantleCurrencyHandler.GoldCurrency);
@@ -77,7 +79,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public void Dispose()
         {
-            foreach (var cardData in CardCollectionDatas)
+            foreach (var cardData in CardCollectionDatas.CollectionCardDatas)
             {
                 cardData.OnTryAddItemToCollection -= AddCardToDismantleList;
             }

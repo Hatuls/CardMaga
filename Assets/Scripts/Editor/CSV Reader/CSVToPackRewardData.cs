@@ -43,7 +43,7 @@ namespace CardMaga.CSV
 
                 Card.CardSO cardSO = cardCollection[resultID];
                 if (cardSO == null)
-                    throw new System.Exception($"CardSO was not found!\nID - " + resultID);
+                    throw new System.Exception($"ComboSo was not found!\nID - " + resultID);
 
                 isArenaReward = IsArenaReward(row[IsArenaIndex], resultID);
                 isSpecialPack = IsSpecialPack(row[IsSpecialPackIndex], resultID);

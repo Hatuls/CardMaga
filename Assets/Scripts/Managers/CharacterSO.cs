@@ -152,7 +152,7 @@ namespace Battle
                                         _level = lvl;
                                     }
                                     else
-                                        throw new Exception($"CoreID= {ID} - {CharacterName} : BattleCard has no valid level ({data[Level]}) for BattleCard id: {_id}");
+                                        throw new Exception($"CoreID= {ID} - {CharacterName} : BattleCard has no valid level ({data[Level]}) for BattleCard coreID: {_id}");
                                     cardCores.Add(new CoreID(_iD + _level));
 
                                 }
@@ -183,7 +183,7 @@ namespace Battle
                                         _level = lvl;
                                     }
                                     else
-                                        throw new Exception($"CoreID= {ID} - {CharacterName} : Recipe has no valid level ({data[Level]}) for recipe id: {_id}");
+                                        throw new Exception($"CoreID= {ID} - {CharacterName} : Recipe has no valid level ({data[Level]}) for recipe coreID: {_id}");
 
 
 

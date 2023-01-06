@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
 using CardMaga.SequenceOperation;
+using CardMaga.ValidatorSystem;
 using MetaData;
 using ReiTools.TokenMachine;
 
@@ -12,13 +14,14 @@ namespace CardMaga.MetaData.DeckBuilding
     {
         #region Events
         public event Action OnDeckNameUpdate; 
-        public event Action<CardInstance> OnSuccessCardAdd;
-        public event Action<string> OnFailedCardAdd;
-        public event Action<CardInstance> OnSuccessCardRemove;
-        public event Action<ComboCore> OnSuccessComboAdd;
-        public event Action<string> OnFailedComboAdd; 
-        public event Action<ComboCore> OnSuccessComboRemove;
+        public event Action<string> OnFailedToAddCombo; 
+        public event Action<string> OnFailedToAddCard; 
+        public event Action<string> OnFailedToUpdateDeckName; 
         public event Action<MetaDeckData> OnNewDeckLoaded; 
+        public event Action<CardInstance> OnSuccessfulCardAdd;
+        public event Action<CardInstance> OnSuccessfulCardRemove;
+        public event Action<ComboInstance> OnSuccessfulComboAdd;
+        public event Action<ComboInstance> OnSuccessfulComboRemove;
 
         #endregion
         
@@ -26,30 +29,54 @@ namespace CardMaga.MetaData.DeckBuilding
         private const int MAX_COMBO_IN_DECK = 3;
 
         private MetaDeckData _deck;
+        
+        private CardsCollectionDataHandler _cardsCollectionDataHandler;
+        private ComboCollectionDataHandler _comboCollectionDataHandler;
+        
+        private TypeValidator<MetaDeckData> _deckValidator;
+        private TypeValidator<string> _deckNameValidator;
+        
+        private List<BaseValidatorCondition<MetaDeckData>> _deckValidatorConditions =
+            new List<BaseValidatorCondition<MetaDeckData>>()
+            {
+                //add validation
+            };
 
-        private MetaDeckEditingDataManager _deckEditingData;
-
+        private List<BaseValidatorCondition<string>> _deckNameValidatorConditions =
+            new List<BaseValidatorCondition<string>>()
+            {
+                //add validation
+            };
+        
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
-            _deckEditingData = data.MetaDeckEditingDataManager;
+            _deckValidator = new TypeValidator<MetaDeckData>(_deckValidatorConditions);
+            _deckNameValidator = new TypeValidator<string>(_deckNameValidatorConditions);
         }
 
         public int Priority => 1;
 
-        public void AssingDeckToEdit(MetaDeckData deckData)
+        public void AssingDeckToEdit(MetaDeckData deckData,CardsCollectionDataHandler cardsCollectionDataHandler,ComboCollectionDataHandler comboCollectionDataHandler)
         {
             _deck = deckData;
 
-            foreach (var cardData in _deckEditingData.MetaCollectionCardDatas)
+            _cardsCollectionDataHandler = cardsCollectionDataHandler;
+            _comboCollectionDataHandler = comboCollectionDataHandler;
+
+            foreach (var cardData in _cardsCollectionDataHandler.CollectionCardDatas)
             {
-                cardData.OnTryAddItemToCollection += TryAddCard;
-                cardData.OnTryRemoveItemFromCollection += TryRemoveCard;
+                cardData.OnTryAddItemToCollection += TryAddCardToDeck;
+                cardData.OnTryRemoveItemFromCollection += TryRemoveCardFromDeck;
+                OnSuccessfulCardAdd += cardData.SuccessAddOrRemoveFromCollection;
+                OnSuccessfulCardRemove += cardData.SuccessAddOrRemoveFromCollection;
             }
             
-            foreach (var comboData in _deckEditingData.MetaCollectionComboDatas)
+            foreach (var comboData in _comboCollectionDataHandler.CollectionComboDatas)
             {
                 comboData.OnTryAddItemToCollection += TryAddCombo;
                 comboData.OnTryRemoveItemFromCollection += TryRemoveCombo;
+                OnSuccessfulComboAdd += comboData.SuccessAddOrRemoveFromCollection;
+                OnSuccessfulComboRemove += comboData.SuccessAddOrRemoveFromCollection;
             }
             
             OnNewDeckLoaded?.Invoke(_deck);
@@ -57,71 +84,100 @@ namespace CardMaga.MetaData.DeckBuilding
 
         public void DisposeDeck()//Need to call
         {
-            foreach (var cardData in _deckEditingData.MetaCollectionCardDatas)
+            foreach (var cardData in _cardsCollectionDataHandler.CollectionCardDatas)
             {
-                cardData.OnTryAddItemToCollection -= TryAddCard;
-                cardData.OnTryRemoveItemFromCollection -= TryRemoveCard;
-                
+                cardData.OnTryAddItemToCollection -= TryAddCardToDeck;
+                cardData.OnTryRemoveItemFromCollection -= TryRemoveCardFromDeck;
+                OnSuccessfulCardAdd -= cardData.SuccessAddOrRemoveFromCollection;
+                OnSuccessfulCardRemove -= cardData.SuccessAddOrRemoveFromCollection;
             }
             
-            foreach (var comboData in _deckEditingData.MetaCollectionComboDatas)
+            foreach (var comboData in _comboCollectionDataHandler.CollectionComboDatas)
             {
                 comboData.OnTryAddItemToCollection -= TryAddCombo;
                 comboData.OnTryRemoveItemFromCollection -= TryRemoveCombo;
+                OnSuccessfulComboAdd -= comboData.SuccessAddOrRemoveFromCollection;
+                OnSuccessfulComboRemove -= comboData.SuccessAddOrRemoveFromCollection;
             }
         }
         
         public void TryEditDeckName(string name)
         {
-            //add name valid
+            if (_deckNameValidator.Valid(name,out string failedMassage))
+            {
+                OnFailedToUpdateDeckName?.Invoke(failedMassage);
+                return;
+            }
+            
             _deck.UpdateDeckName(name);
             OnDeckNameUpdate?.Invoke();
         }
 
-        private void TryAddCard(MetaCollectionCardData collectionCardData)
+        private void TryAddCardToDeck(CardInstance cardInstance)
         {
             if (_deck.Cards.Count >= MAX_CARD_IN_DECK)
             {
-                OnFailedCardAdd?.Invoke("MAX_CARD_IN_DECK");
-                return;
-            }
-
-            var cache = collectionCardData.GetCardInstanceData();
-            collectionCardData.AddItemToCollection();
-            _deck.AddCard(cache);
-            OnSuccessCardAdd?.Invoke(cache);
-        }
-
-        private void TryAddCombo(MetaCollectionComboData collectionComboData)
-        {
-            if (_deck.Combos.Count >= MAX_COMBO_IN_DECK)
-            {
-                OnFailedComboAdd?.Invoke("MAX_COMBO_IN_DECK");
+                OnFailedToAddCard?.Invoke("Max card in deck");
                 return;
             }
             
-            collectionComboData.AddItemToCollection();
-            _deck.AddCombo(collectionComboData.ComboData);
-            OnSuccessComboAdd?.Invoke(collectionComboData.ComboData);
-        }
-
-        private void TryRemoveCard(MetaCollectionCardData collectionCardData)
-        {
-            if (_deck.FindCardData(collectionCardData.CoreId,out CardInstance metaCardData))
+            _deck.AddCard(cardInstance);
+            
+            if (!_deckValidator.Valid(_deck,out string failedMassage))
             {
-                collectionCardData.RemoveItemFromCollection();
-                _deck.RemoveCard(metaCardData);
-                OnSuccessCardRemove?.Invoke(metaCardData);
+                _deck.RemoveCard(cardInstance);
+                OnFailedToAddCard?.Invoke(failedMassage);
+                return;
+            }
+
+            if (_cardsCollectionDataHandler.TryRemoveCardInstance(cardInstance.InstanceID))
+            {
+                //_deck.AddCard(cardInstance);
+                OnSuccessfulCardAdd?.Invoke(cardInstance);
             }
         }
 
-        private void TryRemoveCombo(MetaCollectionComboData collectionComboData)
+        private void TryAddCombo(ComboInstance comboInstance)
         {
-            if (_deck.FindComboData(collectionComboData.ComboID,out ComboCore comboData))
+            if (_deck.Combos.Count >= MAX_COMBO_IN_DECK)
             {
-                collectionComboData.RemoveItemFromCollection();
-                _deck.RemoveCombo(comboData);
-                OnSuccessComboRemove?.Invoke(comboData);
+                OnFailedToAddCombo?.Invoke("Max combo in deck");
+                return;
+            }
+
+            _deck.AddCombo(comboInstance);
+            
+            if (_deckValidator.Valid(_deck,out string failedMassage))
+            {
+                _deck.RemoveCombo(comboInstance);
+                OnFailedToAddCombo?.Invoke(failedMassage);
+                return;
+            }
+
+            if (_comboCollectionDataHandler.TryRemoveComboCollection(comboInstance.CoreID))
+            {
+                //_deck.AddCombo(comboInstance);
+                OnSuccessfulComboAdd?.Invoke(comboInstance);
+            }
+        }
+
+        private void TryRemoveCardFromDeck(CardCore cardCore)
+        {
+            if (_deck.FindCardData(cardCore.CardID,out CardInstance cardInstance))
+            {
+                _deck.RemoveCard(cardInstance);
+                _cardsCollectionDataHandler.AddCardInstance(new MetaCardInstanceInfo(cardInstance));
+                OnSuccessfulCardRemove?.Invoke(cardInstance);
+            }
+        }
+
+        private void TryRemoveCombo(ComboCore comboCore)
+        {
+            if (_deck.FindComboData(comboCore.CoreID,out ComboInstance comboInstance))
+            {
+               _comboCollectionDataHandler.AddComboCollection(comboInstance);
+                _deck.RemoveCombo(comboInstance);
+                OnSuccessfulComboRemove?.Invoke(comboInstance);
             }
         }
 

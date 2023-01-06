@@ -31,7 +31,7 @@ namespace CardMaga.MetaData.AccoutData
 
         #endregion
 
-        public MetaCharactersHandler(IReadOnlyList<Character> characters,List<CardInstance> allCards,int mainCharacterIndex)
+        public MetaCharactersHandler(IReadOnlyList<Character> characters,List<CardInstance> allCards,List<ComboInstance> allCombo,int mainCharacterIndex)
         {
             _characterDatas = new Dictionary<int, MetaCharacterData>();
 #if UNITY_EDITOR
@@ -40,7 +40,7 @@ namespace CardMaga.MetaData.AccoutData
             
             foreach (var character in characters)
             {
-                MetaCharacterData data = new MetaCharacterData(character,allCards);
+                MetaCharacterData data = new MetaCharacterData(character,allCards,allCombo);
                 _characterDatas.Add(character.ID,data);
 #if UNITY_EDITOR
                 _characters.Add(data);

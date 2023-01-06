@@ -25,7 +25,6 @@ namespace CardMaga.MetaUI
         {
             _metaComboData = comboData;
             
-            _metaComboData = comboData;
             _comboVisual.Init(comboData.ComboData);
             
             _metaComboData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
@@ -33,12 +32,12 @@ namespace CardMaga.MetaUI
             UpdateVisual();
         }
 
-        public override void TryAddToCollection()
+        public  void TryAddToCollection()
         {
             _metaComboData.AddComboToCollection();
         }
 
-        public override void TryRemoveFromCollection()
+        public  void TryRemoveFromCollection()
         {
             _metaComboData.RemoveComboFromCollection();
         }
@@ -64,7 +63,7 @@ namespace CardMaga.MetaUI
 
             if (_metaComboData.MaxInstants)
             {
-                DisableMins();
+                DisableMinus();
                 return;
             }
         }

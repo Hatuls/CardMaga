@@ -8,90 +8,80 @@ using UnityEngine;
 namespace CardMaga.MetaData.Collection
 {
     [Serializable]
-    public class MetaCollectionCardData : BaseCollectionDataItem, IEquatable<MetaCollectionCardData>,IEquatable<CardInstance>
-    {
-        private const string FAILED_MESSAGE = "FAILED add or remove item"; 
-        public event Action<string> OnFailedAction;
-        public event Action<MetaCollectionCardData> OnTryAddItemToCollection; 
-        public event Action<MetaCollectionCardData> OnTryRemoveItemFromCollection;
+    public class MetaCollectionCardData : BaseCollectionDataItem, IEquatable<MetaCollectionCardData>,IEquatable<CardInstance>, IEquatable<MetaCardInstanceInfo>
+    { 
+        public event Action<CardInstance> OnTryAddItemToCollection; 
+        public event Action<CardCore> OnTryRemoveItemFromCollection;
         public event Action OnSuccessAddOrRemoveFromCollection;
 
+#if UNITY_EDITOR
         [SerializeField, ReadOnly] private string _cardName;
+#endif
         [SerializeField, ReadOnly] private List<MetaCardInstanceInfo> _cardInstances;
-        private int _coreId;
+        private CardCore _cardCore;
 
-        public int CoreId => _coreId;
+        public int CardCoreID => _cardCore.CardID;
         public List<MetaCardInstanceInfo> CardInstances => _cardInstances;
         public override  int NumberOfInstance => _cardInstances.Count;
         
-        public MetaCollectionCardData(CardInstance cardInstance)
+        public MetaCollectionCardData(MetaCardInstanceInfo cardInstance)
         {
-            _coreId = cardInstance.CoreID;//need to chanage
+            _cardCore = cardInstance.CardInstance.GetCardCore();//need to change
 
-            _cardName = cardInstance.CardSO.CardName;
+            _cardName = cardInstance.CardInstance.CardSO.CardName;
             
-            _cardInstances = new List<MetaCardInstanceInfo>();
-            
-            _cardInstances.Add(new MetaCardInstanceInfo(cardInstance));
+            _cardInstances = new List<MetaCardInstanceInfo> { cardInstance };
         }
 
         public void AddCardToCollection()
         {
-            OnTryAddItemToCollection?.Invoke(this);
+            OnTryAddItemToCollection?.Invoke(GetCardInstanceData());
         }
 
         public void RemoveCardFromCollection()
         {
-            OnTryRemoveItemFromCollection?.Invoke(this);
-            RemoveItemFromCollection();
+            OnTryRemoveItemFromCollection?.Invoke(_cardCore);
+        }
+
+        public void SuccessAddOrRemoveFromCollection(CardInstance cardInstance)
+        {
+            OnSuccessAddOrRemoveFromCollection?.Invoke();
         }
         
-        public CardInstance GetCardInstanceData(int instantsId)
+        public MetaCardInstanceInfo GetCardInstanceData(int instantsId)
         {
             if (FindCardInstance(instantsId,out MetaCardInstanceInfo metaCardInstanceInfo))
-                return metaCardInstanceInfo.GetCardData();
+                return metaCardInstanceInfo;
 
             Debug.LogWarning("Card instancesId was not found");
             return null;
         }
 
-        public bool GetUnAssignCard(out CardInstance metaCardData)
+        public bool TryGetMetaCardInstanceInfo(Predicate<MetaCardInstanceInfo> condition ,out MetaCardInstanceInfo[] cardInstances)
         {
-            foreach (var cardInstance in _cardInstances)
-            {
-                if (!cardInstance.InDeck)
-                {
-                    metaCardData = cardInstance.GetCardData();
-                    return true;
-                }
-            }
+            List<MetaCardInstanceInfo> output = _cardInstances.Where(condition.Invoke).ToList();
 
-            metaCardData = null;
+            if (output.Count > 0)
+            {
+                cardInstances = output.ToArray();
+                return true;
+            }
+            
+            cardInstances = null;
             return false;
         }
 
         public CardInstance GetCardInstanceData()
         {
-            return _cardInstances[0].GetCardData();
+            if (_cardInstances[0] == null)
+                return null;
+            
+            return _cardInstances[0].CardInstance;
         }
 
-        public void AddCardInstance(CardInstance cardInstance)
+        public void AddCardInstance(MetaCardInstanceInfo cardInstance)
         {
-            _cardInstances.Add(new MetaCardInstanceInfo(cardInstance));
-        }
-
-        public bool IsCardInDeck(int deckID,out List<MetaCardInstanceInfo> metaCardInstanceInfos)
-        {
-            var output = _cardInstances.Where(instanceInfo => instanceInfo.IsInDeck(deckID)).ToList();
-
-            if (output.Count > 0)
-            {
-                metaCardInstanceInfos = output;
-                return true;
-            }
-
-            metaCardInstanceInfos = null;
-            return false;
+            _cardInstances.Add(cardInstance);
         }
         
         public void RemoveCardInstance(int instanceID)
@@ -122,13 +112,19 @@ namespace CardMaga.MetaData.Collection
         public bool Equals(MetaCollectionCardData other)
         {
             if (ReferenceEquals(null, other)) return false;
-            return CoreId == other.CoreId;
+            return CardCoreID == other.CardCoreID;
         }
 
         public bool Equals(CardInstance other)
         {
             if (ReferenceEquals(null, other)) return false;
-            return CoreId == other.CoreID;
+            return CardCoreID == other.CoreID;
+        }
+
+        public bool Equals(MetaCardInstanceInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            return CardCoreID == other.CoreID;
         }
     }
 }

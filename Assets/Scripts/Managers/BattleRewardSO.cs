@@ -150,8 +150,8 @@
 
 //                if (randomID >= rarityCardCollection.CardsID.Length)
 //                    throw new System.Exception(
-//                        $"BattleRewardSO: CoreId Was bigger than the reward collection for: {rarityCardCollection.CardsID.Length}\nCardID: {randomID}\n Rarity: {(RarityEnum)(index + 1)}");
-//                ushort ComboID = rarityCardCollection.CardsID[randomID];
+//                        $"BattleRewardSO: CardCoreID Was bigger than the reward collection for: {rarityCardCollection.CardsID.Length}\nCardID: {randomID}\n Rarity: {(RarityEnum)(index + 1)}");
+//                ushort CoreID = rarityCardCollection.CardsID[randomID];
 //                // get cards level;
 //                var DropChance = actCardChance.DropChances[index];
 //                var levelChances = DropChance.LevelChances;
@@ -169,7 +169,7 @@
 //                        break;
 //                    }
 //                }
-//                var battleCard = cardFactoryHandler.GetCard(ComboID);
+//                var battleCard = cardFactoryHandler.GetCard(CoreID);
 
 //                rewardCards[i] = cardFactoryHandler.CreateCard(battleCard, (battleCard.CardsMaxLevel < (byte)index) ? (byte)(battleCard.CardsMaxLevel - 1) : (byte)index);
 
@@ -205,7 +205,7 @@
 //                chances[j] = comboChances[j].DropChance;
 //                if (chances[j] > 0)
 //                {
-//                    var ids = comboCollection.GetComboByRarity((RarityEnum)(j + 1)).ComboID;
+//                    var ids = comboCollection.GetComboByRarity((RarityEnum)(j + 1)).CoreID;
 //                    allPossibleCombosIDFromChances.AddRange(ids);
 //                }
 //            }
@@ -254,7 +254,7 @@
 //            //            Debug.LogError("Index Was Not Found - Random Chance was not in any of the rarity chances");
 //            //            combo[i] = null;
 //            //        }
-//            //        ushort[] comboID = comboCollection.GetComboByRarity((RarityEnum)(index + 1)).ComboID;
+//            //        ushort[] comboID = comboCollection.GetComboByRarity((RarityEnum)(index + 1)).CoreID;
 //            //        if (comboID.Length == 0)
 //            //            continue;
 

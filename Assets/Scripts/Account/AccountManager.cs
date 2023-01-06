@@ -217,9 +217,9 @@ namespace Account
 
                 ComboCore[] _startingCombos = new ComboCore[]
                 {
-                    combosIDs.First(x => x.ID == BarrierCombo),
-                    combosIDs.First(x => x.ID == JabCrossCombo),
-                    combosIDs.First(x => x.ID == PushKickCombo),
+                    combosIDs.First(x => x.CoreID == BarrierCombo),
+                    combosIDs.First(x => x.CoreID == JabCrossCombo),
+                    combosIDs.First(x => x.CoreID == PushKickCombo),
                 };
 
                 character.AddNewDeck(cards, _startingCombos);

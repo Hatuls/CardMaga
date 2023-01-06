@@ -20,7 +20,7 @@ namespace CardMaga.MetaData.AccoutData
             _battleComboData = new BattleComboData(_comboSO,_comboCore.Level);
         }
 
-        public int ID => _comboCore.ID;
+        public int CoreID => _comboCore.CoreID;
         public int Level => _comboCore.Level;
         public CardTypeData[] ComboSequence => _comboSO.ComboSequence;
         public ComboSO ComboSO => _comboSO;
@@ -32,12 +32,12 @@ namespace CardMaga.MetaData.AccoutData
             if (other == null)
                 return false;
             
-            return _comboCore.ID == other.ID;
+            return _comboCore.CoreID == other.CoreID;
         }
         
         public bool Equals(int comboCoreId)
         {
-            return _comboCore.ID == comboCoreId;
+            return _comboCore.CoreID == comboCoreId;
         }
     }
 }

@@ -106,7 +106,7 @@ namespace CardMaga.CSV
 
 
 
-            // check if there is id to the battleCard if we found '-' it means there is no need to check the rest of the lines
+            // check if there is coreID to the battleCard if we found '-' it means there is no need to check the rest of the lines
             const int ID = 0;
             if (CheckIfEmpty(cardSO[ID]))
                 return null;
@@ -117,7 +117,7 @@ namespace CardMaga.CSV
             if (cardSO[isCardUpgrade] == "1")
                 return null;
             else if (cardSO[isCardUpgrade] != "0")
-                Debug.LogError($"CoreId {cardSO[ID]} : Coulmne B {isCardUpgrade} value: {cardSO[isCardUpgrade]} is not valid boolean");
+                Debug.LogError($"CardCoreID {cardSO[ID]} : Coulmne B {isCardUpgrade} value: {cardSO[isCardUpgrade]} is not valid boolean");
 
 
 
@@ -166,7 +166,7 @@ namespace CardMaga.CSV
             if (int.TryParse(cardSO[RarityLevel], out int RarityInt))
                 card.Rarity = (RarityEnum)RarityInt;
             else
-                Debug.Log($"CoreId {cardSO[ID]} : Coulmne S ({RarityLevel}) Rarity is not an int!");
+                Debug.Log($"CardCoreID {cardSO[ID]} : Coulmne S ({RarityLevel}) Rarity is not an int!");
 
 
             //Cameras
@@ -191,7 +191,7 @@ namespace CardMaga.CSV
                     if (CheckIfEmpty(camerasNames[j]))
                         break;
 
-                    CameraIdentification camID = Resources.Load<CameraIdentification>($"Camera/ID/Battle/{camerasNames[j]}");
+                    CameraIdentification camID = Resources.Load<CameraIdentification>($"Camera/CoreID/Battle/{camerasNames[j]}");
                     if (camID == null)
                         throw new Exception($"CSVToCardSO: Could not find Camera Identification from URL in Camera/CoreID/Battle/{camerasNames[j]}");
 
@@ -227,7 +227,7 @@ namespace CardMaga.CSV
 
 
 
-            // id fuses from
+            // coreID fuses from
             string[] idCrafts = cardSO[IDThatCraftMe].Split('&');
             if (idCrafts[0].Equals('0') == false)
             {
@@ -247,7 +247,7 @@ namespace CardMaga.CSV
 
             ushort cost = ushort.TryParse(cardSO[PurchaseCost], out ushort pCost) ? pCost : (ushort)0;
             if (cost == 0)
-                Debug.LogError($"CoreId {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
+                Debug.LogError($"CardCoreID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
             //Upgrade Value
             int cardValue = 0;
@@ -283,7 +283,7 @@ namespace CardMaga.CSV
 
                     cost = ushort.TryParse(getRow[PurchaseCost], out ushort s) ? s : (ushort)0;
                     if (cost == 0)
-                        Debug.LogError($"CoreId {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
+                        Debug.LogError($"CardCoreID {cardSO[ID]} : Coulmne U :({PurchaseCost}) Value:({cardSO[PurchaseCost]}) is not an int OR its less than 0");
 
                     description = GetDescription(getRow[CardDescription]);
 
@@ -305,12 +305,12 @@ namespace CardMaga.CSV
             //if (byte.TryParse(rewardType[0], out byte isBattleReward))
             //    battleCard.IsBattleReward = isBattleReward == 1;
             //else
-            //    throw new Exception($"CardSO : CoreID {battleCard.CoreID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[0]}");
+            //    throw new Exception($"ComboSo : CoreID {battleCard.CoreID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[0]}");
 
             //if (byte.TryParse(rewardType[1], out byte isPackReward))
             //    battleCard.IsPackReward = isPackReward == 1;
             //else
-            //    throw new Exception($"CardSO : CoreID {battleCard.CoreID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[1]}");
+            //    throw new Exception($"ComboSo : CoreID {battleCard.CoreID} doesnt have a valid reward type answer (can only accept 1 or 0)\nRecieved {rewardType[1]}");
 
 
 
@@ -483,22 +483,22 @@ namespace CardMaga.CSV
                                         keywordsDataList.Add(keywordDataCache);
                                     }
                                     else
-                                        Debug.LogError($"CoreId {cardSO[0]} : Coulmne K - Amount Is not an integer!");
+                                        Debug.LogError($"CardCoreID {cardSO[0]} : Coulmne K - Amount Is not an integer!");
 
                                 }
                                 else
-                                    Debug.LogError($"CoreId {cardSO[0]} : Coulmne L - Animation Index Is not an integer!");
+                                    Debug.LogError($"CardCoreID {cardSO[0]} : Coulmne L - Animation Index Is not an integer!");
                             }
 
                         }
                         else
-                            Debug.LogError($"CoreId {cardSO[0]} : Coulmne M {STarget[i]}- Target Is not an integer!");
+                            Debug.LogError($"CardCoreID {cardSO[0]} : Coulmne M {STarget[i]}- Target Is not an integer!");
                     }
                     else
-                        Debug.LogError($"CoreId {cardSO[0]} : Coulmne J {SSeperationAmountKeywords[i]} - Seperation Amount Keywords Is not an integer!");
+                        Debug.LogError($"CardCoreID {cardSO[0]} : Coulmne J {SSeperationAmountKeywords[i]} - Seperation Amount Keywords Is not an integer!");
                 }
                 else
-                    Debug.LogError($"CoreId {cardSO[0]} : Coulmne I {SKeywordsType[i]} - KeywordType Is not an integer");
+                    Debug.LogError($"CardCoreID {cardSO[0]} : Coulmne I {SKeywordsType[i]} - KeywordType Is not an integer");
 
             }
 

@@ -20,7 +20,7 @@ namespace CardMaga.ValidatorSystem
 
         public bool Valid(T obj,out string failedMassage)
         {
-            if (_validatorConditions == null)
+            if (_validatorConditions == null || _validatorConditions.Count == 0)
             {
                 failedMassage = String.Empty;
                 return true;

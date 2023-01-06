@@ -86,10 +86,10 @@ namespace CardMaga.CSV
 
 
                 if (!int.TryParse(cardIDText[0], out int cardID))
-                    throw new Exception($"CSVToCardsPackReward: specific BattleCard id not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
+                    throw new Exception($"CSVToCardsPackReward: specific BattleCard coreID not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
 
                 if (!int.TryParse(cardIDText[1], out int cardLevelID))
-                    throw new Exception($"CSVToCardsPackReward: specific BattleCard id not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
+                    throw new Exception($"CSVToCardsPackReward: specific BattleCard coreID not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
 
                 cores.Add(cardID + cardLevelID);
 

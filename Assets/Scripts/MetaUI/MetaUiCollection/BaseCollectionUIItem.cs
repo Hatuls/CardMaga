@@ -1,5 +1,5 @@
-using System;
 using CardMaga.Input;
+using CardMaga.MetaData.Collection;
 using CardMaga.UI;
 using UnityEngine;
 
@@ -7,22 +7,12 @@ namespace CardMaga.MetaUI.CollectionUI
 {
     public abstract class BaseCollectionUIItem : BaseUIElement
     {
-        [SerializeField] private DisableButton _minsButton;
+        [SerializeField] private DisableButton _minusButton;
         [SerializeField] private DisableButton _plusButton;
 
-        public virtual void TryAddToCollection()
+        protected void DisableMinus()
         {
-           
-        }
-
-        public virtual void TryRemoveFromCollection()
-        {
-            
-        }
-
-        protected void DisableMins()
-        {
-            _minsButton.Disable();
+            _minusButton.Disable();
         }
 
         protected void DisablePlus()
@@ -32,11 +22,17 @@ namespace CardMaga.MetaUI.CollectionUI
 
         protected void Enable()
         {
-            _minsButton.Enable();
+            _minusButton.Enable();
             _plusButton.Enable();
         }
 
         protected abstract void SuccessAddOrRemoveCollection();
         
+    }
+
+    public interface ICollectionButtonsBehavior
+    {
+        void OnPlusPress(MetaCollectionCardData cardData);
+        void OnMinusPress(MetaCollectionCardData cardData);
     }
 }
