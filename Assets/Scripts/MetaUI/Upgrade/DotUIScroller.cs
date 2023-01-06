@@ -1,14 +1,18 @@
 ﻿using CardMaga.Input;
+using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CardMaga.Meta.Upgrade
 {
     public class DotUIScroller : MonoBehaviour
     {
+        public event Action<int> OnDotClicked;
         [SerializeField]
-        private CardMaga.Input.Button[] _dotsImages;
+        private Button[] _dotsButton;
+        [SerializeField]
+        private Dot[] _dotsUI;
 
-       
 
         [SerializeField] UpgradeCardMover _upgradeCardMover;
         [SerializeField] UpgradeCardsDisplayer _upgradeCardsDisplayer;
@@ -24,20 +28,38 @@ namespace CardMaga.Meta.Upgrade
         private float _scaleWhenUnPressed;
         private void OnEnable()
         {
+
             _upgradeCardsDisplayer.OnItemsIndexChanged += SetCurrentElement;
             _upgradeCardsDisplayer.OnItemCountChanged += AdjustDotsToSize;
+            InitDots();
 
-            for (int i = 0; i < _dotsImages.Length; i++)
+        }
+
+        private void InitDots()
+        {
+            _dotsUI = new Dot[_dotsButton.Length];
+            for (int i = 0; i < _dotsButton.Length; i++)
             {
-                _dotsImages[i].ButtonVisualBehaviour = new ChangeColorOnButtonLogic(_colorWhenPressed, _colorWhenUnPressed, _scaleWhenPressed, _scaleWhenUnPressed);
-                _dotsImages[i].ButtonVisualBehaviour.VisualOnButtonUnPress(_dotsImages[i]);
+                Button button = _dotsButton[i];
+                Dot dot = new Dot(button, i);
+                button.ButtonVisualBehaviour = new ChangeColorOnButtonLogic(_colorWhenPressed, _colorWhenUnPressed, _scaleWhenPressed, _scaleWhenUnPressed);
+                button.ButtonVisualBehaviour.VisualOnButtonUnPress(button);
+                button.UnLock();
+                dot.OnDotPressed += DotPressed;
+                _dotsUI[i] = dot;
             }
         }
+
+        private void DotPressed(int index)
+                    => _upgradeCardsDisplayer.SetView(index);
+
         private void OnDisable()
         {
             _upgradeCardsDisplayer.OnItemsIndexChanged -= SetCurrentElement;
             _upgradeCardsDisplayer.OnItemCountChanged -= AdjustDotsToSize;
 
+            for (int i = 0; i < _dotsUI.Length; i++)
+                _dotsUI[i].OnDotPressed -= DotPressed;
         }
         public void Init(int maxElements, int currentElement)
         {
@@ -47,7 +69,7 @@ namespace CardMaga.Meta.Upgrade
 
         public void SetCurrentElement(int currentElement)
         {
-            if (currentElement < 0 || currentElement >= _dotsImages.Length)
+            if (currentElement < 0 || currentElement >= _dotsUI.Length)
                 return;
             _currentFocusedIndex = currentElement;
             Focus();
@@ -56,29 +78,54 @@ namespace CardMaga.Meta.Upgrade
         => SetCurrentElement(_currentFocusedIndex + 1);
         public void MoveOneLeft()
         => SetCurrentElement(_currentFocusedIndex - 1);
-        private void Focus()
+        private async void Focus()
         {
 
-            for (int i = 0; i < _dotsImages.Length; i++)
-            {
 #if UNITY_EDITOR
-                _dotsImages[i].ButtonVisualBehaviour = new ChangeColorOnButtonLogic(_colorWhenPressed, _colorWhenUnPressed, _scaleWhenPressed, _scaleWhenUnPressed);
+            if (_dotsUI == null || _dotsUI.Length == 0)
+                InitDots();
 #endif
+            await Task.Yield();
+
+            for (int i = 0; i < _dotsUI.Length; i++)
+            {
+                Button button = _dotsUI[i].Button;
 
                 if (i == _currentFocusedIndex)
-                    _dotsImages[i].ButtonVisualBehaviour.VisualOnButtonPress(_dotsImages[i]);
+                    button.ButtonVisualBehaviour.VisualOnButtonPress(button);
                 else
-                    _dotsImages[i].ButtonVisualBehaviour.VisualOnButtonUnPress(_dotsImages[i]);
+                    button.ButtonVisualBehaviour.VisualOnButtonUnPress(button);
             }
 
         }
 
         private void AdjustDotsToSize(int dotsNeeded)
         {
-            for (int i = 0; i < _dotsImages.Length; i++)
-                _dotsImages[i].gameObject.SetActive(i < dotsNeeded);
+            for (int i = 0; i < _dotsUI.Length; i++)
+                _dotsUI[i].Button.gameObject.SetActive(i < dotsNeeded);
         }
 
 
+
+    }
+  
+    public class Dot
+    {
+        public event Action<int> OnDotPressed;
+        private Button _button;
+        public Button Button =>_button;
+        private int _level;
+        public Dot(Button button, int index)
+        {
+            this._button = button;
+            this._level = index;
+            _button.OnClick += OnClick;
+        }
+
+        ~Dot()
+        {
+            _button.OnClick -= OnClick;
+        }
+        private void OnClick() => OnDotPressed?.Invoke(_level);
     }
 }

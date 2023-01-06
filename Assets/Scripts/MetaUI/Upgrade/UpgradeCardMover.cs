@@ -1,5 +1,4 @@
-﻿using DG.Tweening;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 namespace CardMaga.Meta.Upgrade
@@ -12,6 +11,10 @@ namespace CardMaga.Meta.Upgrade
         public event Action<float> OnSwipingRight;
         public event Action OnSwipeExecuted;
 
+        public event Action OnSwipeRightAtMaxSwipe;
+        public event Action OnSwipeRightAtMaxSwipeFinished;
+
+
         [SerializeField]
         private SwipeTerminal _swipeTerminal;
         [SerializeField]
@@ -22,13 +25,14 @@ namespace CardMaga.Meta.Upgrade
         private Vector3 _startPosition;
         private Vector3 _leftPosition;
         private Vector3 _rightPosition;
-    
+
         [SerializeField, Tooltip("The precentage to call swipe success"), Range(0f, 1f)]
         private float _swipeDistanceSuccess;
         [SerializeField, ReadOnly]
         private bool _isSwipeRight;
         [SerializeField, ReadOnly]
         private bool _isSwipeSucceded;
+        private bool _isAtMaxDistance;
 
         [SerializeField, ReadOnly]
         private float _swipeDistanceToChangeLocations;
@@ -73,9 +77,22 @@ namespace CardMaga.Meta.Upgrade
             float distance = _rightPosition.x - _middlePosition.position.x;
             // Debug.Log("! " + obj.SwipeDistance + _startPosition.x);
             if (swipeDistance < HalfScreenSize)
-                OnSwipingRight?.Invoke(-swipeDistance); // Need to check this****
-
-                _middlePosition.position = _startPosition + swipeDistance * Vector3.right;
+            {
+                OnSwipingRight?.Invoke(-swipeDistance);
+                if (_isAtMaxDistance)
+                {
+                    _isAtMaxDistance = false;
+                    //Deactivate the one to the right
+                    OnSwipeRightAtMaxSwipeFinished.Invoke();
+                }
+            }
+            else if (swipeDistance == HalfScreenSize)
+            {
+                _isAtMaxDistance = true;
+                OnSwipeRightAtMaxSwipe.Invoke();
+                // Activate the Right Next
+            }
+            _middlePosition.position = _startPosition + swipeDistance * Vector3.right;
             //_cardsContainer.DOMoveX(_startPosition.x + obj.SwipeDistance, Time.deltaTime);
         }
         private void MoveLeft(SwipeData obj)
@@ -83,11 +100,11 @@ namespace CardMaga.Meta.Upgrade
             _isSwipeRight = false;
             _isSwipeSucceded = obj.SwipeDistance > _swipeDistanceToChangeLocations;
 
-            if(obj.SwipeDistance < HalfScreenSize)
-                OnSwipingLeft?.Invoke(obj.SwipeDistance); //need to check this **
-            
-            _middlePosition.position = _startPosition - obj.SwipeDistance*Vector3.right;
-              //  _cardsContainer.DOMoveX(_startPosition.x - obj.SwipeDistance, Time.deltaTime);
+            if (obj.SwipeDistance < HalfScreenSize)
+                OnSwipingLeft?.Invoke(obj.SwipeDistance);
+
+            _middlePosition.position = _startPosition - obj.SwipeDistance * Vector3.right;
+            //  _cardsContainer.DOMoveX(_startPosition.x - obj.SwipeDistance, Time.deltaTime);
         }
 
 
@@ -100,11 +117,12 @@ namespace CardMaga.Meta.Upgrade
                     OnSwipeRightIsAtMaxValue?.Invoke();
                 else
                     OnSwipeLeftExecuted?.Invoke();
+                _isSwipeSucceded = false;
             }
-            OnSwipeExecuted?.Invoke();
-       //     ResetCardPosition();
+                OnSwipeExecuted?.Invoke();
+            //     ResetCardPosition();
         }
-   //     private void ResetCardPosition() => _cardsContainer.DOMoveX(_startPosition.x, _resetDelayTime, true);
+        //     private void ResetCardPosition() => _cardsContainer.DOMoveX(_startPosition.x, _resetDelayTime, true);
 
         //private void OnDrawGizmos()
         //{

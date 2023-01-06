@@ -43,7 +43,7 @@ namespace Factory
         public ComboFactory ComboFactoryHandler { get; private set; }
         public CardFactory CardFactoryHandler { get; private set; }
         public CharacterFactory CharacterFactoryHandler { get; private set; }
-        public RewardFactory RewardFactoryHandler { get; private set; }
+     //   public RewardFactory RewardFactoryHandler { get; private set; }
         public KeywordFactory KeywordFactoryHandler { get; private set; }
 
 
@@ -64,20 +64,7 @@ namespace Factory
             OnFactoryFinishedLoading?.Invoke();
         }
 
-        public class RewardFactory
-        {
-            // public BattleRewardCollectionSO BattleRewardCollection { get; private set; }
-            // public RewardFactory(BattleRewardCollectionSO battleRewardCollectionSO)
-            // {
-            //     BattleRewardCollection = battleRewardCollectionSO;
-            // }
-
-            // public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Battle.Combo.ComboData> workOnCombo)
-            //=> BattleRewardCollection.GetReward(characterTypeEnum, act, workOnCombo);
-
-            // public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
-            //     => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
-        }
+     
 
         public class CharacterFactory
         {

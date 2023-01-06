@@ -55,6 +55,7 @@ namespace CardMaga.Meta.Upgrade
         }
         private void OnDisable()
         {
+            
             _upgradeCardMover.OnSwipeExecuted -= SetPositionAndScale;
             _upgradeCardMover.OnSwipeRightIsAtMaxValue -= MoveOneToTheRight;
             _upgradeCardMover.OnSwipingRight -= MoveAllCards;
@@ -74,19 +75,20 @@ namespace CardMaga.Meta.Upgrade
             SetView(cardInstance.Level);
         }
 
-        private void SetView(int level)
+        public void SetView(int level)
         {
             _currentMiddleObjectIndex = level;
-            OnItemsIndexChanged?.Invoke(level);
-            SetPositionAndScale();
-            ZoomIn();
+            AdjustPositions(_currentMiddleObjectIndex);
+            ScaleAndZoom(_currentMiddleObjectIndex);
+            OnItemsIndexChanged?.Invoke(_currentMiddleObjectIndex);
         }
 
-        private void ZoomIn()
+        private void ZoomIn(int index)
         {
             if(_zoomToken!=null)
                 _zoomToken.Dispose();
-            _zoomToken =  _itemsDataList[_currentMiddleObjectIndex].CardUI.CardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine?.GetToken();
+
+            _zoomToken =  _itemsDataList[index].CardUI.CardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine?.GetToken();
         }
 
         private void SetPositionAndScale()
@@ -95,7 +97,11 @@ namespace CardMaga.Meta.Upgrade
             AdjustScale(_currentMiddleObjectIndex);
             
         }
-
+        private void ScaleAndZoom(int currentObject)
+        {
+            AdjustScale(currentObject);
+            ZoomIn(currentObject);
+        }
         private void MoveAllCards(float amount)
         {
             for (int i = 0; i < _itemsDataList.Count; i++)

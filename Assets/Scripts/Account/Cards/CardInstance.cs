@@ -24,7 +24,7 @@ namespace Account.GeneralData
         public CardSO CardSO => _coreData.CardSO;
         public int Level { get => _coreData.Level; }
         public int InstanceID { get => _instanceID; }
-        public bool IsMaxLevel => CardSO.CardsMaxLevel == Level;
+        public bool IsMaxLevel => CardsMaxLevel-1 == Level;
         [ReadOnly,ShowInInspector]
         public int CardsMaxLevel => CardSO.CardsMaxLevel;
 

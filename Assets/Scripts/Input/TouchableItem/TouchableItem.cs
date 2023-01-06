@@ -85,7 +85,7 @@ namespace CardMaga.Input
         #endregion
 
         #region EventCallBack
-
+        [ContextMenu("Input/Click")]
         protected virtual void Click()
         {
             if (DisableClick)
