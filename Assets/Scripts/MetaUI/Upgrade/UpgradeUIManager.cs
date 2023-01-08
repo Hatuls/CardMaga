@@ -106,65 +106,101 @@ namespace CardMaga.Meta.Upgrade
     [Serializable]
     public class UpgradeCostHandler
     {
-        private const string MAXED_OUT = "Maxed Level!";
+
         private const string SLASH = " / ";
 
+
         [SerializeField]
-        private Slider _slider;
+        GameObject _maxedOutContainer;
         [SerializeField]
-        private TextMeshProUGUI _text;
+        GameObject _hasLevelsContainer;
+
+        [SerializeField]
+        private TextMeshProUGUI _chipText;
+
+        [SerializeField]
+        private TextMeshProUGUI _goldText;
         [SerializeField]
         private CurrencyPerRarityCostSO _cardUpgradeCostSO;
 
         [SerializeField]
         private Input.Button _upgradeBtn;
 
-        StringBuilder _stringBuilder = new StringBuilder();
+        [SerializeField]
+        private Color _hasAmountColor;
+        [SerializeField]
+        private Color _noAmountColor;
 
-
+        private StringBuilder _stringBuilder = new StringBuilder();
+        public CurrencyPerRarityCostSO CardUpgradeCostSO
+        {
+            get
+            {
+                if (_cardUpgradeCostSO == null)
+                    _cardUpgradeCostSO = Resources.Load<CurrencyPerRarityCostSO>("MetaGameData/UpgradeCostSO");
+                return _cardUpgradeCostSO;
+            } 
+        }
         public void Init(CardInstance currentCard)
         {
             var cardCore = currentCard.GetCardCore();
             if (!currentCard.IsMaxLevel)
             {
-                if(_cardUpgradeCostSO==null)
-                    _cardUpgradeCostSO = Resources.Load<CurrencyPerRarityCostSO>("MetaGameData/UpgradeCostSO");
-                var chipCosts = _cardUpgradeCostSO.GetCardCostPerCurrencyAndCardCore(cardCore, Rewards.CurrencyType.Chips);
-                var goldCosts = _cardUpgradeCostSO.GetCardCostPerCurrencyAndCardCore(cardCore, Rewards.CurrencyType.Gold);
+                var chipCosts = CardUpgradeCostSO.GetCardCostPerCurrencyAndCardCore(cardCore, Rewards.CurrencyType.Chips);
+                var goldCosts = CardUpgradeCostSO.GetCardCostPerCurrencyAndCardCore(cardCore, Rewards.CurrencyType.Gold);
+                EnableBottomPart();
+
                 InitBottomPart(Convert.ToInt32(chipCosts.Amount), Convert.ToInt32(goldCosts.Amount));
             }
             else
                 DisableBottomPart();
         }
-
+        private void EnableBottomPart()
+        {
+            _maxedOutContainer.SetActive (false);
+            _hasLevelsContainer.SetActive(true);
+        }
         private void DisableBottomPart()
         {
-            _text.text = MAXED_OUT;
-            _slider.gameObject.SetActive(false);
-            _upgradeBtn.DisableClick = true;
+            _maxedOutContainer.SetActive(true);
+            _hasLevelsContainer.SetActive(false);
         }
 
         private void InitBottomPart(int chipCosts, int goldCost) // need to add gold visuals...
         {
-            // Settings the slider
-            if (!_slider.gameObject.activeSelf)
-                _slider.gameObject.SetActive(true);
-            //Slider
+
+        
             int currentAmount = 0;
+            int spriteIndex = 0;
             if (!ReferenceEquals(AccountManager.Instance, null))
                 currentAmount = AccountManager.Instance.Data.AccountResources.Chips;
-            _slider.maxValue = chipCosts;
-            _slider.value = chipCosts * Mathf.Min(currentAmount / chipCosts, 1);
-
             // Set Text
-            _stringBuilder.Append(currentAmount);
-            _stringBuilder.Append(SLASH);
-            _stringBuilder.Append(chipCosts);
-            _text.text = _stringBuilder.ToString();
-            _stringBuilder.Clear();
+            AssignText(_chipText, currentAmount, chipCosts, spriteIndex);
+
+            if (!ReferenceEquals(AccountManager.Instance, null))
+                currentAmount = AccountManager.Instance.Data.AccountResources.Gold;
+
+            spriteIndex++;
+            // Set Text
+            AssignText(_goldText, currentAmount, goldCost, spriteIndex++);
+            // Set);
+
+
+
 
             //Enable Inputs
             _upgradeBtn.DisableClick = false;
+        }
+
+        private void AssignText(TextMeshProUGUI text, int currentAmount,int maxAmount,int spriteIndex)
+        {
+            Color clr = currentAmount < maxAmount ? _noAmountColor : _hasAmountColor;
+            string stringText = currentAmount.ToString().ToBold().ColorString(clr).AddImageInFrontOfText(spriteIndex);
+            _stringBuilder.Append(stringText);
+            _stringBuilder.Append(SLASH);
+            _stringBuilder.Append(maxAmount);
+            text.text = _stringBuilder.ToString();
+            _stringBuilder.Clear();
         }
     }
 
