@@ -121,7 +121,7 @@ namespace CardMaga.MetaData.DeckBuilding
                 return;
             }
             
-            _deck.AddCard(cardInstance);// plaster
+            _deck.AddCard(cardInstance);
             
             if (!_deckValidator.Valid(_deck,out string failedMassage))
             {
