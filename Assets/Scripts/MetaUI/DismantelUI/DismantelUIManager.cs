@@ -1,4 +1,5 @@
-﻿using CardMaga.MetaData.Dismantle;
+﻿using System;
+using CardMaga.MetaData.Dismantle;
 using CardMaga.MetaUI;
 using CardMaga.MetaUI.DismantelUI;
 using CardMaga.ObjectPool;
@@ -17,14 +18,16 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
 
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
-        _collectionHandler?.Init();
+        _collectionHandler.Init();
         _dismantleDataManager = data.MetaDataManager.DismantleDataManager;
 
         _dismantleDataManager.OnCardAddToDismantel += UpdateVisual;
     }
 
-    private void OnEnable()
+    public override void OpenScreen()
     {
+        base.OpenScreen();
+        _dismantleDataManager.SetCardCollection();
         _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
     }
 
@@ -33,11 +36,18 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
         _dismantelCurrencyUI.UpdateText(chipsAmount);
     }
 
-    public void ExitDismantelScreen()
+    public void ConfirmDismantleCards()
     {
-        _dismantleDataManager.Dispose();//temp
+        _dismantleDataManager.ConfirmDismantleCards();
+        UpdateVisual(0,0);
+    }
+
+    public void ExitDismantleScreen()
+    {
+        _collectionHandler.UnLoadObjects();
         _dismantleDataManager.OnCardAddToDismantel -= UpdateVisual;
-        _dismantleDataManager.ResetDismantelCard();
+        _dismantleDataManager.ResetDismantleCard();
+        _dismantleDataManager.Dispose();//temp
         CloseScreen();
     }
 }

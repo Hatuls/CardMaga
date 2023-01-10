@@ -7,7 +7,7 @@ namespace CardMaga.MetaData.Collection
     {
         #region Fields
 
-        private readonly int _maxInstants;
+        protected int _maxInstants = 0;
         
         #endregion
 

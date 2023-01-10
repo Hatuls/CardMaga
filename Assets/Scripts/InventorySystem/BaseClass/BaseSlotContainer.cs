@@ -99,8 +99,9 @@ namespace CardMaga.InventorySystem
             {
                 baseSlot.RemoveValue();
             }
+            else
+                Debug.LogWarning( typeof(T).Name + "Not in the container " + this);
 
-            Debug.LogWarning( typeof(T).Name + "Not in the container " + this);
         }
 
         #region FindCollectionObject

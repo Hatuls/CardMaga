@@ -15,7 +15,7 @@ namespace CardMaga.MetaUI
         public event Action<MetaUIManager> OnMetaUIManagerDestroyed;
 
         [SerializeField] private MetaDataManager _metaDataManager;
-        [SerializeField] private MetaDeckBuildingUIManager _metaDeckBuildingUIManager;
+        [SerializeField] private MetaDeckEditingUIManager metaDeckEditingUIManager;
         [SerializeField] private MetaCharacterScreenUIManager _metaCharacterScreenUIManager;
         [SerializeField] private DismantelUIManager _dismantelUIManager;
         [SerializeField] private UpgradeUIManager _upgradeUIManager;
@@ -26,7 +26,7 @@ namespace CardMaga.MetaUI
 
         public int Priority => 1;
 
-        public MetaDeckBuildingUIManager MetaDeckBuildingUIManager => _metaDeckBuildingUIManager;
+        public MetaDeckEditingUIManager MetaDeckEditingUIManager => metaDeckEditingUIManager;
         public MetaCharacterScreenUIManager MetaCharacterScreenUIManager => _metaCharacterScreenUIManager;
         public DismantelUIManager DismantelUIManager => _dismantelUIManager;
         public MetaDataManager MetaDataManager => _metaDataManager;
@@ -37,7 +37,7 @@ namespace CardMaga.MetaUI
             get
             {
                 yield return _upgradeUIManager;
-                yield return _metaDeckBuildingUIManager;
+                yield return metaDeckEditingUIManager;
                 yield return _metaCharacterScreenUIManager;
                 yield return _dismantelUIManager;
 
@@ -85,7 +85,7 @@ namespace CardMaga.MetaUI
         [Sirenix.OdinInspector.Button]
         private void TryAssignReferences()
         {
-            _metaDeckBuildingUIManager = FindObjectOfType<MetaDeckBuildingUIManager>();
+            metaDeckEditingUIManager = FindObjectOfType<MetaDeckEditingUIManager>();
             _metaCharacterScreenUIManager = FindObjectOfType<MetaCharacterScreenUIManager>();
             _dismantelUIManager = FindObjectOfType<DismantelUIManager>();
             _upgradeUIManager = FindObjectOfType<UpgradeUIManager>();

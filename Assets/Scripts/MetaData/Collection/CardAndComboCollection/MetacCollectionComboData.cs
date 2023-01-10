@@ -63,8 +63,6 @@ namespace CardMaga.MetaData.Collection
         {
             if (FindComboInstance(instanceID,out MetaComboInstanceInfo comboInstance))
                 _comboInstanceInfos.Remove(comboInstance);
-
-            Debug.LogWarning("Card InstanceInfo Was not found");
         }
         
         public bool TryGetMetaComboInstanceInfo(Predicate<MetaComboInstanceInfo> condition ,out MetaComboInstanceInfo[] comboInstance)

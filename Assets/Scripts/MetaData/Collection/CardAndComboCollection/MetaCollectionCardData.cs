@@ -30,7 +30,17 @@ namespace CardMaga.MetaData.Collection
 
             _cardName = cardInstance.CardInstance.CardSO.CardName;
             
-            _cardInstances = new List<MetaCardInstanceInfo> { cardInstance };
+            _cardInstances = new List<MetaCardInstanceInfo>();
+            
+            AddCardInstance(cardInstance);
+        }
+
+        public MetaCollectionCardData(List<MetaCardInstanceInfo> instanceInfos)
+        {
+            _cardCore = instanceInfos[0].CardInstance.GetCardCore();
+            _cardName = instanceInfos[0].CardInstance.CardSO.CardName;
+            _cardInstances = instanceInfos;
+            _maxInstants = _cardInstances.Count;
         }
 
         public void AddCardToCollection()
@@ -78,10 +88,31 @@ namespace CardMaga.MetaData.Collection
             
             return _cardInstances[0].CardInstance;
         }
+        
+        private List<MetaCardInstanceInfo> GetCardInstanceInfoDataCopy()
+        {
+            List<MetaCardInstanceInfo> output = new List<MetaCardInstanceInfo>(_cardInstances.Count);
+            
+            output.AddRange(_cardInstances.Select(instanceInfo => new MetaCardInstanceInfo(instanceInfo.CardInstance,instanceInfo.AssociateDeck)));
+
+            return output;
+        }
+
+        public MetaCollectionCardData GetCopy()
+        {
+            List<MetaCardInstanceInfo> cache = new List<MetaCardInstanceInfo>(_cardInstances.Count);
+            
+            cache.AddRange(_cardInstances.Select(instanceInfo => new MetaCardInstanceInfo(instanceInfo.CardInstance,instanceInfo.AssociateDeck)));
+            
+             return new MetaCollectionCardData(cache);
+        }
 
         public void AddCardInstance(MetaCardInstanceInfo cardInstance)
         {
             _cardInstances.Add(cardInstance);
+
+            if (_maxInstants < _cardInstances.Count)
+                _maxInstants = _cardInstances.Count;
         }
         
         public void RemoveCardInstance(int instanceID)
@@ -89,10 +120,8 @@ namespace CardMaga.MetaData.Collection
             if (FindCardInstance(instanceID,out MetaCardInstanceInfo cardInstanceInfo))
             {
                 _cardInstances.Remove(cardInstanceInfo);
-                cardInstanceInfo.Dispose();
+                //cardInstanceInfo.Dispose();
             }
-
-            Debug.LogWarning("Card InstanceInfo Was not found");
         }
 
         public bool FindCardInstance(int instanceId,out MetaCardInstanceInfo cardInstanceInfo)

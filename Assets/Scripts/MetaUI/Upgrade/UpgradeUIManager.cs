@@ -40,20 +40,20 @@ namespace CardMaga.Meta.Upgrade
             Hide();
             _inputBehaviour = new InputBehaviour<BattleCardUI>();
             _inputBehaviour.OnClick += SetCurrentCard;
-            data.MetaDeckBuildingUIManager.OnDeckBuildingInitiate += AssignInputsBehaviourToDeckBuilding;
+            data.MetaDeckEditingUIManager.OnDeckBuildingInitiate += AssignInputsBehaviourToDeckBuilding;
         }
 
         private void BeforeDestroyed(MetaUIManager data)
         {
             data.OnMetaUIManagerDestroyed -= BeforeDestroyed;
             _inputBehaviour.OnClick -= SetCurrentCard;
-            data.MetaDeckBuildingUIManager.OnDeckBuildingInitiate -= AssignInputsBehaviourToDeckBuilding;
+            data.MetaDeckEditingUIManager.OnDeckBuildingInitiate -= AssignInputsBehaviourToDeckBuilding;
         }
 
-        private void AssignInputsBehaviourToDeckBuilding(MetaDeckBuildingUIManager metaDeckBuildingUIManager)
+        private void AssignInputsBehaviourToDeckBuilding(MetaDeckEditingUIManager metaDeckEditingUIManager)
         {
-            var cardsInDeck = metaDeckBuildingUIManager.InDeckCardsUI;
-            var cardsInCollection = metaDeckBuildingUIManager.InCollectionCardsUI;
+            var cardsInDeck = metaDeckEditingUIManager.InDeckCardsUI;
+            var cardsInCollection = metaDeckEditingUIManager.InCollectionCardsUI;
 
 
             foreach (CardUIInputHandler item in Inputs())

@@ -17,6 +17,7 @@ namespace CardMaga.MetaData.Collection
 
         public CardsCollectionDataHandler()
         {
+            _collectionCardDatas = new List<MetaCollectionCardData>();
         }
 
         public CardsCollectionDataHandler(List<MetaCollectionCardData> cardDatas)
@@ -95,8 +96,8 @@ namespace CardMaga.MetaData.Collection
                     
                     metaCollectionCardData.RemoveCardInstance(cardInstanceInfo.InstanceID);
 
-                    //if (metaCollectionCardData.NumberOfInstance == 0)
-                      //  _collectionCardDatas.Remove(metaCollectionCardData);//
+                    if (metaCollectionCardData.NumberOfInstance == 0)
+                        _collectionCardDatas.Remove(metaCollectionCardData);
 
                     return true;
                 }
@@ -150,10 +151,40 @@ namespace CardMaga.MetaData.Collection
             return false;
         }
 
+        public void AddDeckAssociate(CardInstance cardInstance, int deckId)
+        {
+            foreach (var metaCollectionCardData in _collectionCardDatas)
+            {
+                if (metaCollectionCardData.Equals(cardInstance))
+                {
+                    if (metaCollectionCardData.FindCardInstance(cardInstance.InstanceID,
+                            out MetaCardInstanceInfo metaCardInstanceInfo))
+                    {
+                        metaCardInstanceInfo.AddToDeck(deckId);
+                    }
+                }
+            }
+        }
+        
+        public void RemoveDeckAssociate(CardInstance cardInstance, int deckId)
+        {
+            foreach (var metaCollectionCardData in _collectionCardDatas)
+            {
+                if (metaCollectionCardData.Equals(cardInstance))
+                {
+                    if (metaCollectionCardData.FindCardInstance(cardInstance.InstanceID,
+                            out MetaCardInstanceInfo metaCardInstanceInfo))
+                    {
+                        metaCardInstanceInfo.RemoveFromDeck(deckId);
+                    }
+                }
+            }
+        }
+
         public List<MetaCollectionCardData> GetCollectionCopy()
         {
             return
-                _collectionCardDatas.Select(cardData => new MetaCollectionCardData(new MetaCardInstanceInfo(cardData.GetCardInstanceData())))
+                _collectionCardDatas.Select(cardData => cardData.GetCopy())
                     .ToList();
         }
     }

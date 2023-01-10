@@ -13,9 +13,9 @@ using UnityEngine.Events;
 
 namespace CardMaga.MetaUI.CollectionUI
 {
-    public class MetaDeckBuildingUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager>
+    public class MetaDeckEditingUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager>
     {
-        public event Action<MetaDeckBuildingUIManager> OnDeckBuildingInitiate;
+        public event Action<MetaDeckEditingUIManager> OnDeckBuildingInitiate;
 
         [SerializeField] private UnityEvent OnExitDeckEditing;
 

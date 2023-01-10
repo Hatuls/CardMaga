@@ -29,6 +29,9 @@ namespace CardMaga.MetaData.DeckBuilding
         private const int MAX_COMBO_IN_DECK = 3;
 
         private MetaDeckData _deck;
+
+        private CardsCollectionDataHandler _originalCardsCollection;
+        private ComboCollectionDataHandler _originalComboCollection;
         
         private CardsCollectionDataHandler _cardsCollectionDataHandler;
         private ComboCollectionDataHandler _comboCollectionDataHandler;
@@ -50,6 +53,9 @@ namespace CardMaga.MetaData.DeckBuilding
         
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
+            _originalCardsCollection = data.AccountDataCollectionHelper.CollectionCardDatasHandler;
+            _comboCollectionDataHandler = data.AccountDataCollectionHelper.CollectionComboDatasHandler;
+            
             _deckValidator = new TypeValidator<MetaDeckData>(_deckValidatorConditions);
             _deckNameValidator = new TypeValidator<string>(_deckNameValidatorConditions);
         }
@@ -133,6 +139,7 @@ namespace CardMaga.MetaData.DeckBuilding
             if (_cardsCollectionDataHandler.TryRemoveCardInstance(cardInstance.InstanceID))
             {
                 //_deck.AddCard(cardInstance);
+                _originalCardsCollection.AddDeckAssociate(cardInstance,_deck.DeckId);
                 OnSuccessfulCardAdd?.Invoke(cardInstance);
             }
         }
@@ -167,6 +174,7 @@ namespace CardMaga.MetaData.DeckBuilding
             {
                 _deck.RemoveCard(cardInstance);
                 _cardsCollectionDataHandler.AddCardInstance(new MetaCardInstanceInfo(cardInstance));
+                _originalCardsCollection.RemoveDeckAssociate(cardInstance,_deck.DeckId);
                 OnSuccessfulCardRemove?.Invoke(cardInstance);
             }
         }

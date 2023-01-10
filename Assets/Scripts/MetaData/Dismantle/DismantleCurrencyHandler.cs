@@ -6,10 +6,9 @@ using UnityEngine;
 
 namespace CardMaga.MetaData.Dismantle
 {
-    [Serializable]
     public class DismantleCurrencyHandler
     {
-        [SerializeField] private CurrencyPerRarityCostSO _costsSo;
+        private CurrencyPerRarityCostSO _costsSo;
         
         private int _chipsCurrency;
         private int _goldCurrency;
@@ -18,6 +17,15 @@ namespace CardMaga.MetaData.Dismantle
 
         public int GoldCurrency => _goldCurrency;
 
+        public DismantleCurrencyHandler()
+        {
+            _chipsCurrency = 0;
+            _goldCurrency = 0;
+            
+            _costsSo = Resources.Load<CurrencyPerRarityCostSO>("MetaGameData/DismentalCostSO");
+            if (_costsSo == null)
+                throw new Exception($"DismantleCurrencyHandler: Could not load upgrade costs from resource folder");
+        }
         
         public void AddCardCurrency(CardInstance cardInstance)
         {

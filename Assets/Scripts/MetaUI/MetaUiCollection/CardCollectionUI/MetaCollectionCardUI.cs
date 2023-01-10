@@ -1,10 +1,7 @@
 using System;
-using CardMaga.Card;
-using CardMaga.Input;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.Tools.Pools;
-using CardMaga.UI;
 using CardMaga.UI.Card;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -61,7 +58,12 @@ namespace CardMaga.MetaUI
             Hide();
             OnDisposed?.Invoke(this);
         }
-        
+
+        private void OnDestroy()
+        {
+            Dispose();
+        }
+
         private void UpdateCardVisual()
         {
             _cardNumberText.text = NumberOfInstant.ToString();

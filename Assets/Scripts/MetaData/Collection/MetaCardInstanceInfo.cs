@@ -20,7 +20,7 @@ namespace CardMaga.MetaData.Collection
         
         public int InstanceID => _cardInstance.InstanceID;
         public int CoreID => _cardInstance.CoreID;
-        public IReadOnlyList<int> AssociateDeck => _associateDeck;
+        public List<int> AssociateDeck => _associateDeck;
         /// <summary>
         /// Is true if the CardInstance is in at least one deck
         /// </summary>
@@ -32,6 +32,12 @@ namespace CardMaga.MetaData.Collection
         {
             _cardInstance = metaCardInstance;
             _associateDeck = new List<int>();
+        }
+        
+        public MetaCardInstanceInfo(CardInstance metaCardInstance,List<int> associateDeck)
+        {
+            _cardInstance = metaCardInstance;
+            _associateDeck = associateDeck;
         }
 
         public void RemoveFromDeck(int deckId)

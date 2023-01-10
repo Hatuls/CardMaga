@@ -18,6 +18,10 @@ namespace CardMaga.MetaData.Collection
         [SerializeField] private CardsCollectionDataHandler _collectionCardDatasHandler;
         [SerializeField] private ComboCollectionDataHandler _collectionComboDatasHandler;
 
+        public CardsCollectionDataHandler CollectionCardDatasHandler => _collectionCardDatasHandler;
+
+        public ComboCollectionDataHandler CollectionComboDatasHandler => _collectionComboDatasHandler;
+
         public List<MetaCollectionCardData> ALlCollectionCardDatas => _collectionCardDatasHandler.CollectionCardDatas;
         public List<MetaCollectionComboData> AllCollectionComboDatas => _collectionComboDatasHandler.CollectionComboDatas;
         
@@ -108,6 +112,5 @@ namespace CardMaga.MetaData.Collection
 
             return output;
         }
-
     }
 }

@@ -12,7 +12,7 @@ public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<Met
 {
     [SerializeField] private MetaCharecterUICollection[] _charectersUI;
     [SerializeField] private UnityEvent OnOpenEditingScreen;
-    private MetaDeckBuildingUIManager _metaDeckBuildingUIManager;
+    private MetaDeckEditingUIManager metaDeckEditingUIManager;
     private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
     
     private MetaCharecterUICollection _mainCharecterUI;
@@ -22,7 +22,7 @@ public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<Met
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
         MetaCharactersHandler metaCharactersHandler = data.MetaDataManager.MetaAccountData.CharacterDatas;
-        _metaDeckBuildingUIManager = data.MetaDeckBuildingUIManager;
+        metaDeckEditingUIManager = data.MetaDeckEditingUIManager;
         foreach (var charecterUICollection in _charectersUI)
         {
             _sequenceHandler.Register(charecterUICollection);
@@ -53,7 +53,7 @@ public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<Met
 
     public void OpenDeckEditScreen()
     {
-        _metaDeckBuildingUIManager.OpenScreen();
+        metaDeckEditingUIManager.OpenScreen();
     }
     public override void OpenScreen()
     {
