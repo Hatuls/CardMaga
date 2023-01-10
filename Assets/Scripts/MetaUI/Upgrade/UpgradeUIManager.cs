@@ -3,25 +3,28 @@ using Account.GeneralData;
 using CardMaga.Input;
 using CardMaga.MetaUI;
 using CardMaga.MetaUI.CollectionUI;
+using CardMaga.Rewards.Bundles;
 using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using CardMaga.UI.Card;
 using ReiTools.TokenMachine;
-using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CardMaga.Meta.Upgrade
 {
 
     public class UpgradeUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager>
     {
+        public event Action<int, int> OnCostAssigned;
+
         [SerializeField]
-        UpgradeCardsDisplayer _upgradeCardsDisplayer;
+        private UpgradeConfirmationScreen _upgradeConfirmationScreen;
+        [SerializeField]
+        private UpgradeCardsDisplayer _upgradeCardsDisplayer;
         [SerializeField]
         private UpgradeCostHandler _upgradeCostHandler;
 
@@ -40,6 +43,8 @@ namespace CardMaga.Meta.Upgrade
             Hide();
             _inputBehaviour = new InputBehaviour<BattleCardUI>();
             _inputBehaviour.OnClick += SetCurrentCard;
+
+            _upgradeCardHandler.OnUpgradeCardCompleted += SetCurrentCard;
             data.MetaDeckBuildingUIManager.OnDeckBuildingInitiate += AssignInputsBehaviourToDeckBuilding;
         }
 
@@ -48,6 +53,7 @@ namespace CardMaga.Meta.Upgrade
             data.OnMetaUIManagerDestroyed -= BeforeDestroyed;
             _inputBehaviour.OnClick -= SetCurrentCard;
             data.MetaDeckBuildingUIManager.OnDeckBuildingInitiate -= AssignInputsBehaviourToDeckBuilding;
+            _upgradeCardHandler.OnUpgradeCardCompleted -= SetCurrentCard;
         }
 
         private void AssignInputsBehaviourToDeckBuilding(MetaDeckBuildingUIManager metaDeckBuildingUIManager)
@@ -58,9 +64,9 @@ namespace CardMaga.Meta.Upgrade
 
             foreach (CardUIInputHandler item in Inputs())
                 item.TrySetInputBehaviour(_inputBehaviour);
-            
 
-            IEnumerable<CardUIInputHandler> Inputs ()
+
+            IEnumerable<CardUIInputHandler> Inputs()
             {
                 foreach (var card in cardsInDeck)
                     yield return card.CardUI.Inputs;
@@ -70,15 +76,38 @@ namespace CardMaga.Meta.Upgrade
             }
         }
 
-       
+
         public void SetCurrentCard(BattleCardUI battlecard)
+        => SetCurrentCard(battlecard.BattleCardData.CardInstance);
+
+
+        private void SetCurrentCard(CardInstance card)
         {
+            _upgradeConfirmationScreen.Close();
             OpenScreen();
-            var card = battlecard.BattleCardData.CardInstance;
+
             _currentCard = card;
             _upgradeCardsDisplayer.InitCards(card);
-            _upgradeCostHandler.Init(_currentCard);
+
+            CurrencyPerRarityCostSO costSo = _upgradeCardHandler.UpgradeCosts;
+            ResourcesCost chipCosts = costSo.GetCardCostPerCurrencyAndCardCore(_currentCard, Rewards.CurrencyType.Chips);
+            ResourcesCost goldCosts = costSo.GetCardCostPerCurrencyAndCardCore(_currentCard, Rewards.CurrencyType.Gold);
+
+            int chipAmount = Convert.ToInt32(chipCosts.Amount);
+            int goldAmount = Convert.ToInt32(goldCosts.Amount);
+            _upgradeCostHandler.Init(_currentCard.IsMaxLevel, chipAmount, goldAmount);
+
+            if (OnCostAssigned != null)
+                OnCostAssigned.Invoke(chipAmount, goldAmount);
         }
+        public void TryOpenUpgradeScreen()
+        {
+            if (_upgradeCardHandler.CanUpgrade(_currentCard))
+                _upgradeConfirmationScreen.Open();
+        }
+        public void Upgrade()
+            => _upgradeCardHandler.TryUpgradeCard(_currentCard);
+
         #region Editor
 
 #if UNITY_EDITOR
@@ -132,32 +161,20 @@ namespace CardMaga.Meta.Upgrade
         private Color _noAmountColor;
 
         private StringBuilder _stringBuilder = new StringBuilder();
-        public CurrencyPerRarityCostSO CardUpgradeCostSO
-        {
-            get
-            {
-                if (_cardUpgradeCostSO == null)
-                    _cardUpgradeCostSO = Resources.Load<CurrencyPerRarityCostSO>("MetaGameData/UpgradeCostSO");
-                return _cardUpgradeCostSO;
-            } 
-        }
-        public void Init(CardInstance currentCard)
-        {
-            var cardCore = currentCard.GetCardCore();
-            if (!currentCard.IsMaxLevel)
-            {
-                var chipCosts = CardUpgradeCostSO.GetCardCostPerCurrencyAndCardCore(cardCore, Rewards.CurrencyType.Chips);
-                var goldCosts = CardUpgradeCostSO.GetCardCostPerCurrencyAndCardCore(cardCore, Rewards.CurrencyType.Gold);
-                EnableBottomPart();
 
-                InitBottomPart(Convert.ToInt32(chipCosts.Amount), Convert.ToInt32(goldCosts.Amount));
+        public void Init(bool isMaxLevel, int chipCost, int goldCost)
+        {
+            if (!isMaxLevel)
+            {
+                EnableBottomPart();
+                InitBottomPart(chipCost, goldCost);
             }
             else
                 DisableBottomPart();
         }
         private void EnableBottomPart()
         {
-            _maxedOutContainer.SetActive (false);
+            _maxedOutContainer.SetActive(false);
             _hasLevelsContainer.SetActive(true);
         }
         private void DisableBottomPart()
@@ -169,7 +186,6 @@ namespace CardMaga.Meta.Upgrade
         private void InitBottomPart(int chipCosts, int goldCost) // need to add gold visuals...
         {
 
-        
             int currentAmount = 0;
             int spriteIndex = 0;
             if (!ReferenceEquals(AccountManager.Instance, null))
@@ -183,16 +199,15 @@ namespace CardMaga.Meta.Upgrade
             spriteIndex++;
             // Set Text
             AssignText(_goldText, currentAmount, goldCost, spriteIndex++);
-            // Set);
-
-
 
 
             //Enable Inputs
             _upgradeBtn.DisableClick = false;
+
+
         }
 
-        private void AssignText(TextMeshProUGUI text, int currentAmount,int maxAmount,int spriteIndex)
+        private void AssignText(TextMeshProUGUI text, int currentAmount, int maxAmount, int spriteIndex)
         {
             Color clr = currentAmount < maxAmount ? _noAmountColor : _hasAmountColor;
             string stringText = currentAmount.ToString().ToBold().ColorString(clr).AddImageInFrontOfText(spriteIndex);
@@ -203,6 +218,4 @@ namespace CardMaga.Meta.Upgrade
             _stringBuilder.Clear();
         }
     }
-
-
 }

@@ -1,6 +1,7 @@
 ﻿using Account.GeneralData;
 using CardMaga.Rewards.Bundles;
 using CardMaga.SequenceOperation;
+using CardMaga.Server.Request;
 using MetaData;
 using ReiTools.TokenMachine;
 using System;
@@ -27,8 +28,8 @@ namespace CardMaga.Meta.Upgrade
         {
             get
             {
-                yield return _validateCardsLevel;
-                yield return _validateUserCurrency;
+                yield return _validateCardsLevel = new ValidateCardsLevel();
+                yield return _validateUserCurrency = new ValidateUserCurrency();
             }
 
         }
@@ -38,30 +39,37 @@ namespace CardMaga.Meta.Upgrade
         {
             _upgradeCostsSO = Resources.Load<CurrencyPerRarityCostSO>("MetaGameData/UpgradeCostSO");
             if (_upgradeCostsSO == null)
-                throw new Exception($"UpgradeManager: Could not load upgrade costs from resource folder");
+                throw new Exception($"UpgradeManager: Could not load upgrade costs from resource folder\nTried to find it at this folder: MetaGameData/UpgradeCostSO");
         }
 
         public bool TryUpgradeCard(CardInstance cardInstance)
         {
-            if (_validateCardsLevel == null)
-                InitValidations();
+       
 
 
             UpgradeInfo upgradeInfo = GenerateUpgradeInfo(cardInstance);
 
-            bool check = true;
-            foreach (var valdation in Validations)
-            {
-                check &= valdation.Validate(upgradeInfo);
-                if (!check)
-                    break;
-            }
+            bool check = CanUpgrade(cardInstance);
 
             if (check)
-                DoUpgrade(cardInstance);
+                DoUpgrade(upgradeInfo);
             else
                 OnUpgradeFailed?.Invoke();
 
+            return check;
+        }
+
+        public bool CanUpgrade(CardInstance card)
+        {
+            UpgradeInfo upgradeInfo = GenerateUpgradeInfo(card);
+
+            bool check = true;
+            foreach (var validation in Validations)
+            {
+                check &= validation.Validate(upgradeInfo);
+                   
+                if (!check) break;
+            }
             return check;
         }
 
@@ -82,19 +90,54 @@ namespace CardMaga.Meta.Upgrade
                 });
         }
 
-        private void DoUpgrade(CardInstance cardInstance)
+        private void DoUpgrade(UpgradeInfo upgradeInfo)
         {
             // Upgrade card
-            cardInstance.GetCardCore().LevelUp();
-            OnUpgradeCardCompleted?.Invoke(cardInstance);
-            OnUpgradeComplete?.Invoke();
+            var request = new ReduceResourceRequest(upgradeInfo);
+            var tokenMachine = new TokenMachine(OnRelease);
+
+            request.SendRequest(tokenMachine);
+         
+
+            void OnRelease()
+            {
+                OnUpgradeCardCompleted?.Invoke(upgradeInfo.CardInstance);
+                OnUpgradeComplete?.Invoke();
+            }
         }
-        private void InitValidations()
-        {
-            _validateUserCurrency = new ValidateUserCurrency();
-            _validateCardsLevel = new ValidateCardsLevel();
-        }
+
+
+
+
+    
     }
+
+    public class ReduceResourceRequest : BaseServerRequest
+    {
+        private readonly UpgradeInfo upgradeInfo;
+        public ReduceResourceRequest(UpgradeInfo upgradeInfo)
+        {
+            this.upgradeInfo = upgradeInfo;
+        }
+        protected override void ServerLogic()
+        {
+            var cardInstance = upgradeInfo.CardInstance;
+            cardInstance.GetCardCore().LevelUp();
+
+            var account = Account.AccountManager.Instance;
+            var resource = account.Data.AccountResources;
+            var costs = upgradeInfo.Costs;
+
+            for (int i = 0; i < costs.Count; i++)
+                resource.TryReduceAmount(costs[i]);
+
+            account.UpdateDataOnServer();
+            ReceiveResult();    
+        }
+        
+    }
+
+
 
     public class UpgradeInfo
     {
