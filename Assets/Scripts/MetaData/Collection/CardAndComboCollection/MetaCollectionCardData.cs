@@ -20,7 +20,7 @@ namespace CardMaga.MetaData.Collection
         [SerializeField, ReadOnly] private List<MetaCardInstanceInfo> _cardInstances;
         private CardCore _cardCore;
 
-        public int CardCoreID => _cardCore.CardID;
+        public int CardCoreID => _cardCore.CoreID;
         public List<MetaCardInstanceInfo> CardInstances => _cardInstances;
         public override  int NumberOfInstance => _cardInstances.Count;
         

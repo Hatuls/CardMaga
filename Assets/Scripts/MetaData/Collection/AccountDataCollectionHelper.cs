@@ -19,12 +19,8 @@ namespace CardMaga.MetaData.Collection
         [SerializeField] private ComboCollectionDataHandler _collectionComboDatasHandler;
 
         public CardsCollectionDataHandler CollectionCardDatasHandler => _collectionCardDatasHandler;
-
         public ComboCollectionDataHandler CollectionComboDatasHandler => _collectionComboDatasHandler;
 
-        public List<MetaCollectionCardData> ALlCollectionCardDatas => _collectionCardDatasHandler.CollectionCardDatas;
-        public List<MetaCollectionComboData> AllCollectionComboDatas => _collectionComboDatasHandler.CollectionComboDatas;
-        
         public int Priority => 0;
         
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)

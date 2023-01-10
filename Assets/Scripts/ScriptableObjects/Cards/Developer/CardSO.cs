@@ -116,7 +116,7 @@ namespace CardMaga.Card
            get
             {
                 for (int i = 0; i < _cardCoreInfo.Length; i++)
-                    yield return _cardCoreInfo[i].CardCore.CardID;
+                    yield return _cardCoreInfo[i].CardCore.CoreID;
             }
         }
         public bool IsFusedCard => _isFuseCard;
@@ -209,7 +209,7 @@ namespace CardMaga.Card
             for (int i = 0; i < _cardCoreInfo.Length; i++)
             {
 
-                if (_cardCoreInfo[i].CardCore.CardID == id)
+                if (_cardCoreInfo[i].CardCore.CoreID == id)
                     return true;
             }
             return false;
@@ -239,7 +239,7 @@ namespace CardMaga.Card
             {
                 for (int i = 0; i < _cardCoreInfo.Length; i++)
                 {
-                    if (_cardCoreInfo[i].CardCore.CardID == id)
+                    if (_cardCoreInfo[i].CardCore.CoreID == id)
                         return _cardCoreInfo[i];
                 }
                 throw new Exception($"CARDSO: Cardcore could not be found\nID - {id}");

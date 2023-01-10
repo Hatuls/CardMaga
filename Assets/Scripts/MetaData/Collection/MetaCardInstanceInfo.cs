@@ -40,6 +40,11 @@ namespace CardMaga.MetaData.Collection
             _associateDeck = associateDeck;
         }
 
+        public CoreID GetCoreID()
+        {
+            return _cardInstance.GetCoreId();
+        }
+
         public void RemoveFromDeck(int deckId)
         {
             if (!_associateDeck.Contains(deckId))

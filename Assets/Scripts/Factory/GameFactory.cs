@@ -236,7 +236,7 @@ namespace Factory
 
                 foreach (var cardID in CardCollection.GetAllCardsSO)
                     foreach (var cardLevel in cardID.CardCore)
-                        _cardCollectionDictionary.Add(cardLevel.CardCore.CardID, cardID);
+                        _cardCollectionDictionary.Add(cardLevel.CardCore.CoreID, cardID);
 
                 _battleCardIdList = new List<CardCore>();
 
@@ -261,7 +261,7 @@ namespace Factory
 
             public MetaCardData GetMetaCardData(CardCore cardCore)
             {
-                CardSO cardSo = GetCard(cardCore.CardID);
+                CardSO cardSo = GetCard(cardCore.CoreID);
 
                 CardInstance instance = CreateCardInstance(cardCore);
 
@@ -294,7 +294,7 @@ namespace Factory
 
                 foreach (var cardCore in cardCores)
                 {
-                    CardSO cardSo = GetCard(cardCore.CardID);
+                    CardSO cardSo = GetCard(cardCore.CoreID);
 
                     CardInstance instance = CreateCardInstance(cardCore);
 

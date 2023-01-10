@@ -148,5 +148,27 @@ namespace Account.GeneralData
         {
 
         }
+
+        public bool AddCoreId(CoreID coreID)
+        {
+            for (int i = 0; i < Cards.Length; i++)
+            {
+                if (Cards[i] != null) continue;
+                Cards[i] = coreID;
+                return true;
+            }
+
+            return false;
+        }
+
+        public void RemoveCoreID(CoreID coreID)
+        {
+            for (int i = 0; i < Cards.Length; i++)
+            {
+                if (Cards[i].ID != coreID.ID) continue;
+                Cards[i] = null;
+                return;
+            }
+        }
     }
 }

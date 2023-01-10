@@ -170,7 +170,7 @@ namespace CardMaga.MetaData.DeckBuilding
 
         private void TryRemoveCardFromDeck(CardCore cardCore)
         {
-            if (_deck.FindCardData(cardCore.CardID,out CardInstance cardInstance))
+            if (_deck.FindCardData(cardCore.CoreID,out CardInstance cardInstance))
             {
                 _deck.RemoveCard(cardInstance);
                 _cardsCollectionDataHandler.AddCardInstance(new MetaCardInstanceInfo(cardInstance));

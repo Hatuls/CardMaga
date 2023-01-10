@@ -29,7 +29,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public CardInstance RemoveCardFromDismantleList(CardCore cardCore)
         {
-            if (FindCardInstanceInDismantelList(cardCore.CardID,out CardInstance cardInstance))
+            if (FindCardInstanceInDismantelList(cardCore.CoreID,out CardInstance cardInstance))
             {
                 _dismantleCards.Remove(cardInstance);
                 OnRemoveCardFromDismantleList?.Invoke(cardInstance);

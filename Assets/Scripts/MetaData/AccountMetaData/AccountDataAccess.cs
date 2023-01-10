@@ -5,6 +5,7 @@ using CardMaga.Server.Request;
 using MetaData;
 using ReiTools.TokenMachine;
 using UnityEngine;
+using Account.GeneralData;
 
 namespace CardMaga.MetaData.AccoutData
 {
@@ -17,6 +18,32 @@ namespace CardMaga.MetaData.AccoutData
         [SerializeField] private MetaAccountData _metaAccountData;
 
         public MetaAccountData AccountData => _metaAccountData;
+
+        public void RemoveCard(CoreID coreId)
+        {
+            _accountData.AllCards.RemoveCard(coreId);
+
+            var characters = _accountData.CharactersData.Characters;
+            
+            foreach (var character in characters)
+            {
+                foreach (var deckData in character.Deck)
+                {
+                    deckData.RemoveCoreID(coreId);
+                }
+            }
+        }
+
+        public void AddCard(CardInstance cardInstance)
+        {
+            _accountData.AllCards.AddCard(cardInstance.GetCoreId());
+        }
+
+        public void UpgradeCard(CoreID oldCoreId,CoreID newCoreId)
+        {
+            _accountData.AllCards.RemoveCard(oldCoreId);
+            _accountData.AllCards.AddCard(newCoreId);
+        }
         
         public void UpdateDeck(MetaDeckData metaDeckData,ITokenReciever tokenMachine)
         {
@@ -33,7 +60,12 @@ namespace CardMaga.MetaData.AccoutData
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
-            _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);//plaster!!!!! need to not by mono and get the data from AccountDataAccess
+            _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);
+        }
+
+        public MetaAccountData GetMetaAccountData()
+        {
+            return new MetaAccountData(AccountManager.Instance.Data);//plaster!!!!! need to not by mono and get the data from AccountDataAccess
         }
 
         public int Priority => 0;
