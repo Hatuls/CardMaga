@@ -28,6 +28,7 @@ namespace CardMaga.UI
     }
     public static class StringHelper
     {
+        private const string SPRITE_HTML = "<sprite=";
         private const string COLOR_HTML = "<color=#";
         private const string COLOR_HTML_CLOSER = "</color>";
         private const string HTML_CLOSER = ">";
@@ -38,6 +39,11 @@ namespace CardMaga.UI
         public static string ToBold(this string text) => string.Concat(HTML_BOLD, text, HTML_BOLD_CLOSER);
         public static string ColorString(this string text, Color color)
             => string.Concat(COLOR_HTML, color.ToHexa(), HTML_CLOSER, text, COLOR_HTML_CLOSER);
+        public static string ColorString(this string text, string hexaColor)
+    => string.Concat(COLOR_HTML, hexaColor, HTML_CLOSER, text, COLOR_HTML_CLOSER);
+        public static string AddImageInFrontOfText(this string text, int spriteIndex)
+        => string.Concat(SPRITE_HTML, spriteIndex, HTML_CLOSER, text);
+
     }
     public static class ColorHelper
     {

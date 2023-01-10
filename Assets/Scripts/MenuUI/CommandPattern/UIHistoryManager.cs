@@ -14,6 +14,9 @@ namespace CardMaga.UI
 
         public static void Show(IUIElement showable, bool toRemember)
         {
+            if (showable == _currentUIElement)
+                return;
+
             if (_currentUIElement != null)
             {
                 if (toRemember)

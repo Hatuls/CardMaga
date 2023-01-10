@@ -1,7 +1,4 @@
-﻿
-
-using CardMaga.LoadingScene;
-using FMOD.Studio;
+﻿using FMOD.Studio;
 using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +22,16 @@ public class AudioManager : MonoBehaviour
     }
 
     [SerializeField]
+    private string _sfxPrefName;
+    [SerializeField]
+    private StudioGlobalParameterTrigger _sfxGlobalParameterTrigger;
+
+    [SerializeField]
+    private string _musicPrefName;
+    [SerializeField]
+    private StudioGlobalParameterTrigger _musicGlobalParameterTrigger;
+
+    [SerializeField]
     SoundEventSO _backgroundMusic;
     FmodData backgroundFmod;
 
@@ -38,7 +45,7 @@ public class AudioManager : MonoBehaviour
         }
         else if (_instance != this)
             Destroy(this.gameObject);
-        
+
 
 
     }
@@ -48,15 +55,34 @@ public class AudioManager : MonoBehaviour
     {
 
         StopAllSounds();
-      
+
     }
     private void FmodInit()
     {
-       // LoadingSceneManager.OnScenesEnter += SceneParameter;
 
+        StartPreviousSettings();
         PlayBackGround();
         _fmodLibrary.Clear();
+    }
 
+    private void StartPreviousSettings()
+    {
+        LoadValues(_sfxGlobalParameterTrigger, _sfxPrefName);
+        LoadValues(_musicGlobalParameterTrigger, _musicPrefName);
+
+        void LoadValues(StudioGlobalParameterTrigger studioGlobalParameterTrigger, string name)
+        {
+            float value = 0;
+            if (PlayerPrefs.HasKey(name))
+                value = PlayerPrefs.GetFloat(name);
+
+            AssignValue(studioGlobalParameterTrigger, value);
+        }
+        void AssignValue(StudioGlobalParameterTrigger studioGlobalParameterTrigger, float val)
+        {
+            studioGlobalParameterTrigger.value = val;
+            studioGlobalParameterTrigger.TriggerParameters();
+        }
     }
 
     private void PlayBackGround()
