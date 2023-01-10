@@ -11,6 +11,7 @@ namespace CardMaga.MetaData.Collection
     [Serializable]
     public class CardsCollectionDataHandler
     {
+
         [SerializeField,ReadOnly] private List<MetaCollectionCardData> _collectionCardDatas;
 
         public List<MetaCollectionCardData> CollectionCardDatas => _collectionCardDatas;

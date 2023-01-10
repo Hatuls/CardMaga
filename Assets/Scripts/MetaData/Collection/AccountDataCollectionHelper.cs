@@ -22,7 +22,7 @@ namespace CardMaga.MetaData.Collection
 
         public ComboCollectionDataHandler CollectionComboDatasHandler => _collectionComboDatasHandler;
 
-        public List<MetaCollectionCardData> ALlCollectionCardDatas => _collectionCardDatasHandler.CollectionCardDatas;
+        public List<MetaCollectionCardData> AllCollectionCardDatas => _collectionCardDatasHandler.CollectionCardDatas;
         public List<MetaCollectionComboData> AllCollectionComboDatas => _collectionComboDatasHandler.CollectionComboDatas;
         
         public int Priority => 0;
