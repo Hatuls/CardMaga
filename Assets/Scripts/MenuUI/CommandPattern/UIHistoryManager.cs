@@ -62,6 +62,7 @@ namespace CardMaga.UI
     {
         [SerializeField]
         private bool _toRememberWhenOpenScreen = true;
+
         public virtual void OpenScreen()
         {
             UIHistoryManager.Show(this, _toRememberWhenOpenScreen);

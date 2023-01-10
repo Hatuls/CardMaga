@@ -380,6 +380,7 @@ namespace Factory
                 throw new Exception($" battleCard was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
 
             }
+            
             public BattleCardData[] CreateDeck(CardInstance[] cards)
             {
                 BattleCardData[] c = new BattleCardData[cards.Length];

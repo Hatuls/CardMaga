@@ -18,9 +18,13 @@ namespace CardMaga.MetaData.Collection
         [SerializeField, ReadOnly] private string _cardName;
 #endif
         [SerializeField, ReadOnly] private List<MetaCardInstanceInfo> _cardInstances;
+        private CardInstance _cardInstance;
         private CardCore _cardCore;
 
         public int CardCoreID => _cardCore.CoreID;
+
+        public CardInstance CardInstance => _cardInstance;
+
         public List<MetaCardInstanceInfo> CardInstances => _cardInstances;
         public override  int NumberOfInstance => _cardInstances.Count;
         
@@ -29,7 +33,9 @@ namespace CardMaga.MetaData.Collection
             _cardCore = cardInstance.CardInstance.GetCardCore();//need to change
 
             _cardName = cardInstance.CardInstance.CardSO.CardName;
-            
+
+            _cardInstance = cardInstance.CardInstance;
+
             _cardInstances = new List<MetaCardInstanceInfo>();
             
             AddCardInstance(cardInstance);
@@ -40,6 +46,7 @@ namespace CardMaga.MetaData.Collection
             _cardCore = instanceInfos[0].CardInstance.GetCardCore();
             _cardName = instanceInfos[0].CardInstance.CardSO.CardName;
             _cardInstances = instanceInfos;
+            _cardInstance = instanceInfos[0].CardInstance;
             _maxInstants = _cardInstances.Count;
         }
 
@@ -83,10 +90,7 @@ namespace CardMaga.MetaData.Collection
 
         public CardInstance GetCardInstanceData()
         {
-            if (_cardInstances[0] == null)
-                return null;
-            
-            return _cardInstances[0].CardInstance;
+            return _cardInstance;
         }
         
         private List<MetaCardInstanceInfo> GetCardInstanceInfoDataCopy()

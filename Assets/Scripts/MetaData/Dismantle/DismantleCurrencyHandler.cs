@@ -29,19 +29,13 @@ namespace CardMaga.MetaData.Dismantle
         
         public void AddCardCurrency(CardInstance cardInstance)
         {
-
             _chipsCurrency +=
                 (int)_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance.GetCardCore(), CurrencyType.Chips).Amount;
-
-            _goldCurrency += 0;
         }
         
         public void RemoveCardCurrency(CardInstance cardInstance)
         {
-
             _chipsCurrency -=  (int)_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance.GetCardCore(), CurrencyType.Chips).Amount;
-
-            _goldCurrency -= 0;
         }
 
         public void ResetDismantelCurrency()

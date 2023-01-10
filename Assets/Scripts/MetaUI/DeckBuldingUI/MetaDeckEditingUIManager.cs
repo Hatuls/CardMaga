@@ -65,10 +65,9 @@ namespace CardMaga.MetaUI.CollectionUI
             _deckBuilder.OnSuccessfulComboAdd += _deckContinaer.AddComboUI;
             _deckBuilder.OnSuccessfulComboRemove += _deckContinaer.RemoveComboUI;
         }
-        public override void OpenScreen()
-        {
-            base.OpenScreen();
 
+        public override void Show()//plaster 10.01.23
+        {
             if (_isFirstTime)
                 _isFirstTime = false;
             else
@@ -76,6 +75,8 @@ namespace CardMaga.MetaUI.CollectionUI
 
             _dataManager.AssingDeckDataToEdit();
             SetDeckToEdit(_dataManager.MetaDeckData);
+            
+            base.Show();
         }
 
         private void SetDeckToEdit(MetaDeckData metaDeckData)
@@ -119,8 +120,6 @@ namespace CardMaga.MetaUI.CollectionUI
 
         private void DiscardDeck()
         {
-
-
             _metaCollectionHandler.UnLoadObjects();
 
             _deckContinaer.UnLoadObjects();

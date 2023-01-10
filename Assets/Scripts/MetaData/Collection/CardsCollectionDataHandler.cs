@@ -97,8 +97,8 @@ namespace CardMaga.MetaData.Collection
                     
                     metaCollectionCardData.RemoveCardInstance(cardInstanceInfo.InstanceID);
 
-                    if (metaCollectionCardData.NumberOfInstance == 0)
-                        _collectionCardDatas.Remove(metaCollectionCardData);
+                    // if (metaCollectionCardData.NumberOfInstance == 0)
+                    //     _collectionCardDatas.Remove(metaCollectionCardData);
 
                     return true;
                 }

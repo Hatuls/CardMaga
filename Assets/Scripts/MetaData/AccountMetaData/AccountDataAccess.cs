@@ -30,6 +30,7 @@ namespace CardMaga.MetaData.AccoutData
                 foreach (var deckData in character.Deck)
                 {
                     deckData.RemoveCoreID(coreId);
+                    break;
                 }
             }
         }
@@ -60,6 +61,7 @@ namespace CardMaga.MetaData.AccoutData
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
+            _accountData = AccountManager.Instance.Data;
             _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);
         }
 

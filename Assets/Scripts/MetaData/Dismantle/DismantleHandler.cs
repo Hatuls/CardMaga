@@ -69,7 +69,7 @@ namespace CardMaga.MetaData.Dismantle
             }
 
             var cache = _dismantleCards;
-            _dismantleCards.Clear();
+            //_dismantleCards.Clear();
             return cache;
         }
     }

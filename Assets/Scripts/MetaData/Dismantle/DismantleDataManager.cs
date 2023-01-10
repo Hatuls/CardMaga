@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
+using Account;
 using Account.GeneralData;
+using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaData.Collection;
+using CardMaga.Rewards;
+using CardMaga.Rewards.Bundles;
 using CardMaga.SequenceOperation;
 using CardMaga.ValidatorSystem;
-using CardMaga.ValidatorSystem.ValidatorConditions;
 using MetaData;
 using ReiTools.TokenMachine;
-using UnityEngine;
 
 namespace CardMaga.MetaData.Dismantle
 {
@@ -24,6 +26,8 @@ namespace CardMaga.MetaData.Dismantle
         private DismantleHandler _dismantleHandler;
 
         private CardsCollectionDataHandler _cardCollectionDatas;
+        private MetaAccountData _metaAccountData;
+        private AccountDataAccess _accountDataAccess;
 
         private TypeValidator<CardInstance> _cardDataValidator;
         
@@ -38,6 +42,8 @@ namespace CardMaga.MetaData.Dismantle
         
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
+            _accountDataAccess = data.AccountDataAccess;
+            _metaAccountData = data.MetaAccountData;
             _accountData = data.AccountDataCollectionHelper;
             _dismantleHandler = new DismantleHandler(data.AccountDataCollectionHelper.CollectionCardDatasHandler);
             _dismantleCurrencyHandler = new DismantleCurrencyHandler();
@@ -93,8 +99,26 @@ namespace CardMaga.MetaData.Dismantle
             foreach (var cardInstance in cache)
             {
                 _cardCollectionDatas.TryRemoveCardInstance(cardInstance.InstanceID);//plaster 10.1.23
+                _metaAccountData.AccountCards.Remove(cardInstance);
+                _accountDataAccess.RemoveCard(cardInstance.GetCoreId());
             }
             
+            var account = Account.AccountManager.Instance;
+            var resource = account.Data.AccountResources;
+
+            var chipsCost = new ResourcesCost(CurrencyType.Chips, _dismantleCurrencyHandler.ChipsCurrency);
+            var goldCost = new ResourcesCost(CurrencyType.Gold, _dismantleCurrencyHandler.GoldCurrency);
+
+            var costs = new ResourcesCost[]
+            {
+                chipsCost, goldCost
+            };
+
+            for (int i = 0; i < costs.Length; i++)
+                resource.AddResource(costs[i]);
+            
+            AccountManager.Instance.UpdateDataOnServer();//plaster 10.1.23
+            _dismantleHandler.ResetDismantleList();
             OnCardAddToDismantel?.Invoke(_dismantleCurrencyHandler.ChipsCurrency,_dismantleCurrencyHandler.GoldCurrency);
         }
 
