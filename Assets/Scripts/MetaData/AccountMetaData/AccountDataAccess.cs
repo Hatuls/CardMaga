@@ -63,7 +63,7 @@ namespace CardMaga.MetaData.AccoutData
         {
             _accountData = AccountManager.Instance.Data;
             _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);
-        }
+       }
 
         public MetaAccountData GetMetaAccountData()
         {
