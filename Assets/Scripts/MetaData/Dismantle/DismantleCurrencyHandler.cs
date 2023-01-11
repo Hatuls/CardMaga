@@ -26,16 +26,27 @@ namespace CardMaga.MetaData.Dismantle
             if (_costsSo == null)
                 throw new Exception($"DismantleCurrencyHandler: Could not load upgrade costs from resource folder");
         }
-        
+
+        ~DismantleCurrencyHandler()
+        {
+            Resources.UnloadAsset(_costsSo);
+        }
         public void AddCardCurrency(CardInstance cardInstance)
         {
-            _chipsCurrency +=
-                (int)_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance.GetCardCore(), CurrencyType.Chips).Amount;
+            var cardCore = cardInstance.GetCardCore();
+
+            _chipsCurrency += Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Chips).Amount);
+
+            _goldCurrency += Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Gold).Amount);
         }
         
         public void RemoveCardCurrency(CardInstance cardInstance)
         {
-            _chipsCurrency -=  (int)_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance.GetCardCore(), CurrencyType.Chips).Amount;
+            var cardCore = cardInstance.GetCardCore();
+
+            _chipsCurrency -= Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Chips).Amount);
+
+            _goldCurrency -= Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Gold).Amount);
         }
 
         public void ResetDismantelCurrency()
