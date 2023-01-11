@@ -177,18 +177,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5702666649249262307}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &131336778 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1364966777836427042, guid: e85af4287e4c649448566fa0a5af3d8c,
-    type: 3}
-  m_PrefabInstance: {fileID: 5702666649249262307}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131336776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507824fef833bcf4fa7fac0b63642b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &153618273 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7610984842561353286, guid: 59d86999b3b00ab489e1d92f80d34852,
@@ -276,7 +264,7 @@ PrefabInstance:
     - target: {fileID: 3597226985989005940, guid: 1e7b156c630d1594eaaca490e4a2748a,
         type: 3}
       propertyPath: far clip plane
-      value: 5000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3597226985989005940, guid: 1e7b156c630d1594eaaca490e4a2748a,
         type: 3}
@@ -5848,7 +5836,7 @@ PrefabInstance:
         type: 3}
       propertyPath: basicFadeInPopup
       value: 
-      objectReference: {fileID: 131336778}
+      objectReference: {fileID: 0}
     - target: {fileID: 5200766102474334544, guid: e85af4287e4c649448566fa0a5af3d8c,
         type: 3}
       propertyPath: _delayBetweenCardDrawn
@@ -6026,7 +6014,8 @@ PrefabInstance:
       propertyPath: _clickHelper
       value: 
       objectReference: {fileID: 1924555076}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4945510504569680813, guid: e85af4287e4c649448566fa0a5af3d8c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e85af4287e4c649448566fa0a5af3d8c, type: 3}
 --- !u!114 &5702666649249262310 stripped
 MonoBehaviour:
@@ -6058,6 +6047,33 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5702666649249262307}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5702666649249262313 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5081985609017055786, guid: e85af4287e4c649448566fa0a5af3d8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5702666649249262307}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5702666649249262314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702666649249262313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab0a8db70567ad04fb3b31774771e75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _handUI: {fileID: 5702666649249262310}
+  _duration: 0
+  _popUpSO: {fileID: 11400000, guid: 482c5ef13d409df48b700938e47670dc, type: 2}
+  packSO:
+  - {fileID: 11400000, guid: bcacf44f71b9c5741a9a2392b869174d, type: 2}
+  - {fileID: 11400000, guid: 67a8b7bde74bb2943b9b614b2e287ec9, type: 2}
+  - {fileID: 11400000, guid: d7dcd24f1d3eca74286891ae647fff3f, type: 2}
+  - {fileID: 11400000, guid: 4623ae1b3f708a84983cbf9f9952861c, type: 2}
+  - {fileID: 11400000, guid: 7801764f80f8c4b4082dea0d555fd77e, type: 2}
 --- !u!4 &9152961315726133064
 Transform:
   m_ObjectHideFlags: 0

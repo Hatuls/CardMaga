@@ -23,12 +23,11 @@ namespace CardMaga.UI.PopUp
         private void Awake()
         {
             _handUI.OnCardExecutionFailed += ShowPopUp;
-            //_handUI.OnCardExecutionSuccess += ForceFadeOutStaminaPopUp;
-            transitionData = new TransitionData[]
+            transitionData = new TransitionData[packSO.Length];
+            for (int i = 0; i < transitionData.Length; i++)
             {
-                new TransitionData(packSO[0],PopUpManager.Instance.ScreenLeftLocation),
-                new TransitionData(packSO[1],PopUpManager.Instance.ScreenRightLocation),
-            };
+                transitionData[i] = new TransitionData(packSO[i], PopUpManager.Instance.ScreenMiddleLocation);
+            }
         }
 
         private void Start()
@@ -52,8 +51,10 @@ namespace CardMaga.UI.PopUp
 
             //_timerCoroutine = StartCoroutine(Timer());
             BasePopUp popUp = PopUpManager.Instance.PoolHandler.Pull(_popUpSO);
-            popUp.PopUpTransitionHandler.AddTransitionData(true, transitionData[0]);
-            popUp.PopUpTransitionHandler.AddTransitionData(true, transitionData[1]);
+            for (int i = 0; i < transitionData.Length; i++)
+            {
+                popUp.PopUpTransitionHandler.AddTransitionData(true, transitionData[i]);
+            }
             popUp.Enter();
         }
 

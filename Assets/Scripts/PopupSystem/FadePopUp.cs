@@ -9,6 +9,6 @@ public class FadePopUp : BasePopUp
     public override void Enter()
     {
         base.Enter();
-        _popUpTransitionHandler.StartTransitionFlowFromBeginning();
+        _popUpTransitionHandler.ResetAndStartTransitionFlow(true);
     }
 }

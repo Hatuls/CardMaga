@@ -17,7 +17,7 @@ namespace CardMaga.UI.PopUp
             _popUpObject = rectTransform;
         }
 
-        public void AddTransitionData(bool isEnter,TransitionData popUpTransitionData)
+        public void AddTransitionData(bool isEnter, TransitionData popUpTransitionData)
         {
             if (isEnter)
                 _enterTransitionDatas.Add(popUpTransitionData);
@@ -26,49 +26,97 @@ namespace CardMaga.UI.PopUp
                 _exitTransitionDatas.Add(popUpTransitionData);
         }
 
-        public void StartOnlySpecificTransition(int index)
+        public void StartOnlySpecificTransition(bool isEnter, int index)
         {
             if (index <= _enterTransitionDatas.Count - 1)
-                _sequence=_popUpObject.Transition(_enterTransitionDatas[index].Destination, _enterTransitionDatas[index].TransitionPackSO);
+            {
+                if (isEnter)
+                    _sequence = _popUpObject.Transition(_enterTransitionDatas[index].Destination, _enterTransitionDatas[index].TransitionPackSO);
+
+                else
+                    _sequence = _popUpObject.Transition(_exitTransitionDatas[index].Destination, _exitTransitionDatas[index].TransitionPackSO);
+            }
 
             else
                 Debug.LogError("PopUpTransitionHandler: The given index is higher that the list capacity");
         }
 
-        public void StartTransitionFlowFromBeginning()
+        public void ResetAndStartTransitionFlow(bool isEnter)
         {
-            if (_enterTransitionDatas.Count==0)
+            if (_enterTransitionDatas.Count == 0 && isEnter)
             {
-                Debug.LogError("PopUpTransitionHandler: There is no transition data!");
+                Debug.LogError("PopUpTransitionHandler: There is no enter transition data!");
+                return;
+            }
+
+            else if (_enterTransitionDatas.Count == 0 && !isEnter)
+            {
+                Debug.LogError("PopUpTransitionHandler: There is no exit transition data!");
                 return;
             }
 
             _currentTransitionIndex = 0;
-            StartTransitionFlowFromCurrentIndex();
+            StartTransitionFromCurrentIndex(isEnter);
         }
 
-        public void StartTransitionFlowFromCurrentIndex()
+        public void StartTransitionFromCurrentIndex(bool isEnter)
         {
 
-            if (_currentTransitionIndex == _enterTransitionDatas.Count - 1)
+            if (isEnter)
+                EnterTransition();
+            else
+                ExitTransition();
+
+            void EnterTransition()
             {
-                Debug.LogError("There is no transitions left to make");
-                return;
+                if (_enterTransitionDatas.Count == 0)
+                {
+                    Debug.LogError("PopUpTransitionHandler: There is no enter transition data!");
+                    return;
+                }
+                _sequence = _popUpObject.Transition(_enterTransitionDatas[_currentTransitionIndex].Destination, _enterTransitionDatas[_currentTransitionIndex].TransitionPackSO, CheckForNextEnterTransition);
+              
             }
 
-            _sequence=_popUpObject.Transition(_enterTransitionDatas[_currentTransitionIndex].Destination, _enterTransitionDatas[_currentTransitionIndex].TransitionPackSO, StartTransitionFlowFromCurrentIndex);
-            if (_currentTransitionIndex == _enterTransitionDatas.Count - 1)
-                return;
-            _currentTransitionIndex++;
+            void ExitTransition()
+            {
+                if (_exitTransitionDatas.Count == 0)
+                {
+                    Debug.LogError("PopUpTransitionHandler: There is no exit transition data!");
+                    return;
+                }
+                _sequence = _popUpObject.Transition(_exitTransitionDatas[_currentTransitionIndex].Destination, _exitTransitionDatas[_currentTransitionIndex].TransitionPackSO, CheckForNextExitTransition);
+
+            }
+
+            void CheckForNextEnterTransition()
+            {
+                if (_currentTransitionIndex == _enterTransitionDatas.Count - 1)
+                    return;
+                else
+                {
+                    _currentTransitionIndex++;
+                    EnterTransition();
+                }
+            }
+
+            void CheckForNextExitTransition()
+            {
+
+                if (_currentTransitionIndex == _exitTransitionDatas.Count - 1)
+                    return;
+                else
+                {
+                    _currentTransitionIndex++;
+                    ExitTransition();
+                }
+            }
         }
 
-        /// <summary> 
-        /// 
-        /// </summary>
         public void StopTransition()
         {
-            if(_sequence!=null)
-            _sequence.Kill();
+            if (_sequence != null)
+                _sequence.Kill();
         }
 
         public void ClearTransitionDatas()
