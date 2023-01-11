@@ -43,6 +43,8 @@ namespace CardMaga.UI
     => string.Concat(COLOR_HTML, hexaColor, HTML_CLOSER, text, COLOR_HTML_CLOSER);
         public static string AddImageInFrontOfText(this string text, int spriteIndex)
         => string.Concat(SPRITE_HTML, spriteIndex, HTML_CLOSER, text);
+        public static string AddImageAfterOfText(this string text, int spriteIndex)
+      => string.Concat(text,SPRITE_HTML, spriteIndex, HTML_CLOSER);
 
     }
     public static class ColorHelper

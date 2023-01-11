@@ -16,6 +16,10 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
     
     public int Priority => 0;
 
+    public DismantelCurrencyUIHandler DismantelCurrencyUI => _dismantelCurrencyUI;
+
+    public DismantleDataManager DismantleDataManager => _dismantleDataManager; 
+
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
         _collectionHandler.Init();
@@ -27,13 +31,14 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
     public override void OpenScreen()
     {
         base.OpenScreen();
+        UpdateVisual(0, 0);
         _dismantleDataManager.SetCardCollection();
         _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
     }
 
     private void UpdateVisual(int chipsAmount,int goldAmount)
     {
-        _dismantelCurrencyUI.UpdateText(chipsAmount);
+        _dismantelCurrencyUI.UpdateText(chipsAmount,goldAmount);
     }
 
     public void ConfirmDismantleCards()

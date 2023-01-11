@@ -14,7 +14,7 @@ namespace CardMaga.MetaData.Dismantle
         private List<CardInstance> _dismantleCards;
 
         private CardsCollectionDataHandler _originalCardCollection;
-
+        public IReadOnlyList<CardInstance> DismantleCards => _dismantleCards;
         public DismantleHandler(CardsCollectionDataHandler originalCardCollection)
         {
             _dismantleCards = new List<CardInstance>();

@@ -110,7 +110,10 @@ namespace CardMaga.Meta.Upgrade
         }
 
 
-
+        ~UpgradeManager()
+        {
+            Resources.UnloadAsset(_upgradeCostsSO);
+        }
 
 
     }
