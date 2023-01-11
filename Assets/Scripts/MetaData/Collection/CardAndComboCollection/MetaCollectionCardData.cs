@@ -20,8 +20,9 @@ namespace CardMaga.MetaData.Collection
         [SerializeField, ReadOnly] private List<MetaCardInstanceInfo> _cardInstances;
         private CardInstance _cardInstance;
         private CardCore _cardCore;
+        private int _coreId;
 
-        public int CardCoreID => _cardCore.CoreID;
+        public int CardCoreID => _coreId;
 
         public CardInstance CardInstance => _cardInstance;
 
@@ -32,6 +33,8 @@ namespace CardMaga.MetaData.Collection
         {
             _cardCore = cardInstance.CardInstance.GetCardCore();//need to change
 
+            _coreId = _cardCore.CoreID;
+            
             _cardName = cardInstance.CardInstance.CardSO.CardName;
 
             _cardInstance = cardInstance.CardInstance;
@@ -44,6 +47,7 @@ namespace CardMaga.MetaData.Collection
         public MetaCollectionCardData(List<MetaCardInstanceInfo> instanceInfos)
         {
             _cardCore = instanceInfos[0].CardInstance.GetCardCore();
+            _coreId = _cardCore.CoreID;
             _cardName = instanceInfos[0].CardInstance.CardSO.CardName;
             _cardInstances = instanceInfos;
             _cardInstance = instanceInfos[0].CardInstance;
@@ -163,7 +167,7 @@ namespace CardMaga.MetaData.Collection
         public bool Equals(MetaCardInstanceInfo other)
         {
             if (ReferenceEquals(null, other)) return false;
-            return CardCoreID == other.CoreID;
+            return _coreId == other.CoreID;
         }
     }
 }
