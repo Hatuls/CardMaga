@@ -87,7 +87,7 @@ namespace CardMaga.MetaData.Collection
             }
         }
 
-        public bool TryRemoveCardInstance(int instanceID)
+        public bool TryRemoveCardInstance(int instanceID,bool toRemoveCardCollectionData)
         {
             foreach (var metaCollectionCardData in _collectionCardDatas)
             {
@@ -97,8 +97,11 @@ namespace CardMaga.MetaData.Collection
                     
                     metaCollectionCardData.RemoveCardInstance(cardInstanceInfo.InstanceID);
 
-                    // if (metaCollectionCardData.NumberOfInstance == 0)
-                    //     _collectionCardDatas.Remove(metaCollectionCardData);
+                    if (toRemoveCardCollectionData)
+                    {
+                        if (metaCollectionCardData.NumberOfInstance == 0)
+                            _collectionCardDatas.Remove(metaCollectionCardData);
+                    }
 
                     return true;
                 }

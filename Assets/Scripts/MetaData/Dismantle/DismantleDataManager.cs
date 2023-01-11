@@ -69,7 +69,7 @@ namespace CardMaga.MetaData.Dismantle
             {
                 _dismantleCurrencyHandler.AddCardCurrency(cardInstance);
                 _dismantleHandler.AddCardToDismantleList(cardInstance);
-                CardCollectionDatas.TryRemoveCardInstance(cardInstance.InstanceID);
+                CardCollectionDatas.TryRemoveCardInstance(cardInstance.InstanceID,false);
                 
                 OnSuccessfulAddToCollection?.Invoke(cardInstance);
                 OnCardAddToDismantel?.Invoke(_dismantleCurrencyHandler.ChipsCurrency,_dismantleCurrencyHandler.GoldCurrency);
@@ -98,7 +98,7 @@ namespace CardMaga.MetaData.Dismantle
 
             foreach (var cardInstance in cache)
             {
-                _cardCollectionDatas.TryRemoveCardInstance(cardInstance.InstanceID);//plaster 10.1.23
+                _cardCollectionDatas.TryRemoveCardInstance(cardInstance.InstanceID,true);//plaster 10.1.23
                 _metaAccountData.AccountCards.Remove(cardInstance);
                 _accountDataAccess.RemoveCard(cardInstance.GetCoreId());
             }

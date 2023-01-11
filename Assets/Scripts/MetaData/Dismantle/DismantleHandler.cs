@@ -65,7 +65,7 @@ namespace CardMaga.MetaData.Dismantle
         {
             foreach (var dismantleCard in _dismantleCards)
             {
-                _originalCardCollection.TryRemoveCardInstance(dismantleCard.InstanceID);
+                _originalCardCollection.TryRemoveCardInstance(dismantleCard.InstanceID,true);
             }
 
             var cache = _dismantleCards;

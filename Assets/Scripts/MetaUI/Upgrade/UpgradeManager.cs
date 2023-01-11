@@ -143,7 +143,7 @@ namespace CardMaga.Meta.Upgrade
             {
                 MetaCardInstanceInfo firstInstance = metaCardInstancesInfo[0];
 
-                if (!cardsCollectionDataHandler.TryRemoveCardInstance(cardInstance.InstanceID))
+                if (!cardsCollectionDataHandler.TryRemoveCardInstance(cardInstance.InstanceID,false))
                     throw new Exception("UpgradeManager: Could not remove card instance from collection data handler\nInstance ID = " + cardInstance.InstanceID);
 
                 firstInstance.CardInstance.GetCardCore().LevelUp();

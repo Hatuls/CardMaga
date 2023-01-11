@@ -34,7 +34,7 @@ namespace CardMaga.MetaUI
             _cardData = cardData;
             _cardNumberText.text = NumberOfInstant.ToString();
 
-            CardUI.AssignVisualAndData(Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(cardData.GetCardInstanceData()));
+            CardUI.AssignVisualAndData(Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(cardData.CardInstance));
             
             _cardData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             

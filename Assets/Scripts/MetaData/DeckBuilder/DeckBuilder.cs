@@ -136,7 +136,7 @@ namespace CardMaga.MetaData.DeckBuilding
                 return;
             }
 
-            if (_cardsCollectionDataHandler.TryRemoveCardInstance(cardInstance.InstanceID))
+            if (_cardsCollectionDataHandler.TryRemoveCardInstance(cardInstance.InstanceID,false))
             {
                 //_deck.AddCard(cardInstance);
                 _originalCardsCollection.AddDeckAssociate(cardInstance,_deck.DeckId);

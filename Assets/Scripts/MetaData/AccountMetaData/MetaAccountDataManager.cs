@@ -47,7 +47,7 @@ namespace CardMaga.MetaData.AccoutData
             
             _accountDataAccess.RemoveCard(metaCardInstanceInfo.GetCoreID());
 
-            _accountDataCollection.CollectionCardDatasHandler.TryRemoveCardInstance(metaCardInstanceInfo.InstanceID);
+            _accountDataCollection.CollectionCardDatasHandler.TryRemoveCardInstance(metaCardInstanceInfo.InstanceID,true);
         }
 
         public void AddCard(CardInstance cardInstance)

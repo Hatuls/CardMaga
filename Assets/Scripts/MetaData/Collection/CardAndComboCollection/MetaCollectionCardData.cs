@@ -52,7 +52,7 @@ namespace CardMaga.MetaData.Collection
 
         public void AddCardToCollection()
         {
-            OnTryAddItemToCollection?.Invoke(GetCardInstanceData());
+            OnTryAddItemToCollection?.Invoke(GetFirstCardInstanceData());
         }
 
         public void RemoveCardFromCollection()
@@ -88,9 +88,15 @@ namespace CardMaga.MetaData.Collection
             return false;
         }
 
-        public CardInstance GetCardInstanceData()
+        public CardInstance GetFirstCardInstanceData()
         {
-            return _cardInstance;
+            if (ReferenceEquals(_cardInstances[0].CardInstance,null))
+            {
+                Debug.LogWarning("Not more card instance");
+                return null;
+            }
+            
+            return _cardInstances[0].CardInstance;
         }
         
         private List<MetaCardInstanceInfo> GetCardInstanceInfoDataCopy()
