@@ -16,6 +16,10 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
     
     public int Priority => 0;
 
+    public DismantelCurrencyUIHandler DismantelCurrencyUI => _dismantelCurrencyUI;
+
+    public DismantleDataManager DismantleDataManager => _dismantleDataManager; 
+
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
         _collectionHandler.Init();

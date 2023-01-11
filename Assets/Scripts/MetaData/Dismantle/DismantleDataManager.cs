@@ -39,7 +39,11 @@ namespace CardMaga.MetaData.Dismantle
         public CardsCollectionDataHandler CardCollectionDatas => _cardCollectionDatas;
         
         public int Priority => 0;
-        
+
+        public DismantleHandler DismantleHandler => _dismantleHandler;
+
+        public DismantleCurrencyHandler DismantleCurrencyHandler => _dismantleCurrencyHandler;
+
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
             _accountDataAccess = data.AccountDataAccess;

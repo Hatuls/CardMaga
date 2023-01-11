@@ -7,7 +7,7 @@ namespace CardMaga.UI.Visuals
 {
 
   
-    public class RarityTabHandler : MonoBehaviour,IInitializable<RarityTextData>
+    public class RarityTab : MonoBehaviour,IInitializable<RarityTextData>
     {
         [SerializeField]
         private RarityTabVisualAssigner _visalAssigner;
