@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DismantleTabHandler : BaseUIElement
 {
@@ -24,7 +25,8 @@ public class DismantleTabHandler : BaseUIElement
     [SerializeField]
     private RarityTab[] _rarityTabs;
 
-
+    [SerializeField,EventsGroup]
+    private UnityEvent OnShowEvent, OnHideEvent;
     private DismantleHandler _dismantleHandler; // got the cards
     private DismantleCurrencyHandler _dismantleCurrencyHandler; // gots the amount
 
@@ -39,12 +41,18 @@ public class DismantleTabHandler : BaseUIElement
     {
         if (_dismantleHandler.DismantleCards != null && _dismantleHandler.DismantleCards.Count > 0)
         {
+            OnShowEvent?.Invoke();
             base.Show();
             AssignTexts();
             DeactivateTabs();
             ActivateRarityTabs();
         }
        
+    }
+    public override void Hide()
+    {
+        OnHideEvent?.Invoke();
+        base.Hide();
     }
 
     private void DeactivateTabs()
