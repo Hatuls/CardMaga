@@ -108,7 +108,7 @@ namespace CardMaga.MetaData.AccoutData
             
             _decks.RemoveAt(index);
 
-            AccountManager.Instance.Data.CharactersData.MainCharacter.TryRemoveDeck(index);
+            AccountManager.Instance.Data.CharactersData.GetMainCharacter().TryRemoveDeck(index);
         }
 
         public void SetMainDeck(int deckIndex)

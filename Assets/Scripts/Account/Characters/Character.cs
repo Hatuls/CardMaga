@@ -12,7 +12,6 @@ namespace Account.GeneralData
 
         public List<Character> Characters = new List<Character>();
         public int MainCharacterIndex = 0;
-        public Character MainCharacter => Characters[MainCharacterIndex];
 
         public Character GetMainCharacter() => Characters[MainCharacterIndex];
         public void AddCharacter(Character character)
