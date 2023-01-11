@@ -99,8 +99,8 @@ namespace Battle.Combo
 
         public BattleComboData(ComboSO comboSO, int level)
         {
-            ComboSO = comboSO;
             _comboCore = new Account.GeneralData.ComboCore(comboSO, level);
+            ComboSO = comboSO;
 
         }
 
