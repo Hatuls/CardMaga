@@ -34,8 +34,9 @@ namespace CardMaga.MetaData.Collection
             _cardCore = cardInstance.CardInstance.GetCardCore();//need to change
 
             _coreId = _cardCore.CoreID;
-            
+#if UNITY_EDITOR
             _cardName = cardInstance.CardInstance.CardSO.CardName;
+#endif
 
             _cardInstance = cardInstance.CardInstance;
 
@@ -48,7 +49,9 @@ namespace CardMaga.MetaData.Collection
         {
             _cardCore = instanceInfos[0].CardInstance.GetCardCore();
             _coreId = _cardCore.CoreID;
+#if UNITY_EDITOR
             _cardName = instanceInfos[0].CardInstance.CardSO.CardName;
+#endif
             _cardInstances = instanceInfos;
             _cardInstance = instanceInfos[0].CardInstance;
             _maxInstants = _cardInstances.Count;
