@@ -57,7 +57,7 @@ namespace CardMaga.MetaUI.CollectionUI
 
             _deckName.OnValueChange += _deckBuilder.TryEditDeckName;
 
-         //   _dataManager.OnSuccessUpdateDeck += CloseScreen;
+            //   _dataManager.OnSuccessUpdateDeck += CloseScreen;
             _dataManager.OnFailedUpdateDeck += _clickHelper.Open;
 
             _deckBuilder.OnSuccessfulCardAdd += _deckContinaer.AddOnsuccessfulCardUI;

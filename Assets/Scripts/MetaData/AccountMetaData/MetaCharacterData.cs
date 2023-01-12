@@ -38,6 +38,8 @@ namespace CardMaga.MetaData.AccoutData
         public int Rank { get => _rank; set => _rank = value; }
         public int Exp { get => _exp; set => _exp = value; }
 
+        public int MainDeckIndex => _mainDeckIndex;
+
         public MetaDeckData MainDeck
         {
             get => _decks[_mainDeckIndex];
@@ -99,16 +101,11 @@ namespace CardMaga.MetaData.AccoutData
             return cache;
         }
 
-        public void DiscardLastDeck(int deckId)
+        public void DiscardDeck(int deckId)
         {
-            int index = FindDeckIndexByID(deckId);
+            _decks.RemoveAt(deckId);
 
-            if (index == -1)
-                throw new Exception("Deck coreID not found");
-            
-            _decks.RemoveAt(index);
-
-            AccountManager.Instance.Data.CharactersData.GetMainCharacter().TryRemoveDeck(index);
+            AccountManager.Instance.Data.CharactersData.GetMainCharacter().TryRemoveDeck(deckId);
         }
 
         public void SetMainDeck(int deckIndex)

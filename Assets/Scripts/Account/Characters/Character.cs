@@ -58,12 +58,19 @@ namespace Account.GeneralData
         
         public bool AddNewDeck(CardInstance[] deckCards, ComboCore[] deckCombos)
         {
-            CoreID[] cards = new CoreID[deckCards.Length];
+            bool canAddDeck = Deck.Count < DeckAmount;//do the check twins
 
-            for (int i = 0; i < cards.Length; i++)
-                cards[i] = new CoreID(deckCards[i].CoreID);
+            if (canAddDeck)
+            {
+                CoreID[] cards = new CoreID[deckCards.Length];
 
-            return AddNewDeck(cards, deckCombos);
+                for (int i = 0; i < cards.Length; i++)
+                    cards[i] = new CoreID(deckCards[i].CoreID);
+                
+                return AddNewDeck(cards, deckCombos);
+            }
+            
+            return false;
         }
         
         public bool AddNewDeck(DeckData deckData)
@@ -78,17 +85,6 @@ namespace Account.GeneralData
             return canAddDeck;
         }
 
-        public void SetMainDeck(int deckId)
-        {
-            for (int i = 0; i < Deck.Count; i++)
-            {
-                if (Deck[i].Id == deckId )
-                {
-                    MainDeck = i;
-                }
-            }
-        }
-        
         public bool AddNewDeck(CoreID[] deckCards, ComboCore[] deckCombos)
         {
             bool canAddDeck = Deck.Count < DeckAmount;
@@ -98,6 +94,19 @@ namespace Account.GeneralData
                 Deck.Add(new DeckData(Deck.Count, "New Deck", deckCards, deckCombos));
             }
             return canAddDeck;
+        }
+        
+        public void SetMainDeck(int deckId)
+        {
+            MainDeck = deckId;
+            
+            // for (int i = 0; i < Deck.Count; i++)
+            // {
+            //     if (Deck[i].Id == deckId )
+            //     {
+            //         MainDeck = i;//need to check rei!
+            //     }
+            // }
         }
 
         public bool TryRemoveDeck(int deckIndex)

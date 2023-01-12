@@ -2,98 +2,85 @@
 using CardMaga.MetaData.AccoutData;
 using CardMaga.MetaUI;
 using CardMaga.SequenceOperation;
+using CardMaga.UI;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
-public class MetaCharecterUICollection : MonoBehaviour, ISequenceOperation<MetaUIManager>, IEquatable<MetaCharacterData>
+public class MetaCharecterUICollection : BaseUIElement, ISequenceOperation<MetaUIManager>, IEquatable<MetaCharacterData>
 {
-    public event Action OnNewDeckAdded;
-    public event Action<int> OnDisacrdDeck;
-    public event Action<int> OnSetMainDeck; 
-    public event Func<MetaDeckData> OnSetNewMainDeck; 
-
+    public event Action OnSelectedDeckPressed;
+    
     [SerializeField] private MetaDeckUICollection[] _decksUI;
 
+    private int _mainDeckId;
+
     private MetaCharacterData _characterData;
-
-    private MetaDeckUICollection _mainDeckUI = null;
     
-    public MetaCharacterData CharacterData => _characterData;
-
-    public MetaDeckUICollection MainDeckUI => _mainDeckUI;
+    public MetaDeckUICollection MainDeckUI => _decksUI[_mainDeckId];
 
     public int Priority => 1;
 
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
         _characterData = data.MetaDataManager.MetaAccountData.CharacterDatas.CharacterData;
-
-        OnSetMainDeck += _characterData.SetMainDeck;
-        OnSetNewMainDeck += _characterData.AddDeck;
-        OnDisacrdDeck += _characterData.DiscardLastDeck;
-        
-        foreach (var metaDeckUICollection in _decksUI)
-        {
-            metaDeckUICollection.Input.OnClickValue += SetMainDeck;
-        }
         
         for (int i = 0; i < _decksUI.Length; i++)
         {
+            _decksUI[i].OnSetMainDeck += SetMainDeck;
+            _decksUI[i].OnClickSelectedDeck += SelectedDeckPressed;
             _decksUI[i].AssignVisual(i < _characterData.Decks.Count ? _characterData.Decks[i] : null);
-
-            if (_decksUI[i].Equals(_characterData.MainDeck))
-            {
-                SetMainDeck(_decksUI[i]);
-            }
         }
+        
+        SetMainDeck(_characterData.MainDeckIndex);
     }
 
-    private void SetMainDeck(MetaDeckUICollection metaDeckUI)
+    private void SetMainDeck(int deckId)
     {
-        if (_mainDeckUI != null)
-            _mainDeckUI.UnSetAsMainDeck();
+        if (MainDeckUI != null)
+            MainDeckUI.UnSetAsMainDeck();
 
-        _mainDeckUI = metaDeckUI;
-
-        if (ReferenceEquals(metaDeckUI.DeckData, null))
+        if (deckId == -1)
         {
-            MetaDeckData metaDeckData = OnSetNewMainDeck?.Invoke();
-            
-            if (ReferenceEquals(metaDeckData,null))
+            MetaDeckData metaDeckData = _characterData.AddDeck();
+
+            if (ReferenceEquals(metaDeckData, null))
                 return;
-            
-            _mainDeckUI.AssignVisual(metaDeckData);
-            _mainDeckUI.Show();
-            OnNewDeckAdded?.Invoke();
+
+            _mainDeckId = metaDeckData.DeckId;
+
+            MainDeckUI.AssignVisual(metaDeckData);
+            MainDeckUI.Show();
         }
         else
-            OnSetMainDeck?.Invoke(metaDeckUI.DeckId);
-        
-        _mainDeckUI.SetAsMainDeck();
+        {
+            _mainDeckId = deckId;
+            MainDeckUI.SetMainDeck();
+            _characterData.SetMainDeck(_mainDeckId);
+        }
     }
 
     public void DiscardLastDeck(int deckId)
     {
-        _mainDeckUI.DiscardDeck();
-        
-        _mainDeckUI = _decksUI[0];
-        
-        _mainDeckUI.SetAsMainDeck();
-        
-        OnSetMainDeck?.Invoke(_mainDeckUI.DeckId);
-        OnDisacrdDeck?.Invoke(deckId);
+        SetMainDeck(0);
+
+        _decksUI[deckId].DiscardDeck();
+
+        _characterData.DiscardDeck(deckId);
+        _characterData.SetMainDeck(_mainDeckId);
+    }
+
+    private void SelectedDeckPressed()
+    {
+        OnSelectedDeckPressed?.Invoke();
     }
 
     public void OnDestroy()
     {
         foreach (var metaDeckUICollection in _decksUI)
         {
-            metaDeckUICollection.Input.OnClickValue -= SetMainDeck;
+            metaDeckUICollection.OnClickSelectedDeck -= SelectedDeckPressed;
+            metaDeckUICollection.OnSetMainDeck -= SetMainDeck;
         }
-        
-        OnSetMainDeck -= _characterData.SetMainDeck;
-        OnSetNewMainDeck -= _characterData.AddDeck;
-        OnDisacrdDeck -= _characterData.DiscardLastDeck;
     }
 
     private bool TryFindMetaDeckUI(MetaDeckData metaDeckData, out MetaDeckUICollection metaDeckUICollection)

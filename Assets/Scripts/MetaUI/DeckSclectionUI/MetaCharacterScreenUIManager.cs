@@ -1,18 +1,15 @@
-﻿using System;
-using CardMaga.MetaData.AccoutData;
-using CardMaga.MetaUI;
+﻿using CardMaga.MetaUI;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using ReiTools.TokenMachine;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager>
 {
     [SerializeField] private MetaCharecterUICollection[] _charectersUI;
-    [SerializeField] private UnityEvent OnOpenEditingScreen;
     private MetaDeckEditingUIManager metaDeckEditingUIManager;
+        
     private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
     
     private MetaCharecterUICollection _mainCharecterUI;
@@ -21,8 +18,8 @@ public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<Met
     
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
-        MetaCharactersHandler metaCharactersHandler = data.MetaDataManager.MetaAccountData.CharacterDatas;
         metaDeckEditingUIManager = data.MetaDeckEditingUIManager;
+        
         foreach (var charecterUICollection in _charectersUI)
         {
             _sequenceHandler.Register(charecterUICollection);
@@ -32,7 +29,7 @@ public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<Met
 
         foreach (var charecterUICollection in _charectersUI)
         {
-            charecterUICollection.OnNewDeckAdded += OpenScreen;
+            charecterUICollection.OnSelectedDeckPressed += OpenDeckEditScreen;
         }
 
         _mainCharecterUI = _charectersUI[0];// plaster
@@ -47,17 +44,12 @@ public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<Met
     {
         foreach (var charecterUICollection in _charectersUI)
         {
-            charecterUICollection.OnNewDeckAdded -= OpenScreen;
+            charecterUICollection.OnSelectedDeckPressed -= OpenDeckEditScreen;
         }
     }
 
     public void OpenDeckEditScreen()
     {
         metaDeckEditingUIManager.OpenScreen();
-    }
-    public override void OpenScreen()
-    {
-        base.OpenScreen();
-        OnOpenEditingScreen?.Invoke();
     }
 }

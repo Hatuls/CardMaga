@@ -109,7 +109,7 @@ namespace CardMaga.MetaData.DeckBuilding
         
         public void TryEditDeckName(string name)
         {
-            if (_deckNameValidator.Valid(name,out string failedMassage))
+            if (!_deckNameValidator.Valid(name,out string failedMassage))
             {
                 OnFailedToUpdateDeckName?.Invoke(failedMassage);
                 return;
@@ -154,7 +154,7 @@ namespace CardMaga.MetaData.DeckBuilding
 
             _deck.AddCombo(comboInstance);
             
-            if (_deckValidator.Valid(_deck,out string failedMassage))
+            if (!_deckValidator.Valid(_deck,out string failedMassage))
             {
                 _deck.RemoveCombo(comboInstance);
                 OnFailedToAddCombo?.Invoke(failedMassage);
