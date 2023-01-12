@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CardMaga.UI
 {
 
     public static class UIHistoryManager
     {
+        public static event Action OnEmpty;
         private static Stack<IUIElement> _history = new Stack<IUIElement>();
         private static IUIElement _currentUIElement;
 
@@ -33,25 +35,28 @@ namespace CardMaga.UI
 
         public static void ReturnBack()
         {
+
             if (!IsEmpty)
                 Show(_history.Pop(), false);
             else if (_currentUIElement != null)
-            {
-                _currentUIElement.Hide();
-                _currentUIElement = null;
-            }
+                CloseAllHistory();
+        }
 
+        private static void CloseAllHistory()
+        {
+            _currentUIElement.Hide();
+            _currentUIElement = null;
+            OnEmpty?.Invoke();
         }
 
         public static void CloseAll()
         {
             while (!IsEmpty)
                 ReturnBack();
+
             if (_currentUIElement != null)
-            {
-                _currentUIElement.Hide();
-                _currentUIElement = null;
-            }
+                CloseAllHistory();
+            
         }
 
 
@@ -63,13 +68,21 @@ namespace CardMaga.UI
         [SerializeField]
         private bool _toRememberWhenOpenScreen = true;
 
+        [SerializeField, EventsGroup]
+        private UnityEvent OnScreenOpen;
+        [SerializeField,EventsGroup]
+        private UnityEvent OnScreenClose;
+
         public virtual void OpenScreen()
         {
+            OnScreenOpen?.Invoke();
             UIHistoryManager.Show(this, _toRememberWhenOpenScreen);
+
         }
         public virtual void CloseScreen()
         {
             UIHistoryManager.ReturnBack();
+            OnScreenClose?.Invoke();
         }
     }
     public abstract class BaseUIElement : MonoBehaviour, IUIElement
