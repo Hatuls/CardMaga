@@ -33,7 +33,7 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
         base.OpenScreen();
         UpdateVisual(0, 0);
         _dismantleDataManager.SetCardCollection();
-        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
+        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionWithoutLimitCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
     }
 
     private void UpdateVisual(int chipsAmount,int goldAmount)

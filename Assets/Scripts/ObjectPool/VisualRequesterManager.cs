@@ -16,11 +16,13 @@ namespace CardMaga.ObjectPool
         [SerializeField] private MetaComboUI _comboPrefabRef;
         [SerializeField] private MetaCollectionCardUI _metaCollectionCardPrefabRef;
         [SerializeField] private MetaCollectionComboUI collectionComboUIPrefabRef;
+        [SerializeField] private MetaCollectionCardUI _metaCollectionCardWithOutLimitPrefabRef;
         
         private VisualRequester<MetaComboUI, ComboCore> _comboVisualRequester;
         private VisualRequester<MetaCardUI, CardInstance> _cardVisualRequester;
         private VisualRequester<MetaCollectionCardUI, MetaCollectionCardData> _cardCollectionVisualRequester;
         private VisualRequester<MetaCollectionComboUI, MetaCollectionComboData> _comboCollectionVisualRequester;
+        private VisualRequester<MetaCollectionCardUI, MetaCollectionCardData> _cardCollectionWithoutLimitVisualRequester;
 
         public int Priority => 0;
 
@@ -37,6 +39,8 @@ namespace CardMaga.ObjectPool
             _cardCollectionVisualRequester =
                 new VisualRequester<MetaCollectionCardUI, MetaCollectionCardData>(_metaCollectionCardPrefabRef);
             _comboCollectionVisualRequester = new VisualRequester<MetaCollectionComboUI, MetaCollectionComboData>(collectionComboUIPrefabRef);
+            _cardCollectionWithoutLimitVisualRequester =
+                new VisualRequester<MetaCollectionCardUI, MetaCollectionCardData>(_metaCollectionCardWithOutLimitPrefabRef);
         }
 
         public List<MetaCardUI> GetMetaCardUIs(List<CardInstance> metaCardDatas)
@@ -62,6 +66,11 @@ namespace CardMaga.ObjectPool
         public List<MetaCollectionCardUI> GetMetaCollectionCardUI(List<MetaCollectionCardData> metaCollectionCardDatas)
         {
             return _cardCollectionVisualRequester.GetVisual(metaCollectionCardDatas);
+        }
+        
+        public List<MetaCollectionCardUI> GetMetaCollectionWithoutLimitCardUI(List<MetaCollectionCardData> metaCollectionCardDatas)
+        {
+            return _cardCollectionWithoutLimitVisualRequester.GetVisual(metaCollectionCardDatas);
         }
         
         public List<MetaCollectionCardUI> GetMetaCollectionCardUI(int amount)
