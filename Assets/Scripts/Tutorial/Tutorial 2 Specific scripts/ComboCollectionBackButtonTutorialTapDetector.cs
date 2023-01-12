@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ComboCollectorBackButtonTutorialTapDetector : MonoBehaviour
+public class ComboCollectionBackButtonTutorialTapDetector : MonoBehaviour
 {
     [SerializeField] Button _comboCollectionExitButton;
 
