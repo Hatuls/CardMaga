@@ -15,7 +15,7 @@ namespace CardMaga.Trackers
                     return _trackers[i];
                 }
             }
-            throw new System.Exception("TrackerHandler: Tracker Was not found");
+            throw new System.Exception("TrackerHandler: Tracker Was not found\nTracker Name: "+ trackerID.name);
         }
         public static bool CheckTrackerRegistered(TrackerID trackerID)
         {

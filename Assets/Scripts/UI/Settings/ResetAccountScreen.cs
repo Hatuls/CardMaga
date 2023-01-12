@@ -13,11 +13,11 @@ namespace CardMaga.UI.Settings
         public int Priority => 0;
         public void OpenAccountScreen()
         {
-            UIHistoryManager.Show(this, true);
+            Show();
         }
         public void ReturnBack()
         {
-            UIHistoryManager.ReturnBack();
+            Hide();
         }
         public void ResetAccount()
         {
