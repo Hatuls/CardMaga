@@ -43,7 +43,7 @@ namespace Factory
         public ComboFactory ComboFactoryHandler { get; private set; }
         public CardFactory CardFactoryHandler { get; private set; }
         public CharacterFactory CharacterFactoryHandler { get; private set; }
-        public RewardFactory RewardFactoryHandler { get; private set; }
+     //   public RewardFactory RewardFactoryHandler { get; private set; }
         public KeywordFactory KeywordFactoryHandler { get; private set; }
 
 
@@ -64,20 +64,7 @@ namespace Factory
             OnFactoryFinishedLoading?.Invoke();
         }
 
-        public class RewardFactory
-        {
-            // public BattleRewardCollectionSO BattleRewardCollection { get; private set; }
-            // public RewardFactory(BattleRewardCollectionSO battleRewardCollectionSO)
-            // {
-            //     BattleRewardCollection = battleRewardCollectionSO;
-            // }
-
-            // public BattleReward GetBattleRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act, IEnumerable<Battle.Combo.ComboData> workOnCombo)
-            //=> BattleRewardCollection.GetReward(characterTypeEnum, act, workOnCombo);
-
-            // public RunReward GetRunRewards(CharacterTypeEnum characterTypeEnum, ActsEnum act)
-            //     => BattleRewardCollection.GetRunReward(characterTypeEnum, act);
-        }
+     
 
         public class CharacterFactory
         {
@@ -170,6 +157,23 @@ namespace Factory
             {
                 return new MetaComboData(comboCore);
             }
+            
+            public ComboInstance GetMetaComboInstance(ComboCore comboCore)
+            {
+                return new ComboInstance(comboCore);
+            }
+            
+            public  List<ComboInstance> GetMetaComboInstance(List<ComboCore> comboCores)
+            {
+                List<ComboInstance> output = new List<ComboInstance>();
+
+                foreach (var comboCore in comboCores)
+                {
+                    output.Add(new ComboInstance(comboCore));
+                }
+
+                return output;
+            }
 
             public List<MetaComboData> GetMetaComboData(ComboCore[] comboCores)
             {
@@ -191,7 +195,7 @@ namespace Factory
 
                     for (int i = 0; i < combosSO.Length; i++)
                     {
-                        if (combosSO[i].ID != 0)
+                        if (combosSO[i].CoreID != 0)
                             combos.Add(CreateCombo(combosSO[i].ComboSO()));
                     }
 
@@ -232,7 +236,7 @@ namespace Factory
 
                 foreach (var cardID in CardCollection.GetAllCardsSO)
                     foreach (var cardLevel in cardID.CardCore)
-                        _cardCollectionDictionary.Add(cardLevel.CardCore.CardID, cardID);
+                        _cardCollectionDictionary.Add(cardLevel.CardCore.CoreID, cardID);
 
                 _battleCardIdList = new List<CardCore>();
 
@@ -257,7 +261,7 @@ namespace Factory
 
             public MetaCardData GetMetaCardData(CardCore cardCore)
             {
-                CardSO cardSo = GetCard(cardCore.CardID);
+                CardSO cardSo = GetCard(cardCore.CoreID);
 
                 CardInstance instance = CreateCardInstance(cardCore);
 
@@ -290,7 +294,7 @@ namespace Factory
 
                 foreach (var cardCore in cardCores)
                 {
-                    CardSO cardSo = GetCard(cardCore.CardID);
+                    CardSO cardSo = GetCard(cardCore.CoreID);
 
                     CardInstance instance = CreateCardInstance(cardCore);
 
@@ -376,6 +380,7 @@ namespace Factory
                 throw new Exception($" battleCard was not created!\nCardSO is :{cardSO} Level: {level} MaxLevel {cardSO.CardsMaxLevel}");
 
             }
+            
             public BattleCardData[] CreateDeck(CardInstance[] cards)
             {
                 BattleCardData[] c = new BattleCardData[cards.Length];

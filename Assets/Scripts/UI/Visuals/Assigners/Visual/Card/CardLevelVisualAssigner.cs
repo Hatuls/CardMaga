@@ -79,7 +79,7 @@ namespace CardMaga.UI.Visuals
         }
         public override void Init(CardCore comboData)
         {
-            //(int)battleCard.CardSO.Rarity, cardLevel, 1
+            //(int)battleCard.ComboSo.Rarity, cardLevel, 1
             int cardRarity = (int)comboData.CardSO.Rarity - 1;
             var cardLevel = comboData.Level;
             //Hard Coded Value

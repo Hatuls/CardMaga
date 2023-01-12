@@ -1,16 +1,15 @@
-﻿using System;
-using CardMaga.MetaData.AccoutData;
-using CardMaga.MetaUI;
+﻿using CardMaga.MetaUI;
+using CardMaga.MetaUI.CollectionUI;
 using CardMaga.SequenceOperation;
+using CardMaga.UI;
 using ReiTools.TokenMachine;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class MetaCharacterScreenUIManager : MonoBehaviour , ISequenceOperation<MetaUIManager>
+public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager>
 {
     [SerializeField] private MetaCharecterUICollection[] _charectersUI;
-    [SerializeField] private UnityEvent OnOpenEditingScreen;
-    
+    private MetaDeckEditingUIManager metaDeckEditingUIManager;
+        
     private SequenceHandler<MetaUIManager> _sequenceHandler = new SequenceHandler<MetaUIManager>();
     
     private MetaCharecterUICollection _mainCharecterUI;
@@ -19,8 +18,8 @@ public class MetaCharacterScreenUIManager : MonoBehaviour , ISequenceOperation<M
     
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
-        MetaCharactersHandler metaCharactersHandler = data.MetaDataManager.MetaAccountData.CharacterDatas;
-
+        metaDeckEditingUIManager = data.MetaDeckEditingUIManager;
+        
         foreach (var charecterUICollection in _charectersUI)
         {
             _sequenceHandler.Register(charecterUICollection);
@@ -30,7 +29,7 @@ public class MetaCharacterScreenUIManager : MonoBehaviour , ISequenceOperation<M
 
         foreach (var charecterUICollection in _charectersUI)
         {
-            charecterUICollection.OnNewDeckAdded += OpenDeckEditingScreen;
+            charecterUICollection.OnSelectedDeckPressed += OpenDeckEditScreen;
         }
 
         _mainCharecterUI = _charectersUI[0];// plaster
@@ -45,19 +44,12 @@ public class MetaCharacterScreenUIManager : MonoBehaviour , ISequenceOperation<M
     {
         foreach (var charecterUICollection in _charectersUI)
         {
-            charecterUICollection.OnNewDeckAdded -= OpenDeckEditingScreen;
+            charecterUICollection.OnSelectedDeckPressed -= OpenDeckEditScreen;
         }
     }
 
-  
-
-    private void SetMainCharacterUI(MetaCharacterData metaCharacterData)
+    public void OpenDeckEditScreen()
     {
-        
-    }
-
-    public void OpenDeckEditingScreen()
-    {
-        OnOpenEditingScreen?.Invoke(); 
+        metaDeckEditingUIManager.OpenScreen();
     }
 }

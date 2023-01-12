@@ -137,6 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2807706604471765013}
   - component: {fileID: 3927664407422562018}
+  - component: {fileID: 3410343910016497202}
   m_Layer: 5
   m_Name: Deck Editing Screen
   m_TagString: Untagged
@@ -176,21 +177,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48ed661e292a0e4296d2ab8e33c8a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 2807706604471765013}
+  _holderGameObject: {fileID: 2807706602731628242}
+  _toRememberWhenOpenScreen: 1
+  OnScreenOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  OnScreenClose:
+    m_PersistentCalls:
+      m_Calls: []
   OnExitDeckEditing:
     m_PersistentCalls:
       m_Calls: []
-  _cardPrefabRef: {fileID: 7531011294793104763, guid: 37c1efa80f029d946856a85ef47a6ed3,
-    type: 3}
-  _comboPrefabRef: {fileID: 1635044068937604284, guid: 57a0829fa693b9e4ea95ed194603d02e,
-    type: 3}
-  _metaCollectionCardPrefabRef: {fileID: 4651996046410880001, guid: b4328f713027e59478211df3a982c202,
-    type: 3}
-  collectionComboUIPrefabRef: {fileID: 7082167466398128996, guid: 7cf2de5901cd4c346bbd559925685c31,
-    type: 3}
   _clickHelper: {fileID: 0}
   _deckContinaer: {fileID: 0}
-  _metaCollectionHandler: {fileID: 0}
+  _metaCollectionHandler: {fileID: 3410343910016497202}
   _deckName: {fileID: 0}
+--- !u!114 &3410343910016497202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2807706604471765012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24c777c1762b3254d8c9bd92a7158997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _haveCards: 1
+  _haveCombo: 1
+  _metaCardUICollectionScrollPanel: {fileID: 1453651347084836902}
+  _metaComboUICollectionScrollPanel: {fileID: 3463104503788109050}
 --- !u!1 &2807706604714061495
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,6 +894,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5255946236674022743, guid: 638402fe154e9b64ea23a278854c5e87,
         type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5255946236674022743, guid: 638402fe154e9b64ea23a278854c5e87,
+        type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -1070,6 +1093,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2649139883517523076, guid: 1abf3a649d5ff014893de48fcedec66b,
         type: 3}
+      propertyPath: _haveCards
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2649139883517523076, guid: 1abf3a649d5ff014893de48fcedec66b,
+        type: 3}
+      propertyPath: _haveCombo
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2649139883517523076, guid: 1abf3a649d5ff014893de48fcedec66b,
+        type: 3}
       propertyPath: _metaCardUICollectionScrollPanel
       value: 
       objectReference: {fileID: 0}
@@ -1198,7 +1231,8 @@ PrefabInstance:
       propertyPath: _buttons.Array.data[0]
       value: 
       objectReference: {fileID: 319607035216420582}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2649139883517523076, guid: 1abf3a649d5ff014893de48fcedec66b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1abf3a649d5ff014893de48fcedec66b, type: 3}
 --- !u!224 &5818481807258563409 stripped
 RectTransform:
@@ -1206,3 +1240,27 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7173456214949340531}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1453651347084836902 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8620263904965895509, guid: 1abf3a649d5ff014893de48fcedec66b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7173456214949340531}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53515e33611d0414391a008f3eef760d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3463104503788109050 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6017468092278888841, guid: 1abf3a649d5ff014893de48fcedec66b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7173456214949340531}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed5fe393fd144348957f0e23aba091b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

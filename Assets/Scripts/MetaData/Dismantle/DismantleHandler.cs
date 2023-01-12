@@ -8,15 +8,17 @@ namespace CardMaga.MetaData.Dismantle
 {
     public class DismantleHandler
     {
-        public event Action<List<CardInstance>> OnConfirmDismantleCard;
         public event Action<CardInstance> OnAddCardToDismantleList; 
         public event Action<CardInstance> OnRemoveCardFromDismantleList; 
 
         private List<CardInstance> _dismantleCards;
 
-        public DismantleHandler()
+        private CardsCollectionDataHandler _originalCardCollection;
+        public IReadOnlyList<CardInstance> DismantleCards => _dismantleCards;
+        public DismantleHandler(CardsCollectionDataHandler originalCardCollection)
         {
             _dismantleCards = new List<CardInstance>();
+            _originalCardCollection = originalCardCollection;
         }
 
         public void AddCardToDismantleList(CardInstance cardInstance)
@@ -25,9 +27,9 @@ namespace CardMaga.MetaData.Dismantle
             OnAddCardToDismantleList?.Invoke(cardInstance);
         }
 
-        public CardInstance RemoveCardFromDismantleList(MetaCollectionCardData collectionCardData)
+        public CardInstance RemoveCardFromDismantleList(CardCore cardCore)
         {
-            if (FindCardInstanceInDismantelList(collectionCardData.CoreId,out CardInstance cardInstance))
+            if (FindCardInstanceInDismantelList(cardCore.CoreID,out CardInstance cardInstance))
             {
                 _dismantleCards.Remove(cardInstance);
                 OnRemoveCardFromDismantleList?.Invoke(cardInstance);
@@ -53,14 +55,22 @@ namespace CardMaga.MetaData.Dismantle
             return false;
         }
 
-        public void ResetDismantelList()
+        public void ResetDismantleList()
         {
+            //need to return card to collection
             _dismantleCards.Clear();
         }
 
-        public void ConfirmDismantleList()
+        public List<CardInstance> ConfirmDismantleList()//plaster 10.1.23
         {
-            OnConfirmDismantleCard?.Invoke(_dismantleCards);
+            foreach (var dismantleCard in _dismantleCards)
+            {
+                _originalCardCollection.TryRemoveCardInstance(dismantleCard.InstanceID,true);
+            }
+
+            var cache = _dismantleCards;
+            //_dismantleCards.Clear();
+            return cache;
         }
     }
 }

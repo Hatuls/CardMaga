@@ -1,9 +1,11 @@
 ﻿using CardMaga.Battle.UI;
+using System;
 
 namespace CardMaga.UI.Settings
 {
     public class SurrenderScreen : BaseUIElement
     {
+        public static event Action OnSurrenderPressed;
         [UnityEngine.SerializeField]
         private CanvasLayerChanger _canvasLayerChanger;
         public int Priority => 0;
@@ -21,6 +23,8 @@ namespace CardMaga.UI.Settings
             UIHistoryManager.CloseAll();
             BattleUiManager.Instance.BattleDataManager.EndBattleHandler.ForceEndBattle(false);
             _canvasLayerChanger.Reset();
+            OnSurrenderPressed?.Invoke();
+            UIHistoryManager.CloseAll();
         }
     }
 }

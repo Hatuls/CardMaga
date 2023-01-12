@@ -116,7 +116,7 @@ namespace CardMaga.Card
            get
             {
                 for (int i = 0; i < _cardCoreInfo.Length; i++)
-                    yield return _cardCoreInfo[i].CardCore.CardID;
+                    yield return _cardCoreInfo[i].CardCore.CoreID;
             }
         }
         public bool IsFusedCard => _isFuseCard;
@@ -157,7 +157,7 @@ namespace CardMaga.Card
             if (level >= 0 && level < PerLevelUpgrade.Length)
                 return PerLevelUpgrade[level];
 
-            throw new System.Exception($"CardSO: CoreID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
+            throw new System.Exception($"ComboSo: CoreID:{ID}\n trying To get level {level} max level is {CardsMaxLevel}");
         }
 
         //public DescriptionInfo[] CardDescription(int level)
@@ -209,7 +209,7 @@ namespace CardMaga.Card
             for (int i = 0; i < _cardCoreInfo.Length; i++)
             {
 
-                if (_cardCoreInfo[i].CardCore.CardID == id)
+                if (_cardCoreInfo[i].CardCore.CoreID == id)
                     return true;
             }
             return false;
@@ -239,7 +239,7 @@ namespace CardMaga.Card
             {
                 for (int i = 0; i < _cardCoreInfo.Length; i++)
                 {
-                    if (_cardCoreInfo[i].CardCore.CardID == id)
+                    if (_cardCoreInfo[i].CardCore.CoreID == id)
                         return _cardCoreInfo[i];
                 }
                 throw new Exception($"CARDSO: Cardcore could not be found\nID - {id}");

@@ -3,10 +3,12 @@ using CardMaga.MetaData.AccoutData;
 using CardMaga.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,IEquatable<MetaDeckData>
 {
+    public event Action<int> OnSetMainDeck;
+    public event Action OnClickSelectedDeck;
+    
     [SerializeField] private RectTransform _glow;
     [SerializeField] private RectTransform _deckActive;
     [SerializeField] private RectTransform _deckUnactive;
@@ -14,11 +16,12 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
     [SerializeField] private DeckInput _input;
 
     private MetaDeckData _deckData;
-    private int _deckId;
 
     public MetaDeckData DeckData => _deckData;
+
+    public bool IsSelected => _glow.gameObject.activeSelf;
     
-    public int DeckId => _deckId;
+    public int DeckId => _deckData?.DeckId ?? -1;
     
     public bool IsNewDeck => _deckData.IsNewDeck;
 
@@ -34,14 +37,12 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
         if (ReferenceEquals(data,null))
         {
             _deckData = null;
-            _deckId = -1;
             _deckName.text = "New Deck";
-            
+            Hide();
             return;
         }
         
         _deckData = data;
-        _deckId = data.DeckId;
         _deckName.text = data.DeckName;
         Show();
     }
@@ -57,12 +58,23 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
     public void DiscardDeck()
     {
         _deckData = null;
-        _deckId = -1;
         _deckName.text = "New Deck";
         Hide();
     }
 
-    public void SetAsMainDeck()
+    public void OnPress()
+    {
+        if (IsSelected)
+        {
+            OnClickSelectedDeck?.Invoke();
+            return;
+        }
+        
+        OnSetMainDeck?.Invoke(DeckId);
+        SetMainDeck();
+    }
+
+    public void SetMainDeck()
     {
         _glow.gameObject.SetActive(true);
     }
@@ -90,7 +102,7 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
     public bool Equals(MetaDeckData other)
     {
         if (ReferenceEquals(other, null)) return false;
-        if (other.DeckId == _deckId) return true;
+        if (other.DeckId == DeckId) return true;
         return false;
     }
 }

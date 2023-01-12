@@ -1,18 +1,24 @@
-﻿using CardMaga.MetaData.Dismantle;
+﻿using System;
+using CardMaga.MetaData.Dismantle;
 using CardMaga.MetaUI;
 using CardMaga.MetaUI.DismantelUI;
 using CardMaga.ObjectPool;
 using CardMaga.SequenceOperation;
+using CardMaga.UI;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
-public class DismantelUIManager : MonoBehaviour , ISequenceOperation<MetaUIManager>
+public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager>
 {
     [SerializeField] private DismantleDataManager _dismantleDataManager;
-    [SerializeField] private MetaCollectionHandler _collectionHandler;
+    [SerializeField] private MetaCollectionUIHandler _collectionHandler;
     [SerializeField] private DismantelCurrencyUIHandler _dismantelCurrencyUI;
     
     public int Priority => 0;
+
+    public DismantelCurrencyUIHandler DismantelCurrencyUI => _dismantelCurrencyUI;
+
+    public DismantleDataManager DismantleDataManager => _dismantleDataManager; 
 
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
@@ -22,22 +28,34 @@ public class DismantelUIManager : MonoBehaviour , ISequenceOperation<MetaUIManag
         _dismantleDataManager.OnCardAddToDismantel += UpdateVisual;
     }
 
-    private void OnEnable()
+    public override void OpenScreen()
     {
-        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas),null);
-
+        base.OpenScreen();
+        UpdateVisual(0, 0);
+        _dismantleDataManager.SetCardCollection();
+        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionWithoutLimitCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
     }
 
     private void UpdateVisual(int chipsAmount,int goldAmount)
     {
-        _dismantelCurrencyUI.UpdateText(chipsAmount);
+        _dismantelCurrencyUI.UpdateText(chipsAmount,goldAmount);
     }
 
-    public void ExitDismantelScreen()
+    public void ConfirmDismantleCards()
     {
-        _dismantleDataManager.Dispose();//temp
+        _dismantleDataManager.ConfirmDismantleCards();
+        UpdateVisual(0,0);
+        _collectionHandler.UnLoadObjects();
+        _dismantleDataManager.SetCardCollection();
+        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
+    }
+
+    public void ExitDismantleScreen()
+    {
+        _collectionHandler.UnLoadObjects();
         _dismantleDataManager.OnCardAddToDismantel -= UpdateVisual;
-        _dismantleDataManager.ResetDismantelCard();
-        gameObject.SetActive(false);
+        _dismantleDataManager.ResetDismantleCard();
+        _dismantleDataManager.Dispose();//temp
+        CloseScreen();
     }
 }

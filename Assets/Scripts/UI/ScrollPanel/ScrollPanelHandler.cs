@@ -50,6 +50,9 @@ namespace CardMaga.UI.ScrollPanel
     
         internal void UnLoadAllObjects()
         {
+            if (ReferenceEquals(_loadedObjects, null) || _loadedObjects.Count == 0)
+                return;
+
             foreach (var loadedObject in _loadedObjects)
             {
                 RemoveLoadObject(loadedObject);

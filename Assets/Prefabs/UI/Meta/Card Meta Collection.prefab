@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 62342897752908599}
   _holderGameObject: {fileID: 62342897752908596}
-  _minsButton: {fileID: 8507123727375881782}
+  _minusButton: {fileID: 8507123727375881782}
   _plusButton: {fileID: 3279087250573898268}
-  _input: {fileID: 8978485207054859334}
-  _cardVisuals: {fileID: 6348989465172647258}
+  _cardUI: {fileID: 2025749146305583018}
   _cardNumberText: {fileID: 6641181673494579967}
   _cardData:
     _cardName: 
@@ -743,7 +742,7 @@ PrefabInstance:
     - target: {fileID: 2541083818980353587, guid: 9fce0f1fda2ecea41a148444a5d02b78,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryAddToCollection
+      value: PlusPress
       objectReference: {fileID: 0}
     - target: {fileID: 2541083818980353587, guid: 9fce0f1fda2ecea41a148444a5d02b78,
         type: 3}
@@ -915,7 +914,7 @@ PrefabInstance:
     - target: {fileID: 8704694791367049753, guid: 9fce0f1fda2ecea41a148444a5d02b78,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryRemoveFromCollection
+      value: MinusPress
       objectReference: {fileID: 0}
     - target: {fileID: 8704694791367049753, guid: 9fce0f1fda2ecea41a148444a5d02b78,
         type: 3}
@@ -1197,29 +1196,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ae0e234010e98e4abd0a162839bfbf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6348989465172647258 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3540488417110999378, guid: 7c21a652e1fb9b54bbda40e5ed371a22,
-    type: 3}
-  m_PrefabInstance: {fileID: 7583625484263054344}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49858b630249d0a46a190292d61032dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8978485207054859334 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1560373624958083150, guid: 7c21a652e1fb9b54bbda40e5ed371a22,
-    type: 3}
-  m_PrefabInstance: {fileID: 7583625484263054344}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d148a8a06c0b03b4a81bc8569b714c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

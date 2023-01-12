@@ -12,9 +12,10 @@ namespace CardMaga.MetaUI
     public class MetaUIManager : MonoSingleton<MetaUIManager>, ISequenceOperation<MetaDataManager>
     {
         public static event Action OnMetaUIInitializes;
+        public event Action<MetaUIManager> OnMetaUIManagerDestroyed;
 
         [SerializeField] private MetaDataManager _metaDataManager;
-        [SerializeField] private MetaDeckBuildingUIManager _metaDeckBuildingUIManager;
+        [SerializeField] private MetaDeckEditingUIManager _metaDeckEditingUIManager;
         [SerializeField] private MetaCharacterScreenUIManager _metaCharacterScreenUIManager;
         [SerializeField] private DismantelUIManager _dismantelUIManager;
         [SerializeField] private UpgradeUIManager _upgradeUIManager;
@@ -25,7 +26,7 @@ namespace CardMaga.MetaUI
 
         public int Priority => 1;
 
-        public MetaDeckBuildingUIManager MetaDeckBuildingUIManager => _metaDeckBuildingUIManager;
+        public MetaDeckEditingUIManager MetaDeckEditingUIManager => _metaDeckEditingUIManager;
         public MetaCharacterScreenUIManager MetaCharacterScreenUIManager => _metaCharacterScreenUIManager;
         public DismantelUIManager DismantelUIManager => _dismantelUIManager;
         public MetaDataManager MetaDataManager => _metaDataManager;
@@ -36,7 +37,7 @@ namespace CardMaga.MetaUI
             get
             {
                 yield return _upgradeUIManager;
-                yield return _metaDeckBuildingUIManager;
+                yield return _metaDeckEditingUIManager;
                 yield return _metaCharacterScreenUIManager;
                 yield return _dismantelUIManager;
 
@@ -74,13 +75,17 @@ namespace CardMaga.MetaUI
             OnMetaUIInitializes?.Invoke();
         }
 
+        private void OnDestroy()
+        {
+            OnMetaUIManagerDestroyed?.Invoke(this);
+        }
 
         #region Editor:
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]
         private void TryAssignReferences()
         {
-            _metaDeckBuildingUIManager = FindObjectOfType<MetaDeckBuildingUIManager>();
+            _metaDeckEditingUIManager = FindObjectOfType<MetaDeckEditingUIManager>();
             _metaCharacterScreenUIManager = FindObjectOfType<MetaCharacterScreenUIManager>();
             _dismantelUIManager = FindObjectOfType<DismantelUIManager>();
             _upgradeUIManager = FindObjectOfType<UpgradeUIManager>();

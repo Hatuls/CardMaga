@@ -39,7 +39,10 @@ namespace CardMaga.UI.Collections
             List<BattleComboData> battleComboDatas;
 
             battleComboDatas = _comboDataSort.SortComboData(_comboDatas.GetCollection);
-
+                
+            if (battleComboDatas.Count == 0)
+                return;
+            
             foreach (var comboData in battleComboDatas)
             {
                 comboCores.Add(comboData.ComboCore);

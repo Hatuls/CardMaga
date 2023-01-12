@@ -15,12 +15,11 @@ namespace CardMaga.MetaUI
 
         private CardInstance _cardInstance;
 
-        [SerializeField] private BaseCardVisualHandler _cardVisuals;
         [SerializeField] private RectTransform _emptyCard;
         [SerializeField] private BattleCardUI _cardUI;
         public CardInstance CardInstance => _cardInstance;
 
-        public bool IsEmpty => _emptyCard.gameObject.activeSelf && !_cardVisuals.gameObject.activeSelf;
+        public bool IsEmpty => _emptyCard.gameObject.activeSelf && !CardUI.gameObject.activeSelf;
 
         public BattleCardUI CardUI  => _cardUI; 
 
@@ -38,22 +37,22 @@ namespace CardMaga.MetaUI
         }
 
         public override void Hide()
-        { 
-            _cardVisuals.gameObject.SetActive(false);
+        {
+            CardUI.gameObject.SetActive(false);
             _emptyCard.gameObject.SetActive(true);
         }
 
         public override void Show()
         {
-            _cardVisuals.gameObject.SetActive(true);
+            CardUI.gameObject.SetActive(true);
             _emptyCard.gameObject.SetActive(false);
         }
 
 
-     
         public void AssignVisual(CardInstance data)
         {
-            _cardVisuals.Init(data.GetCardCore());
+            CardUI.AssignVisualAndData(Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(data));
+    
             _cardInstance = data;
             //_cardVisuals.CardZoomHandler.ForceReset();//plaster
         }

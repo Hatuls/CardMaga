@@ -44,6 +44,9 @@ namespace CardMaga.InventorySystem
 
         public void Reset()
         {
+            if (ReferenceEquals(_slots, null) || _slots.Length == 0)
+                return;
+
             foreach (var slot in _slots)
             {
                 slot.RemoveValue();
@@ -96,8 +99,9 @@ namespace CardMaga.InventorySystem
             {
                 baseSlot.RemoveValue();
             }
+            else
+                Debug.LogWarning( typeof(T).Name + "Not in the container " + this);
 
-            Debug.LogWarning( typeof(T).Name + "Not in the container " + this);
         }
 
         #region FindCollectionObject

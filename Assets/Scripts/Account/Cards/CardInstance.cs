@@ -2,11 +2,14 @@
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
+
 namespace Account.GeneralData
 {
     [Serializable]
-    public class CardInstance : IEquatable<CardInstance>, IDisposable
+    public class CardInstance : IEquatable<CardInstance>,IEquatable<int>,IDisposable
     {
+        public event Action OnCardUpgrade;
+        
         private static int _uniqueID = 0;
         private static int UniqueID => _uniqueID++;
 
@@ -20,11 +23,11 @@ namespace Account.GeneralData
 
         #region Properties
 
-        public int CoreID => _coreData.CardID;
+        public int CoreID => _coreData.CoreID;
         public CardSO CardSO => _coreData.CardSO;
         public int Level { get => _coreData.Level; }
         public int InstanceID { get => _instanceID; }
-        public bool IsMaxLevel => CardSO.CardsMaxLevel == Level;
+        public bool IsMaxLevel => CardsMaxLevel-1 == Level;
         [ReadOnly,ShowInInspector]
         public int CardsMaxLevel => CardSO.CardsMaxLevel;
 
@@ -34,12 +37,29 @@ namespace Account.GeneralData
             _instanceID = UniqueID;
         }
 
+        public CoreID GetCoreId() => _coreData.GetCoreId();
+        
+        public void UpdateCoreId(CoreID coreID)
+        {
+            _coreData.UpdateCoreId(coreID);
+        }
+        
+        public void UpgradeCard()
+        {
+            GetCardCore().LevelUp();
+            OnCardUpgrade?.Invoke();
+        }
+
         public bool Equals(CardInstance other)
         {
             return other.InstanceID == _instanceID;
         }
-
-
+        
+        public bool Equals(int cardCoreID)
+        {
+            return CoreID == cardCoreID;
+        }
+        
         public CardCore GetCardCore()
           => _coreData;
 
@@ -67,21 +87,30 @@ namespace Account.GeneralData
         [SerializeField] private CardSO _cardSO;
         [Sirenix.OdinInspector.OnValueChanged("InitInstanceEditor")]
         [SerializeField] private int _level;
-
-
-        public int CardID => _coreID.ID;
+        
+        public int CoreID => _coreID.ID;
         public CardSO CardSO => _cardSO;
         public int Level => _level;
+
         public bool IsMaxLevel => CardSO.CardsMaxLevel - 1 == Level; 
+
         public CardCore(int iD) : this(new CoreID(iD)) { }
 
         public CardCore(CoreID coreID)
         {
             _coreID = coreID;
-            _cardSO = CardHelper.CardSO(CardID);
-            _level = CardHelper.GetLevel(CardID);
+            _cardSO = CardHelper.CardSO(CoreID);
+            _level = CardHelper.GetLevel(CoreID);
             Factory.GameFactory.CardFactory.Register(this);
         }
+
+        public void UpdateCoreId(CoreID coreID)
+        {
+            _coreID = coreID;
+            _level = CardHelper.GetLevel(CoreID);
+        }
+
+        public CoreID GetCoreId() => _coreID;
 
         public void Dispose()
         {
@@ -115,7 +144,7 @@ namespace Account.GeneralData
         private void InitInstanceEditor()
         {
             if(_cardSO!=null)
-            _coreID = new CoreID(_cardSO.ID + Level);
+                _coreID = new CoreID(_cardSO.ID + Level);
         }
 
 #endif
@@ -146,7 +175,7 @@ namespace Account.GeneralData
         }
 
         public static CardSO CardSO(this CardInstance card) => CardSO(card.CoreID);
-        public static CardSO CardSO(this CardCore card) => CardSO(card.CardID);
+        public static CardSO CardSO(this CardCore card) => CardSO(card.CoreID);
         public static CardSO CardSO(int id) => Factory.GameFactory.Instance.CardFactoryHandler.GetCard(id);
     }
 }

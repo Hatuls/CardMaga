@@ -63,7 +63,7 @@ namespace Battle.Characters
             var combo = _characterData.ComboRecipe.ToList();
             for (int i = 0; i < combo.Count; i++)
             {
-                if (combo[i].ID == comboID)
+                if (combo[i].CoreID == comboID)
                 {
                     combo.RemoveAt(i);
                     _characterData.ComboRecipe = combo.ToArray();
@@ -118,7 +118,7 @@ namespace Battle.Characters
             var comboRecipe = _characterData.ComboRecipe;
             for (int i = 0; i < comboRecipe.Length; i++)
             {
-                hasThisCombo = comboRecipe[i].ID == battleComboData.ID;
+                hasThisCombo = comboRecipe[i].CoreID == battleComboData.CoreID;
 
                 if (hasThisCombo)
                 {

@@ -55,7 +55,7 @@ namespace CardMaga.MetaUI
         public bool Equals(MetaComboUI other)
         {
             if (ReferenceEquals(other, null)) return false;
-            return ComboData.ID == other.ComboData.ID;
+            return ComboData.CoreID == other.ComboData.CoreID;
         }
     }
 }

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 4725227838366614038}
+  _holderGameObject: {fileID: 0}
   _visualsRectTransform: {fileID: 6338933806020826305}
-  _cardVisuals: {fileID: 1598865003270665608}
+  _cardVisuals: {fileID: 3073732483716214086}
   _inputs: {fileID: 6393630896095256659}
 --- !u!114 &6393630896095256659
 MonoBehaviour:
@@ -28,12 +29,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d148a8a06c0b03b4a81bc8569b714c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBeginHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEndHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
   DisableHold: 0
-  _touchableItem: {fileID: 0}
+  DisableClick: 0
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0
+  _identification: {fileID: 0}
+  _touchableItem: {fileID: 0}
   _currentInputBehaviourState: 0
+  _cardZoomHandler: {fileID: 0}
+  _zoomInScale:
+    _rectTransform: {fileID: 0}
+    _imageRectTransform: {fileID: 0}
+    _offsetPosition: {x: 0, y: 0, z: 0}
+    _gizmosColor: {r: 0, g: 0, b: 0, a: 0}
+    _width: 0
+    _height: 0
 --- !u!1001 &1067090738642394873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -243,9 +272,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3ca92fdb3846d843ab77dca19c1f6a9, type: 3}
---- !u!114 &1598865003270665608 stripped
+--- !u!114 &3073732483716214086 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1801262143725890417, guid: c3ca92fdb3846d843ab77dca19c1f6a9,
+  m_CorrespondingSourceObject: {fileID: 2623072141688992703, guid: c3ca92fdb3846d843ab77dca19c1f6a9,
     type: 3}
   m_PrefabInstance: {fileID: 1067090738642394873}
   m_PrefabAsset: {fileID: 0}

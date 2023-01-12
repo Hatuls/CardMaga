@@ -75,11 +75,12 @@ namespace CardMaga.Server.Request
             int id;
             string name;
             CoreID[] cards;
+            ComboCore[] combos;
 
             id = _deckData.DeckId;
             name = _deckData.DeckName;
             List<CardInstance> cardDatas = _deckData.Cards;
-            List<ComboCore> comboDatas = _deckData.Combos;
+            List<ComboInstance> comboDatas = _deckData.Combos;
 
             cards = new CoreID[cardDatas.Count];
 
@@ -87,8 +88,15 @@ namespace CardMaga.Server.Request
             {
                 cards[i] = new CoreID(cardDatas[i].CoreID);
             }
+            
+            combos = new ComboCore[comboDatas.Count];
+            
+            for (int i = 0; i < comboDatas.Count; i++)
+            {
+                combos[i] = new ComboCore(comboDatas[i].CoreID);
+            }
 
-            return new DeckData(id, name, cards, comboDatas.ToArray());
+            return new DeckData(id, name, cards, combos);
         }
     }
 }

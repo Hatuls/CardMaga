@@ -86,10 +86,10 @@ namespace CardMaga.CSV
 
 
                 if (!int.TryParse(cardIDText[0], out int cardID))
-                    throw new Exception($"CSVToCardsPackReward: specific BattleCard id not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
+                    throw new Exception($"CSVToCardsPackReward: specific BattleCard coreID not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
 
                 if (!int.TryParse(cardIDText[1], out int cardLevelID))
-                    throw new Exception($"CSVToCardsPackReward: specific BattleCard id not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
+                    throw new Exception($"CSVToCardsPackReward: specific BattleCard coreID not an int {cardIDText[0]}\nPackID - {row[IDIndex]}");
 
                 cores.Add(cardID + cardLevelID);
 
@@ -118,7 +118,7 @@ namespace CardMaga.CSV
 
             var cardCollection = CSVManager._cardCollection;
             var allSpecialRewardsCards = cardCollection.AllCardsCoreInfo.Where(x => x.IsSpecialReward);
-            var allSpecialRewardsCardsID = allSpecialRewardsCards.Select(x => x.CardCore.CardID);
+            var allSpecialRewardsCardsID = allSpecialRewardsCards.Select(x => x.CardCore.CoreID);
 
             var results = SeperateCardsIDToRarirty(allSpecialRewardsCardsID.ToArray());
 
@@ -144,7 +144,7 @@ namespace CardMaga.CSV
 
             var cardCollection = CSVManager._cardCollection;
             var allSpecialRewardsCards = cardCollection.AllCardsCoreInfo.Where(x => x.IsBasicReward);
-            var allSpecialRewardsCardsID = allSpecialRewardsCards.Select(x => x.CardCore.CardID);
+            var allSpecialRewardsCardsID = allSpecialRewardsCards.Select(x => x.CardCore.CoreID);
 
             var results = SeperateCardsIDToRarirty(allSpecialRewardsCardsID.ToArray());
 

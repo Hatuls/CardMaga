@@ -38,6 +38,8 @@ namespace CardMaga.MetaData.AccoutData
         public int Rank { get => _rank; set => _rank = value; }
         public int Exp { get => _exp; set => _exp = value; }
 
+        public int MainDeckIndex => _mainDeckIndex;
+
         public MetaDeckData MainDeck
         {
             get => _decks[_mainDeckIndex];
@@ -54,7 +56,7 @@ namespace CardMaga.MetaData.AccoutData
 
         #endregion
 
-        public MetaCharacterData(Character character,List<CardInstance> allCards)
+        public MetaCharacterData(Character character,List<CardInstance> allCards,List<ComboInstance> allCombo)
         {
             _characterData = character;
             _id = character.ID;
@@ -79,7 +81,7 @@ namespace CardMaga.MetaData.AccoutData
 
             for (int i = 0; i < character.Deck.Count; i++)
             {
-                _decks.Add(new MetaDeckData(character.Deck[i],allCards,i,false));
+                _decks.Add(new MetaDeckData(character.Deck[i],allCards,allCombo,i,false));
             }
         }
 
@@ -91,7 +93,7 @@ namespace CardMaga.MetaData.AccoutData
                 return null;
             }
 
-            MetaDeckData cache = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),null,_decks.Count,true);
+            MetaDeckData cache = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),null,null,_decks.Count,true);
             _decks.Add(cache);
             
             SetMainDeck(_decks.Count - 1);
@@ -99,16 +101,11 @@ namespace CardMaga.MetaData.AccoutData
             return cache;
         }
 
-        public void DiscardLastDeck(int deckId)
+        public void DiscardDeck(int deckId)
         {
-            int index = FindDeckIndexByID(deckId);
+            _decks.RemoveAt(deckId);
 
-            if (index == -1)
-                throw new Exception("Deck id not found");
-            
-            _decks.RemoveAt(index);
-
-            AccountManager.Instance.Data.CharactersData.MainCharacter.TryRemoveDeck(index);
+            AccountManager.Instance.Data.CharactersData.GetMainCharacter().TryRemoveDeck(deckId);
         }
 
         public void SetMainDeck(int deckIndex)

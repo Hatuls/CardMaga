@@ -6,10 +6,9 @@ using UnityEngine;
 
 namespace CardMaga.MetaData.Dismantle
 {
-    [Serializable]
     public class DismantleCurrencyHandler
     {
-        [SerializeField] private CurrencyPerRarityCostSO _costsSo;
+        private CurrencyPerRarityCostSO _costsSo;
         
         private int _chipsCurrency;
         private int _goldCurrency;
@@ -18,22 +17,36 @@ namespace CardMaga.MetaData.Dismantle
 
         public int GoldCurrency => _goldCurrency;
 
-        
+        public DismantleCurrencyHandler()
+        {
+            _chipsCurrency = 0;
+            _goldCurrency = 0;
+            
+            _costsSo = Resources.Load<CurrencyPerRarityCostSO>("MetaGameData/DismentalCostSO");
+            if (_costsSo == null)
+                throw new Exception($"DismantleCurrencyHandler: Could not load upgrade costs from resource folder");
+        }
+
+        ~DismantleCurrencyHandler()
+        {
+            Resources.UnloadAsset(_costsSo);
+        }
         public void AddCardCurrency(CardInstance cardInstance)
         {
+            var cardCore = cardInstance.GetCardCore();
 
-            _chipsCurrency +=
-                (int)_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance.GetCardCore(), CurrencyType.Chips).Amount;
+            _chipsCurrency += Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Chips).Amount);
 
-            _goldCurrency += 0;
+            _goldCurrency += Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Gold).Amount);
         }
         
         public void RemoveCardCurrency(CardInstance cardInstance)
         {
+            var cardCore = cardInstance.GetCardCore();
 
-            _chipsCurrency -=  (int)_costsSo.GetCardCostPerCurrencyAndCardCore(cardInstance.GetCardCore(), CurrencyType.Chips).Amount;
+            _chipsCurrency -= Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Chips).Amount);
 
-            _goldCurrency -= 0;
+            _goldCurrency -= Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Gold).Amount);
         }
 
         public void ResetDismantelCurrency()

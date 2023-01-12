@@ -41,7 +41,7 @@ namespace CardMaga.Input
             _buttonVisualBehaviour.VisualOnButtonUnPress(this);
             base.PointUp();
         }
-
+        
         [Button("Toggle Text")]
         public void ToggleActiveState()
         {
@@ -122,13 +122,13 @@ namespace CardMaga.Input
             this.scaleWhenUnPressed = scaleWhenUnPressed;
             this.scaleWhenPressed = scaleWhenPressed;
         }
-        public void VisualOnButtonPress(Button button)
+        public virtual void VisualOnButtonPress(Button button)
         {
             button.transform.localScale = scaleWhenPressed*Vector3.one;
             button.Renderer.color = onPress;
         }
 
-        public void VisualOnButtonUnPress(Button button)
+        public virtual void VisualOnButtonUnPress(Button button)
         {
             button.transform.localScale = scaleWhenUnPressed*Vector3.one;
             button.Renderer.color = onUnPress;

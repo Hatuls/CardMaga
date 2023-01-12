@@ -26,7 +26,7 @@ public class VersionHander : MonoBehaviour
     private HyperlinksSO _hyperlinksSO;
 
     private PlayfabManager _playfabManager;
-    private string path = "https://drive.google.com/uc?export=download&id=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
+    private string path = "https://drive.google.com/uc?export=download&coreID=15g1v7OV3XyE9wR6GBYUfvujDqwwp5uss";
 
     [SerializeField]
     private bool _ignoreServerVersion;

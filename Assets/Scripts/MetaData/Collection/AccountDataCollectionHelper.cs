@@ -14,170 +14,99 @@ namespace CardMaga.MetaData.Collection
     public class AccountDataCollectionHelper : ISequenceOperation<MetaDataManager>
     {
         private AccountDataAccess _accountDataAccess;
-        
-        [SerializeField] private List<MetaCollectionCardData> _collectionCardDatas;
-        [SerializeField] private List<MetaCollectionComboData> _collectionComboDatas;
 
-        public List<MetaCollectionCardData> ALlCollectionCardDatas => _collectionCardDatas;
-        public List<MetaCollectionComboData> AllCollectionComboDatas => _collectionComboDatas;
-        
+        [SerializeField] private CardsCollectionDataHandler _collectionCardDatasHandler;
+        [SerializeField] private ComboCollectionDataHandler _collectionComboDatasHandler;
+
+        public CardsCollectionDataHandler CollectionCardDatasHandler => _collectionCardDatasHandler;
+        public ComboCollectionDataHandler CollectionComboDatasHandler => _collectionComboDatasHandler;
+
         public int Priority => 0;
         
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
-            _collectionCardDatas = new List<MetaCollectionCardData>();
-            _collectionComboDatas = new List<MetaCollectionComboData>();
-            
             _accountDataAccess = data.AccountDataAccess;
-            _collectionCardDatas = InitializeCardData();
-            _collectionComboDatas = InitializeComboData();
+
+            _collectionCardDatasHandler = new CardsCollectionDataHandler(_accountDataAccess.AccountData);
+            _collectionComboDatasHandler = new ComboCollectionDataHandler(_accountDataAccess.AccountData);
         }
-        
-        private List<MetaCollectionCardData> InitializeCardData()
+
+        public CardsCollectionDataHandler GetCardCollectionByDeck(int deckId)
         {
-            List<CardInstance> temp = _accountDataAccess.AccountData.AccountCards;
-
-            List<CardInstance> cardDatas = temp.OrderBy(x => x.CoreID).ToList();
-
-            List<MetaCollectionCardData> output = new List<MetaCollectionCardData>();
-
-            foreach (var cardData in cardDatas)
+            bool Condition(MetaCardInstanceInfo metaCardInstanceInfo)
             {
-                bool isAdded = false;
-                
-                foreach (var collectionCardData in output.Where(collectionCardData => collectionCardData.Equals(cardData)))
-                {
-                    collectionCardData.AddCardInstance(cardData);
-                    isAdded = true;
-                }
-
-                if (isAdded)
-                    continue;
-                
-                output.Add(new MetaCollectionCardData(cardData));
+                return metaCardInstanceInfo.IsInDeck(deckId);
             }
             
-            SortCardByDeck(output);
+            var instanceIDs = new List<int>();
+
+            foreach (var cardData in _collectionCardDatasHandler.CollectionCardDatas)  
+            {
+                if (cardData.TryGetMetaCardInstanceInfo(Condition,out MetaCardInstanceInfo[] metaCardInstanceInfos))
+                    instanceIDs.AddRange(metaCardInstanceInfos.Select(instanceInfo => instanceInfo.InstanceID));
+            }
+            
+            var output = new CardsCollectionDataHandler(_collectionCardDatasHandler.GetCollectionCopy());
+            
+            foreach (var cardData in output.CollectionCardDatas)
+            {
+                foreach (var instanceID in instanceIDs)
+                {
+                    cardData.RemoveCardInstance(instanceID);
+                }
+            }
+
+            return output;
+        }
+        
+        public ComboCollectionDataHandler GetComboCollectionByDeck(int deckId)
+        {
+            bool Condition(MetaComboInstanceInfo metaComboInstanceInfo)
+            {
+                return metaComboInstanceInfo.IsInDeck(deckId);
+            }
+            
+            var comboCoreIDs = new List<int>();
+
+            foreach (var collectionComboData in _collectionComboDatasHandler.CollectionComboDatas) 
+            {
+                if (collectionComboData.TryGetMetaComboInstanceInfo(Condition,out MetaComboInstanceInfo[] metaComboInstanceInfos))
+                {
+                    comboCoreIDs.AddRange(metaComboInstanceInfos.Select(instanceInfo => instanceInfo.InstanceID));
+                }   
+            }
+
+            var output = new ComboCollectionDataHandler(_collectionComboDatasHandler.GetCollectionCopy());
+            
+            foreach (var cardData in output.CollectionComboDatas)
+            {
+                foreach (var instanceID in comboCoreIDs)
+                {
+                    cardData.RemoveComboInstance(instanceID);
+                }
+            }
 
             return output;
         }
 
-        private void SortCardByDeck(List<MetaCollectionCardData> metaCollectionCardDatas)
+        public CardsCollectionDataHandler GetAllUnAssingeCard()
         {
-            MetaCharacterData[] metaCharacterDatas = _accountDataAccess.AccountData.CharacterDatas.CharacterDatas;
-
-            foreach (var characterData in metaCharacterDatas)
+            CardsCollectionDataHandler output = new CardsCollectionDataHandler();
+            
+            bool Condition(MetaCardInstanceInfo metaCardInstanceInfo)
             {
-                foreach (var deckData in characterData.Decks)       
+                return !metaCardInstanceInfo.InDeck; 
+            }
+
+            foreach (var metaCollectionCardData in _collectionCardDatasHandler.CollectionCardDatas)
+            {
+                if (metaCollectionCardData.TryGetMetaCardInstanceInfo(Condition, out MetaCardInstanceInfo[] metaCardInstanceInfos))
                 {
-                    foreach (var cardData in deckData.Cards)
-                    {
-                        foreach (var collectionCardData in metaCollectionCardDatas)
-                        {
-                            if (collectionCardData.FindCardInstance(cardData.InstanceID,out MetaCardInstanceInfo metaCardInstanceInfo))
-                            {
-                                metaCardInstanceInfo.AddToDeck(deckData.DeckId);
-                            }
-                        }
-                    }
+                    output.AddCardInstance(metaCardInstanceInfos);
                 }
             }
-        }
-
-        private void SortComboByDeck(List<MetaCollectionComboData> comboDatas)
-        {
-            MetaCharacterData[] metaCharacterDatas = _accountDataAccess.AccountData.CharacterDatas.CharacterDatas;
-
-            foreach (var characterData in metaCharacterDatas)
-            {
-                foreach (var deckData in characterData.Decks)       
-                {
-                    foreach (var comboData in deckData.Combos)
-                    {
-                        foreach (var collectionCardData in comboDatas)
-                        {
-                            if (collectionCardData.ComboID == comboData.ID)
-                            {
-                                collectionCardData.AddDeckReference(deckData.DeckId);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        private List<MetaCollectionComboData> InitializeComboData()
-        {
-            List<ComboCore> comboCores = _accountDataAccess.AccountData.AccountCombos;
-            List<MetaCollectionComboData> output = new List<MetaCollectionComboData>();
-            
-            output.AddRange(comboCores.Select(comboData => new MetaCollectionComboData(comboData)));
-            
-            SortComboByDeck(output);
 
             return output;
         }
-
-        public List<MetaCollectionCardData> SetCardCollection(int deckId)
-        {
-            if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
-                return GetCollectionCardDatasCopy();
-
-            List<CardInstance> cardDatas =
-                _accountDataAccess.AccountData.CharacterDatas.CharacterData.GetDeckById(deckId).Cards;
-
-            List<MetaCollectionCardData> collectionCardDatas = GetCollectionCardDatasCopy();
-
-            foreach (var collectionCardData in collectionCardDatas)
-            {
-                foreach (var cardInstanceInfo in collectionCardData.CardInstances)
-                {
-                    foreach (var cardData in cardDatas)
-                    {
-                        if (cardInstanceInfo.InstanceID == cardData.InstanceID)
-                        {
-                            collectionCardData.RemoveCardInstance(cardInstanceInfo.InstanceID);
-                        }
-                    }   
-                }
-            }
-
-            return collectionCardDatas;
-        }
-        
-        public List<MetaCollectionComboData> SetComboCollection(int deckId)
-        {
-            if (_accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck.IsNewDeck)
-                return GetCollectionComboDatasCopy();
-
-            List<ComboCore> metaComboDatas =
-                _accountDataAccess.AccountData.CharacterDatas.CharacterData.Decks[deckId].Combos;
-
-            List<MetaCollectionComboData> collectionComboDatasCopy = GetCollectionComboDatasCopy();
-
-            foreach (var collectionDataCombo in collectionComboDatasCopy)
-            {
-                foreach (var comboData in metaComboDatas)
-                {
-                    if (collectionDataCombo.ComboID == comboData.ID)
-                    {
-                        collectionDataCombo.RemoveComboFromCollection();
-                    }
-                }
-            }
-
-            return collectionComboDatasCopy;
-        }
-        
-        private List<MetaCollectionCardData> GetCollectionCardDatasCopy()
-        {
-            return InitializeCardData();
-        }
-        
-        private List<MetaCollectionComboData> GetCollectionComboDatasCopy()
-        {
-            return InitializeComboData();
-        }
-
     }
 }

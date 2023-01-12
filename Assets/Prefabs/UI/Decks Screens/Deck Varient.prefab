@@ -523,7 +523,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnClickEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6313528061046924307}
+        m_MethodName: OnPress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnBeginHoldEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -540,6 +551,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   DisableHold: 1
+  DisableClick: 0
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0

@@ -1,9 +1,8 @@
 using System;
-using CardMaga.Input;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.Tools.Pools;
-using CardMaga.UI;
+using CardMaga.UI.Card;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -14,15 +13,15 @@ namespace CardMaga.MetaUI
     {
         public event Action<MetaCollectionCardUI> OnDisposed;
 
-        [SerializeField] private CardUIInputHandler _input;
-        [SerializeField] private BaseCardVisualHandler _cardVisuals;
+        [SerializeField] private BattleCardUI _cardUI;
         [SerializeField] private TMP_Text _cardNumberText;
         [SerializeField,ReadOnly] private MetaCollectionCardData _cardData;
-        public int CoreId => _cardData.CoreId;
+        
+        public int CoreId => _cardData.CardCoreID;
 
         public int NumberOfInstant => _cardData.NumberOfInstance;
 
-        public CardUIInputHandler Input => _input;
+        public BattleCardUI CardUI => _cardUI;
 
         public override void Init()
         {
@@ -35,19 +34,19 @@ namespace CardMaga.MetaUI
             _cardData = cardData;
             _cardNumberText.text = NumberOfInstant.ToString();
 
-            _cardVisuals.Init(Factory.GameFactory.Instance.CardFactoryHandler.CreateCardCore(cardData.CoreId));
+            CardUI.AssignVisualAndData(Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(cardData.CardInstance));
             
             _cardData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             
             UpdateCardVisual();
         }
-
-        public override void TryAddToCollection()
+        
+        public void PlusPress()
         {
-            _cardData.RemoveCardFromCollection();
+            _cardData.AddCardToCollection();
         }
 
-        public override void TryRemoveFromCollection()
+        public void MinusPress()
         {
             _cardData.RemoveCardFromCollection();
         }
@@ -59,7 +58,12 @@ namespace CardMaga.MetaUI
             Hide();
             OnDisposed?.Invoke(this);
         }
-        
+
+        private void OnDestroy()
+        {
+            Dispose();
+        }
+
         private void UpdateCardVisual()
         {
             _cardNumberText.text = NumberOfInstant.ToString();
@@ -74,7 +78,7 @@ namespace CardMaga.MetaUI
 
             if (_cardData.MaxInstants)
             {
-                DisableMins();
+                DisableMinus();
                 return;
             }
         }

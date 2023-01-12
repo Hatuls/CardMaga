@@ -1,18 +1,57 @@
 ﻿using Account;
 using CardMaga.Rewards.Bundles;
 using CardMaga.UI.Visuals;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 namespace CardMaga.UI.Account
 {
 
-    public class AccountBarVisualManager : MonoBehaviour
+    public class AccountBarVisualManager : BaseUIElement
     {
         [SerializeField]
         private AccountBarVisualHandler _accountBarVisualHandler;
 
-        private void Awake()
+
+        [SerializeField]
+        private BaseUIElement[] _elementsToShowAccountBar; 
+        [SerializeField]
+        private BaseUIElement[] _elementsToHideAccountBar;
+
+        public void Start()
         {
             _accountBarVisualHandler.Init(GenerateAccoundDataFirstTime());
+
+            for (int i = 0; i < _elementsToHideAccountBar.Length; i++)
+            {
+                _elementsToHideAccountBar[i].OnShow += Hide;
+            }
+
+            for (int i = 0; i < _elementsToShowAccountBar.Length; i++)
+            {
+                _elementsToShowAccountBar[i].OnShow += Show;
+            }
+            Show();
+        }
+        public override void Show()
+        {
+            base.Show();
+        }
+        public override void Hide()
+        {
+            base.Hide();
+        }
+        private void OnDestroy()
+        {
+            for (int i = 0; i < _elementsToHideAccountBar.Length; i++)
+            {
+                _elementsToHideAccountBar[i].OnShow -= Hide;
+            }
+
+            for (int i = 0; i < _elementsToShowAccountBar.Length; i++)
+            {
+                _elementsToShowAccountBar[i].OnShow -= Show;
+            }
         }
 
         private AccountBarVisualData GenerateAccoundDataFirstTime()
