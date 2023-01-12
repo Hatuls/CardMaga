@@ -51,7 +51,7 @@ namespace CardMaga.UI.Collections
                 BeforeCollectionExitButtonPress.Invoke();
             _collectionExitButtonTransform = TrackerHandler.GetTracker(collectionExitButtonTrackerID).RectTransform;
             TutorialClickHelper.Instance.LoadObject(true, true, null, _collectionExitButtonTransform);
-            ComboCollectorBackButtonTutorialTapDetector.OnButtonPress += AfterExitButtonPress;
+            ComboCollectionBackButtonTutorialTapDetector.OnButtonPress += AfterExitButtonPress;
         }
 
         public void WaitForPlayerEnterCollection(ITokenReciever tokenReciever)
@@ -64,7 +64,7 @@ namespace CardMaga.UI.Collections
         {
             if (AfterCollectionEnterButtonPress != null)
                 AfterCollectionEnterButtonPress.Invoke();
-            ComboCollectorBackButtonTutorialTapDetector.OnButtonPress += InvokeAfterExitButtonPress;
+            ComboCollectionBackButtonTutorialTapDetector.OnButtonPress += InvokeAfterExitButtonPress;
         }
 
         #endregion
@@ -92,7 +92,7 @@ namespace CardMaga.UI.Collections
 
         private void AfterExitButtonPress()
         {
-            ComboCollectorBackButtonTutorialTapDetector.OnButtonPress -= AfterExitButtonPress;
+            ComboCollectionBackButtonTutorialTapDetector.OnButtonPress -= AfterExitButtonPress;
             if (AfterCollectionExitButtonPress != null)
                 AfterCollectionExitButtonPress.Invoke();
 

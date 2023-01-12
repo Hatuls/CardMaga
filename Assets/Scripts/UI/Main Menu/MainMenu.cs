@@ -12,8 +12,8 @@ namespace CardMaga.MetaUI
         }
         private void OnDestroy()
         {
-        UIHistoryManager.OnEmpty -= OpenScreen;
-            
+            UIHistoryManager.OnEmpty -= OpenScreen;
+            UIHistoryManager.CloseAll();
         }
 
     }
