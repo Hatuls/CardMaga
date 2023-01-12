@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -72,13 +73,14 @@ namespace CardMaga.UI
         private UnityEvent OnScreenOpen;
         [SerializeField,EventsGroup]
         private UnityEvent OnScreenClose;
-
+        [Button(), ButtonGroup("UI Element")]
         public virtual void OpenScreen()
         {
             OnScreenOpen?.Invoke();
             UIHistoryManager.Show(this, _toRememberWhenOpenScreen);
 
         }
+        [Button(), ButtonGroup("UI Element")]
         public virtual void CloseScreen()
         {
             UIHistoryManager.ReturnBack();
@@ -120,6 +122,7 @@ namespace CardMaga.UI
 
         public bool IsActive()
         => HolderGameObject.activeSelf || HolderGameObject.activeInHierarchy;
+        [Button(),ButtonGroup("UI Element")]
         public virtual void Hide()
         {
             OnHide?.Invoke();
@@ -129,7 +132,7 @@ namespace CardMaga.UI
         public virtual void Init()
           => OnInitializable?.Invoke();
 
-
+        [Button(),ButtonGroup("UI Element")]
         public virtual void Show()
         {
             OnShow?.Invoke();

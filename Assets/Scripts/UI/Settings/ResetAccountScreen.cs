@@ -1,4 +1,5 @@
 ﻿using Account;
+using CardMaga.Battle.UI;
 using CardMaga.Core;
 using ReiTools.TokenMachine;
 
@@ -11,6 +12,8 @@ namespace CardMaga.UI.Settings
         [UnityEngine.SerializeField]
         private CanvasLayerChanger _canvasLayerChanger;
         public int Priority => 0;
+
+    
         public void OpenAccountScreen()
         {
             Show();
@@ -30,6 +33,7 @@ namespace CardMaga.UI.Settings
             _canvasLayerChanger.Reset();
             _sceneLoader.LoadScene();
         }
+     
     }
 }
 

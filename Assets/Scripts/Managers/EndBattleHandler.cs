@@ -15,6 +15,7 @@ namespace CardMaga.Battle
     {
         public event Action<ITokenReciever> OnBattleFinished;
         public event Action<bool> OnBattleEnded;
+        public event Action OnBattleEndedVoid;
         public event Action OnCharacterAnimatonEnd;
         public event Action OnLeftPlayerWon;
         public event Action OnRightPlayerWon;
@@ -79,6 +80,7 @@ namespace CardMaga.Battle
             OnBattleFinished?.Invoke(_endGameTokenMachine);
             BattleData.Instance.IsPlayerWon = _isLeftPlayerWon;
             OnBattleEnded?.Invoke(_isLeftPlayerWon);
+            OnBattleEndedVoid?.Invoke();
         }
 
         private void DeathAnimationFinished(bool isPlayer)

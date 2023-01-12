@@ -1,5 +1,6 @@
 ﻿using Account;
 using Battle.Data;
+using CardMaga.Battle.UI;
 using FMODUnity;
 using System;
 using UnityEngine;
@@ -16,8 +17,10 @@ namespace CardMaga.UI.Settings
         [SerializeField]
         protected FmodGlobalEventParameter _musicParameter;
 
-        protected virtual void Awake()
+        private void Start()
         {
+            SurrenderScreen.OnSurrenderPressed += Hide;
+
             _musicParameter.Init();
             _sfxParameter.Init();
             int surrenderTutorialIndex = 2;
@@ -25,9 +28,14 @@ namespace CardMaga.UI.Settings
             bool isBattleConfigIsTutorial = BattleData.Instance.BattleConfigSO.IsTutorial;
             bool isAccountActive = AccountManager.Instance != null;
 
-           // if ( AccountManager.Instance.Data.AccountTutorialData.TutorialProgress>= surrenderTutorialIndex)
-           if(isBattleConfigIsTutorial && isAccountActive && AccountManager.Instance.Data.AccountTutorialData.TutorialProgress < surrenderTutorialIndex)
+            // if ( AccountManager.Instance.Data.AccountTutorialData.TutorialProgress>= surrenderTutorialIndex)
+            if (isBattleConfigIsTutorial && isAccountActive && AccountManager.Instance.Data.AccountTutorialData.TutorialProgress < surrenderTutorialIndex)
                 Array.ForEach(_surrenderGO, x => x.SetActive(false));
+        }
+
+        private void OnDestroy()
+        {
+            SurrenderScreen.OnSurrenderPressed -= Hide;
         }
         public override void ShowSettings()
         {

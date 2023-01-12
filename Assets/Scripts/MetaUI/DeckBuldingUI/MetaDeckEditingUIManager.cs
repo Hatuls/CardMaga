@@ -68,6 +68,7 @@ namespace CardMaga.MetaUI.CollectionUI
 
         public override void Show()//plaster 10.01.23
         {
+
             if (_isFirstTime)
                 _isFirstTime = false;
             else

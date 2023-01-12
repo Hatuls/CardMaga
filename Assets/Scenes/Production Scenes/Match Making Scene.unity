@@ -574,7 +574,18 @@ MonoBehaviour:
         m_CallState: 2
   OnOperationFinished:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1438228162}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnOperationCancel:
     m_PersistentCalls:
       m_Calls: []
@@ -2507,25 +2518,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1438228158}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1438228166
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438228165}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1438228167 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1717696916898383763, guid: e89ce99093a156f48822acc1b083d392,
@@ -2550,53 +2542,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f8f23e2adac52143bb48e299c1d4896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _textList:
-  - {fileID: 1438228171}
-  - {fileID: 1438228170}
-  - {fileID: 1438228169}
+  LFO: Looking For Opponent
   _lookingForOpponentText: {fileID: 1438228167}
---- !u!114 &1438228169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438228165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aecf60f7dc1fb6043b63413377228411, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _newEnteringText: Looking For Opponent . . .
-  _showingTime: 0.5
---- !u!114 &1438228170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438228165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aecf60f7dc1fb6043b63413377228411, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _newEnteringText: Looking For Opponent . .
-  _showingTime: 0.5
---- !u!114 &1438228171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438228165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aecf60f7dc1fb6043b63413377228411, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _newEnteringText: Looking For Opponent .
-  _showingTime: 0.5
+  _delayBetweenDots: 0.32
+  _worthyOpponentText: Found A Worthy Opponent!
 --- !u!1 &1453235091
 GameObject:
   m_ObjectHideFlags: 0
@@ -2928,6 +2877,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1438228162}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1438228168}
+        m_MethodName: FoundOpponent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnPlayerAssign:
     m_PersistentCalls:
       m_Calls:
@@ -3034,8 +3005,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _delayBeforeOperation: {x: 0, y: 2.195122}
-  _delayAfterOperation: {x: 1.0158211, y: 1.0158211}
+  _delayBeforeOperation: {x: 0, y: 0.6843424}
+  _delayAfterOperation: {x: 0, y: 0.5065909}
 --- !u!114 &1894759398
 MonoBehaviour:
   m_ObjectHideFlags: 0
