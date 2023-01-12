@@ -66,11 +66,10 @@ namespace CardMaga.ObjectPool
             return cache;
         }
 
-        private void ReturnBack(TObject returningEffect)
+        private void ReturnBack(TObject returningObject)
         {
-            returningEffect.transform.SetParent(_parent);
-            _reservedList.Add(returningEffect);
-            returningEffect.gameObject.SetActive(false);
+            returningObject.transform.SetParent(_parent);
+            _reservedList.Add(returningObject);
         }
 
         public void Dispose()

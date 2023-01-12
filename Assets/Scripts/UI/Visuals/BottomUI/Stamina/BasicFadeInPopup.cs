@@ -26,14 +26,14 @@ namespace CardMaga.UI.PopUp
             if (!IsActive())
                 _canvasGroup.alpha = 0;
         }
-        public override void Enter()
+        public override void StartEnterTransition()
         {
             base.Enter();
             _sequence = _canvasGroup.DOFade(1, _alphaEntranceDuration)
                         .OnComplete(PopUpFinishEntranceTransition);
         }
 
-        public override void Close()
+        public override void StartExitTransition()
         {
             base.Close();
             if (_sequence != null)

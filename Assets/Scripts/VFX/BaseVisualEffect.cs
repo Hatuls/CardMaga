@@ -38,6 +38,7 @@ namespace CardMaga.VFX
         {
             if (_token != null)
                 _token.Dispose();
+            gameObject.SetActive(false);
             OnDisposed?.Invoke(this);
         }
 

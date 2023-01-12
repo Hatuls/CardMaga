@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,9 @@ namespace CardMaga.UI.PopUp
 {
     public class PopUpTransitionHandler
     {
-        RectTransform _popUpObject;
+        public event Action OnEnterTransitionEnding;
+        public event Action OnExitTransitionEnding;
+        private RectTransform _popUpObject;
         private List<TransitionData> _enterTransitionDatas = new List<TransitionData>();
         private List<TransitionData> _exitTransitionDatas = new List<TransitionData>();
         private int _currentTransitionIndex;
@@ -72,10 +75,10 @@ namespace CardMaga.UI.PopUp
                 if (_enterTransitionDatas.Count == 0)
                 {
                     Debug.LogError("PopUpTransitionHandler: There is no enter transition data!");
+                    
                     return;
                 }
                 _sequence = _popUpObject.Transition(_enterTransitionDatas[_currentTransitionIndex].Destination, _enterTransitionDatas[_currentTransitionIndex].TransitionPackSO, CheckForNextEnterTransition);
-              
             }
 
             void ExitTransition()
@@ -83,6 +86,7 @@ namespace CardMaga.UI.PopUp
                 if (_exitTransitionDatas.Count == 0)
                 {
                     Debug.LogError("PopUpTransitionHandler: There is no exit transition data!");
+                    
                     return;
                 }
                 _sequence = _popUpObject.Transition(_exitTransitionDatas[_currentTransitionIndex].Destination, _exitTransitionDatas[_currentTransitionIndex].TransitionPackSO, CheckForNextExitTransition);
@@ -92,7 +96,10 @@ namespace CardMaga.UI.PopUp
             void CheckForNextEnterTransition()
             {
                 if (_currentTransitionIndex == _enterTransitionDatas.Count - 1)
-                    return;
+                {
+                    if (OnEnterTransitionEnding != null)
+                        OnEnterTransitionEnding.Invoke();
+                }
                 else
                 {
                     _currentTransitionIndex++;
@@ -104,7 +111,11 @@ namespace CardMaga.UI.PopUp
             {
 
                 if (_currentTransitionIndex == _exitTransitionDatas.Count - 1)
-                    return;
+                {
+                    if (OnExitTransitionEnding != null)
+                        OnExitTransitionEnding.Invoke();
+                }
+
                 else
                 {
                     _currentTransitionIndex++;
