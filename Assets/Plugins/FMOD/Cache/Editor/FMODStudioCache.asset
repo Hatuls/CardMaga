@@ -326,7 +326,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638090558341295457
+  lastModified: 638017177772496910
   FileSizes:
   - Name: 
     Value: 5734
@@ -618,7 +618,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 6635262592640306352}
+  - {fileID: 2583049043400706145}
   MinDistance: 0
   MaxDistance: 0
   Length: 937
@@ -766,6 +766,28 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
   m_Name: parameter:/Chiara Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &-7739135903624685215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Basic Enemy Damage/Get Hit
   m_EditorClassIdentifier: 
   Name: Get Hit
   Min: 0
@@ -2565,7 +2587,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD Banks/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638090558341592952
+  lastModified: 638017177772885353
   FileSizes: []
   Exists: 1
 --- !u!114 &-5372433386728023271
@@ -2740,7 +2762,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD Banks/Desktop/Cards.bank
   Name: Cards
   StudioPath: bank:/Cards
-  lastModified: 638090558341193327
+  lastModified: 638017177772399513
   FileSizes: []
   Exists: 1
 --- !u!114 &-5068983523587524373
@@ -3141,6 +3163,28 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 1
   Exists: 1
+--- !u!114 &-4440505276664662353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Basic Enemy Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &-4417048670287189012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3338,7 +3382,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 4795655812198090761}
+  - {fileID: -7739135903624685215}
   MinDistance: 0
   MaxDistance: 0
   Length: 1018
@@ -3363,6 +3407,28 @@ MonoBehaviour:
     data2: 0
   Type: 0
   IsGlobal: 1
+  Exists: 1
+--- !u!114 &-4217088553560142571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Boss Enemy Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
   Exists: 1
 --- !u!114 &-4141515863207738425
 MonoBehaviour:
@@ -3759,7 +3825,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -4242530669885367752}
+  - {fileID: 8026395957401663448}
   MinDistance: 0
   MaxDistance: 0
   Length: 1018
@@ -3959,7 +4025,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -6258650681108959286}
+  - {fileID: -4217088553560142571}
   MinDistance: 0
   MaxDistance: 0
   Length: 1227
@@ -4042,6 +4108,28 @@ MonoBehaviour:
   m_Name: parameter:/Boss Enemy Damage/Get Hit
   m_EditorClassIdentifier: 
   Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &-3145799571431066855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Elite Enemy Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
   Min: 0
   Max: 2
   Default: 0
@@ -4271,6 +4359,50 @@ MonoBehaviour:
     data2: 0
   Type: 0
   IsGlobal: 0
+  Exists: 1
+--- !u!114 &-2929254581233358136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Elite Enemy Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &-2899848209661165784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Background Music/Scene Parameter
+  m_EditorClassIdentifier: 
+  Name: Scene Parameter
+  Min: 0
+  Max: 4
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 1
   Exists: 1
 --- !u!114 &-2827308925591131226
 MonoBehaviour:
@@ -4971,7 +5103,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD Banks/Desktop/Keyword.bank
   Name: Keyword
   StudioPath: bank:/Keyword
-  lastModified: 638090558341274844
+  lastModified: 638017177772486943
   FileSizes: []
   Exists: 1
 --- !u!114 &-1774198195672601497
@@ -5884,7 +6016,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 6090965071233256996}
+  - {fileID: -2929254581233358136}
   MinDistance: 0
   MaxDistance: 0
   Length: 1227
@@ -6486,7 +6618,7 @@ MonoBehaviour:
   - {fileID: 1280611526335875829}
   StringsBanks:
   - {fileID: -8599699833227793247}
-  stringsBankWriteTime: 638090558341295457
+  stringsBankWriteTime: 638017177772496910
   cacheVersion: 8
 --- !u!114 &15320398177477365
 MonoBehaviour:
@@ -6659,7 +6791,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD Banks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638090558341576740
+  lastModified: 638017177772865403
   FileSizes: []
   Exists: 1
 --- !u!114 &331493629599512913
@@ -7251,7 +7383,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD Banks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638090558341290072
+  lastModified: 638017177772496910
   FileSizes: []
   Exists: 1
 --- !u!114 &1306571839075853353
@@ -7401,7 +7533,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD Banks/Desktop/Combat Mechanics.bank
   Name: Combat Mechanics
   StudioPath: bank:/Combat Mechanics
-  lastModified: 638090558341264657
+  lastModified: 638017177772476958
   FileSizes: []
   Exists: 1
 --- !u!114 &1506820367941210619
@@ -7684,7 +7816,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD Banks/Desktop/Loot.bank
   Name: Loot
   StudioPath: bank:/Loot
-  lastModified: 638090558341279976
+  lastModified: 638017177772496910
   FileSizes: []
   Exists: 1
 --- !u!114 &1963166407462700210
@@ -8098,6 +8230,28 @@ MonoBehaviour:
   m_Name: parameter:/Elite Enemy Hit/Voice
   m_EditorClassIdentifier: 
   Name: Voice
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &2583049043400706145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Chiara Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
   Min: 0
   Max: 2
   Default: 0
@@ -9253,7 +9407,7 @@ MonoBehaviour:
   Path: Assets/Plugins/FMOD Banks/Desktop/Charcter.bank
   Name: Charcter
   StudioPath: bank:/Charcter
-  lastModified: 638090558341249372
+  lastModified: 638017177772463507
   FileSizes: []
   Exists: 1
 --- !u!114 &4345334480737788862
@@ -10024,6 +10178,28 @@ MonoBehaviour:
   m_Name: parameter:/Boss Enemy Damage/Get Hit
   m_EditorClassIdentifier: 
   Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
+--- !u!114 &5358807140264340149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Chiara Hit/Voice
+  m_EditorClassIdentifier: 
+  Name: Voice
   Min: 0
   Max: 2
   Default: 0
@@ -10898,7 +11074,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 5958822266512550039}
+  - {fileID: -3145799571431066855}
   MinDistance: 0
   MaxDistance: 0
   Length: 609
@@ -11033,7 +11209,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 765664725077795835}
+  - {fileID: -4440505276664662353}
   MinDistance: 0
   MaxDistance: 0
   Length: 966
@@ -11169,7 +11345,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -7120597853842778820}
+  - {fileID: 5358807140264340149}
   MinDistance: 0
   MaxDistance: 0
   Length: 548
@@ -12126,6 +12302,28 @@ MonoBehaviour:
   Type: 0
   IsGlobal: 0
   Exists: 1
+--- !u!114 &8026395957401663448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Boss Enemy Damage/Get Hit
+  m_EditorClassIdentifier: 
+  Name: Get Hit
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Type: 0
+  IsGlobal: 0
+  Exists: 1
 --- !u!114 &8052034789691301000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12744,7 +12942,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: 8906426311559099697}
+  - {fileID: -2899848209661165784}
   MinDistance: 0
   MaxDistance: 0
   Length: 581749

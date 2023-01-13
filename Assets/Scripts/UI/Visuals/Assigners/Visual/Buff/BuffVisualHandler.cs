@@ -13,8 +13,6 @@ namespace CardMaga.UI.Buff
     public class BuffVisualHandler : BaseBuffVisualHandler, IPoolableMB<BuffVisualHandler>
     {
         public event Action<BuffVisualHandler> OnDisposed;
-        BuffDescriptionPopUp _buffDescriptionPopUp;
-
 
         [SerializeField] BuffVisualAssignerHandler _buffVisualAssignerHandler;
         [SerializeField] BuffTextAssignerHandler _buffTextAssignerHandler;
