@@ -296,6 +296,8 @@ GameObject:
   - component: {fileID: 4561589049724779049}
   - component: {fileID: 4561589049724779048}
   - component: {fileID: 6115059005156073176}
+  - component: {fileID: 5274617484757803401}
+  - component: {fileID: 5362263915106000870}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -418,6 +420,83 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &5274617484757803401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4561589049724779062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116eaacee7852234da05f5c74d9d9300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buffVisualHandler: {fileID: 8211480662267834052}
+  _popUpSO: {fileID: 11400000, guid: 67427aa5844ccae4d8a533c4a94870c4, type: 2}
+  _enterPackSO:
+  - {fileID: 11400000, guid: a62f43004541a7a41b07dcbd11f6a66d, type: 2}
+  - {fileID: 11400000, guid: d3dd47cdd6b0d9a49a0f44681f5c463c, type: 2}
+  _exitPackSO:
+  - {fileID: 11400000, guid: 09152f90e1331db42810cf72cad13b26, type: 2}
+--- !u!114 &5362263915106000870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4561589049724779062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309ab1d2ca9faa24e862dd52e47a8384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBeginHoldEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5274617484757803401}
+        m_MethodName: ShowBuffPopUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnEndHoldEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5274617484757803401}
+        m_MethodName: HideBuffPopUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnHoldEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableHold: 0
+  DisableClick: 1
+  _holdDelay: 0.5
+  _holdDistance: 0.5
+  _currentState: 1
+  _identification: {fileID: 11400000, guid: 730a768e57f65db4795db23d1e4c2ae5, type: 2}
 --- !u!1 &4561589049921273957
 GameObject:
   m_ObjectHideFlags: 0

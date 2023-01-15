@@ -15,6 +15,7 @@ namespace CardMaga.UI.Visuals
         public bool IsShardText;
         [Tooltip("Only when is shard text is on")]
         public int MaxShards;
+        public string BuffDiscription;
         public override void CheckValidation()
         {
             if (BuffIcon == null)
