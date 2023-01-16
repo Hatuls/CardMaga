@@ -7,5 +7,10 @@ namespace CardMaga.ValidatorSystem
         public abstract string FailedMassage { get; }
         
         public abstract bool Valid(T obj, out string failedMassage);
+
+        protected BaseValidatorCondition()
+        {
+            
+        }
     }
 }
