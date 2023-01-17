@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CardMaga.UI.PopUp;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Transition SO", menuName = "ScriptableObjects/Transitions/New Transition SO")]
 public class TransitionPackSO : ScriptableObject
@@ -31,3 +32,4 @@ public class TransitionPackSO : ScriptableObject
     public Vector3 Rotate; 
     public Transition3D Rotation;
 }
+

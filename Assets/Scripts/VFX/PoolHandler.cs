@@ -3,6 +3,7 @@ using CardMaga.Battle.Players;
 using CardMaga.Tools.Pools;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using static CardMaga.Battle.Players.TagHelper;
 namespace CardMaga.ObjectPool
@@ -15,23 +16,22 @@ namespace CardMaga.ObjectPool
     public class PoolHandler<TIdSO, TObject> : IDisposable, IPool<TIdSO, TObject> where TIdSO : BasePoolSO<TObject> where TObject : MonoBehaviour, IPoolableMB<TObject>, ITaggable
     {
 
-        private readonly List<TObject> _allPoolObjects;
+        private readonly List<TObject> _allPoolsObjects;
         private readonly List<TObject> _reservedList;
-
-        private Transform _parent;
+        private readonly Transform _parent;
 
         public PoolHandler(Transform defaultParent)
         {
             _parent = defaultParent;
-            _allPoolObjects = new List<TObject>();
+            _allPoolsObjects = new List<TObject>();
             _reservedList = new List<TObject>();
         }
 
-        public void PopulatePool(TIdSO basePoolSO, int amount)
+        public  void PopulatePool(TIdSO basePoolSO, int amount)
         {
+
             for (int i = 0; i < amount; i++)
                 InstantiateObject(basePoolSO).Dispose();
-
         }
 
         public TObject Pull(TIdSO typeSO)
@@ -61,26 +61,40 @@ namespace CardMaga.ObjectPool
         {
 
             var cache = MonoBehaviour.Instantiate(basePoolSO.PullPrefab, _parent);
-            _allPoolObjects.Add(cache);
+            _allPoolsObjects.Add(cache);
             cache.OnDisposed += ReturnBack;
             return cache;
         }
 
         private void ReturnBack(TObject returningEffect)
         {
+            if (_reservedList.Contains(returningEffect))
+                return;
+
             returningEffect.transform.SetParent(_parent);
             _reservedList.Add(returningEffect);
             returningEffect.gameObject.SetActive(false);
         }
 
+        public void DestoryAllAndDispose()
+        {
+            for (int i = 0; i < _allPoolsObjects.Count; i++)
+            {
+                _allPoolsObjects[i].Dispose();
+                _allPoolsObjects[i].OnDisposed -= ReturnBack;
+                MonoBehaviour.Destroy(_allPoolsObjects[i].gameObject);
+            }
+            _allPoolsObjects.Clear();
+            _reservedList.Clear();
+        }
         public void Dispose()
         {
-            for (int i = 0; i < _allPoolObjects.Count; i++)
+            for (int i = 0; i < _allPoolsObjects.Count; i++)
             {
-                _allPoolObjects[i].Dispose();
-                _allPoolObjects[i].OnDisposed -= ReturnBack;
+                _allPoolsObjects[i].Dispose();
+                _allPoolsObjects[i].OnDisposed -= ReturnBack;
             }
-            _allPoolObjects.Clear();
+            _allPoolsObjects.Clear();
             _reservedList.Clear();
         }
     }

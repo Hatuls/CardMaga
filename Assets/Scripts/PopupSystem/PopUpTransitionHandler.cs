@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,69 +7,63 @@ namespace CardMaga.UI.PopUp
 {
     public class PopUpTransitionHandler
     {
-        RectTransform _popUpObject;
-        private List<PopUpTransitionData> _transitionDatas = new List<PopUpTransitionData>();
-        private int _currentTransitionIndex;
-        private Sequence _sequence;
+        private readonly PopUp _popUp;
 
-        public PopUpTransitionHandler(RectTransform rectTransform)
+        private Sequence _currentSequence;
+        private IPopUpTransition<TransitionData> transitionIn;
+        private IPopUpTransition<TransitionData> transitionOut;
+        private Vector3 _startLocation;
+
+        public IPopUpTransition<TransitionData> TransitionIn { get => transitionIn; set => transitionIn = value; }
+        public IPopUpTransition<TransitionData> TransitionOut { get => transitionOut; set => transitionOut = value; }
+        public Sequence CurrentSequence { get => _currentSequence; set => _currentSequence = value; }
+
+        public PopUpTransitionHandler(PopUp popup)
         {
-            _popUpObject = rectTransform;
+            _popUp = popup;
         }
-
-        public void AddTransitionData(PopUpTransitionData popUpTransitionData)
+        public void AssignStartLocation(Vector3 position)
         {
-            _transitionDatas.Add(popUpTransitionData);
+            _startLocation = position;
         }
-
-        public void StartOnlySpecificTransition(int index)
+        public void SetAtStartLocation()
+            => _popUp.RectTransform.position = _startLocation;
+        public void EnterTransition()
         {
-            if (index <= _transitionDatas.Count - 1)
-                _sequence=_popUpObject.Transition(_transitionDatas[index].Destination, _transitionDatas[index].TransitionPackSO);
-
-            else
-                Debug.LogError("PopUpTransitionHandler: The given index is higher that the list capacity");
+            //IReadOnlyList<TransitionData> transitions = TransitionIn.Transitions;
+            //StartTransition(transitions, onComplete);
+            KillSequence();
+            TransitionIn.StartTransition(_popUp);
         }
-
-        public void StartTransitionFlowFromBeginning()
+        public void ExitTransition()
         {
-            if (_transitionDatas.Count==0)
-            {
-                Debug.LogError("PopUpTransitionHandler: There is no transition data!");
-                return;
-            }
-
-            _currentTransitionIndex = 0;
-            StartTransitionFlowFromCurrentIndex();
+            KillSequence();
+            TransitionOut.StartTransition(_popUp);
+            //IReadOnlyList<TransitionData> transitions = TransitionOut.Transitions;
+            //StartTransition(transitions, onComplete);
         }
-
-        public void StartTransitionFlowFromCurrentIndex()
+        public void KillSequence()
         {
-
-            if (_currentTransitionIndex == _transitionDatas.Count - 1)
-            {
-                Debug.LogError("There is no transitions left to make");
-                return;
-            }
-
-            _sequence=_popUpObject.Transition(_transitionDatas[_currentTransitionIndex].Destination, _transitionDatas[_currentTransitionIndex].TransitionPackSO, StartTransitionFlowFromCurrentIndex);
-            if (_currentTransitionIndex == _transitionDatas.Count - 1)
-                return;
-            _currentTransitionIndex++;
+            if (CurrentSequence != null && CurrentSequence.IsActive())
+                DOTween.Kill(CurrentSequence);
         }
+        //private void StartTransition(IReadOnlyList<TransitionData> transitions, Action onComplete = null)
+        //{
+        //    //KillTween();
 
-        /// <summary> 
-        /// 
-        /// </summary>
-        public void StopTransition()
-        {
-            if(_sequence!=null)
-            _sequence.Kill();
-        }
+        //    //CurrentSequence = DOTween.Sequence();
+        //    //for (int i = 0; i < transitions.Count; i++)
+        //    //    CurrentSequence.AppendCallback(() => _rectTransform.Transition(transitions[i].GetPosition?.Invoke() ?? _rectTransform.position, transitions[i].TransitionPackSO));
 
-        public void ClearTransitionDatas()
-        {
-            _transitionDatas.Clear();
-        }
+        //    //if(onComplete!=null)
+        //    //CurrentSequence.AppendCallback(onComplete.Invoke);
+        //}
+
+
+
     }
+
+
+
+
 }
