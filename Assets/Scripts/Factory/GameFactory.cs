@@ -9,6 +9,9 @@ using Keywords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CardMaga.MetaData.Collection;
+using CardMaga.ValidatorSystem;
+using CardMaga.ValidatorSystem.ValidationConditionGroup;
 using UnityEngine;
 
 namespace Factory
@@ -45,6 +48,8 @@ namespace Factory
         public CharacterFactory CharacterFactoryHandler { get; private set; }
      //   public RewardFactory RewardFactoryHandler { get; private set; }
         public KeywordFactory KeywordFactoryHandler { get; private set; }
+        
+        public TypeValidatorFactory ValidatorFactory { get; private set; }
 
 
         public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, KeywordsCollectionSO keywords)
@@ -52,6 +57,7 @@ namespace Factory
             if (cards == null || comboCollectionSO == null || characters == null || keywords == null)
                 throw new Exception("Collections is null!!");
 
+            ValidatorFactory = new TypeValidatorFactory();
             CardFactoryHandler = new CardFactory(cards);
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
@@ -62,9 +68,45 @@ namespace Factory
             _instance = this;
 
             OnFactoryFinishedLoading?.Invoke();
+            
+            ValidatorFactory.GetTypeValidator();//need to check rei
         }
+        
+        public class TypeValidatorFactory
+        {
+            private readonly Type[] _typeValidators = new[]
+            {
+                typeof(TypeValidator<MetaCollectionCardData>),
+                typeof(TypeValidator<MetaCollectionComboData>),
+                typeof(TypeValidator<MetaDeckData>),
+                typeof(TypeValidator<BattleCardData>),
+            };
 
-     
+            private readonly Type[] _ValidationConditionGroups = new[]
+            {
+                typeof(TestGroup)
+            };
+
+            public void GetTypeValidator()
+            {
+                foreach (var typeValidator in _typeValidators)
+                {
+                    var genericArguments = typeValidator.GetGenericArguments();
+                    var validator = Activator.CreateInstance(typeValidator);
+                    Validator.Instance.AddValidator(validator,genericArguments[0]);
+                }
+            }
+
+            private void GetValidationConditionGroup()
+            {
+                foreach (var conditionGroup in _ValidationConditionGroups)
+                {
+                    var genericArguments = conditionGroup.GetGenericArguments();
+                    var validator = Activator.CreateInstance(conditionGroup);
+                    Validator.Instance.AddConditionGroup(validator,genericArguments[0]);
+                }
+            }
+        }
 
         public class CharacterFactory
         {

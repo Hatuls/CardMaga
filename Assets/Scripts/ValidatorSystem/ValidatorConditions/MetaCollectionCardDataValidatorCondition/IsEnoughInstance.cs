@@ -7,7 +7,7 @@ namespace CardMaga.ValidatorSystem.ValidatorConditions
     {
         public override string FailedMassage => "Not Enough Instance";
 
-        public override bool Valid(MetaCollectionCardData obj, out string failedMassage)
+        public override bool Valid(MetaCollectionCardData obj, out string failedMassage,ValidationTag validationTag = default)
         {
             if (obj.NumberOfCurrentInstance > 0)
             {

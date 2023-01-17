@@ -17,9 +17,9 @@ namespace CardMaga.UI.Collections
         [SerializeField] private BattleCardUI _battleCardUI;
         
         [Header("Scripts Reference")] [SerializeField]
-        private BattleComboUIScrollPanelManager battleComboUIScroll;
+        private BattleComboUIScrollPanelManager _battleComboUIScroll;
 
-        [SerializeField] private BattleCardUIScrollPanelManager battleCardUIScroll;
+        [SerializeField] private BattleCardUIScrollPanelManager _battleCardUIScroll;
         [SerializeField] private CardDataFilterSystem _cardDataFilter;
 
         private BattleCardDataSort _battleCardDataSort;
@@ -33,7 +33,7 @@ namespace CardMaga.UI.Collections
 
         private void ShowCombo()
         {
-            battleComboUIScroll.RemoveAllObjectsFromPanel();
+            _battleComboUIScroll.RemoveAllObjectsFromPanel();
 
             List<ComboCore> comboCores = new List<ComboCore>();
             List<BattleComboData> battleComboDatas;
@@ -52,12 +52,12 @@ namespace CardMaga.UI.Collections
 
             var comboUIElement = comboVisual.ConvertAll(x => (IUIElement) x);
             
-            battleComboUIScroll.AddObjectToPanel(comboUIElement);
+            _battleComboUIScroll.AddObjectToPanel(comboUIElement);
         }
 
         private void ShowCard()
         {
-            battleCardUIScroll.RemoveAllObjectsFromPanel();
+            _battleCardUIScroll.RemoveAllObjectsFromPanel();
 
             List<CardCore> cardCores = new List<CardCore>();
             List<BattleCardData> battleCardDatas;
@@ -77,7 +77,7 @@ namespace CardMaga.UI.Collections
             
             var cardUIElement = cardVisual.ConvertAll(x => (IUIElement) x);
             
-            battleCardUIScroll.AddObjectToPanel(cardUIElement);
+            _battleCardUIScroll.AddObjectToPanel(cardUIElement);
         }
 
         private void OnDestroy()
@@ -106,8 +106,8 @@ namespace CardMaga.UI.Collections
             _visualRequesterCard = new VisualRequester<BattleCardUI, CardCore>(_battleCardUI);
             _visualRequesterCombo = new VisualRequester<BattleComboUI, ComboCore>(_battleComboUI);
 
-            battleCardUIScroll.Init();
-            battleComboUIScroll.Init();
+            _battleCardUIScroll.Init();
+            _battleComboUIScroll.Init();
         }
     }
 }

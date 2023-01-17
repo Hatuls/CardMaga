@@ -19,7 +19,41 @@ public class TutorialManager : MonoBehaviour
     private AccountTutorialData _accountTutorialData;
     private TutorialConfigSO _selectedTutorialConfig;
 
+    #region UnityCallback
+
+    private void Start()
+    {
+        _accountTutorialData = AccountManager.Instance.Data.AccountTutorialData;
+        SubscribeTutorialBadges();
+
+        if (!_accountTutorialData.IsCompletedTutorial)
+        {
+            UpdateBattleConfig();
+            if (BattleData.Instance != null)
+                UpdateBadgesForNotCompletedTutorialAccount();
+
+            else
+            {
+                _battleDataPrefab = Instantiate(_battleDataPrefab);
+                if (_accountTutorialData.TutorialProgress == 0)
+                    UpdateBadgesForNewAccount();
+
+                else
+                    UpdateBadgesForNotCompletedTutorialAccount();
+            }
+
+            if (_accountTutorialData.TutorialProgress >= 2)
+                returnToMainMenuButton.gameObject.SetActive(true);
+        }
+
+        else
+            UpdateBadgesForCompletedTutorialAccount();
+    }
+
+    #endregion
+
     #region PublicFunction
+
     public void LoadTutorialBattle(TutorialConfigSO tutorialConfigSO)
     {
         _selectedTutorialConfig = tutorialConfigSO;
@@ -28,6 +62,7 @@ public class TutorialManager : MonoBehaviour
         BattleData.Instance.AssginBattleTutorialData(_selectedTutorialConfig);
         _matchMakingSceneLoader.LoadScene();
     }
+
     #endregion
 
     #region PrivateFunction
@@ -60,19 +95,19 @@ public class TutorialManager : MonoBehaviour
 
        
         
-            for (int i = 0; i < _accountTutorialData.TutorialProgress; i++) //Check you coming back from previous tutorial
-            {
-                if (BattleData.Instance.BattleConfigSO == _badges[i]._configSO.BattleConfig)
-                    return;
-            }
+        for (int i = 0; i < _accountTutorialData.TutorialProgress; i++) //Check you coming back from previous tutorial
+        { 
+            if (BattleData.Instance.BattleConfigSO == _badges[i]._configSO.BattleConfig) 
+                return;
+        }
 
-            //If not update your last config
+        //If not update your last config
 
-            if (_accountTutorialData.TutorialProgress > _badges.Length - 1)
-                UpdateEndingTutorialBattleConfig();
+        if (_accountTutorialData.TutorialProgress > _badges.Length - 1)
+            UpdateEndingTutorialBattleConfig();
 
-            else
-                UpdateCurrentBattleConfig();
+        else
+            UpdateCurrentBattleConfig();
         
     }
 
@@ -123,38 +158,6 @@ public class TutorialManager : MonoBehaviour
         {
             _badges[i].OnBadgeClicked += LoadTutorialBattle;
         }
-    }
-    #endregion
-
-    #region UnityCallback
-
-    private void Start()
-    {
-        _accountTutorialData = AccountManager.Instance.Data.AccountTutorialData;
-        SubscribeTutorialBadges();
-
-        if (!_accountTutorialData.IsCompletedTutorial)
-        {
-            UpdateBattleConfig();
-            if (BattleData.Instance != null)
-                UpdateBadgesForNotCompletedTutorialAccount();
-
-            else
-            {
-                _battleDataPrefab = Instantiate(_battleDataPrefab);
-                if (_accountTutorialData.TutorialProgress == 0)
-                    UpdateBadgesForNewAccount();
-
-                else
-                    UpdateBadgesForNotCompletedTutorialAccount();
-            }
-
-            if (_accountTutorialData.TutorialProgress >= 2)
-                returnToMainMenuButton.gameObject.SetActive(true);
-        }
-
-        else
-            UpdateBadgesForCompletedTutorialAccount();
     }
 
     #endregion

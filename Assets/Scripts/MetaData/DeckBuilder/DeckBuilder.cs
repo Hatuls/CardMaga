@@ -56,8 +56,8 @@ namespace CardMaga.MetaData.DeckBuilding
             _originalCardsCollection = data.AccountDataCollectionHelper.CollectionCardDatasHandler;
             _comboCollectionDataHandler = data.AccountDataCollectionHelper.CollectionComboDatasHandler;
             
-            _deckValidator = new TypeValidator<MetaDeckData>(_deckValidatorConditions);
-            _deckNameValidator = new TypeValidator<string>(_deckNameValidatorConditions);
+            //_deckValidator = new TypeValidator<MetaDeckData>(_deckValidatorConditions);
+            //_deckNameValidator = new TypeValidator<string>(_deckNameValidatorConditions);
         }
 
         public int Priority => 1;
@@ -128,8 +128,9 @@ namespace CardMaga.MetaData.DeckBuilding
             }
             
             _deck.AddCard(cardInstance);
-            
-            if (!_deckValidator.Valid(_deck,out string failedMassage))
+            ValidationTag validationTag = new ValidationTag();
+
+            if (Validator.Instance.Valid(_deck,out string failedMassage))
             {
                 _deck.RemoveCard(cardInstance);
                 OnFailedToAddCard?.Invoke(failedMassage);
