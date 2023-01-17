@@ -129,6 +129,7 @@ namespace CardMaga.UI.PopUp
         public abstract IPopUpTransition<AlphaData> TransitionAlphaOut { get; }
         public abstract IPopUpTransition<TransitionData> TransitionIn { get; }
         public abstract IPopUpTransition<TransitionData> TransitionOut { get; }
+
         protected virtual void ShowPopUp()
         {
             if (_popUpSO.IsStackable == false && _basePopUps.Count > 0)
