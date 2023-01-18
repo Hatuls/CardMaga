@@ -123,7 +123,7 @@ namespace CardMaga.CinematicSystem
             
             _currentCinematicIndex++;
             
-            if (_currentCinematicIndex == _cinematic.Length)
+            if (_currentCinematicIndex >= _cinematic.Length)
             {
                 FinishedCinematic();
                 return;

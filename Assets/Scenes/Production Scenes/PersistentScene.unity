@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000002, guid: 21dba6e3c506fa84398337b8e6fd87c0,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -219,7 +219,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1970}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &555048168
@@ -669,10 +669,10 @@ RectTransform:
   m_Father: {fileID: 972177973}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1248094306
 MonoBehaviour:
@@ -686,11 +686,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395ec2aa1ed1289418efc66a4e4a0dad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _screenLeftLocation: {fileID: 1093637666}
-  _screenRightLocation: {fileID: 1978098139}
-  _screenUpLocation: {fileID: 1925507970}
-  _screenDownLocation: {fileID: 348773229}
-  _screenMiddleLocation: {fileID: 428652601}
+  _screenLocation:
+  - _tag: {fileID: 11400000, guid: 26aec7ec9d9d1eb4484231d61d1ea19a, type: 2}
+    _rectTransform: {fileID: 428652601}
+  - _tag: {fileID: 11400000, guid: cfcfd927af691b34fbe83c01ee2d622d, type: 2}
+    _rectTransform: {fileID: 1093637666}
+  - _tag: {fileID: 11400000, guid: bef78e013cd8bdc4fb01766c203ece90, type: 2}
+    _rectTransform: {fileID: 1978098139}
+  - _tag: {fileID: 11400000, guid: f2937958c7a863a479ba9fa4319fbe4c, type: 2}
+    _rectTransform: {fileID: 1925507970}
+  - _tag: {fileID: 11400000, guid: ff75f2162ab2df2468bd796a9c6cb3f9, type: 2}
+    _rectTransform: {fileID: 348773229}
 --- !u!1 &1426991470
 GameObject:
   m_ObjectHideFlags: 0

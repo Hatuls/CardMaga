@@ -92,9 +92,9 @@ namespace CardMaga.UI
         public event Action OnShow;
         public event Action OnHide;
         public event Action OnInitializable;
-        [Sirenix.OdinInspector.PropertyOrder(-1000) ,SerializeField, Tooltip("The RectTransform of the object\nIf left empty it will try to use this object's recttransfrom")]
+        [PropertyOrder(-1000) ,SerializeField, Tooltip("The RectTransform of the object\nIf left empty it will try to use this object's recttransfrom")]
         private RectTransform _rectTransform;
-        [Sirenix.OdinInspector.PropertyOrder(-1000) ,SerializeField, Tooltip("The GameObjects that will be turning on and off\nIf left empty it will close the gameobject this script is on")]
+        [PropertyOrder(-1000) ,SerializeField, Tooltip("The GameObjects that will be turning on and off\nIf left empty it will close the gameobject this script is on")]
         private GameObject _holderGameObject;
         public GameObject HolderGameObject
         {
@@ -122,6 +122,7 @@ namespace CardMaga.UI
 
         public bool IsActive()
         => HolderGameObject.activeSelf || HolderGameObject.activeInHierarchy;
+
         [Button(),ButtonGroup("UI Element")]
         public virtual void Hide()
         {

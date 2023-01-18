@@ -10,7 +10,7 @@ namespace CardMaga.Battle.Players
 
     public interface ITaggable
     {
-        IReadOnlyList<TagSO> Tags { get; }
+        IEnumerable<TagSO> Tags { get; }
     }
 
     public static class TagHelper
@@ -18,13 +18,13 @@ namespace CardMaga.Battle.Players
         public static bool ContainTag(this ITaggable taggable, TagSO tagSO)
         {
             bool isContain = false;
-            IReadOnlyList<TagSO> tags = taggable.Tags;
-            int length = tags.Count;
-            for (int i = 0; i < length; i++)
+            IEnumerable<TagSO> tags = taggable.Tags;
+
+            foreach (var tag in tags)
             {
-                isContain |= (tags[i] == tagSO);
-                if (isContain)
-                    break;
+                    isContain |= (tag == tagSO);
+                    if (isContain)
+                        break;
             }
             return isContain;
         }

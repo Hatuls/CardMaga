@@ -23,7 +23,7 @@ namespace CardMaga.VFX
         public virtual bool IsActive { get; }
         public BattleVisualEffectSO[] VFXSO { get => _vFXSO; }
 
-        public IReadOnlyList<TagSO> Tags => VFXSO;
+        public IEnumerable<TagSO> Tags => VFXSO;
 
         public virtual void Play() { OnPlay?.Invoke(); }
         public virtual void Play(ITokenReciever tokenReciever = null)
