@@ -29,13 +29,6 @@ namespace CardMaga.MetaData.Dismantle
         private MetaAccountData _metaAccountData;
         private AccountDataAccess _accountDataAccess;
 
-        private TypeValidator<CardInstance> _cardDataValidator;
-        
-        List<BaseValidatorCondition<CardInstance>> _validatorConditions = new List<BaseValidatorCondition<CardInstance>>()
-        {
-            //add validation
-        };
-
         public CardsCollectionDataHandler CardCollectionDatas => _cardCollectionDatas;
         
         public int Priority => 0;
@@ -51,7 +44,6 @@ namespace CardMaga.MetaData.Dismantle
             _accountData = data.AccountDataCollectionHelper;
             _dismantleHandler = new DismantleHandler(data.AccountDataCollectionHelper.CollectionCardDatasHandler);
             _dismantleCurrencyHandler = new DismantleCurrencyHandler();
-            _cardDataValidator = new TypeValidator<CardInstance>();
         }
 
         public void SetCardCollection()
@@ -69,7 +61,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public void AddCardToDismantleList(CardInstance cardInstance)
         {
-            if (_cardDataValidator.Valid(cardInstance,out string failedMassage))
+            if (Validator.Instance.Valid(cardInstance,out string failedMassage,default))
             {
                 _dismantleCurrencyHandler.AddCardCurrency(cardInstance);
                 _dismantleHandler.AddCardToDismantleList(cardInstance);

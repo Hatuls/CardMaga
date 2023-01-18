@@ -109,7 +109,7 @@ namespace CardMaga.MetaData.DeckBuilding
         
         public void TryEditDeckName(string name)
         {
-            if (!_deckNameValidator.Valid(name,out string failedMassage))
+            if (!Validator.Instance.Valid(name,out string failedMassage,default))
             {
                 OnFailedToUpdateDeckName?.Invoke(failedMassage);
                 return;
@@ -128,9 +128,8 @@ namespace CardMaga.MetaData.DeckBuilding
             }
             
             _deck.AddCard(cardInstance);
-            ValidationTag validationTag = new ValidationTag();
 
-            if (Validator.Instance.Valid(_deck,out string failedMassage))
+            if (!Validator.Instance.Valid(_deck,out string failedMassage,default))
             {
                 _deck.RemoveCard(cardInstance);
                 OnFailedToAddCard?.Invoke(failedMassage);
@@ -155,7 +154,7 @@ namespace CardMaga.MetaData.DeckBuilding
 
             _deck.AddCombo(comboInstance);
             
-            if (!_deckValidator.Valid(_deck,out string failedMassage))
+            if (!Validator.Instance.Valid(_deck,out string failedMassage,default))
             {
                 _deck.RemoveCombo(comboInstance);
                 OnFailedToAddCombo?.Invoke(failedMassage);

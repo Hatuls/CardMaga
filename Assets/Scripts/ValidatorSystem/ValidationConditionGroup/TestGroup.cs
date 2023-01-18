@@ -3,14 +3,13 @@ using CardMaga.ValidatorSystem.ValidatorConditions.MetaDeckData;
 
 namespace CardMaga.ValidatorSystem.ValidationConditionGroup
 {
-    public class TestGroup : ValidationConditionGroup<MetaDeckData>
+    public class TestGroup : BaseValidationConditionGroup<MetaDeckData>
     {
-        private BaseValidatorCondition<MetaDeckData>[] _conditions = new[]
-        {
-            new IsFull()
+        private BaseValidatorCondition<MetaDeckData>[] _conditions = {
+            new IsDeckFull()
         };
         
-        public override ValidationTag ValidationTag => ValidationTag.metaDeckDataDefualt;
+        public override ValidationTag ValidationTag => default;
 
         public override BaseValidatorCondition<MetaDeckData>[] ValidatorConditions => _conditions;
     }

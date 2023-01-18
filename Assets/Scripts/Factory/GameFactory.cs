@@ -68,22 +68,20 @@ namespace Factory
             _instance = this;
 
             OnFactoryFinishedLoading?.Invoke();
-            
-            ValidatorFactory.GetTypeValidator();//need to check rei
         }
         
         public class TypeValidatorFactory
         {
-            private readonly Type[] _typeValidators = new[]
-            {
+            private readonly Type[] _typeValidators = {
                 typeof(TypeValidator<MetaCollectionCardData>),
                 typeof(TypeValidator<MetaCollectionComboData>),
                 typeof(TypeValidator<MetaDeckData>),
-                typeof(TypeValidator<BattleCardData>),
+                typeof(TypeValidator<CardInstance>),
+                typeof(TypeValidator<MetaCardInstanceInfo>),
+                typeof(TypeValidator<string>),
             };
 
-            private readonly Type[] _ValidationConditionGroups = new[]
-            {
+            private readonly Type[] _ValidationConditionGroups = {
                 typeof(TestGroup)
             };
 
@@ -97,14 +95,21 @@ namespace Factory
                 }
             }
 
-            private void GetValidationConditionGroup()
+            public List<BaseValidationConditionGroup<T>> GetValidationConditionGroup<T>()
             {
+                List<BaseValidationConditionGroup<T>> output = new List<BaseValidationConditionGroup<T>>();
+                
                 foreach (var conditionGroup in _ValidationConditionGroups)
                 {
-                    var genericArguments = conditionGroup.GetGenericArguments();
+                    var genericArguments = conditionGroup.BaseType.GetGenericArguments();
+
+                    if (typeof(T) != genericArguments[0]) continue;
+                    
                     var validator = Activator.CreateInstance(conditionGroup);
-                    Validator.Instance.AddConditionGroup(validator,genericArguments[0]);
+                    output.Add(validator as BaseValidationConditionGroup<T>);
                 }
+
+                return output;
             }
         }
 
