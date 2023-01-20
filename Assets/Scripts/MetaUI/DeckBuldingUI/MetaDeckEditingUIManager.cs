@@ -8,6 +8,8 @@ using CardMaga.UI;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Account.GeneralData;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,8 +33,8 @@ namespace CardMaga.MetaUI.CollectionUI
         private DeckBuilder _deckBuilder;
         private bool _isFirstTime;
 
-        private MetaCardUI[] _metaCardUis;
-        private MetaComboUI[] _metaComboUis;
+        private List<MetaCardUI> _metaCardUis;
+        private List<MetaComboUI> _metaComboUis;
         private List<MetaCollectionCardUI> _metaCollectionCardUIs;
         private List<MetaCollectionComboUI> _metaComboCollectionUIs;
         public int Priority => 1;
@@ -49,26 +51,25 @@ namespace CardMaga.MetaUI.CollectionUI
             _deckBuilder = data.MetaDataManager.DeckBuilder;
             _dataManager = data.MetaDataManager.MetaDeckEditingDataManager;
 
-            _metaCardUis = VisualRequesterManager.Instance.GetMetaCardUIs(8).ToArray();
-            _metaComboUis = VisualRequesterManager.Instance.GetMetaComboUIs(3).ToArray();
-
-            _deckContinaer.Init(_metaCardUis, _metaComboUis);
+            _metaCardUis = new List<MetaCardUI>();
+            _metaComboUis = new List<MetaComboUI>();
+            
             _metaCollectionHandler.Init();
+            _deckContinaer.Init();
 
             _deckName.OnValueChange += _deckBuilder.TryEditDeckName;
 
             //   _dataManager.OnSuccessUpdateDeck += CloseScreen;
             _dataManager.OnFailedUpdateDeck += _clickHelper.Open;
 
-            _deckBuilder.OnSuccessfulCardAdd += _deckContinaer.AddOnsuccessfulCardUI;
-            _deckBuilder.OnSuccessfulCardRemove += _deckContinaer.RemoveCardUI;
-            _deckBuilder.OnSuccessfulComboAdd += _deckContinaer.AddComboUI;
-            _deckBuilder.OnSuccessfulComboRemove += _deckContinaer.RemoveComboUI;
+            _deckBuilder.OnSuccessfulCardAdd += AddOnSuccessfullCardUI;
+            _deckBuilder.OnSuccessfulCardRemove += RemoveCardUIFromContainer;
+            _deckBuilder.OnSuccessfulComboAdd += AddOnSuccessfullComboUI;
+            _deckBuilder.OnSuccessfulComboRemove += RemoveComboUIFromContainer;
         }
 
         public override void Show()//plaster 10.01.23
         {
-
             if (_isFirstTime)
                 _isFirstTime = false;
             else
@@ -86,21 +87,51 @@ namespace CardMaga.MetaUI.CollectionUI
 
             _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dataManager.CardCollectionDataHandler.CollectionCardDatas);
             _metaComboCollectionUIs = VisualRequesterManager.Instance.GetMetaCollectionComboUis(_dataManager.ComboCollectionDataHandler.CollectionComboDatas);
-
+            
             _metaCollectionHandler.LoadObjects(_metaCollectionCardUIs, _metaComboCollectionUIs);
 
             if (metaDeckData.IsNewDeck)
                 return;
 
-            foreach (var cardData in metaDeckData.Cards)
-                _deckContinaer.AddOnsuccessfulCardUI(cardData);
-
-            foreach (var comboData in metaDeckData.Combos)
-                _deckContinaer.AddComboUI(comboData);
-
+            _metaCardUis = VisualRequesterManager.Instance.GetMetaCardUIs(metaDeckData.Cards);
+            _metaComboUis = VisualRequesterManager.Instance.GetMetaComboUIs(metaDeckData.Combos);
+            _deckContinaer.Init(_metaCardUis.ToArray(), _metaComboUis.ToArray());
+            
             ResetInputs();
 
             OnDeckBuildingInitiate?.Invoke(this);
+        }
+
+        private void AddOnSuccessfullCardUI(CardInstance cardInstance)
+        {
+            var metaCardUIs = VisualRequesterManager.Instance.GetMetaCardUIs(cardInstance);
+            _metaCardUis.Add(metaCardUIs);
+            _deckContinaer.AddCardUI(metaCardUIs);
+        }
+        
+        private void AddOnSuccessfullComboUI(ComboInstance comboInstance)
+        {
+            var metaComboUIs = VisualRequesterManager.Instance.GetMetaComboUIs(comboInstance);
+            _metaComboUis.Add(metaComboUIs);
+            _deckContinaer.AddComboUI(metaComboUIs);
+        }
+
+        private void RemoveCardUIFromContainer(CardInstance cardInstance)
+        {
+            var metaCardUi = FindCardUI(cardInstance);
+
+            _metaCardUis.Remove(metaCardUi);
+            
+            _deckContinaer.RemoveCardUI(metaCardUi);
+        }
+        
+        private void RemoveComboUIFromContainer(ComboInstance comboInstance)
+        {
+            var metaComboUI = FindComboUI(comboInstance);
+
+            _metaComboUis.Remove(metaComboUI);
+            
+            _deckContinaer.RemoveComboUI(metaComboUI);
         }
 
         private void ResetInputs()
@@ -135,8 +166,7 @@ namespace CardMaga.MetaUI.CollectionUI
                 collectionUICombo.Dispose();
             }
         }
-
-
+        
         public void TryExitDeckEditing()
         {
             if (_dataManager.ExitDeckEditing())
@@ -154,14 +184,18 @@ namespace CardMaga.MetaUI.CollectionUI
         {
             _dataManager.Dispose();
             _deckName.OnValueChange -= _deckBuilder.TryEditDeckName;//paster
-            _deckBuilder.OnSuccessfulCardAdd -= _deckContinaer.AddOnsuccessfulCardUI;
-            _deckBuilder.OnSuccessfulCardRemove -= _deckContinaer.RemoveCardUI;
-            _deckBuilder.OnSuccessfulComboAdd -= _deckContinaer.AddComboUI;
-            _deckBuilder.OnSuccessfulComboRemove -= _deckContinaer.RemoveComboUI;
+            _deckBuilder.OnSuccessfulCardAdd -= AddOnSuccessfullCardUI;
+            _deckBuilder.OnSuccessfulCardRemove -= RemoveCardUIFromContainer;
+            _deckBuilder.OnSuccessfulComboAdd -= AddOnSuccessfullComboUI;
+            _deckBuilder.OnSuccessfulComboRemove -= RemoveComboUIFromContainer;
 
    //         _dataManager.OnSuccessUpdateDeck -= CloseScreen;
             _dataManager.OnFailedUpdateDeck -= _clickHelper.Open;
         }
+        
+        private MetaComboUI FindComboUI(ComboInstance comboData) => _metaComboUis.TakeWhile(metaComboUI => !ReferenceEquals(metaComboUI, null)).FirstOrDefault(metaComboUI => comboData.CoreID == metaComboUI.ComboData.CoreID);
+        private MetaCardUI FindCardUI(CardInstance cardData) => _metaCardUis.TakeWhile(metaCardUi => !ReferenceEquals(metaCardUi, null)).FirstOrDefault(metaCardUi => cardData.CoreID == metaCardUi.CardInstance.CoreID);
+
     }
 }
 

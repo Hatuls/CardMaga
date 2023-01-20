@@ -9,21 +9,16 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaComboUI : BaseUIElement, IPoolableMB<MetaComboUI>,IVisualAssign<ComboCore> ,IEquatable<MetaComboUI>
+    public class MetaComboUI : BaseUIElement, IPoolableMB<MetaComboUI>,IVisualAssign<ComboCore>,IVisualAssign<ComboInstance> ,IEquatable<MetaComboUI>
     {
         public event Action<MetaComboUI> OnDisposed;
         
         [SerializeField] private ComboVisualHandler _comboVisual;
-        [SerializeField] private RectTransform _emptyCombo;
 
         private ComboCore _comboData;
-
-        public bool IsEmpty => _emptyCombo.gameObject.activeSelf && !_comboVisual.gameObject.activeSelf;
-        
         public ComboCore ComboData => _comboData;
         public void Dispose()
         {
-            Hide();
             OnDisposed?.Invoke(this);
         }
 
@@ -33,16 +28,10 @@ namespace CardMaga.MetaUI
             Hide();
         }
 
-        public override void Show()
-        {
-            _comboVisual.gameObject.SetActive(true);
-            _emptyCombo.gameObject.SetActive(false);
-        }
-
         public override void Hide()
         {
-            _comboVisual.gameObject.SetActive(false);
-            _emptyCombo.gameObject.SetActive(true);
+            base.Hide();
+            Dispose();
         }
 
 
@@ -50,6 +39,12 @@ namespace CardMaga.MetaUI
         {
             _comboData = data;
             _comboVisual.Init(data);
+        }
+        
+        public void AssignVisual(ComboInstance data)
+        {
+            _comboData = data.ComboCore;
+            _comboVisual.Init(data.ComboCore);
         }
 
         public bool Equals(MetaComboUI other)

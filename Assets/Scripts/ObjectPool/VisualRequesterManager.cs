@@ -18,7 +18,8 @@ namespace CardMaga.ObjectPool
         [SerializeField] private MetaCollectionComboUI collectionComboUIPrefabRef;
         [SerializeField] private MetaCollectionCardUI _metaCollectionCardWithOutLimitPrefabRef;
         
-        private VisualRequester<MetaComboUI, ComboCore> _comboVisualRequester;
+        private VisualRequester<MetaComboUI, ComboCore> _comboCoreVisualRequester;
+        private VisualRequester<MetaComboUI, ComboInstance> _comboInstanceVisualRequester;
         private VisualRequester<MetaCardUI, CardInstance> _cardVisualRequester;
         private VisualRequester<MetaCollectionCardUI, MetaCollectionCardData> _cardCollectionVisualRequester;
         private VisualRequester<MetaCollectionComboUI, MetaCollectionComboData> _comboCollectionVisualRequester;
@@ -34,7 +35,8 @@ namespace CardMaga.ObjectPool
         public override void Awake()
         {
             base.Awake();
-            _comboVisualRequester = new VisualRequester<MetaComboUI, ComboCore>(_comboPrefabRef);
+            _comboInstanceVisualRequester = new VisualRequester<MetaComboUI, ComboInstance>(_comboPrefabRef);
+            _comboCoreVisualRequester = new VisualRequester<MetaComboUI, ComboCore>(_comboPrefabRef);
             _cardVisualRequester = new VisualRequester<MetaCardUI, CardInstance>(_cardPrefabRef);
             _cardCollectionVisualRequester =
                 new VisualRequester<MetaCollectionCardUI, MetaCollectionCardData>(_metaCollectionCardPrefabRef);
@@ -48,6 +50,11 @@ namespace CardMaga.ObjectPool
            return _cardVisualRequester.GetVisual(metaCardDatas);
         }
         
+        public MetaCardUI GetMetaCardUIs(CardInstance metaCardData)
+        {
+            return _cardVisualRequester.GetVisual(metaCardData);
+        }
+        
         public List<MetaCardUI> GetMetaCardUIs(int amount)
         {
             return _cardVisualRequester.GetVisual(amount);
@@ -55,12 +62,22 @@ namespace CardMaga.ObjectPool
 
         public List<MetaComboUI> GetMetaComboUIs(List<ComboCore> metaComboDatas)
         {
-            return _comboVisualRequester.GetVisual(metaComboDatas);
+            return _comboCoreVisualRequester.GetVisual(metaComboDatas);
+        }
+        
+        public List<MetaComboUI> GetMetaComboUIs(List<ComboInstance> metaComboDatas)
+        {
+            return _comboInstanceVisualRequester.GetVisual(metaComboDatas);
+        }
+        
+        public MetaComboUI GetMetaComboUIs(ComboInstance metaComboData)
+        {
+            return _comboInstanceVisualRequester.GetVisual(metaComboData);
         }
         
         public List<MetaComboUI> GetMetaComboUIs(int amount)
         {
-            return _comboVisualRequester.GetVisual(amount);
+            return _comboInstanceVisualRequester.GetVisual(amount);
         }
 
         public List<MetaCollectionCardUI> GetMetaCollectionCardUI(List<MetaCollectionCardData> metaCollectionCardDatas)

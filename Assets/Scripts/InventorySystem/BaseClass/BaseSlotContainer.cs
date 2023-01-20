@@ -7,7 +7,7 @@ namespace CardMaga.InventorySystem
     [Serializable]
     public abstract class BaseSlotContainer<T> where T : BaseUIElement , IEquatable<T>
     {
-        private BaseSlot<T>[] _slots;
+         private BaseSlot<T>[] _slots;
         [SerializeField] private RectTransform _continerParent;
         [Header("Container Configuration")]
         [SerializeField,Tooltip("Can the Container grow dynamically")] private bool _isDynamic;
@@ -31,7 +31,7 @@ namespace CardMaga.InventorySystem
 
         public void InitializeSlots(T[] objects)
         {
-            if (ReferenceEquals(_slots,null))
+            if (_slots == null)
                 Init();
             
             for (int i = 0; i < objects.Length; i++)
