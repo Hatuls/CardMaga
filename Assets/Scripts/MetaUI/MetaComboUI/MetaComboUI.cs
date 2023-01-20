@@ -13,7 +13,7 @@ namespace CardMaga.MetaUI
     {
         public event Action<MetaComboUI> OnDisposed;
         
-        [SerializeField] private ComboVisualHandler _comboVisual;
+        [SerializeField] private BattleComboUI _comboVisual;
         [SerializeField] private RectTransform _emptyCombo;
 
         private ComboCore _comboData;
@@ -49,7 +49,7 @@ namespace CardMaga.MetaUI
         public void AssignVisual(ComboCore data)
         {
             _comboData = data;
-            _comboVisual.Init(data);
+            _comboVisual.AssignVisual(data);
         }
 
         public bool Equals(MetaComboUI other)

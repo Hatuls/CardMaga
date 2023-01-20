@@ -37,7 +37,6 @@ namespace CardMaga.UI.PopUp
             Show();
             _popUpAlphaHandler.Enter();
             _popUpTransitionHandler.EnterTransition();
-            _popUpTransitionHandler.TransitionOut.OnTransitionComplete += Dispose;
         }
 
         public virtual void Close()
@@ -48,8 +47,6 @@ namespace CardMaga.UI.PopUp
 
         public void Dispose()
         {
-            if (_popUpTransitionHandler.TransitionOut != null)
-                _popUpTransitionHandler.TransitionOut.OnTransitionComplete -= Dispose;
 
             _popUpTransitionHandler.KillSequence();
             _popUpAlphaHandler.KillSequence();
@@ -85,11 +82,11 @@ namespace CardMaga.UI.PopUp
         }
         public void Enter()
         {
-            EnterAlphaTransitions.StartTransition(_popUp);
+            EnterAlphaTransitions?.StartTransition(_popUp);
         }
         public void Exit()
         {
-            ExitAlphaTransitions.StartTransition(_popUp);
+            ExitAlphaTransitions?.StartTransition(_popUp);
         }
         public void KillSequence()
         {

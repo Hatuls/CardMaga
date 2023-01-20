@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000002, guid: 21dba6e3c506fa84398337b8e6fd87c0,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -643,6 +643,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1248094305}
   - component: {fileID: 1248094306}
+  - component: {fileID: 1248094307}
   m_Layer: 0
   m_Name: PopUpPositions
   m_TagString: Untagged
@@ -687,16 +688,91 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _screenLocation:
-  - _tag: {fileID: 11400000, guid: 26aec7ec9d9d1eb4484231d61d1ea19a, type: 2}
+  - _tag: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
     _rectTransform: {fileID: 428652601}
-  - _tag: {fileID: 11400000, guid: cfcfd927af691b34fbe83c01ee2d622d, type: 2}
+  - _tag: {fileID: 11400000, guid: e73c8a6572f4790478148e2b8fd0cef3, type: 2}
     _rectTransform: {fileID: 1093637666}
-  - _tag: {fileID: 11400000, guid: bef78e013cd8bdc4fb01766c203ece90, type: 2}
+  - _tag: {fileID: 11400000, guid: 281c678fcb764e24690bcc5185fd93f0, type: 2}
     _rectTransform: {fileID: 1978098139}
-  - _tag: {fileID: 11400000, guid: f2937958c7a863a479ba9fa4319fbe4c, type: 2}
+  - _tag: {fileID: 11400000, guid: c22c3fe9122c5c849ad715eebde8c974, type: 2}
     _rectTransform: {fileID: 1925507970}
-  - _tag: {fileID: 11400000, guid: ff75f2162ab2df2468bd796a9c6cb3f9, type: 2}
+  - _tag: {fileID: 11400000, guid: 43b7d53ea53a3754c92cf48bbadba8c4, type: 2}
     _rectTransform: {fileID: 348773229}
+--- !u!114 &1248094307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248094304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f61543f3fd0ba478f382cc09dd22bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _popUpSO: {fileID: 11400000, guid: bcaadc2d1085e0f4b824599b91e66dad, type: 2}
+  _startLocation: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
+  _startingScale: 0
+  _startingAlpha: 0
+  _popUpScreenLocations: []
+  _transitionIn:
+  - TransitionPackSO: {fileID: 11400000, guid: 4ca968bd52fa00c4e9ff0629d0654daa, type: 2}
+    TagSO: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
+    Alpha: 1
+    Duration: 0.2
+    AlphaCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _transitionOut:
+  - TransitionPackSO: {fileID: 11400000, guid: 468f206fd2e8dad4485276ba2906d824, type: 2}
+    TagSO: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
+    Alpha: 0
+    Duration: 0.1
+    AlphaCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!1 &1426991470
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,6 +23,6 @@ public class ComboCollectorEnterButtonTutorialTapDetector : MonoBehaviour
 
     private void OnDestroy()
     {
-        _comboCollectionEnterButton.OnClick -= OnButtonPress;
+        _comboCollectionEnterButton.OnClick -= CheckForPlayerPress;
     }
 }

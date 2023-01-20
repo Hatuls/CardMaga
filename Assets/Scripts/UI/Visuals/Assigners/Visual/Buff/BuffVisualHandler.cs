@@ -13,11 +13,23 @@ namespace CardMaga.UI.Buff
     public class BuffVisualHandler : BaseBuffVisualHandler, IPoolableMB<BuffVisualHandler>
     {
         public event Action<BuffVisualHandler> OnDisposed;
-        BuffDescriptionPopUp _buffDescriptionPopUp;
+        public static event Action<BuffVisualData,RectTransform> OnBuffPointerDown;
+        public static event Action<BuffVisualData, RectTransform> OnBuffPointerUp;
 
 
         [SerializeField] BuffVisualAssignerHandler _buffVisualAssignerHandler;
         [SerializeField] BuffTextAssignerHandler _buffTextAssignerHandler;
+        private BuffVisualData _buffData;
+        private RectTransform _rectTransform;
+        public RectTransform RectTransform
+        {
+            get
+            {
+                if (_rectTransform == null)
+                    _rectTransform = transform as RectTransform;
+                return _rectTransform;
+            }
+        }
         public override BaseTextAssignerHandler<BuffVisualData> BuffTextAssignerHandler => _buffTextAssignerHandler;
         public override BaseVisualAssignerHandler<BuffVisualData> BuffVisualAssignerHandler => _buffVisualAssignerHandler;
         public override void CheckValidation()
@@ -29,9 +41,10 @@ namespace CardMaga.UI.Buff
 
             base.CheckValidation();
         }
-        public override void Init(BuffVisualData comboData)
+        public override void Init(BuffVisualData buffData)
         {
-            base.Init(comboData);
+            base.Init(buffData);
+            _buffData = buffData;
             Init();
         }
 
@@ -44,6 +57,9 @@ namespace CardMaga.UI.Buff
             OnDisposed?.Invoke(this);
             gameObject.SetActive(false);
         }
+
+        public void OpenPopUp() => OnBuffPointerDown?.Invoke(_buffData, RectTransform);
+        public void ClosePopUp() => OnBuffPointerUp?.Invoke(_buffData, RectTransform);
 #if UNITY_EDITOR
         [FormerlySerializedAs("_testBuff")]
         [Header("Test")]
