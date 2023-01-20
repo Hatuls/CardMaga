@@ -4,11 +4,11 @@ namespace CardMaga.ValidatorSystem
 {
     public class ValidationException : Exception
     {
-        public static event Action<IValidInfo> OnValidationFailed; 
+        public static event Action<IValidFailedInfo> OnValidationFailed; 
 
-        public ValidationException(IValidInfo validInfo): base($"Validation failed ID: {validInfo.ID}\nValidation message: {validInfo.Message}")
+        public ValidationException(IValidFailedInfo validFailedInfo): base($"Validation failed ID: {validFailedInfo.ID}\nValidation message: {validFailedInfo.Message}")
         {
-            OnValidationFailed?.Invoke(validInfo);
+            OnValidationFailed?.Invoke(validFailedInfo);
         }
     }
 }

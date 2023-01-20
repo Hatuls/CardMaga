@@ -60,7 +60,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public void AddCardToDismantleList(CardInstance cardInstance)
         {
-            if (Validator.Valid(cardInstance,out string failedMassage,default))
+            if (Validator.Valid(cardInstance,out IValidFailedInfo validInfo,default))
             {
                 _dismantleCurrencyHandler.AddCardCurrency(cardInstance);
                 _dismantleHandler.AddCardToDismantleList(cardInstance);

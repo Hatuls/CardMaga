@@ -26,6 +26,7 @@ namespace CardMaga.MetaData.Collection
         public ComboCollectionDataHandler ComboCollectionDataHandler => _comboCollectionDataHandler;
         
         public MetaDeckData MetaDeckData => _metaDeckData;
+        
         public int Priority => 2;
         
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
@@ -42,32 +43,34 @@ namespace CardMaga.MetaData.Collection
             _cardCollectionDataHandler = _accountDataCollectionHelper.GetCardCollectionByDeck(_metaDeckData.DeckId);
             _comboCollectionDataHandler = _accountDataCollectionHelper.GetComboCollectionByDeck(_metaDeckData.DeckId);
             
-            _deckBuilder.AssingDeckToEdit(_metaDeckData,_cardCollectionDataHandler,_comboCollectionDataHandler);
+            _deckBuilder.AsingDeckToEdit(_metaDeckData,_cardCollectionDataHandler,_comboCollectionDataHandler);
         }
 
-        public bool ExitDeckEditing()
+        public void ExitDeckEditing()
         {
-            if (_deckBuilder.TryApplyDeck(out MetaDeckData metaDeckData))
-            {
-                TokenMachine tokenMachine = new TokenMachine(SuccessUpdateDeck);
-                _accountDataAccess.UpdateDeck(metaDeckData,tokenMachine);
-                DiscardDeck();
-                return true;
-            }
+            _deckBuilder.TryApplyDeck();
+        }
+
+        private void FailedToUpdateDeck()
+        {
             
-            DiscardDeck();
-            OnFailedUpdateDeck?.Invoke();
-            return false;
+        }
+        
+        private void FailedToUpdateDefaultDeck()
+        {
+            
         }
 
-        private void SuccessUpdateDeck()
+        private void SuccessUpdateDeck(MetaDeckData metaDeckData)
         {
-            OnSuccessUpdateDeck?.Invoke();
+            TokenMachine tokenMachine = new TokenMachine(OnSuccessUpdateDeck);
+            _accountDataAccess.UpdateDeck(metaDeckData,tokenMachine);
+            _deckBuilder.ResetDeckEditing();
         }
 
         public void DiscardDeck()
         {
-            _deckBuilder.DisposeDeck();
+            _deckBuilder.ResetDeckEditing();
         }
 
         public void Dispose()

@@ -6,15 +6,15 @@ namespace CardMaga.ValidatorSystem.ValidatorConditions.MetaDeckData
     {
         public override int ID => 1;
         public override string Message => "Deck is not full";
-        public override bool Valid(MetaData.AccoutData.MetaDeckData obj, out string failedMessage,params ValidationTag[] validationTag)
+        public override bool Valid(MetaData.AccoutData.MetaDeckData obj, out IValidFailedInfo validFailedInfo,params ValidationTag[] validationTag)
         {
             if (obj.Cards.Count == 8)
             {
-                failedMessage = String.Empty;
+                validFailedInfo = null;
                 return true;
             }
 
-            failedMessage = Message;
+            validFailedInfo = this;
             return false;
         }
     }

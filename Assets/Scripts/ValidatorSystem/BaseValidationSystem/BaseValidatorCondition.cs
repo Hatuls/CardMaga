@@ -11,25 +11,25 @@ namespace CardMaga.ValidatorSystem
     }
 
 
-    public abstract class BaseValidatorCondition<T> : IValid<T> ,IValidInfo
+    public abstract class BaseValidatorCondition<T> : IValid<T> ,IValidFailedInfo
     {
         public abstract int ID { get; }
         public abstract string Message { get; }
 
-        public abstract bool Valid(T obj, out string failedMassage, params ValidationTag[] validationTag);
+        public abstract bool Valid(T obj, out IValidFailedInfo validFailedInfo, params ValidationTag[] validationTag);
 
-        public bool Valid(IEnumerable<T> objs, out string failedMessage,params ValidationTag[] validationTag)
+        public bool Valid(IEnumerable<T> objs, out IValidFailedInfo validFailedInfo,params ValidationTag[] validationTag)
         {
             foreach (var obj in objs)
             {
-                if (Valid(obj,out failedMessage,validationTag))
+                if (Valid(obj,out validFailedInfo,validationTag))
                     continue;
 
-                failedMessage = Message;
+                validFailedInfo = this;
                 return false;
             }
             
-            failedMessage = String.Empty;
+            validFailedInfo = null;
             return true;
         }
     }

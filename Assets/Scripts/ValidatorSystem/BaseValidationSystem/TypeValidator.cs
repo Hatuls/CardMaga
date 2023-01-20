@@ -19,37 +19,37 @@ namespace CardMaga.ValidatorSystem
             }
         }
 
-        public bool Valid(T obj,out string failedMessage,params ValidationTag[] validationTag)
+        public bool Valid(T obj,out IValidFailedInfo validFailedInfo,params ValidationTag[] validationTag)
         {
             var validatorConditions = GetValidationCondition(validationTag);
             
             foreach (var condition in validatorConditions)
             {
-                if (condition.Valid(obj, out string massage,validationTag)) 
+                if (condition.Valid(obj, out IValidFailedInfo info,validationTag)) 
                     continue;
                 
-                failedMessage = massage;
+                validFailedInfo = info;
                 return false;
             }
             
-            failedMessage = String.Empty;
+            validFailedInfo = null;
             return true;
         }
         
-        public bool Valid(IEnumerable<T> objs,out string failedMessage,params ValidationTag[] validationTag)
+        public bool Valid(IEnumerable<T> objs,out IValidFailedInfo validFailedInfo,params ValidationTag[] validationTag)
         {
             var validatorConditions = GetValidationCondition(validationTag);
 
             foreach (var condition in validatorConditions)
             { 
-                if (condition.Valid(objs, out string massage,validationTag)) 
+                if (condition.Valid(objs, out IValidFailedInfo massage,validationTag)) 
                     continue;
 
-                failedMessage = massage;
+                validFailedInfo = massage;
                 return false;
             }
             
-            failedMessage = String.Empty;
+            validFailedInfo = null;
             return true;
         }
 

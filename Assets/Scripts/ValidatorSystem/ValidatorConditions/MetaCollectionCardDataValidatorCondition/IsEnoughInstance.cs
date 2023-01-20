@@ -8,15 +8,15 @@ namespace CardMaga.ValidatorSystem.ValidatorConditions
         public override int ID => 2;
         public override string Message => "Not Enough Instance";
 
-        public override bool Valid(MetaCollectionCardData obj, out string failedMessage,params ValidationTag[] validationTag)
+        public override bool Valid(MetaCollectionCardData obj, out IValidFailedInfo validFailedInfo,params ValidationTag[] validationTag)
         {
             if (obj.NumberOfCurrentInstance > 0)
             {
-                failedMessage = String.Empty;
+                validFailedInfo = null;
                 return true;
             }
 
-            failedMessage = Message;
+            validFailedInfo = this;
             return false;
         }
     }

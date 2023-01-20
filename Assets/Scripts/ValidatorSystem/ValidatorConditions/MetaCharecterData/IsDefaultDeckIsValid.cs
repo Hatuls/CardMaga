@@ -8,11 +8,11 @@ namespace ValidatorSystem.ValidatorConditions.MetaCharecterData
         public override int ID { get; }
         public override string Message { get; }
 
-        public override bool Valid(MetaCharacterData obj, out string failedMassage, params ValidationTag[] validationTag)
+        public override bool Valid(MetaCharacterData obj, out IValidFailedInfo validFailedInfo, params ValidationTag[] validationTag)
         {
             MetaDeckData defaultDeck = obj.Decks[0];
 
-            return Validator.Valid(defaultDeck, out failedMassage, validationTag);
+            return Validator.Valid(defaultDeck, out validFailedInfo, validationTag);
         }
     }
 }

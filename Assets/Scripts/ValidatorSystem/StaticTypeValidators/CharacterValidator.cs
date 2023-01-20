@@ -1,4 +1,3 @@
-using System;
 using CardMaga.MetaData.AccoutData;
 using CardMaga.SequenceOperation;
 using CardMaga.ValidatorSystem;
@@ -13,15 +12,15 @@ namespace ValidatorSystem.StaticTypeValidators
         
         public int Priority => 1;
         
-        public bool Valid(out string failedMessage, params ValidationTag[] validationTag)
+        public bool Valid(out IValidFailedInfo validFailedInfo, params ValidationTag[] validationTag)
         {
-            if (!Validator.Valid(_characterData, out var message, validationTag))
+            if (!Validator.Valid(_characterData, out var info, validationTag))
             {
-                failedMessage = message;
+                validFailedInfo = info;
                 return false;
             }
             
-            failedMessage = String.Empty;
+            validFailedInfo = null;
             return true;
         }
 

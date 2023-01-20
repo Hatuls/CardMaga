@@ -37,8 +37,8 @@ namespace CardMaga.MetaUI.CollectionUI
         private List<MetaComboUI> _metaComboUis;
         private List<MetaCollectionCardUI> _metaCollectionCardUIs;
         private List<MetaCollectionComboUI> _metaComboCollectionUIs;
+        
         public int Priority => 1;
-
         public IReadOnlyList<MetaComboUI> InDeckCombosUI => _metaComboUis;
         public IReadOnlyList<MetaCardUI> InDeckCardsUI => _metaCardUis;
         public IReadOnlyList<MetaCollectionCardUI> InCollectionCardsUI => _metaCollectionCardUIs;
@@ -169,8 +169,8 @@ namespace CardMaga.MetaUI.CollectionUI
         
         public void TryExitDeckEditing()
         {
-            if (_dataManager.ExitDeckEditing())
-                CloseScreen();
+            _dataManager.ExitDeckEditing();
+            CloseScreen();
         }
       
         public void ExitAndDiscardDeck()

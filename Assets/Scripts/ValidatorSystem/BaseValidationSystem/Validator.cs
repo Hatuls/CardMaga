@@ -7,31 +7,31 @@ namespace CardMaga.ValidatorSystem
     {
         private static Dictionary<Type, object> _validators = new Dictionary<Type,object>();
         
-        public static bool Valid<T>(T obj,out string failedMassage,params ValidationTag[] validationTag)
+        public static bool Valid<T>(T obj,out IValidFailedInfo validFailedInfo,params ValidationTag[] validationTag)
         {
             var validator = GetValidator<T>();
 
-            if (!validator.Valid(obj,out string massage,validationTag))
+            if (!validator.Valid(obj,out IValidFailedInfo massage,validationTag))
             {
-                failedMassage = massage;
+                validFailedInfo = massage;
                 return false;
             }
 
-            failedMassage = string.Empty;
+            validFailedInfo = null;
             return true;
         }
         
-        public static bool Valid<T>(IEnumerable<T> objs,out string failedMassage,params ValidationTag[] validationTag)
+        public static bool Valid<T>(IEnumerable<T> objs,out IValidFailedInfo validFailedInfo,params ValidationTag[] validationTag)
         {
             var validator = GetValidator<T>();
             
-            if (!validator.Valid(objs,out string massage,validationTag))
+            if (!validator.Valid(objs,out IValidFailedInfo info,validationTag))
             {
-                failedMassage = massage;
+                validFailedInfo = info;
                 return false;
             }
 
-            failedMassage = string.Empty;
+            validFailedInfo = null;
             return true;
         }
 
