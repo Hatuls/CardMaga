@@ -1,31 +1,13 @@
 using System;
 using System.Collections.Generic;
-using Factory;
 
 namespace CardMaga.ValidatorSystem
 {
-    public class Validator
+    public static class Validator
     {
-        private Dictionary<Type, object> _validators = new Dictionary<Type,object>();
+        private static Dictionary<Type, object> _validators = new Dictionary<Type,object>();
         
-        private static Validator _instance;
-        public static Validator Instance
-        {
-            get
-            {
-                if (_instance != null) return _instance;
-                
-                _instance = new Validator();
-                return _instance;
-            }
-        }
-        
-        private Validator()
-        { 
-            GameFactory.Instance.ValidatorFactory.GetTypeValidator();
-        }
-        
-        public bool Valid<T>(T obj,out string failedMassage,ValidationTag validationTag)
+        public static bool Valid<T>(T obj,out string failedMassage,params ValidationTag[] validationTag)
         {
             var validator = GetValidator<T>();
 
@@ -39,7 +21,7 @@ namespace CardMaga.ValidatorSystem
             return true;
         }
         
-        public bool Valid<T>(IEnumerable<T> objs,out string failedMassage,ValidationTag validationTag)
+        public static bool Valid<T>(IEnumerable<T> objs,out string failedMassage,params ValidationTag[] validationTag)
         {
             var validator = GetValidator<T>();
             
@@ -53,7 +35,7 @@ namespace CardMaga.ValidatorSystem
             return true;
         }
 
-        internal void AddValidator(object validator,Type type)
+        internal static void AddValidator(object validator,Type type)
         {
             if (_validators.ContainsKey(type))
                 return;
@@ -61,7 +43,12 @@ namespace CardMaga.ValidatorSystem
             _validators.Add(type,validator);
         }
 
-        private IValid<T> GetValidator<T>()
+        public static void ResetValidator()
+        {
+            _validators.Clear();
+        }
+
+        private static IValid<T> GetValidator<T>()
         {
             if (_validators.TryGetValue(typeof(T), out var value))
                 return value as IValid<T>;
@@ -74,5 +61,8 @@ namespace CardMaga.ValidatorSystem
     {
         Default,
         MetaDeckDataDefault,
+        MetaDeckDataGameDesign,
+        MetaDeckDataSystem,
+        MetaCharacterDataSystem,
     }
 }

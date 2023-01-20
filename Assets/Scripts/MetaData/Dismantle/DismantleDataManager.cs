@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Account;
 using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
@@ -61,7 +60,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public void AddCardToDismantleList(CardInstance cardInstance)
         {
-            if (Validator.Instance.Valid(cardInstance,out string failedMassage,default))
+            if (Validator.Valid(cardInstance,out string failedMassage,default))
             {
                 _dismantleCurrencyHandler.AddCardCurrency(cardInstance);
                 _dismantleHandler.AddCardToDismantleList(cardInstance);

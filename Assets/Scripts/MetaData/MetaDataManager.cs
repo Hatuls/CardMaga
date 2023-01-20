@@ -8,8 +8,10 @@ using CardMaga.MetaData.Dismantle;
 using CardMaga.MetaUI;
 using CardMaga.ObjectPool;
 using CardMaga.SequenceOperation;
+using CardMaga.ValidatorSystem;
 using ReiTools.TokenMachine;
 using UnityEngine;
+using ValidatorSystem.ValidatorTerminals;
 
 namespace MetaData
 {
@@ -18,19 +20,20 @@ namespace MetaData
     {
         public static event Action OnDataInitializes;
         
-
         private SequenceHandler<MetaDataManager> _sequenceHandler;
         [SerializeField] private AccountDataAccess _accountDataAccess;
         [SerializeField] private AccountDataCollectionHelper _accountDataCollectionHelper;
         [SerializeField] private MetaDeckEditingDataManager _metaDeckEditingDataManager;
-        [SerializeField] private DeckBuilder _deckBuilder;
         [SerializeField] private DismantleDataManager _dismantleDataManager;
 
-        [SerializeField] private UpgradeManager _upgradeManager;
-        
+        private MetaValidatorTerminal _validatorTerminal;
+        private DeckBuilder _deckBuilder; 
+        private UpgradeManager _upgradeManager;
+
 
         private IDisposable _token;
         
+        public MetaValidatorTerminal ValidatorTerminal => _validatorTerminal;
         public AccountDataCollectionHelper AccountDataCollectionHelper => _accountDataCollectionHelper;
         public MetaDeckEditingDataManager MetaDeckEditingDataManager => _metaDeckEditingDataManager;
         public DeckBuilder DeckBuilder => _deckBuilder;
@@ -53,6 +56,7 @@ namespace MetaData
                 yield return _deckBuilder = new DeckBuilder();
                 yield return _upgradeManager = new UpgradeManager();
                 yield return _dismantleDataManager = new DismantleDataManager();
+                yield return _validatorTerminal = new MetaValidatorTerminal();
             }
         }
         

@@ -49,7 +49,7 @@ namespace Factory
      //   public RewardFactory RewardFactoryHandler { get; private set; }
         public KeywordFactory KeywordFactoryHandler { get; private set; }
         
-        public TypeValidatorFactory ValidatorFactory { get; private set; }
+        public ValidationFactory ValidatorFactory { get; private set; }
 
 
         public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, KeywordsCollectionSO keywords)
@@ -57,7 +57,7 @@ namespace Factory
             if (cards == null || comboCollectionSO == null || characters == null || keywords == null)
                 throw new Exception("Collections is null!!");
 
-            ValidatorFactory = new TypeValidatorFactory();
+            ValidatorFactory = new ValidationFactory();
             CardFactoryHandler = new CardFactory(cards);
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
@@ -70,28 +70,21 @@ namespace Factory
             OnFactoryFinishedLoading?.Invoke();
         }
         
-        public class TypeValidatorFactory
+        public class ValidationFactory
         {
-            private readonly Type[] _typeValidators = {
-                typeof(TypeValidator<MetaCollectionCardData>),
-                typeof(TypeValidator<MetaCollectionComboData>),
-                typeof(TypeValidator<MetaDeckData>),
-                typeof(TypeValidator<CardInstance>),
-                typeof(TypeValidator<MetaCardInstanceInfo>),
-                typeof(TypeValidator<string>),
-            };
-
+           
             private readonly Type[] _ValidationConditionGroups = {
-                typeof(TestGroup)
+                typeof(SystemMetaDeckDataValidGroup),
+                typeof(GameDesignMetaDeckDataValidGroup)
             };
 
-            public void GetTypeValidator()
+            public void GetTypeValidator(Type[] typeValidators)
             {
-                foreach (var typeValidator in _typeValidators)
+                foreach (var typeValidator in typeValidators)
                 {
                     var genericArguments = typeValidator.GetGenericArguments();
                     var validator = Activator.CreateInstance(typeValidator);
-                    Validator.Instance.AddValidator(validator,genericArguments[0]);
+                    Validator.AddValidator(validator,genericArguments[0]);
                 }
             }
 

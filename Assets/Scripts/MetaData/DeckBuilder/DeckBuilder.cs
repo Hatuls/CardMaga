@@ -35,22 +35,7 @@ namespace CardMaga.MetaData.DeckBuilding
         
         private CardsCollectionDataHandler _cardsCollectionDataHandler;
         private ComboCollectionDataHandler _comboCollectionDataHandler;
-        
-        private TypeValidator<MetaDeckData> _deckValidator;
-        private TypeValidator<string> _deckNameValidator;
-        
-        private List<BaseValidatorCondition<MetaDeckData>> _deckValidatorConditions =
-            new List<BaseValidatorCondition<MetaDeckData>>()
-            {
-                //add validation
-            };
 
-        private List<BaseValidatorCondition<string>> _deckNameValidatorConditions =
-            new List<BaseValidatorCondition<string>>()
-            {
-                //add validation
-            };
-        
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
             _originalCardsCollection = data.AccountDataCollectionHelper.CollectionCardDatasHandler;
@@ -109,7 +94,7 @@ namespace CardMaga.MetaData.DeckBuilding
         
         public void TryEditDeckName(string name)
         {
-            if (!Validator.Instance.Valid(name,out string failedMassage,default))
+            if (!Validator.Valid(name,out string failedMassage,default))
             {
                 OnFailedToUpdateDeckName?.Invoke(failedMassage);
                 return;
@@ -128,11 +113,17 @@ namespace CardMaga.MetaData.DeckBuilding
             }
             
             _deck.AddCard(cardInstance);
-
-            if (!Validator.Instance.Valid(_deck,out string failedMassage,default))
+            
+            if (!Validator.Valid(_deck,out string gameDesignFailedMessage,ValidationTag.MetaDeckDataGameDesign))
+            {
+                OnFailedToAddCard?.Invoke(gameDesignFailedMessage);
+                return;
+            }
+            
+            if (!Validator.Valid(_deck,out string systemFailedMessage,ValidationTag.MetaDeckDataSystem))
             {
                 _deck.RemoveCard(cardInstance);
-                OnFailedToAddCard?.Invoke(failedMassage);
+                OnFailedToAddCard?.Invoke(systemFailedMessage);
                 return;
             }
 
@@ -154,7 +145,7 @@ namespace CardMaga.MetaData.DeckBuilding
 
             _deck.AddCombo(comboInstance);
             
-            if (!Validator.Instance.Valid(_deck,out string failedMassage,default))
+            if (!Validator.Valid(_deck,out string failedMassage,default))
             {
                 _deck.RemoveCombo(comboInstance);
                 OnFailedToAddCombo?.Invoke(failedMassage);

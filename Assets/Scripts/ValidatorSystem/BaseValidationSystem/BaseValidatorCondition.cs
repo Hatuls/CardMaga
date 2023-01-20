@@ -16,12 +16,8 @@ namespace CardMaga.ValidatorSystem
         public abstract int ID { get; }
         public abstract string Message { get; }
 
-        public virtual bool Valid(T obj, out string failedMassage,params ValidationTag[] validationTag)
-        {
-            failedMassage = "Validation condition not Implemented";
-            return false;
-        }
-        
+        public abstract bool Valid(T obj, out string failedMassage, params ValidationTag[] validationTag);
+
         public bool Valid(IEnumerable<T> objs, out string failedMessage,params ValidationTag[] validationTag)
         {
             foreach (var obj in objs)

@@ -69,7 +69,9 @@ namespace CardMaga.ValidatorSystem
             }
 
             if (output.Count == 0)
-                throw new Exception($"TypeValidator: Didn't find any BaseValidatorCondition, the list count is 0");
+            {
+                //throw new Exception($"TypeValidator: Didn't find any BaseValidatorCondition, the list count is 0");
+            }
 
             return output.ToArray();
         }
