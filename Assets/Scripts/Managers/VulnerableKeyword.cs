@@ -17,11 +17,15 @@ namespace CardMaga.Keywords
             var stat = currentCharacterTurn.StatsHandler.GetStat(KeywordType.Vulnerable);
             if (stat.Amount > 0)
             {
-                var command = new StatCommand(stat, -1);
+                //vulnerable 
+                var vulnerable = new KeywordData(KeywordSO, TargetEnum.MySelf, -1, 0);
+                var command = new KeywordCommand(vulnerable, CommandType.WithPrevious);
+                command.InitKeywordLogic(currentCharacterTurn, this);
+
                 gameDataCommands.DataCommands.AddCommand(command);
 
-                if(stat.IsEmpty)
-                     InvokeOnKeywordFinished();
+                InvokeKeywordVisualEffect(currentCharacterTurn.IsLeft);
+                InvokeOnKeywordFinished();
             }
         }
 

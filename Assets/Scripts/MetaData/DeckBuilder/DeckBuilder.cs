@@ -7,6 +7,7 @@ using CardMaga.SequenceOperation;
 using CardMaga.ValidatorSystem;
 using MetaData;
 using ReiTools.TokenMachine;
+using Sirenix.OdinInspector.Editor.Validation;
 
 namespace CardMaga.MetaData.DeckBuilding
 {
@@ -49,7 +50,7 @@ namespace CardMaga.MetaData.DeckBuilding
 
         public void AssingDeckToEdit(MetaDeckData deckData,CardsCollectionDataHandler cardsCollectionDataHandler,ComboCollectionDataHandler comboCollectionDataHandler)
         {
-            _deck = deckData;
+            _deck = deckData.GetCopy();
 
             _cardsCollectionDataHandler = cardsCollectionDataHandler;
             _comboCollectionDataHandler = comboCollectionDataHandler;
@@ -75,6 +76,8 @@ namespace CardMaga.MetaData.DeckBuilding
 
         public void DisposeDeck()//Need to call
         {
+            _deck = null;
+            
             foreach (var cardData in _cardsCollectionDataHandler.CollectionCardDatas)
             {
                 cardData.OnTryAddItemToCollection -= TryAddCardToDeck;

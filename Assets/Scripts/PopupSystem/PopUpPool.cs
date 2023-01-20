@@ -6,22 +6,22 @@ namespace CardMaga.UI.PopUp
 {
     public interface IPopUpPool
     {
-        BasePopUp Pull(PopUpSO visualEffectSO);
+        PopUp Pull(PopUpSO visualEffectSO);
     }
 
     public class PopUpPool 
     {
 
-        private readonly List<BasePopUp> _allPoolObjects;
-        private readonly List<BasePopUp> _reservedList;
+        private readonly List<PopUp> _allPoolObjects;
+        private readonly List<PopUp> _reservedList;
 
         private Transform _parent;
 
         public PopUpPool(Transform defaultParent)
         {
             _parent = defaultParent;
-            _allPoolObjects = new List<BasePopUp>();
-            _reservedList = new List<BasePopUp>();
+            _allPoolObjects = new List<PopUp>();
+            _reservedList = new List<PopUp>();
         }
 
     //    public void PopulatePool(BasePopUp type, int amount)

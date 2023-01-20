@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Account.GeneralData;
 using Factory;
+using Rei.Utilities;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -79,6 +80,20 @@ namespace CardMaga.MetaData.AccoutData
                     }
                 }
             }
+        }
+
+        public MetaDeckData(int deckId,string deckName,List<CardInstance> cardDatas,List<ComboInstance> comboDatas)
+        {
+            _deckId = deckId;
+            _deckName = deckName;
+
+            _cardDatas = cardDatas;
+            _comboDatas = comboDatas;
+        }
+        
+        public MetaDeckData GetCopy()
+        {
+            return new MetaDeckData(_deckId, _deckName, _cardDatas.Copy(), _comboDatas.Copy());
         }
 
         public void UpdateDeck(MetaDeckData metaDeckData)

@@ -5,23 +5,19 @@ namespace CardMaga.InventorySystem
 {
     public class BaseSlot<T> : IInventoryObject<T> where T : BaseUIElement , IEquatable<T>
     {
-        
         private T _inventoryObject;
-
-        private bool _isHaveValue;
-
-        //public bool IsHaveValue => _inventoryObject != null; //need this as main
-        public bool IsHaveValue => _isHaveValue;
+        
+        public bool IsHaveValue => _inventoryObject != null; //need this as main
 
         public T InventoryObject => _inventoryObject;
 
-        public void AssignValue(T InventoryObject)
+        public void AssignValue(T inventoryObject)
         {
             if (IsHaveValue)
                 return;
 
-            _isHaveValue = true;
-            _inventoryObject = InventoryObject;
+            _inventoryObject = inventoryObject;
+            _inventoryObject.Show();
         }
 
         public void RemoveValue()
@@ -29,17 +25,15 @@ namespace CardMaga.InventorySystem
             if (!IsHaveValue)
                 return;
             
-            _inventoryObject.Hide();
-            _isHaveValue = false;
-            //_inventoryObject = null; plaster!!! need to be able to null the object
+            _inventoryObject.Hide(); 
+            _inventoryObject = null;
         }
 
         public bool Contain(T other)
         {
-            if (!_isHaveValue) return false;//plaster need to null the InventoryObject
+            if (!IsHaveValue) return false;//plaster need to null the inventoryObject
             if (other == null) return false;
-            //if (InventoryObject == null) return false;
-            return InventoryObject.Equals(other);
+            return _inventoryObject.Equals(other);
         }
     }
 

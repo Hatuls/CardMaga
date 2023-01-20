@@ -55,6 +55,7 @@ namespace CardMaga.MetaData.Collection
                 return true;
             }
             
+            DiscardDeck();
             OnFailedUpdateDeck?.Invoke();
             return false;
         }
