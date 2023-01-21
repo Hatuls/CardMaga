@@ -25,7 +25,6 @@ namespace CardMaga.MetaData.AccoutData
 
         public int DeckId  => _deckId; 
         public string DeckName  => _deckName;
-        public int DeckIndex { get; }
         public bool IsNewDeck => _isNewDeck;
 
         public List<CardInstance> Cards => _cardDatas; 
@@ -33,13 +32,12 @@ namespace CardMaga.MetaData.AccoutData
 
         #endregion
         
-        public MetaDeckData(DeckData deckData,List<CardInstance> allCards,List<ComboInstance> allCombo,int deckIndex,bool isNewDeck)
+        public MetaDeckData(DeckData deckData,List<CardInstance> allCards,List<ComboInstance> allCombo,bool isNewDeck)
         {
             _deckId = deckData.Id;
             _deckName = deckData.Name;
             _isNewDeck = isNewDeck;
-            DeckIndex = deckIndex;
-
+            
             if (isNewDeck)
             {
                 _cardDatas = new List<CardInstance>();
@@ -82,18 +80,19 @@ namespace CardMaga.MetaData.AccoutData
             }
         }
 
-        public MetaDeckData(int deckId,string deckName,List<CardInstance> cardDatas,List<ComboInstance> comboDatas)
+        public MetaDeckData(int deckId,string deckName,List<CardInstance> cardDatas,List<ComboInstance> comboDatas,bool isNewDeck)
         {
             _deckId = deckId;
             _deckName = deckName;
 
             _cardDatas = cardDatas;
             _comboDatas = comboDatas;
+            _isNewDeck = isNewDeck;
         }
         
         public MetaDeckData GetCopy()
         {
-            return new MetaDeckData(_deckId, _deckName, _cardDatas.Copy(), _comboDatas.Copy());
+            return new MetaDeckData(_deckId, _deckName, _cardDatas.Copy(), _comboDatas.Copy(),_isNewDeck);
         }
 
         public void UpdateDeck(MetaDeckData metaDeckData)

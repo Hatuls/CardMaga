@@ -12,7 +12,7 @@ namespace CardMaga.MetaData.Collection
     public class MetaDeckEditingDataManager : ISequenceOperation<MetaDataManager>, IDisposable
     {
         public event Action OnSuccessUpdateDeck;
-        public event Action OnFailedUpdateDeck;
+        public event Action<bool> OnFailedUpdateDeck;
         
         private DeckBuilder _deckBuilder;
         private AccountDataAccess _accountDataAccess;
@@ -21,6 +21,8 @@ namespace CardMaga.MetaData.Collection
 
         private CardsCollectionDataHandler _cardCollectionDataHandler;
         private ComboCollectionDataHandler _comboCollectionDataHandler;
+
+        private bool _isDefaultDeck;
         
         public CardsCollectionDataHandler CardCollectionDataHandler => _cardCollectionDataHandler;
         public ComboCollectionDataHandler ComboCollectionDataHandler => _comboCollectionDataHandler;
@@ -40,6 +42,8 @@ namespace CardMaga.MetaData.Collection
         {
             _metaDeckData = _accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck;
 
+            _isDefaultDeck = _metaDeckData.DeckId == 0;
+            
             _cardCollectionDataHandler = _accountDataCollectionHelper.GetCardCollectionByDeck(_metaDeckData.DeckId);
             _comboCollectionDataHandler = _accountDataCollectionHelper.GetComboCollectionByDeck(_metaDeckData.DeckId);
             
@@ -48,24 +52,23 @@ namespace CardMaga.MetaData.Collection
 
         public void ExitDeckEditing()
         {
-            _deckBuilder.TryApplyDeck();
+            if (_deckBuilder.TryApplyDeck(out MetaDeckData metaDeckData))
+            {
+                _metaDeckData = metaDeckData;
+                UpdateDeck();
+            }
+            else
+            {
+                _metaDeckData = metaDeckData;
+                OnFailedUpdateDeck?.Invoke(_isDefaultDeck);
+            }
+
         }
 
-        private void FailedToUpdateDeck()
-        {
-            
-        }
-        
-        private void FailedToUpdateDefaultDeck()
-        {
-            
-        }
-
-        private void SuccessUpdateDeck(MetaDeckData metaDeckData)
+        public void UpdateDeck()
         {
             TokenMachine tokenMachine = new TokenMachine(OnSuccessUpdateDeck);
-            _accountDataAccess.UpdateDeck(metaDeckData,tokenMachine);
-            _deckBuilder.ResetDeckEditing();
+            _accountDataAccess.UpdateDeck(_metaDeckData,tokenMachine);
         }
 
         public void DiscardDeck()

@@ -6,7 +6,6 @@ using CardMaga.SequenceOperation;
 using CardMaga.ValidatorSystem;
 using MetaData;
 using ReiTools.TokenMachine;
-using ValidatorSystem.ValidatorTerminals;
 
 namespace CardMaga.MetaData.DeckBuilding
 {
@@ -14,9 +13,6 @@ namespace CardMaga.MetaData.DeckBuilding
     {
         #region Events
         public event Action OnDeckNameUpdate;
-        public event Action<MetaDeckData> OnValidDeckUpdate;
-        public event Action<IValidFailedInfo> OnNotValidDefaultDeckUpdate;
-        public event Action<IValidFailedInfo> OnNotValidDeckUpdate;
         public event Action<IValidFailedInfo> OnFailedToAddCombo; 
         public event Action<IValidFailedInfo> OnFailedToAddCard; 
         public event Action<IValidFailedInfo> OnFailedToUpdateDeckName; 
@@ -32,8 +28,6 @@ namespace CardMaga.MetaData.DeckBuilding
 
         private const int MAX_CARD_IN_DECK = 8;
         private const int MAX_COMBO_IN_DECK = 3;
-
-        private bool _isDefaultDeck; 
 
         private MetaDeckData _deck;
 
@@ -56,9 +50,7 @@ namespace CardMaga.MetaData.DeckBuilding
         public void AsingDeckToEdit(MetaDeckData deckData,CardsCollectionDataHandler cardsCollectionDataHandler,ComboCollectionDataHandler comboCollectionDataHandler)
         {
             _deck = deckData.GetCopy();
-
-            _isDefaultDeck = _deck.DeckId == 0;
-
+            
             _cardsCollectionDataHandler = cardsCollectionDataHandler;
             _comboCollectionDataHandler = comboCollectionDataHandler;
 
@@ -104,18 +96,16 @@ namespace CardMaga.MetaData.DeckBuilding
             _comboCollectionDataHandler = null;
         }
 
-        public void TryApplyDeck()
+        public bool TryApplyDeck(out MetaDeckData metaDeckData)
         {
             if (Validator.Valid(_deck,out var validInfo,ValidationTag.MetaDeckDataSystem))
             {
-                OnValidDeckUpdate?.Invoke(_deck);
-                return;
+                metaDeckData = _deck;
+                return true;
             }
 
-            if (_isDefaultDeck)
-                OnNotValidDefaultDeckUpdate?.Invoke(validInfo);
-            else
-                OnNotValidDeckUpdate?.Invoke(validInfo);
+            metaDeckData = _deck;
+            return false;
         }
 
         #region DeckEditing

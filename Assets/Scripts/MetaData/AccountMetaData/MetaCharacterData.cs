@@ -81,7 +81,7 @@ namespace CardMaga.MetaData.AccoutData
 
             for (int i = 0; i < character.Deck.Count; i++)
             {
-                _decks.Add(new MetaDeckData(character.Deck[i],allCards,allCombo,i,false));
+                _decks.Add(new MetaDeckData(character.Deck[i],allCards,allCombo,false));
             }
         }
 
@@ -93,7 +93,7 @@ namespace CardMaga.MetaData.AccoutData
                 return null;
             }
 
-            MetaDeckData cache = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),null,null,_decks.Count,true);
+            MetaDeckData cache = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),null,null,true);
             _decks.Add(cache);
             
             SetMainDeck(_decks.Count - 1);

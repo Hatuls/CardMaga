@@ -48,10 +48,10 @@ namespace CardMaga.MetaData.AccoutData
         
         public void UpdateDeck(MetaDeckData metaDeckData,ITokenReciever tokenMachine)
         {
-            _metaAccountData.CharacterDatas.CharacterData.UpdateDeck(metaDeckData,metaDeckData.DeckIndex);
+            _metaAccountData.CharacterDatas.CharacterData.UpdateDeck(metaDeckData,metaDeckData.DeckId);
             BaseServerRequest serverRequest;
 
-            if (metaDeckData.IsNewDeck)
+           if (metaDeckData.IsNewDeck)
                 serverRequest = new AddDeckServerRequest(metaDeckData,_metaAccountData.CharacterDatas.CharacterData.Id);
             else
                 serverRequest = new UpdateDeckDataRequest(metaDeckData, _metaAccountData.CharacterDatas.CharacterData.Id);//need to get a characterid
