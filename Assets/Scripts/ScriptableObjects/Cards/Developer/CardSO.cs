@@ -61,8 +61,10 @@ namespace CardMaga.Card
         private int _stamina;
 
         [TabGroup("BattleCardData/Info", "Data")]
+        [SerializeField]
         private bool _isFuseCard;
         [TabGroup("BattleCardData/Info", "Data")]
+        [SerializeField]
         private bool _isCombo;
 
 
@@ -119,8 +121,8 @@ namespace CardMaga.Card
                     yield return _cardCoreInfo[i].CardCore.CoreID;
             }
         }
-        public bool IsFusedCard => _isFuseCard;
-        public bool IsCombo => _isCombo;
+        public bool IsFusedCard { get => _isFuseCard; set => _isFuseCard = value; }
+        public bool IsCombo { get => _isCombo; set => _isCombo = value; }
         public int ID { get => _id; set => _id = value; }
         public PerLevelUpgrade[] PerLevelUpgrade { get => _perLevelUpgrades; set => _perLevelUpgrades = value; }
         public int[] CardsFusesFrom { get => _cardsFusesFrom; set => _cardsFusesFrom = value; }

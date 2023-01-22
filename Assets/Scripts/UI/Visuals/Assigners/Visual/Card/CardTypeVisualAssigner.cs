@@ -25,7 +25,7 @@ namespace CardMaga.UI.Visuals
         public override void Init(CardCore comboData)
         {
             int cardType = (int)comboData.CardSO.CardTypeData.CardType - 1;
-            var sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _typeCardVisualSO.Frames);
+            var sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, comboData.CardSO.IsCombo? _typeCardVisualSO.GoldFrame : _typeCardVisualSO.Frames);
             _frame.AssignSprite(sprite);
 
             sprite = BaseVisualSO.GetSpriteToAssign(cardType, cardType, _typeCardVisualSO.InnerFrames);

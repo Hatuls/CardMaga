@@ -600,7 +600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 50a5c1062ca73094cb16db384f268b1f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 48cd75c980924f0499b64fc467d5540e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -936,7 +936,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4658c00f99c6ec84bbe6768daeb210a5, type: 2}
   m_sharedMaterial: {fileID: -8166392530040144765, guid: 4658c00f99c6ec84bbe6768daeb210a5,
@@ -1333,7 +1333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Nose Bleed
+  m_text: Jab Cross
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4658c00f99c6ec84bbe6768daeb210a5, type: 2}
   m_sharedMaterial: {fileID: -8166392530040144765, guid: 4658c00f99c6ec84bbe6768daeb210a5,
@@ -1606,7 +1606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2867279609264198647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1686,7 +1686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26666668, g: 0.8980392, b: 0.89411765, a: 1}
+  m_Color: {r: 0.42232418, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2165,7 +2165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8341118135210981631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2625,7 +2625,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8553324453568318624, guid: e6140f26a460fee418c86481d95f21c0,
+  m_Sprite: {fileID: 3859207371906626501, guid: e6140f26a460fee418c86481d95f21c0,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -2797,8 +2797,8 @@ MonoBehaviour:
       _isNumberBold: 1
   CardData:
     _coreID:
-      ID: 0
-    _cardSO: {fileID: 0}
+      ID: 110
+    _cardSO: {fileID: 11400000, guid: 17bfb119e69e11244ba4b065723fc7be, type: 2}
     _level: 0
 --- !u!114 &8618945675223009257
 MonoBehaviour:
@@ -4425,6 +4425,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5681782626780571258, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
+        type: 3}
+      propertyPath: KeywordName
+      value: Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 5681782626780571258, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
+        type: 3}
+      propertyPath: KeywordDescription
+      value: Deals Damage to opponent
+      objectReference: {fileID: 0}
     - target: {fileID: 5813206224928638892, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
         type: 3}
       propertyPath: m_Pivot.x
@@ -4598,7 +4608,12 @@ PrefabInstance:
     - target: {fileID: 7778875365214801554, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
         type: 3}
       propertyPath: m_text
-      value: <b>4</b><color=#FEDE79>Attack</color>
+      value: <b>6</b><color=#FEDE79>Attack</color>
+      objectReference: {fileID: 0}
+    - target: {fileID: 7778875365214801554, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7832688415061941765, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
         type: 3}
@@ -4619,6 +4634,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -19.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910752190288539020, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
+        type: 3}
+      propertyPath: KeywordName
+      value: Exhaust
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910752190288539020, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
+        type: 3}
+      propertyPath: KeywordDescription
+      value: Exhausted cards will be removed for the rest of the game after played.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711442937387579443, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
+        type: 3}
+      propertyPath: KeywordName
+      value: Bleed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711442937387579443, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
+        type: 3}
+      propertyPath: KeywordDescription
+      value: At the end of turn characters with bleeding marks lose health by the
+        marks amount , each turn marks reduced by 1
       objectReference: {fileID: 0}
     - target: {fileID: 8834916180114493493, guid: f950d8c69139bb64ea3f45ecd4d30ccc,
         type: 3}

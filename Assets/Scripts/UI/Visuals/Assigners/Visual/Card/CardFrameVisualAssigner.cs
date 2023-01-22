@@ -19,7 +19,7 @@ namespace CardMaga.UI.Visuals
         public override void Init(CardCore comboData)
         {
             //hard Coded value
-            var frameType = 0;
+            var frameType = comboData.CardSO.IsCombo ? 1 : 0;
 
             var sprite = BaseVisualSO.GetSpriteToAssign(frameType, frameType, _frameCardVisualSO.Frames);
             _frame.AssignSprite(sprite);

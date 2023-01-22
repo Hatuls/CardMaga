@@ -9,6 +9,9 @@ namespace CardMaga.UI.Visuals
         public Sprite[] Frames;
 
         [Tooltip("Attack = 0, Defense = 1, Utility = 2")]
+        public Sprite[] GoldFrame;
+
+        [Tooltip("Attack = 0, Defense = 1, Utility = 2")]
         public Sprite[] InnerFrames;
     }
 }

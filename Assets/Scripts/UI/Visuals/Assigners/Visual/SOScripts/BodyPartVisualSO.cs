@@ -14,7 +14,7 @@ namespace CardMaga.UI.Visuals
         [Tooltip("Default - 0, Attack - 1, Defense - 2, Utility - 3")]
         public Sprite[] BodyPartsInnerBG;
 
-        public Sprite GetBodyPartBG(CardTypeEnum cardType)
+        public virtual Sprite GetBodyPartBG(CardTypeEnum cardType)
         {
             if (BodyPartsBG.Length <= (int)cardType)
             {
