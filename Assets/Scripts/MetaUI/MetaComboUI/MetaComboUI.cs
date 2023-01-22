@@ -44,8 +44,7 @@ namespace CardMaga.MetaUI
         
         public void AssignVisual(ComboInstance data)
         {
-            _comboData = data.ComboCore;
-            _comboVisual.Init(data.ComboCore);
+            AssignVisual(data.ComboCore);
         }
 
         public bool Equals(MetaComboUI other)
