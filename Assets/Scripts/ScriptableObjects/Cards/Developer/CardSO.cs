@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace CardMaga.Card
@@ -122,7 +123,12 @@ namespace CardMaga.Card
             }
         }
         public bool IsFusedCard { get => _isFuseCard; set => _isFuseCard = value; }
-        public bool IsCombo { get => _isCombo; set => _isCombo = value; }
+        public bool IsCombo { get => _isCombo;
+
+#if UNITY_EDITOR
+            set { _isCombo = value; AssetDatabase.SaveAssets(); }
+        #endif
+        }
         public int ID { get => _id; set => _id = value; }
         public PerLevelUpgrade[] PerLevelUpgrade { get => _perLevelUpgrades; set => _perLevelUpgrades = value; }
         public int[] CardsFusesFrom { get => _cardsFusesFrom; set => _cardsFusesFrom = value; }

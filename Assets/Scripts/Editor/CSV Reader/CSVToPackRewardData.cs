@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 namespace CardMaga.CSV
 {
@@ -51,6 +52,7 @@ namespace CardMaga.CSV
 
                 cardSO.AssignRewardData(resultID, isBasicReward, isSpecialPack, isArenaReward);
             }
+            AssetDatabase.SaveAssets();
             IsFinished = true;
         }
         private static bool IsSpecialPack(string value, int resultID)
