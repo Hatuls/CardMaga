@@ -14,8 +14,12 @@ namespace CardMaga.UI.Visuals
         [Tooltip("Default - 0, Attack - 1, Defense - 2, Utility - 3")]
         public Sprite[] BodyPartsInnerBG;
 
-        public virtual Sprite GetBodyPartBG(CardTypeEnum cardType)
+        [Tooltip("Default - 0, Attack - 1, Defense - 2, Utility - 3")]
+        public Sprite[] GoldBodyPartBG;
+
+        public Sprite GetBodyPartBG(CardSO card)
         {
+            var cardType = card.CardTypeEnum;
             if (BodyPartsBG.Length <= (int)cardType)
             {
                 return BodyPartsBG[0];
@@ -25,13 +29,13 @@ namespace CardMaga.UI.Visuals
                 switch (cardType)
                 {
                     case CardTypeEnum.Utility:
-                        return BodyPartsBG[3];
+                        return card.IsCombo? GoldBodyPartBG[3] : BodyPartsBG[3];
                     case CardTypeEnum.Defend:
-                        return BodyPartsBG[2];
+                        return card.IsCombo ? GoldBodyPartBG[2] : BodyPartsBG[2];
                     case CardTypeEnum.Attack:
-                        return BodyPartsBG[1];
+                        return card.IsCombo ? GoldBodyPartBG[1] : BodyPartsBG[1];
                     case CardTypeEnum.None:
-                        return BodyPartsBG[0];
+                        return card.IsCombo ? GoldBodyPartBG[0] : BodyPartsBG[0];
                     default:
                         throw new System.Exception($"BodyPartVisualSO Have recived Unknown BattleCard Type {cardType}");
                 }

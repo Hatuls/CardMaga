@@ -29,14 +29,14 @@ namespace CardMaga.UI.Visuals
         public override void Init(ComboCore comboData)
         {
             ComboSO comboSo = comboData.ComboSO();
-            
+            var cardCore = comboSo.CraftedCard.CardCore[comboData.Level].CardCore;
             for (int i = 0; i < comboSo.ComboSequence.Length; i++)
             {
                 CardTypeData cardTypeData = comboSo.ComboSequence[i];
                 var cardType = cardTypeData.CardType;
 
                 //Set Combo BG Sprite
-                _comboSequenceBackgrounds[i].AssignSprite(_bodyPartComboVisualSO.GetBodyPartBG(cardType));
+                _comboSequenceBackgrounds[i].AssignSprite(_bodyPartComboVisualSO.GetBodyPartBG(cardCore.CardSO));
                 _comboSequenceBackgrounds[i].AssignColor(_bodyPartComboVisualSO.BaseSO.GetInnerColor(cardTypeData.CardType));
                 //Set BattleCard Inner BG sprites and color
                 _comboSequenceInnerBackgrounds[i].AssignSprite(_bodyPartComboVisualSO.GetBodyPartInnerBG(cardType));
