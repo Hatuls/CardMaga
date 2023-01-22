@@ -62,5 +62,13 @@ namespace CardMaga.MetaUI
             if (ReferenceEquals(other, null)) return false;
             return CardInstance.CoreID == other.CardInstance.CoreID;
         }
+
+#if UNITY_EDITOR
+        [Header("Editor:")]
+        [SerializeField]
+        private CardCore core;
+        [ContextMenu("Assign Card Instance")]
+        private void SetInstance() => AssignVisual(new CardInstance(core));
+#endif
     }
 }

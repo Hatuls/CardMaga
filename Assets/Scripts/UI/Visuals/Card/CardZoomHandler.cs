@@ -12,6 +12,8 @@ namespace CardMaga.UI
 {
     public class CardZoomHandler : MonoBehaviour
     {
+        public event Action OnZoomInStarted;
+        public event Action OnZoomOutStarted;
         public event Action OnZoomInCompleted;
         public event Action OnZoomOutCompleted;
         public static event Action OnZoomInLocation;
@@ -102,6 +104,8 @@ namespace CardMaga.UI
             //scale battleCard
             _zoomSequence.Append(_cardVisualMainObject.DOScale(_zoomDoTweenSO.ZoomScale, _zoomDoTweenSO.ZoomDuration).SetEase(_zoomDoTweenSO.CardCurveZoomIn));
 
+            
+
             //set glow to 0
             _zoomSequence.Join(_cardGlow.DOFade(0, _zoomDoTweenSO.GlowFadeDuration));
 
@@ -117,7 +121,9 @@ namespace CardMaga.UI
             //in parallel set text opacity to visable
             _zoomSequence.Join(_description.DOFade(1, _zoomDoTweenSO.TextAlphaDuration));
             if(OnZoomInCompleted != null)
-                _zoomSequence.OnComplete(OnZoomInCompleted.Invoke);
+                _zoomSequence.AppendCallback(OnZoomInCompleted.Invoke);
+
+            OnZoomInStarted?.Invoke();
         }
         [Button("HandZoom Out")]
         private void ZoomOut()
@@ -139,7 +145,9 @@ namespace CardMaga.UI
             _zoomSequence.Join(_cardVisualMainObject.DOScale(Vector3.one, _zoomDoTweenSO.ZoomDuration));
 
             if (OnZoomOutCompleted != null)
-                _zoomSequence.OnComplete(OnZoomOutCompleted.Invoke);
+                _zoomSequence.AppendCallback(OnZoomOutCompleted.Invoke);
+
+            OnZoomOutStarted?.Invoke();
         }
     }
 }

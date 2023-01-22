@@ -8,6 +8,8 @@ namespace CardMaga.UI.PopUp
 
     public class PopUpManager : MonoSingleton<PopUpManager>, ITaggable
     {
+
+        public static event Action OnCloseAllPopUps;
         #region Pre-arranged screen locations
         [SerializeField] private PopUpScreenLocation[] _screenLocation;
 
@@ -40,7 +42,7 @@ namespace CardMaga.UI.PopUp
 
             throw new Exception($"Popup Manager: Tag was not found\nPlease check if PopupManager has a location with this tag");
         }
-
+        public void CloseAllPopups() => OnCloseAllPopUps?.Invoke();
         #endregion
 
     }

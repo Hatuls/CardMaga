@@ -1,13 +1,10 @@
-﻿using Account.GeneralData;
-using CardMaga.UI.Combos;
-using CardMaga.UI.Visuals;
-using System;
+﻿using CardMaga.UI.Visuals;
 using UnityEngine;
 namespace CardMaga.UI.PopUp
 {
-    public class ComboTypePopUpTerminal : BasePopUpTerminal
+    public class KeywordPopUpTerminal : BasePopUpTerminal
     {
-
+        private Transform _currentPosition;
         [SerializeField]
         private TransitionBuilder[] _transitionIn;
         [SerializeField]
@@ -19,27 +16,26 @@ namespace CardMaga.UI.PopUp
 
         public override IPopUpTransition<AlphaData> TransitionAlphaIn => _popUpAlphaTransitionIn;
 
-        public override IPopUpTransition<AlphaData> TransitionAlphaOut =>null;
+        public override IPopUpTransition<AlphaData> TransitionAlphaOut => null;
 
         public override IPopUpTransition<TransitionData> TransitionIn => _popUpTransitionIn;
 
         public override IPopUpTransition<TransitionData> TransitionOut => _popUpTransitionOut;
 
-        protected override Vector2 GetStartLocation() => PopUpManager.Instance.GetPosition(_startLocation);
+        protected override Vector2 GetStartLocation() => _currentPosition.position;
 
         private void Awake()
         {
-            BattleComboUI.OnComboTypePopUpSelected += ShowComboPopup;
-            BattleComboUI.OnComboTypeRelease += HideComboPopup;
+            KeywordTextAssigner.OnKeywordPointerUp += HideComboPopup;
+            KeywordTextAssigner.OnKeywordPointerDown += ShowComboPopup;
             _popUpTransitionIn = new BasicTransition(GenerateTransitionData(_transitionIn));
             _popUpTransitionOut = new BasicTransition(GenerateTransitionData(_transitionOut));
             _popUpAlphaTransitionIn = new AlphaTransition(GenerateAlphaTransitionData(_transitionIn));
         }
-
         private void OnDestroy()
         {
-            BattleComboUI.OnComboTypePopUpSelected -= ShowComboPopup;
-            BattleComboUI.OnComboTypeRelease       -= HideComboPopup;
+            KeywordTextAssigner.OnKeywordPointerUp   -= HideComboPopup;
+            KeywordTextAssigner.OnKeywordPointerDown -= ShowComboPopup;
         }
         private void HideComboPopup()
         {
@@ -47,10 +43,12 @@ namespace CardMaga.UI.PopUp
             _currentActivePopUp?.Dispose();
         }
 
-        private void ShowComboPopup(ComboCore obj)
+        private void ShowComboPopup(KeywordTextAssigner keywordTextAssigner)
         {
+            _currentPosition = keywordTextAssigner.transform;
             base.ShowPopUp();
-            _currentActivePopUp.GetComponent<ComboPopUpAssigner>().SetVisual(obj);
+            _currentActivePopUp.GetComponent<KeywordPopUpAssigner>().SetVisual(keywordTextAssigner);
         }
+
     }
 }

@@ -5,6 +5,9 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using CardMaga.UI.Card;
+using CardMaga.Card;
+
 namespace CardMaga.Meta.Upgrade
 {
     public class UpgradeCardsDisplayer : MonoBehaviour
@@ -24,7 +27,7 @@ namespace CardMaga.Meta.Upgrade
         private List<ScrollItemData> _itemsDataList = new List<ScrollItemData>();
 
         [SerializeField]
-        private MetaCardUI _prefab;//Temp: Replace with Pool Manager;
+        private BattleCardUI _prefab;//Temp: Replace with Pool Manager;
 
         [SerializeField, Range(0, 5f), Tooltip("The Time it takes to reset the cards position to the current position")]
         private float _adjustCardsPositionDuration = .1f;
@@ -88,7 +91,7 @@ namespace CardMaga.Meta.Upgrade
             if(_zoomToken!=null)
                 _zoomToken.Dispose();
 
-            _zoomToken =  _itemsDataList[index].CardUI.CardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine?.GetToken();
+            _zoomToken =  _itemsDataList[index].CardUI.CardVisuals.CardZoomHandler.ZoomTokenMachine?.GetToken();
         }
 
         private void SetPositionAndScale()
@@ -109,7 +112,7 @@ namespace CardMaga.Meta.Upgrade
         }
         private void MoveOneToTheRight()
         {
-            if (CurrentMiddleObject.CardUI.CardInstance.IsMaxLevel)
+            if (CurrentMiddleObject.CardUI.BattleCardData.CardInstance.IsMaxLevel)
                 return;
 
             _currentMiddleObjectIndex++;
@@ -117,7 +120,7 @@ namespace CardMaga.Meta.Upgrade
         }
         private void MoveOneToTheLeft()
         {
-            if (CurrentMiddleObject.CardUI.CardInstance.Level == 0)
+            if (CurrentMiddleObject.CardUI.BattleCardData.CardInstance.Level == 0)
                 return;
 
             _currentMiddleObjectIndex--;
@@ -132,10 +135,7 @@ namespace CardMaga.Meta.Upgrade
             int counter = 0;
             foreach (var card in cardSO.CardsCoreInfo)
             {
-                var newCardInstance = new CardInstance(card.CardCore);
-                var metaCard = new MetaData.AccoutData.MetaCardData(newCardInstance, cardSO, new Card.BattleCardData(newCardInstance));
-
-                _itemsDataList[counter].CardUI.AssignVisual(metaCard.CardInstance);
+                _itemsDataList[counter].CardUI.AssignVisualAndData(Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(new CardInstance(card.CardCore)));
                 counter++;
             }
 
@@ -202,16 +202,16 @@ namespace CardMaga.Meta.Upgrade
         {
             [SerializeField, ReadOnly]
             private Vector3 _worldPosition;
-            [SerializeField, ReadOnly]
-            private MetaCardUI _metaCardUI;
-            public MetaCardUI CardUI => _metaCardUI;
+            [SerializeField]
+            private BattleCardUI _metaCardUI;
+            public BattleCardUI CardUI => _metaCardUI;
             public Vector3 WorldPosition
             {
                 get => _worldPosition;
                 set=>     _worldPosition = value;
                 
             }
-            public ScrollItemData(Vector3 coordinate, MetaCardUI metaCardUI)
+            public ScrollItemData(Vector3 coordinate, BattleCardUI metaCardUI)
             {
                 _metaCardUI = metaCardUI;
                 WorldPosition = coordinate;

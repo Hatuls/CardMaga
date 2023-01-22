@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace CardMaga.UI.Visuals
 {
-
     public class ComboPopUpAssigner : MonoBehaviour
     {
         [SerializeField]

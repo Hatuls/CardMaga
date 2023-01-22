@@ -27,8 +27,11 @@ namespace CardMaga.UI.PopUp
         public abstract IPopUpTransition<TransitionData> TransitionIn { get; }
         public abstract IPopUpTransition<TransitionData> TransitionOut { get; }
 
-      
-      
+        private void Awake()
+        {
+            PopUpManager.OnCloseAllPopUps += ResetPopUp;
+        }
+
         protected virtual void ShowPopUp()
         {
             if (_popUpSO.IsStackable == false && _basePopUps.Count > 0)

@@ -28,7 +28,7 @@ namespace CardMaga.Input
         {
             if (_onPress == null)
                 return;
-            _buttonVisualBehaviour.VisualOnButtonPress(this);
+            _buttonVisualBehaviour?.VisualOnButtonPress(this);
             // _renderer.sprite = _onPress;
             base.PointDown();
         }
@@ -38,7 +38,7 @@ namespace CardMaga.Input
                 return;
 
             //  _renderer.sprite = _onIdle;
-            _buttonVisualBehaviour.VisualOnButtonUnPress(this);
+            _buttonVisualBehaviour?.VisualOnButtonUnPress(this);
             base.PointUp();
         }
         

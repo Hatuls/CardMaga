@@ -167,15 +167,46 @@ namespace CardMaga.Card
         {
             List<string[]> description = new List<string[]>();
 
-            for (int i = 0; i < PerLevelUpgrade[level].Description.Length; i++)
-                description.Add(PerLevelUpgrade[level].Description[i].Description);
+            DescriptionInfo[] info = PerLevelUpgrade[level].Description;
+            for (int i = 0; i < info.Length; i++)
+                description.Add(info[i].Description);
             return description;
-        }
+        } 
         public ushort GetCostPerUpgrade(int level)
         {
             return GetLevelUpgrade(level).PurchaseCost;
         }
+        public List<KeywordData> GetCardsKeywords(int level)
+        {
+            var upgrade = GetLevelUpgrade(level);
 
+   var allKeywords = upgrade.UpgradesPerLevel
+                .Where((x) => x.UpgradeType == LevelUpgradeEnum.KeywordAddition).Select((X) => X.KeywordUpgrade);
+
+            List<KeywordData> mergedList = new List<KeywordData>();
+           foreach(var keyword in allKeywords)
+            {
+                if (ContainKeyword(keyword.KeywordSO, mergedList, out KeywordData data))
+                    data.GetAmountToApply += keyword.GetAmountToApply;
+                else
+                    mergedList.Add(new KeywordData(keyword.KeywordSO, keyword.GetTarget, keyword.GetAmountToApply, keyword.AnimationIndex));
+           }
+
+            return mergedList;
+           bool ContainKeyword(KeywordSO keywordSO,IReadOnlyList<KeywordData> keywordDatas, out KeywordData keywordData)
+            {
+                for (int i = 0; i < keywordDatas.Count; i++)
+                {
+                    if (keywordDatas[i].KeywordSO == keywordSO)
+                    {
+                        keywordData = keywordDatas[i];
+                        return true;
+                    }
+                }
+                keywordData = null;
+                return false;
+            }
+        }
         public KeywordData[] KeywordsCombin(int lvl)
         {
             var combines = GetLevelUpgrade(lvl);
