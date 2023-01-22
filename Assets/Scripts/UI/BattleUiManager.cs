@@ -169,6 +169,7 @@ namespace CardMaga.Battle.UI
             _gameVisualCommands = new GameVisualCommands(this);
             _visualKeywordsHandler.ExecuteTask(tokenMachine, this);
 
+            if (PopUpManager.Instance !=null)
             data.TurnHandler.OnGameTurnFinished += PopUpManager.Instance.CloseAllPopups;
             _battleManager.OnBattleManagerDestroyed += BattleManager_OnBattleManagerDestroyed;
             token.Dispose();

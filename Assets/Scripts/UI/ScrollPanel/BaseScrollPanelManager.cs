@@ -27,6 +27,7 @@ namespace CardMaga.UI.ScrollPanel
                 visuals[i].RectTransform.SetParent(holder);
                 visuals[i].RectTransform.localScale = Vector3.one;
                 uiElements[i] = visuals[i];
+                visuals[i].RectTransform.gameObject.SetActive(true);
             }
 
             _scrollPanel.LoadObject(uiElements);

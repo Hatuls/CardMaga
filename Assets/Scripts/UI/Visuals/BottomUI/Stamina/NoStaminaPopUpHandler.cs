@@ -32,8 +32,10 @@ namespace CardMaga.UI.PopUp
 
 
         #region Monobehaviour Callbacks
-        private void Awake()
+        protected override  void Awake()
         {
+            if (PopUpManager.Instance == null)
+                    return;
             _handUI.OnCardExecutionFailed += ShowPopUp;
             _handUI.OnCardExecutionSuccess += HidePopUp;
 
@@ -42,6 +44,7 @@ namespace CardMaga.UI.PopUp
             _exitAlphaTransition = new AlphaTransition(GenerateAlphaTransitionData(_exitPack));
             _enterTransition = new BasicTransition(GenerateTransitionData(_enterPack));
             _exitTransition = new BasicTransition(GenerateTransitionData(_exitPack));
+            base.Awake();
         }
 
         private void OnDestroy()

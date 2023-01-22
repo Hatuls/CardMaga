@@ -27,7 +27,7 @@ namespace CardMaga.UI.PopUp
         public abstract IPopUpTransition<TransitionData> TransitionIn { get; }
         public abstract IPopUpTransition<TransitionData> TransitionOut { get; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             PopUpManager.OnCloseAllPopUps += ResetPopUp;
         }
@@ -83,6 +83,7 @@ namespace CardMaga.UI.PopUp
 
         protected TransitionData[] GenerateTransitionData(TransitionBuilder[] transitionBuilder)
         {
+            
             var popUpManager = PopUpManager.Instance;
             int length = transitionBuilder.Length;
 

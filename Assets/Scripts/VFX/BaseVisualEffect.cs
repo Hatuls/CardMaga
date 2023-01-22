@@ -19,7 +19,10 @@ namespace CardMaga.VFX
         [SerializeField]
         private BattleVisualEffectSO[] _vFXSO;
         private IDisposable _token;
+        [SerializeField]
+        private Transform _visualHolder;
 
+        public Transform VisualHolder => _visualHolder;
         public virtual bool IsActive { get; }
         public BattleVisualEffectSO[] VFXSO { get => _vFXSO; }
 

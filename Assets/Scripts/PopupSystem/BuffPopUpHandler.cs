@@ -31,8 +31,12 @@ namespace CardMaga.UI.PopUp
 
         public override IPopUpTransition<TransitionData> TransitionOut => _popUpTransitionOut;
 
-        private void Awake()
+        protected override void Awake()
         {
+            if (PopUpManager.Instance == null) return;
+            
+            
+            base.Awake();
             BuffVisualHandler.OnBuffPointerDown += ShowPopUp;
             BuffVisualHandler.OnBuffPointerUp += ClosePopUp;
             _popUpTransitionIn = new BasicTransition(GenerateTransitionData(_transitionIn));
