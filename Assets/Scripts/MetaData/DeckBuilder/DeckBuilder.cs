@@ -114,11 +114,11 @@ namespace CardMaga.MetaData.DeckBuilding
         
         public void TryEditDeckName(string name)
         {
-            if (!Validator.Valid(name,out IValidFailedInfo validInfo,default))
-            {
-                OnFailedToUpdateDeckName?.Invoke(validInfo);
-                return;
-            }
+            //if (!Validator.Valid(name,out IValidFailedInfo validInfo,default)) need to conect!!!!
+            //{
+            //    OnFailedToUpdateDeckName?.Invoke(validInfo);
+            //    return;
+           // }
             
             _deck.UpdateDeckName(name);
             OnDeckNameUpdate?.Invoke();
