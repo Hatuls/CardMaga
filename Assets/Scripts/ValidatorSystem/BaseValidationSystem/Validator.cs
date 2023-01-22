@@ -64,5 +64,6 @@ namespace CardMaga.ValidatorSystem
         MetaDeckDataGameDesign,
         MetaDeckDataSystem,
         MetaCharacterDataSystem,
+        SystemCardInstance,
     }
 }

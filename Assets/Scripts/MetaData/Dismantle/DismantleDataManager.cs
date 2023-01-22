@@ -9,6 +9,7 @@ using CardMaga.SequenceOperation;
 using CardMaga.ValidatorSystem;
 using MetaData;
 using ReiTools.TokenMachine;
+using ValidatorSystem.ValidationConditionGroup.CardInstance;
 
 namespace CardMaga.MetaData.Dismantle
 {
@@ -60,7 +61,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public void AddCardToDismantleList(CardInstance cardInstance)
         {
-            if (Validator.Valid(cardInstance,out IValidFailedInfo validInfo,default))
+            if (Validator.Valid(cardInstance,out IValidFailedInfo validInfo,ValidationTag.SystemCardInstance))
             {
                 _dismantleCurrencyHandler.AddCardCurrency(cardInstance);
                 _dismantleHandler.AddCardToDismantleList(cardInstance);

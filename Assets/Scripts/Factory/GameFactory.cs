@@ -13,6 +13,7 @@ using CardMaga.MetaData.Collection;
 using CardMaga.ValidatorSystem;
 using CardMaga.ValidatorSystem.ValidationConditionGroup;
 using UnityEngine;
+using ValidatorSystem.ValidationConditionGroup.CardInstance;
 using ValidatorSystem.ValidationConditionGroup.MetaCharacterData;
 
 namespace Factory
@@ -78,6 +79,7 @@ namespace Factory
                 typeof(SystemMetaDeckDataValidGroup),
                 typeof(GameDesignMetaDeckDataValidGroup),
                 typeof(SystemMetaCharacterData),
+                typeof(SystemCardInstance),
             };
 
             public void GetTypeValidator(Type[] typeValidators)
