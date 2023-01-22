@@ -39,6 +39,7 @@ namespace CardMaga.Battle
         [SerializeField]
         private BattleUiManager _battleUiManager;
 
+        [SerializeField] private EndBattleHandler _endBattleHandler;
 
 
 #if UNITY_EDITOR
@@ -49,7 +50,6 @@ namespace CardMaga.Battle
         private PlayerManager _playerManager;
         private ComboManager _comboManager;
         private KeywordManager _keywordManager;
-        private EndBattleHandler _endBattleHandler;
         private CardExecutionManager _cardExecutionManager;
 
         private RuleManager _ruleManager;

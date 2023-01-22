@@ -8,8 +8,6 @@ using UnityEngine.Events;
 
 namespace CardMaga.Battle
 {
-
-
     [Serializable]
     public class EndBattleHandler : IDisposable
     {
@@ -20,10 +18,7 @@ namespace CardMaga.Battle
         public event Action OnLeftPlayerWon;
         public event Action OnRightPlayerWon;
         public event Action OnAnimationsEnded;
-
-
-
-
+        
         [SerializeField, EventsGroup]
         private UnityEvent OnPlayerDefeat;
         [SerializeField, EventsGroup]
