@@ -8,11 +8,13 @@ namespace CardMaga.UI.PopUp
 
     public class PopUpManager : MonoSingleton<PopUpManager>, ITaggable
     {
+
+        public static event Action OnCloseAllPopUps;
         #region Pre-arranged screen locations
         [SerializeField] private PopUpScreenLocation[] _screenLocation;
 
         private PoolHandler<BasePoolSO<PopUp>, PopUp> _poolHandler;
-
+       
         public override void Awake()
         {
             base.Awake();
@@ -35,12 +37,12 @@ namespace CardMaga.UI.PopUp
             for (int i = 0; i < _screenLocation.Length; i++)
             {
                 if (_screenLocation[i].ContainTag(tagSO))
-                    return _screenLocation[i].Location;
+                    return _screenLocation[i].Location();
             }
 
             throw new Exception($"Popup Manager: Tag was not found\nPlease check if PopupManager has a location with this tag");
         }
-
+        public void CloseAllPopups() => OnCloseAllPopUps?.Invoke();
         #endregion
 
     }
@@ -48,11 +50,11 @@ namespace CardMaga.UI.PopUp
     public class PopUpScreenLocation : ITaggable
     {
         [SerializeField]
-        private TagSO _tag;
+        private LocationTagSO _tag;
         [SerializeField]
         private RectTransform _rectTransform;
 
-        public Vector2 Location => _rectTransform.position;
+        public Vector2 Location() => _rectTransform.position;
 
         public IEnumerable<TagSO> Tags { get { yield return _tag; } }
     }

@@ -91,6 +91,44 @@ MonoBehaviour:
   _visualsRectTransform: {fileID: 774937045894503608}
   _cardVisuals: {fileID: 6204175228487654932}
   _inputs: {fileID: 8258599519189630728}
+--- !u!223 &5853796685166487257
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730605399182997492}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &8965098000725882004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730605399182997492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 3
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 7991
 --- !u!114 &8258599519189630728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,8 +171,8 @@ MonoBehaviour:
   _zoomInScale:
     _rectTransform: {fileID: 5569614984205987613}
     _imageRectTransform: {fileID: 1883897183014925554}
-    _gizmosColor: {r: 1, g: 0, b: 0, a: 1}
     _offsetPosition: {x: 0, y: -123, z: 0}
+    _gizmosColor: {r: 1, g: 0, b: 0, a: 1}
     _width: 800
     _height: 1355
 --- !u!1001 &8985172838431535954
@@ -147,6 +185,11 @@ PrefabInstance:
     - target: {fileID: 44759345974748109, guid: bd36032e49a557545a600c7d0ccf2374,
         type: 3}
       propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 177939914243309488, guid: bd36032e49a557545a600c7d0ccf2374,
+        type: 3}
+      propertyPath: m_RaycastTarget
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 378155153668845351, guid: bd36032e49a557545a600c7d0ccf2374,
@@ -214,6 +257,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3766372032749134329, guid: bd36032e49a557545a600c7d0ccf2374,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4343369931851354018, guid: bd36032e49a557545a600c7d0ccf2374,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -233,6 +281,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4661348358790695825, guid: bd36032e49a557545a600c7d0ccf2374,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725227838366614038, guid: bd36032e49a557545a600c7d0ccf2374,
         type: 3}
@@ -395,6 +448,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8542364921239590360, guid: bd36032e49a557545a600c7d0ccf2374,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9131309846216232018, guid: bd36032e49a557545a600c7d0ccf2374,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -459,6 +517,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beca05956ca21d5478ddb9de60473c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1730605399182997492 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7256960801202750630, guid: bd36032e49a557545a600c7d0ccf2374,
+    type: 3}
+  m_PrefabInstance: {fileID: 8985172838431535954}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2229796832149641529 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7079776747127908971, guid: bd36032e49a557545a600c7d0ccf2374,

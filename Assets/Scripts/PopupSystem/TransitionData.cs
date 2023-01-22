@@ -24,7 +24,7 @@ namespace CardMaga.UI.PopUp
     public class TransitionBuilder
     {
         public TransitionPackSO TransitionPackSO;
-        public TagSO TagSO;
+        public LocationTagSO TagSO;
 
         public float Alpha;
         public float Duration;

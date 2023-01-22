@@ -17,6 +17,7 @@ namespace CardMaga.UI.Visuals
         public KeywordType KeywordType { get => _keywordType; }
         public int BuffCurrentAmount { get => _buffCurrentAmount; }
 
+        public KeywordSO KeywordSO => Factory.GameFactory.Instance.KeywordFactoryHandler.GetKeywordSO(_keywordType);
 
         public void AssignValues(KeywordType keywordType, int buffAmount)
         {

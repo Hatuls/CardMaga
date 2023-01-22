@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace CardMaga.Battle.Players
 {
+
     [CreateAssetMenu(fileName = "New Player Type SO", menuName = "ScriptableObjects/Tags/New Generic Tag")]
     public class TagSO : ScriptableObject
     {

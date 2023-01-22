@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Account.GeneralData;
+using CardMaga.Card;
+using UnityEngine;
 
 namespace CardMaga.UI.Visuals
 {

@@ -89,7 +89,8 @@ namespace CardMaga.UI.Visuals
             SetActiveObject(cardRarity);
 
             //SetBGObjects
-            _levelsBG.AssignSprite(_levelsSO[cardLevel].LevelBGCardVisualSO.LevelsBG);
+            var so = _levelsSO[cardLevel].LevelBGCardVisualSO;
+            _levelsBG.AssignSprite(comboData.CardSO.IsCombo? so.LevelsGoldBG: so.LevelsBG);
             _levelsBGOutline.AssignSprite(_levelsSO[cardLevel].LevelBGCardVisualSO.LevelsBGOutline);
 
             //SetLevelsSprite

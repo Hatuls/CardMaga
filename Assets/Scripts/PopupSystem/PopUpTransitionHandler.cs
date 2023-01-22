@@ -30,35 +30,21 @@ namespace CardMaga.UI.PopUp
             => _popUp.RectTransform.position = _startLocation;
         public void EnterTransition()
         {
-            //IReadOnlyList<TransitionData> transitions = TransitionIn.Transitions;
-            //StartTransition(transitions, onComplete);
+      
             KillSequence();
-            TransitionIn.StartTransition(_popUp);
+            TransitionIn?.StartTransition(_popUp);
         }
         public void ExitTransition()
         {
             KillSequence();
-            TransitionOut.StartTransition(_popUp);
-            //IReadOnlyList<TransitionData> transitions = TransitionOut.Transitions;
-            //StartTransition(transitions, onComplete);
+            TransitionOut?.StartTransition(_popUp);
+         
         }
         public void KillSequence()
         {
             if (CurrentSequence != null && CurrentSequence.IsActive())
                 DOTween.Kill(CurrentSequence);
         }
-        //private void StartTransition(IReadOnlyList<TransitionData> transitions, Action onComplete = null)
-        //{
-        //    //KillTween();
-
-        //    //CurrentSequence = DOTween.Sequence();
-        //    //for (int i = 0; i < transitions.Count; i++)
-        //    //    CurrentSequence.AppendCallback(() => _rectTransform.Transition(transitions[i].GetPosition?.Invoke() ?? _rectTransform.position, transitions[i].TransitionPackSO));
-
-        //    //if(onComplete!=null)
-        //    //CurrentSequence.AppendCallback(onComplete.Invoke);
-        //}
-
 
 
     }

@@ -11,8 +11,7 @@ namespace CardMaga.MetaUI
     {
         public event Action<MetaCollectionComboUI> OnDisposed;
         
-        [SerializeField] private ComboVisualHandler _comboVisual;
-
+        [SerializeField] BattleComboUI _battleComboUI;
         private MetaCollectionComboData _metaComboData;
 
         public override void Init()
@@ -24,8 +23,8 @@ namespace CardMaga.MetaUI
         public void AssignVisual(MetaCollectionComboData comboData)
         {
             _metaComboData = comboData;
-            
-            _comboVisual.Init(comboData.ComboData);
+
+            _battleComboUI.AssignVisual(comboData.ComboData);
             
             _metaComboData.OnSuccessAddOrRemoveFromCollection += SuccessAddOrRemoveCollection;
             

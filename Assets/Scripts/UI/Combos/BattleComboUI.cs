@@ -8,9 +8,12 @@ namespace CardMaga.UI.Combos
     public class BattleComboUI : BaseUIElement, IPoolableMB<BattleComboUI>, IVisualAssign<ComboCore>
     {
         public event Action<BattleComboUI> OnDisposed;
-        
-        [SerializeField] private ComboVisualHandler _comboVisual;
+        public static event Action<ComboCore> OnComboTypePopUpSelected;
+        public static event Action OnComboTypeRelease;
 
+
+        [SerializeField] private ComboVisualHandler _comboVisual;
+        private ComboCore _data;
         public void Dispose()
         {
             OnDisposed?.Invoke(this);
@@ -20,6 +23,11 @@ namespace CardMaga.UI.Combos
         public void AssignVisual(ComboCore data)
         {
             _comboVisual.Init(data);
+            _data = data;   
         }
+
+
+        public void ShowComboInfo() => OnComboTypePopUpSelected?.Invoke(_data);
+        public void HideComboInfo() => OnComboTypeRelease?.Invoke();
     }
 }

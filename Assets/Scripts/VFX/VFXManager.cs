@@ -168,6 +168,7 @@ namespace CardMaga.VFX
         {
             var effect = _vfxPool.Pull(vfxSO);
             vfxSO.PositionLogic.SetPosition(effect.transform, visualPlayer);
+
             effect.gameObject.SetActive(true);
             return effect;
         }

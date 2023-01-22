@@ -23,17 +23,17 @@ namespace CardMaga.UI.Card
         [SerializeField] private bool _isOnDialogue;
         private IDisposable _zoomToken;
 
-        private void Start()
-        {
-            _inputBehaviour.OnClick += ReturnToHandState;
-            _inputBehaviour.OnBeginHold += SetToFollowState;
-        }
+        //private void Start()
+        //{
+        //    _inputBehaviour.OnClick += ReturnToHandState;
+        //    _inputBehaviour.OnBeginHold += SetToFollowState;
+        //}
 
-        private void OnDestroy()
-        {
-            _inputBehaviour.OnClick -= ReturnToHandState;
-            _inputBehaviour.OnBeginHold -= SetToFollowState;
-        }
+        //private void OnDestroy()
+        //{
+        //    _inputBehaviour.OnClick -= ReturnToHandState;
+        //    _inputBehaviour.OnBeginHold -= SetToFollowState;
+        //}
 
         public override void EnterState(BattleCardUI battleCardUI)
         {

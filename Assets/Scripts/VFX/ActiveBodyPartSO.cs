@@ -12,13 +12,14 @@ namespace CardMaga.VFX
         }
     }
 
+
     public abstract class BaseBattleVisualEffectPosition : BaseVisualEffectPosition<IVisualPlayer> {
 
         protected void SetPoisition(Transform vfxObject, Transform location)
         {
             vfxObject.SetParent(location);
             vfxObject.localPosition = Vector3.zero;
-            vfxObject.rotation = Quaternion.identity;
+            vfxObject.localEulerAngles = Vector3.zero;
             vfxObject.SetParent(null);
         }
     }

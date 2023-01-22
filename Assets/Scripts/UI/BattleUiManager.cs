@@ -8,6 +8,7 @@ using CardMaga.Keywords;
 using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using CardMaga.UI.Collections;
+using CardMaga.UI.PopUp;
 using CardMaga.UI.Text;
 using CardMaga.VFX;
 using Keywords;
@@ -168,13 +169,15 @@ namespace CardMaga.Battle.UI
             _gameVisualCommands = new GameVisualCommands(this);
             _visualKeywordsHandler.ExecuteTask(tokenMachine, this);
 
-
+            if (PopUpManager.Instance !=null)
+            data.TurnHandler.OnGameTurnFinished += PopUpManager.Instance.CloseAllPopups;
             _battleManager.OnBattleManagerDestroyed += BattleManager_OnBattleManagerDestroyed;
             token.Dispose();
         }
 
         private void BattleManager_OnBattleManagerDestroyed(IBattleManager obj)
         {
+            obj.TurnHandler.OnGameTurnFinished += PopUpManager.Instance.CloseAllPopups;
             _battleManager.OnBattleManagerDestroyed -= BattleManager_OnBattleManagerDestroyed;
             VisualCharactersManager.Dispose(this);
             GameVisualCommands.Dispose();

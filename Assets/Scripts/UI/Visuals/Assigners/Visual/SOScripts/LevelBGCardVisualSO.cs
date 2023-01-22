@@ -6,6 +6,7 @@ namespace CardMaga.UI.Visuals
     public class LevelBGCardVisualSO : ScriptableObject
     {
         public Sprite LevelsBG;
+        public Sprite LevelsGoldBG;
         public Sprite LevelsBGOutline;
     }
 }

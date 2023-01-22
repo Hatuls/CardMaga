@@ -172,9 +172,9 @@ namespace CardMaga.CSV
                     _rewardedCombos.Add(recipe);
             }
 
-
-
+            recipe.CraftedCard.IsCombo = true;
             AssetDatabase.CreateAsset(recipe, $"Assets/Resources/Recipe SO/{recipe.ComboName}.asset");
+            AssetDatabase.SaveAssets();
             return recipe;
         }
 

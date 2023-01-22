@@ -120,30 +120,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _popUpSO: {fileID: 11400000, guid: 482c5ef13d409df48b700938e47670dc, type: 2}
-  _startLocation: {fileID: 11400000, guid: 26aec7ec9d9d1eb4484231d61d1ea19a, type: 2}
+  _startLocation: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
   _startingScale: 0
   _startingAlpha: 0
+  _popUpScreenLocations: []
   _handUI: {fileID: 8694790356547147787}
-  _duration: 0.4
+  _duration: 1
   _enterPack:
   - TransitionPackSO: {fileID: 11400000, guid: b11c3964144d1c943b220ca2c03cfd6b, type: 2}
-    TagSO: {fileID: 11400000, guid: 26aec7ec9d9d1eb4484231d61d1ea19a, type: 2}
+    TagSO: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
     Alpha: 1
     Duration: 0.5
     AlphaCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
   _exitPack:
   - TransitionPackSO: {fileID: 11400000, guid: c2d02f149c2a5fc41bde21e59f1acc75, type: 2}
-    TagSO: {fileID: 11400000, guid: 26aec7ec9d9d1eb4484231d61d1ea19a, type: 2}
+    TagSO: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
     Alpha: 0
     Duration: 0.5
     AlphaCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

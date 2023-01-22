@@ -58,7 +58,7 @@ namespace CardMaga.UI.Visuals
             SetActiveObject(cardTypeMinusOne);
 
             //Set BattleCard BG Sprites
-            _bGImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.GetBodyPartBG(cardType));
+            _bGImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.GetBodyPartBG(comboData.CardSO));
 
             //Set BattleCard Inner BG sprites and color
             _innerBGImages[cardTypeMinusOne].AssignSprite(_bodyPartCardVisualSO.GetBodyPartInnerBG(cardType));
