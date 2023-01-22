@@ -38,7 +38,7 @@ namespace CardMaga.Rewards.Bundles
 
             AddToDevicesData();
 
-            Account.AccountManager.Instance.RequestAccoundData(giftTokenMachine);
+            Account.AccountManager.Instance.SendAccountData(giftTokenMachine);
              void Finished()
             {
                 OnServerSuccessfullyAdded?.Invoke();
