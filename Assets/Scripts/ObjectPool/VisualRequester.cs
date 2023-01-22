@@ -19,7 +19,7 @@ namespace CardMaga.ObjectPool
         public List<TVisual> GetVisual(List<TData> data)
         {
             if (data.Count <= 0)
-                return null;
+                return new List<TVisual>(data.Count);
 
             List<TVisual> visuals = new List<TVisual>(data.Count);
 

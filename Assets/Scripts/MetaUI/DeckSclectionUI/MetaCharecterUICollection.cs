@@ -9,6 +9,7 @@ using UnityEngine;
 public class MetaCharecterUICollection : BaseUIElement, ISequenceOperation<MetaUIManager>, IEquatable<MetaCharacterData>
 {
     public event Action OnSelectedDeckPressed;
+    public event Action OnNewDeckAdd;
     
     [SerializeField] private MetaDeckUICollection[] _decksUI;
 
@@ -22,7 +23,7 @@ public class MetaCharecterUICollection : BaseUIElement, ISequenceOperation<MetaU
 
     public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
     {
-        _characterData = data.MetaDataManager.MetaAccountData.CharacterDatas.CharacterData;
+        _characterData = data.MetaDataManager.MetaAccountData.CharacterDatas.MainCharacterData;
         
         for (int i = 0; i < _decksUI.Length; i++)
         {
@@ -41,7 +42,8 @@ public class MetaCharecterUICollection : BaseUIElement, ISequenceOperation<MetaU
 
         if (deckId == -1)
         {
-            MetaDeckData metaDeckData = _characterData.AddDeck();
+           // MetaDeckData metaDeckData = _characterData.AddDeck();
+           MetaDeckData metaDeckData = _characterData.GetNewDeckCopy();
 
             if (ReferenceEquals(metaDeckData, null))
                 return;
@@ -50,6 +52,9 @@ public class MetaCharecterUICollection : BaseUIElement, ISequenceOperation<MetaU
 
             MainDeckUI.AssignVisual(metaDeckData);
             MainDeckUI.Show();
+            
+            _characterData.SetMainDeck(_mainDeckId);
+            OnNewDeckAdd?.Invoke();
         }
         else
         {

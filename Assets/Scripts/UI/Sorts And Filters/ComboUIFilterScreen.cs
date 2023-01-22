@@ -10,7 +10,7 @@ namespace CardMaga.UI
         // Need To be Re-Done
         private void CreateRecipes()
         {
-            //var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.CharacterData.ComboRecipe;
+            //var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.MainCharacterData.ComboRecipe;
             //while (combos.Length > _comboRecipies.Count)
             //{
             //    var combo = Instantiate(_comboRecipePrefab, this.transform).GetComponent<ComboRecipeUI>();
@@ -29,7 +29,7 @@ namespace CardMaga.UI
             return;
             CreateRecipes();
             int length = _comboRecipies.Count;
-            //  var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.CharacterData.ComboRecipe;
+            //  var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.MainCharacterData.ComboRecipe;
             //       var sortedCombos = combos.Where((x) => x.ComboSO().ComboSequance.Length == amount);
 
             //      int sortedCombosLength = sortedCombos.Count();
@@ -55,7 +55,7 @@ namespace CardMaga.UI
             return;
             // CreateRecipes();
             // int length = _comboRecipies.Count;
-            // var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.CharacterData.ComboRecipe;
+            // var combos = Account.AccountManager.Instance.BattleData.LeftPlayer.MainCharacterData.ComboRecipe;
             // for (int i = 0; i < length; i++)
             // {
             //     if (i < combos.Length)

@@ -30,6 +30,7 @@ public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<Met
         foreach (var charecterUICollection in _charectersUI)
         {
             charecterUICollection.OnSelectedDeckPressed += OpenDeckEditScreen;
+            charecterUICollection.OnNewDeckAdd += OpenDeckEditScreen;
         }
 
         _mainCharecterUI = _charectersUI[0];// plaster
@@ -45,6 +46,7 @@ public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<Met
         foreach (var charecterUICollection in _charectersUI)
         {
             charecterUICollection.OnSelectedDeckPressed -= OpenDeckEditScreen;
+            charecterUICollection.OnNewDeckAdd -= OpenDeckEditScreen;
         }
     }
 

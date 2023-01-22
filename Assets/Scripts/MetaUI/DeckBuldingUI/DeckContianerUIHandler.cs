@@ -1,4 +1,5 @@
-﻿using CardMaga.InventorySystem;
+﻿using System.Collections.Generic;
+using CardMaga.InventorySystem;
 using CardMaga.MetaUI;
 using CardMaga.MetaUI.CollectionUI;
 using UnityEngine;
@@ -14,10 +15,10 @@ public class DeckContianerUIHandler : MonoBehaviour
         _metaCardUIContainer.Init();
     }
 
-    public void Init(MetaCardUI[] metaCardUis, MetaComboUI[] metaComboUis)
+    public void Init(List<MetaCardUI> metaCardUis, List<MetaComboUI> metaComboUis)
     {
-        _metaCardUIContainer.InitializeSlots(metaCardUis);
-        _metaComboUiContainer.InitializeSlots(metaComboUis);
+        _metaCardUIContainer.InitializeSlots(metaCardUis.ToArray());
+        _metaComboUiContainer.InitializeSlots(metaComboUis.ToArray());
     }
     
     public void AddCardUI(MetaCardUI cardData)

@@ -22,7 +22,7 @@ namespace CardMaga.Meta.Upgrade
         private CurrencyPerRarityCostSO _upgradeCostsSO;
         private CardsCollectionDataHandler _cardsCollectionDataHandler;
         public CurrencyPerRarityCostSO UpgradeCosts => _upgradeCostsSO;
-        public int Priority => 0;
+        public int Priority => 2;
 
         // Validation before upgrading a card
         public IEnumerable<IValidateOperation<UpgradeInfo>> Validations

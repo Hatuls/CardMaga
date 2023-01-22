@@ -18,6 +18,8 @@ namespace CardMaga.MetaData.AccoutData
         [SerializeField] private MetaAccountData _metaAccountData;
 
         public MetaAccountData AccountData => _metaAccountData;
+        
+        public int Priority => 0;
 
         public void RemoveCard(CoreID coreId)
         {
@@ -48,13 +50,13 @@ namespace CardMaga.MetaData.AccoutData
         
         public void UpdateDeck(MetaDeckData metaDeckData,ITokenReciever tokenMachine)
         {
-            _metaAccountData.CharacterDatas.CharacterData.UpdateDeck(metaDeckData,metaDeckData.DeckId);
+            _metaAccountData.CharacterDatas.MainCharacterData.UpdateDeck(metaDeckData,metaDeckData.DeckId);
             BaseServerRequest serverRequest;
 
            if (metaDeckData.IsNewDeck)
-                serverRequest = new AddDeckServerRequest(metaDeckData,_metaAccountData.CharacterDatas.CharacterData.Id);
+                serverRequest = new AddDeckServerRequest(metaDeckData,_metaAccountData.CharacterDatas.MainCharacterData.Id);
             else
-                serverRequest = new UpdateDeckDataRequest(metaDeckData, _metaAccountData.CharacterDatas.CharacterData.Id);//need to get a characterid
+                serverRequest = new UpdateDeckDataRequest(metaDeckData, _metaAccountData.CharacterDatas.MainCharacterData.Id);//need to get a characterid
             
             serverRequest.SendRequest(tokenMachine);//need to add character support
         }
@@ -69,7 +71,5 @@ namespace CardMaga.MetaData.AccoutData
         {
             return new MetaAccountData(AccountManager.Instance.Data);//plaster!!!!! need to not by mono and get the data from AccountDataAccess
         }
-
-        public int Priority => 0;
     }
 }

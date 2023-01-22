@@ -21,7 +21,7 @@ namespace CardMaga.MetaData.Collection
         public CardsCollectionDataHandler CollectionCardDatasHandler => _collectionCardDatasHandler;
         public ComboCollectionDataHandler CollectionComboDatasHandler => _collectionComboDatasHandler;
 
-        public int Priority => 0;
+        public int Priority => 1;
         
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {

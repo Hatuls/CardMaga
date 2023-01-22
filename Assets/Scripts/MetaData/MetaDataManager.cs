@@ -16,11 +16,12 @@ using ValidatorSystem.ValidatorTerminals;
 namespace MetaData
 {
     [Serializable]
-    public class MetaDataManager : ISequenceOperation<MetaUIManager>
+    public class MetaDataManager
     {
         public static event Action OnDataInitializes;
         
-        private SequenceHandler<MetaDataManager> _sequenceHandler;
+        private static SequenceHandler<MetaDataManager> _sequenceHandler = new SequenceHandler<MetaDataManager>();
+        
         [SerializeField] private AccountDataAccess _accountDataAccess;
         [SerializeField] private AccountDataCollectionHelper _accountDataCollectionHelper;
         [SerializeField] private MetaDeckEditingDataManager _metaDeckEditingDataManager;
@@ -43,9 +44,7 @@ namespace MetaData
         public UpgradeManager UpgradeManager => _upgradeManager;
 
         public DismantleDataManager DismantleDataManager => _dismantleDataManager;
-
-        public int Priority => 0;
-
+        
         private IEnumerable<ISequenceOperation<MetaDataManager>> DataInitializers
         {
             get
@@ -59,16 +58,14 @@ namespace MetaData
                 yield return _validatorTerminal = new MetaValidatorTerminal();
             }
         }
-        
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
+
+        public static void Register(ISequenceOperation<MetaDataManager> sequenceOperation, OrderType to = OrderType.Default)
         {
-            _token = tokenMachine.GetToken();
-            InitData();
+            _sequenceHandler.Register(sequenceOperation, to);
         }
 
-        private void InitData()
+        public void InitData()
         {
-            _sequenceHandler = new SequenceHandler<MetaDataManager>();
             foreach (var operation in DataInitializers)
             {
                 _sequenceHandler.Register(operation);
@@ -80,7 +77,6 @@ namespace MetaData
         private void DataInitializes()
         {
             OnDataInitializes?.Invoke();
-            _token.Dispose();
         }
     }
 }

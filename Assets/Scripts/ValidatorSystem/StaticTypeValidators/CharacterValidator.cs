@@ -26,7 +26,7 @@ namespace ValidatorSystem.StaticTypeValidators
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
-            _characterData = data.MetaAccountData.CharacterDatas.CharacterData;
+            _characterData = data.MetaAccountData.CharacterDatas.MainCharacterData;
         }
 
     }

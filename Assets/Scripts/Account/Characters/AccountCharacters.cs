@@ -9,9 +9,9 @@
 //    {
 //        #region Fields
 //        [SerializeField]
-//        CharacterData[] _characterDatas;
+//        MainCharacterData[] _characterDatas;
 
-//        public CharacterData[] CharacterDatas { get => _characterDatas; }
+//        public MainCharacterData[] CharacterDatas { get => _characterDatas; }
 
 //        #endregion
 //        #region PrivateMethods
@@ -19,7 +19,7 @@
 //        #endregion
 //        #region Public Methods
 
-//        public CharacterData GetCharacterData(CharacterEnum character)
+//        public MainCharacterData GetCharacterData(CharacterEnum character)
 //        {
 
 
@@ -44,7 +44,7 @@
 //                {
 //                    var deck = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(character).Deck;
 //                    var list = AccountManager.Instance.AccountCards.CardList.Where((x) => deck.Any((y) => (x.CoreID == y.BattleCard.CoreID && x.Level == y.Level)));
-//                    _characterDatas[i] = new CharacterData(list.ToArray(), character);
+//                    _characterDatas[i] = new MainCharacterData(list.ToArray(), character);
 
 //                    return;
 //                }
@@ -52,7 +52,7 @@
 
 //            throw new Exception("All Character Datas Are Full!");
 //        }
-//        public void CreateCharacterFromServer(CharacterData characterData)
+//        public void CreateCharacterFromServer(MainCharacterData characterData)
 //        {
 //            throw new NotImplementedException();
 //        }
@@ -62,7 +62,7 @@
 //            int currentLevel = AccountManager.Instance.AccountGeneralData.AccountLevelData.Level.Value;
 //            var characters = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharactersSO(Battles.CharacterTypeEnum.LeftPlayer);
 //            int length = characters.Length;
-//            _characterDatas = new CharacterData[0];
+//            _characterDatas = new MainCharacterData[0];
 //            SelectedCharacter = CharacterEnum.Chiara;
 
 //            for (int i = 0; i < length; i++)

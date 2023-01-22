@@ -25,7 +25,7 @@ namespace ValidatorSystem.StaticTypeValidators
 
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
-            _defaultDeck = data.MetaAccountData.CharacterDatas.CharacterData.Decks[0];
+            _defaultDeck = data.MetaAccountData.CharacterDatas.MainCharacterData.Decks[0];
         }
 
     }

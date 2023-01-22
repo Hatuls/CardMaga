@@ -201,7 +201,7 @@ public class AudioManager : MonoBehaviour
     public void BattleMusicParameter()
     {
         RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);
-        //switch (Account.AccountManager.Instance.BattleData.Opponent.CharacterData.CharacterSO.CharacterType)
+        //switch (Account.AccountManager.Instance.BattleData.Opponent.MainCharacterData.CharacterSO.CharacterType)
         //{
         //    case Battles.CharacterTypeEnum.Elite_Enemy:
         //        RuntimeManager.StudioSystem.setParameterByName("Scene Parameter", 2);

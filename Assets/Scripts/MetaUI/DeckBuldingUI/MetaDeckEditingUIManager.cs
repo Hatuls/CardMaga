@@ -96,7 +96,8 @@ namespace CardMaga.MetaUI.CollectionUI
 
             _metaCardUis = VisualRequesterManager.Instance.GetMetaCardUIs(metaDeckData.Cards);
             _metaComboUis = VisualRequesterManager.Instance.GetMetaComboUIs(metaDeckData.Combos);
-            _deckContinaer.Init(_metaCardUis.ToArray(), _metaComboUis.ToArray());
+            
+            _deckContinaer.Init(_metaCardUis, _metaComboUis);
             
             ResetInputs();
 
@@ -180,8 +181,6 @@ namespace CardMaga.MetaUI.CollectionUI
         public void ExitAndUpdateDeck()
         {
             _dataManager.UpdateDeck();
-            DiscardDeck();
-            CloseScreen();
         }
 
         public void ExitAndDiscardDeck()

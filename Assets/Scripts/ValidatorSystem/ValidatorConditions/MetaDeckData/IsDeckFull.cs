@@ -1,4 +1,3 @@
-using System;
 
 namespace CardMaga.ValidatorSystem.ValidatorConditions.MetaDeckData
 {

@@ -40,7 +40,7 @@ namespace CardMaga.MetaData.Collection
         
         public void AssingDeckDataToEdit()
         {
-            _metaDeckData = _accountDataAccess.AccountData.CharacterDatas.CharacterData.MainDeck;
+            _metaDeckData = _accountDataAccess.AccountData.CharacterDatas.MainCharacterData.MainDeck;
 
             _isDefaultDeck = _metaDeckData.DeckId == 0;
             
@@ -62,7 +62,6 @@ namespace CardMaga.MetaData.Collection
                 _metaDeckData = metaDeckData;
                 OnFailedUpdateDeck?.Invoke(_isDefaultDeck);
             }
-
         }
 
         public void UpdateDeck()

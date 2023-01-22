@@ -51,6 +51,8 @@ namespace CardMaga.MetaData.DeckBuilding
         {
             _deck = deckData.GetCopy();
             
+            
+            
             _cardsCollectionDataHandler = cardsCollectionDataHandler;
             _comboCollectionDataHandler = comboCollectionDataHandler;
 

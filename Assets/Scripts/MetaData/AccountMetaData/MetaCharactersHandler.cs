@@ -18,7 +18,7 @@ namespace CardMaga.MetaData.AccoutData
 
         private Dictionary<int, MetaCharacterData> _characterDatas;
 
-        private MetaCharacterData _mainMetaCharacterData;
+        private MetaCharacterData _mainMetaMainCharacterData;
         private int _maxCharacter;
 
         #endregion
@@ -27,7 +27,7 @@ namespace CardMaga.MetaData.AccoutData
 
         public MetaCharacterData[] CharacterDatas => _characterDatas.Values.ToArray();//need to chaeck rei!@
         
-        public MetaCharacterData CharacterData => _mainMetaCharacterData;
+        public MetaCharacterData MainCharacterData => _mainMetaMainCharacterData;
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace CardMaga.MetaData.AccoutData
                 return false;
             }
 
-            _mainMetaCharacterData = metaCharacterData;
+            _mainMetaMainCharacterData = metaCharacterData;
             return true;
         }
 

@@ -47,8 +47,6 @@ namespace CardMaga.MetaUI
         public override void Awake()
         {
             base.Awake();
-            _metaDataManager = new MetaDataManager();
-            _sequenceHandler.Register(_metaDataManager, OrderType.Before);
 
             foreach (var operation in VisualInitializers)
             {
@@ -63,6 +61,8 @@ namespace CardMaga.MetaUI
 
         private void Start()
         {
+            _metaDataManager = new MetaDataManager();
+            _metaDataManager.InitData();
             _sequenceHandler.StartAll(this, MetaUIInitializes);
         }
 

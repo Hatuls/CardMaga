@@ -32,8 +32,8 @@ namespace CardMaga.Server.Request
 
         protected override void ReceiveResult()
         {
-            base.ReceiveResult();
             _deckData.RegisterDeck();
+            base.ReceiveResult();
         }
 
         private int GetCharacterIndexById(int Id)

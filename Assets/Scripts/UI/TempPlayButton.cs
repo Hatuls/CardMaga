@@ -1,16 +1,30 @@
-﻿using Battle.Data;
+﻿using Account;
+using Battle.Data;
 using UnityEngine;
-using Account;
+using CardMaga.MetaData.AccoutData;
+using CardMaga.SequenceOperation;
+using CardMaga.ValidatorSystem;
+using MetaData;
+using ReiTools.TokenMachine;
+using UnityEngine.Events;
 
-public class TempPlayButton : MonoBehaviour
+public class TempPlayButton : MonoBehaviour, ISequenceOperation<MetaDataManager>
 {
     [SerializeField]
     private GameObject _battleDataPrefab;
-    private AccountManager _account;
+    [SerializeField] private UnityEvent OnStartBattle;
+    private MetaAccountData _metaAccount;
+    public int Priority => 3;
+    
+    public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+    {
+        _metaAccount = data.MetaAccountData;
+    }
+
     
     private void Awake()
     {
-        _account = AccountManager.Instance;
+        MetaDataManager.Register(this);
     }
 
     private void Start()
@@ -21,8 +35,16 @@ public class TempPlayButton : MonoBehaviour
     
     public void Play()
     {
+        MetaCharacterData mainCharacterData = _metaAccount.CharacterDatas.MainCharacterData;
+        
+        if (!Validator.Valid(mainCharacterData,out var failedInfo,ValidationTag.MetaCharacterDataSystem))
+        {
+            //failed
+            return;       
+        }
+        
+        OnStartBattle?.Invoke();
         BattleData battleData = Instantiate(_battleDataPrefab).GetComponent<BattleData>();
-        Account.GeneralData.Character mainCharacter = _account.Data.CharactersData.GetMainCharacter();
-        battleData.AssignUserCharacter(_account.DisplayName,mainCharacter);
+        battleData.AssignUserCharacter(AccountManager.Instance.DisplayName,mainCharacterData.CharacterData);
     }
 }

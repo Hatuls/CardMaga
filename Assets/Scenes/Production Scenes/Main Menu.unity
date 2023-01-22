@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 94ec8ed82f9443547a29b3c84e197690,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2566,6 +2566,66 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 998293952}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 841994135}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: StartFight
+      objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 471659690365155404, guid: 0c870d1d403c20348bc20418ad31d384,
         type: 3}
       propertyPath: _currentState
@@ -2643,6 +2703,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6894295093391621325, guid: 0c870d1d403c20348bc20418ad31d384,
         type: 3}
+      propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894295093391621325, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 841994135}
@@ -2663,6 +2728,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cb4610d4bfac3f4995ad154076cb60c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &998293952 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 471659689995644185, guid: 0c870d1d403c20348bc20418ad31d384,
+    type: 3}
+  m_PrefabInstance: {fileID: 998293950}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99fdf08fb0ba2804ebf01256d1d312db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1063581408
@@ -7879,6 +7956,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _battleDataPrefab: {fileID: 8812782710460472536, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
     type: 3}
+  OnStartBattle:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2009893927
 MonoBehaviour:
   m_ObjectHideFlags: 0

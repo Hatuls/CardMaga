@@ -29,6 +29,8 @@ namespace CardMaga.MetaData.AccoutData
         private List<int> _availableSkins;
         [SerializeField,ReadOnly] private List<MetaDeckData> _decks;
 
+        private MetaDeckData _tempEditData;
+
         #endregion
 
         #region Prop
@@ -38,11 +40,15 @@ namespace CardMaga.MetaData.AccoutData
         public int Rank { get => _rank; set => _rank = value; }
         public int Exp { get => _exp; set => _exp = value; }
 
+        public MetaDeckData TempEditData => _tempEditData;
+
         public int MainDeckIndex => _mainDeckIndex;
+
+        public Character CharacterData => _characterData;
 
         public MetaDeckData MainDeck
         {
-            get => _decks[_mainDeckIndex];
+            get => _mainDeckIndex >= _decks.Count ? _tempEditData : _decks[_mainDeckIndex];
         }
 
         public int Id
@@ -85,20 +91,23 @@ namespace CardMaga.MetaData.AccoutData
             }
         }
 
-        public MetaDeckData AddDeck()
+        public void AddDeck(MetaDeckData metaDeckData)
         {
             if (_decks.Count >= _maxDeckLimit)
             {
                 Debug.LogWarning("Max number of decks");
-                return null;
+                return;
             }
 
-            MetaDeckData cache = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),null,null,true);
-            _decks.Add(cache);
+            _decks.Add(metaDeckData);
             
             SetMainDeck(_decks.Count - 1);
+        }
 
-            return cache;
+        public MetaDeckData GetNewDeckCopy()
+        {
+            _tempEditData = new MetaDeckData(new DeckData(_deckIDGenerator.GetNewDeckID(_decks.ToArray())),null,null,true);
+            return _tempEditData;
         }
 
         public void DiscardDeck(int deckId)
@@ -148,7 +157,10 @@ namespace CardMaga.MetaData.AccoutData
 
         public void UpdateDeck(MetaDeckData metaDeckData,int deckIndex)
         {
-            _decks[deckIndex].UpdateDeck(metaDeckData);
+            if (metaDeckData.IsNewDeck)
+                AddDeck(metaDeckData);
+            else
+                _decks[deckIndex].UpdateDeck(metaDeckData);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public CardsCollectionDataHandler CardCollectionDatas => _cardCollectionDatas;
         
-        public int Priority => 0;
+        public int Priority => 2;
 
         public DismantleHandler DismantleHandler => _dismantleHandler;
 

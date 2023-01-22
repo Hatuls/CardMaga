@@ -1,4 +1,5 @@
 using CardMaga.ValidatorSystem;
+using ValidatorSystem.ValidatorConditions.MetaCharecterData;
 
 namespace ValidatorSystem.ValidationConditionGroup.MetaCharacterData
 {
@@ -8,7 +9,8 @@ namespace ValidatorSystem.ValidationConditionGroup.MetaCharacterData
 
         public override BaseValidatorCondition<CardMaga.MetaData.AccoutData.MetaCharacterData>[] ValidatorConditions { get; } =
         {
-            
+            new IsMainDeckValid(),
+            new IsDefaultDeckIsValid(),
         };
     }
 }

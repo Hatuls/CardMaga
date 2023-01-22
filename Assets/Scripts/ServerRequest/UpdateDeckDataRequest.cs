@@ -36,6 +36,8 @@ namespace CardMaga.Server.Request
 
             TokenMachine tokenMachine = new TokenMachine(ReceiveResult);
             
+            _deckData.RegisterDeck();
+            
             accountManager.SendAccountData(tokenMachine);
         }
 
