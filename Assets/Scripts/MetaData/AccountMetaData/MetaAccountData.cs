@@ -36,7 +36,7 @@ namespace CardMaga.MetaData.AccoutData
             _accountCards = Factory.GameFactory.Instance.CardFactoryHandler.CreateCardInstances(accountData.AllCards.CardsIDs);
             _accountCombos = Factory.GameFactory.Instance.ComboFactoryHandler.GetMetaComboInstance(accountData.AllCombos.CombosIDs);
             _accountData = accountData;
-            _charactersHandler = new MetaCharactersHandler(_accountData.CharactersData.Characters,AccountCards,_accountCombos,1);//need to re - done
+            _charactersHandler = new MetaCharactersHandler(_accountData.CharactersData.Characters,AccountCards,_accountCombos,_accountData.CharactersData.MainCharacterID);//need to re - done
             _accountResources = new AccountResources();//Need to have a way to add value
             //need to add _accountCard To add All the account cards
             //need to add accountLevel Support

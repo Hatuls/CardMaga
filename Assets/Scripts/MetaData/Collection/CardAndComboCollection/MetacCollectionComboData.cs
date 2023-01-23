@@ -8,7 +8,7 @@ using UnityEngine;
 namespace CardMaga.MetaData.Collection
 {
     [Serializable]
-    public class MetaCollectionComboData :BaseCollectionDataItem , IEquatable<MetaCollectionComboData>,IEquatable<ComboCore>
+    public class MetaCollectionComboData : BaseCollectionDataItem , IEquatable<MetaCollectionComboData>,IEquatable<ComboCore>
     {
         public event Action<ComboInstance> OnTryAddItemToCollection; 
         public event Action<ComboCore> OnTryRemoveItemFromCollection;
@@ -28,7 +28,7 @@ namespace CardMaga.MetaData.Collection
         {
             _comboInstanceInfos = new List<MetaComboInstanceInfo>();
             _comboData = comboInstance.ComboCore;
-            
+            _maxInstants = 1; //plastte 23.01.2023
             _comboInstanceInfos.Add(new MetaComboInstanceInfo(comboInstance));
         }
 
@@ -54,8 +54,10 @@ namespace CardMaga.MetaData.Collection
 
         public bool RemoveComboInstance(MetaComboInstanceInfo metaComboInstanceInfo)
         {
-            if (!_comboInstanceInfos.Contains(metaComboInstanceInfo)) return false;
-            _comboInstanceInfos.Add(metaComboInstanceInfo);
+            if (!_comboInstanceInfos.Contains(metaComboInstanceInfo)) 
+                return false; 
+            
+            _comboInstanceInfos.Remove(metaComboInstanceInfo);
             return true;
         }
         
@@ -63,6 +65,11 @@ namespace CardMaga.MetaData.Collection
         {
             if (FindComboInstance(instanceID,out MetaComboInstanceInfo comboInstance))
                 _comboInstanceInfos.Remove(comboInstance);
+        }
+        
+        public void RemoveComboInstance()
+        {
+            _comboInstanceInfos.RemoveAt(0);
         }
         
         public bool TryGetMetaComboInstanceInfo(Predicate<MetaComboInstanceInfo> condition ,out MetaComboInstanceInfo[] comboInstance)
