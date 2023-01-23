@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine; 
 
 [Serializable]
@@ -182,20 +183,21 @@ namespace Account
             }
         }
 
-        private void ReceiveStartingData(ITokenReciever tokenMachine)
+        private async void ReceiveStartingData(ITokenReciever tokenMachine)
         {
             IDisposable rewardToken = tokenMachine.GetToken();
             ITokenReciever tokenReciever = new TokenMachine(FirstGift);
             ReceiveAllCombos();
-            IDisposable t = tokenReciever.GetToken();
+           
             for (int i = 0; i < _startingGift.Length; i++)
             {
                 var reward = _startingGift[i].GenerateReward();
                 reward.AddToDevicesData();
 
-
+                await Task.Yield();
             }
-            t.Dispose();
+            FirstGift();
+            rewardToken.Dispose();
 
             void FirstGift()
             {
@@ -226,7 +228,7 @@ namespace Account
 
 
                 Array.ForEach(_additionToStartGift, x => x.GenerateReward().AddToDevicesData());
-                rewardToken.Dispose();
+
             }
             void ReceiveAllCombos()
             {
@@ -234,8 +236,6 @@ namespace Account
                 var allCombos = comboFactory.ComboCollection;
                 foreach (var combo in allCombos.AllCombos)
                     _accountData.AllCombos.AddCombo(new ComboCore(combo, 0));
-
-
             }
 
         }
