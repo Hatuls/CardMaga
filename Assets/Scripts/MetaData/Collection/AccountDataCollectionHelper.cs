@@ -72,17 +72,20 @@ namespace CardMaga.MetaData.Collection
             {
                 if (collectionComboData.TryGetMetaComboInstanceInfo(Condition,out MetaComboInstanceInfo[] metaComboInstanceInfos))
                 {
-                    comboCoreIDs.AddRange(metaComboInstanceInfos.Select(instanceInfo => instanceInfo.InstanceID));
+                    comboCoreIDs.Add(collectionComboData.CoreID);
                 }   
             }
 
             var output = new ComboCollectionDataHandler(_collectionComboDatasHandler.GetCollectionCopy());
             
-            foreach (var cardData in output.CollectionComboDatas)
+            foreach (var comboData in output.CollectionComboDatas)
             {
-                foreach (var instanceID in comboCoreIDs)
+                foreach (var coreID in comboCoreIDs)
                 {
-                    cardData.RemoveComboInstance(instanceID);
+                    if (comboData.CoreID == coreID)
+                    {
+                        comboData.RemoveComboInstance();
+                    }
                 }
             }
 
