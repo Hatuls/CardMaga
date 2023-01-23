@@ -1,6 +1,7 @@
 ﻿using Battle;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Account.GeneralData
 {
@@ -11,9 +12,9 @@ namespace Account.GeneralData
         public const string PlayFabKeyName = "CharactersData";
 
         public List<Character> Characters = new List<Character>();
-        public int MainCharacterIndex = 0;
+        public int MainCharacterID = 1;
 
-        public Character GetMainCharacter() => Characters[MainCharacterIndex];
+        public Character GetMainCharacter() => Characters.First(x => x.ID == MainCharacterID);
         public void AddCharacter(Character character)
         {
             if (!Characters.Contains(character))
