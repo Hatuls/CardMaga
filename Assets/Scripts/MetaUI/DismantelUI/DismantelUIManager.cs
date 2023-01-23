@@ -50,10 +50,14 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
         _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
     }
 
+    private void OnDestroy()
+    {
+        _dismantleDataManager.OnCardAddToDismantel -= UpdateVisual;
+    }
+
     public void ExitDismantleScreen()
     {
         _collectionHandler.UnLoadObjects();
-        _dismantleDataManager.OnCardAddToDismantel -= UpdateVisual;
         _dismantleDataManager.ResetDismantleCard();
         _dismantleDataManager.Dispose();//temp
         CloseScreen();
