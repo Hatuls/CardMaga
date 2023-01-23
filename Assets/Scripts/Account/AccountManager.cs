@@ -80,10 +80,8 @@ namespace Account
         public void ResetAccount(ITokenReciever tokenReciever)
         {
             _accountData = new AccountData(true);
-          //  UpdatePlayName("New User");
-            TokenMachine receiveFirstData = new TokenMachine(UpdateAccount);
-            ReceiveStartingData(receiveFirstData);
-
+            ReceiveStartingData();
+            UpdateAccount();
             void UpdateAccount()
             {
 
@@ -161,43 +159,35 @@ namespace Account
             if (LoginResult.NewlyCreated)
             {
                 _accountData = new AccountData(true);
-               // UpdatePlayName("New User");
-                TokenMachine receiveFirstData = new TokenMachine(UpdateAccount);
-                ReceiveStartingData(receiveFirstData);
+                ReceiveStartingData();
             }
             else
             {
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
-                UpdateAccount();
             }
 
+                UpdateAccount();
 
             void UpdateAccount()
             {
- 
-
-                UpdateRank(null);
                 SendAccountData();
-
+                UpdateRank(null);
                 OnAccountDataAssigned?.Invoke();
             }
+
+   
         }
 
-        private async void ReceiveStartingData(ITokenReciever tokenMachine)
+        private void ReceiveStartingData()
         {
-            IDisposable rewardToken = tokenMachine.GetToken();
-            ITokenReciever tokenReciever = new TokenMachine(FirstGift);
             ReceiveAllCombos();
            
             for (int i = 0; i < _startingGift.Length; i++)
             {
                 var reward = _startingGift[i].GenerateReward();
                 reward.AddToDevicesData();
-
-                await Task.Yield();
             }
             FirstGift();
-            rewardToken.Dispose();
 
             void FirstGift()
             {
