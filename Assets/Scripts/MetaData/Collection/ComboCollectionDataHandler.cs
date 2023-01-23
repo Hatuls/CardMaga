@@ -79,8 +79,8 @@ namespace CardMaga.MetaData.Collection
             }
 
             if (cache == null) return false;
-            
-            _collectionComboDatas.Remove(cache);
+
+            cache.RemoveComboInstance();
             return true;
         }
         

@@ -25,10 +25,7 @@ namespace CardMaga.ObjectPool
 
             for (int i = 0; i < data.Count; i++)
             {
-                var cache = _objectPool.Pull();
-                cache.RectTransform.gameObject.SetActive(true);
-                cache.AssignVisual(data[i]);
-                visuals.Add(cache);
+                visuals.Add(GetVisual(data[i]));
             }
             
             return visuals;
@@ -55,6 +52,7 @@ namespace CardMaga.ObjectPool
         {
             var cache = _objectPool.Pull();
             cache.AssignVisual(data);
+            cache.RectTransform.gameObject.SetActive(true);
             
             return cache;
         }
