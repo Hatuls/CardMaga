@@ -3,10 +3,9 @@ using System.Collections.Generic;
 
 namespace CardMaga.ValidatorSystem
 {
-    public abstract class BaseValidationConditionGroup<T>
+    public abstract class BaseValidationConditionGroup<T> 
     {
         public abstract ValidationTag ValidationTag { get; }
-
         public abstract BaseValidatorCondition<T>[] ValidatorConditions { get; }
     }
 
@@ -15,6 +14,15 @@ namespace CardMaga.ValidatorSystem
     {
         public abstract int ID { get; }
         public abstract string Message { get; }
+
+        private ValidationLevel _level;
+        public ValidationLevel Level => _level;
+
+
+        public BaseValidatorCondition(ValidationLevel level)
+        {
+            _level = level;
+        }
 
         public abstract bool Valid(T obj, out IValidFailedInfo validFailedInfo, params ValidationTag[] validationTag);
 

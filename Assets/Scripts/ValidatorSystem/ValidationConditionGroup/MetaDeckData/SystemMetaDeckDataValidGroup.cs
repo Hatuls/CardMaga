@@ -9,7 +9,9 @@ namespace CardMaga.ValidatorSystem.ValidationConditionGroup
 
         public override BaseValidatorCondition<MetaDeckData>[] ValidatorConditions { get; } =
         {
-            new IsDeckFull()
+            new IsDeckFull(ValidationLevel.Critical)
         };
     }
+
+
 }
