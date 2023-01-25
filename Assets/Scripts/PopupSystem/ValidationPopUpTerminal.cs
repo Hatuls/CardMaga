@@ -51,7 +51,7 @@ namespace CardMaga.UI.PopUp
         {
             HidePopUp();
             ShowPopUp();
-            _currentActivePopUp.GetComponent<ValidationPopUpHandler>().AssignVisuals(valid);
+            _currentActivePopUp.GetComponent<ValidationPopUpHandler>().AssignVisuals(valid, ClosePopUp);
         }
 
         private void ClosePopUp()

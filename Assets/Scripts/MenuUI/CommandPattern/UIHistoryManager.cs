@@ -137,7 +137,7 @@ namespace CardMaga.UI
         public virtual void Show()
         {
             OnShow?.Invoke();
-            if(HolderGameObject!=null)
+            if(HolderGameObject!=null && !ReferenceEquals(HolderGameObject,null))
             HolderGameObject.SetActive(true);
         }
     }

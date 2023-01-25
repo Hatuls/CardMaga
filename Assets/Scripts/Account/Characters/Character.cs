@@ -14,7 +14,7 @@ namespace Account.GeneralData
         public List<Character> Characters = new List<Character>();
         public int MainCharacterID = 1;
 
-        public Character GetMainCharacter() => Characters.First(x => x.ID == MainCharacterID);
+        public Character GetMainCharacter() => Characters.FirstOrDefault(x => x.ID == MainCharacterID);
         public void AddCharacter(Character character)
         {
             if (!Characters.Contains(character))

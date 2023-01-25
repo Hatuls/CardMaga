@@ -1,4 +1,6 @@
-﻿using CardMaga.ValidatorSystem;
+﻿using Account;
+using CardMaga.ValidatorSystem;
+using System;
 using TMPro;
 using UnityEngine;
 namespace CardMaga.UI.PopUp
@@ -12,13 +14,18 @@ namespace CardMaga.UI.PopUp
         private TextMeshProUGUI _errorTitle;
         [SerializeField]
         private TextMeshProUGUI _errorContext;
+        [SerializeField]
+        private TextMeshProUGUI _playfabContext;
 
-
-
-        public void AssignVisuals(IValidFailedInfo valid)
+        private Action OnClose;
+        public void AssignVisuals(IValidFailedInfo valid, Action onClose)
         {
             _errorTitle.text = string.Concat(Title, valid.ID);
+            _playfabContext.text = string.Concat("User ID: " , AccountManager.Instance.PlayfabID);
             _errorContext.text = string.Concat(valid.Message);
+            OnClose = onClose;
         }
+
+        public void Close() => OnClose?.Invoke();
     }
 }

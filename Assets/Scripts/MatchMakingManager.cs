@@ -51,6 +51,9 @@ public class MatchMakingManager : MonoBehaviour
 
     private void RegisterOpponent(string name, CharactersData obj)
     {
+#if UNITY_EDITOR
+        Debug.Log(name);
+#endif
         BattleData.Instance.AssignOpponent(name, obj.GetMainCharacter());
 
         OnOpponentFound?.Invoke(BattleData.Instance.Right);
