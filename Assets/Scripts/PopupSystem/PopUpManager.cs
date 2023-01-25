@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace CardMaga.UI.PopUp
 {
-
+    [DefaultExecutionOrder(-1000)]
     public class PopUpManager : MonoSingleton<PopUpManager>, ITaggable
     {
 
