@@ -59,12 +59,12 @@ namespace Factory
             if (cards == null || comboCollectionSO == null || characters == null || keywords == null)
                 throw new Exception("Collections is null!!");
 
-            ValidatorFactory = new ValidationFactory();
             CardFactoryHandler = new CardFactory(cards);
             ComboFactoryHandler = new ComboFactory(comboCollectionSO);
             CharacterFactoryHandler = new CharacterFactory(characters);
             //   RewardFactoryHandler = new RewardFactory(rewards);
             KeywordFactoryHandler = new KeywordFactory(keywords);
+            ValidatorFactory = new ValidationFactory();
             Debug.Log("Factory Created<a>!</a>");
 
             _instance = this;
