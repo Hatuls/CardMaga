@@ -26,7 +26,7 @@ public class TutorialHandler : MonoBehaviour
 
 
 
-        if (!AccountManager.Instance.Data.AccountTutorialData.IsCompletedTutorial)
+        if (AccountManager.Instance.Data.AccountTutorialData.TutorialProgress < 2)
         {
             OnFirstLogin?.Invoke();
             Debug.Log("FirstLogin");
