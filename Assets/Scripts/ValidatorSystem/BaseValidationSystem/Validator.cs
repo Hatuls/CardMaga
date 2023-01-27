@@ -74,5 +74,8 @@ namespace CardMaga.ValidatorSystem
         MetaDeckDataSystem,
         MetaCharacterDataSystem,
         SystemCardInstance,
+        SystemCharactersData,
+        SystemDeckData,
+        SystemCharacter
     }
 }

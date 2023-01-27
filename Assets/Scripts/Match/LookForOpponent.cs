@@ -1,9 +1,9 @@
 ﻿using Account;
 using Account.GeneralData;
+using CardMaga.ValidatorSystem;
 using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
-using PlayFab.Json;
 using ReiTools.TokenMachine;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace Battle.MatchMaking
     {
         public static event Action OnStartLooking;
         public static event Action OnNoOpponentFound;
-        public static event Action<string,CharactersData> OnOpponentFound;
+        public static event Action<string, CharactersData> OnOpponentFound;
 
         [SerializeField]
         private UnityEvent OnStartLookingForOpponent;
@@ -36,15 +36,15 @@ namespace Battle.MatchMaking
 
 
         private string _opponentDisplayName;
-        
+
         public void Init(ITokenReciever tokenReceiver)
         {
             _token = tokenReceiver.GetToken();
             LookForOpponentOnServer();
             OnStartLooking?.Invoke();
         }
-        
-        
+
+
         private void LookForOpponentOnServer()
         {
             OnStartLookingForOpponent?.Invoke();
@@ -96,9 +96,9 @@ namespace Battle.MatchMaking
 
                 string player = obj.Leaderboard[i].PlayFabId;
 
-                if (player == "" ||string.Equals( player, AccountManager.Instance.LoginResult.PlayFabId, StringComparison.Ordinal))
+                if (player == "" || string.Equals(player, AccountManager.Instance.LoginResult.PlayFabId, StringComparison.Ordinal))
                     continue;
-            
+
                 //un comment when you have answer for no players
                 //    if (myPlayfabID != player)
                 optionalOpponents.Add(obj.Leaderboard[i]);
@@ -125,11 +125,16 @@ namespace Battle.MatchMaking
             // Contain Info About the arena
             var opponentArena = JsonConvert.DeserializeObject<ArenaData>(charactersData.ArenaData);
 
-     
-            OnOpponentFound?.Invoke(_opponentDisplayName,opponentCharacter);
-            _token.Dispose();
+            // check if character data is valid   
+            
+            //    LookForOpponentOnServer();
+          //  else
+           // {
+                OnOpponentFound?.Invoke(_opponentDisplayName, opponentCharacter);
+                _token.Dispose();
+            //}
         }
-      
+
 
 
         private void OnMatchFailed(PlayFabError obj)

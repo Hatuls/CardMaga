@@ -23,6 +23,7 @@ namespace CardMaga.ValidatorSystem
     public enum ValidationLevel
     {
         Critical,
+        Warning,
         GameDesign,
         
     }

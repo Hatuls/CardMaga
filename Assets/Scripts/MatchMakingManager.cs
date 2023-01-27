@@ -1,6 +1,7 @@
 ﻿using Account.GeneralData;
 using Battle.Data;
 using Battle.MatchMaking;
+using CardMaga.ValidatorSystem;
 using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
@@ -21,11 +22,13 @@ public class MatchMakingManager : MonoBehaviour
     [SerializeField, EventsGroup]
     private BattleCharacterUnityEvent OnPlayerAssign;
 
+    private MatchMakingValidation _matchMakingValidation;
+
 
     private void Awake()
     {
         LookForOpponent.OnOpponentFound += RegisterOpponent;
-
+        _matchMakingValidation = new MatchMakingValidation();
     }
     private void OnDestroy()
     {
@@ -54,6 +57,8 @@ public class MatchMakingManager : MonoBehaviour
 #if UNITY_EDITOR
         Debug.Log(name);
 #endif
+        obj.IsValid();
+
         BattleData.Instance.AssignOpponent(name, obj.GetMainCharacter());
 
         OnOpponentFound?.Invoke(BattleData.Instance.Right);
@@ -72,3 +77,5 @@ public class MatchMakingManager : MonoBehaviour
     }
     private void MatchFound() => OnMatchFound?.Invoke();
 }
+
+
