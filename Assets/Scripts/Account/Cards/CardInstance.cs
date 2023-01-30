@@ -29,7 +29,7 @@ namespace Account.GeneralData
         public int InstanceID { get => _instanceID; }
         public bool IsMaxLevel => CardsMaxLevel-1 == Level;
         [ReadOnly,ShowInInspector]
-        public int CardsMaxLevel => CardSO.CardsMaxLevel;
+        public int CardsMaxLevel => CardSO?.CardsMaxLevel ?? -1;
 
         public CardInstance(CardCore card)
         {

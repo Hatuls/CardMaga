@@ -13,9 +13,17 @@ namespace CardMaga.ValidatorSystem
         bool Valid(out IValidFailedInfo validFailedInfo,params ValidationTag[] validationTag);
     }
 
-    public interface IValidFailedInfo
+    public interface IValidFailedInfo 
     {
+        ValidationLevel Level { get; }
         string Message { get; }
         int ID { get; }
+    }
+
+    public enum ValidationLevel
+    {
+        Critical,
+        GameDesign,
+        
     }
 }

@@ -173,8 +173,11 @@ namespace CardMaga.CSV
             }
 
             recipe.CraftedCard.IsCombo = true;
+            EditorUtility.SetDirty(recipe.CraftedCard);
+
             AssetDatabase.CreateAsset(recipe, $"Assets/Resources/Recipe SO/{recipe.ComboName}.asset");
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
             return recipe;
         }
 

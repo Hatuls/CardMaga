@@ -123,10 +123,12 @@ namespace CardMaga.Card
             }
         }
         public bool IsFusedCard { get => _isFuseCard; set => _isFuseCard = value; }
-        public bool IsCombo { get => _isCombo;
+        public bool IsCombo 
+        { 
+            get => _isCombo;
 
 #if UNITY_EDITOR
-            set { _isCombo = value; AssetDatabase.SaveAssets(); }
+            set => _isCombo = value;
         #endif
         }
         public int ID { get => _id; set => _id = value; }

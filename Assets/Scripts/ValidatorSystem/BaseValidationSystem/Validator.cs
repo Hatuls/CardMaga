@@ -6,7 +6,8 @@ namespace CardMaga.ValidatorSystem
     public static class Validator
     {
         private static Dictionary<Type, object> _validators = new Dictionary<Type,object>();
-        
+
+        public static event Action<IValidFailedInfo> OnCriticalError;
         public static bool Valid<T>(T obj,out IValidFailedInfo validFailedInfo,params ValidationTag[] validationTag)
         {
             var validator = GetValidator<T>();
@@ -14,6 +15,8 @@ namespace CardMaga.ValidatorSystem
             if (!validator.Valid(obj,out IValidFailedInfo massage,validationTag))
             {
                 validFailedInfo = massage;
+                if (validFailedInfo.Level == ValidationLevel.Critical)
+                    OnCriticalError?.Invoke(validFailedInfo);
                 return false;
             }
 
@@ -27,7 +30,13 @@ namespace CardMaga.ValidatorSystem
             
             if (!validator.Valid(objs,out IValidFailedInfo info,validationTag))
             {
+
                 validFailedInfo = info;
+
+                if (validFailedInfo.Level == ValidationLevel.Critical)
+                    OnCriticalError?.Invoke(info);
+
+
                 return false;
             }
 

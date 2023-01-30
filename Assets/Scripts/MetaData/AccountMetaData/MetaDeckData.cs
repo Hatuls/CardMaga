@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Account.GeneralData;
 using Factory;
 using Rei.Utilities;
@@ -51,17 +52,9 @@ namespace CardMaga.MetaData.AccoutData
 
             foreach (var coreID in cardCore)
             {
-                foreach (var cardInstance in allCards)  
-                {
-                    if (coreID.ID == cardInstance.CoreID)
-                    {
-                        if (_cardDatas.Contains(cardInstance))
-                            continue;
-                        _cardDatas.Add(cardInstance);
-                    }
-                }
+                _cardDatas.Add(allCards.First(x => x.CoreID == coreID.ID));
             }
-            
+
             ComboCore[] comboCores = deckData.Combos;
             
             _comboDatas = new List<ComboInstance>(comboCores.Length);

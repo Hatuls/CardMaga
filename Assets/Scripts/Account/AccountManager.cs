@@ -84,11 +84,8 @@ namespace Account
             UpdateAccount();
             void UpdateAccount()
             {
-
-
                 UpdateRank(null);
                 SendAccountData(tokenReciever);
-
                 OnAccountDataAssigned?.Invoke();
             }
         }
@@ -128,9 +125,9 @@ namespace Account
             OnDataUpdated?.Invoke(Data);
             _loginDisposable?.Dispose();
         }
-        [Sirenix.OdinInspector.Button()]
+        [Button()]
         public void RequestDataFromServer() => RequestAccoundData(null);
-        [Sirenix.OdinInspector.Button()]
+        [Button()]
         public void UpdateDataOnServer()
         => PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
 
@@ -465,23 +462,34 @@ namespace Account
         private void CreateNewCardsData()
         {
             _accountCards = new AccountCards();
+            //if (!_accountCards.IsValid())
+            //    throw new Exception("Could not Generate Account Cards");
         }
    
         private void CreateNewCombosData()
         {
             _accountCombos = new AccountCombos();
+            //if (!_accountCombos.IsValid())
+            //    throw new Exception("Could not Generate Account Combos");
         }
         private void CreateNewArenaData()
         {
             _arenaData = new ArenaData();
+            //if (!_arenaData.IsValid())
+            //    throw new Exception("Could not Generate Arena Data");
         }
         private void CreateNewResourcesData()
         {
             _accountResources = new AccountResources();
+            //if(!_accountResources.IsValid())
+            //    throw new Exception("Could not Generate Account Resources");
         }
         private void CreateNewLevelData()
         {
             _accountLevel = new LevelData();
+            //if(!_accountLevel.IsValid())
+            //    throw new Exception("Could not Generate Account Level");
+                
         }
         private void CreateNewCharacterData()
         {
@@ -515,7 +523,7 @@ public class AccountCards
     
     public void AddCard(CoreID cardID) => CardsIDs.Add(cardID);
     public void RemoveCard(CoreID cardID) => CardsIDs.Remove(cardID);
-    internal bool IsValid() => true;
+    internal bool IsValid() => CardsIDs.Count>0;
 }
 [Serializable]
 public class AccountCombos
@@ -527,6 +535,6 @@ public class AccountCombos
     public void RemoveCombo(ComboCore cardID) => CombosIDs.Remove(cardID);
     internal bool IsValid()
     {
-        return true;
+        return CombosIDs.Count>0;
     }
 }

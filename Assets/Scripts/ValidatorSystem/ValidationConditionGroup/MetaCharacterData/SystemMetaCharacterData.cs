@@ -9,8 +9,8 @@ namespace ValidatorSystem.ValidationConditionGroup.MetaCharacterData
 
         public override BaseValidatorCondition<CardMaga.MetaData.AccoutData.MetaCharacterData>[] ValidatorConditions { get; } =
         {
-            new IsMainDeckValid(),
-            new IsDefaultDeckIsValid(),
+            new IsMainDeckValid(ValidationLevel.Critical),
+            new IsDefaultDeckIsValid(ValidationLevel.Critical),
         };
     }
 }
