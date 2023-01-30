@@ -1,8 +1,4 @@
 ﻿using CardMaga.Battle;
-using CardMaga.Battle.Execution;
-using CardMaga.Battle.Players;
-using CardMaga.Commands;
-using Characters.Stats;
 
 namespace CardMaga.Keywords
 {
@@ -27,9 +23,10 @@ namespace CardMaga.Keywords
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
             }
             KeywordSO.SoundEventSO.PlaySound();
+            InvokeKeywordVisualEffect(currentPlayer);
         }
 
- 
+
         public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
             if (target == TargetEnum.MySelf || target == TargetEnum.All)

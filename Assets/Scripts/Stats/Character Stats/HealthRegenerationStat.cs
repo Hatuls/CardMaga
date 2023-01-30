@@ -23,6 +23,8 @@ namespace Characters.Stats
     public class HealthRegenerationKeyword : BaseKeywordLogic
     {
         private BaseKeywordLogic _healLogic;
+        private KeywordData keyword;
+        private KeywordCommand command;
         public HealthRegenerationKeyword(BaseKeywordLogic healKeyword, KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
         {
             _healLogic = healKeyword;
@@ -33,8 +35,8 @@ namespace Characters.Stats
             if (stat.IsEmpty)
                 return;
             // Heal
-            var keyword = new KeywordData(_healLogic.KeywordSO, TargetEnum.MySelf, stat.Amount, 0);
-            var command = new KeywordCommand(keyword, CommandType.WithPrevious);
+            keyword = new KeywordData(_healLogic.KeywordSO, TargetEnum.MySelf, stat.Amount, 0);
+            command = new KeywordCommand(keyword, CommandType.WithPrevious);
             command.InitKeywordLogic(currentCharacterTurn, _healLogic);
             gameDataCommands.DataCommands.AddCommand();
 
@@ -55,6 +57,8 @@ namespace Characters.Stats
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
             KeywordSO.SoundEventSO.PlaySound();
+
+            InvokeKeywordVisualEffect(currentPlayer);
             InvokeOnKeywordActivated();
         }
 

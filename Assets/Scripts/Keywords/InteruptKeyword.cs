@@ -46,6 +46,7 @@ namespace CardMaga.Keywords
 
                 }
             }
+            InvokeKeywordVisualEffect(currentPlayer);
             KeywordSO.SoundEventSO.PlaySound();
 
 

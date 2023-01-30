@@ -188,6 +188,8 @@ namespace CardMaga.UI.Carfting
             }
         }
 
+
+
         private void ChangeSlots()
         {
             MoveCraftingSlot();
