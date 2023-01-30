@@ -10,11 +10,14 @@ namespace CardMaga.Battle.Players
         
     }
 
-    public interface ITaggable
-    {
-        IEnumerable<TagSO> Tags { get; }
-    }
 
+    public interface ITaggable : ITaggable<TagSO>
+    {
+    }
+    public interface ITaggable<out T>
+    {
+        IEnumerable<T> Tags { get; }
+    }
     public static class TagHelper
     {
         public static bool ContainTag(this ITaggable taggable, TagSO tagSO)
@@ -74,4 +77,6 @@ namespace CardMaga.Battle.Players
         }
     }
 
+
+ 
 }

@@ -50,7 +50,7 @@ namespace CardMaga.CSV
                 var instance = ScriptableObject.CreateInstance<CardsPackRewardFactorySO>();
 
                 string name = row[NameIndex];
-                instance.AssignValues(resultID, name);
+                instance.AssignValues(resultID, name, RewardType.Pack);
                 CreateRarirtyChanceCardContainer(instance, row);
                 switch (resultID)
                 {

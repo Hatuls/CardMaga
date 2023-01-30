@@ -14,22 +14,7 @@ namespace CardMaga.Rewards
         [SerializeField]
         private BaseRewardFactorySO[] _rewardsIDs;
 
-        public override IEnumerable<TagSO> Tags
-        {
-            get 
-            {
-                for (int i = 0; i < _tags.Length; i++)
-                    yield return _tags[i];
-
-                for (int i = 0; i < _rewardsIDs.Length; i++)
-                {
-                    foreach (var tag in _rewardsIDs[i].Tags)
-                        yield return tag;
-                }
-                        
-
-            }
-        }
+    
         public override IRewardable GenerateReward()
         {
 

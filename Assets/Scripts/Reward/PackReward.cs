@@ -112,19 +112,19 @@ namespace CardMaga.Rewards
         void AddToDevicesData();
     }
 
-
+    [Flags]
     public enum RewardType
     {
-        Currency = 0,
-        Character = 1,
-        Pack = 2,
-        Gift = 3,
-        Bundle = 4,
-        Arena = 5,
-        Arena_Skin = 6,
-        Character_Skin = 7,
-        Character_Color = 8,
-        Account_Icons = 9,
+        Currency = 1,
+        Character = 2,
+        Pack = 4,
+        Gift = 8,
+        Bundle = 16,
+        Arena = 32,
+        Arena_Skin = 64,
+        Character_Skin = 128,
+        Character_Color = 256,
+        Account_Icons = 512,
     }
     public enum CurrencyType
     {
@@ -134,5 +134,19 @@ namespace CardMaga.Rewards
         Chips = 3,
         Account_EXP = 4,
         Free = 5
+    }
+
+    public static class RewardTypeHelper
+    {
+        public static bool Contain(this RewardType @enum, RewardType enumValue)
+        => (@enum & enumValue) == enumValue;
+        public static bool DoesNotContains(this RewardType @enum, RewardType enumValue)
+    => @enum  == enumValue.Invert();
+        public static RewardType Add(this RewardType @enum, RewardType rewardType)
+            => @enum |= rewardType;
+        public static RewardType Remove(this RewardType @enum, RewardType rewardType)
+            => @enum &= rewardType;
+        public static RewardType Invert(this RewardType @enum)
+    => @enum &= ~@enum;
     }
 }

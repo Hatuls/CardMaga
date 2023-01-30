@@ -57,7 +57,7 @@ namespace CardMaga.CSV
                 var resource = new Rewards.Bundles.ResourcesCost();
                 resource.Init(currency, amount);
 
-                instance.AssignValues(resultID, name);
+                instance.AssignValues(resultID, name,RewardType.Currency);
                 instance.AssignResources(resource);
                 AssetDatabase.CreateAsset(instance, $"Assets/Resources/Rewards/Factories/Currencies/{name} Factory.asset");
                 factories.Add(instance);
@@ -74,7 +74,7 @@ namespace CardMaga.CSV
 
     public class CSVToGiftReward : CSVAbst
     {
-        const int FirstIndex = 2;
+        const int FirstRow = 2;
         const int IDIndex = 0;
         const int NameIndex = 1;
         const int CurrencyRewardTypeIndex = 2;
@@ -103,7 +103,7 @@ namespace CardMaga.CSV
             var allFactorys = CSVManager.RewardFactoryManager;
             List<GiftRewardFactorySO> factories = new List<GiftRewardFactorySO>();
             handler.SetID(RewardType.Gift);
-            for (int i = FirstIndex; i < rows.Length; i++)
+            for (int i = FirstRow; i < rows.Length; i++)
             {
                 string[] row = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
                 if (!int.TryParse(row[IDIndex], out int resultID))
@@ -134,7 +134,7 @@ namespace CardMaga.CSV
                     otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
 
 
-                instance.AssignValues(resultID, name);
+                instance.AssignValues(resultID, name, RewardType.Gift);
                 instance.Init(otherFactories.ToArray());
                 AssetDatabase.CreateAsset(instance, $"Assets/Resources/Rewards/Factories/Gifts/{name} Factory.asset");
                 factories.Add(instance);
@@ -222,7 +222,7 @@ namespace CardMaga.CSV
 
 
 
-                instance.AssignValues(resultID, name);
+                instance.AssignValues(resultID, name, RewardType.Bundle);
                 instance.Init(resourcesCost, otherFactories.ToArray());
                 AssetDatabase.CreateAsset(instance, $"Assets/Resources/Rewards/Factories/Bundles/{name} Factory.asset");
                 factories.Add(instance);
