@@ -409,11 +409,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Menu Settings Screen
       objectReference: {fileID: 0}
-    - target: {fileID: 808237710897653833, guid: 30125b6f902e59744a6bec236ef78ac1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1071798759785065736, guid: 30125b6f902e59744a6bec236ef78ac1,
         type: 3}
       propertyPath: m_Pivot.x
@@ -518,21 +513,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4670232396189870816, guid: 30125b6f902e59744a6bec236ef78ac1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6265107402769616611, guid: 30125b6f902e59744a6bec236ef78ac1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8680198477089259455, guid: 30125b6f902e59744a6bec236ef78ac1,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 210
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30125b6f902e59744a6bec236ef78ac1, type: 3}
@@ -2626,6 +2606,11 @@ PrefabInstance:
       propertyPath: OnStartBattle.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 471659690079026476, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -220.00049
+      objectReference: {fileID: 0}
     - target: {fileID: 471659690365155404, guid: 0c870d1d403c20348bc20418ad31d384,
         type: 3}
       propertyPath: _currentState
@@ -2720,6 +2705,42 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894295094610560521, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnBeginHoldEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894295094610560521, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnBeginHoldEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894295094610560521, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnBeginHoldEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11400000, guid: 5fdea5d4520ec9546bfde82b93baeddc,
+        type: 2}
+    - target: {fileID: 6894295094610560521, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnBeginHoldEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894295094610560521, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnBeginHoldEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SendEmail
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894295094610560521, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894295094610560521, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: OnBeginHoldEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c870d1d403c20348bc20418ad31d384, type: 3}
@@ -8041,7 +8062,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 30, y: -220}
+  m_AnchoredPosition: {x: 30, y: -220.00049}
   m_SizeDelta: {x: 2729.7437, y: 2729.7437}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2026167315
