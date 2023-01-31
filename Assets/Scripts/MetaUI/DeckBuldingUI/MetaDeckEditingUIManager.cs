@@ -75,8 +75,8 @@ namespace CardMaga.MetaUI.CollectionUI
                 _isFirstTime = false;
             else
                 DiscardDeck();
-
-            _dataManager.AssingDeckDataToEdit();
+            
+            _dataManager.AssignDeckDataToEdit();
             SetDeckToEdit(_dataManager.MetaDeckData);
             
             base.Show();
