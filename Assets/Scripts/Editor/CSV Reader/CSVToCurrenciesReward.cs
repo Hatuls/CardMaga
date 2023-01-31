@@ -113,25 +113,14 @@ namespace CardMaga.CSV
 
                 string name = row[NameIndex];
 
-
                 //Currencies
-                int rewardType = int.Parse(row[CurrencyRewardTypeIndex]);
-                int[] factoriesID = GenerateIDsFromFactories(row[CurrencyRewardIndex]);
-                for (int j = 0; j < factoriesID.Length; j++)
-                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
-
+                InitFactory(RewardType.Currency, row[CurrencyRewardIndex], otherFactories);
 
                 //Characters
-                 rewardType = int.Parse(row[CharacterRewardTypeIndex]);
-                 factoriesID = GenerateIDsFromFactories(row[CharacterRewardIndex]);
-                for (int j = 0; j < factoriesID.Length; j++)
-                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
+                InitFactory(RewardType.Character, row[CharacterRewardIndex], otherFactories);
 
                 //Pack Cards
-                rewardType = int.Parse(row[CardsPackRewardTypeIndex]);
-                factoriesID = GenerateIDsFromFactories(row[CardsPackRewardIndex]);
-                for (int j = 0; j < factoriesID.Length; j++)
-                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
+                InitFactory(RewardType.Pack, row[CardsPackRewardIndex], otherFactories);
 
 
                 instance.AssignValues(resultID, name, RewardType.Gift);
@@ -145,6 +134,15 @@ namespace CardMaga.CSV
             AssetDatabase.SaveAssets();
             CSVManager.RewardFactoryManager.Add(handler);
             IsFinished = true;
+
+
+
+            void InitFactory(RewardType rewardType, string factorysCSV , List<BaseRewardFactorySO> otherFactories)
+            {
+                int[] factoriesID = GenerateIDsFromFactories(factorysCSV);
+                for (int j = 0; j < factoriesID.Length; j++)
+                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
+            }
         }
 
         private int[] GenerateIDsFromFactories(string v)
@@ -214,10 +212,9 @@ namespace CardMaga.CSV
                 resourcesCost.Init(currency, cost);
 
                 //Gifts
-                int rewardType = int.Parse(row[RewardTypeIndex]);
                 int[] factoriesID = GenerateIDsFromFactories(row[GiftIndex]);
                 for (int j = 0; j < factoriesID.Length; j++)
-                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
+                    otherFactories.Add(allFactorys.GetRewardFactory(RewardType.Gift, factoriesID[j]));
 
 
 

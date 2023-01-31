@@ -23,14 +23,19 @@ namespace CardMaga.Rewards
             for (int i = 0; i < _rewardsIDs.Length; i++)
                     rewardables[i] = _rewardsIDs[i].GenerateReward();
 
-            var reward = new GiftReward(rewardables);
+            var reward = new GiftReward(RewardTypes, rewardables);
  
             return reward;
         }
 #if UNITY_EDITOR
         public void Init(BaseRewardFactorySO[] rewardsIDs)
         {
-            _rewardsIDs = rewardsIDs; 
+            _rewardsIDs = rewardsIDs;
+
+            for (int i = 0; i < rewardsIDs.Length; i++)
+            {
+                _tags |= _rewardsIDs[i].RewardTypes;
+            }
         }
 #endif
     }

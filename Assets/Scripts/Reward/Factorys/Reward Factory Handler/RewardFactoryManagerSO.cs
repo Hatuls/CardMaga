@@ -12,17 +12,18 @@ namespace CardMaga.Rewards.Factory.Handlers
         [SerializeField]
         private RewardFactoryHandlerSO[] _factories;
 
-        public BaseRewardFactorySO GetRewardFactory(int rewardTypeID, int id) 
-            => GetRewardFactoryHandler(rewardTypeID)?.GetRewardFactory(id);
+        public BaseRewardFactorySO GetRewardFactory(RewardType rewardType, int id) 
+            => GetRewardFactoryHandler(rewardType)?.GetRewardFactory(id);
 
-        public RewardFactoryHandlerSO GetRewardFactoryHandler(int rewardTypeID)
+        public RewardFactoryHandlerSO GetRewardFactoryHandler(RewardType rewardType)
         {
+   
             for (int i = 0; i < _factories.Length; i++)
             {
-                if (_factories[i].ID == rewardTypeID)
+                if (_factories[i].RewardType.Contain(rewardType))
                     return _factories[i];
             }
-            throw new System.Exception($"RewardFactoryManagerSO - Could not find request CoreID = {rewardTypeID}\n");
+            throw new System.Exception($"RewardFactoryManagerSO - Could not find request ID = {rewardType}\n");
         }
 
 #if UNITY_EDITOR

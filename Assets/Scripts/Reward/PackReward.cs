@@ -27,6 +27,8 @@ namespace CardMaga.Rewards
 
         public string Name => _packName;
 
+        public RewardType RewardType => RewardType.Pack;
+        public IReadOnlyList<int> CardsID => _cardsID;
         public void TryRecieveReward(ITokenReciever tokenMachine)
         {
             AddToDevicesData();
@@ -39,24 +41,7 @@ namespace CardMaga.Rewards
         private void UpdateOnServer()
         {
 
-            //string json = JsonConvert.SerializeObject(accountCards);
-
-            ////   json = json.Replace("\"", "").Trim();
-            //   Debug.Log(json);
-            //   var request = new ExecuteCloudScriptRequest()
-            //   {
-            //       FunctionName = "AddCards",
-            //       FunctionParameter = new
-            //       {
-            //           Cards = json
-            //       }
-            //   };
-            //   //  
-
-            //   PlayFabClientAPI.ExecuteCloudScript(request, OnRewardReceived, OnFailedToReceived);
-
-
-
+         
         }
 
         private void OnFailedToReceived(PlayFabError obj)
@@ -108,13 +93,16 @@ namespace CardMaga.Rewards
         event Action OnServerSuccessfullyAdded;
         event Action OnServerFailedToAdded;
         string Name { get; }
+        RewardType RewardType { get; }
         void TryRecieveReward(ITokenReciever tokenMachine);
         void AddToDevicesData();
     }
 
+
     [Flags]
     public enum RewardType
     {
+        None = 0,
         Currency = 1,
         Character = 2,
         Pack = 4,
@@ -140,13 +128,10 @@ namespace CardMaga.Rewards
     {
         public static bool Contain(this RewardType @enum, RewardType enumValue)
         => (@enum & enumValue) == enumValue;
-        public static bool DoesNotContains(this RewardType @enum, RewardType enumValue)
-    => @enum  == enumValue.Invert();
+
         public static RewardType Add(this RewardType @enum, RewardType rewardType)
             => @enum |= rewardType;
         public static RewardType Remove(this RewardType @enum, RewardType rewardType)
-            => @enum &= rewardType;
-        public static RewardType Invert(this RewardType @enum)
-    => @enum &= ~@enum;
+            => @enum &= ~rewardType;
     }
 }
