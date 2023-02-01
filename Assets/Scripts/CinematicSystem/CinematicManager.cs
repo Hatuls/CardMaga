@@ -47,7 +47,7 @@ namespace CardMaga.CinematicSystem
         public void Init()
         {
             _currentCinematicIndex = -1;
-            
+
             for (int i = 0; i < _cinematic.Length; i++)
             {
                 _cinematic[i].OnCinematicCompleted += CinematicComplete;
@@ -65,13 +65,13 @@ namespace CardMaga.CinematicSystem
         }
 
         #region Public Function
-        
+
         public void StartCinematicSequence(ITokenReciever tokenReciever)
         {
             _token = tokenReciever?.GetToken();
             StartCinematicSequence();
         }
-        
+
         public void StartCinematicSequence()
         {
             OnCinematicSequenceStart?.Invoke();
@@ -84,7 +84,7 @@ namespace CardMaga.CinematicSystem
         {
             OnCinematicSequenceResume?.Invoke();
             _isPause = false;
-            
+
             if (_currentCinematic.IsCompleted)
                 StartNextCinematic();
             else
@@ -101,7 +101,7 @@ namespace CardMaga.CinematicSystem
             _isPause = true;
             _clickHelper.Open(ResumeCinematicSequence);
             _currentCinematic.PauseCinematic();
-            
+
             if (_clickHelper != null)
                 _clickHelper.Open();
         }
@@ -120,9 +120,9 @@ namespace CardMaga.CinematicSystem
         {
             if (_isPause)
                 return;
-            
+
             _currentCinematicIndex++;
-            
+
             if (_currentCinematicIndex >= _cinematic.Length)
             {
                 FinishedCinematic();
@@ -131,7 +131,7 @@ namespace CardMaga.CinematicSystem
 
             RunCinematic();
         }
-        
+
         private void StartFirstCinematic()
         {
             _currentCinematicIndex = 0;
@@ -165,6 +165,16 @@ namespace CardMaga.CinematicSystem
 
         }
 
+
+
+        public void ResetAll()
+        {
+            if (_currentRunningCinematic != null)
+                StopCoroutine(_currentRunningCinematic);
+
+            for (int i = 0; i < _cinematic.Length; i++)
+                _cinematic[i].Reset();
+        }
         #endregion
     }
 }

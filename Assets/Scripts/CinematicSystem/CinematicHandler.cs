@@ -105,6 +105,13 @@ namespace CardMaga.CinematicSystem
 
         }
 
+        public void Reset()
+        {
+            if(_monoBehaviour.isActiveAndEnabled)
+            _monoBehaviour.StopAllCoroutines();
+            _playableDirector.time = 0;
+        }
+
         public void PauseCinematic()
         {
             _playableDirector.Pause();

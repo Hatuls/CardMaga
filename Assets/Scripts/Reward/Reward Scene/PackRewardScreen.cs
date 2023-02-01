@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using CardMaga.CinematicSystem;
+using Factory;
+using ReiTools.TokenMachine;
+using System.Collections.Generic;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
 
     public class PackRewardScreen : BaseRewardsVisualHandler
     {
+        [SerializeField]
+        private CinematicManager _cinematicManager;
+        private Queue<int> _cardsIDS = new Queue<int>();
 
-        private int[] _cardsIDS;
-
-
+        private ITokenReciever _tokenReciever;
         public IEnumerable<PackReward> PackRewards
         {
             get
@@ -17,27 +21,44 @@ namespace CardMaga.Rewards
                     yield return _rewards[i] as PackReward;
             }
         }
+
+        public override void Init()
+        {
+            base.Init();
+            _tokenReciever = new TokenMachine(MoveNext);
+        }
         public override void Show()
         {
             base.Show();
-
-            for (int i = 0; i < _cardsIDS.Length; i++)
-            {
-                Debug.Log("ID: " + _cardsIDS[i]);
-            }
+            MoveNext();
         }
+
+        private void MoveNext()
+        {
+            if (_cardsIDS.Count == 0)
+            {
+                Hide();
+                return;
+            }
+            // Set Pack Card to id
+            int coreID = _cardsIDS.Dequeue();
+            Account.GeneralData.CardCore cardCore = GameFactory.Instance.CardFactoryHandler.CreateCardCore(coreID);
+
+            //Insert CardCore To Pack
+
+            //Cinematics
+            _cinematicManager.ResetAll();
+            _cinematicManager.StartCinematicSequence(_tokenReciever);
+
+        }
+
         protected override void CalculateRewards()
         {
-            List<int> ids = new List<int>();
-
             foreach (var card in PackRewards)
             {
                 foreach (var id in card.CardsID)
-                    ids.Add(id);
-                
+                    _cardsIDS.Enqueue(id);
             }
-
-            _cardsIDS = ids.ToArray();
         }
     }
 
