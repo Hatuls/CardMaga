@@ -1,7 +1,10 @@
 ﻿using CardMaga.CinematicSystem;
+using CardMaga.MetaUI;
 using Factory;
 using ReiTools.TokenMachine;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
@@ -9,10 +12,14 @@ namespace CardMaga.Rewards
     public class PackRewardScreen : BaseRewardsVisualHandler
     {
         [SerializeField]
+        private MetaCardUI _metaCardUI;
+        [SerializeField]
         private CinematicManager _cinematicManager;
+        [ReadOnly,ShowInInspector]
         private Queue<int> _cardsIDS = new Queue<int>();
 
-        private ITokenReciever _tokenReciever;
+        [SerializeField]
+        private ClickHelper _clickHelper;
         public IEnumerable<PackReward> PackRewards
         {
             get
@@ -25,7 +32,6 @@ namespace CardMaga.Rewards
         public override void Init()
         {
             base.Init();
-            _tokenReciever = new TokenMachine(MoveNext);
         }
         public override void Show()
         {
@@ -42,13 +48,13 @@ namespace CardMaga.Rewards
             }
             // Set Pack Card to id
             int coreID = _cardsIDS.Dequeue();
-            Account.GeneralData.CardCore cardCore = GameFactory.Instance.CardFactoryHandler.CreateCardCore(coreID);
+            var  cardInstance = GameFactory.Instance.CardFactoryHandler.CreateCardInstance(coreID);
 
             //Insert CardCore To Pack
-
+            _metaCardUI.AssignVisual(cardInstance);
             //Cinematics
             _cinematicManager.ResetAll();
-            _cinematicManager.StartCinematicSequence(_tokenReciever);
+            _cinematicManager.StartCinematicSequence();
 
         }
 
@@ -59,6 +65,11 @@ namespace CardMaga.Rewards
                 foreach (var id in card.CardsID)
                     _cardsIDS.Enqueue(id);
             }
+        }
+
+        public  void WaitForInput()
+        {
+            _clickHelper.Open(MoveNext);
         }
     }
 

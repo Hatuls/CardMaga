@@ -90,7 +90,15 @@ namespace CardMaga.CinematicSystem
             else
                 _currentCinematic.ResumeCinematic();
         }
+        [ContextMenu("Reset All Cinematic")]
+        public void ResetAll()
+        {
+            if (_currentRunningCinematic != null)
+                StopCoroutine(_currentRunningCinematic);
 
+            for (int i = 0; i < _cinematic.Length; i++)
+                _cinematic[i].Reset();
+        }
         [ContextMenu("Pause Sequence")]
         public void PauseCinematicSequence()
         {
@@ -167,14 +175,7 @@ namespace CardMaga.CinematicSystem
 
 
 
-        public void ResetAll()
-        {
-            if (_currentRunningCinematic != null)
-                StopCoroutine(_currentRunningCinematic);
-
-            for (int i = 0; i < _cinematic.Length; i++)
-                _cinematic[i].Reset();
-        }
+   
         #endregion
     }
 }
