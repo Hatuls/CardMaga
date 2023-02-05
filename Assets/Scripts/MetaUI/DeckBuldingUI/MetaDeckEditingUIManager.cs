@@ -86,7 +86,7 @@ namespace CardMaga.MetaUI.CollectionUI
         {
             _deckName.SetText(metaDeckData.DeckName);
 
-            _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dataManager.CardCollectionDataHandler.CollectionCardDatas);
+            _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dataManager.CardCollectionDataHandler.CollectionCardDatas.Values.ToList());
             _metaComboCollectionUIs = VisualRequesterManager.Instance.GetMetaCollectionComboUis(_dataManager.ComboCollectionDataHandler.CollectionComboDatas);
             
             _metaCollectionHandler.LoadObjects(_metaCollectionCardUIs, _metaComboCollectionUIs);
