@@ -14,6 +14,8 @@ namespace CardMaga.Rewards
 
     public class RewardsHandler : MonoBehaviour
     {
+        [SerializeField,EventsGroup]
+        private  UnityEvent OnRewardsScreenExit;
         [SerializeField]
         private SceneLoader _sceneLoader;
         [SerializeField]
@@ -82,6 +84,7 @@ namespace CardMaga.Rewards
         {
             RewardManager.Instance.RewardsData.ClearRewards();
             Account.AccountManager.Instance.SendAccountData();
+            OnRewardsScreenExit?.Invoke();
             _sceneLoader.UnloadManualy();
         }
 

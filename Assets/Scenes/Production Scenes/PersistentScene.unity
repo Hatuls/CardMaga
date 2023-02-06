@@ -122,124 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &25262897
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 25262898}
-  - component: {fileID: 25262899}
-  m_Layer: 0
-  m_Name: Reward Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &25262898
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 25262897}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 230369693}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &25262899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 25262897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb33fe5926a0ef4dbe56f7ebc26c7ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sceneLoader: {fileID: 230369694}
-  rewards:
-  - {fileID: 11400000, guid: 32a895bceb4fe61439dcf77deca923c8, type: 2}
-  - {fileID: 11400000, guid: 0fd9caa2df00eb047b4d918e5bdd8826, type: 2}
-  - {fileID: 11400000, guid: 80d1ce74d15a872488ab8c3b303004a6, type: 2}
-  - {fileID: 11400000, guid: 9245145225ceb634a915ccc0dd2eb40f, type: 2}
---- !u!1 &230369692
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 230369693}
-  - component: {fileID: 230369694}
-  m_Layer: 0
-  m_Name: Scene Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &230369693
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230369692}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 25262898}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &230369694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230369692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99fdf08fb0ba2804ebf01256d1d312db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _loadSceneMode: 1
-  _loadMode: 1
-  _lockAtLoad: 0
-  _dontDestroyOnLoad: 0
-  _loadDelay: 0
-  _sceneName: Receive Reward Scene
-  _sceneIndex: 0
-  _sceneUnloadMode: 4
-  _unLoadsceneName: Receive Reward Scene
-  _preUnloadDelay: 0
-  _postUnloadDelay: 0
-  _readyable: {fileID: 0}
-  _unlockAfterUnload: 0
-  OnStartLoadingScene:
-    m_PersistentCalls:
-      m_Calls: []
-  OnFinishedLoadingScene:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStartUnloadingScene:
-    m_PersistentCalls:
-      m_Calls: []
-  OnFinishedUnloadingScene:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &555048168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -791,6 +673,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5819f4e3960254aaace11f0af55582, type: 3}
+--- !u!1001 &1074659283383208846
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525052, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074659283391525055, guid: 46ab340d5f5db174d8f12e085f063005,
+        type: 3}
+      propertyPath: m_Name
+      value: Reward Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 46ab340d5f5db174d8f12e085f063005, type: 3}
 --- !u!1001 &8126146950862457958
 PrefabInstance:
   m_ObjectHideFlags: 0

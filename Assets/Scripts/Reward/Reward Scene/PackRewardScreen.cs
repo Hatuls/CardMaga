@@ -1,22 +1,35 @@
-﻿using CardMaga.CinematicSystem;
+﻿using CardMaga.Battle.Players;
+using CardMaga.CinematicSystem;
 using CardMaga.MetaUI;
+using CardMaga.UI.Visuals;
 using Factory;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
-
+    [System.Serializable]
+    public class PackInfo
+    {
+        public PackType PackType;
+        public RewardTagSO RewardTagSO;
+        public MetaCardUI MetaCardUI;
+        public CinematicManager CinematicManager;
+    }
     public class PackRewardScreen : BaseRewardsVisualHandler
     {
         [SerializeField]
-        private MetaCardUI _metaCardUI;
-        [SerializeField]
+        private PackInfo[] _packInfo;
+   
         private CinematicManager _cinematicManager;
         [ReadOnly,ShowInInspector]
-        private Queue<int> _cardsIDS = new Queue<int>();
+        private Queue<CardPack> _cardsIDS = new Queue<CardPack>();
+
+        [SerializeField]
+        private ObjectActivationManager _objectRenderer;
 
         [SerializeField]
         private ClickHelper _clickHelper;
@@ -47,15 +60,35 @@ namespace CardMaga.Rewards
                 return;
             }
             // Set Pack Card to id
-            int coreID = _cardsIDS.Dequeue();
-            var  cardInstance = GameFactory.Instance.CardFactoryHandler.CreateCardInstance(coreID);
+            var core = _cardsIDS.Dequeue();
+            var  cardInstance = GameFactory.Instance.CardFactoryHandler.CreateCardInstance(core.ID);
 
             //Insert CardCore To Pack
-            _metaCardUI.AssignVisual(cardInstance);
+            TagSO packType = core.PackType;
+            _objectRenderer.Activate(packType);
+            var pack = GetCard(packType);
+
+
             //Cinematics
+            _cinematicManager = pack.CinematicManager;
             _cinematicManager.ResetAll();
             _cinematicManager.StartCinematicSequence();
+            pack.MetaCardUI.AssignVisual(cardInstance);
 
+
+
+            PackInfo GetCard(TagSO pt)
+            {
+                for (int i = 0; i < _packInfo.Length; i++)
+                {
+                    if (_packInfo[i].RewardTagSO == pt)
+                        return _packInfo[i];
+                }
+                throw new System.Exception($"Pack Tag was not found!\nType: " + pt.ToString());
+            }
+    
+  
+       
         }
 
         protected override void CalculateRewards()
@@ -63,7 +96,21 @@ namespace CardMaga.Rewards
             foreach (var card in PackRewards)
             {
                 foreach (var id in card.CardsID)
-                    _cardsIDS.Enqueue(id);
+                {
+                    _cardsIDS.Enqueue(new CardPack(Pack(card.PackType),id));
+                }
+            }
+
+            TagSO Pack(PackType packType)
+            {
+
+                for (int i = 0; i < _packInfo.Length; i++)
+                {
+                    if (_packInfo[i].PackType == packType)
+                        return _packInfo[i].RewardTagSO;
+                }
+                        throw new System.Exception("Pack Type was not found " + packType.ToString());
+                
             }
         }
 
@@ -73,4 +120,20 @@ namespace CardMaga.Rewards
         }
     }
 
+
+    [System.Serializable]
+    public class CardPack
+    {
+        private TagSO _packType;
+        private int _id;
+        public int ID => _id;
+
+        public TagSO PackType { get => _packType; }
+
+        public CardPack(TagSO packType, int id)
+        {
+            _packType = packType;
+            _id = id;
+        }
+    }
 }

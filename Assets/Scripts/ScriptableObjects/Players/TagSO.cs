@@ -10,7 +10,6 @@ namespace CardMaga.Battle.Players
         
     }
 
-
     public interface ITaggable : ITaggable<TagSO>
     {
     }

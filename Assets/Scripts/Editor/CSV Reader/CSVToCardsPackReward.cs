@@ -55,13 +55,13 @@ namespace CardMaga.CSV
                 switch (resultID)
                 {
                     case BasicPackID:
-                        CreateBasicPack(instance, row);
+                        CreateBasicPack(instance, PackType.Standard ,row);
                         break;
                     case SpecialPackID:
-                        CreateSpecialPack(instance, row);
+                        CreateSpecialPack(instance, PackType.Special, row);
                         break;
                     default:
-                        CreateSpecificPack(instance, row);
+                        CreateSpecificPack(instance, PackType.Standard, row);
                         break;
                 }
 
@@ -76,7 +76,7 @@ namespace CardMaga.CSV
             IsFinished = true;
         }
 
-        private void CreateSpecificPack(CardsPackRewardFactorySO instance, string[] row)
+        private void CreateSpecificPack(CardsPackRewardFactorySO instance,PackType packType, string[] row)
         {
             string[] cardsID = row[SpecificCardIDIndex].Split('&');
             List<int> cores = new List<int>();
@@ -108,13 +108,16 @@ namespace CardMaga.CSV
                 }
                 currentContainer.PackCardsRewards.AssignCards(ids);
             }
+            instance.PackType = packType;
 
         }
 
-        private void CreateSpecialPack(CardsPackRewardFactorySO instance, string[] row)
+        private void CreateSpecialPack(CardsPackRewardFactorySO instance,PackType packType, string[] row)
         {
             if (!int.TryParse(row[CardAmountIndex], out int amount))
                 throw new Exception($"CSVToCardsPackReward: Pack BattleCard Amount not an int {row[CardAmountIndex]}\nPackID - {row[IDIndex]}");
+
+            instance.PackType = packType;
 
             var cardCollection = CSVManager._cardCollection;
             var allSpecialRewardsCards = cardCollection.AllCardsCoreInfo.Where(x => x.IsSpecialReward);
@@ -137,11 +140,12 @@ namespace CardMaga.CSV
 
 
 
-        private void CreateBasicPack(CardsPackRewardFactorySO instance, string[] row)
+        private void CreateBasicPack(CardsPackRewardFactorySO instance, PackType packType, string[] row)
         {
             if (!int.TryParse(row[CardAmountIndex], out int amount))
                 throw new Exception($"CSVToCardsPackReward: Pack BattleCard Amount not an int {row[CardAmountIndex]}\nPackID - {row[IDIndex]}");
 
+            instance.PackType = packType;
             var cardCollection = CSVManager._cardCollection;
             var allSpecialRewardsCards = cardCollection.AllCardsCoreInfo.Where(x => x.IsBasicReward);
             var allSpecialRewardsCardsID = allSpecialRewardsCards.Select(x => x.CardCore.CoreID);

@@ -1,5 +1,6 @@
 ﻿using Account;
 using Account.GeneralData;
+using CardMaga.Battle.Players;
 using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -10,6 +11,12 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
+    public enum PackType
+    {
+        Standard,
+        Special,
+    }
+
     [Serializable]
     public class PackReward : IRewardable
     {
@@ -21,6 +28,9 @@ namespace CardMaga.Rewards
         private string _packName;
 
         [SerializeField]
+        private PackType _packType;
+
+        [SerializeField]
         private int[] _cardsID;
         private IDisposable _token;
 
@@ -28,6 +38,7 @@ namespace CardMaga.Rewards
         public string Name => _packName;
 
         public RewardType RewardType => RewardType.Pack;
+        public PackType PackType => _packType;
         public IReadOnlyList<int> CardsID => _cardsID;
         public void TryRecieveReward(ITokenReciever tokenMachine)
         {
@@ -71,11 +82,13 @@ namespace CardMaga.Rewards
             //    Account.AccountManager.Instance.Data.AllCards.AddCard(new CoreID(_cardsID[i]));
 
         }
-        public PackReward(string name, int[] cardsID)
+        public PackReward(string name,PackType packType, int[] cardsID)
         {
+            _packType = packType;
             _packName = name;
             _cardsID = cardsID;
         }
+
 #if UNITY_EDITOR
         public void Init(string name, int[] cardsID)
         {
@@ -93,6 +106,7 @@ namespace CardMaga.Rewards
         event Action OnServerSuccessfullyAdded;
         event Action OnServerFailedToAdded;
         string Name { get; }
+
         RewardType RewardType { get; }
         void TryRecieveReward(ITokenReciever tokenMachine);
         void AddToDevicesData();
