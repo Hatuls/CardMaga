@@ -75,7 +75,7 @@ namespace CardMaga.Meta.Upgrade
 
 
             float distance = _rightPosition.x - _middlePosition.position.x;
-            // Debug.Log("! " + obj.SwipeDistance + _startPosition.x);
+            // Debug.Log("! " + obj.SwipeDetected + _startPosition.x);
             if (swipeDistance < HalfScreenSize)
             {
                 OnSwipingRight?.Invoke(-swipeDistance);
@@ -93,7 +93,7 @@ namespace CardMaga.Meta.Upgrade
                 // Activate the Right Next
             }
             _middlePosition.position = _startPosition + swipeDistance * Vector3.right;
-            //_cardsContainer.DOMoveX(_startPosition.x + obj.SwipeDistance, Time.deltaTime);
+            //_cardsContainer.DOMoveX(_startPosition.x + obj.SwipeDetected, Time.deltaTime);
         }
         private void MoveLeft(SwipeData obj)
         {
@@ -104,7 +104,7 @@ namespace CardMaga.Meta.Upgrade
                 OnSwipingLeft?.Invoke(obj.SwipeDistance);
 
             _middlePosition.position = _startPosition - obj.SwipeDistance * Vector3.right;
-            //  _cardsContainer.DOMoveX(_startPosition.x - obj.SwipeDistance, Time.deltaTime);
+            //  _cardsContainer.DOMoveX(_startPosition.x - obj.SwipeDetected, Time.deltaTime);
         }
 
 

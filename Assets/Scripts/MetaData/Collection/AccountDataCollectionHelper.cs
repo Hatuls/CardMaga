@@ -14,12 +14,15 @@ namespace CardMaga.MetaData.Collection
     public class AccountDataCollectionHelper : ISequenceOperation<MetaDataManager>
     {
         private AccountDataAccess _accountDataAccess;
+        private AccountCollectionCopyHelper _collectionCopy;
 
         [SerializeField] private CardsCollectionDataHandler _collectionCardDatasHandler;
         [SerializeField] private ComboCollectionDataHandler _collectionComboDatasHandler;
 
         public CardsCollectionDataHandler CollectionCardDatasHandler => _collectionCardDatasHandler;
         public ComboCollectionDataHandler CollectionComboDatasHandler => _collectionComboDatasHandler;
+
+        public AccountCollectionCopyHelper CollectionCopy => _collectionCopy;
 
         public int Priority => 1;
         
@@ -29,9 +32,16 @@ namespace CardMaga.MetaData.Collection
 
             _collectionCardDatasHandler = new CardsCollectionDataHandler(_accountDataAccess.AccountData);
             _collectionComboDatasHandler = new ComboCollectionDataHandler(_accountDataAccess.AccountData);
+            _collectionCopy = new AccountCollectionCopyHelper();
         }
 
-        public CardsCollectionDataHandler GetCardCollectionByDeck(int deckId)
+        public void UpdateCollection()
+        {
+            _collectionCardDatasHandler = new CardsCollectionDataHandler(_accountDataAccess.AccountData);
+            _collectionComboDatasHandler = new ComboCollectionDataHandler(_accountDataAccess.AccountData);
+        }
+
+        public CardsCollectionDataHandler GetCardCollectionByDeck(int deckId) 
         {
             bool Condition(MetaCardInstanceInfo metaCardInstanceInfo)
             {
@@ -40,7 +50,7 @@ namespace CardMaga.MetaData.Collection
             
             var instanceIDs = new List<int>();
 
-            foreach (var cardData in _collectionCardDatasHandler.CollectionCardDatas)  
+            foreach (var cardData in _collectionCardDatasHandler.CollectionCardDatas.Values)  
             {
                 if (cardData.TryGetMetaCardInstanceInfo(Condition,out MetaCardInstanceInfo[] metaCardInstanceInfos))
                     instanceIDs.AddRange(metaCardInstanceInfos.Select(instanceInfo => instanceInfo.InstanceID));
@@ -48,14 +58,14 @@ namespace CardMaga.MetaData.Collection
             
             var output = new CardsCollectionDataHandler(_collectionCardDatasHandler.GetCollectionCopy());
             
-            foreach (var cardData in output.CollectionCardDatas)
+            foreach (var cardData in output.CollectionCardDatas.Values)
             {
                 foreach (var instanceID in instanceIDs)
                 {
                     cardData.RemoveCardInstance(instanceID);
                 }
             }
-
+            
             return output;
         }
         
@@ -101,7 +111,7 @@ namespace CardMaga.MetaData.Collection
                 return !metaCardInstanceInfo.InDeck; 
             }
 
-            foreach (var metaCollectionCardData in _collectionCardDatasHandler.CollectionCardDatas)
+            foreach (var metaCollectionCardData in _collectionCardDatasHandler.CollectionCardDatas.Values)
             {
                 if (metaCollectionCardData.TryGetMetaCardInstanceInfo(Condition, out MetaCardInstanceInfo[] metaCardInstanceInfos))
                 {
