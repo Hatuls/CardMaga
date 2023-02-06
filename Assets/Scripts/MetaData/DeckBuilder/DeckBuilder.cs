@@ -47,9 +47,9 @@ namespace CardMaga.MetaData.DeckBuilding
 
         public int Priority => 1;
 
-        public void AsingDeckToEdit(MetaDeckData deckData,CardsCollectionDataHandler cardsCollectionDataHandler,ComboCollectionDataHandler comboCollectionDataHandler)
+        public void AssignDeckToEdit(MetaDeckData deckData,CardsCollectionDataHandler cardsCollectionDataHandler,ComboCollectionDataHandler comboCollectionDataHandler)
         {
-            _deck = deckData.GetCopy();
+            _deck = deckData;
             
             
             
