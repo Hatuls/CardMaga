@@ -17,7 +17,6 @@ public class InputReciever : MonoSingleton<InputReciever>
     
     #region Fields
     
-    
     private const float CIRCLE_BORDER_TOP_LEFT = 0.25F;
     private const float CIRCLE_BORDER_TOP_RIGHT = -0.25F;
     private const float CIRCLE_BORDER_BUTTOM_RIGHT = -0.75F;
@@ -31,9 +30,9 @@ public class InputReciever : MonoSingleton<InputReciever>
     private Vector2 _endTouchLocation;
     
     private bool _isTouching = false;
+
     private bool _swipeDetected = false;
-
-
+    
     private Camera _camera;
 
     public enum SwipeDirection
@@ -47,7 +46,6 @@ public class InputReciever : MonoSingleton<InputReciever>
     #endregion
 
     #region Prop
-    public bool SwipeDetected => _swipeDetected;
 
     public bool IsTouching
     {
@@ -146,7 +144,6 @@ public class InputReciever : MonoSingleton<InputReciever>
                 OnTouchEnded?.Invoke(_endTouchLocation);
                 break;
             case TouchPhase.Canceled:
-                _swipeDetected = false;
                 break;
             case TouchPhase.Stationary:
                 _touchPosOnScreen = touch.position;
@@ -162,7 +159,7 @@ public class InputReciever : MonoSingleton<InputReciever>
 
         if (Vector2.Distance(start,end) > _swipeDistance && !_swipeDetected)
         {
-            _swipeDetected = true;
+           // _swipeDetected = true; ?????
             
             SwipeData swipeData;
 
