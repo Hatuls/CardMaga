@@ -7,6 +7,7 @@ using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CardMaga.Rewards
 {
@@ -106,6 +107,11 @@ namespace CardMaga.Rewards
         private int _priority;
         public RewardType RewardType;
         protected List<IRewardable> _rewards = new List<IRewardable>();
+
+
+        [SerializeField, EventsGroup]
+        private UnityEvent OnShowEvent, OnHideEvent;
+
         public bool HasRewards => (_rewards.Count > 0);
 
         public int Priority => _priority;
@@ -123,11 +129,13 @@ namespace CardMaga.Rewards
         public override void Show()
         {
             base.Show();
+            OnShowEvent?.Invoke();
             CalculateRewards();
         }
 
         public override void Hide()
         {
+            OnHideEvent?.Invoke();
             base.Hide();
             AddRewards();
             _token?.Dispose();

@@ -1,14 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using CardMaga.CinematicSystem;
+using CardMaga.MetaUI;
+using Factory;
+using ReiTools.TokenMachine;
+using Sirenix.OdinInspector;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
 
     public class PackRewardScreen : BaseRewardsVisualHandler
     {
+        [SerializeField]
+        private MetaCardUI _metaCardUI;
+        [SerializeField]
+        private CinematicManager _cinematicManager;
+        [ReadOnly,ShowInInspector]
+        private Queue<int> _cardsIDS = new Queue<int>();
 
-        private int[] _cardsIDS;
-
-
+        [SerializeField]
+        private ClickHelper _clickHelper;
         public IEnumerable<PackReward> PackRewards
         {
             get
@@ -17,27 +28,48 @@ namespace CardMaga.Rewards
                     yield return _rewards[i] as PackReward;
             }
         }
+
+        public override void Init()
+        {
+            base.Init();
+        }
         public override void Show()
         {
             base.Show();
-
-            for (int i = 0; i < _cardsIDS.Length; i++)
-            {
-                Debug.Log("ID: " + _cardsIDS[i]);
-            }
+            MoveNext();
         }
+
+        private void MoveNext()
+        {
+            if (_cardsIDS.Count == 0)
+            {
+                Hide();
+                return;
+            }
+            // Set Pack Card to id
+            int coreID = _cardsIDS.Dequeue();
+            var  cardInstance = GameFactory.Instance.CardFactoryHandler.CreateCardInstance(coreID);
+
+            //Insert CardCore To Pack
+            _metaCardUI.AssignVisual(cardInstance);
+            //Cinematics
+            _cinematicManager.ResetAll();
+            _cinematicManager.StartCinematicSequence();
+
+        }
+
         protected override void CalculateRewards()
         {
-            List<int> ids = new List<int>();
-
             foreach (var card in PackRewards)
             {
                 foreach (var id in card.CardsID)
-                    ids.Add(id);
-                
+                    _cardsIDS.Enqueue(id);
             }
+        }
 
-            _cardsIDS = ids.ToArray();
+        public  void WaitForInput()
+        {
+            _clickHelper.Open(MoveNext);
         }
     }
 

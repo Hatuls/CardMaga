@@ -11,7 +11,7 @@ public class ClickHelper : MonoBehaviour
 
     [SerializeField] private Clicker _clicker;
     [SerializeField] public RectTransform _panel;
-    [SerializeField] private Canvas _canavs;
+    [SerializeField] private Canvas _canvas;
     [SerializeField] private ClickBlocker _clickBlocker;
     [SerializeField] private bool _closeOnClick = false;
     
@@ -61,13 +61,13 @@ public class ClickHelper : MonoBehaviour
 
     public void Close()
     {
-        if(!_canavs.gameObject.activeSelf)
+        if(!_canvas.gameObject.activeSelf)
             return;
 
         ReturnObjects();
 
         
-        _canavs.gameObject.SetActive(false);
+        _canvas.gameObject.SetActive(false);
     }
 
     public void ReturnObjects()
@@ -83,20 +83,18 @@ public class ClickHelper : MonoBehaviour
 
     public void Open(GameObject canvas)
     {
-        canvas.gameObject.SetActive(true);
+        canvas.SetActive(true);
     }
-    
+
     public void Open()
-    {
-        _canavs.gameObject.SetActive(true);
-    }
+    => Open(_canvas.gameObject);
     /// <summary>
     /// Open The ClickHelper and load a action when click
     /// </summary>
     /// <param name="action">The action that will Invoke when click</param>
     public void Open(Action action)
     {
-        _canavs.gameObject.SetActive(true);
+        Open();
         _action = action;
     }
 
@@ -111,7 +109,7 @@ public class ClickHelper : MonoBehaviour
     {
         if (openOnLoad)
         {
-            Open(_canavs.gameObject);
+            Open(_canvas.gameObject);
         }
         
         for (int i = 0; i <  objects.Length; i++)
