@@ -60,12 +60,12 @@ namespace CardMaga.UI.PopUp
         private void ClosePopUp(BuffVisualData buffVisualData, RectTransform transform)
         {
             HidePopUp();
-            _currentActivePopUp.Dispose();
+            _currentActivePopUp?.Dispose();
         }
         protected override Vector2 GetStartLocation() => _buffRectTransform.position;
 
 
       
-        private Vector2 PopUpDestination() => _popUpLocation.position;
+       
     }
 }
