@@ -62,7 +62,7 @@ namespace CardMaga.Rewards
                     if (rewardType.Contain(RewardType.Gift) || rewardType.Contain(RewardType.Bundle))
                         GetAllRewards((current as GiftReward).Rewardables);
                     else
-                        AddToScreen(current);
+                        AddToScreen(current); // Add Also the SO 
                 }
             }
         }
