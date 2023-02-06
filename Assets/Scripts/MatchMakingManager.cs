@@ -1,6 +1,7 @@
 ﻿using Account.GeneralData;
 using Battle.Data;
 using Battle.MatchMaking;
+using CardMaga.ValidatorSystem;
 using ReiTools.TokenMachine;
 using System;
 using UnityEngine;
@@ -9,6 +10,9 @@ using UnityEngine.Events;
 public class BattleCharacterUnityEvent : UnityEvent<Battle.Characters.BattleCharacter> { }
 public class MatchMakingManager : MonoBehaviour
 {
+    public static event Action OnOpponentValid;
+    public static event Action OnOpponentCorrupted;
+
     [SerializeField]
     OperationManager _lookForMatchOperation;
     private TokenMachine _tokenMachine;
@@ -48,15 +52,37 @@ public class MatchMakingManager : MonoBehaviour
         _tokenMachine = new TokenMachine(MatchFound);
         OnTutorialGameStarted?.Invoke(_tokenMachine);
     }
-
+    /// <summary>
+    /// Get a Potential User's Data
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="obj"></param>
     private void RegisterOpponent(string name, CharactersData obj)
     {
 #if UNITY_EDITOR
         Debug.Log(name);
 #endif
-        BattleData.Instance.AssignOpponent(name, obj.GetMainCharacter());
 
+
+        // Check if its valid 
+        if(!IsValid(obj))
+        {
+            OnOpponentCorrupted?.Invoke();
+            return;
+        }
+
+
+        OnOpponentValid?.Invoke();
+        BattleData.Instance.AssignOpponent(name, obj.GetMainCharacter());
         OnOpponentFound?.Invoke(BattleData.Instance.Right);
+    }
+
+    //Validate the character's data
+    private bool IsValid(CharactersData obj)
+    {
+
+        //  Validator.Valid()
+        return true;
     }
 
     public void StartOnlineLooking()
