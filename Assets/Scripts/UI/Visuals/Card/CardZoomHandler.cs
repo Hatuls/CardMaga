@@ -103,9 +103,7 @@ namespace CardMaga.UI
             _zoomSequence = DOTween.Sequence();
             //scale battleCard
             _zoomSequence.Append(_cardVisualMainObject.DOScale(_zoomDoTweenSO.ZoomScale, _zoomDoTweenSO.ZoomDuration).SetEase(_zoomDoTweenSO.CardCurveZoomIn));
-
             
-
             //set glow to 0
             _zoomSequence.Join(_cardGlow.DOFade(0, _zoomDoTweenSO.GlowFadeDuration));
 

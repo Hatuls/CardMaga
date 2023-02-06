@@ -52,7 +52,17 @@ namespace CardMaga.MetaData.AccoutData
 
             foreach (var coreID in cardCore)
             {
-                _cardDatas.Add(allCards.First(x => x.CoreID == coreID.ID));
+                foreach (var cardInstance in allCards)
+                {
+                    if (coreID.ID == cardInstance.CoreID)
+                    {
+                        if (_cardDatas.Contains(cardInstance))
+                            continue;
+
+                        _cardDatas.Add(cardInstance);
+                        break;
+                    }
+                }
             }
 
             ComboCore[] comboCores = deckData.Combos;

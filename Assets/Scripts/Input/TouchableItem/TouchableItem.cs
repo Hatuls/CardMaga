@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace CardMaga.Input
 {
-    public abstract class TouchableItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ILockable
+    public abstract class TouchableItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,IPointerExitHandler,ICancelHandler ,ILockable
     {
         #region Events
 
@@ -50,6 +50,7 @@ namespace CardMaga.Input
         private Vector2 _startPosition;
         private bool _isHold;
         private bool _isTouchable;
+        private bool _isOnObject;
 
 
 #if UNITY_EDITOR
@@ -164,12 +165,14 @@ namespace CardMaga.Input
             if (!_isTouchable)
                 return;
 
+            _isOnObject = true;
             _isHold = false;
 
             if (!DisableHold)
             {
                 StartCoroutine(HoldCheck(eventData));
             }
+            
             PointDown();
         }
 
@@ -186,7 +189,22 @@ namespace CardMaga.Input
                 return;
             }
 
+            if ((InputReciever.Instance.IsTouching && !_isOnObject) || InputReciever.Instance.SwipeDetected)
+                return;
+            // if (!_isOnObject && DisableHold)
+            //     return;
+            
             ProcessTouch(eventData);
+        }
+        
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            _isOnObject = false;
+        }
+        
+        public void OnCancel(BaseEventData eventData)
+        {
+            _isOnObject = false;
         }
 
         private IEnumerator HoldCheck(PointerEventData eventData)
