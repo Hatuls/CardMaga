@@ -36,7 +36,7 @@ namespace CardMaga.UI
         public ITokenReciever ZoomTokenMachine => _zoomTokenMachine;
 
         private float StartPos => _zoomPositionsSO.YStartPosition[_cardType];
-        private float EndPos => _zoomPositionsSO.YStartPosition[_cardType];
+        private float EndPos => _zoomPositionsSO.YEndPosition[_cardType];
 
         private void Awake()
         {
