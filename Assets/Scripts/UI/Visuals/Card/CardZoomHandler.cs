@@ -30,17 +30,13 @@ namespace CardMaga.UI
         [SerializeField] CanvasGroup _description;
 
         DG.Tweening.Sequence _zoomSequence;
-        int _cardType;
+        float _startPos;
+        float _endPos;
 
         TokenMachine _zoomTokenMachine;
         public ITokenReciever ZoomTokenMachine => _zoomTokenMachine;
-
-        private float StartPos => _zoomPositionsSO.YStartPosition[_cardType];
-        private float EndPos => _zoomPositionsSO.YEndPosition[_cardType];
-
         private void Awake()
         {
-#if UNITY_EDITOR
             if (_bottomPart == null)
                 throw new Exception("CardZoomHandler has no bottom part");
             if (_cardVisualMainObject == null)
@@ -49,7 +45,7 @@ namespace CardMaga.UI
                 throw new Exception("CardZoomHandler has no battleCard Name");
             if (_description == null)
                 throw new Exception("CardZoomHandler has no description");
-#endif
+
             //Token
             _zoomTokenMachine = new TokenMachine(ZoomIn, ZoomOut);
         }
@@ -67,7 +63,7 @@ namespace CardMaga.UI
             //in Parallel Set Name Scale to regular size
             _cardName.localScale = Vector3.one;
             //when completed move battleCard parts
-            _bottomPart.localPosition = new Vector2(_bottomPart.localPosition.x, StartPos);
+            _bottomPart.localPosition = new Vector2(_bottomPart.localPosition.x, _startPos);
             //in parallel set alpha of bottompartBGscreen to 0
             Color color = _bottomPartBlackScreen.color;
             color.a = 0;
@@ -81,13 +77,16 @@ namespace CardMaga.UI
         }
         public void SetCardType(CardCore battleCardData)
         {
-            _cardType = (int)battleCardData.CardSO.CardTypeData.CardType - 1;
+            int cardType = (int)battleCardData.CardSO.CardTypeData.CardType - 1;
+            _startPos = _zoomPositionsSO.YStartPosition[cardType];
+            _endPos = _zoomPositionsSO.YEndPosition[cardType];
 
         }
-
         public void ResetCardType()
         {
-            _cardType = 0;
+            int cardType = 0;
+            _startPos = _zoomPositionsSO.YStartPosition[cardType];
+            _endPos = _zoomPositionsSO.YEndPosition[cardType];
 	        //Debug.Log("Recived ZoomData");
         }
         public void KillTween()
@@ -104,14 +103,12 @@ namespace CardMaga.UI
             _zoomSequence = DOTween.Sequence();
             //scale battleCard
             _zoomSequence.Append(_cardVisualMainObject.DOScale(_zoomDoTweenSO.ZoomScale, _zoomDoTweenSO.ZoomDuration).SetEase(_zoomDoTweenSO.CardCurveZoomIn));
-
             
-
             //set glow to 0
             _zoomSequence.Join(_cardGlow.DOFade(0, _zoomDoTweenSO.GlowFadeDuration));
 
             //when completed move battleCard parts
-            _zoomSequence.Join(_bottomPart.DOLocalMoveY(EndPos, _zoomDoTweenSO.BottomPartMoveDuration).SetEase(_zoomDoTweenSO.BottomPartMoveCurve));
+            _zoomSequence.Join(_bottomPart.DOLocalMoveY(_endPos, _zoomDoTweenSO.BottomPartMoveDuration).SetEase(_zoomDoTweenSO.BottomPartMoveCurve));
 
             //in parallel set alpha of bottompartBGscreen to 1
             _zoomSequence.Join(_bottomPartBlackScreen.DOFade(1, _zoomDoTweenSO.BlackScreenDuration));
@@ -121,9 +118,6 @@ namespace CardMaga.UI
 
             //in parallel set text opacity to visable
             _zoomSequence.Join(_description.DOFade(1, _zoomDoTweenSO.TextAlphaDuration));
-
-
-
             if(OnZoomInCompleted != null)
                 _zoomSequence.AppendCallback(OnZoomInCompleted.Invoke);
 
@@ -140,7 +134,7 @@ namespace CardMaga.UI
             //in Parallel Set Name Scale to regular size
             _zoomSequence.Join(_cardName.DOScale(Vector3.one, _zoomDoTweenSO.NameScaleDurationZoomOut).SetEase(_zoomDoTweenSO.NameScaleCurveZoomOut));
             //when completed move battleCard parts
-            _zoomSequence.Join(_bottomPart.DOLocalMoveY(StartPos, _zoomDoTweenSO.BottomPartMoveDuration).SetEase(Ease.OutSine));
+            _zoomSequence.Join(_bottomPart.DOLocalMoveY(_startPos, _zoomDoTweenSO.BottomPartMoveDuration).SetEase(Ease.OutSine));
             //in parallel set alpha of bottompartBGscreen to 0
             _zoomSequence.Join(_bottomPartBlackScreen.DOFade(0, _zoomDoTweenSO.BottomPartMoveDuration));
             //set glow to 1

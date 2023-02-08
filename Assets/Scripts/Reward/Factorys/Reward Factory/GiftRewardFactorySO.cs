@@ -14,7 +14,22 @@ namespace CardMaga.Rewards
         [SerializeField]
         private BaseRewardFactorySO[] _rewardsIDs;
 
-    
+        public override IEnumerable<TagSO> Tags
+        {
+            get 
+            {
+                for (int i = 0; i < _tags.Length; i++)
+                    yield return _tags[i];
+
+                for (int i = 0; i < _rewardsIDs.Length; i++)
+                {
+                    foreach (var tag in _rewardsIDs[i].Tags)
+                        yield return tag;
+                }
+                        
+
+            }
+        }
         public override IRewardable GenerateReward()
         {
 
@@ -23,19 +38,14 @@ namespace CardMaga.Rewards
             for (int i = 0; i < _rewardsIDs.Length; i++)
                     rewardables[i] = _rewardsIDs[i].GenerateReward();
 
-            var reward = new GiftReward(RewardTypes, rewardables);
+            var reward = new GiftReward(rewardables);
  
             return reward;
         }
 #if UNITY_EDITOR
         public void Init(BaseRewardFactorySO[] rewardsIDs)
         {
-            _rewardsIDs = rewardsIDs;
-
-            for (int i = 0; i < rewardsIDs.Length; i++)
-            {
-                _tags |= _rewardsIDs[i].RewardTypes;
-            }
+            _rewardsIDs = rewardsIDs; 
         }
 #endif
     }

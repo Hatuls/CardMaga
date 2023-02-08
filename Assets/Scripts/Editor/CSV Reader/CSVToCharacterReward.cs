@@ -50,7 +50,7 @@ namespace CardMaga.CSV
 
 
 
-                instance.AssignValues(resultID, name, RewardType.Character);
+                instance.AssignValues(resultID, name);
                 instance.Init(characterID);
                 AssetDatabase.CreateAsset(instance, $"Assets/Resources/Rewards/Factories/Characters/{name} Factory.asset");
                 factories.Add(instance);

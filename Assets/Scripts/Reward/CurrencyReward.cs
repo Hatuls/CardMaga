@@ -1,4 +1,5 @@
 ﻿using CardMaga.Rewards.Bundles;
+using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
 using ReiTools.TokenMachine;
@@ -9,26 +10,41 @@ namespace CardMaga.Rewards
     [Serializable]
     public class CurrencyReward : IRewardable
     {
+
+        [SerializeField] 
+        private string _name;
+        [SerializeField]
+        ResourcesCost _resourcesCost;
+
         public event Action OnServerSuccessfullyAdded;
         public event Action OnServerFailedToAdded;
         private IDisposable _token;
-
-        [SerializeField]
-        private string _name;
-        [SerializeField]
-        private ResourcesCost _resourcesCost;
         public string Name => _name;
-
-        public RewardType RewardType => RewardType.Currency;
-
-        public ResourcesCost ResourcesCost { get => _resourcesCost; }
 
         public void TryRecieveReward(ITokenReciever tokenMachine)
         {
-
+      
             AddToDevicesData();
             Account.AccountManager instance = Account.AccountManager.Instance;
             instance.SendAccountData(tokenMachine);
+           // instance.UpdateDataOnServer();
+            //  bool isEXP = _resourcesCost.CurrencyType == CurrencyType.Account_EXP;
+            //string json = isEXP ? JsonUtility.ToJson(Account.AccountManager.Instance.Data.AccountLevel) : JsonConvert.SerializeObject(Account.AccountManager.Instance.Data.AccountResources);
+            //var request = new ExecuteCloudScriptRequest()
+            //{
+            //    FunctionName = isEXP ? "AddEXP" : "AddResources",
+            //    FunctionParameter = new
+            //    {
+            //        Value = json
+            //    }
+            //};
+
+            //   Account.AccountManager.Instance.UpdateDataOnServer();
+
+            //    PlayFabClientAPI.ExecuteCloudScript(request, OnRewardReceived, OnFailedToReceived);
+
+
+
         }
 
         private void OnRewardReceived(ExecuteCloudScriptResult obj)
@@ -45,15 +61,15 @@ namespace CardMaga.Rewards
 
         public void AddToDevicesData()
         {
-            switch (ResourcesCost.CurrencyType)
+            switch (_resourcesCost.CurrencyType)
             {
                 case CurrencyType.Gold:
                 case CurrencyType.Diamonds:
                 case CurrencyType.Chips:
-                    Account.AccountManager.Instance.Data.AccountResources.AddResource(ResourcesCost.CurrencyType, (int)ResourcesCost.Amount);
+                    Account.AccountManager.Instance.Data.AccountResources.AddResource(_resourcesCost.CurrencyType, (int)_resourcesCost.Amount);
                     break;
                 case CurrencyType.Account_EXP:
-                    Account.AccountManager.Instance.Data.AccountLevel.Exp += (int)ResourcesCost.Amount;
+                    Account.AccountManager.Instance.Data.AccountLevel.Exp += (int)_resourcesCost.Amount;
                     break;
                 default:
                     break;
@@ -61,13 +77,13 @@ namespace CardMaga.Rewards
         }
 
 #if UNITY_EDITOR
-        public void Init(string name, ResourcesCost resourcesCost)
+        public void Init( string name, ResourcesCost resourcesCost)
         {
             _name = name;
-            _resourcesCost = resourcesCost;
+            _resourcesCost= resourcesCost;
         }
 
-
+ 
 
 #endif
     }

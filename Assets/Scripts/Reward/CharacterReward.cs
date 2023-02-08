@@ -18,10 +18,8 @@ namespace CardMaga.Rewards
 
         [SerializeField] private string _name;
         [SerializeField] private int _characterID;
-
+      
         public string Name => _name;
-
-        public RewardType RewardType => RewardType.Character;
 
         private IDisposable _token;
 

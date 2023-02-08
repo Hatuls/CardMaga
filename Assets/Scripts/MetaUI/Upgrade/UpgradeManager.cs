@@ -47,6 +47,9 @@ namespace CardMaga.Meta.Upgrade
 
         public bool TryUpgradeCard(CardInstance cardInstance)
         {
+
+
+
             UpgradeInfo upgradeInfo = GenerateUpgradeInfo(cardInstance);
 
             bool check = CanUpgrade(cardInstance);
@@ -98,9 +101,9 @@ namespace CardMaga.Meta.Upgrade
 
             request.SendRequest(tokenMachine);
 
+
             void OnRelease()
             {
-
                 OnUpgradeCardCompleted?.Invoke(upgradeInfo.CardInstance);
                 OnUpgradeComplete?.Invoke();
             }

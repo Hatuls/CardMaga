@@ -4,41 +4,33 @@ using UnityEngine;
 namespace CardMaga.Rewards.Bundles
 {
 
-    [Serializable]
+        [Serializable]
     public class BundleReward : GiftReward
     {
         [SerializeField]
         private ResourcesCost _resourcesCost;
 
-        public ResourcesCost Resources => _resourcesCost;
-        public BundleReward(ResourcesCost resourcesCost,RewardType rewardType, IRewardable[] rewards) : base(rewardType, rewards)
+        public BundleReward(ResourcesCost resourcesCost,IRewardable[] rewards) : base( rewards)
         {
             _resourcesCost = resourcesCost;
         }
 
-
+    
     }
 
-    [Serializable]
+        [Serializable]
     public class GiftReward : IRewardable
     {
-        public event Action OnServerFailedToAdded;
-        public event Action OnServerSuccessfullyAdded;
         [SerializeField]
         protected string _name;
+        public string Name => _name;
 
-        private RewardType _rewardType;
-        private IDisposable _token;
         protected IRewardable[] _rewardables;
 
+        public event Action OnServerSuccessfullyAdded;
+        public event Action OnServerFailedToAdded;
 
-
-
-
-
-        public string Name => _name;
-        public IRewardable[] Rewardables => _rewardables;
-        public RewardType RewardType => _rewardType;
+        private IDisposable _token;
         public virtual void TryRecieveReward(ITokenReciever tokenMachine)
         {
             _token = tokenMachine.GetToken();
@@ -47,7 +39,7 @@ namespace CardMaga.Rewards.Bundles
             AddToDevicesData();
 
             Account.AccountManager.Instance.SendAccountData(giftTokenMachine);
-            void Finished()
+             void Finished()
             {
                 OnServerSuccessfullyAdded?.Invoke();
                 _token.Dispose();
@@ -60,13 +52,10 @@ namespace CardMaga.Rewards.Bundles
                 _rewardables[i].AddToDevicesData();
         }
 
-        public GiftReward(RewardType rewardType,IRewardable[] rewardables)
-        {
-            _rewardables = rewardables;
-            _rewardType = rewardType;
-        }
-
-
+        public GiftReward(IRewardable[] rewardables)
+           => _rewardables = rewardables;
+ 
+                
     }
 
     [Serializable]
@@ -82,10 +71,11 @@ namespace CardMaga.Rewards.Bundles
             _currencyType = currencyType;
             _amount = amount;
         }
-
+   
 
         public float Amount => _amount;
         public CurrencyType CurrencyType => _currencyType;
+
 
 #if UNITY_EDITOR
         public void Init(CurrencyType currencyType, float amount)

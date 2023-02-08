@@ -31,9 +31,6 @@ namespace CardMaga.MetaData.DeckBuilding
 
         private MetaDeckData _deck;
 
-        private CardsCollectionDataHandler _originalCardsCollection;
-        private ComboCollectionDataHandler _originalComboCollection;
-        
         private CardsCollectionDataHandler _cardsCollectionDataHandler;
         private ComboCollectionDataHandler _comboCollectionDataHandler;
         
@@ -41,8 +38,6 @@ namespace CardMaga.MetaData.DeckBuilding
         
         public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
         {
-            _originalCardsCollection = data.AccountDataCollectionHelper.CollectionCardDatasHandler;
-            _comboCollectionDataHandler = data.AccountDataCollectionHelper.CollectionComboDatasHandler;
         }
 
         public int Priority => 1;
@@ -51,12 +46,10 @@ namespace CardMaga.MetaData.DeckBuilding
         {
             _deck = deckData;
             
-            
-            
             _cardsCollectionDataHandler = cardsCollectionDataHandler;
             _comboCollectionDataHandler = comboCollectionDataHandler;
 
-            foreach (var cardData in _cardsCollectionDataHandler.CollectionCardDatas)
+            foreach (var cardData in _cardsCollectionDataHandler.CollectionCardDatas.Values)
             {
                 cardData.OnTryAddItemToCollection += TryAddCard;
                 cardData.OnTryRemoveItemFromCollection += TryRemoveCard;
@@ -77,7 +70,7 @@ namespace CardMaga.MetaData.DeckBuilding
 
         public void ResetDeckEditing()
         {
-            foreach (var cardData in _cardsCollectionDataHandler.CollectionCardDatas)
+            foreach (var cardData in _cardsCollectionDataHandler.CollectionCardDatas.Values)
             {
                 cardData.OnTryAddItemToCollection -= TryAddCard;
                 cardData.OnTryRemoveItemFromCollection -= TryRemoveCard;
@@ -143,7 +136,7 @@ namespace CardMaga.MetaData.DeckBuilding
             if (_cardsCollectionDataHandler.TryRemoveCardInstance(cardInstance.InstanceID,false))
             {
                 //_deck.AddCard(cardInstance);
-                _originalCardsCollection.AddDeckAssociate(cardInstance,_deck.DeckId);
+                _cardsCollectionDataHandler.AddDeckAssociate(cardInstance,_deck.DeckId);
                 OnSuccessfulCardAdd?.Invoke(cardInstance);
             }
         }
@@ -177,7 +170,7 @@ namespace CardMaga.MetaData.DeckBuilding
             {
                 _deck.RemoveCard(cardInstance);
                 _cardsCollectionDataHandler.AddCardInstance(new MetaCardInstanceInfo(cardInstance));
-                _originalCardsCollection.RemoveDeckAssociate(cardInstance,_deck.DeckId);
+                _cardsCollectionDataHandler.RemoveDeckAssociate(cardInstance,_deck.DeckId);
                 OnSuccessfulCardRemove?.Invoke(cardInstance);
             }
         }

@@ -10,8 +10,6 @@ namespace CardMaga.Rewards
         private CharacterReward _characterReward;
         public override IRewardable GenerateReward()
        => _characterReward;
-
-     
 #if UNITY_EDITOR
         public void Init(int characterID)
         {

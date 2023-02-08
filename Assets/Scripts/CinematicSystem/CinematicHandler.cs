@@ -2,7 +2,6 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
@@ -56,7 +55,6 @@ namespace CardMaga.CinematicSystem
         public void Init(int cinematicId, MonoBehaviour monoBehaviour)
         {
             _cinematicID = cinematicId;
-            _playableDirector.Evaluate();
             _duration = _playableDirector.duration;
             _monoBehaviour = monoBehaviour;
         }
@@ -68,7 +66,6 @@ namespace CardMaga.CinematicSystem
 
         private IEnumerator RunCinematic()
         {
-          
             if (_delayBeforeCinematic != Vector2.zero)
                 yield return new WaitForSeconds(_delayBeforeCinematic.GetRandomValue());
 
@@ -99,28 +96,13 @@ namespace CardMaga.CinematicSystem
             OnCinematicCompleted?.Invoke(this);
         }
 
-        public  void SkipCinematic()
+        public void SkipCinematic()
         {
             if (_isDisableSkip)
                 return;
-            StopCoroutine();
-            _playableDirector.Evaluate();
-            _playableDirector.time = _duration- Time.deltaTime;
-            _playableDirector.Evaluate();
-            CompleteCinematic();
-        }
 
-        public void Reset()
-        {
-            StopCoroutine();
-            _playableDirector.time = 0;
-            _isCompleted = false;
-        }
+            _playableDirector.time = _duration - Time.deltaTime;
 
-        private void StopCoroutine()
-        {
-            if (_monoBehaviour.isActiveAndEnabled)
-                _monoBehaviour.StopAllCoroutines();
         }
 
         public void PauseCinematic()

@@ -55,6 +55,7 @@ namespace CardMaga.MetaData.Collection
             _cardCollectionDataHandler = _accountDataCollectionHelper.GetCardCollectionByDeck(_metaDeckDataCopy.DeckId);
             _comboCollectionDataHandler = _accountDataCollectionHelper.GetComboCollectionByDeck(_metaDeckDataCopy.DeckId);
             
+            _accountDataCollectionHelper.CollectionCopy.SetData(_metaDeckDataCopy,_cardCollectionDataHandler,_comboCollectionDataHandler);
             _deckBuilder.AssignDeckToEdit(_metaDeckDataCopy,_cardCollectionDataHandler,_comboCollectionDataHandler);
         }
 
@@ -76,11 +77,18 @@ namespace CardMaga.MetaData.Collection
         {
             TokenMachine tokenMachine = new TokenMachine(OnSuccessUpdateDeck);
             _accountDataAccess.UpdateDeck(_metaDeckData,tokenMachine);
+            _accountDataCollectionHelper.UpdateCollection();
             _isDeckUpdateToAccount = true;
         }
 
         public void DiscardDeck()
         {
+            _metaDeckData = null;
+            _metaDeckDataCopy = null;
+            _cardCollectionDataHandler = null;
+            _comboCollectionDataHandler = null;
+            _isDeckUpdateToAccount = true;
+            
             _deckBuilder.ResetDeckEditing();
         }
 

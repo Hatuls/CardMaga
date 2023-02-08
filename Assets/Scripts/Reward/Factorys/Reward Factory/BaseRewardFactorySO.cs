@@ -1,5 +1,4 @@
 ﻿using CardMaga.Battle.Players;
-using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,25 +6,27 @@ using UnityEngine;
 
 namespace CardMaga.Rewards
 {
-    public abstract class BaseRewardFactorySO : ScriptableObject
+    public abstract class BaseRewardFactorySO : ScriptableObject, ITaggable
     {
         [SerializeField]
         private int _id;
         [SerializeField]
         private string _name;
-        [SerializeField,ReadOnly,EnumToggleButtons]
-        protected RewardType _tags;
+        [SerializeField]
+        protected RewardTagSO[] _tags;
         public int ID => _id;
         public string Name => _name;
+
+        public virtual IEnumerable<TagSO> Tags => _tags;
+
         public abstract IRewardable GenerateReward();
 
-        public virtual RewardType RewardTypes=> _tags;
+
 #if UNITY_EDITOR
-        public void AssignValues(int id, string name, RewardType type)
+        public void AssignValues(int id, string name)
         {
             _id = id;
             _name = name;
-            _tags = type;
         }
 #endif
     }
