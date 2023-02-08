@@ -57,7 +57,7 @@ namespace CardMaga.CSV
                 var resource = new Rewards.Bundles.ResourcesCost();
                 resource.Init(currency, amount);
 
-                instance.AssignValues(resultID, name);
+                instance.AssignValues(resultID, name,RewardType.Currency);
                 instance.AssignResources(resource);
                 AssetDatabase.CreateAsset(instance, $"Assets/Resources/Rewards/Factories/Currencies/{name} Factory.asset");
                 factories.Add(instance);
@@ -74,7 +74,7 @@ namespace CardMaga.CSV
 
     public class CSVToGiftReward : CSVAbst
     {
-        const int FirstIndex = 2;
+        const int FirstRow = 2;
         const int IDIndex = 0;
         const int NameIndex = 1;
         const int CurrencyRewardTypeIndex = 2;
@@ -103,7 +103,7 @@ namespace CardMaga.CSV
             var allFactorys = CSVManager.RewardFactoryManager;
             List<GiftRewardFactorySO> factories = new List<GiftRewardFactorySO>();
             handler.SetID(RewardType.Gift);
-            for (int i = FirstIndex; i < rows.Length; i++)
+            for (int i = FirstRow; i < rows.Length; i++)
             {
                 string[] row = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
                 if (!int.TryParse(row[IDIndex], out int resultID))
@@ -113,28 +113,17 @@ namespace CardMaga.CSV
 
                 string name = row[NameIndex];
 
-
                 //Currencies
-                int rewardType = int.Parse(row[CurrencyRewardTypeIndex]);
-                int[] factoriesID = GenerateIDsFromFactories(row[CurrencyRewardIndex]);
-                for (int j = 0; j < factoriesID.Length; j++)
-                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
-
+                InitFactory(RewardType.Currency, row[CurrencyRewardIndex], otherFactories);
 
                 //Characters
-                 rewardType = int.Parse(row[CharacterRewardTypeIndex]);
-                 factoriesID = GenerateIDsFromFactories(row[CharacterRewardIndex]);
-                for (int j = 0; j < factoriesID.Length; j++)
-                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
+                InitFactory(RewardType.Character, row[CharacterRewardIndex], otherFactories);
 
                 //Pack Cards
-                rewardType = int.Parse(row[CardsPackRewardTypeIndex]);
-                factoriesID = GenerateIDsFromFactories(row[CardsPackRewardIndex]);
-                for (int j = 0; j < factoriesID.Length; j++)
-                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
+                InitFactory(RewardType.Pack, row[CardsPackRewardIndex], otherFactories);
 
 
-                instance.AssignValues(resultID, name);
+                instance.AssignValues(resultID, name, RewardType.Gift);
                 instance.Init(otherFactories.ToArray());
                 AssetDatabase.CreateAsset(instance, $"Assets/Resources/Rewards/Factories/Gifts/{name} Factory.asset");
                 factories.Add(instance);
@@ -145,6 +134,15 @@ namespace CardMaga.CSV
             AssetDatabase.SaveAssets();
             CSVManager.RewardFactoryManager.Add(handler);
             IsFinished = true;
+
+
+
+            void InitFactory(RewardType rewardType, string factorysCSV , List<BaseRewardFactorySO> otherFactories)
+            {
+                int[] factoriesID = GenerateIDsFromFactories(factorysCSV);
+                for (int j = 0; j < factoriesID.Length; j++)
+                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
+            }
         }
 
         private int[] GenerateIDsFromFactories(string v)
@@ -214,15 +212,14 @@ namespace CardMaga.CSV
                 resourcesCost.Init(currency, cost);
 
                 //Gifts
-                int rewardType = int.Parse(row[RewardTypeIndex]);
                 int[] factoriesID = GenerateIDsFromFactories(row[GiftIndex]);
                 for (int j = 0; j < factoriesID.Length; j++)
-                    otherFactories.Add(allFactorys.GetRewardFactory(rewardType, factoriesID[j]));
+                    otherFactories.Add(allFactorys.GetRewardFactory(RewardType.Gift, factoriesID[j]));
 
 
 
 
-                instance.AssignValues(resultID, name);
+                instance.AssignValues(resultID, name, RewardType.Bundle);
                 instance.Init(resourcesCost, otherFactories.ToArray());
                 AssetDatabase.CreateAsset(instance, $"Assets/Resources/Rewards/Factories/Bundles/{name} Factory.asset");
                 factories.Add(instance);
