@@ -112,7 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -189,7 +189,8 @@ MonoBehaviour:
   OnExitDeckEditing:
     m_PersistentCalls:
       m_Calls: []
-  _clickHelper: {fileID: 0}
+  _defaultDeckClickHelper: {fileID: 0}
+  _deckClickHelper: {fileID: 0}
   _deckContinaer: {fileID: 0}
   _metaCollectionHandler: {fileID: 3410343910016497202}
   _deckName: {fileID: 0}
@@ -269,7 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1180,6 +1181,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _metaComboUICollectionScrollPanel
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689110051109248149, guid: 1abf3a649d5ff014893de48fcedec66b,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3689110052262090273, guid: 1abf3a649d5ff014893de48fcedec66b,
         type: 3}

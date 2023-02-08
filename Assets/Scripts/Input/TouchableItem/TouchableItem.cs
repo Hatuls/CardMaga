@@ -189,7 +189,7 @@ namespace CardMaga.Input
                 return;
             }
 
-            if ((InputReciever.Instance.IsTouching && !_isOnObject) || InputReciever.Instance.SwipeDetected)
+            if ((InputReciever.Instance.IsTouching && !RectContainsHelper.CheckIfInRect((RectTransform)transform)) || InputReciever.Instance.SwipeDetected)
                 return;
             // if (!_isOnObject && DisableHold)
             //     return;
@@ -234,7 +234,7 @@ namespace CardMaga.Input
 
             while (!_isHold)
             {
-                Vector2 currentTouchPosition = InputReciever.Instance.TouchPosOnScreen;
+                Vector2 currentTouchPosition = InputReciever.Instance.TouchWordPosition;
 
                 if (Vector2.Distance(_startPosition, currentTouchPosition) > _holdDistance)
                 {

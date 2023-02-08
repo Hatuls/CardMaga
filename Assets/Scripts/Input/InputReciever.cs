@@ -26,9 +26,13 @@ public class InputReciever : MonoSingleton<InputReciever>
     [SerializeField] private float _swipeDistance;
     [SerializeField] private bool _onlyDetectSwipeAtEnd;
     
-    private Vector2 _touchPosOnScreen;
-    private Vector2 _startTouchLocation;
-    private Vector2 _endTouchLocation;
+    private Vector2 _startTouchWordPosition;
+    private Vector2 _touchWordPosition;
+    private Vector2 _endTouchWordPosition;
+    
+    private Vector2 _startTouchScreenPosition;
+    private Vector2 _touchScreenPosition;
+    private Vector2 _endTouchScreenPosition;
     
     private bool _isTouching = false;
     private bool _swipeDetected = false;
@@ -54,11 +58,14 @@ public class InputReciever : MonoSingleton<InputReciever>
         get => _isTouching;
     }
     
-    public Vector2 TouchPosOnScreen
-    {
-        get => _touchPosOnScreen;
-    }
+    public Vector2 StartTouchWordPosition => _startTouchWordPosition;
+    public Vector2 TouchWordPosition => _touchWordPosition;
+    public Vector2 EndTouchWordPosition => _endTouchWordPosition;
 
+    public Vector2 StartTouchScreenPosition => _startTouchScreenPosition;
+    public Vector2 EndTouchScreenPosition => _endTouchScreenPosition;
+    public Vector2 TouchScreenPosition => _touchScreenPosition;
+    
     #endregion
 
     #region Monobehaiviour CallBacks
@@ -72,34 +79,11 @@ public class InputReciever : MonoSingleton<InputReciever>
     private void Update()
     {
         TouchDetector();
-        //MouseDetector();
     }
 
     #endregion
 
     #region Private Functions
-
-    private void MouseDetector()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            _startTouchLocation = _camera.ScreenToWorldPoint(Input.mousePosition);
-            OnTouchStart?.Invoke(_startTouchLocation);
-        }
-
-        if (Input.GetMouseButton(0))
-        {
-            _touchPosOnScreen = _camera.ScreenToWorldPoint(Input.mousePosition);
-            OnTouchDetectedLocation?.Invoke(_touchPosOnScreen);
-            OnTouchDetected?.Invoke();
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            _touchPosOnScreen = _camera.ScreenToWorldPoint(Input.mousePosition);
-            OnTouchEnded?.Invoke(_touchPosOnScreen);
-        }
-    }
 
     private void TouchDetector()
     {
@@ -125,32 +109,32 @@ public class InputReciever : MonoSingleton<InputReciever>
         switch (touch.phase)
         {
             case TouchPhase.Began:
-                _startTouchLocation = touch.position;
-                _touchPosOnScreen = touch.position;
-                _endTouchLocation = touch.position;
-                OnTouchStart?.Invoke(_startTouchLocation);
+                _startTouchScreenPosition = touch.position;
+                _touchScreenPosition = touch.position;
+                _endTouchScreenPosition = touch.position;
+                OnTouchStart?.Invoke(_startTouchScreenPosition);
                 OnTouchDetected?.Invoke();
                 break;
             case TouchPhase.Moved:
-                _touchPosOnScreen = touch.position;
+                _touchScreenPosition = touch.position;
                 if (!_onlyDetectSwipeAtEnd)
-                    SwipeDetector(_startTouchLocation,_touchPosOnScreen);
-                OnTouchDetectedLocation?.Invoke(_touchPosOnScreen);
+                    SwipeDetector(_startTouchScreenPosition,_touchScreenPosition);
+                OnTouchDetectedLocation?.Invoke(_touchScreenPosition);
                 break;
             case TouchPhase.Ended:
-                _endTouchLocation = touch.position;
-                _touchPosOnScreen = touch.position;
+                _endTouchScreenPosition = touch.position;
+                _touchScreenPosition = touch.position;
                 if (_onlyDetectSwipeAtEnd)
-                    SwipeDetector(_startTouchLocation,_endTouchLocation);
+                    SwipeDetector(_startTouchScreenPosition,_endTouchScreenPosition);
                 _swipeDetected = false;
-                OnTouchEnded?.Invoke(_endTouchLocation);
+                OnTouchEnded?.Invoke(_endTouchScreenPosition);
                 break;
             case TouchPhase.Canceled:
                 _swipeDetected = false;
                 break;
             case TouchPhase.Stationary:
-                _touchPosOnScreen = touch.position;
-                OnTouchDetectedLocation?.Invoke(_touchPosOnScreen);
+                _touchScreenPosition = touch.position;
+                OnTouchDetectedLocation?.Invoke(_touchScreenPosition);
                 break;
         }
     }
@@ -200,11 +184,11 @@ public class InputReciever : MonoSingleton<InputReciever>
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(_startTouchLocation * Vector3.one, 20f);
+        Gizmos.DrawSphere(_startTouchScreenPosition * Vector3.one, 20f);
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere(_touchPosOnScreen * Vector3.one, 20f);
+        Gizmos.DrawSphere(_touchScreenPosition * Vector3.one, 20f);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(_startTouchLocation, _touchPosOnScreen);
+        Gizmos.DrawLine(_startTouchScreenPosition, _touchScreenPosition);
     }
     #endregion
 }

@@ -56,7 +56,7 @@ namespace MainMenu.ModeRotation
             
             while (true)
             {
-                float force = swipeData.SwipeStartPosition.x - InputReciever.Instance.TouchPosOnScreen.x;
+                float force = swipeData.SwipeStartPosition.x - InputReciever.Instance.TouchWordPosition.x;
                 
                 float yD = startY + force / _dragModifire;
                 
