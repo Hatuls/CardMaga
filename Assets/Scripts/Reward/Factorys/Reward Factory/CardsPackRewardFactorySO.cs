@@ -11,9 +11,17 @@ namespace CardMaga.Rewards
         private int _amountOfCards;
         [SerializeField]
         private RarityChanceCardContainer[] _packRewards;
+        [SerializeField]
+        private PackType _packType;
+        public PackType PackType { 
+            get => _packType;
+#if UNITY_EDITOR
+            set => _packType = value;
+#endif
+        }
         public override IRewardable GenerateReward()
         {
-            var _packReward = new PackReward(Name, GenerateCards());
+            var _packReward = new PackReward(Name, PackType, GenerateCards());
             return _packReward;
         }
 
@@ -46,6 +54,7 @@ namespace CardMaga.Rewards
         {
             _amountOfCards = amountOfCards;
             _packRewards = _cardsPool;
+           
         }
 #endif
     }

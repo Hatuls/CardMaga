@@ -1,6 +1,7 @@
 ﻿
 using CardMaga.Rewards.Bundles;
 using CardMaga.Rewards.Factory.Handlers;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -15,6 +16,7 @@ namespace CardMaga.Rewards
         [SerializeField]
         private ResourcesCost _resourcesCost;
 
+        public ResourcesCost ResourcesCost => _resourcesCost;
         public override IRewardable GenerateReward()
         {
 
@@ -23,14 +25,19 @@ namespace CardMaga.Rewards
             for (int i = 0; i < _rewardsIDs.Length; i++)
                 rewardables[i] = _rewardsIDs[i].GenerateReward();
 
-            var reward = new BundleReward(_resourcesCost,rewardables);
+            var reward = new BundleReward(_resourcesCost, RewardTypes, rewardables);
 
             return reward;
         }
+
+    
 #if UNITY_EDITOR
         public void Init(ResourcesCost cost, BaseRewardFactorySO[] rewardsIDs)
         {
             _rewardsIDs = rewardsIDs;
+            for (int i = 0; i < _rewardsIDs.Length; i++)
+                _tags |= _rewardsIDs[i].RewardTypes;
+            _tags= _tags.Remove(RewardType.Gift);
             _resourcesCost = cost;
         }
 #endif
