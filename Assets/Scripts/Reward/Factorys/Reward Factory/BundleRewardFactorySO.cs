@@ -16,6 +16,7 @@ namespace CardMaga.Rewards
         [SerializeField]
         private ResourcesCost _resourcesCost;
 
+        public ResourcesCost ResourcesCost => _resourcesCost;
         public override IRewardable GenerateReward()
         {
 
