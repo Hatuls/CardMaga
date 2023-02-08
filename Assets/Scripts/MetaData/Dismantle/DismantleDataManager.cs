@@ -48,9 +48,9 @@ namespace CardMaga.MetaData.Dismantle
 
         public void SetCardCollection()
         {
-            _cardCollectionDatas = _accountData.CollectionCopy.GetAllUnAssingeCard();
+            _cardCollectionDatas = _accountData.GetAllUnAssingeCard();
             
-            foreach (var cardData in _cardCollectionDatas.CollectionCardDatas.Values)
+            foreach (var cardData in _cardCollectionDatas.CollectionCardDatas)
             {
                 cardData.OnTryAddItemToCollection += AddCardToDismantleList;
                 cardData.OnTryRemoveItemFromCollection += RemoveCardFromDismantleList;
@@ -94,12 +94,10 @@ namespace CardMaga.MetaData.Dismantle
 
             foreach (var cardInstance in cache)
             {
-                _cardCollectionDatas.CleanCollection();
+                _cardCollectionDatas.TryRemoveCardInstance(cardInstance.InstanceID,true);//plaster 10.1.23
                 _metaAccountData.AccountCards.Remove(cardInstance);
                 _accountDataAccess.RemoveCard(cardInstance.GetCoreId());
             }
-            
-            _accountData.UpdateCollection();
             
             var account = Account.AccountManager.Instance;
             var resource = account.Data.AccountResources;
@@ -122,7 +120,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public void Dispose()
         {
-            foreach (var cardData in _cardCollectionDatas.CollectionCardDatas.Values)
+            foreach (var cardData in _cardCollectionDatas.CollectionCardDatas)
             {
                 cardData.OnTryAddItemToCollection -= AddCardToDismantleList;
                 cardData.OnTryRemoveItemFromCollection -= RemoveCardFromDismantleList;

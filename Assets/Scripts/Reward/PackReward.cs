@@ -1,5 +1,6 @@
 ﻿using Account;
 using Account.GeneralData;
+using CardMaga.Battle.Players;
 using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -10,6 +11,12 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
+    public enum PackType
+    {
+        Standard,
+        Special,
+    }
+
     [Serializable]
     public class PackReward : IRewardable
     {
@@ -21,12 +28,18 @@ namespace CardMaga.Rewards
         private string _packName;
 
         [SerializeField]
+        private PackType _packType;
+
+        [SerializeField]
         private int[] _cardsID;
         private IDisposable _token;
 
 
         public string Name => _packName;
 
+        public RewardType RewardType => RewardType.Pack;
+        public PackType PackType => _packType;
+        public IReadOnlyList<int> CardsID => _cardsID;
         public void TryRecieveReward(ITokenReciever tokenMachine)
         {
             AddToDevicesData();
@@ -39,24 +52,7 @@ namespace CardMaga.Rewards
         private void UpdateOnServer()
         {
 
-            //string json = JsonConvert.SerializeObject(accountCards);
-
-            ////   json = json.Replace("\"", "").Trim();
-            //   Debug.Log(json);
-            //   var request = new ExecuteCloudScriptRequest()
-            //   {
-            //       FunctionName = "AddCards",
-            //       FunctionParameter = new
-            //       {
-            //           Cards = json
-            //       }
-            //   };
-            //   //  
-
-            //   PlayFabClientAPI.ExecuteCloudScript(request, OnRewardReceived, OnFailedToReceived);
-
-
-
+         
         }
 
         private void OnFailedToReceived(PlayFabError obj)
@@ -86,11 +82,13 @@ namespace CardMaga.Rewards
             //    Account.AccountManager.Instance.Data.AllCards.AddCard(new CoreID(_cardsID[i]));
 
         }
-        public PackReward(string name, int[] cardsID)
+        public PackReward(string name,PackType packType, int[] cardsID)
         {
+            _packType = packType;
             _packName = name;
             _cardsID = cardsID;
         }
+
 #if UNITY_EDITOR
         public void Init(string name, int[] cardsID)
         {
@@ -108,23 +106,27 @@ namespace CardMaga.Rewards
         event Action OnServerSuccessfullyAdded;
         event Action OnServerFailedToAdded;
         string Name { get; }
+
+        RewardType RewardType { get; }
         void TryRecieveReward(ITokenReciever tokenMachine);
         void AddToDevicesData();
     }
 
 
+    [Flags]
     public enum RewardType
     {
-        Currency = 0,
-        Character = 1,
-        Pack = 2,
-        Gift = 3,
-        Bundle = 4,
-        Arena = 5,
-        Arena_Skin = 6,
-        Character_Skin = 7,
-        Character_Color = 8,
-        Account_Icons = 9,
+        None = 0,
+        Currency = 1,
+        Character = 2,
+        Pack = 4,
+        Gift = 8,
+        Bundle = 16,
+        Arena = 32,
+        Arena_Skin = 64,
+        Character_Skin = 128,
+        Character_Color = 256,
+        Account_Icons = 512,
     }
     public enum CurrencyType
     {
@@ -134,5 +136,16 @@ namespace CardMaga.Rewards
         Chips = 3,
         Account_EXP = 4,
         Free = 5
+    }
+
+    public static class RewardTypeHelper
+    {
+        public static bool Contain(this RewardType @enum, RewardType enumValue)
+        => (@enum & enumValue) == enumValue;
+
+        public static RewardType Add(this RewardType @enum, RewardType rewardType)
+            => @enum |= rewardType;
+        public static RewardType Remove(this RewardType @enum, RewardType rewardType)
+            => @enum &= ~rewardType;
     }
 }

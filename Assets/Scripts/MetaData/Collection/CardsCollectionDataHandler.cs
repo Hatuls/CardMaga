@@ -12,79 +12,59 @@ namespace CardMaga.MetaData.Collection
     public class CardsCollectionDataHandler
     {
 
-        //[SerializeField,ReadOnly] private List<MetaCollectionCardData> _collectionCardDatas;
-        private Dictionary<int, MetaCollectionCardData> _collectionCardDatas;
+        [SerializeField,ReadOnly] private List<MetaCollectionCardData> _collectionCardDatas;
 
-        public Dictionary<int, MetaCollectionCardData> CollectionCardDatas => _collectionCardDatas;
+        public List<MetaCollectionCardData> CollectionCardDatas => _collectionCardDatas;
 
         public CardsCollectionDataHandler()
         {
-            _collectionCardDatas = new Dictionary<int, MetaCollectionCardData>();
+            _collectionCardDatas = new List<MetaCollectionCardData>();
         }
 
         public CardsCollectionDataHandler(List<MetaCollectionCardData> cardDatas)
         {
-            _collectionCardDatas = new Dictionary<int, MetaCollectionCardData>();
-
-            foreach (var cardData in cardDatas)
-            {
-                _collectionCardDatas.Add(cardData.CardCoreID,cardData);
-            }
+            _collectionCardDatas = cardDatas;
         }
 
         public CardsCollectionDataHandler(MetaAccountData metaAccountData)
         {
             List<CardInstance> cardDatas = metaAccountData.AccountCards.OrderBy(x => x.CoreID).ToList();
 
-            _collectionCardDatas = new Dictionary<int, MetaCollectionCardData>();
+            _collectionCardDatas = new List<MetaCollectionCardData>();
 
-            foreach (var cardData in cardDatas)
+            foreach (var cardInstance in cardDatas)
             {
-                if (_collectionCardDatas.ContainsKey(cardData.CoreID))
+                bool isAdded = false;
+                
+                foreach (var collectionCardData in _collectionCardDatas.Where(collectionCardData => collectionCardData.Equals(cardInstance)))
                 {
-                    _collectionCardDatas[cardData.CoreID].AddCardInstance(new MetaCardInstanceInfo(cardData));
+                    collectionCardData.AddCardInstance(new MetaCardInstanceInfo(cardInstance));
+                    isAdded = true;
                 }
-                else
-                {
-                    _collectionCardDatas.Add(cardData.CoreID,new MetaCollectionCardData(new MetaCardInstanceInfo(cardData)));
-                }
+
+                if (isAdded)
+                    continue;
+                
+                _collectionCardDatas.Add(new MetaCollectionCardData(new MetaCardInstanceInfo(cardInstance)));
             }
-
+            
             MetaCharacterData[] metaCharacterDatas = metaAccountData.CharacterDatas.CharacterDatas;
-
+            
             foreach (var characterData in metaCharacterDatas)
             {
-                foreach (var deckData in characterData.Decks)
+                foreach (var deckData in characterData.Decks)       
                 {
                     foreach (var cardData in deckData.Cards)
                     {
-                        if (!_collectionCardDatas.ContainsKey(cardData.CoreID)) continue;
-                        
-                        if(_collectionCardDatas[cardData.CoreID].FindCardInstance(cardData.InstanceID,out var metaCardInstanceInfo))
+                        foreach (var collectionCardData in _collectionCardDatas)
                         {
-                            metaCardInstanceInfo.AddToDeck(deckData.DeckId);
+                            if (collectionCardData.FindCardInstance(cardData.InstanceID,out MetaCardInstanceInfo metaCardInstanceInfo))
+                            {
+                                metaCardInstanceInfo.AddToDeck(deckData.DeckId);
+                            }
                         }
                     }
                 }
-            }
-        }
-
-        public void CleanCollection()
-        {
-            var output = new List<MetaCollectionCardData>();
-            
-            foreach (var value in _collectionCardDatas.Values)
-            {
-                if (value.NumberOfInstance == 0)
-                {
-                    output.Add(value);
-                }
-            }
-
-            for (int i = 0; i < output.Count; i++)
-            {
-                _collectionCardDatas.Remove(output[i].CardCoreID);
-                output.Remove(output[i]);
             }
         }
         
@@ -92,27 +72,25 @@ namespace CardMaga.MetaData.Collection
         {
             foreach (var cardInstance in cardInstances)
             {
-                if (_collectionCardDatas.ContainsKey(cardInstance.CoreID))
+                bool isAdded = false;
+                
+                foreach (var collectionCardData in _collectionCardDatas.Where(collectionCardData => collectionCardData.Equals(cardInstance)))
                 {
-                    _collectionCardDatas[cardInstance.CoreID].AddCardInstance(cardInstance);
+                    collectionCardData.AddCardInstance(cardInstance);
+                    isAdded = true;
                 }
-                else
-                {
-                    _collectionCardDatas.Add(cardInstance.CoreID,new MetaCollectionCardData(cardInstance));
-                }
+
+                if (isAdded)
+                    continue;
+                
+                _collectionCardDatas.Add(new MetaCollectionCardData(cardInstance));
             }
         }
 
         public bool TryRemoveCardInstance(int instanceID,bool toRemoveCardCollectionData)
         {
-            foreach (var metaCollectionCardData in _collectionCardDatas.Values)
+            foreach (var metaCollectionCardData in _collectionCardDatas)
             {
-                if (metaCollectionCardData.NumberOfInstance == 0 && toRemoveCardCollectionData)
-                {
-                    _collectionCardDatas.Remove(metaCollectionCardData.CardCoreID);
-                    break;
-                }
-                
                 foreach (var cardInstanceInfo in metaCollectionCardData.CardInstances)
                 {
                     if (instanceID != cardInstanceInfo.InstanceID) continue;
@@ -122,7 +100,7 @@ namespace CardMaga.MetaData.Collection
                     if (toRemoveCardCollectionData)
                     {
                         if (metaCollectionCardData.NumberOfInstance == 0)
-                            _collectionCardDatas.Remove(metaCollectionCardData.CardCoreID);
+                            _collectionCardDatas.Remove(metaCollectionCardData);
                     }
 
                     return true;
@@ -132,39 +110,38 @@ namespace CardMaga.MetaData.Collection
             return false;
         }
 
-        // public bool TryGetCardCollectionData(Predicate<MetaCollectionCardData> condition,out MetaCollectionCardData[] metaCollectionCardData)
-        // {
-        //     List<MetaCollectionCardData> output = new List<MetaCollectionCardData>();
-        //     
-        //     foreach (var collectionCardData in _collectionCardDatas)
-        //     {
-        //         if (!condition.Invoke(collectionCardData)) continue;
-        //
-        //         output.Add(collectionCardData);
-        //     }
-        //
-        //     if (output.Count > 0)
-        //     {
-        //         metaCollectionCardData = output.ToArray();
-        //         return true;
-        //     }
-        //     
-        //     metaCollectionCardData = null;
-        //     return false;
-        // }
+        public bool TryGetCardCollectionData(Predicate<MetaCollectionCardData> condition,out MetaCollectionCardData[] metaCollectionCardData)
+        {
+            List<MetaCollectionCardData> output = new List<MetaCollectionCardData>();
+            
+            foreach (var collectionCardData in _collectionCardDatas)
+            {
+                if (!condition.Invoke(collectionCardData)) continue;
+
+                output.Add(collectionCardData);
+            }
+
+            if (output.Count > 0)
+            {
+                metaCollectionCardData = output.ToArray();
+                return true;
+            }
+            
+            metaCollectionCardData = null;
+            return false;
+        }
         
         public bool TryGetCardInstanceInfo(Predicate<MetaCardInstanceInfo> condition,out MetaCardInstanceInfo[] metaCardInstanceInfo)
         {
             List<MetaCardInstanceInfo> output = new List<MetaCardInstanceInfo>();
-
-            foreach (var metaCollectionData in _collectionCardDatas.Values)
+            
+            foreach (var collectionCardData in _collectionCardDatas)
             {
-                foreach (var cardInstanceInfo in metaCollectionData.CardInstances)
+                foreach (var cardInstance in collectionCardData.CardInstances)
                 {
-                    if (condition.Invoke(cardInstanceInfo))
-                    {
-                        output.Add(cardInstanceInfo);
-                    }
+                    if (!condition.Invoke(cardInstance)) continue;
+                    
+                    output.Add(cardInstance);
                 }
             }
 
@@ -180,30 +157,38 @@ namespace CardMaga.MetaData.Collection
 
         public void AddDeckAssociate(CardInstance cardInstance, int deckId)
         {
-            if (!_collectionCardDatas.ContainsKey(cardInstance.CoreID)) return;
-            
-            if (_collectionCardDatas[cardInstance.CoreID].FindCardInstance(cardInstance.InstanceID,
-                    out MetaCardInstanceInfo metaCardInstanceInfo))
+            foreach (var metaCollectionCardData in _collectionCardDatas)
             {
-                metaCardInstanceInfo.AddToDeck(deckId);
+                if (metaCollectionCardData.Equals(cardInstance))
+                {
+                    if (metaCollectionCardData.FindCardInstance(cardInstance.InstanceID,
+                            out MetaCardInstanceInfo metaCardInstanceInfo))
+                    {
+                        metaCardInstanceInfo.AddToDeck(deckId);
+                    }
+                }
             }
         }
         
         public void RemoveDeckAssociate(CardInstance cardInstance, int deckId)
         {
-            if (!_collectionCardDatas.ContainsKey(cardInstance.CoreID)) return;
-            
-            if (_collectionCardDatas[cardInstance.CoreID].FindCardInstance(cardInstance.InstanceID,
-                    out MetaCardInstanceInfo metaCardInstanceInfo))
+            foreach (var metaCollectionCardData in _collectionCardDatas)
             {
-                metaCardInstanceInfo.RemoveFromDeck(deckId);
+                if (metaCollectionCardData.Equals(cardInstance))
+                {
+                    if (metaCollectionCardData.FindCardInstance(cardInstance.InstanceID,
+                            out MetaCardInstanceInfo metaCardInstanceInfo))
+                    {
+                        metaCardInstanceInfo.RemoveFromDeck(deckId);
+                    }
+                }
             }
         }
 
         public List<MetaCollectionCardData> GetCollectionCopy()
         {
             return
-                _collectionCardDatas.Values.Select(cardData => cardData.GetCopy())
+                _collectionCardDatas.Select(cardData => cardData.GetCopy())
                     .ToList();
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using CardMaga.MetaData.Dismantle;
 using CardMaga.MetaUI;
 using CardMaga.MetaUI.DismantelUI;
@@ -34,7 +33,7 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
         base.OpenScreen();
         UpdateVisual(0, 0);
         _dismantleDataManager.SetCardCollection();
-        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionWithoutLimitCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas.Values.ToList()),null);
+        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionWithoutLimitCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
     }
 
     private void UpdateVisual(int chipsAmount,int goldAmount)
@@ -47,8 +46,8 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
         _dismantleDataManager.ConfirmDismantleCards();
         UpdateVisual(0,0);
         _collectionHandler.UnLoadObjects();
-       // _dismantleDataManager.SetCardCollection();
-        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas.Values.ToList()),null);
+        _dismantleDataManager.SetCardCollection();
+        _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas),null);
     }
 
     private void OnDestroy()
