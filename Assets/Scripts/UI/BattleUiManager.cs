@@ -177,7 +177,8 @@ namespace CardMaga.Battle.UI
 
         private void BattleManager_OnBattleManagerDestroyed(IBattleManager obj)
         {
-            obj.TurnHandler.OnGameTurnFinished += PopUpManager.Instance.CloseAllPopups;
+            if (PopUpManager.Instance != null)
+                obj.TurnHandler.OnGameTurnFinished -= PopUpManager.Instance.CloseAllPopups;
             _battleManager.OnBattleManagerDestroyed -= BattleManager_OnBattleManagerDestroyed;
             VisualCharactersManager.Dispose(this);
             GameVisualCommands.Dispose();

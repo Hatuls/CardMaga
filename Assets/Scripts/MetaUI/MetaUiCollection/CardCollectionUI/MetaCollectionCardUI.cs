@@ -1,4 +1,5 @@
 using System;
+using CardMaga.Input;
 using CardMaga.MetaData.Collection;
 using CardMaga.MetaUI.CollectionUI;
 using CardMaga.Tools.Pools;
@@ -16,12 +17,16 @@ namespace CardMaga.MetaUI
         [SerializeField] private BattleCardUI _cardUI;
         [SerializeField] private TMP_Text _cardNumberText;
         [SerializeField,ReadOnly] private MetaCollectionCardData _cardData;
-        
+
+
         public int CoreId => _cardData.CardCoreID;
 
         public int NumberOfInstant => _cardData.NumberOfInstance;
 
         public BattleCardUI CardUI => _cardUI;
+
+
+
 
         public override void Init()
         {
