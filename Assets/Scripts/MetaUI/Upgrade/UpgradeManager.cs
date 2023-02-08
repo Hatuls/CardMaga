@@ -134,7 +134,7 @@ namespace CardMaga.Meta.Upgrade
 
             Account.AccountManager account = ReduceResources();
 
-            account.UpdateDataOnServer();
+            //account.UpdateDataOnServer();
             ReceiveResult();
         }
 
