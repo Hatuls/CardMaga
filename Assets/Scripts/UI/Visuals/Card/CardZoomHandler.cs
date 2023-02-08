@@ -30,11 +30,14 @@ namespace CardMaga.UI
         [SerializeField] CanvasGroup _description;
 
         DG.Tweening.Sequence _zoomSequence;
-        float _startPos;
-        float _endPos;
+        int _cardType;
 
         TokenMachine _zoomTokenMachine;
         public ITokenReciever ZoomTokenMachine => _zoomTokenMachine;
+
+        public float StartPos => _zoomPositionsSO.YStartPosition[_cardType];
+        public float EndPos => _zoomPositionsSO.YEndPosition[_cardType];
+
         private void Awake()
         {
             if (_bottomPart == null)
@@ -63,7 +66,7 @@ namespace CardMaga.UI
             //in Parallel Set Name Scale to regular size
             _cardName.localScale = Vector3.one;
             //when completed move battleCard parts
-            _bottomPart.localPosition = new Vector2(_bottomPart.localPosition.x, _startPos);
+            _bottomPart.localPosition = new Vector2(_bottomPart.localPosition.x, StartPos);
             //in parallel set alpha of bottompartBGscreen to 0
             Color color = _bottomPartBlackScreen.color;
             color.a = 0;
@@ -77,17 +80,13 @@ namespace CardMaga.UI
         }
         public void SetCardType(CardCore battleCardData)
         {
-            int cardType = (int)battleCardData.CardSO.CardTypeData.CardType - 1;
-            _startPos = _zoomPositionsSO.YStartPosition[cardType];
-            _endPos = _zoomPositionsSO.YEndPosition[cardType];
+            _cardType = (int)battleCardData.CardSO.CardTypeData.CardType - 1;
+   
 
         }
         public void ResetCardType()
         {
-            int cardType = 0;
-            _startPos = _zoomPositionsSO.YStartPosition[cardType];
-            _endPos = _zoomPositionsSO.YEndPosition[cardType];
-	        //Debug.Log("Recived ZoomData");
+            _cardType = 0;
         }
         public void KillTween()
         {
@@ -108,7 +107,7 @@ namespace CardMaga.UI
             _zoomSequence.Join(_cardGlow.DOFade(0, _zoomDoTweenSO.GlowFadeDuration));
 
             //when completed move battleCard parts
-            _zoomSequence.Join(_bottomPart.DOLocalMoveY(_endPos, _zoomDoTweenSO.BottomPartMoveDuration).SetEase(_zoomDoTweenSO.BottomPartMoveCurve));
+            _zoomSequence.Join(_bottomPart.DOLocalMoveY(EndPos, _zoomDoTweenSO.BottomPartMoveDuration).SetEase(_zoomDoTweenSO.BottomPartMoveCurve));
 
             //in parallel set alpha of bottompartBGscreen to 1
             _zoomSequence.Join(_bottomPartBlackScreen.DOFade(1, _zoomDoTweenSO.BlackScreenDuration));
@@ -134,7 +133,7 @@ namespace CardMaga.UI
             //in Parallel Set Name Scale to regular size
             _zoomSequence.Join(_cardName.DOScale(Vector3.one, _zoomDoTweenSO.NameScaleDurationZoomOut).SetEase(_zoomDoTweenSO.NameScaleCurveZoomOut));
             //when completed move battleCard parts
-            _zoomSequence.Join(_bottomPart.DOLocalMoveY(_startPos, _zoomDoTweenSO.BottomPartMoveDuration).SetEase(Ease.OutSine));
+            _zoomSequence.Join(_bottomPart.DOLocalMoveY(StartPos, _zoomDoTweenSO.BottomPartMoveDuration).SetEase(Ease.OutSine));
             //in parallel set alpha of bottompartBGscreen to 0
             _zoomSequence.Join(_bottomPartBlackScreen.DOFade(0, _zoomDoTweenSO.BottomPartMoveDuration));
             //set glow to 1
