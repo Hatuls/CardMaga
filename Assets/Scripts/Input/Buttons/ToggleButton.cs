@@ -72,7 +72,7 @@ public class ToggleButton : TouchableItem
         _isOn = state;
         SetVisual(state);
     }
-    protected override void Click()
+    public override void Click()
     {
         base.Click();
         ToggleState();

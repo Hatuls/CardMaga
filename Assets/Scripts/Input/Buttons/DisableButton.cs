@@ -9,14 +9,14 @@ namespace CardMaga.Input
  
         [SerializeField] private Sprite _onDisable;
 
-        protected override void PointDown()
+        public override void PointDown()
         {
             if (IsLock)
                 return;
             base.PointDown();
 
         }
-        protected override void PointUp()
+        public override void PointUp()
         {
             if (IsLock)
                 return;

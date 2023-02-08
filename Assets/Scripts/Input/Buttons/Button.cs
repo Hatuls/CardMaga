@@ -24,7 +24,7 @@ namespace CardMaga.Input
             base.Awake();
             _buttonVisualBehaviour = new ChangeSpriteOnButtonLogic(_onPress, _onIdle);
         }
-        protected override void PointDown()
+        public override void PointDown()
         {
             if (_onPress == null)
                 return;
@@ -32,7 +32,7 @@ namespace CardMaga.Input
             // _renderer.sprite = _onPress;
             base.PointDown();
         }
-        protected override void PointUp()
+        public override void PointUp()
         {
             if (_onIdle == null)
                 return;

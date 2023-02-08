@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace CardMaga.Input
 {
-    public abstract class TouchableItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,IPointerExitHandler,ICancelHandler ,ILockable
+    public abstract class TouchableItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, ICancelHandler, ILockable
     {
         #region Events
 
@@ -89,10 +89,9 @@ namespace CardMaga.Input
 
         #region EventCallBack
         [ContextMenu("Input/Click")]
-        protected virtual void Click()
+        public virtual void Click()
         {
-            if (DisableClick)
-                return;
+
             OnClick?.Invoke();
             OnClickEvent?.Invoke();
             _inputBehaviour?.Click();
@@ -101,7 +100,7 @@ namespace CardMaga.Input
 #endif
         }
 
-        protected virtual void BeginHold()
+        public virtual void BeginHold()
         {
             OnBeginHold?.Invoke();
             OnBeginHoldEvent?.Invoke();
@@ -111,7 +110,7 @@ namespace CardMaga.Input
 #endif
         }
 
-        protected virtual void EndHold()
+        public virtual void EndHold()
         {
             OnEndHold?.Invoke();
             OnEndHoldEvent?.Invoke();
@@ -121,7 +120,7 @@ namespace CardMaga.Input
 #endif
         }
 
-        protected virtual void Hold()
+        public virtual void Hold()
         {
             OnHold?.Invoke();
             OnHoldEvent?.Invoke();
@@ -136,7 +135,7 @@ namespace CardMaga.Input
 #endif     
         }
 
-        protected virtual void PointDown()
+        public virtual void PointDown()
         {
             OnPointDown?.Invoke();
             OnPointDownEvent?.Invoke();
@@ -146,7 +145,7 @@ namespace CardMaga.Input
 #endif
         }
 
-        protected virtual void PointUp()
+        public virtual void PointUp()
         {
             OnPointUp?.Invoke();
             OnPointUpEvent?.Invoke();
@@ -172,7 +171,7 @@ namespace CardMaga.Input
             {
                 StartCoroutine(HoldCheck(eventData));
             }
-            
+
             PointDown();
         }
 
@@ -193,15 +192,15 @@ namespace CardMaga.Input
                 return;
             // if (!_isOnObject && DisableHold)
             //     return;
-            
+
             ProcessTouch(eventData);
         }
-        
+
         public void OnPointerExit(PointerEventData eventData)
         {
             _isOnObject = false;
         }
-        
+
         public void OnCancel(BaseEventData eventData)
         {
             _isOnObject = false;
@@ -266,7 +265,9 @@ namespace CardMaga.Input
 
         private void ProcessTouch(PointerEventData eventData)
         {
-            Click();
+            if (!DisableClick)
+                Click();
+
             PointUp();
         }
 
@@ -412,7 +413,7 @@ namespace CardMaga.Input
 
         #region EventCallBack
 
-        protected override void Click()
+        public override void Click()
         {
             if (DisableClick)
                 return;
@@ -421,35 +422,35 @@ namespace CardMaga.Input
             _inputBehaviour?.Click(_touchableItem);
         }
 
-        protected override void BeginHold()
+        public override void BeginHold()
         {
             base.BeginHold();
             OnBegineValue?.Invoke(_touchableItem);
             _inputBehaviour?.BeginHold(_touchableItem);
         }
 
-        protected override void Hold()
+        public override void Hold()
         {
             base.Hold();
             OnHoldValue?.Invoke(_touchableItem);
             _inputBehaviour?.Hold(_touchableItem);
         }
 
-        protected override void EndHold()
+        public override void EndHold()
         {
             base.EndHold();
             OnEndHoldValue?.Invoke(_touchableItem);
             _inputBehaviour?.EndHold(_touchableItem);
         }
 
-        protected override void PointDown()
+        public override void PointDown()
         {
             base.PointDown();
             OnPointDownValue?.Invoke(_touchableItem);
             _inputBehaviour?.PointDown(_touchableItem);
         }
 
-        protected override void PointUp()
+        public override void PointUp()
         {
             base.PointUp();
             OnPointUpValue?.Invoke(_touchableItem);
