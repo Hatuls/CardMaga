@@ -183,22 +183,22 @@ namespace CardMaga.Meta.Upgrade
             _hasLevelsContainer.SetActive(false);
         }
 
-        private void InitBottomPart(int chipCosts, int goldCost) // need to add gold visuals...
+        private void InitBottomPart(int chipCosts, int goldCost) 
         {
+            const int GoldImageIndex = 0;
+            const int ChipImageIndex = 2;
 
             int currentAmount = 0;
-            int spriteIndex = 0;
             if (!ReferenceEquals(AccountManager.Instance, null))
                 currentAmount = AccountManager.Instance.Data.AccountResources.Chips;
             // Set Text
-            AssignText(_chipText, currentAmount, chipCosts, spriteIndex);
+            AssignText(_chipText, currentAmount, chipCosts, ChipImageIndex);
 
             if (!ReferenceEquals(AccountManager.Instance, null))
                 currentAmount = AccountManager.Instance.Data.AccountResources.Gold;
 
-            spriteIndex++;
             // Set Text
-            AssignText(_goldText, currentAmount, goldCost, spriteIndex++);
+            AssignText(_goldText, currentAmount, goldCost, GoldImageIndex);
 
 
             //Enable Inputs

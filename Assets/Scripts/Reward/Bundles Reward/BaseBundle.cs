@@ -76,7 +76,7 @@ namespace CardMaga.Rewards.Bundles
         public float Amount => _amount;
         public CurrencyType CurrencyType => _currencyType;
 
-
+        public void AddAmount(float amount) => _amount += amount;
 #if UNITY_EDITOR
         public void Init(CurrencyType currencyType, float amount)
         {
