@@ -36,7 +36,7 @@ namespace CardMaga.MetaData.DeckBuilding
         
         #endregion
         
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
         }
 

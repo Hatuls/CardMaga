@@ -15,7 +15,7 @@ public class EndGameManager : MonoBehaviour
     
     private bool _isInTutorial;
     private bool _isLeftPlayerWon;
-    private ITokenReciever _rewardTokenMachine;
+    private ITokenReceiver _rewardTokenMachine;
     private IDisposable _rewardToken;
 #if UNITY_EDITOR
     [Header("End Game Override")]

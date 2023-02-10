@@ -26,7 +26,7 @@ public class VSScreenUI : MonoBehaviour
     {
         ActivateVisuals(false);
     }
-    public void AssignValues(ITokenReciever tokenReciever)
+    public void AssignValues(ITokenReceiver tokenReciever)
     {
             BattleData battleData = BattleData.Instance;
             _upper.AssignCharacterVisuals(battleData.Right);

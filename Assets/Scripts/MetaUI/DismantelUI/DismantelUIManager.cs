@@ -21,7 +21,7 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
 
     public DismantleDataManager DismantleDataManager => _dismantleDataManager; 
 
-    public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
+    public void ExecuteTask(ITokenReceiver tokenMachine, MetaUIManager data)
     {
         _collectionHandler.Init();
         _dismantleDataManager = data.MetaDataManager.DismantleDataManager;

@@ -153,7 +153,7 @@ namespace CardMaga.Rewards
             return 0;
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine)
+        public void ExecuteTask(ITokenReceiver tokenMachine)
         {
             _token = tokenMachine.GetToken();
             Show();

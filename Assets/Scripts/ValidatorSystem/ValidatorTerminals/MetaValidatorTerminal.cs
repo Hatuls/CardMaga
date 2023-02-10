@@ -44,7 +44,7 @@ namespace ValidatorSystem.ValidatorTerminals
             }
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
             _sequenceHandler = new SequenceHandler<MetaDataManager>();
             

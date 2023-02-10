@@ -280,7 +280,7 @@ namespace CardMaga.Battle.Combo
         
         #region ISequenceOperation<IBattleManager> Implementation
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleManager data)
         {
             _gameTurnHandler = data.TurnHandler;
             _cardExecutionManager = data.CardExecutionManager;

@@ -66,7 +66,7 @@ namespace CardMaga.CinematicSystem
 
         #region Public Function
 
-        public void StartCinematicSequence(ITokenReciever tokenReciever)
+        public void StartCinematicSequence(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever?.GetToken();
             StartCinematicSequence();

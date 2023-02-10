@@ -70,7 +70,7 @@ namespace CardMaga.Keywords
 
             bool HasValue(IPlayer player) => player.StatsHandler.GetStat(baseKeywordLogic.KeywordType).HasValue();
         }
-        public void ExecuteTask(ITokenReciever token, IBattleManager bm)
+        public void ExecuteTask(ITokenReceiver token, IBattleManager bm)
         {
             using (System.IDisposable t = token.GetToken())
             {
@@ -94,7 +94,7 @@ namespace CardMaga.Keywords
             }
         }
 
-        private void RegisterCharacterStats(ITokenReciever tokenReciever)
+        private void RegisterCharacterStats(ITokenReceiver tokenReciever)
         {
             var token = tokenReciever.GetToken();
             RegisterCharacterStats(_playersManager.GetCharacter(true).StatsHandler);
@@ -148,7 +148,7 @@ namespace CardMaga.Keywords
         #endregion
 
         #region Private Functions
-        private void EndTurnKeywords(ITokenReciever token)
+        private void EndTurnKeywords(ITokenReceiver token)
         {
             var disposale = token.GetToken();
             bool isPlayer = _turnHandler.IsLeftCharacterTurn;
@@ -165,7 +165,7 @@ namespace CardMaga.Keywords
             OnEndTurnKeywordEffectFinished?.Invoke();
             disposale.Dispose();
         }
-        private async void StartTurnKeywords(ITokenReciever token)
+        private async void StartTurnKeywords(ITokenReceiver token)
         {
             var disposale = token.GetToken();
             bool isPlayer = _turnHandler.IsLeftCharacterTurn;
@@ -273,7 +273,7 @@ namespace CardMaga.Keywords
             VisualKeywordCommandsPool = new ObjectPool<VisualKeywordCommand>();
             VisualKeywordPackCommandsPool = new ObjectPool<VisualKeywordsPackCommands>();
         }
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleUIManager)
         {
             _gameVisualCommands = battleUIManager.GameVisualCommands;
             _visualCharactersManager = battleUIManager.VisualCharactersManager;

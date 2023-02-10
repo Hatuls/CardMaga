@@ -109,7 +109,7 @@ public class DialoguesFlow : MonoBehaviour
     #endregion
 
     #region PublicFunctions
-    public void StartFlow(ITokenReciever tokenReciever)
+    public void StartFlow(ITokenReceiver tokenReciever)
     {
         gameObject.SetActive(true);
         _token = tokenReciever.GetToken();

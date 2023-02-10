@@ -42,7 +42,7 @@ namespace CardMaga.UI
         }
 #endregion
 
-        public void RegisterToken(ITokenReciever tokenReciever)
+        public void RegisterToken(ITokenReceiver tokenReciever)
         {
             _loginToken = tokenReciever.GetToken();
             var account = AccountManager.Instance;
@@ -85,7 +85,7 @@ namespace CardMaga.UI
                 _loginToken.Dispose();
         }
         IDisposable _tokenName;
-        private void GetUserName(ITokenReciever tokenMachine)
+        private void GetUserName(ITokenReceiver tokenMachine)
         {
             _tokenName = tokenMachine.GetToken();
             var request = new GetPlayerProfileRequest

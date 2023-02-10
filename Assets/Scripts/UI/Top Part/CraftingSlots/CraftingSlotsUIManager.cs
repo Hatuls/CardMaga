@@ -14,7 +14,7 @@ public class CraftingSlotsUIManager : MonoBehaviour, ISequenceOperation<IBattleU
 
     public int Priority => 0;
     private IPlayersManager _playersManager;
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+    public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleUIManager)
     {
         var data = battleUIManager.BattleDataManager;
 

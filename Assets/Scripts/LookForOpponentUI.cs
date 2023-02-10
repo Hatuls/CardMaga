@@ -48,7 +48,7 @@ public class LookForOpponentUI : MonoBehaviour
         LookForOpponent.OnStartLooking -= ShowScreen;
         _fade.Kill();
     }
-    public void Init(ITokenReciever tokenReciever)
+    public void Init(ITokenReceiver tokenReciever)
     {
         _token = tokenReciever.GetToken();
     }

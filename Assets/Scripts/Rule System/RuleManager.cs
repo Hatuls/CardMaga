@@ -51,7 +51,7 @@ namespace CardMaga.Rules
             OnGameEnded?.Invoke(isLeft);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleManager data)
         {
             _monoBehaviour = data.MonoBehaviour;
             

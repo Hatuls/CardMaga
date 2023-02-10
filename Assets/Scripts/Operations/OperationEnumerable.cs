@@ -24,7 +24,7 @@ public class OperationEnumerable : IEnumerator<IOperationBehaviour>, IOperationB
     }
 
     #region IOperationBehaviour Implementation
-    public void Init(ITokenReciever tokenReciever)
+    public void Init(ITokenReceiver tokenReciever)
     {
         _disposable = tokenReciever.GetToken();
 

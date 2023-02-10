@@ -14,7 +14,7 @@ namespace CardMaga.Server.Request
             _token.Dispose();
         }
 
-        public virtual void SendRequest(ITokenReciever tokenReciever)
+        public virtual void SendRequest(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever.GetToken();
             ServerLogic();
@@ -23,7 +23,7 @@ namespace CardMaga.Server.Request
     
     public interface IServerRequest
     {
-        void SendRequest(ITokenReciever tokenReciever);
+        void SendRequest(ITokenReceiver tokenReciever);
     }
 }
 

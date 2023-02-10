@@ -34,7 +34,7 @@ namespace CardMaga.VFX
 
         private IPoolObject<VFXData> _vfxDataPool;
         private Queue<VFXData> _vFXQueue;
-        private ITokenReciever _vfxTokenMachine;
+        private ITokenReceiver _vfxTokenMachine;
         private IDisposable _turnToken;
         public IEnumerable<BattleVisualEffectSO> VFXs
         {
@@ -73,7 +73,7 @@ namespace CardMaga.VFX
         }
         #endregion
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager data)
         {
             // logic
             Battle.IBattleManager battleManager = data.BattleDataManager;
@@ -173,7 +173,7 @@ namespace CardMaga.VFX
             return effect;
         }
 
-        private void PlayVFX(BattleVisualEffectSO vfxSO, IVisualPlayer visualPlayer, ITokenReciever tokenReciever)
+        private void PlayVFX(BattleVisualEffectSO vfxSO, IVisualPlayer visualPlayer, ITokenReceiver tokenReciever)
         {
             BaseVisualEffect effect = InitVFX(vfxSO, visualPlayer);
             effect.Play(tokenReciever);

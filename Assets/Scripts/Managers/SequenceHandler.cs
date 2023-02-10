@@ -56,7 +56,7 @@ namespace CardMaga.SequenceOperation
                 InitList(to);
             this[to].Add(sequenceOperation);
         }
-        public void Register(Action<ITokenReciever> token, int priority = 0, OrderType to = OrderType.Default) => Register(new OperationTask(token, priority, to));
+        public void Register(Action<ITokenReceiver> token, int priority = 0, OrderType to = OrderType.Default) => Register(new OperationTask(token, priority, to));
 
         public bool Remove(ISequenceOperation sequenceOperation, OrderType from = OrderType.Default)
              => this[from].Remove(sequenceOperation);
@@ -83,7 +83,7 @@ namespace CardMaga.SequenceOperation
             void StartScene() => StartOperation(this[OrderType.Default], LateStartScene);
             void LateStartScene() => StartOperation(this[OrderType.After], OnComplete);
         }
-        public void ExecuteTask(ITokenReciever tokenMachine)
+        public void ExecuteTask(ITokenReceiver tokenMachine)
         {
             IDisposable token = tokenMachine?.GetToken();
             StartAll(token.Dispose);
@@ -191,7 +191,7 @@ namespace CardMaga.SequenceOperation
             void StartScene() => StartOperation(this[OrderType.Default], data, LateStartScene);
             void LateStartScene() => StartOperation(this[OrderType.After], data, OnComplete);
         }
-        public void ExecuteTask(ITokenReciever tokenMachine, T data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, T data)
         {
             IDisposable token = tokenMachine?.GetToken();
             StartAll(data, token.Dispose);

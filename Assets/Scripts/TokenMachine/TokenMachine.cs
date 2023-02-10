@@ -3,12 +3,12 @@ using System.Collections.Generic;
 namespace ReiTools.TokenMachine
 {
     [Serializable]
-    public class UnityTokenMachineEvent : UnityEngine.Events.UnityEvent<ITokenReciever> { }
-    public interface ITokenReciever
+    public class UnityTokenMachineEvent : UnityEngine.Events.UnityEvent<ITokenReceiver> { }
+    public interface ITokenReceiver
     {
         Token GetToken();
     }
-    public sealed class TokenMachine : ITokenReciever, IDisposable
+    public sealed class TokenMachine : ITokenReceiver, IDisposable
     {
         public event Action OnLock = null;
         public event Action OnRelease = null;

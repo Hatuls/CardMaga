@@ -299,7 +299,7 @@ namespace CardMaga.Battle.Visual
         private void ReturnToIdle() => Animator.CrossFade("Idle_1", transitionToIdle);
 
 
-        public void PlayAnimation(BattleCardData battleCardData, ITokenReciever tokenMachine)
+        public void PlayAnimation(BattleCardData battleCardData, ITokenReceiver tokenMachine)
         {
             _animationToken = tokenMachine.GetToken();
 

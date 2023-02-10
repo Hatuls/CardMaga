@@ -50,7 +50,7 @@ namespace CardMaga.Battle.Visual
 
     public class VisualStatHandler
     {
-        public event Action<ITokenReciever, KeywordType> OnVisualStatChanged;
+        public event Action<ITokenReceiver, KeywordType> OnVisualStatChanged;
         public event Action<bool, KeywordType> OnKeywordChanged;
         public event Action<bool, KeywordType, int> OnKeywordStatChanged;
 

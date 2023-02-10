@@ -37,7 +37,7 @@ namespace CardMaga.Rewards
             else
                 return 1;
         }
-        public void ExecuteTask(ITokenReciever tokenMachine)
+        public void ExecuteTask(ITokenReceiver tokenMachine)
         {
             Show();
         }

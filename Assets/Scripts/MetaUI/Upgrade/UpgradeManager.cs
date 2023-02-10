@@ -36,7 +36,7 @@ namespace CardMaga.Meta.Upgrade
         }
 
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
             _upgradeCostsSO = Resources.Load<CurrencyPerRarityCostSO>("MetaGameData/UpgradeCostSO");
             if (_upgradeCostsSO == null)

@@ -15,7 +15,7 @@ namespace Factory
    //     [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
         public static bool flag;
 
-        public void Init(ITokenReciever tokenReciever)
+        public void Init(ITokenReceiver tokenReciever)
         {
             using (tokenReciever.GetToken())
             {

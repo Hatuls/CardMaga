@@ -44,7 +44,7 @@ public class OperationManager : MonoBehaviour, IOperationBehaviour
         _operationsEnumerable.OnCompleted -= Completed;
     }
 
-    public void Init(ITokenReciever tokenReciever)
+    public void Init(ITokenReceiver tokenReciever)
     {
         _operationsEnumerable = new OperationEnumerable(_operations);
         _operationsEnumerable.Init(tokenReciever);
@@ -63,7 +63,7 @@ public interface IOperationBehaviour
 {
 
     event Action OnCompleted;
-    void Init(ITokenReciever tokenReciever);
+    void Init(ITokenReceiver tokenReciever);
     void StartOperation();
     void Completed();
 
@@ -87,6 +87,6 @@ public abstract class BaseOperation : MonoBehaviour, IOperationBehaviour
 
     public virtual event Action OnCompleted;
     public abstract void Completed();
-    public abstract void Init(ITokenReciever tokenReciever);
+    public abstract void Init(ITokenReceiver tokenReciever);
     public abstract void StartOperation();
 }

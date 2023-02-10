@@ -9,7 +9,7 @@ using UnityEngine;
 public class WaitForPlayerSecondTurn : MonoBehaviour
 {
     private IDisposable _token;
-    public void WaitForPlayerTurn(ITokenReciever tokenReciever)
+    public void WaitForPlayerTurn(ITokenReceiver tokenReciever)
     {
         _token = tokenReciever.GetToken();
         BattleManager.Instance.TurnHandler.GetTurn(GameTurnType.LeftPlayerTurn).OnTurnEnter += CheckTurnCount;

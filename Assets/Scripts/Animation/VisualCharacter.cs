@@ -115,7 +115,7 @@ namespace CardMaga.Battle.Visual
             }
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleUIManager)
         {
             var data = battleUIManager.BattleDataManager;
             //Visual Stats

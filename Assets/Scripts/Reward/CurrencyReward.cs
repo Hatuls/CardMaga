@@ -23,7 +23,7 @@ namespace CardMaga.Rewards
 
         public ResourcesCost ResourcesCost { get => _resourcesCost; }
 
-        public void TryRecieveReward(ITokenReciever tokenMachine)
+        public void TryRecieveReward(ITokenReceiver tokenMachine)
         {
 
             AddToDevicesData();

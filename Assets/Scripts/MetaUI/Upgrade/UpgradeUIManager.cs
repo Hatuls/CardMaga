@@ -36,7 +36,7 @@ namespace CardMaga.Meta.Upgrade
 
 
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaUIManager data)
         {
             _upgradeCardHandler = data.MetaDataManager.UpgradeManager;
             data.OnMetaUIManagerDestroyed += BeforeDestroyed;
@@ -185,20 +185,18 @@ namespace CardMaga.Meta.Upgrade
 
         private void InitBottomPart(int chipCosts, int goldCost) // need to add gold visuals...
         {
-
+            const int goldSpriteIndex = 0, ChipSpriteIndex = 1;
             int currentAmount = 0;
-            int spriteIndex = 0;
             if (!ReferenceEquals(AccountManager.Instance, null))
                 currentAmount = AccountManager.Instance.Data.AccountResources.Chips;
             // Set Text
-            AssignText(_chipText, currentAmount, chipCosts, spriteIndex);
+            AssignText(_chipText, currentAmount, chipCosts, ChipSpriteIndex);
 
             if (!ReferenceEquals(AccountManager.Instance, null))
                 currentAmount = AccountManager.Instance.Data.AccountResources.Gold;
 
-            spriteIndex++;
             // Set Text
-            AssignText(_goldText, currentAmount, goldCost, spriteIndex++);
+            AssignText(_goldText, currentAmount, goldCost, goldSpriteIndex);
 
 
             //Enable Inputs

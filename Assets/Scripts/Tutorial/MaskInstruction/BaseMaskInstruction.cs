@@ -22,7 +22,7 @@ public class BaseMaskInstruction : MonoBehaviour
     [SerializeField] private UnityEvent OnMaskEnd;
     #endregion
 
-    public void StartInstruction(ITokenReciever tokenReciever)
+    public void StartInstruction(ITokenReceiver tokenReciever)
     {
         _token = tokenReciever.GetToken();
         _tutorialClickHelper = TutorialClickHelper.Instance;

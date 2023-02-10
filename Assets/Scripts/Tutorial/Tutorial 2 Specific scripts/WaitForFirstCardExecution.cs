@@ -8,7 +8,7 @@ using UnityEngine;
 public class WaitForFirstCardExecution : MonoBehaviour
 {
     private IDisposable _token;
-    public void WaitForCardExecution(ITokenReciever tokenReciever)
+    public void WaitForCardExecution(ITokenReceiver tokenReciever)
     {
         _token = tokenReciever.GetToken();
         BattleManager.Instance.BattleUIManager.HandUI.OnCardExecutionSuccess += ReleaseToken;

@@ -37,7 +37,7 @@ namespace CardMaga.Battle.UI
         }
 
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager data)
         {
             bool isLeft = true;
             _visualCharactersManager = data.VisualCharactersManager;

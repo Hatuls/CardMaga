@@ -14,7 +14,7 @@ namespace CardMaga.Battle.UI
     {
         private static TokenMachine _timerTokenMachine;
         public static event Action OnCounterDepleted;
-        public static ITokenReciever TimerTokenMachine => _timerTokenMachine;
+        public static ITokenReceiver TimerTokenMachine => _timerTokenMachine;
 
         public int Priority => 0;
 
@@ -133,7 +133,7 @@ namespace CardMaga.Battle.UI
             ContinueTimer();
             StartTime();
         }
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleUIManager)
         {
             using (tokenMachine.GetToken())
             {

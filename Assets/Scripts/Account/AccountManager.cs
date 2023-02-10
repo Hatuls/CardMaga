@@ -77,7 +77,7 @@ namespace Account
                 Destroy(this.gameObject);
             _instance = this;
         }
-        public void ResetAccount(ITokenReciever tokenReciever)
+        public void ResetAccount(ITokenReceiver tokenReciever)
         {
             _accountData = new AccountData(true);
             ReceiveStartingData();
@@ -95,7 +95,7 @@ namespace Account
             _requestFromServerDisposable?.Dispose();
             _loginDisposable?.Dispose();
         }
-        public void RequestAccoundData(ITokenReciever tokenReciever = null)
+        public void RequestAccoundData(ITokenReceiver tokenReciever = null)
         {
             _requestFromServerDisposable = tokenReciever?.GetToken();
             PlayFabClientAPI.GetUserData(new GetUserDataRequest
@@ -113,7 +113,7 @@ namespace Account
             _requestFromServerDisposable?.Dispose();
         }
 
-        public void SendAccountData(ITokenReciever tokenReciever = null)
+        public void SendAccountData(ITokenReceiver tokenReciever = null)
         {
             UpdateDataOnServer();
             if (tokenReciever != null)

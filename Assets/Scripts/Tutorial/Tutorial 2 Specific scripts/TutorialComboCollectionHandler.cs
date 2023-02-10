@@ -35,7 +35,7 @@ namespace CardMaga.UI.Collections
         #endregion
 
         #region Public Methods
-        public void LoadEnterButtonOnPanel(ITokenReciever tokenReciever)
+        public void LoadEnterButtonOnPanel(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever.GetToken();
             if (BeforeCollectionEnterButtonPress != null)
@@ -44,7 +44,7 @@ namespace CardMaga.UI.Collections
             TutorialClickHelper.Instance.LoadObject(true, true, null, _enterButtonTransform);
             ComboCollectorEnterButtonTutorialTapDetector.OnButtonPress += StartAfterDelay;
         }
-        public void LoadExitComboCollectionButton(ITokenReciever tokenReciever)
+        public void LoadExitComboCollectionButton(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever.GetToken();
             if (BeforeCollectionExitButtonPress != null)
@@ -54,7 +54,7 @@ namespace CardMaga.UI.Collections
             ComboCollectionBackButtonTutorialTapDetector.OnButtonPress += AfterExitButtonPress;
         }
 
-        public void WaitForPlayerEnterCollection(ITokenReciever tokenReciever)
+        public void WaitForPlayerEnterCollection(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever.GetToken();
             ComboCollectorEnterButtonTutorialTapDetector.OnButtonPress += InvokeAfterEnterButtonPress;

@@ -53,7 +53,7 @@ public class VersionHander : MonoBehaviour
     => _playfabManager = playfabManager;
 
 
-    public void Init(ITokenReciever token)
+    public void Init(ITokenReceiver token)
     {   
         _token = token.GetToken();
     

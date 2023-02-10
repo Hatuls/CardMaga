@@ -17,19 +17,34 @@ namespace CardMaga.UI.PopUp
         [SerializeField, Range(0, 1f)]
         private float _startingAlpha;
 
+
+        [SerializeField]
+        protected TransitionBuilder[] _transitionIn;
+        [SerializeField]
+        protected TransitionBuilder[] _transitionOut;
+
+
+        protected IPopUpTransition<TransitionData> _popUpTransitionIn;
+        protected IPopUpTransition<TransitionData> _popUpTransitionOut;
+        protected IPopUpTransition<AlphaData> _popUpAlphaTransitionIn;
+        protected IPopUpTransition<AlphaData> _popUpAlphaTransitionOut;
         protected PopUp _currentActivePopUp;
 
         [SerializeField]
         protected PopUpScreenLocation[] _popUpScreenLocations;
 
-        public abstract IPopUpTransition<AlphaData> TransitionAlphaIn { get; }
-        public abstract IPopUpTransition<AlphaData> TransitionAlphaOut { get; }
-        public abstract IPopUpTransition<TransitionData> TransitionIn { get; }
-        public abstract IPopUpTransition<TransitionData> TransitionOut { get; }
+        public virtual IPopUpTransition<AlphaData> TransitionAlphaIn => _popUpAlphaTransitionIn;
+        public virtual IPopUpTransition<AlphaData> TransitionAlphaOut => _popUpAlphaTransitionOut;
+        public virtual IPopUpTransition<TransitionData> TransitionIn => _popUpTransitionIn;
+        public virtual IPopUpTransition<TransitionData> TransitionOut => _popUpTransitionOut;
 
-        protected virtual void Awake()
+        protected virtual void Start()
         {
             PopUpManager.OnCloseAllPopUps += ResetPopUp;
+            _popUpTransitionIn = new BasicTransition(GenerateTransitionData(_transitionIn));
+            _popUpTransitionOut = new BasicTransition(GenerateTransitionData(_transitionOut));
+            _popUpAlphaTransitionIn = new AlphaTransition(GenerateAlphaTransitionData(_transitionIn));
+            _popUpAlphaTransitionOut = new AlphaTransition(GenerateAlphaTransitionData(_transitionOut));
         }
 
         protected virtual void ShowPopUp()
@@ -37,16 +52,15 @@ namespace CardMaga.UI.PopUp
             if (_popUpSO.IsStackable == false && _basePopUps.Count > 0)
                 ResetPopUp();
 
-            var current = PopUpManager.Instance.PopUpPool.Pull(_popUpSO);
-            _basePopUps.Add(current);
-            current.OnDisposed += RemoveFromActiveList;
-            current.gameObject.SetActive(true);
-            SetMovementTransitions(current.PopUpTransitionHandler);
-            SetAlphaTransitions(current.PopUpAlphaHandler);
-            current.transform.localScale = GetStartScale();
-            current.transform.SetParent(transform);
-            current.Enter();
-            _currentActivePopUp = current;
+            _currentActivePopUp = PopUpManager.Instance.PopUpPool.Pull(_popUpSO);
+            _basePopUps.Add(_currentActivePopUp);
+            _currentActivePopUp.OnDisposed += RemoveFromActiveList;
+            _currentActivePopUp.gameObject.SetActive(true);
+            SetMovementTransitions(_currentActivePopUp.PopUpTransitionHandler);
+            SetAlphaTransitions(_currentActivePopUp.PopUpAlphaHandler);
+            _currentActivePopUp.transform.localScale = GetStartScale();
+            _currentActivePopUp.transform.SetParent(transform);
+            _currentActivePopUp.Enter();
         }
 
         private void SetAlphaTransitions(PopUpAlphaHandler popUpAlphaHandler)
@@ -135,7 +149,7 @@ namespace CardMaga.UI.PopUp
             _basePopUps.Clear();
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             ResetPopUp();
 

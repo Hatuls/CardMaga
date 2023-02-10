@@ -33,7 +33,7 @@ namespace CardMaga.UI
         int _cardType;
 
         TokenMachine _zoomTokenMachine;
-        public ITokenReciever ZoomTokenMachine => _zoomTokenMachine;
+        public ITokenReceiver ZoomTokenMachine => _zoomTokenMachine;
 
         public float StartPos => _zoomPositionsSO.YStartPosition[_cardType];
         public float EndPos => _zoomPositionsSO.YEndPosition[_cardType];

@@ -10,7 +10,7 @@ public class SectionManager : MonoBehaviour
     private TokenMachine _tokenMachine;
     private IDisposable _token; 
 
-    public void StartOperations(ITokenReciever tokenReciever)
+    public void StartOperations(ITokenReceiver tokenReciever)
     {
         _token = tokenReciever.GetToken();
         _tokenMachine = new TokenMachine(ReleaseToken);

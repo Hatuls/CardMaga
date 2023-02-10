@@ -17,7 +17,7 @@ namespace CardMaga.UI.Collections
   
         private bool _isFirstTimeOpeningCards = true;
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager data)
         {
             IPlayer player = data.BattleDataManager.PlayersManager.LeftCharacter;
 

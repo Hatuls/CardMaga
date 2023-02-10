@@ -11,7 +11,7 @@ namespace CardMaga.Battle
     [Serializable]
     public class EndBattleHandler : IDisposable
     {
-        public event Action<ITokenReciever> OnBattleFinished;
+        public event Action<ITokenReceiver> OnBattleFinished;
         public event Action<bool> OnBattleEnded;
         public event Action OnBattleEndedVoid;
         public event Action OnCharacterAnimatonEnd;

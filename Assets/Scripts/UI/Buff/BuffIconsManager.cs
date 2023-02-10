@@ -28,7 +28,7 @@ namespace CardMaga.Battle.UI
         private IPoolMBObject<BuffVisualHandler> _visualPool;
      
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager data)
         {
             const int SIZE = 6;
             _dataPool = new ObjectPool<BuffVisualData>(SIZE);

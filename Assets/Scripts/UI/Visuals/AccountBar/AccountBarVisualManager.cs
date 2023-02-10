@@ -9,6 +9,7 @@ namespace CardMaga.UI.Account
 
     public class AccountBarVisualManager : BaseUIElement
     {
+        public static AccountBarVisualManager Instance;
         [SerializeField]
         private AccountBarVisualHandler _accountBarVisualHandler;
 
@@ -20,8 +21,8 @@ namespace CardMaga.UI.Account
 
         public void Start()
         {
-            _accountBarVisualHandler.Init(GenerateAccoundDataFirstTime());
-
+            Refresh();
+            Instance = this;
             for (int i = 0; i < _elementsToHideAccountBar.Length; i++)
             {
                 _elementsToHideAccountBar[i].OnShow += Hide;
@@ -33,14 +34,7 @@ namespace CardMaga.UI.Account
             }
             Show();
         }
-        public override void Show()
-        {
-            base.Show();
-        }
-        public override void Hide()
-        {
-            base.Hide();
-        }
+     
         private void OnDestroy()
         {
             for (int i = 0; i < _elementsToHideAccountBar.Length; i++)
@@ -53,7 +47,10 @@ namespace CardMaga.UI.Account
                 _elementsToShowAccountBar[i].OnShow -= Show;
             }
         }
-
+        public void Refresh()
+        {
+            _accountBarVisualHandler.Init(GenerateAccoundDataFirstTime());
+        }
         private AccountBarVisualData GenerateAccoundDataFirstTime()
         {
             var accountManager = AccountManager.Instance;

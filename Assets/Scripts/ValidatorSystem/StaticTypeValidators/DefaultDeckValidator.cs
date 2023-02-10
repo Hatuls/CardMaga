@@ -23,7 +23,7 @@ namespace ValidatorSystem.StaticTypeValidators
             return true;
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
             _defaultDeck = data.MetaAccountData.CharacterDatas.MainCharacterData.Decks[0];
         }

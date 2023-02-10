@@ -39,7 +39,7 @@ public class LoginToPlayfab : MonoBehaviour
         PlayfabLogin.OnFailedLogin -= TaskFailed;
         PlayfabLogin.OnSuccessfullLogin -= TaskCompleted;
     }
-    public void Init(ITokenReciever tokenMachine)
+    public void Init(ITokenReceiver tokenMachine)
     {
         _token = tokenMachine.GetToken();
         Debug.Log("Google Manager Start Sign In");

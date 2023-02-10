@@ -160,7 +160,7 @@ namespace CardMaga.Battle.UI
         }
         #endregion
         #region Functions
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleManager data)
         {
             IDisposable token = tokenMachine.GetToken();
             foreach (var uiElement in VisualInitializers)
@@ -224,7 +224,7 @@ namespace CardMaga.Battle.UI
 
         public int Priority => 0;
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleUIManager)
         {
 
             IDisposable token = tokenMachine.GetToken();

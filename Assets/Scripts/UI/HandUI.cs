@@ -314,7 +314,7 @@ namespace CardMaga.UI
             //OnCardsExecuteGetCards?.Invoke(_tableCardSlot.GetCardUIsFromTable());
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleUIManager)
         {
             var data = battleUIManager.BattleDataManager;
             _deckHandler = data.PlayersManager.GetCharacter(true).DeckHandler;

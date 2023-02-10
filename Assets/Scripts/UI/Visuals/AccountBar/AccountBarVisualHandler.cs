@@ -22,12 +22,12 @@ namespace CardMaga.UI.Visuals
             _goldVisualHandler.CheckValidation();
             _diamondsVisualHandler.CheckValidation();
         }
-        public override void Init(AccountBarVisualData comboData)
+        public override void Init(AccountBarVisualData resources)
         {
-            base.Init(comboData);
-            _chipsVisualHandler.Init(comboData.ChipsData);
-            _goldVisualHandler.Init(comboData.GoldData);
-            _diamondsVisualHandler.Init(comboData.DiamondsData);
+            base.Init(resources);
+            _chipsVisualHandler.Init(resources.ChipsData);
+            _goldVisualHandler.Init(resources.GoldData);
+            _diamondsVisualHandler.Init(resources.DiamondsData);
         }
         public override void Dispose()
         {

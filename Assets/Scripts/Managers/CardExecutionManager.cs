@@ -119,7 +119,7 @@ namespace CardMaga.Battle.Execution
         // Remake it so it has based the visual stats
        
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleManager data)
         {
     
             _playersManager = data.PlayersManager;

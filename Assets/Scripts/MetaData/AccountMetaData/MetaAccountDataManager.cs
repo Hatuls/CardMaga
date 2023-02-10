@@ -18,7 +18,7 @@ namespace CardMaga.MetaData.AccoutData
 
         public int Priority => 0;
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
             _accountDataAccess = data.AccountDataAccess;
             _accountDataCollection = data.AccountDataCollectionHelper;

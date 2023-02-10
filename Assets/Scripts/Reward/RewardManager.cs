@@ -20,6 +20,11 @@ namespace CardMaga.Rewards
             _rewardsData = new RewardsData();
         }
 
+        public void OpenRewardsScene(BaseRewardFactorySO[] rewards)
+        {
+            _rewardsData.AddRewards(rewards);
+            OpenRewardsScene();
+        }
         public void OpenRewardsScene()
         {
             _sceneLoader.LoadScene();
@@ -34,8 +39,7 @@ namespace CardMaga.Rewards
         [Button]
         private void Test()
         {
-            _rewardsData.AddRewards(rewards);
-            OpenRewardsScene();
+            OpenRewardsScene(rewards);
         }
         #endregion
 

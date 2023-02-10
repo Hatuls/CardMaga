@@ -38,7 +38,7 @@ namespace CardMaga.Battle.UI
 
         #region Monobehaviour Callbacks
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleManager)
         {
             using (tokenMachine.GetToken())
             {
