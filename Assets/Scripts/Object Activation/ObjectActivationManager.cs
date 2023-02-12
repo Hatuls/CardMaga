@@ -46,7 +46,7 @@ namespace CardMaga.UI.Visuals
     [System.Serializable]
     public class ActivatedObject
     {
-        public TagSO TagSO;
+        public RewardTagSO TagSO;
         [SerializeField]
         private GameObject GameObject;
 

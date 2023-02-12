@@ -32,9 +32,10 @@ namespace CardMaga.Rewards
         {
             for (int i = 0; i < _resourceVisualHandlers.Length; i++)
             {
-                Debug.Log(_resourceVisualHandlers[i].CurrencyType + " - " + _resourceVisualHandlers[i].Amount);
-                if (_resourceVisualHandlers[i].HasValue)
-                    _sequenceHandler.Register(_resourceVisualHandlers[i]);
+                ResourceRewardVisualHandler resourceRewardVisualHandler = _resourceVisualHandlers[i];
+                Debug.Log(resourceRewardVisualHandler.CurrencyType + " - " + resourceRewardVisualHandler.Amount);
+                if (resourceRewardVisualHandler.HasValue)
+                    _sequenceHandler.Register(resourceRewardVisualHandler);
             }
 
             _sequenceHandler.StartAll(Hide);
