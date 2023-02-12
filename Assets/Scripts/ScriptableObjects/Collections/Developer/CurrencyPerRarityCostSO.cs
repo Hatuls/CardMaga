@@ -67,6 +67,8 @@ public class CurrencyPerRarityCostSO : ScriptableObject
             goldLevelCosts.Add(new RarityLevelCosts(currentRarity, goldCosts.ToArray()));
             chipLevelCosts.Add(new RarityLevelCosts(currentRarity, chipCosts.ToArray()));
 
+            chipCosts.Clear();
+            goldCosts.Clear();
         }
 
         master.Add(new RarityLevelCostsPerCurrency(CurrencyType.Chips, chipLevelCosts.ToArray()));

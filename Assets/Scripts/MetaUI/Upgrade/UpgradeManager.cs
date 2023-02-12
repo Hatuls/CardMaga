@@ -47,9 +47,6 @@ namespace CardMaga.Meta.Upgrade
 
         public bool TryUpgradeCard(CardInstance cardInstance)
         {
-
-
-
             UpgradeInfo upgradeInfo = GenerateUpgradeInfo(cardInstance);
 
             bool check = CanUpgrade(cardInstance);

@@ -45,7 +45,7 @@ namespace CardMaga.Rewards.Bundles
             var giftTokenMachine = new TokenMachine(Finished);
 
             AddToDevicesData();
-
+            if(Account.AccountManager.Instance!=null)
             Account.AccountManager.Instance.SendAccountData(giftTokenMachine);
             void Finished()
             {

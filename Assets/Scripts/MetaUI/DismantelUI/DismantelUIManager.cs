@@ -8,13 +8,15 @@ using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using ReiTools.TokenMachine;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager>
 {
     [SerializeField] private DismantleDataManager _dismantleDataManager;
     [SerializeField] private MetaCollectionUIHandler _collectionHandler;
     [SerializeField] private DismantelCurrencyUIHandler _dismantelCurrencyUI;
-    
+    [SerializeField, EventsGroup]
+    private UnityEvent OnDismantleSuccessfull;
     public int Priority => 0;
 
     public DismantelCurrencyUIHandler DismantelCurrencyUI => _dismantelCurrencyUI;
@@ -46,6 +48,7 @@ public class DismantelUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager
     {
         _dismantleDataManager.ConfirmDismantleCards();
         UpdateVisual(0,0);
+        OnDismantleSuccessfull?.Invoke();
         _collectionHandler.UnLoadObjects();
        // _dismantleDataManager.SetCardCollection();
         _collectionHandler.LoadObjects(VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dismantleDataManager.CardCollectionDatas.CollectionCardDatas.Values.ToList()),null);

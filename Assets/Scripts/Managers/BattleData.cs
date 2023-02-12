@@ -19,7 +19,7 @@ namespace Battle.Data
         [SerializeField]
         [TabGroup("BattleData", "Opponent")]
         private BattleCharacter _opponent = null;
-        [SerializeField, Sirenix.OdinInspector.ReadOnly]
+        [SerializeField]//, Sirenix.OdinInspector.ReadOnly]
         private bool _isPlayerWon = false;
         [TabGroup("BattleData", "Config")]
         [SerializeField] 

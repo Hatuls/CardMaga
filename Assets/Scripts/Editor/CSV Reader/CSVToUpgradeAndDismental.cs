@@ -21,8 +21,8 @@ namespace CardMaga.CSV
         {
             string[] rows = csv.Replace("\r", "").Split('\n');
             const int startingRow = 1;
-            CreateDismentalCostSO(rows[startingRow]);
-            CreateUpgradesSO(rows[startingRow + 1]);
+            CreateUpgradesSO(rows[startingRow]);
+            CreateDismentalCostSO(rows[startingRow + 1]);
             AssetDatabase.SaveAssets();
 
             IsFinished = true;
