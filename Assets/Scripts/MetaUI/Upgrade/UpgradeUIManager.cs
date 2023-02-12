@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CardMaga.Meta.Upgrade
 {
@@ -20,7 +21,8 @@ namespace CardMaga.Meta.Upgrade
     public class UpgradeUIManager : BaseUIScreen, ISequenceOperation<MetaUIManager>
     {
         public event Action<int, int> OnCostAssigned;
-
+        [SerializeField,EventsGroup]
+        private UnityEvent OnUpgradeSuccessfull;
         [SerializeField]
         private UpgradeConfirmationScreen _upgradeConfirmationScreen;
         [SerializeField]
@@ -88,13 +90,17 @@ namespace CardMaga.Meta.Upgrade
 
             _currentCard = card;
             _upgradeCardsDisplayer.InitCards(card);
-
+            int chipAmount = 0;
+            int goldAmount =0;
+            if (!_currentCard.IsMaxLevel) 
+            { 
             CurrencyPerRarityCostSO costSo = _upgradeCardHandler.UpgradeCosts;
             ResourcesCost chipCosts = costSo.GetCardCostPerCurrencyAndCardCore(_currentCard, Rewards.CurrencyType.Chips);
             ResourcesCost goldCosts = costSo.GetCardCostPerCurrencyAndCardCore(_currentCard, Rewards.CurrencyType.Gold);
+                 chipAmount = Convert.ToInt32(chipCosts.Amount);
+                 goldAmount = Convert.ToInt32(goldCosts.Amount);
+            }
 
-            int chipAmount = Convert.ToInt32(chipCosts.Amount);
-            int goldAmount = Convert.ToInt32(goldCosts.Amount);
             _upgradeCostHandler.Init(_currentCard.IsMaxLevel, chipAmount, goldAmount);
 
             if (OnCostAssigned != null)
@@ -106,8 +112,10 @@ namespace CardMaga.Meta.Upgrade
                 _upgradeConfirmationScreen.Open();
         }
         public void Upgrade()
-            => _upgradeCardHandler.TryUpgradeCard(_currentCard);
-
+        {
+            if(_upgradeCardHandler.TryUpgradeCard(_currentCard))
+            OnUpgradeSuccessfull?.Invoke();
+        }
         #region Editor
 
 #if UNITY_EDITOR
@@ -183,9 +191,9 @@ namespace CardMaga.Meta.Upgrade
             _hasLevelsContainer.SetActive(false);
         }
 
-        private void InitBottomPart(int chipCosts, int goldCost) // need to add gold visuals...
+        private void InitBottomPart(int chipCosts, int goldCost)
         {
-            const int goldSpriteIndex = 0, ChipSpriteIndex = 1;
+            const int goldSpriteIndex =0, ChipSpriteIndex = 1;
             int currentAmount = 0;
             if (!ReferenceEquals(AccountManager.Instance, null))
                 currentAmount = AccountManager.Instance.Data.AccountResources.Chips;
