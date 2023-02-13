@@ -45,13 +45,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnEndTutorial:
     m_PersistentCalls:
-      m_Calls: []
-  _tutorialConfig:
-  - {fileID: 11400000, guid: 21128ffffd65934418be5def197089bb, type: 2}
-  - {fileID: 11400000, guid: e4f78ef9779afd544bd1b7c9b46a90b5, type: 2}
-  - {fileID: 11400000, guid: b8919e9c07616ba4d9e053033d7876b2, type: 2}
-  - {fileID: 11400000, guid: 79becda8a9d06814abbde4636ab865f9, type: 2}
-  - {fileID: 11400000, guid: 66bd0eccd5012b74ea4baae9c29f607c, type: 2}
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: LoadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  _minTutorialsToExitToMainMenu: 0
   _battleDataPrefab: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
     type: 3}
   _badges:
@@ -60,4 +66,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
+  _matchMakingSceneLoader: {fileID: 0}
+  returnToMainMenuButton: {fileID: 0}
+  _tutorialRewards:
+    _tutorialRewards:
+    - {fileID: 11400000, guid: 933aa6cb20c440941b07e4b9cc918921, type: 2}
+    - {fileID: 11400000, guid: 77a288e43b4331e47828795348b32c95, type: 2}
+    - {fileID: 11400000, guid: 1bbc73d518b78b44ab1ad62514067578, type: 2}
+    - {fileID: 11400000, guid: 9245145225ceb634a915ccc0dd2eb40f, type: 2}
+    - {fileID: 11400000, guid: e66ba727d1945c14a8704066d9437932, type: 2}
