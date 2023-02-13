@@ -1,29 +1,29 @@
-using CardMaga.Input;
 using CardMaga.MetaData.Collection;
 using CardMaga.UI;
 using UnityEngine;
+using Button = UnityEngine.UI.Button;
 
 namespace CardMaga.MetaUI.CollectionUI
 {
     public abstract class BaseCollectionUIItem : BaseUIElement
     {
-        [SerializeField] private DisableButton _minusButton;
-        [SerializeField] private DisableButton _plusButton;
+        [SerializeField] private Button _minusButton;
+        [SerializeField] private Button _plusButton;
 
         protected void DisableMinus()
         {
-            _minusButton.Disable();
+            _minusButton.interactable = false; 
         }
 
         protected void DisablePlus()
         {
-            _plusButton.Disable();
+            _plusButton.interactable = false;
         }
 
         protected void Enable()
         {
-            _minusButton.Enable();
-            _plusButton.Enable();
+            _minusButton.interactable = true; 
+            _plusButton.interactable = true; 
         }
 
         protected abstract void SuccessAddOrRemoveCollection();

@@ -25,16 +25,16 @@ namespace CardMaga.MetaData.AccoutData
         {
             _accountData.AllCards.RemoveCard(coreId);
 
-            var characters = _accountData.CharactersData.Characters;
-            
-            foreach (var character in characters)
-            {
-                foreach (var deckData in character.Deck)
-                {
-                    deckData.RemoveCoreID(coreId);
-                    break;
-                }
-            }
+            // var characters = _accountData.CharactersData.Characters;
+            //
+            // foreach (var character in characters)
+            // {
+            //     foreach (var deckData in character.Deck)
+            //     {
+            //         deckData.RemoveCoreID(coreId);
+            //         break;
+            //     }
+            // }
         }
 
         public void AddCard(CardInstance cardInstance)
