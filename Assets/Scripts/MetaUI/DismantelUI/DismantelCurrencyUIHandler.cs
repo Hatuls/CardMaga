@@ -14,7 +14,7 @@ namespace CardMaga.MetaUI.DismantelUI
         public void UpdateText(int chipAmount, int goldAmount)
         {
             const string space = "                      ";
-            _text.text =  string.Concat(chipAmount.ToString().AddImageInFrontOfText(0), space, goldAmount.ToString().AddImageInFrontOfText(1));
+            _text.text =  string.Concat(chipAmount.ToString().AddImageInFrontOfText(1), space, goldAmount.ToString().AddImageInFrontOfText(0));
         }
     }
 }

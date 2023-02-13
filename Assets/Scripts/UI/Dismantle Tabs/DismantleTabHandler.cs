@@ -98,9 +98,9 @@ public class DismantleTabHandler : BaseUIElement
         stringBuilder.Append(ARE_YOU_SURE_TEXT);
         stringBuilder.Append(_dismantleHandler.DismantleCards.Count);
         stringBuilder.Append(CARDS);
-        stringBuilder.Append(_dismantleCurrencyHandler.ChipsCurrency.ToString().AddImageInFrontOfText(0));
+        stringBuilder.Append(_dismantleCurrencyHandler.ChipsCurrency.ToString().AddImageInFrontOfText(1));
         stringBuilder.Append(AND);
-        stringBuilder.Append(_dismantleCurrencyHandler.GoldCurrency.ToString().AddImageInFrontOfText(1));
+        stringBuilder.Append(_dismantleCurrencyHandler.GoldCurrency.ToString().AddImageInFrontOfText(0));
         _text.text = stringBuilder.ToString();
 
         stringBuilder.Clear();
