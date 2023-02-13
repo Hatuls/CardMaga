@@ -9,6 +9,10 @@ namespace CardMaga.UI.Visuals
         private ActivatedObject[] _activatedObjects;
 
         private ActivatedObject _currentObject;
+        private void Awake()
+        {
+            CloseAll();
+        }
         public void Activate(TagSO tagSO)
         {
             if (_currentObject != null)

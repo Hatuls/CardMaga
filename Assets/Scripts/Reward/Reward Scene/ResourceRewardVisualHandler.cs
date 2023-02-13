@@ -1,17 +1,16 @@
 ﻿using CardMaga.Battle.Players;
 using CardMaga.CinematicSystem;
-using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using CardMaga.UI.Visuals;
-using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
 using System;
 using TMPro;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
-    public class ResourceRewardVisualHandler : MonoBehaviour, ISequenceOperation, IComparable<ResourceRewardVisualHandler>
+    public class ResourceRewardVisualHandler : MonoBehaviour, IComparable<ResourceRewardVisualHandler>
     {
+
         [SerializeField]
         private ObjectActivationManager _objectRenderer;
         [SerializeField]
@@ -20,12 +19,9 @@ namespace CardMaga.Rewards
         private CurrencyType _currencyType;
         [SerializeField]
         private int _priority;
-       
+
         [ShowInInspector, ReadOnly]
         private int _value;
-
-        private IDisposable _token;
-
 
 
         public int Amount { get => _value; }
@@ -33,6 +29,7 @@ namespace CardMaga.Rewards
         public bool HasValue => _value > 0;
 
         public int Priority => _priority;
+
 
         public void AddValue(int amount)
         {
@@ -48,18 +45,21 @@ namespace CardMaga.Rewards
             else
                 return 1;
         }
-        public void ExecuteTask(ITokenReceiver tokenMachine)
+
+        internal void Show()
         {
             if (HasValue == false)
                 return;
-           // _token = tokenMachine.GetToken();
+            // _token = tokenMachine.GetToken();
             var currencyAmount = GetCurrencyAmount();
-            currencyAmount.AmountText.text = Amount.ToString().AddImageAfterOfText((int)_currencyType - 1);
+
             _objectRenderer.Activate(currencyAmount.RewardTagSO);
-            currencyAmount.CinematicManager.StartCinematicSequence(tokenMachine);
+            currencyAmount.AmountText.text = Amount.ToString().AddImageAfterOfText((int)_currencyType - 1);
+            currencyAmount.CinematicManager.ResetAll();
+            currencyAmount.CinematicManager.StartCinematicSequence();
         }
 
-     //   public void Complete() => _token.Dispose();
+
         private CurrencyAmount GetCurrencyAmount()
         {
             for (int i = _currencyTypeInfo.Length - 1; i >= 0; i--)
