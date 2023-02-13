@@ -2,6 +2,7 @@
 using Battle.Data;
 using CardMaga.Core;
 using CardMaga.Input;
+using CardMaga.Rewards;
 using CardMaga.Tutorial;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,10 +13,12 @@ public class TutorialManager : MonoBehaviour
 
 
     //[SerializeField] private List<TutorialConfigSO> _tutorialConfig;
+    [SerializeField] private int _minTutorialsToExitToMainMenu;
     [SerializeField] private BattleData _battleDataPrefab;
     [SerializeField] private TutorialBadge[] _badges;
     [SerializeField] private SceneLoader _matchMakingSceneLoader;
     [SerializeField] private Button returnToMainMenuButton;
+    [SerializeField] private TutorialRewards _tutorialRewards;
     private AccountTutorialData _accountTutorialData;
     private TutorialConfigSO _selectedTutorialConfig;
 
@@ -42,7 +45,7 @@ public class TutorialManager : MonoBehaviour
                     UpdateBadgesForNotCompletedTutorialAccount();
             }
 
-            if (_accountTutorialData.TutorialProgress >= 2)
+            if (_accountTutorialData.TutorialProgress >= _minTutorialsToExitToMainMenu)
                 returnToMainMenuButton.gameObject.SetActive(true);
         }
 
@@ -71,18 +74,29 @@ public class TutorialManager : MonoBehaviour
     {
         if (BattleData.Instance.IsPlayerWon)
         {
-            AccountManager.Instance.Data.AccountTutorialData.AssignedData(_accountTutorialData.TutorialProgress + 1, false);
-            AccountManager.Instance.UpdateDataOnServer();
+            UpdateData(false);
             UpdateBadgesForNotCompletedTutorialAccount();
         }
     }
 
     private void UpdateEndingTutorialBattleConfig()
     {
-        AccountManager.Instance.Data.AccountTutorialData.AssignedData(_accountTutorialData.TutorialProgress + 1, true);
-        AccountManager.Instance.UpdateDataOnServer();
+        UpdateData(true);
         UpdateBadgesForCompletedTutorialAccount();
         OnEndTutorial?.Invoke();
+    }
+
+    private void UpdateData(bool isFinished)
+    {
+        int tutorialProgress = _accountTutorialData.TutorialProgress;
+        ReceiveRewards(tutorialProgress);
+        AccountManager.Instance.Data.AccountTutorialData.AssignedData(tutorialProgress + 1, isFinished);
+        AccountManager.Instance.UpdateDataOnServer();
+    }
+
+    private void ReceiveRewards(int tutorialProgress)
+    {
+        _tutorialRewards.ReceiveReward(tutorialProgress);
     }
 
     private void UpdateBattleConfig()
@@ -93,11 +107,11 @@ public class TutorialManager : MonoBehaviour
         if (BattleData.Instance == null)
             return;
 
-       
-        
+
+
         for (int i = 0; i < _accountTutorialData.TutorialProgress; i++) //Check you coming back from previous tutorial
-        { 
-            if (BattleData.Instance.BattleConfigSO == _badges[i]._configSO.BattleConfig) 
+        {
+            if (BattleData.Instance.BattleConfigSO == _badges[i]._configSO.BattleConfig)
                 return;
         }
 
@@ -108,7 +122,7 @@ public class TutorialManager : MonoBehaviour
 
         else
             UpdateCurrentBattleConfig();
-        
+
     }
 
     private void UpdateBadgesForNewAccount()
@@ -161,4 +175,13 @@ public class TutorialManager : MonoBehaviour
     }
 
     #endregion
+}
+[System.Serializable]
+public class TutorialRewards
+{
+    [SerializeField] private BaseRewardFactorySO[] _tutorialRewards;
+    public void ReceiveReward(int currentTutorialLevel)
+    {
+        RewardManager.Instance.OpenRewardsScene(_tutorialRewards[currentTutorialLevel]);
+    }
 }
