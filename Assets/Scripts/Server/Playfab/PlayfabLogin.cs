@@ -88,7 +88,6 @@ namespace CardMaga.Playfab
 
         private void SuccessfullLogin(LoginResult loginResult)
         {
-
             Debug.Log("Success! We Logged in!");
             PlayerLoginResult = loginResult;
             SaveLoginResult();
