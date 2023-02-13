@@ -55,7 +55,13 @@ public class EndGameManager : MonoBehaviour
         _rewardToken = _rewardTokenMachine.GetToken();
 
         if (rewardFactory == null)
+        {
+            if (_isLeftPlayerWon)
+            {
+                Debug.LogError("End Game Manager has no reward factory");
+            }
             return;
+        }
 
         var reward = rewardFactory.GenerateReward();
         reward.TryRecieveReward(_rewardTokenMachine);
