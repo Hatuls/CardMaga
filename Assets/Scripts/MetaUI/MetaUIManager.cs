@@ -66,7 +66,7 @@ namespace CardMaga.MetaUI
             _sequenceHandler.StartAll(this, MetaUIInitializes);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
         }
 

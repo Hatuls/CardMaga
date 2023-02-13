@@ -80,7 +80,7 @@ namespace CardMaga.UI.Text
             ChangeTextColor(_staminaText, _newColor);
             _currentStamimaText.text = (_currentStamina).ToString();
         }
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager data)
         {
             _playerStaminaHandler = data.BattleDataManager.PlayersManager.GetCharacter(true).StaminaHandler;
             _playerStaminaHandler.OnStaminaValueChanged += UpdateCurrentStamina;

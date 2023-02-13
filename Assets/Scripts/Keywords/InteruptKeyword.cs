@@ -32,7 +32,7 @@ namespace CardMaga.Keywords
                 _leftLastCardType = CardTypeDatas(playerCraftingSlots.CraftingSlots);
                 for (int i = 0; i < length; i++)
                 {
-                    playerCraftingSlots.PushFront(false);
+                    playerCraftingSlots.PushFront(true);
                 }
             }
 
@@ -42,11 +42,12 @@ namespace CardMaga.Keywords
                 _rightLastCardType = CardTypeDatas(playerCraftingSlots.CraftingSlots);
                 for (int i = 0; i < length; i++)
                 {
-                    playerCraftingSlots.PushFront(false);
+                    playerCraftingSlots.PushFront(true);
 
                 }
             }
-            InvokeKeywordVisualEffect(currentPlayer);
+            
+            InvokeKeywordVisualEffect(currentPlayer, KeywordSO.OnApplyVFX);
             KeywordSO.SoundEventSO.PlaySound();
 
 

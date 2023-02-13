@@ -163,7 +163,7 @@ namespace CardMaga.Battle.Visual.Camera
 
 
         #region public
-        public void ReturnToDefaultCamera(ITokenReciever tokenMachine)
+        public void ReturnToDefaultCamera(ITokenReceiver tokenMachine)
         {
             IDisposable disposable = tokenMachine.GetToken();
             StopCounter();
@@ -230,7 +230,7 @@ namespace CardMaga.Battle.Visual.Camera
             _counter = 0;
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleUIManager)
         {
             var data = battleUIManager.BattleDataManager;
             var _turnHandler = data.TurnHandler;

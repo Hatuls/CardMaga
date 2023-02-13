@@ -49,7 +49,7 @@ namespace Battle.MatchMaking
             MatchMakingManager.OnOpponentValid     -= Dispose;
             MatchMakingManager.OnOpponentCorrupted -= LookForOpponentOnServer;
         }
-        public void Init(ITokenReciever tokenReceiver)
+        public void Init(ITokenReceiver tokenReceiver)
         {
             _token = tokenReceiver.GetToken();
             LookForOpponentOnServer();

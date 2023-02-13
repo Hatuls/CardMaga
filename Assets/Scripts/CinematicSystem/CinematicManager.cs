@@ -1,6 +1,7 @@
 ﻿using CardMaga.UI;
 using ReiTools.TokenMachine;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,7 +10,12 @@ namespace CardMaga.CinematicSystem
     public class CinematicManager : MonoBehaviour, IInitializable
     {
         #region Events
-        [SerializeField] private ClickHelper _clickHelper;
+
+        public event Action OnCinematicEnd;
+        public event Action OnCinematicStart;
+        public event Action OnCinematicPause;
+        public event Action OnCinematicResume;
+
         [SerializeField, EventsGroup] private UnityEvent OnCinematicSequenceStart;
         [SerializeField, EventsGroup] private UnityEvent OnCinematicSequencePause;
         [SerializeField, EventsGroup] private UnityEvent OnCinematicSequenceResume;
@@ -19,6 +25,7 @@ namespace CardMaga.CinematicSystem
 
         #region Fields
 
+        [SerializeField] private ClickHelper _clickHelper;
         [SerializeField] private CinematicHandler[] _cinematic;
 
         private Coroutine _currentRunningCinematic;
@@ -66,7 +73,7 @@ namespace CardMaga.CinematicSystem
 
         #region Public Function
 
-        public void StartCinematicSequence(ITokenReciever tokenReciever)
+        public void StartCinematicSequence(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever?.GetToken();
             StartCinematicSequence();
@@ -75,6 +82,7 @@ namespace CardMaga.CinematicSystem
         public void StartCinematicSequence()
         {
             OnCinematicSequenceStart?.Invoke();
+            OnCinematicStart?.Invoke();
             _isPause = false;
             StartFirstCinematic();
         }
@@ -83,8 +91,8 @@ namespace CardMaga.CinematicSystem
         public void ResumeCinematicSequence()
         {
             OnCinematicSequenceResume?.Invoke();
+            OnCinematicResume?.Invoke();
             _isPause = false;
-
             if (_currentCinematic.IsCompleted)
                 StartNextCinematic();
             else
@@ -104,14 +112,21 @@ namespace CardMaga.CinematicSystem
         {
             if (_isPause)
                 return;
-
-            OnCinematicSequencePause?.Invoke();
             _isPause = true;
-            _clickHelper.Open(ResumeCinematicSequence);
-            _currentCinematic.PauseCinematic();
+            StopCoroutine(Pause());
+            StartCoroutine(Pause());
+            //if (_clickHelper != null)
+            //    _clickHelper.Open();
 
-            if (_clickHelper != null)
-                _clickHelper.Open();
+            IEnumerator Pause()
+            {
+                
+                yield return null;
+                OnCinematicSequencePause?.Invoke();
+                OnCinematicPause?.Invoke();
+                _currentCinematic.PauseCinematic();
+                _clickHelper.Open(ResumeCinematicSequence);
+            }
         }
 
         [ContextMenu("Skip Current Cinematic")]
@@ -168,6 +183,7 @@ namespace CardMaga.CinematicSystem
             if (_token != null)
                 _token.Dispose();
 
+            OnCinematicEnd?.Invoke();
             OnCinematicSequenceEnd?.Invoke();
             Debug.Log("End");
 
@@ -175,7 +191,7 @@ namespace CardMaga.CinematicSystem
 
 
 
-   
+
         #endregion
     }
 }

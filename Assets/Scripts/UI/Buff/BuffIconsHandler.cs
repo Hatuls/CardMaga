@@ -13,7 +13,8 @@ namespace CardMaga.Battle.UI
     public class BuffIconsHandler : MonoBehaviour
     {
         #region Fields
-
+        [SerializeField]
+        private float _scale = .85f;
         [ReadOnly]
         Dictionary<BuffVisualData, BuffVisualHandler> _activeBuffs;
         [SerializeField] BuffCollectionVisualSO _buffCollectionVisualSO;
@@ -129,6 +130,7 @@ namespace CardMaga.Battle.UI
             var buffVisualData = _dataPool.Pull();
             buffVisualData.AssignValues(keywordType, amount);
             var visualBuffHandler = _visualPool.Pull();
+            visualBuffHandler.transform.localScale = _scale * Vector3.one;
             visualBuffHandler.transform.SetParent(this.transform);
             visualBuffHandler.Init(buffVisualData);
             _activeBuffs.Add(buffVisualData, visualBuffHandler);

@@ -29,7 +29,7 @@ namespace CardMaga.VFX
         public IEnumerable<TagSO> Tags => VFXSO;
 
         public virtual void Play() { OnPlay?.Invoke(); }
-        public virtual void Play(ITokenReciever tokenReciever = null)
+        public virtual void Play(ITokenReceiver tokenReciever = null)
         {
             _token = tokenReciever?.GetToken();
             Play();

@@ -1,4 +1,5 @@
 ﻿
+using CardMaga.MetaData;
 using CardMaga.Rewards.Factory.Handlers;
 using Collections;
 using Keywords;
@@ -19,6 +20,7 @@ namespace CardMaga.CSV
         private static RewardFactoryManagerSO _rewardFactoryManager;
         public static CurrencyPerRarityCostSO _upgradeCardCostSO;
         public static CurrencyPerRarityCostSO _dismentalCardCostSO;
+        public static LevelUpRewardsSO _levelDataSO;
 
 
 
@@ -43,6 +45,7 @@ namespace CardMaga.CSV
         const string _driveURLOfCharacterRewards = "1437334102";
         const string _driveURLOfGiftsRewards = "665526610";
         const string _driveURLOfBundlesRewards = "2119557023";
+        const string _driveURLOfMaxLevel = "1126692645";
 
         public static RewardFactoryManagerSO RewardFactoryManager 
         { 
@@ -100,6 +103,7 @@ namespace CardMaga.CSV
             new CSVToGiftReward(),
             new CSVToBundleReward(),
          new CSVToUpgradeAndDismental(),
+         new CSVToLevelData()
         };
 
             string[] metaurls = new string[]
@@ -110,6 +114,7 @@ namespace CardMaga.CSV
                 _driveURLOfGiftsRewards,
                 _driveURLOfBundlesRewards,
                 _driveURLOfDismentalAndUpgrades,
+                _driveURLOfMaxLevel,
             };
 
             await StartLoading(_driveMetaURL, metaurls, metacsv);

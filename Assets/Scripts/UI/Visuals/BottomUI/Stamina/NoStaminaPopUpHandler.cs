@@ -13,42 +13,25 @@ namespace CardMaga.UI.PopUp
         private float _duration;
         private WaitForSeconds _waitForSeconds;
 
-        [SerializeField] TransitionBuilder[] _enterPack;
-        [SerializeField] TransitionBuilder[] _exitPack;
-
-        private IPopUpTransition<TransitionData> _enterTransition;
-        private IPopUpTransition<TransitionData> _exitTransition;
-        private IPopUpTransition<AlphaData> _enterAlphaTransition;
-        private IPopUpTransition<AlphaData> _exitAlphaTransition;
-
-        public override IPopUpTransition<TransitionData> TransitionIn => _enterTransition;
-        public override IPopUpTransition<TransitionData> TransitionOut => _exitTransition;
-
-        public override IPopUpTransition<AlphaData> TransitionAlphaIn => _enterAlphaTransition;
-
-        public override IPopUpTransition<AlphaData> TransitionAlphaOut => _exitAlphaTransition;
 
         protected override Vector2 GetStartLocation() => PopUpManager.Instance.GetPosition(_startLocation);
 
 
         #region Monobehaviour Callbacks
-        protected override  void Awake()
+        protected override  void Start()
         {
             if (PopUpManager.Instance == null)
                     return;
+            PopUpManager.OnCloseAllPopUps += HidePopUp;
             _handUI.OnCardExecutionFailed += ShowPopUp;
             _handUI.OnCardExecutionSuccess += HidePopUp;
-
             _waitForSeconds = new WaitForSeconds(_duration);
-            _enterAlphaTransition = new AlphaTransition(GenerateAlphaTransitionData(_enterPack));
-            _exitAlphaTransition = new AlphaTransition(GenerateAlphaTransitionData(_exitPack));
-            _enterTransition = new BasicTransition(GenerateTransitionData(_enterPack));
-            _exitTransition = new BasicTransition(GenerateTransitionData(_exitPack));
-            base.Awake();
+            base.Start();
         }
 
         private void OnDestroy()
         {
+            PopUpManager.OnCloseAllPopUps -= HidePopUp;
             _handUI.OnCardExecutionFailed -= ShowPopUp;
             _handUI.OnCardExecutionSuccess -= HidePopUp;
         }

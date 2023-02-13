@@ -23,7 +23,7 @@ namespace CardMaga.Rewards
 
         public ResourcesCost ResourcesCost { get => _resourcesCost; }
 
-        public void TryRecieveReward(ITokenReciever tokenMachine)
+        public void TryRecieveReward(ITokenReceiver tokenMachine)
         {
 
             AddToDevicesData();
@@ -45,15 +45,19 @@ namespace CardMaga.Rewards
 
         public void AddToDevicesData()
         {
+            var account = Account.AccountManager.Instance;
+            if (account == null)
+                return;
+
             switch (ResourcesCost.CurrencyType)
             {
                 case CurrencyType.Gold:
                 case CurrencyType.Diamonds:
                 case CurrencyType.Chips:
-                    Account.AccountManager.Instance.Data.AccountResources.AddResource(ResourcesCost.CurrencyType, (int)ResourcesCost.Amount);
+                    account.Data.AccountResources.AddResource(ResourcesCost.CurrencyType, (int)ResourcesCost.Amount);
                     break;
                 case CurrencyType.Account_EXP:
-                    Account.AccountManager.Instance.Data.AccountLevel.Exp += (int)ResourcesCost.Amount;
+                    account.Data.AccountLevel.AddEXP((int)ResourcesCost.Amount);
                     break;
                 default:
                     break;

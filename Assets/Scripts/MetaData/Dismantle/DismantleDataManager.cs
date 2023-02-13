@@ -37,7 +37,7 @@ namespace CardMaga.MetaData.Dismantle
 
         public DismantleCurrencyHandler DismantleCurrencyHandler => _dismantleCurrencyHandler;
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
             _accountDataAccess = data.AccountDataAccess;
             _metaAccountData = data.MetaAccountData;

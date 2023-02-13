@@ -23,7 +23,7 @@ namespace CardMaga.Keywords
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
             }
             KeywordSO.SoundEventSO.PlaySound();
-            InvokeKeywordVisualEffect(currentPlayer);
+            InvokeKeywordVisualEffect(currentPlayer, KeywordSO.OnApplyVFX);
         }
 
 

@@ -140,7 +140,7 @@ namespace CardMaga.Battle
 
         #endregion
 
-        private void CreateTutorial(ITokenReciever tokenReciever, IBattleManager battleManager)
+        private void CreateTutorial(ITokenReceiver tokenReciever, IBattleManager battleManager)
         {
 #if UNITY_EDITOR
             if (_hideTutorial)
@@ -312,7 +312,7 @@ namespace CardMaga.Battle
             battleManager.Register(this, OrderType.Before);
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleManager battleManager)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleManager battleManager)
         {
             IDisposable token = tokenMachine.GetToken();
             BattleData battleData = battleManager.BattleData;

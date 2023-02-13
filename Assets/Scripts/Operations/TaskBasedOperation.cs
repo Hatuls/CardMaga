@@ -13,7 +13,7 @@ public class TaskBasedOperation : BaseOperation
        OnCompleted?.Invoke();
     }
 
-    public override void Init(ITokenReciever tokenReciever)
+    public override void Init(ITokenReceiver tokenReciever)
     {
         _token = tokenReciever.GetToken();
         _tokenMachine = new TokenMachine(Completed);

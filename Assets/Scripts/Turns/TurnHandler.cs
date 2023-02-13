@@ -31,7 +31,7 @@ namespace Battle.Turns
         public bool IsLeftCharacterTurn => CurrentTurn == GameTurnType.LeftPlayerTurn;
         public bool IsRightCharacterTurn => CurrentTurn == GameTurnType.RightPlayerTurn;
         public bool IsLeftPlayerStart => _isLeftPlayerStart;
-        public ITokenReciever TurnChangeTokenMachine => _turnStarterTurnMachine;
+        public ITokenReceiver TurnChangeTokenMachine => _turnStarterTurnMachine;
 
         public TurnHandler(GameTurnType startGameTurnType) //will need to enter turn logic here 
         {
@@ -183,7 +183,7 @@ namespace Battle.Turns
             _nextTurn.Sort();
         }
         public void RemoveNextTurn(NextTurn nextTurn) => _nextTurn.Remove(nextTurn);
-        public virtual void Enter(ITokenReciever tokenMachine)
+        public virtual void Enter(ITokenReceiver tokenMachine)
         {
             IDisposable token = tokenMachine.GetToken();
             _continueToTurnActive = true;

@@ -9,7 +9,7 @@ using UnityEngine;
 public class TutorialWaitForPlayerTurnStart : MonoBehaviour
 {
     private IDisposable _token;
-    public void WaitForPlayerFirstTurn(ITokenReciever tokenReciever)
+    public void WaitForPlayerFirstTurn(ITokenReceiver tokenReciever)
     {
         _token = tokenReciever.GetToken();
         BattleManager.Instance.TurnHandler.GetTurn(GameTurnType.EnterBattle).OnTurnEnter += ReleaseToken;

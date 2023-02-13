@@ -35,7 +35,7 @@ namespace CardMaga.Meta.Upgrade
             _stringBuilder = null;
         }
         private void SetText(int chipAmount, int goldAmount)
-        => _textMeshProGUI.text = string.Concat(CONTEXT_TEXT, AssignText(chipAmount, 0), AND_TEXT, AssignText(goldAmount, 1));
+        => _textMeshProGUI.text = string.Concat(CONTEXT_TEXT, AssignText(chipAmount, 1), AND_TEXT, AssignText(goldAmount, 0));
 
 
         private string AssignText(int amount, int spriteIndex)
@@ -43,8 +43,8 @@ namespace CardMaga.Meta.Upgrade
             _stringBuilder.Clear();
             string stringText = amount.ToString().ToBold().AddImageInFrontOfText(spriteIndex);
             _stringBuilder.Append(stringText);
-            return _stringBuilder.ToString();
 
+            return _stringBuilder.ToString();
         }
 
 

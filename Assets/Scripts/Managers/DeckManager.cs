@@ -160,7 +160,7 @@ namespace Battle.Deck
             ResetDecks();
         }
         
-        private void EndTurn(ITokenReciever tokenMachine)
+        private void EndTurn(ITokenReceiver tokenMachine)
         {
             using (tokenMachine.GetToken())
             {

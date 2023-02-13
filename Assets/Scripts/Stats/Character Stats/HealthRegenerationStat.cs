@@ -38,14 +38,14 @@ namespace Characters.Stats
             keyword = new KeywordData(_healLogic.KeywordSO, TargetEnum.MySelf, stat.Amount, 0);
             command = new KeywordCommand(keyword, CommandType.WithPrevious);
             command.InitKeywordLogic(currentCharacterTurn, _healLogic);
-            gameDataCommands.DataCommands.AddCommand();
+            gameDataCommands.DataCommands.AddCommand(command);
 
             //Reduce Regen
             keyword = new KeywordData(KeywordSO, TargetEnum.MySelf, -1, 0);
             command = new KeywordCommand(keyword, CommandType.WithPrevious);
             command.InitKeywordLogic(currentCharacterTurn, this);
             gameDataCommands.DataCommands.AddCommand(command);
-            InvokeKeywordVisualEffect(currentCharacterTurn.IsLeft);
+            InvokeKeywordVisualEffect(currentCharacterTurn.IsLeft, KeywordSO.OnApplyVFX);
             if (!stat.HasValue())
                 InvokeOnKeywordFinished();
         }
@@ -58,14 +58,12 @@ namespace Characters.Stats
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
             KeywordSO.SoundEventSO.PlaySound();
 
-            InvokeKeywordVisualEffect(currentPlayer);
+            InvokeKeywordVisualEffect(currentPlayer, KeywordSO.OnApplyVFX);
             InvokeOnKeywordActivated();
         }
 
         public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
-
-
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
                 _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Reduce(amount);
             if (target == TargetEnum.Opponent || target == TargetEnum.All)

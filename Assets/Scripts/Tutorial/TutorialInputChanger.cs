@@ -9,7 +9,7 @@ using UnityEngine;
 public class TutorialInputChanger : MonoBehaviour
 {
     [SerializeField] private InputGroup _endGameInputGroup;
-    private void ChangeInputGroup(ITokenReciever tokenReciever)
+    private void ChangeInputGroup(ITokenReceiver tokenReciever)
     {
         ChangeInputGroup(_endGameInputGroup);
     }

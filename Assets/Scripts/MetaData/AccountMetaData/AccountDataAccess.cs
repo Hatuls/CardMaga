@@ -48,7 +48,7 @@ namespace CardMaga.MetaData.AccoutData
             _accountData.AllCards.AddCard(newCoreId);
         }
         
-        public void UpdateDeck(MetaDeckData metaDeckData,ITokenReciever tokenMachine)
+        public void UpdateDeck(MetaDeckData metaDeckData,ITokenReceiver tokenMachine)
         {
             _metaAccountData.CharacterDatas.MainCharacterData.UpdateDeck(metaDeckData,metaDeckData.DeckId);
             BaseServerRequest serverRequest;
@@ -61,7 +61,7 @@ namespace CardMaga.MetaData.AccoutData
             serverRequest.SendRequest(tokenMachine);//need to add character support
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
             _accountData = AccountManager.Instance.Data;
             _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);

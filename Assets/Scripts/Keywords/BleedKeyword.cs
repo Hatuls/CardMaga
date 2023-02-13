@@ -31,7 +31,7 @@ namespace CardMaga.Keywords
                 command.InitKeywordLogic(currentCharacterTurn, this);
 
                 gameDataCommands.DataCommands.AddCommand(command);
-                InvokeKeywordVisualEffect(currentCharacterTurn.IsLeft);
+                InvokeKeywordVisualEffect(currentCharacterTurn.IsLeft, KeywordSO.OnStartTurnVFX);
                 InvokeOnKeywordFinished();
             }
         }
@@ -45,6 +45,7 @@ namespace CardMaga.Keywords
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
 
+            InvokeKeywordVisualEffect(!currentPlayer, KeywordSO.OnApplyVFX);
             InvokeOnKeywordActivated();
             KeywordSO.SoundEventSO.PlaySound();
         }

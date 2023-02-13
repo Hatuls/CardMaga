@@ -42,7 +42,7 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
 
  
 
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleManager)
+    public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleManager)
     {
         _token = tokenMachine.GetToken();
         _endBattleHandler = battleManager.BattleDataManager.EndBattleHandler;
@@ -76,7 +76,7 @@ public class DollyTrackCinematicManager : MonoBehaviour, ISequenceOperation<IBat
     {
         StartIntroCinematic(null);
     }
-    private void StartWinCinematic(ITokenReciever tokenReciever)
+    private void StartWinCinematic(ITokenReceiver tokenReciever)
     {
         _token = tokenReciever?.GetToken();
         if (_endBattleHandler.IsLeftPlayerWon)

@@ -16,7 +16,7 @@ public class TempPlayButton : MonoBehaviour, ISequenceOperation<MetaDataManager>
     private MetaAccountData _metaAccount;
     public int Priority => 3;
     
-    public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+    public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
     {
         _metaAccount = data.MetaAccountData;
     }

@@ -25,7 +25,7 @@ namespace CardMaga.Rewards
 
         private IDisposable _token;
 
-        public void TryRecieveReward(ITokenReciever tokenMachine)
+        public void TryRecieveReward(ITokenReceiver tokenMachine)
         {
             _token = tokenMachine.GetToken();
             AddToDevicesData();

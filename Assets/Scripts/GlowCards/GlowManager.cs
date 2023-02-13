@@ -84,7 +84,7 @@ public class GlowManager : MonoBehaviour, ISequenceOperation<IBattleUIManager>
         _handUI.OnHandUICardsUpdated -= UpdateCardsGlow;
     }
 
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager data)
+    public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager data)
     {
         _playerStaminaHandler = data.BattleDataManager.PlayersManager.GetCharacter(true).StaminaHandler;
         _handUI = data.HandUI;

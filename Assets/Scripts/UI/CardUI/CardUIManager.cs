@@ -106,7 +106,7 @@ namespace CardMaga.Battle.UI
         
 
 
-        public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+        public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleUIManager)
         {
             var data = battleUIManager.BattleDataManager;
             _players = data.PlayersManager;

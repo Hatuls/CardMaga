@@ -39,13 +39,13 @@ namespace CardMaga.Rewards.Bundles
         public string Name => _name;
         public IRewardable[] Rewardables => _rewardables;
         public RewardType RewardType => _rewardType;
-        public virtual void TryRecieveReward(ITokenReciever tokenMachine)
+        public virtual void TryRecieveReward(ITokenReceiver tokenMachine)
         {
             _token = tokenMachine.GetToken();
             var giftTokenMachine = new TokenMachine(Finished);
 
             AddToDevicesData();
-
+            if(Account.AccountManager.Instance!=null)
             Account.AccountManager.Instance.SendAccountData(giftTokenMachine);
             void Finished()
             {
@@ -93,7 +93,14 @@ namespace CardMaga.Rewards.Bundles
             _currencyType = currencyType;
             _amount = amount;
         }
+
+
 #endif
+        internal void AddAmount(float amount)
+        {
+            _amount += Mathf.Abs(amount);
+        }
+
         public ResourcesCost()
         {
 

@@ -1,6 +1,7 @@
 ﻿using CardMaga.Battle;
 using CardMaga.Battle.Execution;
 using CardMaga.Battle.Players;
+using CardMaga.VFX;
 using Characters.Stats;
 using System;
 
@@ -16,7 +17,7 @@ namespace CardMaga.Keywords
         /// bool - Target
         /// keyword effect
         /// </summary>
-        public event Action<bool,KeywordType> OnApplyingKeywordVisualEffect;
+        public event Action<bool, BattleVisualEffectSO> OnApplyingKeywordVisualEffect;
 
         public readonly KeywordSO KeywordSO;
         protected readonly IPlayersManager _playersManager;
@@ -47,7 +48,7 @@ namespace CardMaga.Keywords
         protected void InvokeOnKeywordActivated() => OnKeywordActivated?.Invoke(this);
         protected void InvokeOnKeywordFinished() => OnKeywordFinished?.Invoke(this);
 
-        protected void InvokeKeywordVisualEffect(bool character) => OnApplyingKeywordVisualEffect?.Invoke(character,KeywordType);
+        protected void InvokeKeywordVisualEffect(bool character, BattleVisualEffectSO battleVisualEffectSO ) => OnApplyingKeywordVisualEffect?.Invoke(character, battleVisualEffectSO);
 
         public int CompareTo(BaseKeywordLogic other)
         {

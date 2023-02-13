@@ -19,7 +19,7 @@ namespace TutorialDirector
 
         private IDisposable _token;
         
-        public void StartAnimation(ITokenReciever tokenReciever)
+        public void StartAnimation(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever.GetToken();
             gameObject.SetActive(true);

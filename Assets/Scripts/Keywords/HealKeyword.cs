@@ -14,14 +14,14 @@ namespace CardMaga.Keywords
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
             {
                 _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
-                InvokeKeywordVisualEffect(currentPlayer);
+                InvokeKeywordVisualEffect(currentPlayer, KeywordSO.OnApplyVFX);
             }
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
 
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
-                InvokeKeywordVisualEffect(!currentPlayer);
+                InvokeKeywordVisualEffect(!currentPlayer, KeywordSO.OnApplyVFX);
             }
            KeywordSO.SoundEventSO.PlaySound();
         }

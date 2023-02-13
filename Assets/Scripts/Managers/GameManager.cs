@@ -9,7 +9,7 @@ namespace CardMaga.Managers.GameManager
     {
         TokenMachine _tokenMachine;
 
-        public static event Action<ITokenReciever> OnEnteringTheGame;
+        public static event Action<ITokenReceiver> OnEnteringTheGame;
         [SerializeField] private UnityEvent OnApplicationStart;
         
         private void Start()

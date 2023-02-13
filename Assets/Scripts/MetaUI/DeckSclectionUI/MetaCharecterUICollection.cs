@@ -21,7 +21,7 @@ public class MetaCharecterUICollection : BaseUIElement, ISequenceOperation<MetaU
 
     public int Priority => 1;
 
-    public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
+    public void ExecuteTask(ITokenReceiver tokenMachine, MetaUIManager data)
     {
         _characterData = data.MetaDataManager.MetaAccountData.CharacterDatas.MainCharacterData;
         

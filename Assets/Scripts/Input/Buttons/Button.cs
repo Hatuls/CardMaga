@@ -19,6 +19,7 @@ namespace CardMaga.Input
         private IButtonVisualBehaviour _buttonVisualBehaviour;
         public virtual IButtonVisualBehaviour ButtonVisualBehaviour { get => _buttonVisualBehaviour; set => _buttonVisualBehaviour = value; }
         public Image Renderer => _renderer;
+        public string ButtonText => _buttonText.text;
         protected override void Awake()
         {
             base.Awake();

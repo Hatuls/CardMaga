@@ -93,24 +93,24 @@ namespace CardMaga.SequenceOperation
     }
     public class OperationTask<T> : BaseOperationTask, ISequenceOperation<T>
     {
-        public event Action<ITokenReciever,T> OnExecuteTask;
-        public OperationTask(Action<ITokenReciever,T> onExecuteTask, int priority = 0, OrderType orderType = OrderType.Default) : base(priority, orderType)
+        public event Action<ITokenReceiver,T> OnExecuteTask;
+        public OperationTask(Action<ITokenReceiver,T> onExecuteTask, int priority = 0, OrderType orderType = OrderType.Default) : base(priority, orderType)
         {
             OnExecuteTask = onExecuteTask;
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine, T data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, T data)
         => OnExecuteTask?.Invoke(tokenMachine,data);
     }
     public class OperationTask : BaseOperationTask, ISequenceOperation
     {
-        public  event Action<ITokenReciever> OnExecuteTask;
-        public OperationTask(Action<ITokenReciever> onExecuteTask,int priority = 0, OrderType orderType = OrderType.Default):base(priority, orderType)
+        public  event Action<ITokenReceiver> OnExecuteTask;
+        public OperationTask(Action<ITokenReceiver> onExecuteTask,int priority = 0, OrderType orderType = OrderType.Default):base(priority, orderType)
         {
             OnExecuteTask = onExecuteTask;
         }
 
-        public void ExecuteTask(ITokenReciever tokenMachine)
+        public void ExecuteTask(ITokenReceiver tokenMachine)
         => OnExecuteTask?.Invoke(tokenMachine);
     }
 
@@ -142,7 +142,7 @@ namespace CardMaga.SequenceOperation
         /// <param name="tokenMachine"></param>
         /// <param name="data">data that will be passed for this execution</param>
         /// 
-        void ExecuteTask(ITokenReciever tokenMachine, T data);
+        void ExecuteTask(ITokenReceiver tokenMachine, T data);
     }
     public interface ISequenceOperation : IOrderable
     {        /// <summary>
@@ -157,7 +157,7 @@ namespace CardMaga.SequenceOperation
         /// The function that will be executed when called
         /// </summary>
         /// <param name="tokenMachine"></param>
-        void ExecuteTask(ITokenReciever tokenMachine);
+        void ExecuteTask(ITokenReceiver tokenMachine);
     }
     #endregion
 }

@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using CardMaga.MetaData;
+using DG.Tweening;
 using System;
 using UnityEngine;
 using UnityEngine.UI;

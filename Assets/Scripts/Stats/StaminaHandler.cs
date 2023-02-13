@@ -58,7 +58,7 @@ namespace Characters.Stats
         }
 
 
-        public void StartTurn(ITokenReciever tokenMachine)
+        public void StartTurn(ITokenReceiver tokenMachine)
         {
             _isFlag = true;
             IDisposable t = tokenMachine.GetToken();
@@ -66,7 +66,7 @@ namespace Characters.Stats
             ResetStaminaAddition();
             t.Dispose();
         }
-        public void EndTurn(ITokenReciever tokenMachine)
+        public void EndTurn(ITokenReceiver tokenMachine)
         {
             _stamina = 0;
             OnStaminaValueChanged?.Invoke(Stamina);

@@ -8,7 +8,7 @@ public class TutorialObjectActivationHandler : MonoBehaviour
     [SerializeField] TrackerID _tracker;
     private IDisposable _token;
 
-    public void DisableObject(ITokenReciever tokenReciever)
+    public void DisableObject(ITokenReceiver tokenReciever)
     {
         gameObject.SetActive(true);
         _token = tokenReciever.GetToken();
@@ -16,7 +16,7 @@ public class TutorialObjectActivationHandler : MonoBehaviour
         ReleaseToken();
     }
 
-    public void ActivateObject(ITokenReciever tokenReciever)
+    public void ActivateObject(ITokenReceiver tokenReciever)
     {
         gameObject.SetActive(true);
         _token = tokenReciever.GetToken();

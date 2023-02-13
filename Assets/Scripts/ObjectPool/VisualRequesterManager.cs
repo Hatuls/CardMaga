@@ -27,7 +27,7 @@ namespace CardMaga.ObjectPool
 
         public int Priority => 0;
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaDataManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
             
         }

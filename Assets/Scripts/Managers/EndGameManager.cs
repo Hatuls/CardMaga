@@ -15,7 +15,7 @@ public class EndGameManager : MonoBehaviour
     
     private bool _isInTutorial;
     private bool _isLeftPlayerWon;
-    private ITokenReciever _rewardTokenMachine;
+    private ITokenReceiver _rewardTokenMachine;
     private IDisposable _rewardToken;
 #if UNITY_EDITOR
     [Header("End Game Override")]
@@ -55,7 +55,13 @@ public class EndGameManager : MonoBehaviour
         _rewardToken = _rewardTokenMachine.GetToken();
 
         if (rewardFactory == null)
+        {
+            if (_isLeftPlayerWon)
+            {
+                Debug.LogError("End Game Manager has no reward factory");
+            }
             return;
+        }
 
         var reward = rewardFactory.GenerateReward();
         reward.TryRecieveReward(_rewardTokenMachine);

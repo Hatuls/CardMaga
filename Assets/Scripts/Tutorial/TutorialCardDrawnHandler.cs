@@ -15,7 +15,7 @@ namespace TutorialCardDrawn
         public BattleCardUI DrawnCard { get; private set; }
         private IDisposable _token;
 
-        public void WaitForCardToBeDrawn(ITokenReciever tokenReciever)
+        public void WaitForCardToBeDrawn(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever.GetToken();
             HandUI.OnCardsAddToHand += CheckIfCardWasDrawn;
@@ -33,7 +33,7 @@ namespace TutorialCardDrawn
             }
         }
 
-        public void WaitForCardToAlign(ITokenReciever tokenReciever)
+        public void WaitForCardToAlign(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever.GetToken();
             BattleManager.Instance.BattleUIManager.HandUI.HandUIState.OnAllCardsDrawnAndAlign += UnlockOnlyDrawnCard;
@@ -54,7 +54,7 @@ namespace TutorialCardDrawn
             ReleaseToken();
         }
 
-        public void UnlockCards(ITokenReciever tokenReciever)
+        public void UnlockCards(ITokenReceiver tokenReciever)
         {
             _token = tokenReciever.GetToken();
             IGetCardsUI cardsUI = BattleManager.Instance.BattleUIManager.HandUI.HandUIState;

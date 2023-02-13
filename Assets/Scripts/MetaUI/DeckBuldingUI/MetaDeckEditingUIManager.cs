@@ -45,7 +45,7 @@ namespace CardMaga.MetaUI.CollectionUI
         public IReadOnlyList<MetaCollectionCardUI> InCollectionCardsUI => _metaCollectionCardUIs;
         public IReadOnlyList<MetaCollectionComboUI> InCollectionCombosUI => _metaComboCollectionUIs;
 
-        public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
+        public void ExecuteTask(ITokenReceiver tokenMachine, MetaUIManager data)
         {
             _isFirstTime = true;
 

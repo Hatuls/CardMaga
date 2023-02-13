@@ -1,6 +1,9 @@
 ﻿using CardMaga.Rewards;
 using CardMaga.Rewards.Bundles;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace Account.GeneralData
 {
     [Serializable]
@@ -60,6 +63,18 @@ namespace Account.GeneralData
 
             }
         }
+
+        public bool HasEnoughAmount(IReadOnlyList<ResourcesCost> resourcesCosts)
+        {
+            bool hasEnough = true;
+            for (int i = 0; i < resourcesCosts.Count; i++)
+            {
+                hasEnough &= HasEnoughAmount(resourcesCosts[i]);
+                if (!hasEnough)
+                    break;
+            }
+            return hasEnough;
+        }
         public bool HasEnoughAmount(ResourcesCost resourcesCost)
             => HasEnoughAmount(resourcesCost.CurrencyType, (int)resourcesCost.Amount);
         
@@ -81,6 +96,24 @@ namespace Account.GeneralData
             }
             throw new Exception("Currency requested is not valid\n CurrencyType is " + currencyType);
         }
+        public bool TryReduceAmount(IReadOnlyList<ResourcesCost> resourcesCost)
+        {
+            bool canReduceAll = true;
+            int count = resourcesCost.Count;
+            for (int i = 0; i < count; i++)
+            {
+                canReduceAll &= HasEnoughAmount(resourcesCost[i]);
+                if (!canReduceAll)
+                    return false;
+            }
+            for (int i = 0; i < count; i++)
+            {
+                ReduceAmount(resourcesCost[i]);
+            }
+               
+
+            return canReduceAll;
+        }
         public bool TryReduceAmount(ResourcesCost resourcesCost)
             => TryReduceAmount(resourcesCost.CurrencyType, (int) resourcesCost.Amount);
         public bool TryReduceAmount(CurrencyType currencyType, int amount)
@@ -92,6 +125,8 @@ namespace Account.GeneralData
 
             return true;
         }
+        private void ReduceAmount(ResourcesCost resourcesCost)
+            => ReduceAmount(resourcesCost.CurrencyType, Mathf.RoundToInt(resourcesCost.Amount));
         private void ReduceAmount(CurrencyType currencyType,int amount)
         {
             switch (currencyType)
@@ -112,6 +147,7 @@ namespace Account.GeneralData
                     break;
             }
         }
+        
         internal bool IsValid()
         {
             return Gold >= 0 && Diamonds >= 0 && Tickets >= 0;

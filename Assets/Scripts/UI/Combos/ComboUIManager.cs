@@ -53,7 +53,7 @@ public class ComboUIManager : MonoBehaviour, ISequenceOperation<IBattleUIManager
     }
 
 
-    public void ExecuteTask(ITokenReciever tokenMachine, IBattleUIManager battleUIManager)
+    public void ExecuteTask(ITokenReceiver tokenMachine, IBattleUIManager battleUIManager)
     {
         var data = battleUIManager.BattleDataManager;
         data.OnBattleManagerDestroyed += BeforeBattleFinished;

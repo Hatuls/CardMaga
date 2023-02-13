@@ -16,7 +16,7 @@ public class MetaCharacterScreenUIManager : BaseUIScreen, ISequenceOperation<Met
     
     public int Priority => 1;
     
-    public void ExecuteTask(ITokenReciever tokenMachine, MetaUIManager data)
+    public void ExecuteTask(ITokenReceiver tokenMachine, MetaUIManager data)
     {
         metaDeckEditingUIManager = data.MetaDeckEditingUIManager;
         

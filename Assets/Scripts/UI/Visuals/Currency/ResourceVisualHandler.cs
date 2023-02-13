@@ -1,7 +1,9 @@
 ﻿using CardMaga.Rewards.Bundles;
 using CardMaga.UI.Text;
 using Sirenix.OdinInspector;
+using System;
 using UnityEngine;
+
 
 namespace CardMaga.UI.Visuals
 {
@@ -11,18 +13,7 @@ namespace CardMaga.UI.Visuals
         [SerializeField] ResourceTextAssignerHandler _resourceTextAssignerHandler;
         protected override BaseVisualAssignerHandler<ResourcesCost> ResourceVisualAssignerHandler => _resourceVisualAssignerHandler;
         protected override BaseTextAssignerHandler<ResourcesCost> ResourceTextAssignerHandler => _resourceTextAssignerHandler;
-        public override void CheckValidation()
-        {
-            base.CheckValidation();
-        }
-        public override void Dispose()
-        {
-            base.Dispose();
-        }
-        public override void Init(ResourcesCost comboData)
-        {
-            base.Init(comboData);
-        }
+
 
 #if UNITY_EDITOR
 

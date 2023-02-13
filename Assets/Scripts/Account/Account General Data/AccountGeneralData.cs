@@ -39,12 +39,19 @@ namespace Account.GeneralData
 
 
         public int Level;
-    public int Exp;
+        public int Exp;
 
         public LevelData()
         {
             Level = 1;
             Exp = 0;
+        }
+
+ 
+
+        public void AddEXP(int amount)
+        {
+            Exp += amount;
         }
 
         internal bool IsValid()
