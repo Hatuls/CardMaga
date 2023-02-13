@@ -88,6 +88,7 @@ namespace CardMaga.VFX
             RegisterEffects(_rightVFXController);
 
             var logics = _keywordManager.KeywordLogicDictionary;
+
             foreach (var logic in logics)
                 logic.Value.OnApplyingKeywordVisualEffect += ApplyKeywordVFX;
 
@@ -102,17 +103,20 @@ namespace CardMaga.VFX
 
         }
 
+
         private void BeforeDataDestroyed(IBattleManager obj)
         {
             obj.OnBattleManagerDestroyed -= BeforeDataDestroyed;
             var logics = _keywordManager.KeywordLogicDictionary;
+
             foreach (var logic in logics)
                 logic.Value.OnApplyingKeywordVisualEffect -= ApplyKeywordVFX;
         }
 
-        private void ApplyKeywordVFX(bool currentPlayer, KeywordType keywordType)
+
+        private void ApplyKeywordVFX(bool currentPlayer, BattleVisualEffectSO keywordType)
         {
-            BattleVisualEffectSO vfx = _keywordManager.GetLogic(keywordType).KeywordSO.GetVFX();
+            BattleVisualEffectSO vfx = keywordType;
             if (vfx != null && vfx.PullPrefab != null)
                 AddToQueue(vfx, _visualCharactersManager.GetVisualCharacter(currentPlayer));
         }

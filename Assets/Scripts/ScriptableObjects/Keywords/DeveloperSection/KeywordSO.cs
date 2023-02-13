@@ -31,7 +31,10 @@ namespace CardMaga.Keywords
 
         [SerializeField] SoundEventSO _soundEvent;
 
-        [SerializeField] private BattleVisualEffectSO _vfx;
+        [SerializeField] private BattleVisualEffectSO _onApplyEffect;
+        [SerializeField] private BattleVisualEffectSO _onEndTurnEffect;
+        [SerializeField] private BattleVisualEffectSO _onStartTurnEffect;
+       
         #endregion
 
         #region Properties
@@ -45,7 +48,9 @@ namespace CardMaga.Keywords
         public string KeywordName => _keyword.ToString();
 
         public bool IgnoreInfoAmount => _ignoreInfoAmount;
-        public BattleVisualEffectSO GetVFX() => _vfx;
+        public BattleVisualEffectSO OnApplyVFX => _onApplyEffect;
+        public BattleVisualEffectSO OnStartTurnVFX => _onStartTurnEffect;
+        public BattleVisualEffectSO OnEndTurnVFX => _onEndTurnEffect;
         public string GetDescription(params int[] amount)
         {
             if (IgnoreInfoAmount)
@@ -80,6 +85,8 @@ namespace CardMaga.Keywords
             const int IgnoreInfoAmountIndex = 5;
             const int DescriptionIndex = 6;
             const int VFXIndex = 7;
+            const int VFXOnStartIndex = 8;
+            const int VFXOnEndIndex = 9;
 
 
             if (int.TryParse(Data[IDIndex], out int keywordID))
@@ -114,10 +121,17 @@ namespace CardMaga.Keywords
                 throw new System.Exception($"KeywordsSO:\nID: {_iD}\n Ignore info amount on keyword is not a valid number!");
 
             _descriptions = Data[DescriptionIndex].Replace('^', ',').Split('#');
-            if (Data[VFXIndex].Length > 1)
-            {
-                _vfx = Resources.Load<BattleVisualEffectSO>("VFX/Keywords VFX/" + Data[VFXIndex]);
-            }
+
+
+            if (Data[VFXIndex].Length > 1 && Data[VFXIndex] != "-")
+                _onApplyEffect = Resources.Load<BattleVisualEffectSO>("VFX/Keywords VFX/" + Data[VFXIndex]);
+
+            if (Data[VFXOnStartIndex].Length > 1 && Data[VFXOnStartIndex] != "-")
+                _onStartTurnEffect = Resources.Load<BattleVisualEffectSO>("VFX/Keywords VFX/" + Data[VFXOnStartIndex]);
+
+            if (Data[VFXOnEndIndex].Length > 1 && Data[VFXOnEndIndex] != "-")
+                _onEndTurnEffect = Resources.Load<BattleVisualEffectSO>("VFX/Keywords VFX/" + Data[VFXOnEndIndex]);
+
             return true;
         }
 

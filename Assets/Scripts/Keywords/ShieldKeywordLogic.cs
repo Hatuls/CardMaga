@@ -37,7 +37,7 @@ namespace CardMaga.Keywords
                     .Add(
                       dexterity + amount
                     );
-                InvokeKeywordVisualEffect(currentPlayer);
+                InvokeKeywordVisualEffect(currentPlayer, KeywordSO.OnApplyVFX);
             }
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
@@ -49,7 +49,8 @@ namespace CardMaga.Keywords
                     .Add(
                       dexterity + amount
                     );
-            InvokeKeywordVisualEffect(!currentPlayer);
+                InvokeKeywordVisualEffect(!currentPlayer, KeywordSO.OnApplyVFX);
+
             }
             
             KeywordSO.SoundEventSO.PlaySound();
