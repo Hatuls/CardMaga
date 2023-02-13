@@ -22,14 +22,18 @@ namespace CardMaga.UI
 #endif
         [SerializeField]
         private TMP_InputField _inputField;
-
+        [SerializeField]
+        private TextMeshProUGUI _textMeshProUGUI;
         [SerializeField]
         private Button _enterNameBtn;
         private IDisposable _loginToken;
-     
+        private SetNameRequest _setNameRequest;
 #region Monobehaviour
         private void Awake()
         {
+             _setNameRequest = new SetNameRequest();
+            _setNameRequest.OnFailedName += ShowError;
+
             _inputField.onValueChanged.AddListener(TextFieldValueChange);
             _enterNameBtn.onClick.AddListener(TrySetName);
         }
@@ -38,7 +42,7 @@ namespace CardMaga.UI
         {
             _inputField.onValueChanged.RemoveListener(TextFieldValueChange);
             _enterNameBtn.onClick.RemoveListener(TrySetName);
-
+            _setNameRequest.OnFailedName -= ShowError;
         }
 #endregion
 
@@ -66,15 +70,20 @@ namespace CardMaga.UI
 
         private void TrySetName()
         {
-            if (true)
                 SetName();
+        }
+        private void ShowError()
+        {
+            _textMeshProUGUI.gameObject.SetActive(true);
+            _textMeshProUGUI.text = _setNameRequest.FeedBack;
         }
         private void SetName()
         {
             string userName = _inputField.text;
 
             TokenMachine tokenMachine = new TokenMachine(ProceedNext);
-            new SetNameRequest(userName).SendRequest(tokenMachine);
+            _setNameRequest.SetName(userName.Trim());
+            _setNameRequest.SendRequest(tokenMachine);
         }
 
 
@@ -119,8 +128,12 @@ namespace CardMaga.UI
 
     public class SetNameRequest : BaseServerRequest
     {
-        private readonly string _currentName;
-        public SetNameRequest(string name)
+        private string _currentName;
+        public string FeedBack;
+        public bool IsSuccess;
+
+        public event Action OnFailedName;
+        public void SetName(string name)
         {
             _currentName = name;
         }
@@ -139,11 +152,14 @@ namespace CardMaga.UI
         {
             string failedText = "Failed To Set Name";
             Debug.LogError(failedText + "\nError: " + obj.ErrorMessage);
-            GetUserName();
+            FeedBack = obj.ErrorMessage;
+            IsSuccess = false;
+            OnFailedName?.Invoke();
         }
 
         private void OnSuccess(UpdateUserTitleDisplayNameResult obj)
         {
+            IsSuccess = true;
             GetUserName();
         }
 
