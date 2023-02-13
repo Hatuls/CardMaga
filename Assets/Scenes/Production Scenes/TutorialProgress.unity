@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -668,6 +668,11 @@ MonoBehaviour:
   _holdDistance: 0.5
   _currentState: 0
   _identification: {fileID: 11400000, guid: 5d1303e07fdd8724e9f1f484ea4f5085, type: 2}
+  _buttonText: {fileID: 0}
+  _renderer: {fileID: 0}
+  _onPress: {fileID: 0}
+  _onIdle: {fileID: 0}
+  Text: 
 --- !u!114 &992681541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2068,6 +2073,41 @@ PrefabInstance:
       propertyPath: _badges.Array.data[5]._rectTransform
       value: 
       objectReference: {fileID: 2623119570254832145}
+    - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
+        type: 3}
+      propertyPath: _tutorialRewards._tutorialRewards.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
+        type: 3}
+      propertyPath: _tutorialRewards._tutorialRewards.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 933aa6cb20c440941b07e4b9cc918921,
+        type: 2}
+    - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
+        type: 3}
+      propertyPath: _tutorialRewards._tutorialRewards.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 77a288e43b4331e47828795348b32c95,
+        type: 2}
+    - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
+        type: 3}
+      propertyPath: _tutorialRewards._tutorialRewards.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bbc73d518b78b44ab1ad62514067578,
+        type: 2}
+    - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
+        type: 3}
+      propertyPath: _tutorialRewards._tutorialRewards.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9245145225ceb634a915ccc0dd2eb40f,
+        type: 2}
+    - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
+        type: 3}
+      propertyPath: _tutorialRewards._tutorialRewards.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: e66ba727d1945c14a8704066d9437932,
+        type: 2}
     - target: {fileID: 3976990433353424638, guid: a9d777d54714b5e428582dc6893ad009,
         type: 3}
       propertyPath: OnEndTutorial.m_PersistentCalls.m_Calls.Array.size

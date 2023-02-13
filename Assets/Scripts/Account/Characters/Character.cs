@@ -17,9 +17,18 @@ namespace Account.GeneralData
         public Character GetMainCharacter() => Characters.FirstOrDefault(x => x.ID == MainCharacterID);
         public void AddCharacter(Character character)
         {
-            if (!Characters.Contains(character))
+            if (!Characters.Contains(character) && !ContainID(character.ID))
             {
                 Characters.Add(character);
+            }
+            bool ContainID(int id)
+            {
+                for (int i = 0; i < Characters.Count; i++)
+                {
+                    if (Characters[i].ID == id)
+                        return true;
+                }
+                return false;
             }
         }
         public bool IsValid()
