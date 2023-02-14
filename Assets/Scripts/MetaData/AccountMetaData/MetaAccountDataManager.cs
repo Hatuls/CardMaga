@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Account.GeneralData;
 using CardMaga.MetaData.Collection;
+using CardMaga.Rewards;
 using CardMaga.SequenceOperation;
 using MetaData;
 using ReiTools.TokenMachine;
@@ -24,6 +26,13 @@ namespace CardMaga.MetaData.AccoutData
             _accountDataCollection = data.AccountDataCollectionHelper;
 
             _metaAccountData = _accountDataAccess.GetMetaAccountData();
+
+            PackRewardScreen.OnCardsGifted += GetGiftCards;
+        }
+
+        ~MetaAccountDataManager()
+        {
+            PackRewardScreen.OnCardsGifted -= GetGiftCards;
         }
         
         /// <summary>
@@ -93,6 +102,16 @@ namespace CardMaga.MetaData.AccoutData
             }
             
             //_accountDataAccess.UpgradeCard();
+        }
+
+        private void GetGiftCards(IEnumerable<CoreID> cards)
+        {
+            var cardFactory = Factory.GameFactory.Instance.CardFactoryHandler;
+            
+            foreach (var coreID in cards)
+            {
+                AddNewCard(cardFactory.CreateCardInstance(coreID));
+            }
         }
 
         private void AddNewCard(CardInstance cardInstance)
