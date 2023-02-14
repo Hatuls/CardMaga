@@ -99,7 +99,6 @@ namespace CardMaga.MetaData.AccoutData
         {
             _metaAccountData.AccountCards.Add(cardInstance);
             _accountDataCollection.CollectionCardDatasHandler.AddCardInstance(new MetaCardInstanceInfo(cardInstance));
-            _accountDataAccess.AddCard(cardInstance);
         }
 
     }

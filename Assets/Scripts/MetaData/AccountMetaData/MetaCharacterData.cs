@@ -100,7 +100,6 @@ namespace CardMaga.MetaData.AccoutData
             }
 
             _decks.Add(metaDeckData);
-            
             SetMainDeck(_decks.Count - 1);
         }
 

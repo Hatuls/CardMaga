@@ -74,6 +74,7 @@ namespace CardMaga.MetaData.Collection
         }
 
         public void UpdateDeck()
+        
         {
             TokenMachine tokenMachine = new TokenMachine(OnSuccessUpdateDeck);
             _accountDataAccess.UpdateDeck(_metaDeckData,tokenMachine);

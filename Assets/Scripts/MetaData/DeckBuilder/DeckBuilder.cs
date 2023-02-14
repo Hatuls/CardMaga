@@ -98,7 +98,7 @@ namespace CardMaga.MetaData.DeckBuilding
                 metaDeckData = _deck;
                 return true;
             }
-
+            
             metaDeckData = _deck;
             return false;
         }
