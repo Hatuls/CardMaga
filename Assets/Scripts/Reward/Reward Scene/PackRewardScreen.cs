@@ -1,10 +1,12 @@
-﻿using CardMaga.Battle.Players;
+﻿using Account.GeneralData;
+using CardMaga.Battle.Players;
 using CardMaga.CinematicSystem;
 using CardMaga.MetaUI;
 using CardMaga.UI.Visuals;
 using Factory;
 using ReiTools.TokenMachine;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,6 +23,9 @@ namespace CardMaga.Rewards
     }
     public class PackRewardScreen : BaseRewardsVisualHandler
     {
+
+        public static event Action<IEnumerable<CoreID>> OnCardsGifted;
+
         [SerializeField]
         private PackInfo[] _packInfo;
    
@@ -41,17 +46,32 @@ namespace CardMaga.Rewards
                     yield return _rewards[i] as PackReward;
             }
         }
-
-        public override void Init()
+        private IEnumerable<CoreID> CardsReceived
         {
-            base.Init();
+            get
+            {
+                foreach (var pack in PackRewards)
+                {
+                    IReadOnlyList<int> cardsID = pack.CardsID;
+                    for (int i = 0; i < cardsID.Count; i++)
+                        yield return new CoreID(cardsID[i]);
+                }
+            }
         }
+
         public override void Show()
         {
             base.Show();
             MoveNext();
         }
 
+        protected override void AddRewards()
+        {
+            foreach (var item in PackRewards)
+                item.AddToDevicesData();
+
+            OnCardsGifted?.Invoke(CardsReceived);
+        }
         private void MoveNext()
         {
             if (_cardsIDS.Count == 0)
