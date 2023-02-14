@@ -1,5 +1,6 @@
 using System;
 using Account.GeneralData;
+using CardMaga.MetaData.Collection;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
 using CardMaga.UI.Card;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaCardUI : BaseUIElement, IPoolableMB<MetaCardUI>, IVisualAssign<CardInstance> ,IEquatable<MetaCardUI>
+    public class MetaCardUI : BaseUIElement, IPoolableMB<MetaCardUI>, IVisualAssign<MetaCardInstanceInfo> ,IEquatable<MetaCardUI>
 
     {
         public event Action<MetaCardUI> OnDisposed;
@@ -37,11 +38,11 @@ namespace CardMaga.MetaUI
             Dispose();
         }
 
-        public void AssignVisual(CardInstance data)
+        public void AssignVisual(MetaCardInstanceInfo data)
         {
-            CardUI.AssignVisualAndData(Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(data));
+            CardUI.AssignVisualAndData(Factory.GameFactory.Instance.CardFactoryHandler.CreateCard(data.CardInstance));
     
-            _cardInstance = data;
+            _cardInstance = data.CardInstance;
             //_cardVisuals.CardZoomHandler.ForceReset();//plaster
         }
 
@@ -56,7 +57,7 @@ namespace CardMaga.MetaUI
         [SerializeField]
         private CardCore core;
         [ContextMenu("Assign Card Instance")]
-        private void SetInstance() => AssignVisual(new CardInstance(core));
+        private void SetInstance() => AssignVisual( new MetaCardInstanceInfo(new CardInstance(core)));
 #endif
     }
 }

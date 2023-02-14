@@ -22,13 +22,13 @@ namespace MetaData
         
         private static SequenceHandler<MetaDataManager> _sequenceHandler = new SequenceHandler<MetaDataManager>();
         
-        [SerializeField] private MetaDeckEditingDataManager _metaDeckEditingDataManager;
-        [SerializeField] private DismantleDataManager _dismantleDataManager;
+        [SerializeField] private MetaAccountDataManager _accountDataManager;
 
+        private DismantleDataManager _dismantleDataManager;
+        private MetaDeckEditingDataManager _metaDeckEditingDataManager;
         private MetaValidatorTerminal _validatorTerminal;
         private DeckBuilder _deckBuilder; 
         private UpgradeManager _upgradeManager;
-        private MetaAccountDataManager _accountDataManager;
 
 
         private IDisposable _token;

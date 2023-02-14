@@ -8,7 +8,7 @@ using UnityEngine;
 namespace CardMaga.MetaData.Collection
 {
     [Serializable]
-    public class MetaCardInstanceInfo : IDisposable
+    public class MetaCardInstanceInfo : IDisposable, IEquatable<MetaCardInstanceInfo>,IEquatable<int>
     {
         [SerializeField, ReadOnly] 
         private CardInstance _cardInstance;
@@ -75,6 +75,16 @@ namespace CardMaga.MetaData.Collection
         public void Dispose()
         {
             
+        }
+
+        public bool Equals(MetaCardInstanceInfo other)
+        {
+            return other != null && InstanceID == other.InstanceID;
+        }
+
+        public bool Equals(int other)
+        {
+            return CoreID == other;
         }
     }
 }

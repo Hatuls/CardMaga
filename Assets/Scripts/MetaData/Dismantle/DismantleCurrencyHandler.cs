@@ -1,6 +1,7 @@
 using System;
 using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
+using CardMaga.MetaData.Collection;
 using CardMaga.Rewards;
 using UnityEngine;
 
@@ -31,19 +32,17 @@ namespace CardMaga.MetaData.Dismantle
         {
             Resources.UnloadAsset(_costsSo);
         }
-        public void AddCardCurrency(CardInstance cardInstance)
+        public void AddCardCurrency(MetaCardInstanceInfo cardInstance)
         {
-            var cardCore = cardInstance.GetCardCore();
+            var cardCore = cardInstance.CardInstance.GetCardCore();
 
             _chipsCurrency += Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Chips).Amount);
 
             _goldCurrency += Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Gold).Amount);
         }
         
-        public void RemoveCardCurrency(CardInstance cardInstance)
+        public void RemoveCardCurrency(CardCore cardCore)
         {
-            var cardCore = cardInstance.GetCardCore();
-
             _chipsCurrency -= Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Chips).Amount);
 
             _goldCurrency -= Convert.ToInt32(_costsSo.GetCardCostPerCurrencyAndCardCore(cardCore, CurrencyType.Gold).Amount);

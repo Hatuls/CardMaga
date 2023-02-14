@@ -6,25 +6,22 @@ namespace CardMaga.MetaData.AccoutData
 {
     public class AccountCollectionCopyHelper
     {
-        private MetaDeckData _metaDeckData;
         private CardsCollectionDataHandler _cardsCollectionDataHandler;
         private ComboCollectionDataHandler _comboCollectionDataHandler;
-
-        public MetaDeckData MetaDeckData => _metaDeckData;
+        
 
         public CardsCollectionDataHandler CardsCollectionDataHandler => _cardsCollectionDataHandler;
 
         public ComboCollectionDataHandler ComboCollectionDataHandler => _comboCollectionDataHandler;
         
 
-        public AccountCollectionCopyHelper(AccountDataCollectionHelper accountDataCollectionHelper,MetaDeckData metaDeckData)
+        public AccountCollectionCopyHelper(AccountDataCollectionHelper accountDataCollectionHelper)
         {
-            _metaDeckData = metaDeckData.GetCopy();
-            _cardsCollectionDataHandler = GetCardCollectionByDeck(metaDeckData.DeckId);
-            _comboCollectionDataHandler = GetComboCollectionByDeck(metaDeckData.DeckId);
+            _cardsCollectionDataHandler = accountDataCollectionHelper.CollectionCardDatasHandler.GetCollectionCopy();
+            _comboCollectionDataHandler = accountDataCollectionHelper.CollectionComboDatasHandler.GetCollectionCopy();
         }
 
-        private CardsCollectionDataHandler GetCardCollectionByDeck(int deckId) 
+        public CardsCollectionDataHandler GetCardCollectionByDeck(int deckId) 
         {
             bool Condition(MetaCardInstanceInfo metaCardInstanceInfo)
             {
@@ -39,7 +36,7 @@ namespace CardMaga.MetaData.AccoutData
                     instanceIDs.AddRange(metaCardInstanceInfos.Select(instanceInfo => instanceInfo.InstanceID));
             }
             
-            var output = new CardsCollectionDataHandler(_cardsCollectionDataHandler.GetCollectionCopy());
+            var output = _cardsCollectionDataHandler.GetCollectionCopy();
             
             foreach (var cardData in output.CollectionCardDatas.Values)
             {
@@ -52,7 +49,7 @@ namespace CardMaga.MetaData.AccoutData
             return output;
         }
 
-        private ComboCollectionDataHandler GetComboCollectionByDeck(int deckId)
+        public ComboCollectionDataHandler GetComboCollectionByDeck(int deckId)
         {
             bool Condition(MetaComboInstanceInfo metaComboInstanceInfo)
             {
@@ -69,7 +66,7 @@ namespace CardMaga.MetaData.AccoutData
                 }   
             }
 
-            var output = new ComboCollectionDataHandler(_comboCollectionDataHandler.GetCollectionCopy());
+            var output = _comboCollectionDataHandler.GetCollectionCopy();
             
             foreach (var comboData in output.CollectionComboDatas)
             {

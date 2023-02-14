@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Account;
 using Account.GeneralData;
 using CardMaga.MetaData.AccoutData;
+using CardMaga.MetaData.Collection;
 using ReiTools.TokenMachine;
 
 namespace CardMaga.Server.Request
@@ -81,8 +82,8 @@ namespace CardMaga.Server.Request
 
             id = _deckData.DeckId;
             name = _deckData.DeckName;
-            List<CardInstance> cardDatas = _deckData.Cards;
-            List<ComboInstance> comboDatas = _deckData.Combos;
+            List<MetaCardInstanceInfo> cardDatas = _deckData.Cards;
+            List<MetaComboInstanceInfo> comboDatas = _deckData.Combos;
 
             cards = new CoreID[cardDatas.Count];
 

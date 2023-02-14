@@ -27,9 +27,9 @@ namespace CardMaga.MetaData.AccoutData
         public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
             _accountDataAccess = new AccountDataAccess();
-            _accountDataCollection = new AccountDataCollectionHelper();
+            _accountDataCollection = new AccountDataCollectionHelper(_accountDataAccess.AccountData);
 
-            _metaAccountData = _accountDataAccess.GetMetaAccountData();
+            _metaAccountData = _accountDataAccess.AccountData;
 
             PackRewardScreen.OnCardsGifted += GetGiftCards;
         }
@@ -43,35 +43,35 @@ namespace CardMaga.MetaData.AccoutData
         /// Permanently delete card instance from all user data 
         /// </summary>
         /// <param name="metaCardInstanceInfo"></param>
-        public void RemoveCard(MetaCardInstanceInfo metaCardInstanceInfo)
-        {
-            _metaAccountData.AccountCards.Remove(metaCardInstanceInfo.CardInstance);
-            
-            foreach (var deckId in metaCardInstanceInfo.AssociateDeck)
-            {
-                var characters = _metaAccountData.CharacterDatas.CharacterDatas;
-                
-                foreach (var characterData in characters)
-                {
-                    characterData.Decks[deckId].RemoveCard(metaCardInstanceInfo.CardInstance);
-                }
-            }
-            
-            _accountDataAccess.RemoveCard(metaCardInstanceInfo.GetCoreID());
-
-            _accountDataCollection.CollectionCardDatasHandler.TryRemoveCardInstance(metaCardInstanceInfo.InstanceID,true);
-        }
-        
-        public void RemoveCard(CardInstance cardInstance)
+        // public void RemoveCard(MetaCardInstanceInfo metaCardInstanceInfo)
+        // {
+        //     _metaAccountData.AccountCards.Remove(metaCardInstanceInfo);
+        //     
+        //     foreach (var deckId in metaCardInstanceInfo.AssociateDeck)
+        //     {
+        //         var characters = _metaAccountData.CharacterDatas.CharacterDatas;
+        //         
+        //         foreach (var characterData in characters)
+        //         {
+        //             characterData.Decks[deckId].RemoveCard(metaCardInstanceInfo);
+        //         }
+        //     }
+        //     
+        //     _accountDataAccess.RemoveCard(metaCardInstanceInfo.GetCoreID());
+        //
+        //     _accountDataCollection.CollectionCardDatasHandler.TryRemoveCardInstance(metaCardInstanceInfo.InstanceID,true);
+        // }
+        //
+        public void RemoveCard(MetaCardInstanceInfo cardInstance)
         {
             _metaAccountData.AccountCards.Remove(cardInstance);
 
-            _accountDataAccess.RemoveCard(cardInstance.GetCoreId());
+            _accountDataAccess.RemoveCard(cardInstance.CardInstance.GetCoreId());
 
             _accountDataCollection.CollectionCardDatasHandler.TryRemoveCardInstance(cardInstance.InstanceID,true);
         }
 
-        public void AddCard(CardInstance cardInstance)
+        public void AddCard(MetaCardInstanceInfo cardInstance)
         {
             if (_metaAccountData.AccountCards.Contains(cardInstance))
             {
@@ -80,6 +80,19 @@ namespace CardMaga.MetaData.AccoutData
             }
             
             //add new
+        }
+
+        public void UpdateDeckAssociate(int deckID)
+        {
+            var deck = _metaAccountData.CharacterDatas.MainCharacterData.Decks[deckID];
+
+            foreach (var instanceInfo in deck.Cards)
+            {
+                if (instanceInfo.IsInDeck(deckID))
+                    continue;
+                
+                instanceInfo.AddToDeck(deckID);
+            }
         }
 
         public void UpdateDeck(MetaDeckData metaDeckData,ITokenReceiver tokenReceiver)
@@ -91,34 +104,34 @@ namespace CardMaga.MetaData.AccoutData
 
         private void UpdateCard(CardInstance cardInstance)
         {
-            if (!_accountDataCollection.CollectionCardDatasHandler.TryGetCardInstanceInfo(x =>
-                    x.InstanceID == cardInstance.InstanceID, out MetaCardInstanceInfo[] metaCardInstanceInfo))
-            {
-                throw new Exception($"MetaAccountDataManager: cant find cardInstance by id: {cardInstance.InstanceID}");
-            }
-
-            foreach (var instance in _metaAccountData.AccountCards)
-            {
-                if (instance.InstanceID == cardInstance.InstanceID)
-                {
-                    if (instance.CoreID != cardInstance.CoreID)
-                    {
-                        instance.UpdateCoreId(cardInstance.GetCoreId());
-                    }
-                }
-            }
-
-            var cardInstanceInfo = metaCardInstanceInfo[0];
-            
-            foreach (var deckId in cardInstanceInfo.AssociateDeck)
-            {
-                var characters = _metaAccountData.CharacterDatas.CharacterDatas;
-                
-                foreach (var characterData in characters)
-                {
-                    characterData.Decks[deckId].RemoveCard(cardInstanceInfo.CardInstance);
-                }
-            }
+            // if (!_accountDataCollection.CollectionCardDatasHandler.TryGetCardInstanceInfo(x =>
+            //         x.InstanceID == cardInstance.InstanceID, out MetaCardInstanceInfo[] metaCardInstanceInfo))
+            // {
+            //     throw new Exception($"MetaAccountDataManager: cant find cardInstance by id: {cardInstance.InstanceID}");
+            // }
+            //
+            // foreach (var instance in _metaAccountData.AccountCards)
+            // {
+            //     if (instance.InstanceID == cardInstance.InstanceID)
+            //     {
+            //         if (instance.CoreID != cardInstance.CoreID)
+            //         {
+            //             instance.UpdateCoreId(cardInstance.GetCoreId());
+            //         }
+            //     }
+            // }
+            //
+            // var cardInstanceInfo = metaCardInstanceInfo[0];
+            //
+            // foreach (var deckId in cardInstanceInfo.AssociateDeck)
+            // {
+            //     var characters = _metaAccountData.CharacterDatas.CharacterDatas;
+            //     
+            //     foreach (var characterData in characters)
+            //     {
+            //         characterData.Decks[deckId].RemoveCard(cardInstanceInfo.CardInstance);
+            //     }
+            // }
             
             //_accountDataAccess.UpgradeCard();
         }
@@ -135,8 +148,10 @@ namespace CardMaga.MetaData.AccoutData
 
         private void AddNewCard(CardInstance cardInstance)
         {
-            _metaAccountData.AccountCards.Add(cardInstance);
-            _accountDataCollection.CollectionCardDatasHandler.AddCardInstance(new MetaCardInstanceInfo(cardInstance));
+            var metaCardInstanceInfo = new MetaCardInstanceInfo(cardInstance);
+            
+            _metaAccountData.AccountCards.Add(metaCardInstanceInfo);
+            _accountDataCollection.CollectionCardDatasHandler.AddCardInstance(metaCardInstanceInfo);
         }
 
     }

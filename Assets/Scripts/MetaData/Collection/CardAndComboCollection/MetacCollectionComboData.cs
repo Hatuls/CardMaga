@@ -10,7 +10,7 @@ namespace CardMaga.MetaData.Collection
     [Serializable]
     public class MetaCollectionComboData : BaseCollectionDataItem , IEquatable<MetaCollectionComboData>,IEquatable<ComboCore>
     {
-        public event Action<ComboInstance> OnTryAddItemToCollection; 
+        public event Action<MetaComboInstanceInfo> OnTryAddItemToCollection; 
         public event Action<ComboCore> OnTryRemoveItemFromCollection;
         public event Action OnSuccessAddOrRemoveFromCollection;
         
@@ -23,18 +23,25 @@ namespace CardMaga.MetaData.Collection
         public bool IsInAnyDeck => _comboInstanceInfos.Count == 0;
         public override int NumberOfInstance => _comboInstanceInfos.Count;
         public int CoreID => _comboData.CoreID;
+
+        public MetaCollectionComboData(MetaCollectionComboData copyFrom)
+        {
+            _comboInstanceInfos = copyFrom._comboInstanceInfos;
+            _comboData = copyFrom.ComboData;
+            _maxInstants = 1;
+        }
         
-        public MetaCollectionComboData(ComboInstance comboInstance)
+        public MetaCollectionComboData(MetaComboInstanceInfo comboInstance)
         {
             _comboInstanceInfos = new List<MetaComboInstanceInfo>();
-            _comboData = comboInstance.ComboCore;
+            _comboData = comboInstance.ComboInstance.ComboCore;
             _maxInstants = 1; //plastte 23.01.2023
-            _comboInstanceInfos.Add(new MetaComboInstanceInfo(comboInstance));
+            _comboInstanceInfos.Add(comboInstance);
         }
 
         public void AddComboToCollection()
         {
-            OnTryAddItemToCollection?.Invoke(_comboInstanceInfos[0].ComboInstance);
+            OnTryAddItemToCollection?.Invoke(_comboInstanceInfos[0]);
         }
 
         public void RemoveComboFromCollection()
@@ -42,7 +49,7 @@ namespace CardMaga.MetaData.Collection
             OnTryRemoveItemFromCollection?.Invoke(_comboData);
         }
 
-        public void SuccessAddOrRemoveFromCollection(ComboInstance comboInstance)
+        public void SuccessAddOrRemoveFromCollection(MetaComboInstanceInfo comboInstance)
         {
             OnSuccessAddOrRemoveFromCollection?.Invoke();
         }

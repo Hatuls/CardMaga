@@ -8,7 +8,6 @@ using ReiTools.TokenMachine;
 
 namespace CardMaga.MetaData.Collection
 {
-    [Serializable]
     public class MetaDeckEditingDataManager : ISequenceOperation<MetaDataManager>, IDisposable
     {
         public event Action OnSuccessUpdateDeck;
@@ -16,17 +15,20 @@ namespace CardMaga.MetaData.Collection
         
         private DeckBuilder _deckBuilder;
         private MetaAccountDataManager _metaAccountDataManager;
-        private MetaDeckData _metaDeckData;
         private MetaDeckData _metaDeckDataCopy;
+        
         private AccountCollectionCopyHelper _collectionCopy;
         private AccountDataCollectionHelper _accountDataCollectionHelper;
 
         private bool _isDefaultDeck;
 
         private bool _isDeckUpdateToAccount;
-        
-        public CardsCollectionDataHandler CardCollectionDataHandler => _collectionCopy.CardsCollectionDataHandler;
-        public ComboCollectionDataHandler ComboCollectionDataHandler => _collectionCopy.ComboCollectionDataHandler;
+
+        private CardsCollectionDataHandler _cardsCollectionDataHandler;
+        private ComboCollectionDataHandler _comboCollectionDataHandler;
+
+        public CardsCollectionDataHandler CardCollectionDataHandler => _cardsCollectionDataHandler;
+        public ComboCollectionDataHandler ComboCollectionDataHandler => _comboCollectionDataHandler;
         
         public MetaDeckData MetaDeckData => _metaDeckDataCopy;
         
@@ -42,27 +44,33 @@ namespace CardMaga.MetaData.Collection
         
         public void AssignDeckDataToEdit()
         {
+            _accountDataCollectionHelper.UpdateCollection();
+            _collectionCopy = _accountDataCollectionHelper.GetCollectionCopy();
+            
             if (_isDeckUpdateToAccount)
             {
                 var metaDeckData = _metaAccountDataManager.MetaAccountData.CharacterDatas.MainCharacterData.MainDeck;
-                _collectionCopy = _accountDataCollectionHelper.GetCollectionCopy(metaDeckData);
                 _isDefaultDeck = metaDeckData.DeckId == 0;
+                _metaDeckDataCopy = metaDeckData.GetCopy();
                 _isDeckUpdateToAccount = false;
             }
 
-            _deckBuilder.AssignDeckToEdit(_collectionCopy.MetaDeckData,_collectionCopy.CardsCollectionDataHandler,_collectionCopy.ComboCollectionDataHandler);
+            _cardsCollectionDataHandler = _collectionCopy.GetCardCollectionByDeck(_metaDeckDataCopy.DeckId);
+            _comboCollectionDataHandler = _collectionCopy.GetComboCollectionByDeck(_metaDeckDataCopy.DeckId);
+
+            _deckBuilder.AssignDeckToEdit(_metaDeckDataCopy,_cardsCollectionDataHandler,_comboCollectionDataHandler);
         }
 
         public void ExitDeckEditing()
         {
             if (_deckBuilder.TryApplyDeck(out MetaDeckData metaDeckData))
             {
-                _metaDeckData = metaDeckData;
+                _metaDeckDataCopy = metaDeckData;
                 UpdateDeck();
             }
             else
             {
-                _metaDeckData = metaDeckData;
+                _metaDeckDataCopy = metaDeckData;
                 OnFailedUpdateDeck?.Invoke(_isDefaultDeck);
             }
         }
@@ -70,16 +78,18 @@ namespace CardMaga.MetaData.Collection
         public void UpdateDeck()
         {
             TokenMachine tokenMachine = new TokenMachine(OnSuccessUpdateDeck);
-            _metaAccountDataManager.UpdateDeck(_metaDeckData,tokenMachine);
+            _metaAccountDataManager.UpdateDeck(_metaDeckDataCopy,tokenMachine);
             _isDeckUpdateToAccount = true;
         }
 
         public void DiscardDeck()
         {
-            _metaDeckData = null;
+            if (_isDefaultDeck)
+            {
+                _metaAccountDataManager.UpdateDeckAssociate(_metaDeckDataCopy.DeckId);
+            }
             _metaDeckDataCopy = null;
             _isDeckUpdateToAccount = true;
-            
             _deckBuilder.ResetDeckEditing();
         }
 
@@ -88,4 +98,3 @@ namespace CardMaga.MetaData.Collection
         }
     }
 }
-

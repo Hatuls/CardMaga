@@ -8,7 +8,7 @@ using UnityEngine;
 namespace CardMaga.MetaData.Collection
 {
     [Serializable]
-    public class MetaComboInstanceInfo
+    public class MetaComboInstanceInfo : IEquatable<MetaComboInstanceInfo>,IEquatable<int>
     {
         [SerializeField, ReadOnly] private ComboInstance _comboInstance;
         [SerializeField,ReadOnly]
@@ -17,6 +17,8 @@ namespace CardMaga.MetaData.Collection
         public ComboInstance ComboInstance => _comboInstance;
 
         public int InstanceID => _comboInstance.InstanceID;
+
+        public int CoreID => _comboInstance.CoreID;
 
         public bool InDeck => _associateDeck.Count > 0;
 
@@ -42,6 +44,16 @@ namespace CardMaga.MetaData.Collection
         public bool IsInDeck(int deckID)
         {
             return _associateDeck.Any(DeckId => DeckId == deckID);
+        }
+
+        public bool Equals(MetaComboInstanceInfo other)
+        {
+            return other != null && InstanceID == other.InstanceID;
+        }
+
+        public bool Equals(int other)
+        {
+            return CoreID == other;
         }
     }
 }

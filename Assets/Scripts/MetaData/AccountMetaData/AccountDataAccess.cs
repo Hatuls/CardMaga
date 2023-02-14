@@ -10,7 +10,7 @@ using Account.GeneralData;
 namespace CardMaga.MetaData.AccoutData
 {
     [Serializable]
-    public class AccountDataAccess : ISequenceOperation<MetaDataManager>
+    public class AccountDataAccess
     {
         [NonSerialized]
         private AccountData _accountData;
@@ -21,6 +21,12 @@ namespace CardMaga.MetaData.AccoutData
         
         public int Priority => 0;
 
+        public AccountDataAccess()
+        {
+            _accountData = AccountManager.Instance.Data;
+            _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);
+        }
+        
         internal void RemoveCard(CoreID coreId)
         {
             _accountData.AllCards.RemoveCard(coreId);
@@ -59,12 +65,6 @@ namespace CardMaga.MetaData.AccoutData
             
             serverRequest.SendRequest(tokenMachine);//need to add character support
         }
-
-        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
-        {
-            _accountData = AccountManager.Instance.Data;
-            _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);
-       }
 
         internal MetaAccountData GetMetaAccountData()
         {

@@ -18,10 +18,10 @@ namespace CardMaga.MetaData.DeckBuilding
         public event Action<IValidFailedInfo> OnFailedToAddCard; 
         public event Action<IValidFailedInfo> OnFailedToUpdateDeckName; 
         public event Action<MetaDeckData> OnNewDeckLoaded; 
-        public event Action<CardInstance> OnSuccessfulCardAdd;
-        public event Action<CardInstance> OnSuccessfulCardRemove;
-        public event Action<ComboInstance> OnSuccessfulComboAdd;
-        public event Action<ComboInstance> OnSuccessfulComboRemove;
+        public event Action<MetaCardInstanceInfo> OnSuccessfulCardAdd;
+        public event Action<MetaCardInstanceInfo> OnSuccessfulCardRemove;
+        public event Action<MetaComboInstanceInfo> OnSuccessfulComboAdd;
+        public event Action<MetaComboInstanceInfo> OnSuccessfulComboRemove;
 
         #endregion
 
@@ -118,7 +118,7 @@ namespace CardMaga.MetaData.DeckBuilding
             OnDeckNameUpdate?.Invoke();
         }
 
-        private void TryAddCard(CardInstance cardInstance)
+        private void TryAddCard(MetaCardInstanceInfo cardInstance)
         {
             if (_deck.Cards.Count >= MAX_CARD_IN_DECK)
             {
@@ -137,7 +137,6 @@ namespace CardMaga.MetaData.DeckBuilding
             if (_cardsCollectionDataHandler.TryRemoveCardInstance(cardInstance.InstanceID,false))
             {
                 //_deck.AddCard(cardInstance);
-                _cardsCollectionDataHandler.AddDeckAssociate(cardInstance,_deck.DeckId);
                 OnSuccessfulCardAdd?.Invoke(cardInstance);
             }
             else
@@ -146,7 +145,7 @@ namespace CardMaga.MetaData.DeckBuilding
             }
         }
 
-        private void TryAddCombo(ComboInstance comboInstance)
+        private void TryAddCombo(MetaComboInstanceInfo comboInstance)
         {
             if (_deck.Combos.Count >= MAX_COMBO_IN_DECK)
             {
@@ -171,18 +170,18 @@ namespace CardMaga.MetaData.DeckBuilding
 
         private void TryRemoveCard(CardCore cardCore)
         {
-            if (_deck.FindCardData(cardCore.CoreID,out CardInstance cardInstance))
+            if (_deck.FindCardData(cardCore.CoreID,out MetaCardInstanceInfo cardInstance))
             {
                 _deck.RemoveCard(cardInstance);
-                _cardsCollectionDataHandler.AddCardInstance(new MetaCardInstanceInfo(cardInstance));
-                _cardsCollectionDataHandler.RemoveDeckAssociate(cardInstance,_deck.DeckId);
+                _cardsCollectionDataHandler.AddCardInstance(cardInstance);
+               
                 OnSuccessfulCardRemove?.Invoke(cardInstance);
             }
         }
 
         private void TryRemoveCombo(ComboCore comboCore)
         {
-            if (_deck.FindComboData(comboCore.CoreID,out ComboInstance comboInstance))
+            if (_deck.FindComboData(comboCore.CoreID,out MetaComboInstanceInfo comboInstance))
             {
                 _comboCollectionDataHandler.AddComboCollection(comboInstance);
                 _deck.RemoveCombo(comboInstance);

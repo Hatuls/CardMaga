@@ -8,28 +8,28 @@ namespace CardMaga.MetaData.Dismantle
 {
     public class DismantleHandler
     {
-        public event Action<CardInstance> OnAddCardToDismantleList; 
-        public event Action<CardInstance> OnRemoveCardFromDismantleList; 
+        public event Action<MetaCardInstanceInfo> OnAddCardToDismantleList; 
+        public event Action<MetaCardInstanceInfo> OnRemoveCardFromDismantleList; 
 
-        private List<CardInstance> _dismantleCards;
+        private List<MetaCardInstanceInfo> _dismantleCards;
 
         private CardsCollectionDataHandler _originalCardCollection;
-        public IReadOnlyList<CardInstance> DismantleCards => _dismantleCards;
+        public IReadOnlyList<MetaCardInstanceInfo> DismantleCards => _dismantleCards;
         public DismantleHandler(CardsCollectionDataHandler originalCardCollection)
         {
-            _dismantleCards = new List<CardInstance>();
+            _dismantleCards = new List<MetaCardInstanceInfo>();
             _originalCardCollection = originalCardCollection;
         }
 
-        public void AddCardToDismantleList(CardInstance cardInstance)
+        public void AddCardToDismantleList(MetaCardInstanceInfo cardInstance)
         {
             _dismantleCards.Add(cardInstance);
             OnAddCardToDismantleList?.Invoke(cardInstance);
         }
 
-        public CardInstance RemoveCardFromDismantleList(CardCore cardCore)
+        public MetaCardInstanceInfo RemoveCardFromDismantleList(CardCore cardCore)
         {
-            if (FindCardInstanceInDismantelList(cardCore.CoreID,out CardInstance cardInstance))
+            if (FindCardInstanceInDismantelList(cardCore.CoreID,out MetaCardInstanceInfo cardInstance))
             {
                 _dismantleCards.Remove(cardInstance);
                 OnRemoveCardFromDismantleList?.Invoke(cardInstance);
@@ -40,7 +40,7 @@ namespace CardMaga.MetaData.Dismantle
             return null;
         }
         
-        private bool FindCardInstanceInDismantelList(int coreId ,out CardInstance cardInstance)
+        private bool FindCardInstanceInDismantelList(int coreId ,out MetaCardInstanceInfo cardInstance)
         {
             foreach (var card in _dismantleCards)
             {
@@ -61,7 +61,7 @@ namespace CardMaga.MetaData.Dismantle
             _dismantleCards.Clear();
         }
 
-        public List<CardInstance> ConfirmDismantleList()//plaster 10.1.23
+        public List<MetaCardInstanceInfo> ConfirmDismantleList()//plaster 10.1.23
         {
             foreach (var dismantleCard in _dismantleCards)
             {
