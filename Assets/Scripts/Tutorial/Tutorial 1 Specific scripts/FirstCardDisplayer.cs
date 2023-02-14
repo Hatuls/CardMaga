@@ -10,19 +10,19 @@ public class FirstCardDisplayer : MonoBehaviour
     [SerializeField] private DialoguesFlow _dialoguesFlow3;
     [SerializeField] private DialoguesFlow _dialoguesFlow4;
     [SerializeField] private DialoguesFlow _dialoguesFlow5;
-    private TutorialClickHelper _tutorialClickHelper;
-    private BattleUiManager _battleUIManager;
+    private BattleUiManager BattleUIManager => BattleUiManager.Instance;
     private IReadOnlyList<BattleCardUI> _cards;
-
+    private InputBehaviour<BattleCardUI> _tutorialZoomInInputBehaviour = new InputBehaviour<BattleCardUI>();
     public event Action OnZoomingOutCard;
     public event Action OnLoadCardOnPanelSecondsTime;
-    public IReadOnlyList<BattleCardUI> FirstCard { get => _cards; }
 
+    private TutorialClickHelper TutorialClickHelper  =>  TutorialClickHelper.Instance;
+
+    public BattleCardUI GetFirstCard => BattleUIManager.HandUI.GetCardUIFromHand()[0];
     public void GetCard()
     {
-        _tutorialClickHelper = TutorialClickHelper.Instance;
-        _battleUIManager = BattleUiManager.Instance;
-        _cards = _battleUIManager.HandUI.GetCardUIFromHand();
+
+        _cards = BattleUIManager.HandUI.GetCardUIFromHand();
         InputBehaviour<BattleCardUI> tutorialZoomOutInputBehaviour = new InputBehaviour<BattleCardUI>();
         _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomOutInputBehaviour);
         tutorialZoomOutInputBehaviour.OnClick += ZoomInCardInput;
@@ -32,16 +32,16 @@ public class FirstCardDisplayer : MonoBehaviour
 
     public void LoadCardOnPanel()
     {
-        _tutorialClickHelper.LoadObject(true, false, null, _cards[0].RectTransform);
+        TutorialClickHelper.LoadObject(true, false, null, GetFirstCard.RectTransform);
        BlockCardHold();
     }
 
     public void ZoomInCardInput(BattleCardUI cardUI)
     {
-        _battleUIManager.CardUIManager.HandUI.ZoomCardUI.MoveToZoomPosition(_cards[0]);
-        InputBehaviour<BattleCardUI> tutorialZoomInInputBehaviour = new InputBehaviour<BattleCardUI>();
-        _cards[0].Inputs.TrySetInputBehaviour(tutorialZoomInInputBehaviour);
-        tutorialZoomInInputBehaviour.OnClick += MoveNextDialogues;
+        BattleUIManager.CardUIManager.HandUI.ZoomCardUI.MoveToZoomPosition(_cards[0]);
+
+        GetFirstCard.Inputs.TrySetInputBehaviour(_tutorialZoomInInputBehaviour);
+        _tutorialZoomInInputBehaviour.OnClick += MoveNextDialogues;
     }
 
     private void MoveNextDialogues(BattleCardUI cardUI)
@@ -58,7 +58,7 @@ public class FirstCardDisplayer : MonoBehaviour
         {
             InputBehaviour<BattleCardUI> returnCardInputBehaviour = new InputBehaviour<BattleCardUI>();
             returnCardInputBehaviour.OnClick += ReturnCardToHand;
-            _cards[0].Inputs.TrySetInputBehaviour(returnCardInputBehaviour);
+            GetFirstCard.Inputs.TrySetInputBehaviour(returnCardInputBehaviour);
         }
 
     }
@@ -67,42 +67,42 @@ public class FirstCardDisplayer : MonoBehaviour
     {
         if (OnZoomingOutCard != null)
             OnZoomingOutCard.Invoke();
-        _cards[0].Inputs.ForceResetInputBehaviour();
-        _battleUIManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
-        _battleUIManager.CardUIManager.HandUI.SetToHandState(cardUI);
-        _cards[0].Inputs.DisableClick = true;
+        GetFirstCard.Inputs.ForceResetInputBehaviour();
+        BattleUIManager.CardUIManager.HandUI.ZoomCardUI.ForceExitState();
+        BattleUIManager.CardUIManager.HandUI.SetToHandState(cardUI);
+        GetFirstCard.Inputs.DisableClick = true;
     }
 
     public void PutInputBehaviourAfterZoomIn()
     {
         InputBehaviour<BattleCardUI> afterZoomOut = new InputBehaviour<BattleCardUI>();
-        _cards[0].Inputs.TrySetInputBehaviour(afterZoomOut);
-        afterZoomOut.OnBeginHold += _battleUIManager.HandUI.SetToFollowState;
+        GetFirstCard.Inputs.TrySetInputBehaviour(afterZoomOut);
+        afterZoomOut.OnBeginHold += BattleUIManager.HandUI.SetToFollowState;
     }
 
     public void BlockCardHold()
     {
-        _cards[0].Inputs.DisableHold = true;
+        GetFirstCard.Inputs.DisableHold = true;
     }
 
     public void UnBlockCardHold()
     {
-        _cards[0].Inputs.DisableHold = false;
+        GetFirstCard.Inputs.DisableHold = false;
     }
 
     public void LockCardInput()
     {
-        _cards[0].Inputs.Lock();
+        GetFirstCard.Inputs.Lock();
     }
 
     public void UnlockCardInput()
     {
-        _cards[0].Inputs.Lock();
+        GetFirstCard.Inputs.Lock();
     }
 
     private void OnDestroy()
     {
-
+       // _tutorialZoomInInputBehaviour.OnBeginHold -= 
     }
 
 }

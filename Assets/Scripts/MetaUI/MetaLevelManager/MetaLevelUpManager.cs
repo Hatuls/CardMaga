@@ -37,8 +37,16 @@ namespace CardMaga.MetaUI.LevelUp
                 return;
             ShowPopUp();
             _currentActivePopUp.GetComponent<LevelUpRewardPopUp>().Init(rewards, HidePopUp);
-        }
 
+        }
+        protected override void ShowPopUp()
+        {
+            base.ShowPopUp();
+            var rect = _currentActivePopUp.RectTransform;
+            rect.offsetMin = new Vector2(0, 0);
+            rect.offsetMax = new Vector2(0, 0);
+        }
+        protected override Transform Parent => transform.parent;
         protected override Vector2 GetStartLocation()
       => PopUpManager.Instance.GetPosition(_startLocation);
     }

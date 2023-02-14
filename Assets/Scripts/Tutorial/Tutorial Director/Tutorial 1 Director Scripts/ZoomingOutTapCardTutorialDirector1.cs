@@ -25,7 +25,7 @@ public class ZoomingOutTapCardTutorialDirector1 : BaseTutorialDirector
     {
         yield return null;
         yield return null;
-        _directorRect.transform.position = _firstCard.FirstCard[0].RectTransform.GetWorldPosition();
+        _directorRect.transform.position = _firstCard.GetFirstCard.RectTransform.GetWorldPosition();
         _playableDirector.Play();
     }
 }
