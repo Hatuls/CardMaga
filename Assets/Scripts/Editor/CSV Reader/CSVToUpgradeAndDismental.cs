@@ -81,7 +81,7 @@ namespace CardMaga.CSV
                     throw new System.Exception("CSVToLevelData: Max EXP is not a number\nInput " + cells[MAX_EXP_INDEX]);
                     maxEXP.Add(counter);
                 if (!int.TryParse(cells[GIFT_REWARD_ID_INDEX],out counter))
-                    throw new System.Exception("CSVToLevelData: Gift Reward ID is not a number\nInput " + cells[GIFT_REWARD_ID_INDEX]);
+                    throw new System.Exception("CSVToLevelData: Gift Reward ID is not a number\nInput " + cells[GIFT_REWARD_ID_INDEX]+"\nID: "+ cells[i]);
                     giftRewardID.Add(counter);
                 }
                 counter++;
