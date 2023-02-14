@@ -9,6 +9,10 @@ namespace CardMaga.UI.Visuals
         private ActivatedObject[] _activatedObjects;
 
         private ActivatedObject _currentObject;
+        private void Awake()
+        {
+            CloseAll();
+        }
         public void Activate(TagSO tagSO)
         {
             if (_currentObject != null)
@@ -46,7 +50,7 @@ namespace CardMaga.UI.Visuals
     [System.Serializable]
     public class ActivatedObject
     {
-        public TagSO TagSO;
+        public RewardTagSO TagSO;
         [SerializeField]
         private GameObject GameObject;
 

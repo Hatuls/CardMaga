@@ -55,7 +55,13 @@ public class EndGameManager : MonoBehaviour
         _rewardToken = _rewardTokenMachine.GetToken();
 
         if (rewardFactory == null)
+        {
+            if (_isLeftPlayerWon)
+            {
+                Debug.LogError("End Game Manager has no reward factory");
+            }
             return;
+        }
 
         var reward = rewardFactory.GenerateReward();
         reward.TryRecieveReward(_rewardTokenMachine);
@@ -63,10 +69,11 @@ public class EndGameManager : MonoBehaviour
 
     public void ShowReward()
     {
-        if (_isLeftPlayerWon)
+        if (_isLeftPlayerWon && _isInTutorial == false)
         {
             _victoryAndDefeat.gameObject.SetActive(false);
             _rewardScreen.gameObject.SetActive(true);
+            
         }
         else
             ReleaseSceneToken();

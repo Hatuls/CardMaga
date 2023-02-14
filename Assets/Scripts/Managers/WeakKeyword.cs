@@ -7,8 +7,12 @@ namespace CardMaga.Keywords
 {
     public class WeakKeyword : BaseKeywordLogic
     {
+        private readonly KeywordData _weak;
+        private readonly KeywordCommand _keywordCommand;
         public WeakKeyword(KeywordSO keywordSO, IPlayersManager playersManager) : base(keywordSO, playersManager)
         {
+            _weak = new KeywordData(KeywordSO, TargetEnum.MySelf, -1, 0); 
+            _keywordCommand = new KeywordCommand(_weak, CommandType.WithPrevious);
         }
 
 
@@ -18,10 +22,14 @@ namespace CardMaga.Keywords
         public override void EndTurnEffect(IPlayer currentCharacterTurn, GameDataCommands gameDataCommands)
         {
             var Weak = currentCharacterTurn.StatsHandler.GetStat(KeywordType.Weak);
+
             if (Weak.Amount > 0)
             {
-                var command = new StatCommand(Weak, -1);
-                gameDataCommands.DataCommands.AddCommand(command);
+                _keywordCommand.InitKeywordLogic(currentCharacterTurn, this);
+
+                gameDataCommands.DataCommands.AddCommand(_keywordCommand);
+
+                InvokeKeywordVisualEffect(currentCharacterTurn.IsLeft,KeywordSO.OnEndTurnVFX);
                 InvokeOnKeywordFinished();
             }
         }
@@ -34,13 +42,13 @@ namespace CardMaga.Keywords
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
             {
                 _playersManager.GetCharacter(currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
-                InvokeKeywordVisualEffect(currentPlayer);
+                InvokeKeywordVisualEffect(currentPlayer, KeywordSO.OnApplyVFX);
             }
 
             if (target == TargetEnum.All || target == TargetEnum.Opponent)
             {
                 _playersManager.GetCharacter(!currentPlayer).StatsHandler.GetStat(KeywordType).Add(amount);
-            InvokeKeywordVisualEffect(!currentPlayer);
+                InvokeKeywordVisualEffect(!currentPlayer, KeywordSO.OnApplyVFX);
             }
 
             KeywordSO.SoundEventSO.PlaySound();

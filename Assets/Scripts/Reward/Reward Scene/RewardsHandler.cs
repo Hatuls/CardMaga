@@ -1,6 +1,5 @@
 ﻿using CardMaga.Core;
 using CardMaga.Rewards.Bundles;
-using CardMaga.SequenceOperation;
 using CardMaga.UI;
 using ReiTools.TokenMachine;
 using Sirenix.Utilities;
@@ -14,32 +13,44 @@ namespace CardMaga.Rewards
 
     public class RewardsHandler : MonoBehaviour
     {
-        [SerializeField,EventsGroup]
-        private  UnityEvent OnRewardsScreenExit;
+        [SerializeField, EventsGroup]
+        private UnityEvent OnRewardsScreenExit;
         [SerializeField]
         private SceneLoader _sceneLoader;
         [SerializeField]
         private BaseRewardsVisualHandler[] _baseRewardScreens;
 
-        private SequenceHandler _sequenceHandler;
+        private OperationEnumerable _operationEnumerable;
+        //private SequenceHandler _sequenceHandler;
         void Start()
         {
+   
             IReadOnlyList<BaseRewardFactorySO> x = RewardManager.Instance.RewardsData.Rewards;
             AssignRewards(x);
             RegisterSequence();
-            _sequenceHandler.StartAll(ExitScene);
+            // _sequenceHandler.StartAll(ExitScene);
+            TokenMachine rewardsTokenMachine = new TokenMachine(ExitScene);
+            _operationEnumerable.Init(rewardsTokenMachine);
+            _operationEnumerable.StartOperation();
         }
+
 
         private void RegisterSequence()
         {
-            _sequenceHandler = new SequenceHandler();
+            //   _sequenceHandler = new SequenceHandler();
             BaseRewardsVisualHandler baseRewardScreen;
+            var operationBehaviours = new List<IOperationBehaviour>();
             for (int i = 0; i < _baseRewardScreens.Length; i++)
             {
                 baseRewardScreen = _baseRewardScreens[i];
+
                 if (baseRewardScreen.HasRewards)
-                    _sequenceHandler.Register(baseRewardScreen);
+                {
+                    operationBehaviours.Add(baseRewardScreen);
+                }
             }
+            _operationEnumerable = new OperationEnumerable(operationBehaviours, 0);
+
         }
 
         private void AssignRewards(IReadOnlyList<BaseRewardFactorySO> rewards)
@@ -82,6 +93,7 @@ namespace CardMaga.Rewards
 
         private void ExitScene()
         {
+            _operationEnumerable.OnCompleted -= ExitScene;
             RewardManager.Instance.RewardsData.ClearRewards();
             Account.AccountManager.Instance.SendAccountData();
             OnRewardsScreenExit?.Invoke();
@@ -96,14 +108,14 @@ namespace CardMaga.Rewards
         [Sirenix.OdinInspector.Button]
         public void PopulateList()
         {
-            _baseRewardScreens = FindObjectsOfType<BaseRewardsVisualHandler>(); 
+            _baseRewardScreens = FindObjectsOfType<BaseRewardsVisualHandler>();
             ReOrderList();
         }
 #endif
     }
 
 
-    public abstract class BaseRewardsVisualHandler : BaseUIElement, IComparable<BaseRewardsVisualHandler>, ISequenceOperation
+    public abstract class BaseRewardsVisualHandler : BaseUIElement, IComparable<BaseRewardsVisualHandler>, IOperationBehaviour //ISequenceOperation,
     {
         private IDisposable _token;
         [SerializeField]
@@ -115,9 +127,13 @@ namespace CardMaga.Rewards
         [SerializeField, EventsGroup]
         private UnityEvent OnShowEvent, OnHideEvent;
 
+        public event Action OnCompleted;
+
         public bool HasRewards => (_rewards.Count > 0);
 
-        public int Priority => _priority;
+
+        public int Order =>_priority;
+
         protected virtual void AddRewards()
         {
             foreach (var item in _rewards)
@@ -141,7 +157,7 @@ namespace CardMaga.Rewards
             OnHideEvent?.Invoke();
             base.Hide();
             AddRewards();
-            _token?.Dispose();
+            Completed();
         }
 
         public int CompareTo(BaseRewardsVisualHandler obj)
@@ -153,16 +169,32 @@ namespace CardMaga.Rewards
             return 0;
         }
 
-        public void ExecuteTask(ITokenReceiver tokenMachine)
-        {
-            _token = tokenMachine.GetToken();
-            Show();
-        }
+        //public void ExecuteTask(ITokenReceiver tokenMachine)
+        //{
+        //    _token = tokenMachine.GetToken();
+
+        //}
 
         private void OnDestroy()
         {
             _rewards.Clear();
             _rewards = null;
+        }
+
+        public void Init(ITokenReceiver tokenReciever)
+        => _token = tokenReciever.GetToken();
+
+
+
+        public void StartOperation()
+        {
+            Show();
+        }
+
+        public void Completed()
+        {
+            OnCompleted?.Invoke();
+            _token.Dispose();
         }
     }
 }

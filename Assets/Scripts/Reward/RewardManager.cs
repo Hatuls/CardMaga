@@ -20,11 +20,12 @@ namespace CardMaga.Rewards
             _rewardsData = new RewardsData();
         }
 
-        public void OpenRewardsScene(BaseRewardFactorySO[] rewards)
+        public void OpenRewardsScene(params BaseRewardFactorySO[] rewards)
         {
             _rewardsData.AddRewards(rewards);
             OpenRewardsScene();
         }
+       
         public void OpenRewardsScene()
         {
             _sceneLoader.LoadScene();
@@ -54,6 +55,7 @@ namespace CardMaga.Rewards
         void ClearRewards();
         void AddRewards(params BaseRewardFactorySO[] rewards);
         void RemoveReward(params BaseRewardFactorySO[] rewards);
+
     }
 #if UNITY_EDITOR
     [System.Serializable]
@@ -89,5 +91,6 @@ namespace CardMaga.Rewards
         }
         public void ClearRewards() => _rewards.Clear();
 
+    
     }
 }

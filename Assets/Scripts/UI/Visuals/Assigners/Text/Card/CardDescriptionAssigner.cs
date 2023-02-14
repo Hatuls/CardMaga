@@ -48,6 +48,8 @@ namespace CardMaga.UI.Text
 
             if (_keywordTextAssigners.Length == 0)
                 _keywordTextAssigners = _rows[0].transform.parent.GetComponentsInChildren<KeywordTextAssigner>();
+            try
+            {
 
             for (int i = 0; i < keywords.Count; i++)
             {
@@ -59,6 +61,13 @@ namespace CardMaga.UI.Text
                     current.AssignKeyword(data[i].KeywordSO, data[i].KeywordSO.GetDescription(data[i].GetAmountToApply));// new
 
                 current.Text.text = SetKeywordDescription(_descriptionColorSO.DescriptionColor, keywords[i]); // new
+            }
+            }
+
+            catch (Exception e)
+            {
+                Debug.LogError(comboData.CardSO.CardName);
+                throw e;
             }
             _descriptoins = keywords.Count;
 

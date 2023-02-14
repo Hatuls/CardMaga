@@ -11,8 +11,10 @@ namespace CardMaga.Rewards
     {
         [SerializeField,ReadOnly]
         private ResourceRewardVisualHandler[] _resourceVisualHandlers;
-
+        [SerializeField]
+        private ClickHelper _moveNextClickHelper;
         private SequenceHandler _sequenceHandler = new SequenceHandler();
+        private List<ResourceRewardVisualHandler> _resourcesList = new List<ResourceRewardVisualHandler>();
         public IEnumerable<CurrencyReward> CurrencyRewards
         {
             get
@@ -22,9 +24,11 @@ namespace CardMaga.Rewards
             }
         }
 
+      
         public override void Show()
         {
             base.Show();
+            _resourcesList.Clear();
             OpenRewardScreens();
         }
 
@@ -32,14 +36,28 @@ namespace CardMaga.Rewards
         {
             for (int i = 0; i < _resourceVisualHandlers.Length; i++)
             {
-                Debug.Log(_resourceVisualHandlers[i].CurrencyType + " - " + _resourceVisualHandlers[i].Amount);
-                if (_resourceVisualHandlers[i].HasValue)
-                    _sequenceHandler.Register(_resourceVisualHandlers[i]);
+                ResourceRewardVisualHandler resourceRewardVisualHandler = _resourceVisualHandlers[i];
+                Debug.Log(resourceRewardVisualHandler.CurrencyType + " - " + resourceRewardVisualHandler.Amount);
+                if (resourceRewardVisualHandler.HasValue)
+                    _resourcesList.Add(resourceRewardVisualHandler);
             }
-
-            _sequenceHandler.StartAll(Hide);
+            MoveNext();
+         //   _sequenceHandler.StartAll(Hide);
         }
 
+        public void MoveNext()
+        {
+            if(_resourcesList.Count <= 0)
+            {
+                Hide();
+                return;
+            }
+
+            var nextElement = _resourcesList[0];
+            _resourcesList.RemoveAt(0);
+            nextElement.Show();
+        }
+        public void WaitForInput() => _moveNextClickHelper.Open(MoveNext);
         protected override void AddRewards()
         {
             foreach (var item in _rewards)

@@ -1,8 +1,8 @@
 ﻿using Account;
+using CardMaga.MetaData;
 using CardMaga.Rewards.Bundles;
 using CardMaga.UI.Visuals;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 namespace CardMaga.UI.Account
 {
@@ -13,15 +13,15 @@ namespace CardMaga.UI.Account
         [SerializeField]
         private AccountBarVisualHandler _accountBarVisualHandler;
 
-
+        [SerializeField] LevelUpRewardsSO _levelUpRewardSO;
         [SerializeField]
-        private BaseUIElement[] _elementsToShowAccountBar; 
+        private BaseUIElement[] _elementsToShowAccountBar;
         [SerializeField]
         private BaseUIElement[] _elementsToHideAccountBar;
 
         public void Start()
         {
-            Refresh();
+     
             Instance = this;
             for (int i = 0; i < _elementsToHideAccountBar.Length; i++)
             {
@@ -34,7 +34,7 @@ namespace CardMaga.UI.Account
             }
             Show();
         }
-     
+
         private void OnDestroy()
         {
             for (int i = 0; i < _elementsToHideAccountBar.Length; i++)
@@ -49,9 +49,10 @@ namespace CardMaga.UI.Account
         }
         public void Refresh()
         {
-            _accountBarVisualHandler.Init(GenerateAccoundDataFirstTime());
+
+            _accountBarVisualHandler.Init(GetData());
         }
-        private AccountBarVisualData GenerateAccoundDataFirstTime()
+        private AccountBarVisualData GetData()
         {
             var accountManager = AccountManager.Instance;
             if (accountManager != null && accountManager.Data != null)
@@ -61,8 +62,8 @@ namespace CardMaga.UI.Account
                     (
                     accountManager.DisplayName,
                     data.AccountGeneralData.ImageID,// Take from account
-                    data.AccountLevel.Exp,
-                    0,
+                    accountManager.LevelManager.EXP,
+                    accountManager.LevelManager.MaxEXP,
                     data.AccountLevel.Level,
                     new ResourcesCost(Rewards.CurrencyType.Chips, data.AccountResources.Chips),
                     new ResourcesCost(Rewards.CurrencyType.Gold, data.AccountResources.Gold),
@@ -85,6 +86,7 @@ namespace CardMaga.UI.Account
 
 
         }
+
     }
 
 }

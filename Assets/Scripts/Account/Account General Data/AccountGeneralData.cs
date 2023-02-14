@@ -39,13 +39,14 @@ namespace Account.GeneralData
 
 
         public int Level;
-    public int Exp;
+        public int Exp;
 
         public LevelData()
         {
             Level = 1;
             Exp = 0;
         }
+
 
         internal bool IsValid()
         => Level >= 0 && Exp >= 0;

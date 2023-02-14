@@ -204,7 +204,6 @@ namespace CardMaga.MetaUI.CollectionUI
 
         private void OnDestroy()
         {
-            _dataManager.Dispose();
             _deckName.OnValueChange -= _deckBuilder.TryEditDeckName;//paster
             _deckBuilder.OnSuccessfulCardAdd -= AddCardUIToContainer;
             _deckBuilder.OnSuccessfulCardRemove -= RemoveCardUIFromContainer;
@@ -213,6 +212,7 @@ namespace CardMaga.MetaUI.CollectionUI
             
             _dataManager.OnSuccessUpdateDeck -= ExitAndDiscardDeck;
             _dataManager.OnFailedUpdateDeck -= FailedToUpdateDeck;
+            _dataManager.Dispose();
         }
         
         private MetaComboUI FindComboUI(ComboInstance comboData) => _metaComboUis.TakeWhile(metaComboUI => !ReferenceEquals(metaComboUI, null)).FirstOrDefault(metaComboUI => comboData.CoreID == metaComboUI.ComboData.CoreID);

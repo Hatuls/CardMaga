@@ -429,6 +429,7 @@ GameObject:
   - component: {fileID: 445693629999376662}
   - component: {fileID: 1390831323935110868}
   - component: {fileID: 3420767790566008035}
+  - component: {fileID: 5870776251167886185}
   m_Layer: 5
   m_Name: Account Bar Visual
   m_TagString: Untagged
@@ -517,8 +518,22 @@ MonoBehaviour:
   _rectTransform: {fileID: 445693629999376662}
   _holderGameObject: {fileID: 445693629353887239}
   _accountBarVisualHandler: {fileID: 1390831323935110868}
+  _levelUpRewardSO: {fileID: 11400000, guid: 71d2361b27891014e860e454bf6c45d0, type: 2}
   _elementsToShowAccountBar: []
   _elementsToHideAccountBar: []
+--- !u!114 &5870776251167886185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445693629999376663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e3190e2f315474d8b3156b7c612374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _accountBarVisualManager: {fileID: 3420767790566008035}
 --- !u!1 &445693630337164827
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,6 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
     [SerializeField] private RectTransform _deckActive;
     [SerializeField] private RectTransform _deckUnactive;
     [SerializeField] private TMP_Text _deckName;
-    [SerializeField] private DeckInput _input;
 
     private MetaDeckData _deckData;
 
@@ -24,9 +23,7 @@ public class MetaDeckUICollection : BaseUIElement , IVisualAssign<MetaDeckData>,
     public int DeckId => _deckData?.DeckId ?? -1;
     
     public bool IsNewDeck => _deckData.IsNewDeck;
-
-    public DeckInput Input => _input;
-
+    
     private void OnEnable()
     {
         UpdateDeckName();

@@ -38,7 +38,7 @@ namespace CardMaga.CSV
                     KeywordSO keyword = ScriptableObject.CreateInstance<KeywordSO>();
                     keyword.Init(line);
 
-                    const int SoundIndex = 8;
+                    const int SoundIndex = 10;
                     if (line[SoundIndex] != "-")
                     {
                         for (int j = 0; j < sounds.Length; j++)

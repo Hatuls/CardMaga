@@ -10,7 +10,12 @@ namespace CardMaga.CinematicSystem
     public class CinematicManager : MonoBehaviour, IInitializable
     {
         #region Events
-        [SerializeField] private ClickHelper _clickHelper;
+
+        public event Action OnCinematicEnd;
+        public event Action OnCinematicStart;
+        public event Action OnCinematicPause;
+        public event Action OnCinematicResume;
+
         [SerializeField, EventsGroup] private UnityEvent OnCinematicSequenceStart;
         [SerializeField, EventsGroup] private UnityEvent OnCinematicSequencePause;
         [SerializeField, EventsGroup] private UnityEvent OnCinematicSequenceResume;
@@ -20,6 +25,7 @@ namespace CardMaga.CinematicSystem
 
         #region Fields
 
+        [SerializeField] private ClickHelper _clickHelper;
         [SerializeField] private CinematicHandler[] _cinematic;
 
         private Coroutine _currentRunningCinematic;
@@ -76,6 +82,7 @@ namespace CardMaga.CinematicSystem
         public void StartCinematicSequence()
         {
             OnCinematicSequenceStart?.Invoke();
+            OnCinematicStart?.Invoke();
             _isPause = false;
             StartFirstCinematic();
         }
@@ -84,8 +91,8 @@ namespace CardMaga.CinematicSystem
         public void ResumeCinematicSequence()
         {
             OnCinematicSequenceResume?.Invoke();
+            OnCinematicResume?.Invoke();
             _isPause = false;
-
             if (_currentCinematic.IsCompleted)
                 StartNextCinematic();
             else
@@ -116,6 +123,7 @@ namespace CardMaga.CinematicSystem
                 
                 yield return null;
                 OnCinematicSequencePause?.Invoke();
+                OnCinematicPause?.Invoke();
                 _currentCinematic.PauseCinematic();
                 _clickHelper.Open(ResumeCinematicSequence);
             }
@@ -175,6 +183,7 @@ namespace CardMaga.CinematicSystem
             if (_token != null)
                 _token.Dispose();
 
+            OnCinematicEnd?.Invoke();
             OnCinematicSequenceEnd?.Invoke();
             Debug.Log("End");
 

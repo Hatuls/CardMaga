@@ -15,13 +15,13 @@ namespace CardMaga.Keywords
             if (target == TargetEnum.MySelf || target == TargetEnum.All)
             {
                 _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(-amount);
-                InvokeKeywordVisualEffect(currentPlayer);
+                InvokeKeywordVisualEffect(currentPlayer, KeywordSO.OnApplyVFX);
             }
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
             {
                 _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(-amount);
-                InvokeKeywordVisualEffect(!currentPlayer);
+                InvokeKeywordVisualEffect(!currentPlayer, KeywordSO.OnApplyVFX);
             }
         }
 
