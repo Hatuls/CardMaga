@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Account.GeneralData;
-using CardMaga.MetaData.AccoutData;
+using CardMaga.MetaData.Collection;
 using CardMaga.SequenceOperation;
 using MetaData;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
-namespace CardMaga.MetaData.Collection
+namespace CardMaga.MetaData.AccoutData
 {
     [Serializable]
     public class AccountDataCollectionHelper : ISequenceOperation<MetaDataManager>
     {
-        private AccountDataAccess _accountDataAccess;
+        private MetaAccountData _metaAccountData;
         private AccountCollectionCopyHelper _collectionCopy;
 
         [SerializeField] private CardsCollectionDataHandler _collectionCardDatasHandler;
@@ -28,17 +27,21 @@ namespace CardMaga.MetaData.Collection
         
         public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
-            _accountDataAccess = data.AccountDataAccess;
+            _metaAccountData = data.MetaAccountData;
 
-            _collectionCardDatasHandler = new CardsCollectionDataHandler(_accountDataAccess.AccountData);
-            _collectionComboDatasHandler = new ComboCollectionDataHandler(_accountDataAccess.AccountData);
-            _collectionCopy = new AccountCollectionCopyHelper();
+            _collectionCardDatasHandler = new CardsCollectionDataHandler(_metaAccountData);
+            _collectionComboDatasHandler = new ComboCollectionDataHandler(_metaAccountData);
         }
 
-        public void UpdateCollection()
+        internal void UpdateCollection()
         {
-            _collectionCardDatasHandler = new CardsCollectionDataHandler(_accountDataAccess.AccountData);
-            _collectionComboDatasHandler = new ComboCollectionDataHandler(_accountDataAccess.AccountData);
+            _collectionCardDatasHandler = new CardsCollectionDataHandler(_metaAccountData);
+            _collectionComboDatasHandler = new ComboCollectionDataHandler(_metaAccountData);
+        }
+
+        public AccountCollectionCopyHelper GetCollectionCopy(MetaDeckData metaDeckData)
+        {
+            return new AccountCollectionCopyHelper(this, metaDeckData);
         }
 
         public CardsCollectionDataHandler GetCardCollectionByDeck(int deckId) 

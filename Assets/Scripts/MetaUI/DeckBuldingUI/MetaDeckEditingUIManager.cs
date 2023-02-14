@@ -77,13 +77,15 @@ namespace CardMaga.MetaUI.CollectionUI
                 DiscardDeck();
             
             _dataManager.AssignDeckDataToEdit();
-            SetDeckToEdit(_dataManager.MetaDeckData);
+            SetDeckToEdit();
             
             base.Show();
         }
 
-        private void SetDeckToEdit(MetaDeckData metaDeckData)
+        private void SetDeckToEdit()
         {
+            var metaDeckData = _dataManager.MetaDeckData;
+            
             _deckName.SetText(metaDeckData.DeckName);
 
             _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dataManager.CardCollectionDataHandler.CollectionCardDatas.Values.ToList());

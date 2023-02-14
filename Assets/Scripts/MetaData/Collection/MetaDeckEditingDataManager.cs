@@ -15,20 +15,18 @@ namespace CardMaga.MetaData.Collection
         public event Action<bool> OnFailedUpdateDeck;
         
         private DeckBuilder _deckBuilder;
-        private AccountDataAccess _accountDataAccess;
+        private MetaAccountDataManager _metaAccountDataManager;
         private MetaDeckData _metaDeckData;
         private MetaDeckData _metaDeckDataCopy;
+        private AccountCollectionCopyHelper _collectionCopy;
         private AccountDataCollectionHelper _accountDataCollectionHelper;
-
-        private CardsCollectionDataHandler _cardCollectionDataHandler;
-        private ComboCollectionDataHandler _comboCollectionDataHandler;
 
         private bool _isDefaultDeck;
 
         private bool _isDeckUpdateToAccount;
         
-        public CardsCollectionDataHandler CardCollectionDataHandler => _cardCollectionDataHandler;
-        public ComboCollectionDataHandler ComboCollectionDataHandler => _comboCollectionDataHandler;
+        public CardsCollectionDataHandler CardCollectionDataHandler => _collectionCopy.CardsCollectionDataHandler;
+        public ComboCollectionDataHandler ComboCollectionDataHandler => _collectionCopy.ComboCollectionDataHandler;
         
         public MetaDeckData MetaDeckData => _metaDeckDataCopy;
         
@@ -36,7 +34,7 @@ namespace CardMaga.MetaData.Collection
         
         public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
-            _accountDataAccess = data.AccountDataAccess;
+            _metaAccountDataManager = data.AccountDataManager;
             _deckBuilder = data.DeckBuilder;
             _accountDataCollectionHelper = data.AccountDataCollectionHelper;
             _isDeckUpdateToAccount = true;
@@ -46,17 +44,13 @@ namespace CardMaga.MetaData.Collection
         {
             if (_isDeckUpdateToAccount)
             {
-                _metaDeckData = _accountDataAccess.AccountData.CharacterDatas.MainCharacterData.MainDeck;
-                _metaDeckDataCopy = _metaDeckData.GetCopy();
-                _isDefaultDeck = _metaDeckData.DeckId == 0;
+                var metaDeckData = _metaAccountDataManager.MetaAccountData.CharacterDatas.MainCharacterData.MainDeck;
+                _collectionCopy = _accountDataCollectionHelper.GetCollectionCopy(metaDeckData);
+                _isDefaultDeck = metaDeckData.DeckId == 0;
                 _isDeckUpdateToAccount = false;
             }
-            
-            _cardCollectionDataHandler = _accountDataCollectionHelper.GetCardCollectionByDeck(_metaDeckDataCopy.DeckId);
-            _comboCollectionDataHandler = _accountDataCollectionHelper.GetComboCollectionByDeck(_metaDeckDataCopy.DeckId);
-            
-            _accountDataCollectionHelper.CollectionCopy.SetData(_metaDeckDataCopy,_cardCollectionDataHandler,_comboCollectionDataHandler);
-            _deckBuilder.AssignDeckToEdit(_metaDeckDataCopy,_cardCollectionDataHandler,_comboCollectionDataHandler);
+
+            _deckBuilder.AssignDeckToEdit(_collectionCopy.MetaDeckData,_collectionCopy.CardsCollectionDataHandler,_collectionCopy.ComboCollectionDataHandler);
         }
 
         public void ExitDeckEditing()
@@ -74,11 +68,9 @@ namespace CardMaga.MetaData.Collection
         }
 
         public void UpdateDeck()
-        
         {
             TokenMachine tokenMachine = new TokenMachine(OnSuccessUpdateDeck);
-            _accountDataAccess.UpdateDeck(_metaDeckData,tokenMachine);
-            _accountDataCollectionHelper.UpdateCollection();
+            _metaAccountDataManager.UpdateDeck(_metaDeckData,tokenMachine);
             _isDeckUpdateToAccount = true;
         }
 
@@ -86,8 +78,6 @@ namespace CardMaga.MetaData.Collection
         {
             _metaDeckData = null;
             _metaDeckDataCopy = null;
-            _cardCollectionDataHandler = null;
-            _comboCollectionDataHandler = null;
             _isDeckUpdateToAccount = true;
             
             _deckBuilder.ResetDeckEditing();

@@ -6,6 +6,7 @@ using CardMaga.SequenceOperation;
 using CardMaga.ValidatorSystem;
 using MetaData;
 using ReiTools.TokenMachine;
+using UnityEngine;
 
 namespace CardMaga.MetaData.DeckBuilding
 {
@@ -138,6 +139,10 @@ namespace CardMaga.MetaData.DeckBuilding
                 //_deck.AddCard(cardInstance);
                 _cardsCollectionDataHandler.AddDeckAssociate(cardInstance,_deck.DeckId);
                 OnSuccessfulCardAdd?.Invoke(cardInstance);
+            }
+            else
+            {
+                Debug.LogError("Failed to remove card from collection");
             }
         }
 

@@ -22,24 +22,25 @@ namespace MetaData
         
         private static SequenceHandler<MetaDataManager> _sequenceHandler = new SequenceHandler<MetaDataManager>();
         
-        [SerializeField] private AccountDataAccess _accountDataAccess;
-        [SerializeField] private AccountDataCollectionHelper _accountDataCollectionHelper;
         [SerializeField] private MetaDeckEditingDataManager _metaDeckEditingDataManager;
         [SerializeField] private DismantleDataManager _dismantleDataManager;
 
         private MetaValidatorTerminal _validatorTerminal;
         private DeckBuilder _deckBuilder; 
         private UpgradeManager _upgradeManager;
+        private MetaAccountDataManager _accountDataManager;
 
 
         private IDisposable _token;
         
         public MetaValidatorTerminal ValidatorTerminal => _validatorTerminal;
-        public AccountDataCollectionHelper AccountDataCollectionHelper => _accountDataCollectionHelper;
+        public AccountDataCollectionHelper AccountDataCollectionHelper => _accountDataManager.AccountDataCollection;
         public MetaDeckEditingDataManager MetaDeckEditingDataManager => _metaDeckEditingDataManager;
         public DeckBuilder DeckBuilder => _deckBuilder;
-        public AccountDataAccess AccountDataAccess => _accountDataAccess;
-        public MetaAccountData MetaAccountData => _accountDataAccess.AccountData;
+        //public AccountDataAccess AccountDataAccess => _accountDataManager;
+        public MetaAccountData MetaAccountData => _accountDataManager.MetaAccountData;
+
+        public MetaAccountDataManager AccountDataManager => _accountDataManager;
 
         public UpgradeManager UpgradeManager => _upgradeManager;
 
@@ -49,8 +50,7 @@ namespace MetaData
         {
             get
             {
-                yield return _accountDataAccess = new AccountDataAccess();
-                yield return _accountDataCollectionHelper = new AccountDataCollectionHelper();
+                yield return _accountDataManager = new MetaAccountDataManager();
                 yield return _metaDeckEditingDataManager = new MetaDeckEditingDataManager();
                 yield return _deckBuilder = new DeckBuilder();
                 yield return _upgradeManager = new UpgradeManager();

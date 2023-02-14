@@ -22,12 +22,11 @@ namespace CardMaga.MetaData.Dismantle
 
         private DismantleCurrencyHandler _dismantleCurrencyHandler;
         
-        private AccountDataCollectionHelper _accountData;
+        private AccountDataCollectionHelper _accountDataCollectionHelper;
         private DismantleHandler _dismantleHandler;
 
         private CardsCollectionDataHandler _cardCollectionDatas;
-        private MetaAccountData _metaAccountData;
-        private AccountDataAccess _accountDataAccess;
+        private MetaAccountDataManager _metaAccountDataManager;
 
         public CardsCollectionDataHandler CardCollectionDatas => _cardCollectionDatas;
         
@@ -39,16 +38,16 @@ namespace CardMaga.MetaData.Dismantle
 
         public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
-            _accountDataAccess = data.AccountDataAccess;
-            _metaAccountData = data.MetaAccountData;
-            _accountData = data.AccountDataCollectionHelper;
+            _metaAccountDataManager = data.AccountDataManager;
+            
+            _accountDataCollectionHelper = data.AccountDataCollectionHelper;
             _dismantleHandler = new DismantleHandler(data.AccountDataCollectionHelper.CollectionCardDatasHandler);
             _dismantleCurrencyHandler = new DismantleCurrencyHandler();
         }
 
         public void SetCardCollection()
         {
-            _cardCollectionDatas = _accountData.CollectionCopy.GetAllUnAssingeCard();
+            _cardCollectionDatas = _accountDataCollectionHelper.CollectionCopy.GetAllUnAssingeCard();
             
             foreach (var cardData in _cardCollectionDatas.CollectionCardDatas.Values)
             {
@@ -95,11 +94,10 @@ namespace CardMaga.MetaData.Dismantle
             foreach (var cardInstance in cache)
             {
                 _cardCollectionDatas.CleanCollection();
-                _metaAccountData.AccountCards.Remove(cardInstance);
-                _accountDataAccess.RemoveCard(cardInstance.GetCoreId());
+                _metaAccountDataManager.RemoveCard(cardInstance);
             }
             
-            _accountData.UpdateCollection();
+            //_accountData.UpdateCollection();
             
             var account = Account.AccountManager.Instance;
             var resource = account.Data.AccountResources;

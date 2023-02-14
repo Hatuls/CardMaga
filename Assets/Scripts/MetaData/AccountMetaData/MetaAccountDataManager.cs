@@ -20,10 +20,14 @@ namespace CardMaga.MetaData.AccoutData
 
         public int Priority => 0;
 
+        public MetaAccountData MetaAccountData => _metaAccountData;
+
+        public AccountDataCollectionHelper AccountDataCollection => _accountDataCollection;
+
         public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
         {
-            _accountDataAccess = data.AccountDataAccess;
-            _accountDataCollection = data.AccountDataCollectionHelper;
+            _accountDataAccess = new AccountDataAccess();
+            _accountDataCollection = new AccountDataCollectionHelper();
 
             _metaAccountData = _accountDataAccess.GetMetaAccountData();
 
@@ -39,7 +43,6 @@ namespace CardMaga.MetaData.AccoutData
         /// Permanently delete card instance from all user data 
         /// </summary>
         /// <param name="metaCardInstanceInfo"></param>
-        [Obsolete]
         public void RemoveCard(MetaCardInstanceInfo metaCardInstanceInfo)
         {
             _metaAccountData.AccountCards.Remove(metaCardInstanceInfo.CardInstance);
@@ -58,6 +61,15 @@ namespace CardMaga.MetaData.AccoutData
 
             _accountDataCollection.CollectionCardDatasHandler.TryRemoveCardInstance(metaCardInstanceInfo.InstanceID,true);
         }
+        
+        public void RemoveCard(CardInstance cardInstance)
+        {
+            _metaAccountData.AccountCards.Remove(cardInstance);
+
+            _accountDataAccess.RemoveCard(cardInstance.GetCoreId());
+
+            _accountDataCollection.CollectionCardDatasHandler.TryRemoveCardInstance(cardInstance.InstanceID,true);
+        }
 
         public void AddCard(CardInstance cardInstance)
         {
@@ -68,6 +80,13 @@ namespace CardMaga.MetaData.AccoutData
             }
             
             //add new
+        }
+
+        public void UpdateDeck(MetaDeckData metaDeckData,ITokenReceiver tokenReceiver)
+        {
+            _metaAccountData.CharacterDatas.MainCharacterData.UpdateDeck(metaDeckData,metaDeckData.DeckId);
+            _accountDataCollection.UpdateCollection();
+            _accountDataAccess.UpdateDeck(metaDeckData,tokenReceiver);
         }
 
         private void UpdateCard(CardInstance cardInstance)

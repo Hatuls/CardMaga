@@ -21,7 +21,7 @@ namespace CardMaga.MetaData.AccoutData
         
         public int Priority => 0;
 
-        public void RemoveCard(CoreID coreId)
+        internal void RemoveCard(CoreID coreId)
         {
             _accountData.AllCards.RemoveCard(coreId);
 
@@ -37,20 +37,19 @@ namespace CardMaga.MetaData.AccoutData
             // }
         }
 
-        public void AddCard(CardInstance cardInstance)
+        internal void AddCard(CardInstance cardInstance)
         {
             _accountData.AllCards.AddCard(cardInstance.GetCoreId());
         }
 
-        public void UpgradeCard(CoreID oldCoreId,CoreID newCoreId)
+        internal void UpgradeCard(CoreID oldCoreId,CoreID newCoreId)
         {
             _accountData.AllCards.RemoveCard(oldCoreId);
             _accountData.AllCards.AddCard(newCoreId);
         }
         
-        public void UpdateDeck(MetaDeckData metaDeckData,ITokenReceiver tokenMachine)
+        internal void UpdateDeck(MetaDeckData metaDeckData,ITokenReceiver tokenMachine)
         {
-            _metaAccountData.CharacterDatas.MainCharacterData.UpdateDeck(metaDeckData,metaDeckData.DeckId);
             BaseServerRequest serverRequest;
 
            if (metaDeckData.IsNewDeck)
@@ -67,7 +66,7 @@ namespace CardMaga.MetaData.AccoutData
             _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);
        }
 
-        public MetaAccountData GetMetaAccountData()
+        internal MetaAccountData GetMetaAccountData()
         {
             return new MetaAccountData(AccountManager.Instance.Data);//plaster!!!!! need to not by mono and get the data from AccountDataAccess
         }
