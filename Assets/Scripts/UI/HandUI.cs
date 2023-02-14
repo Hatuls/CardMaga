@@ -127,7 +127,7 @@ namespace CardMaga.UI
 
         public void UnLockInput()
         {
-            //LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput, true);
+            LockAndUnlockSystem.Instance.ChangeTouchableItemsState(_handUIState.CardUIsInput, true);
         }
 
         #endregion
@@ -219,9 +219,11 @@ namespace CardMaga.UI
             for (int i = 0; i < handCards.Length; i++)
             {
                 //_handCards[i].Inputs.ForceResetInputBehaviour();
-                handCards[i].Init();
-                handCards[i].DOKill(false);
-                SetState(InputBehaviourState.Hand, handCards[i]);
+                BattleCardUI battleCardUI = handCards[i];
+                battleCardUI.Inputs.Lock();
+                battleCardUI.Init();
+                battleCardUI.DOKill(false);
+                SetState(InputBehaviourState.Hand, battleCardUI);
             }
 
             // OnCardsAddToHand?.Invoke(handCards);
