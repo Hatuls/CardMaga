@@ -47,12 +47,6 @@ namespace Account.GeneralData
             Exp = 0;
         }
 
- 
-
-        public void AddEXP(int amount)
-        {
-            Exp += amount;
-        }
 
         internal bool IsValid()
         => Level >= 0 && Exp >= 0;

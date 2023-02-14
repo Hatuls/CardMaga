@@ -69,10 +69,11 @@ public class EndGameManager : MonoBehaviour
 
     public void ShowReward()
     {
-        if (_isLeftPlayerWon)
+        if (_isLeftPlayerWon && _isInTutorial == false)
         {
             _victoryAndDefeat.gameObject.SetActive(false);
             _rewardScreen.gameObject.SetActive(true);
+            
         }
         else
             ReleaseSceneToken();
