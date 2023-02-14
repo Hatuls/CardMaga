@@ -25,11 +25,16 @@ namespace TutorialDirector
         {
            HandUIState.OnCardDrawnAndAlign += MoveDirectorAfterCardPositionReturnedFromZoom;
             HandUIState.OnCardDrawnAndAlign += SetLastSibling;
+            MoveDirectorAfterCardPositionReturnedFromZoom();
         }
         
         private void MoveDirectorAfterCardPositionReturnedFromZoom()
         {
-            _directorRect.transform.position = _firstCard.FirstCard[0].RectTransform.GetWorldPosition();
+            var parent = transform.parent;
+            _directorRect.SetParent(_firstCard.GetFirstCard.transform, false);
+            _directorRect.localPosition = Vector3.zero;
+            _directorRect.SetParent(parent);
+       //     _directorRect.transform.position = .RectTransform.GetWorldPosition();// get position
             HandUIState.OnCardDrawnAndAlign -= MoveDirectorAfterCardPositionReturnedFromZoom;
         }
 

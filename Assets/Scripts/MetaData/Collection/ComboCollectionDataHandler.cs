@@ -26,7 +26,7 @@ namespace CardMaga.MetaData.Collection
 
         public ComboCollectionDataHandler(MetaAccountData metaAccountData)
         {
-            List<ComboInstance> comboCores = metaAccountData.AccountCombos;
+            List<MetaComboInstanceInfo> comboCores = metaAccountData.AccountCombos;
             _collectionComboDatas = new List<MetaCollectionComboData>();
             
             _collectionComboDatas.AddRange(comboCores.Select(comboData => new MetaCollectionComboData(comboData)));
@@ -53,13 +53,13 @@ namespace CardMaga.MetaData.Collection
             }
         }
         
-        public void AddComboCollection(ComboInstance comboInstance)
+        public void AddComboCollection(MetaComboInstanceInfo comboInstance)
         {
             foreach (var collectionComboData in _collectionComboDatas)
             {
                 if (collectionComboData.CoreID != comboInstance.CoreID) continue;
                 
-                collectionComboData.AddComboInstance(new MetaComboInstanceInfo(comboInstance));
+                collectionComboData.AddComboInstance(comboInstance);
                 return;
             }
             
@@ -105,11 +105,12 @@ namespace CardMaga.MetaData.Collection
             return false;
         }
 
-        public List<MetaCollectionComboData> GetCollectionCopy()
+        public ComboCollectionDataHandler GetCollectionCopy()
         {
-            return
-                _collectionComboDatas.Select(comboData => new MetaCollectionComboData(new ComboInstance(comboData.ComboData)))
-                    .ToList();
+            var collectionComboDatas = _collectionComboDatas.Select(comboData => new MetaCollectionComboData(comboData))
+                .ToList();
+
+            return new ComboCollectionDataHandler(collectionComboDatas);
         }
     }
 }

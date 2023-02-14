@@ -80,7 +80,7 @@ namespace CardMaga.Meta.Upgrade
 
 
         public void SetCurrentCard(BattleCardUI battlecard)
-        => SetCurrentCard(battlecard.BattleCardData.CardInstance);
+            => SetCurrentCard(battlecard.BattleCardData.CardInstance);
 
 
         private void SetCurrentCard(CardInstance card)
@@ -94,11 +94,11 @@ namespace CardMaga.Meta.Upgrade
             int goldAmount =0;
             if (!_currentCard.IsMaxLevel) 
             { 
-            CurrencyPerRarityCostSO costSo = _upgradeCardHandler.UpgradeCosts;
-            ResourcesCost chipCosts = costSo.GetCardCostPerCurrencyAndCardCore(_currentCard, Rewards.CurrencyType.Chips);
-            ResourcesCost goldCosts = costSo.GetCardCostPerCurrencyAndCardCore(_currentCard, Rewards.CurrencyType.Gold);
-                 chipAmount = Convert.ToInt32(chipCosts.Amount);
-                 goldAmount = Convert.ToInt32(goldCosts.Amount);
+                CurrencyPerRarityCostSO costSo = _upgradeCardHandler.UpgradeCosts;
+                ResourcesCost chipCosts = costSo.GetCardCostPerCurrencyAndCardCore(_currentCard, Rewards.CurrencyType.Chips);
+                ResourcesCost goldCosts = costSo.GetCardCostPerCurrencyAndCardCore(_currentCard, Rewards.CurrencyType.Gold);
+                chipAmount = Convert.ToInt32(chipCosts.Amount);
+                goldAmount = Convert.ToInt32(goldCosts.Amount);
             }
 
             _upgradeCostHandler.Init(_currentCard.IsMaxLevel, chipAmount, goldAmount);
@@ -114,7 +114,7 @@ namespace CardMaga.Meta.Upgrade
         public void Upgrade()
         {
             if(_upgradeCardHandler.TryUpgradeCard(_currentCard))
-            OnUpgradeSuccessfull?.Invoke();
+                OnUpgradeSuccessfull?.Invoke();
         }
         #region Editor
 

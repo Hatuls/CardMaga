@@ -2,6 +2,7 @@ using System;
 using Account.GeneralData;
 using CardMaga.InventorySystem;
 using CardMaga.MetaData.AccoutData;
+using CardMaga.MetaData.Collection;
 using CardMaga.Tools.Pools;
 using CardMaga.UI;
 using CardMaga.UI.Combos;
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace CardMaga.MetaUI
 {
-    public class MetaComboUI : BaseUIElement, IPoolableMB<MetaComboUI>,IVisualAssign<ComboCore>,IVisualAssign<ComboInstance> ,IEquatable<MetaComboUI>
+    public class MetaComboUI : BaseUIElement, IPoolableMB<MetaComboUI>,IVisualAssign<ComboCore>,IVisualAssign<MetaComboInstanceInfo> ,IEquatable<MetaComboUI>
     {
         public event Action<MetaComboUI> OnDisposed;
         
@@ -42,9 +43,9 @@ namespace CardMaga.MetaUI
             _comboVisual.AssignVisual(data);
         }
         
-        public void AssignVisual(ComboInstance data)
+        public void AssignVisual(MetaComboInstanceInfo data)
         {
-            AssignVisual(data.ComboCore);
+            AssignVisual(data.ComboInstance.ComboCore);
         }
 
         public bool Equals(MetaComboUI other)

@@ -10,7 +10,7 @@ namespace CardMaga.MetaData.Collection
     [Serializable]
     public class MetaCollectionCardData : BaseCollectionDataItem, IEquatable<MetaCollectionCardData>,IEquatable<CardInstance>, IEquatable<MetaCardInstanceInfo>
     { 
-        public event Action<CardInstance> OnTryAddItemToCollection; 
+        public event Action<MetaCardInstanceInfo> OnTryAddItemToCollection; 
         public event Action<CardCore> OnTryRemoveItemFromCollection;
         public event Action OnSuccessAddOrRemoveFromCollection;
 
@@ -67,7 +67,7 @@ namespace CardMaga.MetaData.Collection
             OnTryRemoveItemFromCollection?.Invoke(_cardCore);
         }
 
-        public void SuccessAddOrRemoveFromCollection(CardInstance cardInstance)
+        public void SuccessAddOrRemoveFromCollection(MetaCardInstanceInfo cardInstance)
         {
             OnSuccessAddOrRemoveFromCollection?.Invoke();
         }
@@ -95,15 +95,15 @@ namespace CardMaga.MetaData.Collection
             return false;
         }
 
-        public CardInstance GetFirstCardInstanceData()
+        public MetaCardInstanceInfo GetFirstCardInstanceData()
         {
-            if (ReferenceEquals(_cardInstances[0].CardInstance,null))
+            if (ReferenceEquals(_cardInstances[0],null))
             {
                 Debug.LogWarning("Not more card instance");
                 return null;
             }
             
-            return _cardInstances[0].CardInstance;
+            return _cardInstances[0];
         }
         
         private List<MetaCardInstanceInfo> GetCardInstanceInfoDataCopy()
@@ -119,7 +119,7 @@ namespace CardMaga.MetaData.Collection
         {
             List<MetaCardInstanceInfo> cache = new List<MetaCardInstanceInfo>(_cardInstances.Count);
             
-            cache.AddRange(_cardInstances.Select(instanceInfo => new MetaCardInstanceInfo(instanceInfo.CardInstance,instanceInfo.AssociateDeck)));
+            cache.AddRange(_cardInstances);
             
              return new MetaCollectionCardData(cache);
         }

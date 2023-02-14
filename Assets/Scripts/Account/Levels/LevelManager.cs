@@ -77,7 +77,7 @@ public class LevelManager
         }
     }
 
-  public BaseRewardFactorySO[] GetRewardsList()
+  public BaseRewardFactorySO[] GetRewards()
     {
         BaseRewardFactorySO[] baseRewardFactorySOs = new BaseRewardFactorySO[_levelUps.Count];
         var rewardFactoryHandlerSO = Factory.GameFactory.Instance.RewardFactoryHandler.RewardFactoryHandlerSO;

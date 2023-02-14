@@ -10,7 +10,7 @@ using Account.GeneralData;
 namespace CardMaga.MetaData.AccoutData
 {
     [Serializable]
-    public class AccountDataAccess : ISequenceOperation<MetaDataManager>
+    public class AccountDataAccess
     {
         [NonSerialized]
         private AccountData _accountData;
@@ -21,7 +21,13 @@ namespace CardMaga.MetaData.AccoutData
         
         public int Priority => 0;
 
-        public void RemoveCard(CoreID coreId)
+        public AccountDataAccess()
+        {
+            _accountData = AccountManager.Instance.Data;
+            _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);
+        }
+        
+        internal void RemoveCard(CoreID coreId)
         {
             _accountData.AllCards.RemoveCard(coreId);
 
@@ -37,20 +43,19 @@ namespace CardMaga.MetaData.AccoutData
             // }
         }
 
-        public void AddCard(CardInstance cardInstance)
+        internal void AddCard(CardInstance cardInstance)
         {
             _accountData.AllCards.AddCard(cardInstance.GetCoreId());
         }
 
-        public void UpgradeCard(CoreID oldCoreId,CoreID newCoreId)
+        internal void UpgradeCard(CoreID oldCoreId,CoreID newCoreId)
         {
             _accountData.AllCards.RemoveCard(oldCoreId);
             _accountData.AllCards.AddCard(newCoreId);
         }
         
-        public void UpdateDeck(MetaDeckData metaDeckData,ITokenReceiver tokenMachine)
+        internal void UpdateDeck(MetaDeckData metaDeckData,ITokenReceiver tokenMachine)
         {
-            _metaAccountData.CharacterDatas.MainCharacterData.UpdateDeck(metaDeckData,metaDeckData.DeckId);
             BaseServerRequest serverRequest;
 
            if (metaDeckData.IsNewDeck)
@@ -61,13 +66,7 @@ namespace CardMaga.MetaData.AccoutData
             serverRequest.SendRequest(tokenMachine);//need to add character support
         }
 
-        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
-        {
-            _accountData = AccountManager.Instance.Data;
-            _metaAccountData = new MetaAccountData(AccountManager.Instance.Data);
-       }
-
-        public MetaAccountData GetMetaAccountData()
+        internal MetaAccountData GetMetaAccountData()
         {
             return new MetaAccountData(AccountManager.Instance.Data);//plaster!!!!! need to not by mono and get the data from AccountDataAccess
         }

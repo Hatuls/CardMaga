@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CardMaga.MetaData.Collection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -63,13 +64,13 @@ public class DismantleTabHandler : BaseUIElement
 
     private void ActivateRarityTabs()
     {
-        IReadOnlyList<CardInstance> cards = _dismantleHandler.DismantleCards;
+        IReadOnlyList<MetaCardInstanceInfo> cards = _dismantleHandler.DismantleCards;
 
-        IEnumerable<RarityEnum> rarities =cards.Select(x => x.CardSO.Rarity).Distinct();
+        IEnumerable<RarityEnum> rarities =cards.Select(x => x.CardInstance.CardSO.Rarity).Distinct();
 
         foreach (var rarity in rarities)
         {
-            InitRarityTab(rarity, cards.Count(x=>x.CardSO.Rarity == rarity));
+            InitRarityTab(rarity, cards.Count(x=>x.CardInstance.CardSO.Rarity == rarity));
         }
 
         void InitRarityTab(RarityEnum rarity , int amount)

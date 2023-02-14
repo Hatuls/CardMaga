@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Account.GeneralData;
+using CardMaga.MetaData.Collection;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace CardMaga.MetaData.AccoutData
 
         #endregion
 
-        public MetaCharactersHandler(IReadOnlyList<Character> characters,List<CardInstance> allCards,List<ComboInstance> allCombo,int mainCharacterIndex)
+        public MetaCharactersHandler(IReadOnlyList<Character> characters,List<MetaCardInstanceInfo> allCards,List<MetaComboInstanceInfo> allCombo,int mainCharacterIndex)
         {
             _characterDatas = new Dictionary<int, MetaCharacterData>();
 #if UNITY_EDITOR

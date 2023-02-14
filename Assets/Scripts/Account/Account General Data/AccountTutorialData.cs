@@ -3,6 +3,7 @@ public class AccountTutorialData
 {
     public const string PlayFabKeyName = "Tutorial";
 
+    public bool IsTutorialRewardTaken;
     public bool IsCompletedTutorial;
     public int TutorialProgress;
 

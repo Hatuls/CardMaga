@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Account;
 using Account.GeneralData;
+using CardMaga.MetaData.Collection;
 using CardMaga.MetaData.Collection.DeckCollection;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -62,7 +63,7 @@ namespace CardMaga.MetaData.AccoutData
 
         #endregion
 
-        public MetaCharacterData(Character character,List<CardInstance> allCards,List<ComboInstance> allCombo)
+        public MetaCharacterData(Character character,List<MetaCardInstanceInfo> allCards,List<MetaComboInstanceInfo> allCombo)
         {
             _characterData = character;
             _id = character.ID;
@@ -100,7 +101,6 @@ namespace CardMaga.MetaData.AccoutData
             }
 
             _decks.Add(metaDeckData);
-            
             SetMainDeck(_decks.Count - 1);
         }
 

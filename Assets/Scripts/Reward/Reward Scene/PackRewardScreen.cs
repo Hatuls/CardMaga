@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CardMaga.MetaData.Collection;
 using UnityEngine;
 namespace CardMaga.Rewards
 {
@@ -93,7 +94,7 @@ namespace CardMaga.Rewards
             _cinematicManager = pack.CinematicManager;
             _cinematicManager.ResetAll();
             _cinematicManager.StartCinematicSequence();
-            pack.MetaCardUI.AssignVisual(cardInstance);
+            pack.MetaCardUI.AssignVisual(new MetaCardInstanceInfo(cardInstance));
 
 
 

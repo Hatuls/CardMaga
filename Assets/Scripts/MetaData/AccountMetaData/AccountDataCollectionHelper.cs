@@ -1,20 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Account.GeneralData;
-using CardMaga.MetaData.AccoutData;
-using CardMaga.SequenceOperation;
-using MetaData;
-using ReiTools.TokenMachine;
+using CardMaga.MetaData.Collection;
 using UnityEngine;
 
-namespace CardMaga.MetaData.Collection
+namespace CardMaga.MetaData.AccoutData
 {
     [Serializable]
-    public class AccountDataCollectionHelper : ISequenceOperation<MetaDataManager>
+    public class AccountDataCollectionHelper
     {
-        private AccountDataAccess _accountDataAccess;
-        private AccountCollectionCopyHelper _collectionCopy;
+        private MetaAccountData _metaAccountData;
 
         [SerializeField] private CardsCollectionDataHandler _collectionCardDatasHandler;
         [SerializeField] private ComboCollectionDataHandler _collectionComboDatasHandler;
@@ -22,23 +17,24 @@ namespace CardMaga.MetaData.Collection
         public CardsCollectionDataHandler CollectionCardDatasHandler => _collectionCardDatasHandler;
         public ComboCollectionDataHandler CollectionComboDatasHandler => _collectionComboDatasHandler;
 
-        public AccountCollectionCopyHelper CollectionCopy => _collectionCopy;
 
-        public int Priority => 1;
-        
-        public void ExecuteTask(ITokenReceiver tokenMachine, MetaDataManager data)
+        public AccountDataCollectionHelper(MetaAccountData metaAccountData)
         {
-            _accountDataAccess = data.AccountDataAccess;
+            _metaAccountData = metaAccountData;
 
-            _collectionCardDatasHandler = new CardsCollectionDataHandler(_accountDataAccess.AccountData);
-            _collectionComboDatasHandler = new ComboCollectionDataHandler(_accountDataAccess.AccountData);
-            _collectionCopy = new AccountCollectionCopyHelper();
+            _collectionCardDatasHandler = new CardsCollectionDataHandler(_metaAccountData);
+            _collectionComboDatasHandler = new ComboCollectionDataHandler(_metaAccountData);
         }
 
-        public void UpdateCollection()
+        internal void UpdateCollection()
         {
-            _collectionCardDatasHandler = new CardsCollectionDataHandler(_accountDataAccess.AccountData);
-            _collectionComboDatasHandler = new ComboCollectionDataHandler(_accountDataAccess.AccountData);
+            _collectionCardDatasHandler = new CardsCollectionDataHandler(_metaAccountData);
+            _collectionComboDatasHandler = new ComboCollectionDataHandler(_metaAccountData);
+        }
+
+        public AccountCollectionCopyHelper GetCollectionCopy()
+        {
+            return new AccountCollectionCopyHelper(this);
         }
 
         public CardsCollectionDataHandler GetCardCollectionByDeck(int deckId) 
@@ -56,7 +52,7 @@ namespace CardMaga.MetaData.Collection
                     instanceIDs.AddRange(metaCardInstanceInfos.Select(instanceInfo => instanceInfo.InstanceID));
             }
             
-            var output = new CardsCollectionDataHandler(_collectionCardDatasHandler.GetCollectionCopy());
+            var output = _collectionCardDatasHandler.GetCollectionCopy();
             
             foreach (var cardData in output.CollectionCardDatas.Values)
             {
@@ -86,7 +82,7 @@ namespace CardMaga.MetaData.Collection
                 }   
             }
 
-            var output = new ComboCollectionDataHandler(_collectionComboDatasHandler.GetCollectionCopy());
+            var output = _collectionComboDatasHandler.GetCollectionCopy();
             
             foreach (var comboData in output.CollectionComboDatas)
             {

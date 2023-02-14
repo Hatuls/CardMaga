@@ -58,13 +58,14 @@ namespace CardMaga.UI.Account
             if (accountManager != null && accountManager.Data != null)
             {
                 AccountData data = accountManager.Data;
+                LevelManager levelManager = accountManager.LevelManager;
                 return new AccountBarVisualData
                     (
                     accountManager.DisplayName,
                     data.AccountGeneralData.ImageID,// Take from account
-                    accountManager.LevelManager.EXP,
-                    accountManager.LevelManager.MaxEXP,
-                    data.AccountLevel.Level,
+                    levelManager.EXP,
+                    levelManager.MaxEXP,
+                    levelManager.Level,
                     new ResourcesCost(Rewards.CurrencyType.Chips, data.AccountResources.Chips),
                     new ResourcesCost(Rewards.CurrencyType.Gold, data.AccountResources.Gold),
                     new ResourcesCost(Rewards.CurrencyType.Diamonds, data.AccountResources.Diamonds)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Account.GeneralData;
+using CardMaga.MetaData.Collection;
 using Factory;
 using Rei.Utilities;
 using Sirenix.OdinInspector;
@@ -17,8 +18,8 @@ namespace CardMaga.MetaData.AccoutData
         [SerializeField,ReadOnly] private int _deckId;
         [SerializeField,ReadOnly] private string _deckName;
         private bool _isNewDeck;
-        [SerializeField,ReadOnly] private List<CardInstance> _cardDatas;
-        [SerializeField,ReadOnly] private List<ComboInstance> _comboDatas;
+        [SerializeField,ReadOnly] private List<MetaCardInstanceInfo> _cardDatas;
+        [SerializeField,ReadOnly] private List<MetaComboInstanceInfo> _comboDatas;
 
         #endregion
 
@@ -28,12 +29,12 @@ namespace CardMaga.MetaData.AccoutData
         public string DeckName  => _deckName;
         public bool IsNewDeck => _isNewDeck;
 
-        public List<CardInstance> Cards => _cardDatas; 
-        public List<ComboInstance> Combos => _comboDatas;
+        public List<MetaCardInstanceInfo> Cards => _cardDatas; 
+        public List<MetaComboInstanceInfo> Combos => _comboDatas;
 
         #endregion
         
-        public MetaDeckData(DeckData deckData,List<CardInstance> allCards,List<ComboInstance> allCombo,bool isNewDeck)
+        public MetaDeckData(DeckData deckData,List<MetaCardInstanceInfo> allCards,List<MetaComboInstanceInfo> allCombo,bool isNewDeck)
         {
             _deckId = deckData.Id;
             _deckName = deckData.Name;
@@ -41,14 +42,14 @@ namespace CardMaga.MetaData.AccoutData
             
             if (isNewDeck)
             {
-                _cardDatas = new List<CardInstance>();
-                _comboDatas = new List<ComboInstance>();
+                _cardDatas = new List<MetaCardInstanceInfo>();
+                _comboDatas = new List<MetaComboInstanceInfo>();
                 return;
             }
             
             CoreID[] cardCore = deckData.Cards;
             
-            _cardDatas = new List<CardInstance>(cardCore.Length);
+            _cardDatas = new List<MetaCardInstanceInfo>(cardCore.Length);
 
             foreach (var coreID in cardCore)
             {
@@ -59,7 +60,7 @@ namespace CardMaga.MetaData.AccoutData
                         if (_cardDatas.Contains(cardInstance))
                             continue;
 
-                        _cardDatas.Add(cardInstance);
+                        AddCard(cardInstance);
                         break;
                     }
                 }
@@ -67,7 +68,7 @@ namespace CardMaga.MetaData.AccoutData
 
             ComboCore[] comboCores = deckData.Combos;
             
-            _comboDatas = new List<ComboInstance>(comboCores.Length);
+            _comboDatas = new List<MetaComboInstanceInfo>(comboCores.Length);
 
             foreach (var coreID in comboCores)
             {
@@ -77,13 +78,13 @@ namespace CardMaga.MetaData.AccoutData
                     {
                         if (_comboDatas.Contains(comboInstance))
                             continue;
-                        _comboDatas.Add(comboInstance);
+                        AddCombo(comboInstance);
                     }
                 }
             }
         }
 
-        public MetaDeckData(int deckId,string deckName,List<CardInstance> cardDatas,List<ComboInstance> comboDatas,bool isNewDeck)
+        public MetaDeckData(int deckId,string deckName,List<MetaCardInstanceInfo> cardDatas,List<MetaComboInstanceInfo> comboDatas,bool isNewDeck)
         {
             _deckId = deckId;
             _deckName = deckName;
@@ -100,8 +101,20 @@ namespace CardMaga.MetaData.AccoutData
 
         public void UpdateDeck(MetaDeckData metaDeckData)
         {
-            _cardDatas = metaDeckData.Cards;
-            _comboDatas = metaDeckData.Combos;
+            foreach (var instanceInfo in metaDeckData.Cards)
+            {
+                if(_cardDatas.Contains(instanceInfo)) continue;
+                
+                AddCard(instanceInfo);
+            }
+            
+            foreach (var instanceInfo in metaDeckData.Combos)
+            {
+                if(_comboDatas.Contains(instanceInfo)) continue;
+                
+                AddCombo(instanceInfo);
+            }
+            
             _deckName = metaDeckData.DeckName;
         }
         
@@ -110,27 +123,31 @@ namespace CardMaga.MetaData.AccoutData
             _deckName = name;
         }
 
-        public void AddCard(CardInstance cardData)
+        public void AddCard(MetaCardInstanceInfo cardData)
         {
             _cardDatas.Add(cardData);
+            cardData.AddToDeck(DeckId);
         }
         
-        public void RemoveCard(CardInstance cardData)
+        public void RemoveCard(MetaCardInstanceInfo cardData)
         {
             _cardDatas.Remove(cardData);
+            cardData.RemoveFromDeck(DeckId);
         }
 
-        public void AddCombo(ComboInstance comboData)
+        public void AddCombo(MetaComboInstanceInfo comboData)
         {
             _comboDatas.Add(comboData);
+            comboData.AddDeckReference(DeckId);
         }
         
-        public void RemoveCombo(ComboInstance comboData)
+        public void RemoveCombo(MetaComboInstanceInfo comboData)
         {
             _comboDatas.Remove(comboData);
+            comboData.RemoveDeckReference(DeckId);
         }
 
-        public bool FindCardData(int cardCoreId, out CardInstance metaCardData)
+        public bool FindCardData(int cardCoreId, out MetaCardInstanceInfo metaCardData)
         {
             for (int i = 0; i < _cardDatas.Count; i++)
             {
@@ -145,7 +162,7 @@ namespace CardMaga.MetaData.AccoutData
             return false;
         }
         
-        public bool FindComboData(int comboCoreId, out ComboInstance metaComboData)
+        public bool FindComboData(int comboCoreId, out MetaComboInstanceInfo metaComboData)
         {
             for (int i = 0; i < _comboDatas.Count; i++)
             {

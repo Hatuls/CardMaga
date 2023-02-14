@@ -57,7 +57,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-  _minTutorialsToExitToMainMenu: 0
+  _minTutorialsToExitToMainMenu: 2
   _battleDataPrefab: {fileID: 8812782710460472537, guid: 1599ef7dc225d7341a06d4d84ac0d3cc,
     type: 3}
   _badges:
@@ -69,9 +69,38 @@ MonoBehaviour:
   _matchMakingSceneLoader: {fileID: 0}
   returnToMainMenuButton: {fileID: 0}
   _tutorialRewards:
+    _packRewardBtn: {fileID: 0}
     _tutorialRewards:
     - {fileID: 11400000, guid: 933aa6cb20c440941b07e4b9cc918921, type: 2}
     - {fileID: 11400000, guid: 77a288e43b4331e47828795348b32c95, type: 2}
     - {fileID: 11400000, guid: 1bbc73d518b78b44ab1ad62514067578, type: 2}
     - {fileID: 11400000, guid: 9245145225ceb634a915ccc0dd2eb40f, type: 2}
     - {fileID: 11400000, guid: e66ba727d1945c14a8704066d9437932, type: 2}
+    _finalTutorialPackReward: {fileID: 11400000, guid: b3df875d35633aa4abf20e7752000a9e,
+      type: 2}
+    _floatingButtonHeight: 10
+    _floatingButtonDuration: 2
+    _curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4

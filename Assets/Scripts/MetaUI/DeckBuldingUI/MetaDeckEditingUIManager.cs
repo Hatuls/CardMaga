@@ -24,13 +24,13 @@ namespace CardMaga.MetaUI.CollectionUI
         [Header("Scrips Ref")]
         [SerializeField] private ClickHelper _defaultDeckClickHelper;
         [SerializeField] private ClickHelper _deckClickHelper;
-        [SerializeField] private MetaDeckEditingDataManager _dataManager;
         [SerializeField] private DeckContianerUIHandler _deckContinaer;
         [SerializeField] private MetaCollectionUIHandler _metaCollectionHandler;
 
         [Header("Title")]
         [SerializeField] private InputFieldHandler _deckName;
 
+        private MetaDeckEditingDataManager _dataManager;
         private DeckBuilder _deckBuilder;
         private bool _isFirstTime;
 
@@ -77,13 +77,21 @@ namespace CardMaga.MetaUI.CollectionUI
                 DiscardDeck();
             
             _dataManager.AssignDeckDataToEdit();
-            SetDeckToEdit(_dataManager.MetaDeckData);
+            SetDeckToEdit();
             
             base.Show();
         }
 
-        private void SetDeckToEdit(MetaDeckData metaDeckData)
+        public override void CloseScreen()
         {
+            DiscardDeck();
+            base.CloseScreen();
+        }
+
+        private void SetDeckToEdit()
+        {
+            var metaDeckData = _dataManager.MetaDeckData;
+            
             _deckName.SetText(metaDeckData.DeckName);
 
             _metaCollectionCardUIs = VisualRequesterManager.Instance.GetMetaCollectionCardUI(_dataManager.CardCollectionDataHandler.CollectionCardDatas.Values.ToList());
@@ -106,32 +114,32 @@ namespace CardMaga.MetaUI.CollectionUI
 
         #region ContinerManagers
 
-        private void AddCardUIToContainer(CardInstance cardInstance)
+        private void AddCardUIToContainer(MetaCardInstanceInfo cardInstance)
         {
             var metaCardUIs = VisualRequesterManager.Instance.GetMetaCardUIs(cardInstance);
             _metaCardUis.Add(metaCardUIs);
             _deckContinaer.AddCardUI(metaCardUIs);
         }
         
-        private void AddComboUiToContainer(ComboInstance comboInstance)
+        private void AddComboUiToContainer(MetaComboInstanceInfo comboInstance)
         {
             var metaComboUIs = VisualRequesterManager.Instance.GetMetaComboUIs(comboInstance);
             _metaComboUis.Add(metaComboUIs);
             _deckContinaer.AddComboUI(metaComboUIs);
         }
 
-        private void RemoveCardUIFromContainer(CardInstance cardInstance)
+        private void RemoveCardUIFromContainer(MetaCardInstanceInfo cardInstance)
         {
-            var metaCardUi = FindCardUI(cardInstance);
+            var metaCardUi = FindCardUI(cardInstance.CardInstance);
 
             _metaCardUis.Remove(metaCardUi);
             
             _deckContinaer.RemoveCardUI(metaCardUi);
         }
         
-        private void RemoveComboUIFromContainer(ComboInstance comboInstance)
+        private void RemoveComboUIFromContainer(MetaComboInstanceInfo comboInstance)
         {
-            var metaComboUI = FindComboUI(comboInstance);
+            var metaComboUI = FindComboUI(comboInstance.ComboInstance);
 
             _metaComboUis.Remove(metaComboUI);
             
