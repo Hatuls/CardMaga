@@ -46,7 +46,7 @@ namespace CardMaga.UI.PopUp
             _popUpAlphaTransitionIn = new AlphaTransition(GenerateAlphaTransitionData(_transitionIn));
             _popUpAlphaTransitionOut = new AlphaTransition(GenerateAlphaTransitionData(_transitionOut));
         }
-
+        [ContextMenu("Show Pop Up")]
         protected virtual void ShowPopUp()
         {
             if (_popUpSO.IsStackable == false && _basePopUps.Count > 0)
