@@ -4,6 +4,7 @@ using CardMaga.Core;
 using CardMaga.Input;
 using CardMaga.Rewards;
 using CardMaga.Tutorial;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -45,14 +46,21 @@ public class TutorialManager : MonoBehaviour
                     UpdateBadgesForNotCompletedTutorialAccount();
             }
 
-            if (_accountTutorialData.TutorialProgress >= _minTutorialsToExitToMainMenu)
-                returnToMainMenuButton.gameObject.SetActive(true);
+    
         }
 
         else
             UpdateBadgesForCompletedTutorialAccount();
-    }
 
+        if (_accountTutorialData.TutorialProgress >= _minTutorialsToExitToMainMenu)
+            returnToMainMenuButton.gameObject.SetActive(true);
+
+        _tutorialRewards.Init();
+    }
+    private void OnDestroy()
+    {
+        _tutorialRewards.Dispose();
+    }
     #endregion
 
     #region PublicFunction
@@ -179,7 +187,62 @@ public class TutorialManager : MonoBehaviour
 [System.Serializable]
 public class TutorialRewards
 {
-    [SerializeField] private BaseRewardFactorySO[] _tutorialRewards;
+    [SerializeField]
+    private UnityEngine.UI.Button _packRewardBtn;
+    [SerializeField] 
+    private BaseRewardFactorySO[] _tutorialRewards;
+
+    [SerializeField] 
+    private BaseRewardFactorySO _finalTutorialPackReward;
+    [SerializeField]
+    private float _floatingButtonHeight = 0.2f;
+    [SerializeField]
+    private float _floatingButtonDuration = 0.2f;
+    [SerializeField]
+    private AnimationCurve _curve ;
+    private Sequence _sequenece;
+    private float _startPos;
+    public void Init()
+    {
+        _packRewardBtn.onClick.AddListener(TryAddCard);
+        SetAnimation();
+
+        RefreshPackVisablity();
+    }
+
+    private void SetAnimation()
+    {
+        _startPos = _packRewardBtn.transform.position.y;
+        _sequenece = DOTween.Sequence();
+
+        _sequenece.Append(_packRewardBtn.transform.DOMoveY(_startPos + _floatingButtonHeight, _floatingButtonDuration).SetEase(_curve));
+        _sequenece.Append(_packRewardBtn.transform.DOMoveY(_startPos, _floatingButtonDuration).SetEase(_curve));
+        _sequenece.SetLoops(-1, LoopType.Yoyo);
+    }
+
+    public void Dispose()
+    {
+        _sequenece.Kill();
+        _packRewardBtn.onClick.RemoveListener(TryAddCard);
+    }
+
+    public void RefreshPackVisablity()
+    {
+        var tutorial = AccountManager.Instance.Data.AccountTutorialData;
+        _packRewardBtn.gameObject.SetActive(!tutorial.IsTutorialRewardTaken);
+    }
+    private void TryAddCard()
+    {
+        var tutorial = AccountManager.Instance.Data.AccountTutorialData;
+        if(tutorial.IsCompletedTutorial && !tutorial.IsTutorialRewardTaken)
+        {
+            tutorial.IsTutorialRewardTaken = true;
+            RefreshPackVisablity();
+            RewardManager.Instance.OpenRewardsScene(_finalTutorialPackReward);
+        }
+    }
+
+
     public void ReceiveReward(int currentTutorialLevel)
     {
         RewardManager.Instance.OpenRewardsScene(_tutorialRewards[currentTutorialLevel]);
