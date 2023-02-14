@@ -62,7 +62,6 @@ namespace CardMaga.Battle.Players
             //data
             CharacterBattleData data = characterData.CharacterData;
 
-
             //Deck
             int Length = data.CharacterDeck.Length;
             _playerDeck = new BattleCardData[Length];
@@ -71,15 +70,15 @@ namespace CardMaga.Battle.Players
             //CraftingSlots
             _craftingHandler = new CraftingHandler();
 
-            //Stats
-            _statsHandler = new CharacterStatsHandler(IsLeft, ref data.CharacterStats, _staminaHandler);
-
             //Stamina
-            int stamina = _statsHandler.GetStat(Keywords.KeywordType.Stamina).Amount;
-            int staminaShard = _statsHandler.GetStat(Keywords.KeywordType.StaminaShards).Amount;
+            int stamina = data.CharacterStats.StartStamina;
+            int staminaShard = data.CharacterStats.StaminaShard;
             int startingStaminaAddition = battleManager.TurnHandler.IsLeftPlayerStart ? -1 : 0;
             _staminaHandler = new StaminaHandler(stamina, staminaShard, startingStaminaAddition);
   
+            //Stats
+            _statsHandler = new CharacterStatsHandler(IsLeft, ref data.CharacterStats, _staminaHandler);
+
 
             //Deck and Combos
             _deckHandler = new DeckHandler(this, battleManager);

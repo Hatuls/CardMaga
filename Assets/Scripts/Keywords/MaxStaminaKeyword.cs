@@ -11,24 +11,20 @@ namespace CardMaga.Keywords
         public override void ProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(amount);
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStartStamina(amount);
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStaminaAddition(amount);
-
-            InvokeKeywordVisualEffect(currentPlayer, KeywordSO.OnApplyVFX);
+                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStartStamina(amount);
             KeywordSO.SoundEventSO.PlaySound();
         }
-
-
 
         public override void UnProcessOnTarget(bool currentPlayer, TargetEnum target, int amount)
         {
             if (target == TargetEnum.All || target == TargetEnum.MySelf)
-                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStaminaAddition(-amount);
+                _playersManager.GetCharacter(currentPlayer).StaminaHandler.AddStartStamina(-amount);
 
             if (target == TargetEnum.Opponent || target == TargetEnum.All)
-                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStaminaAddition(-amount);
+                _playersManager.GetCharacter(!currentPlayer).StaminaHandler.AddStartStamina(-amount);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace CardMaga.UI.Text
         public void UpdateMaxStamina(int stamina)
         {
             CheckMaxStaminaForAnimation(stamina);
-            _maxStamimaText.text = (stamina).ToString();
+            _maxStamimaText.text = "/"+(stamina).ToString();
         }
 
         private void CheckCurrentStaminaForAnimation(int _newStamina)
