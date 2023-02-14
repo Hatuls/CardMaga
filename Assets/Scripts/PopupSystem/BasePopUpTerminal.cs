@@ -37,7 +37,7 @@ namespace CardMaga.UI.PopUp
         public virtual IPopUpTransition<AlphaData> TransitionAlphaOut => _popUpAlphaTransitionOut;
         public virtual IPopUpTransition<TransitionData> TransitionIn => _popUpTransitionIn;
         public virtual IPopUpTransition<TransitionData> TransitionOut => _popUpTransitionOut;
-
+        protected virtual Transform Parent => transform;
         protected virtual void Start()
         {
             PopUpManager.OnCloseAllPopUps += ResetPopUp;
@@ -46,7 +46,7 @@ namespace CardMaga.UI.PopUp
             _popUpAlphaTransitionIn = new AlphaTransition(GenerateAlphaTransitionData(_transitionIn));
             _popUpAlphaTransitionOut = new AlphaTransition(GenerateAlphaTransitionData(_transitionOut));
         }
-
+        [ContextMenu("Show Pop Up")]
         protected virtual void ShowPopUp()
         {
             if (_popUpSO.IsStackable == false && _basePopUps.Count > 0)
@@ -59,10 +59,10 @@ namespace CardMaga.UI.PopUp
             SetMovementTransitions(_currentActivePopUp.PopUpTransitionHandler);
             SetAlphaTransitions(_currentActivePopUp.PopUpAlphaHandler);
             _currentActivePopUp.transform.localScale = GetStartScale();
-            _currentActivePopUp.transform.SetParent(transform);
+            _currentActivePopUp.transform.SetParent(Parent);
             _currentActivePopUp.Enter();
         }
-
+       
         private void SetAlphaTransitions(PopUpAlphaHandler popUpAlphaHandler)
         {
             popUpAlphaHandler.SetStartingAlpha(GetStartAlpha());
