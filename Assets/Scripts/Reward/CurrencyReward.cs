@@ -57,7 +57,7 @@ namespace CardMaga.Rewards
                     account.Data.AccountResources.AddResource(ResourcesCost.CurrencyType, (int)ResourcesCost.Amount);
                     break;
                 case CurrencyType.Account_EXP:
-                    account.Data.AccountLevel.AddEXP((int)ResourcesCost.Amount);
+                    account.LevelManager.AddEXP((int)ResourcesCost.Amount);
                     break;
                 default:
                     break;

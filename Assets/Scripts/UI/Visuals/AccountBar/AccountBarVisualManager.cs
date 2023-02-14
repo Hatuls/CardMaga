@@ -21,7 +21,7 @@ namespace CardMaga.UI.Account
 
         public void Start()
         {
-            Refresh();
+     
             Instance = this;
             for (int i = 0; i < _elementsToHideAccountBar.Length; i++)
             {
@@ -50,12 +50,10 @@ namespace CardMaga.UI.Account
         public void Refresh()
         {
 
-            _accountBarVisualHandler.Init(GenerateAccoundDataFirstTime());
+            _accountBarVisualHandler.Init(GetData());
         }
-        private AccountBarVisualData GenerateAccoundDataFirstTime()
+        private AccountBarVisualData GetData()
         {
-            CheckEXPLevel();
-
             var accountManager = AccountManager.Instance;
             if (accountManager != null && accountManager.Data != null)
             {
@@ -64,8 +62,8 @@ namespace CardMaga.UI.Account
                     (
                     accountManager.DisplayName,
                     data.AccountGeneralData.ImageID,// Take from account
-                    data.AccountLevel.Exp,
-                    _levelUpRewardSO.GetLevelData(data.AccountLevel.Level).MaxEXP,
+                    accountManager.LevelManager.EXP,
+                    accountManager.LevelManager.MaxEXP,
                     data.AccountLevel.Level,
                     new ResourcesCost(Rewards.CurrencyType.Chips, data.AccountResources.Chips),
                     new ResourcesCost(Rewards.CurrencyType.Gold, data.AccountResources.Gold),
@@ -89,27 +87,6 @@ namespace CardMaga.UI.Account
 
         }
 
-        private void CheckEXPLevel()
-        {
-            var accountManager = AccountManager.Instance;
-            AccountData data = accountManager.Data;
-            var exp = data.AccountLevel.Exp;
-
-            data.AccountLevel.Exp = remainEXP(exp);
-
-            int remainEXP(int currentEXP)
-            {
-
-                int remain = currentEXP - _levelUpRewardSO.GetLevelData(data.AccountLevel.Level).MaxEXP;
-                if (remain >= 0)
-                {
-                    data.AccountLevel.Level++;
-                    return remainEXP(remain);
-                }
-                else
-                    return currentEXP;
-            }
-        }
     }
 
 }

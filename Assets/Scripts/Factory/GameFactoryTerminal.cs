@@ -1,4 +1,5 @@
-﻿using Collections;
+﻿using CardMaga.Rewards.Factory.Handlers;
+using Collections;
 using ReiTools.TokenMachine;
 using UnityEngine;
 
@@ -12,7 +13,8 @@ namespace Factory
         [SerializeField] CardsCollectionSO _cards;
         [SerializeField] ComboCollectionSO _combos;
         [SerializeField] CharacterCollectionSO _characters;
-   //     [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
+        [SerializeField] RewardFactoryHandlerSO _rewards;
+        //     [SerializeField] Rewards.BattleRewardCollectionSO _rewards;
         public static bool flag;
 
         public void Init(ITokenReceiver tokenReciever)
@@ -46,12 +48,12 @@ namespace Factory
                             throw new System.Exception("Characters Collection Was Not Assigned!");
                     }
 
-                    //if (_rewards == null)
-                    //{
-                    //    _rewards = Resources.Load<Rewards.BattleRewardCollectionSO>("Collection SO/BattleRewardsCollection");
-                    //    if (_rewards == null)
-                    //        throw new System.Exception("Reward Collection Was Not Assigned!");
-                    //}
+                    if (_rewards == null)
+                    {
+                        _rewards =  Resources.Load<RewardFactoryHandlerSO>("Rewards/Factories/Handlers");
+                        if (_rewards == null)
+                            throw new System.Exception("Gift Rewards Collection Was Not Assigned!");
+                    }
 
 
                     if (_keywords == null)
@@ -62,7 +64,7 @@ namespace Factory
                     }
 
 
-                    new GameFactory(_cards, _combos, _characters,  _keywords);
+                    new GameFactory(_cards, _combos, _characters,  _keywords, _rewards);
                 }
 
                 Destroy(this.gameObject);

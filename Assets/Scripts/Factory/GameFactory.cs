@@ -15,6 +15,7 @@ using CardMaga.ValidatorSystem.ValidationConditionGroup;
 using UnityEngine;
 using ValidatorSystem.ValidationConditionGroup.CardInstance;
 using ValidatorSystem.ValidationConditionGroup.MetaCharacterData;
+using CardMaga.Rewards.Factory.Handlers;
 
 namespace Factory
 {
@@ -40,21 +41,21 @@ namespace Factory
             CardsCollectionSO cardCollections = Resources.Load<CardsCollectionSO>("Collection SO/CardCollection");
             ComboCollectionSO recipeCollection = Resources.Load<ComboCollectionSO>("Collection SO/RecipeCollection");
             CharacterCollectionSO characterCollection = Resources.Load<CharacterCollectionSO>("Collection SO/CharacterCollection");
-
+            RewardFactoryHandlerSO rewardFactoryHandlerSO = Resources.Load<RewardFactoryHandlerSO>("Rewards/Factories/Handlers");
             Keywords.KeywordsCollectionSO keywordsCollection = Resources.Load<Keywords.KeywordsCollectionSO>("Collection SO/KeywordSOCollection");
-            _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, keywordsCollection);
+            _instance = new GameFactory(cardCollections, recipeCollection, characterCollection, keywordsCollection, rewardFactoryHandlerSO);
         }
 
         public ComboFactory ComboFactoryHandler { get; private set; }
         public CardFactory CardFactoryHandler { get; private set; }
         public CharacterFactory CharacterFactoryHandler { get; private set; }
-        //   public RewardFactory RewardFactoryHandler { get; private set; }
+           public RewardFactory RewardFactoryHandler { get; private set; }
         public KeywordFactory KeywordFactoryHandler { get; private set; }
         
         public ValidationFactory ValidatorFactory { get; private set; }
 
 
-        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, KeywordsCollectionSO keywords)
+        public GameFactory(CardsCollectionSO cards, ComboCollectionSO comboCollectionSO, CharacterCollectionSO characters, KeywordsCollectionSO keywords, RewardFactoryHandlerSO rewardFactoryHandler)
         {
             if (cards == null || comboCollectionSO == null || characters == null || keywords == null)
                 throw new Exception("Collections is null!!");
@@ -65,6 +66,7 @@ namespace Factory
             //   RewardFactoryHandler = new RewardFactory(rewards);
             KeywordFactoryHandler = new KeywordFactory(keywords);
             ValidatorFactory = new ValidationFactory();
+            RewardFactoryHandler = new RewardFactory(rewardFactoryHandler);
             Debug.Log("Factory Created<a>!</a>");
 
             _instance = this;
@@ -107,6 +109,15 @@ namespace Factory
                 }
 
                 return output;
+            }
+        }
+
+        public class RewardFactory
+        {
+           public readonly RewardFactoryHandlerSO RewardFactoryHandlerSO;
+            public RewardFactory(RewardFactoryHandlerSO rewardFactoryHandlerSO)
+            {
+                RewardFactoryHandlerSO = rewardFactoryHandlerSO;
             }
         }
 

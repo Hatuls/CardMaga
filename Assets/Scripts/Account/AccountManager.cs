@@ -1,4 +1,5 @@
 ﻿using Account.GeneralData;
+using CardMaga.MetaData;
 using CardMaga.Rewards;
 using Newtonsoft.Json;
 using PlayFab;
@@ -9,8 +10,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using UnityEngine; 
+using UnityEngine;
 
 [Serializable]
 public enum CharacterEnum
@@ -47,20 +47,21 @@ namespace Account
         }
 
         #endregion
-        [SerializeField,ReadOnly]
+        [SerializeField, ReadOnly]
         private string _displayName;
         [ShowInInspector]
         private AccountData _accountData;
-        [ShowInInspector,ReadOnly]
+        [ShowInInspector, ReadOnly]
         private LoginResult loginResult;
-
-
+        private LevelManager _levelManager;
+        [SerializeField]
+        private LevelUpRewardsSO _levelUpRewardsSO;
         [SerializeField]
         GiftRewardFactorySO[] _startingGift;
         [SerializeField]
         GiftRewardFactorySO[] _additionToStartGift;
 
- 
+
         private IDisposable _loginDisposable;
         private IDisposable _requestFromServerDisposable;
         public LoginResult LoginResult { get => loginResult; private set => loginResult = value; }
@@ -68,7 +69,7 @@ namespace Account
         public string SessionTicket => LoginResult.SessionTicket;
         public string EntityID => LoginResult.EntityToken.Entity.Id;
         public string PlayfabID => loginResult.PlayFabId;
-
+        public LevelManager LevelManager => _levelManager;
         public AccountData Data => _accountData;
 
         private void Awake()
@@ -76,6 +77,7 @@ namespace Account
             if (_instance != null)
                 Destroy(this.gameObject);
             _instance = this;
+     
         }
         public void ResetAccount(ITokenReceiver tokenReciever)
         {
@@ -109,7 +111,7 @@ namespace Account
         private void UserDataSuccess(GetUserDataResult obj)
         {
             _accountData = new AccountData(obj.Data);
-     
+
             _requestFromServerDisposable?.Dispose();
         }
 
@@ -163,7 +165,9 @@ namespace Account
                 _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
             }
 
-                UpdateAccount();
+            _levelManager = new LevelManager(_levelUpRewardsSO,_accountData.AccountLevel); 
+
+            UpdateAccount();
 
             void UpdateAccount()
             {
@@ -172,13 +176,13 @@ namespace Account
                 OnAccountDataAssigned?.Invoke();
             }
 
-   
+
         }
 
         private void ReceiveStartingData()
         {
             ReceiveAllCombos();
-           
+
             for (int i = 0; i < _startingGift.Length; i++)
             {
                 var reward = _startingGift[i].GenerateReward();
@@ -248,7 +252,7 @@ namespace Account
     [Serializable]
     public class AccountData
     {
-    
+
         [SerializeField] private AccountGeneralData _accountGeneralData;
         [SerializeField] private CharactersData _charactersData;
 
@@ -261,7 +265,7 @@ namespace Account
         [SerializeField] private AccountTutorialData _accountTutorialData;
 
         public AccountTutorialData AccountTutorialData => _accountTutorialData;
-        
+
         public bool IsFirstTimeUser { get; private set; }
 
         public AccountCombos AllCombos => _accountCombos;
@@ -442,7 +446,7 @@ namespace Account
             return new UpdateUserDataRequest()
             {
                 AuthenticationContext = AccountManager.Instance.LoginResult.AuthenticationContext,
-               
+
                 Data = new Dictionary<string, string>()
                 {
                     { AccountGeneralData.PlayFabKeyName,     JsonConvert.SerializeObject(_accountGeneralData) },
@@ -465,7 +469,7 @@ namespace Account
             //if (!_accountCards.IsValid())
             //    throw new Exception("Could not Generate Account Cards");
         }
-   
+
         private void CreateNewCombosData()
         {
             _accountCombos = new AccountCombos();
@@ -489,7 +493,7 @@ namespace Account
             _accountLevel = new LevelData();
             //if(!_accountLevel.IsValid())
             //    throw new Exception("Could not Generate Account Level");
-                
+
         }
         private void CreateNewCharacterData()
         {
@@ -520,10 +524,10 @@ public class AccountCards
 {
     public const string PlayFabKeyName = "Cards";
     public List<CoreID> CardsIDs = new List<CoreID>();
-    
+
     public void AddCard(CoreID cardID) => CardsIDs.Add(cardID);
     public void RemoveCard(CoreID cardID) => CardsIDs.Remove(cardID);
-    internal bool IsValid() => CardsIDs.Count>0;
+    internal bool IsValid() => CardsIDs.Count > 0;
 }
 [Serializable]
 public class AccountCombos
@@ -535,6 +539,6 @@ public class AccountCombos
     public void RemoveCombo(ComboCore cardID) => CombosIDs.Remove(cardID);
     internal bool IsValid()
     {
-        return CombosIDs.Count>0;
+        return CombosIDs.Count > 0;
     }
 }
