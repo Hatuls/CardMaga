@@ -119,10 +119,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   DisableHold: 1
+  DisableClick: 0
   _holdDelay: 0.5
   _holdDistance: 0.5
   _currentState: 0
   _identification: {fileID: 0}
+  _buttonText: {fileID: 0}
+  _renderer: {fileID: 0}
+  _onPress: {fileID: 0}
+  _onIdle: {fileID: 0}
+  Text: 
 --- !u!95 &2353151300318747239
 Animator:
   serializedVersion: 3
@@ -215,6 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tutorialBadgeVisualHandler: {fileID: 3170440361283981164}
   _Input: {fileID: 8062206786841582904}
+  _configSO: {fileID: 11400000, guid: 21128ffffd65934418be5def197089bb, type: 2}
 --- !u!114 &3170440361283981164
 MonoBehaviour:
   m_ObjectHideFlags: 0

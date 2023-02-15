@@ -293,7 +293,7 @@ namespace Battle.Turns
             {
                 yield return null;
             }
-            //   yield return new WaitForSeconds(1f);
+               yield return new WaitForSeconds(1f);
             ForceEndTurn();
         }
         private IEnumerator CheckStaminaEndTurn()
@@ -309,7 +309,12 @@ namespace Battle.Turns
                 check &= IsStaminaIsZero && !IsExecutionAquiring && IsFinishedDetectingCombo && IsAnimationFinished ;
                 
             } while (!check);
-       //     yield return new WaitForSeconds(.35f);
+
+
+           yield return new WaitForSeconds(.35f);
+            if(!IsStaminaIsZero)
+                yield break;
+       
             ForceEndTurn();
         }
 

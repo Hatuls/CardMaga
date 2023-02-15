@@ -58,7 +58,8 @@ public class EndGameManager : MonoBehaviour
     {
         CardMaga.Rewards.BaseRewardFactorySO rewardFactory = _isLeftPlayerWon ? battleConfigSO.WinReward : battleConfigSO.LoseReward;
         _rewardToken = _rewardTokenMachine.GetToken();
-
+        if (rewardFactory == null)
+            return;
 
        var reward =   rewardFactory.GenerateReward();
         SetCurrencyText(reward);

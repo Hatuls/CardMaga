@@ -58,6 +58,7 @@ namespace CardMaga.CinematicSystem
             _cinematicID = cinematicId;
             _playableDirector.Evaluate();
             _duration = _playableDirector.duration;
+            _playableDirector.Evaluate();
             _monoBehaviour = monoBehaviour;
         }
 
