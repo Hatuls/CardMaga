@@ -18,11 +18,16 @@ public class MessagePopUpHandler : MonoBehaviour
         _message.text = message;
         OnConform = onConform;
 
-        _conformButton.OnClick += OnConform;
+        _conformButton.OnClick += Click;
+    }
+
+    private void Click()
+    {
+        OnConform?.Invoke();
     }
 
     private void OnDestroy()
     {
-        _conformButton.OnClick -= OnConform;
+        _conformButton.OnClick -= Click;
     }
 }

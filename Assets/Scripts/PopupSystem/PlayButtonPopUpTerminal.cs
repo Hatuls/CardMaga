@@ -10,10 +10,9 @@ namespace CardMaga.UI.PopUp
         
         [SerializeField] private TempPlayButton _playButton;
         
-        private void Awake()
+        private void OnEnable()
         {
             _playButton.OnFailedToStartBattle += ShowPopUp;
-            
         }
 
         private void OnDisable()

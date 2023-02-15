@@ -1315,12 +1315,96 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 574559367}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 574559370}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d0ef37fcb9972042bfff48ffe830084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &574559370 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5184731395914518616, guid: 3f37489ee94b3504cb7bd4204761a6cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 574559367}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &574559371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574559370}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e697e23e2c712148b7a198dd96efdc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _popUpSO: {fileID: 11400000, guid: 641b58316d9d93147bb655d120ab7fdb, type: 2}
+  _startLocation: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
+  _startingScale: 0
+  _startingAlpha: 0
+  _transitionIn:
+  - TransitionPackSO: {fileID: 11400000, guid: e0b9ab0ac5b600e42ab063efafb6d287, type: 2}
+    TagSO: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
+    Alpha: 1
+    Duration: 0.1
+    AlphaCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _transitionOut:
+  - TransitionPackSO: {fileID: 11400000, guid: 63e0acbab04796e469f48a845bf557cb, type: 2}
+    TagSO: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
+    Alpha: 0
+    Duration: 0.1
+    AlphaCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _popUpScreenLocations: []
+  _title: 
+  _message: 
+  _loginUserName: {fileID: 574559369}
 --- !u!1 &698254504
 GameObject:
   m_ObjectHideFlags: 0

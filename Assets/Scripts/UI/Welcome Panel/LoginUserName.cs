@@ -28,6 +28,8 @@ namespace CardMaga.UI
         private Button _enterNameBtn;
         private IDisposable _loginToken;
         private SetNameRequest _setNameRequest;
+        
+        public SetNameRequest SetNameRequest => _setNameRequest;
 #region Monobehaviour
         private void Awake()
         {
@@ -37,6 +39,7 @@ namespace CardMaga.UI
             _inputField.onValueChanged.AddListener(TextFieldValueChange);
             _enterNameBtn.onClick.AddListener(TrySetName);
         }
+
 
         private void OnDestroy()
         {
