@@ -244,7 +244,7 @@ namespace Battle.Turns
             _player = player;
             _endTurnTokenMachine = new TokenMachine(ibattleManager.TurnHandler.MoveToNextTurn);
             _sceneObject = ibattleManager.MonoBehaviour;
-            _player.MyTurn.OnTurnEnter += StartTurn;
+            _player.MyTurn.OnTurnActive += StartTurn;
             _player.StaminaHandler.OnStaminaDepleted += StaminaIsEmpty;
         }
         private void StartTurn()
@@ -304,16 +304,13 @@ namespace Battle.Turns
 
             do
             {
-                check = IsStaminaIsZero;
-                if (!check)
-                    yield break;
-
+                check = true;
                 yield return null;
-
-                check &= !IsExecutionAquiring && IsFinishedDetectingCombo && IsAnimationFinished;
-
+                check &= IsStaminaIsZero && !IsExecutionAquiring && IsFinishedDetectingCombo && IsAnimationFinished ;
+                
             } while (!check);
-            yield return new WaitForSeconds(.35f);
+       //     yield return new WaitForSeconds(.35f);
+           Debug.LogError($"Ënding Turn:\nIs Character is executing combos - {IsExecutionAquiring}\nFinished Detecting Combo - {IsFinishedDetectingCombo}\nAnimation Finished - {IsAnimationFinished}\nIs Stamina Empty: {IsStaminaIsZero}");
             ForceEndTurn();
         }
 
@@ -321,7 +318,7 @@ namespace Battle.Turns
         {
             if (_player != null)
             {
-                _player.MyTurn.OnTurnEnter -= StartTurn;
+                _player.MyTurn.OnTurnActive -= StartTurn;
                 _player.StaminaHandler.OnStaminaDepleted -= StaminaIsEmpty;
             }
         }

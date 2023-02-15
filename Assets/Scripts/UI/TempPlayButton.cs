@@ -1,4 +1,5 @@
-﻿using Account;
+﻿using System;
+using Account;
 using Battle.Data;
 using UnityEngine;
 using CardMaga.MetaData.AccoutData;
@@ -10,6 +11,7 @@ using UnityEngine.Events;
 
 public class TempPlayButton : MonoBehaviour, ISequenceOperation<MetaDataManager>
 {
+    public event Action OnFailedToStartBattle;
     [SerializeField]
     private GameObject _battleDataPrefab;
     [SerializeField] private UnityEvent OnStartBattle;
@@ -39,7 +41,7 @@ public class TempPlayButton : MonoBehaviour, ISequenceOperation<MetaDataManager>
         
         if (!Validator.Valid(mainCharacterData,out var failedInfo,ValidationTag.MetaCharacterDataSystem))
         {
-            //failed
+            OnFailedToStartBattle?.Invoke();
             return;       
         }
         
