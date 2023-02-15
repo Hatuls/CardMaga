@@ -310,7 +310,6 @@ namespace Battle.Turns
                 
             } while (!check);
        //     yield return new WaitForSeconds(.35f);
-           Debug.LogError($"Ënding Turn:\nIs Character is executing combos - {IsExecutionAquiring}\nFinished Detecting Combo - {IsFinishedDetectingCombo}\nAnimation Finished - {IsAnimationFinished}\nIs Stamina Empty: {IsStaminaIsZero}");
             ForceEndTurn();
         }
 
