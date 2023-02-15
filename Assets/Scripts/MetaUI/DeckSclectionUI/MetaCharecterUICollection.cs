@@ -35,6 +35,16 @@ public class MetaCharecterUICollection : BaseUIElement, ISequenceOperation<MetaU
         SetMainDeck(_characterData.MainDeckIndex);
     }
 
+    private void OnEnable()
+    {
+        var deckDatas = _characterData.Decks;
+        
+        for (int i = 0; i < _decksUI.Length; i++)
+        {
+            _decksUI[i].AssignVisual(deckDatas[i]);    
+        }
+    }
+
     private void SetMainDeck(int deckId)
     {
         if (MainDeckUI != null)
