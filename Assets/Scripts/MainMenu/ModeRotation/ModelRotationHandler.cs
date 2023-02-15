@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -28,35 +27,19 @@ namespace MainMenu.ModeRotation
 
         private void RotateModel(SwipeData swipeData)
         {
-            float swipeForce = 0;
-            
-            switch (swipeData.SwipeDirection)
-            {
-                case InputReciever.SwipeDirection.Up:
-                    break;
-                case InputReciever.SwipeDirection.Down:
-                    break;
-                case InputReciever.SwipeDirection.Left:
-                    _MoveCoroutine = StartCoroutine(RotateModelCoroutin(swipeData));
-                    break;
-                case InputReciever.SwipeDirection.Right:
-                    _MoveCoroutine = StartCoroutine(RotateModelCoroutin(swipeData));
-                    break;
-                default:
-                    break;
-            }
+            _MoveCoroutine = StartCoroutine(RotateModelCoroutin(swipeData));
         }
-
+        
         private IEnumerator RotateModelCoroutin(SwipeData swipeData)
         {
             if (!ReferenceEquals(_timeCoroutine,null))
-                 StopCoroutine(_timeCoroutine);
+                StopCoroutine(_timeCoroutine);
             
             float startY = _model.transform.localRotation.eulerAngles.y;
             
             while (true)
             {
-                float force = swipeData.SwipeStartPosition.x - InputReciever.Instance.TouchWordPosition.x;
+                float force = swipeData.SwipeStartPosition.x - InputReciever.Instance.TouchScreenPosition.x;
                 
                 float yD = startY + force / _dragModifire;
                 
@@ -107,5 +90,5 @@ namespace MainMenu.ModeRotation
             }
         }
 
-}
+    }
 }
