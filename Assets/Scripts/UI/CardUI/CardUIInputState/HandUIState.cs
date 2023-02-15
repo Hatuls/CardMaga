@@ -59,7 +59,13 @@ namespace CardMaga.UI
         public override void EnterState(BattleCardUI battleCardUI)
         {
             _tableCardSlot.AddCardUIToCardSlot(battleCardUI,out CardSlot cardSlot);
-            
+
+            if (cardSlot == null)
+            {
+                Debug.LogError("Card slot is null and cont add the card to table");
+                return;
+            }
+
             if (!battleCardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
             {
                 Debug.LogError(name + "Failed To Set InputIdentificationSO Behaviour");
