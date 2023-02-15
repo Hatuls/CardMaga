@@ -41,20 +41,24 @@ namespace CardMaga.UI
         private void Start()
         {
             _waitForCardDrawnDelay = new WaitForSeconds(_delayBetweenCardDrawn);
-
+        
             _inputBehaviour.OnClick += _handUI.SetToZoomState;
             _inputBehaviour.OnBeginHold += _handUI.SetToFollowState;
+
+            _tableCardSlot.OnRealignCardsSlots += AlingCards;
         }
 
         private void OnDestroy()
         {
             _inputBehaviour.OnClick -= _handUI.SetToZoomState;
             _inputBehaviour.OnBeginHold -= _handUI.SetToFollowState;
+            
+            _tableCardSlot.OnRealignCardsSlots -= AlingCards;
         }
 
         public override void EnterState(BattleCardUI battleCardUI)
         {
-            _tableCardSlot.AddCardUIToCardSlot(battleCardUI);
+            _tableCardSlot.AddCardUIToCardSlot(battleCardUI,out CardSlot cardSlot);
             
             if (!battleCardUI.Inputs.TrySetInputBehaviour(_inputBehaviour))
             {
@@ -62,14 +66,16 @@ namespace CardMaga.UI
                 return;
             }
 
-            //   _tableCardSlot.ClearCardSlot();
-            StartCoroutine(MoveCardsToHandPos(_tableCardSlot.GetCardSlotsFrom(_tableCardSlot.GetCardUIsFromTable()), AlignCards));//need to Rei-Done
+            MoveCardToHandPos(cardSlot, AlignCards);//need to Rei-Done
         }
 
         public override void ExitState(BattleCardUI battleCardUI)
         {
-            if (_tableCardSlot.ContainCardUIInSlots(battleCardUI, out CardSlot cardSlot))
+            if (_tableCardSlot.ContainCardUIInSlots(battleCardUI))
+            {
+                RemoveCardUI(battleCardUI);
                 battleCardUI.transform.SetAsLastSibling();
+            }
         }
 
         public BattleCardUI[] RemoveAllCardUIFromHand()
@@ -88,7 +94,17 @@ namespace CardMaga.UI
 
         public void RemoveCardUI(BattleCardUI battleCardUI)
         {
-            _tableCardSlot.RemoveCardUI(_tableCardSlot.GetCardSlotFrom(battleCardUI).BattleCardUI);
+            _tableCardSlot.RemoveCardUI(battleCardUI);
+        }
+
+        private void AlingCards()
+        {
+            var cardSlots = _tableCardSlot.GetCardSlotsFrom(_tableCardSlot.GetCardUIsFromTable());
+            
+            foreach (var cardSlot in cardSlots)
+            {
+                MoveCardToHandPos(cardSlot);
+            }
         }
 
         #region Transitions
@@ -104,8 +120,8 @@ namespace CardMaga.UI
                 BattleCardUI battleCardUI = currentSlot.BattleCardUI;
                 battleCardUI.transform.SetAsLastSibling();
                 var sequence = battleCardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo)//Plaster!!!
-                .Join(battleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo))
-                .OnComplete(AlignCards);
+                    .Join(battleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo))
+                    .OnComplete(AlignCards);
 
                 if (battleCardUI.CurrentSequence != null && !battleCardUI.CurrentSequence.IsComplete())
                     battleCardUI.CurrentSequence.Join(sequence);
@@ -121,29 +137,52 @@ namespace CardMaga.UI
                 OnAllCardsDrawnAndAlign.Invoke();
         }
         
-        private IEnumerator MoveCardToHandPos(CardSlot cardSlots, Action onComplete = null)
+        private IEnumerator MoveCardsToHandPos(CardSlot cardSlot, Action onComplete = null)
         {
-            CardSlot currentSlot = cardSlots;
-            
-                if (!currentSlot.IsHaveValue)
-                    yield break;
+            CardSlot currentSlot = cardSlot;
+            if (!currentSlot.IsHaveValue)
+                yield break;
 
-                BattleCardUI battleCardUI = currentSlot.BattleCardUI;
-                battleCardUI.transform.SetAsLastSibling();
-                var sequence = battleCardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo)//Plaster!!!
-                    .Join(battleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo))
-                    .OnComplete(AlignCards);
+            BattleCardUI battleCardUI = currentSlot.BattleCardUI;
+            battleCardUI.transform.SetAsLastSibling();
+            var sequence = battleCardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo)//Plaster!!!
+                .Join(battleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo))
+                .OnComplete(AlignCards);
 
-                if (battleCardUI.CurrentSequence != null && !battleCardUI.CurrentSequence.IsComplete())
-                    battleCardUI.CurrentSequence.Join(sequence);
-                else
-                    battleCardUI.CurrentSequence = sequence;
+            if (battleCardUI.CurrentSequence != null && !battleCardUI.CurrentSequence.IsComplete())
+                battleCardUI.CurrentSequence.Join(sequence);
+            else
+                battleCardUI.CurrentSequence = sequence;
 
-                yield return _waitForCardDrawnDelay;
+            yield return _waitForCardDrawnDelay;
             
 
             onComplete?.Invoke();
             yield return null;
+            if (OnAllCardsDrawnAndAlign != null)
+                OnAllCardsDrawnAndAlign.Invoke();
+        }
+
+        private void MoveCardToHandPos(CardSlot cardSlots, Action onComplete = null)
+        {
+            CardSlot currentSlot = cardSlots;
+            
+            if (!currentSlot.IsHaveValue)
+                return;
+
+            BattleCardUI battleCardUI = currentSlot.BattleCardUI;
+            battleCardUI.transform.SetAsLastSibling();
+            var sequence = battleCardUI.RectTransform.Transition(currentSlot.CardPos, _drawMoveTransitionPackSo)//Plaster!!!
+                .Join(battleCardUI.VisualsRectTransform.Transition(_drawScaleTransitionPackSo))
+                .OnComplete(AlignCards);
+
+            if (battleCardUI.CurrentSequence != null && !battleCardUI.CurrentSequence.IsComplete())
+                battleCardUI.CurrentSequence.Join(sequence);
+            else
+                battleCardUI.CurrentSequence = sequence;
+
+
+            onComplete?.Invoke();
             if (OnAllCardsDrawnAndAlign != null)
                 OnAllCardsDrawnAndAlign.Invoke();
         }
@@ -169,17 +208,20 @@ namespace CardMaga.UI
     [Serializable]
     public class TableCardSlot
     {
+        public event Action OnRealignCardsSlots;
+        
         [SerializeField] private RectTransform _middleHandPos;
         [SerializeField] [Range(0, 25)] private float _cardPaddingPrecentage;
         [SerializeField] [Range(-10, 10)] private float _cardCenterOffSetPrecentage;
         [SerializeField] [ReadOnly] private List<CardSlot> _cardSlots = new List<CardSlot>();
 
         public IReadOnlyList<CardSlot> CardSlots => _cardSlots;
-
-
+        
         public void AlignCardsSlots()
         {
             for (var i = 0; i < _cardSlots.Count; i++) _cardSlots[i].CardPos = CalculateCardPosition(i);
+            
+            OnRealignCardsSlots?.Invoke();
         }
 
         private Vector2 CalculateCardPosition(int index)
@@ -210,33 +252,34 @@ namespace CardMaga.UI
             return (screenWidth - screenBoundInPercentage) / _cardSlots.Count;
         }
 
-        public void AddCardUIToCardSlot(params BattleCardUI[] cardUI)
+        public void AddCardUIToCardSlot(BattleCardUI cardUI,out CardSlot cardSlot)
         {
             var isNoMoreSpace = _cardSlots.Count == 0;
 
-            for (var i = 0; i < cardUI.Length; i++) //loop over all the received CardUIs and Assign to  cardslot 
+            if (!isNoMoreSpace && !ContainCardUIInSlots(cardUI))
             {
-                if (!isNoMoreSpace && !ContainCardUIInSlots(cardUI[i], out CardSlot cardSlot))
-                    for (var j = 0; j < _cardSlots.Count; j++) //loop over all the cardslot and check if there is a available slot
+                for (var j = 0; j < _cardSlots.Count; j++) //loop over all the cardslot and check if there is a available slot
+                {
+                    if (!_cardSlots[j].IsHaveValue)
                     {
-                        if (!_cardSlots[j].IsHaveValue)
-                        {
-                            _cardSlots[j].AssignCardUI(cardUI[i]);
-                            break;
-                        }
-
-                        if (j == _cardSlots.Count - 1) // did not find a empty cardslot 
-                            isNoMoreSpace = true;
+                        cardSlot = _cardSlots[j];
+                        _cardSlots[j].AssignCardUI(cardUI);
+                        return;
                     }
 
-                if (isNoMoreSpace && _cardSlots.Count < 4)
-                {
-                    AddCardSlot(cardUI[i]); //create a new cardslot and assign a cardui to it
+                    if (j == _cardSlots.Count - 1) // did not find a empty cardslot 
+                        isNoMoreSpace = true;
                 }
-
+            }
+            
+            if (isNoMoreSpace && _cardSlots.Count < 4)
+            {
+                cardSlot = AddCardSlot(cardUI);
+                AlignCardsSlots();
+                return;//create a new cardslot and assign a cardui to it
             }
 
-            AlignCardsSlots();
+            cardSlot = null;
         }
 
         public bool RemoveCardUI(BattleCardUI battleCardUI)
@@ -258,18 +301,16 @@ namespace CardMaga.UI
                     _cardSlots[i].RemoveCardUI();
         }
 
-        public bool ContainCardUIInSlots(BattleCardUI battleCardUI, out CardSlot cardSlot)
+        public bool ContainCardUIInSlots(BattleCardUI battleCardUI)
         {
             for (var i = 0; i < _cardSlots.Count; i++)
             {
                 if (_cardSlots[i].IsContainCardUI(battleCardUI))
                 {
-                    cardSlot = _cardSlots[i];
                     return true;
                 }
             }
 
-            cardSlot = null;
             return false;
         }
 
@@ -278,12 +319,12 @@ namespace CardMaga.UI
             var cardSlots = new List<CardSlot>();
 
             for (var i = 0; i < cardUIs.Length; i++)
-                for (var j = 0; j < _cardSlots.Count; j++)
-                    if (_cardSlots[j].IsContainCardUI(cardUIs[i]))
-                    {
-                        cardSlots.Add(_cardSlots[j]);
-                        break;
-                    }
+            for (var j = 0; j < _cardSlots.Count; j++)
+                if (_cardSlots[j].IsContainCardUI(cardUIs[i]))
+                {
+                    cardSlots.Add(_cardSlots[j]);
+                    break;
+                }
 
             return cardSlots;
         }
@@ -388,11 +429,12 @@ namespace CardMaga.UI
         {
         }
 
-        private void AddCardSlot(BattleCardUI battleCardUI)
+        private CardSlot AddCardSlot(BattleCardUI battleCardUI)
         {
             var cardSlot = new CardSlot();
             _cardSlots.Add(cardSlot);
             cardSlot.AssignCardUI(battleCardUI);
+            return cardSlot;
         }
 
         private void RemoveCardSlot(CardSlot cardSlot)

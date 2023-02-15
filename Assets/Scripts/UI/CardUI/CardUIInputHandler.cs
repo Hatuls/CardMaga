@@ -100,7 +100,7 @@ namespace CardMaga.Input
 
         public void Reset()
         {
-            _rectTransform.localPosition = Vector3.zero;
+            //_rectTransform.localPosition = Vector3.zero;
             SetResolution(_startWidth, _startHeight);
         }
 

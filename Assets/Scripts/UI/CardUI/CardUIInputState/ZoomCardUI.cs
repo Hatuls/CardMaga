@@ -51,7 +51,7 @@ namespace CardMaga.UI.Card
                 OnExitZoomTutorial.Invoke();
         }
 
-        public void ReturnToHandState(BattleCardUI battleCardUI)
+        private void ReturnToHandState(BattleCardUI battleCardUI)
         {
             _handUI.SetToHandState(battleCardUI);
         }

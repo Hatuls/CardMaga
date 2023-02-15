@@ -233,7 +233,7 @@ namespace CardMaga.Input
 
             while (!_isHold)
             {
-                Vector2 currentTouchPosition = InputReciever.Instance.TouchWordPosition;
+                Vector2 currentTouchPosition = InputReciever.Instance.TouchScreenPosition;
 
                 if (Vector2.Distance(_startPosition, currentTouchPosition) > _holdDistance)
                 {
