@@ -34,10 +34,11 @@ public class RobotAnimatorHandler : MonoBehaviour,ICheckValidation
     public void InitRobotAnimation(RobotSettings robotSettings)
     {
         _robotSettings = robotSettings;
-        _animationTime = robotSettings.AnimationTime;
-        _currentEarAnimationType = robotSettings.StartingEarAnimation;
+        _animationTime = _robotSettings.AnimationTime;
+        _currentEarAnimationType = _robotSettings.StartingEarAnimation;
         _earAnimator.SetTrigger(_robotSettings.GetAnimationTrigger(_currentEarAnimationType));
-        _isAnimating = robotSettings.IsAnimating;
+        _eyeImage.sprite = _robotSettings.StartingEyeType.EyeSprite;
+        _isAnimating = _robotSettings.IsAnimating;
     }
     public void OnTimerEnded()
     {

@@ -4,7 +4,7 @@ public enum RobotEarAnimationType
     Idle,
     ZigZag,
     Wiggle,
-    SmallToBig,
+    SmallToLarge,
     Wave
 }
 [CreateAssetMenu(fileName ="New Robot Settings",menuName = "ScriptableObjects/Robot/Settings")]
@@ -30,8 +30,8 @@ public class RobotSettings : ScriptableObject
                 return "ZigZag";
             case RobotEarAnimationType.Wiggle:
                 return "Wiggle";
-            case RobotEarAnimationType.SmallToBig:
-                return "SmallToBig";
+            case RobotEarAnimationType.SmallToLarge:
+                return "SmallToLarge";
             case RobotEarAnimationType.Wave:
                 return "Wave";
             default:
