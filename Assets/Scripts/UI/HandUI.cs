@@ -277,6 +277,10 @@ namespace CardMaga.UI
         private void DiscardAllCards()
         {
             BattleCardUI[] handCardUis = _handUIState.RemoveAllCardUIFromHand();
+            
+            foreach (var cardUi in handCardUis)
+                cardUi.Inputs.ForceResetInputBehaviour();
+
             BattleCardUI[] combineCardUis = new BattleCardUI[handCardUis.Length + 1];
 
             Array.Copy(handCardUis, combineCardUis, handCardUis.Length);

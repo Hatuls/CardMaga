@@ -2193,6 +2193,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5179105303924351766, guid: 0c870d1d403c20348bc20418ad31d384,
+        type: 3}
+      propertyPath: m_text
+      value: Battle
+      objectReference: {fileID: 0}
     - target: {fileID: 5655242109812112472, guid: 0c870d1d403c20348bc20418ad31d384,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2298,12 +2303,108 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 998293950}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 998293953}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99fdf08fb0ba2804ebf01256d1d312db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &998293953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5432850420495689347, guid: 0c870d1d403c20348bc20418ad31d384,
+    type: 3}
+  m_PrefabInstance: {fileID: 998293950}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &998293954 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 471659689995644184, guid: 0c870d1d403c20348bc20418ad31d384,
+    type: 3}
+  m_PrefabInstance: {fileID: 998293950}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998293953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51632595f5aa65c4fa37659cc39e3877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &998293955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998293953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7203826806a45768283dd59203d35fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _popUpSO: {fileID: 11400000, guid: 641b58316d9d93147bb655d120ab7fdb, type: 2}
+  _startLocation: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
+  _startingScale: 0
+  _startingAlpha: 0
+  _transitionIn:
+  - TransitionPackSO: {fileID: 11400000, guid: e0b9ab0ac5b600e42ab063efafb6d287, type: 2}
+    TagSO: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
+    Alpha: 1
+    Duration: 1
+    AlphaCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _transitionOut:
+  - TransitionPackSO: {fileID: 11400000, guid: 63e0acbab04796e469f48a845bf557cb, type: 2}
+    TagSO: {fileID: 11400000, guid: 5d9d8809565ae8c4095dc7b76d6d06ba, type: 2}
+    Alpha: 0
+    Duration: 1
+    AlphaCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _popUpScreenLocations: []
+  _title: Invaild Deck
+  _message: Eyal what do you whant in here?
+  _playButton: {fileID: 998293954}
 --- !u!4 &1133680412 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1982990226553098718, guid: 1716c0828466957409c2c6c455ff9120,
