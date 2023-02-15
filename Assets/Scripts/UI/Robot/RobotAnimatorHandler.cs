@@ -1,30 +1,20 @@
 ﻿using CardMaga.UI;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-enum RobotEarAnimationType
-{
-    Idle,
-    ZigZag,
-    Wiggle,
-    SmallToBig,
-    Wave
-}
 public class RobotAnimatorHandler : MonoBehaviour,ICheckValidation
 {
     [SerializeField] Animator _earAnimator;
-    [SerializeField] RobotEarAnimationType _earType;
-    [SerializeField] RobotEyeSO _startingEyeType;
-    [SerializeField] RobotEyeSO _endingEyeType;
     [SerializeField] Image _eyeImage;
-    [SerializeField] float _animationTime;
-    [Tooltip("When True will have ending changes")]
-    [SerializeField] bool _isAnimating = true;
+    [SerializeField] [ReadOnly] RobotSettings _robotSettings;
+    RobotEarAnimationType _currentEarAnimationType;
+    private float _animationTime;
+    private bool _isAnimating;
+
     private void Start()
     {
         CheckValidation();
-        _earAnimator.SetTrigger(GetAnimationTrigger());
-        _eyeImage.sprite = _startingEyeType.EyeSprite;
     }
     private void Update()
     {
@@ -41,29 +31,19 @@ public class RobotAnimatorHandler : MonoBehaviour,ICheckValidation
             }
         }
     }
-    private string GetAnimationTrigger()
+    public void InitRobotAnimation(RobotSettings robotSettings)
     {
-        switch (_earType)
-        {
-            case RobotEarAnimationType.Idle:
-                return "Idle";
-            case RobotEarAnimationType.ZigZag:
-                return "ZigZag";
-            case RobotEarAnimationType.Wiggle:
-                return "Wiggle";
-            case RobotEarAnimationType.SmallToBig:
-                return "SmallToBig";
-            case RobotEarAnimationType.Wave:
-                return "Wave";
-            default:
-                return null;
-        }
+        _robotSettings = robotSettings;
+        _animationTime = robotSettings.AnimationTime;
+        _currentEarAnimationType = robotSettings.StartingEarAnimation;
+        _earAnimator.SetTrigger(_robotSettings.GetAnimationTrigger(_currentEarAnimationType));
+        _isAnimating = robotSettings.IsAnimating;
     }
     public void OnTimerEnded()
     {
-        _earType = RobotEarAnimationType.Idle;
-        _earAnimator.SetTrigger(GetAnimationTrigger());
-        _eyeImage.sprite = _endingEyeType.EyeSprite;
+        _currentEarAnimationType = _robotSettings.EndingEarAnimation;
+        _earAnimator.SetTrigger(_robotSettings.GetAnimationTrigger(_currentEarAnimationType));
+        _eyeImage.sprite = _robotSettings.EndingEyeType.EyeSprite;
     }
 
     public void CheckValidation()

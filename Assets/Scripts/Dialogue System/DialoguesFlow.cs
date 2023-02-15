@@ -13,7 +13,7 @@ public class DialoguesFlow : MonoBehaviour
 
     [SerializeField] private RectTransform _dialoguesFlow;
     [SerializeField] private List<DialogueSO> _dialoguesList;
-    [SerializeField] private Image _currentCharacterImage;
+    [SerializeField] private RobotAnimatorHandler _robotAnimatorHandler;
     [SerializeField] private TextMeshProUGUI _currentCharacterText;
     [SerializeField] private bool _closePanelAtEnding;
     [SerializeField] private bool _loadOnTutorialPanel;
@@ -25,6 +25,7 @@ public class DialoguesFlow : MonoBehaviour
     #region Events
     [SerializeField] private UnityEvent OnFlowStart;
     [SerializeField] private UnityEvent OnDialoguesUpdate;
+    [SerializeField] private UnityEvent<int> OnDialoguesUpdateIndex;
     [SerializeField] private UnityEvent OnAfterDelay;
     [SerializeField] private UnityEvent OnFlowEnd;
     #endregion
@@ -36,11 +37,11 @@ public class DialoguesFlow : MonoBehaviour
         _tutorialClickHelper = TutorialClickHelper.Instance;
     }
 
-
     private void UpdateDialogues(int position)
     {
         OnDialoguesUpdate.Invoke();
-        _currentCharacterImage.sprite = _dialoguesList[position]._characterSprite;
+        OnDialoguesUpdateIndex?.Invoke(position);
+        _robotAnimatorHandler.InitRobotAnimation(_dialoguesList[position].RobotDialogSettings);
         _currentCharacterText.text = _dialoguesList[position]._characterText;
     }
 

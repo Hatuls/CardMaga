@@ -65,7 +65,7 @@ RectTransform:
   m_GameObject: {fileID: 4673511694937601507}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children:
   - {fileID: 4673511694924645310}
   m_Father: {fileID: 0}
@@ -89,9 +89,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _earAnimator: {fileID: 433067829}
-  _earType: 4
-  _eyeType: {fileID: 11400000, guid: 1cbfe5642eb4a9f4f8fdd9719b15e97e, type: 2}
+  _earType: 0
+  _startingEyeType: {fileID: 11400000, guid: 45c0cb7b0e4221e468dc05f87958dc97, type: 2}
+  _endingEyeType: {fileID: 11400000, guid: 45c0cb7b0e4221e468dc05f87958dc97, type: 2}
   _eyeImage: {fileID: 4673511695208187688}
+  _animationTime: 2
+  _isAnimating: 0
 --- !u!1 &4673511695208187690
 GameObject:
   m_ObjectHideFlags: 0
