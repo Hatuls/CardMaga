@@ -82,9 +82,9 @@ MonoBehaviour:
     _cinematicName: Reward
     _delayBeforeCinematic: {x: 0, y: 0}
     _delayAfterCinematic: {x: 0, y: 0}
-    isPauseCinematicSequenceOnEndSequenceOnEnd: 0
+    isPauseCinematicSequenceOnEndSequenceOnEnd: 1
     _isDisableSkip: 0
-    _playableDirector: {fileID: 0}
+    _playableDirector: {fileID: 53567565}
 --- !u!1 &4028830175128413938
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +283,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4427331065905124647}
   - component: {fileID: 4427331065905124645}
+  - component: {fileID: 617745827}
+  - component: {fileID: 617745828}
   m_Layer: 5
   m_Name: Top Background
   m_TagString: Untagged
@@ -318,6 +320,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4427331065905124646}
   m_CullTransparentMesh: 0
+--- !u!95 &617745827
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427331065905124646}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!225 &617745828
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427331065905124646}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4427331066539935470
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,6 +361,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4427331066539935471}
   - component: {fileID: 4151510002547681400}
+  - component: {fileID: 53567565}
+  - component: {fileID: 53567564}
   m_Layer: 5
   m_Name: Rewards Screen
   m_TagString: Untagged
@@ -371,6 +406,52 @@ MonoBehaviour:
   _baseCinematicManager: {fileID: 617745823}
   _AdditionalCinematicManager: {fileID: 0}
   _clickHelper: {fileID: 0}
+--- !u!320 &53567565
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427331066539935470}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: eda27802eb69ae44aa14714c6fdbe052, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 0
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -678044424860328083, guid: eda27802eb69ae44aa14714c6fdbe052, type: 2}
+    value: {fileID: 617745825}
+  - key: {fileID: -1750739076367947332, guid: eda27802eb69ae44aa14714c6fdbe052, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -7616246920266273331, guid: eda27802eb69ae44aa14714c6fdbe052, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 7984924930835367664, guid: eda27802eb69ae44aa14714c6fdbe052, type: 2}
+    value: {fileID: 617745827}
+  m_ExposedReferences:
+    m_References:
+    - b33fa80a173220a47859a25f4c490dc8: {fileID: 0}
+    - 7be0ebb525ec8044d976cd9060859b6a: {fileID: 0}
+--- !u!95 &53567564
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427331066539935470}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4427331066883814157
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +579,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 54, w: 0}
+  m_margin: {x: 0, y: 0, z: 54, w: 20}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -649,6 +730,7 @@ GameObject:
   - component: {fileID: 1174873978225820510}
   - component: {fileID: 5425046560491021791}
   - component: {fileID: 8636401922218155676}
+  - component: {fileID: 617745825}
   m_Layer: 5
   m_Name: Purple Top Part
   m_TagString: Untagged
@@ -712,6 +794,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &617745825
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8580906382109896892}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8644595386154883303
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,7 +1029,7 @@ PrefabInstance:
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -938,7 +1039,7 @@ PrefabInstance:
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -988,12 +1089,12 @@ PrefabInstance:
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 371.97977
       objectReference: {fileID: 0}
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -321.6609
       objectReference: {fileID: 0}
     - target: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -1074,7 +1175,7 @@ PrefabInstance:
     - target: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -1305,7 +1406,7 @@ PrefabInstance:
     - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
@@ -1331,7 +1432,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 8115483730501472208}
+      objectReference: {fileID: 8115483730535528434}
     - target: {fileID: 6424067251709465047, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
         type: 3}
       propertyPath: OnClickEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
@@ -1429,12 +1530,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdd34acd4d6936a4aa61dc181f8b4bff, type: 3}
---- !u!1 &8115483730501472208 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5615697714562304921, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4427331066930725961}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2335708045389195717 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2097287860066774412, guid: bdd34acd4d6936a4aa61dc181f8b4bff,
