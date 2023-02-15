@@ -40,6 +40,9 @@ namespace CardMaga.Rewards
         public RewardType RewardType => RewardType.Pack;
         public PackType PackType => _packType;
         public IReadOnlyList<int> CardsID => _cardsID;
+
+        public int Amount => _cardsID.Length;
+
         public void TryRecieveReward(ITokenReceiver tokenMachine)
         {
             AddToDevicesData();
@@ -106,7 +109,7 @@ namespace CardMaga.Rewards
         event Action OnServerSuccessfullyAdded;
         event Action OnServerFailedToAdded;
         string Name { get; }
-
+        int Amount { get; }
         RewardType RewardType { get; }
         void TryRecieveReward(ITokenReceiver tokenMachine);
         void AddToDevicesData();

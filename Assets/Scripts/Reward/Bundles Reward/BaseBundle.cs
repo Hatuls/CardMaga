@@ -39,6 +39,9 @@ namespace CardMaga.Rewards.Bundles
         public string Name => _name;
         public IRewardable[] Rewardables => _rewardables;
         public RewardType RewardType => _rewardType;
+
+        public int Amount => 1;
+
         public virtual void TryRecieveReward(ITokenReceiver tokenMachine)
         {
             _token = tokenMachine.GetToken();

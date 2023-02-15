@@ -23,6 +23,8 @@ namespace CardMaga.Rewards
 
         public ResourcesCost ResourcesCost { get => _resourcesCost; }
 
+        public int Amount => Mathf.RoundToInt(ResourcesCost.Amount);
+
         public void TryRecieveReward(ITokenReceiver tokenMachine)
         {
 

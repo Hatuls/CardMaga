@@ -1,17 +1,19 @@
 ﻿using System;
 using CardMaga.CinematicSystem;
+using TMPro;
 using UnityEngine;
 
 public class RewardScreenUIHandler : MonoBehaviour
 {
     public event Action OnRewardEnded;
-    
+
     [SerializeField] private CinematicManager _baseCinematicManager;
     [SerializeField] private CinematicManager _AdditionalCinematicManager;
     [SerializeField] private ClickHelper _clickHelper;
 
-    private void Start()
+    private void OnEnable()
     {
+        _baseCinematicManager.Init();
         _baseCinematicManager.StartCinematicSequence();
     }
 

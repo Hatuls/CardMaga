@@ -23,6 +23,8 @@ namespace CardMaga.Rewards
 
         public RewardType RewardType => RewardType.Character;
 
+        public int Amount => 1;
+
         private IDisposable _token;
 
         public void TryRecieveReward(ITokenReceiver tokenMachine)
