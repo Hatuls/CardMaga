@@ -253,8 +253,7 @@ namespace CardMaga.UI
         public bool TryExecuteCard(BattleCardUI battleCardUI)
         {
             bool canPlayCard = _cardExecutionManager.CanPlayCard(true, battleCardUI.BattleCardData);
-
-
+            
             if (canPlayCard)
             {
                 _deckHandler.TransferCard(DeckEnum.Hand, DeckEnum.Selected, battleCardUI.BattleCardData);

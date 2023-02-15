@@ -24,7 +24,7 @@ namespace CardMaga.MetaData.Dismantle
         private AccountDataCollectionHelper _accountDataCollectionHelper;
         private DismantleHandler _dismantleHandler;
 
-        private CardsCollectionDataHandler _cardCollectionDatas;
+        private  CardsCollectionDataHandler _cardCollectionDatas;
         private MetaAccountDataManager _metaAccountDataManager;
 
         public CardsCollectionDataHandler CardCollectionDatas => _cardCollectionDatas;
@@ -60,14 +60,14 @@ namespace CardMaga.MetaData.Dismantle
         private void AddCardToDismantleList(MetaCardInstanceInfo cardInstance)
         {
             //if (Validator.Valid(cardInstance,out IValidFailedInfo validInfo,ValidationTag.SystemCardInstance))
-           // {
-                _dismantleCurrencyHandler.AddCardCurrency(cardInstance);
-                _dismantleHandler.AddCardToDismantleList(cardInstance);
-                CardCollectionDatas.TryRemoveCardInstance(cardInstance.InstanceID,false);
+            // {
+            _dismantleCurrencyHandler.AddCardCurrency(cardInstance);
+            _dismantleHandler.AddCardToDismantleList(cardInstance);
+            CardCollectionDatas.TryRemoveCardInstance(cardInstance.InstanceID,false);
                 
-                OnSuccessfulAddToCollection?.Invoke(cardInstance);
-                OnCardAddToDismantel?.Invoke(_dismantleCurrencyHandler.ChipsCurrency,_dismantleCurrencyHandler.GoldCurrency);
-           // }
+            OnSuccessfulAddToCollection?.Invoke(cardInstance);
+            OnCardAddToDismantel?.Invoke(_dismantleCurrencyHandler.ChipsCurrency,_dismantleCurrencyHandler.GoldCurrency);
+            // }
         }
 
         private void RemoveCardFromDismantleList(CardCore cardCore)
@@ -92,11 +92,8 @@ namespace CardMaga.MetaData.Dismantle
 
             foreach (var cardInstance in cache)
             {
-                _cardCollectionDatas.CleanCollection();
                 _metaAccountDataManager.RemoveCard(cardInstance);
             }
-            
-            //_accountData.UpdateCollection();
             
             var account = Account.AccountManager.Instance;
             var resource = account.Data.AccountResources;
@@ -112,9 +109,13 @@ namespace CardMaga.MetaData.Dismantle
             for (int i = 0; i < costs.Length; i++)
                 resource.AddResource(costs[i]);
             
-            AccountManager.Instance.UpdateDataOnServer();//plaster 10.1.23
+            //AccountManager.Instance.UpdateDataOnServer();//plaster 10.1.23
             _dismantleHandler.ResetDismantleList();
+            _dismantleCurrencyHandler.ResetDismantelCurrency();
             OnCardAddToDismantel?.Invoke(_dismantleCurrencyHandler.ChipsCurrency,_dismantleCurrencyHandler.GoldCurrency);
+            
+            Dispose();
+            SetCardCollection();
         }
 
         public void Dispose()

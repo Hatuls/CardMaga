@@ -2687,7 +2687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _metaDataManager:
-    _accountDataAccess:
+    _accountDataManager:
       _metaAccountData:
         _charactersHandler:
           _characters: []
@@ -2713,9 +2713,6 @@ MonoBehaviour:
           Chips: 0
         _accountCards: []
         _accountCombos: []
-    _accountDataCollectionHelper:
-      _collectionComboDatasHandler:
-        _collectionComboDatas: []
   _metaDeckEditingUIManager: {fileID: 1808335362}
   _metaCharacterScreenUIManager: {fileID: 1598853259}
   _dismantelUIManager: {fileID: 1872638944}
@@ -2968,7 +2965,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1464219981}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 459de9b900634bea8a31f4ecbfbee505, type: 3}
   m_Name: 
@@ -4335,6 +4332,26 @@ PrefabInstance:
       propertyPath: m_Padding.m_Bottom
       value: 250
       objectReference: {fileID: 0}
+    - target: {fileID: 2353899976899756653, guid: 1ab354add788f9842aeda7765a4ecc1d,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1600
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353899976899756653, guid: 1ab354add788f9842aeda7765a4ecc1d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353899976899756653, guid: 1ab354add788f9842aeda7765a4ecc1d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353899976899756653, guid: 1ab354add788f9842aeda7765a4ecc1d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2353899976899756654, guid: 1ab354add788f9842aeda7765a4ecc1d,
         type: 3}
       propertyPath: m_StartCorner
@@ -4839,7 +4856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1808335364 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 197405450390996269, guid: 1ab354add788f9842aeda7765a4ecc1d,
+  m_CorrespondingSourceObject: {fileID: 351583132710720119, guid: 1ab354add788f9842aeda7765a4ecc1d,
     type: 3}
   m_PrefabInstance: {fileID: 1808335360}
   m_PrefabAsset: {fileID: 0}

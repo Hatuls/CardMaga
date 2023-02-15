@@ -21,8 +21,8 @@ namespace Characters.Stats
 
             if (Amount >= _maxShardSize)
             {
-                _staminaHandler.AddStartStamina(1);
-                _staminaHandler.AddStamina(1);
+                _staminaHandler.AddStaminaAddition(1);
+
                 _staminaStat.Add(1);
                 int remain = Amount - _maxShardSize;
                 Reset();

@@ -6,7 +6,8 @@ namespace CardMaga.Input
 {
     public class CardUIInputHandler : TouchableItem<BattleCardUI>
     {
-
+        [SerializeField] 
+        private RectTransform _rectTransform;
         [SerializeField]
         private CardZoomHandler _cardZoomHandler;
         [SerializeField]
@@ -17,6 +18,7 @@ namespace CardMaga.Input
         protected override void Awake()
         {
             base.Awake();
+            _zoomInScale.Init(_rectTransform.rect.width,_rectTransform.rect.height);
             _cardZoomHandler.OnZoomInCompleted += _zoomInScale.SetResolution;
             _cardZoomHandler.OnZoomOutCompleted += _zoomInScale.Reset;
         }
@@ -63,6 +65,10 @@ namespace CardMaga.Input
         private RectTransform _imageRectTransform;
         [SerializeField]
         private Vector3 _offsetPosition;
+
+        private float _startWidth;
+        private float _startHeight;
+        
 #if UNITY_EDITOR
         [SerializeField]
         Color _gizmosColor;
@@ -78,7 +84,6 @@ namespace CardMaga.Input
             //    _rectTransform.position + _offsetPosition,
             //    new Vector3(_width, _height)
             //    );
-
         }
 #endif
         [SerializeField,Tooltip("The Specified Width Required To Change To")]
@@ -86,12 +91,17 @@ namespace CardMaga.Input
         [SerializeField, Tooltip("The Specified Height Required To Change To")]
         private float _height;
 
-
+        public void Init(float startWidth, float startHeight)
+        {
+            _startHeight = startHeight;
+            _startWidth = startWidth;
+        }
+    
 
         public void Reset()
         {
-            _rectTransform.localPosition = Vector3.zero;
-            SetResolution(_width, _height);
+            //_rectTransform.localPosition = Vector3.zero;
+            SetResolution(_startWidth, _startHeight);
         }
 
         public void SetHeight(float height)
