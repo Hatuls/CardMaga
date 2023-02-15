@@ -41,7 +41,7 @@ public class MetaCharecterUICollection : BaseUIElement, ISequenceOperation<MetaU
         
         for (int i = 0; i < _decksUI.Length; i++)
         {
-            _decksUI[i].AssignVisual(deckDatas[i]);    
+            _decksUI[i].AssignVisual(i < _characterData.Decks.Count ? _characterData.Decks[i] : null);
         }
     }
 

@@ -44,11 +44,11 @@ public class BaseHandUIState : MonoBehaviour
 
     public virtual void ExitState(BattleCardUI battleCardUI)
     {
-        if (!ReferenceEquals(battleCardUI, SelectedBattleCardUI))
-        {
-            Debug.LogError(name + "CardUI Not equal To the Selected CardUI");
-            return;
-        }
+        // if (!ReferenceEquals(battleCardUI, SelectedBattleCardUI))
+        // {
+        //     Debug.LogError(name + "CardUI Not equal To the Selected CardUI");
+        //     return;
+        // }
         
         _selectedCardUI = null;
         OnExitState?.Invoke();
