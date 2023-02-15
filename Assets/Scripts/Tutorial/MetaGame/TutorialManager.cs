@@ -125,7 +125,7 @@ public class TutorialManager : MonoBehaviour
 
         //If not update your last config
 
-        if (_accountTutorialData.TutorialProgress > _badges.Length - 1)
+        if (_accountTutorialData.TutorialProgress >= _badges.Length - 1)
             UpdateEndingTutorialBattleConfig();
 
         else
