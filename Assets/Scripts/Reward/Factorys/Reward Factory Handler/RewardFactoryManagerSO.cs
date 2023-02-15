@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 #if UNITY_EDITOR
 using System.Linq;
+using UnityEditor;
 #endif
 using UnityEngine;
 namespace CardMaga.Rewards.Factory.Handlers
@@ -34,6 +35,7 @@ namespace CardMaga.Rewards.Factory.Handlers
             List<RewardFactoryHandlerSO> list = _factories.ToList();
             list.Add(rewardFactoryHandlerSOs);
             _factories = list.ToArray();
+            EditorUtility.SetDirty(this);
         }
 #endif
     }

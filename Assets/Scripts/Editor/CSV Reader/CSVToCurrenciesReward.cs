@@ -65,8 +65,8 @@ namespace CardMaga.CSV
 
             handler.Init(factories.ToArray());
             AssetDatabase.CreateAsset(handler, $"Assets/Resources/Rewards/Factories/Handlers/CurrencyRewardFactoryHandlerSO.asset");
-            AssetDatabase.SaveAssets();
             CSVManager.RewardFactoryManager.Add(handler);
+            AssetDatabase.SaveAssets();
             IsFinished = true;
         }
     }

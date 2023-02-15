@@ -48,7 +48,7 @@ namespace CardMaga.MetaUI
 
         public bool Equals(MetaCardUI other)
         {
-            if (ReferenceEquals(other, null)) return false;
+            if (other == null) return false;
             return CardInstance.CoreID == other.CardInstance.CoreID;
         }
 
