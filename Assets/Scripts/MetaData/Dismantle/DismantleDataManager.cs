@@ -112,7 +112,7 @@ namespace CardMaga.MetaData.Dismantle
             for (int i = 0; i < costs.Length; i++)
                 resource.AddResource(costs[i]);
             
-            AccountManager.Instance.UpdateDataOnServer();//plaster 10.1.23
+            //AccountManager.Instance.UpdateDataOnServer();//plaster 10.1.23
             _dismantleHandler.ResetDismantleList();
             OnCardAddToDismantel?.Invoke(_dismantleCurrencyHandler.ChipsCurrency,_dismantleCurrencyHandler.GoldCurrency);
         }
