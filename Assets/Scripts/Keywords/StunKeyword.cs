@@ -26,8 +26,8 @@ namespace CardMaga.Keywords
                 var command = new KeywordCommand(stunData, CommandType.WithPrevious);
                 command.InitKeywordLogic(currentCharacterTurn, this);
                 gameDataCommands.DataCommands.AddCommand(command);
-                currentCharacterTurn.MyTurn.ContinueToTurnActive = false;
-                currentCharacterTurn.EndTurnHandler.TutorialEndPressed();
+                currentCharacterTurn.MyTurn.SkipTurn(); 
+                currentCharacterTurn.EndTurnHandler.TutorialEndPressed(); // NOT SUPPOSE TO BE HERE!!!!
                 InvokeOnKeywordFinished();
             }
         }

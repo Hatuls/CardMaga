@@ -25,6 +25,7 @@ namespace CardMaga.Battle.Players
         GameTurn MyTurn { get; }
         CraftingHandler CraftingHandler { get; }
         void AssignCharacterData(IBattleManager battleManager, BattleCharacter characterData);
+     
     }
 
 

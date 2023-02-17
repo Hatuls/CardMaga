@@ -39,10 +39,10 @@ namespace Battle.Turns
 
             _gameTurnsDictionary = new Dictionary<GameTurnType, GameTurn>()
             {
-                { GameTurnType.EnterBattle,     new GameTurn(new NextTurn(startGameTurnType, 0)) },
-                { GameTurnType.LeftPlayerTurn,  new GameTurn(new NextTurn( GameTurnType.RightPlayerTurn, 0))},
-                { GameTurnType.RightPlayerTurn, new GameTurn(new NextTurn( GameTurnType.LeftPlayerTurn, 0)) },
-                { GameTurnType.ExitBattle,      new GameTurn(null) },
+                { GameTurnType.EnterBattle,     new GameTurn(new NextTurn(startGameTurnType, 0) ,null) },
+                { GameTurnType.LeftPlayerTurn,  new GameTurn(new NextTurn( GameTurnType.RightPlayerTurn, 0), MoveToNextTurn)},
+                { GameTurnType.RightPlayerTurn, new GameTurn(new NextTurn( GameTurnType.LeftPlayerTurn, 0),MoveToNextTurn) },
+                { GameTurnType.ExitBattle,      new GameTurn(null,null) },
             };
             _turnStarterTurnMachine = new TokenMachine(LockTurnChanging, UnlockTurnChanging);
 
@@ -141,6 +141,7 @@ namespace Battle.Turns
         public event Action OnTurnEnter;
         public event Action OnTurnActive;
         public event Action OnTurnExit;
+        private Action OnSkipTurn;
 
 
         private bool _continueToTurnActive = true;
@@ -148,18 +149,18 @@ namespace Battle.Turns
         private SequenceHandler _endTurnOperations;
         private List<NextTurn> _nextTurn;
         private NextTurn _defaultNextTurn;
-
         protected TokenMachine _tokenMachine;
         public bool ContinueToTurnActive { get => _continueToTurnActive; set => _continueToTurnActive = value; }
         public SequenceHandler StartTurnOperations { get => _startTurnOperations; }
         public SequenceHandler EndTurnOperations { get => _endTurnOperations; }
 
-        public GameTurn(NextTurn defaultNextTurn)
+        public GameTurn(NextTurn defaultNextTurn,Action skipTurn)
         {
             _defaultNextTurn = defaultNextTurn;
             _startTurnOperations = new SequenceHandler();
             _endTurnOperations = new SequenceHandler();
             _nextTurn = new List<NextTurn>();
+            OnSkipTurn = skipTurn;
         }
 
         public GameTurnType GetNextTurn()
@@ -186,7 +187,6 @@ namespace Battle.Turns
         public virtual void Enter(ITokenReceiver tokenMachine)
         {
             IDisposable token = tokenMachine.GetToken();
-            _continueToTurnActive = true;
             OnTurnEnter?.Invoke();
             OnTurnStarted?.Invoke();
             _tokenMachine = new TokenMachine(TurnActive);
@@ -203,7 +203,7 @@ namespace Battle.Turns
             OnTurnExit?.Invoke();
             _tokenMachine = new TokenMachine(Complete);
             EndTurnOperations.ExecuteTask(_tokenMachine);
-
+            _continueToTurnActive = true;
             void Complete()
             {
 
@@ -215,8 +215,10 @@ namespace Battle.Turns
 
         private void TurnActive()
         {
-            if(_continueToTurnActive)
+            if (_continueToTurnActive)
                 OnTurnActive?.Invoke();
+            else
+                OnSkipTurn?.Invoke();
         }
         private void ResetNextTurns() => _nextTurn.Clear();
 
@@ -224,6 +226,11 @@ namespace Battle.Turns
         {
             StartTurnOperations.OnDestroy();
             EndTurnOperations.OnDestroy();
+        }
+
+        internal void SkipTurn()
+        {
+            _continueToTurnActive = false;
         }
     }
 
