@@ -96,15 +96,16 @@ namespace CardMaga.CSV
 
         private async static Task LoadMetaBattleData()
         {
-            CSVAbst[] metacsv = new CSVAbst[] {
+            CSVAbst[] metacsv = new CSVAbst[] 
+            {
                 new CSVToCardsPackReward(),
-            new CSVToCurrenciesReward(),
-            new CSVToCharacterReward(),
-            new CSVToGiftReward(),
-            new CSVToBundleReward(),
-         new CSVToUpgradeAndDismental(),
-         new CSVToLevelData()
-        };
+                new CSVToCurrenciesReward(),
+                new CSVToCharacterReward(),
+                new CSVToGiftReward(),
+                new CSVToBundleReward(),
+                new CSVToUpgradeAndDismental(),
+                new CSVToLevelData()
+            };
 
             string[] metaurls = new string[]
             {
@@ -163,6 +164,4 @@ namespace CardMaga.CSV
         public virtual async Task StartCSV(string data)
         { await Task.Yield(); }
     }
-
-
 }
