@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using static PlayButtonEditor;
+using UnityEditor.SceneManagement;
 
 [InitializeOnLoad]
 public class PlayButtonEditor : EditorWindow
@@ -28,7 +29,7 @@ public class PlayButtonEditor : EditorWindow
             }
             else
             {
-			SceneHelper.NetworkScene();
+	         	EditorSceneManager.OpenScene(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("PersistentScene", new string[] { "Assets/Scenes/Production Scenes" })[0]));
 				EditorApplication.EnterPlaymode();
             }
 		}

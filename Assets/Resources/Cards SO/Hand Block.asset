@@ -12,30 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Hand Block
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   _cardSprite: {fileID: 21300000, guid: 84a7984afb783b1429f24d93931dbbdb, type: 3}
   _cardName: Hand Block
   _animationBundle:
     BodyPartEnum: 4
-    _attackAnimation: 
-    _shieldAnimation: 
-    _getHitAnimation: 
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: 
+    ShieldAnimation: 
+    GetHitAnimation: 
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 1
   _stamina: 1
+  _isFuseCard: 0
+  _isCombo: 0
   _salvageCost: 1
   _id: 80
-  _isBattleReward: 1
-  _isPackReward: 1
+  _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
     _target: 1
@@ -46,8 +45,10 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - '4 Defense '
-    _purchaseCost: 51
+    - Description:
+      - 4
+      - Defense
+    _purchaseCost: 50
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -101,9 +102,12 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    _cardValue: 496
   - _description:
-    - '5 Defense '
-    _purchaseCost: 63
+    - Description:
+      - 5
+      - Defense
+    _purchaseCost: 62
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -157,4 +161,22 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    _cardValue: 620
   _cardsFusesFrom: 
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 80
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 81
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

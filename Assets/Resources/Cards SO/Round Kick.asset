@@ -12,30 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Round Kick
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: 6bd92bc0cf52bd64890b3cce92b649d3, type: 3}
+  _cardSprite: {fileID: 21300000, guid: 0007f02ff1fce3641b3d6f5a1c1ffc3b, type: 3}
   _cardName: Round Kick
   _animationBundle:
     BodyPartEnum: 6
-    _attackAnimation: RoundhouseKickRight
-    _shieldAnimation: MidBlock_R_Single
-    _getHitAnimation: HighLeft_Med
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: RoundhouseKickRight
+    ShieldAnimation: MidBlock_R_Single
+    GetHitAnimation: HighLeft_Med
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 2
   _stamina: 2
+  _isFuseCard: 0
+  _isCombo: 0
   _salvageCost: 1
   _id: 60
-  _isBattleReward: 1
-  _isPackReward: 1
+  _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
     _target: 2
@@ -44,66 +43,22 @@ MonoBehaviour:
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
+  - _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
+    _target: 2
+    _amountToApply: 1
+    _animationIndex: 0
+    _conditions:
+      _comboCondition: []
+      _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - '9 Attack '
-    _purchaseCost: 87
-    _upgradesPerLevel:
-    - _upgradeType: 5
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 6
-        _cardType: 1
-      _amount: 0
-    - _upgradeType: 1
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 2
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
-        _target: 2
-        _amountToApply: 9
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 4
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-  - _description:
-    - '9 Attack 1 Bleed '
-    _purchaseCost: 102
+    - Description:
+      - 9
+      - Attack
+    - Description:
+      - 1
+      - Bleed
+    _purchaseCost: 91
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -170,9 +125,15 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    _cardValue: 909
   - _description:
-    - '9 Attack 3 Bleed '
-    _purchaseCost: 174
+    - Description:
+      - 9
+      - Attack
+    - Description:
+      - 3
+      - Bleed
+    _purchaseCost: 128
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -239,4 +200,105 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-  _cardsFusesFrom: 1e001e00
+    _cardValue: 1281
+  - _description:
+    - Description:
+      - 9
+      - Attack
+    - Description:
+      - 5
+      - Bleed
+    _purchaseCost: 195
+    _upgradesPerLevel:
+    - _upgradeType: 5
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 6
+        _cardType: 1
+      _amount: 0
+    - _upgradeType: 1
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 2
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
+        _target: 2
+        _amountToApply: 9
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
+        _target: 2
+        _amountToApply: 5
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    _cardValue: 1949
+  _cardsFusesFrom: 1e0000001e000000
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 60
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 61
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 62
+      _cardSO: {fileID: 11400000}
+      _level: 2
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

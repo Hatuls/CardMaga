@@ -14,13 +14,13 @@ namespace Account.GeneralData
 
         public bool IsCorrupted()
             => Energy.Value <= 0&& MaxEnergy.Value<=0;
-        
+
         #endregion
 
         #region Properties
 
 
-        public async Task NewLoad()
+        public void NewLoad()
         {
    
             const int energy = 999;
@@ -35,15 +35,12 @@ namespace Account.GeneralData
 
         #region Energy Classes
         [System.Serializable]
-        public class MaxEnergyStat: UshortStat
+        public class MaxEnergyStat: IntStat
         {
         
 
-            public MaxEnergyStat() : base()
-            {
-
-            }
-            public MaxEnergyStat(ushort value) : base (value)
+         
+            public MaxEnergyStat(int value) : base (value)
             {
 
             }
@@ -51,22 +48,19 @@ namespace Account.GeneralData
            
         }
         [System.Serializable]
-        public class EnergyStat : UshortStat
+        public class EnergyStat : IntStat
         {
             [SerializeField]
             private MaxEnergyStat _maxEnergy;
-            public EnergyStat() : base()
-            {
-
-            }
-            public EnergyStat(ushort _value) : base (_value)
+         
+            public EnergyStat(int _value) : base (_value)
             {
                
             }
 
             public MaxEnergyStat MaxEnergy { get => _maxEnergy; set => _maxEnergy = value; }
 
-            public bool CheckAndAddValue(ushort value)
+            public bool CheckAndAddValue(int value)
             {
                 if (value <= 0)
                 {
@@ -80,7 +74,7 @@ namespace Account.GeneralData
                 {
                     if(Value + value > MaxEnergy.Value)
                     {
-                        ushort dif = (ushort)(MaxEnergy.Value - Value);//////////
+                        int dif = (MaxEnergy.Value - Value);//////////
                         _value += dif;
                         return true;
                     }

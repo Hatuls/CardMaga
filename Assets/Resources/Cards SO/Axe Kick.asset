@@ -12,30 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Axe Kick
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: deb0ee90ea9184c48b6ca7382c470ca4, type: 3}
+  _cardSprite: {fileID: 21300000, guid: 6de16dcf9b5882e49b283161a5fc01c6, type: 3}
   _cardName: Axe Kick
   _animationBundle:
     BodyPartEnum: 6
-    _attackAnimation: AxeKick
-    _shieldAnimation: Block_Single
-    _getHitAnimation: HighBack_Weak
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: AxeKick
+    ShieldAnimation: Block_Single
+    GetHitAnimation: HighBack_Weak
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 4
   _stamina: 1
+  _isFuseCard: 0
+  _isCombo: 0
   _salvageCost: 1
   _id: 0
-  _isBattleReward: 1
-  _isPackReward: 1
+  _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
     _target: 2
@@ -46,8 +45,10 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - '7 Attack '
-    _purchaseCost: 85
+    - Description:
+      - 7
+      - Attack
+    _purchaseCost: 81
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -101,9 +102,15 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    _cardValue: 812
   - _description:
-    - '7 Attack 1 Vulnerable '
-    _purchaseCost: 103
+    - Description:
+      - 7
+      - Attack
+    - Description:
+      - 1
+      - Vulnerable
+    _purchaseCost: 110
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -170,9 +177,15 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    _cardValue: 1102
   - _description:
-    - '10 Attack 2 Vulnerable '
-    _purchaseCost: 176
+    - Description:
+      - 10
+      - Attack
+    - Description:
+      - 1
+      - Vulnerable
+    _purchaseCost: 145
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -217,7 +230,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9, type: 2}
         _target: 2
-        _amountToApply: 2
+        _amountToApply: 1
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -239,9 +252,18 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    _cardValue: 1450
   - _description:
-    - '10 Attack 2 Vulnerable 1 Double '
-    _purchaseCost: 224
+    - Description:
+      - 10
+      - Attack
+    - Description:
+      - 2
+      - Vulnerable
+    - Description:
+      - 1
+      - Double
+    _purchaseCost: 249
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -321,9 +343,18 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    _cardValue: 2494
   - _description:
-    - '14 Attack 3 Vulnerable 1 Double '
-    _purchaseCost: 327
+    - Description:
+      - 14
+      - Attack
+    - Description:
+      - 2
+      - Vulnerable
+    - Description:
+      - 1
+      - Double
+    _purchaseCost: 296
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -368,7 +399,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: ce1bcff7cf858be45bfd775c33af13c9, type: 2}
         _target: 2
-        _amountToApply: 3
+        _amountToApply: 2
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -403,4 +434,46 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-  _cardsFusesFrom: 1e001e003c00
+    _cardValue: 2958
+  _cardsFusesFrom: 1e0000001e0000003c000000
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 0
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 1
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 2
+      _cardSO: {fileID: 11400000}
+      _level: 2
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 3
+      _cardSO: {fileID: 11400000}
+      _level: 3
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 4
+      _cardSO: {fileID: 11400000}
+      _level: 4
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

@@ -12,34 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Power Up
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: e73ab9451cbaffa4cb0bcdb53753a732, type: 3}
+  _cardSprite: {fileID: 21300000, guid: c40dff7f9b8678d429c3c68971ad00c3, type: 3}
   _cardName: Power Up
   _animationBundle:
     BodyPartEnum: 2
-    _attackAnimation: 
-    _shieldAnimation: 
-    _getHitAnimation: 
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: 
+    ShieldAnimation: 
+    GetHitAnimation: 
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 2
   _stamina: 2
+  _isFuseCard: 0
+  _isCombo: 1
   _salvageCost: 1
   _id: 120
-  _isBattleReward: 0
   _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: 16010b773c3099c4a8efe00a165268ec, type: 2}
     _target: 1
-    _amountToApply: 3
+    _amountToApply: 4
     _animationIndex: 0
     _conditions:
       _comboCondition: []
@@ -53,77 +52,15 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 3 Strength 1 Stamina  Exhaust
-    _purchaseCost: 97
-    _upgradesPerLevel:
-    - _upgradeType: 5
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 2
-        _cardType: 3
-      _amount: 0
-    - _upgradeType: 1
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 2
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 16010b773c3099c4a8efe00a165268ec, type: 2}
-        _target: 1
-        _amountToApply: 3
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
-        _target: 1
-        _amountToApply: 1
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 4
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 1
-  - _description:
-    - 4 Strength 1 Stamina  Exhaust
-    _purchaseCost: 121
+    - Description:
+      - 4
+      - Strength
+    - Description:
+      - 1
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 122
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -190,9 +127,17 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 1221
   - _description:
-    - 6 Strength 1 Stamina  Exhaust
-    _purchaseCost: 167
+    - Description:
+      - 6
+      - Strength
+    - Description:
+      - 1
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 175
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -259,4 +204,107 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 1747
+  - _description:
+    - Description:
+      - 7
+      - Strength
+    - Description:
+      - 1
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 201
+    _upgradesPerLevel:
+    - _upgradeType: 5
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 2
+        _cardType: 3
+      _amount: 0
+    - _upgradeType: 1
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 2
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: 16010b773c3099c4a8efe00a165268ec, type: 2}
+        _target: 1
+        _amountToApply: 7
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
+        _target: 1
+        _amountToApply: 1
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
+    _cardValue: 2009
   _cardsFusesFrom: 
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 120
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 121
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 122
+      _cardSO: {fileID: 11400000}
+      _level: 2
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

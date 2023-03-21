@@ -12,29 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Push Kick
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: c374ee9f246edb34fa0c925928c07ac2, type: 3}
+  _cardSprite: {fileID: 21300000, guid: f0af523610191fa4caf0b069368365ca, type: 3}
   _cardName: Push Kick
   _animationBundle:
     BodyPartEnum: 6
-    _attackAnimation: FootShotgun
-    _shieldAnimation: Block_Single
-    _getHitAnimation: MidFront_Med
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: FootShotgun
+    ShieldAnimation: Block_Single
+    GetHitAnimation: MidFront_Med
     IsSlowMotion: 0
-    CinemtaicView: 1
+  cameraDetails:
+    LeftCamera:
+    - {fileID: 11400000, guid: 45ded80e230e315498a92d9511dd152c, type: 2}
+    RightCamera:
+    - {fileID: 11400000, guid: 35d3bff3714afde4fb50ed7890d2483f, type: 2}
+    CinemachineBlenderSettings:
+    - {fileID: 11400000, guid: c0b98a05ad7a1df4ca1bc82133c4361e, type: 2}
   _rarity: 4
   _stamina: 2
+  _isFuseCard: 0
+  _isCombo: 1
   _salvageCost: 1
   _id: 130
-  _isBattleReward: 0
   _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
@@ -46,8 +48,12 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 10 Attack  Exhaust
-    _purchaseCost: 68
+    - Description:
+      - 10
+      - Attack
+    - Description:
+      - Exhaust
+    _purchaseCost: 93
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -101,9 +107,14 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 928
   - _description:
-    - 12 Attack  Exhaust
-    _purchaseCost: 81
+    - Description:
+      - 12
+      - Attack
+    - Description:
+      - Exhaust
+    _purchaseCost: 111
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -157,9 +168,17 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 1114
   - _description:
-    - 12 Attack 1 Stun Shard  Exhaust
-    _purchaseCost: 115
+    - Description:
+      - 12
+      - Attack
+    - Description:
+      - 1
+      - Stun Shard
+    - Description:
+      - Exhaust
+    _purchaseCost: 158
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -226,9 +245,17 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 1578
   - _description:
-    - 15 Attack 2 Stun Shard  Exhaust
-    _purchaseCost: 169
+    - Description:
+      - 15
+      - Attack
+    - Description:
+      - 2
+      - Stun Shard
+    - Description:
+      - Exhaust
+    _purchaseCost: 232
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -295,9 +322,17 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 2320
   - _description:
-    - 20 Attack 2 Stun Shard  Exhaust
-    _purchaseCost: 203
+    - Description:
+      - 20
+      - Attack
+    - Description:
+      - 2
+      - Stun Shard
+    - Description:
+      - Exhaust
+    _purchaseCost: 278
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -364,4 +399,46 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 2784
   _cardsFusesFrom: 
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 130
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 131
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 132
+      _cardSO: {fileID: 11400000}
+      _level: 2
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 133
+      _cardSO: {fileID: 11400000}
+      _level: 3
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 134
+      _cardSO: {fileID: 11400000}
+      _level: 4
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

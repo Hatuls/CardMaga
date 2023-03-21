@@ -12,29 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Barrier
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: 822b86e1d74147945ad96c4b08a6eff7, type: 3}
+  _cardSprite: {fileID: 21300000, guid: 470c6136ba58c5743a4afb3335b697a5, type: 3}
   _cardName: Barrier
   _animationBundle:
     BodyPartEnum: 2
-    _attackAnimation: 
-    _shieldAnimation: 
-    _getHitAnimation: 
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: 
+    ShieldAnimation: 
+    GetHitAnimation: 
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 1
   _stamina: 1
+  _isFuseCard: 0
+  _isCombo: 1
   _salvageCost: 1
   _id: 100
-  _isBattleReward: 0
   _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
@@ -53,8 +52,15 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 7 Defense 1 Stamina  Exhaust
-    _purchaseCost: 72
+    - Description:
+      - 7
+      - Defense
+    - Description:
+      - 1
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 82
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -121,9 +127,17 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 817
   - _description:
-    - 10 Defense 1 Stamina  Exhaust
-    _purchaseCost: 88
+    - Description:
+      - 10
+      - Defense
+    - Description:
+      - 1
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 107
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -190,4 +204,22 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 1073
   _cardsFusesFrom: 
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 100
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 101
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

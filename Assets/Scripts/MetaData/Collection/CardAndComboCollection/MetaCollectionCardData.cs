@@ -1,0 +1,176 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Account.GeneralData;
+using Sirenix.OdinInspector;
+using UnityEngine;
+
+namespace CardMaga.MetaData.Collection
+{
+    [Serializable]
+    public class MetaCollectionCardData : BaseCollectionDataItem, IEquatable<MetaCollectionCardData>,IEquatable<CardInstance>, IEquatable<MetaCardInstanceInfo>
+    { 
+        public event Action<MetaCardInstanceInfo> OnTryAddItemToCollection; 
+        public event Action<CardCore> OnTryRemoveItemFromCollection;
+        public event Action OnSuccessAddOrRemoveFromCollection;
+
+#if UNITY_EDITOR
+        [SerializeField, ReadOnly] private string _cardName;
+#endif
+        [SerializeField, ReadOnly] private List<MetaCardInstanceInfo> _cardInstances;
+        private CardInstance _cardInstance;
+        private CardCore _cardCore;
+        private int _coreId;
+
+        public int CardCoreID => _coreId;
+
+        public CardInstance CardInstance => _cardInstance;
+
+        public List<MetaCardInstanceInfo> CardInstances => _cardInstances;
+        public override  int NumberOfInstance => _cardInstances.Count;
+        
+        public MetaCollectionCardData(MetaCardInstanceInfo cardInstance)
+        {
+            _cardCore = cardInstance.CardInstance.GetCardCore();//need to change
+
+            _coreId = _cardCore.CoreID;
+#if UNITY_EDITOR
+            _cardName = cardInstance.CardInstance.CardSO.CardName;
+#endif
+
+            _cardInstance = cardInstance.CardInstance;
+
+            _cardInstances = new List<MetaCardInstanceInfo>();
+            
+            AddCardInstance(cardInstance);
+        }
+
+        public MetaCollectionCardData(List<MetaCardInstanceInfo> instanceInfos)
+        {
+            _cardCore = instanceInfos[0].CardInstance.GetCardCore();
+            _coreId = _cardCore.CoreID;
+#if UNITY_EDITOR
+            _cardName = instanceInfos[0].CardInstance.CardSO.CardName;
+#endif
+            _cardInstances = instanceInfos;
+            _cardInstance = instanceInfos[0].CardInstance;
+            _maxInstants = _cardInstances.Count;
+        }
+
+        public void AddCardToCollection()
+        {
+            OnTryAddItemToCollection?.Invoke(GetFirstCardInstanceData());
+        }
+
+        public void RemoveCardFromCollection()
+        {
+            OnTryRemoveItemFromCollection?.Invoke(_cardCore);
+        }
+
+        public void SuccessAddOrRemoveFromCollection(MetaCardInstanceInfo cardInstance)
+        {
+            OnSuccessAddOrRemoveFromCollection?.Invoke();
+        }
+        
+        public MetaCardInstanceInfo GetCardInstanceData(int instantsId)
+        {
+            if (FindCardInstance(instantsId,out MetaCardInstanceInfo metaCardInstanceInfo))
+                return metaCardInstanceInfo;
+
+            Debug.LogWarning("Card instancesId was not found");
+            return null;
+        }
+
+        public bool TryGetMetaCardInstanceInfo(Predicate<MetaCardInstanceInfo> condition ,out MetaCardInstanceInfo[] cardInstances)
+        {
+            List<MetaCardInstanceInfo> output = _cardInstances.Where(condition.Invoke).ToList();
+
+            if (output.Count > 0)
+            {
+                cardInstances = output.ToArray();
+                return true;
+            }
+            
+            cardInstances = null;
+            return false;
+        }
+
+        public MetaCardInstanceInfo GetFirstCardInstanceData()
+        {
+            if (ReferenceEquals(_cardInstances[0],null))
+            {
+                Debug.LogWarning("Not more card instance");
+                return null;
+            }
+            
+            return _cardInstances[0];
+        }
+        
+        private List<MetaCardInstanceInfo> GetCardInstanceInfoDataCopy()
+        {
+            List<MetaCardInstanceInfo> output = new List<MetaCardInstanceInfo>(_cardInstances.Count);
+            
+            output.AddRange(_cardInstances.Select(instanceInfo => new MetaCardInstanceInfo(instanceInfo.CardInstance,instanceInfo.AssociateDeck)));
+
+            return output;
+        }
+
+        public MetaCollectionCardData GetCopy()
+        {
+            List<MetaCardInstanceInfo> cache = new List<MetaCardInstanceInfo>(_cardInstances.Count);
+            
+            cache.AddRange(_cardInstances);
+            
+             return new MetaCollectionCardData(cache);
+        }
+
+        public void AddCardInstance(MetaCardInstanceInfo cardInstance)
+        {
+            _cardInstances.Add(cardInstance);
+
+            if (_maxInstants < _cardInstances.Count)
+                _maxInstants = _cardInstances.Count;
+        }
+        
+        public void RemoveCardInstance(int instanceID)
+        {
+            if (FindCardInstance(instanceID,out MetaCardInstanceInfo cardInstanceInfo))
+            {
+                _cardInstances.Remove(cardInstanceInfo);
+                //cardInstanceInfo.Dispose();
+            }
+        }
+
+        public bool FindCardInstance(int instanceId,out MetaCardInstanceInfo cardInstanceInfo)
+        {
+            foreach (var cardInstance in _cardInstances)
+            {
+                if (cardInstance.InstanceID != instanceId) continue;
+                
+                cardInstanceInfo = cardInstance;
+                return true;
+            }
+
+            cardInstanceInfo = null;
+            return false;
+        }
+        
+        public bool Equals(MetaCollectionCardData other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            return CardCoreID == other.CardCoreID;
+        }
+
+        public bool Equals(CardInstance other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            return CardCoreID == other.CoreID;
+        }
+
+        public bool Equals(MetaCardInstanceInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            return _coreId == other.CoreID;
+        }
+    }
+}

@@ -12,34 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Force Shield
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: 9aae1eb4e21692942a70105038c14319, type: 3}
+  _cardSprite: {fileID: 21300000, guid: b4af258df2cd4424fae3aaf84a4641ab, type: 3}
   _cardName: Force Shield
   _animationBundle:
     BodyPartEnum: 1
-    _attackAnimation: 
-    _shieldAnimation: 
-    _getHitAnimation: 
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: 
+    ShieldAnimation: 
+    GetHitAnimation: 
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 2
   _stamina: 2
+  _isFuseCard: 0
+  _isCombo: 0
   _salvageCost: 1
   _id: 210
-  _isBattleReward: 1
-  _isPackReward: 1
+  _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
     _target: 1
-    _amountToApply: 7
+    _amountToApply: 10
     _animationIndex: 0
     _conditions:
       _comboCondition: []
@@ -53,8 +52,13 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - '7 Defense 1 Clear '
-    _purchaseCost: 88
+    - Description:
+      - 10
+      - Defense
+    - Description:
+      - 1
+      - Clear
+    _purchaseCost: 92
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -86,7 +90,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
         _target: 1
-        _amountToApply: 7
+        _amountToApply: 10
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -121,9 +125,15 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    _cardValue: 915
   - _description:
-    - '9 Defense 1 Clear '
-    _purchaseCost: 104
+    - Description:
+      - 13
+      - Defense
+    - Description:
+      - 1
+      - Clear
+    _purchaseCost: 116
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -155,7 +165,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
         _target: 1
-        _amountToApply: 9
+        _amountToApply: 13
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -190,9 +200,15 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    _cardValue: 1165
   - _description:
-    - '14 Defense 1 Clear '
-    _purchaseCost: 144
+    - Description:
+      - 19
+      - Defense
+    - Description:
+      - 1
+      - Clear
+    _purchaseCost: 166
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -224,7 +240,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
         _target: 1
-        _amountToApply: 14
+        _amountToApply: 19
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -259,4 +275,30 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
-  _cardsFusesFrom: e60046005000
+    _cardValue: 1664
+  _cardsFusesFrom: e60000004600000050000000
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 210
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 211
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 212
+      _cardSO: {fileID: 11400000}
+      _level: 2
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

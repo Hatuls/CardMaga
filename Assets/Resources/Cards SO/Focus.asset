@@ -12,34 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Focus
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: 7543531578705e74f856a5ff5f429070, type: 3}
+  _cardSprite: {fileID: 21300000, guid: d80830032fbadd74a8cb409abc073956, type: 3}
   _cardName: Focus
   _animationBundle:
     BodyPartEnum: 4
-    _attackAnimation: 
-    _shieldAnimation: 
-    _getHitAnimation: 
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: 
+    ShieldAnimation: 
+    GetHitAnimation: 
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 2
   _stamina: 1
+  _isFuseCard: 0
+  _isCombo: 1
   _salvageCost: 1
   _id: 180
-  _isBattleReward: 0
   _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: 0c48908d412e2154aa31d9c53dff7933, type: 2}
     _target: 1
-    _amountToApply: 2
+    _amountToApply: 3
     _animationIndex: 0
     _conditions:
       _comboCondition: []
@@ -53,8 +52,15 @@ MonoBehaviour:
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 2 Stamina Shard 1 Stamina  Exhaust
-    _purchaseCost: 71
+    - Description:
+      - 3
+      - Stamina Shard
+    - Description:
+      - 1
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 54
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -86,7 +92,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: 0c48908d412e2154aa31d9c53dff7933, type: 2}
         _target: 1
-        _amountToApply: 2
+        _amountToApply: 3
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -121,9 +127,17 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 541
   - _description:
-    - 2 Stamina Shard 2 Stamina  Exhaust
-    _purchaseCost: 106
+    - Description:
+      - 5
+      - Stamina Shard
+    - Description:
+      - 2
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 97
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -155,7 +169,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: 0c48908d412e2154aa31d9c53dff7933, type: 2}
         _target: 1
-        _amountToApply: 2
+        _amountToApply: 5
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -190,9 +204,17 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 973
   - _description:
-    - 3 Stamina Shard 3 Stamina  Exhaust
-    _purchaseCost: 159
+    - Description:
+      - 6
+      - Stamina Shard
+    - Description:
+      - 3
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 130
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -224,7 +246,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: 0c48908d412e2154aa31d9c53dff7933, type: 2}
         _target: 1
-        _amountToApply: 3
+        _amountToApply: 6
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -259,4 +281,30 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 1298
   _cardsFusesFrom: 
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 180
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 181
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 182
+      _cardSO: {fileID: 11400000}
+      _level: 2
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

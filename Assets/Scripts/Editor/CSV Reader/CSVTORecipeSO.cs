@@ -1,0 +1,185 @@
+﻿using Battle.Combo;
+using CardMaga.Card;
+using Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEditor;
+using UnityEngine;
+using Battle.Deck;
+namespace CardMaga.CSV
+{
+
+    public class CSVTORecipeSO : CSVAbst
+    {
+
+
+
+        static List<ComboSO> _rewardedCombos;
+
+        static bool isCompleted;
+        public async override Task StartCSV(string data)
+        {
+            _rewardedCombos = new List<ComboSO>();
+            isCompleted = false;
+            WebRequests.Get(data, (x) => Debug.LogError($"Error On Loading Recipes {x} "), OnCompleteDownloadingRecipeCSV);
+            while (isCompleted == false)
+            {
+                await Task.Yield();
+            }
+            _rewardedCombos = null;
+            await Task.Yield();
+        }
+
+        private static async void OnCompleteDownloadingRecipeCSV(string txt)
+        {
+
+            string[] rows = txt.Replace("\r", "").Split('\n');
+
+            if (CSVManager._cardCollection == null || CSVManager._cardCollection.GetAllCardsSO.Length == 0)
+                Debug.LogError("BattleCard Collection Is empty make sure you have cards in the BattleCard Collection SO at \"Resources\\Collection SO\\CardCollection\"");
+
+            CSVManager._comboCollection = ScriptableObject.CreateInstance<ComboCollectionSO>();
+
+            List<ComboSO> combosRecipe = new List<ComboSO>();
+            const int frameRate = 5;
+            for (int i = 1; i < rows.Length; i++)
+            {
+                string[] line = rows[i].Replace('"', ' ').Replace('/', ' ').Split(',');
+
+                var recipe = CreateComboRecipe(line, CSVManager._cardCollection);
+
+                if (recipe == null)
+                    break;
+                else
+
+                    combosRecipe.Add(recipe);
+                if (i % frameRate == 0)
+                    await Task.Yield();
+
+            }
+
+            CSVManager._comboCollection.Init(combosRecipe.ToArray(), _rewardedCombos.ToArray());
+            AssetDatabase.CreateAsset(CSVManager._comboCollection, $"Assets/Resources/Collection SO/RecipeCollection.asset");
+            AssetDatabase.SaveAssets();
+
+            Debug.Log("Recipe Update Complete!");
+
+            isCompleted = true;
+
+        }
+
+
+        private static ComboSO CreateComboRecipe(string[] row, CardsCollectionSO cardCollection)
+        {
+            const int ID = 0;
+            const int RecipeCardName = 1; // <- return CoreID
+            const int GoesToWhenCrafted = 2;
+            const int GoldCost = 3;
+            const int AmountBodyPartsAndType = 4;
+            const int BodyPartsAndType = 5;
+            const int IsBattleRewarded = 6;
+
+            if (row[ID] == "-")
+                return null;
+
+            ComboSO recipe = ScriptableObject.CreateInstance<ComboSO>();
+            recipe.ID = ushort.Parse(row[ID]);
+
+
+            // crafted battleCard + recipe name + recipe Image
+            if (int.TryParse(row[RecipeCardName], out int craftedCardsID))
+            {
+                foreach (var card in cardCollection.GetAllCardsSO)
+                {
+                    if (card.ID == craftedCardsID)
+                    {
+                        recipe.CraftedCard = card;
+                        recipe.ComboName = card.CardName + " Combo";
+                        recipe.Image = card.CardSprite;
+                        break;
+                    }
+                }
+                if (recipe.CraftedCard == null)
+                {
+                    Debug.LogError($"Could Not find the CoreID {row[RecipeCardName]} in the battleCard collection please check if its matching correctly");
+                    return null;
+                }
+
+            }
+            else
+            {
+                Debug.LogError($"RecipeCardName is not an valid int! -> {row[RecipeCardName]}");
+                return null;
+            }
+            //desination
+            if (int.TryParse(row[GoesToWhenCrafted], out int locationInt))
+                recipe.GoToDeckAfterCrafting = (DeckEnum)locationInt;
+            else
+            {
+                Debug.LogError($"Coulmne C Row {row[ID]} - Goes to when crafted is not a valid int!");
+                return null;
+            }
+
+
+            //gold
+            if (int.TryParse(row[GoldCost], out int cost))
+            {
+                if (cost < 0)
+                {
+                    cost = 0;
+                    Debug.LogWarning($"<a>Warning</a> Recipe Cost is below 0! ");
+                }
+                recipe.Cost = cost;
+            }
+            else
+            {
+                Debug.LogError($"Cost Was not an int : {row[GoldCost]}");
+                return null;
+            }
+
+
+
+
+            //body parts
+            if (int.TryParse(row[AmountBodyPartsAndType], out int bodyPartAmount))
+            {
+                const int bodyPartIndex = 0;
+                const int cardTypeIndex = 1;
+
+                string[] bodyPartsAndType = row[BodyPartsAndType].Split('&');
+                recipe.ComboSequence = new CardTypeData[bodyPartAmount];
+                for (int i = 0; i < bodyPartAmount; i++)
+                {
+                    string[] bodyPartAndTypeSeperation = bodyPartsAndType[i].Split('^');
+
+                    recipe.ComboSequence[i] = new CardTypeData()
+                    {
+                        BodyPart = int.TryParse(bodyPartAndTypeSeperation[bodyPartIndex], out int b) ? (CardMaga.Card.BodyPartEnum)b : CardMaga.Card.BodyPartEnum.None,
+                        CardType = int.TryParse(bodyPartAndTypeSeperation[cardTypeIndex], out int t) ? (CardTypeEnum)t : CardTypeEnum.None,
+                    };
+                }
+            }
+            else
+            {
+                Debug.LogError($"Coulmne E Row {recipe.ID} is not an intiger!");
+                return null;
+            }
+
+
+            if (int.TryParse(row[IsBattleRewarded], out int outcome))
+            {
+                if (outcome == 1)
+                    _rewardedCombos.Add(recipe);
+            }
+
+            recipe.CraftedCard.IsCombo = true;
+            EditorUtility.SetDirty(recipe.CraftedCard);
+
+            AssetDatabase.CreateAsset(recipe, $"Assets/Resources/Recipe SO/{recipe.ComboName}.asset");
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            return recipe;
+        }
+
+    }
+}

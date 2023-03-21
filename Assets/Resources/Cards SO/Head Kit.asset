@@ -12,42 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Head Kit
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: d447008e113643a4194dfdbc0b1255a3, type: 3}
+  _cardSprite: {fileID: 21300000, guid: 62a81c1e878b24e42b9fb99ad12d759f, type: 3}
   _cardName: Head Kit
   _animationBundle:
     BodyPartEnum: 2
-    _attackAnimation: 
-    _shieldAnimation: 
-    _getHitAnimation: 
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: 
+    ShieldAnimation: 
+    GetHitAnimation: 
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 2
   _stamina: 2
+  _isFuseCard: 0
+  _isCombo: 0
   _salvageCost: 1
   _id: 20
-  _isBattleReward: 1
-  _isPackReward: 1
+  _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349, type: 2}
     _target: 1
-    _amountToApply: 5
+    _amountToApply: 10
     _animationIndex: 0
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 5 Heal  Exhaust
-    _purchaseCost: 77
+    - Description:
+      - 10
+      - Heal
+    - Description:
+      - Exhaust
+    _purchaseCost: 62
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -79,7 +82,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349, type: 2}
         _target: 1
-        _amountToApply: 5
+        _amountToApply: 10
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -101,9 +104,14 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 622
   - _description:
-    - 8 Heal  Exhaust
-    _purchaseCost: 124
+    - Description:
+      - 14
+      - Heal
+    - Description:
+      - Exhaust
+    _purchaseCost: 87
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -135,7 +143,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349, type: 2}
         _target: 1
-        _amountToApply: 8
+        _amountToApply: 14
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -157,9 +165,14 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 871
   - _description:
-    - 8 Heal  Exhaust
-    _purchaseCost: 155
+    - Description:
+      - 18
+      - Heal
+    - Description:
+      - Exhaust
+    _purchaseCost: 140
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -191,7 +204,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: e8061591c057acd4489ae017c81c9349, type: 2}
         _target: 1
-        _amountToApply: 8
+        _amountToApply: 18
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -213,4 +226,30 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 1400
   _cardsFusesFrom: 
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 20
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 21
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 22
+      _cardSO: {fileID: 11400000}
+      _level: 2
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

@@ -12,29 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Jab Cross
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: a96e960299fcf8d40b5cd3d833049bc4, type: 3}
+  _cardSprite: {fileID: 21300000, guid: 48cd75c980924f0499b64fc467d5540e, type: 3}
   _cardName: Jab Cross
   _animationBundle:
     BodyPartEnum: 4
-    _attackAnimation: OneTwo
-    _shieldAnimation: Block_Single
-    _getHitAnimation: HighFront_Stagger
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: OneTwo
+    ShieldAnimation: Block_Single
+    GetHitAnimation: HighFront_Stagger
     IsSlowMotion: 0
-    CinemtaicView: 1
+  cameraDetails:
+    LeftCamera:
+    - {fileID: 11400000, guid: 45ded80e230e315498a92d9511dd152c, type: 2}
+    RightCamera:
+    - {fileID: 11400000, guid: 35d3bff3714afde4fb50ed7890d2483f, type: 2}
+    CinemachineBlenderSettings:
+    - {fileID: 11400000, guid: 18ed8330d0c5373419060bed5042dbbb, type: 2}
   _rarity: 1
   _stamina: 1
+  _isFuseCard: 0
+  _isCombo: 1
   _salvageCost: 1
   _id: 110
-  _isBattleReward: 0
   _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: 151256072d7c7da4ba2e37e503484e57, type: 2}
@@ -53,22 +55,29 @@ MonoBehaviour:
       _paramaterCondition: []
   - _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
     _target: 2
-    _amountToApply: 1
+    _amountToApply: 2
     _animationIndex: 0
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   - _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
     _target: 2
-    _amountToApply: 1
+    _amountToApply: 2
     _animationIndex: 1
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 6 Attack 2 Bleed  Exhaust
-    _purchaseCost: 56
+    - Description:
+      - 6
+      - Attack
+    - Description:
+      - 4
+      - Bleed
+    - Description:
+      - Exhaust
+    _purchaseCost: 97
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -126,7 +135,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
         _target: 2
-        _amountToApply: 1
+        _amountToApply: 2
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -139,7 +148,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
         _target: 2
-        _amountToApply: 1
+        _amountToApply: 2
         _animationIndex: 1
         _conditions:
           _comboCondition: []
@@ -161,9 +170,17 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 968
   - _description:
-    - 8 Attack 4 Bleed  Exhaust
-    _purchaseCost: 105
+    - Description:
+      - 8
+      - Attack
+    - Description:
+      - 6
+      - Bleed
+    - Description:
+      - Exhaust
+    _purchaseCost: 158
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -221,7 +238,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
         _target: 2
-        _amountToApply: 2
+        _amountToApply: 3
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -234,7 +251,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: a8e5a2963fc290543b5cbcf9b2114548, type: 2}
         _target: 2
-        _amountToApply: 2
+        _amountToApply: 3
         _animationIndex: 1
         _conditions:
           _comboCondition: []
@@ -256,4 +273,22 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 1577
   _cardsFusesFrom: 
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 110
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 111
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

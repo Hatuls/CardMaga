@@ -1,10 +1,18 @@
 ﻿using Account.GeneralData;
-using Battles;
-using System.Threading.Tasks;
+using CardMaga.MetaData;
+using CardMaga.Rewards;
+using Newtonsoft.Json;
+using PlayFab;
+using PlayFab.ClientModels;
+using PlayFab.Json;
+using ReiTools.TokenMachine;
+using Sirenix.OdinInspector;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
-[System.Serializable]
+[Serializable]
 public enum CharacterEnum
 {
     Enemy = 0,
@@ -17,11 +25,14 @@ namespace Account
     public interface ILoadFirstTime
     {
         bool IsCorrupted();
-        Task NewLoad();
+        void NewLoad();
     }
+
     public class AccountManager : MonoBehaviour
     {
-        [SerializeField] UnityEvent OnFinishLoading;
+        public static event Action<AccountData> OnDataUpdated;
+        public static event Action OnAccountDataAssigned;
+
         #region Singleton
         private static AccountManager _instance;
         public static AccountManager Instance
@@ -34,271 +45,500 @@ namespace Account
                 return _instance;
             }
         }
+
+        #endregion
+        [SerializeField, ReadOnly]
+        private string _displayName;
+        [ShowInInspector]
+        private AccountData _accountData;
+        [ShowInInspector, ReadOnly]
+        private LoginResult loginResult;
+        private LevelManager _levelManager;
+        [SerializeField]
+        private LevelUpRewardsSO _levelUpRewardsSO;
+        [SerializeField]
+        GiftRewardFactorySO[] _startingGift;
+        [SerializeField]
+        GiftRewardFactorySO[] _additionToStartGift;
+
+
+        private IDisposable _loginDisposable;
+        private IDisposable _requestFromServerDisposable;
+        public LoginResult LoginResult { get => loginResult; private set => loginResult = value; }
+        public string DisplayName { get => _displayName; set => _displayName = value; }
+        public string SessionTicket => LoginResult.SessionTicket;
+        public string EntityID => LoginResult.EntityToken.Entity.Id;
+        public string PlayfabID => loginResult.PlayFabId;
+        public LevelManager LevelManager => _levelManager;
+        public AccountData Data => _accountData;
+
         private void Awake()
         {
-            if (_instance == null)
-            {
-                _instance = this;
-
-            }
-            else if (_instance != this)
+            if (_instance != null)
                 Destroy(this.gameObject);
-
-
-            if (_instance == this)
-                DontDestroyOnLoad(this.gameObject);
+            _instance = this;
+     
         }
-
-        #endregion
-
-        #region Fields
-        [SerializeField]
-
-        private RewardGift _rewardGift;
-
-        //[HideInInspector]
-
-        [SerializeField]
-        private AccountData _accountData;
-        [SerializeField]
-        bool _needToDoTutorial = true;
-        public bool IsDoneTutorial { get => _needToDoTutorial; set => _needToDoTutorial = value; }
-        SaveManager.FileStreamType saveType = SaveManager.FileStreamType.FileStream;
-        string path = "Account/";
-
-        #endregion
-        #region Properties
-        public AccountCharacters AccountCharacters => _accountData.AccountCharacters;
-        public AccountCards AccountCards => _accountData.AccountCards;
-        public AccountCombos AccountCombos => _accountData.AccountCombos;
-        public AccountSettingsData AccountSettingsData => _accountData.AccountSettingsData;
-        public AccountGeneralData AccountGeneralData => _accountData.AccountGeneralData;
-        public BattleData BattleData => _accountData.BattleData;
-        public SceneHandler.ScenesEnum CurrentScene => _accountData.CurrentScene;
-        public RewardGift RewardGift { get => _rewardGift; }
-       
-        #endregion
-        #region Private Methods
-        private void Start()
+        public void ResetAccount(ITokenReceiver tokenReciever)
         {
-
-            SceneHandler.onFinishLoadingScene += UpdateLastScene;
-        }
-
-        public void EnterMainMenu()
-        {
-            ReturnLoadingScene.GoToScene = _accountData.CurrentScene;
-            SceneHandler.LoadScene(SceneHandler.ScenesEnum.MainMenuScene);
-
-        }
-
-        private void UpdateLastScene(SceneHandler.ScenesEnum scene)
-        {
-            _accountData.CurrentScene = scene;
-
-            SaveAccount();
-        }
-        #endregion
-        #region Public Methods
-        public async Task Init()
-        {
-            if (SaveManager.CheckFileExists(AccountData.SaveName, saveType, true, path))
+            _accountData = new AccountData(true);
+            ReceiveStartingData();
+            UpdateAccount();
+            void UpdateAccount()
             {
-                await LoadAccount();
+                UpdateRank(null);
+                SendAccountData(tokenReciever);
+                OnAccountDataAssigned?.Invoke();
+            }
+        }
+        private void OnError(PlayFabError playFabError)
+        {
+            Debug.LogError($"{playFabError.ErrorMessage}");
+            _requestFromServerDisposable?.Dispose();
+            _loginDisposable?.Dispose();
+        }
+        public void RequestAccoundData(ITokenReceiver tokenReciever = null)
+        {
+            _requestFromServerDisposable = tokenReciever?.GetToken();
+            PlayFabClientAPI.GetUserData(new GetUserDataRequest
+            {
+                PlayFabId = LoginResult.PlayFabId,
+                Keys = null,
+
+            }, UserDataSuccess, OnError);
+        }
+
+        private void UserDataSuccess(GetUserDataResult obj)
+        {
+            _accountData = new AccountData(obj.Data);
+
+            _requestFromServerDisposable?.Dispose();
+        }
+
+        public void SendAccountData(ITokenReceiver tokenReciever = null)
+        {
+            UpdateDataOnServer();
+            if (tokenReciever != null)
+                _loginDisposable = tokenReciever.GetToken();
+        }
+
+        private void OnDataRecieved(UpdateUserDataResult obj)
+        {
+            OnDataUpdated?.Invoke(Data);
+            _loginDisposable?.Dispose();
+        }
+        [Button()]
+        public void RequestDataFromServer() => RequestAccoundData(null);
+        [Button()]
+        public void UpdateDataOnServer()
+        => PlayFabClientAPI.UpdateUserData(_accountData.GetUpdateRequest(), OnDataRecieved, OnError);
+
+        public void UpdateRank(Action<UpdatePlayerStatisticsResult> OnCompletedSuccessfully)
+        {
+            var request = new UpdatePlayerStatisticsRequest
+            {
+                Statistics = new List<StatisticUpdate>()
+                {
+                    new StatisticUpdate
+                    {
+                        StatisticName = "Rank",
+                        Value = _accountData.AccountGeneralData.Rank
+                    }
+                }
+            };
+
+            PlayFabClientAPI.UpdatePlayerStatistics(request, OnCompletedSuccessfully, OnError);
+        }
+
+
+        public void OnLogin(LoginResult loginResult)
+        {
+            LoginResult = loginResult;
+
+            if (LoginResult.NewlyCreated)
+            {
+                _accountData = new AccountData(true);
+                ReceiveStartingData();
             }
             else
             {
-                await CreateNewAccount();
+                _accountData = new AccountData(loginResult.InfoResultPayload.UserData);
             }
-            RewardLoad();
 
-            OnFinishLoading?.Invoke();
+            _levelManager = new LevelManager(_levelUpRewardsSO,_accountData.AccountLevel); 
 
-            if (_needToDoTutorial)
-                EnterTutorial(); 
-            else
-                EnterMainMenu();
-        }
+            UpdateAccount();
 
-        private static void EnterTutorial()
-        {
-            const string eventName = "start_tutorial";
-            UnityAnalyticHandler.SendEvent(eventName);
-            FireBaseHandler.SendEvent(eventName);
-
-            SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
-        }
-
-        private async Task LoadAccount()
-        {
-            _accountData = SaveManager.Load<AccountData>(AccountData.SaveName, saveType, "txt", true, path);
-            if (_accountData.IsCorrupted())
+            void UpdateAccount()
             {
-                Debug.LogWarning("Save File Is Corrupted!\nCreating New Account!");
-                await CreateNewAccount();
-                return;
+                SendAccountData();
+                UpdateRank(null);
+                OnAccountDataAssigned?.Invoke();
             }
-            Debug.Log("Loading Data From " + saveType);
-            Factory.GameFactory.Instance.CardFactoryHandler.RegisterAccountLoadedCardsInstanceID(_accountData.AccountCards.CardList);
-            _accountData.AccountSettingsData.Refresh();
 
 
-            if (PlayerPrefs.HasKey("Tutorial"))
-                _needToDoTutorial = bool.Parse(PlayerPrefs.GetString("Tutorial"));
         }
 
-        private void RewardLoad()
+        private void ReceiveStartingData()
         {
-            if (SaveManager.CheckFileExists("Reward", saveType))
-                _rewardGift = SaveManager.Load<RewardGift>("Reward", saveType);
+            ReceiveAllCombos();
+
+            for (int i = 0; i < _startingGift.Length; i++)
+            {
+                var reward = _startingGift[i].GenerateReward();
+                reward.AddToDevicesData();
+            }
+            FirstGift();
+
+            void FirstGift()
+            {
+                var character = _accountData.CharactersData.GetMainCharacter();
+                var chiara = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
+
+                IReadOnlyList<CoreID> cardsIDs = _accountData.AllCards.CardsIDs;
+                CardInstance[] cards = new CardInstance[cardsIDs.Count];
+                var cardFactory = Factory.GameFactory.Instance.CardFactoryHandler;
+
+                for (int i = 0; i < cards.Length; i++)
+                    cards[i] = cardFactory.CreateCardInstance(cardsIDs[i]);
+
+                List<ComboCore> combosIDs = _accountData.AllCombos.CombosIDs;
+
+                const int BarrierCombo = 2;
+                const int JabCrossCombo = 3;
+                const int PushKickCombo = 4;
+
+                ComboCore[] _startingCombos = new ComboCore[]
+                {
+                    combosIDs.First(x => x.CoreID == BarrierCombo),
+                    combosIDs.First(x => x.CoreID == JabCrossCombo),
+                    combosIDs.First(x => x.CoreID == PushKickCombo),
+                };
+
+                character.AddNewDeck(cards, _startingCombos);
+
+
+                Array.ForEach(_additionToStartGift, x => x.GenerateReward().AddToDevicesData());
+
+            }
+            void ReceiveAllCombos()
+            {
+                var comboFactory = Factory.GameFactory.Instance.ComboFactoryHandler;
+                var allCombos = comboFactory.ComboCollection;
+                foreach (var combo in allCombos.AllCombos)
+                    _accountData.AllCombos.AddCombo(new ComboCore(combo, 0));
+            }
+
         }
 
-        public void ResetAccount()
-        {
-            _ = CreateNewAccount();
-            UI.Meta.Laboratory.LaboratoryScreenUI.ResetTutorialFirstTime();
-        }
-
-        #endregion
 
 #if UNITY_EDITOR
-        [Sirenix.OdinInspector.Button]
-        private void AddDiamonds() => _accountData.AccountGeneralData.AccountResourcesData.Diamonds.AddValue(10);
-
-        [Sirenix.OdinInspector.Button]
-        private void AddGold() => _accountData.BattleData.Player.CharacterData.CharacterStats.Gold += 100;
-
-        [Sirenix.OdinInspector.Button]
-        private void AddEnergy() => _accountData.AccountGeneralData.AccountEnergyData.Energy.AddValue(10);
-        [Sirenix.OdinInspector.Button]
-        private void ResetAccountSave()
-        {
-            SaveManager.DeleteFile(AccountData.SaveName, "txt", saveType, path, true);// PlayerPrefs.DeleteKey(AccountData.SaveName);
-            UI.Meta.Laboratory.LaboratoryScreenUI.ResetTutorialFirstTime();
-        }
-        //    [Sirenix.OdinInspector.Button]
-        //       private void AddEXP() => _accountData.AccountGeneralData.AccountLevelData.Exp.AddValue(5);
-#endif
-
-        private void OnDisable()
-        {
-            if (!_accountData.IsCorrupted())
-                SaveAccount();
-        }
-
-
-        void OnApplicationPause(bool pauseStatus)
-        {
-            if (pauseStatus && (!_accountData.IsCorrupted()))
-                SaveAccount();
-        }
-
-
-        private void OnApplicationQuit()
-        {
-            if (!_accountData.IsCorrupted())
-                    SaveAccount();
-            SceneHandler.onFinishLoadingScene -= UpdateLastScene;
-            Debug.Log("Saving Account Data");
-        }
-        public void SaveAccount()
-        {
-            SaveManager.SaveFile(_accountData, AccountData.SaveName, saveType, true, "txt", path);
-            SaveManager.SaveFile(RewardGift, "Reward", saveType);
-
-            PlayerPrefs.SetString("Tutorial", string.Concat(_needToDoTutorial));
-            PlayerPrefs.Save();
-        }
-
-        private async Task CreateNewAccount()
-        {
-            if (SaveManager.CheckFileExists(AccountData.SaveName, saveType, true, "txt", path))
-                SaveManager.DeleteFile(AccountData.SaveName, "txt", saveType, path, true);
-                _accountData = new AccountData();
-            await _accountData.NewLoad();
-            _needToDoTutorial = true;
-            await Task.Yield();
-            SceneHandler.LoadSceneWithNoLoadingScreen(SceneHandler.ScenesEnum.LoreScene);
-            
-        }
-
-
-        private void OnDestroy()
-        {
-            if (Application.isPlaying)
-            {
-                if (!_accountData.IsCorrupted())
-                    SaveAccount();
-                Debug.Log("Saving Account Data");
-            }
-        }
-
-    }
-
-    [System.Serializable]
-    public class AccountData : ILoadFirstTime
-    {
-        public static string SaveName = "AccountData";
-
-
-
-        [SerializeField] AccountGeneralData _accountGeneralData;
-
-        [SerializeField] AccountCards _accountCards;
-
-        [SerializeField] AccountCombos _accountCombos;
-
-        [SerializeField] AccountSettingsData _accountSettingsData;
-
-        [SerializeField] AccountCharacters _accountCharacters;
-
-        [SerializeField] BattleData _battleData;
-
-        public AccountCharacters AccountCharacters { get => _accountCharacters; private set => _accountCharacters = value; }
-        public AccountCards AccountCards { get => _accountCards; private set => _accountCards = value; }
-        public AccountCombos AccountCombos { get => _accountCombos; private set => _accountCombos = value; }
-        public AccountSettingsData AccountSettingsData { get => _accountSettingsData; private set => _accountSettingsData = value; }
-        public AccountGeneralData AccountGeneralData { get => _accountGeneralData; private set => _accountGeneralData = value; }
-        public BattleData BattleData { get => _battleData; set => _battleData = value; }
-        public SceneHandler.ScenesEnum CurrentScene { get => _lastScene; set => _lastScene = value; }
-
+        [Header("Editor:")]
         [SerializeField]
-        SceneHandler.ScenesEnum _lastScene;
+        CardsPackRewardFactorySO _factory;
 
-        public async Task NewLoad()
+
+        [ContextMenu("Add Cards")]
+        public void AddCards()
         {
-            AccountSettingsData = new AccountSettingsData();
-            await AccountSettingsData.NewLoad();
-            AccountGeneralData = new AccountGeneralData();
-            await AccountGeneralData.NewLoad();
-            AccountCards = new AccountCards();
-            await AccountCards.NewLoad();
-            AccountCombos = new AccountCombos();
-            await AccountCombos.NewLoad();
-            AccountCharacters = new AccountCharacters();
-            await AccountCharacters.NewLoad();
-            _battleData = new BattleData();
-            _battleData.ResetData();
-            await Task.Yield();
+            _factory.GenerateReward().TryRecieveReward(null);
+
+
         }
 
-        public bool IsCorrupted()
-        {
-            bool isCorrupted = false;
-            isCorrupted |= AccountSettingsData.IsCorrupted();
-            isCorrupted |= AccountGeneralData.IsCorrupted();
-            isCorrupted |= AccountCards.IsCorrupted();
-            isCorrupted |= AccountCombos.IsCorrupted();
-            isCorrupted |= AccountCharacters.IsCorrupted();
-
-            return isCorrupted;
-        }
+#endif
     }
-    [System.Serializable]
-    public class RewardGift
-    {
-        public bool NeedToBeRewarded { get => _needToBeRewarded; set => _needToBeRewarded = value; }
 
-        [SerializeField] bool _needToBeRewarded = false;
+    [Serializable]
+    public class AccountData
+    {
+
+        [SerializeField] private AccountGeneralData _accountGeneralData;
+        [SerializeField] private CharactersData _charactersData;
+
+        [SerializeField] private LevelData _accountLevel;
+        [SerializeField] private AccountResources _accountResources;
+
+        [SerializeField] private ArenaData _arenaData;
+        [SerializeField] private AccountCards _accountCards;
+        [SerializeField] private AccountCombos _accountCombos;
+        [SerializeField] private AccountTutorialData _accountTutorialData;
+
+        public AccountTutorialData AccountTutorialData => _accountTutorialData;
+
+        public bool IsFirstTimeUser { get; private set; }
+
+        public AccountCombos AllCombos => _accountCombos;
+        public AccountCards AllCards => _accountCards;
+        public AccountGeneralData AccountGeneralData { get => _accountGeneralData; }
+        public LevelData AccountLevel { get => _accountLevel; }
+        public CharactersData CharactersData { get => _charactersData; }
+        public ArenaData ArenaData { get => _arenaData; }
+        public AccountResources AccountResources { get => _accountResources; }
+
+
+        #region Constructors
+
+        public AccountData()
+        {
+
+        }
+        public AccountData(bool createNewAccount)
+        {
+            if (!createNewAccount)
+                return;
+            CreateNewArenaData();
+            CreateNewResourcesData();
+            CreateNewLevelData();
+            CreateNewCharacterData();
+            CreateNewGeneralData();
+            CreateNewCombosData();
+            CreateNewCardsData();
+            CreateNewTutorialData();
+            IsFirstTimeUser = true;
+            Debug.Log("Creating new Account");
+        }
+
+
+
+        public AccountData(Dictionary<string, string> data)
+        {
+            AssignValues(data);
+        }
+
+        public AccountData(Dictionary<string, UserDataRecord> data)
+        {
+            var convertedDict = new Dictionary<string, string>();
+
+            foreach (var item in data)
+                convertedDict.Add(item.Key, item.Value?.Value.ToString());
+
+            AssignValues(convertedDict);
+        }
+
+        private void AssignValues(Dictionary<string, string> data)
+        {
+            string result;
+            //   var jsonHandler = PlayFab.PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer);
+            // Account General Data
+            if (data.TryGetValue(AccountGeneralData.PlayFabKeyName, out result))
+            {
+                _accountGeneralData = JsonConvert.DeserializeObject<AccountGeneralData>(result);
+                if (_accountGeneralData == null || !_accountGeneralData.IsValid())
+                    CreateNewGeneralData();
+            }
+            else
+                CreateNewGeneralData();
+
+            if (data.TryGetValue(ArenaData.PlayFabKeyName, out result))
+            {
+
+                _arenaData = JsonConvert.DeserializeObject<ArenaData>(result);
+                if (_arenaData == null || !_arenaData.IsValid())
+                {
+                    _arenaData = PlayFabSimpleJson.DeserializeObject<ArenaData>(result);
+                    if (_arenaData == null || !_arenaData.IsValid())
+                        CreateNewArenaData();
+                }
+            }
+            else
+                CreateNewArenaData();
+
+            // Characters & Deck
+            if (data.TryGetValue(CharactersData.PlayFabKeyName, out result))
+            {
+
+                _charactersData = JsonConvert.DeserializeObject(result) as CharactersData;
+
+                //
+                if (CharactersData == null || !CharactersData.IsValid())
+                {
+                    _charactersData = PlayFabSimpleJson.DeserializeObject<CharactersData>(result);
+
+                    if (CharactersData == null || !CharactersData.IsValid())
+                        CreateNewCharacterData();
+                }
+            }
+            else
+                CreateNewCharacterData();
+
+            // Levels
+            if (data.TryGetValue(LevelData.PlayFabKeyName, out result))
+            {
+                _accountLevel = JsonConvert.DeserializeObject<LevelData>(result);
+                if (_accountLevel == null || !_accountLevel.IsValid())
+                {
+
+                    _accountLevel = PlayFabSimpleJson.DeserializeObject<LevelData>(result);
+                    if (_accountLevel == null || !_accountLevel.IsValid())
+                        CreateNewLevelData();
+                }
+            }
+            else
+                CreateNewLevelData();
+
+            // Resources
+            if (data.TryGetValue(AccountResources.PlayFabKeyName, out result))
+            {
+                _accountResources = JsonConvert.DeserializeObject<AccountResources>(result);
+                if (_accountResources == null || !_accountResources.IsValid())
+                {
+                    _accountResources = PlayFabSimpleJson.DeserializeObject<AccountResources>(result);
+                    if (_accountResources == null || !_accountResources.IsValid())
+                        CreateNewResourcesData();
+                }
+            }
+            else
+                CreateNewResourcesData();
+
+            // Combos  
+            if (data.TryGetValue(AccountCombos.PlayFabKeyName, out result))
+            {
+                _accountCombos = JsonConvert.DeserializeObject<AccountCombos>(result);
+                if (_accountCombos == null || !_accountCombos.IsValid())
+                {
+
+                    _accountCombos = PlayFabSimpleJson.DeserializeObject<AccountCombos>(result);
+                    if (_accountCombos == null || !_accountCombos.IsValid())
+                        CreateNewResourcesData();
+                }
+            }
+            else
+                CreateNewCombosData();
+
+            // Cards
+            if (data.TryGetValue(AccountCards.PlayFabKeyName, out result))
+            {
+                _accountCards = JsonConvert.DeserializeObject<AccountCards>(result);
+                if (_accountCards == null || !_accountCards.IsValid())
+                {
+                    _accountCards = PlayFabSimpleJson.DeserializeObject<AccountCards>(result);
+                    if (_accountCards == null || !_accountCards.IsValid())
+                        CreateNewResourcesData();
+                }
+            }
+            else
+                CreateNewCardsData();
+
+            // Tutorial
+            if (data.TryGetValue(AccountTutorialData.PlayFabKeyName, out result))
+            {
+                _accountTutorialData = JsonConvert.DeserializeObject<AccountTutorialData>(result);
+                if (_accountTutorialData == null)
+                {
+                    _accountTutorialData = PlayFabSimpleJson.DeserializeObject<AccountTutorialData>(result);
+                    if (_accountTutorialData == null)
+                        CreateNewTutorialData();
+                }
+            }
+            else
+                CreateNewTutorialData();
+
+
+            IsFirstTimeUser = false;
+        }
+
+        #endregion
+
+        public UpdateUserDataRequest GetUpdateRequest()
+        {
+
+            return new UpdateUserDataRequest()
+            {
+                AuthenticationContext = AccountManager.Instance.LoginResult.AuthenticationContext,
+
+                Data = new Dictionary<string, string>()
+                {
+                    { AccountGeneralData.PlayFabKeyName,     JsonConvert.SerializeObject(_accountGeneralData) },
+                    { CharactersData.PlayFabKeyName,         JsonConvert.SerializeObject(CharactersData) },
+                    { LevelData.PlayFabKeyName,              JsonConvert.SerializeObject(_accountLevel) },
+                    { AccountResources.PlayFabKeyName,       JsonConvert.SerializeObject(_accountResources) },
+                    { ArenaData.PlayFabKeyName,              JsonConvert.SerializeObject(_arenaData) },
+                    { AccountCombos.PlayFabKeyName,          JsonConvert.SerializeObject(_accountCombos) },
+                    { AccountCards.PlayFabKeyName,           JsonConvert.SerializeObject(_accountCards)},
+                    { AccountTutorialData.PlayFabKeyName,    JsonConvert.SerializeObject(_accountTutorialData)}
+                },
+                Permission = UserDataPermission.Public
+            };
+        }
+
+        #region Create Account Data
+        private void CreateNewCardsData()
+        {
+            _accountCards = new AccountCards();
+            //if (!_accountCards.IsValid())
+            //    throw new Exception("Could not Generate Account Cards");
+        }
+
+        private void CreateNewCombosData()
+        {
+            _accountCombos = new AccountCombos();
+            //if (!_accountCombos.IsValid())
+            //    throw new Exception("Could not Generate Account Combos");
+        }
+        private void CreateNewArenaData()
+        {
+            _arenaData = new ArenaData();
+            //if (!_arenaData.IsValid())
+            //    throw new Exception("Could not Generate Arena Data");
+        }
+        private void CreateNewResourcesData()
+        {
+            _accountResources = new AccountResources();
+            //if(!_accountResources.IsValid())
+            //    throw new Exception("Could not Generate Account Resources");
+        }
+        private void CreateNewLevelData()
+        {
+            _accountLevel = new LevelData();
+            //if(!_accountLevel.IsValid())
+            //    throw new Exception("Could not Generate Account Level");
+
+        }
+        private void CreateNewCharacterData()
+        {
+            _charactersData = new CharactersData();
+            //Battle.CharacterSO characterSO = Factory.GameFactory.Instance.CharacterFactoryHandler.GetCharacterSO(CharacterEnum.Chiara);
+            //var firstCharacter = new Character(characterSO);
+
+            //firstCharacter.AddNewDeck(characterSO.Deck, characterSO.Combos);
+            //CharactersData.AddCharacter(firstCharacter);
+        }
+        private void CreateNewTutorialData()
+        {
+            _accountTutorialData = new AccountTutorialData();
+            _accountTutorialData.Reset();
+        }
+        private void CreateNewGeneralData()
+        {
+            _accountGeneralData = new AccountGeneralData();
+
+        }
+
+        #endregion
+    }
+}
+
+[Serializable]
+public class AccountCards
+{
+    public const string PlayFabKeyName = "Cards";
+    public List<CoreID> CardsIDs = new List<CoreID>();
+
+    public void AddCard(CoreID cardID) => CardsIDs.Add(cardID);
+    public void RemoveCard(CoreID cardID) => CardsIDs.Remove(cardID);
+    internal bool IsValid() => CardsIDs.Count > 0;
+}
+[Serializable]
+public class AccountCombos
+{
+    public const string PlayFabKeyName = "Combos";
+
+    public List<ComboCore> CombosIDs = new List<ComboCore>();
+    public void AddCombo(ComboCore cardID) => CombosIDs.Add(cardID);
+    public void RemoveCombo(ComboCore cardID) => CombosIDs.Remove(cardID);
+    internal bool IsValid()
+    {
+        return CombosIDs.Count > 0;
     }
 }

@@ -12,29 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Iron Skin
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: d1c1381940a3c5147922b2ace21b88b0, type: 3}
+  _cardSprite: {fileID: 21300000, guid: e89ab19f96af6ee46b386ea8282d14e5, type: 3}
   _cardName: Iron Skin
   _animationBundle:
     BodyPartEnum: 2
-    _attackAnimation: EyeLasers
-    _shieldAnimation: 
-    _getHitAnimation: 
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: EyeLasers
+    ShieldAnimation: 
+    GetHitAnimation: 
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 3
   _stamina: 2
+  _isFuseCard: 0
+  _isCombo: 1
   _salvageCost: 1
   _id: 140
-  _isBattleReward: 0
   _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
@@ -53,15 +52,25 @@ MonoBehaviour:
       _paramaterCondition: []
   - _keywordBase: {fileID: 11400000, guid: 63cd7e644b87c56449ee684aacf637ec, type: 2}
     _target: 1
-    _amountToApply: 2
+    _amountToApply: 4
     _animationIndex: 0
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 7 Defense 2 Stamina 2 Dexterity  Exhaust
-    _purchaseCost: 119
+    - Description:
+      - 7
+      - Defense
+    - Description:
+      - 2
+      - Stamina
+    - Description:
+      - 4
+      - Dexterity
+    - Description:
+      - Exhaust
+    _purchaseCost: 182
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -119,7 +128,7 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: 63cd7e644b87c56449ee684aacf637ec, type: 2}
         _target: 1
-        _amountToApply: 2
+        _amountToApply: 4
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -141,91 +150,20 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 1819
   - _description:
-    - 10 Defense 2 Stamina 3 Dexterity  Exhaust
-    _purchaseCost: 150
-    _upgradesPerLevel:
-    - _upgradeType: 5
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 2
-        _cardType: 2
-      _amount: 0
-    - _upgradeType: 1
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 2
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
-        _target: 1
-        _amountToApply: 10
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
-        _target: 1
-        _amountToApply: 2
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: 63cd7e644b87c56449ee684aacf637ec, type: 2}
-        _target: 1
-        _amountToApply: 3
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 4
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 1
-  - _description:
-    - 10 Defense 2 Stamina 5 Dexterity  Exhaust
-    _purchaseCost: 186
+    - Description:
+      - 10
+      - Defense
+    - Description:
+      - 2
+      - Stamina
+    - Description:
+      - 5
+      - Dexterity
+    - Description:
+      - Exhaust
+    _purchaseCost: 227
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -305,9 +243,20 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 2271
   - _description:
-    - 15 Defense 2 Stamina 7 Dexterity  Exhaust
-    _purchaseCost: 243
+    - Description:
+      - 14
+      - Defense
+    - Description:
+      - 2
+      - Stamina
+    - Description:
+      - 5
+      - Dexterity
+    - Description:
+      - Exhaust
+    _purchaseCost: 253
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -339,7 +288,100 @@ MonoBehaviour:
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
         _target: 1
-        _amountToApply: 15
+        _amountToApply: 14
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
+        _target: 1
+        _amountToApply: 2
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: 63cd7e644b87c56449ee684aacf637ec, type: 2}
+        _target: 1
+        _amountToApply: 5
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
+    _cardValue: 2529
+  - _description:
+    - Description:
+      - 16
+      - Defense
+    - Description:
+      - 2
+      - Stamina
+    - Description:
+      - 7
+      - Dexterity
+    - Description:
+      - Exhaust
+    _purchaseCost: 317
+    _upgradesPerLevel:
+    - _upgradeType: 5
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 2
+        _cardType: 2
+      _amount: 0
+    - _upgradeType: 1
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 2
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: d0800f254d49f9b4591f744ee6c41fef, type: 2}
+        _target: 1
+        _amountToApply: 16
         _animationIndex: 0
         _conditions:
           _comboCondition: []
@@ -387,4 +429,38 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 3174
   _cardsFusesFrom: 
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 140
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 141
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 142
+      _cardSO: {fileID: 11400000}
+      _level: 2
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 143
+      _cardSO: {fileID: 11400000}
+      _level: 3
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0

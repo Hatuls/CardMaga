@@ -1,23 +1,20 @@
-﻿using Battles;
+﻿using Battle;
 using UnityEngine;
 using Rei.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using Cards;
+using CardMaga.UI;
+using CardMaga.Card;
 
-public class BattleDeckFilterByUpgrade : SortAbst<Card>
-{
-    [SerializeField]
-    public override IEnumerable<Card> Sort()
+public class BattleDeckFilterByUpgrade : CardSort
+{    // Need To be Re-Done
+    public override IEnumerable<BattleCardData> Sort()
     {
-        var deck = Account.AccountManager.Instance.BattleData.Player.CharacterData.CharacterDeck;
-        var sortedDeck =deck.Where(x => x.CardLevel < (x.CardSO.CardsMaxLevel - 1)); 
+        var deck = GetCollection();
+        var sortedDeck = deck.Where(x => x.CardLevel < (x.CardSO.CardsMaxLevel - 1));
         return sortedDeck;
+  
     }
 
 
-    public override void SortRequest()
-    {
-        _cardEvent?.Invoke(this);
-    }
 }

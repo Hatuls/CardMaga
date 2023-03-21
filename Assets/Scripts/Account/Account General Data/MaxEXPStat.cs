@@ -3,10 +3,10 @@
 namespace Account.GeneralData
 {
     [Serializable]
-    public class MaxEXPStat : UintStat
+    public class MaxEXPStat : IntStat
     {
         
-        public MaxEXPStat(uint val) : base(val)
+        public MaxEXPStat(int val) : base(val)
         {
 
         }

@@ -12,223 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8127f6117ce619c4fa64f737ac695328, type: 3}
   m_Name: Recharge
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _cardSprite: {fileID: 21300000, guid: 65d5ee74465e07b45a053a60d05fd190, type: 3}
+  _cardSprite: {fileID: 21300000, guid: 59e3f48636255bc4ba60ed1776987268, type: 3}
   _cardName: Recharge
   _animationBundle:
     BodyPartEnum: 2
-    _attackAnimation: 
-    _shieldAnimation: 
-    _getHitAnimation: 
+    CameraDetails:
+      LeftCamera: []
+      RightCamera: []
+      CinemachineBlenderSettings: []
+    AttackAnimation: 
+    ShieldAnimation: 
+    GetHitAnimation: 
     IsSlowMotion: 0
-    CinemtaicView: 0
+  cameraDetails:
+    LeftCamera: []
+    RightCamera: []
+    CinemachineBlenderSettings: []
   _rarity: 3
   _stamina: 1
+  _isFuseCard: 0
+  _isCombo: 1
   _salvageCost: 1
   _id: 220
-  _isBattleReward: 0
   _isPackReward: 0
   _cardKeywordsData:
   - _keywordBase: {fileID: 11400000, guid: d8a223c4910a10246a3b27455b716470, type: 2}
     _target: 1
-    _amountToApply: 3
+    _amountToApply: 6
     _animationIndex: 0
     _conditions:
       _comboCondition: []
       _paramaterCondition: []
   _perLevelUpgrades:
   - _description:
-    - 3 Regeneration  Exhaust
-    _purchaseCost: 35
-    _upgradesPerLevel:
-    - _upgradeType: 5
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 2
-        _cardType: 3
-      _amount: 0
-    - _upgradeType: 1
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 1
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: d8a223c4910a10246a3b27455b716470, type: 2}
-        _target: 1
-        _amountToApply: 3
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 4
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 1
-  - _description:
-    - 4 Regeneration  Exhaust
-    _purchaseCost: 58
-    _upgradesPerLevel:
-    - _upgradeType: 5
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 2
-        _cardType: 3
-      _amount: 0
-    - _upgradeType: 1
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 1
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: d8a223c4910a10246a3b27455b716470, type: 2}
-        _target: 1
-        _amountToApply: 4
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 4
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 1
-  - _description:
-    - 4 Regeneration 1 Stamina  Exhaust
-    _purchaseCost: 93
-    _upgradesPerLevel:
-    - _upgradeType: 5
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 2
-        _cardType: 3
-      _amount: 0
-    - _upgradeType: 1
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 1
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: d8a223c4910a10246a3b27455b716470, type: 2}
-        _target: 1
-        _amountToApply: 4
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 2
-      _keywordUpgrade:
-        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
-        _target: 1
-        _amountToApply: 1
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 0
-    - _upgradeType: 4
-      _keywordUpgrade:
-        _keywordBase: {fileID: 0}
-        _target: 0
-        _amountToApply: 0
-        _animationIndex: 0
-        _conditions:
-          _comboCondition: []
-          _paramaterCondition: []
-      _cardTypeData:
-        _bodyPart: 0
-        _cardType: 0
-      _amount: 1
-  - _description:
-    - 6 Regeneration 1 Stamina  Exhaust
-    _purchaseCost: 157
+    - Description:
+      - 6
+      - Regeneration
+    - Description:
+      - Exhaust
+    _purchaseCost: 69
     _upgradesPerLevel:
     - _upgradeType: 5
       _keywordUpgrade:
@@ -269,6 +91,131 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
+    _cardValue: 689
+  - _description:
+    - Description:
+      - 8
+      - Regeneration
+    - Description:
+      - Exhaust
+    _purchaseCost: 118
+    _upgradesPerLevel:
+    - _upgradeType: 5
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 2
+        _cardType: 3
+      _amount: 0
+    - _upgradeType: 1
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: d8a223c4910a10246a3b27455b716470, type: 2}
+        _target: 1
+        _amountToApply: 8
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
+    _cardValue: 1182
+  - _description:
+    - Description:
+      - 11
+      - Regeneration
+    - Description:
+      - 1
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 238
+    _upgradesPerLevel:
+    - _upgradeType: 5
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 2
+        _cardType: 3
+      _amount: 0
+    - _upgradeType: 1
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: d8a223c4910a10246a3b27455b716470, type: 2}
+        _target: 1
+        _amountToApply: 11
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
     - _upgradeType: 2
       _keywordUpgrade:
         _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
@@ -295,4 +242,115 @@ MonoBehaviour:
         _bodyPart: 0
         _cardType: 0
       _amount: 1
+    _cardValue: 2380
+  - _description:
+    - Description:
+      - 15
+      - Regeneration
+    - Description:
+      - 1
+      - Stamina
+    - Description:
+      - Exhaust
+    _purchaseCost: 415
+    _upgradesPerLevel:
+    - _upgradeType: 5
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 2
+        _cardType: 3
+      _amount: 0
+    - _upgradeType: 1
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: d8a223c4910a10246a3b27455b716470, type: 2}
+        _target: 1
+        _amountToApply: 15
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 2
+      _keywordUpgrade:
+        _keywordBase: {fileID: 11400000, guid: ebecdedeedbf27242bce3db3d843603a, type: 2}
+        _target: 1
+        _amountToApply: 1
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 0
+    - _upgradeType: 4
+      _keywordUpgrade:
+        _keywordBase: {fileID: 0}
+        _target: 0
+        _amountToApply: 0
+        _animationIndex: 0
+        _conditions:
+          _comboCondition: []
+          _paramaterCondition: []
+      _cardTypeData:
+        _bodyPart: 0
+        _cardType: 0
+      _amount: 1
+    _cardValue: 4153
   _cardsFusesFrom: 
+  _cardCoreInfo:
+  - _cardCore:
+      _coreID:
+        ID: 220
+      _cardSO: {fileID: 11400000}
+      _level: 0
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 221
+      _cardSO: {fileID: 11400000}
+      _level: 1
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 222
+      _cardSO: {fileID: 11400000}
+      _level: 2
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
+  - _cardCore:
+      _coreID:
+        ID: 223
+      _cardSO: {fileID: 11400000}
+      _level: 3
+    _isSpecialReward: 0
+    _isBasicReward: 0
+    _isArenaReward: 0
